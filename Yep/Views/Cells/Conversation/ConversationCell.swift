@@ -10,7 +10,7 @@ import UIKit
 
 class ConversationCell: UITableViewCell {
 
-    @IBOutlet weak var avatarImageView: AvatarImageView!
+    @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var chatLabel: UILabel!
     @IBOutlet weak var timeAgoLabel: UILabel!
