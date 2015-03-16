@@ -17,6 +17,14 @@
 		5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE2C1AB685ED00B3EE96 /* DiscoverViewController.swift */; };
 		5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE2F1AB6861500B3EE96 /* ProfileViewController.swift */; };
 		5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE321AB688F600B3EE96 /* UIColor+Yep.swift */; };
+		5023DE371AB6979600B3EE96 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE351AB6979600B3EE96 /* ConversationCell.swift */; };
+		5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5023DE361AB6979600B3EE96 /* ConversationCell.xib */; };
+		5023DE3D1AB6A1A900B3EE96 /* AvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE3C1AB6A1A900B3EE96 /* AvatarImageView.swift */; };
+		5023DE4A1AB6B19300B3EE96 /* jony.png in Resources */ = {isa = PBXBuildFile; fileRef = 5023DE451AB6B19300B3EE96 /* jony.png */; };
+		5023DE4B1AB6B19300B3EE96 /* kevin.png in Resources */ = {isa = PBXBuildFile; fileRef = 5023DE461AB6B19300B3EE96 /* kevin.png */; };
+		5023DE4C1AB6B19300B3EE96 /* nixzhu.png in Resources */ = {isa = PBXBuildFile; fileRef = 5023DE471AB6B19300B3EE96 /* nixzhu.png */; };
+		5023DE4D1AB6B19300B3EE96 /* robert.png in Resources */ = {isa = PBXBuildFile; fileRef = 5023DE481AB6B19300B3EE96 /* robert.png */; };
+		5023DE4E1AB6B19300B3EE96 /* scarlett.png in Resources */ = {isa = PBXBuildFile; fileRef = 5023DE491AB6B19300B3EE96 /* scarlett.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +52,14 @@
 		5023DE2C1AB685ED00B3EE96 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverViewController.swift; path = ViewControllers/Discover/DiscoverViewController.swift; sourceTree = "<group>"; };
 		5023DE2F1AB6861500B3EE96 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = ViewControllers/Profile/ProfileViewController.swift; sourceTree = "<group>"; };
 		5023DE321AB688F600B3EE96 /* UIColor+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Yep.swift"; path = "Extensions/UIColor+Yep.swift"; sourceTree = "<group>"; };
+		5023DE351AB6979600B3EE96 /* ConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationCell.swift; path = Views/Cells/Conversation/ConversationCell.swift; sourceTree = "<group>"; };
+		5023DE361AB6979600B3EE96 /* ConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConversationCell.xib; path = Views/Cells/Conversation/ConversationCell.xib; sourceTree = "<group>"; };
+		5023DE3C1AB6A1A900B3EE96 /* AvatarImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AvatarImageView.swift; path = Views/AvatarImageView/AvatarImageView.swift; sourceTree = "<group>"; };
+		5023DE451AB6B19300B3EE96 /* jony.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jony.png; sourceTree = "<group>"; };
+		5023DE461AB6B19300B3EE96 /* kevin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kevin.png; sourceTree = "<group>"; };
+		5023DE471AB6B19300B3EE96 /* nixzhu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nixzhu.png; sourceTree = "<group>"; };
+		5023DE481AB6B19300B3EE96 /* robert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = robert.png; sourceTree = "<group>"; };
+		5023DE491AB6B19300B3EE96 /* scarlett.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scarlett.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +101,7 @@
 		0A8F54AD1AB67D11004AD60E /* Yep */ = {
 			isa = PBXGroup;
 			children = (
+				5023DE441AB6B19300B3EE96 /* DummyData */,
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
 				5023DE341AB688F900B3EE96 /* Extensions */,
 				5023DE271AB6856600B3EE96 /* ViewControllers */,
@@ -128,6 +145,7 @@
 				5023DE2B1AB685BD00B3EE96 /* Contacts */,
 				5023DE2E1AB685F100B3EE96 /* Discover */,
 				5023DE311AB6861900B3EE96 /* Profile */,
+				5023DE391AB6979C00B3EE96 /* Views */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -170,6 +188,52 @@
 				5023DE321AB688F600B3EE96 /* UIColor+Yep.swift */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		5023DE391AB6979C00B3EE96 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5023DE3E1AB6A1AD00B3EE96 /* AvatarImageView */,
+				5023DE3A1AB697A700B3EE96 /* Cells */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		5023DE3A1AB697A700B3EE96 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				5023DE3B1AB697B000B3EE96 /* Conversation */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		5023DE3B1AB697B000B3EE96 /* Conversation */ = {
+			isa = PBXGroup;
+			children = (
+				5023DE351AB6979600B3EE96 /* ConversationCell.swift */,
+				5023DE361AB6979600B3EE96 /* ConversationCell.xib */,
+			);
+			name = Conversation;
+			sourceTree = "<group>";
+		};
+		5023DE3E1AB6A1AD00B3EE96 /* AvatarImageView */ = {
+			isa = PBXGroup;
+			children = (
+				5023DE3C1AB6A1A900B3EE96 /* AvatarImageView.swift */,
+			);
+			name = AvatarImageView;
+			sourceTree = "<group>";
+		};
+		5023DE441AB6B19300B3EE96 /* DummyData */ = {
+			isa = PBXGroup;
+			children = (
+				5023DE451AB6B19300B3EE96 /* jony.png */,
+				5023DE461AB6B19300B3EE96 /* kevin.png */,
+				5023DE471AB6B19300B3EE96 /* nixzhu.png */,
+				5023DE481AB6B19300B3EE96 /* robert.png */,
+				5023DE491AB6B19300B3EE96 /* scarlett.png */,
+			);
+			path = DummyData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,7 +317,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5023DE4E1AB6B19300B3EE96 /* scarlett.png in Resources */,
+				5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */,
+				5023DE4B1AB6B19300B3EE96 /* kevin.png in Resources */,
+				5023DE4A1AB6B19300B3EE96 /* jony.png in Resources */,
+				5023DE4D1AB6B19300B3EE96 /* robert.png in Resources */,
 				0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */,
+				5023DE4C1AB6B19300B3EE96 /* nixzhu.png in Resources */,
 				0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */,
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 			);
@@ -278,7 +348,9 @@
 				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
 				5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */,
 				5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */,
+				5023DE3D1AB6A1A900B3EE96 /* AvatarImageView.swift in Sources */,
 				5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */,
+				5023DE371AB6979600B3EE96 /* ConversationCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

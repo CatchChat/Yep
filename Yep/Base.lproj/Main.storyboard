@@ -15,9 +15,28 @@
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ECY-qd-LcH" userLabel="Conversations Table View">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="vXZ-lx-hvc" id="wth-zY-jOa"/>
+                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="UpT-02-4Dg"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="ECY-qd-LcH" secondAttribute="trailing" id="0jB-Xu-lQd"/>
+                            <constraint firstItem="ECY-qd-LcH" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="NbH-Ij-yNA"/>
+                            <constraint firstAttribute="bottom" secondItem="ECY-qd-LcH" secondAttribute="bottom" id="hLG-qd-OVz"/>
+                            <constraint firstItem="ECY-qd-LcH" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="viz-4O-X21"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Yep" id="9HK-47-pO6"/>
+                    <connections>
+                        <outlet property="conversationsTableView" destination="ECY-qd-LcH" id="UNW-oM-y6R"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
