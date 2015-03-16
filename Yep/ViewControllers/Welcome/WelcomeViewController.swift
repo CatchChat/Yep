@@ -39,5 +39,8 @@ class WelcomeViewController: UIViewController {
     }
 
     @IBAction func login(sender: UIButton) {
+        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            appDelegate.startMainStory()
+        }
     }
 }

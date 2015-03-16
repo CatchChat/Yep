@@ -21,17 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let isLogined = false
 
-        let rootViewController: UIViewController
-        if isLogined {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            rootViewController = storyboard.instantiateViewControllerWithIdentifier("MainTabBarController") as! UITabBarController
-        } else {
-            let storyboard = UIStoryboard(name: "Intro", bundle: nil)
-            rootViewController = storyboard.instantiateViewControllerWithIdentifier("IntroNavigationController") as! UINavigationController
+        if !isLogined {
+            startIntroStory()
         }
-
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        window?.rootViewController = rootViewController
 
         return true
     }
@@ -58,6 +50,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+
+    // MARK: Public
+
+    func startIntroStory() {
+        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
+        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("IntroNavigationController") as! UINavigationController
+        window?.rootViewController = rootViewController
+    }
+
+    func startMainStory() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("MainTabBarController") as! UITabBarController
+        window?.rootViewController = rootViewController
+    }
 
     // MARK: Private
 
