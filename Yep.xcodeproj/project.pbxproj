@@ -8,11 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F54B01AB67D11004AD60E /* AppDelegate.swift */; };
-		0A8F54B31AB67D11004AD60E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F54B21AB67D11004AD60E /* ViewController.swift */; };
 		0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B41AB67D11004AD60E /* Main.storyboard */; };
 		0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B71AB67D11004AD60E /* Images.xcassets */; };
 		0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B91AB67D11004AD60E /* LaunchScreen.xib */; };
 		0A8F54C71AB67D11004AD60E /* YepTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F54C61AB67D11004AD60E /* YepTests.swift */; };
+		5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE251AB6856300B3EE96 /* ConversationsViewController.swift */; };
+		5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE291AB685BA00B3EE96 /* ContactsViewController.swift */; };
+		5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE2C1AB685ED00B3EE96 /* DiscoverViewController.swift */; };
+		5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE2F1AB6861500B3EE96 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,13 +32,16 @@
 		0A8F54AB1AB67D11004AD60E /* Yep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yep.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A8F54AF1AB67D11004AD60E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A8F54B01AB67D11004AD60E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0A8F54B21AB67D11004AD60E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		0A8F54B51AB67D11004AD60E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0A8F54B71AB67D11004AD60E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0A8F54BA1AB67D11004AD60E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		0A8F54C01AB67D11004AD60E /* YepTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A8F54C51AB67D11004AD60E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A8F54C61AB67D11004AD60E /* YepTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepTests.swift; sourceTree = "<group>"; };
+		5023DE251AB6856300B3EE96 /* ConversationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationsViewController.swift; path = ViewControllers/Conversations/ConversationsViewController.swift; sourceTree = "<group>"; };
+		5023DE291AB685BA00B3EE96 /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsViewController.swift; path = ViewControllers/Contacts/ContactsViewController.swift; sourceTree = "<group>"; };
+		5023DE2C1AB685ED00B3EE96 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverViewController.swift; path = ViewControllers/Discover/DiscoverViewController.swift; sourceTree = "<group>"; };
+		5023DE2F1AB6861500B3EE96 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = ViewControllers/Profile/ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,7 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
-				0A8F54B21AB67D11004AD60E /* ViewController.swift */,
+				5023DE271AB6856600B3EE96 /* ViewControllers */,
 				0A8F54B41AB67D11004AD60E /* Main.storyboard */,
 				0A8F54B71AB67D11004AD60E /* Images.xcassets */,
 				0A8F54B91AB67D11004AD60E /* LaunchScreen.xib */,
@@ -110,6 +116,49 @@
 				0A8F54C51AB67D11004AD60E /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		5023DE271AB6856600B3EE96 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				5023DE281AB6857500B3EE96 /* Conversations */,
+				5023DE2B1AB685BD00B3EE96 /* Contacts */,
+				5023DE2E1AB685F100B3EE96 /* Discover */,
+				5023DE311AB6861900B3EE96 /* Profile */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		5023DE281AB6857500B3EE96 /* Conversations */ = {
+			isa = PBXGroup;
+			children = (
+				5023DE251AB6856300B3EE96 /* ConversationsViewController.swift */,
+			);
+			name = Conversations;
+			sourceTree = "<group>";
+		};
+		5023DE2B1AB685BD00B3EE96 /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				5023DE291AB685BA00B3EE96 /* ContactsViewController.swift */,
+			);
+			name = Contacts;
+			sourceTree = "<group>";
+		};
+		5023DE2E1AB685F100B3EE96 /* Discover */ = {
+			isa = PBXGroup;
+			children = (
+				5023DE2C1AB685ED00B3EE96 /* DiscoverViewController.swift */,
+			);
+			name = Discover;
+			sourceTree = "<group>";
+		};
+		5023DE311AB6861900B3EE96 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				5023DE2F1AB6861500B3EE96 /* ProfileViewController.swift */,
+			);
+			name = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -213,8 +262,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A8F54B31AB67D11004AD60E /* ViewController.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
+				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
+				5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */,
+				5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */,
+				5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,6 +466,7 @@
 				0A8F54CC1AB67D11004AD60E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0A8F54CD1AB67D11004AD60E /* Build configuration list for PBXNativeTarget "YepTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +475,7 @@
 				0A8F54CF1AB67D11004AD60E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
