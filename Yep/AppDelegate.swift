@@ -19,6 +19,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         customAppearce()
 
+        let isLogined = false
+
+        let rootViewController: UIViewController
+        if isLogined {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            rootViewController = storyboard.instantiateViewControllerWithIdentifier("MainTabBarController") as! UITabBarController
+        } else {
+            let storyboard = UIStoryboard(name: "Intro", bundle: nil)
+            rootViewController = storyboard.instantiateViewControllerWithIdentifier("IntroNavigationController") as! UINavigationController
+        }
+
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window?.rootViewController = rootViewController
+
         return true
     }
 

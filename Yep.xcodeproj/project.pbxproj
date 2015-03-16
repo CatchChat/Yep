@@ -27,6 +27,9 @@
 		5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */; };
 		5023DE561AB6CA1000B3EE96 /* AvatarCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE551AB6CA1000B3EE96 /* AvatarCache.swift */; };
 		5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE581AB6DBC100B3EE96 /* UIImage+Yep.swift */; };
+		502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 502AE5171AB70D72005BD199 /* Intro.storyboard */; };
+		502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */; };
+		502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51D1AB712D2005BD199 /* RegisterPickNameViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +67,9 @@
 		5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGRect+Yep.swift"; path = "Extensions/CGRect+Yep.swift"; sourceTree = "<group>"; };
 		5023DE551AB6CA1000B3EE96 /* AvatarCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AvatarCache.swift; path = Caches/AvatarCache.swift; sourceTree = "<group>"; };
 		5023DE581AB6DBC100B3EE96 /* UIImage+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+Yep.swift"; path = "Extensions/UIImage+Yep.swift"; sourceTree = "<group>"; };
+		502AE5181AB70D72005BD199 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Intro.storyboard; sourceTree = "<group>"; };
+		502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WelcomeViewController.swift; path = ViewControllers/Welcome/WelcomeViewController.swift; sourceTree = "<group>"; };
+		502AE51D1AB712D2005BD199 /* RegisterPickNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickNameViewController.swift; path = ViewControllers/Register/RegisterPickNameViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,8 +115,10 @@
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
 				5023DE571AB6CA1400B3EE96 /* Caches */,
 				5023DE341AB688F900B3EE96 /* Extensions */,
+				5023DE391AB6979C00B3EE96 /* Views */,
 				5023DE271AB6856600B3EE96 /* ViewControllers */,
 				0A8F54B41AB67D11004AD60E /* Main.storyboard */,
+				502AE5171AB70D72005BD199 /* Intro.storyboard */,
 				0A8F54B71AB67D11004AD60E /* Images.xcassets */,
 				0A8F54B91AB67D11004AD60E /* LaunchScreen.xib */,
 				0A8F54AE1AB67D11004AD60E /* Supporting Files */,
@@ -150,7 +158,8 @@
 				5023DE2B1AB685BD00B3EE96 /* Contacts */,
 				5023DE2E1AB685F100B3EE96 /* Discover */,
 				5023DE311AB6861900B3EE96 /* Profile */,
-				5023DE391AB6979C00B3EE96 /* Views */,
+				502AE51C1AB70DE5005BD199 /* Welcome */,
+				502AE51F1AB712D6005BD199 /* Register */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -240,6 +249,22 @@
 				5023DE551AB6CA1000B3EE96 /* AvatarCache.swift */,
 			);
 			name = Caches;
+			sourceTree = "<group>";
+		};
+		502AE51C1AB70DE5005BD199 /* Welcome */ = {
+			isa = PBXGroup;
+			children = (
+				502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */,
+			);
+			name = Welcome;
+			sourceTree = "<group>";
+		};
+		502AE51F1AB712D6005BD199 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				502AE51D1AB712D2005BD199 /* RegisterPickNameViewController.swift */,
+			);
+			name = Register;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -332,6 +357,7 @@
 				5023DE4C1AB6B19300B3EE96 /* nixzhu.png in Resources */,
 				0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */,
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
+				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,10 +377,12 @@
 			files = (
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
+				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
 				5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */,
 				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
 				5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */,
 				5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */,
+				502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */,
 				5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */,
 				5023DE561AB6CA1000B3EE96 /* AvatarCache.swift in Sources */,
 				5023DE371AB6979600B3EE96 /* ConversationCell.swift in Sources */,
@@ -395,6 +423,14 @@
 				0A8F54BA1AB67D11004AD60E /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		502AE5171AB70D72005BD199 /* Intro.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				502AE5181AB70D72005BD199 /* Base */,
+			);
+			name = Intro.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
