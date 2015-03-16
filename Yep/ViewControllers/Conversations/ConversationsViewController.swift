@@ -14,72 +14,44 @@ class ConversationsViewController: UIViewController {
 
     let cellIdentifier = "ConversationCell"
 
-    lazy var dataSource: [[String: AnyObject]] = {
-
-        var _dataSource: [[String: AnyObject]] = [
-            [
-                "name": "Lucy",
-                "imageName": "scarlett",
-                "chatContent": "I feel everything.",
-                "timeAgo": "A million years ago",
-            ],
-            [
-                "name": "Jony",
-                "imageName": "jony",
-                "chatContent": "I designed iPhone.",
-                "timeAgo": "10 years ago",
-            ],
-            [
-                "name": "Robert",
-                "imageName": "robert",
-                "chatContent": "I'm Iron Man.",
-                "timeAgo": "A few years ago",
-            ],
-            [
-                "name": "Nix",
-                "imageName": "nixzhu",
-                "chatContent": "I love Iron Man!",
-                "timeAgo": "5 minutes ago",
-            ],
-            [
-                "name": "Kevin",
-                "imageName": "kevin",
-                "chatContent": "I'm CEO.\nBitch!",
-                "timeAgo": "Now",
-            ],
-        ]
-
-        for i in 0..<_dataSource.count {
-            var dic = _dataSource[i]
-
-            if let image = UIImage(named: dic["imageName"]! as! String) {
-                UIGraphicsBeginImageContext(image.size)
-
-                let context = UIGraphicsGetCurrentContext()
-
-                var transform = CGAffineTransformConcat(CGAffineTransformIdentity, CGAffineTransformMakeScale(1.0, -1.0))
-                transform = CGAffineTransformConcat(transform, CGAffineTransformMakeTranslation(0.0, image.size.height))
-                CGContextConcatCTM(context, transform)
-
-                let drawRect = CGRect(origin: CGPointZero, size: image.size)
-
-                CGContextAddEllipseInRect(context, drawRect.largestCenteredSquare())
-                CGContextClip(context)
-
-                CGContextDrawImage(context, drawRect, image.CGImage)
-
-                let finalImage = UIGraphicsGetImageFromCurrentImageContext()
-
-                UIGraphicsEndImageContext()
-
-                dic["roundImage"] = finalImage
-
-                _dataSource[i] = dic
-            }
-        }
-
-        return _dataSource
-    }()
+    lazy var dataSource = [
+        [
+            "name": "Lucy",
+            "imageName": "scarlett",
+            "chatContent": "I feel everything.",
+            "timeAgo": "A million years ago",
+        ],
+        [
+            "name": "Jony",
+            "imageName": "jony",
+            "chatContent": "I designed iPhone.",
+            "timeAgo": "10 years ago",
+        ],
+        [
+            "name": "Robert",
+            "imageName": "robert",
+            "chatContent": "I'm Iron Man.",
+            "timeAgo": "A few years ago",
+        ],
+        [
+            "name": "Nix",
+            "imageName": "nixzhu",
+            "chatContent": "I love Iron Man!",
+            "timeAgo": "5 minutes ago",
+        ],
+        [
+            "name": "Kevin",
+            "imageName": "kevin",
+            "chatContent": "I'm CEO.\nBitch!",
+            "timeAgo": "Now",
+        ],
+        [
+            "name": "Faceless",
+            "imageName": "faceless",
+            "chatContent": "Valar Morghulis, valar dohaeris.",
+            "timeAgo": "Some day",
+        ],
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,10 +74,11 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
         let dic = dataSource[indexPath.row % dataSource.count]
 
-        cell.avatarImageView.image = dic["roundImage"] as? UIImage
-        cell.nameLabel.text = dic["name"] as? String
-        cell.chatLabel.text = dic["chatContent"] as? String
-        cell.timeAgoLabel.text = dic["timeAgo"] as? String
+        let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
+        cell.avatarImageView.image = AvatarCache.sharedInstance.roundImage(named: dic["imageName"]!, ofRadius: radius)
+        cell.nameLabel.text = dic["name"]
+        cell.chatLabel.text = dic["chatContent"]
+        cell.timeAgoLabel.text = dic["timeAgo"]
 
         return cell
     }

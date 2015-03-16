@@ -19,7 +19,6 @@ class ConversationCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
 
-        avatarImageView.backgroundColor = UIColor.avatarBackgroundColor()
         avatarImageView.contentMode = .ScaleAspectFill
     }
 

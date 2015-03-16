@@ -25,6 +25,8 @@
 		5023DE4D1AB6B19300B3EE96 /* robert.png in Resources */ = {isa = PBXBuildFile; fileRef = 5023DE481AB6B19300B3EE96 /* robert.png */; };
 		5023DE4E1AB6B19300B3EE96 /* scarlett.png in Resources */ = {isa = PBXBuildFile; fileRef = 5023DE491AB6B19300B3EE96 /* scarlett.png */; };
 		5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */; };
+		5023DE561AB6CA1000B3EE96 /* AvatarCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE551AB6CA1000B3EE96 /* AvatarCache.swift */; };
+		5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE581AB6DBC100B3EE96 /* UIImage+Yep.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +62,8 @@
 		5023DE481AB6B19300B3EE96 /* robert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = robert.png; sourceTree = "<group>"; };
 		5023DE491AB6B19300B3EE96 /* scarlett.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scarlett.png; sourceTree = "<group>"; };
 		5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGRect+Yep.swift"; path = "Extensions/CGRect+Yep.swift"; sourceTree = "<group>"; };
+		5023DE551AB6CA1000B3EE96 /* AvatarCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AvatarCache.swift; path = Caches/AvatarCache.swift; sourceTree = "<group>"; };
+		5023DE581AB6DBC100B3EE96 /* UIImage+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+Yep.swift"; path = "Extensions/UIImage+Yep.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +107,7 @@
 			children = (
 				5023DE441AB6B19300B3EE96 /* DummyData */,
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
+				5023DE571AB6CA1400B3EE96 /* Caches */,
 				5023DE341AB688F900B3EE96 /* Extensions */,
 				5023DE271AB6856600B3EE96 /* ViewControllers */,
 				0A8F54B41AB67D11004AD60E /* Main.storyboard */,
@@ -187,6 +192,7 @@
 			children = (
 				5023DE321AB688F600B3EE96 /* UIColor+Yep.swift */,
 				5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */,
+				5023DE581AB6DBC100B3EE96 /* UIImage+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -226,6 +232,14 @@
 				5023DE491AB6B19300B3EE96 /* scarlett.png */,
 			);
 			path = DummyData;
+			sourceTree = "<group>";
+		};
+		5023DE571AB6CA1400B3EE96 /* Caches */ = {
+			isa = PBXGroup;
+			children = (
+				5023DE551AB6CA1000B3EE96 /* AvatarCache.swift */,
+			);
+			name = Caches;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -337,10 +351,12 @@
 			files = (
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
+				5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */,
 				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
 				5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */,
 				5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */,
 				5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */,
+				5023DE561AB6CA1000B3EE96 /* AvatarCache.swift in Sources */,
 				5023DE371AB6979600B3EE96 /* ConversationCell.swift in Sources */,
 				5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */,
 			);
