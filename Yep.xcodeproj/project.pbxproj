@@ -30,6 +30,7 @@
 		502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 502AE5171AB70D72005BD199 /* Intro.storyboard */; };
 		502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */; };
 		502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51D1AB712D2005BD199 /* RegisterPickNameViewController.swift */; };
+		502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5201AB71C7E005BD199 /* BorderButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		502AE5181AB70D72005BD199 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Intro.storyboard; sourceTree = "<group>"; };
 		502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WelcomeViewController.swift; path = ViewControllers/Welcome/WelcomeViewController.swift; sourceTree = "<group>"; };
 		502AE51D1AB712D2005BD199 /* RegisterPickNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickNameViewController.swift; path = ViewControllers/Register/RegisterPickNameViewController.swift; sourceTree = "<group>"; };
+		502AE5201AB71C7E005BD199 /* BorderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BorderButton.swift; path = Views/Buttons/BorderButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				5023DE3A1AB697A700B3EE96 /* Cells */,
+				502AE5221AB71C82005BD199 /* Buttons */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -265,6 +268,14 @@
 				502AE51D1AB712D2005BD199 /* RegisterPickNameViewController.swift */,
 			);
 			name = Register;
+			sourceTree = "<group>";
+		};
+		502AE5221AB71C82005BD199 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				502AE5201AB71C7E005BD199 /* BorderButton.swift */,
+			);
+			name = Buttons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -375,6 +386,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */,
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,

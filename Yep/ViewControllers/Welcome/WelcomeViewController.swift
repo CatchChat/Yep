@@ -13,8 +13,8 @@ class WelcomeViewController: UIViewController {
     @IBOutlet weak var logoLabel: UILabel!
     @IBOutlet weak var sloganLabel: UILabel!
 
-    @IBOutlet weak var registerButton: UIButton!
-    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var registerButton: BorderButton!
+    @IBOutlet weak var loginButton: BorderButton!
 
     @IBOutlet weak var companyLabel: UILabel!
 
@@ -30,15 +30,6 @@ class WelcomeViewController: UIViewController {
         loginButton.setTitle(NSLocalizedString("Login", comment: ""), forState: .Normal)
 
         companyLabel.text = NSLocalizedString("Catch Inc.", comment: "")
-
-
-        registerButton.layer.cornerRadius = 6
-        registerButton.layer.borderColor = UIColor.yepTintColor().CGColor
-        registerButton.layer.borderWidth = 1.0
-
-        loginButton.layer.cornerRadius = 6
-        loginButton.layer.borderColor = UIColor.yepTintColor().CGColor
-        loginButton.layer.borderWidth = 1.0
     }
 
     // MARK: Actions
