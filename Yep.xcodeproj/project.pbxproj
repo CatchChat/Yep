@@ -16,6 +16,7 @@
 		5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE291AB685BA00B3EE96 /* ContactsViewController.swift */; };
 		5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE2C1AB685ED00B3EE96 /* DiscoverViewController.swift */; };
 		5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE2F1AB6861500B3EE96 /* ProfileViewController.swift */; };
+		5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE321AB688F600B3EE96 /* UIColor+Yep.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		5023DE291AB685BA00B3EE96 /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsViewController.swift; path = ViewControllers/Contacts/ContactsViewController.swift; sourceTree = "<group>"; };
 		5023DE2C1AB685ED00B3EE96 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverViewController.swift; path = ViewControllers/Discover/DiscoverViewController.swift; sourceTree = "<group>"; };
 		5023DE2F1AB6861500B3EE96 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = ViewControllers/Profile/ProfileViewController.swift; sourceTree = "<group>"; };
+		5023DE321AB688F600B3EE96 /* UIColor+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Yep.swift"; path = "Extensions/UIColor+Yep.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
+				5023DE341AB688F900B3EE96 /* Extensions */,
 				5023DE271AB6856600B3EE96 /* ViewControllers */,
 				0A8F54B41AB67D11004AD60E /* Main.storyboard */,
 				0A8F54B71AB67D11004AD60E /* Images.xcassets */,
@@ -159,6 +162,14 @@
 				5023DE2F1AB6861500B3EE96 /* ProfileViewController.swift */,
 			);
 			name = Profile;
+			sourceTree = "<group>";
+		};
+		5023DE341AB688F900B3EE96 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5023DE321AB688F600B3EE96 /* UIColor+Yep.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,6 +273,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
 				5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */,

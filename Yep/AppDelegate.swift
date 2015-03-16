@@ -16,6 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+
+        customAppearce()
+
         return true
     }
 
@@ -42,5 +45,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+    // MARK: Private
+
+    private func customAppearce() {
+
+        // Global Tint Color
+
+        window!.tintColor = UIColor.yepTintColor()
+
+
+        // NavigationBar Title Style
+
+        let shadow: NSShadow = {
+            var shadow = NSShadow()
+            shadow.shadowColor = UIColor.lightGrayColor()
+            shadow.shadowOffset = CGSizeMake(0, 0)
+            return shadow
+        }()
+
+        let textAttributes = [
+            NSForegroundColorAttributeName: UIColor.yepTintColor(),
+            NSShadowAttributeName: shadow,
+            NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 20)!
+        ]
+
+        UINavigationBar.appearance().titleTextAttributes = textAttributes;
+    }
 }
 

@@ -105,7 +105,7 @@
         <scene sceneID="ySr-fW-tdP">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hOb-vY-dSl" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Conversations" badgeValue="3" id="v0w-Lf-9uQ"/>
+                    <tabBarItem key="tabBarItem" title="Conversations" image="icon_conversation" badgeValue="3" id="v0w-Lf-9uQ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rBt-UI-PaQ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -124,7 +124,7 @@
         <scene sceneID="CIQ-7C-4Qf">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HI7-HE-lfi" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Contacts" id="KN1-ry-ZuC"/>
+                    <tabBarItem key="tabBarItem" title="Contacts" image="icon_contacts" id="KN1-ry-ZuC"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="F2p-n3-YGV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -143,7 +143,7 @@
         <scene sceneID="I0q-3N-v5s">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HFE-uY-fys" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Discover" id="NTl-bD-Fa2"/>
+                    <tabBarItem key="tabBarItem" title="Discover" image="icon_discover" id="NTl-bD-Fa2"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="udE-Dh-c2s">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -162,7 +162,7 @@
         <scene sceneID="E1Z-RL-QZO">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dwP-GL-7hj" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" id="zZf-BL-xLF"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="icon_profile" id="zZf-BL-xLF"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="m4n-ca-AbO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -178,4 +178,10 @@
             <point key="canvasLocation" x="2027" y="253"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icon_contacts" width="19" height="17"/>
+        <image name="icon_conversation" width="19" height="17"/>
+        <image name="icon_discover" width="20" height="18"/>
+        <image name="icon_profile" width="15" height="17"/>
+    </resources>
 </document>

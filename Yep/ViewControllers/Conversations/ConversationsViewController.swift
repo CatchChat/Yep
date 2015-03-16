@@ -14,7 +14,7 @@ class ConversationsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        view.backgroundColor = UIColor.blueColor()
+        view.backgroundColor = UIColor.whiteColor()
     }
 
     override func didReceiveMemoryWarning() {
