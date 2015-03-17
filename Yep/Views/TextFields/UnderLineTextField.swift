@@ -13,6 +13,8 @@ class UnderLineTextField: UITextField {
 
     @IBInspectable var underLineColor: UIColor = UIColor.yepTintColor()
     @IBInspectable var underLineWidth: CGFloat = 1
+    @IBInspectable var leftInset: CGFloat = 0
+    @IBInspectable var rightInset: CGFloat = 0
 
     lazy var underlineLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
@@ -38,4 +40,13 @@ class UnderLineTextField: UITextField {
 
         underlineLayer.path = path.CGPath
     }
+
+    override func textRectForBounds(bounds: CGRect) -> CGRect {
+        return CGRect(x: leftInset, y: 0, width: bounds.width - (leftInset + rightInset), height: bounds.height)
+    }
+
+    override func editingRectForBounds(bounds: CGRect) -> CGRect {
+        return textRectForBounds(bounds)
+    }
+
 }

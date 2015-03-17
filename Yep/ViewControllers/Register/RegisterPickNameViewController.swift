@@ -11,7 +11,9 @@ import UIKit
 class RegisterPickNameViewController: UIViewController {
 
     @IBOutlet weak var pickNamePromptLabel: UILabel!
+
     @IBOutlet weak var nameTextField: UnderLineTextField!
+    
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
 
@@ -40,14 +42,18 @@ class RegisterPickNameViewController: UIViewController {
     }
     
     @IBAction func next(sender: UIButton) {
+        showRegisterPickMobile()
+    }
+
+    private func showRegisterPickMobile() {
+        performSegueWithIdentifier("showRegisterPickMobile", sender: nil)
     }
 }
 
 extension RegisterPickNameViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if !textField.text.isEmpty {
-            // TODO: goto Pick Phone Number
-            println("goto Pick Phone Number")
+            showRegisterPickMobile()
         }
 
         return true
