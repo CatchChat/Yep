@@ -58,7 +58,36 @@ class LoginByMobileViewController: UIViewController {
     }
 
     private func showLoginVerifyMobile() {
-        performSegueWithIdentifier("showLoginVerifyMobile", sender: nil)
+
+        let mobile = mobileNumberTextField.text
+        let areaCode = areaCodeTextField.text
+
+        sendVerifyCode(ofMobile: mobile, withAreaCode: areaCode, failureHandler: nil) { success in
+            if success {
+                println("Verification code sent successfully")
+
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.performSegueWithIdentifier("showLoginVerifyMobile", sender: ["mobile" : mobile, "areaCode": areaCode])
+                })
+
+            } else {
+                println("Failed to send verification code")
+            }
+        }
+    }
+
+    // MARK: Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showLoginVerifyMobile" {
+
+            if let info = sender as? [String: String] {
+                let vc = segue.destinationViewController as! LoginVerifyMobileViewController
+
+                vc.mobile = info["mobile"]
+                vc.areaCode = info["areaCode"]
+            }
+        }
     }
 
 }

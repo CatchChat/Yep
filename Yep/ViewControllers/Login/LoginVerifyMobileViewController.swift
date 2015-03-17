@@ -10,6 +10,10 @@ import UIKit
 
 class LoginVerifyMobileViewController: UIViewController {
 
+    var mobile: String!
+    var areaCode: String!
+
+
     @IBOutlet weak var verifyMobileNumberPromptLabel: UILabel!
 
     @IBOutlet weak var verifyCodeTextField: UnderLineTextField!
@@ -51,9 +55,28 @@ class LoginVerifyMobileViewController: UIViewController {
     }
 
     private func login() {
-        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-            appDelegate.startMainStory()
-        }
+
+        let verifyCode = verifyCodeTextField.text
+
+        loginByMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (resource, reason, data) in
+            defaultFailureHandler(forResource: resource, withFailureReason: reason, data)
+
+            if let errorMessage = errorMessageInData(data) {
+                println("errorMessage: \(errorMessage)")
+            }
+
+        }, completion: { loginUser in
+            println("\(loginUser)")
+
+            let accessToken = loginUser.accessToken
+            // TODO: after login
+
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                    appDelegate.startMainStory()
+                }
+            })
+        })
     }
 
 }
