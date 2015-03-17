@@ -40,6 +40,7 @@
 		502AE5351AB8649F005BD199 /* LoginByMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5341AB8649F005BD199 /* LoginByMobileViewController.swift */; };
 		502AE5381AB866E3005BD199 /* LoginVerifyMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5371AB866E3005BD199 /* LoginVerifyMobileViewController.swift */; };
 		502AE53A1AB871C1005BD199 /* YepAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5391AB871C1005BD199 /* YepAlert.swift */; };
+		502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE53C1AB87C0D005BD199 /* YepUserDefaults.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 		502AE5341AB8649F005BD199 /* LoginByMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginByMobileViewController.swift; path = ViewControllers/Login/LoginByMobileViewController.swift; sourceTree = "<group>"; };
 		502AE5371AB866E3005BD199 /* LoginVerifyMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginVerifyMobileViewController.swift; path = ViewControllers/Login/LoginVerifyMobileViewController.swift; sourceTree = "<group>"; };
 		502AE5391AB871C1005BD199 /* YepAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAlert.swift; path = Helpers/YepAlert.swift; sourceTree = "<group>"; };
+		502AE53C1AB87C0D005BD199 /* YepUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepUserDefaults.swift; path = Helpers/YepUserDefaults.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -341,6 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				502AE5391AB871C1005BD199 /* YepAlert.swift */,
+				502AE53C1AB87C0D005BD199 /* YepUserDefaults.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 				502AE5381AB866E3005BD199 /* LoginVerifyMobileViewController.swift in Sources */,
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
+				502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */,
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
 				5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */,
 				502AE5331AB86020005BD199 /* RegisterVerifyMobileViewController.swift in Sources */,

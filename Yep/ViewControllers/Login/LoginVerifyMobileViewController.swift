@@ -70,17 +70,27 @@ class LoginVerifyMobileViewController: UIViewController {
             }
 
         }, completion: { loginUser in
+
             println("\(loginUser)")
 
-            let accessToken = loginUser.accessToken
-            // TODO: after login
-
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+
+                self.saveTokenAndUserInfoOfLoginUser(loginUser)
+
                 if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
                     appDelegate.startMainStory()
                 }
             })
         })
+    }
+
+    private func saveTokenAndUserInfoOfLoginUser(loginUser: LoginUser) {
+        YepUserDefaults.setV1AccessToken(loginUser.accessToken)
+        YepUserDefaults.setUserID(loginUser.userID)
+        YepUserDefaults.setNickname(loginUser.nickname)
+        if let avatarURLString = loginUser.avatarURLString {
+            YepUserDefaults.setAvatarURLString(avatarURLString)
+        }
     }
 
 }
