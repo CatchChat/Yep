@@ -54,26 +54,48 @@ class LoginByMobileViewController: UIViewController {
 
 
     @IBAction func next(sender: UIButton) {
-        showLoginVerifyMobile()
+        tryShowLoginVerifyMobile()
     }
 
-    private func showLoginVerifyMobile() {
+    private func tryShowLoginVerifyMobile() {
+        
+        view.endEditing(true)
 
         let mobile = mobileNumberTextField.text
         let areaCode = areaCodeTextField.text
 
-        sendVerifyCode(ofMobile: mobile, withAreaCode: areaCode, failureHandler: nil) { success in
-            if success {
-                println("Verification code sent successfully")
+        sendVerifyCode(ofMobile: mobile, withAreaCode: areaCode, failureHandler: { (resource, reason, data) in
+            defaultFailureHandler(forResource: resource, withFailureReason: reason, data)
 
+            if let errorMessage = errorMessageInData(data) {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.performSegueWithIdentifier("showLoginVerifyMobile", sender: ["mobile" : mobile, "areaCode": areaCode])
+                    YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
+                        mobileNumberTextField.becomeFirstResponder()
+                    })
+                })
+            }
+            
+        }, completion: { success in
+            if success {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.showLoginVerifyMobile()
                 })
 
             } else {
-                println("Failed to send verification code")
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    YepAlert.alertSorry(message: NSLocalizedString("Failed to send verification code", comment: ""), inViewController: self, withDismissAction: { () -> Void in
+                        mobileNumberTextField.becomeFirstResponder()
+                    })
+                })
             }
-        }
+        })
+    }
+
+    func showLoginVerifyMobile() {
+        let mobile = mobileNumberTextField.text
+        let areaCode = areaCodeTextField.text
+
+        self.performSegueWithIdentifier("showLoginVerifyMobile", sender: ["mobile" : mobile, "areaCode": areaCode])
     }
 
     // MARK: Navigation
@@ -95,7 +117,7 @@ class LoginByMobileViewController: UIViewController {
 extension LoginByMobileViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if !textField.text.isEmpty {
-            showLoginVerifyMobile()
+            tryShowLoginVerifyMobile()
         }
         
         return true

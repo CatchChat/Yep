@@ -39,6 +39,7 @@
 		502AE5331AB86020005BD199 /* RegisterVerifyMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5321AB86020005BD199 /* RegisterVerifyMobileViewController.swift */; };
 		502AE5351AB8649F005BD199 /* LoginByMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5341AB8649F005BD199 /* LoginByMobileViewController.swift */; };
 		502AE5381AB866E3005BD199 /* LoginVerifyMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5371AB866E3005BD199 /* LoginVerifyMobileViewController.swift */; };
+		502AE53A1AB871C1005BD199 /* YepAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5391AB871C1005BD199 /* YepAlert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		502AE5321AB86020005BD199 /* RegisterVerifyMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterVerifyMobileViewController.swift; path = ViewControllers/Register/RegisterVerifyMobileViewController.swift; sourceTree = "<group>"; };
 		502AE5341AB8649F005BD199 /* LoginByMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginByMobileViewController.swift; path = ViewControllers/Login/LoginByMobileViewController.swift; sourceTree = "<group>"; };
 		502AE5371AB866E3005BD199 /* LoginVerifyMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginVerifyMobileViewController.swift; path = ViewControllers/Login/LoginVerifyMobileViewController.swift; sourceTree = "<group>"; };
+		502AE5391AB871C1005BD199 /* YepAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAlert.swift; path = Helpers/YepAlert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 			children = (
 				5023DE441AB6B19300B3EE96 /* DummyData */,
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
+				502AE53B1AB871C5005BD199 /* Helpers */,
 				502AE52C1AB819B5005BD199 /* Configs */,
 				502AE5251AB72BE9005BD199 /* Services */,
 				5023DE571AB6CA1400B3EE96 /* Caches */,
@@ -334,6 +337,14 @@
 			name = Login;
 			sourceTree = "<group>";
 		};
+		502AE53B1AB871C5005BD199 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				502AE5391AB871C1005BD199 /* YepAlert.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -451,6 +462,7 @@
 				5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */,
 				502AE5331AB86020005BD199 /* RegisterVerifyMobileViewController.swift in Sources */,
 				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
+				502AE53A1AB871C1005BD199 /* YepAlert.swift in Sources */,
 				502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */,
 				5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */,
 				5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */,

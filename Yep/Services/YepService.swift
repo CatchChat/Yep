@@ -22,7 +22,7 @@ func errorMessageInData(data: NSData?) -> String? {
     return nil
 }
 
-func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #failureHandler: ((Resource<Bool>, Reason, NSData?) -> ())?, completion: Bool -> ()) {
+func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #failureHandler: ((Resource<Bool>, Reason, NSData?) -> ())?, #completion: Bool -> ()) {
 
     let requestParameters = [
         "mobile": mobile,
