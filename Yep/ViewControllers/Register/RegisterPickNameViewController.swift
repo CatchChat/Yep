@@ -11,7 +11,7 @@ import UIKit
 class RegisterPickNameViewController: UIViewController {
 
     @IBOutlet weak var pickNamePromptLabel: UILabel!
-    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var nameTextField: UnderLineTextField!
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
 

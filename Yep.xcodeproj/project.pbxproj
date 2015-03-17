@@ -34,6 +34,7 @@
 		502AE5271AB72D06005BD199 /* YepNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5261AB72D06005BD199 /* YepNetworking.swift */; };
 		502AE5291AB81076005BD199 /* YepService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5281AB81076005BD199 /* YepService.swift */; };
 		502AE52B1AB819AF005BD199 /* YepConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE52A1AB819AF005BD199 /* YepConfig.swift */; };
+		502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE52D1AB83879005BD199 /* UnderLineTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		502AE5261AB72D06005BD199 /* YepNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepNetworking.swift; path = Services/YepNetworking.swift; sourceTree = "<group>"; };
 		502AE5281AB81076005BD199 /* YepService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepService.swift; path = Services/YepService.swift; sourceTree = "<group>"; };
 		502AE52A1AB819AF005BD199 /* YepConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepConfig.swift; path = Configs/YepConfig.swift; sourceTree = "<group>"; };
+		502AE52D1AB83879005BD199 /* UnderLineTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UnderLineTextField.swift; path = Views/TextFields/UnderLineTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +223,7 @@
 			children = (
 				5023DE3A1AB697A700B3EE96 /* Cells */,
 				502AE5221AB71C82005BD199 /* Buttons */,
+				502AE52F1AB8387D005BD199 /* TextFields */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -301,6 +304,14 @@
 				502AE52A1AB819AF005BD199 /* YepConfig.swift */,
 			);
 			name = Configs;
+			sourceTree = "<group>";
+		};
+		502AE52F1AB8387D005BD199 /* TextFields */ = {
+			isa = PBXGroup;
+			children = (
+				502AE52D1AB83879005BD199 /* UnderLineTextField.swift */,
+			);
+			name = TextFields;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -417,6 +428,7 @@
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
 				5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */,
 				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
+				502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */,
 				5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */,
 				5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */,
 				502AE5271AB72D06005BD199 /* YepNetworking.swift in Sources */,
