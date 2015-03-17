@@ -31,30 +31,30 @@ class WelcomeViewController: UIViewController {
 
         companyLabel.text = NSLocalizedString("Catch Inc.", comment: "")
 
-        tryYepNetworking()
-
-    }
-
-    func tryYepNetworking() {
-
-        let baseURL = NSURL(string: "http://park.catchchatchina.com/api/")!
-
-        func verifyCode(ofMobile mobile: String, withAreaCode areaCode: String) -> Resource<[String: String]> {
-
-            let requestParameters = [
-                "mobile": mobile,
-                "phone_code": areaCode,
-            ]
-
-            let parse: JSONDictionary -> [String: String]? = { data in
-                return data as? [String: String]
+        sendVerifyCode(ofMobile: "18602354812", withAreaCode: "86", failureHandler: nil) { success in
+            if success {
+                println("Verification code sent successfully")
+            } else {
+                println("Failed to send verification code")
             }
-
-            return jsonResource("v1/auth/send_verify_code", .POST, requestParameters, parse)
         }
 
-        apiRequest({_ in}, baseURL, verifyCode(ofMobile: "18602354812", withAreaCode: "86"), defaultFailureHandler) { result in
-            println("result: \(result)")
+        loginByMobile("18602354812", withAreaCode: "86", verifyCode: "4627", failureHandler: { (resource, reason, data) in
+            defaultFailureHandler(forResource: resource, withFailureReason: reason, data)
+
+            if let errorMessage = errorMessageInData(data) {
+                println("errorMessage: \(errorMessage)")
+            }
+
+        }, completion: { loginUser in
+            println("\(loginUser)")
+
+            let accessToken = loginUser.accessToken
+            // TODO: after login
+        })
+
+        unreadMessages { result in
+            println("unreadMessages result: \(result)")
         }
     }
 

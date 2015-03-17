@@ -84,7 +84,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
 
     modifyRequest(request)
 
-    for (key,value) in resource.headers {
+    for (key, value) in resource.headers {
         request.setValue(value, forHTTPHeaderField: key)
     }
 
@@ -101,6 +101,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                     failure(resource, Reason.NoData, data)
                 }
             } else {
+                println("\nstatusCode: \(httpResponse.statusCode)")
                 failure(resource, Reason.NoSuccessStatusCode(statusCode: httpResponse.statusCode), data)
             }
         } else {
@@ -123,7 +124,8 @@ func encodeJSON(dict: JSONDictionary) -> NSData? {
     return dict.count > 0 ? NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions.allZeros, error: nil) : nil
 }
 
-public func jsonResource<A>(path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
+public func jsonResource<A>(#path: String, #method: Method, #requestParameters: JSONDictionary, #parse: JSONDictionary -> A?) -> Resource<A> {
+
     let jsonParse: NSData -> A? = { data in
         if let json = decodeJSON(data) {
             return parse(json)
@@ -137,7 +139,8 @@ public func jsonResource<A>(path: String, method: Method, requestParameters: JSO
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
 }
 
-public func authJsonResource<A>(token: String, path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
+public func authJsonResource<A>(#token: String, #path: String, #method: Method, #requestParameters: JSONDictionary, #parse: JSONDictionary -> A?) -> Resource<A> {
+    
     let jsonParse: NSData -> A? = { data in
         if let json = decodeJSON(data) {
             return parse(json)
@@ -148,7 +151,7 @@ public func authJsonResource<A>(token: String, path: String, method: Method, req
     let jsonBody = encodeJSON(requestParameters)
     let headers = [
         "Content-Type": "application/json",
-        "Authorization": "Token token=\(token)"
+        "Authorization": "Token token=\"\(token)\""
     ]
 
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
