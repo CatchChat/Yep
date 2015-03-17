@@ -20,14 +20,19 @@ class RegisterVerifyMobileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        verifyCodeTextField.delegate = self
+        verifyCodeTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
         nextButton.enabled = false
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        verifyCodeTextField.delegate = self
-        verifyCodeTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
         verifyCodeTextField.becomeFirstResponder()
     }
 

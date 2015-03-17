@@ -22,18 +22,22 @@ class RegisterPickMobileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        areaCodeTextField.delegate = self
+        areaCodeTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+
+        mobileNumberTextField.delegate = self
+        mobileNumberTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
         nextButton.enabled = false
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        areaCodeTextField.delegate = self
-        areaCodeTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
-        areaCodeTextField.becomeFirstResponder()
-
-        mobileNumberTextField.delegate = self
-        mobileNumberTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
         mobileNumberTextField.becomeFirstResponder()
     }
 

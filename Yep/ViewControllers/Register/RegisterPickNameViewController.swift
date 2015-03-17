@@ -20,14 +20,19 @@ class RegisterPickNameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        nameTextField.delegate = self
+        nameTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
         nextButton.enabled = false
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        nameTextField.delegate = self
-        nameTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
         nameTextField.becomeFirstResponder()
     }
 
