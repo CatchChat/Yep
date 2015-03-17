@@ -1,5 +1,5 @@
 //
-//  RegisterPickMobileViewController.swift
+//  LoginByMobileViewController.swift
 //  Yep
 //
 //  Created by NIX on 15/3/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegisterPickMobileViewController: UIViewController {
+class LoginByMobileViewController: UIViewController {
 
     @IBOutlet weak var pickMobileNumberPromptLabel: UILabel!
 
@@ -44,7 +44,7 @@ class RegisterPickMobileViewController: UIViewController {
     // MARK: Actions
 
     func textFieldDidChange(textField: UITextField) {
-        
+
         nextButton.enabled = !areaCodeTextField.text.isEmpty && !mobileNumberTextField.text.isEmpty
     }
 
@@ -54,22 +54,21 @@ class RegisterPickMobileViewController: UIViewController {
 
 
     @IBAction func next(sender: UIButton) {
-        showRegisterVerifyMobile()
+        showLoginVerifyMobile()
     }
 
-    private func showRegisterVerifyMobile() {
-        performSegueWithIdentifier("showRegisterVerifyMobile", sender: nil)
+    private func showLoginVerifyMobile() {
+        performSegueWithIdentifier("showLoginVerifyMobile", sender: nil)
     }
 
 }
 
-extension RegisterPickMobileViewController: UITextFieldDelegate {
-    
+extension LoginByMobileViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if !textField.text.isEmpty {
-            showRegisterVerifyMobile()
+            showLoginVerifyMobile()
         }
-
+        
         return true
     }
 }

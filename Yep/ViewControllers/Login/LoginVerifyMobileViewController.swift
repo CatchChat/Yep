@@ -1,5 +1,5 @@
 //
-//  RegisterVerifyMobileViewController.swift
+//  LoginVerifyMobileViewController.swift
 //  Yep
 //
 //  Created by NIX on 15/3/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegisterVerifyMobileViewController: UIViewController {
+class LoginVerifyMobileViewController: UIViewController {
 
     @IBOutlet weak var verifyMobileNumberPromptLabel: UILabel!
 
@@ -47,18 +47,24 @@ class RegisterVerifyMobileViewController: UIViewController {
     }
 
     @IBAction func next(sender: UIButton) {
-        //showRegisterPickMobile()
+        login()
+    }
+
+    private func login() {
+        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            appDelegate.startMainStory()
+        }
     }
 
 }
 
-extension RegisterVerifyMobileViewController: UITextFieldDelegate {
+extension LoginVerifyMobileViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if !textField.text.isEmpty {
-            //showRegisterPickMobile()
+            login()
         }
-
+        
         return true
     }
 }

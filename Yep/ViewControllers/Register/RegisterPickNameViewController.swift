@@ -56,6 +56,7 @@ class RegisterPickNameViewController: UIViewController {
 }
 
 extension RegisterPickNameViewController: UITextFieldDelegate {
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if !textField.text.isEmpty {
             showRegisterPickMobile()
