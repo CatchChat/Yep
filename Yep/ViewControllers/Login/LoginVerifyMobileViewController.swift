@@ -62,7 +62,11 @@ class LoginVerifyMobileViewController: UIViewController {
             defaultFailureHandler(forResource: resource, withFailureReason: reason, data)
 
             if let errorMessage = errorMessageInData(data) {
-                println("errorMessage: \(errorMessage)")
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
+                        verifyCodeTextField.becomeFirstResponder()
+                    })
+                })
             }
 
         }, completion: { loginUser in
