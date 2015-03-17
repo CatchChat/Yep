@@ -10,27 +10,46 @@ import UIKit
 
 class RegisterPickNameViewController: UIViewController {
 
+    @IBOutlet weak var pickNamePromptLabel: UILabel!
+    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var nextButton: UIButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        view.backgroundColor = UIColor.greenColor()
+        nextButton.enabled = false
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        nameTextField.delegate = self
+        nameTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+        nameTextField.becomeFirstResponder()
+    }
+
+    // MARK: Actions
+
+    func textFieldDidChange(textField: UITextField) {
+        nextButton.enabled = !textField.text.isEmpty
+    }
+
+    @IBAction func back(sender: UIButton) {
+        navigationController?.popViewControllerAnimated(true)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func next(sender: UIButton) {
     }
-    */
+}
 
+extension RegisterPickNameViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if !textField.text.isEmpty {
+            // TODO: goto Pick Phone Number
+            println("goto Pick Phone Number")
+        }
+
+        return true
+    }
 }

@@ -31,6 +31,7 @@ class WelcomeViewController: UIViewController {
 
         companyLabel.text = NSLocalizedString("Catch Inc.", comment: "")
 
+        /*
         sendVerifyCode(ofMobile: "18602354812", withAreaCode: "86", failureHandler: nil) { success in
             if success {
                 println("Verification code sent successfully")
@@ -56,6 +57,7 @@ class WelcomeViewController: UIViewController {
         unreadMessages { result in
             println("unreadMessages result: \(result)")
         }
+        */
     }
 
     // MARK: Actions

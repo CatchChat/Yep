@@ -102,8 +102,61 @@
                     <view key="view" contentMode="scaleToFill" id="eKx-gr-CiN">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What's you name?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pw6-yh-kid">
+                                <rect key="frame" x="222" y="94" width="156" height="24"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="20"/>
+                                <color key="textColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Alice, Bob" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XiO-W9-kya">
+                                <rect key="frame" x="200" y="138" width="200" height="30"/>
+                                <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="Gtp-zl-Dr7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qGh-nq-VYU">
+                                <rect key="frame" x="200" y="188" width="65" height="48"/>
+                                <inset key="contentEdgeInsets" minX="15" minY="15" maxX="15" maxY="15"/>
+                                <state key="normal" title="Back">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="back:" destination="wEE-7G-Hr8" eventType="touchUpInside" id="Wbi-DK-odg"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OaS-1D-Ags">
+                                <rect key="frame" x="338" y="188" width="62" height="48"/>
+                                <inset key="contentEdgeInsets" minX="15" minY="15" maxX="15" maxY="15"/>
+                                <state key="normal" title="Next">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="next:" destination="wEE-7G-Hr8" eventType="touchUpInside" id="AiP-2L-Rvt"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="XiO-W9-kya" firstAttribute="trailing" secondItem="OaS-1D-Ags" secondAttribute="trailing" id="439-kJ-gs1"/>
+                            <constraint firstItem="XiO-W9-kya" firstAttribute="top" secondItem="Pw6-yh-kid" secondAttribute="bottom" constant="20" id="Dcj-Qh-qTh"/>
+                            <constraint firstItem="XiO-W9-kya" firstAttribute="leading" secondItem="qGh-nq-VYU" secondAttribute="leading" id="PkX-4Y-hHR"/>
+                            <constraint firstItem="Pw6-yh-kid" firstAttribute="top" secondItem="858-DQ-gir" secondAttribute="bottom" constant="30" id="RJx-dt-P2H"/>
+                            <constraint firstItem="XiO-W9-kya" firstAttribute="centerX" secondItem="Pw6-yh-kid" secondAttribute="centerX" id="RuV-IQ-vfU"/>
+                            <constraint firstAttribute="centerX" secondItem="Pw6-yh-kid" secondAttribute="centerX" id="TDv-6e-cOk"/>
+                            <constraint firstItem="qGh-nq-VYU" firstAttribute="top" secondItem="XiO-W9-kya" secondAttribute="bottom" constant="20" id="gfF-n8-Rot"/>
+                            <constraint firstItem="qGh-nq-VYU" firstAttribute="centerY" secondItem="OaS-1D-Ags" secondAttribute="centerY" id="wmz-Ml-GM4"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="backButton" destination="qGh-nq-VYU" id="fqD-W1-3cf"/>
+                        <outlet property="nameTextField" destination="XiO-W9-kya" id="Tq9-gM-NSb"/>
+                        <outlet property="nextButton" destination="OaS-1D-Ags" id="HQb-Ab-jbI"/>
+                        <outlet property="pickNamePromptLabel" destination="Pw6-yh-kid" id="Qcq-Q7-euR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jqn-of-yCv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -112,7 +165,7 @@
         <!--Navigation Controller-->
         <scene sceneID="bAi-xi-FcJ">
             <objects>
-                <navigationController storyboardIdentifier="IntroNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="lwz-TP-ghw" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="IntroNavigationController" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="lwz-TP-ghw" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4V6-Kr-buN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
