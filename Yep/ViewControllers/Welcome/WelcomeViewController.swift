@@ -30,6 +30,32 @@ class WelcomeViewController: UIViewController {
         loginButton.setTitle(NSLocalizedString("Login", comment: ""), forState: .Normal)
 
         companyLabel.text = NSLocalizedString("Catch Inc.", comment: "")
+
+        tryYepNetworking()
+
+    }
+
+    func tryYepNetworking() {
+
+        let baseURL = NSURL(string: "http://park.catchchatchina.com/api/")!
+
+        func verifyCode(ofMobile mobile: String, withAreaCode areaCode: String) -> Resource<[String: String]> {
+
+            let requestParameters = [
+                "mobile": mobile,
+                "phone_code": areaCode,
+            ]
+
+            let parse: JSONDictionary -> [String: String]? = { data in
+                return data as? [String: String]
+            }
+
+            return jsonResource("v1/auth/send_verify_code", .POST, requestParameters, parse)
+        }
+
+        apiRequest({_ in}, baseURL, verifyCode(ofMobile: "18602354812", withAreaCode: "86"), defaultFailureHandler) { result in
+            println("result: \(result)")
+        }
     }
 
     // MARK: Actions
