@@ -36,6 +36,7 @@
 		502AE52B1AB819AF005BD199 /* YepConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE52A1AB819AF005BD199 /* YepConfig.swift */; };
 		502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE52D1AB83879005BD199 /* UnderLineTextField.swift */; };
 		502AE5311AB85067005BD199 /* RegisterPickMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5301AB85067005BD199 /* RegisterPickMobileViewController.swift */; };
+		502AE5331AB86020005BD199 /* RegisterVerifyMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5321AB86020005BD199 /* RegisterVerifyMobileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		502AE52A1AB819AF005BD199 /* YepConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepConfig.swift; path = Configs/YepConfig.swift; sourceTree = "<group>"; };
 		502AE52D1AB83879005BD199 /* UnderLineTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UnderLineTextField.swift; path = Views/TextFields/UnderLineTextField.swift; sourceTree = "<group>"; };
 		502AE5301AB85067005BD199 /* RegisterPickMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickMobileViewController.swift; path = ViewControllers/Register/RegisterPickMobileViewController.swift; sourceTree = "<group>"; };
+		502AE5321AB86020005BD199 /* RegisterVerifyMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterVerifyMobileViewController.swift; path = ViewControllers/Register/RegisterVerifyMobileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,6 +282,7 @@
 			children = (
 				502AE51D1AB712D2005BD199 /* RegisterPickNameViewController.swift */,
 				502AE5301AB85067005BD199 /* RegisterPickMobileViewController.swift */,
+				502AE5321AB86020005BD199 /* RegisterVerifyMobileViewController.swift */,
 			);
 			name = Register;
 			sourceTree = "<group>";
@@ -431,6 +434,7 @@
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
 				5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */,
+				502AE5331AB86020005BD199 /* RegisterVerifyMobileViewController.swift in Sources */,
 				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
 				502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */,
 				5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */,

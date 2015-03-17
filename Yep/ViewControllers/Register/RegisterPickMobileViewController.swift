@@ -50,6 +50,11 @@ class RegisterPickMobileViewController: UIViewController {
 
 
     @IBAction func next(sender: UIButton) {
+        showRegisterVerifyMobile()
+    }
+
+    private func showRegisterVerifyMobile() {
+        performSegueWithIdentifier("showRegisterVerifyMobile", sender: nil)
     }
 
 }
@@ -57,8 +62,7 @@ class RegisterPickMobileViewController: UIViewController {
 extension RegisterPickMobileViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if !textField.text.isEmpty {
-            // TODO: goto Verify Phone Number
-            println("goto Verify Phone Number")
+            showRegisterVerifyMobile()
         }
 
         return true
