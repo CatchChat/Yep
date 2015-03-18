@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7525" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7516"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProfileHeaderCell" id="gTV-IL-0wX" customClass="ProfileHeaderCell" customModule="Yep" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="254"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="393" height="254"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9iO-cK-3UB" userLabel="Avatar Image View">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="254"/>
+                        <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Joined 1 week ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NGG-vt-AMI" userLabel="Joined Date Label">
+                        <rect key="frame" x="20" y="219" width="96" height="15"/>
+                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="12"/>
+                        <color key="textColor" red="0.40000000596046448" green="0.40000000596046448" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nix" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g9S-Zs-82d" userLabel="Name Label">
+                        <rect key="frame" x="20" y="180" width="32" height="30"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="25"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CandyStar" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O8h-bQ-ZK8" userLabel="Location Label">
+                        <rect key="frame" x="320" y="219" width="53" height="15"/>
+                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="12"/>
+                        <color key="textColor" red="0.40000000596046448" green="0.40000000596046448" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="9iO-cK-3UB" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="0GC-5l-kfn"/>
+                <constraint firstItem="O8h-bQ-ZK8" firstAttribute="centerY" secondItem="NGG-vt-AMI" secondAttribute="centerY" id="0l4-yp-iX1"/>
+                <constraint firstItem="NGG-vt-AMI" firstAttribute="top" secondItem="g9S-Zs-82d" secondAttribute="bottom" constant="9" id="8I5-zm-l9l"/>
+                <constraint firstItem="NGG-vt-AMI" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="8fv-Rm-QbG"/>
+                <constraint firstAttribute="bottom" secondItem="NGG-vt-AMI" secondAttribute="bottom" constant="20" id="Cu1-M1-6gp"/>
+                <constraint firstItem="g9S-Zs-82d" firstAttribute="leading" secondItem="NGG-vt-AMI" secondAttribute="leading" id="GmS-dS-tav"/>
+                <constraint firstAttribute="trailing" secondItem="9iO-cK-3UB" secondAttribute="trailing" id="Ykz-Gm-skT"/>
+                <constraint firstAttribute="bottom" secondItem="9iO-cK-3UB" secondAttribute="bottom" id="ZaW-Gv-rm4"/>
+                <constraint firstAttribute="trailing" secondItem="O8h-bQ-ZK8" secondAttribute="trailing" constant="20" id="m1m-M7-tKT"/>
+                <constraint firstItem="9iO-cK-3UB" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="sHm-q3-PrJ"/>
+            </constraints>
+            <size key="customSize" width="393" height="254"/>
+            <connections>
+                <outlet property="avatarImageView" destination="9iO-cK-3UB" id="EVu-SY-baK"/>
+                <outlet property="joinedDateLabel" destination="NGG-vt-AMI" id="zGq-tD-400"/>
+                <outlet property="locationLabel" destination="O8h-bQ-ZK8" id="KRV-fd-AVq"/>
+                <outlet property="nameLabel" destination="g9S-Zs-82d" id="VgN-iJ-P4Y"/>
+            </connections>
+            <point key="canvasLocation" x="235.5" y="296"/>
+        </collectionViewCell>
+    </objects>
+</document>

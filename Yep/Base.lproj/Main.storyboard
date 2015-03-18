@@ -91,9 +91,35 @@
                     <view key="view" contentMode="scaleToFill" id="i2Z-NU-5Yq">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="VZO-hp-fyU" userLabel="Profile Collection View">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="0.0" id="WvZ-fD-rR0">
+                                    <size key="itemSize" width="141" height="116"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="AyC-pt-NR2" id="Ncz-by-6sf"/>
+                                    <outlet property="delegate" destination="AyC-pt-NR2" id="j2k-7a-66r"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="VZO-hp-fyU" firstAttribute="top" secondItem="i2Z-NU-5Yq" secondAttribute="top" id="2n3-L6-Rzr"/>
+                            <constraint firstAttribute="bottom" secondItem="VZO-hp-fyU" secondAttribute="bottom" id="5Xv-rO-oXy"/>
+                            <constraint firstAttribute="trailing" secondItem="VZO-hp-fyU" secondAttribute="trailing" id="Ag4-p9-ng1"/>
+                            <constraint firstItem="VZO-hp-fyU" firstAttribute="leading" secondItem="i2Z-NU-5Yq" secondAttribute="leading" id="EIq-yc-gkc"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="4pO-kT-amp"/>
+                    <connections>
+                        <outlet property="profileCollectionView" destination="VZO-hp-fyU" id="xat-9E-RVG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
