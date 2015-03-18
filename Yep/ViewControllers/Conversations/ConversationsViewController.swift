@@ -61,6 +61,12 @@ class ConversationsViewController: UIViewController {
 
         conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         conversationsTableView.rowHeight = 80
+
+        // for test
+        unreadMessages { result in
+            println("unreadMessages result: \(result)")
+        }
+
     }
 }
 

@@ -125,21 +125,10 @@ func encodeJSON(dict: JSONDictionary) -> NSData? {
 }
 
 public func jsonResource<A>(#path: String, #method: Method, #requestParameters: JSONDictionary, #parse: JSONDictionary -> A?) -> Resource<A> {
-
-    let jsonParse: NSData -> A? = { data in
-        if let json = decodeJSON(data) {
-            return parse(json)
-        }
-        return nil
-    }
-
-    let jsonBody = encodeJSON(requestParameters)
-    let headers = ["Content-Type": "application/json"]
-
-    return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
+    return authJsonResource(token: nil, path: path, method: method, requestParameters: requestParameters, parse: parse)
 }
 
-public func authJsonResource<A>(#token: String, #path: String, #method: Method, #requestParameters: JSONDictionary, #parse: JSONDictionary -> A?) -> Resource<A> {
+public func authJsonResource<A>(#token: String?, #path: String, #method: Method, #requestParameters: JSONDictionary, #parse: JSONDictionary -> A?) -> Resource<A> {
     
     let jsonParse: NSData -> A? = { data in
         if let json = decodeJSON(data) {
@@ -149,10 +138,12 @@ public func authJsonResource<A>(#token: String, #path: String, #method: Method, 
     }
 
     let jsonBody = encodeJSON(requestParameters)
-    let headers = [
+    var headers = [
         "Content-Type": "application/json",
-        "Authorization": "Token token=\"\(token)\""
     ]
+    if let token = token {
+        headers["Authorization"] = "Token token=\"\(token)\""
+    }
 
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
 }

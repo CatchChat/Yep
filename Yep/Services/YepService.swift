@@ -94,13 +94,12 @@ func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: S
     }
 }
 
-let token = "dU2RB4yLamAsJ-xmJ-8o1426583271.9158425"
-
 func unreadMessages(#completion: JSONDictionary -> ()) {
     let parse: JSONDictionary -> JSONDictionary? = { data in
         return data
     }
 
+    let token = YepUserDefaults.v1AccessToken()
     let resource = authJsonResource(token: token, path: "v1/messages/unread", method: .GET, requestParameters: [:], parse: parse)
 
     apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
