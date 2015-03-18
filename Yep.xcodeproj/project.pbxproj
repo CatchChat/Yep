@@ -49,6 +49,7 @@
 		502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502AE5521AB93215005BD199 /* ProfileFooterCell.xib */; };
 		502AE5581AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5561AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift */; };
 		502AE5591AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502AE5571AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib */; };
+		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +109,7 @@
 		502AE5521AB93215005BD199 /* ProfileFooterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileFooterCell.xib; path = Views/Cells/ProfileFooter/ProfileFooterCell.xib; sourceTree = "<group>"; };
 		502AE5561AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSectionHeaderReusableView.swift; path = Views/ReusableViews/ProfileSectionHeader/ProfileSectionHeaderReusableView.swift; sourceTree = "<group>"; };
 		502AE5571AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSectionHeaderReusableView.xib; path = Views/ReusableViews/ProfileSectionHeader/ProfileSectionHeaderReusableView.xib; sourceTree = "<group>"; };
+		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -255,6 +257,7 @@
 				502AE5221AB71C82005BD199 /* Buttons */,
 				502AE52F1AB8387D005BD199 /* TextFields */,
 				502AE5471AB89A73005BD199 /* ReusableViews */,
+				5099B9C51AB95111002F940B /* Rank */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -412,6 +415,14 @@
 			name = ProfileSectionHeader;
 			sourceTree = "<group>";
 		};
+		5099B9C51AB95111002F940B /* Rank */ = {
+			isa = PBXGroup;
+			children = (
+				5099B9C31AB9510D002F940B /* RankView.swift */,
+			);
+			name = Rank;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -524,6 +535,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5099B9C41AB9510D002F940B /* RankView.swift in Sources */,
 				502AE5311AB85067005BD199 /* RegisterPickMobileViewController.swift in Sources */,
 				502AE5581AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift in Sources */,
 				502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */,

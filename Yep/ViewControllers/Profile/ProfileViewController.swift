@@ -75,9 +75,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return cell
         case ProfileSection.Master.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillRanckCellIdentifier, forIndexPath: indexPath) as! SkillRankCell
+            cell.rankView.barColor = UIColor.skillMasterColor()
             return cell
         case ProfileSection.Learning.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillRanckCellIdentifier, forIndexPath: indexPath) as! SkillRankCell
+            cell.rankView.barColor = UIColor.skillLearningColor()
             return cell
         case ProfileSection.Footer.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(footerCellIdentifier, forIndexPath: indexPath) as! ProfileFooterCell

@@ -11,7 +11,7 @@ import UIKit
 class SkillRankCell: UICollectionViewCell {
 
     @IBOutlet weak var skillLabel: UILabel!
-    @IBOutlet weak var rankView: UIView!
+    @IBOutlet weak var rankView: RankView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
