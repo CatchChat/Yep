@@ -39,6 +39,13 @@ class ProfileViewController: UIViewController {
 
     @IBOutlet weak var profileCollectionView: UICollectionView!
 
+    lazy var footerCellHeight: CGFloat = {
+        let attributes = [NSFontAttributeName: profileIntroductionLabelFont]
+        let labelWidth = screenWidth - (profileIntroductionLabelLeadingSpaceToContainer + profileIntroductionLabelTrailingSpaceToContainer)
+        let rect = introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes:attributes, context:nil)
+        return ceil(rect.height)
+        }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -200,12 +207,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return CGSizeMake(cellWidth, cellHeight)
 
         case ProfileSection.Footer.rawValue:
-
-            let attributes = [NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 12)!]
-            let labelWidth = screenWidth - (profileIntroductionLabelLeadingSpaceToContainer + profileIntroductionLabelTrailingSpaceToContainer)
-            let rect = introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes:attributes, context:nil)
-
-            return CGSizeMake(screenWidth, ceil(rect.height))
+            return CGSizeMake(screenWidth, footerCellHeight)
 
         default:
             return CGSizeZero

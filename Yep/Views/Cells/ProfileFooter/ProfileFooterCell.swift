@@ -10,12 +10,12 @@ import UIKit
 
 let profileIntroductionLabelLeadingSpaceToContainer: CGFloat = 20
 let profileIntroductionLabelTrailingSpaceToContainer: CGFloat = 20
+let profileIntroductionLabelFont = UIFont(name: "HelveticaNeue-Thin", size: 12)!
 
 class ProfileFooterCell: UICollectionViewCell {
 
     @IBOutlet weak var instroductionLabelLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var instroductionLabelRightConstraint: NSLayoutConstraint!
-
 
     @IBOutlet weak var introductionLabel: UILabel!
     
@@ -24,6 +24,8 @@ class ProfileFooterCell: UICollectionViewCell {
 
         instroductionLabelLeftConstraint.constant = profileIntroductionLabelLeadingSpaceToContainer
         instroductionLabelRightConstraint.constant = profileIntroductionLabelTrailingSpaceToContainer
+
+        introductionLabel.font = profileIntroductionLabelFont
     }
 
 }
