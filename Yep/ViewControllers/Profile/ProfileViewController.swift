@@ -8,41 +8,46 @@
 
 import UIKit
 
-let skillRanckCellIdentifier = "SkillRankCell"
-let headerCellIdentifier = "ProfileHeaderCell"
-let footerCellIdentifier = "ProfileFooterCell"
-let sectionHeaderIdentifier = "ProfileSectionHeaderReusableView"
-let sectionFooterIdentifier = "ProfileSectionFooterReusableView"
-
-let screenWidth = UIScreen.mainScreen().bounds.width
-let sectionLeftEdgeInset: CGFloat = 20
-let sectionRightEdgeInset = sectionLeftEdgeInset
-let sectionBottomEdgeInset: CGFloat = 20
-let cellWidth = (screenWidth - (sectionLeftEdgeInset + sectionRightEdgeInset)) / 3
-let cellHeight: CGFloat = 40
-let avatarAspectRatio: CGFloat = 10.0 / 16.0
-
-let introductionText = "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
-
-let masterSkills = [
-    ["skill":"iOS Dev", "rank":3],
-    ["skill":"Linux", "rank":2],
-    ["skill":"Cook", "rank":1],
-]
-
-let learningSkills = [
-    ["skill":"Design", "rank":1],
-    ["skill":"Speech", "rank":0],
-]
-
 class ProfileViewController: UIViewController {
 
     @IBOutlet weak var profileCollectionView: UICollectionView!
 
+    let skillRanckCellIdentifier = "SkillRankCell"
+    let headerCellIdentifier = "ProfileHeaderCell"
+    let footerCellIdentifier = "ProfileFooterCell"
+    let sectionHeaderIdentifier = "ProfileSectionHeaderReusableView"
+    let sectionFooterIdentifier = "ProfileSectionFooterReusableView"
+
+    lazy var collectionViewWidth: CGFloat = {
+        return CGRectGetWidth(self.profileCollectionView.bounds)
+        }()
+    lazy var sectionLeftEdgeInset: CGFloat = { return 20 }()
+    lazy var sectionRightEdgeInset: CGFloat = { return 20 }()
+    lazy var sectionBottomEdgeInset: CGFloat = { return 20 }()
+
+    lazy var cellWidth: CGFloat = {
+        return (self.collectionViewWidth - (self.sectionLeftEdgeInset + self.sectionRightEdgeInset)) / 3
+        }()
+    let cellHeight: CGFloat = 40
+    let avatarAspectRatio: CGFloat = 10.0 / 16.0
+
+    let introductionText = "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
+
+    let masterSkills = [
+        ["skill":"iOS Dev", "rank":3],
+        ["skill":"Linux", "rank":2],
+        ["skill":"Cook", "rank":1],
+    ]
+
+    let learningSkills = [
+        ["skill":"Design", "rank":1],
+        ["skill":"Speech", "rank":0],
+    ]
+
     lazy var footerCellHeight: CGFloat = {
         let attributes = [NSFontAttributeName: profileIntroductionLabelFont]
-        let labelWidth = screenWidth - (profileIntroductionLabelLeadingSpaceToContainer + profileIntroductionLabelTrailingSpaceToContainer)
-        let rect = introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes:attributes, context:nil)
+        let labelWidth = self.collectionViewWidth - (profileIntroductionLabelLeadingSpaceToContainer + profileIntroductionLabelTrailingSpaceToContainer)
+        let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes:attributes, context:nil)
         return ceil(rect.height)
         }()
 
@@ -54,6 +59,8 @@ class ProfileViewController: UIViewController {
         profileCollectionView.registerNib(UINib(nibName: footerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: footerCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: sectionHeaderIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: sectionHeaderIdentifier)
         profileCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: sectionFooterIdentifier)
+
+        profileCollectionView.alwaysBounceVertical = true
 
     }
 
@@ -198,7 +205,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         switch indexPath.section {
 
         case ProfileSection.Header.rawValue:
-            return CGSizeMake(screenWidth, screenWidth * avatarAspectRatio)
+            return CGSizeMake(collectionViewWidth, collectionViewWidth * avatarAspectRatio)
 
         case ProfileSection.Master.rawValue:
             return CGSizeMake(cellWidth, cellHeight)
@@ -207,7 +214,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return CGSizeMake(cellWidth, cellHeight)
 
         case ProfileSection.Footer.rawValue:
-            return CGSizeMake(screenWidth, footerCellHeight)
+            return CGSizeMake(collectionViewWidth, footerCellHeight)
 
         default:
             return CGSizeZero
@@ -217,15 +224,15 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
         if section == ProfileSection.Header.rawValue {
-            return CGSizeMake(screenWidth, 0)
+            return CGSizeMake(collectionViewWidth, 0)
 
         } else {
-            return CGSizeMake(screenWidth, cellHeight)
+            return CGSizeMake(collectionViewWidth, cellHeight)
         }
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSizeMake(screenWidth, 0)
+        return CGSizeMake(collectionViewWidth, 0)
     }
 }
 
