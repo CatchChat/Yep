@@ -8,13 +8,22 @@
 
 import UIKit
 
+let profileIntroductionLabelLeadingSpaceToContainer: CGFloat = 20
+let profileIntroductionLabelTrailingSpaceToContainer: CGFloat = 20
+
 class ProfileFooterCell: UICollectionViewCell {
+
+    @IBOutlet weak var instroductionLabelLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var instroductionLabelRightConstraint: NSLayoutConstraint!
+
 
     @IBOutlet weak var introductionLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        instroductionLabelLeftConstraint.constant = profileIntroductionLabelLeadingSpaceToContainer
+        instroductionLabelRightConstraint.constant = profileIntroductionLabelTrailingSpaceToContainer
     }
 
 }

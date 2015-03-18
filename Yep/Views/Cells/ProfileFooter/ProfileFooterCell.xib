@@ -12,7 +12,7 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Yw-Z7-Wv4">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Yw-Z7-Wv4" userLabel="Introduction Label">
                         <rect key="frame" x="20" y="11" width="280" height="29"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="12"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -22,12 +22,14 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="5Yw-Z7-Wv4" secondAttribute="trailing" constant="20" id="1L7-Px-Qtp"/>
-                <constraint firstAttribute="centerY" secondItem="5Yw-Z7-Wv4" secondAttribute="centerY" id="wjT-t7-vno"/>
-                <constraint firstItem="5Yw-Z7-Wv4" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="wyd-hx-NA8"/>
+                <constraint firstAttribute="centerY" secondItem="5Yw-Z7-Wv4" secondAttribute="centerY" constant="-0.5" id="5sP-Cg-pnW"/>
+                <constraint firstAttribute="trailing" secondItem="5Yw-Z7-Wv4" secondAttribute="trailing" constant="20" id="Grg-4P-8QR"/>
+                <constraint firstItem="5Yw-Z7-Wv4" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="HPJ-WR-pZU"/>
             </constraints>
             <size key="customSize" width="320" height="50"/>
             <connections>
+                <outlet property="instroductionLabelLeftConstraint" destination="HPJ-WR-pZU" id="jFC-zO-l0X"/>
+                <outlet property="instroductionLabelRightConstraint" destination="Grg-4P-8QR" id="UCI-Hb-Phd"/>
                 <outlet property="introductionLabel" destination="5Yw-Z7-Wv4" id="2To-TB-hWM"/>
             </connections>
             <point key="canvasLocation" x="237" y="285"/>

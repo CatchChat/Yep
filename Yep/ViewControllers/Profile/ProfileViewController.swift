@@ -19,6 +19,8 @@ let sectionLeftEdgeInset: CGFloat = 20
 let sectionRightEdgeInset = sectionLeftEdgeInset
 let sectionBottomEdgeInset: CGFloat = 20
 let cellWidth = (screenWidth - (sectionLeftEdgeInset + sectionRightEdgeInset)) / 3
+let cellHeight: CGFloat = 40
+let avatarAspectRatio: CGFloat = 10.0 / 16.0
 
 let introductionText = "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
 
@@ -54,61 +56,91 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
         switch section {
+
         case ProfileSection.Header.rawValue:
             return 1
+
         case ProfileSection.Master.rawValue:
             return 5
+
         case ProfileSection.Learning.rawValue:
             return 2
+
         case ProfileSection.Footer.rawValue:
             return 1
+
         default:
             return 0
         }
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+
         switch indexPath.section {
+
         case ProfileSection.Header.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! ProfileHeaderCell
+
+            cell.nameLabel.text = YepUserDefaults.nickname()
+
             return cell
+
         case ProfileSection.Master.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillRanckCellIdentifier, forIndexPath: indexPath) as! SkillRankCell
+
             cell.rankView.barColor = UIColor.skillMasterColor()
+
             return cell
+
         case ProfileSection.Learning.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillRanckCellIdentifier, forIndexPath: indexPath) as! SkillRankCell
+
             cell.rankView.barColor = UIColor.skillLearningColor()
+
             return cell
+
         case ProfileSection.Footer.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(footerCellIdentifier, forIndexPath: indexPath) as! ProfileFooterCell
+
             cell.introductionLabel.text = introductionText
+
             return cell
+
         default:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillRanckCellIdentifier, forIndexPath: indexPath) as! SkillRankCell
+
             return cell
         }
     }
 
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+
         if kind == UICollectionElementKindSectionHeader {
+
             let header = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: sectionHeaderIdentifier, forIndexPath: indexPath) as! ProfileSectionHeaderReusableView
 
             switch indexPath.section {
+
             case ProfileSection.Header.rawValue:
                 header.titleLabel.text = ""
+
             case ProfileSection.Master.rawValue:
                 header.titleLabel.text = NSLocalizedString("Master", comment: "")
+
             case ProfileSection.Learning.rawValue:
                 header.titleLabel.text = NSLocalizedString("Learning", comment: "")
+
             case ProfileSection.Footer.rawValue:
                 header.titleLabel.text = NSLocalizedString("Introduction", comment: "")
+
             default:
                 header.titleLabel.text = ""
             }
 
             return header
+
         } else {
             let footer = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: sectionFooterIdentifier, forIndexPath: indexPath) as! UICollectionReusableView
             return footer
@@ -116,44 +148,59 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+
         switch section {
+
         case ProfileSection.Header.rawValue:
             return UIEdgeInsets(top: 0, left: 0, bottom: sectionBottomEdgeInset, right: 0)
+
         case ProfileSection.Master.rawValue:
             return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: sectionBottomEdgeInset, right: sectionRightEdgeInset)
+
         case ProfileSection.Learning.rawValue:
             return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: sectionBottomEdgeInset, right: sectionRightEdgeInset)
+
         case ProfileSection.Footer.rawValue:
             return UIEdgeInsets(top: 0, left: 0, bottom: sectionBottomEdgeInset, right: 0)
+
         default:
             return UIEdgeInsetsZero
         }
     }
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+
         switch indexPath.section {
+
         case ProfileSection.Header.rawValue:
-            return CGSizeMake(screenWidth, 250)
+            return CGSizeMake(screenWidth, screenWidth * avatarAspectRatio)
+
         case ProfileSection.Master.rawValue:
-            return CGSizeMake(cellWidth, 40)
+            return CGSizeMake(cellWidth, cellHeight)
+
         case ProfileSection.Learning.rawValue:
-            return CGSizeMake(cellWidth, 40)
+            return CGSizeMake(cellWidth, cellHeight)
+
         case ProfileSection.Footer.rawValue:
 
             let attributes = [NSFontAttributeName: UIFont(name: "HelveticaNeue-Thin", size: 12)!]
-            let rect = introductionText.boundingRectWithSize(CGSize(width: screenWidth - 20*2, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes:attributes, context:nil)
+            let labelWidth = screenWidth - (profileIntroductionLabelLeadingSpaceToContainer + profileIntroductionLabelTrailingSpaceToContainer)
+            let rect = introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes:attributes, context:nil)
 
             return CGSizeMake(screenWidth, ceil(rect.height))
+
         default:
-            return CGSizeMake(cellWidth, 40)
+            return CGSizeZero
         }
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+
         if section == ProfileSection.Header.rawValue {
             return CGSizeMake(screenWidth, 0)
+
         } else {
-            return CGSizeMake(screenWidth, 40)
+            return CGSizeMake(screenWidth, cellHeight)
         }
     }
 
