@@ -24,6 +24,16 @@ let avatarAspectRatio: CGFloat = 10.0 / 16.0
 
 let introductionText = "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
 
+let masterSkills = [
+    ["skill":"iOS Dev", "rank":3],
+    ["skill":"Linux", "rank":2],
+    ["skill":"Cook", "rank":1],
+]
+
+let learningSkills = [
+    ["skill":"Design", "rank":1],
+    ["skill":"Speech", "rank":0],
+]
 
 class ProfileViewController: UIViewController {
 
@@ -63,7 +73,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return 1
 
         case ProfileSection.Master.rawValue:
-            return 5
+            return 3
 
         case ProfileSection.Learning.rawValue:
             return 2
@@ -92,12 +102,20 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             cell.rankView.barColor = UIColor.skillMasterColor()
 
+            let skillInfo = masterSkills[indexPath.row % masterSkills.count]
+            cell.skillLabel.text = skillInfo["skill"] as? String
+            cell.rankView.rank = skillInfo["rank"] as! Int
+
             return cell
 
         case ProfileSection.Learning.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillRanckCellIdentifier, forIndexPath: indexPath) as! SkillRankCell
 
             cell.rankView.barColor = UIColor.skillLearningColor()
+
+            let skillInfo = learningSkills[indexPath.row % learningSkills.count]
+            cell.skillLabel.text = skillInfo["skill"] as? String
+            cell.rankView.rank = skillInfo["rank"] as! Int
 
             return cell
 

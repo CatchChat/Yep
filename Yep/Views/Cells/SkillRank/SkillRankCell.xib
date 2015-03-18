@@ -19,7 +19,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nCG-hS-MFu" userLabel="Rank View" customClass="RankView" customModule="Yep" customModuleProvider="target">
-                        <rect key="frame" x="29" y="18" width="15" height="15"/>
+                        <rect key="frame" x="24" y="16" width="15" height="15"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="15" id="Vno-Jh-muh"/>
                             <constraint firstAttribute="height" constant="15" id="eem-1W-RUh"/>
@@ -29,8 +29,8 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstItem="nCG-hS-MFu" firstAttribute="leading" secondItem="ZT8-FU-8G4" secondAttribute="trailing" constant="10" id="MkA-Na-XGT"/>
-                <constraint firstItem="ZT8-FU-8G4" firstAttribute="bottom" secondItem="nCG-hS-MFu" secondAttribute="bottom" id="ZZh-gi-bXf"/>
+                <constraint firstItem="nCG-hS-MFu" firstAttribute="leading" secondItem="ZT8-FU-8G4" secondAttribute="trailing" constant="5" id="MkA-Na-XGT"/>
+                <constraint firstItem="ZT8-FU-8G4" firstAttribute="bottom" secondItem="nCG-hS-MFu" secondAttribute="bottom" constant="2" id="ZZh-gi-bXf"/>
                 <constraint firstAttribute="centerY" secondItem="ZT8-FU-8G4" secondAttribute="centerY" id="dPn-w2-WCw"/>
                 <constraint firstItem="ZT8-FU-8G4" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="xdn-IR-qTo"/>
             </constraints>
