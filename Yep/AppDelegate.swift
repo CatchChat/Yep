@@ -19,21 +19,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         customAppearce()
 
-//        let isLogined: Bool
-//        if let v1AccessToken = YepUserDefaults.v1AccessToken() {
-//            isLogined = true
-//        } else {
-//            isLogined = false
-//        }
-//
-//        if !isLogined {
-//            startIntroStory()
-//        }
+        let isLogined: Bool
+        if let v1AccessToken = YepUserDefaults.v1AccessToken() {
+            isLogined = true
+        } else {
+            isLogined = false
+        }
 
+        if !isLogined {
+            startIntroStory()
+        }
+
+        /*
         let storyboard = UIStoryboard(name: "Intro", bundle: nil)
         let rootViewController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickAvatarViewController") as! RegisterPickAvatarViewController
         window?.rootViewController = rootViewController
-
+        */
 
         return true
     }

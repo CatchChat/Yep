@@ -51,11 +51,47 @@ class RegisterVerifyMobileViewController: UIViewController {
     }
 
     @IBAction func next(sender: UIButton) {
-        //showRegisterPickMobile()
+        verifyRegisterMobile()
     }
 
-    private func register() {
-        
+    private func verifyRegisterMobile() {
+
+        view.endEditing(true)
+
+        let verifyCode = verifyCodeTextField.text
+        verifyMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (resource, reason, data) in
+            defaultFailureHandler(forResource: resource, withFailureReason: reason, data)
+
+            if let errorMessage = errorMessageInData(data) {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.nextButton.enabled = false
+
+                    YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
+                        verifyCodeTextField.becomeFirstResponder()
+                    })
+                })
+            }
+
+        }, completion: { loginUser in
+
+            println("\(loginUser)")
+
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+
+                self.saveTokenAndUserInfoOfLoginUser(loginUser)
+
+                self.performSegueWithIdentifier("showRegisterPickAvatar", sender: nil)
+            })
+        })
+    }
+
+    private func saveTokenAndUserInfoOfLoginUser(loginUser: LoginUser) {
+        YepUserDefaults.setV1AccessToken(loginUser.accessToken)
+        YepUserDefaults.setUserID(loginUser.userID)
+        YepUserDefaults.setNickname(loginUser.nickname)
+        if let avatarURLString = loginUser.avatarURLString {
+            YepUserDefaults.setAvatarURLString(avatarURLString)
+        }
     }
 
 }
@@ -64,7 +100,7 @@ extension RegisterVerifyMobileViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if !textField.text.isEmpty {
-            //showRegisterPickMobile()
+            verifyRegisterMobile()
         }
 
         return true

@@ -10,6 +10,17 @@ import Foundation
 
 let baseURL = NSURL(string: "http://park.catchchatchina.com")!
 
+struct LoginUser: Printable {
+    let accessToken: String
+    let userID: String
+    let nickname: String
+    let avatarURLString: String?
+
+    var description: String {
+        return "LoginUser(accessToken: \(accessToken), userID: \(userID), nickname: \(nickname), avatarURLString: \(avatarURLString))"
+    }
+}
+
 func errorMessageInData(data: NSData?) -> String? {
     if let data = data {
         if let json = decodeJSON(data) {
@@ -81,6 +92,40 @@ func registerMobile(mobile: String, withAreaCode areaCode: String, #nickname: St
     }
 }
 
+func verifyMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: String, #failureHandler: ((Resource<LoginUser>, Reason, NSData?) -> ())?, #completion: LoginUser -> Void) {
+    let requestParameters: JSONDictionary = [
+        "mobile": mobile,
+        "phone_code": areaCode,
+        "token": verifyCode,
+        "client": YepConfig.clientType(),
+        "expiring": 0, // 永不过期
+    ]
+
+    let parse: JSONDictionary -> LoginUser? = { data in
+
+        if let accessToken = data["access_token"] as? String {
+            if let user = data["user"] as? [String: AnyObject] {
+                if
+                    let userID = user["id"] as? String,
+                    let nickname = user["nickname"] as? String {
+                        let avatarURLString = user["avatar_url"] as? String
+                        return LoginUser(accessToken: accessToken, userID: userID, nickname: nickname, avatarURLString: avatarURLString)
+                }
+            }
+        }
+
+        return nil
+    }
+
+    let resource = jsonResource(path: "/api/v1/registration/update", method: .PUT, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
 // MARK: Login
 
 func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #failureHandler: ((Resource<Bool>, Reason, NSData?) -> ())?, #completion: Bool -> Void) {
@@ -106,17 +151,6 @@ func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #fai
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)
     } else {
         apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
-    }
-}
-
-struct LoginUser: Printable {
-    let accessToken: String
-    let userID: String
-    let nickname: String
-    let avatarURLString: String?
-
-    var description: String {
-        return "LoginUser(accessToken: \(accessToken), userID: \(userID), nickname: \(nickname), avatarURLString: \(avatarURLString))"
     }
 }
 
