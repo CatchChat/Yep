@@ -85,4 +85,61 @@ extension UIImage {
 
         return roundImage
     }
+
+    func fixRotation() -> UIImage {
+        if self.imageOrientation == .Up {
+            return self
+        }
+
+        let width = self.size.width
+        let height = self.size.height
+
+        var transform = CGAffineTransformIdentity
+
+        switch self.imageOrientation {
+        case .Down, .DownMirrored:
+            transform = CGAffineTransformTranslate(transform, width, height)
+            transform = CGAffineTransformRotate(transform, CGFloat(M_PI))
+
+        case .Left, .LeftMirrored:
+            transform = CGAffineTransformTranslate(transform, width, 0)
+            transform = CGAffineTransformRotate(transform, CGFloat(M_PI_2))
+
+        case .Right, .RightMirrored:
+            transform = CGAffineTransformTranslate(transform, 0, height)
+            transform = CGAffineTransformRotate(transform, CGFloat(-M_PI_2))
+
+        default:
+            break
+        }
+
+        switch self.imageOrientation {
+        case .UpMirrored, .DownMirrored:
+            transform = CGAffineTransformTranslate(transform, width, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+
+        case .LeftMirrored, .RightMirrored:
+            transform = CGAffineTransformTranslate(transform, height, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+
+        default:
+            break
+        }
+
+        let selfCGImage = self.CGImage
+        var context = CGBitmapContextCreate(nil, Int(width), Int(height), CGImageGetBitsPerComponent(selfCGImage), 0, CGImageGetColorSpace(selfCGImage), CGImageGetBitmapInfo(selfCGImage));
+
+        CGContextConcatCTM(context, transform)
+
+        switch self.imageOrientation {
+        case .Left, .LeftMirrored, .Right, .RightMirrored:
+            CGContextDrawImage(context, CGRectMake(0,0, height, width), selfCGImage)
+
+        default:
+            CGContextDrawImage(context, CGRectMake(0,0, width, height), selfCGImage)
+        }
+
+        let cgImage = CGBitmapContextCreateImage(context)
+        return UIImage(CGImage: cgImage)!
+    }
 }

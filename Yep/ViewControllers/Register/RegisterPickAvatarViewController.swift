@@ -20,6 +20,12 @@ class RegisterPickAvatarViewController: UIViewController {
     @IBOutlet weak var captureButton: UIButton!
     @IBOutlet weak var retakeButton: UIButton!
 
+    var avatar = UIImage() {
+        willSet {
+            avatarImageView.image = newValue
+        }
+    }
+
     enum PickAvatarState {
         case Default
         case CameraOpen
@@ -132,7 +138,9 @@ class RegisterPickAvatarViewController: UIViewController {
 
     private func openCamera() {
 
-        pickAvatarState = .CameraOpen
+        dispatch_async(dispatch_get_main_queue()) {
+            self.pickAvatarState = .CameraOpen
+        }
 
         dispatch_async(sessionQueue) {
 
@@ -162,7 +170,24 @@ class RegisterPickAvatarViewController: UIViewController {
         if pickAvatarState == .Captured {
 
         } else {
-            pickAvatarState = .Captured
+            dispatch_async(sessionQueue) {
+                self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(self.stillImageOutput.connectionWithMediaType(self.mediaType
+                    ), completionHandler: { (imageDataSampleBuffer, error) -> Void in
+                        if error == nil {
+                            let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
+                            var image = UIImage(data: data)!
+
+                            image = UIImage(CGImage: image.CGImage, scale: image.scale, orientation: .LeftMirrored)!
+
+                            image = image.fixRotation().largestCenteredSquareImage()
+
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self.avatar = image
+                                self.pickAvatarState = .Captured
+                            }
+                        }
+                })
+            }
         }
     }
 
