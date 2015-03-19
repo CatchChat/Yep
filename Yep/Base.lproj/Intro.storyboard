@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7525" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7516"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Welcome View Controller-->
@@ -355,11 +356,70 @@
                         <outlet property="nextButton" destination="yzY-RW-Wmy" id="Ipu-4m-7Qz"/>
                         <outlet property="verifyCodeTextField" destination="nGo-Vv-zCO" id="nqn-o4-aYw"/>
                         <outlet property="verifyMobileNumberPromptLabel" destination="31u-94-iEu" id="sWK-YD-CQ3"/>
+                        <segue destination="9hR-GW-qJG" kind="show" identifier="showRegisterPickAvatar" id="Id6-b0-9oq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8F6-GG-ikl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3373" y="388"/>
+        </scene>
+        <!--Register Pick Avatar View Controller-->
+        <scene sceneID="UoI-N1-e8N">
+            <objects>
+                <viewController storyboardIdentifier="RegisterPickAvatarViewController" id="9hR-GW-qJG" customClass="RegisterPickAvatarViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Z4g-rM-AaZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="EWy-zw-rkQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="whs-nq-ehF">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e0h-Ho-j4F" userLabel="Avatar Container View">
+                                <rect key="frame" x="220" y="70" width="160" height="160"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qI7-tW-94Q" userLabel="Avatar Image View">
+                                        <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                        <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AEj-wj-Yl6" userLabel="Camera Preview View" customClass="CameraPreviewView" customModule="Yep" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="e0h-Ho-j4F" secondAttribute="height" multiplier="1:1" id="4QS-SN-mBg"/>
+                                    <constraint firstAttribute="bottom" secondItem="qI7-tW-94Q" secondAttribute="bottom" id="7eq-yF-SSc"/>
+                                    <constraint firstItem="qI7-tW-94Q" firstAttribute="top" secondItem="e0h-Ho-j4F" secondAttribute="top" id="M0l-S3-YLc"/>
+                                    <constraint firstAttribute="width" constant="160" id="Qy1-av-hVD"/>
+                                    <constraint firstItem="qI7-tW-94Q" firstAttribute="leading" secondItem="e0h-Ho-j4F" secondAttribute="leading" id="X2u-QV-HAs"/>
+                                    <constraint firstItem="AEj-wj-Yl6" firstAttribute="top" secondItem="e0h-Ho-j4F" secondAttribute="top" id="Yeu-ld-bf9"/>
+                                    <constraint firstAttribute="bottom" secondItem="AEj-wj-Yl6" secondAttribute="bottom" id="bc1-Nd-37M"/>
+                                    <constraint firstAttribute="trailing" secondItem="AEj-wj-Yl6" secondAttribute="trailing" id="ijf-DT-M4i"/>
+                                    <constraint firstItem="AEj-wj-Yl6" firstAttribute="leading" secondItem="e0h-Ho-j4F" secondAttribute="leading" id="rGI-Vm-wkz"/>
+                                    <constraint firstAttribute="trailing" secondItem="qI7-tW-94Q" secondAttribute="trailing" id="zbh-9N-n56"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="80"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="e0h-Ho-j4F" firstAttribute="top" secondItem="Z4g-rM-AaZ" secondAttribute="bottom" constant="50" id="Okw-OW-FJ5"/>
+                            <constraint firstAttribute="centerX" secondItem="e0h-Ho-j4F" secondAttribute="centerX" id="vzQ-Z9-TSa"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="avatarImageView" destination="qI7-tW-94Q" id="Psb-GV-kDf"/>
+                        <outlet property="cameraPreviewView" destination="AEj-wj-Yl6" id="6jR-bI-rj7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rwD-fg-Cys" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4166" y="388"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="bAi-xi-FcJ">
