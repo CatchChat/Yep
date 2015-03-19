@@ -54,11 +54,51 @@ class RegisterPickMobileViewController: UIViewController {
 
 
     @IBAction func next(sender: UIButton) {
-        showRegisterVerifyMobile()
+        tryShowRegisterVerifyMobile()
     }
 
-    private func showRegisterVerifyMobile() {
-        performSegueWithIdentifier("showRegisterVerifyMobile", sender: nil)
+    private func tryShowRegisterVerifyMobile() {
+        
+        view.endEditing(true)
+        
+        let mobile = mobileNumberTextField.text
+        let areaCode = areaCodeTextField.text
+
+        validateMobile(mobile, withAreaCode: areaCode, failureHandler: nil) { (available, message) in
+            if available {
+                println("ValidateMobile: available")
+
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.performSegueWithIdentifier("showRegisterVerifyMobile", sender: ["mobile" : mobile, "areaCode": areaCode])
+                })
+
+            } else {
+                println("ValidateMobile: \(message)")
+
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.nextButton.enabled = false
+
+                    YepAlert.alertSorry(message: message, inViewController: self, withDismissAction: { () -> Void in
+                        mobileNumberTextField.becomeFirstResponder()
+                    })
+                })
+            }
+        }
+
+    }
+
+    // MARK: Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showRegisterVerifyMobile" {
+
+            if let info = sender as? [String: String] {
+                let vc = segue.destinationViewController as! RegisterVerifyMobileViewController
+
+                vc.mobile = info["mobile"]
+                vc.areaCode = info["areaCode"]
+            }
+        }
     }
 
 }
@@ -67,7 +107,7 @@ extension RegisterPickMobileViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if !textField.text.isEmpty {
-            showRegisterVerifyMobile()
+            tryShowRegisterVerifyMobile()
         }
 
         return true

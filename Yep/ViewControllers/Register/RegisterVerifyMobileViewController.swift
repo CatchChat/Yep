@@ -10,6 +10,10 @@ import UIKit
 
 class RegisterVerifyMobileViewController: UIViewController {
 
+    var mobile: String!
+    var areaCode: String!
+
+    
     @IBOutlet weak var verifyMobileNumberPromptLabel: UILabel!
 
     @IBOutlet weak var verifyCodeTextField: UnderLineTextField!
@@ -48,6 +52,10 @@ class RegisterVerifyMobileViewController: UIViewController {
 
     @IBAction func next(sender: UIButton) {
         //showRegisterPickMobile()
+    }
+
+    private func register() {
+        
     }
 
 }

@@ -56,6 +56,8 @@ class LoginVerifyMobileViewController: UIViewController {
 
     private func login() {
 
+        view.endEditing(true)
+        
         let verifyCode = verifyCodeTextField.text
 
         loginByMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (resource, reason, data) in
@@ -63,6 +65,8 @@ class LoginVerifyMobileViewController: UIViewController {
 
             if let errorMessage = errorMessageInData(data) {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.nextButton.enabled = false
+                    
                     YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
                         verifyCodeTextField.becomeFirstResponder()
                     })
