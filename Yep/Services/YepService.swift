@@ -55,6 +55,32 @@ func validateMobile(mobile: String, withAreaCode areaCode: String, #failureHandl
 
 }
 
+func registerMobile(mobile: String, withAreaCode areaCode: String, #nickname: String, #failureHandler: ((Resource<(Bool)>, Reason, NSData?) -> ())?, #completion: Bool -> Void) {
+    let requestParameters = [
+        "mobile": mobile,
+        "phone_code": areaCode,
+        "nickname": nickname,
+    ]
+
+    let parse: JSONDictionary -> Bool? = { data in
+        if let state = data["state"] as? String {
+            if state == "blocked" {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    let resource = jsonResource(path: "/api/v1/registration/create", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
 // MARK: Login
 
 func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #failureHandler: ((Resource<Bool>, Reason, NSData?) -> ())?, #completion: Bool -> Void) {

@@ -68,8 +68,32 @@ class RegisterPickMobileViewController: UIViewController {
             if available {
                 println("ValidateMobile: available")
 
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.performSegueWithIdentifier("showRegisterVerifyMobile", sender: ["mobile" : mobile, "areaCode": areaCode])
+                registerMobile(mobile, withAreaCode: areaCode, nickname: YepUserDefaults.nickname()!, failureHandler: { (resource, reason, data) in
+                    defaultFailureHandler(forResource: resource, withFailureReason: reason, data)
+
+                    if let errorMessage = errorMessageInData(data) {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
+                                mobileNumberTextField.becomeFirstResponder()
+                            })
+                        })
+                    }
+
+                }, completion: { created in
+                    if created {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.performSegueWithIdentifier("showRegisterVerifyMobile", sender: ["mobile" : mobile, "areaCode": areaCode])
+                        })
+
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.nextButton.enabled = false
+
+                            YepAlert.alertSorry(message: "registerMobile failed", inViewController: self, withDismissAction: { () -> Void in
+                                mobileNumberTextField.becomeFirstResponder()
+                            })
+                        })
+                    }
                 })
 
             } else {
