@@ -75,12 +75,65 @@ func defaultFailureHandler<A>(forResource resource:Resource<A>, withFailureReaso
     println("\n")
 }
 
-public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>, failure: (Resource<A>, Reason, NSData?) -> (), completion: A -> ()) {
+func queryComponents(key: String, value: AnyObject) -> [(String, String)] {
+    func escape(string: String) -> String {
+        let legalURLCharactersToBeEscaped: CFStringRef = ":/?&=;+!@#$()',*"
+        return CFURLCreateStringByAddingPercentEscapes(nil, string, nil, legalURLCharactersToBeEscaped, CFStringBuiltInEncodings.UTF8.rawValue) as! String
+    }
+
+    var components: [(String, String)] = []
+    if let dictionary = value as? [String: AnyObject] {
+        for (nestedKey, value) in dictionary {
+            components += queryComponents("\(key)[\(nestedKey)]", value)
+        }
+    } else if let array = value as? [AnyObject] {
+        for value in array {
+            components += queryComponents("\(key)[]", value)
+        }
+    } else {
+        components.extend([(escape(key), escape("\(value)"))])
+    }
+
+    return components
+}
+
+public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>, failure: (Resource<A>, Reason, NSData?) -> (), completion: A -> Void) {
     let session = NSURLSession.sharedSession()
     let url = baseURL.URLByAppendingPathComponent(resource.path)
     let request = NSMutableURLRequest(URL: url)
     request.HTTPMethod = resource.method.rawValue
-    request.HTTPBody = resource.requestBody
+
+
+    func needEncodesParametersForMethod(method: Method) -> Bool {
+        switch method {
+        case .GET, .HEAD, .DELETE:
+            return true
+        default:
+            return false
+        }
+    }
+
+    func query(parameters: [String: AnyObject]) -> String {
+        var components: [(String, String)] = []
+        for key in sorted(Array(parameters.keys), <) {
+            let value: AnyObject! = parameters[key]
+            components += queryComponents(key, value)
+        }
+
+        return join("&", components.map{"\($0)=\($1)"} as [String])
+    }
+
+    if needEncodesParametersForMethod(resource.method) {
+        if let requestBody = resource.requestBody {
+            if let URLComponents = NSURLComponents(URL: request.URL!, resolvingAgainstBaseURL: false) {
+                URLComponents.percentEncodedQuery = (URLComponents.percentEncodedQuery != nil ? URLComponents.percentEncodedQuery! + "&" : "") + query(decodeJSON(requestBody)!)
+                request.URL = URLComponents.URL
+            }
+        }
+
+    } else {
+        request.HTTPBody = resource.requestBody
+    }
 
     modifyRequest(request)
 
@@ -147,4 +200,3 @@ public func authJsonResource<A>(#token: String?, #path: String, #method: Method,
 
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
 }
-

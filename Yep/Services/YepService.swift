@@ -8,7 +8,7 @@
 
 import Foundation
 
-let baseURL = NSURL(string: "http://park.catchchatchina.com/api/")!
+let baseURL = NSURL(string: "http://park.catchchatchina.com")!
 
 func errorMessageInData(data: NSData?) -> String? {
     if let data = data {
@@ -22,7 +22,42 @@ func errorMessageInData(data: NSData?) -> String? {
     return nil
 }
 
-func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #failureHandler: ((Resource<Bool>, Reason, NSData?) -> ())?, #completion: Bool -> ()) {
+// MARK: Register
+
+func validateMobile(mobile: String, withAreaCode areaCode: String, #failureHandler: ((Resource<(Bool, String)>, Reason, NSData?) -> ())?, #completion: ((Bool, String)) -> Void) {
+    let requestParameters = [
+        "mobile": mobile,
+        "phone_code": areaCode,
+    ]
+
+    let parse: JSONDictionary -> (Bool, String)? = { data in
+        println("data: \(data)")
+        if let available = data["available"] as? Bool {
+            if available {
+                return (available, "")
+            } else {
+                if let message = data["message"] as? String {
+                    return (available, message)
+                }
+            }
+        }
+        
+        return (false, "")
+    }
+
+    let resource = jsonResource(path: "/api/v1/users/mobile_validate", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+
+}
+
+// MARK: Login
+
+func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #failureHandler: ((Resource<Bool>, Reason, NSData?) -> ())?, #completion: Bool -> Void) {
 
     let requestParameters = [
         "mobile": mobile,
@@ -39,7 +74,7 @@ func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #fai
         return false
     }
 
-    let resource = jsonResource(path: "v1/auth/send_verify_code", method: .POST, requestParameters: requestParameters, parse: parse)
+    let resource = jsonResource(path: "/api/v1/auth/send_verify_code", method: .POST, requestParameters: requestParameters, parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)
@@ -59,7 +94,7 @@ struct LoginUser: Printable {
     }
 }
 
-func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: String, #failureHandler: ((Resource<LoginUser>, Reason, NSData?) -> ())?, #completion: LoginUser -> ()) {
+func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: String, #failureHandler: ((Resource<LoginUser>, Reason, NSData?) -> ())?, #completion: LoginUser -> Void) {
 
     let requestParameters: JSONDictionary = [
         "mobile": mobile,
@@ -85,7 +120,7 @@ func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: S
         return nil
     }
 
-    let resource = jsonResource(path: "v1/auth/token_by_mobile", method: .POST, requestParameters: requestParameters, parse: parse)
+    let resource = jsonResource(path: "/api/v1/auth/token_by_mobile", method: .POST, requestParameters: requestParameters, parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)
@@ -94,13 +129,17 @@ func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: S
     }
 }
 
-func unreadMessages(#completion: JSONDictionary -> ()) {
+func unreadMessages(#completion: JSONDictionary -> Void) {
+    let requestParameters = [
+        "per_page": 100,
+    ]
+
     let parse: JSONDictionary -> JSONDictionary? = { data in
         return data
     }
 
     let token = YepUserDefaults.v1AccessToken()
-    let resource = authJsonResource(token: token, path: "v1/messages/unread", method: .GET, requestParameters: [:], parse: parse)
+    let resource = authJsonResource(token: token, path: "/api/v1/messages/unread", method: .GET, requestParameters: requestParameters, parse: parse)
 
     apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
 }
