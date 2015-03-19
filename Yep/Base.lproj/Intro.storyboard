@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7525" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7516"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -378,13 +379,11 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e0h-Ho-j4F" userLabel="Avatar Container View">
                                 <rect key="frame" x="220" y="70" width="160" height="160"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qI7-tW-94Q" userLabel="Avatar Image View">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar" translatesAutoresizingMaskIntoConstraints="NO" id="qI7-tW-94Q" userLabel="Avatar Image View">
                                         <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
-                                        <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AEj-wj-Yl6" userLabel="Camera Preview View" customClass="CameraPreviewView" customModule="Yep" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
-                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -406,15 +405,79 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i4k-kS-w32" userLabel="Cemera Roll Button">
+                                <rect key="frame" x="170" y="499" width="60" height="66"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="15"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="13" maxX="10" maxY="13"/>
+                                <state key="normal" image="button_camera_roll">
+                                    <color key="titleColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="tryOpenCameraRoll:" destination="9hR-GW-qJG" eventType="touchUpInside" id="AfG-fG-cV8"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uke-GF-N1u" userLabel="Capture Button">
+                                <rect key="frame" x="265" y="484" width="70" height="96"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="15"/>
+                                <inset key="contentEdgeInsets" minX="0.0" minY="13" maxX="0.0" maxY="13"/>
+                                <state key="normal" image="button_capture">
+                                    <color key="titleColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="captureOrFinish:" destination="9hR-GW-qJG" eventType="touchUpInside" id="Fcd-a5-K2s"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2pw-VA-qDr" userLabel="Retake Button">
+                                <rect key="frame" x="369" y="510" width="62" height="44"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="15"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="13" maxX="10" maxY="13"/>
+                                <state key="normal" title="Retake">
+                                    <color key="titleColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="retake:" destination="9hR-GW-qJG" eventType="touchUpInside" id="PW8-Gc-beC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nqi-d1-G0k" userLabel="Open Camera Button" customClass="BorderButton" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="200" y="510" width="200" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="4w5-n3-nzB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="15"/>
+                                <inset key="contentEdgeInsets" minX="0.0" minY="13" maxX="0.0" maxY="13"/>
+                                <state key="normal" title="Open Camera">
+                                    <color key="titleColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="tryOpenCamera:" destination="9hR-GW-qJG" eventType="touchUpInside" id="ja0-Ec-QgR"/>
+                                </connections>
+                            </button>
                         </subviews>
+                        <color key="backgroundColor" red="0.80000001192092896" green="0.80000001192092896" blue="0.80000001192092896" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="nqi-d1-G0k" firstAttribute="centerY" secondItem="2pw-VA-qDr" secondAttribute="centerY" id="3j4-0d-fOt"/>
+                            <constraint firstItem="uke-GF-N1u" firstAttribute="centerX" secondItem="nqi-d1-G0k" secondAttribute="centerX" id="OAz-6g-WOE"/>
                             <constraint firstItem="e0h-Ho-j4F" firstAttribute="top" secondItem="Z4g-rM-AaZ" secondAttribute="bottom" constant="50" id="Okw-OW-FJ5"/>
+                            <constraint firstItem="nqi-d1-G0k" firstAttribute="trailing" secondItem="2pw-VA-qDr" secondAttribute="centerX" id="QZC-jz-2kN"/>
+                            <constraint firstItem="uke-GF-N1u" firstAttribute="centerY" secondItem="nqi-d1-G0k" secondAttribute="centerY" id="XBn-S4-NUo"/>
+                            <constraint firstItem="EWy-zw-rkQ" firstAttribute="top" secondItem="nqi-d1-G0k" secondAttribute="bottom" constant="46" id="cg0-cY-cQy"/>
+                            <constraint firstItem="i4k-kS-w32" firstAttribute="centerY" secondItem="nqi-d1-G0k" secondAttribute="centerY" id="eU5-vt-1GK"/>
+                            <constraint firstItem="i4k-kS-w32" firstAttribute="centerX" secondItem="nqi-d1-G0k" secondAttribute="leading" id="gFr-ZO-ZID"/>
+                            <constraint firstAttribute="centerX" secondItem="nqi-d1-G0k" secondAttribute="centerX" id="twB-hI-yMg"/>
                             <constraint firstAttribute="centerX" secondItem="e0h-Ho-j4F" secondAttribute="centerX" id="vzQ-Z9-TSa"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="avatarImageView" destination="qI7-tW-94Q" id="Psb-GV-kDf"/>
                         <outlet property="cameraPreviewView" destination="AEj-wj-Yl6" id="6jR-bI-rj7"/>
+                        <outlet property="cameraRollButton" destination="i4k-kS-w32" id="TKM-OM-Ldx"/>
+                        <outlet property="captureButton" destination="uke-GF-N1u" id="OSq-84-bd2"/>
+                        <outlet property="openCameraButton" destination="nqi-d1-G0k" id="GhI-uW-eZW"/>
+                        <outlet property="retakeButton" destination="2pw-VA-qDr" id="Ilk-KJ-atU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rwD-fg-Cys" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -635,4 +698,9 @@
             <point key="canvasLocation" x="2652" y="1200"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="button_camera_roll" width="40" height="40"/>
+        <image name="button_capture" width="70" height="70"/>
+        <image name="default_avatar" width="160" height="160"/>
+    </resources>
 </document>

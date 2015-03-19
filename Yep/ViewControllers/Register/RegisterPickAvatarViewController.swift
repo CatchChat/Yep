@@ -14,6 +14,60 @@ class RegisterPickAvatarViewController: UIViewController {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var cameraPreviewView: CameraPreviewView!
 
+    @IBOutlet weak var openCameraButton: BorderButton!
+
+    @IBOutlet weak var cameraRollButton: UIButton!
+    @IBOutlet weak var captureButton: UIButton!
+    @IBOutlet weak var retakeButton: UIButton!
+
+    enum PickAvatarState {
+        case Default
+        case CameraOpen
+        case Captured
+    }
+
+    var pickAvatarState: PickAvatarState = .Default {
+        willSet {
+            switch newValue {
+            case .Default:
+                openCameraButton.hidden = false
+
+                cameraRollButton.hidden = true
+                captureButton.hidden = true
+                retakeButton.hidden = true
+
+                cameraPreviewView.hidden = true
+                avatarImageView.hidden = false
+
+                avatarImageView.image = UIImage(named: "default_avatar")
+
+            case .CameraOpen:
+                openCameraButton.hidden = true
+
+                cameraRollButton.hidden = false
+                captureButton.hidden = false
+                retakeButton.hidden = true
+
+                cameraPreviewView.hidden = false
+                avatarImageView.hidden = true
+
+                captureButton.setImage(UIImage(named: "button_capture"), forState: .Normal)
+
+            case .Captured:
+                openCameraButton.hidden = true
+
+                cameraRollButton.hidden = false
+                captureButton.hidden = false
+                retakeButton.hidden = false
+
+                cameraPreviewView.hidden = true
+                avatarImageView.hidden = false
+
+                captureButton.setImage(UIImage(named: "button_capture_ok"), forState: .Normal)
+            }
+        }
+    }
+
     lazy var sessionQueue = {
         return dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL)
         }()
@@ -42,12 +96,12 @@ class RegisterPickAvatarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tryOpenCamera()
+        pickAvatarState = .Default
     }
 
-    // Helpers
+    // MARK: Helpers
 
-    func deviceWithMediaType(mediaType: String, preferringPosition position: AVCaptureDevicePosition) -> AVCaptureDevice? {
+    private func deviceWithMediaType(mediaType: String, preferringPosition position: AVCaptureDevicePosition) -> AVCaptureDevice? {
         let devices = AVCaptureDevice.devicesWithMediaType(mediaType)
         var captureDevice = devices.first as? AVCaptureDevice
         for device in devices as! [AVCaptureDevice] {
@@ -60,9 +114,9 @@ class RegisterPickAvatarViewController: UIViewController {
         return captureDevice
     }
 
-    // Actions
+    // MARK: Actions
 
-    func tryOpenCamera() {
+    @IBAction func tryOpenCamera(sender: UIButton) {
 
         AVCaptureDevice.requestAccessForMediaType(mediaType, completionHandler: { (granted) -> Void in
             if granted {
@@ -76,15 +130,17 @@ class RegisterPickAvatarViewController: UIViewController {
         })
     }
 
-    func openCamera() {
+    private func openCamera() {
+
+        pickAvatarState = .CameraOpen
 
         dispatch_async(sessionQueue) {
-            //[self setBackgroundRecordingID:UIBackgroundTaskInvalid];
 
             if self.session.canAddInput(self.videoDeviceInput) {
                 self.session.addInput(self.videoDeviceInput)
 
                 dispatch_async(dispatch_get_main_queue()) {
+
                     self.cameraPreviewView.session = self.session
                     let orientation = AVCaptureVideoOrientation(rawValue: UIInterfaceOrientation.Portrait.rawValue)!
                     (self.cameraPreviewView.layer as! AVCaptureVideoPreviewLayer).connection.videoOrientation = orientation
@@ -97,6 +153,21 @@ class RegisterPickAvatarViewController: UIViewController {
                 self.session.addOutput(self.stillImageOutput)
             }
         }
+    }
+
+    @IBAction func tryOpenCameraRoll(sender: UIButton) {
+    }
+
+    @IBAction func captureOrFinish(sender: UIButton) {
+        if pickAvatarState == .Captured {
+
+        } else {
+            pickAvatarState = .Captured
+        }
+    }
+
+    @IBAction func retake(sender: UIButton) {
+        pickAvatarState = .CameraOpen
     }
 
 }
