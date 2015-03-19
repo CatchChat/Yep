@@ -103,6 +103,11 @@ class RegisterPickAvatarViewController: UIViewController {
         super.viewDidLoad()
 
         pickAvatarState = .Default
+
+        openCameraButton.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
+        cameraRollButton.tintColor = UIColor.yepTintColor()
+        captureButton.tintColor = UIColor.yepTintColor()
+        retakeButton.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
     }
 
     // MARK: Helpers
