@@ -178,10 +178,15 @@ func encodeJSON(dict: JSONDictionary) -> NSData? {
 }
 
 public func jsonResource<A>(#path: String, #method: Method, #requestParameters: JSONDictionary, #parse: JSONDictionary -> A?) -> Resource<A> {
-    return authJsonResource(token: nil, path: path, method: method, requestParameters: requestParameters, parse: parse)
+    return jsonResource(token: nil, path: path, method: method, requestParameters: requestParameters, parse: parse)
 }
 
-public func authJsonResource<A>(#token: String?, #path: String, #method: Method, #requestParameters: JSONDictionary, #parse: JSONDictionary -> A?) -> Resource<A> {
+public func authJsonResource<A>(#path: String, #method: Method, #requestParameters: JSONDictionary, #parse: JSONDictionary -> A?) -> Resource<A> {
+    let token = YepUserDefaults.v1AccessToken()
+    return jsonResource(token: token, path: path, method: method, requestParameters: requestParameters, parse: parse)
+}
+
+public func jsonResource<A>(#token: String?, #path: String, #method: Method, #requestParameters: JSONDictionary, #parse: JSONDictionary -> A?) -> Resource<A> {
     
     let jsonParse: NSData -> A? = { data in
         if let json = decodeJSON(data) {

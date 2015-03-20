@@ -10,6 +10,8 @@ import Foundation
 
 let baseURL = NSURL(string: "http://park.catchchatchina.com")!
 
+// Models
+
 struct LoginUser: Printable {
     let accessToken: String
     let userID: String
@@ -18,6 +20,16 @@ struct LoginUser: Printable {
 
     var description: String {
         return "LoginUser(accessToken: \(accessToken), userID: \(userID), nickname: \(nickname), avatarURLString: \(avatarURLString))"
+    }
+}
+
+struct QiniuProvider: Printable {
+    let token: String
+    let key: String
+    let downloadURLString: String
+
+    var description: String {
+        return "QiniuProvider(token: \(token), key: \(key), downloadURLString: \(downloadURLString))"
     }
 }
 
@@ -189,6 +201,39 @@ func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: S
     }
 }
 
+// MARK: Upload
+
+func publicUploadToken(#failureHandler: ((Resource<QiniuProvider>, Reason, NSData?) -> ())?, #completion: QiniuProvider -> Void) {
+
+    let parse: JSONDictionary -> QiniuProvider? = { data in
+        if let provider = data["provider"] as? String {
+            if provider == "qiniu" {
+                if let options = data["options"] as? [String: AnyObject] {
+                    if
+                        let token = options["token"] as? String,
+                        let key = options["key"] as? String,
+                        let downloadURLString = options["download_url"] as? String {
+                            return QiniuProvider(token: token, key: key, downloadURLString: downloadURLString)
+                    }
+                }
+            }
+        }
+
+        return nil
+    }
+
+    let resource = authJsonResource(path: "/api/v1/attachments/public_upload_token", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+
+// MARK: Messages
+
 func unreadMessages(#completion: JSONDictionary -> Void) {
     let requestParameters = [
         "per_page": 100,
@@ -198,8 +243,7 @@ func unreadMessages(#completion: JSONDictionary -> Void) {
         return data
     }
 
-    let token = YepUserDefaults.v1AccessToken()
-    let resource = authJsonResource(token: token, path: "/api/v1/messages/unread", method: .GET, requestParameters: requestParameters, parse: parse)
+    let resource = authJsonResource(path: "/api/v1/messages/unread", method: .GET, requestParameters: requestParameters, parse: parse)
 
     apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
 }

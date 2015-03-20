@@ -182,6 +182,9 @@ class RegisterPickAvatarViewController: UIViewController {
 
     @IBAction func captureOrFinish(sender: UIButton) {
         if pickAvatarState == .Captured {
+            publicUploadToken(failureHandler: nil) { qiniuProvider in
+                println("qiniuProvider: \(qiniuProvider)")
+            }
 
         } else {
             dispatch_async(sessionQueue) {
