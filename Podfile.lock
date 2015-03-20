@@ -1,0 +1,176 @@
+PODS:
+  - AWSiOSSDKv2 (2.0.17):
+    - AWSiOSSDKv2/AutoScaling (= 2.0.17)
+    - AWSiOSSDKv2/AWSCore (= 2.0.17)
+    - AWSiOSSDKv2/CloudWatch (= 2.0.17)
+    - AWSiOSSDKv2/DynamoDB (= 2.0.17)
+    - AWSiOSSDKv2/EC2 (= 2.0.17)
+    - AWSiOSSDKv2/ElasticLoadBalancing (= 2.0.17)
+    - AWSiOSSDKv2/Kinesis (= 2.0.17)
+    - AWSiOSSDKv2/S3 (= 2.0.17)
+    - AWSiOSSDKv2/SES (= 2.0.17)
+    - AWSiOSSDKv2/SimpleDB (= 2.0.17)
+    - AWSiOSSDKv2/SNS (= 2.0.17)
+    - AWSiOSSDKv2/SQS (= 2.0.17)
+    - Bolts (~> 1.1.0)
+    - FMDB (~> 2.4)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4)
+    - Reachability (~> 3.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (< 3.0)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/AutoScaling (2.0.17):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - FMDB (~> 2.4)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4)
+    - Reachability (~> 3.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (< 3.0)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/AWSCore (2.0.17):
+    - Bolts (~> 1.1.0)
+    - FMDB (~> 2.4)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4)
+    - Reachability (~> 3.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (< 3.0)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/CloudWatch (2.0.17):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - FMDB (~> 2.4)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4)
+    - Reachability (~> 3.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (< 3.0)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/DynamoDB (2.0.17):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - FMDB (~> 2.4)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4)
+    - Reachability (~> 3.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (< 3.0)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/EC2 (2.0.17):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - FMDB (~> 2.4)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4)
+    - Reachability (~> 3.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (< 3.0)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/ElasticLoadBalancing (2.0.17):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - FMDB (~> 2.4)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4)
+    - Reachability (~> 3.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (< 3.0)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/Kinesis (2.0.17):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - FMDB (~> 2.4)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4)
+    - Reachability (~> 3.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (< 3.0)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/S3 (2.0.17):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - FMDB (~> 2.4)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4)
+    - Reachability (~> 3.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (< 3.0)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/SES (2.0.17):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - FMDB (~> 2.4)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4)
+    - Reachability (~> 3.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (< 3.0)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/SimpleDB (2.0.17):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - FMDB (~> 2.4)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4)
+    - Reachability (~> 3.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (< 3.0)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/SNS (2.0.17):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - FMDB (~> 2.4)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4)
+    - Reachability (~> 3.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (< 3.0)
+    - XMLDictionary (~> 1.4.0)
+  - AWSiOSSDKv2/SQS (2.0.17):
+    - AWSiOSSDKv2/AWSCore
+    - Bolts (~> 1.1.0)
+    - FMDB (~> 2.4)
+    - GZIP (~> 1.0.3)
+    - Mantle (~> 1.4)
+    - Reachability (~> 3.1)
+    - TMCache (~> 1.2.1)
+    - UICKeyChainStore (< 3.0)
+    - XMLDictionary (~> 1.4.0)
+  - Bolts (1.1.4)
+  - FMDB (2.5):
+    - FMDB/standard (= 2.5)
+  - FMDB/common (2.5)
+  - FMDB/standard (2.5):
+    - FMDB/common
+  - GZIP (1.0.3)
+  - Mantle (1.5.4):
+    - Mantle/extobjc (= 1.5.4)
+  - Mantle/extobjc (1.5.4)
+  - Reachability (3.2)
+  - Realm (0.91.1):
+    - Realm/Headers (= 0.91.1)
+  - Realm/Headers (0.91.1)
+  - TMCache (1.2.3)
+  - UICKeyChainStore (2.0.4)
+  - XMLDictionary (1.4)
+
+DEPENDENCIES:
+  - AWSiOSSDKv2
+  - Realm
+
+SPEC CHECKSUMS:
+  AWSiOSSDKv2: a463e466164c52814a624b5f3f70c986807f48e1
+  Bolts: dd9fb8433d67f5acc3b6b4d1379bbc5513d716c1
+  FMDB: 0efa188cf0dd1ce82c27a478cd5f5fa245308677
+  GZIP: f27c434ffee5e9a9b34f4e9c19e91350fa8bbde1
+  Mantle: d5fbaf30fbc58031223af13812c060e15934a1fe
+  Reachability: 1ef8adf5c4e3d362f96515d4278f68dad3c26930
+  Realm: 81adfc7f43f9301f40bbc46d5e8a10aaf71b9504
+  TMCache: 11589ef8c40909114a5e60132711c9a559e01d97
+  UICKeyChainStore: 2399076d0950e20fe859b8f817548cf6ca542dd7
+  XMLDictionary: 735e81b9a043e220b0d24e9d4f16719606f2e0fc
+
+COCOAPODS: 0.36.0

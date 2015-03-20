@@ -30,11 +30,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             startIntroStory()
         }
 
-        /*
-        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
-        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickAvatarViewController") as! RegisterPickAvatarViewController
-        window?.rootViewController = rootViewController
-        */
+        
+//        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
+//        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickAvatarViewController") as! RegisterPickAvatarViewController
+//        window?.rootViewController = rootViewController
+
 
         return true
     }
