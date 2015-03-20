@@ -105,7 +105,7 @@ class Conversation: RLMObject {
     dynamic var updatedAt: NSDate = NSDate()
 
     dynamic var withFriend: User?
-    dynamic var withFriend: Group?
+    dynamic var withGroup: Group?
     dynamic var messages = RLMArray(objectClassName: Message.className())
 }
 
