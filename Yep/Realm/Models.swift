@@ -30,12 +30,22 @@ class User: RLMObject {
     dynamic var isBestfriend: Bool = false
     dynamic var bestfriendIndex: Int = 0
 
-    dynamic var messages = RLMArray(objectClassName: Message.className())
+    var messages: [Message] {
+        return linkingObjectsOfClass("Message", forProperty: "fromFriend") as! [Message]
+    }
 
-    dynamic var conversation: Conversation?
+    var conversation: Conversation? {
+        let conversations = linkingObjectsOfClass("Conversation", forProperty: "withFriend") as! [Conversation]
+        return conversations.first
+    }
 
-    dynamic var ownedGroups = RLMArray(objectClassName: Group.className())
-    dynamic var belongsToGroups = RLMArray(objectClassName: Group.className())
+    var ownedGroups: [Group] {
+        return linkingObjectsOfClass("Group", forProperty: "owner") as! [Group]
+    }
+
+    var belongsToGroups: [Group] {
+        return linkingObjectsOfClass("Group", forProperty: "members") as! [Group]
+    }
 }
 
 // MARK: Group
@@ -49,7 +59,10 @@ class Group: RLMObject {
     dynamic var owner: User?
     dynamic var members = RLMArray(objectClassName: User.className())
 
-    dynamic var conversation: Conversation?
+    var conversation: Conversation? {
+        let conversations = linkingObjectsOfClass("Conversation", forProperty: "withGroup") as! [Conversation]
+        return conversations.first
+    }
 }
 
 // MARK: Message
@@ -106,6 +119,9 @@ class Conversation: RLMObject {
 
     dynamic var withFriend: User?
     dynamic var withGroup: Group?
-    dynamic var messages = RLMArray(objectClassName: Message.className())
+
+    var messages: [Message] {
+        return linkingObjectsOfClass("Message", forProperty: "conversation") as! [Message]
+    }
 }
 
