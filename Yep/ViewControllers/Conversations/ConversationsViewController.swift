@@ -87,7 +87,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
         let dic = dataSource[indexPath.row % dataSource.count]
 
         let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
-        cell.avatarImageView.image = AvatarCache.sharedInstance.roundImage(named: dic["imageName"]!, ofRadius: radius)
+        cell.avatarImageView.image = AvatarCache.sharedInstance.roundImageNamed(dic["imageName"]!, ofRadius: radius)
         cell.nameLabel.text = dic["name"]
         cell.chatLabel.text = dic["chatContent"]
         cell.timeAgoLabel.text = dic["timeAgo"]

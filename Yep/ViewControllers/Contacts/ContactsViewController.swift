@@ -35,7 +35,16 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         let friend = friends.objectAtIndex(UInt(indexPath.row)) as! User
 
         let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
-        cell.avatarImageView.image = AvatarCache.sharedInstance.roundImage(named: friend.avatarURLString, ofRadius: radius)
+
+        cell.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(radius)
+        if let url = NSURL(string: friend.avatarURLString) {
+            AvatarCache.sharedInstance.roundImageFromURL(url, ofRadius: radius) { roundImage in
+                dispatch_async(dispatch_get_main_queue()) {
+                    cell.avatarImageView.image = roundImage
+                }
+            }
+        }
+
         cell.nameLabel.text = friend.nickname
         cell.joinedDateLabel.text = "\(friend.createdAt)"
         cell.lastTimeSeenLabel.text = "\(friend.createdAt)"
