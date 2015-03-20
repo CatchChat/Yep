@@ -14,6 +14,8 @@ class RegisterPickAvatarViewController: UIViewController {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var cameraPreviewView: CameraPreviewView!
 
+    @IBOutlet weak var takePicturePromptLabel: UILabel!
+
     @IBOutlet weak var openCameraButton: BorderButton!
 
     @IBOutlet weak var cameraRollButton: UIButton!
@@ -55,7 +57,7 @@ class RegisterPickAvatarViewController: UIViewController {
                 retakeButton.hidden = true
 
                 cameraPreviewView.hidden = false
-                avatarImageView.hidden = true
+                avatarImageView.hidden = false
 
                 captureButton.setImage(UIImage(named: "button_capture"), forState: .Normal)
 
@@ -102,7 +104,12 @@ class RegisterPickAvatarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = UIColor.whiteColor()
+
         pickAvatarState = .Default
+
+        takePicturePromptLabel.textColor = UIColor.yepTintColor()
+        takePicturePromptLabel.text = NSLocalizedString("Take a good picture for your Avatar", comment: "")
 
         openCameraButton.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
         cameraRollButton.tintColor = UIColor.yepTintColor()
@@ -157,13 +164,15 @@ class RegisterPickAvatarViewController: UIViewController {
                     self.cameraPreviewView.session = self.session
                     let orientation = AVCaptureVideoOrientation(rawValue: UIInterfaceOrientation.Portrait.rawValue)!
                     (self.cameraPreviewView.layer as! AVCaptureVideoPreviewLayer).connection.videoOrientation = orientation
-
-                    self.session.startRunning()
                 }
             }
 
             if self.session.canAddOutput(self.stillImageOutput){
                 self.session.addOutput(self.stillImageOutput)
+            }
+
+            dispatch_async(dispatch_get_main_queue()) {
+                self.session.startRunning()
             }
         }
     }
