@@ -7,12 +7,6 @@
 //
 
 import UIKit
-import Realm
-
-class UserObject: RLMObject {
-    dynamic var name: String = ""
-    dynamic var age: Int = 0
-}
 
 class ConversationsViewController: UIViewController {
 
@@ -72,15 +66,6 @@ class ConversationsViewController: UIViewController {
         unreadMessages { result in
             println("unreadMessages result: \(result)")
         }
-
-        RLMRealm.defaultRealm().transactionWithBlock {
-            UserObject.createInDefaultRealmWithObject(["NIX", 18])
-        }
-
-        for obj in UserObject.allObjects() {
-            println(obj.description)
-        }
-
     }
 }
 
