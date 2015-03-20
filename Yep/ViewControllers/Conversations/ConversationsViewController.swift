@@ -67,9 +67,12 @@ class ConversationsViewController: UIViewController {
             println("unreadMessages result: \(result)")
         }
 
-        friendships { result in
-            println("friendships result: \(result)")
+        syncFriendshipsAndDoFurtherAction {
+            for obj in User.allObjects() {
+                println(obj.description)
+            }
         }
+
     }
 }
 

@@ -22,11 +22,12 @@ enum UserFriendState: Int {
 class User: RLMObject {
     dynamic var userID: String = ""
     dynamic var nickname: String = ""
+    dynamic var avatarURLString: String = ""
 
     dynamic var createdAt: NSDate = NSDate()
 
     dynamic var friendState: Int = UserFriendState.Stranger.rawValue
-    dynamic var friendshipID: String?
+    dynamic var friendshipID: String = ""
     dynamic var isBestfriend: Bool = false
     dynamic var bestfriendIndex: Int = 0
 
@@ -94,11 +95,11 @@ class Message: RLMObject {
     dynamic var textContent: String = ""
     dynamic var coordinate: Coordinate?
 
-    dynamic var attachment: String?
+    dynamic var attachment: String = ""
     dynamic var downloadState: Int = MessageDownloadState.NoDownload.rawValue
-    dynamic var localAttachmentName: String?
-    dynamic var thumbnail: String?
-    dynamic var localThumbnailName: String?
+    dynamic var localAttachmentName: String = ""
+    dynamic var thumbnail: String = ""
+    dynamic var localThumbnailName: String = ""
 
     dynamic var readed: Bool = false
 

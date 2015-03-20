@@ -252,8 +252,8 @@ func unreadMessages(#completion: JSONDictionary -> Void) {
 
 private func headFriendships(#completion: JSONDictionary -> Void) {
     let requestParameters = [
-        "page": 100,
-        "per_page": 1,
+        "page": 1,
+        "per_page": 100,
     ]
 
     let parse: JSONDictionary -> JSONDictionary? = { data in
@@ -289,8 +289,8 @@ func friendships(#completion: [JSONDictionary] -> Void) {
     return headFriendships { result in
         if
             let count = result["count"] as? Int,
-            let currentPage =  result["current_page"] as? Int,
-            let perPage =  result["per_page"] as? Int {
+            let currentPage = result["current_page"] as? Int,
+            let perPage = result["per_page"] as? Int {
                 if count <= currentPage * perPage {
                     if let friendships = result["friendships"] as? [JSONDictionary] {
                         completion(friendships)
