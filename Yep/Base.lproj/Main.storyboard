@@ -53,9 +53,28 @@
                     <view key="view" contentMode="scaleToFill" id="H20-zR-F1L">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="3hF-wd-yhY" userLabel="Contacts Table View">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="fFS-0m-aok" id="XAO-GY-Ww5"/>
+                                    <outlet property="delegate" destination="fFS-0m-aok" id="clT-kA-HUJ"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="3hF-wd-yhY" secondAttribute="bottom" id="RhX-Hn-6s4"/>
+                            <constraint firstItem="3hF-wd-yhY" firstAttribute="leading" secondItem="H20-zR-F1L" secondAttribute="leading" id="ls7-pz-7lM"/>
+                            <constraint firstAttribute="trailing" secondItem="3hF-wd-yhY" secondAttribute="trailing" id="rL3-g5-mbV"/>
+                            <constraint firstItem="3hF-wd-yhY" firstAttribute="top" secondItem="H20-zR-F1L" secondAttribute="top" id="zML-PE-es7"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Contacts" id="tYK-ax-VkQ"/>
+                    <connections>
+                        <outlet property="contactsTableView" destination="3hF-wd-yhY" id="RfM-bD-4Oe"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ynX-sO-VM0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

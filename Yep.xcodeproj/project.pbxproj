@@ -56,6 +56,8 @@
 		50E114F41ABBF9CC00F13000 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F31ABBF9CC00F13000 /* Models.swift */; };
 		50E114F71ABBFA7000F13000 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F61ABBFA7000F13000 /* RLMSupport.swift */; };
 		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
+		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
+		50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E114FB1ABC549300F13000 /* ContactsCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +124,8 @@
 		50E114F31ABBF9CC00F13000 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Realm/Models.swift; sourceTree = "<group>"; };
 		50E114F61ABBFA7000F13000 /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RLMSupport.swift; path = Realm/RLMSupport.swift; sourceTree = "<group>"; };
 		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
+		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
+		50E114FB1ABC549300F13000 /* ContactsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactsCell.xib; path = Views/Cells/Contacts/ContactsCell.xib; sourceTree = "<group>"; };
 		B33BE6A6016453F6673C8317 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FD88F6095DB46DFAD41AB5DB /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -288,6 +292,7 @@
 				502AE5421AB88866005BD199 /* SkillRank */,
 				502AE5501AB93178005BD199 /* ProfileHeader */,
 				502AE5551AB93218005BD199 /* ProfileFooter */,
+				50E114FE1ABC549800F13000 /* Contacts */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -461,6 +466,15 @@
 			name = Realm;
 			sourceTree = "<group>";
 		};
+		50E114FE1ABC549800F13000 /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				50E114FA1ABC549300F13000 /* ContactsCell.swift */,
+				50E114FB1ABC549300F13000 /* ContactsCell.xib */,
+			);
+			name = Contacts;
+			sourceTree = "<group>";
+		};
 		59CC1DE9D59AC08247B97B4F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -571,6 +585,7 @@
 				5023DE4A1AB6B19300B3EE96 /* jony.png in Resources */,
 				5023DE4D1AB6B19300B3EE96 /* robert.png in Resources */,
 				0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */,
+				50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */,
 				5023DE4C1AB6B19300B3EE96 /* nixzhu.png in Resources */,
 				502AE54F1AB93175005BD199 /* ProfileHeaderCell.xib in Resources */,
 				0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */,
@@ -653,6 +668,7 @@
 				502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */,
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
 				50E114F41ABBF9CC00F13000 /* Models.swift in Sources */,
+				50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */,
 				5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */,
 				502AE5331AB86020005BD199 /* RegisterVerifyMobileViewController.swift in Sources */,
 				502AE5401AB88862005BD199 /* SkillRankCell.swift in Sources */,

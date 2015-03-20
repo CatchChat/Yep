@@ -10,27 +10,36 @@ import UIKit
 
 class ContactsViewController: UIViewController {
 
+    @IBOutlet weak var contactsTableView: UITableView!
+
+    let cellIdentifier = "ContactsCell"
+
+    lazy var friends = User.allObjects()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        view.backgroundColor = UIColor.yellowColor()
+        contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        contactsTableView.rowHeight = 80
+    }
+}
+
+extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return Int(friends.count)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+
+        let friend = friends.objectAtIndex(UInt(indexPath.row)) as! User
+
+        let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
+        cell.avatarImageView.image = AvatarCache.sharedInstance.roundImage(named: friend.avatarURLString, ofRadius: radius)
+        cell.nameLabel.text = friend.nickname
+        cell.joinedDateLabel.text = "\(friend.createdAt)"
+        cell.lastTimeSeenLabel.text = "\(friend.createdAt)"
+
+        return cell
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
