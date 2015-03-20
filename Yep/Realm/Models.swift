@@ -19,10 +19,21 @@ enum UserFriendState: Int {
     case Me             = 4   // 自己
 }
 
+class Avatar: RLMObject {
+    dynamic var avatarURLString: String = ""
+    dynamic var imageData: NSData = NSData()
+
+    var user: User? {
+        let users = linkingObjectsOfClass("User", forProperty: "avatar") as! [User]
+        return users.first
+    }
+}
+
 class User: RLMObject {
     dynamic var userID: String = ""
     dynamic var nickname: String = ""
     dynamic var avatarURLString: String = ""
+    dynamic var avatar: Avatar?
 
     dynamic var createdAt: NSDate = NSDate()
 
