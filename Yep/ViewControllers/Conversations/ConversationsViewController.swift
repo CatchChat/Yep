@@ -66,6 +66,10 @@ class ConversationsViewController: UIViewController {
         unreadMessages { result in
             println("unreadMessages result: \(result)")
         }
+
+        friendships { result in
+            println("friendships result: \(result)")
+        }
     }
 }
 

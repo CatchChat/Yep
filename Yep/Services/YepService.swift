@@ -248,4 +248,84 @@ func unreadMessages(#completion: JSONDictionary -> Void) {
     apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
 }
 
+// MARK: User
 
+private func headFriendships(#completion: JSONDictionary -> Void) {
+    let requestParameters = [
+        "page": 100,
+        "per_page": 1,
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/api/v1/friendships", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+}
+
+private func moreFriendships(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Resource<JSONDictionary>, Reason, NSData?) -> ())?, #completion: JSONDictionary -> Void) {
+    let requestParameters = [
+        "page": page,
+        "per_page": perPage,
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/api/v1/friendships", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+func friendships(#completion: [JSONDictionary] -> Void) {
+
+    return headFriendships { result in
+        if
+            let count = result["count"] as? Int,
+            let currentPage =  result["current_page"] as? Int,
+            let perPage =  result["per_page"] as? Int {
+                if count <= currentPage * perPage {
+                    if let friendships = result["friendships"] as? [JSONDictionary] {
+                        completion(friendships)
+                    } else {
+                        completion([])
+                    }
+
+                } else {
+                    var friendships = [JSONDictionary]()
+
+                    if let page1Friendships = result["friendships"] as? [JSONDictionary] {
+                        friendships += page1Friendships
+                    }
+
+                    // We have more friends
+
+                    let downloadGroup = dispatch_group_create()
+
+                    for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
+                        dispatch_group_enter(downloadGroup)
+
+                        moreFriendships(inPage: page, withPerPage: perPage, failureHandler: { (resource, reason, data) in
+                            dispatch_group_leave(downloadGroup)
+                        }, completion: { result in
+                            if let page1Friendships = result["friendships"] as? [JSONDictionary] {
+                                friendships += page1Friendships
+                            }
+                            dispatch_group_leave(downloadGroup)
+                        })
+                    }
+
+                    dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
+                        completion(friendships)
+                    }
+                }
+        }
+    }
+}
