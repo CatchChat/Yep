@@ -101,6 +101,18 @@ class AvatarCache {
                         completion(roundImage)
 
                         return
+
+                    } else {
+                        // 换了 Avatar，删除旧的 // TODO: need test
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let realm = RLMRealm.defaultRealm()
+                            realm.beginWriteTransaction()
+
+                            let avatar = user.avatar
+                            realm.deleteObject(avatar)
+
+                            realm.commitWriteTransaction()
+                        }
                     }
                 }
 
