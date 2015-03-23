@@ -11,7 +11,7 @@ import Realm
 
 func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
     friendships { allFriendships in
-        println("friendships result: \(allFriendships)")
+        println("allFriendships: \(allFriendships)")
 
         // 先整理出所有的 friend 的 userID
         var remoteUerIDSet = Set<String>()
@@ -105,3 +105,201 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
         furtherAction()
     }
 }
+
+func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
+    groups { allGroups in
+        println("allGroups: \(allGroups)")
+
+        // 先整理出所有的 group 的 groupID
+        var remoteGroupIDSet = Set<String>()
+        for groupInfo in allGroups {
+            if let groupID = groupInfo["id"] as? String {
+                remoteGroupIDSet.insert(groupID)
+            }
+        }
+
+        // 在本地去除远端没有的 Group
+
+        let realm = RLMRealm.defaultRealm()
+
+        let localGroups = Group.allObjects()
+
+        for i in 0..<localGroups.count {
+            let localGroup = localGroups[i] as! Group
+
+            if !remoteGroupIDSet.contains(localGroup.groupID) {
+                realm.beginWriteTransaction()
+                realm.deleteObject(localGroup)
+                // TODO: 级联删除关联的数据对象
+                realm.commitWriteTransaction()
+            }
+        }
+
+        // 增加本地没有的 Group
+
+        for groupInfo in allGroups {
+            syncGroupWithGroupInfo(groupInfo)
+        }
+
+        // do further action
+
+        furtherAction()
+    }
+}
+
+func syncGroupWithGroupInfo(groupInfo: JSONDictionary) {
+    if let groupID = groupInfo["id"] as? String {
+        let predicate = NSPredicate(format: "groupID = %@", groupID)
+        var group = Group.objectsWithPredicate(predicate).firstObject() as? Group
+
+        let realm = RLMRealm.defaultRealm()
+
+        if group == nil {
+            let newGroup = Group()
+            newGroup.groupID = groupID
+            if let groupName = groupInfo["name"] as? String {
+                newGroup.groupName = groupName
+            }
+
+            realm.beginWriteTransaction()
+            realm.addObject(newGroup)
+            realm.commitWriteTransaction()
+
+            group = newGroup
+        }
+
+        if let group = group {
+
+            if group.conversation == nil {
+                let conversation = Conversation()
+                conversation.type = ConversationType.Group.rawValue
+                conversation.updatedAt = NSDate()
+                conversation.withGroup = group
+
+                realm.beginWriteTransaction()
+                realm.addObject(conversation)
+                realm.commitWriteTransaction()
+            }
+
+            // Group Owner
+
+            if let ownerInfo = groupInfo["owner"] as? JSONDictionary {
+                if let ownerID = ownerInfo["id"] as? String {
+                    let predicate = NSPredicate(format: "userID = %@", ownerID)
+                    var owner = User.objectsWithPredicate(predicate).firstObject() as? User
+
+                    if owner == nil {
+                        let newUser = User()
+
+                        newUser.userID = ownerID
+
+                        if let nickname = ownerInfo["nickname"] as? String {
+                            newUser.nickname = nickname
+                        }
+
+                        if let avatarURLString = ownerInfo["avatar_url"] as? String {
+                            newUser.avatarURLString = avatarURLString
+                        }
+
+                        if let myUserID = YepUserDefaults.userID() {
+                            if myUserID == ownerID {
+                                newUser.friendState = UserFriendState.Me.rawValue
+                            } else {
+                                newUser.friendState = UserFriendState.Stranger.rawValue
+                            }
+                        } else {
+                            newUser.friendState = UserFriendState.Stranger.rawValue
+                        }
+
+                        realm.beginWriteTransaction()
+                        realm.addObject(newUser)
+                        realm.commitWriteTransaction()
+                        
+                        owner = newUser
+                    }
+                    
+                    if let owner = owner {
+                        realm.beginWriteTransaction()
+                        group.owner = owner
+                        realm.commitWriteTransaction()
+                    }
+                }
+            }
+
+            // 同步 Group 的成员
+
+            if let remoteMembers = groupInfo["members"] as? [JSONDictionary] {
+                var memberIDSet = Set<String>()
+                for memberInfo in remoteMembers {
+                    if let memberID = memberInfo["id"] as? String {
+                        memberIDSet.insert(memberID)
+                    }
+                }
+
+                var localMembers = group.members
+
+                // 去除远端没有的 member
+
+                for (index, member) in enumerate(localMembers) {
+                    let user = member as! User
+                    if !memberIDSet.contains(user.userID) {
+                        localMembers.removeObjectAtIndex(UInt(index))
+                    }
+                }
+
+                // 加上本地没有的 member
+
+                for memberInfo in remoteMembers {
+                    if let memberID = memberInfo["id"] as? String {
+                        let predicate = NSPredicate(format: "userID = %@", memberID)
+                        var member = User.objectsWithPredicate(predicate).firstObject() as? User
+
+                        if member == nil {
+                            let newMember = User()
+
+                            newMember.userID = memberID
+
+                            realm.beginWriteTransaction()
+                            realm.addObject(newMember)
+                            realm.commitWriteTransaction()
+
+                            member = newMember
+                        }
+
+                        if let member = member {
+                            realm.beginWriteTransaction()
+
+                            if let nickname = memberInfo["nickname"] as? String {
+                                member.nickname = nickname
+                            }
+
+                            if let avatarURLString = memberInfo["avatar_url"] as? String {
+                                member.avatarURLString = avatarURLString
+                            }
+
+                            if let myUserID = YepUserDefaults.userID() {
+                                if myUserID == memberID {
+                                    member.friendState = UserFriendState.Me.rawValue
+                                } else {
+                                    member.friendState = UserFriendState.Stranger.rawValue
+                                }
+                            } else {
+                                member.friendState = UserFriendState.Stranger.rawValue
+                            }
+
+                            localMembers.addObject(member)
+
+                            realm.commitWriteTransaction()
+                        }
+                    }
+                }
+
+                realm.beginWriteTransaction()
+                group.members = localMembers
+                realm.commitWriteTransaction()
+            }
+        }
+    }
+}
+
+

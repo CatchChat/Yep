@@ -73,8 +73,10 @@ class ConversationsViewController: UIViewController {
             }
         }
 
-        groups { result in
-            println("groups: \(result)")
+        syncGroupsAndDoFurtherAction {
+            for obj in Group.allObjects() {
+                println(obj.description)
+            }
         }
 
     }
