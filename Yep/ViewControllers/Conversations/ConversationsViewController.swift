@@ -14,45 +14,6 @@ class ConversationsViewController: UIViewController {
 
     let cellIdentifier = "ConversationCell"
 
-    lazy var dataSource = [
-        [
-            "name": "Lucy",
-            "imageName": "scarlett",
-            "chatContent": "I feel everything.",
-            "timeAgo": "A million years ago",
-        ],
-        [
-            "name": "Jony",
-            "imageName": "jony",
-            "chatContent": "I designed iPhone.",
-            "timeAgo": "10 years ago",
-        ],
-        [
-            "name": "Robert",
-            "imageName": "robert",
-            "chatContent": "I'm Iron Man.",
-            "timeAgo": "A few years ago",
-        ],
-        [
-            "name": "NIX",
-            "imageName": "nixzhu",
-            "chatContent": "I love Iron Man!",
-            "timeAgo": "5 minutes ago",
-        ],
-        [
-            "name": "Kevin",
-            "imageName": "kevin",
-            "chatContent": "I'm CEO.\nBitch!",
-            "timeAgo": "Now",
-        ],
-        [
-            "name": "Faceless",
-            "imageName": "faceless",
-            "chatContent": "Valar Morghulis, valar dohaeris.",
-            "timeAgo": "Some day",
-        ],
-    ]
-
     lazy var conversations = Conversation.allObjects()
 
     override func viewDidLoad() {
@@ -74,14 +35,6 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ConversationCell
-
-//        let dic = dataSource[indexPath.row % dataSource.count]
-//
-//        let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
-//        cell.avatarImageView.image = AvatarCache.sharedInstance.roundImageNamed(dic["imageName"]!, ofRadius: radius)
-//        cell.nameLabel.text = dic["name"]
-//        cell.chatLabel.text = dic["chatContent"]
-//        cell.timeAgoLabel.text = dic["timeAgo"]
 
         let conversation = conversations.objectAtIndex(UInt(indexPath.row)) as! Conversation
 
