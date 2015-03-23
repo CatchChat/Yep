@@ -35,6 +35,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickAvatarViewController") as! RegisterPickAvatarViewController
 //        window?.rootViewController = rootViewController
 
+        // for test
+
+        syncFriendshipsAndDoFurtherAction {
+            for obj in User.allObjects() {
+                println(obj.description)
+            }
+        }
+
+        syncGroupsAndDoFurtherAction {
+            for obj in Group.allObjects() {
+                println(obj.description)
+            }
+        }
+
+        syncUnreadMessagesAndDoFurtherAction {
+            for obj in Message.allObjects() {
+                println(obj.description)
+            }
+        }
 
         return true
     }

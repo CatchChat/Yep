@@ -53,6 +53,8 @@ class ConversationsViewController: UIViewController {
         ],
     ]
 
+    lazy var conversations = Conversation.allObjects()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -61,46 +63,31 @@ class ConversationsViewController: UIViewController {
 
         conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         conversationsTableView.rowHeight = 80
-
-        // for test
-
-        syncFriendshipsAndDoFurtherAction {
-            for obj in User.allObjects() {
-                println(obj.description)
-            }
-        }
-
-        syncGroupsAndDoFurtherAction {
-            for obj in Group.allObjects() {
-                println(obj.description)
-            }
-        }
-
-        syncUnreadMessagesAndDoFurtherAction {
-            for obj in Message.allObjects() {
-                println(obj.description)
-            }
-        }
-
     }
 }
 
 
 extension ConversationsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 15
+        return Int(conversations.count)
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ConversationCell
 
-        let dic = dataSource[indexPath.row % dataSource.count]
+//        let dic = dataSource[indexPath.row % dataSource.count]
+//
+//        let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
+//        cell.avatarImageView.image = AvatarCache.sharedInstance.roundImageNamed(dic["imageName"]!, ofRadius: radius)
+//        cell.nameLabel.text = dic["name"]
+//        cell.chatLabel.text = dic["chatContent"]
+//        cell.timeAgoLabel.text = dic["timeAgo"]
+
+        let conversation = conversations.objectAtIndex(UInt(indexPath.row)) as! Conversation
 
         let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
-        cell.avatarImageView.image = AvatarCache.sharedInstance.roundImageNamed(dic["imageName"]!, ofRadius: radius)
-        cell.nameLabel.text = dic["name"]
-        cell.chatLabel.text = dic["chatContent"]
-        cell.timeAgoLabel.text = dic["timeAgo"]
+
+        cell.configureWithConversation(conversation, avatarRadius: radius)
 
         return cell
     }
