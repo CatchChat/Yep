@@ -73,8 +73,13 @@ class ConversationsViewController: UIViewController {
             }
         }
 
+        groups { result in
+            println("groups: \(result)")
+        }
+
     }
 }
+
 
 extension ConversationsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

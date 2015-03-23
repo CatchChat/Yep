@@ -248,7 +248,7 @@ func unreadMessages(#completion: JSONDictionary -> Void) {
     apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
 }
 
-// MARK: User
+// MARK: Friendships
 
 private func headFriendships(#completion: JSONDictionary -> Void) {
     let requestParameters = [
@@ -329,3 +329,91 @@ func friendships(#completion: [JSONDictionary] -> Void) {
         }
     }
 }
+
+// MARK: Groups
+
+func headGroups(#failureHandler: ((Resource<JSONDictionary>, Reason, NSData?) -> ())?, #completion: JSONDictionary -> Void) {
+    let requestParameters = [
+        "page": 1,
+        "per_page": 1,
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/api/v1/circles", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+func moreGroups(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Resource<JSONDictionary>, Reason, NSData?) -> ())?, #completion: JSONDictionary -> Void) {
+    let requestParameters = [
+        "page": page,
+        "per_page": perPage,
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/api/v1/circles", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+func groups(#completion: [JSONDictionary] -> Void) {
+    return headGroups(failureHandler: nil, completion: { result in
+        if
+            let count = result["count"] as? Int,
+            let currentPage = result["current_page"] as? Int,
+            let perPage = result["per_page"] as? Int {
+                if count <= currentPage * perPage {
+                    if let groups = result["circles"] as? [JSONDictionary] {
+                        completion(groups)
+                    } else {
+                        completion([])
+                    }
+
+                } else {
+                    var groups = [JSONDictionary]()
+
+                    if let page1Groups = result["circles"] as? [JSONDictionary] {
+                        groups += page1Groups
+                    }
+
+                    // We have more groups
+
+                    let downloadGroup = dispatch_group_create()
+
+                    for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
+                        dispatch_group_enter(downloadGroup)
+
+                        moreGroups(inPage: page, withPerPage: perPage, failureHandler: { (resource, reason, data) in
+                            dispatch_group_leave(downloadGroup)
+
+                        }, completion: { result in
+                            if let currentPageGroups = result["circles"] as? [JSONDictionary] {
+                                groups += currentPageGroups
+                            }
+                            dispatch_group_leave(downloadGroup)
+                        })
+                    }
+
+                    dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
+                        completion(groups)
+                    }
+
+                }
+        }
+    })
+}
+
