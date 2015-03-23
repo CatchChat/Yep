@@ -63,9 +63,6 @@ class ConversationsViewController: UIViewController {
         conversationsTableView.rowHeight = 80
 
         // for test
-        unreadMessages { result in
-            println("unreadMessages result: \(result)")
-        }
 
         syncFriendshipsAndDoFurtherAction {
             for obj in User.allObjects() {
@@ -75,6 +72,12 @@ class ConversationsViewController: UIViewController {
 
         syncGroupsAndDoFurtherAction {
             for obj in Group.allObjects() {
+                println(obj.description)
+            }
+        }
+
+        syncUnreadMessagesAndDoFurtherAction {
+            for obj in Message.allObjects() {
                 println(obj.description)
             }
         }

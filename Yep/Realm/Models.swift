@@ -106,10 +106,10 @@ class Message: RLMObject {
     dynamic var textContent: String = ""
     dynamic var coordinate: Coordinate?
 
-    dynamic var attachment: String = ""
+    dynamic var attachmentURLString: String = ""
     dynamic var downloadState: Int = MessageDownloadState.NoDownload.rawValue
     dynamic var localAttachmentName: String = ""
-    dynamic var thumbnail: String = ""
+    dynamic var thumbnailURLString: String = ""
     dynamic var localThumbnailName: String = ""
 
     dynamic var readed: Bool = false

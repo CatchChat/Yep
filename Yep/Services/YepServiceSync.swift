@@ -302,4 +302,209 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary) {
     }
 }
 
+func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
+    unreadMessages { allUnreadMessages in
+        println("allUnreadMessages: \(allUnreadMessages)")
+
+        let realm = RLMRealm.defaultRealm()
+
+        for messageInfo in allUnreadMessages {
+            if let messageID = messageInfo["id"] as? String {
+                let predicate = NSPredicate(format: "messageID = %@", messageID)
+                var message = Message.objectsWithPredicate(predicate).firstObject() as? Message
+
+                if message == nil {
+                    let newMessage = Message()
+                    newMessage.messageID = messageID
+
+                    realm.beginWriteTransaction()
+                    realm.addObject(newMessage)
+                    realm.commitWriteTransaction()
+
+                    message = newMessage
+                }
+
+                // 开始填充消息
+
+                if let message = message {
+
+                    // 纪录消息的发送者
+
+                    if let senderInfo = messageInfo["sender"] as? JSONDictionary {
+                        if let senderID = senderInfo["id"] as? String {
+                            let predicate = NSPredicate(format: "userID = %@", senderID)
+                            var sender = User.objectsWithPredicate(predicate).firstObject() as? User
+
+                            if sender == nil {
+                                let newUser = User()
+
+                                newUser.userID = senderID
+
+                                newUser.friendState = UserFriendState.Stranger.rawValue
+                                
+                                realm.beginWriteTransaction()
+                                realm.addObject(newUser)
+                                realm.commitWriteTransaction()
+                                
+                                sender = newUser
+                            }
+
+                            if let sender = sender {
+                                realm.beginWriteTransaction()
+
+                                if let nickname = senderInfo["nickname"] as? String {
+                                    sender.nickname = nickname
+                                }
+
+                                if let avatarURLString = senderInfo["avatar_url"] as? String {
+                                    sender.avatarURLString = avatarURLString
+                                }
+
+                                message.fromFriend = sender
+
+                                realm.commitWriteTransaction()
+
+
+                                // 查询消息来自的 Group，为空就表示来自 User
+
+                                var sendFromGroup: Group? = nil
+
+                                if let recipientType = messageInfo["recipient_type"] as? String {
+                                    if recipientType == "Circle" {
+                                        if let groupID = messageInfo["recipient_id"] as? String {
+                                            let predicate = NSPredicate(format: "groupID = %@", groupID)
+                                            sendFromGroup = Group.objectsWithPredicate(predicate).firstObject() as? Group
+
+                                            if sendFromGroup == nil {
+                                                let newGroup = Group()
+                                                newGroup.groupID = groupID
+
+                                                if let groupInfo = messageInfo["circle"] as? JSONDictionary {
+                                                    if let groupName = groupInfo["name"] as? String {
+                                                        newGroup.groupName = groupName
+                                                    }
+                                                }
+
+                                                realm.beginWriteTransaction()
+                                                realm.addObject(newGroup)
+                                                realm.commitWriteTransaction()
+
+                                                sendFromGroup = newGroup
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                // 纪录消息所属的 Conversation
+                                
+                                var conversation: Conversation? = nil
+                                
+                                if let sendFromGroup = sendFromGroup {
+                                    conversation = sendFromGroup.conversation
+                                } else {
+                                    conversation = sender.conversation
+                                }
+
+                                // 没有 Conversation 就尝试建立它
+
+                                if conversation == nil {
+                                    let newConversation = Conversation()
+
+                                    if let sendFromGroup = sendFromGroup {
+                                        newConversation.type = ConversationType.Group.rawValue
+                                        newConversation.withGroup = sendFromGroup
+                                    } else {
+                                        newConversation.type = ConversationType.OneToOne.rawValue
+                                        newConversation.withFriend = sender
+                                    }
+
+                                    realm.beginWriteTransaction()
+                                    realm.addObject(newConversation)
+                                    realm.commitWriteTransaction()
+
+                                    conversation = newConversation
+                                }
+
+                                // 在保证有 Conversation 的情况下继续，不然消息没有必要保留
+                                if let conversation = conversation {
+                                    realm.beginWriteTransaction()
+
+                                    conversation.updatedAt = NSDate() // TODO: use message's updated_at
+
+                                    message.conversation = conversation
+
+
+                                    // 纪录消息的 detail 信息
+
+                                    if let textContent = messageInfo["text_content"] as? String {
+                                        message.textContent = textContent
+                                    }
+
+                                    if
+                                        let longitude = messageInfo["longitude"] as? Double,
+                                        let latitude = messageInfo["latitude"] as? Double {
+
+                                            let newCoordinate = Coordinate()
+                                            newCoordinate.longitude = longitude
+                                            newCoordinate.latitude = latitude
+
+                                            message.coordinate = newCoordinate
+                                    }
+
+                                    if let attachments = messageInfo["attachments"] as? [JSONDictionary] {
+                                        for attachmentInfo in attachments {
+                                            // TODO: 若未来没有 Qiniu，需要改动
+                                            // S3: fallback file，尽量用它
+                                            if let fallbackFileInfo = attachmentInfo["fallback_file"] as? JSONDictionary {
+                                                if let fileURLString = fallbackFileInfo["url"] as? String {
+                                                    if let kind = attachmentInfo["kind"] as? String {
+                                                        if kind == "thumbnail" {
+                                                            message.thumbnailURLString = fileURLString
+                                                        } else {
+                                                            message.attachmentURLString = fileURLString
+                                                        }
+                                                    }
+                                                }
+
+                                            } else {
+                                                // Qiniu: normal file, Qiniu
+                                                if let normalFileInfo = attachmentInfo["file"] as? JSONDictionary {
+                                                    if let fileURLString = normalFileInfo["url"] as? String {
+                                                        if let kind = attachmentInfo["kind"] as? String {
+                                                            if kind == "thumbnail" {
+                                                                message.thumbnailURLString = fileURLString
+                                                            } else {
+                                                                message.attachmentURLString = fileURLString
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        if let mediaType = messageInfo["media_type"] as? String {
+                                            message.mediaType = mediaType
+                                        }
+                                    }
+
+                                    realm.commitWriteTransaction()
+
+                                } else {
+                                    realm.beginWriteTransaction()
+                                    realm.addObject(message)
+                                    realm.commitWriteTransaction()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // do futher action
+
+        furtherAction()
+    }
+}
+
 
