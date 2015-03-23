@@ -234,8 +234,9 @@ func publicUploadToken(#failureHandler: ((Resource<QiniuProvider>, Reason, NSDat
 
 // MARK: Messages
 
-func unreadMessages(#completion: JSONDictionary -> Void) {
+func headUnreadMessages(#completion: JSONDictionary -> Void) {
     let requestParameters = [
+        "page": 1,
         "per_page": 100,
     ]
 
@@ -246,6 +247,31 @@ func unreadMessages(#completion: JSONDictionary -> Void) {
     let resource = authJsonResource(path: "/api/v1/messages/unread", method: .GET, requestParameters: requestParameters, parse: parse)
 
     apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+}
+
+func moreUnreadMessages(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Resource<JSONDictionary>, Reason, NSData?) -> ())?, #completion: JSONDictionary -> Void) {
+    let requestParameters = [
+        "page": page,
+        "per_page": perPage,
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/api/v1/messages/unread", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+func unreadMessages(#completion: JSONDictionary -> Void) {
+    return headUnreadMessages { result in
+        completion(result)
+    }
 }
 
 // MARK: Friendships
