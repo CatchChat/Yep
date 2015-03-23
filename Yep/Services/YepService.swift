@@ -231,49 +231,6 @@ func publicUploadToken(#failureHandler: ((Resource<QiniuProvider>, Reason, NSDat
     }
 }
 
-
-// MARK: Messages
-
-func headUnreadMessages(#completion: JSONDictionary -> Void) {
-    let requestParameters = [
-        "page": 1,
-        "per_page": 100,
-    ]
-
-    let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
-    }
-
-    let resource = authJsonResource(path: "/api/v1/messages/unread", method: .GET, requestParameters: requestParameters, parse: parse)
-
-    apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
-}
-
-func moreUnreadMessages(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Resource<JSONDictionary>, Reason, NSData?) -> ())?, #completion: JSONDictionary -> Void) {
-    let requestParameters = [
-        "page": page,
-        "per_page": perPage,
-    ]
-
-    let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
-    }
-
-    let resource = authJsonResource(path: "/api/v1/messages/unread", method: .GET, requestParameters: requestParameters, parse: parse)
-
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
-    } else {
-        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
-    }
-}
-
-func unreadMessages(#completion: JSONDictionary -> Void) {
-    return headUnreadMessages { result in
-        completion(result)
-    }
-}
-
 // MARK: Friendships
 
 private func headFriendships(#completion: JSONDictionary -> Void) {
@@ -341,8 +298,8 @@ func friendships(#completion: [JSONDictionary] -> Void) {
                         moreFriendships(inPage: page, withPerPage: perPage, failureHandler: { (resource, reason, data) in
                             dispatch_group_leave(downloadGroup)
                         }, completion: { result in
-                            if let page1Friendships = result["friendships"] as? [JSONDictionary] {
-                                friendships += page1Friendships
+                            if let currentPageFriendships = result["friendships"] as? [JSONDictionary] {
+                                friendships += currentPageFriendships
                             }
                             dispatch_group_leave(downloadGroup)
                         })
@@ -361,7 +318,7 @@ func friendships(#completion: [JSONDictionary] -> Void) {
 func headGroups(#failureHandler: ((Resource<JSONDictionary>, Reason, NSData?) -> ())?, #completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": 1,
-        "per_page": 1,
+        "per_page": 100,
     ]
 
     let parse: JSONDictionary -> JSONDictionary? = { data in
@@ -443,3 +400,83 @@ func groups(#completion: [JSONDictionary] -> Void) {
     })
 }
 
+// MARK: Messages
+
+func headUnreadMessages(#completion: JSONDictionary -> Void) {
+    let requestParameters = [
+        "page": 1,
+        "per_page": 100,
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/api/v1/messages/unread", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+}
+
+func moreUnreadMessages(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Resource<JSONDictionary>, Reason, NSData?) -> ())?, #completion: JSONDictionary -> Void) {
+    let requestParameters = [
+        "page": page,
+        "per_page": perPage,
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/api/v1/messages/unread", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+func unreadMessages(#completion: [JSONDictionary] -> Void) {
+    return headUnreadMessages { result in
+        if
+            let count = result["count"] as? Int,
+            let currentPage = result["current_page"] as? Int,
+            let perPage = result["per_page"] as? Int {
+                if count <= currentPage * perPage {
+                    if let messages = result["messages"] as? [JSONDictionary] {
+                        completion(messages)
+                    } else {
+                        completion([])
+                    }
+
+                } else {
+                    var messages = [JSONDictionary]()
+
+                    if let page1Messages = result["messages"] as? [JSONDictionary] {
+                        messages += page1Messages
+                    }
+
+                    // We have more friends
+
+                    let downloadGroup = dispatch_group_create()
+
+                    for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
+                        dispatch_group_enter(downloadGroup)
+
+                        moreUnreadMessages(inPage: page, withPerPage: perPage, failureHandler: { (resource, reason, data) in
+                            dispatch_group_leave(downloadGroup)
+                            }, completion: { result in
+                                if let currentPageMessages = result["messages"] as? [JSONDictionary] {
+                                    messages += currentPageMessages
+                                }
+                                dispatch_group_leave(downloadGroup)
+                        })
+                    }
+
+                    dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
+                        completion(messages)
+                    }
+                }
+        }
+    }
+}
