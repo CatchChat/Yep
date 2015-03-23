@@ -45,6 +45,7 @@
 		502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502AE5521AB93215005BD199 /* ProfileFooterCell.xib */; };
 		502AE5581AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5561AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift */; };
 		502AE5591AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502AE5571AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib */; };
+		503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503CAB421AC00CB100DFE830 /* ConversationViewController.swift */; };
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
 		5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */; };
@@ -108,6 +109,7 @@
 		502AE5521AB93215005BD199 /* ProfileFooterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileFooterCell.xib; path = Views/Cells/ProfileFooter/ProfileFooterCell.xib; sourceTree = "<group>"; };
 		502AE5561AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSectionHeaderReusableView.swift; path = Views/ReusableViews/ProfileSectionHeader/ProfileSectionHeaderReusableView.swift; sourceTree = "<group>"; };
 		502AE5571AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSectionHeaderReusableView.xib; path = Views/ReusableViews/ProfileSectionHeader/ProfileSectionHeaderReusableView.xib; sourceTree = "<group>"; };
+		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
 		5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraPreviewView.swift; path = Views/CameraPreview/CameraPreviewView.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				5023DE281AB6857500B3EE96 /* Conversations */,
+				503CAB441AC00CB900DFE830 /* Conversation */,
 				5023DE2B1AB685BD00B3EE96 /* Contacts */,
 				5023DE2E1AB685F100B3EE96 /* Discover */,
 				5023DE311AB6861900B3EE96 /* Profile */,
@@ -416,6 +419,14 @@
 				502AE5571AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib */,
 			);
 			name = ProfileSectionHeader;
+			sourceTree = "<group>";
+		};
+		503CAB441AC00CB900DFE830 /* Conversation */ = {
+			isa = PBXGroup;
+			children = (
+				503CAB421AC00CB100DFE830 /* ConversationViewController.swift */,
+			);
+			name = Conversation;
 			sourceTree = "<group>";
 		};
 		5099B9C51AB95111002F940B /* Rank */ = {
@@ -635,6 +646,7 @@
 				502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */,
 				502AE54E1AB93175005BD199 /* ProfileHeaderCell.swift in Sources */,
 				502AE5381AB866E3005BD199 /* LoginVerifyMobileViewController.swift in Sources */,
+				503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */,
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */,
