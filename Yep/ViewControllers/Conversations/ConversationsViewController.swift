@@ -25,6 +25,13 @@ class ConversationsViewController: UIViewController {
         conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         conversationsTableView.rowHeight = 80
     }
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showConversation" {
+            let vc = segue.destinationViewController as! ConversationViewController
+            vc.conversation = sender as! Conversation
+        }
+    }
 }
 
 
@@ -48,6 +55,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        performSegueWithIdentifier("showConversation", sender: nil)
+        let conversation = conversations.objectAtIndex(UInt(indexPath.row)) as! Conversation
+        performSegueWithIdentifier("showConversation", sender: conversation)
     }
 }

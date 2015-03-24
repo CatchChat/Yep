@@ -10,6 +10,9 @@ import UIKit
 
 class ConversationViewController: UIViewController {
 
+    var conversation: Conversation!
+    
+
     @IBOutlet weak var conversationCollectionView: UICollectionView!
 
     @IBOutlet weak var messageToolbar: MessageToolbar!
@@ -154,15 +157,35 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         if isFromFriend {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
 
-            cell.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(40*0.5)
             cell.textContentLabel.text = message
+
+            if let conversationWithFriend = conversation.withFriend {
+                AvatarCache.sharedInstance.roundAvatarOfUser(conversationWithFriend, withRadius: 40 * 0.5) { roundImage in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        cell.avatarImageView.image = roundImage
+                    }
+                }
+
+            } else {
+                cell.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(40 * 0.5)
+            }
 
             return cell
 
         } else {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
 
-            cell.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(40*0.5)
+            if let avatarURLString = YepUserDefaults.avatarURLString() {
+                AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: 40 * 0.5) { roundImage in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        cell.avatarImageView.image = roundImage
+                    }
+                }
+
+            } else {
+                cell.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(40 * 0.5)
+            }
+
             cell.textContentLabel.text = message
 
             return cell
