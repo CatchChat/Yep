@@ -49,6 +49,7 @@
 		503315981AC1017E0008A209 /* ChatLeftTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 503315961AC1017E0008A209 /* ChatLeftTextCell.xib */; };
 		5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159A1AC101C80008A209 /* ChatRightTextCell.swift */; };
 		5033159D1AC101C80008A209 /* ChatRightTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5033159B1AC101C80008A209 /* ChatRightTextCell.xib */; };
+		503315A01AC126100008A209 /* MessageToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159F1AC126100008A209 /* MessageToolbar.swift */; };
 		503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503CAB421AC00CB100DFE830 /* ConversationViewController.swift */; };
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
@@ -117,6 +118,7 @@
 		503315961AC1017E0008A209 /* ChatLeftTextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftTextCell.xib; path = Views/Cells/ChatLeftText/ChatLeftTextCell.xib; sourceTree = "<group>"; };
 		5033159A1AC101C80008A209 /* ChatRightTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextCell.swift; path = Views/Cells/ChatRightText/ChatRightTextCell.swift; sourceTree = "<group>"; };
 		5033159B1AC101C80008A209 /* ChatRightTextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatRightTextCell.xib; path = Views/Cells/ChatRightText/ChatRightTextCell.xib; sourceTree = "<group>"; };
+		5033159F1AC126100008A209 /* MessageToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageToolbar.swift; path = Views/MessageToolbar/MessageToolbar.swift; sourceTree = "<group>"; };
 		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 				502AE5471AB89A73005BD199 /* ReusableViews */,
 				5099B9C51AB95111002F940B /* Rank */,
 				5099B9CA1AB9A7CF002F940B /* CameraPreview */,
+				503315A11AC126140008A209 /* MessageToolbar */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -447,6 +450,14 @@
 				5033159B1AC101C80008A209 /* ChatRightTextCell.xib */,
 			);
 			name = ChatRightText;
+			sourceTree = "<group>";
+		};
+		503315A11AC126140008A209 /* MessageToolbar */ = {
+			isa = PBXGroup;
+			children = (
+				5033159F1AC126100008A209 /* MessageToolbar.swift */,
+			);
+			name = MessageToolbar;
 			sourceTree = "<group>";
 		};
 		503CAB441AC00CB900DFE830 /* Conversation */ = {
@@ -704,6 +715,7 @@
 				5023DE371AB6979600B3EE96 /* ConversationCell.swift in Sources */,
 				502AE5351AB8649F005BD199 /* LoginByMobileViewController.swift in Sources */,
 				502AE52B1AB819AF005BD199 /* YepConfig.swift in Sources */,
+				503315A01AC126100008A209 /* MessageToolbar.swift in Sources */,
 				502AE5531AB93215005BD199 /* ProfileFooterCell.swift in Sources */,
 				5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */,
 			);

@@ -46,7 +46,7 @@
         <!--Conversation-->
         <scene sceneID="7ti-T6-Ksk">
             <objects>
-                <viewController storyboardIdentifier="ConversationViewController" title="Conversation" id="la3-6z-2aH" customClass="ConversationViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ConversationViewController" title="Conversation" hidesBottomBarWhenPushed="YES" id="la3-6z-2aH" customClass="ConversationViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="29r-Cg-jv3"/>
                         <viewControllerLayoutGuide type="bottom" id="RPb-0Z-fnC"/>
@@ -70,17 +70,26 @@
                                     <outlet property="delegate" destination="la3-6z-2aH" id="zOV-zM-2KH"/>
                                 </connections>
                             </collectionView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="496" width="600" height="44"/>
+                                <items/>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Q0w-sM-iIR" secondAttribute="trailing" id="0ei-y5-SyW"/>
                             <constraint firstAttribute="bottom" secondItem="o5R-dM-KPW" secondAttribute="bottom" id="9CY-zU-Ezq"/>
+                            <constraint firstItem="Q0w-sM-iIR" firstAttribute="leading" secondItem="P6X-OT-hT5" secondAttribute="leading" id="BYY-lE-CF8"/>
                             <constraint firstItem="o5R-dM-KPW" firstAttribute="leading" secondItem="P6X-OT-hT5" secondAttribute="leading" id="BjN-8c-WjM"/>
+                            <constraint firstAttribute="bottom" secondItem="Q0w-sM-iIR" secondAttribute="bottom" constant="60" id="Sf8-1u-t01"/>
                             <constraint firstItem="o5R-dM-KPW" firstAttribute="top" secondItem="P6X-OT-hT5" secondAttribute="top" id="d3q-cT-PCM"/>
                             <constraint firstAttribute="trailing" secondItem="o5R-dM-KPW" secondAttribute="trailing" id="qY6-Ly-z3r"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="conversationCollectionView" destination="o5R-dM-KPW" id="lsW-8A-zmB"/>
+                        <outlet property="messageToolbar" destination="Q0w-sM-iIR" id="vmQ-s1-SlQ"/>
+                        <outlet property="messageToolbarBottomConstraint" destination="Sf8-1u-t01" id="f02-ze-rKh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="chH-Zx-2Ge" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -12,6 +12,10 @@ class ConversationViewController: UIViewController {
 
     @IBOutlet weak var conversationCollectionView: UICollectionView!
 
+    @IBOutlet weak var messageToolbar: MessageToolbar!
+    @IBOutlet weak var messageToolbarBottomConstraint: NSLayoutConstraint!
+
+
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.conversationCollectionView.bounds)
         }()
@@ -24,6 +28,12 @@ class ConversationViewController: UIViewController {
 
         conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
+
+        var contentInset = conversationCollectionView.contentInset
+        contentInset.bottom = messageToolbar.intrinsicContentSize().height
+        conversationCollectionView.contentInset = contentInset
+
+        messageToolbarBottomConstraint.constant = 0
     }
 }
 
