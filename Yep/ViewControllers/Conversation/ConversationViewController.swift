@@ -73,32 +73,42 @@ class ConversationViewController: UIViewController {
     // MARK: Keyboard
 
     func handleKeyboardWillShowNotification(notification: NSNotification) {
+        println("showKeyboard") // 在 iOS 8.3 Beat 3 里，首次弹出键盘时，这个通知会发出三次，下面设置 contentOffset 因执行多次就会导致跳动。但第二次弹出键盘就不会了
+
         if let userInfo = notification.userInfo {
 
             let animationDuration: NSTimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+            let animationCurveValue = (userInfo[UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).unsignedLongValue
             let keyboardEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-            let animationCurveValue = (userInfo[UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).unsignedLongValue << 16
             let keyboardHeight = keyboardEndFrame.height
 
-            UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue), animations: { () -> Void in
+            UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { () -> Void in
                 self.messageToolbarBottomConstraint.constant = keyboardHeight
                 self.view.layoutIfNeeded()
 
+                self.conversationCollectionView.contentOffset.y += keyboardHeight
+                self.conversationCollectionView.contentInset.bottom += keyboardHeight
+
             }, completion: { (finished) -> Void in
-                self.setConversaitonCollectionViewOriginalContentInsetBottom(keyboardHeight + self.messageToolbar.intrinsicContentSize().height)
             })
         }
     }
 
     func handleKeyboardWillHideNotification(notification: NSNotification) {
+        println("hideKeyboard")
+
         if let userInfo = notification.userInfo {
             let animationDuration: NSTimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+            let animationCurveValue = (userInfo[UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).unsignedLongValue
+            let keyboardEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+            let keyboardHeight = keyboardEndFrame.height
 
-            self.setConversaitonCollectionViewOriginalContentInset()
-
-            UIView.animateWithDuration(animationDuration, delay: 0, options: .BeginFromCurrentState, animations: { () -> Void in
+            UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { () -> Void in
                 self.messageToolbarBottomConstraint.constant = 0
                 self.view.layoutIfNeeded()
+
+                self.conversationCollectionView.contentOffset.y -= keyboardHeight
+                self.conversationCollectionView.contentInset.bottom -= keyboardHeight
 
             }, completion: { (finished) -> Void in
             })
