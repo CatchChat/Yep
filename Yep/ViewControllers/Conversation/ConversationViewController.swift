@@ -16,10 +16,14 @@ class ConversationViewController: UIViewController {
         return CGRectGetWidth(self.conversationCollectionView.bounds)
         }()
 
+    let chatLeftTextCellIdentifier = "ChatLeftTextCell"
+    let chatRightTextCellIdentifier = "ChatRightTextCell"
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
+        conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
     }
 }
 
@@ -34,9 +38,23 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("testCell", forIndexPath: indexPath) as! UICollectionViewCell
 
-        return cell
+        if indexPath.row % 2 == 0 {
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
+
+            cell.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(40*0.5)
+            cell.textContentLabel.text = "Hey, how you doing?"
+
+            return cell
+
+        } else {
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
+
+            cell.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(40*0.5)
+            cell.textContentLabel.text = "Do not go gentle into that good night. Old age should burn and rage at close of day."
+
+            return cell
+        }
     }
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
