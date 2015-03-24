@@ -24,6 +24,23 @@ class ConversationViewController: UIViewController {
     let chatRightTextCellIdentifier = "ChatRightTextCell"
 
 
+    lazy var messages = [
+        (true, "What's up?"),
+        (false, "Do not go gentle into that good night,"),
+        (true, "Are you OK?"),
+        (false, "Old age should burn and rage at close of day;"),
+        (true, "Really?"),
+        (false, "Rage, rage against the dying of the light."),
+        (true, "Fuck you!"),
+        (false, "Though wise men at their end know dark is right,"),
+        (true, "You son of bitch!!!"),
+        (true, "Go to hell!!!"),
+        (true, "I will not talk to you again!!!!!!"),
+        (false, "Because their words had forked no lightning they"),
+        (false, "Do not go gentle into that good night."),
+    ]
+
+
     // 使 messageToolbar 随着键盘出现或消失而移动
     var updateUIWithKeyboardChange = false {
         willSet {
@@ -56,6 +73,8 @@ class ConversationViewController: UIViewController {
         messageToolbarBottomConstraint.constant = 0
 
         updateUIWithKeyboardChange = true
+
+        messageToolbar.messageTextField.delegate = self
     }
 
     // MARK: Private
@@ -116,6 +135,8 @@ class ConversationViewController: UIViewController {
     }
 }
 
+// MARK: UICollectionViewDataSource, UICollectionViewDelegate
+
 extension ConversationViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -123,16 +144,18 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 15
+        return messages.count
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        if indexPath.row % 2 == 0 {
+        let (isFromFriend, message) = messages[indexPath.row]
+
+        if isFromFriend {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
 
             cell.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(40*0.5)
-            cell.textContentLabel.text = "Hey, how you doing?"
+            cell.textContentLabel.text = message
 
             return cell
 
@@ -140,7 +163,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
 
             cell.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(40*0.5)
-            cell.textContentLabel.text = "Do not go gentle into that good night. Old age should burn and rage at close of day."
+            cell.textContentLabel.text = message
 
             return cell
         }
@@ -155,3 +178,15 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         view.endEditing(true)
     }
 }
+
+// MARK: UITextFieldDelegate
+
+extension ConversationViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+
+
+        return true
+    }
+}
+
+

@@ -21,6 +21,7 @@ class MessageToolbar: UIToolbar {
     lazy var messageTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .RoundedRect
+        textField.returnKeyType = .Send
         return textField
         }()
 
