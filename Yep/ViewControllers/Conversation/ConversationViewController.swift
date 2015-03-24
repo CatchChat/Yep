@@ -23,6 +23,28 @@ class ConversationViewController: UIViewController {
     let chatLeftTextCellIdentifier = "ChatLeftTextCell"
     let chatRightTextCellIdentifier = "ChatRightTextCell"
 
+
+    // 使 messageToolbar 随着键盘出现或消失而移动
+    var updateMessageToolbarWithKeyboardChange = false {
+        willSet {
+            keyboardChangeObserver = newValue ? NSNotificationCenter.defaultCenter() : nil
+        }
+    }
+    var keyboardChangeObserver: NSNotificationCenter? {
+        didSet {
+            oldValue?.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+            oldValue?.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+
+            keyboardChangeObserver?.addObserver(self, selector: "handleKeyboardWillShowNotification:", name: UIKeyboardWillShowNotification, object: nil)
+            keyboardChangeObserver?.addObserver(self, selector: "handleKeyboardWillHideNotification:", name: UIKeyboardWillHideNotification, object: nil)
+        }
+    }
+
+
+    deinit {
+        updateMessageToolbarWithKeyboardChange = false
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,6 +56,39 @@ class ConversationViewController: UIViewController {
         conversationCollectionView.contentInset = contentInset
 
         messageToolbarBottomConstraint.constant = 0
+
+        updateMessageToolbarWithKeyboardChange = true
+    }
+
+
+    // MARK: Keyboard
+
+    func handleKeyboardWillShowNotification(notification: NSNotification) {
+        if let userInfo = notification.userInfo {
+
+            let animationDuration: NSTimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+            let keyboardEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+            let animationCurveValue = (userInfo[UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).unsignedLongValue << 16
+            let keyboardHeight = keyboardEndFrame.height
+
+            UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue), animations: { () -> Void in
+                self.messageToolbarBottomConstraint.constant = keyboardHeight
+                self.view.layoutIfNeeded()
+                }, completion: { (finished) -> Void in
+            })
+        }
+    }
+
+    func handleKeyboardWillHideNotification(notification: NSNotification) {
+        if let userInfo = notification.userInfo {
+            let animationDuration: NSTimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
+
+            UIView.animateWithDuration(animationDuration, delay: 0, options: .BeginFromCurrentState, animations: { () -> Void in
+                self.messageToolbarBottomConstraint.constant = 0
+                self.view.layoutIfNeeded()
+                }, completion: { (finished) -> Void in
+            })
+        }
     }
 }
 
