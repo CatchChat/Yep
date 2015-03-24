@@ -13,10 +13,16 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="350" height="129"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="left_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="Yfx-Em-Job">
-                        <rect key="frame" x="54" y="47" width="105" height="30"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="left_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="Yfx-Em-Job" userLabel="Left Bubble Image View">
+                        <rect key="frame" x="54" y="46" width="105" height="30"/>
                         <color key="tintColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Text Content" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7zi-6w-hpq" userLabel="Text Content Label">
+                        <rect key="frame" x="70" y="53" width="77" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hYu-LI-zcX" userLabel="Avatar Image View">
                         <rect key="frame" x="15" y="45" width="40" height="40"/>
                         <constraints>
@@ -24,24 +30,18 @@
                             <constraint firstAttribute="width" secondItem="hYu-LI-zcX" secondAttribute="height" multiplier="1:1" id="LI4-Sm-y72"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Content" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7zi-6w-hpq" userLabel="Text Content Label">
-                        <rect key="frame" x="70" y="53" width="77" height="18"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
                 <constraint firstAttribute="centerY" secondItem="hYu-LI-zcX" secondAttribute="centerY" id="BlF-Zy-JM8"/>
-                <constraint firstItem="Yfx-Em-Job" firstAttribute="trailing" secondItem="7zi-6w-hpq" secondAttribute="trailing" constant="12" id="Yqw-D8-tQk"/>
-                <constraint firstItem="Yfx-Em-Job" firstAttribute="top" secondItem="7zi-6w-hpq" secondAttribute="top" constant="-6" id="a1a-fX-p2k"/>
+                <constraint firstItem="Yfx-Em-Job" firstAttribute="bottom" secondItem="7zi-6w-hpq" secondAttribute="bottom" constant="7" id="LKU-Sf-doh"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7zi-6w-hpq" secondAttribute="trailing" constant="35" id="cMB-IC-4ER"/>
-                <constraint firstItem="Yfx-Em-Job" firstAttribute="bottom" secondItem="7zi-6w-hpq" secondAttribute="bottom" constant="6" id="cPT-m9-T5h"/>
+                <constraint firstItem="Yfx-Em-Job" firstAttribute="trailing" secondItem="7zi-6w-hpq" secondAttribute="trailing" constant="12" id="cfS-ia-EAr"/>
                 <constraint firstItem="hYu-LI-zcX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="hM8-00-nUm"/>
-                <constraint firstItem="Yfx-Em-Job" firstAttribute="leading" secondItem="7zi-6w-hpq" secondAttribute="leading" constant="-16" id="oLZ-7m-4TT"/>
+                <constraint firstItem="Yfx-Em-Job" firstAttribute="top" secondItem="7zi-6w-hpq" secondAttribute="top" constant="-7" id="jbo-J2-Eci"/>
                 <constraint firstItem="7zi-6w-hpq" firstAttribute="top" secondItem="hYu-LI-zcX" secondAttribute="top" constant="8" id="r3G-8a-a3O"/>
+                <constraint firstItem="Yfx-Em-Job" firstAttribute="leading" secondItem="7zi-6w-hpq" secondAttribute="leading" constant="-16" id="ror-T5-pvW"/>
                 <constraint firstItem="7zi-6w-hpq" firstAttribute="leading" secondItem="hYu-LI-zcX" secondAttribute="trailing" constant="15" id="vhs-aH-mKd"/>
             </constraints>
             <size key="customSize" width="350" height="129"/>
