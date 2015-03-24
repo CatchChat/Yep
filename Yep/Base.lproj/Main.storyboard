@@ -54,8 +54,44 @@
                     <view key="view" contentMode="scaleToFill" id="P6X-OT-hT5">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="o5R-dM-KPW">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Eqo-WY-IF6">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="testCell" id="kQe-AM-REd">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="la3-6z-2aH" id="fMv-cD-ZTA"/>
+                                    <outlet property="delegate" destination="la3-6z-2aH" id="zOV-zM-2KH"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="o5R-dM-KPW" secondAttribute="bottom" id="9CY-zU-Ezq"/>
+                            <constraint firstItem="o5R-dM-KPW" firstAttribute="leading" secondItem="P6X-OT-hT5" secondAttribute="leading" id="BjN-8c-WjM"/>
+                            <constraint firstItem="o5R-dM-KPW" firstAttribute="top" secondItem="P6X-OT-hT5" secondAttribute="top" id="d3q-cT-PCM"/>
+                            <constraint firstAttribute="trailing" secondItem="o5R-dM-KPW" secondAttribute="trailing" id="qY6-Ly-z3r"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="conversationCollectionView" destination="o5R-dM-KPW" id="lsW-8A-zmB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="chH-Zx-2Ge" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
