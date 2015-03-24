@@ -25,7 +25,7 @@ class ConversationViewController: UIViewController {
 
 
     // 使 messageToolbar 随着键盘出现或消失而移动
-    var updateMessageToolbarWithKeyboardChange = false {
+    var updateUIWithKeyboardChange = false {
         willSet {
             keyboardChangeObserver = newValue ? NSNotificationCenter.defaultCenter() : nil
         }
@@ -42,7 +42,7 @@ class ConversationViewController: UIViewController {
 
 
     deinit {
-        updateMessageToolbarWithKeyboardChange = false
+        updateUIWithKeyboardChange = false
     }
 
     override func viewDidLoad() {
@@ -51,15 +51,24 @@ class ConversationViewController: UIViewController {
         conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
 
-        var contentInset = conversationCollectionView.contentInset
-        contentInset.bottom = messageToolbar.intrinsicContentSize().height
-        conversationCollectionView.contentInset = contentInset
+        setConversaitonCollectionViewOriginalContentInset()
 
         messageToolbarBottomConstraint.constant = 0
 
-        updateMessageToolbarWithKeyboardChange = true
+        updateUIWithKeyboardChange = true
     }
 
+    // MARK: Private
+
+    private func setConversaitonCollectionViewOriginalContentInsetBottom(bottom: CGFloat) {
+        var contentInset = conversationCollectionView.contentInset
+        contentInset.bottom = bottom
+        conversationCollectionView.contentInset = contentInset
+    }
+
+    private func setConversaitonCollectionViewOriginalContentInset() {
+        setConversaitonCollectionViewOriginalContentInsetBottom(messageToolbar.intrinsicContentSize().height)
+    }
 
     // MARK: Keyboard
 
@@ -74,7 +83,9 @@ class ConversationViewController: UIViewController {
             UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue), animations: { () -> Void in
                 self.messageToolbarBottomConstraint.constant = keyboardHeight
                 self.view.layoutIfNeeded()
-                }, completion: { (finished) -> Void in
+
+            }, completion: { (finished) -> Void in
+                self.setConversaitonCollectionViewOriginalContentInsetBottom(keyboardHeight + self.messageToolbar.intrinsicContentSize().height)
             })
         }
     }
@@ -83,10 +94,13 @@ class ConversationViewController: UIViewController {
         if let userInfo = notification.userInfo {
             let animationDuration: NSTimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
 
+            self.setConversaitonCollectionViewOriginalContentInset()
+
             UIView.animateWithDuration(animationDuration, delay: 0, options: .BeginFromCurrentState, animations: { () -> Void in
                 self.messageToolbarBottomConstraint.constant = 0
                 self.view.layoutIfNeeded()
-                }, completion: { (finished) -> Void in
+
+            }, completion: { (finished) -> Void in
             })
         }
     }
@@ -125,5 +139,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
         return CGSizeMake(collectionViewWidth, 60)
+    }
+
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        view.endEditing(true)
     }
 }
