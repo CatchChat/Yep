@@ -106,6 +106,15 @@ class ConversationViewController: UIViewController {
             // Clean
             messageToolbar.messageTextField.text = ""
             messageToolbar.state = .Default
+
+            // Really Do Send Message
+
+            sendText(text, toRecipient: self.conversation.withFriend!.userID, recipientType: "User", failureHandler: { (reason, errorMessage) -> () in
+                defaultFailureHandler(reason, errorMessage)
+                // TODO: sendText 错误提醒
+            }, completion: { success -> Void in
+                println("sendText: \(success)")
+            })
         }
     }
 

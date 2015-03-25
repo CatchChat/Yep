@@ -469,3 +469,108 @@ func unreadMessages(#completion: [JSONDictionary] -> Void) {
         }
     }
 }
+
+func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: ((Reason, String?) -> ())?, #completion: (messageID: String) -> Void) {
+
+    let parse: JSONDictionary -> String? = { data in
+        if let messageID = data["id"] as? String {
+            return messageID
+        }
+        return nil
+    }
+
+    let resource = authJsonResource(path: "/api/v1/messages", method: .POST, requestParameters: messageInfo, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+func sendText(text: String, toRecipient recipientID: String, #recipientType: String, #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
+
+    let realm = RLMRealm.defaultRealm()
+
+    realm.beginWriteTransaction()
+
+    let message = Message()
+    //message.messageID = messageID
+    message.mediaType = MessageMediaType.Text.rawValue
+    message.textContent = text
+
+    // 消息来自于自己
+
+    if let me = tryGetOrCreateMe() {
+        message.fromFriend = me
+    }
+
+    realm.addObject(message)
+
+    // 消息的 Conversation，没有就创建
+
+    var conversation: Conversation? = nil
+
+    if recipientType == "User" {
+        if let withFriend = userWithUserID(recipientID) {
+            conversation = withFriend.conversation
+        }
+
+    } else {
+        if let withGroup = groupWithGroupID(recipientID) {
+            conversation = withGroup.conversation
+        }
+    }
+
+    if conversation == nil {
+        let newConversation = Conversation()
+
+        if recipientType == "User" {
+            newConversation.type = ConversationType.OneToOne.rawValue
+
+            if let withFriend = userWithUserID(recipientID) {
+                newConversation.withFriend = withFriend
+            }
+
+
+        } else {
+            newConversation.type = ConversationType.Group.rawValue
+
+            if let withGroup = groupWithGroupID(recipientID) {
+                newConversation.withGroup = withGroup
+            }
+        }
+
+        conversation = newConversation
+    }
+
+    if let conversation = conversation {
+        message.conversation = conversation
+    }
+
+    realm.commitWriteTransaction()
+
+    let messageInfo: JSONDictionary = [
+        "recipient_id": recipientID,
+        "recipient_type": recipientType,
+        "media_type": MessageMediaType.Text.rawValue,
+        "text_content" : text,
+    ]
+
+    createMessageWithMessageInfo(messageInfo, failureHandler: { (reason, errorMessage) in
+        if let failureHandler = failureHandler {
+            failureHandler(reason, errorMessage)
+        }
+
+    }, completion: { messageID in
+        dispatch_async(dispatch_get_main_queue()) {
+            realm.beginWriteTransaction()
+            message.messageID = messageID
+            realm.commitWriteTransaction()
+        }
+        
+        completion(success: true)
+    })
+}
+
+
