@@ -77,7 +77,7 @@ class ConversationViewController: UIViewController {
 
         updateUIWithKeyboardChange = true
 
-        messageToolbar.messageTextField.delegate = self
+        //messageToolbar.messageTextField.delegate = self
     }
 
     // MARK: Private
@@ -199,16 +199,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         view.endEditing(true)
-    }
-}
-
-// MARK: UITextFieldDelegate
-
-extension ConversationViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-
-
-        return true
     }
 }
 
