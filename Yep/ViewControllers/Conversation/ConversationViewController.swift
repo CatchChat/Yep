@@ -74,12 +74,6 @@ class ConversationViewController: UIViewController {
 
         setConversaitonCollectionViewOriginalContentInset()
 
-//        let layout = conversationCollectionView.collectionViewLayout as! ConversationLayout
-//        layout.delegate = self
-
-
-
-
         messageToolbarBottomConstraint.constant = 0
 
         updateUIWithKeyboardChange = true
@@ -90,6 +84,11 @@ class ConversationViewController: UIViewController {
             let newMessage = (false, text)
             self.messages.append(newMessage)
 
+            // 先重新准备 Layout
+            let layout = self.conversationCollectionView.collectionViewLayout as! ConversationLayout
+            layout.needUpdate = true
+
+            // 再插入 Cell
             let newMessageIndexPath = NSIndexPath(forItem: self.messages.count - 1, inSection: 0)
             self.conversationCollectionView.insertItemsAtIndexPaths([newMessageIndexPath])
 
