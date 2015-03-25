@@ -483,7 +483,14 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
                                         }
 
                                         if let mediaType = messageInfo["media_type"] as? String {
-                                            message.mediaType = mediaType
+                                            if mediaType == "image" {
+                                                message.mediaType = MessageMediaType.Image.rawValue
+                                            } else if mediaType == "video" {
+                                                message.mediaType = MessageMediaType.Video.rawValue
+                                            } else if mediaType == "audio" {
+                                                message.mediaType = MessageMediaType.Audio.rawValue
+                                            }
+                                            // TODO: 若有更多的 Media Type
                                         }
                                     }
 

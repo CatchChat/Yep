@@ -68,10 +68,10 @@ class RegisterPickMobileViewController: UIViewController {
             if available {
                 println("ValidateMobile: available")
 
-                registerMobile(mobile, withAreaCode: areaCode, nickname: YepUserDefaults.nickname()!, failureHandler: { (resource, reason, data) in
-                    defaultFailureHandler(forResource: resource, withFailureReason: reason, data)
+                registerMobile(mobile, withAreaCode: areaCode, nickname: YepUserDefaults.nickname()!, failureHandler: { (reason, errorMessage) in
+                    defaultFailureHandler(reason, errorMessage)
 
-                    if let errorMessage = errorMessageInData(data) {
+                    if let errorMessage = errorMessage {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
                                 mobileNumberTextField.becomeFirstResponder()

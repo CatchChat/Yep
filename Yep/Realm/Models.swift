@@ -90,11 +90,11 @@ enum MessageDownloadState: Int {
     case Downloaded     = 2 // 已下载
 }
 
-enum MessageMediaType: String {
-    case Text   = "text"
-    case Image  = "image"
-    case Video  = "video"
-    case Audio  = "audio"
+enum MessageMediaType: Int {
+    case Text   = 0
+    case Image  = 1
+    case Video  = 2
+    case Audio  = 3
 }
 
 class Message: RLMObject {
@@ -102,7 +102,7 @@ class Message: RLMObject {
 
     dynamic var createdAt: NSDate = NSDate()
 
-    dynamic var mediaType: String = ""
+    dynamic var mediaType: Int = MessageMediaType.Text.rawValue
     dynamic var textContent: String = ""
     dynamic var coordinate: Coordinate?
 
@@ -136,4 +136,53 @@ class Conversation: RLMObject {
         return linkingObjectsOfClass("Message", forProperty: "conversation") as! [Message]
     }
 }
+
+
+
+// MARK: Helpers
+
+func userWithUserID(userID: String) -> User? {
+    let predicate = NSPredicate(format: "userID = %@", userID)
+    return User.objectsWithPredicate(predicate).firstObject() as? User
+}
+
+func groupWithGroupID(groupID: String) -> Group? {
+    let predicate = NSPredicate(format: "groupID = %@", groupID)
+    return Group.objectsWithPredicate(predicate).firstObject() as? Group
+}
+
+func tryGetOrCreateMe() -> User? {
+    if let userID = YepUserDefaults.userID() {
+        if let me = userWithUserID(userID) {
+            return me
+
+        } else {
+            let realm = RLMRealm.defaultRealm()
+
+            realm.beginWriteTransaction()
+            
+            let me = User()
+
+            me.userID = userID
+            me.friendState = UserFriendState.Me.rawValue
+
+            if let nickname = YepUserDefaults.nickname() {
+                me.nickname = nickname
+            }
+
+            if let avatarURLString = YepUserDefaults.avatarURLString() {
+                me.avatarURLString = avatarURLString
+            }
+
+            realm.addObject(me)
+
+            realm.commitWriteTransaction()
+
+            return me
+        }
+    }
+
+    return nil
+}
+
 

@@ -59,10 +59,10 @@ class RegisterVerifyMobileViewController: UIViewController {
         view.endEditing(true)
 
         let verifyCode = verifyCodeTextField.text
-        verifyMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (resource, reason, data) in
-            defaultFailureHandler(forResource: resource, withFailureReason: reason, data)
+        verifyMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage)
 
-            if let errorMessage = errorMessageInData(data) {
+            if let errorMessage = errorMessage {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.nextButton.enabled = false
 

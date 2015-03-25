@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Realm
 
 let baseURL = NSURL(string: "http://park.catchchatchina.com")!
 
@@ -33,21 +34,9 @@ struct QiniuProvider: Printable {
     }
 }
 
-func errorMessageInData(data: NSData?) -> String? {
-    if let data = data {
-        if let json = decodeJSON(data) {
-            if let errorMessage = json["error"] as? String {
-                return errorMessage
-            }
-        }
-    }
-
-    return nil
-}
-
 // MARK: Register
 
-func validateMobile(mobile: String, withAreaCode areaCode: String, #failureHandler: ((Resource<(Bool, String)>, Reason, NSData?) -> ())?, #completion: ((Bool, String)) -> Void) {
+func validateMobile(mobile: String, withAreaCode areaCode: String, #failureHandler: ((Reason, String?) -> ())?, #completion: ((Bool, String)) -> Void) {
     let requestParameters = [
         "mobile": mobile,
         "phone_code": areaCode,
@@ -78,7 +67,7 @@ func validateMobile(mobile: String, withAreaCode areaCode: String, #failureHandl
 
 }
 
-func registerMobile(mobile: String, withAreaCode areaCode: String, #nickname: String, #failureHandler: ((Resource<(Bool)>, Reason, NSData?) -> ())?, #completion: Bool -> Void) {
+func registerMobile(mobile: String, withAreaCode areaCode: String, #nickname: String, #failureHandler: ((Reason, String?) -> ())?, #completion: Bool -> Void) {
     let requestParameters = [
         "mobile": mobile,
         "phone_code": areaCode,
@@ -104,7 +93,7 @@ func registerMobile(mobile: String, withAreaCode areaCode: String, #nickname: St
     }
 }
 
-func verifyMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: String, #failureHandler: ((Resource<LoginUser>, Reason, NSData?) -> ())?, #completion: LoginUser -> Void) {
+func verifyMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: String, #failureHandler: ((Reason, String?) -> ())?, #completion: LoginUser -> Void) {
     let requestParameters: JSONDictionary = [
         "mobile": mobile,
         "phone_code": areaCode,
@@ -140,7 +129,7 @@ func verifyMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: St
 
 // MARK: Login
 
-func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #failureHandler: ((Resource<Bool>, Reason, NSData?) -> ())?, #completion: Bool -> Void) {
+func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #failureHandler: ((Reason, String?) -> ())?, #completion: Bool -> Void) {
 
     let requestParameters = [
         "mobile": mobile,
@@ -166,7 +155,7 @@ func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #fai
     }
 }
 
-func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: String, #failureHandler: ((Resource<LoginUser>, Reason, NSData?) -> ())?, #completion: LoginUser -> Void) {
+func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: String, #failureHandler: ((Reason, String?) -> ())?, #completion: LoginUser -> Void) {
 
     let requestParameters: JSONDictionary = [
         "mobile": mobile,
@@ -203,7 +192,7 @@ func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: S
 
 // MARK: Upload
 
-func publicUploadToken(#failureHandler: ((Resource<QiniuProvider>, Reason, NSData?) -> ())?, #completion: QiniuProvider -> Void) {
+func publicUploadToken(#failureHandler: ((Reason, String?) -> ())?, #completion: QiniuProvider -> Void) {
 
     let parse: JSONDictionary -> QiniuProvider? = { data in
         if let provider = data["provider"] as? String {
@@ -248,7 +237,7 @@ private func headFriendships(#completion: JSONDictionary -> Void) {
     apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
 }
 
-private func moreFriendships(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Resource<JSONDictionary>, Reason, NSData?) -> ())?, #completion: JSONDictionary -> Void) {
+private func moreFriendships(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Reason, String?) -> ())?, #completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": page,
         "per_page": perPage,
@@ -295,7 +284,7 @@ func friendships(#completion: [JSONDictionary] -> Void) {
                     for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
                         dispatch_group_enter(downloadGroup)
 
-                        moreFriendships(inPage: page, withPerPage: perPage, failureHandler: { (resource, reason, data) in
+                        moreFriendships(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
                             dispatch_group_leave(downloadGroup)
                         }, completion: { result in
                             if let currentPageFriendships = result["friendships"] as? [JSONDictionary] {
@@ -315,7 +304,7 @@ func friendships(#completion: [JSONDictionary] -> Void) {
 
 // MARK: Groups
 
-func headGroups(#failureHandler: ((Resource<JSONDictionary>, Reason, NSData?) -> ())?, #completion: JSONDictionary -> Void) {
+func headGroups(#failureHandler: ((Reason, String?) -> ())?, #completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": 1,
         "per_page": 100,
@@ -334,7 +323,7 @@ func headGroups(#failureHandler: ((Resource<JSONDictionary>, Reason, NSData?) ->
     }
 }
 
-func moreGroups(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Resource<JSONDictionary>, Reason, NSData?) -> ())?, #completion: JSONDictionary -> Void) {
+func moreGroups(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Reason, String?) -> ())?, #completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": page,
         "per_page": perPage,
@@ -380,7 +369,7 @@ func groups(#completion: [JSONDictionary] -> Void) {
                     for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
                         dispatch_group_enter(downloadGroup)
 
-                        moreGroups(inPage: page, withPerPage: perPage, failureHandler: { (resource, reason, data) in
+                        moreGroups(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
                             dispatch_group_leave(downloadGroup)
 
                         }, completion: { result in
@@ -417,7 +406,7 @@ func headUnreadMessages(#completion: JSONDictionary -> Void) {
     apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
 }
 
-func moreUnreadMessages(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Resource<JSONDictionary>, Reason, NSData?) -> ())?, #completion: JSONDictionary -> Void) {
+func moreUnreadMessages(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Reason, String?) -> ())?, #completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": page,
         "per_page": perPage,
@@ -463,7 +452,7 @@ func unreadMessages(#completion: [JSONDictionary] -> Void) {
                     for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
                         dispatch_group_enter(downloadGroup)
 
-                        moreUnreadMessages(inPage: page, withPerPage: perPage, failureHandler: { (resource, reason, data) in
+                        moreUnreadMessages(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
                             dispatch_group_leave(downloadGroup)
                             }, completion: { result in
                                 if let currentPageMessages = result["messages"] as? [JSONDictionary] {

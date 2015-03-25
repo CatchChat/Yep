@@ -64,10 +64,10 @@ class LoginByMobileViewController: UIViewController {
         let mobile = mobileNumberTextField.text
         let areaCode = areaCodeTextField.text
 
-        sendVerifyCode(ofMobile: mobile, withAreaCode: areaCode, failureHandler: { (resource, reason, data) in
-            defaultFailureHandler(forResource: resource, withFailureReason: reason, data)
+        sendVerifyCode(ofMobile: mobile, withAreaCode: areaCode, failureHandler: { (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage)
 
-            if let errorMessage = errorMessageInData(data) {
+            if let errorMessage = errorMessage {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
                         mobileNumberTextField.becomeFirstResponder()

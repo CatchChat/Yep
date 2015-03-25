@@ -65,14 +65,14 @@ public enum Reason: Printable {
     }
 }
 
-func defaultFailureHandler<A>(forResource resource:Resource<A>, withFailureReason reason: Reason, data: NSData?) {
+func defaultFailureHandler(reason: Reason, errorMessage: String?) {
     println("\n***************************** YepNetworking Failure *****************************")
-    println("Request: \(resource)")
     println("Reason: \(reason)")
-    if let string = NSString(data: data!, encoding: NSUTF8StringEncoding) {
-        println("Data: \(string)")
+    if let errorMessage = errorMessage {
+        println("errorMessage: \(errorMessage)\n")
+    } else {
+        println()
     }
-    println("\n")
 }
 
 func queryComponents(key: String, value: AnyObject) -> [(String, String)] {
@@ -97,7 +97,7 @@ func queryComponents(key: String, value: AnyObject) -> [(String, String)] {
     return components
 }
 
-public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>, failure: (Resource<A>, Reason, NSData?) -> (), completion: A -> Void) {
+public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>, failure: (Reason, String?) -> (), completion: A -> Void) {
     let session = NSURLSession.sharedSession()
     let url = baseURL.URLByAppendingPathComponent(resource.path)
     let request = NSMutableURLRequest(URL: url)
@@ -147,22 +147,42 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                 if let responseData = data {
                     if let result = resource.parse(responseData) {
                         completion(result)
+
                     } else {
-                        failure(resource, Reason.CouldNotParseJSON, data)
+                        println("\(resource)")
+                        failure(Reason.CouldNotParseJSON, errorMessageInData(data))
                     }
+
                 } else {
-                    failure(resource, Reason.NoData, data)
+                    println("\(resource)")
+                    failure(Reason.NoData, errorMessageInData(data))
                 }
+
             } else {
+                println("\(resource)")
                 println("\nstatusCode: \(httpResponse.statusCode)")
-                failure(resource, Reason.NoSuccessStatusCode(statusCode: httpResponse.statusCode), data)
+                failure(Reason.NoSuccessStatusCode(statusCode: httpResponse.statusCode), errorMessageInData(data))
             }
+
         } else {
-            failure(resource, Reason.Other(error), data)
+            println("\(resource)")
+            failure(Reason.Other(error), errorMessageInData(data))
         }
     }
 
     task.resume()
+}
+
+func errorMessageInData(data: NSData?) -> String? {
+    if let data = data {
+        if let json = decodeJSON(data) {
+            if let errorMessage = json["error"] as? String {
+                return errorMessage
+            }
+        }
+    }
+
+    return nil
 }
 
 // Here are some convenience functions for dealing with JSON APIs
