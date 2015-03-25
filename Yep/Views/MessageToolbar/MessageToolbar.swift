@@ -30,6 +30,8 @@ class MessageToolbar: UIToolbar {
         }
     }
 
+    var textSendAction: ((messageToolBar: MessageToolbar) -> ())?
+
     lazy var cameraButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "item_camera"), forState: .Normal)
@@ -40,7 +42,6 @@ class MessageToolbar: UIToolbar {
     lazy var messageTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .RoundedRect
-        textField.returnKeyType = .Send
         textField.delegate = self
         textField.addTarget(self, action: "editingChangedInTextField:", forControlEvents: UIControlEvents.EditingChanged)
         return textField
@@ -57,6 +58,7 @@ class MessageToolbar: UIToolbar {
         let button = UIButton()
         button.setTitle(NSLocalizedString("Send", comment: ""), forState: .Normal)
         button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
+        button.addTarget(self, action: "trySendTextMessage", forControlEvents: UIControlEvents.TouchUpInside)
         return button
         }()
 
@@ -110,13 +112,19 @@ class MessageToolbar: UIToolbar {
     }
 
 
-    // Mark: TextField
+    // Mark: Helpers
 
     func editingChangedInTextField(textfiled: UITextField) {
         if textfiled.text.isEmpty {
             self.state = .Default
         } else {
             self.state = .TextInput
+        }
+    }
+
+    func trySendTextMessage() {
+        if let textSendAction = textSendAction {
+            textSendAction(messageToolBar: self)
         }
     }
 }

@@ -77,7 +77,25 @@ class ConversationViewController: UIViewController {
 
         updateUIWithKeyboardChange = true
 
-        //messageToolbar.messageTextField.delegate = self
+        messageToolbar.textSendAction = { messageToolbar in
+            let text = messageToolbar.messageTextField.text!
+
+            let newMessage = (false, text)
+            self.messages.append(newMessage)
+
+            let newMessageIndexPath = NSIndexPath(forItem: self.messages.count - 1, inSection: 0)
+            self.conversationCollectionView.insertItemsAtIndexPaths([newMessageIndexPath])
+
+            UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                self.conversationCollectionView.contentOffset.y += 60 + 10 // TODO: 根据消息内容确定高度
+            }, completion: { (finished) -> Void in
+
+            })
+
+            // Clean
+            messageToolbar.messageTextField.text = ""
+            messageToolbar.state = .Default
+        }
     }
 
     // MARK: Private
