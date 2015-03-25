@@ -18,6 +18,9 @@ class ConversationViewController: UIViewController {
     @IBOutlet weak var messageToolbar: MessageToolbar!
     @IBOutlet weak var messageToolbarBottomConstraint: NSLayoutConstraint!
 
+    let messageTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(13)] // TODO: 用配置来决定
+    let messageTextLabelMaxWidth: CGFloat = 320 - (15+40+20) - 20 // TODO: 根据 TextCell 的布局计算
+
 
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.conversationCollectionView.bounds)
@@ -28,19 +31,17 @@ class ConversationViewController: UIViewController {
 
 
     lazy var messages = [
-        (true, "What's up?"),
-        (false, "Do not go gentle into that good night,"),
-        (true, "Are you OK?"),
-        (false, "Old age should burn and rage at close of day;"),
-        (true, "Really?"),
-        (false, "Rage, rage against the dying of the light."),
-        (true, "Fuck you!"),
-        (false, "Though wise men at their end know dark is right,"),
-        (true, "You son of bitch!!!"),
-        (true, "Go to hell!!!"),
-        (true, "I will not talk to you again!!!!!!"),
-        (false, "Because their words had forked no lightning they"),
-        (false, "Do not go gentle into that good night."),
+        (true, "花谢花飞花满天，红消香断有谁怜？游丝软系飘春榭，落絮轻沾扑绣帘。闺中女儿惜春暮，愁绪满怀无释处，手把花锄出绣闺，忍踏落花来复去。柳丝榆荚自芳菲，不管桃飘与李飞。桃李明年能再发，明年闺中知有谁？"),
+        (false, "三月香巢已垒成，梁间燕子太无情！明年花发虽可啄，却不道人去梁空巢也倾。一年三百六十日，风刀霜剑严相逼，明媚鲜妍能几时，一朝漂泊难寻觅。"),
+        (true, "花开易见落难寻，阶前闷杀葬花人，独倚花锄泪暗洒，洒上空枝见血痕。"),
+        (false, "杜鹃无语正黄昏，荷锄归去掩重门。青灯照壁人初睡，冷雨敲窗被未温。"),
+        (true, "怪奴底事倍伤神，半为怜春半恼春： 怜春忽至恼忽去，至又无言去不闻。"),
+        (false, "昨宵庭外悲歌发，知是花魂与鸟魂？花魂鸟魂总难留，鸟自无言花自羞。愿奴胁下生双翼，随花飞到天尽头。"),
+        (true, "天尽头，何处有香丘？"),
+        (false, "未若锦囊收艳骨，一抔净土掩风流。质本洁来还洁去，强于污淖陷渠沟。"),
+        (true, "尔今死去侬收葬，未卜侬身何日丧？侬今葬花人笑痴，他年葬侬知是谁？"),
+        (false, "试看春残花渐落，便是红颜老死时。"),
+        (true, "一朝春尽红颜老，花落人亡两不知！"),
     ]
 
 
@@ -73,6 +74,12 @@ class ConversationViewController: UIViewController {
 
         setConversaitonCollectionViewOriginalContentInset()
 
+//        let layout = conversationCollectionView.collectionViewLayout as! ConversationLayout
+//        layout.delegate = self
+
+
+
+
         messageToolbarBottomConstraint.constant = 0
 
         updateUIWithKeyboardChange = true
@@ -86,8 +93,13 @@ class ConversationViewController: UIViewController {
             let newMessageIndexPath = NSIndexPath(forItem: self.messages.count - 1, inSection: 0)
             self.conversationCollectionView.insertItemsAtIndexPaths([newMessageIndexPath])
 
-            UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                self.conversationCollectionView.contentOffset.y += 60 + 10 // TODO: 根据消息内容确定高度
+            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                // TODO: 不使用魔法数字
+                let rect = text.boundingRectWithSize(CGSize(width: self.messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: self.messageTextAttributes, context: nil)
+
+                let height = max(rect.height + 14 + 20, 40 + 20) + 10
+                self.conversationCollectionView.contentOffset.y += height
+
             }, completion: { (finished) -> Void in
 
             })
@@ -212,7 +224,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        return CGSizeMake(collectionViewWidth, 60)
+        // TODO: 缓存 Cell 高度才是正道
+        // TODO: 不使用魔法数字
+        let (_, message) = messages[indexPath.row]
+        let rect = message.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
+
+        let height = max(rect.height + 14 + 20, 40 + 20)
+        return CGSizeMake(collectionViewWidth, height)
+
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {

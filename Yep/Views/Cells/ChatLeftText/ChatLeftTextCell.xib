@@ -14,17 +14,17 @@
                 <rect key="frame" x="0.0" y="0.0" width="350" height="129"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="left_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="Yfx-Em-Job" userLabel="Left Bubble Image View">
-                        <rect key="frame" x="59" y="46" width="105" height="30"/>
+                        <rect key="frame" x="59" y="50" width="105" height="30"/>
                         <color key="tintColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Content" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7zi-6w-hpq" userLabel="Text Content Label">
-                        <rect key="frame" x="75" y="53" width="77" height="16"/>
+                        <rect key="frame" x="75" y="57" width="77" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hYu-LI-zcX" userLabel="Avatar Image View">
-                        <rect key="frame" x="15" y="45" width="40" height="40"/>
+                        <rect key="frame" x="15" y="49" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="JV9-zT-1At"/>
                             <constraint firstAttribute="width" secondItem="hYu-LI-zcX" secondAttribute="height" multiplier="1:1" id="LI4-Sm-y72"/>
@@ -34,7 +34,7 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstAttribute="centerY" secondItem="hYu-LI-zcX" secondAttribute="centerY" id="BlF-Zy-JM8"/>
+                <constraint firstAttribute="centerY" secondItem="7zi-6w-hpq" secondAttribute="centerY" id="Dys-Uh-KBW"/>
                 <constraint firstItem="Yfx-Em-Job" firstAttribute="bottom" secondItem="7zi-6w-hpq" secondAttribute="bottom" constant="7" id="LKU-Sf-doh"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7zi-6w-hpq" secondAttribute="trailing" constant="20" id="cMB-IC-4ER"/>
                 <constraint firstItem="Yfx-Em-Job" firstAttribute="trailing" secondItem="7zi-6w-hpq" secondAttribute="trailing" constant="12" id="cfS-ia-EAr"/>
