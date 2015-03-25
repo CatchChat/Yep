@@ -37,22 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // for test
 
-        syncFriendshipsAndDoFurtherAction {
-            for obj in User.allObjects() {
-                println(obj.description)
-            }
-        }
-
-        syncGroupsAndDoFurtherAction {
-            for obj in Group.allObjects() {
-                println(obj.description)
-            }
-        }
-
-        syncUnreadMessagesAndDoFurtherAction {
-            for obj in Message.allObjects() {
-                println(obj.description)
-            }
+        if let token = YepUserDefaults.v1AccessToken() {
+            sync()
         }
 
         return true
@@ -93,6 +79,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let rootViewController = storyboard.instantiateViewControllerWithIdentifier("MainTabBarController") as! UITabBarController
         window?.rootViewController = rootViewController
+    }
+
+    func sync() {
+        syncFriendshipsAndDoFurtherAction {
+            syncGroupsAndDoFurtherAction {
+                syncUnreadMessagesAndDoFurtherAction {
+                }
+            }
+        }
+
+        // TODO: 刷新 UI，特别是对于首次登陆来说
     }
 
     // MARK: Private

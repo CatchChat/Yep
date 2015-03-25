@@ -6,8 +6,7 @@
 //  Copyright (c) 2015年 Catch Inc. All rights reserved.
 //
 
-import Foundation
-
+import UIKit
 
 let v1AccessTokenKey = "v1AccessToken"
 let userIDKey = "userID"
@@ -26,6 +25,11 @@ class YepUserDefaults {
     class func setV1AccessToken(accessToken: String) {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(accessToken, forKey: v1AccessTokenKey)
+
+        // 同步数据的好时机
+        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            appDelegate.sync()
+        }
     }
 
     // MARK: userID
