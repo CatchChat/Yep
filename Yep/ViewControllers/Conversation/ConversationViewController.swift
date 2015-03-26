@@ -72,16 +72,17 @@ class ConversationViewController: UIViewController {
 
         updateUIWithKeyboardChange = true
 
-        println("A messages.count: \(messages.count)")
         lastTimeMessagesCount = messages.count
 
         messageToolbar.textSendAction = { messageToolbar in
             let text = messageToolbar.messageTextField.text!
 
+            self.cleanTextInput()
+
             if let withFriend = self.conversation.withFriend {
                 sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.updateUIAfterCreatedMessage(message)
+                        self.updateConversationCollectionView()
                     }
 
                 }, failureHandler: { (reason, errorMessage) -> () in
@@ -95,7 +96,7 @@ class ConversationViewController: UIViewController {
             } else if let withGroup = self.conversation.withGroup {
                 sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.updateUIAfterCreatedMessage(message)
+                        self.updateConversationCollectionView()
                     }
 
                 }, failureHandler: { (reason, errorMessage) -> () in
@@ -127,8 +128,6 @@ class ConversationViewController: UIViewController {
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
 
-        println("B messages.count: \(messages.count)")
-
         let layout = conversationCollectionView.collectionViewLayout as! ConversationLayout
         layout.needUpdate = true
 
@@ -158,31 +157,9 @@ class ConversationViewController: UIViewController {
         }
     }
 
-    func updateUIAfterCreatedMessage(message: Message) {
-        if messages.count > 0 {
-            // 先重新准备 Layout
-
-            let layout = conversationCollectionView.collectionViewLayout as! ConversationLayout
-            layout.needUpdate = true
-
-            // 再插入 Cell
-            let newMessageIndexPath = NSIndexPath(forItem: Int(messages.count - 1), inSection: 0)
-            conversationCollectionView.insertItemsAtIndexPaths([newMessageIndexPath])
-
-            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                // TODO: 不使用魔法数字
-                let rect = message.textContent.boundingRectWithSize(CGSize(width: self.messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: self.messageTextAttributes, context: nil)
-
-                let height = max(ceil(rect.height) + 14 + 20, 40 + 20) + 10
-                self.conversationCollectionView.contentOffset.y += height
-
-            }, completion: { (finished) -> Void in
-            })
-            
-            // Clean
-            messageToolbar.messageTextField.text = ""
-            messageToolbar.state = .Default
-        }
+    func cleanTextInput() {
+        messageToolbar.messageTextField.text = ""
+        messageToolbar.state = .Default
     }
 
     // MARK: Keyboard
