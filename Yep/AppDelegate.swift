@@ -49,7 +49,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if let token = YepUserDefaults.v1AccessToken() {
             sync()
-            YepMessageService.sharedManager
+
+            startFaye()
         }
         
         return true
@@ -137,10 +138,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
-        
-
-
         // TODO: 刷新 UI，特别是对于首次登陆来说
+    }
+
+    func startFaye() {
+        FayeService.sharedManager.startConnect()
     }
 
     func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {

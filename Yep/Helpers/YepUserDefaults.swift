@@ -27,9 +27,12 @@ class YepUserDefaults {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(accessToken, forKey: v1AccessTokenKey)
 
-        // 同步数据的好时机
         if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            // 注册或初次登录时同步数据的好时机
             appDelegate.sync()
+
+            // 也是注册或初次登录时启动 Faye 的好时机
+            appDelegate.startFaye()
         }
     }
 

@@ -9,16 +9,12 @@
 import UIKit
 import MZFayeClient
 
-private let sharedYepMessageService = YepMessageService()
+class FayeService: NSObject, MZFayeClientDelegate {
 
-class YepMessageService: NSObject, MZFayeClientDelegate{
-    
-    let client:MZFayeClient!
-    
-    class var sharedManager : YepMessageService {
-        return sharedYepMessageService
-    }
-    
+    static let sharedManager = FayeService()
+
+    let client: MZFayeClient
+
     override init() {
 
         client = MZFayeClient(URL:NSURL(string: "http://faye-proxy-1245945049.cn-north-1.elb.amazonaws.com.cn/faye"))
@@ -26,25 +22,41 @@ class YepMessageService: NSObject, MZFayeClientDelegate{
         super.init()
         
         client.delegate = self
-        
-        if let v1AccessToken = YepUserDefaults.v1AccessToken() {
-            var extensionData = [
-            "access_token": v1AccessToken,
-            "mobile": "18620855007",
-            "phone_code": "86"
-            ]
-            
-            let userID = YepUserDefaults.userID()!
-            let personalChannel = "/users/\(userID)/messages"
-            println("Will Subscribe \(personalChannel)")
-            client.setExtension(extensionData, forChannel: personalChannel)
-            client.subscribeToChannel(personalChannel)
-            
-            client.connect()
-        }
-
-
     }
+
+    // MARK: Public
+
+    func startConnect() {
+        if
+            let v1AccessToken = YepUserDefaults.v1AccessToken(),
+            let userID = YepUserDefaults.userID() {
+                let extensionData = [
+                    "access_token": v1AccessToken,
+                    "mobile": "18620855007",
+                    "phone_code": "86"
+                ]
+
+                let personalChannel = personalChannelWithUserID(userID)
+
+                println("Will Subscribe \(personalChannel)")
+
+                client.setExtension(extensionData, forChannel: personalChannel)
+                client.subscribeToChannel(personalChannel)
+                
+                client.connect()
+
+        } else {
+            println("FayeClient start failed!!!!")
+        }
+    }
+
+    // MARK: Private
+
+    private func personalChannelWithUserID(userID: String) -> String {
+        return "/users/\(userID)/messages"
+    }
+
+    // MARK: MZFayeClientDelegate
     
     func fayeClient(client: MZFayeClient!, didConnectToURL url: NSURL!) {
         println("fayeClient didConnectToURL \(url)")

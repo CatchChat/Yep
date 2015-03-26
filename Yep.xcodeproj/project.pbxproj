@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A6443C91AC44B5800DC818D /* YepMessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6443C81AC44B5800DC818D /* YepMessageService.swift */; };
 		0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F54B01AB67D11004AD60E /* AppDelegate.swift */; };
 		0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B41AB67D11004AD60E /* Main.storyboard */; };
 		0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B71AB67D11004AD60E /* Images.xcassets */; };
@@ -65,6 +64,7 @@
 		5033159D1AC101C80008A209 /* ChatRightTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5033159B1AC101C80008A209 /* ChatRightTextCell.xib */; };
 		503315A01AC126100008A209 /* MessageToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159F1AC126100008A209 /* MessageToolbar.swift */; };
 		503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503CAB421AC00CB100DFE830 /* ConversationViewController.swift */; };
+		5076C56A1AC46B9F00B22952 /* FayeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5076C5691AC46B9F00B22952 /* FayeService.swift */; };
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
 		5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */; };
@@ -86,7 +86,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0A6443C81AC44B5800DC818D /* YepMessageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepMessageService.swift; path = Services/YepMessageService.swift; sourceTree = "<group>"; };
 		0A8F54AB1AB67D11004AD60E /* Yep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yep.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A8F54AF1AB67D11004AD60E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A8F54B01AB67D11004AD60E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -152,6 +151,7 @@
 		5033159B1AC101C80008A209 /* ChatRightTextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatRightTextCell.xib; path = Views/Cells/ChatRightText/ChatRightTextCell.xib; sourceTree = "<group>"; };
 		5033159F1AC126100008A209 /* MessageToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageToolbar.swift; path = Views/MessageToolbar/MessageToolbar.swift; sourceTree = "<group>"; };
 		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
+		5076C5691AC46B9F00B22952 /* FayeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FayeService.swift; path = Services/FayeService.swift; sourceTree = "<group>"; };
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
 		5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraPreviewView.swift; path = Views/CameraPreview/CameraPreviewView.swift; sourceTree = "<group>"; };
@@ -408,7 +408,7 @@
 				502AE5261AB72D06005BD199 /* YepNetworking.swift */,
 				502AE5281AB81076005BD199 /* YepService.swift */,
 				50E114F81ABC137A00F13000 /* YepServiceSync.swift */,
-				0A6443C81AC44B5800DC818D /* YepMessageService.swift */,
+				5076C5691AC46B9F00B22952 /* FayeService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -783,7 +783,6 @@
 				502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */,
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
 				50E114F41ABBF9CC00F13000 /* Models.swift in Sources */,
-				0A6443C91AC44B5800DC818D /* YepMessageService.swift in Sources */,
 				50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */,
 				50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */,
 				5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */,
@@ -796,6 +795,7 @@
 				50E114F71ABBFA7000F13000 /* RLMSupport.swift in Sources */,
 				5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */,
 				502AE5271AB72D06005BD199 /* YepNetworking.swift in Sources */,
+				5076C56A1AC46B9F00B22952 /* FayeService.swift in Sources */,
 				5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */,
 				502AE5291AB81076005BD199 /* YepService.swift in Sources */,
 				502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */,
