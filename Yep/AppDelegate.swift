@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     var deviceToken: NSData?
+    var notRegisteredPush = true
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -78,13 +79,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
 
         if let pusherID = YepUserDefaults.pusherID() {
-            registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
+            if notRegisteredPush {
+                notRegisteredPush = false
 
-        } else {
-            // 注册前或登录前没有 pusherID 就没办法了
-            // 所以先保留 deviceToken 备用
-            self.deviceToken = deviceToken
+                registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
+            }
         }
+
+        // 纪录下来，用于初次登录或注册有 pusherID 后，或“注销再登录”
+        self.deviceToken = deviceToken
     }
 
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
@@ -127,10 +130,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {
         APService.registerDeviceToken(deviceToken)
-        APService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector: "tagsAliasCallback:tags:alias:", object: nil)
+        APService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector: "", object: nil)
     }
 
-    func tagsAliasCallback(iResCode: Int, tags: Set<String>, alias: String) {
+    func tagsAliasCallback(iResCode: Int, tags: NSSet, alias: String) {
         println("tagsAliasCallback \(iResCode), \(tags), \(alias)")
     }
 

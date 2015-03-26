@@ -82,8 +82,12 @@ class YepUserDefaults {
 
         // 注册推送的好时机
         if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-            if let deviceToken = appDelegate.deviceToken {
-                appDelegate.registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
+            if appDelegate.notRegisteredPush {
+                appDelegate.notRegisteredPush = false
+
+                if let deviceToken = appDelegate.deviceToken {
+                    appDelegate.registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
+                }
             }
         }
     }
