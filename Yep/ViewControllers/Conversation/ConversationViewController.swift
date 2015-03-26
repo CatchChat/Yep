@@ -71,30 +71,31 @@ class ConversationViewController: UIViewController {
             let text = messageToolbar.messageTextField.text!
 
             if let withFriend = self.conversation.withFriend {
-                sendText(text, toRecipient: withFriend.userID, recipientType: "User", failureHandler: { (reason, errorMessage) -> () in
+                sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.updateUIAfterCreatedMessage(message)
+                    }
+
+                }, failureHandler: { (reason, errorMessage) -> () in
                     defaultFailureHandler(reason, errorMessage)
                     // TODO: sendText 错误提醒
 
                 }, completion: { success -> Void in
                     println("sendText: \(success)")
-
-                    // 完成后，Message 就插入数据库了，下面插入 Cell 才有可能
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.updateUIAfterSentText(text)
-                    }
                 })
+
             } else if let withGroup = self.conversation.withGroup {
-                sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", failureHandler: { (reason, errorMessage) -> () in
+                sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.updateUIAfterCreatedMessage(message)
+                    }
+
+                }, failureHandler: { (reason, errorMessage) -> () in
                     defaultFailureHandler(reason, errorMessage)
                     // TODO: sendText 错误提醒
 
                 }, completion: { success -> Void in
                     println("sendText: \(success)")
-
-                    // 完成后，Message 就插入数据库了，下面插入 Cell 才有可能
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.updateUIAfterSentText(text)
-                    }
                 })
             }
         }
@@ -114,29 +115,31 @@ class ConversationViewController: UIViewController {
 
     // MARK: Actions
 
-    func updateUIAfterSentText(text: String) {
-        // 先重新准备 Layout
-        let layout = self.conversationCollectionView.collectionViewLayout as! ConversationLayout
-        layout.needUpdate = true
+    func updateUIAfterCreatedMessage(message: Message) {
+        if self.messages.count > 0 {
+            // 先重新准备 Layout
 
-        // 再插入 Cell
-        let newMessageIndexPath = NSIndexPath(forItem: self.conversation.messages.count - 1, inSection: 0)
-        self.conversationCollectionView.insertItemsAtIndexPaths([newMessageIndexPath])
+            let layout = self.conversationCollectionView.collectionViewLayout as! ConversationLayout
+            layout.needUpdate = true
 
-        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-            // TODO: 不使用魔法数字
-            let rect = text.boundingRectWithSize(CGSize(width: self.messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: self.messageTextAttributes, context: nil)
+            // 再插入 Cell
+            let newMessageIndexPath = NSIndexPath(forItem: Int(self.messages.count - 1), inSection: 0)
+            self.conversationCollectionView.insertItemsAtIndexPaths([newMessageIndexPath])
 
-            let height = max(rect.height + 14 + 20, 40 + 20) + 10
-            self.conversationCollectionView.contentOffset.y += height
+            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                // TODO: 不使用魔法数字
+                let rect = message.textContent.boundingRectWithSize(CGSize(width: self.messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: self.messageTextAttributes, context: nil)
+
+                let height = max(rect.height + 14 + 20, 40 + 20) + 10
+                self.conversationCollectionView.contentOffset.y += height
 
             }, completion: { (finished) -> Void in
-
-        })
-
-        // Clean
-        self.messageToolbar.messageTextField.text = ""
-        self.messageToolbar.state = .Default
+            })
+            
+            // Clean
+            self.messageToolbar.messageTextField.text = ""
+            self.messageToolbar.state = .Default
+        }
     }
 
     // MARK: Keyboard
@@ -194,7 +197,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return conversation.messages.count
+        return Int(messages.count)
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

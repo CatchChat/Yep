@@ -488,7 +488,7 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
     }
 }
 
-func sendText(text: String, toRecipient recipientID: String, #recipientType: String, #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
+func sendText(text: String, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> (), #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
 
     let realm = RLMRealm.defaultRealm()
 
@@ -507,9 +507,15 @@ func sendText(text: String, toRecipient recipientID: String, #recipientType: Str
 
     realm.addObject(message)
 
+    realm.commitWriteTransaction()
+
+
+
     // 消息的 Conversation，没有就创建
 
     var conversation: Conversation? = nil
+
+    realm.beginWriteTransaction()
 
     if recipientType == "User" {
         if let withFriend = userWithUserID(recipientID) {
@@ -568,8 +574,10 @@ func sendText(text: String, toRecipient recipientID: String, #recipientType: Str
             realm.beginWriteTransaction()
             message.messageID = messageID
             realm.commitWriteTransaction()
+
+            afterCreatedMessage(message)
         }
-        
+
         completion(success: true)
     })
 }
