@@ -636,6 +636,11 @@
 					0A8F54AA1AB67D11004AD60E = {
 						CreatedOnToolsVersion = 6.3;
 						DevelopmentTeam = TKRALRXCKN;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					0A8F54BF1AB67D11004AD60E = {
 						CreatedOnToolsVersion = 6.3;

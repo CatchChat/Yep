@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             startIntroStory()
         }
         
-        APService.setupWithOption(launchOptions)
+
         
 //        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
 //        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickAvatarViewController") as! RegisterPickAvatarViewController
@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         APService.registerForRemoteNotificationTypes(UIUserNotificationType.Badge.rawValue | UIUserNotificationType.Badge.rawValue | UIUserNotificationType.Alert.rawValue , categories: nil)
-
+        APService.setupWithOption(launchOptions)
         return true
     }
 
@@ -94,6 +94,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         // TODO: 刷新 UI，特别是对于首次登陆来说
+    }
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        
+        APService.registerDeviceToken(deviceToken)
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        APService.handleRemoteNotification(userInfo)
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        println(error.description)
     }
 
     // MARK: Private
