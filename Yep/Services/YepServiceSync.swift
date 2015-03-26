@@ -15,7 +15,7 @@ let YepNewMessagesReceivedNotification = "YepNewMessagesReceivedNotification"
 
 func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
     friendships { allFriendships in
-        println("allFriendships: \(allFriendships)")
+        //println("allFriendships: \(allFriendships)")
 
         // 先整理出所有的 friend 的 userID
         var remoteUerIDSet = Set<String>()
@@ -112,7 +112,7 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
 func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
     groups { allGroups in
-        println("allGroups: \(allGroups)")
+        //println("allGroups: \(allGroups)")
 
         // 先整理出所有的 group 的 groupID
         var remoteGroupIDSet = Set<String>()

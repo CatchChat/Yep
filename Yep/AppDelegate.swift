@@ -8,6 +8,7 @@
 
 import UIKit
 import JPushSDK
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -37,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             startIntroStory()
         }
         
+        Crashlytics.startWithAPIKey("3030ba006e21bcf8eb4a2127b6a7931ea6667486")
 
         
 //        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
@@ -47,6 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if let token = YepUserDefaults.v1AccessToken() {
             sync()
+            YepMessageService.sharedManager
         }
         
         return true
@@ -134,6 +137,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
+        
+
 
         // TODO: 刷新 UI，特别是对于首次登陆来说
     }
