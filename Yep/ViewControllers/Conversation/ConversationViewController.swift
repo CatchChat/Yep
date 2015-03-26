@@ -17,6 +17,9 @@ class ConversationViewController: UIViewController {
         return messagesInConversation(self.conversation)
         }()
 
+    // 上一次更新 UI 时的消息数
+    var lastTimeMessagesCount: UInt = 0
+
     @IBOutlet weak var conversationCollectionView: UICollectionView!
 
     @IBOutlet weak var messageToolbar: MessageToolbar!
@@ -58,6 +61,8 @@ class ConversationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationCollectionView", name: YepNewMessagesReceivedNotification, object: nil)
+
         conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
 
@@ -66,6 +71,9 @@ class ConversationViewController: UIViewController {
         messageToolbarBottomConstraint.constant = 0
 
         updateUIWithKeyboardChange = true
+
+        println("A messages.count: \(messages.count)")
+        lastTimeMessagesCount = messages.count
 
         messageToolbar.textSendAction = { messageToolbar in
             let text = messageToolbar.messageTextField.text!
@@ -115,30 +123,65 @@ class ConversationViewController: UIViewController {
 
     // MARK: Actions
 
+    func updateConversationCollectionView() {
+        let _lastTimeMessagesCount = lastTimeMessagesCount
+        lastTimeMessagesCount = messages.count
+
+        println("B messages.count: \(messages.count)")
+
+        let layout = conversationCollectionView.collectionViewLayout as! ConversationLayout
+        layout.needUpdate = true
+
+        conversationCollectionView.reloadData()
+
+        let newMessagesCount = messages.count - _lastTimeMessagesCount
+
+        if newMessagesCount > 0 {
+
+            var newMessagesTotalHeight: CGFloat = 0
+
+            for i in _lastTimeMessagesCount..<messages.count {
+                let message = messages.objectAtIndex(i) as! Message
+
+                let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
+
+                let height = max(ceil(rect.height) + 14 + 20, 40 + 20) + 10
+
+                newMessagesTotalHeight += height
+            }
+
+            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                self.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
+                
+                }, completion: { (finished) -> Void in
+            })
+        }
+    }
+
     func updateUIAfterCreatedMessage(message: Message) {
-        if self.messages.count > 0 {
+        if messages.count > 0 {
             // 先重新准备 Layout
 
-            let layout = self.conversationCollectionView.collectionViewLayout as! ConversationLayout
+            let layout = conversationCollectionView.collectionViewLayout as! ConversationLayout
             layout.needUpdate = true
 
             // 再插入 Cell
-            let newMessageIndexPath = NSIndexPath(forItem: Int(self.messages.count - 1), inSection: 0)
-            self.conversationCollectionView.insertItemsAtIndexPaths([newMessageIndexPath])
+            let newMessageIndexPath = NSIndexPath(forItem: Int(messages.count - 1), inSection: 0)
+            conversationCollectionView.insertItemsAtIndexPaths([newMessageIndexPath])
 
             UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                 // TODO: 不使用魔法数字
                 let rect = message.textContent.boundingRectWithSize(CGSize(width: self.messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: self.messageTextAttributes, context: nil)
 
-                let height = max(rect.height + 14 + 20, 40 + 20) + 10
+                let height = max(ceil(rect.height) + 14 + 20, 40 + 20) + 10
                 self.conversationCollectionView.contentOffset.y += height
 
             }, completion: { (finished) -> Void in
             })
             
             // Clean
-            self.messageToolbar.messageTextField.text = ""
-            self.messageToolbar.state = .Default
+            messageToolbar.messageTextField.text = ""
+            messageToolbar.state = .Default
         }
     }
 

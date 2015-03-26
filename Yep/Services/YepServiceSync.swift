@@ -9,6 +9,10 @@
 import Foundation
 import Realm
 
+
+let YepNewMessagesReceivedNotification = "YepNewMessagesReceivedNotification"
+
+
 func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
     friendships { allFriendships in
         println("allFriendships: \(allFriendships)")
@@ -304,7 +308,7 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary) {
 
 func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
     unreadMessages { allUnreadMessages in
-        println("allUnreadMessages: \(allUnreadMessages)")
+        //println("allUnreadMessages: \(allUnreadMessages)")
 
         let realm = RLMRealm.defaultRealm()
 

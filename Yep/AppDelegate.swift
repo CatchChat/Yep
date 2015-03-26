@@ -96,6 +96,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if let v1AccessToken = YepUserDefaults.v1AccessToken() {
             APService.handleRemoteNotification(userInfo)
+
+            if let type = userInfo["type"] as? String {
+                if type == "message" {
+                    syncUnreadMessagesAndDoFurtherAction() {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
+                        }
+                    }
+                }
+            }
         }
     }
 
