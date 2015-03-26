@@ -49,6 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if let token = YepUserDefaults.v1AccessToken() {
             sync()
+            YepMessageService.sharedManager
         }
         
         return true
@@ -126,6 +127,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
+        
+
 
         // TODO: 刷新 UI，特别是对于首次登陆来说
     }
