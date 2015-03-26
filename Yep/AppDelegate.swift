@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import JPushSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -29,7 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if !isLogined {
             startIntroStory()
         }
-
+        
+        APService.setupWithOption(launchOptions)
         
 //        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
 //        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickAvatarViewController") as! RegisterPickAvatarViewController
@@ -40,6 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let token = YepUserDefaults.v1AccessToken() {
             sync()
         }
+        
+        APService.registerForRemoteNotificationTypes(UIUserNotificationType.Badge.rawValue | UIUserNotificationType.Badge.rawValue | UIUserNotificationType.Alert.rawValue , categories: nil)
 
         return true
     }

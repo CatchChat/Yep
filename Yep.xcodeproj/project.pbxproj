@@ -12,6 +12,18 @@
 		0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B71AB67D11004AD60E /* Images.xcassets */; };
 		0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B91AB67D11004AD60E /* LaunchScreen.xib */; };
 		0A8F54C71AB67D11004AD60E /* YepTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F54C61AB67D11004AD60E /* YepTests.swift */; };
+		0AD7EA5C1AC3ECD700617758 /* libPushSDK-1.8.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA5B1AC3ECD700617758 /* libPushSDK-1.8.3.a */; };
+		0AD7EA5E1AC3ED1200617758 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA5D1AC3ED1200617758 /* CFNetwork.framework */; };
+		0AD7EA601AC3ED1900617758 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA5F1AC3ED1900617758 /* CoreFoundation.framework */; };
+		0AD7EA621AC3ED2100617758 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA611AC3ED2100617758 /* CoreTelephony.framework */; };
+		0AD7EA641AC3ED2A00617758 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA631AC3ED2A00617758 /* SystemConfiguration.framework */; };
+		0AD7EA661AC3ED3000617758 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA651AC3ED3000617758 /* CoreGraphics.framework */; };
+		0AD7EA681AC3ED3600617758 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA671AC3ED3600617758 /* Foundation.framework */; };
+		0AD7EA6A1AC3ED3D00617758 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA691AC3ED3D00617758 /* UIKit.framework */; };
+		0AD7EA6C1AC3ED4300617758 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA6B1AC3ED4300617758 /* Security.framework */; };
+		0AD7EA6E1AC3ED4A00617758 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA6D1AC3ED4A00617758 /* libz.dylib */; };
+		0AD7EA741AC3EE9600617758 /* libPushSDK-1.8.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA731AC3EE9600617758 /* libPushSDK-1.8.3.a */; };
+		0AD7EA771AC3EEB000617758 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AD7EA761AC3EEB000617758 /* PushConfig.plist */; };
 		15606C18E1487982869C0A42 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD88F6095DB46DFAD41AB5DB /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50165C441AC2860900C7AEBE /* ConversationLayout.swift */; };
 		5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE251AB6856300B3EE96 /* ConversationsViewController.swift */; };
@@ -82,6 +94,21 @@
 		0A8F54C01AB67D11004AD60E /* YepTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A8F54C51AB67D11004AD60E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A8F54C61AB67D11004AD60E /* YepTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepTests.swift; sourceTree = "<group>"; };
+		0AD7EA511AC3EA6F00617758 /* JPushSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JPushSDK.framework; path = "Pods/../build/Debug-iphoneos/Pods/JPushSDK.framework"; sourceTree = "<group>"; };
+		0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Yep-Bridging-Header.h"; sourceTree = "<group>"; };
+		0AD7EA5B1AC3ECD700617758 /* libPushSDK-1.8.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPushSDK-1.8.3.a"; path = "Yep/lib/libPushSDK-1.8.3.a"; sourceTree = "<group>"; };
+		0AD7EA5D1AC3ED1200617758 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		0AD7EA5F1AC3ED1900617758 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		0AD7EA611AC3ED2100617758 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		0AD7EA631AC3ED2A00617758 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		0AD7EA651AC3ED3000617758 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		0AD7EA671AC3ED3600617758 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		0AD7EA691AC3ED3D00617758 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		0AD7EA6B1AC3ED4300617758 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		0AD7EA6D1AC3ED4A00617758 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		0AD7EA721AC3EE9600617758 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APService.h; path = JPush/APService.h; sourceTree = "<group>"; };
+		0AD7EA731AC3EE9600617758 /* libPushSDK-1.8.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPushSDK-1.8.3.a"; path = "JPush/libPushSDK-1.8.3.a"; sourceTree = "<group>"; };
+		0AD7EA761AC3EEB000617758 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PushConfig.plist; path = JPush/PushConfig.plist; sourceTree = "<group>"; };
 		2268251A75FF6766DC31CCFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		50165C441AC2860900C7AEBE /* ConversationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationLayout.swift; path = ViewControllers/Conversation/ConversationLayout.swift; sourceTree = "<group>"; };
 		5023DE251AB6856300B3EE96 /* ConversationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationsViewController.swift; path = ViewControllers/Conversations/ConversationsViewController.swift; sourceTree = "<group>"; };
@@ -139,6 +166,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AD7EA6E1AC3ED4A00617758 /* libz.dylib in Frameworks */,
+				0AD7EA6C1AC3ED4300617758 /* Security.framework in Frameworks */,
+				0AD7EA6A1AC3ED3D00617758 /* UIKit.framework in Frameworks */,
+				0AD7EA741AC3EE9600617758 /* libPushSDK-1.8.3.a in Frameworks */,
+				0AD7EA681AC3ED3600617758 /* Foundation.framework in Frameworks */,
+				0AD7EA661AC3ED3000617758 /* CoreGraphics.framework in Frameworks */,
+				0AD7EA641AC3ED2A00617758 /* SystemConfiguration.framework in Frameworks */,
+				0AD7EA621AC3ED2100617758 /* CoreTelephony.framework in Frameworks */,
+				0AD7EA601AC3ED1900617758 /* CoreFoundation.framework in Frameworks */,
+				0AD7EA5E1AC3ED1200617758 /* CFNetwork.framework in Frameworks */,
+				0AD7EA5C1AC3ECD700617758 /* libPushSDK-1.8.3.a in Frameworks */,
 				15606C18E1487982869C0A42 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -177,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
+				0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */,
 				50E114F51ABBF9D100F13000 /* Realm */,
 				502AE53B1AB871C5005BD199 /* Helpers */,
 				502AE52C1AB819B5005BD199 /* Configs */,
@@ -197,6 +236,7 @@
 		0A8F54AE1AB67D11004AD60E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0AD7EA751AC3EE9B00617758 /* JPush */,
 				0A8F54AF1AB67D11004AD60E /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -217,6 +257,16 @@
 				0A8F54C51AB67D11004AD60E /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0AD7EA751AC3EE9B00617758 /* JPush */ = {
+			isa = PBXGroup;
+			children = (
+				0AD7EA721AC3EE9600617758 /* APService.h */,
+				0AD7EA731AC3EE9600617758 /* libPushSDK-1.8.3.a */,
+				0AD7EA761AC3EEB000617758 /* PushConfig.plist */,
+			);
+			name = JPush;
 			sourceTree = "<group>";
 		};
 		5023DE271AB6856600B3EE96 /* ViewControllers */ = {
@@ -517,6 +567,17 @@
 		67B708B60AAD1DEA82A6A682 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0AD7EA6D1AC3ED4A00617758 /* libz.dylib */,
+				0AD7EA6B1AC3ED4300617758 /* Security.framework */,
+				0AD7EA691AC3ED3D00617758 /* UIKit.framework */,
+				0AD7EA671AC3ED3600617758 /* Foundation.framework */,
+				0AD7EA651AC3ED3000617758 /* CoreGraphics.framework */,
+				0AD7EA631AC3ED2A00617758 /* SystemConfiguration.framework */,
+				0AD7EA611AC3ED2100617758 /* CoreTelephony.framework */,
+				0AD7EA5F1AC3ED1900617758 /* CoreFoundation.framework */,
+				0AD7EA5D1AC3ED1200617758 /* CFNetwork.framework */,
+				0AD7EA5B1AC3ECD700617758 /* libPushSDK-1.8.3.a */,
+				0AD7EA511AC3EA6F00617758 /* JPushSDK.framework */,
 				FD88F6095DB46DFAD41AB5DB /* Pods.framework */,
 			);
 			name = Frameworks;
@@ -618,6 +679,7 @@
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
 				503315981AC1017E0008A209 /* ChatLeftTextCell.xib in Resources */,
+				0AD7EA771AC3EEB000617758 /* PushConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -858,10 +920,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods",
+				);
 				INFOPLIST_FILE = Yep/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Yep/lib",
+					"$(PROJECT_DIR)/Yep/JPush",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Yep/Yep-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -871,10 +944,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods",
+				);
 				INFOPLIST_FILE = Yep/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Yep/lib",
+					"$(PROJECT_DIR)/Yep/JPush",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Yep/Yep-Bridging-Header.h";
 			};
 			name = Release;
 		};
