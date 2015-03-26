@@ -12,7 +12,6 @@
 		0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B71AB67D11004AD60E /* Images.xcassets */; };
 		0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B91AB67D11004AD60E /* LaunchScreen.xib */; };
 		0A8F54C71AB67D11004AD60E /* YepTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F54C61AB67D11004AD60E /* YepTests.swift */; };
-		0AD7EA5C1AC3ECD700617758 /* libPushSDK-1.8.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA5B1AC3ECD700617758 /* libPushSDK-1.8.3.a */; };
 		0AD7EA5E1AC3ED1200617758 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA5D1AC3ED1200617758 /* CFNetwork.framework */; };
 		0AD7EA601AC3ED1900617758 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA5F1AC3ED1900617758 /* CoreFoundation.framework */; };
 		0AD7EA621AC3ED2100617758 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA611AC3ED2100617758 /* CoreTelephony.framework */; };
@@ -166,17 +165,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AD7EA741AC3EE9600617758 /* libPushSDK-1.8.3.a in Frameworks */,
 				0AD7EA6E1AC3ED4A00617758 /* libz.dylib in Frameworks */,
 				0AD7EA6C1AC3ED4300617758 /* Security.framework in Frameworks */,
 				0AD7EA6A1AC3ED3D00617758 /* UIKit.framework in Frameworks */,
-				0AD7EA741AC3EE9600617758 /* libPushSDK-1.8.3.a in Frameworks */,
 				0AD7EA681AC3ED3600617758 /* Foundation.framework in Frameworks */,
 				0AD7EA661AC3ED3000617758 /* CoreGraphics.framework in Frameworks */,
 				0AD7EA641AC3ED2A00617758 /* SystemConfiguration.framework in Frameworks */,
 				0AD7EA621AC3ED2100617758 /* CoreTelephony.framework in Frameworks */,
 				0AD7EA601AC3ED1900617758 /* CoreFoundation.framework in Frameworks */,
 				0AD7EA5E1AC3ED1200617758 /* CFNetwork.framework in Frameworks */,
-				0AD7EA5C1AC3ECD700617758 /* libPushSDK-1.8.3.a in Frameworks */,
 				15606C18E1487982869C0A42 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

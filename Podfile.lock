@@ -1,12 +1,15 @@
 PODS:
+  - JPushSDK (1.8.2)
   - Realm (0.91.1):
     - Realm/Headers (= 0.91.1)
   - Realm/Headers (0.91.1)
 
 DEPENDENCIES:
+  - JPushSDK
   - Realm
 
 SPEC CHECKSUMS:
+  JPushSDK: 30b632d813610d80f27c18eb2a7d52ceb9eeaee7
   Realm: 81adfc7f43f9301f40bbc46d5e8a10aaf71b9504
 
 COCOAPODS: 0.36.0
