@@ -83,6 +83,8 @@ func registerMobile(mobile: String, withAreaCode areaCode: String, #nickname: St
         "mobile": mobile,
         "phone_code": areaCode,
         "nickname": nickname,
+        "longitude": 0,
+        "latitude": 0
     ]
 
     let parse: JSONDictionary -> Bool? = { data in
@@ -95,7 +97,7 @@ func registerMobile(mobile: String, withAreaCode areaCode: String, #nickname: St
         return false
     }
 
-    let resource = jsonResource(path: "/api/v1/registration/create", method: .POST, requestParameters: requestParameters, parse: parse)
+    let resource = jsonResource(path: "/api/v1/registration/create", method: .POST, requestParameters: requestParameters as! JSONDictionary, parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)
