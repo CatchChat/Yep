@@ -14,10 +14,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    var deviceToken: NSData?
+
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
 
+        // 推送初始化
+        APService.setupWithOption(launchOptions)
+
+        // 全局的外观自定义
         customAppearce()
 
         let isLogined: Bool
@@ -43,8 +48,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             sync()
         }
         
-        APService.registerForRemoteNotificationTypes(UIUserNotificationType.Badge.rawValue | UIUserNotificationType.Badge.rawValue | UIUserNotificationType.Alert.rawValue , categories: nil)
-        APService.setupWithOption(launchOptions)
         return true
     }
 
@@ -70,6 +73,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    // MARK: APNs
+
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+
+        if let pusherID = YepUserDefaults.pusherID() {
+            registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
+
+        } else {
+            // 注册前或登录前没有 pusherID 就没办法了
+            // 所以先保留 deviceToken 备用
+            self.deviceToken = deviceToken
+        }
+    }
+
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+
+        println("didReceiveRemoteNotification: \(userInfo)")
+
+        if let v1AccessToken = YepUserDefaults.v1AccessToken() {
+            APService.handleRemoteNotification(userInfo)
+        }
+    }
+
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        println(error.description)
+    }
 
     // MARK: Public
 
@@ -95,19 +124,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // TODO: 刷新 UI，特别是对于首次登陆来说
     }
-    
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        
+
+    func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {
         APService.registerDeviceToken(deviceToken)
+        APService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector: "tagsAliasCallback:tags:alias:", object: nil)
     }
-    
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        APService.handleRemoteNotification(userInfo)
+
+    func tagsAliasCallback(iResCode: Int, tags: Set<String>, alias: String) {
+        println("tagsAliasCallback \(iResCode), \(tags), \(alias)")
     }
-    
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        println(error.description)
-    }
+
+
 
     // MARK: Private
 

@@ -12,6 +12,7 @@ let v1AccessTokenKey = "v1AccessToken"
 let userIDKey = "userID"
 let nicknameKey = "nickname"
 let avatarURLStringKey = "avatarURLString"
+let pusherIDKey = "pusherID"
 
 class YepUserDefaults {
 
@@ -66,6 +67,25 @@ class YepUserDefaults {
     class func setAvatarURLString(avatarURLString: String) {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(avatarURLString, forKey: avatarURLStringKey)
+    }
+
+    // MARK: pusherID
+
+    class func pusherID() -> String? {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        return defaults.stringForKey(pusherIDKey)
+    }
+
+    class func setPusherID(pusherID: String) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(pusherID, forKey: pusherIDKey)
+
+        // 注册推送的好时机
+        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            if let deviceToken = appDelegate.deviceToken {
+                appDelegate.registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
+            }
+        }
     }
 
 }

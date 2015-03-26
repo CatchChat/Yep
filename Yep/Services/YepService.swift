@@ -18,9 +18,10 @@ struct LoginUser: Printable {
     let userID: String
     let nickname: String
     let avatarURLString: String?
+    let pusherID: String
 
     var description: String {
-        return "LoginUser(accessToken: \(accessToken), userID: \(userID), nickname: \(nickname), avatarURLString: \(avatarURLString))"
+        return "LoginUser(accessToken: \(accessToken), userID: \(userID), nickname: \(nickname), avatarURLString: \(avatarURLString), \(pusherID))"
     }
 }
 
@@ -32,6 +33,16 @@ struct QiniuProvider: Printable {
     var description: String {
         return "QiniuProvider(token: \(token), key: \(key), downloadURLString: \(downloadURLString))"
     }
+}
+
+func saveTokenAndUserInfoOfLoginUser(loginUser: LoginUser) {
+    YepUserDefaults.setV1AccessToken(loginUser.accessToken)
+    YepUserDefaults.setUserID(loginUser.userID)
+    YepUserDefaults.setNickname(loginUser.nickname)
+    if let avatarURLString = loginUser.avatarURLString {
+        YepUserDefaults.setAvatarURLString(avatarURLString)
+    }
+    YepUserDefaults.setPusherID(loginUser.pusherID)
 }
 
 // MARK: Register
@@ -108,9 +119,10 @@ func verifyMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: St
             if let user = data["user"] as? [String: AnyObject] {
                 if
                     let userID = user["id"] as? String,
-                    let nickname = user["nickname"] as? String {
+                    let nickname = user["nickname"] as? String,
+                    let pusherID = user["pusher_id"] as? String {
                         let avatarURLString = user["avatar_url"] as? String
-                        return LoginUser(accessToken: accessToken, userID: userID, nickname: nickname, avatarURLString: avatarURLString)
+                        return LoginUser(accessToken: accessToken, userID: userID, nickname: nickname, avatarURLString: avatarURLString, pusherID: pusherID)
                 }
             }
         }
@@ -171,9 +183,10 @@ func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: S
             if let user = data["user"] as? [String: AnyObject] {
                 if
                     let userID = user["id"] as? String,
-                    let nickname = user["nickname"] as? String {
+                    let nickname = user["nickname"] as? String,
+                    let pusherID = user["pusher_id"] as? String {
                         let avatarURLString = user["avatar_url"] as? String
-                        return LoginUser(accessToken: accessToken, userID: userID, nickname: nickname, avatarURLString: avatarURLString)
+                        return LoginUser(accessToken: accessToken, userID: userID, nickname: nickname, avatarURLString: avatarURLString, pusherID: pusherID)
                 }
             }
         }

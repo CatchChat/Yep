@@ -8,6 +8,7 @@
 
 import UIKit
 import Realm
+import JPushSDK
 
 class ConversationsViewController: UIViewController {
 
@@ -31,6 +32,16 @@ class ConversationsViewController: UIViewController {
         updateUIToken = RLMRealm.defaultRealm().addNotificationBlock { (note, realm) -> Void in
             self.conversationsTableView.reloadData()
         }
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        // 这里才开始向用户提示推送
+        APService.registerForRemoteNotificationTypes(
+            UIUserNotificationType.Badge.rawValue |
+            UIUserNotificationType.Sound.rawValue |
+            UIUserNotificationType.Alert.rawValue, categories: nil)
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

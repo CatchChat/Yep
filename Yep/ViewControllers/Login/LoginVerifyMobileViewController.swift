@@ -79,7 +79,7 @@ class LoginVerifyMobileViewController: UIViewController {
 
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
 
-                self.saveTokenAndUserInfoOfLoginUser(loginUser)
+                saveTokenAndUserInfoOfLoginUser(loginUser)
 
                 if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
                     appDelegate.startMainStory()
@@ -87,16 +87,6 @@ class LoginVerifyMobileViewController: UIViewController {
             })
         })
     }
-
-    private func saveTokenAndUserInfoOfLoginUser(loginUser: LoginUser) {
-        YepUserDefaults.setV1AccessToken(loginUser.accessToken)
-        YepUserDefaults.setUserID(loginUser.userID)
-        YepUserDefaults.setNickname(loginUser.nickname)
-        if let avatarURLString = loginUser.avatarURLString {
-            YepUserDefaults.setAvatarURLString(avatarURLString)
-        }
-    }
-
 }
 
 extension LoginVerifyMobileViewController: UITextFieldDelegate {

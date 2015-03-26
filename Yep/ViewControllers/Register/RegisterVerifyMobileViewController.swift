@@ -78,22 +78,12 @@ class RegisterVerifyMobileViewController: UIViewController {
 
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
 
-                self.saveTokenAndUserInfoOfLoginUser(loginUser)
+                saveTokenAndUserInfoOfLoginUser(loginUser)
 
                 self.performSegueWithIdentifier("showRegisterPickAvatar", sender: nil)
             })
         })
     }
-
-    private func saveTokenAndUserInfoOfLoginUser(loginUser: LoginUser) {
-        YepUserDefaults.setV1AccessToken(loginUser.accessToken)
-        YepUserDefaults.setUserID(loginUser.userID)
-        YepUserDefaults.setNickname(loginUser.nickname)
-        if let avatarURLString = loginUser.avatarURLString {
-            YepUserDefaults.setAvatarURLString(avatarURLString)
-        }
-    }
-
 }
 
 extension RegisterVerifyMobileViewController: UITextFieldDelegate {
