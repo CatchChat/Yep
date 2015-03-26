@@ -316,6 +316,7 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
                 if message == nil {
                     let newMessage = Message()
                     newMessage.messageID = messageID
+                    // TODO: createdAt use message's updated_at
 
                     realm.beginWriteTransaction()
                     realm.addObject(newMessage)
@@ -429,7 +430,7 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
                                 if let conversation = conversation {
                                     realm.beginWriteTransaction()
 
-                                    conversation.updatedAt = NSDate() // TODO: use message's updated_at
+                                    conversation.updatedAt = message.createdAt
 
                                     message.conversation = conversation
 

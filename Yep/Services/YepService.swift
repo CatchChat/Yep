@@ -545,6 +545,7 @@ func sendText(text: String, toRecipient recipientID: String, #recipientType: Str
     }
 
     if let conversation = conversation {
+        conversation.updatedAt = message.createdAt // 关键哦
         message.conversation = conversation
     }
 
