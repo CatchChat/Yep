@@ -7,11 +7,15 @@
 //
 
 import UIKit
+import Realm
 
 class ConversationViewController: UIViewController {
 
     var conversation: Conversation!
-    
+
+    lazy var messages: RLMResults = {
+        return messagesInConversation(self.conversation)
+        }()
 
     @IBOutlet weak var conversationCollectionView: UICollectionView!
 
@@ -174,7 +178,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let message = conversation.messages[indexPath.row]
+        let message = messages.objectAtIndex(UInt(indexPath.row)) as! Message
 
         if let sender = message.fromFriend {
             if sender.friendState != UserFriendState.Me.rawValue {
@@ -220,7 +224,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         // TODO: 缓存 Cell 高度才是正道
         // TODO: 不使用魔法数字
-        let message = conversation.messages[indexPath.row]
+        let message = messages.objectAtIndex(UInt(indexPath.row)) as! Message
 
         let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
 

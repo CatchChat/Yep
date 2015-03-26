@@ -42,7 +42,7 @@ class ConversationCell: UITableViewCell {
                     }
                 }
 
-                if let latestMessage = conversation.messages.last {
+                if let latestMessage = messagesInConversation(conversation).lastObject() as? Message {
                     self.chatLabel.text = latestMessage.textContent
                     self.timeAgoLabel.text = "\(latestMessage.createdAt)"
                 } else {
@@ -59,7 +59,7 @@ class ConversationCell: UITableViewCell {
                 self.nameLabel.text = ""
             }
 
-            if let latestMessage = conversation.messages.last {
+            if let latestMessage = messagesInConversation(conversation).lastObject() as? Message {
                 if let messageSender = latestMessage.fromFriend {
                     AvatarCache.sharedInstance.roundAvatarOfUser(messageSender, withRadius: radius) { roundImage in
                         dispatch_async(dispatch_get_main_queue()) {

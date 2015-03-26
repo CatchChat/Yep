@@ -185,4 +185,9 @@ func tryGetOrCreateMe() -> User? {
     return nil
 }
 
+func messagesInConversation(conversation: Conversation) -> RLMResults {
+    let predicate = NSPredicate(format: "conversation = %@", conversation)
+    let messages = Message.objectsWithPredicate(predicate).sortedResultsUsingProperty("createdAt", ascending: true)
+    return messages
+}
 
