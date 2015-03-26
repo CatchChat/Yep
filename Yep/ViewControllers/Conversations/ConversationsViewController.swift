@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Realm
 
 class ConversationsViewController: UIViewController {
 
@@ -14,7 +15,9 @@ class ConversationsViewController: UIViewController {
 
     let cellIdentifier = "ConversationCell"
 
-    lazy var conversations = Conversation.allObjects()
+    lazy var conversations = Conversation.allObjects().sortedResultsUsingProperty("updatedAt", ascending: false)
+
+    var updateUIToken: RLMNotificationToken?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +27,10 @@ class ConversationsViewController: UIViewController {
 
         conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         conversationsTableView.rowHeight = 80
+
+        updateUIToken = RLMRealm.defaultRealm().addNotificationBlock { (note, realm) -> Void in
+            self.conversationsTableView.reloadData()
+        }
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
