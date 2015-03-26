@@ -20,6 +20,8 @@ class ConversationViewController: UIViewController {
     // 上一次更新 UI 时的消息数
     var lastTimeMessagesCount: UInt = 0
 
+    var conversationCollectionViewHasBeenMovedToBottomOnce = false
+
     @IBOutlet weak var conversationCollectionView: UICollectionView!
 
     @IBOutlet weak var messageToolbar: MessageToolbar!
@@ -110,6 +112,18 @@ class ConversationViewController: UIViewController {
         }
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        // 初始时移动一次到底部
+        if !conversationCollectionViewHasBeenMovedToBottomOnce {
+            conversationCollectionViewHasBeenMovedToBottomOnce = true
+            if messages.count > 0 {
+                conversationCollectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: Int(messages.count - 1), inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Bottom, animated: false)
+            }
+        }
+    }
+
     // MARK: Private
 
     private func setConversaitonCollectionViewOriginalContentInsetBottom(bottom: CGFloat) {
@@ -128,8 +142,8 @@ class ConversationViewController: UIViewController {
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
 
-        let layout = conversationCollectionView.collectionViewLayout as! ConversationLayout
-        layout.needUpdate = true
+        //let layout = conversationCollectionView.collectionViewLayout as! ConversationLayout
+        //layout.needUpdate = true
 
         conversationCollectionView.reloadData()
 
@@ -149,10 +163,10 @@ class ConversationViewController: UIViewController {
                 newMessagesTotalHeight += height
             }
 
-            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
                 self.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
                 
-                }, completion: { (finished) -> Void in
+            }, completion: { (finished) -> Void in
             })
         }
     }
