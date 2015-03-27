@@ -54,6 +54,7 @@ class ConversationsViewController: UIViewController {
     // MARK: Actions
 
     func updateConversationsTableView() {
+        println("updateConversationsTableView")
         conversationsTableView.reloadData()
     }
 }

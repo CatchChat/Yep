@@ -8,6 +8,11 @@
 
 import Realm
 
+
+// 总是在这个队列里使用 Realm
+let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)
+
+
 // MARK: User
 
 // 朋友的“状态”, 注意：上线后若要调整，只能增加新状态

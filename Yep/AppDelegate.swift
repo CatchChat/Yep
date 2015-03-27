@@ -135,6 +135,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         syncFriendshipsAndDoFurtherAction {
             syncGroupsAndDoFurtherAction {
                 syncUnreadMessagesAndDoFurtherAction {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
+                    }
                 }
             }
         }

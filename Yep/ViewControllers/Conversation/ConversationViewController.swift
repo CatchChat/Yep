@@ -94,7 +94,7 @@ class ConversationViewController: UIViewController {
                     // TODO: sendText 错误提醒
 
                 }, completion: { success -> Void in
-                    println("sendText: \(success)")
+                    println("sendText to friend: \(success)")
                 })
 
             } else if let withGroup = self.conversation.withGroup {
@@ -108,7 +108,7 @@ class ConversationViewController: UIViewController {
                     // TODO: sendText 错误提醒
 
                 }, completion: { success -> Void in
-                    println("sendText: \(success)")
+                    println("sendText to group: \(success)")
                 })
             }
         }

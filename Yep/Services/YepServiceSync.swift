@@ -15,7 +15,7 @@ let YepNewMessagesReceivedNotification = "YepNewMessagesReceivedNotification"
 
 func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
     friendships { allFriendships in
-        //println("allFriendships: \(allFriendships)")
+        //println("\n allFriendships: \(allFriendships)")
 
         // 先整理出所有的 friend 的 userID
         var remoteUerIDSet = Set<String>()
@@ -27,86 +27,89 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
             }
         }
 
-        // 改变没有 friendship 的 user 的状态
+        dispatch_async(realmQueue) {
 
-        let realm = RLMRealm.defaultRealm()
+            // 改变没有 friendship 的 user 的状态
 
-        let localUsers = User.allObjects()
+            let realm = RLMRealm.defaultRealm()
 
-        for i in 0..<localUsers.count {
-            let localUser = localUsers[i] as! User
+            let localUsers = User.allObjects()
 
-            if !remoteUerIDSet.contains(localUser.userID) {
+            for i in 0..<localUsers.count {
+                let localUser = localUsers[i] as! User
 
-                realm.beginWriteTransaction()
+                if !remoteUerIDSet.contains(localUser.userID) {
 
-                localUser.friendshipID = ""
-                if let myUserID = YepUserDefaults.userID() {
-                    if myUserID == localUser.userID {
-                        localUser.friendState = UserFriendState.Me.rawValue
-                    } else if localUser.friendState == UserFriendState.Normal.rawValue {
-                        localUser.friendState = UserFriendState.Stranger.rawValue
+                    realm.beginWriteTransaction()
+
+                    localUser.friendshipID = ""
+                    if let myUserID = YepUserDefaults.userID() {
+                        if myUserID == localUser.userID {
+                            localUser.friendState = UserFriendState.Me.rawValue
+                        } else if localUser.friendState == UserFriendState.Normal.rawValue {
+                            localUser.friendState = UserFriendState.Stranger.rawValue
+                        }
                     }
-                }
-                localUser.isBestfriend = false
+                    localUser.isBestfriend = false
 
-                realm.commitWriteTransaction()
-            }
-        }
-
-        // 添加有 friendship 但本地存储还没有的 user，更新信息
-
-        for friendshipInfo in allFriendships {
-            if let friendInfo = friendshipInfo["friend"] as? JSONDictionary {
-                if let userID = friendInfo["id"] as? String {
-                    let predicate = NSPredicate(format: "userID = %@", userID)
-                    var user = User.objectsWithPredicate(predicate).firstObject() as? User
-
-                    if user == nil {
-                        let newUser = User()
-                        newUser.userID = userID
-
-                        realm.beginWriteTransaction()
-                        realm.addObject(newUser)
-                        realm.commitWriteTransaction()
-                        
-                        user = newUser
-                    }
-
-                    if let user = user {
-                        realm.beginWriteTransaction()
-
-                        if let nickname = friendInfo["nickname"] as? String {
-                            user.nickname = nickname
-                        }
-
-                        if let avatarURLString = friendInfo["avatar_url"] as? String {
-                            user.avatarURLString = avatarURLString
-                        }
-
-                        if let friendshipID = friendshipInfo["id"] as? String {
-                            user.friendshipID = friendshipID
-                        }
-
-                        user.friendState = UserFriendState.Normal.rawValue
-
-                        if let isBestfriend = friendInfo["favored"] as? Bool {
-                            user.isBestfriend = isBestfriend
-                        }
-                        
-                        if let bestfriendIndex = friendInfo["favored_position"] as? Int {
-                            user.bestfriendIndex = bestfriendIndex
-                        }
-
-                        realm.commitWriteTransaction()
-                    }
+                    realm.commitWriteTransaction()
                 }
             }
+
+            // 添加有 friendship 但本地存储还没有的 user，更新信息
+
+            for friendshipInfo in allFriendships {
+                if let friendInfo = friendshipInfo["friend"] as? JSONDictionary {
+                    if let userID = friendInfo["id"] as? String {
+                        let predicate = NSPredicate(format: "userID = %@", userID)
+                        var user = User.objectsWithPredicate(predicate).firstObject() as? User
+
+                        if user == nil {
+                            let newUser = User()
+                            newUser.userID = userID
+
+                            realm.beginWriteTransaction()
+                            realm.addObject(newUser)
+                            realm.commitWriteTransaction()
+
+                            user = newUser
+                        }
+
+                        if let user = user {
+                            realm.beginWriteTransaction()
+
+                            if let nickname = friendInfo["nickname"] as? String {
+                                user.nickname = nickname
+                            }
+
+                            if let avatarURLString = friendInfo["avatar_url"] as? String {
+                                user.avatarURLString = avatarURLString
+                            }
+
+                            if let friendshipID = friendshipInfo["id"] as? String {
+                                user.friendshipID = friendshipID
+                            }
+
+                            user.friendState = UserFriendState.Normal.rawValue
+
+                            if let isBestfriend = friendInfo["favored"] as? Bool {
+                                user.isBestfriend = isBestfriend
+                            }
+                            
+                            if let bestfriendIndex = friendInfo["favored_position"] as? Int {
+                                user.bestfriendIndex = bestfriendIndex
+                            }
+                            
+                            realm.commitWriteTransaction()
+                        }
+                    }
+                }
+            }
+            
+            // do further action
+
+            furtherAction()
         }
-
-        // do further action
-
-        furtherAction()
     }
 }
 
@@ -122,36 +125,42 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
             }
         }
 
-        // 在本地去除远端没有的 Group
+        dispatch_async(realmQueue) {
 
-        let realm = RLMRealm.defaultRealm()
+            // 在本地去除远端没有的 Group
 
-        let localGroups = Group.allObjects()
+            let realm = RLMRealm.defaultRealm()
 
-        for i in 0..<localGroups.count {
-            let localGroup = localGroups[i] as! Group
+            let localGroups = Group.allObjects()
 
-            if !remoteGroupIDSet.contains(localGroup.groupID) {
-                realm.beginWriteTransaction()
-                realm.deleteObject(localGroup)
-                // TODO: 级联删除关联的数据对象
-                realm.commitWriteTransaction()
+            realm.beginWriteTransaction()
+
+            for i in 0..<localGroups.count {
+                let localGroup = localGroups[i] as! Group
+
+                if !remoteGroupIDSet.contains(localGroup.groupID) {
+                    realm.deleteObject(localGroup)
+                    // TODO: 级联删除关联的数据对象
+                }
             }
+
+            realm.commitWriteTransaction()
+
+            // 增加本地没有的 Group
+
+            for groupInfo in allGroups {
+                syncGroupWithGroupInfo(groupInfo)
+            }
+            
+            // do further action
+            
+            furtherAction()
         }
-
-        // 增加本地没有的 Group
-
-        for groupInfo in allGroups {
-            syncGroupWithGroupInfo(groupInfo)
-        }
-
-        // do further action
-
-        furtherAction()
     }
 }
 
-func syncGroupWithGroupInfo(groupInfo: JSONDictionary) {
+// 此函数专供上面的 syncGroupsAndDoFurtherAction 使用，因为 realmQueue 
+private func syncGroupWithGroupInfo(groupInfo: JSONDictionary) {
     if let groupID = groupInfo["id"] as? String {
         let predicate = NSPredicate(format: "groupID = %@", groupID)
         var group = Group.objectsWithPredicate(predicate).firstObject() as? Group
@@ -308,173 +317,162 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary) {
 
 func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
     unreadMessages { allUnreadMessages in
-        //println("allUnreadMessages: \(allUnreadMessages)")
+        //println("\n allUnreadMessages: \(allUnreadMessages)")
 
-        let realm = RLMRealm.defaultRealm()
+        dispatch_async(realmQueue) {
 
-        for messageInfo in allUnreadMessages {
-            if let messageID = messageInfo["id"] as? String {
-                let predicate = NSPredicate(format: "messageID = %@", messageID)
-                var message = Message.objectsWithPredicate(predicate).firstObject() as? Message
+            let realm = RLMRealm.defaultRealm()
 
-                if message == nil {
-                    let newMessage = Message()
-                    newMessage.messageID = messageID
-                    // TODO: createdAt use message's updated_at
+            for messageInfo in allUnreadMessages {
+                if let messageID = messageInfo["id"] as? String {
+                    let predicate = NSPredicate(format: "messageID = %@", messageID)
+                    var message = Message.objectsWithPredicate(predicate).firstObject() as? Message
 
-                    realm.beginWriteTransaction()
-                    realm.addObject(newMessage)
-                    realm.commitWriteTransaction()
+                    if message == nil {
+                        let newMessage = Message()
+                        newMessage.messageID = messageID
+                        // TODO: createdAt use message's updated_at
 
-                    message = newMessage
-                }
+                        realm.beginWriteTransaction()
+                        realm.addObject(newMessage)
+                        realm.commitWriteTransaction()
 
-                // 开始填充消息
+                        message = newMessage
+                    }
 
-                if let message = message {
+                    // 开始填充消息
 
-                    // 纪录消息的发送者
+                    if let message = message {
 
-                    if let senderInfo = messageInfo["sender"] as? JSONDictionary {
-                        if let senderID = senderInfo["id"] as? String {
-                            let predicate = NSPredicate(format: "userID = %@", senderID)
-                            var sender = User.objectsWithPredicate(predicate).firstObject() as? User
+                        // 纪录消息的发送者
 
-                            if sender == nil {
-                                let newUser = User()
+                        if let senderInfo = messageInfo["sender"] as? JSONDictionary {
+                            if let senderID = senderInfo["id"] as? String {
+                                let predicate = NSPredicate(format: "userID = %@", senderID)
+                                var sender = User.objectsWithPredicate(predicate).firstObject() as? User
 
-                                newUser.userID = senderID
+                                if sender == nil {
+                                    let newUser = User()
 
-                                newUser.friendState = UserFriendState.Stranger.rawValue
-                                
-                                realm.beginWriteTransaction()
-                                realm.addObject(newUser)
-                                realm.commitWriteTransaction()
-                                
-                                sender = newUser
-                            }
+                                    newUser.userID = senderID
 
-                            if let sender = sender {
-                                realm.beginWriteTransaction()
+                                    newUser.friendState = UserFriendState.Stranger.rawValue
 
-                                if let nickname = senderInfo["nickname"] as? String {
-                                    sender.nickname = nickname
+                                    realm.beginWriteTransaction()
+                                    realm.addObject(newUser)
+                                    realm.commitWriteTransaction()
+
+                                    sender = newUser
                                 }
 
-                                if let avatarURLString = senderInfo["avatar_url"] as? String {
-                                    sender.avatarURLString = avatarURLString
-                                }
+                                if let sender = sender {
+                                    realm.beginWriteTransaction()
 
-                                message.fromFriend = sender
+                                    if let nickname = senderInfo["nickname"] as? String {
+                                        sender.nickname = nickname
+                                    }
 
-                                realm.commitWriteTransaction()
+                                    if let avatarURLString = senderInfo["avatar_url"] as? String {
+                                        sender.avatarURLString = avatarURLString
+                                    }
+
+                                    message.fromFriend = sender
+
+                                    realm.commitWriteTransaction()
 
 
-                                // 查询消息来自的 Group，为空就表示来自 User
+                                    // 查询消息来自的 Group，为空就表示来自 User
 
-                                var sendFromGroup: Group? = nil
+                                    var sendFromGroup: Group? = nil
 
-                                if let recipientType = messageInfo["recipient_type"] as? String {
-                                    if recipientType == "Circle" {
-                                        if let groupID = messageInfo["recipient_id"] as? String {
-                                            let predicate = NSPredicate(format: "groupID = %@", groupID)
-                                            sendFromGroup = Group.objectsWithPredicate(predicate).firstObject() as? Group
+                                    if let recipientType = messageInfo["recipient_type"] as? String {
+                                        if recipientType == "Circle" {
+                                            if let groupID = messageInfo["recipient_id"] as? String {
+                                                let predicate = NSPredicate(format: "groupID = %@", groupID)
+                                                sendFromGroup = Group.objectsWithPredicate(predicate).firstObject() as? Group
 
-                                            if sendFromGroup == nil {
-                                                let newGroup = Group()
-                                                newGroup.groupID = groupID
+                                                if sendFromGroup == nil {
+                                                    let newGroup = Group()
+                                                    newGroup.groupID = groupID
 
-                                                if let groupInfo = messageInfo["circle"] as? JSONDictionary {
-                                                    if let groupName = groupInfo["name"] as? String {
-                                                        newGroup.groupName = groupName
+                                                    if let groupInfo = messageInfo["circle"] as? JSONDictionary {
+                                                        if let groupName = groupInfo["name"] as? String {
+                                                            newGroup.groupName = groupName
+                                                        }
                                                     }
+
+                                                    realm.beginWriteTransaction()
+                                                    realm.addObject(newGroup)
+                                                    realm.commitWriteTransaction()
+
+                                                    sendFromGroup = newGroup
                                                 }
-
-                                                realm.beginWriteTransaction()
-                                                realm.addObject(newGroup)
-                                                realm.commitWriteTransaction()
-
-                                                sendFromGroup = newGroup
                                             }
                                         }
                                     }
-                                }
-                                
-                                // 纪录消息所属的 Conversation
-                                
-                                var conversation: Conversation? = nil
-                                
-                                if let sendFromGroup = sendFromGroup {
-                                    conversation = sendFromGroup.conversation
-                                } else {
-                                    conversation = sender.conversation
-                                }
 
-                                // 没有 Conversation 就尝试建立它
+                                    // 纪录消息所属的 Conversation
 
-                                if conversation == nil {
-                                    let newConversation = Conversation()
+                                    var conversation: Conversation? = nil
 
                                     if let sendFromGroup = sendFromGroup {
-                                        newConversation.type = ConversationType.Group.rawValue
-                                        newConversation.withGroup = sendFromGroup
+                                        conversation = sendFromGroup.conversation
                                     } else {
-                                        newConversation.type = ConversationType.OneToOne.rawValue
-                                        newConversation.withFriend = sender
+                                        conversation = sender.conversation
                                     }
 
-                                    realm.beginWriteTransaction()
-                                    realm.addObject(newConversation)
-                                    realm.commitWriteTransaction()
+                                    // 没有 Conversation 就尝试建立它
 
-                                    conversation = newConversation
-                                }
+                                    if conversation == nil {
+                                        let newConversation = Conversation()
 
-                                // 在保证有 Conversation 的情况下继续，不然消息没有必要保留
-                                if let conversation = conversation {
-                                    realm.beginWriteTransaction()
+                                        if let sendFromGroup = sendFromGroup {
+                                            newConversation.type = ConversationType.Group.rawValue
+                                            newConversation.withGroup = sendFromGroup
+                                        } else {
+                                            newConversation.type = ConversationType.OneToOne.rawValue
+                                            newConversation.withFriend = sender
+                                        }
 
-                                    conversation.updatedAt = message.createdAt
+                                        realm.beginWriteTransaction()
+                                        realm.addObject(newConversation)
+                                        realm.commitWriteTransaction()
 
-                                    message.conversation = conversation
-
-
-                                    // 纪录消息的 detail 信息
-
-                                    if let textContent = messageInfo["text_content"] as? String {
-                                        message.textContent = textContent
+                                        conversation = newConversation
                                     }
 
-                                    if
-                                        let longitude = messageInfo["longitude"] as? Double,
-                                        let latitude = messageInfo["latitude"] as? Double {
+                                    // 在保证有 Conversation 的情况下继续，不然消息没有必要保留
+                                    if let conversation = conversation {
+                                        realm.beginWriteTransaction()
 
-                                            let newCoordinate = Coordinate()
-                                            newCoordinate.longitude = longitude
-                                            newCoordinate.latitude = latitude
+                                        conversation.updatedAt = message.createdAt
 
-                                            message.coordinate = newCoordinate
-                                    }
+                                        message.conversation = conversation
 
-                                    if let attachments = messageInfo["attachments"] as? [JSONDictionary] {
-                                        for attachmentInfo in attachments {
-                                            // TODO: 若未来没有 Qiniu，需要改动
-                                            // S3: fallback file，尽量用它
-                                            if let fallbackFileInfo = attachmentInfo["fallback_file"] as? JSONDictionary {
-                                                if let fileURLString = fallbackFileInfo["url"] as? String {
-                                                    if let kind = attachmentInfo["kind"] as? String {
-                                                        if kind == "thumbnail" {
-                                                            message.thumbnailURLString = fileURLString
-                                                        } else {
-                                                            message.attachmentURLString = fileURLString
-                                                        }
-                                                    }
-                                                }
 
-                                            } else {
-                                                // Qiniu: normal file, Qiniu
-                                                if let normalFileInfo = attachmentInfo["file"] as? JSONDictionary {
-                                                    if let fileURLString = normalFileInfo["url"] as? String {
+                                        // 纪录消息的 detail 信息
+
+                                        if let textContent = messageInfo["text_content"] as? String {
+                                            message.textContent = textContent
+                                        }
+
+                                        if
+                                            let longitude = messageInfo["longitude"] as? Double,
+                                            let latitude = messageInfo["latitude"] as? Double {
+
+                                                let newCoordinate = Coordinate()
+                                                newCoordinate.longitude = longitude
+                                                newCoordinate.latitude = latitude
+
+                                                message.coordinate = newCoordinate
+                                        }
+
+                                        if let attachments = messageInfo["attachments"] as? [JSONDictionary] {
+                                            for attachmentInfo in attachments {
+                                                // TODO: 若未来没有 Qiniu，需要改动
+                                                // S3: fallback file，尽量用它
+                                                if let fallbackFileInfo = attachmentInfo["fallback_file"] as? JSONDictionary {
+                                                    if let fileURLString = fallbackFileInfo["url"] as? String {
                                                         if let kind = attachmentInfo["kind"] as? String {
                                                             if kind == "thumbnail" {
                                                                 message.thumbnailURLString = fileURLString
@@ -483,39 +481,53 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
                                                             }
                                                         }
                                                     }
+
+                                                } else {
+                                                    // Qiniu: normal file, Qiniu
+                                                    if let normalFileInfo = attachmentInfo["file"] as? JSONDictionary {
+                                                        if let fileURLString = normalFileInfo["url"] as? String {
+                                                            if let kind = attachmentInfo["kind"] as? String {
+                                                                if kind == "thumbnail" {
+                                                                    message.thumbnailURLString = fileURLString
+                                                                } else {
+                                                                    message.attachmentURLString = fileURLString
+                                                                }
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                             }
-                                        }
-
-                                        if let mediaType = messageInfo["media_type"] as? String {
-                                            if mediaType == "image" {
-                                                message.mediaType = MessageMediaType.Image.rawValue
-                                            } else if mediaType == "video" {
-                                                message.mediaType = MessageMediaType.Video.rawValue
-                                            } else if mediaType == "audio" {
-                                                message.mediaType = MessageMediaType.Audio.rawValue
+                                            
+                                            if let mediaType = messageInfo["media_type"] as? String {
+                                                if mediaType == "image" {
+                                                    message.mediaType = MessageMediaType.Image.rawValue
+                                                } else if mediaType == "video" {
+                                                    message.mediaType = MessageMediaType.Video.rawValue
+                                                } else if mediaType == "audio" {
+                                                    message.mediaType = MessageMediaType.Audio.rawValue
+                                                }
+                                                // TODO: 若有更多的 Media Type
                                             }
-                                            // TODO: 若有更多的 Media Type
                                         }
+                                        
+                                        realm.commitWriteTransaction()
+                                        
+                                    } else {
+                                        realm.beginWriteTransaction()
+                                        realm.addObject(message)
+                                        realm.commitWriteTransaction()
                                     }
-
-                                    realm.commitWriteTransaction()
-
-                                } else {
-                                    realm.beginWriteTransaction()
-                                    realm.addObject(message)
-                                    realm.commitWriteTransaction()
                                 }
                             }
                         }
                     }
                 }
             }
+            
+            // do futher action
+            
+            furtherAction()
         }
-
-        // do futher action
-
-        furtherAction()
     }
 }
 

@@ -462,7 +462,7 @@ func unreadMessages(#completion: [JSONDictionary] -> Void) {
                         messages += page1Messages
                     }
 
-                    // We have more friends
+                    // We have more messages
 
                     let downloadGroup = dispatch_group_create()
 
@@ -506,6 +506,8 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
 }
 
 func sendText(text: String, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> (), #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
+
+    // 因为 message_id 必须来自远端，线程无法切换，所以这里暂时没用 realmQueue // TOOD: 也许有办法
 
     let realm = RLMRealm.defaultRealm()
 
@@ -579,7 +581,7 @@ func sendText(text: String, toRecipient recipientID: String, #recipientType: Str
         "recipient_id": recipientID,
         "recipient_type": recipientType,
         "media_type": MessageMediaType.Text.rawValue,
-        "text_content" : text,
+        "text_content": text,
     ]
 
     createMessageWithMessageInfo(messageInfo, failureHandler: { (reason, errorMessage) in
