@@ -22,14 +22,11 @@ class ConversationViewController: UIViewController {
 
     var conversationCollectionViewHasBeenMovedToBottomOnce = false
 
-
     // Keyboard 动画相关
     var conversationCollectionViewContentOffsetBeforeKeyboardWillShow = CGPointZero
     var conversationCollectionViewContentOffsetBeforeKeyboardWillHide = CGPointZero
-    //var messageToolbarBottomConstraintConstantAfterKeyboardWillShow: CGFloat = 0
     var isKeyboardVisible = false
     var keyboardHeight: CGFloat = 0
-    //var firstTime = true
 
     var keyboardShowTimes = 0 {
         willSet {
@@ -44,16 +41,6 @@ class ConversationViewController: UIViewController {
                     println("fire setContentOffset")
 
                     self.isKeyboardVisible = true
-
-                } else {
-//                    var contentOffset = conversationCollectionView.contentOffset//self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow
-//
-//                    let dy = /*keyboardHeight*/self.messageToolbarBottomConstraint.constant - (messageToolbarBottomConstraintConstantAfterKeyboardWillShow /*+ self.messageToolbar.intrinsicContentSize().height*/)//self.messageToolbarBottomConstraint.constant
-//                    contentOffset.y += dy
-//                    println("XXXcontentOffset.y += \(self.messageToolbarBottomConstraint.constant) - \(messageToolbarBottomConstraintConstantAfterKeyboardWillShow)")
-//                    self.conversationCollectionView.setContentOffset(contentOffset, animated: true)
-//
-//                    firstTime = true
                 }
             }
         }
@@ -221,7 +208,6 @@ class ConversationViewController: UIViewController {
     // MARK: Keyboard
 
     func handleKeyboardWillShowNotification(notification: NSNotification) {
-        println("showKeyboard")
 
         keyboardShowTimes += 1
 
@@ -234,19 +220,8 @@ class ConversationViewController: UIViewController {
             let keyboardEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
             let keyboardHeight = keyboardEndFrame.height
 
-
-            println("animationDuration: \(animationDuration)")
-            println("keyboardHeight: \(keyboardHeight)")
-
-
-            let lastTimeKeyboardHeight = self.keyboardHeight
-
             self.keyboardHeight = keyboardHeight
 
-//            if isKeyboardVisible && firstTime {
-//                messageToolbarBottomConstraintConstantAfterKeyboardWillShow = self.messageToolbarBottomConstraint.constant
-//                firstTime = false
-//            }
             UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { () -> Void in
                 self.messageToolbarBottomConstraint.constant = keyboardHeight
                 self.view.layoutIfNeeded()
@@ -254,16 +229,12 @@ class ConversationViewController: UIViewController {
                 self.conversationCollectionView.contentInset.bottom = self.messageToolbar.intrinsicContentSize().height + keyboardHeight
 
             }, completion: { (finished) -> Void in
-                println("self.keyboardHeight: \(self.keyboardHeight)")
-
                 self.keyboardShowTimes -= 1
             })
         }
     }
 
     func handleKeyboardWillHideNotification(notification: NSNotification) {
-        println("hideKeyboard")
-
         conversationCollectionViewContentOffsetBeforeKeyboardWillHide = conversationCollectionView.contentOffset
 
         if let userInfo = notification.userInfo {
