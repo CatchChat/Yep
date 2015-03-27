@@ -22,6 +22,44 @@ class ConversationViewController: UIViewController {
 
     var conversationCollectionViewHasBeenMovedToBottomOnce = false
 
+
+    // Keyboard 动画相关
+    var conversationCollectionViewContentOffsetBeforeKeyboardWillShow = CGPointZero
+    var conversationCollectionViewContentOffsetBeforeKeyboardWillHide = CGPointZero
+    //var messageToolbarBottomConstraintConstantAfterKeyboardWillShow: CGFloat = 0
+    var isKeyboardVisible = false
+    var keyboardHeight: CGFloat = 0
+    //var firstTime = true
+
+    var keyboardShowTimes = 0 {
+        willSet {
+            println("set keyboardShowTimes \(newValue)")
+
+            if newValue == 0 {
+                if !self.isKeyboardVisible {
+                    var contentOffset = self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow
+                    contentOffset.y += keyboardHeight
+                    self.conversationCollectionView.setContentOffset(contentOffset, animated: true)
+
+                    println("fire setContentOffset")
+
+                    self.isKeyboardVisible = true
+
+                } else {
+//                    var contentOffset = conversationCollectionView.contentOffset//self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow
+//
+//                    let dy = /*keyboardHeight*/self.messageToolbarBottomConstraint.constant - (messageToolbarBottomConstraintConstantAfterKeyboardWillShow /*+ self.messageToolbar.intrinsicContentSize().height*/)//self.messageToolbarBottomConstraint.constant
+//                    contentOffset.y += dy
+//                    println("XXXcontentOffset.y += \(self.messageToolbarBottomConstraint.constant) - \(messageToolbarBottomConstraintConstantAfterKeyboardWillShow)")
+//                    self.conversationCollectionView.setContentOffset(contentOffset, animated: true)
+//
+//                    firstTime = true
+                }
+            }
+        }
+    }
+
+
     @IBOutlet weak var conversationCollectionView: UICollectionView!
 
     @IBOutlet weak var messageToolbar: MessageToolbar!
@@ -49,9 +87,11 @@ class ConversationViewController: UIViewController {
         didSet {
             oldValue?.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
             oldValue?.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+            oldValue?.removeObserver(self, name: UIKeyboardDidHideNotification, object: nil)
 
             keyboardChangeObserver?.addObserver(self, selector: "handleKeyboardWillShowNotification:", name: UIKeyboardWillShowNotification, object: nil)
             keyboardChangeObserver?.addObserver(self, selector: "handleKeyboardWillHideNotification:", name: UIKeyboardWillHideNotification, object: nil)
+            keyboardChangeObserver?.addObserver(self, selector: "handleKeyboardDidHideNotification:", name: UIKeyboardDidHideNotification, object: nil)
         }
     }
 
@@ -181,7 +221,11 @@ class ConversationViewController: UIViewController {
     // MARK: Keyboard
 
     func handleKeyboardWillShowNotification(notification: NSNotification) {
-        println("showKeyboard") // 在 iOS 8.3 Beat 3 里，首次弹出键盘时，这个通知会发出三次，下面设置 contentOffset 因执行多次就会导致跳动。但第二次弹出键盘就不会了
+        println("showKeyboard")
+
+        keyboardShowTimes += 1
+
+        conversationCollectionViewContentOffsetBeforeKeyboardWillShow = conversationCollectionView.contentOffset
 
         if let userInfo = notification.userInfo {
 
@@ -190,20 +234,37 @@ class ConversationViewController: UIViewController {
             let keyboardEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
             let keyboardHeight = keyboardEndFrame.height
 
+
+            println("animationDuration: \(animationDuration)")
+            println("keyboardHeight: \(keyboardHeight)")
+
+
+            let lastTimeKeyboardHeight = self.keyboardHeight
+
+            self.keyboardHeight = keyboardHeight
+
+//            if isKeyboardVisible && firstTime {
+//                messageToolbarBottomConstraintConstantAfterKeyboardWillShow = self.messageToolbarBottomConstraint.constant
+//                firstTime = false
+//            }
             UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { () -> Void in
                 self.messageToolbarBottomConstraint.constant = keyboardHeight
                 self.view.layoutIfNeeded()
 
-                self.conversationCollectionView.contentOffset.y += keyboardHeight
-                self.conversationCollectionView.contentInset.bottom += keyboardHeight
+                self.conversationCollectionView.contentInset.bottom = self.messageToolbar.intrinsicContentSize().height + keyboardHeight
 
             }, completion: { (finished) -> Void in
+                println("self.keyboardHeight: \(self.keyboardHeight)")
+
+                self.keyboardShowTimes -= 1
             })
         }
     }
 
     func handleKeyboardWillHideNotification(notification: NSNotification) {
         println("hideKeyboard")
+
+        conversationCollectionViewContentOffsetBeforeKeyboardWillHide = conversationCollectionView.contentOffset
 
         if let userInfo = notification.userInfo {
             let animationDuration: NSTimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
@@ -215,13 +276,20 @@ class ConversationViewController: UIViewController {
                 self.messageToolbarBottomConstraint.constant = 0
                 self.view.layoutIfNeeded()
 
-                self.conversationCollectionView.contentOffset.y -= keyboardHeight
-                self.conversationCollectionView.contentInset.bottom -= keyboardHeight
+                self.conversationCollectionView.contentInset.bottom = self.messageToolbar.intrinsicContentSize().height
 
             }, completion: { (finished) -> Void in
+                var contentOffset = self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide
+                contentOffset.y -= keyboardHeight
+                self.conversationCollectionView.setContentOffset(contentOffset, animated: true)
             })
         }
     }
+
+    func handleKeyboardDidHideNotification(notification: NSNotification) {
+        isKeyboardVisible = false
+    }
+
 }
 
 // MARK: UICollectionViewDataSource, UICollectionViewDelegate
