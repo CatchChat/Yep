@@ -514,17 +514,18 @@ func sendText(text: String, toRecipient recipientID: String, #recipientType: Str
     message.mediaType = MessageMediaType.Text.rawValue
     message.textContent = text
 
-    // 消息来自于自己
-
-    if let me = tryGetOrCreateMe() {
-        message.fromFriend = me
-    }
-
     realm.addObject(message)
 
     realm.commitWriteTransaction()
 
 
+    // 消息来自于自己
+
+    if let me = tryGetOrCreateMe() {
+        realm.beginWriteTransaction()
+        message.fromFriend = me
+        realm.commitWriteTransaction()
+    }
 
     // 消息的 Conversation，没有就创建
 
