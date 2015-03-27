@@ -166,8 +166,10 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                 // 对于 401: errorMessage: >>>HTTP Token: Access denied<<<
                 // 用户需要重新登录，所以
 
-                dispatch_async(dispatch_get_main_queue()) {
-                    YepUserDefaults.userNeedRelogin()
+                if httpResponse.statusCode == 401 {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        YepUserDefaults.userNeedRelogin()
+                    }
                 }
             }
 
