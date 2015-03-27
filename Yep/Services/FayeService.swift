@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Catch Inc. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import MZFayeClient
 
 class FayeService: NSObject, MZFayeClientDelegate {
@@ -32,8 +32,6 @@ class FayeService: NSObject, MZFayeClientDelegate {
             let userID = YepUserDefaults.userID() {
                 let extensionData = [
                     "access_token": v1AccessToken,
-                    "mobile": "18620855007",
-                    "phone_code": "86"
                 ]
 
                 let personalChannel = personalChannelWithUserID(userID)
@@ -42,7 +40,6 @@ class FayeService: NSObject, MZFayeClientDelegate {
                 client.setExtension(extensionData, forChannel: personalChannel)
                 client.connect()
                 client.subscribeToChannel(personalChannel)
-
 
         } else {
             println("FayeClient start failed!!!!")
