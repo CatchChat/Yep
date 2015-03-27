@@ -79,11 +79,11 @@ func validateMobile(mobile: String, withAreaCode areaCode: String, #failureHandl
 }
 
 func registerMobile(mobile: String, withAreaCode areaCode: String, #nickname: String, #failureHandler: ((Reason, String?) -> ())?, #completion: Bool -> Void) {
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "mobile": mobile,
         "phone_code": areaCode,
         "nickname": nickname,
-        "longitude": 0,
+        "longitude": 0, // TODO: 注册时不好提示用户访问位置，或许设置技能或用户利用位置查找好友时再提示并更新位置信息
         "latitude": 0
     ]
 
@@ -97,7 +97,7 @@ func registerMobile(mobile: String, withAreaCode areaCode: String, #nickname: St
         return false
     }
 
-    let resource = jsonResource(path: "/api/v1/registration/create", method: .POST, requestParameters: requestParameters as! JSONDictionary, parse: parse)
+    let resource = jsonResource(path: "/api/v1/registration/create", method: .POST, requestParameters: requestParameters, parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)
