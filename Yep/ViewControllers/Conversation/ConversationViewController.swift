@@ -58,6 +58,8 @@ class ConversationViewController: UIViewController {
 
     deinit {
         updateUIWithKeyboardChange = false
+
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     override func viewDidLoad() {

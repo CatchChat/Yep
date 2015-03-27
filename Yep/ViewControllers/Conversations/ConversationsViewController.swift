@@ -18,20 +18,20 @@ class ConversationsViewController: UIViewController {
 
     lazy var conversations = Conversation.allObjects().sortedResultsUsingProperty("updatedAt", ascending: false)
 
-    var updateUIToken: RLMNotificationToken?
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationsTableView", name: YepNewMessagesReceivedNotification, object: nil)
+
         view.backgroundColor = UIColor.whiteColor()
 
         conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         conversationsTableView.rowHeight = 80
-
-        updateUIToken = RLMRealm.defaultRealm().addNotificationBlock { (note, realm) -> Void in
-            self.conversationsTableView.reloadData()
-        }
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -49,6 +49,12 @@ class ConversationsViewController: UIViewController {
             let vc = segue.destinationViewController as! ConversationViewController
             vc.conversation = sender as! Conversation
         }
+    }
+
+    // MARK: Actions
+
+    func updateConversationsTableView() {
+        conversationsTableView.reloadData()
     }
 }
 
