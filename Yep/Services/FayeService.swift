@@ -17,7 +17,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
 
     override init() {
 
-        client = MZFayeClient(URL:NSURL(string: "http://faye-proxy-1245945049.cn-north-1.elb.amazonaws.com.cn/faye"))
+        client = MZFayeClient(URL:NSURL(string: "http://faye.catchchatchina.com/faye"))
         
         super.init()
         
@@ -39,11 +39,10 @@ class FayeService: NSObject, MZFayeClientDelegate {
                 let personalChannel = personalChannelWithUserID(userID)
 
                 println("Will Subscribe \(personalChannel)")
-
                 client.setExtension(extensionData, forChannel: personalChannel)
-                client.subscribeToChannel(personalChannel)
-                
                 client.connect()
+                client.subscribeToChannel(personalChannel)
+
 
         } else {
             println("FayeClient start failed!!!!")
