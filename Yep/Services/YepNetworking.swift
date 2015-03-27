@@ -69,7 +69,7 @@ func defaultFailureHandler(reason: Reason, errorMessage: String?) {
     println("\n***************************** YepNetworking Failure *****************************")
     println("Reason: \(reason)")
     if let errorMessage = errorMessage {
-        println("errorMessage: \(errorMessage)\n")
+        println("errorMessage: >>>\(errorMessage)<<<\n")
     } else {
         println()
     }
@@ -162,6 +162,13 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                 println("\(resource)")
                 println("\nstatusCode: \(httpResponse.statusCode)")
                 failure(Reason.NoSuccessStatusCode(statusCode: httpResponse.statusCode), errorMessageInData(data))
+
+                // 对于 401: errorMessage: >>>HTTP Token: Access denied<<<
+                // 用户需要重新登录，所以
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    YepUserDefaults.userNeedRelogin()
+                }
             }
 
         } else {

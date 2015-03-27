@@ -16,6 +16,29 @@ let pusherIDKey = "pusherID"
 
 class YepUserDefaults {
 
+    // MARK: ReLogin
+
+    class func userNeedRelogin() {
+        let defaults = NSUserDefaults.standardUserDefaults()
+
+        defaults.removeObjectForKey(v1AccessTokenKey)
+        defaults.removeObjectForKey(userIDKey)
+        defaults.removeObjectForKey(nicknameKey)
+        defaults.removeObjectForKey(avatarURLStringKey)
+        defaults.removeObjectForKey(pusherIDKey)
+
+
+        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            if let rootViewController = appDelegate.window?.rootViewController {
+                YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { () -> Void in
+
+                    appDelegate.startIntroStory()
+                })
+            }
+        }
+    }
+
+
     // MARK: v1AccessToken
 
     class func v1AccessToken() -> String? {

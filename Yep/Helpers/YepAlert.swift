@@ -9,10 +9,10 @@
 import UIKit
 
 class YepAlert {
-    class func alert(#title: String, message: String, inViewController viewController: UIViewController, withDismissAction dismissAction: (() -> Void)?) {
+    class func alert(#title: String, message: String, dismissTitle: String, inViewController viewController: UIViewController, withDismissAction dismissAction: (() -> Void)?) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 
-        let action: UIAlertAction = UIAlertAction(title: NSLocalizedString("Dismiss", comment: ""), style: .Default) { action -> Void in
+        let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .Default) { action -> Void in
             if let dismissAction = dismissAction {
                 dismissAction()
             }
@@ -23,10 +23,11 @@ class YepAlert {
     }
 
     class func alertSorry(#message: String, inViewController viewController: UIViewController, withDismissAction dismissAction: () -> Void) {
-        alert(title: NSLocalizedString("Sorry", comment: ""), message: message, inViewController: viewController, withDismissAction: dismissAction)
+        alert(title: NSLocalizedString("Sorry", comment: ""), message: message, dismissTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: viewController, withDismissAction: dismissAction)
     }
 
     class func alertSorry(#message: String, inViewController viewController: UIViewController) {
-        alert(title: NSLocalizedString("Sorry", comment: ""), message: message, inViewController: viewController, withDismissAction: nil)
+        alert(title: NSLocalizedString("Sorry", comment: ""), message: message, dismissTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: viewController, withDismissAction: nil)
     }
+
 }
