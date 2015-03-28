@@ -10,6 +10,9 @@ import UIKit
 
 class ConversationCell: UITableViewCell {
 
+    var conversation: Conversation!
+
+
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var chatLabel: UILabel!
@@ -29,6 +32,8 @@ class ConversationCell: UITableViewCell {
     }
 
     func configureWithConversation(conversation: Conversation, avatarRadius radius: CGFloat) {
+        
+        self.conversation = conversation
         
         if conversation.type == ConversationType.OneToOne.rawValue {
 

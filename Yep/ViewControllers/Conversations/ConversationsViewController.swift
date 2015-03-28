@@ -80,7 +80,8 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        let conversation = conversations.objectAtIndex(UInt(indexPath.row)) as! Conversation
-        performSegueWithIdentifier("showConversation", sender: conversation)
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+            performSegueWithIdentifier("showConversation", sender: cell.conversation)
+        }
     }
 }
