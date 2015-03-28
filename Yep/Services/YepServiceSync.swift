@@ -135,13 +135,17 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
             realm.beginWriteTransaction()
 
+            var groupsToDelete = [Group]()
             for i in 0..<localGroups.count {
                 let localGroup = localGroups[i] as! Group
 
                 if !remoteGroupIDSet.contains(localGroup.groupID) {
-                    realm.deleteObject(localGroup)
-                    // TODO: 级联删除关联的数据对象
+                    groupsToDelete.append(localGroup)
                 }
+            }
+            for group in groupsToDelete {
+                realm.deleteObject(group)
+                // TODO: 级联删除关联的数据对象
             }
 
             realm.commitWriteTransaction()
