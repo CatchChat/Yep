@@ -329,7 +329,7 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
             }
             
             // do futher action
-            
+            println("加个打印，希望能等到 Realm 在线程间同步好")
             furtherAction()
         }
     }
