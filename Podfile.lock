@@ -16,7 +16,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   MZFayeClient:
-    :path: ../CatchLib-iOS/MZFayeClient/
+    :path: "../CatchLib-iOS/MZFayeClient/"
 
 SPEC CHECKSUMS:
   Base64: c6d74f31f150543b246a07e180ba813c88e59311
@@ -25,4 +25,4 @@ SPEC CHECKSUMS:
   Realm: 81adfc7f43f9301f40bbc46d5e8a10aaf71b9504
   SocketRocket: 79a68ae186063c65e1fe6f638b1ae2927aa5f304
 
-COCOAPODS: 0.36.0
+COCOAPODS: 0.36.1

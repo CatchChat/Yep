@@ -8,6 +8,7 @@
 
 import Foundation
 import MZFayeClient
+import Realm
 
 class FayeService: NSObject, MZFayeClientDelegate {
 
@@ -40,7 +41,9 @@ class FayeService: NSObject, MZFayeClientDelegate {
                 client.setExtension(extensionData, forChannel: personalChannel)
 
                 client.subscribeToChannel(personalChannel, usingBlock: { data in
-                    println(data)
+                    //println("subscribeToChannel: \(data)")
+                    let messageInfo = data as! JSONDictionary
+                    self.saveMessageWithMessageInfo(messageInfo)
                 })
                 client.connect()
 
@@ -53,6 +56,17 @@ class FayeService: NSObject, MZFayeClientDelegate {
 
     private func personalChannelWithUserID(userID: String) -> String {
         return "/users/\(userID)/messages"
+    }
+
+    private func saveMessageWithMessageInfo(messageInfo: JSONDictionary) {
+        dispatch_async(realmQueue) {
+            let realm = RLMRealm.defaultRealm()
+            syncMessageWithMessageInfo(messageInfo, inRealm: realm)
+
+            dispatch_async(dispatch_get_main_queue()) {
+                NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
+            }
+        }
     }
 
     // MARK: MZFayeClientDelegate
