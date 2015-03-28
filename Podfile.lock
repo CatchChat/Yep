@@ -11,13 +11,17 @@ PODS:
 
 DEPENDENCIES:
   - JPushSDK
-  - MZFayeClient
+  - MZFayeClient (from `../CatchLib-iOS/MZFayeClient/`)
   - Realm
+
+EXTERNAL SOURCES:
+  MZFayeClient:
+    :path: ../CatchLib-iOS/MZFayeClient/
 
 SPEC CHECKSUMS:
   Base64: c6d74f31f150543b246a07e180ba813c88e59311
   JPushSDK: 30b632d813610d80f27c18eb2a7d52ceb9eeaee7
-  MZFayeClient: 0db6ba1b0408ff4e26f1bbe31d06ee6934f036b6
+  MZFayeClient: 19df756a4c86c8f414668e6edc54fccfee54adbb
   Realm: 81adfc7f43f9301f40bbc46d5e8a10aaf71b9504
   SocketRocket: 79a68ae186063c65e1fe6f638b1ae2927aa5f304
 

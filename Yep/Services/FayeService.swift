@@ -17,7 +17,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
 
     override init() {
 
-        client = MZFayeClient(URL:NSURL(string: "http://faye.catchchatchina.com/faye"))
+        client = MZFayeClient(URL:NSURL(string: "ws://faye.catchchatchina.com/faye"))
         
         super.init()
         
@@ -38,8 +38,11 @@ class FayeService: NSObject, MZFayeClientDelegate {
 
                 println("Will Subscribe \(personalChannel)")
                 client.setExtension(extensionData, forChannel: personalChannel)
+
+                client.subscribeToChannel(personalChannel, usingBlock: { data in
+                    println(data)
+                })
                 client.connect()
-                client.subscribeToChannel(personalChannel)
 
         } else {
             println("FayeClient start failed!!!!")
@@ -71,7 +74,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
     }
     
     func fayeClient(client: MZFayeClient!, didReceiveMessage messageData: [NSObject : AnyObject]!, fromChannel channel: String!) {
-        println("fayeClient didReceiveMessage \(messageData.description)")
+        println("fayeClient didReceiveMessage \(messageData)")
     }
     
     func fayeClient(client: MZFayeClient!, didSubscribeToChannel channel: String!) {
@@ -81,6 +84,8 @@ class FayeService: NSObject, MZFayeClientDelegate {
     func fayeClient(client: MZFayeClient!, didUnsubscribeFromChannel channel: String!) {
         println("fayeClient didUnsubscribeFromChannel \(channel)")
     }
+
+    
     
     
 }
