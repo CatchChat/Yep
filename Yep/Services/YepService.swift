@@ -207,6 +207,30 @@ func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: S
     }
 }
 
+// MARK: Contacts
+
+func searchUsersWithPhoneNumber(ofPhoneNumber phoneNumber: String, #failureHandler: ((Reason, String?) -> ())?, #completion: [AnyObject] -> Void) {
+    
+    let requestParameters = [
+        "q": phoneNumber
+    ]
+    
+    let parse: JSONDictionary -> [AnyObject]? = { data in
+        if let users = data["users"] as? [AnyObject] {
+            return users
+        }
+        return []
+    }
+    
+    let resource = authJsonResource(path: "/api/v1/users/search", method: .GET, requestParameters: requestParameters, parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
 // MARK: Upload
 
 func publicUploadToken(#failureHandler: ((Reason, String?) -> ())?, #completion: QiniuProvider -> Void) {

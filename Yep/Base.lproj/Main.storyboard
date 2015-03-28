@@ -125,7 +125,13 @@
                             <constraint firstItem="3hF-wd-yhY" firstAttribute="top" secondItem="H20-zR-F1L" secondAttribute="top" id="zML-PE-es7"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Contacts" id="tYK-ax-VkQ"/>
+                    <navigationItem key="navigationItem" title="Contacts" id="tYK-ax-VkQ">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="JGC-Ux-Jad">
+                            <connections>
+                                <segue destination="Z9h-1s-JwL" kind="show" id="xjZ-jf-70R"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="contactsTableView" destination="3hF-wd-yhY" id="RfM-bD-4Oe"/>
                     </connections>
@@ -133,6 +139,64 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ynX-sO-VM0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="149" y="1045"/>
+        </scene>
+        <!--Contacts Search Table View Controller-->
+        <scene sceneID="eFl-rn-Dry">
+            <objects>
+                <tableViewController id="Z9h-1s-JwL" customClass="ContactsSearchTableViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="nW4-iw-wiL">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchUserCell" textLabel="Rex-HK-cGd" style="IBUITableViewCellStyleDefault" id="z2M-hT-Xaf">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="z2M-hT-Xaf" id="Fxk-Ri-ehs">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Rex-HK-cGd">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="pof-gd-kho">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pof-gd-kho" id="n3r-Xn-mdD">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="2l7-0b-ght">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2l7-0b-ght" id="lh4-m7-etG">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="Z9h-1s-JwL" id="4IS-zS-lZE"/>
+                            <outlet property="delegate" destination="Z9h-1s-JwL" id="4Oc-rT-rxk"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="uPO-EG-Wb8" id="TYe-Mq-FjE"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qgo-Ya-vIo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="uPO-EG-Wb8">
+                    <connections>
+                        <outlet property="delegate" destination="Z9h-1s-JwL" id="Pfa-VX-YQ3"/>
+                        <outlet property="searchContentsController" destination="Z9h-1s-JwL" id="DTr-hb-G3W"/>
+                        <outlet property="searchResultsDataSource" destination="Z9h-1s-JwL" id="cHY-bz-mcU"/>
+                        <outlet property="searchResultsDelegate" destination="Z9h-1s-JwL" id="pum-Kv-Wyy"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="149" y="1835"/>
         </scene>
         <!--Discover-->
         <scene sceneID="n5u-x5-QaP">
@@ -198,10 +262,10 @@
             </objects>
             <point key="canvasLocation" x="2027" y="1045"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Yep Tab Bar Controller-->
         <scene sceneID="vud-lc-IAG">
             <objects>
-                <tabBarController storyboardIdentifier="MainTabBarController" automaticallyAdjustsScrollViewInsets="NO" id="Ha4-ol-D2e" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTabBarController" automaticallyAdjustsScrollViewInsets="NO" id="Ha4-ol-D2e" customClass="YepTabBarController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="DdC-xv-l7V">
