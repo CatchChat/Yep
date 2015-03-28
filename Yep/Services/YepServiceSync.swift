@@ -153,7 +153,7 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
             // 增加本地没有的 Group
 
             for groupInfo in allGroups {
-                syncGroupWithGroupInfo(groupInfo)
+                syncGroupWithGroupInfo(groupInfo, inRealm: realm)
             }
             
             // do further action
@@ -163,13 +163,10 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
     }
 }
 
-// 此函数专供上面的 syncGroupsAndDoFurtherAction 使用，因为 realmQueue 
-private func syncGroupWithGroupInfo(groupInfo: JSONDictionary) {
+private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RLMRealm) {
     if let groupID = groupInfo["id"] as? String {
         let predicate = NSPredicate(format: "groupID = %@", groupID)
         var group = Group.objectsWithPredicate(predicate).firstObject() as? Group
-
-        let realm = RLMRealm.defaultRealm()
 
         if group == nil {
             let newGroup = Group()
