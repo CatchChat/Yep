@@ -325,7 +325,7 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
             let realm = RLMRealm.defaultRealm()
 
             for messageInfo in allUnreadMessages {
-                syncMessageWithMessageInfo(messageInfo, inRealm: realm)
+                syncMessageWithMessageInfo(messageInfo, inRealm: realm, andDoFurtherAction: nil)
             }
             
             // do futher action
@@ -335,7 +335,14 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
     }
 }
 
-func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: RLMRealm) {
+func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: RLMRealm, andDoFurtherAction furtherAction: (() -> Void)? ) {
+
+    func deleteMessage(message: Message, inRealm realm: RLMRealm) {
+        realm.beginWriteTransaction()
+        realm.deleteObject(message)
+        realm.commitWriteTransaction()
+    }
+
     if let messageID = messageInfo["id"] as? String {
         let predicate = NSPredicate(format: "messageID = %@", messageID)
         var message = Message.objectsWithPredicate(predicate).firstObject() as? Message
@@ -524,10 +531,16 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: RLMR
 
                             realm.commitWriteTransaction()
 
+
+                            // Do furtherAction after sync
+
+                            if let furtherAction = furtherAction {
+                                //println("syncMessageWithMessageInfo do furtherAction")
+                                furtherAction()
+                            }
+
                         } else {
-                            realm.beginWriteTransaction()
-                            realm.addObject(message)
-                            realm.commitWriteTransaction()
+                            deleteMessage(message, inRealm: realm)
                         }
                     }
                 }
