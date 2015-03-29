@@ -31,21 +31,14 @@ class ConversationViewController: UIViewController {
     var keyboardShowTimes = 0 {
         willSet {
             println("set keyboardShowTimes \(newValue)")
-
+            
             if newValue == 0 {
                 if !self.isKeyboardVisible {
-                    var contentOffset = self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow
-                    contentOffset.y += keyboardHeight
-                    self.conversationCollectionView.setContentOffset(contentOffset, animated: true)
-
-                    println("fire setContentOffset")
-
                     self.isKeyboardVisible = true
                 }
             }
         }
     }
-
 
     @IBOutlet weak var conversationCollectionView: UICollectionView!
 
@@ -91,11 +84,16 @@ class ConversationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let undoBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Undo, target: self, action: "undoMessageSend")
+        navigationItem.rightBarButtonItem = undoBarButtonItem
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationCollectionView", name: YepNewMessagesReceivedNotification, object: nil)
 
         conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
+        
+        conversationCollectionView.bounces = true
 
         setConversaitonCollectionViewOriginalContentInset()
 
@@ -168,15 +166,23 @@ class ConversationViewController: UIViewController {
     // MARK: Actions
 
     func updateConversationCollectionView() {
+        
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
-
-        //let layout = conversationCollectionView.collectionViewLayout as! ConversationLayout
-        //layout.needUpdate = true
-
-        conversationCollectionView.reloadData()
-
+        
+        // 保证是增加消息
+        if messages.count <= _lastTimeMessagesCount {
+            return
+        }
         let newMessagesCount = messages.count - _lastTimeMessagesCount
+        
+        var indexPaths = [NSIndexPath]()
+        for i in _lastTimeMessagesCount..<messages.count {
+            let indexPath = NSIndexPath(forItem: Int(i), inSection: 0)
+            indexPaths.append(indexPath)
+        }
+
+        self.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
 
         if newMessagesCount > 0 {
 
@@ -191,12 +197,39 @@ class ConversationViewController: UIViewController {
 
                 newMessagesTotalHeight += height
             }
+            
+            let keyboardAndToolBarHeight = self.messageToolbarBottomConstraint.constant + self.messageToolbar.intrinsicContentSize().height
+            
+            let totleMessagesHeight = self.conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + 64.0 + newMessagesTotalHeight
+            
+            let visableMessageFieldHeight = self.conversationCollectionView.frame.size.height - (keyboardAndToolBarHeight + 64.0)
+            
+            let totalMessagesContentHeight = self.conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + newMessagesTotalHeight
+            
+            println("Size is \(self.conversationCollectionView.contentSize.height) \(newMessagesTotalHeight) visableMessageFieldHeight \(visableMessageFieldHeight)")
+            
+            //Calculate the space can be used
+            let useableSpace = visableMessageFieldHeight - self.conversationCollectionView.contentSize.height
+            
+            self.conversationCollectionView.contentSize = CGSizeMake(self.conversationCollectionView.contentSize.width, self.conversationCollectionView.contentSize.height + newMessagesTotalHeight)
+            
+            println("Size is after \(self.conversationCollectionView.contentSize.height)")
 
-            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                self.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
-                
-            }, completion: { (finished) -> Void in
-            })
+            if (totleMessagesHeight > self.conversationCollectionView.frame.size.height) {
+                println("New Message scroll")
+                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                    
+                    if (useableSpace > 0) {
+                        let contentToScroll = newMessagesTotalHeight - useableSpace
+                        println("contentToScroll \(contentToScroll)")
+                        self.conversationCollectionView.contentOffset.y += contentToScroll
+                    }else{
+                        self.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
+                    }
+                    
+                }, completion: { (finished) -> Void in
+                })
+            }
         }
     }
 
@@ -204,14 +237,37 @@ class ConversationViewController: UIViewController {
         messageToolbar.messageTextField.text = ""
         messageToolbar.state = .Default
     }
+    
+    func undoMessageSend() {
+        
+        if let lastMessage = messages.lastObject() as? Message {
+
+            let realm = RLMRealm.defaultRealm()
+            realm.beginWriteTransaction()
+            realm.deleteObject(lastMessage)
+            realm.commitWriteTransaction()
+            
+            lastTimeMessagesCount = messages.count
+            
+            let lastMessageIndexPath = NSIndexPath(forItem: Int(messages.count), inSection: 0)
+            conversationCollectionView.deleteItemsAtIndexPaths([lastMessageIndexPath])
+            println("\(conversationCollectionView.contentSize) \(conversationCollectionView.contentOffset)")
+//            messages = messagesInConversation(self.conversation)
+            
+//            println("Messages after refetch \(messages.count)")
+        }
+    }
 
     // MARK: Keyboard
 
     func handleKeyboardWillShowNotification(notification: NSNotification) {
-
         keyboardShowTimes += 1
-
-        conversationCollectionViewContentOffsetBeforeKeyboardWillShow = conversationCollectionView.contentOffset
+        
+        conversationCollectionViewContentOffsetBeforeKeyboardWillHide = CGPointZero
+        if (conversationCollectionViewContentOffsetBeforeKeyboardWillShow == CGPointZero) {
+            conversationCollectionViewContentOffsetBeforeKeyboardWillShow = conversationCollectionView.contentOffset
+        }
+//        println("Set offset before is \(conversationCollectionView.contentOffset)")
 
         if let userInfo = notification.userInfo {
 
@@ -223,11 +279,45 @@ class ConversationViewController: UIViewController {
             self.keyboardHeight = keyboardHeight
 
             UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { () -> Void in
+                
                 self.messageToolbarBottomConstraint.constant = keyboardHeight
-                self.view.layoutIfNeeded()
-
+                
+                let keyboardAndToolBarHeight = keyboardHeight + self.messageToolbar.intrinsicContentSize().height
+                
+                let totleMessagesHeight = self.conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + 64.0
+                
+                let visableMessageFieldHeight = self.conversationCollectionView.frame.size.height - (keyboardAndToolBarHeight + 64.0)
+                
+//                println("Content size is \(self.conversationCollectionView.contentSize.height) visableMessageFieldHeight \(visableMessageFieldHeight) totleMessagesHeight \(totleMessagesHeight) toolbar \(self.messageToolbar.intrinsicContentSize().height) keyboardHeight \(keyboardHeight) Navitation 64.0")
+                
+                let unvisibaleMessageHeight = self.conversationCollectionView.contentSize.height - visableMessageFieldHeight
+                println("unvisibaleMessageHeight is \(unvisibaleMessageHeight)")
+                
+                //Only scroll the invisable field if invisable < keyboardAndToolBarHeight
+                if (unvisibaleMessageHeight < (keyboardAndToolBarHeight)) {
+                    
+                    //Only scroll if need
+                    if (unvisibaleMessageHeight > 0) {
+                        var contentOffset = CGPointMake(self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow.x, self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow.y+unvisibaleMessageHeight)
+                        println("Set offset is \(contentOffset)")
+                        
+                        self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
+                    }
+                    
+                }else{
+                    
+                    var contentOffset = self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow
+                    contentOffset.y += keyboardHeight
+                    
+                    println("Set offset is \(contentOffset)")
+                    
+                    self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
+                }
+                
                 self.conversationCollectionView.contentInset.bottom = self.messageToolbar.intrinsicContentSize().height + keyboardHeight
-
+                
+                self.view.layoutIfNeeded()
+            
             }, completion: { (finished) -> Void in
                 self.keyboardShowTimes -= 1
             })
@@ -235,7 +325,10 @@ class ConversationViewController: UIViewController {
     }
 
     func handleKeyboardWillHideNotification(notification: NSNotification) {
-        conversationCollectionViewContentOffsetBeforeKeyboardWillHide = conversationCollectionView.contentOffset
+        self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow = CGPointZero
+        if (conversationCollectionViewContentOffsetBeforeKeyboardWillHide == CGPointZero) {
+            conversationCollectionViewContentOffsetBeforeKeyboardWillHide = conversationCollectionView.contentOffset
+        }
 
         if let userInfo = notification.userInfo {
             let animationDuration: NSTimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
@@ -247,12 +340,14 @@ class ConversationViewController: UIViewController {
                 self.messageToolbarBottomConstraint.constant = 0
                 self.view.layoutIfNeeded()
 
+                var contentOffset = self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide
+                contentOffset.y -= keyboardHeight
+                //println("\(self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide.y) \(contentOffset.y) \(self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide.y-contentOffset.y)")
+                self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
                 self.conversationCollectionView.contentInset.bottom = self.messageToolbar.intrinsicContentSize().height
 
             }, completion: { (finished) -> Void in
-                var contentOffset = self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide
-                contentOffset.y -= keyboardHeight
-                self.conversationCollectionView.setContentOffset(contentOffset, animated: true)
+
             })
         }
     }
@@ -266,6 +361,10 @@ class ConversationViewController: UIViewController {
 // MARK: UICollectionViewDataSource, UICollectionViewDelegate
 
 extension ConversationViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+//        println("\(scrollView.contentSize) \(scrollView.contentOffset)")
+    }
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
