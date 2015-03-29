@@ -137,6 +137,14 @@ class ConversationViewController: UIViewController {
                 })
             }
         }
+        
+        messageToolbar.voiceSendAction = { messageToolbar in
+            requestAWSS3UploadForm(failureHandler: { (reason, error) in
+                println("\(error)")
+            }, completion: { token in
+                println("Got S3 token is \(token)")
+            })
+        }
     }
 
     override func viewDidLayoutSubviews() {
