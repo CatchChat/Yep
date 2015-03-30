@@ -9,111 +9,54 @@
 import Foundation
 import MobileCoreServices.UTType
 import Ono
-import AWSS3
 import AFNetworking
-/// Create request
-///
-/// :param: userid   The userid to be passed to web service
-/// :param: password The password to be passed to web service
-/// :param: email    The email address to be passed to web service
-///
-/// :returns:         The NSURLRequest that was created
 
-func createRequest(#url:NSURL, #filePath: String, #key: String, #acl: String, #algorithm: String, #signature: String, #date: String, #credential: String, #policy: String) -> NSURLRequest {
-    let param = [
-        ["key"  : key],
-        ["acl"    : acl],
-        ["X-Amz-Algorithm": algorithm],
-        ["X-Amz-Signature": signature],
-        ["X-Amz-Date": date],
-        ["X-Amz-Credential": credential],
-        ["Policy": policy]
-    ]  // build your dictionary however appropriate
-    
-    let boundary = generateBoundaryString()
-    let request = NSMutableURLRequest(URL: url)
-    request.HTTPMethod = "POST"
-
-    request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-    
-    request.HTTPBody = createBodyWithParameters(parameters: param, filePathKey: "file", paths: [filePath], boundary: boundary)
-    
-//    request.setValue("\(request.HTTPBody?.length)", forHTTPHeaderField: "Content-Length")
-    
-    return request
+struct S3UploadParams {
+    let url: String
+    let key: String
+    let acl: String
+    let algorithm: String
+    let signature: String
+    let date: String
+    let credential: String
+    let encodedPolicy: String
 }
 
-func uploadFileToAWSS3(#filePath: String, #dataForm: JSONDictionary){
 
-    let policy = dataForm["policy"] as! [String: AnyObject]
-    let conditions = policy["conditions"] as! [[String: AnyObject]]
-    let signature = dataForm["signature"] as! String
-    let policyEncoded = dataForm["encoded_policy"] as! String
-    let url = dataForm["url"] as! String
-    
-    var key = ""
-    var acl = ""
-    var algorithm = ""
-    var credential = ""
-    var date = ""
-
-    
-    for dict in conditions {
-        let keyString = dict.keys.first!
-        switch keyString{
-        case "key":
-            key = dict.values.first as! String
-        case "acl":
-            acl = dict.values.first as! String
-        case "x-amz-algorithm":
-            algorithm = dict.values.first as! String
-        case "x-amz-credential":
-            credential = dict.values.first as! String
-        case "x-amz-date":
-            date = dict.values.first as! String
-        default:
-            break
-        }
-    }
+func uploadFileToS3WithFilePath(filePath: String, #s3UploadParams: S3UploadParams){
 
     let param = [
-        "key"  : key,
-        "acl"    : acl,
-        "X-Amz-Algorithm": algorithm,
-        "X-Amz-Signature": signature,
-        "X-Amz-Date": date,
-        "X-Amz-Credential": credential,
-        "Policy": policyEncoded
+        "key"  : s3UploadParams.key,
+        "acl"    : s3UploadParams.acl,
+        "X-Amz-Algorithm": s3UploadParams.algorithm,
+        "X-Amz-Signature": s3UploadParams.signature,
+        "X-Amz-Date": s3UploadParams.date,
+        "X-Amz-Credential": s3UploadParams.credential,
+        "Policy": s3UploadParams.encodedPolicy
     ]
     
-//    var request = createRequest(url:NSURL(string: url)!, filePath:filePath , key: key, acl: acl, algorithm: algorithm, signature: signature, date: date, credential: credential, policy: policyEncoded)
     let filename = filePath.lastPathComponent
     let mimetype = mimeTypeForPath(filePath)
-    
-//    YepAWSService.uploadFiletoAWS(filePath, filename:  filename, mimetype: mimetype,withKey:key, acl: acl, algorithm: algorithm, signature: signature, date: date, credential: credential, policy: policyEncoded)
 
-    let request = AFHTTPRequestSerializer().multipartFormRequestWithMethod("POST", URLString: url, parameters: param, constructingBodyWithBlock: { formData  in
-        
+    let request = AFHTTPRequestSerializer().multipartFormRequestWithMethod("POST", URLString: s3UploadParams.url, parameters: param, constructingBodyWithBlock: { formData in
         formData.appendPartWithFileURL(NSURL(fileURLWithPath: filePath)!, name: "file", fileName: filename, mimeType: mimetype, error: nil)
-        
     }, error: nil)
     
     let manager = AFURLSessionManager(sessionConfiguration: NSURLSessionConfiguration.defaultSessionConfiguration())
     manager.responseSerializer = AFXMLParserResponseSerializer()
-//    var progress = NSProgress()
-
-    var uploadTask = manager.uploadTaskWithStreamedRequest(request, progress: nil, completionHandler: { (response, responseObject, error) in
+    var progress: NSProgress?
+    
+    var uploadTask = manager.uploadTaskWithStreamedRequest(request, progress: &progress, completionHandler: { (response, responseObject, error) in
         
         if (error != nil) {
             println("Error \(error.description)")
         }else {
             println("Upload \(response) \(responseObject)")
         }
-        
-        
-    })
+        })
     
     uploadTask.resume()
+
 }
 
 // MARK: Upload
@@ -127,49 +70,11 @@ extension NSMutableData {
     /// :param: string       The string to be added to the `NSMutableData`.
     
     func appendString(string: String) {
-        let data = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
+        let data = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
         appendData(data!)
     }
 }
 
-
-/// Create body of the multipart/form-data request
-///
-/// :param: parameters   The optional dictionary containing keys and values to be passed to web service
-/// :param: filePathKey  The optional field name to be used when uploading files. If you supply paths, you must supply filePathKey, too.
-/// :param: paths        The optional array of file paths of the files to be uploaded
-/// :param: boundary     The multipart/form-data boundary
-///
-/// :returns:            The NSData of the body of the request
-
-func createBodyWithParameters(#parameters: [[String: String]]?, #filePathKey: String?, #paths: [String]?, #boundary: String) -> NSData {
-    let body = NSMutableData()
-    
-    if parameters != nil {
-        for dict in parameters! {
-            body.appendString("--\(boundary)\r\n")
-            body.appendString("Content-Disposition: form-data; name=\"\(dict.keys.first!)\"\r\n\r\n")
-            body.appendString("\(dict.values.first!)\r\n")
-        }
-    }
-    
-    if paths != nil {
-        for path in paths! {
-            let filename = path.lastPathComponent
-            let data = NSData(contentsOfFile: path)
-            let mimetype = mimeTypeForPath(path)
-            
-            body.appendString("--\(boundary)\r\n")
-            body.appendString("Content-Disposition: form-data; name=\"\(filePathKey!)\"; filename=\"\(filename)\"\r\n")
-            body.appendString("Content-Type: \(mimetype)\r\n\r\n")
-            body.appendData(data!)
-            body.appendString("\r\n")
-        }
-    }
-    
-    body.appendString("--\(boundary)--\r\n")
-    return body
-}
 
 
 /// Create boundary string for multipart/form-data request
@@ -199,10 +104,49 @@ func mimeTypeForPath(path: String) -> String {
     return "application/octet-stream";
 }
 
-func requestAWSS3UploadForm(#failureHandler: ((Reason, String?) -> ())?, #completion: JSONDictionary -> Void) {
+func s3UploadParams(#failureHandler: ((Reason, String?) -> ())?, #completion: S3UploadParams -> Void) {
     
-    let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
+    let parse: JSONDictionary -> S3UploadParams? = { data in
+        println("s3FormData: \(data)")
+        
+        if let options = data["options"] as? JSONDictionary {
+            if
+                let encodedPolice = options["encoded_policy"] as? String,
+                let key = options["key"] as? String,
+                let signature = options["signature"] as? String,
+                let urlString = options["url"] as? String,
+                let policy = options["policy"] as? JSONDictionary,
+                let conditions = policy["conditions"] as? [JSONDictionary] {
+                    
+                    var acl: String?
+                    var credential: String?
+                    var algorithm: String?
+                    var date: String?
+                    
+                    for dict in conditions {
+                        for (key, value) in dict {
+                            switch key {
+                            case "acl":
+                                acl = value as? String
+                            case "x-amz-credential":
+                                credential = value as? String
+                            case "x-amz-algorithm":
+                                algorithm = value as? String
+                            case "x-amz-date":
+                                date = value as? String
+                            default:
+                                break
+                            }
+                        }
+                    }
+                    
+                    if let acl = acl, let credential = credential, let algorithm = algorithm, let date = date {
+                        return S3UploadParams(url: urlString, key: key, acl: acl, algorithm: algorithm, signature: signature, date: date, credential: credential, encodedPolicy: encodedPolice)
+                    }
+            }
+        }
+    
+        return nil
     }
     
     let resource = authJsonResource(path: "/api/v1/attachments/s3_upload_public_form_fields", method: .GET, requestParameters:[:], parse: parse)

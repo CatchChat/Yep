@@ -139,16 +139,14 @@ class ConversationViewController: UIViewController {
         }
         
         messageToolbar.voiceSendAction = { messageToolbar in
-            requestAWSS3UploadForm(failureHandler: { (reason, error) in
-                println("\(error)")
-            }, completion: { token in
-                println("Got S3 token is \(token)")
+            s3UploadParams(failureHandler: nil) { s3UploadParams in
+                println("s3UploadParams: \(s3UploadParams)")
                 
                 let filePath = NSBundle.mainBundle().pathForResource("1", ofType: "png")!
-                let form = token["options"] as! JSONDictionary
-                uploadFileToAWSS3(filePath: filePath, dataForm: form)
-                
-            })
+                //let form = token["options"] as! JSONDictionary
+                //uploadFileToAWSS3(filePath: filePath, dataForm: form)
+                uploadFileToS3WithFilePath(filePath, s3UploadParams: s3UploadParams)
+            }
         }
     }
 
