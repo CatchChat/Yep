@@ -74,6 +74,14 @@ class ProfileViewController: UIViewController {
         self.navigationController?.navigationBar.barStyle = UIBarStyle.BlackTranslucent
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
         
+        let textAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 20)!
+        ]
+        
+        self.navigationController?.navigationBar.titleTextAttributes = textAttributes
+
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "changeProfileImage", name: YepChangeProfilePhotoNotification, object: nil)
         
     }
