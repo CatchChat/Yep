@@ -618,10 +618,17 @@ func sendText(text: String, toRecipient recipientID: String, #recipientType: Str
             failureHandler(reason, errorMessage)
         }
 
+        dispatch_async(dispatch_get_main_queue()) {
+            realm.beginWriteTransaction()
+            message.sendState = MessageSendState.Failed.rawValue
+            realm.commitWriteTransaction()
+        }
+
     }, completion: { messageID in
         dispatch_async(dispatch_get_main_queue()) {
             realm.beginWriteTransaction()
             message.messageID = messageID
+            message.sendState = MessageSendState.Successed.rawValue
             realm.commitWriteTransaction()
         }
 
