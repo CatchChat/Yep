@@ -31,7 +31,7 @@ class ProfileViewController: UIViewController {
         return (self.collectionViewWidth - (self.sectionLeftEdgeInset + self.sectionRightEdgeInset)) / 3
         }()
     let cellHeight: CGFloat = 40
-    let avatarAspectRatio: CGFloat = 14.0 / 16.0
+    let avatarAspectRatio: CGFloat = 12.0 / 16.0
 
     let introductionText = "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
 
