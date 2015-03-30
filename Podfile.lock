@@ -19,10 +19,10 @@ EXTERNAL SOURCES:
     :path: "../CatchLib-iOS/MZFayeClient/"
 
 SPEC CHECKSUMS:
-  Base64: c6d74f31f150543b246a07e180ba813c88e59311
-  JPushSDK: 30b632d813610d80f27c18eb2a7d52ceb9eeaee7
+  Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
+  JPushSDK: c68dd04c595a5c93aa003f212974010790410d8e
   MZFayeClient: 19df756a4c86c8f414668e6edc54fccfee54adbb
-  Realm: 81adfc7f43f9301f40bbc46d5e8a10aaf71b9504
-  SocketRocket: 79a68ae186063c65e1fe6f638b1ae2927aa5f304
+  Realm: b9c1fd9defa26aa7276ce938a8df52ec81f24528
+  SocketRocket: 7284ab9370a06c99aba92b2fe3a32aedd0f9a6fa
 
 COCOAPODS: 0.36.1

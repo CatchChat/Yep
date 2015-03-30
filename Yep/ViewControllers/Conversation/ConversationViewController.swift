@@ -143,6 +143,11 @@ class ConversationViewController: UIViewController {
                 println("\(error)")
             }, completion: { token in
                 println("Got S3 token is \(token)")
+                
+                let filePath = NSBundle.mainBundle().pathForResource("icon-1024", ofType: "png")!
+                let form = token["options"] as! JSONDictionary
+                uploadFileToAWSS3(filePath: filePath, dataForm: form)
+                
             })
         }
     }

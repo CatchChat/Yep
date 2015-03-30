@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MobileCoreServices.UTType
 
 public enum Method: String, Printable {
     case OPTIONS = "OPTIONS"
@@ -233,4 +234,85 @@ public func jsonResource<A>(#token: String?, #path: String, #method: Method, #re
     }
 
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
+}
+
+// MARK: Upload
+
+extension NSMutableData {
+    
+    /// Append string to NSMutableData
+    ///
+    /// Rather than littering my code with calls to `dataUsingEncoding` to convert strings to NSData, and then add that data to the NSMutableData, this wraps it in a nice convenient little extension to NSMutableData. This converts using UTF-8.
+    ///
+    /// :param: string       The string to be added to the `NSMutableData`.
+    
+    func appendString(string: String) {
+        let data = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
+        appendData(data!)
+    }
+}
+
+/// Create body of the multipart/form-data request
+///
+/// :param: parameters   The optional dictionary containing keys and values to be passed to web service
+/// :param: filePathKey  The optional field name to be used when uploading files. If you supply paths, you must supply filePathKey, too.
+/// :param: paths        The optional array of file paths of the files to be uploaded
+/// :param: boundary     The multipart/form-data boundary
+///
+/// :returns:            The NSData of the body of the request
+
+func createBodyWithParameters(parameters: [String: String]?, #filePathKey: String?, #paths: [String]?, #boundary: String) -> NSData {
+    let body = NSMutableData()
+    
+    if parameters != nil {
+        for (key, value) in parameters! {
+            body.appendString("--\(boundary)\r\n")
+            body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+            body.appendString("\(value)\r\n")
+        }
+    }
+    
+    if paths != nil {
+        for path in paths! {
+            let filename = path.lastPathComponent
+            let data = NSData(contentsOfFile: path)
+            let mimetype = mimeTypeForPath(path)
+            
+            body.appendString("--\(boundary)\r\n")
+            body.appendString("Content-Disposition: form-data; name=\"\(filePathKey!)\"; filename=\"\(filename)\"\r\n")
+            body.appendString("Content-Type: \(mimetype)\r\n\r\n")
+            body.appendData(data!)
+            body.appendString("\r\n")
+        }
+    }
+    
+    body.appendString("--\(boundary)--\r\n")
+    return body
+}
+
+/// Create boundary string for multipart/form-data request
+///
+/// :returns:            The boundary string that consists of "Boundary-" followed by a UUID string.
+
+func generateBoundaryString() -> String {
+    return "Boundary-\(NSUUID().UUIDString)"
+}
+
+/// Determine mime type on the basis of extension of a file.
+///
+/// This requires MobileCoreServices framework.
+///
+/// :param: path         The path of the file for which we are going to determine the mime type.
+///
+/// :returns:            Returns the mime type if successful. Returns application/octet-stream if unable to determine mime type.
+
+func mimeTypeForPath(path: String) -> String {
+    let pathExtension = path.pathExtension
+    
+    if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() {
+        if let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
+            return mimetype as String
+        }
+    }
+    return "application/octet-stream";
 }
