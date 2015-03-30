@@ -601,6 +601,11 @@ func sendText(text: String, toRecipient recipientID: String, #recipientType: Str
 
     realm.commitWriteTransaction()
 
+
+    // 发出之前就显示 Message
+    afterCreatedMessage(message)
+
+
     let messageInfo: JSONDictionary = [
         "recipient_id": recipientID,
         "recipient_type": recipientType,
@@ -618,8 +623,6 @@ func sendText(text: String, toRecipient recipientID: String, #recipientType: Str
             realm.beginWriteTransaction()
             message.messageID = messageID
             realm.commitWriteTransaction()
-
-            afterCreatedMessage(message)
         }
 
         completion(success: true)
