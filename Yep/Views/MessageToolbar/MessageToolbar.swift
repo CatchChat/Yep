@@ -53,6 +53,7 @@ class MessageToolbar: UIToolbar {
         textView.layer.borderColor = UIColor.yepTintColor().CGColor
         textView.layer.cornerRadius = 6
         textView.delegate = self
+        textView.scrollEnabled = false // 重要：若没有它，换行时可能有 top inset 不正确
         return textView
         }()
 
@@ -132,32 +133,18 @@ class MessageToolbar: UIToolbar {
     // Mark: Helpers
 
     func updateHeightOfMessageTextView() {
-        //let text = messageTextView.text
-
-        //let textContainerInset = messageTextView.textContainerInset
-
-        //let rect = text.boundingRectWithSize(CGSize(width: CGRectGetWidth(messageTextView.bounds) - (textContainerInset.left + textContainerInset.right), height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
-
-        //let newHeight = ceil(rect.height + (textContainerInset.top + textContainerInset.bottom))
-
-        //println("newHeight \(newHeight), \(messageTextViewHeightConstraint.constant)")
-
-        //CGSize size = [textView sizeThatFits:CGSizeMake(width, FLT_MAX)];
 
         let size = messageTextView.sizeThatFits(CGSize(width: CGRectGetWidth(messageTextView.bounds), height: CGFloat(FLT_MAX)))
 
         let newHeight = size.height
 
-        println("oldHeight: \(messageTextViewHeightConstraint.constant), newHeight: \(newHeight)")
+        //println("oldHeight: \(messageTextViewHeightConstraint.constant), newHeight: \(newHeight)")
 
         if newHeight != messageTextViewHeightConstraint.constant {
-
             UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                 self.messageTextViewHeightConstraint.constant = newHeight
                 self.layoutIfNeeded()
             }, completion: { (finished) -> Void in
-                //self.messageTextView.scrollRangeToVisible(NSMakeRange(0, count(self.messageTextView.text)))
-                //self.messageTextView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 4)
             })
         }
     }
