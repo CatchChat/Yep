@@ -601,6 +601,11 @@ func sendText(text: String, toRecipient recipientID: String, #recipientType: Str
 
     realm.commitWriteTransaction()
 
+
+    // 发出之前就显示 Message
+    afterCreatedMessage(message)
+
+
     let messageInfo: JSONDictionary = [
         "recipient_id": recipientID,
         "recipient_type": recipientType,
@@ -613,13 +618,18 @@ func sendText(text: String, toRecipient recipientID: String, #recipientType: Str
             failureHandler(reason, errorMessage)
         }
 
+        dispatch_async(dispatch_get_main_queue()) {
+            realm.beginWriteTransaction()
+            message.sendState = MessageSendState.Failed.rawValue
+            realm.commitWriteTransaction()
+        }
+
     }, completion: { messageID in
         dispatch_async(dispatch_get_main_queue()) {
             realm.beginWriteTransaction()
             message.messageID = messageID
+            message.sendState = MessageSendState.Successed.rawValue
             realm.commitWriteTransaction()
-
-            afterCreatedMessage(message)
         }
 
         completion(success: true)

@@ -102,6 +102,12 @@ enum MessageMediaType: Int {
     case Audio  = 3
 }
 
+enum MessageSendState: Int {
+    case NotSend    = 0
+    case Failed     = 1
+    case Successed  = 2
+}
+
 class Message: RLMObject {
     dynamic var messageID: String = ""
 
@@ -117,6 +123,7 @@ class Message: RLMObject {
     dynamic var thumbnailURLString: String = ""
     dynamic var localThumbnailName: String = ""
 
+    dynamic var sendState: Int = MessageSendState.NotSend.rawValue
     dynamic var readed: Bool = false
 
     dynamic var fromFriend: User?
