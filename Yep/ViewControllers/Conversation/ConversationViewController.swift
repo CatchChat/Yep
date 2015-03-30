@@ -145,7 +145,16 @@ class ConversationViewController: UIViewController {
                 println("s3UploadParams: \(s3UploadParams)")
                 
                 let filePath = NSBundle.mainBundle().pathForResource("1", ofType: "png")!
-                uploadFileToS3WithFilePath(filePath, s3UploadParams: s3UploadParams)
+                uploadFileToS3(filePath: filePath, fileData: nil, mimetype: "image/png", s3UploadParams: s3UploadParams, completion: { (result, error) in
+                    if (result) {
+                        let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
+                        updateUserInfo(nickname: nil, avatar_url: newAvatarURLString, username: nil, latitude: nil, longitude: nil, completion: { result in
+                            YepUserDefaults.setAvatarURLString(newAvatarURLString)
+                            println("Update user info \(result)")
+                        })
+                        
+                    }
+                })
             }
         }
     }

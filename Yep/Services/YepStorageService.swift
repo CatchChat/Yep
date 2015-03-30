@@ -23,7 +23,7 @@ struct S3UploadParams {
 }
 
 
-func uploadFileToS3WithFilePath(filePath: String, #s3UploadParams: S3UploadParams){
+func uploadFileToS3(#filePath: String?, #fileData: NSData?, #mimetype: String, #s3UploadParams: S3UploadParams, #completion: ((Bool, NSError?) -> ())?){
 
     let param = [
         "key"  : s3UploadParams.key,
@@ -35,11 +35,16 @@ func uploadFileToS3WithFilePath(filePath: String, #s3UploadParams: S3UploadParam
         "Policy": s3UploadParams.encodedPolicy
     ]
     
-    let filename = filePath.lastPathComponent
-    let mimetype = mimeTypeForPath(filePath)
+    var filename = "attachment"
 
     let request = AFHTTPRequestSerializer().multipartFormRequestWithMethod("POST", URLString: s3UploadParams.url, parameters: param, constructingBodyWithBlock: { formData in
-        formData.appendPartWithFileURL(NSURL(fileURLWithPath: filePath)!, name: "file", fileName: filename, mimeType: mimetype, error: nil)
+        
+        if let filePath = filePath {
+            formData.appendPartWithFileURL(NSURL(fileURLWithPath: filePath)!, name: "file", fileName: filename, mimeType: mimetype, error: nil)
+        }else {
+            formData.appendPartWithFileData(fileData!, name: "file", fileName: filename, mimeType: mimetype)
+        }
+        
     }, error: nil)
     
     let manager = AFURLSessionManager(sessionConfiguration: NSURLSessionConfiguration.defaultSessionConfiguration())
@@ -50,8 +55,10 @@ func uploadFileToS3WithFilePath(filePath: String, #s3UploadParams: S3UploadParam
         
         if (error != nil) {
             println("Error \(error.description)")
+            completion!(false, error)
         }else {
             println("Upload \(response) \(responseObject)")
+            completion!(true, nil)
         }
         })
     
@@ -83,25 +90,6 @@ extension NSMutableData {
 
 func generateBoundaryString() -> String {
     return "Boundary-\(NSUUID().UUIDString)"
-}
-
-/// Determine mime type on the basis of extension of a file.
-///
-/// This requires MobileCoreServices framework.
-///
-/// :param: path         The path of the file for which we are going to determine the mime type.
-///
-/// :returns:            Returns the mime type if successful. Returns application/octet-stream if unable to determine mime type.
-
-func mimeTypeForPath(path: String) -> String {
-    let pathExtension = path.pathExtension
-    
-    if let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as NSString, nil)?.takeRetainedValue() {
-        if let mimetype = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType)?.takeRetainedValue() {
-            return mimetype as String
-        }
-    }
-    return "application/octet-stream";
 }
 
 func s3PrivateUploadParams(#failureHandler: ((Reason, String?) -> ())?, #completion: ((S3UploadParams) -> ())?) {

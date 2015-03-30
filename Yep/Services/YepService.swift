@@ -143,7 +143,39 @@ func verifyMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: St
     }
 }
 
-// MARK: Login
+// MARK: User
+
+func updateUserInfo(#nickname: String?, #avatar_url: String?, #username: String?, #latitude: Float?, #longitude: Float?, #completion: JSONDictionary -> Void) {
+    var requestParameters = [String: AnyObject]()
+    
+    if let nickname = nickname {
+        requestParameters["nickname"] = nickname
+    }
+    
+    if let avatar_url = avatar_url {
+        requestParameters["avatar_url"] = avatar_url
+    }
+    
+    if let username = username {
+        requestParameters["username"] = username
+    }
+    
+    if let latitude = latitude {
+        requestParameters["latitude"] = latitude
+    }
+
+    if let longitude = longitude {
+        requestParameters["longitude"] = longitude
+    }
+    
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+    
+    let resource = authJsonResource(path: "/api/v1/user", method: .PATCH, requestParameters: requestParameters, parse: parse)
+    
+    apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+}
 
 func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #failureHandler: ((Reason, String?) -> ())?, #completion: Bool -> Void) {
 
