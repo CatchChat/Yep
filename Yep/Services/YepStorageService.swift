@@ -11,6 +11,10 @@ import MobileCoreServices.UTType
 import Ono
 import AFNetworking
 
+
+/**
+    Struct of S3 UploadParams
+*/
 struct S3UploadParams {
     let url: String
     let key: String
@@ -22,14 +26,17 @@ struct S3UploadParams {
     let encodedPolicy: String
 }
 
-/// Upload file to S3 with upload Params
-///
-/// Use filePath or fileData
-///
-/// :param: filePath  File Path, can be nil
-/// :param: fileData  File NSData, can be nil
-/// :param: mimetype  File type like image/png
-/// :returns: Bool  upload status
+/**
+    Upload file to S3 with upload Params
+
+    Use filePath or fileData
+
+    :param: filePath  File Path, can be nil
+    :param: fileData  File NSData, can be nil
+    :param: mimetype  File type like image/png
+
+    :returns: Bool  upload status
+*/
 
 func uploadFileToS3(#filePath: String?, #fileData: NSData?, #mimetype: String, #s3UploadParams: S3UploadParams, #completion: ((Bool, NSError?) -> ())?){
 
