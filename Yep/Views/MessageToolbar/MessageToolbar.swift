@@ -39,6 +39,10 @@ class MessageToolbar: UIToolbar {
     var textSendAction: ((messageToolBar: MessageToolbar) -> ())?
     
     var voiceSendAction: ((messageToolBar: MessageToolbar) -> ())?
+    
+    var voiceSendUpAction: ((messageToolBar: MessageToolbar) -> ())?
+    
+    var voiceSendCancelAction: ((messageToolBar: MessageToolbar) -> ())?
 
     lazy var cameraButton: UIButton = {
         let button = UIButton()
@@ -63,7 +67,9 @@ class MessageToolbar: UIToolbar {
         let button = UIButton()
         button.setImage(UIImage(named: "item_mic"), forState: .Normal)
         button.tintColor = UIColor.yepTintColor()
-        button.addTarget(self, action: "trySendVoiceMessage", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: "trySendVoiceMessageBegin", forControlEvents: UIControlEvents.TouchDown)
+        button.addTarget(self, action: "trySendVoiceMessageEnd", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: "trySendVoiceMessageCancel", forControlEvents: UIControlEvents.TouchUpOutside)
         return button
         }()
 
@@ -158,8 +164,20 @@ class MessageToolbar: UIToolbar {
         }
     }
     
-    func trySendVoiceMessage() {
+    func trySendVoiceMessageBegin() {
         if let textSendAction = voiceSendAction {
+            textSendAction(messageToolBar: self)
+        }
+    }
+    
+    func trySendVoiceMessageEnd() {
+        if let textSendAction = voiceSendUpAction {
+            textSendAction(messageToolBar: self)
+        }
+    }
+    
+    func trySendVoiceMessageCancel() {
+        if let textSendAction = voiceSendCancelAction {
             textSendAction(messageToolBar: self)
         }
     }

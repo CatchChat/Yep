@@ -8,6 +8,7 @@
 
 import UIKit
 import Realm
+import AVFoundation
 
 class ConversationViewController: UIViewController {
 
@@ -88,6 +89,8 @@ class ConversationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        YepAudioService.sharedManager.audioRecorder.delegate = self
+        
         let undoBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Undo, target: self, action: "undoMessageSend")
         navigationItem.rightBarButtonItem = undoBarButtonItem
 
@@ -140,22 +143,35 @@ class ConversationViewController: UIViewController {
         }
         
         messageToolbar.voiceSendAction = { messageToolbar in
-            s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in
-                
-                println("s3UploadParams: \(s3UploadParams)")
-                
-                let filePath = NSBundle.mainBundle().pathForResource("1", ofType: "png")!
-                uploadFileToS3(filePath: filePath, fileData: nil, mimetype: "image/png", s3UploadParams: s3UploadParams, completion: { (result, error) in
-                    if (result) {
-                        let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
-                        updateUserInfo(nickname: nil, avatar_url: newAvatarURLString, username: nil, latitude: nil, longitude: nil, completion: { result in
-                            YepUserDefaults.setAvatarURLString(newAvatarURLString)
-                            println("Update user info \(result)")
-                        })
-                        
-                    }
-                })
-            }
+
+            YepAudioService.sharedManager.beginRecord()
+        }
+        
+        messageToolbar.voiceSendCancelAction = { messageToolbar in
+            
+            YepAudioService.sharedManager.endRecord()
+        }
+        
+        messageToolbar.voiceSendUpAction = { messageToolbar in
+            
+            YepAudioService.sharedManager.endRecord()
+            
+//            s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in
+//                
+//                println("s3UploadParams: \(s3UploadParams)")
+//                
+//                let filePath = NSBundle.mainBundle().pathForResource("1", ofType: "png")!
+//                uploadFileToS3(filePath: filePath, fileData: nil, mimetype: "image/png", s3UploadParams: s3UploadParams, completion: { (result, error) in
+//                    if (result) {
+//                        let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
+//                        updateUserInfo(nickname: nil, avatar_url: newAvatarURLString, username: nil, latitude: nil, longitude: nil, completion: { result in
+//                            YepUserDefaults.setAvatarURLString(newAvatarURLString)
+//                            println("Update user info \(result)")
+//                        })
+//                        
+//                    }
+//                })
+//            }
         }
     }
 
@@ -464,3 +480,18 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 }
 
 
+extension ConversationViewController : AVAudioRecorderDelegate {
+    
+    
+    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!,
+        successfully flag: Bool) {
+            println("finished recording \(flag)")
+            
+            // ios8 and later
+    }
+    
+    func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder!,
+        error: NSError!) {
+            println("\(error.localizedDescription)")
+    }
+}
