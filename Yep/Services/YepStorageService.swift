@@ -22,6 +22,14 @@ struct S3UploadParams {
     let encodedPolicy: String
 }
 
+/// Upload file to S3 with upload Params
+///
+/// Use filePath or fileData
+///
+/// :param: filePath  File Path, can be nil
+/// :param: fileData  File NSData, can be nil
+/// :param: mimetype  File type like image/png
+/// :returns: Bool  upload status
 
 func uploadFileToS3(#filePath: String?, #fileData: NSData?, #mimetype: String, #s3UploadParams: S3UploadParams, #completion: ((Bool, NSError?) -> ())?){
 
@@ -92,6 +100,12 @@ func generateBoundaryString() -> String {
     return "Boundary-\(NSUUID().UUIDString)"
 }
 
+/// Get S3 Private Message upload params
+///
+/// You can use this in Message Attachment
+///
+/// :S3UploadParams:     The Upload Params
+
 func s3PrivateUploadParams(#failureHandler: ((Reason, String?) -> ())?, #completion: ((S3UploadParams) -> ())?) {
     s3UploadParams("/api/v1/attachments/s3_upload_form_fields", failureHandler: { (reason, error)  in
         
@@ -102,6 +116,12 @@ func s3PrivateUploadParams(#failureHandler: ((Reason, String?) -> ())?, #complet
         completion!(S3PrivateUploadParams)
     })
 }
+
+/// Get S3 public upload params
+///
+/// You can use this in Avatar
+///
+/// :S3UploadParams:     The Upload Params
 
 func s3PublicUploadParams(#failureHandler: ((Reason, String?) -> ())?, #completion: ((S3UploadParams) -> ())?) {
     s3UploadParams("/api/v1/attachments/s3_upload_public_form_fields", failureHandler: { (reason, error)  in
@@ -115,6 +135,10 @@ func s3PublicUploadParams(#failureHandler: ((Reason, String?) -> ())?, #completi
     })
 }
 
+/// Get S3  upload params
+///
+///
+/// :S3UploadParams:     The Upload Params
 
 private func s3UploadParams(url: String ,#failureHandler: ((Reason, String?) -> ())?, #completion: S3UploadParams -> Void) {
     

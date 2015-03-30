@@ -14,7 +14,7 @@ class DiscoverViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        view.backgroundColor = UIColor.greenColor()
+        view.backgroundColor = UIColor.whiteColor()
     }
 
     override func didReceiveMemoryWarning() {
