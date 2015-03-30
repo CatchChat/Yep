@@ -1,17 +1,41 @@
 PODS:
+  - AFNetworking (2.5.2):
+    - AFNetworking/NSURLConnection (= 2.5.2)
+    - AFNetworking/NSURLSession (= 2.5.2)
+    - AFNetworking/Reachability (= 2.5.2)
+    - AFNetworking/Security (= 2.5.2)
+    - AFNetworking/Serialization (= 2.5.2)
+    - AFNetworking/UIKit (= 2.5.2)
+  - AFNetworking/NSURLConnection (2.5.2):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.5.2):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.5.2)
+  - AFNetworking/Security (2.5.2)
+  - AFNetworking/Serialization (2.5.2)
+  - AFNetworking/UIKit (2.5.2):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
   - Base64 (1.0.1)
   - JPushSDK (1.8.2)
   - MZFayeClient (1.0.0):
     - Base64 (~> 1.0.1)
     - SocketRocket (~> 0.3.1-beta2)
+  - Ono (1.2.0)
   - Realm (0.91.1):
     - Realm/Headers (= 0.91.1)
   - Realm/Headers (0.91.1)
   - SocketRocket (0.3.1-beta2)
 
 DEPENDENCIES:
+  - AFNetworking
   - JPushSDK
   - MZFayeClient (from `../CatchLib-iOS/MZFayeClient/`)
+  - Ono (~> 1.2)
   - Realm
 
 EXTERNAL SOURCES:
@@ -19,9 +43,11 @@ EXTERNAL SOURCES:
     :path: "../CatchLib-iOS/MZFayeClient/"
 
 SPEC CHECKSUMS:
+  AFNetworking: fefbce9660acb17f48ae0011292d4da0f457bf36
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
   JPushSDK: c68dd04c595a5c93aa003f212974010790410d8e
   MZFayeClient: 19df756a4c86c8f414668e6edc54fccfee54adbb
+  Ono: f8c2b610f28f40d411b0d75130e77fd78b92e4e1
   Realm: b9c1fd9defa26aa7276ce938a8df52ec81f24528
   SocketRocket: 7284ab9370a06c99aba92b2fe3a32aedd0f9a6fa
 
