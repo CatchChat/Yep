@@ -104,7 +104,31 @@ func mimeTypeForPath(path: String) -> String {
     return "application/octet-stream";
 }
 
-func s3UploadParams(#failureHandler: ((Reason, String?) -> ())?, #completion: S3UploadParams -> Void) {
+func s3PrivateUploadParams(#failureHandler: ((Reason, String?) -> ())?, #completion: ((S3UploadParams) -> ())?) {
+    s3UploadParams("/api/v1/attachments/s3_upload_form_fields", failureHandler: { (reason, error)  in
+        
+        failureHandler!(reason, error)
+        
+    }, completion: { S3PrivateUploadParams in
+
+        completion!(S3PrivateUploadParams)
+    })
+}
+
+func s3PublicUploadParams(#failureHandler: ((Reason, String?) -> ())?, #completion: ((S3UploadParams) -> ())?) {
+    s3UploadParams("/api/v1/attachments/s3_upload_public_form_fields", failureHandler: { (reason, error)  in
+        
+        failureHandler!(reason, error)
+        
+    }, completion: { S3PublicUploadParams in
+            
+        completion!(S3PublicUploadParams)
+        
+    })
+}
+
+
+private func s3UploadParams(url: String ,#failureHandler: ((Reason, String?) -> ())?, #completion: S3UploadParams -> Void) {
     
     let parse: JSONDictionary -> S3UploadParams? = { data in
         println("s3FormData: \(data)")
@@ -117,7 +141,7 @@ func s3UploadParams(#failureHandler: ((Reason, String?) -> ())?, #completion: S3
                 let urlString = options["url"] as? String,
                 let policy = options["policy"] as? JSONDictionary,
                 let conditions = policy["conditions"] as? [JSONDictionary] {
-                    
+
                     var acl: String?
                     var credential: String?
                     var algorithm: String?
@@ -149,7 +173,7 @@ func s3UploadParams(#failureHandler: ((Reason, String?) -> ())?, #completion: S3
         return nil
     }
     
-    let resource = authJsonResource(path: "/api/v1/attachments/s3_upload_public_form_fields", method: .GET, requestParameters:[:], parse: parse)
+    let resource = authJsonResource(path: url, method: .GET, requestParameters:[:], parse: parse)
     
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)

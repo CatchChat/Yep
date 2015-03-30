@@ -107,6 +107,14 @@ class ProfileViewController: UIViewController {
 extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate{
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+        s3PublicUploadParams(failureHandler: nil) { s3UploadParams in
+            println("s3UploadParams: \(s3UploadParams)")
+            
+            let filePath = NSBundle.mainBundle().pathForResource("1", ofType: "png")!
+            //let form = token["options"] as! JSONDictionary
+            //uploadFileToAWSS3(filePath: filePath, dataForm: form)
+            uploadFileToS3WithFilePath(filePath, s3UploadParams: s3UploadParams)
+        }
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
     
