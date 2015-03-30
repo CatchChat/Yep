@@ -48,7 +48,7 @@ class ConversationViewController: UIViewController {
     let sectionInsetTop: CGFloat = 10
     let sectionInsetBottom: CGFloat = 10
 
-    let messageTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(13)] // TODO: 用配置来决定
+    let messageTextAttributes = [NSFontAttributeName: UIFont.chatTextFont()]
     let messageTextLabelMaxWidth: CGFloat = 320 - (15+40+20) - 20 // TODO: 根据 TextCell 的布局计算
 
 
@@ -431,7 +431,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
 
-        let height = max(rect.height + 14 + 20, 40 + 20)
+        let height = max(ceil(rect.height) + 14 + 20, 40 + 20)
         return CGSizeMake(collectionViewWidth, height)
     }
 

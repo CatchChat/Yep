@@ -15,7 +15,8 @@ class ChatLeftTextCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        textContentLabel.font = UIFont.chatTextFont()
     }
 
 }
