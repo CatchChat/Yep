@@ -8,6 +8,8 @@
 
 import UIKit
 
+let YepChangeProfilePhotoNotification = "YepChangeProfilePhotoNotification"
+
 class ProfileViewController: UIViewController {
 
     @IBOutlet weak var profileCollectionView: UICollectionView!
@@ -29,7 +31,7 @@ class ProfileViewController: UIViewController {
         return (self.collectionViewWidth - (self.sectionLeftEdgeInset + self.sectionRightEdgeInset)) / 3
         }()
     let cellHeight: CGFloat = 40
-    let avatarAspectRatio: CGFloat = 10.0 / 16.0
+    let avatarAspectRatio: CGFloat = 14.0 / 16.0
 
     let introductionText = "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
 
@@ -43,6 +45,8 @@ class ProfileViewController: UIViewController {
         ["skill":"Design", "rank":1],
         ["skill":"Speech", "rank":0],
     ]
+    
+    var imagePicker = UIImagePickerController()
 
     lazy var footerCellHeight: CGFloat = {
         let attributes = [NSFontAttributeName: profileIntroductionLabelFont]
@@ -62,16 +66,72 @@ class ProfileViewController: UIViewController {
 
         profileCollectionView.alwaysBounceVertical = true
         
+        self.automaticallyAdjustsScrollViewInsets = false
+        
         self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
         self.navigationController?.navigationBar.translucent = true
         self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.BlackTranslucent
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "changeProfileImage", name: YepChangeProfilePhotoNotification, object: nil)
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
+    func changeProfileImage() {
+        println("Do Change")
+        
+        var sheet: UIActionSheet = UIActionSheet();
+        let title: String = "Photo Source"
+        sheet.title  = title
+        sheet.delegate = self
+        sheet.addButtonWithTitle("Album");
+        sheet.addButtonWithTitle("Camera");
+        sheet.addButtonWithTitle("Cancel");
+        sheet.cancelButtonIndex = 2;
+        sheet.showInView(self.view);
 
     }
 
 }
 
-extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate{
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+        
+    }
+    
+    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+        if (buttonIndex == 0) {
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum){
+                
+                imagePicker.delegate = self
+                imagePicker.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
+                imagePicker.allowsEditing = false
+                
+                self.presentViewController(imagePicker, animated: true, completion: nil)
+            }
+        }else if (buttonIndex == 1) {
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
+                
+                imagePicker.delegate = self
+                imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
+                imagePicker.allowsEditing = false
+                
+                self.presentViewController(imagePicker, animated: true, completion: nil)
+            }
+        }
+    }
+
 
     enum ProfileSection: Int {
         case Header = 0

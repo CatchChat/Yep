@@ -18,7 +18,11 @@ class ProfileHeaderCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        avatarImageView.alpha = 0
+        avatarImageView.alpha = 1
+        
+        var tapGesture = UITapGestureRecognizer(target: self, action: "uploadNewProfilePhoto")
+        avatarImageView.userInteractionEnabled = true
+        avatarImageView.addGestureRecognizer(tapGesture)
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if let avatarURLString = YepUserDefaults.avatarURLString() {
@@ -38,6 +42,11 @@ class ProfileHeaderCell: UICollectionViewCell {
                 }
             }
         }
+    }
+    
+    func uploadNewProfilePhoto() {
+        println("Notification on new photo")
+        NSNotificationCenter.defaultCenter().postNotificationName(YepChangeProfilePhotoNotification, object: nil)
     }
 
 }
