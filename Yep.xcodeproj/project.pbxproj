@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A02E46F1AC9208A00235DBF /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A02E46E1AC9208A00235DBF /* libxml2.dylib */; };
 		0A5D83941AC5D3C8000045BF /* YepTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D83931AC5D3C8000045BF /* YepTabBarController.swift */; };
 		0A5D83991AC5D91E000045BF /* ContactsSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D83981AC5D91E000045BF /* ContactsSearchTableViewController.swift */; };
 		0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F54B01AB67D11004AD60E /* AppDelegate.swift */; };
@@ -16,7 +17,7 @@
 		0A8F54C71AB67D11004AD60E /* YepTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F54C61AB67D11004AD60E /* YepTests.swift */; };
 		0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A944C241AC8BB2F00037A06 /* YepStorageService.swift */; };
 		0AAFCFF91AC8CA5B00EB0EF8 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */; };
-		0AAFCFFB1AC8CDFE00EB0EF8 /* icon-1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AAFCFFA1AC8CDFE00EB0EF8 /* icon-1024.png */; };
+		0AAFCFFB1AC8CDFE00EB0EF8 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AAFCFFA1AC8CDFE00EB0EF8 /* 1.png */; };
 		0AD7EA5E1AC3ED1200617758 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA5D1AC3ED1200617758 /* CFNetwork.framework */; };
 		0AD7EA601AC3ED1900617758 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA5F1AC3ED1900617758 /* CoreFoundation.framework */; };
 		0AD7EA621AC3ED2100617758 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA611AC3ED2100617758 /* CoreTelephony.framework */; };
@@ -91,6 +92,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A02E46C1AC9205000235DBF /* KissXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KissXML.framework; path = "Pods/../build/Debug-iphoneos/Pods/KissXML.framework"; sourceTree = "<group>"; };
+		0A02E46E1AC9208A00235DBF /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		0A5D83931AC5D3C8000045BF /* YepTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepTabBarController.swift; path = ViewControllers/TabBar/YepTabBarController.swift; sourceTree = "<group>"; };
 		0A5D83981AC5D91E000045BF /* ContactsSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsSearchTableViewController.swift; path = ViewControllers/Contacts/Search/ContactsSearchTableViewController.swift; sourceTree = "<group>"; };
 		0A8F54AB1AB67D11004AD60E /* Yep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yep.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,7 +108,7 @@
 		0A944C241AC8BB2F00037A06 /* YepStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepStorageService.swift; path = Services/YepStorageService.swift; sourceTree = "<group>"; };
 		0AAFCFF61AC8C75900EB0EF8 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSS3.framework; path = "Pods/../build/Debug-iphoneos/Pods/AWSS3.framework"; sourceTree = "<group>"; };
 		0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		0AAFCFFA1AC8CDFE00EB0EF8 /* icon-1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-1024.png"; sourceTree = "<group>"; };
+		0AAFCFFA1AC8CDFE00EB0EF8 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
 		0AD7EA511AC3EA6F00617758 /* JPushSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JPushSDK.framework; path = "Pods/../build/Debug-iphoneos/Pods/JPushSDK.framework"; sourceTree = "<group>"; };
 		0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Yep-Bridging-Header.h"; sourceTree = "<group>"; };
 		0AD7EA5B1AC3ECD700617758 /* libPushSDK-1.8.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPushSDK-1.8.3.a"; path = "Yep/lib/libPushSDK-1.8.3.a"; sourceTree = "<group>"; };
@@ -180,6 +183,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A02E46F1AC9208A00235DBF /* libxml2.dylib in Frameworks */,
 				0AAFCFF91AC8CA5B00EB0EF8 /* MobileCoreServices.framework in Frameworks */,
 				0AD7EA741AC3EE9600617758 /* libPushSDK-1.8.3.a in Frameworks */,
 				0AD7EA6E1AC3ED4A00617758 /* libz.dylib in Frameworks */,
@@ -245,7 +249,7 @@
 		0A8F54AD1AB67D11004AD60E /* Yep */ = {
 			isa = PBXGroup;
 			children = (
-				0AAFCFFA1AC8CDFE00EB0EF8 /* icon-1024.png */,
+				0AAFCFFA1AC8CDFE00EB0EF8 /* 1.png */,
 				0AFE75AE1AC43DE0005AA33E /* Crashlytics.framework */,
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
 				0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */,
@@ -604,6 +608,8 @@
 		67B708B60AAD1DEA82A6A682 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0A02E46E1AC9208A00235DBF /* libxml2.dylib */,
+				0A02E46C1AC9205000235DBF /* KissXML.framework */,
 				0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */,
 				0AAFCFF61AC8C75900EB0EF8 /* AWSS3.framework */,
 				0AD7EA6D1AC3ED4A00617758 /* libz.dylib */,
@@ -719,7 +725,7 @@
 				0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */,
 				5033159D1AC101C80008A209 /* ChatRightTextCell.xib in Resources */,
 				50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */,
-				0AAFCFFB1AC8CDFE00EB0EF8 /* icon-1024.png in Resources */,
+				0AAFCFFB1AC8CDFE00EB0EF8 /* 1.png in Resources */,
 				502AE54F1AB93175005BD199 /* ProfileHeaderCell.xib in Resources */,
 				0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */,
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
