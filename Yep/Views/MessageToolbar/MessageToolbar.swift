@@ -16,6 +16,10 @@ enum MessageToolbarState {
 @IBDesignable
 class MessageToolbar: UIToolbar {
 
+    var messageTextViewHeightConstraint: NSLayoutConstraint!
+
+    let messageTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(15)]
+
     var state: MessageToolbarState = .Default {
         willSet {
             switch newValue {
@@ -27,6 +31,8 @@ class MessageToolbar: UIToolbar {
                 micButton.hidden = true
                 sendButton.hidden = false
             }
+
+            updateHeightOfMessageTextView()
         }
     }
 
@@ -41,12 +47,16 @@ class MessageToolbar: UIToolbar {
         return button
         }()
 
-    lazy var messageTextField: UITextField = {
-        let textField = UITextField()
-        textField.borderStyle = .RoundedRect
-        textField.delegate = self
-        textField.addTarget(self, action: "editingChangedInTextField:", forControlEvents: UIControlEvents.EditingChanged)
-        return textField
+    lazy var messageTextView: UITextView = {
+        let textView = UITextView()
+        textView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 4)
+        textView.font = UIFont.systemFontOfSize(15)
+        textView.layer.borderWidth = 1
+        textView.layer.borderColor = UIColor.yepTintColor().CGColor
+        textView.layer.cornerRadius = 6
+        textView.delegate = self
+        textView.scrollEnabled = false // 重要：若没有它，换行时可能有 top inset 不正确
+        return textView
         }()
 
     lazy var micButton: UIButton = {
@@ -79,8 +89,8 @@ class MessageToolbar: UIToolbar {
         self.addSubview(cameraButton)
         cameraButton.setTranslatesAutoresizingMaskIntoConstraints(false)
 
-        self.addSubview(messageTextField)
-        messageTextField.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.addSubview(messageTextView)
+        messageTextView.setTranslatesAutoresizingMaskIntoConstraints(false)
 
         self.addSubview(micButton)
         micButton.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -90,24 +100,32 @@ class MessageToolbar: UIToolbar {
 
         let viewsDictionary = [
             "cameraButton": cameraButton,
-            "messageTextField": messageTextField,
+            "messageTextView": messageTextView,
             "micButton": micButton,
             "sendButton": sendButton,
         ]
 
         let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[cameraButton(==micButton)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[cameraButton(48)][messageTextField][micButton(==cameraButton)]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
+        let messageTextViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-8-[messageTextView]-8-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        let textContainerInset = messageTextView.textContainerInset
+        let constant = ceil(messageTextView.font.lineHeight + textContainerInset.top + textContainerInset.bottom)
+        messageTextViewHeightConstraint = NSLayoutConstraint(item: messageTextView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: constant)
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[cameraButton(48)][messageTextView][micButton(==cameraButton)]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(constraintsV)
         NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activateConstraints(messageTextViewConstraintsV)
+        NSLayoutConstraint.activateConstraints([messageTextViewHeightConstraint])
 
 
         let sendButtonConstraintCenterY = NSLayoutConstraint(item: sendButton, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: cameraButton, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
 
         let sendButtonConstraintHeight = NSLayoutConstraint(item: sendButton, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: cameraButton, attribute: NSLayoutAttribute.Height, multiplier: 1, constant: 0)
 
-        let sendButtonConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:[messageTextField][sendButton(==cameraButton)]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
+        let sendButtonConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:[messageTextView][sendButton(==cameraButton)]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints([sendButtonConstraintCenterY])
         NSLayoutConstraint.activateConstraints([sendButtonConstraintHeight])
@@ -117,11 +135,20 @@ class MessageToolbar: UIToolbar {
 
     // Mark: Helpers
 
-    func editingChangedInTextField(textfiled: UITextField) {
-        if textfiled.text.isEmpty {
-            self.state = .Default
-        } else {
-            self.state = .TextInput
+    func updateHeightOfMessageTextView() {
+
+        let size = messageTextView.sizeThatFits(CGSize(width: CGRectGetWidth(messageTextView.bounds), height: CGFloat(FLT_MAX)))
+
+        let newHeight = size.height
+
+        //println("oldHeight: \(messageTextViewHeightConstraint.constant), newHeight: \(newHeight)")
+
+        if newHeight != messageTextViewHeightConstraint.constant {
+            UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                self.messageTextViewHeightConstraint.constant = newHeight
+                self.layoutIfNeeded()
+            }, completion: { (finished) -> Void in
+            })
         }
     }
 
@@ -138,12 +165,18 @@ class MessageToolbar: UIToolbar {
     }
 }
 
-// MARK: UITextFieldDelegate
+// MARK: UITextViewDelegate
 
-extension MessageToolbar: UITextFieldDelegate {
+extension MessageToolbar: UITextViewDelegate {
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        return true
+    func textViewDidChange(textView: UITextView) {
+        let text = textView.text
+
+        if text.isEmpty {
+            self.state = .Default
+        } else {
+            self.state = .TextInput
+        }
     }
 }
 

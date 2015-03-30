@@ -45,7 +45,10 @@ class ConversationViewController: UIViewController {
     @IBOutlet weak var messageToolbar: MessageToolbar!
     @IBOutlet weak var messageToolbarBottomConstraint: NSLayoutConstraint!
 
-    let messageTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(13)] // TODO: 用配置来决定
+    let sectionInsetTop: CGFloat = 10
+    let sectionInsetBottom: CGFloat = 10
+
+    let messageTextAttributes = [NSFontAttributeName: UIFont.chatTextFont()]
     let messageTextLabelMaxWidth: CGFloat = 320 - (15+40+20) - 20 // TODO: 根据 TextCell 的布局计算
 
 
@@ -95,8 +98,6 @@ class ConversationViewController: UIViewController {
         
         conversationCollectionView.bounces = true
 
-        setConversaitonCollectionViewOriginalContentInset()
-
         messageToolbarBottomConstraint.constant = 0
 
         updateUIWithKeyboardChange = true
@@ -104,7 +105,7 @@ class ConversationViewController: UIViewController {
         lastTimeMessagesCount = messages.count
 
         messageToolbar.textSendAction = { messageToolbar in
-            let text = messageToolbar.messageTextField.text!
+            let text = messageToolbar.messageTextView.text!
 
             self.cleanTextInput()
 
@@ -156,6 +157,10 @@ class ConversationViewController: UIViewController {
         // 初始时移动一次到底部
         if !conversationCollectionViewHasBeenMovedToBottomOnce {
             conversationCollectionViewHasBeenMovedToBottomOnce = true
+
+            // 先调整一下初次的 contentInset
+            setConversaitonCollectionViewOriginalContentInset()
+
             if messages.count > 0 {
                 conversationCollectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: Int(messages.count - 1), inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Bottom, animated: false)
             }
@@ -164,14 +169,14 @@ class ConversationViewController: UIViewController {
 
     // MARK: Private
 
-    private func setConversaitonCollectionViewOriginalContentInsetBottom(bottom: CGFloat) {
+    private func setConversaitonCollectionViewContentInsetBottom(bottom: CGFloat) {
         var contentInset = conversationCollectionView.contentInset
         contentInset.bottom = bottom
         conversationCollectionView.contentInset = contentInset
     }
 
     private func setConversaitonCollectionViewOriginalContentInset() {
-        setConversaitonCollectionViewOriginalContentInsetBottom(messageToolbar.intrinsicContentSize().height)
+        setConversaitonCollectionViewContentInsetBottom(CGRectGetHeight(messageToolbar.bounds))
     }
 
     // MARK: Actions
@@ -209,7 +214,7 @@ class ConversationViewController: UIViewController {
                 newMessagesTotalHeight += height
             }
             
-            let keyboardAndToolBarHeight = self.messageToolbarBottomConstraint.constant + self.messageToolbar.intrinsicContentSize().height
+            let keyboardAndToolBarHeight = self.messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
             
             let totleMessagesHeight = self.conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + 64.0 + newMessagesTotalHeight
             
@@ -245,7 +250,7 @@ class ConversationViewController: UIViewController {
     }
 
     func cleanTextInput() {
-        messageToolbar.messageTextField.text = ""
+        messageToolbar.messageTextView.text = ""
         messageToolbar.state = .Default
     }
     
@@ -293,13 +298,13 @@ class ConversationViewController: UIViewController {
                 
                 self.messageToolbarBottomConstraint.constant = keyboardHeight
                 
-                let keyboardAndToolBarHeight = keyboardHeight + self.messageToolbar.intrinsicContentSize().height
+                let keyboardAndToolBarHeight = keyboardHeight + CGRectGetHeight(self.messageToolbar.bounds)
                 
                 let totleMessagesHeight = self.conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + 64.0
                 
                 let visableMessageFieldHeight = self.conversationCollectionView.frame.size.height - (keyboardAndToolBarHeight + 64.0)
                 
-//                println("Content size is \(self.conversationCollectionView.contentSize.height) visableMessageFieldHeight \(visableMessageFieldHeight) totleMessagesHeight \(totleMessagesHeight) toolbar \(self.messageToolbar.intrinsicContentSize().height) keyboardHeight \(keyboardHeight) Navitation 64.0")
+//                println("Content size is \(self.conversationCollectionView.contentSize.height) visableMessageFieldHeight \(visableMessageFieldHeight) totleMessagesHeight \(totleMessagesHeight) toolbar \(CGRectGetHeight(self.messageToolbar.bounds) ) keyboardHeight \(keyboardHeight) Navitation 64.0")
                 
                 let unvisibaleMessageHeight = self.conversationCollectionView.contentSize.height - visableMessageFieldHeight
                 println("unvisibaleMessageHeight is \(unvisibaleMessageHeight)")
@@ -325,7 +330,7 @@ class ConversationViewController: UIViewController {
                     self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
                 }
                 
-                self.conversationCollectionView.contentInset.bottom = self.messageToolbar.intrinsicContentSize().height + keyboardHeight
+                self.conversationCollectionView.contentInset.bottom = CGRectGetHeight(self.messageToolbar.bounds)  + keyboardHeight
                 
                 self.view.layoutIfNeeded()
             
@@ -355,7 +360,7 @@ class ConversationViewController: UIViewController {
                 contentOffset.y -= keyboardHeight
                 //println("\(self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide.y) \(contentOffset.y) \(self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide.y-contentOffset.y)")
                 self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
-                self.conversationCollectionView.contentInset.bottom = self.messageToolbar.intrinsicContentSize().height
+                self.conversationCollectionView.contentInset.bottom = CGRectGetHeight(self.messageToolbar.bounds)
 
             }, completion: { (finished) -> Void in
 
@@ -437,8 +442,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
 
-        let height = max(rect.height + 14 + 20, 40 + 20)
+        let height = max(ceil(rect.height) + 14 + 20, 40 + 20)
         return CGSizeMake(collectionViewWidth, height)
+    }
+
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: sectionInsetTop, left: 0, bottom: sectionInsetBottom, right: 0)
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
