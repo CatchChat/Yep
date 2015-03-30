@@ -104,7 +104,7 @@ class ConversationViewController: UIViewController {
         lastTimeMessagesCount = messages.count
 
         messageToolbar.textSendAction = { messageToolbar in
-            let text = messageToolbar.messageTextField.text!
+            let text = messageToolbar.messageTextView.text!
 
             self.cleanTextInput()
 
@@ -234,7 +234,7 @@ class ConversationViewController: UIViewController {
     }
 
     func cleanTextInput() {
-        messageToolbar.messageTextField.text = ""
+        messageToolbar.messageTextView.text = ""
         messageToolbar.state = .Default
     }
     
