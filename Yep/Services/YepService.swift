@@ -520,20 +520,22 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
     }
 }
 
-func sendText(text: String, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> (), #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
-
-    sendMessageWithMediaType(.Text, text: text, attachments: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
-}
-
-func sendImageWithKey(key: String, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> (), #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
-
-    sendMessageWithMediaType(.Image, text: nil, attachments: ["image": [key]], toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
-}
-
-func sendMessageWithMediaType(mediaType: MessageMediaType, #text: String?, #attachments: JSONDictionary?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> (), #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
-    // 因为 message_id 必须来自远端，线程无法切换，所以这里暂时没用 realmQueue // TOOD: 也许有办法
+func sendText(text: String, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message, RLMRealm) -> (), #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
 
     let realm = RLMRealm.defaultRealm()
+
+    sendMessageWithMediaType(.Text, text: text, attachments: nil, toRecipient: recipientID, recipientType: recipientType, saveInRealm: realm, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+}
+
+func sendImageWithKey(key: String, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message, RLMRealm) -> (), #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
+
+    let realm = RLMRealm.defaultRealm()
+
+    sendMessageWithMediaType(.Image, text: nil, attachments: ["image": [key]], toRecipient: recipientID, recipientType: recipientType, saveInRealm: realm, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+}
+
+func sendMessageWithMediaType(mediaType: MessageMediaType, #text: String?, #attachments: JSONDictionary?, toRecipient recipientID: String, #recipientType: String, saveInRealm realm: RLMRealm, #afterCreatedMessage: (Message, RLMRealm) -> (), #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
+    // 因为 message_id 必须来自远端，线程无法切换，所以这里暂时没用 realmQueue // TOOD: 也许有办法
 
     realm.beginWriteTransaction()
 
@@ -607,7 +609,7 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, #text: String?, #atta
 
 
     // 发出之前就显示 Message
-    afterCreatedMessage(message)
+    afterCreatedMessage(message, realm)
 
 
     var messageInfo: JSONDictionary = [
