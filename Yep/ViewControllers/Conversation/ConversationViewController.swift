@@ -59,6 +59,7 @@ class ConversationViewController: UIViewController {
 
     let chatLeftTextCellIdentifier = "ChatLeftTextCell"
     let chatRightTextCellIdentifier = "ChatRightTextCell"
+    let chatRightImageCellIdentifier = "ChatRightImageCell"
 
 
     // 使 messageToolbar 随着键盘出现或消失而移动
@@ -99,6 +100,7 @@ class ConversationViewController: UIViewController {
 
         conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
+        conversationCollectionView.registerNib(UINib(nibName: chatRightImageCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightImageCellIdentifier)
         
         conversationCollectionView.bounces = true
 
@@ -140,6 +142,45 @@ class ConversationViewController: UIViewController {
                 }, completion: { success -> Void in
                     println("sendText to group: \(success)")
                 })
+            }
+        }
+
+        messageToolbar.imageSendAction = { messageToolbar in
+            let filePath = NSBundle.mainBundle().pathForResource("1", ofType: "png")!
+
+            s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in
+                uploadFileToS3(inFilePath: filePath, orFileData: nil, mimetype: "image/png", s3UploadParams: s3UploadParams) { (result, error) in
+                    println("upload Image: \(result), \(error)")
+
+                    if let withFriend = self.conversation.withFriend {
+                        sendImageWithKey(s3UploadParams.key, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message -> Void in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self.updateConversationCollectionView()
+                            }
+
+                        }, failureHandler: {(reason, errorMessage) -> () in
+                            defaultFailureHandler(reason, errorMessage)
+                            // TODO: sendImage 错误提醒
+                                
+                        }, completion: { success -> Void in
+                            println("sendImage to friend: \(success)")
+                        })
+
+                    } else if let withGroup = self.conversation.withGroup {
+                        sendImageWithKey(s3UploadParams.key, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message -> Void in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self.updateConversationCollectionView()
+                            }
+
+                        }, failureHandler: {(reason, errorMessage) -> () in
+                            defaultFailureHandler(reason, errorMessage)
+                            // TODO: sendImage 错误提醒
+
+                        }, completion: { success -> Void in
+                            println("sendImage to friend: \(success)")
+                        })
+                    }
+                }
             }
         }
         
@@ -416,10 +457,33 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Int(messages.count)
+        return Int(messages.count) + 3
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+
+        if UInt(indexPath.row) >= messages.count {
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
+
+            if
+                let myUserID = YepUserDefaults.userID(),
+                let me = userWithUserID(myUserID) {
+                    AvatarCache.sharedInstance.roundAvatarOfUser(me, withRadius: 40 * 0.5) { roundImage in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            cell.avatarImageView.image = roundImage
+                        }
+                    }
+
+                    AvatarCache.sharedInstance.roundAvatarOfUser(me, withRadius: 40 * 0.5) { roundImage in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            cell.messageImageView.image = roundImage
+                        }
+                    }
+            }
+
+            return cell
+
+        }
 
         let message = messages.objectAtIndex(UInt(indexPath.row)) as! Message
 
@@ -461,9 +525,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             return cell
         }
+
     }
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+
+        if UInt(indexPath.row) >= messages.count {
+            return CGSizeMake(collectionViewWidth, 200)
+        }
 
         // TODO: 缓存 Cell 高度才是正道
         // TODO: 不使用魔法数字

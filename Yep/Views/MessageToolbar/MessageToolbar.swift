@@ -37,6 +37,8 @@ class MessageToolbar: UIToolbar {
     }
 
     var textSendAction: ((messageToolBar: MessageToolbar) -> ())?
+
+    var imageSendAction: ((messageToolBar: MessageToolbar) -> ())?
     
     var voiceSendAction: ((messageToolBar: MessageToolbar) -> ())?
     
@@ -48,6 +50,7 @@ class MessageToolbar: UIToolbar {
         let button = UIButton()
         button.setImage(UIImage(named: "item_camera"), forState: .Normal)
         button.tintColor = UIColor.yepTintColor()
+        button.addTarget(self, action: "trySendImageMessage", forControlEvents: UIControlEvents.TouchUpInside)
         return button
         }()
 
@@ -158,9 +161,17 @@ class MessageToolbar: UIToolbar {
         }
     }
 
+    // MARK: Actions
+
     func trySendTextMessage() {
         if let textSendAction = textSendAction {
             textSendAction(messageToolBar: self)
+        }
+    }
+
+    func trySendImageMessage() {
+        if let imageSendAction = imageSendAction {
+            imageSendAction(messageToolBar: self)
         }
     }
     
