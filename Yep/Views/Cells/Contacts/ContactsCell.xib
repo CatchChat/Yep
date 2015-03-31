@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7525" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7528.3" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7516"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7518.3"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -16,7 +16,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yGz-R6-Ojm">
-                        <rect key="frame" x="9" y="12" width="55" height="55"/>
+                        <rect key="frame" x="10" y="12" width="55" height="55"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="55" id="aIX-QM-JmX"/>
                             <constraint firstAttribute="width" secondItem="yGz-R6-Ojm" secondAttribute="height" multiplier="1:1" id="lmu-1p-Arx"/>
@@ -29,13 +29,13 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Joined 2 days ago" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FiT-eM-gyl">
-                        <rect key="frame" x="79" y="35" width="233" height="15"/>
+                        <rect key="frame" x="80" y="35" width="232" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="0.5039117192" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ivk-sQ-ylu">
-                        <rect key="frame" x="79" y="12" width="41" height="18"/>
+                        <rect key="frame" x="80" y="12" width="41" height="18"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                         <color key="textColor" white="0.24954602940000001" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -46,7 +46,7 @@
                     <constraint firstItem="FiT-eM-gyl" firstAttribute="top" secondItem="Ivk-sQ-ylu" secondAttribute="bottom" constant="5" id="1kW-2j-UuV"/>
                     <constraint firstAttribute="trailingMargin" secondItem="FiT-eM-gyl" secondAttribute="trailing" id="5If-Nf-IA4"/>
                     <constraint firstAttribute="trailingMargin" secondItem="GZ1-Eh-QgO" secondAttribute="trailing" id="Gm9-19-lG0"/>
-                    <constraint firstItem="yGz-R6-Ojm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="1" id="KCX-fD-Fa3"/>
+                    <constraint firstItem="yGz-R6-Ojm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="2" id="KCX-fD-Fa3"/>
                     <constraint firstItem="Ivk-sQ-ylu" firstAttribute="top" secondItem="yGz-R6-Ojm" secondAttribute="top" id="OZ4-3P-YhA"/>
                     <constraint firstAttribute="centerY" secondItem="yGz-R6-Ojm" secondAttribute="centerY" id="UQR-Dh-Vgo"/>
                     <constraint firstItem="yGz-R6-Ojm" firstAttribute="width" secondItem="yGz-R6-Ojm" secondAttribute="height" multiplier="1:1" id="ZAK-Uh-3Kv"/>
