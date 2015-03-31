@@ -182,8 +182,28 @@ class RegisterPickAvatarViewController: UIViewController {
 
     @IBAction func captureOrFinish(sender: UIButton) {
         if pickAvatarState == .Captured {
-            publicUploadToken(failureHandler: nil) { qiniuProvider in
-                println("qiniuProvider: \(qiniuProvider)")
+            // TODO: 需要等待的菊花
+            s3PublicUploadParams(failureHandler: nil) { s3UploadParams in
+
+                var imageData = UIImagePNGRepresentation(self.avatar)
+
+                uploadFileToS3(inFilePath: nil, orFileData: imageData, mimetype: "image/png", s3UploadParams: s3UploadParams, completion: { (result, error) in
+                    println("upload avatar to s3 result: \(result), error: \(error)")
+
+                    if (result) {
+                        let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
+
+                        updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: nil) { success in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                YepUserDefaults.setAvatarURLString(newAvatarURLString)
+
+                                if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                                    appDelegate.startMainStory()
+                                }
+                            }
+                        }
+                    }
+                })
             }
 
         } else {

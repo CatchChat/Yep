@@ -117,23 +117,29 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
 
                 if (result) {
                     let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
-                    updateUserInfo(nickname: nil, avatar_url: newAvatarURLString, username: nil, latitude: nil, longitude: nil, completion: { result in
 
+                    updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: nil) { success in
                         dispatch_async(dispatch_get_main_queue()) {
                             YepUserDefaults.setAvatarURLString(newAvatarURLString)
+
+                            let realm = RLMRealm.defaultRealm()
+
+                            realm.beginWriteTransaction()
 
                             if
                                 let myUserID = YepUserDefaults.userID(),
                                 let me = userWithUserID(myUserID) {
-                                    let realm = RLMRealm.defaultRealm()
-                                    realm.beginWriteTransaction()
+
                                     me.avatarURLString = newAvatarURLString
-                                    realm.commitWriteTransaction()
                             }
+
+                            
+
+                            realm.commitWriteTransaction()
 
                             NSNotificationCenter.defaultCenter().postNotificationName(YepUpdatedProfileAvatarNotification, object: nil)
                         }
-                    })
+                    }
                 }
             })
         }

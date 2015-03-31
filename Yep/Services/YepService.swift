@@ -145,36 +145,25 @@ func verifyMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: St
 
 // MARK: User
 
-func updateUserInfo(#nickname: String?, #avatar_url: String?, #username: String?, #latitude: Float?, #longitude: Float?, #completion: JSONDictionary -> Void) {
-    var requestParameters = [String: AnyObject]()
-    
-    if let nickname = nickname {
-        requestParameters["nickname"] = nickname
-    }
-    
-    if let avatar_url = avatar_url {
-        requestParameters["avatar_url"] = avatar_url
-    }
-    
-    if let username = username {
-        requestParameters["username"] = username
-    }
-    
-    if let latitude = latitude {
-        requestParameters["latitude"] = latitude
-    }
+func updateMyselfWithInfo(info: JSONDictionary, #failureHandler: ((Reason, String?) -> ())?, #completion: Bool -> Void) {
 
-    if let longitude = longitude {
-        requestParameters["longitude"] = longitude
+    // nickname
+    // avatar_url
+    // username
+    // latitude
+    // longitude
+
+    let parse: JSONDictionary -> Bool? = { data in
+        return true
     }
     
-    let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
+    let resource = authJsonResource(path: "/api/v1/user", method: .PATCH, requestParameters: info, parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
     }
-    
-    let resource = authJsonResource(path: "/api/v1/user", method: .PATCH, requestParameters: requestParameters, parse: parse)
-    
-    apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
 }
 
 func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #failureHandler: ((Reason, String?) -> ())?, #completion: Bool -> Void) {
@@ -256,36 +245,6 @@ func searchUsersWithPhoneNumber(ofPhoneNumber phoneNumber: String, #failureHandl
     
     let resource = authJsonResource(path: "/api/v1/users/search", method: .GET, requestParameters: requestParameters, parse: parse)
     
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
-    } else {
-        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
-    }
-}
-
-// MARK: Upload
-
-func publicUploadToken(#failureHandler: ((Reason, String?) -> ())?, #completion: QiniuProvider -> Void) {
-
-    let parse: JSONDictionary -> QiniuProvider? = { data in
-        if let provider = data["provider"] as? String {
-            if provider == "qiniu" {
-                if let options = data["options"] as? [String: AnyObject] {
-                    if
-                        let token = options["token"] as? String,
-                        let key = options["key"] as? String,
-                        let downloadURLString = options["download_url"] as? String {
-                            return QiniuProvider(token: token, key: key, downloadURLString: downloadURLString)
-                    }
-                }
-            }
-        }
-
-        return nil
-    }
-
-    let resource = authJsonResource(path: "/api/v1/attachments/public_upload_token", method: .GET, requestParameters: [:], parse: parse)
-
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)
     } else {
