@@ -10,19 +10,23 @@ import UIKit
 
 class ProfileHeaderCell: UICollectionViewCell {
 
+    var changeAvatarAction: (() -> Void)?
+
+
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var joinedDateLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
-    
+
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
         avatarImageView.alpha = 1
         
-        var tapGesture = UITapGestureRecognizer(target: self, action: "uploadNewProfilePhoto")
+        let tap = UITapGestureRecognizer(target: self, action: "tryChangeAvatar")
         avatarImageView.userInteractionEnabled = true
-        avatarImageView.addGestureRecognizer(tapGesture)
+        avatarImageView.addGestureRecognizer(tap)
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if let avatarURLString = YepUserDefaults.avatarURLString() {
@@ -44,9 +48,9 @@ class ProfileHeaderCell: UICollectionViewCell {
         }
     }
     
-    func uploadNewProfilePhoto() {
-        println("Notification on new photo")
-        NSNotificationCenter.defaultCenter().postNotificationName(YepChangeProfilePhotoNotification, object: nil)
+    func tryChangeAvatar() {
+        if let changeAvatarAction = changeAvatarAction {
+            changeAvatarAction()
+        }
     }
-
 }
