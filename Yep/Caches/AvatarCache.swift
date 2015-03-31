@@ -251,8 +251,9 @@ class AvatarCache {
                             realm.beginWriteTransaction()
 
                             // 不能直接使用 user.avatar, 因为 realm 不同
-                            let avatar = avatarWithAvatarURLString(user.avatar!.avatarURLString)
-                            realm.deleteObject(avatar)
+                            if let avatar = avatarWithAvatarURLString(user.avatar!.avatarURLString) {
+                                realm.deleteObject(avatar)
+                            }
 
                             realm.commitWriteTransaction()
                         }
