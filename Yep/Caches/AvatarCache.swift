@@ -101,20 +101,25 @@ class AvatarCache {
 
                         dispatch_async(dispatch_get_main_queue()) {
 
-                            let avatarFileName = NSUUID().UUIDString
+                            var avatar = avatarWithAvatarURLString(avatarURLString)
 
-                            if let avatarURL = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
-                                let realm = RLMRealm.defaultRealm()
+                            if avatar == nil {
+                                
+                                let avatarFileName = NSUUID().UUIDString
 
-                                realm.beginWriteTransaction()
+                                if let avatarURL = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
+                                    let realm = RLMRealm.defaultRealm()
 
-                                let newAvatar = Avatar()
-                                newAvatar.avatarURLString = avatarURLString
-                                newAvatar.avatarFileName = avatarFileName
+                                    realm.beginWriteTransaction()
 
-                                realm.addObject(newAvatar)
+                                    let newAvatar = Avatar()
+                                    newAvatar.avatarURLString = avatarURLString
+                                    newAvatar.avatarFileName = avatarFileName
 
-                                realm.commitWriteTransaction()
+                                    realm.addObject(newAvatar)
+                                    
+                                    realm.commitWriteTransaction()
+                                }
                             }
                         }
                         
