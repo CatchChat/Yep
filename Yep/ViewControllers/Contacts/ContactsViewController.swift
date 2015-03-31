@@ -16,11 +16,21 @@ class ContactsViewController: UIViewController {
 
     lazy var friends = User.allObjects()
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadContactsTableView", name: YepUpdatedProfileAvatarNotification, object: nil)
+
         contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         contactsTableView.rowHeight = 80
+    }
+
+    func reloadContactsTableView() {
+        contactsTableView.reloadData()
     }
 }
 

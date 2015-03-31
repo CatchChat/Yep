@@ -9,6 +9,8 @@
 import UIKit
 import Realm
 
+let YepUpdatedProfileAvatarNotification = "YepUpdatedProfileAvatarNotification"
+
 class ProfileViewController: UIViewController {
 
     @IBOutlet weak var profileCollectionView: UICollectionView!
@@ -105,20 +107,25 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             var imageData = UIImagePNGRepresentation(image)
 
             uploadFileToS3(inFilePath: nil, orFileData: imageData, mimetype: "image/png", s3UploadParams: s3UploadParams, completion: { (result, error) in
-                println("upload avatar to s3 result \(result), error \(error)")
+                println("upload avatar to s3 result: \(result), error: \(error)")
 
                 if (result) {
                     let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
                     updateUserInfo(nickname: nil, avatar_url: newAvatarURLString, username: nil, latitude: nil, longitude: nil, completion: { result in
-                        YepUserDefaults.setAvatarURLString(newAvatarURLString)
 
-                        if
-                            let myUserID = YepUserDefaults.userID(),
-                            let me = userWithUserID(myUserID) {
-                                let realm = RLMRealm.defaultRealm()
-                                realm.beginWriteTransaction()
-                                me.avatarURLString = newAvatarURLString
-                                realm.commitWriteTransaction()
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepUserDefaults.setAvatarURLString(newAvatarURLString)
+
+                            if
+                                let myUserID = YepUserDefaults.userID(),
+                                let me = userWithUserID(myUserID) {
+                                    let realm = RLMRealm.defaultRealm()
+                                    realm.beginWriteTransaction()
+                                    me.avatarURLString = newAvatarURLString
+                                    realm.commitWriteTransaction()
+                            }
+
+                            NSNotificationCenter.defaultCenter().postNotificationName(YepUpdatedProfileAvatarNotification, object: nil)
                         }
                     })
                 }

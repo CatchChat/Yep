@@ -26,7 +26,8 @@ class ConversationsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationsTableView", name: YepNewMessagesReceivedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepNewMessagesReceivedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepUpdatedProfileAvatarNotification, object: nil)
 
         view.backgroundColor = UIColor.whiteColor()
 
@@ -53,8 +54,8 @@ class ConversationsViewController: UIViewController {
 
     // MARK: Actions
 
-    func updateConversationsTableView() {
-        println("updateConversationsTableView")
+    func reloadConversationsTableView() {
+        println("reloadConversationsTableView")
         conversationsTableView.reloadData()
     }
 }

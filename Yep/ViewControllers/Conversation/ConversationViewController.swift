@@ -95,6 +95,7 @@ class ConversationViewController: UIViewController {
         navigationItem.rightBarButtonItem = undoBarButtonItem
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationCollectionView", name: YepNewMessagesReceivedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationCollectionView", name: YepUpdatedProfileAvatarNotification, object: nil)
 
         conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
@@ -271,6 +272,10 @@ class ConversationViewController: UIViewController {
                 })
             }
         }
+    }
+
+    func reloadConversationCollectionView() {
+        conversationCollectionView.reloadData()
     }
 
     func cleanTextInput() {
