@@ -26,7 +26,7 @@ enum UserFriendState: Int {
 
 class Avatar: RLMObject {
     dynamic var avatarURLString: String = ""
-    dynamic var imageData: NSData = NSData()
+    dynamic var avatarFileName: String = ""
 
     var user: User? {
         let users = linkingObjectsOfClass("User", forProperty: "avatar") as! [User]
