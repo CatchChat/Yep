@@ -178,6 +178,14 @@ class RegisterPickAvatarViewController: UIViewController {
     }
 
     @IBAction func tryOpenCameraRoll(sender: UIButton) {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
+            imagePicker.allowsEditing = false
+
+            self.presentViewController(imagePicker, animated: true, completion: nil)
+        }
     }
 
     @IBAction func captureOrFinish(sender: UIButton) {
@@ -185,9 +193,11 @@ class RegisterPickAvatarViewController: UIViewController {
             // TODO: 需要等待的菊花
             s3PublicUploadParams(failureHandler: nil) { s3UploadParams in
 
-                var imageData = UIImagePNGRepresentation(self.avatar)
+                self.avatar = self.avatar.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
 
-                uploadFileToS3(inFilePath: nil, orFileData: imageData, mimetype: "image/png", s3UploadParams: s3UploadParams, completion: { (result, error) in
+                var imageData = UIImageJPEGRepresentation(self.avatar, YepConfig.avatarCompressionQuality())
+
+                uploadFileToS3(inFilePath: nil, orFileData: imageData, mimetype: "image/jpeg", s3UploadParams: s3UploadParams, completion: { (result, error) in
                     println("upload avatar to s3 result: \(result), error: \(error)")
 
                     if (result) {
@@ -232,4 +242,17 @@ class RegisterPickAvatarViewController: UIViewController {
         pickAvatarState = .CameraOpen
     }
 
+}
+
+// MARK: UIImagePicker
+
+extension RegisterPickAvatarViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.avatar = image
+            self.pickAvatarState = .Captured
+        }
+
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 }

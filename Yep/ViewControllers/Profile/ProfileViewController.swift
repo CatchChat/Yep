@@ -110,9 +110,11 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                 }
             }
 
-            var imageData = UIImagePNGRepresentation(image)
+            let image = image.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
 
-            uploadFileToS3(inFilePath: nil, orFileData: imageData, mimetype: "image/png", s3UploadParams: s3UploadParams, completion: { (result, error) in
+            var imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
+
+            uploadFileToS3(inFilePath: nil, orFileData: imageData, mimetype: "image/jpeg", s3UploadParams: s3UploadParams, completion: { (result, error) in
                 println("upload avatar to s3 result: \(result), error: \(error)")
 
                 if (result) {
@@ -122,20 +124,14 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                         dispatch_async(dispatch_get_main_queue()) {
                             YepUserDefaults.setAvatarURLString(newAvatarURLString)
 
-                            let realm = RLMRealm.defaultRealm()
-
-                            realm.beginWriteTransaction()
-
                             if
                                 let myUserID = YepUserDefaults.userID(),
                                 let me = userWithUserID(myUserID) {
-
+                                    let realm = RLMRealm.defaultRealm()
+                                    realm.beginWriteTransaction()
                                     me.avatarURLString = newAvatarURLString
+                                    realm.commitWriteTransaction()
                             }
-
-                            
-
-                            realm.commitWriteTransaction()
 
                             NSNotificationCenter.defaultCenter().postNotificationName(YepUpdatedProfileAvatarNotification, object: nil)
                         }
@@ -144,7 +140,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             })
         }
 
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
     }
 }
 
