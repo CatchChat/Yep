@@ -8,7 +8,6 @@
 
 import Foundation
 import MobileCoreServices.UTType
-import Ono
 import AFNetworking
 
 
@@ -38,11 +37,11 @@ struct S3UploadParams {
     :returns: Bool  upload status
 */
 
-func uploadFileToS3(#filePath: String?, #fileData: NSData?, #mimetype: String, #s3UploadParams: S3UploadParams, #completion: ((Bool, NSError?) -> ())?){
+func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: NSData?, #mimetype: String, #s3UploadParams: S3UploadParams, #completion: (Bool, NSError?) -> ()) {
 
-    let param = [
-        "key"  : s3UploadParams.key,
-        "acl"    : s3UploadParams.acl,
+    let parameters = [
+        "key": s3UploadParams.key,
+        "acl": s3UploadParams.acl,
         "X-Amz-Algorithm": s3UploadParams.algorithm,
         "X-Amz-Signature": s3UploadParams.signature,
         "X-Amz-Date": s3UploadParams.date,
@@ -50,35 +49,37 @@ func uploadFileToS3(#filePath: String?, #fileData: NSData?, #mimetype: String, #
         "Policy": s3UploadParams.encodedPolicy
     ]
     
-    var filename = "attachment"
+    let filename = "attachment"
 
-    let request = AFHTTPRequestSerializer().multipartFormRequestWithMethod("POST", URLString: s3UploadParams.url, parameters: param, constructingBodyWithBlock: { formData in
+    let request = AFHTTPRequestSerializer().multipartFormRequestWithMethod("POST", URLString: s3UploadParams.url, parameters: parameters, constructingBodyWithBlock: { formData in
         
         if let filePath = filePath {
             formData.appendPartWithFileURL(NSURL(fileURLWithPath: filePath)!, name: "file", fileName: filename, mimeType: mimetype, error: nil)
-        }else {
-            formData.appendPartWithFileData(fileData!, name: "file", fileName: filename, mimeType: mimetype)
+
+        } else if let fileData = fileData {
+            formData.appendPartWithFileData(fileData, name: "file", fileName: filename, mimeType: mimetype)
         }
         
     }, error: nil)
     
     let manager = AFURLSessionManager(sessionConfiguration: NSURLSessionConfiguration.defaultSessionConfiguration())
     manager.responseSerializer = AFXMLParserResponseSerializer()
+
     var progress: NSProgress?
     
-    var uploadTask = manager.uploadTaskWithStreamedRequest(request, progress: &progress, completionHandler: { (response, responseObject, error) in
-        
+    let uploadTask = manager.uploadTaskWithStreamedRequest(request, progress: &progress, completionHandler: { (response, responseObject, error) in
+
         if (error != nil) {
             println("Error \(error.description)")
-            completion!(false, error)
-        }else {
-            println("Upload \(response) \(responseObject)")
-            completion!(true, nil)
-        }
-        })
-    
-    uploadTask.resume()
+            completion(false, error)
 
+        } else {
+            println("Upload \(response) \(responseObject)")
+            completion(true, nil)
+        }
+    })
+
+    uploadTask.resume()
 }
 
 // MARK: Upload
@@ -113,14 +114,17 @@ func generateBoundaryString() -> String {
 ///
 /// :S3UploadParams:     The Upload Params
 
-func s3PrivateUploadParams(#failureHandler: ((Reason, String?) -> ())?, #completion: ((S3UploadParams) -> ())?) {
+func s3PrivateUploadParams(#failureHandler: ((Reason, String?) -> ())?, #completion: (S3UploadParams) -> ()) {
+
     s3UploadParams("/api/v1/attachments/s3_upload_form_fields", failureHandler: { (reason, error)  in
-        
-        failureHandler!(reason, error)
+        if let failureHandler = failureHandler {
+            failureHandler(reason, error)
+        } else {
+            defaultFailureHandler(reason, error)
+        }
         
     }, completion: { S3PrivateUploadParams in
-
-        completion!(S3PrivateUploadParams)
+        completion(S3PrivateUploadParams)
     })
 }
 
@@ -130,15 +134,17 @@ func s3PrivateUploadParams(#failureHandler: ((Reason, String?) -> ())?, #complet
 ///
 /// :S3UploadParams:     The Upload Params
 
-func s3PublicUploadParams(#failureHandler: ((Reason, String?) -> ())?, #completion: ((S3UploadParams) -> ())?) {
+func s3PublicUploadParams(#failureHandler: ((Reason, String?) -> ())?, #completion: (S3UploadParams) -> ()) {
+
     s3UploadParams("/api/v1/attachments/s3_upload_public_form_fields", failureHandler: { (reason, error)  in
-        
-        failureHandler!(reason, error)
+        if let failureHandler = failureHandler {
+            failureHandler(reason, error)
+        } else {
+            defaultFailureHandler(reason, error)
+        }
         
     }, completion: { S3PublicUploadParams in
-            
-        completion!(S3PublicUploadParams)
-        
+        completion(S3PublicUploadParams)
     })
 }
 
@@ -150,7 +156,7 @@ func s3PublicUploadParams(#failureHandler: ((Reason, String?) -> ())?, #completi
 private func s3UploadParams(url: String ,#failureHandler: ((Reason, String?) -> ())?, #completion: S3UploadParams -> Void) {
     
     let parse: JSONDictionary -> S3UploadParams? = { data in
-        println("s3FormData: \(data)")
+        //println("s3FormData: \(data)")
         
         if let options = data["options"] as? JSONDictionary {
             if

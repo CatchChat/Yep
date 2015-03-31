@@ -116,21 +116,21 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
         s3PublicUploadParams(failureHandler: nil) { s3UploadParams in
-            println("s3UploadParams: \(s3UploadParams)")
+
             var imageData = UIImagePNGRepresentation(image);
-            //let form = token["options"] as! JSONDictionary
-            //uploadFileToAWSS3(filePath: filePath, dataForm: form)
-            uploadFileToS3(filePath: nil, fileData: imageData, mimetype: "image/png", s3UploadParams: s3UploadParams, completion: { (result, error) in
+
+            uploadFileToS3(inFilePath: nil, orFileData: imageData, mimetype: "image/png", s3UploadParams: s3UploadParams, completion: { (result, error) in
+                //println("uploadFileToS3 result \(result), error \(error)")
                 if (result) {
                     let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
                     updateUserInfo(nickname: nil, avatar_url: newAvatarURLString, username: nil, latitude: nil, longitude: nil, completion: { result in
                         YepUserDefaults.setAvatarURLString(newAvatarURLString)
                         println("Update user info \(result)")
                     })
-                    
                 }
             })
         }
+
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
     
