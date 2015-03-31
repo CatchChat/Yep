@@ -31,7 +31,7 @@ class ProfileHeaderCell: UICollectionViewCell {
             AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!) { image in
                 dispatch_async(dispatch_get_main_queue()) {
                     self.avatarImageView.image = image
-                    UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
+                    UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
                         self.avatarImageView.alpha = 1
                     }, completion: { (finished) -> Void in
                     })

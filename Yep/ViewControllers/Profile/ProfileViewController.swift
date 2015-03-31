@@ -51,7 +51,7 @@ class ProfileViewController: UIViewController {
         let attributes = [NSFontAttributeName: profileIntroductionLabelFont]
         let labelWidth = self.collectionViewWidth - (profileIntroductionLabelLeadingSpaceToContainer + profileIntroductionLabelTrailingSpaceToContainer)
         let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes:attributes, context:nil)
-        return ceil(rect.height)
+        return ceil(rect.height) + 4
         }()
 
     override func viewDidLoad() {
@@ -66,12 +66,18 @@ class ProfileViewController: UIViewController {
         profileCollectionView.alwaysBounceVertical = true
         
         self.automaticallyAdjustsScrollViewInsets = false
-        
-        self.navigationController?.navigationBar.backgroundColor = UIColor.clearColor()
-        self.navigationController?.navigationBar.translucent = true
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.barStyle = UIBarStyle.BlackTranslucent
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+
+        if let tabBarController = tabBarController {
+            profileCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: CGRectGetHeight(tabBarController.tabBar.bounds), right: 0)
+        }
+
+        if let navigationController = navigationController {
+            navigationController.navigationBar.backgroundColor = UIColor.clearColor()
+            navigationController.navigationBar.translucent = true
+            navigationController.navigationBar.shadowImage = UIImage()
+            navigationController.navigationBar.barStyle = UIBarStyle.BlackTranslucent
+            navigationController.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        }
         
         let textAttributes = [
             NSForegroundColorAttributeName: UIColor.whiteColor(),
