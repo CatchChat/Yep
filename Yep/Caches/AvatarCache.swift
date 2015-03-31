@@ -72,6 +72,64 @@ class AvatarCache {
 //        }
 //    }
 
+    func avatarFromURL(url: NSURL, completion: (UIImage) -> ()) {
+        let normalImageKey = "normal-\(url.hashValue)"
+
+        let avatarURLString = url.absoluteString!
+
+        // 先看看缓存
+        if let normalImage = cache.objectForKey(normalImageKey) as? UIImage {
+            completion(normalImage)
+
+        } else {
+            if
+                let avatar = avatarWithAvatarURLString(avatarURLString),
+                let avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
+                let image = UIImage(contentsOfFile: avatarFileURL.path!) {
+
+                    self.cache.setObject(image, forKey: normalImageKey)
+
+                    completion(image)
+
+            } else {
+                // 没办法，下载吧
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                    if let data = NSData(contentsOfURL: url) {
+                        let image = UIImage(data: data)!
+
+                        // TODO 裁减 image
+
+                        dispatch_async(dispatch_get_main_queue()) {
+
+                            let avatarFileName = NSUUID().UUIDString
+
+                            if let avatarURL = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
+                                let realm = RLMRealm.defaultRealm()
+
+                                realm.beginWriteTransaction()
+
+                                let newAvatar = Avatar()
+                                newAvatar.avatarURLString = avatarURLString
+                                newAvatar.avatarFileName = avatarFileName
+
+                                realm.addObject(newAvatar)
+
+                                realm.commitWriteTransaction()
+                            }
+                        }
+                        
+                        self.cache.setObject(image, forKey: normalImageKey)
+                        
+                        completion(image)
+
+                    } else {
+                        completion(UIImage(named: "default_avatar")!)
+                    }
+                }
+            }
+        }
+    }
+
     func roundAvatarWithAvatarURLString(avatarURLString: String, withRadius radius: CGFloat, completion: (UIImage) -> ()) {
         if avatarURLString.isEmpty {
             completion(defaultRoundAvatarOfRadius(radius))
@@ -88,8 +146,7 @@ class AvatarCache {
 
             } else {
                 // 再看看是否已下载
-                let predicate = NSPredicate(format: "avatarURLString = %@", avatarURLString)
-                if let avatar = Avatar.objectsWithPredicate(predicate).firstObject() as? Avatar {
+                if let avatar = avatarWithAvatarURLString(avatarURLString) {
 
                     if
                         let avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
@@ -116,8 +173,7 @@ class AvatarCache {
 
                             realm.beginWriteTransaction()
 
-                            let predicate = NSPredicate(format: "avatarURLString = %@", avatarURLString)
-                            var avatar = Avatar.objectsWithPredicate(predicate).firstObject() as? Avatar
+                            var avatar = avatarWithAvatarURLString(avatarURLString)
 
                             if avatar == nil {
                                 let avatarFileName = NSUUID().UUIDString
@@ -208,8 +264,7 @@ class AvatarCache {
 
                             realm.beginWriteTransaction()
 
-                            let predicate = NSPredicate(format: "avatarURLString = %@", user.avatarURLString)
-                            var avatar = Avatar.objectsWithPredicate(predicate).firstObject() as? Avatar
+                            var avatar = avatarWithAvatarURLString(user.avatarURLString)
 
                             if avatar == nil {
                                 let avatarFileName = NSUUID().UUIDString

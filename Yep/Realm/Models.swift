@@ -163,6 +163,11 @@ func groupWithGroupID(groupID: String) -> Group? {
     return Group.objectsWithPredicate(predicate).firstObject() as? Group
 }
 
+func avatarWithAvatarURLString(avatarURLString: String) -> Avatar? {
+    let predicate = NSPredicate(format: "avatarURLString = %@", avatarURLString)
+    return Avatar.objectsWithPredicate(predicate).firstObject() as? Avatar
+}
+
 func tryGetOrCreateMe() -> User? {
     if let userID = YepUserDefaults.userID() {
         if let me = userWithUserID(userID) {
