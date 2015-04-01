@@ -10,6 +10,7 @@
 		0A02E46F1AC9208A00235DBF /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A02E46E1AC9208A00235DBF /* libxml2.dylib */; };
 		0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A271FD61ACA055400822DFC /* YepAudioService.swift */; };
 		0A3E60591ACC0318003DC853 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E60581ACC0318003DC853 /* YepWaverView.swift */; };
+		0A3E605E1ACC2F48003DC853 /* SquareWaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E605D1ACC2F48003DC853 /* SquareWaveView.swift */; };
 		0A5D83941AC5D3C8000045BF /* YepTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D83931AC5D3C8000045BF /* YepTabBarController.swift */; };
 		0A5D83991AC5D91E000045BF /* ContactsSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D83981AC5D91E000045BF /* ContactsSearchTableViewController.swift */; };
 		0A6F46FD1ACBBF2D000CCD6F /* Waver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6F46FC1ACBBF2D000CCD6F /* Waver.swift */; };
@@ -106,6 +107,7 @@
 		0A02E46E1AC9208A00235DBF /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		0A271FD61ACA055400822DFC /* YepAudioService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAudioService.swift; path = Services/YepAudioService.swift; sourceTree = "<group>"; };
 		0A3E60581ACC0318003DC853 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/Component/YepWaverView.swift; sourceTree = "<group>"; };
+		0A3E605D1ACC2F48003DC853 /* SquareWaveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SquareWaveView.swift; sourceTree = "<group>"; };
 		0A5D83931AC5D3C8000045BF /* YepTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepTabBarController.swift; path = ViewControllers/TabBar/YepTabBarController.swift; sourceTree = "<group>"; };
 		0A5D83981AC5D91E000045BF /* ContactsSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsSearchTableViewController.swift; path = ViewControllers/Contacts/Search/ContactsSearchTableViewController.swift; sourceTree = "<group>"; };
 		0A6F46FC1ACBBF2D000CCD6F /* Waver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Waver.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 		0A3E605A1ACC1035003DC853 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				0A3E605D1ACC2F48003DC853 /* SquareWaveView.swift */,
 				0A3E60581ACC0318003DC853 /* YepWaverView.swift */,
 			);
 			name = Component;
@@ -876,6 +879,7 @@
 				502AE5381AB866E3005BD199 /* LoginVerifyMobileViewController.swift in Sources */,
 				503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */,
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
+				0A3E605E1ACC2F48003DC853 /* SquareWaveView.swift in Sources */,
 				503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */,
