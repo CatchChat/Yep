@@ -22,16 +22,18 @@ class YepWaverView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        setup()
     }
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        setup()
     }
     
     private func setup() {
-        waver = Waver(frame: CGRectMake(0, CGRectGetHeight(self.bounds)/2.0 - 50.0, CGRectGetWidth(self.bounds), 100.0))
-        self.backgroundColor = UIColor(white: 1.0, alpha: 0.4)
+        waver = Waver(frame: CGRectMake(0, CGRectGetHeight(self.bounds)/2.0 - 150.0, CGRectGetWidth(self.bounds), 100.0))
+        self.backgroundColor = UIColor(white: 1.0, alpha: 0.9)
+        self.addSubview(waver)
     }
 
 }

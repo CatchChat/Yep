@@ -13,6 +13,8 @@ import AVFoundation
 class ConversationViewController: UIViewController {
 
     var conversation: Conversation!
+    
+    var waverView: YepWaverView!
 
     lazy var messages: RLMResults = {
         return messagesInConversation(self.conversation)
@@ -153,6 +155,22 @@ class ConversationViewController: UIViewController {
                 })
             }
         }
+        
+        self.waverView = YepWaverView(frame: self.view.bounds)
+
+        
+        self.waverView.waver.waverCallback = {
+            
+            
+            if (YepAudioService.sharedManager.audioRecorder.recording) {
+                println("Update waver")
+                YepAudioService.sharedManager.audioRecorder.updateMeters()
+                var normalizedValue = pow(10, YepAudioService.sharedManager.audioRecorder.averagePowerForChannel(0)/40)
+                
+                self.waverView.waver.level = CGFloat(normalizedValue)
+            }
+
+        }
 
         messageToolbar.imageSendAction = { messageToolbar in
             
@@ -166,18 +184,18 @@ class ConversationViewController: UIViewController {
             }
         }
         
-        messageToolbar.voiceSendAction = { messageToolbar in
-
+        messageToolbar.voiceSendBeginAction = { messageToolbar in
+            self.view.window?.addSubview(self.waverView)
             YepAudioService.sharedManager.beginRecord()
         }
         
         messageToolbar.voiceSendCancelAction = { messageToolbar in
-            
+            self.waverView.removeFromSuperview()
             YepAudioService.sharedManager.endRecord()
         }
         
-        messageToolbar.voiceSendUpAction = { messageToolbar in
-            
+        messageToolbar.voiceSendEndAction = { messageToolbar in
+            self.waverView.removeFromSuperview()
             YepAudioService.sharedManager.endRecord()
             
 //            s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in

@@ -51,9 +51,9 @@ class MessageToolbar: UIToolbar {
 
     var imageSendAction: ((messageToolBar: MessageToolbar) -> ())?
     
-    var voiceSendAction: ((messageToolBar: MessageToolbar) -> ())?
+    var voiceSendBeginAction: ((messageToolBar: MessageToolbar) -> ())?
     
-    var voiceSendUpAction: ((messageToolBar: MessageToolbar) -> ())?
+    var voiceSendEndAction: ((messageToolBar: MessageToolbar) -> ())?
     
     var voiceSendCancelAction: ((messageToolBar: MessageToolbar) -> ())?
 
@@ -218,13 +218,13 @@ class MessageToolbar: UIToolbar {
     }
     
     func trySendVoiceMessageBegin() {
-        if let textSendAction = voiceSendAction {
+        if let textSendAction = voiceSendBeginAction {
             textSendAction(messageToolBar: self)
         }
     }
     
     func trySendVoiceMessageEnd() {
-        if let textSendAction = voiceSendUpAction {
+        if let textSendAction = voiceSendEndAction {
             textSendAction(messageToolBar: self)
         }
     }

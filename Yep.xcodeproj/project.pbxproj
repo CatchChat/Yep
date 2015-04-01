@@ -230,6 +230,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A3E605A1ACC1035003DC853 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				0A3E60581ACC0318003DC853 /* YepWaverView.swift */,
+			);
+			name = Component;
+			sourceTree = "<group>";
+		};
 		0A5D83951AC5D3CD000045BF /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -397,7 +405,7 @@
 				5099B9C51AB95111002F940B /* Rank */,
 				5099B9CA1AB9A7CF002F940B /* CameraPreview */,
 				503315A11AC126140008A209 /* MessageToolbar */,
-				0A3E60581ACC0318003DC853 /* YepWaverView.swift */,
+				0A3E605A1ACC1035003DC853 /* Component */,
 			);
 			name = Views;
 			sourceTree = "<group>";
