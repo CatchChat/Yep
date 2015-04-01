@@ -11,6 +11,7 @@ import UIKit
 enum MessageToolbarState {
     case Default
     case TextInput
+    case VoiceRecord
 }
 
 @IBDesignable
@@ -27,9 +28,19 @@ class MessageToolbar: UIToolbar {
                 micButton.hidden = false
                 sendButton.hidden = true
 
+                messageTextView.hidden = false
+                voiceRecordButton.hidden = true
+
             case .TextInput:
                 micButton.hidden = true
                 sendButton.hidden = false
+
+                messageTextView.hidden = false
+                voiceRecordButton.hidden = true
+
+            case .VoiceRecord:
+                messageTextView.hidden = true
+                voiceRecordButton.hidden = false
             }
 
             updateHeightOfMessageTextView()
@@ -70,6 +81,15 @@ class MessageToolbar: UIToolbar {
         let button = UIButton()
         button.setImage(UIImage(named: "item_mic"), forState: .Normal)
         button.tintColor = UIColor.yepTintColor()
+        button.addTarget(self, action: "toggleRecordVoice", forControlEvents: UIControlEvents.TouchUpInside)
+        return button
+        }()
+
+    lazy var voiceRecordButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "item_mic"), forState: .Normal)
+        button.backgroundColor = UIColor.darkGrayColor()
+        button.tintColor = UIColor.yepTintColor()
         button.addTarget(self, action: "trySendVoiceMessageBegin", forControlEvents: UIControlEvents.TouchDown)
         button.addTarget(self, action: "trySendVoiceMessageEnd", forControlEvents: UIControlEvents.TouchUpInside)
         button.addTarget(self, action: "trySendVoiceMessageCancel", forControlEvents: UIControlEvents.TouchUpOutside)
@@ -104,6 +124,9 @@ class MessageToolbar: UIToolbar {
         self.addSubview(micButton)
         micButton.setTranslatesAutoresizingMaskIntoConstraints(false)
 
+        self.addSubview(voiceRecordButton)
+        voiceRecordButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+
         self.addSubview(sendButton)
         sendButton.setTranslatesAutoresizingMaskIntoConstraints(false)
 
@@ -111,6 +134,7 @@ class MessageToolbar: UIToolbar {
             "cameraButton": cameraButton,
             "messageTextView": messageTextView,
             "micButton": micButton,
+            "voiceRecordButton": voiceRecordButton,
             "sendButton": sendButton,
         ]
 
@@ -139,6 +163,14 @@ class MessageToolbar: UIToolbar {
         NSLayoutConstraint.activateConstraints([sendButtonConstraintCenterY])
         NSLayoutConstraint.activateConstraints([sendButtonConstraintHeight])
         NSLayoutConstraint.activateConstraints(sendButtonConstraintsH)
+
+        // void record button
+        let voiceRecordButtonConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-8-[voiceRecordButton]-8-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        let voiceRecordButtonConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[cameraButton][voiceRecordButton][micButton]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        NSLayoutConstraint.activateConstraints(voiceRecordButtonConstraintsV)
+        NSLayoutConstraint.activateConstraints(voiceRecordButtonConstraintsH)
     }
 
 
@@ -166,6 +198,15 @@ class MessageToolbar: UIToolbar {
     func trySendTextMessage() {
         if let textSendAction = textSendAction {
             textSendAction(messageToolBar: self)
+        }
+    }
+
+    func toggleRecordVoice() {
+        if state == .VoiceRecord {
+            state = .Default
+
+        } else {
+            state = .VoiceRecord
         }
     }
 
