@@ -244,14 +244,14 @@ class AvatarCache {
                         }
 
                     } else {
-                        // 换了 Avatar，删除旧的 // TODO: need test
+                        // 换了 Avatar，删除旧的
                         dispatch_async(dispatch_get_main_queue()) {
                             let realm = RLMRealm.defaultRealm()
 
                             realm.beginWriteTransaction()
 
                             // 不能直接使用 user.avatar, 因为 realm 不同
-                            if let avatar = avatarWithAvatarURLString(user.avatar!.avatarURLString) {
+                            if let avatar = avatarWithAvatarURLString(user.avatarURLString) {
                                 realm.deleteObject(avatar)
                             }
 
