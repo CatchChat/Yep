@@ -597,57 +597,55 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         var imageData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
 
-        s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in
-            uploadFileToS3(inFilePath: nil, orFileData: imageData, mimetype: "image/jpeg", s3UploadParams: s3UploadParams) { (result, error) in
-                println("upload Image: \(result), \(error)")
 
-                let messageImageName = NSUUID().UUIDString
+        let messageImageName = NSUUID().UUIDString
 
-                if let withFriend = self.conversation.withFriend {
-                    sendImageWithKey(s3UploadParams.key, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { (message, realm) -> Void in
+        if let withFriend = self.conversation.withFriend {
 
-                        dispatch_async(dispatch_get_main_queue()) {
+            sendImageInFilePath(nil, orFileData: imageData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { (message, realm) -> Void in
 
-                            if let messageImageURL = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
-                                realm.beginWriteTransaction()
-                                message.localAttachmentName = messageImageName
-                                realm.commitWriteTransaction()
-                            }
+                dispatch_async(dispatch_get_main_queue()) {
 
-                            self.updateConversationCollectionView()
-                        }
+                    if let messageImageURL = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
+                        realm.beginWriteTransaction()
+                        message.localAttachmentName = messageImageName
+                        realm.commitWriteTransaction()
+                    }
 
-                    }, failureHandler: {(reason, errorMessage) -> () in
-                        defaultFailureHandler(reason, errorMessage)
-                        // TODO: sendImage 错误提醒
-
-                    }, completion: { success -> Void in
-                        println("sendImage to friend: \(success)")
-                    })
-
-                } else if let withGroup = self.conversation.withGroup {
-                    sendImageWithKey(s3UploadParams.key, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { (message, realm) -> Void in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            if let messageImageURL = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
-                                realm.beginWriteTransaction()
-                                message.localAttachmentName = messageImageName
-                                realm.commitWriteTransaction()
-                            }
-
-                            self.updateConversationCollectionView()
-                        }
-
-                    }, failureHandler: {(reason, errorMessage) -> () in
-                        defaultFailureHandler(reason, errorMessage)
-                        // TODO: sendImage 错误提醒
-
-                    }, completion: { success -> Void in
-                        println("sendImage to friend: \(success)")
-                    })
+                    self.updateConversationCollectionView()
                 }
-            }
+
+            }, failureHandler: {(reason, errorMessage) -> () in
+                defaultFailureHandler(reason, errorMessage)
+                // TODO: sendImage 错误提醒
+
+            }, completion: { success -> Void in
+                println("sendImage to friend: \(success)")
+            })
+
+        } else if let withGroup = self.conversation.withGroup {
+            sendImageInFilePath(nil, orFileData: imageData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { (message, realm) -> Void in
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    if let messageImageURL = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
+                        realm.beginWriteTransaction()
+                        message.localAttachmentName = messageImageName
+                        realm.commitWriteTransaction()
+                    }
+
+                    self.updateConversationCollectionView()
+                }
+
+            }, failureHandler: {(reason, errorMessage) -> () in
+                defaultFailureHandler(reason, errorMessage)
+                // TODO: sendImage 错误提醒
+
+            }, completion: { success -> Void in
+                println("sendImage to friend: \(success)")
+            })
         }
-        
+
+
         dismissViewControllerAnimated(true, completion: nil)
     }
 }
