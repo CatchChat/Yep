@@ -288,6 +288,27 @@ private func moreFriendships(inPage page: Int, withPerPage perPage: Int, #failur
     }
 }
 
+func discoverUsers(#master_skills: [String], #learning_skills: [String], #sort: String,#failureHandler: ((Reason, String?) -> ())?, #completion: JSONDictionary -> Void) {
+    
+    let requestParameters = [
+        "master_skills": master_skills,
+        "learning_skills": learning_skills,
+        "sort": sort
+    ]
+    
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+    
+    let resource = authJsonResource(path: "/api/v1/user/discover", method: .GET, requestParameters: requestParameters as! JSONDictionary, parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
 func friendships(#completion: [JSONDictionary] -> Void) {
 
     headFriendships { result in

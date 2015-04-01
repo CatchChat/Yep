@@ -209,9 +209,27 @@
                     <view key="view" contentMode="scaleToFill" id="F0W-Z6-RS5">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="SPh-AI-uaZ">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="SPh-AI-uaZ" firstAttribute="top" secondItem="F0W-Z6-RS5" secondAttribute="top" id="7U8-hU-lZF"/>
+                            <constraint firstAttribute="bottom" secondItem="SPh-AI-uaZ" secondAttribute="bottom" id="HCe-mG-akd"/>
+                            <constraint firstAttribute="trailing" secondItem="SPh-AI-uaZ" secondAttribute="trailing" id="HhT-qf-arz"/>
+                            <constraint firstItem="SPh-AI-uaZ" firstAttribute="leading" secondItem="F0W-Z6-RS5" secondAttribute="leading" id="KqC-Vk-Ved"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Discover" id="di2-g9-owW"/>
+                    <navigationItem key="navigationItem" title="Discover" id="di2-g9-owW">
+                        <barButtonItem key="leftBarButtonItem" title="NearBy" id="mve-O6-ube"/>
+                        <barButtonItem key="rightBarButtonItem" title="Ruby" id="OaG-UO-oQi"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="discoverTableView" destination="SPh-AI-uaZ" id="mB3-87-mQq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i6I-3Z-6M6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

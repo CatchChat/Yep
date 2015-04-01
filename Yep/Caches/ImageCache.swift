@@ -14,7 +14,7 @@ class ImageCache {
 
     var cache = NSCache()
 
-    func imageOfMessage(message: Message, withSize size: CGSize, #tailDirection: MessageImageTailDirection, completion: (UIImage) -> ()) {
+    func imageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (UIImage) -> ()) {
 
         let imageKey = "image-\(message.messageID)-\(message.localAttachmentName)-\(message.attachmentURLString)"
 
