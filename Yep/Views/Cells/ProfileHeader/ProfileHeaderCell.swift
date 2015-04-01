@@ -38,6 +38,17 @@ class ProfileHeaderCell: UICollectionViewCell {
                 }
             }
         }
+        
+        YepLocationService.sharedManager
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
+    }
+    
+    func updateAddress() {
+        
+        println("Location YepLocationUpdated")
+        
+        self.locationLabel.text = YepLocationService.sharedManager.address
     }
     
     func tryChangeAvatar() {

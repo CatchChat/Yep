@@ -14,6 +14,7 @@
 		0A3E60601ACCA9C0003DC853 /* String+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */; };
 		0A3E60621ACCAB50003DC853 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E60611ACCAB50003DC853 /* NSDate+Extension.swift */; };
 		0A3E60651ACCAC1D003DC853 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0A3E60641ACCAC1D003DC853 /* NSDateTimeAgo.bundle */; };
+		0A3E60671ACCAECE003DC853 /* YepLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E60661ACCAECE003DC853 /* YepLocationService.swift */; };
 		0A5D83941AC5D3C8000045BF /* YepTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D83931AC5D3C8000045BF /* YepTabBarController.swift */; };
 		0A5D83991AC5D91E000045BF /* ContactsSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D83981AC5D91E000045BF /* ContactsSearchTableViewController.swift */; };
 		0A6F46FD1ACBBF2D000CCD6F /* Waver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6F46FC1ACBBF2D000CCD6F /* Waver.swift */; };
@@ -114,6 +115,7 @@
 		0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Yep.swift"; path = "Extensions/String+Yep.swift"; sourceTree = "<group>"; };
 		0A3E60611ACCAB50003DC853 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extension.swift"; sourceTree = "<group>"; };
 		0A3E60641ACCAC1D003DC853 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
+		0A3E60661ACCAECE003DC853 /* YepLocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepLocationService.swift; path = Services/YepLocationService.swift; sourceTree = "<group>"; };
 		0A5D83931AC5D3C8000045BF /* YepTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepTabBarController.swift; path = ViewControllers/TabBar/YepTabBarController.swift; sourceTree = "<group>"; };
 		0A5D83981AC5D91E000045BF /* ContactsSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsSearchTableViewController.swift; path = ViewControllers/Contacts/Search/ContactsSearchTableViewController.swift; sourceTree = "<group>"; };
 		0A6F46FC1ACBBF2D000CCD6F /* Waver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Waver.swift; sourceTree = "<group>"; };
@@ -500,6 +502,7 @@
 				5076C5691AC46B9F00B22952 /* FayeService.swift */,
 				0A944C241AC8BB2F00037A06 /* YepStorageService.swift */,
 				0A271FD61ACA055400822DFC /* YepAudioService.swift */,
+				0A3E60661ACCAECE003DC853 /* YepLocationService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -926,6 +929,7 @@
 				502AE5291AB81076005BD199 /* YepService.swift in Sources */,
 				502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */,
 				50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */,
+				0A3E60671ACCAECE003DC853 /* YepLocationService.swift in Sources */,
 				5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */,
 				50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */,
 				5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */,
