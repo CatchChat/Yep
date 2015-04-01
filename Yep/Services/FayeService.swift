@@ -74,8 +74,12 @@ class FayeService: NSObject, MZFayeClientDelegate {
         println("fayeClient didConnectToURL \(url)")
     }
     
-    func fayeClient(client: MZFayeClient!, didDisconnectWithError error: NSError!) {
-        println("fayeClient didDisconnectWithError \(error.description)")
+    func fayeClient(client: MZFayeClient!, didDisconnectWithError error: NSError?) {
+        
+        if let error = error {
+            println("fayeClient didDisconnectWithError \(error.description)")
+        }
+        
     }
     
     func fayeClient(client: MZFayeClient!, didFailDeserializeMessage message: [NSObject : AnyObject]!, withError error: NSError!) {
