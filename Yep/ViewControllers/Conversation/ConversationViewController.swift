@@ -227,10 +227,22 @@ class ConversationViewController: UIViewController {
         setConversaitonCollectionViewContentInsetBottom(CGRectGetHeight(messageToolbar.bounds))
     }
 
+    private func heightOfMessage(message: Message) -> CGFloat {
+        switch message.mediaType {
+        case MessageMediaType.Image.rawValue:
+            return messageImageHeight + 10 + 10
+
+        default:
+            let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
+
+            return max(ceil(rect.height) + 14 + 20, YepConfig.chatCellAvatarSize() + 20) + 10
+        }
+    }
+
     // MARK: Actions
 
     func updateConversationCollectionView() {
-        
+
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
         
@@ -255,9 +267,7 @@ class ConversationViewController: UIViewController {
             for i in _lastTimeMessagesCount..<messages.count {
                 let message = messages.objectAtIndex(i) as! Message
 
-                let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
-
-                let height = max(ceil(rect.height) + 14 + 20, YepConfig.chatCellAvatarSize() + 20) + 10
+                let height = heightOfMessage(message)
 
                 newMessagesTotalHeight += height
             }
@@ -550,19 +560,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         let message = messages.objectAtIndex(UInt(indexPath.row)) as! Message
 
-        switch message.mediaType {
-        case MessageMediaType.Image.rawValue:
-            return CGSizeMake(collectionViewWidth, messageImageHeight + 10 + 10)
-
-        default:
-            // TODO: 缓存 Cell 高度才是正道
-            // TODO: 不使用魔法数字
-
-            let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
-
-            let height = max(ceil(rect.height) + 14 + 20, YepConfig.chatCellAvatarSize() + 20)
-            return CGSizeMake(collectionViewWidth, height)
-        }
+        return CGSizeMake(collectionViewWidth, heightOfMessage(message))
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
