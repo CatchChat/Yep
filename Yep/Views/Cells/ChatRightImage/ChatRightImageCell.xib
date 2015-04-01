@@ -14,14 +14,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="261" height="121"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UrC-7s-78h" userLabel="Avatar Image View">
-                        <rect key="frame" x="206" y="10" width="40" height="40"/>
+                        <rect key="frame" x="206" y="20" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="0bV-A4-3ae"/>
                             <constraint firstAttribute="width" secondItem="UrC-7s-78h" secondAttribute="height" multiplier="1:1" id="tlL-dS-84G"/>
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eM3-aJ-C2A" userLabel="Message Image View">
-                        <rect key="frame" x="51" y="0.0" width="151" height="121"/>
+                        <rect key="frame" x="76" y="10" width="126" height="101"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="eM3-aJ-C2A" secondAttribute="height" multiplier="5:4" id="5c2-zG-nN4"/>
                         </constraints>
@@ -31,8 +31,8 @@
             </view>
             <constraints>
                 <constraint firstItem="UrC-7s-78h" firstAttribute="leading" secondItem="eM3-aJ-C2A" secondAttribute="trailing" constant="4" id="PZ1-gp-U47"/>
-                <constraint firstAttribute="bottom" secondItem="eM3-aJ-C2A" secondAttribute="bottom" id="RcA-3T-IlR"/>
-                <constraint firstItem="eM3-aJ-C2A" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="S6r-js-4q3"/>
+                <constraint firstAttribute="bottom" secondItem="eM3-aJ-C2A" secondAttribute="bottom" constant="10" id="RcA-3T-IlR"/>
+                <constraint firstItem="eM3-aJ-C2A" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="S6r-js-4q3"/>
                 <constraint firstAttribute="trailing" secondItem="UrC-7s-78h" secondAttribute="trailing" constant="15" id="Vbg-DY-59R"/>
                 <constraint firstItem="UrC-7s-78h" firstAttribute="top" secondItem="eM3-aJ-C2A" secondAttribute="top" constant="10" id="umJ-mI-y9g"/>
             </constraints>

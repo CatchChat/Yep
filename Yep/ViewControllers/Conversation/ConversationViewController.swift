@@ -50,7 +50,7 @@ class ConversationViewController: UIViewController {
     let sectionInsetBottom: CGFloat = 10
 
     let messageTextAttributes = [NSFontAttributeName: UIFont.chatTextFont()]
-    let messageTextLabelMaxWidth: CGFloat = 320 - (15+40+20) - 20 // TODO: 根据 TextCell 的布局计算
+    let messageTextLabelMaxWidth: CGFloat = 320 - (15 + YepConfig.chatCellAvatarSize() + 20) - 20 // TODO: 根据 TextCell 的布局计算
 
 
     lazy var collectionViewWidth: CGFloat = {
@@ -257,7 +257,7 @@ class ConversationViewController: UIViewController {
 
                 let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
 
-                let height = max(ceil(rect.height) + 14 + 20, 40 + 20) + 10
+                let height = max(ceil(rect.height) + 14 + 20, YepConfig.chatCellAvatarSize() + 20) + 10
 
                 newMessagesTotalHeight += height
             }
@@ -453,7 +453,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Image.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftImageCellIdentifier, forIndexPath: indexPath) as! ChatLeftImageCell
 
-                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: 40 * 0.5) { roundImage in
+                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
                         dispatch_async(dispatch_get_main_queue()) {
                             cell.avatarImageView.image = roundImage
                         }
@@ -478,7 +478,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     cell.textContentLabel.text = message.textContent
 
-                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: 40 * 0.5) { roundImage in
+                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
                         dispatch_async(dispatch_get_main_queue()) {
                             cell.avatarImageView.image = roundImage
                         }
@@ -496,7 +496,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     if
                         let myUserID = YepUserDefaults.userID(),
                         let me = userWithUserID(myUserID) {
-                            AvatarCache.sharedInstance.roundAvatarOfUser(me, withRadius: 40 * 0.5) { roundImage in
+                            AvatarCache.sharedInstance.roundAvatarOfUser(me, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
                                 dispatch_async(dispatch_get_main_queue()) {
                                     cell.avatarImageView.image = roundImage
                                 }
@@ -523,7 +523,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     cell.textContentLabel.text = message.textContent
 
-                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: 40 * 0.5) { roundImage in
+                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
                         dispatch_async(dispatch_get_main_queue()) {
                             cell.avatarImageView.image = roundImage
                         }
@@ -539,7 +539,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
 
             cell.textContentLabel.text = ""
-            cell.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(40 * 0.5)
+            cell.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(YepConfig.chatCellAvatarSize() * 0.5)
 
             return cell
         }
@@ -552,7 +552,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         switch message.mediaType {
         case MessageMediaType.Image.rawValue:
-            return CGSizeMake(collectionViewWidth, messageImageHeight)
+            return CGSizeMake(collectionViewWidth, messageImageHeight + 10 + 10)
 
         default:
             // TODO: 缓存 Cell 高度才是正道
@@ -560,7 +560,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
 
-            let height = max(ceil(rect.height) + 14 + 20, 40 + 20)
+            let height = max(ceil(rect.height) + 14 + 20, YepConfig.chatCellAvatarSize() + 20)
             return CGSizeMake(collectionViewWidth, height)
         }
     }
