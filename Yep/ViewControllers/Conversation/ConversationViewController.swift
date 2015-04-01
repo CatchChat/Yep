@@ -28,7 +28,7 @@ class ConversationViewController: UIViewController {
     var conversationCollectionViewContentOffsetBeforeKeyboardWillHide = CGPointZero
     var isKeyboardVisible = false
     var keyboardHeight: CGFloat = 0
-
+    
     var keyboardShowTimes = 0 {
         willSet {
             println("set keyboardShowTimes \(newValue)")
