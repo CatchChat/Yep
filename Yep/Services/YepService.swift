@@ -520,22 +520,20 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
     }
 }
 
-func sendText(text: String, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message, RLMRealm) -> (), #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
+func sendText(text: String, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> (), #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
 
-    let realm = RLMRealm.defaultRealm()
-
-    sendMessageWithMediaType(.Text, inFilePath: nil, orFileData: nil, text: text, toRecipient: recipientID, recipientType: recipientType, saveInRealm: realm, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    sendMessageWithMediaType(.Text, inFilePath: nil, orFileData: nil, text: text, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-func sendImageInFilePath(filePath: String?, orFileData fileData: NSData?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message, RLMRealm) -> (), #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
+func sendImageInFilePath(filePath: String?, orFileData fileData: NSData?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> (), #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
 
-    let realm = RLMRealm.defaultRealm()
-
-    sendMessageWithMediaType(.Image, inFilePath: filePath, orFileData: fileData, text: nil, toRecipient: recipientID, recipientType: recipientType, saveInRealm: realm, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    sendMessageWithMediaType(.Image, inFilePath: filePath, orFileData: fileData, text: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, #text: String?, toRecipient recipientID: String, #recipientType: String, saveInRealm realm: RLMRealm, #afterCreatedMessage: (Message, RLMRealm) -> (), #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
+func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, #text: String?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> (), #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
     // 因为 message_id 必须来自远端，线程无法切换，所以这里暂时没用 realmQueue // TOOD: 也许有办法
+
+    let realm = RLMRealm.defaultRealm()
 
     realm.beginWriteTransaction()
 
@@ -609,7 +607,7 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
 
 
     // 发出之前就显示 Message
-    afterCreatedMessage(message, realm)
+    afterCreatedMessage(message)
 
 
     // 下面开始真正的消息发送
@@ -661,7 +659,7 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
         }
 
         s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in
-            uploadFileToS3(inFilePath: nil, orFileData: fileData, mimetype: mimeType, s3UploadParams: s3UploadParams) { (result, error) in
+            uploadFileToS3(inFilePath: nil, orFileData: fileData, mimeType: mimeType, s3UploadParams: s3UploadParams) { (result, error) in
 
                 // TODO: attachments
                 switch mediaType {

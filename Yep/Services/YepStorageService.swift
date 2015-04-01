@@ -37,7 +37,7 @@ struct S3UploadParams {
     :returns: Bool  upload status
 */
 
-func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: NSData?, #mimetype: String, #s3UploadParams: S3UploadParams, #completion: (Bool, NSError?) -> ()) {
+func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: NSData?, #mimeType: String, #s3UploadParams: S3UploadParams, #completion: (Bool, NSError?) -> ()) {
 
     let parameters = [
         "key": s3UploadParams.key,
@@ -54,10 +54,10 @@ func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: NSData?, 
     let request = AFHTTPRequestSerializer().multipartFormRequestWithMethod("POST", URLString: s3UploadParams.url, parameters: parameters, constructingBodyWithBlock: { formData in
         
         if let filePath = filePath {
-            formData.appendPartWithFileURL(NSURL(fileURLWithPath: filePath)!, name: "file", fileName: filename, mimeType: mimetype, error: nil)
+            formData.appendPartWithFileURL(NSURL(fileURLWithPath: filePath)!, name: "file", fileName: filename, mimeType: mimeType, error: nil)
 
         } else if let fileData = fileData {
-            formData.appendPartWithFileData(fileData, name: "file", fileName: filename, mimeType: mimetype)
+            formData.appendPartWithFileData(fileData, name: "file", fileName: filename, mimeType: mimeType)
         }
         
     }, error: nil)

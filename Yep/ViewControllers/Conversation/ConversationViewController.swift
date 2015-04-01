@@ -125,7 +125,7 @@ class ConversationViewController: UIViewController {
             self.cleanTextInput()
 
             if let withFriend = self.conversation.withFriend {
-                sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { (message, realm) in
+                sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
                     dispatch_async(dispatch_get_main_queue()) {
                         self.updateConversationCollectionView()
                     }
@@ -139,7 +139,7 @@ class ConversationViewController: UIViewController {
                 })
 
             } else if let withGroup = self.conversation.withGroup {
-                sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { (message, realm) in
+                sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                     dispatch_async(dispatch_get_main_queue()) {
                         self.updateConversationCollectionView()
                     }
@@ -602,11 +602,12 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         if let withFriend = self.conversation.withFriend {
 
-            sendImageInFilePath(nil, orFileData: imageData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { (message, realm) -> Void in
+            sendImageInFilePath(nil, orFileData: imageData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message -> Void in
 
                 dispatch_async(dispatch_get_main_queue()) {
 
                     if let messageImageURL = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
+                        let realm = message.realm
                         realm.beginWriteTransaction()
                         message.localAttachmentName = messageImageName
                         realm.commitWriteTransaction()
@@ -624,10 +625,11 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             })
 
         } else if let withGroup = self.conversation.withGroup {
-            sendImageInFilePath(nil, orFileData: imageData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { (message, realm) -> Void in
+            sendImageInFilePath(nil, orFileData: imageData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message -> Void in
 
                 dispatch_async(dispatch_get_main_queue()) {
                     if let messageImageURL = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
+                        let realm = message.realm
                         realm.beginWriteTransaction()
                         message.localAttachmentName = messageImageName
                         realm.commitWriteTransaction()
