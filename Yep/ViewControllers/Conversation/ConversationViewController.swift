@@ -50,15 +50,24 @@ class ConversationViewController: UIViewController {
     let sectionInsetBottom: CGFloat = 10
 
     let messageTextAttributes = [NSFontAttributeName: UIFont.chatTextFont()]
-    let messageTextLabelMaxWidth: CGFloat = 320 - (15+40+20) - 20 // TODO: 根据 TextCell 的布局计算
+    let messageTextLabelMaxWidth: CGFloat = 320 - (15 + YepConfig.chatCellAvatarSize() + 20) - 20 // TODO: 根据 TextCell 的布局计算
 
 
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.conversationCollectionView.bounds)
         }()
 
+    lazy var messageImageWidth: CGFloat = {
+        return self.collectionViewWidth * 0.6
+        }()
+    lazy var messageImageHeight: CGFloat = {
+        return self.messageImageWidth / YepConfig.messageImageViewAspectRatio()
+        }()
+
     let chatLeftTextCellIdentifier = "ChatLeftTextCell"
     let chatRightTextCellIdentifier = "ChatRightTextCell"
+    let chatLeftImageCellIdentifier = "ChatLeftImageCell"
+    let chatRightImageCellIdentifier = "ChatRightImageCell"
 
 
     // 使 messageToolbar 随着键盘出现或消失而移动
@@ -99,6 +108,8 @@ class ConversationViewController: UIViewController {
 
         conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
+        conversationCollectionView.registerNib(UINib(nibName: chatLeftImageCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftImageCellIdentifier)
+        conversationCollectionView.registerNib(UINib(nibName: chatRightImageCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightImageCellIdentifier)
         
         conversationCollectionView.bounces = true
 
@@ -140,6 +151,18 @@ class ConversationViewController: UIViewController {
                 }, completion: { success -> Void in
                     println("sendText to group: \(success)")
                 })
+            }
+        }
+
+        messageToolbar.imageSendAction = { messageToolbar in
+            
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
+                imagePicker.allowsEditing = false
+
+                self.presentViewController(imagePicker, animated: true, completion: nil)
             }
         }
         
@@ -204,10 +227,22 @@ class ConversationViewController: UIViewController {
         setConversaitonCollectionViewContentInsetBottom(CGRectGetHeight(messageToolbar.bounds))
     }
 
+    private func heightOfMessage(message: Message) -> CGFloat {
+        switch message.mediaType {
+        case MessageMediaType.Image.rawValue:
+            return messageImageHeight + 10 + 10
+
+        default:
+            let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
+
+            return max(ceil(rect.height) + 14 + 20, YepConfig.chatCellAvatarSize() + 20) + 10
+        }
+    }
+
     // MARK: Actions
 
     func updateConversationCollectionView() {
-        
+
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
         
@@ -232,9 +267,7 @@ class ConversationViewController: UIViewController {
             for i in _lastTimeMessagesCount..<messages.count {
                 let message = messages.objectAtIndex(i) as! Message
 
-                let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
-
-                let height = max(ceil(rect.height) + 14 + 20, 40 + 20) + 10
+                let height = heightOfMessage(message) + 10 // TODO: +10 cell line space
 
                 newMessagesTotalHeight += height
             }
@@ -264,7 +297,8 @@ class ConversationViewController: UIViewController {
                         let contentToScroll = newMessagesTotalHeight - useableSpace
                         println("contentToScroll \(contentToScroll)")
                         self.conversationCollectionView.contentOffset.y += contentToScroll
-                    }else{
+
+                    } else {
                         self.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
                     }
                     
@@ -425,30 +459,88 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         if let sender = message.fromFriend {
             if sender.friendState != UserFriendState.Me.rawValue {
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
+                switch message.mediaType {
+                case MessageMediaType.Image.rawValue:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftImageCellIdentifier, forIndexPath: indexPath) as! ChatLeftImageCell
 
-                cell.textContentLabel.text = message.textContent
-
-                AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: 40 * 0.5) { roundImage in
-                    dispatch_async(dispatch_get_main_queue()) {
-                        cell.avatarImageView.image = roundImage
+                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            cell.avatarImageView.image = roundImage
+                        }
                     }
-                }
 
-                return cell
+                    cell.messageImageView.alpha = 0.0
+                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImageWidth, height: messageImageHeight), tailDirection: .Left) { image in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            cell.messageImageView.image = image
+
+                            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                                cell.messageImageView.alpha = 1.0
+                            }, completion: { (finished) -> Void in
+                            })
+                        }
+                    }
+
+                    return cell
+
+                default:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
+
+                    cell.textContentLabel.text = message.textContent
+
+                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            cell.avatarImageView.image = roundImage
+                        }
+                    }
+                    
+                    return cell
+                }
 
             } else {
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
 
-                cell.textContentLabel.text = message.textContent
+                switch message.mediaType {
+                case MessageMediaType.Image.rawValue:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
 
-                AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: 40 * 0.5) { roundImage in
-                    dispatch_async(dispatch_get_main_queue()) {
-                        cell.avatarImageView.image = roundImage
+                    if
+                        let myUserID = YepUserDefaults.userID(),
+                        let me = userWithUserID(myUserID) {
+                            AvatarCache.sharedInstance.roundAvatarOfUser(me, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    cell.avatarImageView.image = roundImage
+                                }
+                            }
+
+                            cell.messageImageView.alpha = 0.0
+                            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImageWidth, height: messageImageHeight), tailDirection: .Right) { image in
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    cell.messageImageView.image = image
+
+                                    UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                                        cell.messageImageView.alpha = 1.0
+                                    }, completion: { (finished) -> Void in
+                                    })
+                                }
+                            }
                     }
-                }
+                    
+                    return cell
 
-                return cell
+
+                default:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
+
+                    cell.textContentLabel.text = message.textContent
+
+                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            cell.avatarImageView.image = roundImage
+                        }
+                    }
+                    
+                    return cell
+                }
             }
 
         } else {
@@ -457,22 +549,18 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
 
             cell.textContentLabel.text = ""
-            cell.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(40 * 0.5)
+            cell.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(YepConfig.chatCellAvatarSize() * 0.5)
 
             return cell
         }
+
     }
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        // TODO: 缓存 Cell 高度才是正道
-        // TODO: 不使用魔法数字
         let message = messages.objectAtIndex(UInt(indexPath.row)) as! Message
 
-        let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
-
-        let height = max(ceil(rect.height) + 14 + 20, 40 + 20)
-        return CGSizeMake(collectionViewWidth, height)
+        return CGSizeMake(collectionViewWidth, heightOfMessage(message))
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
@@ -484,10 +572,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
 }
 
+// MARK: AVAudioRecorderDelegate
 
 extension ConversationViewController : AVAudioRecorderDelegate {
-    
-    
+
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!,
         successfully flag: Bool) {
             println("finished recording \(flag)")
@@ -498,5 +586,68 @@ extension ConversationViewController : AVAudioRecorderDelegate {
     func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder!,
         error: NSError!) {
             println("\(error.localizedDescription)")
+    }
+}
+
+// MARK: UIImagePicker
+
+extension ConversationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+
+        var imageData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
+
+
+        let messageImageName = NSUUID().UUIDString
+
+        if let withFriend = self.conversation.withFriend {
+
+            sendImageInFilePath(nil, orFileData: imageData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message -> Void in
+
+                dispatch_async(dispatch_get_main_queue()) {
+
+                    if let messageImageURL = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
+                        let realm = message.realm
+                        realm.beginWriteTransaction()
+                        message.localAttachmentName = messageImageName
+                        realm.commitWriteTransaction()
+                    }
+
+                    self.updateConversationCollectionView()
+                }
+
+            }, failureHandler: {(reason, errorMessage) -> () in
+                defaultFailureHandler(reason, errorMessage)
+                // TODO: sendImage 错误提醒
+
+            }, completion: { success -> Void in
+                println("sendImage to friend: \(success)")
+            })
+
+        } else if let withGroup = self.conversation.withGroup {
+            sendImageInFilePath(nil, orFileData: imageData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message -> Void in
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    if let messageImageURL = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
+                        let realm = message.realm
+                        realm.beginWriteTransaction()
+                        message.localAttachmentName = messageImageName
+                        realm.commitWriteTransaction()
+                    }
+
+                    self.updateConversationCollectionView()
+                }
+
+            }, failureHandler: {(reason, errorMessage) -> () in
+                defaultFailureHandler(reason, errorMessage)
+                // TODO: sendImage 错误提醒
+
+            }, completion: { success -> Void in
+                println("sendImage to friend: \(success)")
+            })
+        }
+
+
+        dismissViewControllerAnimated(true, completion: nil)
     }
 }

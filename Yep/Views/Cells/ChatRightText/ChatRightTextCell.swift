@@ -11,12 +11,16 @@ import UIKit
 class ChatRightTextCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var textContentLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
 
         textContentLabel.font = UIFont.chatTextFont()
+
+        avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
     }
 
 }

@@ -13,6 +13,8 @@ extension NSFileManager {
         return NSFileManager.defaultManager().URLForDirectory(.CachesDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: false, error: nil)!
     }
 
+    // MARK: Avatar
+
     class func yepAvatarCachesURL() -> NSURL? {
 
         let fileManager = NSFileManager.defaultManager()
@@ -41,6 +43,41 @@ extension NSFileManager {
             let imageData = UIImageJPEGRepresentation(avatarImage, 0.8)
             if NSFileManager.defaultManager().createFileAtPath(avatarURL.path!, contents: imageData, attributes: nil) {
                 return avatarURL
+            }
+        }
+
+        return nil
+    }
+
+    // MARK: Message
+
+    class func yepMessageCachesURL() -> NSURL? {
+
+        let fileManager = NSFileManager.defaultManager()
+
+        let messageCachesURL = yepCachesURL().URLByAppendingPathComponent("message_caches", isDirectory: true)
+
+        if fileManager.createDirectoryAtURL(messageCachesURL, withIntermediateDirectories: true, attributes: nil, error: nil) {
+            return messageCachesURL
+        }
+
+        return nil
+    }
+
+    class func yepMessageImageURLWithName(name: String) -> NSURL? {
+
+        if let messageCachesURL = yepMessageCachesURL() {
+            return messageCachesURL.URLByAppendingPathComponent("\(name).jpg")
+        }
+
+        return nil
+    }
+
+    class func saveMessageImageData(messageImageData: NSData, withName name: String) -> NSURL? {
+
+        if let messageImageURL = yepMessageImageURLWithName(name) {
+            if NSFileManager.defaultManager().createFileAtPath(messageImageURL.path!, contents: messageImageData, attributes: nil) {
+                return messageImageURL
             }
         }
 

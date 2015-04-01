@@ -197,7 +197,7 @@ class RegisterPickAvatarViewController: UIViewController {
 
                 var imageData = UIImageJPEGRepresentation(self.avatar, YepConfig.avatarCompressionQuality())
 
-                uploadFileToS3(inFilePath: nil, orFileData: imageData, mimetype: "image/jpeg", s3UploadParams: s3UploadParams, completion: { (result, error) in
+                uploadFileToS3(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", s3UploadParams: s3UploadParams, completion: { (result, error) in
                     println("upload avatar to s3 result: \(result), error: \(error)")
 
                     if (result) {

@@ -290,7 +290,7 @@ private func moreFriendships(inPage page: Int, withPerPage perPage: Int, #failur
 
 func friendships(#completion: [JSONDictionary] -> Void) {
 
-    return headFriendships { result in
+    headFriendships { result in
         if
             let count = result["count"] as? Int,
             let currentPage = result["current_page"] as? Int,
@@ -458,7 +458,7 @@ func moreUnreadMessages(inPage page: Int, withPerPage perPage: Int, #failureHand
 }
 
 func unreadMessages(#completion: [JSONDictionary] -> Void) {
-    return headUnreadMessages { result in
+    headUnreadMessages { result in
         if
             let count = result["count"] as? Int,
             let currentPage = result["current_page"] as? Int,
@@ -522,6 +522,15 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
 
 func sendText(text: String, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> (), #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
 
+    sendMessageWithMediaType(.Text, inFilePath: nil, orFileData: nil, text: text, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+}
+
+func sendImageInFilePath(filePath: String?, orFileData fileData: NSData?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> (), #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
+
+    sendMessageWithMediaType(.Image, inFilePath: filePath, orFileData: fileData, text: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+}
+
+func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, #text: String?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> (), #failureHandler: ((Reason, String?) -> ())?, #completion: (success: Bool) -> Void) {
     // 因为 message_id 必须来自远端，线程无法切换，所以这里暂时没用 realmQueue // TOOD: 也许有办法
 
     let realm = RLMRealm.defaultRealm()
@@ -530,8 +539,12 @@ func sendText(text: String, toRecipient recipientID: String, #recipientType: Str
 
     let message = Message()
     //message.messageID = messageID
-    message.mediaType = MessageMediaType.Text.rawValue
-    message.textContent = text
+
+    message.mediaType = mediaType.rawValue
+
+    if let text = text {
+        message.textContent = text
+    }
 
     realm.addObject(message)
 
@@ -597,34 +610,93 @@ func sendText(text: String, toRecipient recipientID: String, #recipientType: Str
     afterCreatedMessage(message)
 
 
-    let messageInfo: JSONDictionary = [
+    // 下面开始真正的消息发送
+
+    var messageInfo: JSONDictionary = [
         "recipient_id": recipientID,
         "recipient_type": recipientType,
-        "media_type": MessageMediaType.Text.rawValue,
-        "text_content": text,
+        "media_type": mediaType.description,
     ]
 
-    createMessageWithMessageInfo(messageInfo, failureHandler: { (reason, errorMessage) in
-        if let failureHandler = failureHandler {
-            failureHandler(reason, errorMessage)
+    if mediaType == MessageMediaType.Text {
+
+        messageInfo["text_content"] = text
+
+        createMessageWithMessageInfo(messageInfo, failureHandler: { (reason, errorMessage) in
+            if let failureHandler = failureHandler {
+                failureHandler(reason, errorMessage)
+            }
+
+            dispatch_async(dispatch_get_main_queue()) {
+                realm.beginWriteTransaction()
+                message.sendState = MessageSendState.Failed.rawValue
+                realm.commitWriteTransaction()
+            }
+
+        }, completion: { messageID in
+            dispatch_async(dispatch_get_main_queue()) {
+                realm.beginWriteTransaction()
+                message.messageID = messageID
+                message.sendState = MessageSendState.Successed.rawValue
+                realm.commitWriteTransaction()
+            }
+
+            completion(success: true)
+        })
+
+    } else {
+
+        // TODO: mimetype
+        var mimeType = ""
+
+        switch mediaType {
+        case .Image:
+            mimeType = "image/jpeg"
+        case .Video:
+            mimeType = "image/mp4"
+        default:
+            break
         }
 
-        dispatch_async(dispatch_get_main_queue()) {
-            realm.beginWriteTransaction()
-            message.sendState = MessageSendState.Failed.rawValue
-            realm.commitWriteTransaction()
-        }
+        s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in
+            uploadFileToS3(inFilePath: nil, orFileData: fileData, mimeType: mimeType, s3UploadParams: s3UploadParams) { (result, error) in
 
-    }, completion: { messageID in
-        dispatch_async(dispatch_get_main_queue()) {
-            realm.beginWriteTransaction()
-            message.messageID = messageID
-            message.sendState = MessageSendState.Successed.rawValue
-            realm.commitWriteTransaction()
-        }
+                // TODO: attachments
+                switch mediaType {
+                case .Image:
+                    let attachments = ["image": [s3UploadParams.key]]
+                    messageInfo["attachments"] = attachments
 
-        completion(success: true)
-    })
+                case .Video:
+                    let attachments = ["video": [s3UploadParams.key]]
+                    messageInfo["attachments"] = attachments
+                default:
+                    break
+                }
+
+                createMessageWithMessageInfo(messageInfo, failureHandler: { (reason, errorMessage) in
+                    if let failureHandler = failureHandler {
+                        failureHandler(reason, errorMessage)
+                    }
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        realm.beginWriteTransaction()
+                        message.sendState = MessageSendState.Failed.rawValue
+                        realm.commitWriteTransaction()
+                    }
+
+                }, completion: { messageID in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        realm.beginWriteTransaction()
+                        message.messageID = messageID
+                        message.sendState = MessageSendState.Successed.rawValue
+                        realm.commitWriteTransaction()
+                    }
+
+                    completion(success: true)
+                })
+
+            }
+        }
+    }
 }
-
-

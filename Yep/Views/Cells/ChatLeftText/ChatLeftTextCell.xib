@@ -47,6 +47,7 @@
             <size key="customSize" width="350" height="129"/>
             <connections>
                 <outlet property="avatarImageView" destination="hYu-LI-zcX" id="X8N-rV-848"/>
+                <outlet property="avatarImageViewWidthConstraint" destination="JV9-zT-1At" id="fe4-74-Gyw"/>
                 <outlet property="textContentLabel" destination="7zi-6w-hpq" id="OKM-7J-J5k"/>
             </connections>
             <point key="canvasLocation" x="338" y="346.5"/>
