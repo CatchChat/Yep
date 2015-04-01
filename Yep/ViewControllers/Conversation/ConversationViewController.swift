@@ -467,7 +467,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
                             }
 
-                            ImageCache.sharedInstance.rightMessageImageOfFileName(message.localAttachmentName) { image in
+                            ImageCache.sharedInstance.rightMessageImageOfMessage(message) { image in
                                 dispatch_async(dispatch_get_main_queue()) {
                                     cell.messageImageView.image = image
                                 }
