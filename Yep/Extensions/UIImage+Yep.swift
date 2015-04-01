@@ -177,53 +177,56 @@ extension UIImage {
     }
 
     private func bubblePathWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize) -> UIBezierPath {
+        let scale = UIScreen.mainScreen().scale
+
+        let cornerRadius: CGFloat = 20 * scale
+        let tailOffset: CGFloat = 9 * scale
+        let tailHeight: CGFloat = 9 * scale
+
+        let width = size.width
+        let height = size.height
+
         if tailDirection == .Right {
-            let cornerRadius: CGFloat = 30
-            let offset: CGFloat = 20
-            let width = size.width
-            let height = size.height
 
             let bubble = UIBezierPath()
+
             bubble.moveToPoint(CGPoint(x: cornerRadius, y: 0))
             bubble.addArcWithCenter(CGPoint(x: cornerRadius, y: cornerRadius), radius: cornerRadius, startAngle: CGFloat(M_PI * 1.5), endAngle: CGFloat(M_PI), clockwise: false)
-
-            //bubble.addQuadCurveToPoint(CGPoint(x: 0, y: cornerRadius), controlPoint: CGPoint(x: 0, y: 0))
 
             bubble.addLineToPoint(CGPoint(x: 0, y: height - cornerRadius))
             bubble.addArcWithCenter(CGPoint(x: cornerRadius, y: height - cornerRadius), radius: cornerRadius, startAngle: CGFloat(M_PI), endAngle: CGFloat(M_PI * 0.5), clockwise: false)
 
-            bubble.addLineToPoint(CGPoint(x: width - (cornerRadius + offset), y: height))
-            bubble.addArcWithCenter(CGPoint(x: width - (cornerRadius + offset), y: height - cornerRadius), radius: cornerRadius, startAngle: CGFloat(M_PI * 0.5), endAngle: CGFloat(M_PI * 2), clockwise: false)
+            bubble.addLineToPoint(CGPoint(x: width - (cornerRadius + tailOffset), y: height))
+            bubble.addArcWithCenter(CGPoint(x: width - (cornerRadius + tailOffset), y: height - cornerRadius), radius: cornerRadius, startAngle: CGFloat(M_PI * 0.5), endAngle: CGFloat(M_PI * 2), clockwise: false)
 
-            bubble.addLineToPoint(CGPoint(x: width, y: height - cornerRadius - 10))
-            bubble.addLineToPoint(CGPoint(x: width - offset, y: height - cornerRadius - 10 * 2))
+            bubble.addLineToPoint(CGPoint(x: width, y: height - cornerRadius - tailHeight * 0.5))
+            bubble.addLineToPoint(CGPoint(x: width - tailOffset, y: height - cornerRadius - tailHeight))
 
-            bubble.addLineToPoint(CGPoint(x: width - offset, y: cornerRadius))
-            bubble.addArcWithCenter(CGPoint(x: width - (cornerRadius + offset), y: cornerRadius), radius: cornerRadius, startAngle: CGFloat(0), endAngle: CGFloat(M_PI * 1.5), clockwise: false)
+            bubble.addLineToPoint(CGPoint(x: width - tailOffset, y: cornerRadius))
+            bubble.addArcWithCenter(CGPoint(x: width - (cornerRadius + tailOffset), y: cornerRadius), radius: cornerRadius, startAngle: CGFloat(0), endAngle: CGFloat(M_PI * 1.5), clockwise: false)
 
             bubble.closePath()
 
             return bubble
 
         } else {
-            let cornerRadius: CGFloat = 30
-            let offset: CGFloat = 20
-            let width = size.width
-            let height = size.height
 
             let bubble = UIBezierPath()
+
             bubble.moveToPoint(CGPoint(x: width - cornerRadius, y: 0))
             bubble.addArcWithCenter(CGPoint(x: width - cornerRadius, y: cornerRadius), radius: cornerRadius, startAngle: -CGFloat(M_PI * 0.5), endAngle: 0, clockwise: true)
+
             bubble.addLineToPoint(CGPoint(x: width, y: height - cornerRadius))
             bubble.addArcWithCenter(CGPoint(x: width - cornerRadius, y: height - cornerRadius), radius: cornerRadius, startAngle: 0, endAngle: CGFloat(M_PI * 0.5), clockwise: true)
-            bubble.addLineToPoint(CGPoint(x: cornerRadius + offset, y: height))
-            bubble.addArcWithCenter(CGPoint(x: cornerRadius + offset, y: height - cornerRadius), radius: cornerRadius, startAngle: CGFloat(M_PI * 0.5), endAngle: CGFloat(M_PI), clockwise: true)
 
-            bubble.addLineToPoint(CGPoint(x: 0, y: height - cornerRadius - 10))
-            bubble.addLineToPoint(CGPoint(x: offset, y: height - cornerRadius - 10 * 2))
+            bubble.addLineToPoint(CGPoint(x: cornerRadius + tailOffset, y: height))
+            bubble.addArcWithCenter(CGPoint(x: cornerRadius + tailOffset, y: height - cornerRadius), radius: cornerRadius, startAngle: CGFloat(M_PI * 0.5), endAngle: CGFloat(M_PI), clockwise: true)
 
-            bubble.addLineToPoint(CGPoint(x: offset, y: cornerRadius))
-            bubble.addArcWithCenter(CGPoint(x: cornerRadius + offset, y: cornerRadius), radius: cornerRadius, startAngle: CGFloat(M_PI), endAngle: CGFloat(M_PI * 1.5), clockwise: true)
+            bubble.addLineToPoint(CGPoint(x: 0, y: height - cornerRadius - tailHeight * 0.5))
+            bubble.addLineToPoint(CGPoint(x: tailOffset, y: height - cornerRadius - tailHeight))
+
+            bubble.addLineToPoint(CGPoint(x: tailOffset, y: cornerRadius))
+            bubble.addArcWithCenter(CGPoint(x: cornerRadius + tailOffset, y: cornerRadius), radius: cornerRadius, startAngle: CGFloat(M_PI), endAngle: CGFloat(M_PI * 1.5), clockwise: true)
 
             bubble.closePath()
 

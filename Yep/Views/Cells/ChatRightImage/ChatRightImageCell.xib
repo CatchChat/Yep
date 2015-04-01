@@ -21,7 +21,7 @@
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eM3-aJ-C2A" userLabel="Message Image View">
-                        <rect key="frame" x="45" y="0.0" width="151" height="121"/>
+                        <rect key="frame" x="51" y="0.0" width="151" height="121"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="eM3-aJ-C2A" secondAttribute="height" multiplier="5:4" id="5c2-zG-nN4"/>
                         </constraints>
@@ -30,7 +30,7 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstItem="UrC-7s-78h" firstAttribute="leading" secondItem="eM3-aJ-C2A" secondAttribute="trailing" constant="10" id="PZ1-gp-U47"/>
+                <constraint firstItem="UrC-7s-78h" firstAttribute="leading" secondItem="eM3-aJ-C2A" secondAttribute="trailing" constant="4" id="PZ1-gp-U47"/>
                 <constraint firstAttribute="bottom" secondItem="eM3-aJ-C2A" secondAttribute="bottom" id="RcA-3T-IlR"/>
                 <constraint firstItem="eM3-aJ-C2A" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="S6r-js-4q3"/>
                 <constraint firstAttribute="trailing" secondItem="UrC-7s-78h" secondAttribute="trailing" constant="15" id="Vbg-DY-59R"/>

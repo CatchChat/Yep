@@ -21,7 +21,7 @@
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2Dg-WB-LbN" userLabel="Message Image View">
-                        <rect key="frame" x="65" y="0.0" width="180" height="144"/>
+                        <rect key="frame" x="59" y="0.0" width="180" height="144"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="2Dg-WB-LbN" secondAttribute="height" multiplier="5:4" id="Pid-4d-H1z"/>
                         </constraints>
@@ -31,7 +31,7 @@
             </view>
             <constraints>
                 <constraint firstItem="2Dg-WB-LbN" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="2kd-sa-eEC"/>
-                <constraint firstItem="2Dg-WB-LbN" firstAttribute="leading" secondItem="m2x-3M-xx2" secondAttribute="trailing" constant="10" id="XGu-Kt-JG7"/>
+                <constraint firstItem="2Dg-WB-LbN" firstAttribute="leading" secondItem="m2x-3M-xx2" secondAttribute="trailing" constant="4" id="XGu-Kt-JG7"/>
                 <constraint firstItem="2Dg-WB-LbN" firstAttribute="top" secondItem="m2x-3M-xx2" secondAttribute="top" constant="-10" id="Z28-JS-Ei8"/>
                 <constraint firstAttribute="bottom" secondItem="2Dg-WB-LbN" secondAttribute="bottom" id="aYs-Kl-RF4"/>
                 <constraint firstItem="m2x-3M-xx2" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="jaW-UR-cHe"/>
