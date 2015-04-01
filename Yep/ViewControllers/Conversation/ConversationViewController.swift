@@ -267,7 +267,7 @@ class ConversationViewController: UIViewController {
             for i in _lastTimeMessagesCount..<messages.count {
                 let message = messages.objectAtIndex(i) as! Message
 
-                let height = heightOfMessage(message)
+                let height = heightOfMessage(message) + 10 // TODO: +10 cell line space
 
                 newMessagesTotalHeight += height
             }
