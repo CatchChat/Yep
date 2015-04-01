@@ -459,9 +459,15 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         }
                     }
 
+                    cell.messageImageView.alpha = 0.0
                     ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImageWidth, height: messageImageHeight), tailDirection: .Left) { image in
                         dispatch_async(dispatch_get_main_queue()) {
                             cell.messageImageView.image = image
+
+                            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                                cell.messageImageView.alpha = 1.0
+                            }, completion: { (finished) -> Void in
+                            })
                         }
                     }
 
@@ -496,9 +502,15 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
                             }
 
+                            cell.messageImageView.alpha = 0.0
                             ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImageWidth, height: messageImageHeight), tailDirection: .Right) { image in
                                 dispatch_async(dispatch_get_main_queue()) {
                                     cell.messageImageView.image = image
+
+                                    UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                                        cell.messageImageView.alpha = 1.0
+                                    }, completion: { (finished) -> Void in
+                                    })
                                 }
                             }
                     }
