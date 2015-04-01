@@ -11,6 +11,9 @@
 		0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A271FD61ACA055400822DFC /* YepAudioService.swift */; };
 		0A3E60591ACC0318003DC853 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E60581ACC0318003DC853 /* YepWaverView.swift */; };
 		0A3E605E1ACC2F48003DC853 /* SquareWaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E605D1ACC2F48003DC853 /* SquareWaveView.swift */; };
+		0A3E60601ACCA9C0003DC853 /* String+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */; };
+		0A3E60621ACCAB50003DC853 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E60611ACCAB50003DC853 /* NSDate+Extension.swift */; };
+		0A3E60651ACCAC1D003DC853 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0A3E60641ACCAC1D003DC853 /* NSDateTimeAgo.bundle */; };
 		0A5D83941AC5D3C8000045BF /* YepTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D83931AC5D3C8000045BF /* YepTabBarController.swift */; };
 		0A5D83991AC5D91E000045BF /* ContactsSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D83981AC5D91E000045BF /* ContactsSearchTableViewController.swift */; };
 		0A6F46FD1ACBBF2D000CCD6F /* Waver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6F46FC1ACBBF2D000CCD6F /* Waver.swift */; };
@@ -108,6 +111,9 @@
 		0A271FD61ACA055400822DFC /* YepAudioService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAudioService.swift; path = Services/YepAudioService.swift; sourceTree = "<group>"; };
 		0A3E60581ACC0318003DC853 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/Component/YepWaverView.swift; sourceTree = "<group>"; };
 		0A3E605D1ACC2F48003DC853 /* SquareWaveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SquareWaveView.swift; sourceTree = "<group>"; };
+		0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Yep.swift"; path = "Extensions/String+Yep.swift"; sourceTree = "<group>"; };
+		0A3E60611ACCAB50003DC853 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extension.swift"; sourceTree = "<group>"; };
+		0A3E60641ACCAC1D003DC853 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		0A5D83931AC5D3C8000045BF /* YepTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepTabBarController.swift; path = ViewControllers/TabBar/YepTabBarController.swift; sourceTree = "<group>"; };
 		0A5D83981AC5D91E000045BF /* ContactsSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsSearchTableViewController.swift; path = ViewControllers/Contacts/Search/ContactsSearchTableViewController.swift; sourceTree = "<group>"; };
 		0A6F46FC1ACBBF2D000CCD6F /* Waver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Waver.swift; sourceTree = "<group>"; };
@@ -239,6 +245,15 @@
 				0A3E60581ACC0318003DC853 /* YepWaverView.swift */,
 			);
 			name = Component;
+			sourceTree = "<group>";
+		};
+		0A3E60631ACCAC02003DC853 /* NSDate+TimeAgo */ = {
+			isa = PBXGroup;
+			children = (
+				0A3E60641ACCAC1D003DC853 /* NSDateTimeAgo.bundle */,
+				0A3E60611ACCAB50003DC853 /* NSDate+Extension.swift */,
+			);
+			name = "NSDate+TimeAgo";
 			sourceTree = "<group>";
 		};
 		0A5D83951AC5D3CD000045BF /* TabBar */ = {
@@ -389,11 +404,13 @@
 		5023DE341AB688F900B3EE96 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				0A3E60631ACCAC02003DC853 /* NSDate+TimeAgo */,
 				5023DE321AB688F600B3EE96 /* UIColor+Yep.swift */,
 				5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */,
 				5023DE581AB6DBC100B3EE96 /* UIImage+Yep.swift */,
 				506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */,
 				50CDBE3E1ACA58D800459CE0 /* NSFileManager+Yep.swift */,
+				0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -777,6 +794,7 @@
 			files = (
 				5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */,
 				502AE5591AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib in Resources */,
+				0A3E60651ACCAC1D003DC853 /* NSDateTimeAgo.bundle in Resources */,
 				502AE5411AB88862005BD199 /* SkillRankCell.xib in Resources */,
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
 				50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */,
@@ -881,6 +899,7 @@
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				0A3E605E1ACC2F48003DC853 /* SquareWaveView.swift in Sources */,
 				503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */,
+				0A3E60621ACCAB50003DC853 /* NSDate+Extension.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */,
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
@@ -915,6 +934,7 @@
 				502AE5351AB8649F005BD199 /* LoginByMobileViewController.swift in Sources */,
 				502AE52B1AB819AF005BD199 /* YepConfig.swift in Sources */,
 				0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */,
+				0A3E60601ACCA9C0003DC853 /* String+Yep.swift in Sources */,
 				503315A01AC126100008A209 /* MessageToolbar.swift in Sources */,
 				502AE5531AB93215005BD199 /* ProfileFooterCell.swift in Sources */,
 				0A5D83991AC5D91E000045BF /* ContactsSearchTableViewController.swift in Sources */,

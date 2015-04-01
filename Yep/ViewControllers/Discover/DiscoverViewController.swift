@@ -85,9 +85,12 @@ extension DiscoverViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
 
+        if let last_sign_in_at = user.valueForKey("last_sign_in_at") as? String {
+            cell.joinedDateLabel.text = last_sign_in_at.toDate()?.timeAgo
+            cell.lastTimeSeenLabel.text = last_sign_in_at.toDate()?.timeAgo
+        }
         cell.nameLabel.text = user.valueForKey("nickname") as? String
-        cell.joinedDateLabel.text = user.valueForKey("last_sign_in_at") as? String
-        cell.lastTimeSeenLabel.text = user.valueForKey("last_sign_in_at") as? String
+
         return cell
     }
 }

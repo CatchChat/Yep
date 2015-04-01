@@ -49,7 +49,7 @@ class ConversationCell: UITableViewCell {
 
                 if let latestMessage = messagesInConversation(conversation).lastObject() as? Message {
                     self.chatLabel.text = latestMessage.textContent
-                    self.timeAgoLabel.text = "\(latestMessage.createdAt)"
+                    self.timeAgoLabel.text = latestMessage.createdAt.timeAgo
                 } else {
                     self.chatLabel.text = ""
                     self.timeAgoLabel.text = "None"
@@ -74,7 +74,7 @@ class ConversationCell: UITableViewCell {
                 }
 
                 self.chatLabel.text = latestMessage.textContent
-                self.timeAgoLabel.text = "\(latestMessage.createdAt)"
+                self.timeAgoLabel.text = latestMessage.createdAt.timeAgo
 
             } else {
                 self.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(radius)

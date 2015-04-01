@@ -53,8 +53,8 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         cell.nameLabel.text = friend.nickname
-        cell.joinedDateLabel.text = "\(friend.createdAt)"
-        cell.lastTimeSeenLabel.text = "\(friend.createdAt)"
+        cell.joinedDateLabel.text = friend.createdAt.timeAgo
+        cell.lastTimeSeenLabel.text = friend.createdAt.timeAgo
 
         return cell
     }
