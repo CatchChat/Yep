@@ -11,6 +11,7 @@ import UIKit
 enum MessageToolbarState {
     case Default
     case TextInput
+    case VoiceRecord
 }
 
 @IBDesignable
@@ -24,12 +25,22 @@ class MessageToolbar: UIToolbar {
         willSet {
             switch newValue {
             case .Default:
-                micButton.hidden = false
+                moreButton.hidden = false
                 sendButton.hidden = true
 
+                messageTextView.hidden = false
+                voiceRecordButton.hidden = true
+
             case .TextInput:
-                micButton.hidden = true
+                moreButton.hidden = true
                 sendButton.hidden = false
+
+                messageTextView.hidden = false
+                voiceRecordButton.hidden = true
+
+            case .VoiceRecord:
+                messageTextView.hidden = true
+                voiceRecordButton.hidden = false
             }
 
             updateHeightOfMessageTextView()
@@ -46,11 +57,12 @@ class MessageToolbar: UIToolbar {
     
     var voiceSendCancelAction: ((messageToolBar: MessageToolbar) -> ())?
 
-    lazy var cameraButton: UIButton = {
+
+    lazy var micButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "item_camera"), forState: .Normal)
+        button.setImage(UIImage(named: "item_mic"), forState: .Normal)
         button.tintColor = UIColor.yepTintColor()
-        button.addTarget(self, action: "trySendImageMessage", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: "toggleRecordVoice", forControlEvents: UIControlEvents.TouchUpInside)
         return button
         }()
 
@@ -66,13 +78,22 @@ class MessageToolbar: UIToolbar {
         return textView
         }()
 
-    lazy var micButton: UIButton = {
+    lazy var voiceRecordButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "item_mic"), forState: .Normal)
+        button.backgroundColor = UIColor.darkGrayColor()
         button.tintColor = UIColor.yepTintColor()
         button.addTarget(self, action: "trySendVoiceMessageBegin", forControlEvents: UIControlEvents.TouchDown)
         button.addTarget(self, action: "trySendVoiceMessageEnd", forControlEvents: UIControlEvents.TouchUpInside)
         button.addTarget(self, action: "trySendVoiceMessageCancel", forControlEvents: UIControlEvents.TouchUpOutside)
+        return button
+        }()
+
+    lazy var moreButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "item_more"), forState: .Normal)
+        button.tintColor = UIColor.yepTintColor()
+        button.addTarget(self, action: "trySendImageMessage", forControlEvents: UIControlEvents.TouchUpInside)
         return button
         }()
 
@@ -95,26 +116,30 @@ class MessageToolbar: UIToolbar {
 
     func makeUI() {
 
-        self.addSubview(cameraButton)
-        cameraButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-
         self.addSubview(messageTextView)
         messageTextView.setTranslatesAutoresizingMaskIntoConstraints(false)
 
         self.addSubview(micButton)
         micButton.setTranslatesAutoresizingMaskIntoConstraints(false)
 
+        self.addSubview(voiceRecordButton)
+        voiceRecordButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+        self.addSubview(moreButton)
+        moreButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+
         self.addSubview(sendButton)
         sendButton.setTranslatesAutoresizingMaskIntoConstraints(false)
 
         let viewsDictionary = [
-            "cameraButton": cameraButton,
+            "moreButton": moreButton,
             "messageTextView": messageTextView,
             "micButton": micButton,
+            "voiceRecordButton": voiceRecordButton,
             "sendButton": sendButton,
         ]
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[cameraButton(==micButton)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[micButton(==moreButton)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
 
         let messageTextViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-8-[messageTextView]-8-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
 
@@ -122,7 +147,7 @@ class MessageToolbar: UIToolbar {
         let constant = ceil(messageTextView.font.lineHeight + textContainerInset.top + textContainerInset.bottom)
         messageTextViewHeightConstraint = NSLayoutConstraint(item: messageTextView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: constant)
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[cameraButton(48)][messageTextView][micButton(==cameraButton)]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[micButton(48)][messageTextView][moreButton(==micButton)]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(constraintsV)
         NSLayoutConstraint.activateConstraints(constraintsH)
@@ -130,15 +155,23 @@ class MessageToolbar: UIToolbar {
         NSLayoutConstraint.activateConstraints([messageTextViewHeightConstraint])
 
 
-        let sendButtonConstraintCenterY = NSLayoutConstraint(item: sendButton, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: cameraButton, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
+        let sendButtonConstraintCenterY = NSLayoutConstraint(item: sendButton, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: micButton, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
 
-        let sendButtonConstraintHeight = NSLayoutConstraint(item: sendButton, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: cameraButton, attribute: NSLayoutAttribute.Height, multiplier: 1, constant: 0)
+        let sendButtonConstraintHeight = NSLayoutConstraint(item: sendButton, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: micButton, attribute: NSLayoutAttribute.Height, multiplier: 1, constant: 0)
 
-        let sendButtonConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:[messageTextView][sendButton(==cameraButton)]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
+        let sendButtonConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:[messageTextView][sendButton(==moreButton)]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints([sendButtonConstraintCenterY])
         NSLayoutConstraint.activateConstraints([sendButtonConstraintHeight])
         NSLayoutConstraint.activateConstraints(sendButtonConstraintsH)
+
+        // void record button
+        let voiceRecordButtonConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-8-[voiceRecordButton]-8-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        let voiceRecordButtonConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[micButton][voiceRecordButton][moreButton]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        NSLayoutConstraint.activateConstraints(voiceRecordButtonConstraintsV)
+        NSLayoutConstraint.activateConstraints(voiceRecordButtonConstraintsH)
     }
 
 
@@ -166,6 +199,15 @@ class MessageToolbar: UIToolbar {
     func trySendTextMessage() {
         if let textSendAction = textSendAction {
             textSendAction(messageToolBar: self)
+        }
+    }
+
+    func toggleRecordVoice() {
+        if state == .VoiceRecord {
+            state = .Default
+
+        } else {
+            state = .VoiceRecord
         }
     }
 
