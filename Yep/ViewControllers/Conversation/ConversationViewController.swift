@@ -57,6 +57,13 @@ class ConversationViewController: UIViewController {
         return CGRectGetWidth(self.conversationCollectionView.bounds)
         }()
 
+    lazy var messageImageWidth: CGFloat = {
+        return self.collectionViewWidth * 0.5
+        }()
+    lazy var messageImageHeight: CGFloat = {
+        return self.messageImageWidth / YepConfig.messageImageViewAspectRatio()
+        }()
+
     let chatLeftTextCellIdentifier = "ChatLeftTextCell"
     let chatRightTextCellIdentifier = "ChatRightTextCell"
     let chatLeftImageCellIdentifier = "ChatLeftImageCell"
@@ -452,7 +459,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         }
                     }
 
-                    ImageCache.sharedInstance.imageOfMessage(message, withTailDirection: .Left) { image in
+                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImageWidth, height: messageImageHeight), tailDirection: .Left) { image in
                         dispatch_async(dispatch_get_main_queue()) {
                             cell.messageImageView.image = image
                         }
@@ -489,7 +496,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
                             }
 
-                            ImageCache.sharedInstance.imageOfMessage(message, withTailDirection: .Right) { image in
+                            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImageWidth, height: messageImageHeight), tailDirection: .Right) { image in
                                 dispatch_async(dispatch_get_main_queue()) {
                                     cell.messageImageView.image = image
                                 }
@@ -533,7 +540,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         switch message.mediaType {
         case MessageMediaType.Image.rawValue:
-            return CGSizeMake(collectionViewWidth, 150)
+            return CGSizeMake(collectionViewWidth, messageImageHeight)
 
         default:
             // TODO: 缓存 Cell 高度才是正道

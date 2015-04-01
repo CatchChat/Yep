@@ -14,10 +14,16 @@ class ChatRightImageCell: UICollectionViewCell {
 
     @IBOutlet weak var messageImageView: UIImageView!
 
+    @IBOutlet weak var messageImageViewAspectRatioConstrint: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+
+        messageImageViewAspectRatioConstrint.active = false
+
+        let newMessageImageViewAspectRatioConstraint = NSLayoutConstraint(item: messageImageView, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: messageImageView, attribute: NSLayoutAttribute.Height, multiplier: YepConfig.messageImageViewAspectRatio(), constant: 0.0)
+        NSLayoutConstraint.activateConstraints([newMessageImageViewAspectRatioConstraint])
     }
 
 }

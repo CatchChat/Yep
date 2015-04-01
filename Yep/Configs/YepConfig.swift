@@ -25,4 +25,8 @@ class YepConfig {
     class func messageImageCompressionQuality() -> CGFloat {
         return 0.8
     }
+
+    class func messageImageViewAspectRatio() -> CGFloat {
+        return 4.0 / 3.0
+    }
 }

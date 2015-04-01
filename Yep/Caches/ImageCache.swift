@@ -14,7 +14,7 @@ class ImageCache {
 
     var cache = NSCache()
 
-    func imageOfMessage(message: Message, withTailDirection tailDirection: MessageImageTailDirection, completion: (UIImage) -> ()) {
+    func imageOfMessage(message: Message, withSize size: CGSize, #tailDirection: MessageImageTailDirection, completion: (UIImage) -> ()) {
 
         let imageKey = "image-\(message.messageID)-\(message.localAttachmentName)-\(message.attachmentURLString)"
 
@@ -34,7 +34,7 @@ class ImageCache {
                         let imageFileURL = NSFileManager.yepMessageImageURLWithName(fileName),
                         let image = UIImage(contentsOfFile: imageFileURL.path!) {
 
-                            let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: CGSize(width: 200, height: 100))
+                            let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size)
 
                             self.cache.setObject(messageImage, forKey: imageKey)
                             
@@ -68,11 +68,11 @@ class ImageCache {
                         realm.commitWriteTransaction()
                     }
 
-                    let rightMessageImage = image.bubbleImageWithTailDirection(tailDirection, size: CGSize(width: 200, height: 100))
+                    let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size)
 
-                    self.cache.setObject(rightMessageImage, forKey: imageKey)
+                    self.cache.setObject(messageImage, forKey: imageKey)
                     
-                    completion(rightMessageImage)
+                    completion(messageImage)
                 }
             }
 
