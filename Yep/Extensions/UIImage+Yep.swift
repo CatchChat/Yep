@@ -174,12 +174,92 @@ extension UIImage {
 
         let cgImage = CGImageCreateWithImageInRect(self.CGImage, rect)
         return UIImage(CGImage: cgImage)!
+    }
 
+    private func bubblePathWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize) -> UIBezierPath {
+        if tailDirection == .Right {
+            let cornerRadius: CGFloat = 30
+            let offset: CGFloat = 20
+            let width = size.width
+            let height = size.height
+
+            let bubble = UIBezierPath()
+            bubble.moveToPoint(CGPoint(x: cornerRadius, y: 0))
+            bubble.addArcWithCenter(CGPoint(x: cornerRadius, y: cornerRadius), radius: cornerRadius, startAngle: CGFloat(M_PI * 1.5), endAngle: CGFloat(M_PI), clockwise: false)
+
+            //bubble.addQuadCurveToPoint(CGPoint(x: 0, y: cornerRadius), controlPoint: CGPoint(x: 0, y: 0))
+
+            bubble.addLineToPoint(CGPoint(x: 0, y: height - cornerRadius))
+            bubble.addArcWithCenter(CGPoint(x: cornerRadius, y: height - cornerRadius), radius: cornerRadius, startAngle: CGFloat(M_PI), endAngle: CGFloat(M_PI * 0.5), clockwise: false)
+
+            bubble.addLineToPoint(CGPoint(x: width - (cornerRadius + offset), y: height))
+            bubble.addArcWithCenter(CGPoint(x: width - (cornerRadius + offset), y: height - cornerRadius), radius: cornerRadius, startAngle: CGFloat(M_PI * 0.5), endAngle: CGFloat(M_PI * 2), clockwise: false)
+
+            bubble.addLineToPoint(CGPoint(x: width, y: height - cornerRadius - 10))
+            bubble.addLineToPoint(CGPoint(x: width - offset, y: height - cornerRadius - 10 * 2))
+
+            bubble.addLineToPoint(CGPoint(x: width - offset, y: cornerRadius))
+            bubble.addArcWithCenter(CGPoint(x: width - (cornerRadius + offset), y: cornerRadius), radius: cornerRadius, startAngle: CGFloat(0), endAngle: CGFloat(M_PI * 1.5), clockwise: false)
+
+            bubble.closePath()
+
+            return bubble
+
+        } else {
+            let cornerRadius: CGFloat = 30
+            let offset: CGFloat = 20
+            let width = size.width
+            let height = size.height
+
+            let bubble = UIBezierPath()
+            bubble.moveToPoint(CGPoint(x: width - cornerRadius, y: 0))
+            bubble.addArcWithCenter(CGPoint(x: width - cornerRadius, y: cornerRadius), radius: cornerRadius, startAngle: -CGFloat(M_PI * 0.5), endAngle: 0, clockwise: true)
+            bubble.addLineToPoint(CGPoint(x: width, y: height - cornerRadius))
+            bubble.addArcWithCenter(CGPoint(x: width - cornerRadius, y: height - cornerRadius), radius: cornerRadius, startAngle: 0, endAngle: CGFloat(M_PI * 0.5), clockwise: true)
+            bubble.addLineToPoint(CGPoint(x: cornerRadius + offset, y: height))
+            bubble.addArcWithCenter(CGPoint(x: cornerRadius + offset, y: height - cornerRadius), radius: cornerRadius, startAngle: CGFloat(M_PI * 0.5), endAngle: CGFloat(M_PI), clockwise: true)
+
+            bubble.addLineToPoint(CGPoint(x: 0, y: height - cornerRadius - 10))
+            bubble.addLineToPoint(CGPoint(x: offset, y: height - cornerRadius - 10 * 2))
+
+            bubble.addLineToPoint(CGPoint(x: offset, y: cornerRadius))
+            bubble.addArcWithCenter(CGPoint(x: cornerRadius + offset, y: cornerRadius), radius: cornerRadius, startAngle: CGFloat(M_PI), endAngle: CGFloat(M_PI * 1.5), clockwise: true)
+
+            bubble.closePath()
+
+            return bubble
+        }
+    }
+
+    func bubbleImageWithTailDirection(tailDirection: MessageImageTailDirection) -> UIImage {
+        let scale: CGFloat = self.scale
+
+        UIGraphicsBeginImageContextWithOptions(self.size, false, scale)
+
+        let context = UIGraphicsGetCurrentContext()
+
+        var transform = CGAffineTransformConcat(CGAffineTransformIdentity, CGAffineTransformMakeScale(1.0, -1.0))
+        transform = CGAffineTransformConcat(transform, CGAffineTransformMakeTranslation(0.0, self.size.height))
+        CGContextConcatCTM(context, transform)
+
+        let drawRect = CGRect(origin: CGPointZero, size: self.size)
+
+        let bubble = bubblePathWithTailDirection(tailDirection, size: self.size)
+        CGContextAddPath(context, bubble.CGPath)
+        CGContextClip(context)
+
+        CGContextDrawImage(context, drawRect, self.CGImage)
+
+        let roundImage = UIGraphicsGetImageFromCurrentImageContext()
+
+        UIGraphicsEndImageContext()
+        
+        return roundImage
     }
 
     func bubbleImageWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize) -> UIImage {
-        let bubbleImage = self.fixRotation().cropToAspectRatio(size.width / size.height).resizeToTargetSize(size)
-        // TODO: Bubble
+        let bubbleImage = self.fixRotation().cropToAspectRatio(size.width / size.height).resizeToTargetSize(size).bubbleImageWithTailDirection(tailDirection)
+
         return bubbleImage
     }
 }

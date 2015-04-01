@@ -452,7 +452,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         }
                     }
 
-                    ImageCache.sharedInstance.rightMessageImageOfMessage(message) { image in
+                    ImageCache.sharedInstance.imageOfMessage(message, withTailDirection: .Left) { image in
                         dispatch_async(dispatch_get_main_queue()) {
                             cell.messageImageView.image = image
                         }
@@ -489,7 +489,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
                             }
 
-                            ImageCache.sharedInstance.rightMessageImageOfMessage(message) { image in
+                            ImageCache.sharedInstance.imageOfMessage(message, withTailDirection: .Right) { image in
                                 dispatch_async(dispatch_get_main_queue()) {
                                     cell.messageImageView.image = image
                                 }
