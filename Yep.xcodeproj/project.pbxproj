@@ -80,6 +80,8 @@
 		50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */; };
 		50CDBE431ACA9B4200459CE0 /* ChatRightImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50CDBE411ACA9B4200459CE0 /* ChatRightImageCell.xib */; };
 		50CDBE461ACA9F2200459CE0 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE451ACA9F2200459CE0 /* ImageCache.swift */; };
+		50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */; };
+		50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50CDBE481ACBAD3200459CE0 /* ChatLeftImageCell.xib */; };
 		50E114F41ABBF9CC00F13000 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F31ABBF9CC00F13000 /* Models.swift */; };
 		50E114F71ABBFA7000F13000 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F61ABBFA7000F13000 /* RLMSupport.swift */; };
 		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
@@ -181,6 +183,8 @@
 		50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightImageCell.swift; path = Views/Cells/ChatRightImage/ChatRightImageCell.swift; sourceTree = "<group>"; };
 		50CDBE411ACA9B4200459CE0 /* ChatRightImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatRightImageCell.xib; path = Views/Cells/ChatRightImage/ChatRightImageCell.xib; sourceTree = "<group>"; };
 		50CDBE451ACA9F2200459CE0 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCache.swift; path = Caches/ImageCache.swift; sourceTree = "<group>"; };
+		50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftImageCell.swift; path = Views/Cells/ChatLeftImage/ChatLeftImageCell.swift; sourceTree = "<group>"; };
+		50CDBE481ACBAD3200459CE0 /* ChatLeftImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftImageCell.xib; path = Views/Cells/ChatLeftImage/ChatLeftImageCell.xib; sourceTree = "<group>"; };
 		50E114F31ABBF9CC00F13000 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Realm/Models.swift; sourceTree = "<group>"; };
 		50E114F61ABBFA7000F13000 /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RLMSupport.swift; path = Realm/RLMSupport.swift; sourceTree = "<group>"; };
 		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
@@ -404,6 +408,7 @@
 				503315991AC101830008A209 /* ChatLeftText */,
 				5033159E1AC101CB0008A209 /* ChatRightText */,
 				50CDBE441ACA9B4600459CE0 /* ChatRightImage */,
+				50CDBE4B1ACBAD3700459CE0 /* ChatLeftImageCell */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -604,6 +609,15 @@
 			name = ChatRightImage;
 			sourceTree = "<group>";
 		};
+		50CDBE4B1ACBAD3700459CE0 /* ChatLeftImageCell */ = {
+			isa = PBXGroup;
+			children = (
+				50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */,
+				50CDBE481ACBAD3200459CE0 /* ChatLeftImageCell.xib */,
+			);
+			name = ChatLeftImageCell;
+			sourceTree = "<group>";
+		};
 		50E114F51ABBF9D100F13000 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
@@ -748,6 +762,7 @@
 				502AE5591AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib in Resources */,
 				502AE5411AB88862005BD199 /* SkillRankCell.xib in Resources */,
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
+				50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */,
 				0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */,
 				5033159D1AC101C80008A209 /* ChatRightTextCell.xib in Resources */,
 				50CDBE431ACA9B4200459CE0 /* ChatRightImageCell.xib in Resources */,
@@ -874,6 +889,7 @@
 				502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */,
 				50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */,
 				5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */,
+				50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */,
 				5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */,
 				5023DE561AB6CA1000B3EE96 /* AvatarCache.swift in Sources */,
 				5023DE371AB6979600B3EE96 /* ConversationCell.swift in Sources */,

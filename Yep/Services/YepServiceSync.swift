@@ -488,9 +488,21 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: RLMR
 
                             if let attachments = messageInfo["attachments"] as? [JSONDictionary] {
                                 for attachmentInfo in attachments {
-                                    // TODO: 若未来没有 Qiniu，需要改动
-                                    // S3: fallback file，尽量用它
-                                    if let fallbackFileInfo = attachmentInfo["fallback_file"] as? JSONDictionary {
+
+                                    // S3: normal file
+                                    if let normalFileInfo = attachmentInfo["file"] as? JSONDictionary {
+                                        if let fileURLString = normalFileInfo["url"] as? String {
+                                            if let kind = attachmentInfo["kind"] as? String {
+                                                if kind == "thumbnail" {
+                                                    message.thumbnailURLString = fileURLString
+                                                } else {
+                                                    message.attachmentURLString = fileURLString
+                                                }
+                                            }
+                                        }
+                                    }
+                                    /*
+                                    else if let fallbackFileInfo = attachmentInfo["fallback_file"] as? JSONDictionary {
                                         if let fileURLString = fallbackFileInfo["url"] as? String {
                                             if let kind = attachmentInfo["kind"] as? String {
                                                 if kind == "thumbnail" {
@@ -500,30 +512,27 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: RLMR
                                                 }
                                             }
                                         }
-
-                                    } else {
-                                        // Qiniu: normal file, Qiniu
-                                        if let normalFileInfo = attachmentInfo["file"] as? JSONDictionary {
-                                            if let fileURLString = normalFileInfo["url"] as? String {
-                                                if let kind = attachmentInfo["kind"] as? String {
-                                                    if kind == "thumbnail" {
-                                                        message.thumbnailURLString = fileURLString
-                                                    } else {
-                                                        message.attachmentURLString = fileURLString
-                                                    }
-                                                }
-                                            }
-                                        }
                                     }
+                                    */
                                 }
 
                                 if let mediaType = messageInfo["media_type"] as? String {
-                                    if mediaType == "image" {
+
+                                    switch mediaType {
+                                    case MessageMediaType.Text.description:
+                                        message.mediaType = MessageMediaType.Text.rawValue
+                                    case MessageMediaType.Image.description:
                                         message.mediaType = MessageMediaType.Image.rawValue
-                                    } else if mediaType == "video" {
+                                    case MessageMediaType.Video.description:
                                         message.mediaType = MessageMediaType.Video.rawValue
-                                    } else if mediaType == "audio" {
+                                    case MessageMediaType.Audio.description:
                                         message.mediaType = MessageMediaType.Audio.rawValue
+                                    case MessageMediaType.Sticker.description:
+                                        message.mediaType = MessageMediaType.Sticker.rawValue
+                                    case MessageMediaType.Location.description:
+                                        message.mediaType = MessageMediaType.Location.rawValue
+                                    default:
+                                        break
                                     }
                                     // TODO: 若有更多的 Media Type
                                 }

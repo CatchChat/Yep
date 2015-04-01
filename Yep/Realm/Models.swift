@@ -95,11 +95,32 @@ enum MessageDownloadState: Int {
     case Downloaded     = 2 // 已下载
 }
 
-enum MessageMediaType: Int {
-    case Text   = 0
-    case Image  = 1
-    case Video  = 2
-    case Audio  = 3
+enum MessageMediaType: Int, Printable {
+    case Text       = 0
+    case Image      = 1
+    case Video      = 2
+    case Audio      = 3
+    case Sticker    = 4
+    case Location   = 5
+
+    var description: String {
+        get {
+            switch self {
+            case Text:
+                return "text"
+            case Image:
+                return "image"
+            case Video:
+                return "video"
+            case Audio:
+                return "audio"
+            case Sticker:
+                return "sticker"
+            case Location:
+                return "location"
+            }
+        }
+    }
 }
 
 enum MessageSendState: Int {

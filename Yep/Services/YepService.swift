@@ -615,7 +615,7 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, #text: String?, #atta
     var messageInfo: JSONDictionary = [
         "recipient_id": recipientID,
         "recipient_type": recipientType,
-        "media_type": mediaType.rawValue,
+        "media_type": mediaType.description,
     ]
 
     if let text = text {

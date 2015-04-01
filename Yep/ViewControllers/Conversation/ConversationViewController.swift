@@ -59,6 +59,7 @@ class ConversationViewController: UIViewController {
 
     let chatLeftTextCellIdentifier = "ChatLeftTextCell"
     let chatRightTextCellIdentifier = "ChatRightTextCell"
+    let chatLeftImageCellIdentifier = "ChatLeftImageCell"
     let chatRightImageCellIdentifier = "ChatRightImageCell"
 
 
@@ -100,6 +101,7 @@ class ConversationViewController: UIViewController {
 
         conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
+        conversationCollectionView.registerNib(UINib(nibName: chatLeftImageCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftImageCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightImageCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightImageCellIdentifier)
         
         conversationCollectionView.bounces = true
@@ -440,17 +442,37 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         if let sender = message.fromFriend {
             if sender.friendState != UserFriendState.Me.rawValue {
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
+                switch message.mediaType {
+                case MessageMediaType.Image.rawValue:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftImageCellIdentifier, forIndexPath: indexPath) as! ChatLeftImageCell
 
-                cell.textContentLabel.text = message.textContent
-
-                AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: 40 * 0.5) { roundImage in
-                    dispatch_async(dispatch_get_main_queue()) {
-                        cell.avatarImageView.image = roundImage
+                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: 40 * 0.5) { roundImage in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            cell.avatarImageView.image = roundImage
+                        }
                     }
-                }
 
-                return cell
+                    ImageCache.sharedInstance.rightMessageImageOfMessage(message) { image in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            cell.messageImageView.image = image
+                        }
+                    }
+
+                    return cell
+
+                default:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
+
+                    cell.textContentLabel.text = message.textContent
+
+                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: 40 * 0.5) { roundImage in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            cell.avatarImageView.image = roundImage
+                        }
+                    }
+                    
+                    return cell
+                }
 
             } else {
 
