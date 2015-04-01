@@ -278,7 +278,8 @@ class ConversationViewController: UIViewController {
                         let contentToScroll = newMessagesTotalHeight - useableSpace
                         println("contentToScroll \(contentToScroll)")
                         self.conversationCollectionView.contentOffset.y += contentToScroll
-                    }else{
+
+                    } else {
                         self.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
                     }
                     
@@ -430,33 +431,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Int(messages.count) + 3
+        return Int(messages.count)
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-
-        if UInt(indexPath.row) >= messages.count {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
-
-            if
-                let myUserID = YepUserDefaults.userID(),
-                let me = userWithUserID(myUserID) {
-                    AvatarCache.sharedInstance.roundAvatarOfUser(me, withRadius: 40 * 0.5) { roundImage in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            cell.avatarImageView.image = roundImage
-                        }
-                    }
-
-                    AvatarCache.sharedInstance.roundAvatarOfUser(me, withRadius: 40 * 0.5) { roundImage in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            cell.messageImageView.image = roundImage
-                        }
-                    }
-            }
-
-            return cell
-
-        }
 
         let message = messages.objectAtIndex(UInt(indexPath.row)) as! Message
 
@@ -475,17 +453,43 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 return cell
 
             } else {
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
 
-                cell.textContentLabel.text = message.textContent
+                switch message.mediaType {
+                case MessageMediaType.Image.rawValue:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
 
-                AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: 40 * 0.5) { roundImage in
-                    dispatch_async(dispatch_get_main_queue()) {
-                        cell.avatarImageView.image = roundImage
+                    if
+                        let myUserID = YepUserDefaults.userID(),
+                        let me = userWithUserID(myUserID) {
+                            AvatarCache.sharedInstance.roundAvatarOfUser(me, withRadius: 40 * 0.5) { roundImage in
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    cell.avatarImageView.image = roundImage
+                                }
+                            }
+
+                            ImageCache.sharedInstance.rightMessageImageOfFileName(message.localAttachmentName) { image in
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    cell.messageImageView.image = image
+                                }
+                            }
                     }
-                }
+                    
+                    return cell
 
-                return cell
+
+                default:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
+
+                    cell.textContentLabel.text = message.textContent
+
+                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: 40 * 0.5) { roundImage in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            cell.avatarImageView.image = roundImage
+                        }
+                    }
+                    
+                    return cell
+                }
             }
 
         } else {
@@ -503,18 +507,21 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        if UInt(indexPath.row) >= messages.count {
-            return CGSizeMake(collectionViewWidth, 200)
-        }
-
-        // TODO: 缓存 Cell 高度才是正道
-        // TODO: 不使用魔法数字
         let message = messages.objectAtIndex(UInt(indexPath.row)) as! Message
 
-        let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
+        switch message.mediaType {
+        case MessageMediaType.Image.rawValue:
+            return CGSizeMake(collectionViewWidth, 150)
 
-        let height = max(ceil(rect.height) + 14 + 20, 40 + 20)
-        return CGSizeMake(collectionViewWidth, height)
+        default:
+            // TODO: 缓存 Cell 高度才是正道
+            // TODO: 不使用魔法数字
+
+            let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
+
+            let height = max(ceil(rect.height) + 14 + 20, 40 + 20)
+            return CGSizeMake(collectionViewWidth, height)
+        }
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {

@@ -143,3 +143,45 @@ extension UIImage {
         return UIImage(CGImage: cgImage)!
     }
 }
+
+// MARK: Message Image
+
+enum MessageImageTailDirection {
+    case Left
+    case Right
+}
+
+extension UIImage {
+
+    func cropToAspectRatio(aspectRatio: CGFloat) -> UIImage {
+        let size = self.size
+
+        let originalAspectRatio = size.width / size.height
+
+        var rect = CGRectZero
+
+        if originalAspectRatio > aspectRatio {
+            let width = size.height * aspectRatio
+            rect = CGRect(x: (size.width - width) * 0.5, y: 0, width: width, height: size.height)
+
+        } else if originalAspectRatio < aspectRatio {
+            let height = size.width / aspectRatio
+            rect = CGRect(x: 0, y: (size.height - height) * 0.5, width: size.width, height: height)
+
+        } else {
+            return self
+        }
+
+        let cgImage = CGImageCreateWithImageInRect(self.CGImage, rect)
+        return UIImage(CGImage: cgImage)!
+
+    }
+
+    func bubbleImageWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize) -> UIImage {
+        let bubbleImage = self.fixRotation().cropToAspectRatio(size.width / size.height).resizeToTargetSize(size)
+        // TODO: Bubble
+        return bubbleImage
+    }
+}
+
+

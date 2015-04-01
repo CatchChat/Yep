@@ -14,7 +14,33 @@ class ImageCache {
 
     var cache = NSCache()
 
-    func rightMessageImageOfFileName(fileName: String, #completion: (UIImage) -> ()) {
-        
+    func rightMessageImageOfFileName(fileName: String, completion: (UIImage) -> ()) {
+        if fileName.isEmpty {
+            completion(UIImage())
+
+            return
+        }
+
+        let imageKey = "image-\(fileName)"
+
+        // 先看看缓存
+        if let image = cache.objectForKey(imageKey) as? UIImage {
+            completion(image)
+
+        } else {
+            if
+                let imageFileURL = NSFileManager.yepMessageImageURLWithName(fileName),
+                let image = UIImage(contentsOfFile: imageFileURL.path!) {
+
+                    let rightMessageImage = image.bubbleImageWithTailDirection(.Right, size: CGSize(width: 200, height: 150))
+                    
+                    self.cache.setObject(rightMessageImage, forKey: imageKey)
+
+                    completion(rightMessageImage)
+
+            } else {
+                // TODO: 下载
+            }
+        }
     }
 }

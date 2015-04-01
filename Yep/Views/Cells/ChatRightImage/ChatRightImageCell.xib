@@ -20,8 +20,9 @@
                             <constraint firstAttribute="width" secondItem="UrC-7s-78h" secondAttribute="height" multiplier="1:1" id="tlL-dS-84G"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eM3-aJ-C2A" userLabel="Message Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eM3-aJ-C2A" userLabel="Message Image View">
                         <rect key="frame" x="60" y="10" width="136" height="101"/>
+                        <color key="backgroundColor" red="0.0" green="1" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                     </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
