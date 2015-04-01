@@ -58,7 +58,7 @@ class ConversationViewController: UIViewController {
         }()
 
     lazy var messageImageWidth: CGFloat = {
-        return self.collectionViewWidth * 0.5
+        return self.collectionViewWidth * 0.6
         }()
     lazy var messageImageHeight: CGFloat = {
         return self.messageImageWidth / YepConfig.messageImageViewAspectRatio()
