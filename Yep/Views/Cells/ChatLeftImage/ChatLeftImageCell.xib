@@ -39,6 +39,7 @@
             <size key="customSize" width="298" height="144"/>
             <connections>
                 <outlet property="avatarImageView" destination="m2x-3M-xx2" id="YKv-gh-cr8"/>
+                <outlet property="avatarImageViewWidthConstraint" destination="JD9-KR-rN4" id="NiB-3l-0jJ"/>
                 <outlet property="messageImageView" destination="2Dg-WB-LbN" id="JaH-m0-woi"/>
                 <outlet property="messageImageViewAspectRatioConstrint" destination="Pid-4d-H1z" id="Bsa-5o-qfL"/>
             </connections>

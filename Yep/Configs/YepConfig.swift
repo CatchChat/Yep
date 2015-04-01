@@ -18,6 +18,10 @@ class YepConfig {
         return CGSize(width: 600, height: 600)
     }
 
+    class func chatCellAvatarSize() -> CGFloat {
+        return 40.0
+    }
+
     class func avatarCompressionQuality() -> CGFloat {
         return 0.7
     }

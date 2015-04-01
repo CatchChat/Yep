@@ -407,8 +407,8 @@
 				50E114FE1ABC549800F13000 /* Contacts */,
 				503315991AC101830008A209 /* ChatLeftText */,
 				5033159E1AC101CB0008A209 /* ChatRightText */,
-				50CDBE441ACA9B4600459CE0 /* ChatRightImage */,
 				50CDBE4B1ACBAD3700459CE0 /* ChatLeftImageCell */,
+				50CDBE441ACA9B4600459CE0 /* ChatRightImage */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
