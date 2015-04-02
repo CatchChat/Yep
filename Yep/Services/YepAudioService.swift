@@ -17,7 +17,7 @@ class YepAudioService: NSObject {
     var audioFileURL: NSURL?
     var audioRecorder: AVAudioRecorder?
     
-    var audioPlayer: AVAudioPlayer?
+    var audioPlayer = AVAudioPlayer()
 
     func prepareAudioRecorderWithFileURL(fileURL: NSURL, audioRecorderDelegate: AVAudioRecorderDelegate) {
         audioFileURL = fileURL
@@ -81,15 +81,35 @@ class YepAudioService: NSObject {
     // MARK: Audio Player
     
     func playAudioWithURL(url: NSURL) {
-        println("Play audio")
 
         var error: NSError?
         if let audioPlayer = AVAudioPlayer(contentsOfURL: url, error: &error) {
-            audioPlayer.prepareToPlay()
+            self.audioPlayer = audioPlayer
+            self.audioPlayer.delegate = self
+            self.audioPlayer.prepareToPlay()
 
-            if audioPlayer.play() {
+            if self.audioPlayer.play() {
                 println("Do Play audio \(error)")
             }
         }
     }
 }
+
+extension YepAudioService: AVAudioPlayerDelegate {
+    func audioPlayerBeginInterruption(player: AVAudioPlayer!) {
+        println("audioPlayerBeginInterruption")
+    }
+    
+    func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer!, error: NSError!) {
+        println("audioPlayerDecodeErrorDidOccur")
+    }
+    
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully flag: Bool) {
+        println("audioPlayerDidFinishPlaying")
+    }
+    
+    func audioPlayerEndInterruption(player: AVAudioPlayer!) {
+        println("audioPlayerEndInterruption")
+    }
+}
+
