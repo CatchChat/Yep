@@ -216,6 +216,7 @@ class ConversationViewController: UIViewController {
                             let realm = message.realm
                             realm.beginWriteTransaction()
                             message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
+                            message.mediaType = MessageMediaType.Audio.rawValue
                             realm.commitWriteTransaction()
 
                             self.updateConversationCollectionView()
@@ -236,6 +237,7 @@ class ConversationViewController: UIViewController {
                             let realm = message.realm
                             realm.beginWriteTransaction()
                             message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
+                            message.mediaType = MessageMediaType.Audio.rawValue
                             realm.commitWriteTransaction()
 
                             self.updateConversationCollectionView()
@@ -722,6 +724,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         let realm = message.realm
                         realm.beginWriteTransaction()
                         message.localAttachmentName = messageImageName
+                        message.mediaType = MessageMediaType.Image.rawValue
                         realm.commitWriteTransaction()
                     }
 
@@ -744,6 +747,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         let realm = message.realm
                         realm.beginWriteTransaction()
                         message.localAttachmentName = messageImageName
+                        message.mediaType = MessageMediaType.Image.rawValue
                         realm.commitWriteTransaction()
                     }
 
