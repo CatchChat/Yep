@@ -156,7 +156,7 @@ class ConversationViewController: UIViewController {
             }
         }
         
-        self.waverView = YepWaverView(frame: self.view.bounds)
+        self.waverView = YepWaverView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height))
 
         
         self.waverView.waver.waverCallback = {
@@ -231,6 +231,8 @@ class ConversationViewController: UIViewController {
                 conversationCollectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: Int(messages.count - 1), inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Bottom, animated: false)
             }
         }
+        
+        self.waverView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height)
     }
 
     // MARK: Private

@@ -25,7 +25,6 @@
 		0A8F54C71AB67D11004AD60E /* YepTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F54C61AB67D11004AD60E /* YepTests.swift */; };
 		0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A944C241AC8BB2F00037A06 /* YepStorageService.swift */; };
 		0AAFCFF91AC8CA5B00EB0EF8 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */; };
-		0AAFCFFB1AC8CDFE00EB0EF8 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AAFCFFA1AC8CDFE00EB0EF8 /* 1.png */; };
 		0AD7EA5E1AC3ED1200617758 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA5D1AC3ED1200617758 /* CFNetwork.framework */; };
 		0AD7EA601AC3ED1900617758 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA5F1AC3ED1900617758 /* CoreFoundation.framework */; };
 		0AD7EA621AC3ED2100617758 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA611AC3ED2100617758 /* CoreTelephony.framework */; };
@@ -107,7 +106,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0A02E46C1AC9205000235DBF /* KissXML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KissXML.framework; path = "Pods/../build/Debug-iphoneos/Pods/KissXML.framework"; sourceTree = "<group>"; };
 		0A02E46E1AC9208A00235DBF /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		0A271FD61ACA055400822DFC /* YepAudioService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAudioService.swift; path = Services/YepAudioService.swift; sourceTree = "<group>"; };
 		0A3E60581ACC0318003DC853 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/Component/YepWaverView.swift; sourceTree = "<group>"; };
@@ -129,9 +127,7 @@
 		0A8F54C51AB67D11004AD60E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A8F54C61AB67D11004AD60E /* YepTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepTests.swift; sourceTree = "<group>"; };
 		0A944C241AC8BB2F00037A06 /* YepStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepStorageService.swift; path = Services/YepStorageService.swift; sourceTree = "<group>"; };
-		0AAFCFF61AC8C75900EB0EF8 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSS3.framework; path = "Pods/../build/Debug-iphoneos/Pods/AWSS3.framework"; sourceTree = "<group>"; };
 		0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		0AAFCFFA1AC8CDFE00EB0EF8 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
 		0AD7EA511AC3EA6F00617758 /* JPushSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JPushSDK.framework; path = "Pods/../build/Debug-iphoneos/Pods/JPushSDK.framework"; sourceTree = "<group>"; };
 		0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Yep-Bridging-Header.h"; sourceTree = "<group>"; };
 		0AD7EA5B1AC3ECD700617758 /* libPushSDK-1.8.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPushSDK-1.8.3.a"; path = "Yep/lib/libPushSDK-1.8.3.a"; sourceTree = "<group>"; };
@@ -147,7 +143,7 @@
 		0AD7EA721AC3EE9600617758 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APService.h; path = JPush/APService.h; sourceTree = "<group>"; };
 		0AD7EA731AC3EE9600617758 /* libPushSDK-1.8.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPushSDK-1.8.3.a"; path = "JPush/libPushSDK-1.8.3.a"; sourceTree = "<group>"; };
 		0AD7EA761AC3EEB000617758 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PushConfig.plist; path = JPush/PushConfig.plist; sourceTree = "<group>"; };
-		0AFE75AE1AC43DE0005AA33E /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		0AFE75AE1AC43DE0005AA33E /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Yep/Crashlytics.framework; sourceTree = "<group>"; };
 		2268251A75FF6766DC31CCFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		50165C441AC2860900C7AEBE /* ConversationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationLayout.swift; path = ViewControllers/Conversation/ConversationLayout.swift; sourceTree = "<group>"; };
 		5023DE251AB6856300B3EE96 /* ConversationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationsViewController.swift; path = ViewControllers/Conversations/ConversationsViewController.swift; sourceTree = "<group>"; };
@@ -297,8 +293,6 @@
 		0A8F54AD1AB67D11004AD60E /* Yep */ = {
 			isa = PBXGroup;
 			children = (
-				0AAFCFFA1AC8CDFE00EB0EF8 /* 1.png */,
-				0AFE75AE1AC43DE0005AA33E /* Crashlytics.framework */,
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
 				0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */,
 				50E114F51ABBF9D100F13000 /* Realm */,
@@ -685,10 +679,9 @@
 		67B708B60AAD1DEA82A6A682 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0AFE75AE1AC43DE0005AA33E /* Crashlytics.framework */,
 				0A02E46E1AC9208A00235DBF /* libxml2.dylib */,
-				0A02E46C1AC9205000235DBF /* KissXML.framework */,
 				0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */,
-				0AAFCFF61AC8C75900EB0EF8 /* AWSS3.framework */,
 				0AD7EA6D1AC3ED4A00617758 /* libz.dylib */,
 				0AD7EA6B1AC3ED4300617758 /* Security.framework */,
 				0AD7EA691AC3ED3D00617758 /* UIKit.framework */,
@@ -805,7 +798,6 @@
 				5033159D1AC101C80008A209 /* ChatRightTextCell.xib in Resources */,
 				50CDBE431ACA9B4200459CE0 /* ChatRightImageCell.xib in Resources */,
 				50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */,
-				0AAFCFFB1AC8CDFE00EB0EF8 /* 1.png in Resources */,
 				502AE54F1AB93175005BD199 /* ProfileHeaderCell.xib in Resources */,
 				0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */,
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
