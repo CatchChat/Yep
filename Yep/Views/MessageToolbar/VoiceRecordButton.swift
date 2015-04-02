@@ -9,27 +9,54 @@
 import UIKit
 
 class VoiceRecordButton: UIView {
-
-    typealias longPressAction = (UILongPressGestureRecognizer) -> Void
-
-    var pressBeganAction: longPressAction?
-
-    var pressChangedAction: longPressAction?
-
-    var pressEndedAction: longPressAction?
-
-    var pressCancelledAction: longPressAction?
+    
+    var yepTouchBegin : (() -> ())?
+    
+    var yepTouchesEnded : (() -> ())?
+    
+    var yepTouchesCancelled : (() -> ())?
+    
+    var yepTouchesMoved : (() -> ())?
+    
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        super.touchesBegan(touches, withEvent: event)
+        
+        if let yepTouchBegin = yepTouchBegin {
+            yepTouchBegin()
+        }
+    }
+    
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+        super.touchesEnded(touches, withEvent: event)
+        
+        if let yepTouchesEnded = yepTouchesEnded {
+            yepTouchesEnded()
+        }
+    }
+    
+    override func touchesCancelled(touches: Set<NSObject>!, withEvent event: UIEvent!) {
+        super.touchesCancelled(touches, withEvent: event)
+        
+        if let yepTouchesCancelled = yepTouchesCancelled {
+            yepTouchesCancelled()
+        }
+    }
+    
+    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+        super.touchesMoved(touches, withEvent: event)
+        
+        if let yepTouchesMoved = yepTouchesMoved {
+            yepTouchesMoved()
+        }
+    }
+    
 
 
     override func didMoveToSuperview() {
+        
         super.didMoveToSuperview()
-
         makeUI()
 
-        let longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPressGestureRecognizer:")
-        longPress.minimumPressDuration = 0.05
-        
-        self.addGestureRecognizer(longPress)
     }
 
     private func makeUI() {
@@ -71,26 +98,4 @@ class VoiceRecordButton: UIView {
         NSLayoutConstraint.activateConstraints(constraintsH)
     }
 
-    func handleLongPressGestureRecognizer(longPressGestureRecognizer: UILongPressGestureRecognizer) {
-        switch longPressGestureRecognizer.state {
-        case .Began:
-            if let pressBeganAction = pressBeganAction {
-                pressBeganAction(longPressGestureRecognizer)
-            }
-        case .Changed:
-            if let pressChangedAction = pressChangedAction {
-                pressChangedAction(longPressGestureRecognizer)
-            }
-        case .Ended:
-            if let pressEndedAction = pressEndedAction {
-                pressEndedAction(longPressGestureRecognizer)
-            }
-        case .Cancelled:
-            if let pressCancelledAction = pressCancelledAction {
-                pressCancelledAction(longPressGestureRecognizer)
-            }
-        default:
-            break
-        }
-    }
 }

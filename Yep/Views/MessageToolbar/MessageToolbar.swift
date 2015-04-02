@@ -103,18 +103,18 @@ class MessageToolbar: UIToolbar {
         button.layer.borderColor = UIColor.messageToolBarHighlightColor().CGColor
         button.tintColor = UIColor.messageToolBarHighlightColor()
 
-        button.pressBeganAction = { longPressGestureRecognizer in
+        button.yepTouchBegin = {
             self.trySendVoiceMessageBegin()
         }
 
-        button.pressChangedAction = { longPressGestureRecognizer in
+        button.yepTouchesMoved = {
         }
 
-        button.pressEndedAction = { longPressGestureRecognizer in
+        button.yepTouchesEnded = {
             self.trySendVoiceMessageEnd()
         }
 
-        button.pressCancelledAction = { longPressGestureRecognizer in
+        button.yepTouchesCancelled = { 
             self.trySendVoiceMessageCancel()
         }
 

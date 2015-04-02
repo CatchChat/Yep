@@ -102,17 +102,7 @@ class ConversationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        /*
-        if let navigationController = navigationController {
-            println("delaysTouchesBegan: \(navigationController.interactivePopGestureRecognizer.delaysTouchesBegan)")
-            navigationController.interactivePopGestureRecognizer.delaysTouchesBegan = false
-            //navigationController.interactivePopGestureRecognizer.enabled = false
-        }
-
-        if let tabBarController = tabBarController {
-            tabBarController.tabBar.userInteractionEnabled = false
-        }
-        */
+        self.navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
 
         //YepAudioService.sharedManager.audioRecorder.delegate = self
         
