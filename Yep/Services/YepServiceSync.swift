@@ -13,6 +13,49 @@ import Realm
 let YepNewMessagesReceivedNotification = "YepNewMessagesReceivedNotification"
 
 
+func downloadAttachmentOfMessage(message: Message) {
+
+    func updateMessage(message: Message, withAttachmentFileName attachmentFileName: String) {
+        let realm = message.realm
+        realm.beginWriteTransaction()
+        message.localAttachmentName = attachmentFileName
+        realm.commitWriteTransaction()
+    }
+
+    let attachmentURLString = message.attachmentURLString
+    let localAttachmentName = message.localAttachmentName
+
+    if !attachmentURLString.isEmpty && localAttachmentName.isEmpty {
+        if let url = NSURL(string: attachmentURLString) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                let data = NSData(contentsOfURL: url)
+
+                let fileName = NSUUID().UUIDString
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    switch message.mediaType {
+                    case MessageMediaType.Image.rawValue:
+                        if let fileURL = NSFileManager.yepMessageImageURLWithName(fileName) {
+                            updateMessage(message, withAttachmentFileName: fileName)
+                        }
+
+                    case MessageMediaType.Video.rawValue:
+                        break // TODO: download video
+
+                    case MessageMediaType.Audio.rawValue:
+                        if let fileURL = NSFileManager.yepMessageAudioURLWithName(fileName) {
+                            updateMessage(message, withAttachmentFileName: fileName)
+                        }
+                        
+                    default:
+                        break
+                    }
+                }
+            }
+        }
+    }
+}
+
 func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
     friendships { allFriendships in
         //println("\n allFriendships: \(allFriendships)")

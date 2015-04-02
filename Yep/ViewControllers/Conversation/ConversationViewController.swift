@@ -516,6 +516,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         let message = messages.objectAtIndex(UInt(indexPath.row)) as! Message
 
+        downloadAttachmentOfMessage(message)
+        
         if let sender = message.fromFriend {
             if sender.friendState != UserFriendState.Me.rawValue {
                 switch message.mediaType {
