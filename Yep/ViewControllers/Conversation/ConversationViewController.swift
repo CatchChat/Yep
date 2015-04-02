@@ -298,6 +298,9 @@ class ConversationViewController: UIViewController {
         case MessageMediaType.Image.rawValue:
             return messageImageHeight + 10 + 10
 
+        case MessageMediaType.Audio.rawValue:
+            return 50
+
         default:
             let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
 
@@ -549,6 +552,17 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     return cell
 
+                case MessageMediaType.Audio.rawValue:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftAudioCellIdentifier, forIndexPath: indexPath) as! ChatLeftAudioCell
+
+                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            cell.avatarImageView.image = roundImage
+                        }
+                    }
+                    
+                    return cell
+
                 default:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
 
@@ -593,6 +607,16 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     
                     return cell
 
+                case MessageMediaType.Audio.rawValue:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightAudioCellIdentifier, forIndexPath: indexPath) as! ChatRightAudioCell
+
+                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            cell.avatarImageView.image = roundImage
+                        }
+                    }
+
+                    return cell
 
                 default:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell

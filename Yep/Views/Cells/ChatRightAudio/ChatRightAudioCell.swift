@@ -10,6 +10,8 @@ import UIKit
 
 class ChatRightAudioCell: UICollectionViewCell {
 
+    @IBOutlet weak var avatarImageView: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
