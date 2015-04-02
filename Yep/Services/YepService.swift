@@ -543,20 +543,20 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
 
 func sendText(text: String, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
 
-    sendMessageWithMediaType(.Text, inFilePath: nil, orFileData: nil, text: text, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    sendMessageWithMediaType(.Text, inFilePath: nil, orFileData: nil, metaData: nil, text: text, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-func sendImageInFilePath(filePath: String?, orFileData fileData: NSData?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
+func sendImageInFilePath(filePath: String?, orFileData fileData: NSData?, #metaData: String?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
 
-    sendMessageWithMediaType(.Image, inFilePath: filePath, orFileData: fileData, text: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    sendMessageWithMediaType(.Image, inFilePath: filePath, orFileData: fileData, metaData: metaData, text: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-func sendAudioInFilePath(filePath: String?, orFileData fileData: NSData?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
+func sendAudioInFilePath(filePath: String?, orFileData fileData: NSData?, #metaData: String?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
 
-    sendMessageWithMediaType(.Audio, inFilePath: filePath, orFileData: fileData, text: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    sendMessageWithMediaType(.Audio, inFilePath: filePath, orFileData: fileData, metaData: metaData, text: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, #text: String?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
+func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, #metaData: String?, #text: String?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
     // 因为 message_id 必须来自远端，线程无法切换，所以这里暂时没用 realmQueue // TOOD: 也许有办法
 
     let realm = RLMRealm.defaultRealm()
@@ -692,16 +692,34 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
                 // TODO: attachments
                 switch mediaType {
                 case .Image:
-                    let attachments = ["image": [["file": [s3UploadParams.key]]]]
-                    messageInfo["attachments"] = attachments
+                    if let metaData = metaData {
+                        let attachments = ["image": [["file": s3UploadParams.key, "metadata": metaData]]]
+                        messageInfo["attachments"] = attachments
+
+                    } else {
+                        let attachments = ["image": [["file": s3UploadParams.key]]]
+                        messageInfo["attachments"] = attachments
+                    }
 
                 case .Video:
-                    let attachments = ["video": [["file": [s3UploadParams.key]]]]
-                    messageInfo["attachments"] = attachments
+                    if let metaData = metaData {
+                        let attachments = ["video": [["file": s3UploadParams.key, "metadata": metaData]]]
+                        messageInfo["attachments"] = attachments
+
+                    } else {
+                        let attachments = ["video": [["file": s3UploadParams.key]]]
+                        messageInfo["attachments"] = attachments
+                    }
 
                 case .Audio:
-                    let attachments = ["audio": [["file": [s3UploadParams.key]]]]
-                    messageInfo["attachments"] = attachments
+                    if let metaData = metaData {
+                        let attachments = ["audio": [["file": s3UploadParams.key, "metadata": metaData]]]
+                        messageInfo["attachments"] = attachments
+
+                    } else {
+                        let attachments = ["audio": [["file": s3UploadParams.key]]]
+                        messageInfo["attachments"] = attachments
+                    }
 
                 default:
                     break

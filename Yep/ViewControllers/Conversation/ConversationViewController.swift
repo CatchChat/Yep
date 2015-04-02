@@ -15,6 +15,9 @@ class ConversationViewController: UIViewController {
     var conversation: Conversation!
     
     var waverView: YepWaverView!
+    var audioSamples = [Float]()
+    var samplesCount = 0
+    let samplingInterval = 6
 
     lazy var messages: RLMResults = {
         return messagesInConversation(self.conversation)
@@ -168,9 +171,14 @@ class ConversationViewController: UIViewController {
             
             if let audioRecorder = YepAudioService.sharedManager.audioRecorder {
                 if (audioRecorder.recording) {
-                    println("Update waver")
+                    //println("Update waver")
                     audioRecorder.updateMeters()
+
                     var normalizedValue = pow(10, audioRecorder.averagePowerForChannel(0)/40)
+
+                    if (++self.samplesCount % self.samplingInterval) == 0 {
+                        self.audioSamples.append(normalizedValue)
+                    }
 
                     self.waverView.waver.level = CGFloat(normalizedValue)
                 }
@@ -194,6 +202,9 @@ class ConversationViewController: UIViewController {
 
             let audioFileName = NSUUID().UUIDString
 
+            self.audioSamples.removeAll(keepCapacity: true)
+            self.samplesCount = 0
+
             if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
                 YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: self)
             }
@@ -208,9 +219,17 @@ class ConversationViewController: UIViewController {
             self.waverView.removeFromSuperview()
             YepAudioService.sharedManager.endRecord()
 
+
+            var metaData: String? = nil
+
+            let audioSamples = self.audioSamples
+            if let audioSamplesData = NSJSONSerialization.dataWithJSONObject(audioSamples, options: nil, error: nil) {
+                metaData = NSString(data: audioSamplesData, encoding: NSUTF8StringEncoding) as? String
+            }
+
             if let fileURL = YepAudioService.sharedManager.audioFileURL {
                 if let withFriend = self.conversation.withFriend {
-                    sendAudioInFilePath(fileURL.path!, orFileData: nil, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message -> Void in
+                    sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message -> Void in
 
                         dispatch_async(dispatch_get_main_queue()) {
                             let realm = message.realm
@@ -231,7 +250,7 @@ class ConversationViewController: UIViewController {
                     })
 
                 } else if let withGroup = self.conversation.withGroup {
-                    sendAudioInFilePath(fileURL.path!, orFileData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { (message) -> Void in
+                    sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { (message) -> Void in
 
                         dispatch_async(dispatch_get_main_queue()) {
                             let realm = message.realm
@@ -716,7 +735,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         if let withFriend = self.conversation.withFriend {
 
-            sendImageInFilePath(nil, orFileData: imageData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message -> Void in
+            sendImageInFilePath(nil, orFileData: imageData, metaData: nil, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message -> Void in
 
                 dispatch_async(dispatch_get_main_queue()) {
 
@@ -740,7 +759,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             })
 
         } else if let withGroup = self.conversation.withGroup {
-            sendImageInFilePath(nil, orFileData: imageData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message -> Void in
+            sendImageInFilePath(nil, orFileData: imageData, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message -> Void in
 
                 dispatch_async(dispatch_get_main_queue()) {
                     if let messageImageURL = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
