@@ -17,7 +17,7 @@ class YepAudioService: NSObject {
     var audioFileURL: NSURL?
     var audioRecorder: AVAudioRecorder?
     
-    var audioPlayer: AVAudioPlayer!
+    var audioPlayer: AVAudioPlayer?
 
     func prepareAudioRecorderWithFileURL(fileURL: NSURL, audioRecorderDelegate: AVAudioRecorderDelegate) {
         audioFileURL = fileURL
@@ -78,16 +78,18 @@ class YepAudioService: NSObject {
         }
     }
     
-    //MARK: Audio Player
+    // MARK: Audio Player
     
     func playAudioWithURL(url: NSURL) {
         println("Play audio")
-        var error:NSError?
-        audioPlayer = AVAudioPlayer(contentsOfURL: url, error: &error)
-        audioPlayer.prepareToPlay()
-        if audioPlayer.play() {
-            println("Do Play audio \(error)")
-        }
 
+        var error: NSError?
+        if let audioPlayer = AVAudioPlayer(contentsOfURL: url, error: &error) {
+            audioPlayer.prepareToPlay()
+
+            if audioPlayer.play() {
+                println("Do Play audio \(error)")
+            }
+        }
     }
 }

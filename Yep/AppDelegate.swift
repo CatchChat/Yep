@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, error: nil)
         AVAudioSession.sharedInstance().setActive(true, error: nil)
+
         // 推送初始化
         APService.setupWithOption(launchOptions)
 

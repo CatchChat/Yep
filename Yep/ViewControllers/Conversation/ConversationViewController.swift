@@ -514,7 +514,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let message = messages.objectAtIndex(UInt(indexPath.row)) as! Message
+        let message = messages.objectAtIndex(UInt(indexPath.item)) as! Message
 
         downloadAttachmentOfMessage(message)
         
@@ -640,7 +640,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        let message = messages.objectAtIndex(UInt(indexPath.row)) as! Message
+        let message = messages.objectAtIndex(UInt(indexPath.item)) as! Message
 
         return CGSizeMake(collectionViewWidth, heightOfMessage(message))
     }
@@ -650,7 +650,37 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        view.endEditing(true)
+        if isKeyboardVisible {
+            view.endEditing(true)
+
+        } else {
+            let message = messages.objectAtIndex(UInt(indexPath.item)) as! Message
+
+            switch message.mediaType {
+            case MessageMediaType.Image.rawValue:
+                break
+
+            case MessageMediaType.Video.rawValue:
+                break // TODO: download video
+
+            case MessageMediaType.Audio.rawValue:
+
+                let fileName = message.localAttachmentName
+
+                if !fileName.isEmpty {
+                    if let fileURL = NSFileManager.yepMessageAudioURLWithName(fileName) {
+                        YepAudioService.sharedManager.playAudioWithURL(fileURL)
+                    }
+
+                } else {
+                    println("please wait for download")
+                }
+
+            default:
+                break
+            }
+
+        }
     }
 }
 
