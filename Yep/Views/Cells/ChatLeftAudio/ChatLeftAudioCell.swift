@@ -12,9 +12,12 @@ class ChatLeftAudioCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
 
+    @IBOutlet weak var bubbleImageView: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        bubbleImageView.tintColor = UIColor.leftBubbleTintColor()
     }
 
 }

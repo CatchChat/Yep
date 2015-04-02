@@ -37,7 +37,7 @@
                 <constraint firstItem="73l-kE-1KG" firstAttribute="top" secondItem="6ek-jh-1iK" secondAttribute="top" constant="-7" id="Cd3-3v-PNz"/>
                 <constraint firstAttribute="centerY" secondItem="6ek-jh-1iK" secondAttribute="centerY" id="Cf2-L7-PcF"/>
                 <constraint firstItem="73l-kE-1KG" firstAttribute="leading" secondItem="6ek-jh-1iK" secondAttribute="leading" constant="-12" id="Eht-Ir-1FH"/>
-                <constraint firstItem="6ek-jh-1iK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="FIg-M8-BRB"/>
+                <constraint firstItem="6ek-jh-1iK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="50" id="FIg-M8-BRB"/>
                 <constraint firstItem="6ek-jh-1iK" firstAttribute="top" secondItem="RKK-8d-9vO" secondAttribute="top" constant="8" id="RES-Wp-9mT"/>
                 <constraint firstItem="73l-kE-1KG" firstAttribute="trailing" secondItem="6ek-jh-1iK" secondAttribute="trailing" constant="16" id="hnR-dp-A2m"/>
                 <constraint firstItem="RKK-8d-9vO" firstAttribute="leading" secondItem="6ek-jh-1iK" secondAttribute="trailing" constant="20" id="kwM-35-2Fj"/>
@@ -48,6 +48,7 @@
             <connections>
                 <outlet property="avatarImageView" destination="RKK-8d-9vO" id="Tsh-cB-lZt"/>
                 <outlet property="avatarImageViewWidthConstraint" destination="hm6-ty-e5H" id="Lvg-NA-gZh"/>
+                <outlet property="bubbleImageView" destination="73l-kE-1KG" id="gjj-pJ-ll1"/>
                 <outlet property="textContentLabel" destination="6ek-jh-1iK" id="fCu-O7-a1E"/>
             </connections>
             <point key="canvasLocation" x="339.5" y="326.5"/>

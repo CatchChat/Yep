@@ -32,7 +32,6 @@
                                     <constraint firstAttribute="width" secondItem="JJr-x8-Ljw" secondAttribute="height" id="qcL-S0-MeP"/>
                                     <constraint firstAttribute="width" constant="30" id="yBd-CJ-kw2"/>
                                 </constraints>
-                                <color key="tintColor" red="0.0" green="1" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" image="icon_play">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -79,6 +78,7 @@
             <size key="customSize" width="276" height="126"/>
             <connections>
                 <outlet property="avatarImageView" destination="1K0-wd-BOr" id="ldH-Pm-vDG"/>
+                <outlet property="bubbleImageView" destination="j0p-8V-Tjb" id="Uca-XB-lkc"/>
             </connections>
             <point key="canvasLocation" x="360" y="358"/>
         </collectionViewCell>

@@ -17,6 +17,14 @@ extension UIColor {
         return UIColor(red: 50/255.0, green: 167/255.0, blue: 255/255.0, alpha: 0.3)
     }
 
+    class func leftBubbleTintColor() -> UIColor {
+        return UIColor(white: 231 / 255.0, alpha: 1.0)
+    }
+
+    class func rightBubbleTintColor() -> UIColor {
+        return UIColor.yepTintColor()
+    }
+
     class func skillMasterColor() -> UIColor {
         return yepTintColor()
     }

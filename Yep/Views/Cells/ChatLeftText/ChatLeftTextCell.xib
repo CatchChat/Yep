@@ -20,7 +20,7 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Content" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7zi-6w-hpq" userLabel="Text Content Label">
                         <rect key="frame" x="75" y="56" width="86" height="18"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hYu-LI-zcX" userLabel="Avatar Image View">
@@ -36,7 +36,7 @@
             <constraints>
                 <constraint firstAttribute="centerY" secondItem="7zi-6w-hpq" secondAttribute="centerY" id="Dys-Uh-KBW"/>
                 <constraint firstItem="Yfx-Em-Job" firstAttribute="bottom" secondItem="7zi-6w-hpq" secondAttribute="bottom" constant="7" id="LKU-Sf-doh"/>
-                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7zi-6w-hpq" secondAttribute="trailing" constant="20" id="cMB-IC-4ER"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7zi-6w-hpq" secondAttribute="trailing" constant="50" id="cMB-IC-4ER"/>
                 <constraint firstItem="Yfx-Em-Job" firstAttribute="trailing" secondItem="7zi-6w-hpq" secondAttribute="trailing" constant="12" id="cfS-ia-EAr"/>
                 <constraint firstItem="hYu-LI-zcX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="hM8-00-nUm"/>
                 <constraint firstItem="Yfx-Em-Job" firstAttribute="top" secondItem="7zi-6w-hpq" secondAttribute="top" constant="-7" id="jbo-J2-Eci"/>
@@ -48,6 +48,7 @@
             <connections>
                 <outlet property="avatarImageView" destination="hYu-LI-zcX" id="X8N-rV-848"/>
                 <outlet property="avatarImageViewWidthConstraint" destination="JV9-zT-1At" id="fe4-74-Gyw"/>
+                <outlet property="bubbleImageView" destination="Yfx-Em-Job" id="0Uw-Mq-mhb"/>
                 <outlet property="textContentLabel" destination="7zi-6w-hpq" id="OKM-7J-J5k"/>
             </connections>
             <point key="canvasLocation" x="338" y="346.5"/>
