@@ -683,24 +683,24 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
         case .Audio:
             mimeType = "audio/m4a"
         default:
-            break
+            break 
         }
 
         s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in
-            uploadFileToS3(inFilePath: nil, orFileData: fileData, mimeType: mimeType, s3UploadParams: s3UploadParams) { (result, error) in
+            uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mimeType, s3UploadParams: s3UploadParams) { (result, error) in
 
                 // TODO: attachments
                 switch mediaType {
                 case .Image:
-                    let attachments = ["image": [s3UploadParams.key]]
+                    let attachments = ["image": [["file": [s3UploadParams.key]]]]
                     messageInfo["attachments"] = attachments
 
                 case .Video:
-                    let attachments = ["video": [s3UploadParams.key]]
+                    let attachments = ["video": [["file": [s3UploadParams.key]]]]
                     messageInfo["attachments"] = attachments
 
                 case .Audio:
-                    let attachments = ["audio": [s3UploadParams.key]]
+                    let attachments = ["audio": [["file": [s3UploadParams.key]]]]
                     messageInfo["attachments"] = attachments
 
                 default:

@@ -63,14 +63,18 @@ func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: NSData?, 
     }, error: nil)
     
     let manager = AFURLSessionManager(sessionConfiguration: NSURLSessionConfiguration.defaultSessionConfiguration())
-    manager.responseSerializer = AFXMLParserResponseSerializer()
+    manager.responseSerializer = AFHTTPResponseSerializer()
 
     var progress: NSProgress?
     
     let uploadTask = manager.uploadTaskWithStreamedRequest(request, progress: &progress, completionHandler: { (response, responseObject, error) in
 
         if (error != nil) {
-            println("Error \(error.description)")
+            println("Error \(error.description) \(response) \(responseObject)")
+            if let data = responseObject as? NSData {
+                let string = NSString(data: data, encoding: NSUTF8StringEncoding)
+                println("\(string)")
+            }
             completion(false, error)
 
         } else {
