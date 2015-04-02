@@ -32,6 +32,9 @@ class MessageToolbar: UIToolbar {
                 voiceRecordButton.hidden = true
                 micButton.setImage(UIImage(named: "item_mic"), forState: .Normal)
 
+                micButton.tintColor = UIColor.messageToolBarHighlightColor()
+                moreButton.tintColor = UIColor.messageToolBarHighlightColor()
+
                 hideVoiceButtonAnimation()
 
             case .TextInput:
@@ -46,6 +49,9 @@ class MessageToolbar: UIToolbar {
                 voiceRecordButton.hidden = false
                 messageTextView.endEditing(true)
                 micButton.setImage(UIImage(named: "icon_keyboard"), forState: .Normal)
+
+                micButton.tintColor = UIColor.messageToolBarNormalColor()
+                moreButton.tintColor = UIColor.messageToolBarNormalColor()
                 
                 showVoiceButtonAnimation()
                 
@@ -69,7 +75,7 @@ class MessageToolbar: UIToolbar {
     lazy var micButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "item_mic"), forState: .Normal)
-        button.tintColor = UIColor.lightGrayColor()
+        button.tintColor = UIColor.messageToolBarHighlightColor()
         button.addTarget(self, action: "toggleRecordVoice", forControlEvents: UIControlEvents.TouchUpInside)
         return button
         }()
@@ -81,7 +87,7 @@ class MessageToolbar: UIToolbar {
         textView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 4)
         textView.font = UIFont.systemFontOfSize(15)
         textView.layer.borderWidth = 1
-        textView.layer.borderColor = UIColor.lightGrayColor().CGColor
+        textView.layer.borderColor = UIColor.messageToolBarHighlightColor().CGColor
         textView.layer.cornerRadius = self.normalCornerRadius
         textView.delegate = self
         textView.scrollEnabled = false // 重要：若没有它，换行时可能有 top inset 不正确
@@ -94,8 +100,8 @@ class MessageToolbar: UIToolbar {
         button.backgroundColor = UIColor.whiteColor()
         button.layer.cornerRadius = self.normalCornerRadius
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.lightGrayColor().CGColor
-        button.tintColor = UIColor.lightGrayColor()
+        button.layer.borderColor = UIColor.messageToolBarHighlightColor().CGColor
+        button.tintColor = UIColor.messageToolBarHighlightColor()
 
         button.pressBeganAction = { longPressGestureRecognizer in
             self.trySendVoiceMessageBegin()
@@ -118,7 +124,7 @@ class MessageToolbar: UIToolbar {
     lazy var moreButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "item_more"), forState: .Normal)
-        button.tintColor = UIColor.lightGrayColor()
+        button.tintColor = UIColor.messageToolBarHighlightColor()
         button.addTarget(self, action: "trySendImageMessage", forControlEvents: UIControlEvents.TouchUpInside)
         return button
         }()
@@ -126,7 +132,7 @@ class MessageToolbar: UIToolbar {
     lazy var sendButton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("Send", comment: ""), forState: .Normal)
-        button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
+        button.setTitleColor(UIColor.messageToolBarHighlightColor(), forState: .Normal)
         button.addTarget(self, action: "trySendTextMessage", forControlEvents: UIControlEvents.TouchUpInside)
         return button
         }()

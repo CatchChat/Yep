@@ -38,19 +38,21 @@ class VoiceRecordButton: UIView {
         titleLabel.font = UIFont.systemFontOfSize(15.0)
         titleLabel.text = NSLocalizedString("Hold for Voice", comment: "")
         titleLabel.textAlignment = .Center
-        titleLabel.textColor = UIColor.lightGrayColor()
+        titleLabel.textColor = self.tintColor
 
         self.addSubview(titleLabel)
         titleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
 
         let leftVoiceImageView = UIImageView(image: UIImage(named: "icon_voice_left"))
         leftVoiceImageView.contentMode = .Center
+        leftVoiceImageView.tintColor = self.tintColor
 
         self.addSubview(leftVoiceImageView)
         leftVoiceImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
 
         let rightVoiceImageView = UIImageView(image: UIImage(named: "icon_voice_right"))
         rightVoiceImageView.contentMode = .Center
+        rightVoiceImageView.tintColor = self.tintColor
 
         self.addSubview(rightVoiceImageView)
         rightVoiceImageView.setTranslatesAutoresizingMaskIntoConstraints(false)

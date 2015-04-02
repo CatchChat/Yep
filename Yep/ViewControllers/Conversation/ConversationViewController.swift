@@ -99,7 +99,19 @@ class ConversationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        /*
+        if let navigationController = navigationController {
+            println("delaysTouchesBegan: \(navigationController.interactivePopGestureRecognizer.delaysTouchesBegan)")
+            navigationController.interactivePopGestureRecognizer.delaysTouchesBegan = false
+            //navigationController.interactivePopGestureRecognizer.enabled = false
+        }
+
+        if let tabBarController = tabBarController {
+            tabBarController.tabBar.userInteractionEnabled = false
+        }
+        */
+
         YepAudioService.sharedManager.audioRecorder.delegate = self
         
         let undoBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Undo, target: self, action: "undoMessageSend")
