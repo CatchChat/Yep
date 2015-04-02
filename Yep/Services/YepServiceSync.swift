@@ -543,6 +543,10 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: RLMR
                                                 }
                                             }
                                         }
+
+                                        if let metaData = attachmentInfo["metadata"] as? String {
+                                            message.metaData = metaData
+                                        }
                                     }
                                     /*
                                     else if let fallbackFileInfo = attachmentInfo["fallback_file"] as? JSONDictionary {

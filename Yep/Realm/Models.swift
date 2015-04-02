@@ -139,6 +139,7 @@ class Message: RLMObject {
     dynamic var coordinate: Coordinate?
 
     dynamic var attachmentURLString: String = ""
+    dynamic var metaData: String = ""
     dynamic var downloadState: Int = MessageDownloadState.NoDownload.rawValue
     dynamic var localAttachmentName: String = ""
     dynamic var thumbnailURLString: String = ""
