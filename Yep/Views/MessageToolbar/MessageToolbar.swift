@@ -321,6 +321,7 @@ class MessageToolbar: UIToolbar {
     
     func trySendVoiceMessageCancel() {
         if let textSendAction = voiceSendCancelAction {
+            println("Cancel")
             voiceRecordButton.backgroundColor = UIColor.whiteColor()
             textSendAction(messageToolBar: self)
         }

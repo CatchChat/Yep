@@ -19,10 +19,11 @@ class YepButton: UIButton {
     var yepTouchesMoved : (() -> ())?
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        super.touchesBegan(touches, withEvent: event)
         if let yepTouchBegin = yepTouchBegin {
             yepTouchBegin()
         }
+        super.touchesBegan(touches, withEvent: event)
+
     }
     
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
