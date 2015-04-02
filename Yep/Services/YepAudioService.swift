@@ -12,10 +12,13 @@ import AVFoundation
 class YepAudioService: NSObject {
     
     static let sharedManager = YepAudioService()
-    
+
+    var audioFileURL: NSURL?
     var audioRecorder: AVAudioRecorder?
 
     func prepareAudioRecorderWithFileURL(fileURL: NSURL, audioRecorderDelegate: AVAudioRecorderDelegate) {
+        audioFileURL = fileURL
+
         let settings = [
             AVFormatIDKey: kAudioFormatMPEG4AAC,
             AVEncoderAudioQualityKey : AVAudioQuality.Max.rawValue,

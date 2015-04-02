@@ -205,8 +205,6 @@ class ConversationViewController: UIViewController {
             let audioFileName = NSUUID().UUIDString
 
             if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
-                messageToolbar.audioFileURL = fileURL
-
                 YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: self)
             }
         }
@@ -220,23 +218,42 @@ class ConversationViewController: UIViewController {
             self.waverView.removeFromSuperview()
             YepAudioService.sharedManager.endRecord()
 
-            if let fileURL = messageToolbar.audioFileURL {
+            if let fileURL = YepAudioService.sharedManager.audioFileURL {
                 if let withFriend = self.conversation.withFriend {
                     sendAudioInFilePath(fileURL.path!, orFileData: nil, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message -> Void in
 
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let realm = message.realm
+                            realm.beginWriteTransaction()
+                            message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
+                            realm.commitWriteTransaction()
+
+                            self.updateConversationCollectionView()
+                        }
+
                     }, failureHandler: { (reason, errorMessage) -> Void in
                         defaultFailureHandler(reason, errorMessage)
+                        // TODO: 音频发送失败
                         
                     }, completion: { (success) -> Void in
                         println("send audio to friend: \(success)")
-                            
                     })
 
                 } else if let withGroup = self.conversation.withGroup {
                     sendAudioInFilePath(fileURL.path!, orFileData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { (message) -> Void in
 
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let realm = message.realm
+                            realm.beginWriteTransaction()
+                            message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
+                            realm.commitWriteTransaction()
+
+                            self.updateConversationCollectionView()
+                        }
+
                     }, failureHandler: { (reason, errorMessage) -> Void in
                         defaultFailureHandler(reason, errorMessage)
+                        // TODO: 音频发送失败
 
                     }, completion: { (success) -> Void in
                         println("send audio to group: \(success)")

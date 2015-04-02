@@ -65,9 +65,6 @@ class MessageToolbar: UIToolbar {
 
     var imageSendAction: ((messageToolBar: MessageToolbar) -> ())?
 
-
-    var audioFileURL: NSURL?
-
     var voiceSendBeginAction: ((messageToolBar: MessageToolbar) -> ())?
     
     var voiceSendEndAction: ((messageToolBar: MessageToolbar) -> ())?
