@@ -24,7 +24,6 @@
 		0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B91AB67D11004AD60E /* LaunchScreen.xib */; };
 		0A8F54C71AB67D11004AD60E /* YepTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F54C61AB67D11004AD60E /* YepTests.swift */; };
 		0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A944C241AC8BB2F00037A06 /* YepStorageService.swift */; };
-		0AAD33A21ACCC68100FE55EA /* UIButton+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAD33A11ACCC68100FE55EA /* UIButton+Yep.swift */; };
 		0AAFCFF91AC8CA5B00EB0EF8 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */; };
 		0AD7EA5E1AC3ED1200617758 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA5D1AC3ED1200617758 /* CFNetwork.framework */; };
 		0AD7EA601AC3ED1900617758 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA5F1AC3ED1900617758 /* CoreFoundation.framework */; };
@@ -80,6 +79,7 @@
 		503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503CAB421AC00CB100DFE830 /* ConversationViewController.swift */; };
 		506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */; };
 		5076C56A1AC46B9F00B22952 /* FayeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5076C5691AC46B9F00B22952 /* FayeService.swift */; };
+		508D17401ACCD2740092D666 /* YepButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D173F1ACCD2740092D666 /* YepButton.swift */; };
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
 		5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */; };
@@ -128,7 +128,6 @@
 		0A8F54C51AB67D11004AD60E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A8F54C61AB67D11004AD60E /* YepTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepTests.swift; sourceTree = "<group>"; };
 		0A944C241AC8BB2F00037A06 /* YepStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepStorageService.swift; path = Services/YepStorageService.swift; sourceTree = "<group>"; };
-		0AAD33A11ACCC68100FE55EA /* UIButton+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIButton+Yep.swift"; path = "Extensions/UIButton+Yep.swift"; sourceTree = "<group>"; };
 		0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		0AD7EA511AC3EA6F00617758 /* JPushSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JPushSDK.framework; path = "Pods/../build/Debug-iphoneos/Pods/JPushSDK.framework"; sourceTree = "<group>"; };
 		0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Yep-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -188,6 +187,7 @@
 		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
 		506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Yep.swift"; path = "Extensions/UIFont+Yep.swift"; sourceTree = "<group>"; };
 		5076C5691AC46B9F00B22952 /* FayeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FayeService.swift; path = Services/FayeService.swift; sourceTree = "<group>"; };
+		508D173F1ACCD2740092D666 /* YepButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepButton.swift; path = Views/Buttons/YepButton.swift; sourceTree = "<group>"; };
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
 		5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraPreviewView.swift; path = Views/CameraPreview/CameraPreviewView.swift; sourceTree = "<group>"; };
@@ -409,7 +409,6 @@
 				506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */,
 				50CDBE3E1ACA58D800459CE0 /* NSFileManager+Yep.swift */,
 				0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */,
-				0AAD33A11ACCC68100FE55EA /* UIButton+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -486,6 +485,7 @@
 			isa = PBXGroup;
 			children = (
 				502AE5201AB71C7E005BD199 /* BorderButton.swift */,
+				508D173F1ACCD2740092D666 /* YepButton.swift */,
 			);
 			name = Buttons;
 			sourceTree = "<group>";
@@ -913,6 +913,7 @@
 				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
 				502AE53A1AB871C1005BD199 /* YepAlert.swift in Sources */,
 				502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */,
+				508D17401ACCD2740092D666 /* YepButton.swift in Sources */,
 				5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */,
 				50E114F71ABBFA7000F13000 /* RLMSupport.swift in Sources */,
 				50CDBE3F1ACA58D800459CE0 /* NSFileManager+Yep.swift in Sources */,
@@ -933,7 +934,6 @@
 				502AE5351AB8649F005BD199 /* LoginByMobileViewController.swift in Sources */,
 				502AE52B1AB819AF005BD199 /* YepConfig.swift in Sources */,
 				0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */,
-				0AAD33A21ACCC68100FE55EA /* UIButton+Yep.swift in Sources */,
 				0A3E60601ACCA9C0003DC853 /* String+Yep.swift in Sources */,
 				503315A01AC126100008A209 /* MessageToolbar.swift in Sources */,
 				502AE5531AB93215005BD199 /* ProfileFooterCell.swift in Sources */,

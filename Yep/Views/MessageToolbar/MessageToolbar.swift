@@ -31,6 +31,7 @@ class MessageToolbar: UIToolbar {
                 messageTextView.hidden = false
                 voiceRecordButton.hidden = true
                 micButton.setImage(UIImage(named: "item_mic"), forState: .Normal)
+
                 hideVoiceButtonAnimation()
 
             case .TextInput:
@@ -45,6 +46,7 @@ class MessageToolbar: UIToolbar {
                 voiceRecordButton.hidden = false
                 messageTextView.endEditing(true)
                 micButton.setImage(UIImage(named: "icon_keyboard"), forState: .Normal)
+                
                 showVoiceButtonAnimation()
                 
             }
@@ -72,13 +74,15 @@ class MessageToolbar: UIToolbar {
         return button
         }()
 
+    let normalCornerRadius: CGFloat = 6
+
     lazy var messageTextView: UITextView = {
         let textView = UITextView()
         textView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 4)
         textView.font = UIFont.systemFontOfSize(15)
         textView.layer.borderWidth = 1
         textView.layer.borderColor = UIColor.lightGrayColor().CGColor
-        textView.layer.cornerRadius = 6
+        textView.layer.cornerRadius = self.normalCornerRadius
         textView.delegate = self
         textView.scrollEnabled = false // 重要：若没有它，换行时可能有 top inset 不正确
         return textView
@@ -89,12 +93,36 @@ class MessageToolbar: UIToolbar {
 
         button.setTitle("Hold For Voice", forState: UIControlState.Normal)
         button.backgroundColor = UIColor.whiteColor()
-        button.layer.cornerRadius = 6
+        button.layer.cornerRadius = self.normalCornerRadius
         button.titleLabel?.font = UIFont.systemFontOfSize(15.0)
         button.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Normal)
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.lightGrayColor().CGColor
         button.tintColor = UIColor.lightGrayColor()
+
+
+        let leftVoiceImageView = UIImageView(image: UIImage(named: "icon_voice_left"))
+        let rightVoiceImageView = UIImageView(image: UIImage(named: "icon_voice_right"))
+
+        button.addSubview(leftVoiceImageView)
+        button.addSubview(rightVoiceImageView)
+
+        leftVoiceImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        rightVoiceImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+        let viewsDictionary = [
+            "leftVoiceImageView": leftVoiceImageView,
+            "rightVoiceImageView": rightVoiceImageView,
+        ]
+
+        let leftVoiceImageViewConstraintCenterY = NSLayoutConstraint(item: leftVoiceImageView, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: button, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[leftVoiceImageView]-(>=0)-[rightVoiceImageView]-10-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
+
+        NSLayoutConstraint.activateConstraints([leftVoiceImageViewConstraintCenterY])
+        NSLayoutConstraint.activateConstraints(constraintsH)
+
+
         button.yepTouchBegin = {
             self.trySendVoiceMessageBegin()
         }
@@ -123,6 +151,8 @@ class MessageToolbar: UIToolbar {
         return button
         }()
 
+
+    // MARK: UI
     
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
@@ -130,11 +160,6 @@ class MessageToolbar: UIToolbar {
         makeUI()
 
         state = .Default
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        setUpVoiceButtonUI()
     }
 
     func makeUI() {
@@ -197,71 +222,37 @@ class MessageToolbar: UIToolbar {
         NSLayoutConstraint.activateConstraints(voiceRecordButtonConstraintsH)
         
     }
-    
-    func setUpVoiceButtonUI() {
-        
-        var voiceButtonHeight = voiceRecordButton.frame.size.height
-        var voiceButtonWidth = voiceRecordButton.frame.size.width
-        
-        var leftVoiceImageView = UIImageView(frame: CGRectMake(10.0, voiceButtonHeight/2.0 - 10.0 , 20.0, 20.0))
-        leftVoiceImageView.contentMode = UIViewContentMode.ScaleAspectFit
-        leftVoiceImageView.image = UIImage(named: "icon_voice_left")
-        
-        var rightVoiceImageView = UIImageView(frame: CGRectMake(voiceButtonWidth - 30.0,voiceButtonHeight/2.0 - 10.0, 20.0, 20.0))
-        rightVoiceImageView.contentMode = UIViewContentMode.ScaleAspectFit
-        rightVoiceImageView.image = UIImage(named: "icon_voice_right")
-        
-//        rightVoiceImageView.alpha = 0
-//        leftVoiceImageView.alpha = 0
-        
-        voiceRecordButton.addSubview(leftVoiceImageView)
-        voiceRecordButton.addSubview(rightVoiceImageView)
-    }
-    
+
+    // MARK: Animations
+
     func showVoiceButtonAnimation() {
         let animation = CABasicAnimation(keyPath: "cornerRadius")
-        
-        // Set the starting value
-        animation.fromValue = self.voiceRecordButton.layer.cornerRadius
-        
-        // Set the completion value
-        animation.toValue = self.voiceRecordButton.frame.size.height*0.5
-        
+
+        animation.fromValue = voiceRecordButton.layer.cornerRadius
+        let newCornerRadius = CGRectGetHeight(voiceRecordButton.bounds) * 0.5
+        animation.toValue = newCornerRadius
         animation.timingFunction = CAMediaTimingFunction(name: "easeInEaseOut")
-        
-        // How may times should the animation repeat?
         animation.repeatCount = 0
+
+        voiceRecordButton.layer.addAnimation(animation, forKey: "cornerRadius")
         
-        // Finally, add the animation to the layer
-        self.voiceRecordButton.layer.addAnimation(animation, forKey: "cornerRadius")
-        
-        self.voiceRecordButton.layer.cornerRadius = self.voiceRecordButton.frame.size.height*0.5
-        
-        self.messageTextView.layer.cornerRadius = self.messageTextView.frame.size.height*0.5
+        voiceRecordButton.layer.cornerRadius = newCornerRadius
+        messageTextView.layer.cornerRadius = CGRectGetHeight(messageTextView.bounds) * 0.5
     }
 
     func hideVoiceButtonAnimation() {
-        
-        self.voiceRecordButton.layer.cornerRadius = 6
-        
         let animation = CABasicAnimation(keyPath: "cornerRadius")
-        
-        // Set the starting value
-        animation.fromValue = self.messageTextView.layer.cornerRadius
-        
-        // Set the completion value
-        animation.toValue = 6
-        
-        // How may times should the animation repeat?
+
+        animation.fromValue = messageTextView.layer.cornerRadius
+        animation.toValue = normalCornerRadius
         animation.repeatCount = 0
         
         animation.timingFunction = CAMediaTimingFunction(name: "easeInEaseOut")
-        
-        // Finally, add the animation to the layer
-        self.messageTextView.layer.addAnimation(animation, forKey: "cornerRadius")
-        self.messageTextView.layer.cornerRadius = 6
-        self.voiceRecordButton.layer.cornerRadius = 6
 
+        messageTextView.layer.addAnimation(animation, forKey: "cornerRadius")
+
+        messageTextView.layer.cornerRadius = normalCornerRadius
+        voiceRecordButton.layer.cornerRadius = normalCornerRadius
     }
 
     // Mark: Helpers

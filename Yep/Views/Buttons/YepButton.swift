@@ -19,15 +19,16 @@ class YepButton: UIButton {
     var yepTouchesMoved : (() -> ())?
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        super.touchesBegan(touches, withEvent: event)
+
         if let yepTouchBegin = yepTouchBegin {
             yepTouchBegin()
         }
-        super.touchesBegan(touches, withEvent: event)
-
     }
     
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         super.touchesEnded(touches, withEvent: event)
+
         if let yepTouchesEnded = yepTouchesEnded {
             yepTouchesEnded()
         }
@@ -35,6 +36,7 @@ class YepButton: UIButton {
     
     override func touchesCancelled(touches: Set<NSObject>!, withEvent event: UIEvent!) {
         super.touchesCancelled(touches, withEvent: event)
+
         if let yepTouchesCancelled = yepTouchesCancelled {
             yepTouchesCancelled()
         }
@@ -42,6 +44,7 @@ class YepButton: UIButton {
     
     override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
         super.touchesMoved(touches, withEvent: event)
+
         if let yepTouchesMoved = yepTouchesMoved {
             yepTouchesMoved()
         }
