@@ -9,15 +9,10 @@
 /* Begin PBXBuildFile section */
 		0A02E46F1AC9208A00235DBF /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A02E46E1AC9208A00235DBF /* libxml2.dylib */; };
 		0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A271FD61ACA055400822DFC /* YepAudioService.swift */; };
-		0A3E60591ACC0318003DC853 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E60581ACC0318003DC853 /* YepWaverView.swift */; };
-		0A3E605E1ACC2F48003DC853 /* SquareWaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E605D1ACC2F48003DC853 /* SquareWaveView.swift */; };
 		0A3E60601ACCA9C0003DC853 /* String+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */; };
-		0A3E60621ACCAB50003DC853 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E60611ACCAB50003DC853 /* NSDate+Extension.swift */; };
-		0A3E60651ACCAC1D003DC853 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0A3E60641ACCAC1D003DC853 /* NSDateTimeAgo.bundle */; };
 		0A3E60671ACCAECE003DC853 /* YepLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E60661ACCAECE003DC853 /* YepLocationService.swift */; };
 		0A5D83941AC5D3C8000045BF /* YepTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D83931AC5D3C8000045BF /* YepTabBarController.swift */; };
 		0A5D83991AC5D91E000045BF /* ContactsSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D83981AC5D91E000045BF /* ContactsSearchTableViewController.swift */; };
-		0A6F46FD1ACBBF2D000CCD6F /* Waver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6F46FC1ACBBF2D000CCD6F /* Waver.swift */; };
 		0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F54B01AB67D11004AD60E /* AppDelegate.swift */; };
 		0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B41AB67D11004AD60E /* Main.storyboard */; };
 		0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B71AB67D11004AD60E /* Images.xcassets */; };
@@ -88,7 +83,12 @@
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
 		5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */; };
-		50CDBE3F1ACA58D800459CE0 /* NSFileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE3E1ACA58D800459CE0 /* NSFileManager+Yep.swift */; };
+		50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */; };
+		50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */; };
+		50A9D4511ACD383E000B2599 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */; };
+		50A9D4551ACD393A000B2599 /* SquareWaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4521ACD393A000B2599 /* SquareWaveView.swift */; };
+		50A9D4561ACD393A000B2599 /* Waver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4531ACD393A000B2599 /* Waver.swift */; };
+		50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4541ACD393A000B2599 /* YepWaverView.swift */; };
 		50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */; };
 		50CDBE431ACA9B4200459CE0 /* ChatRightImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50CDBE411ACA9B4200459CE0 /* ChatRightImageCell.xib */; };
 		50CDBE461ACA9F2200459CE0 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE451ACA9F2200459CE0 /* ImageCache.swift */; };
@@ -114,15 +114,10 @@
 /* Begin PBXFileReference section */
 		0A02E46E1AC9208A00235DBF /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		0A271FD61ACA055400822DFC /* YepAudioService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAudioService.swift; path = Services/YepAudioService.swift; sourceTree = "<group>"; };
-		0A3E60581ACC0318003DC853 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/Component/YepWaverView.swift; sourceTree = "<group>"; };
-		0A3E605D1ACC2F48003DC853 /* SquareWaveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SquareWaveView.swift; sourceTree = "<group>"; };
 		0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Yep.swift"; path = "Extensions/String+Yep.swift"; sourceTree = "<group>"; };
-		0A3E60611ACCAB50003DC853 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extension.swift"; sourceTree = "<group>"; };
-		0A3E60641ACCAC1D003DC853 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		0A3E60661ACCAECE003DC853 /* YepLocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepLocationService.swift; path = Services/YepLocationService.swift; sourceTree = "<group>"; };
 		0A5D83931AC5D3C8000045BF /* YepTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepTabBarController.swift; path = ViewControllers/TabBar/YepTabBarController.swift; sourceTree = "<group>"; };
 		0A5D83981AC5D91E000045BF /* ContactsSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsSearchTableViewController.swift; path = ViewControllers/Contacts/Search/ContactsSearchTableViewController.swift; sourceTree = "<group>"; };
-		0A6F46FC1ACBBF2D000CCD6F /* Waver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Waver.swift; sourceTree = "<group>"; };
 		0A8F54AB1AB67D11004AD60E /* Yep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yep.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A8F54AF1AB67D11004AD60E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A8F54B01AB67D11004AD60E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -201,7 +196,12 @@
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
 		5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraPreviewView.swift; path = Views/CameraPreview/CameraPreviewView.swift; sourceTree = "<group>"; };
-		50CDBE3E1ACA58D800459CE0 /* NSFileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSFileManager+Yep.swift"; sourceTree = "<group>"; };
+		50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Yep.swift"; path = "Extensions/NSFileManager+Yep.swift"; sourceTree = "<group>"; };
+		50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = NSDateTimeAgo.bundle; path = Extensions/NSDateTimeAgo.bundle; sourceTree = "<group>"; };
+		50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Extensions/NSDate+Extension.swift"; sourceTree = "<group>"; };
+		50A9D4521ACD393A000B2599 /* SquareWaveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SquareWaveView.swift; path = Views/AudioWaves/SquareWaveView.swift; sourceTree = "<group>"; };
+		50A9D4531ACD393A000B2599 /* Waver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Waver.swift; path = Views/AudioWaves/Waver.swift; sourceTree = "<group>"; };
+		50A9D4541ACD393A000B2599 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/AudioWaves/YepWaverView.swift; sourceTree = "<group>"; };
 		50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightImageCell.swift; path = Views/Cells/ChatRightImage/ChatRightImageCell.swift; sourceTree = "<group>"; };
 		50CDBE411ACA9B4200459CE0 /* ChatRightImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatRightImageCell.xib; path = Views/Cells/ChatRightImage/ChatRightImageCell.xib; sourceTree = "<group>"; };
 		50CDBE451ACA9F2200459CE0 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCache.swift; path = Caches/ImageCache.swift; sourceTree = "<group>"; };
@@ -248,20 +248,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0A3E605A1ACC1035003DC853 /* Component */ = {
-			isa = PBXGroup;
-			children = (
-				0A3E605D1ACC2F48003DC853 /* SquareWaveView.swift */,
-				0A3E60581ACC0318003DC853 /* YepWaverView.swift */,
-			);
-			name = Component;
-			sourceTree = "<group>";
-		};
 		0A3E60631ACCAC02003DC853 /* NSDate+TimeAgo */ = {
 			isa = PBXGroup;
 			children = (
-				0A3E60641ACCAC1D003DC853 /* NSDateTimeAgo.bundle */,
-				0A3E60611ACCAB50003DC853 /* NSDate+Extension.swift */,
+				50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */,
+				50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */,
 			);
 			name = "NSDate+TimeAgo";
 			sourceTree = "<group>";
@@ -417,8 +408,8 @@
 				5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */,
 				5023DE581AB6DBC100B3EE96 /* UIImage+Yep.swift */,
 				506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */,
-				50CDBE3E1ACA58D800459CE0 /* NSFileManager+Yep.swift */,
 				0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */,
+				50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -426,6 +417,7 @@
 		5023DE391AB6979C00B3EE96 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				50A9D4581ACD3943000B2599 /* AudioWaves */,
 				5023DE3A1AB697A700B3EE96 /* Cells */,
 				502AE5221AB71C82005BD199 /* Buttons */,
 				502AE52F1AB8387D005BD199 /* TextFields */,
@@ -433,7 +425,6 @@
 				5099B9C51AB95111002F940B /* Rank */,
 				5099B9CA1AB9A7CF002F940B /* CameraPreview */,
 				503315A11AC126140008A209 /* MessageToolbar */,
-				0A3E605A1ACC1035003DC853 /* Component */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -544,7 +535,6 @@
 		502AE53B1AB871C5005BD199 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				0A6F46FC1ACBBF2D000CCD6F /* Waver.swift */,
 				502AE5391AB871C1005BD199 /* YepAlert.swift */,
 				502AE53C1AB87C0D005BD199 /* YepUserDefaults.swift */,
 			);
@@ -663,6 +653,16 @@
 				5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */,
 			);
 			name = CameraPreview;
+			sourceTree = "<group>";
+		};
+		50A9D4581ACD3943000B2599 /* AudioWaves */ = {
+			isa = PBXGroup;
+			children = (
+				50A9D4521ACD393A000B2599 /* SquareWaveView.swift */,
+				50A9D4531ACD393A000B2599 /* Waver.swift */,
+				50A9D4541ACD393A000B2599 /* YepWaverView.swift */,
+			);
+			name = AudioWaves;
 			sourceTree = "<group>";
 		};
 		50CDBE441ACA9B4600459CE0 /* ChatRightImage */ = {
@@ -824,7 +824,6 @@
 			files = (
 				5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */,
 				502AE5591AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib in Resources */,
-				0A3E60651ACCAC1D003DC853 /* NSDateTimeAgo.bundle in Resources */,
 				502AE5411AB88862005BD199 /* SkillRankCell.xib in Resources */,
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
 				50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */,
@@ -838,6 +837,7 @@
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
 				508D174D1ACCF49B0092D666 /* ChatRightAudioCell.xib in Resources */,
+				50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */,
 				503315981AC1017E0008A209 /* ChatLeftTextCell.xib in Resources */,
 				0AD7EA771AC3EEB000617758 /* PushConfig.plist in Resources */,
 			);
@@ -919,24 +919,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */,
+				50A9D4561ACD393A000B2599 /* Waver.swift in Sources */,
 				5099B9C41AB9510D002F940B /* RankView.swift in Sources */,
 				502AE5311AB85067005BD199 /* RegisterPickMobileViewController.swift in Sources */,
 				5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */,
+				50A9D4551ACD393A000B2599 /* SquareWaveView.swift in Sources */,
 				502AE5581AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift in Sources */,
 				502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */,
 				502AE54E1AB93175005BD199 /* ProfileHeaderCell.swift in Sources */,
 				502AE5381AB866E3005BD199 /* LoginVerifyMobileViewController.swift in Sources */,
 				503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */,
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
-				0A3E605E1ACC2F48003DC853 /* SquareWaveView.swift in Sources */,
 				503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */,
-				0A3E60621ACCAB50003DC853 /* NSDate+Extension.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				508D174C1ACCF49B0092D666 /* ChatRightAudioCell.swift in Sources */,
 				502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */,
 				508D17471ACCF4710092D666 /* ChatLeftAudioCell.swift in Sources */,
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
 				50E114F41ABBF9CC00F13000 /* Models.swift in Sources */,
+				50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */,
 				50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */,
 				0A5D83941AC5D3C8000045BF /* YepTabBarController.swift in Sources */,
 				50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */,
@@ -944,15 +945,14 @@
 				5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */,
 				502AE5331AB86020005BD199 /* RegisterVerifyMobileViewController.swift in Sources */,
 				502AE5401AB88862005BD199 /* SkillRankCell.swift in Sources */,
-				0A3E60591ACC0318003DC853 /* YepWaverView.swift in Sources */,
 				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
 				502AE53A1AB871C1005BD199 /* YepAlert.swift in Sources */,
 				502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */,
 				508D17401ACCD2740092D666 /* YepButton.swift in Sources */,
 				5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */,
 				50E114F71ABBFA7000F13000 /* RLMSupport.swift in Sources */,
-				50CDBE3F1ACA58D800459CE0 /* NSFileManager+Yep.swift in Sources */,
 				5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */,
+				50A9D4511ACD383E000B2599 /* NSDate+Extension.swift in Sources */,
 				506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */,
 				508D17441ACCDC9F0092D666 /* VoiceRecordButton.swift in Sources */,
 				502AE5271AB72D06005BD199 /* YepNetworking.swift in Sources */,
@@ -972,9 +972,9 @@
 				0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */,
 				0A3E60601ACCA9C0003DC853 /* String+Yep.swift in Sources */,
 				503315A01AC126100008A209 /* MessageToolbar.swift in Sources */,
+				50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */,
 				502AE5531AB93215005BD199 /* ProfileFooterCell.swift in Sources */,
 				0A5D83991AC5D91E000045BF /* ContactsSearchTableViewController.swift in Sources */,
-				0A6F46FD1ACBBF2D000CCD6F /* Waver.swift in Sources */,
 				0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */,
 				5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */,
 			);
