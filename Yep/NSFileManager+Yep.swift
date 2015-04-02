@@ -64,6 +64,8 @@ extension NSFileManager {
         return nil
     }
 
+    // Image
+    
     class func yepMessageImageURLWithName(name: String) -> NSURL? {
 
         if let messageCachesURL = yepMessageCachesURL() {
@@ -83,4 +85,27 @@ extension NSFileManager {
 
         return nil
     }
+
+    // Audio
+
+    class func yepMessageAudioURLWithName(name: String) -> NSURL? {
+
+        if let messageCachesURL = yepMessageCachesURL() {
+            return messageCachesURL.URLByAppendingPathComponent("\(name).m4a")
+        }
+
+        return nil
+    }
+
+    class func saveMessageAudioData(messageAudioData: NSData, withName name: String) -> NSURL? {
+
+        if let messageAudioURL = yepMessageAudioURLWithName(name) {
+            if NSFileManager.defaultManager().createFileAtPath(messageAudioURL.path!, contents: messageAudioData, attributes: nil) {
+                return messageAudioURL
+            }
+        }
+
+        return nil
+    }
+
 }

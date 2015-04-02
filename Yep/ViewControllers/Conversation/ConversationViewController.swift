@@ -70,6 +70,8 @@ class ConversationViewController: UIViewController {
     let chatRightTextCellIdentifier = "ChatRightTextCell"
     let chatLeftImageCellIdentifier = "ChatLeftImageCell"
     let chatRightImageCellIdentifier = "ChatRightImageCell"
+    let chatLeftAudioCellIdentifier = "ChatLeftAudioCell"
+    let chatRightAudioCellIdentifier = "ChatRightAudioCell"
 
 
     // 使 messageToolbar 随着键盘出现或消失而移动
@@ -112,7 +114,7 @@ class ConversationViewController: UIViewController {
         }
         */
 
-        YepAudioService.sharedManager.audioRecorder.delegate = self
+        //YepAudioService.sharedManager.audioRecorder.delegate = self
         
         let undoBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Undo, target: self, action: "undoMessageSend")
         navigationItem.rightBarButtonItem = undoBarButtonItem
@@ -124,6 +126,8 @@ class ConversationViewController: UIViewController {
         conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftImageCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftImageCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightImageCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightImageCellIdentifier)
+        conversationCollectionView.registerNib(UINib(nibName: chatLeftAudioCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftAudioCellIdentifier)
+        conversationCollectionView.registerNib(UINib(nibName: chatRightAudioCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightAudioCellIdentifier)
         
         conversationCollectionView.bounces = true
 
@@ -170,18 +174,17 @@ class ConversationViewController: UIViewController {
         
         self.waverView = YepWaverView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height))
 
-        
         self.waverView.waver.waverCallback = {
             
-            
-            if (YepAudioService.sharedManager.audioRecorder.recording) {
-                println("Update waver")
-                YepAudioService.sharedManager.audioRecorder.updateMeters()
-                var normalizedValue = pow(10, YepAudioService.sharedManager.audioRecorder.averagePowerForChannel(0)/40)
-                
-                self.waverView.waver.level = CGFloat(normalizedValue)
-            }
+            if let audioRecorder = YepAudioService.sharedManager.audioRecorder {
+                if (audioRecorder.recording) {
+                    println("Update waver")
+                    audioRecorder.updateMeters()
+                    var normalizedValue = pow(10, audioRecorder.averagePowerForChannel(0)/40)
 
+                    self.waverView.waver.level = CGFloat(normalizedValue)
+                }
+            }
         }
 
         messageToolbar.imageSendAction = { messageToolbar in
@@ -198,7 +201,12 @@ class ConversationViewController: UIViewController {
         
         messageToolbar.voiceSendBeginAction = { messageToolbar in
             self.view.window?.addSubview(self.waverView)
-            YepAudioService.sharedManager.beginRecord()
+
+            let audioFileName = NSUUID().UUIDString
+
+            if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
+                YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: self)
+            }
         }
         
         messageToolbar.voiceSendCancelAction = { messageToolbar in
@@ -209,23 +217,49 @@ class ConversationViewController: UIViewController {
         messageToolbar.voiceSendEndAction = { messageToolbar in
             self.waverView.removeFromSuperview()
             YepAudioService.sharedManager.endRecord()
-            
-//            s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in
-//                
-//                println("s3UploadParams: \(s3UploadParams)")
-//                
-//                let filePath = NSBundle.mainBundle().pathForResource("1", ofType: "png")!
-//                uploadFileToS3(filePath: filePath, fileData: nil, mimetype: "image/png", s3UploadParams: s3UploadParams, completion: { (result, error) in
-//                    if (result) {
-//                        let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
-//                        updateUserInfo(nickname: nil, avatar_url: newAvatarURLString, username: nil, latitude: nil, longitude: nil, completion: { result in
-//                            YepUserDefaults.setAvatarURLString(newAvatarURLString)
-//                            println("Update user info \(result)")
-//                        })
-//                        
-//                    }
-//                })
-//            }
+
+            if let fileURL = YepAudioService.sharedManager.audioFileURL {
+                if let withFriend = self.conversation.withFriend {
+                    sendAudioInFilePath(fileURL.path!, orFileData: nil, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message -> Void in
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let realm = message.realm
+                            realm.beginWriteTransaction()
+                            message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
+                            realm.commitWriteTransaction()
+
+                            self.updateConversationCollectionView()
+                        }
+
+                    }, failureHandler: { (reason, errorMessage) -> Void in
+                        defaultFailureHandler(reason, errorMessage)
+                        // TODO: 音频发送失败
+                        
+                    }, completion: { (success) -> Void in
+                        println("send audio to friend: \(success)")
+                    })
+
+                } else if let withGroup = self.conversation.withGroup {
+                    sendAudioInFilePath(fileURL.path!, orFileData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { (message) -> Void in
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let realm = message.realm
+                            realm.beginWriteTransaction()
+                            message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
+                            realm.commitWriteTransaction()
+
+                            self.updateConversationCollectionView()
+                        }
+
+                    }, failureHandler: { (reason, errorMessage) -> Void in
+                        defaultFailureHandler(reason, errorMessage)
+                        // TODO: 音频发送失败
+
+                    }, completion: { (success) -> Void in
+                        println("send audio to group: \(success)")
+                    })
+                }
+            }
         }
     }
 
@@ -263,6 +297,9 @@ class ConversationViewController: UIViewController {
         switch message.mediaType {
         case MessageMediaType.Image.rawValue:
             return messageImageHeight + 10 + 10
+
+        case MessageMediaType.Audio.rawValue:
+            return 50
 
         default:
             let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
@@ -515,6 +552,17 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     return cell
 
+                case MessageMediaType.Audio.rawValue:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftAudioCellIdentifier, forIndexPath: indexPath) as! ChatLeftAudioCell
+
+                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            cell.avatarImageView.image = roundImage
+                        }
+                    }
+                    
+                    return cell
+
                 default:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
 
@@ -559,6 +607,16 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     
                     return cell
 
+                case MessageMediaType.Audio.rawValue:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightAudioCellIdentifier, forIndexPath: indexPath) as! ChatRightAudioCell
+
+                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            cell.avatarImageView.image = roundImage
+                        }
+                    }
+
+                    return cell
 
                 default:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell

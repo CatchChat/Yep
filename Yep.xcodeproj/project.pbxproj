@@ -81,6 +81,10 @@
 		5076C56A1AC46B9F00B22952 /* FayeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5076C5691AC46B9F00B22952 /* FayeService.swift */; };
 		508D17401ACCD2740092D666 /* YepButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D173F1ACCD2740092D666 /* YepButton.swift */; };
 		508D17441ACCDC9F0092D666 /* VoiceRecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D17431ACCDC9F0092D666 /* VoiceRecordButton.swift */; };
+		508D17471ACCF4710092D666 /* ChatLeftAudioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D17451ACCF4710092D666 /* ChatLeftAudioCell.swift */; };
+		508D17481ACCF4710092D666 /* ChatLeftAudioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508D17461ACCF4710092D666 /* ChatLeftAudioCell.xib */; };
+		508D174C1ACCF49B0092D666 /* ChatRightAudioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D174A1ACCF49B0092D666 /* ChatRightAudioCell.swift */; };
+		508D174D1ACCF49B0092D666 /* ChatRightAudioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508D174B1ACCF49B0092D666 /* ChatRightAudioCell.xib */; };
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
 		5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */; };
@@ -190,6 +194,10 @@
 		5076C5691AC46B9F00B22952 /* FayeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FayeService.swift; path = Services/FayeService.swift; sourceTree = "<group>"; };
 		508D173F1ACCD2740092D666 /* YepButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepButton.swift; path = Views/Buttons/YepButton.swift; sourceTree = "<group>"; };
 		508D17431ACCDC9F0092D666 /* VoiceRecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VoiceRecordButton.swift; path = Views/MessageToolbar/VoiceRecordButton.swift; sourceTree = "<group>"; };
+		508D17451ACCF4710092D666 /* ChatLeftAudioCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftAudioCell.swift; path = Views/Cells/ChatLeftAudio/ChatLeftAudioCell.swift; sourceTree = "<group>"; };
+		508D17461ACCF4710092D666 /* ChatLeftAudioCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftAudioCell.xib; path = Views/Cells/ChatLeftAudio/ChatLeftAudioCell.xib; sourceTree = "<group>"; };
+		508D174A1ACCF49B0092D666 /* ChatRightAudioCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightAudioCell.swift; path = Views/Cells/ChatRightAudio/ChatRightAudioCell.swift; sourceTree = "<group>"; };
+		508D174B1ACCF49B0092D666 /* ChatRightAudioCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatRightAudioCell.xib; path = Views/Cells/ChatRightAudio/ChatRightAudioCell.xib; sourceTree = "<group>"; };
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
 		5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraPreviewView.swift; path = Views/CameraPreview/CameraPreviewView.swift; sourceTree = "<group>"; };
@@ -442,6 +450,8 @@
 				5033159E1AC101CB0008A209 /* ChatRightText */,
 				50CDBE4B1ACBAD3700459CE0 /* ChatLeftImageCell */,
 				50CDBE441ACA9B4600459CE0 /* ChatRightImage */,
+				508D17491ACCF4740092D666 /* ChatLeftAudio */,
+				508D174E1ACCF49F0092D666 /* ChatRightAudio */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -619,6 +629,24 @@
 				50165C441AC2860900C7AEBE /* ConversationLayout.swift */,
 			);
 			name = Conversation;
+			sourceTree = "<group>";
+		};
+		508D17491ACCF4740092D666 /* ChatLeftAudio */ = {
+			isa = PBXGroup;
+			children = (
+				508D17451ACCF4710092D666 /* ChatLeftAudioCell.swift */,
+				508D17461ACCF4710092D666 /* ChatLeftAudioCell.xib */,
+			);
+			name = ChatLeftAudio;
+			sourceTree = "<group>";
+		};
+		508D174E1ACCF49F0092D666 /* ChatRightAudio */ = {
+			isa = PBXGroup;
+			children = (
+				508D174A1ACCF49B0092D666 /* ChatRightAudioCell.swift */,
+				508D174B1ACCF49B0092D666 /* ChatRightAudioCell.xib */,
+			);
+			name = ChatRightAudio;
 			sourceTree = "<group>";
 		};
 		5099B9C51AB95111002F940B /* Rank */ = {
@@ -800,6 +828,7 @@
 				502AE5411AB88862005BD199 /* SkillRankCell.xib in Resources */,
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
 				50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */,
+				508D17481ACCF4710092D666 /* ChatLeftAudioCell.xib in Resources */,
 				0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */,
 				5033159D1AC101C80008A209 /* ChatRightTextCell.xib in Resources */,
 				50CDBE431ACA9B4200459CE0 /* ChatRightImageCell.xib in Resources */,
@@ -808,6 +837,7 @@
 				0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */,
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
+				508D174D1ACCF49B0092D666 /* ChatRightAudioCell.xib in Resources */,
 				503315981AC1017E0008A209 /* ChatLeftTextCell.xib in Resources */,
 				0AD7EA771AC3EEB000617758 /* PushConfig.plist in Resources */,
 			);
@@ -902,7 +932,9 @@
 				503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */,
 				0A3E60621ACCAB50003DC853 /* NSDate+Extension.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
+				508D174C1ACCF49B0092D666 /* ChatRightAudioCell.swift in Sources */,
 				502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */,
+				508D17471ACCF4710092D666 /* ChatLeftAudioCell.swift in Sources */,
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
 				50E114F41ABBF9CC00F13000 /* Models.swift in Sources */,
 				50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */,

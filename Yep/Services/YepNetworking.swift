@@ -97,7 +97,7 @@ func queryComponents(key: String, value: AnyObject) -> [(String, String)] {
     return components
 }
 
-public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>, failure: (Reason, String?) -> (), completion: A -> Void) {
+public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>, failure: (Reason, String?) -> Void, completion: A -> Void) {
     let session = NSURLSession.sharedSession()
     let url = baseURL.URLByAppendingPathComponent(resource.path)
     let request = NSMutableURLRequest(URL: url)
