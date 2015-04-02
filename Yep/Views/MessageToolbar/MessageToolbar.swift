@@ -88,50 +88,30 @@ class MessageToolbar: UIToolbar {
         return textView
         }()
 
-    lazy var voiceRecordButton: YepButton = {
-        let button = YepButton()
+    lazy var voiceRecordButton: VoiceRecordButton = {
+        let button = VoiceRecordButton()
 
-        button.setTitle("Hold For Voice", forState: UIControlState.Normal)
         button.backgroundColor = UIColor.whiteColor()
         button.layer.cornerRadius = self.normalCornerRadius
-        button.titleLabel?.font = UIFont.systemFontOfSize(15.0)
-        button.setTitleColor(UIColor.lightGrayColor(), forState: UIControlState.Normal)
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.lightGrayColor().CGColor
         button.tintColor = UIColor.lightGrayColor()
 
-
-        let leftVoiceImageView = UIImageView(image: UIImage(named: "icon_voice_left"))
-        let rightVoiceImageView = UIImageView(image: UIImage(named: "icon_voice_right"))
-
-        button.addSubview(leftVoiceImageView)
-        button.addSubview(rightVoiceImageView)
-
-        leftVoiceImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        rightVoiceImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
-
-        let viewsDictionary = [
-            "leftVoiceImageView": leftVoiceImageView,
-            "rightVoiceImageView": rightVoiceImageView,
-        ]
-
-        let leftVoiceImageViewConstraintCenterY = NSLayoutConstraint(item: leftVoiceImageView, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: button, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
-
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[leftVoiceImageView]-(>=0)-[rightVoiceImageView]-10-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
-
-        NSLayoutConstraint.activateConstraints([leftVoiceImageViewConstraintCenterY])
-        NSLayoutConstraint.activateConstraints(constraintsH)
-
-
-        button.yepTouchBegin = {
+        button.pressBeganAction = { longPressGestureRecognizer in
             self.trySendVoiceMessageBegin()
         }
-        button.yepTouchesEnded = {
+
+        button.pressChangedAction = { longPressGestureRecognizer in
+        }
+
+        button.pressEndedAction = { longPressGestureRecognizer in
             self.trySendVoiceMessageEnd()
         }
-        button.yepTouchesCancelled = {
+
+        button.pressCancelledAction = { longPressGestureRecognizer in
             self.trySendVoiceMessageCancel()
         }
+
         return button
         }()
 
@@ -285,6 +265,7 @@ class MessageToolbar: UIToolbar {
     func toggleRecordVoice() {
         if state == .VoiceRecord {
             state = .Default
+
         } else {
             state = .VoiceRecord
         }
