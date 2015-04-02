@@ -43,6 +43,7 @@ class MessageToolbar: UIToolbar {
             case .VoiceRecord:
                 messageTextView.hidden = true
                 voiceRecordButton.hidden = false
+                messageTextView.endEditing(true)
                 micButton.setImage(UIImage(named: "icon_keyboard"), forState: .Normal)
                 showVoiceButtonAnimation()
                 
@@ -83,8 +84,8 @@ class MessageToolbar: UIToolbar {
         return textView
         }()
 
-    lazy var voiceRecordButton: UIButton = {
-        let button = UIButton()
+    lazy var voiceRecordButton: YepButton = {
+        let button = YepButton()
 
         button.setTitle("Hold For Voice", forState: UIControlState.Normal)
         button.backgroundColor = UIColor.whiteColor()
@@ -94,9 +95,15 @@ class MessageToolbar: UIToolbar {
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.lightGrayColor().CGColor
         button.tintColor = UIColor.lightGrayColor()
-        button.addTarget(self, action: "trySendVoiceMessageBegin", forControlEvents: UIControlEvents.TouchDown)
-        button.addTarget(self, action: "trySendVoiceMessageEnd", forControlEvents: UIControlEvents.TouchUpInside)
-        button.addTarget(self, action: "trySendVoiceMessageCancel", forControlEvents: UIControlEvents.TouchUpOutside)
+        button.yepTouchBegin = {
+            self.trySendVoiceMessageBegin()
+        }
+        button.yepTouchesEnded = {
+            self.trySendVoiceMessageEnd()
+        }
+        button.yepTouchesCancelled = {
+            self.trySendVoiceMessageCancel()
+        }
         return button
         }()
 
@@ -300,18 +307,21 @@ class MessageToolbar: UIToolbar {
     
     func trySendVoiceMessageBegin() {
         if let textSendAction = voiceSendBeginAction {
+            voiceRecordButton.backgroundColor = UIColor.lightGrayColor()
             textSendAction(messageToolBar: self)
         }
     }
     
     func trySendVoiceMessageEnd() {
         if let textSendAction = voiceSendEndAction {
+            voiceRecordButton.backgroundColor = UIColor.whiteColor()
             textSendAction(messageToolBar: self)
         }
     }
     
     func trySendVoiceMessageCancel() {
         if let textSendAction = voiceSendCancelAction {
+            voiceRecordButton.backgroundColor = UIColor.whiteColor()
             textSendAction(messageToolBar: self)
         }
     }
