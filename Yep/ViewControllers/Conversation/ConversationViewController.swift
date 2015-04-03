@@ -251,6 +251,9 @@ class ConversationViewController: UIViewController {
                             realm.beginWriteTransaction()
                             message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
                             message.mediaType = MessageMediaType.Audio.rawValue
+                            if let metaData = metaData {
+                                message.metaData = metaData
+                            }
                             realm.commitWriteTransaction()
 
                             self.updateConversationCollectionView()
@@ -272,6 +275,9 @@ class ConversationViewController: UIViewController {
                             realm.beginWriteTransaction()
                             message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
                             message.mediaType = MessageMediaType.Audio.rawValue
+                            if let metaData = metaData {
+                                message.metaData = metaData
+                            }
                             realm.commitWriteTransaction()
 
                             self.updateConversationCollectionView()
