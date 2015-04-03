@@ -25,6 +25,14 @@ extension UIColor {
         return UIColor.yepTintColor()
     }
 
+    class func leftWaveColor() -> UIColor {
+        return UIColor.yepTintColor().colorWithAlphaComponent(0.9)
+    }
+
+    class func rightWaveColor() -> UIColor {
+        return UIColor(white: 0.0, alpha: 0.15)
+    }
+
     class func skillMasterColor() -> UIColor {
         return yepTintColor()
     }

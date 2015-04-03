@@ -83,6 +83,7 @@
                 <outlet property="audioDurationLabel" destination="alU-Q7-YxY" id="2dD-Pg-BJw"/>
                 <outlet property="avatarImageView" destination="76j-Ht-EsY" id="uPV-sw-dlg"/>
                 <outlet property="bubbleImageView" destination="IUw-Mk-XlZ" id="eH5-bH-lrf"/>
+                <outlet property="playButton" destination="XTQ-XN-AqX" id="UPv-c2-8JU"/>
                 <outlet property="sampleView" destination="ynj-aF-z4D" id="FIe-OE-IN2"/>
                 <outlet property="sampleViewWidthConstraint" destination="LKH-Qz-uop" id="TsO-kt-Lg5"/>
             </connections>

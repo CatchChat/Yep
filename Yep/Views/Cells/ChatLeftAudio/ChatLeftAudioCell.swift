@@ -19,14 +19,18 @@ class ChatLeftAudioCell: UICollectionViewCell {
 
     @IBOutlet weak var audioDurationLabel: UILabel!
 
+    @IBOutlet weak var playButton: UIButton!
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
         bubbleImageView.tintColor = UIColor.leftBubbleTintColor()
 
-        sampleView.sampleColor = UIColor.rightBubbleTintColor()
+        sampleView.sampleColor = UIColor.leftWaveColor()
 
-        audioDurationLabel.textColor = UIColor.blackColor()
+        audioDurationLabel.textColor = UIColor.darkGrayColor()
+
+        playButton.userInteractionEnabled = false
     }
 
 }
