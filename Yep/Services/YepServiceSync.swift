@@ -30,25 +30,28 @@ func downloadAttachmentOfMessage(message: Message) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                 let data = NSData(contentsOfURL: url)
 
-                let fileName = NSUUID().UUIDString
+                if let data = data {
+                    let fileName = NSUUID().UUIDString
 
-                dispatch_async(dispatch_get_main_queue()) {
-                    switch message.mediaType {
-                    case MessageMediaType.Image.rawValue:
-                        if let fileURL = NSFileManager.yepMessageImageURLWithName(fileName) {
-                            updateMessage(message, withAttachmentFileName: fileName)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        switch message.mediaType {
+                        case MessageMediaType.Image.rawValue:
+                            if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
+                                updateMessage(message, withAttachmentFileName: fileName)
+                            }
+
+                        case MessageMediaType.Video.rawValue:
+                            break // TODO: download video
+
+                        case MessageMediaType.Audio.rawValue:
+                            if let fileURL = NSFileManager.saveMessageAudioData(data, withName: fileName) {
+
+                                updateMessage(message, withAttachmentFileName: fileName)
+                            }
+                            
+                        default:
+                            break
                         }
-
-                    case MessageMediaType.Video.rawValue:
-                        break // TODO: download video
-
-                    case MessageMediaType.Audio.rawValue:
-                        if let fileURL = NSFileManager.yepMessageAudioURLWithName(fileName) {
-                            updateMessage(message, withAttachmentFileName: fileName)
-                        }
-                        
-                    default:
-                        break
                     }
                 }
             }
