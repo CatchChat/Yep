@@ -22,7 +22,7 @@ class YepConfig {
         return 40.0
     }
 
-    class func chatCellTextContentLabelLeading() -> CGFloat {
+    class func chatCellGapBetweenTextContentLabelAvatar() -> CGFloat {
         return 23
     }
 

@@ -55,7 +55,7 @@ class ConversationViewController: UIViewController {
 
     let messageTextAttributes = [NSFontAttributeName: UIFont.chatTextFont()]
     lazy var messageTextLabelMaxWidth: CGFloat = {
-        self.collectionViewWidth - (15 + YepConfig.chatCellAvatarSize() + YepConfig.chatCellTextContentLabelLeading() + 50) // TODO: use config messageTextLabelMaxWidth
+        self.collectionViewWidth - (15 + YepConfig.chatCellAvatarSize() + YepConfig.chatCellGapBetweenTextContentLabelAvatar() + 50) // TODO: use config messageTextLabelMaxWidth
         }()
 
     lazy var collectionViewWidth: CGFloat = {

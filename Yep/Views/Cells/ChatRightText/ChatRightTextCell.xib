@@ -13,8 +13,11 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="417" height="131"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="right_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="73l-kE-1KG" userLabel="Right Bubble Image View">
-                        <rect key="frame" x="244" y="50" width="114" height="32"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_right_tail" translatesAutoresizingMaskIntoConstraints="NO" id="1JC-jy-KNh" userLabel="Bubble Tail Image View">
+                        <rect key="frame" x="347" y="59" width="13" height="14"/>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_body" translatesAutoresizingMaskIntoConstraints="NO" id="73l-kE-1KG" userLabel="Bubble Body Image View">
+                        <rect key="frame" x="244" y="46" width="110" height="40"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Content" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ek-jh-1iK" userLabel="Text Content Label">
                         <rect key="frame" x="256" y="57" width="86" height="18"/>
@@ -23,7 +26,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RKK-8d-9vO" userLabel="Avatar Image View">
-                        <rect key="frame" x="362" y="49" width="40" height="40"/>
+                        <rect key="frame" x="362" y="46" width="40" height="40"/>
                         <color key="tintColor" red="0.80000001192092896" green="0.40000000596046448" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="RKK-8d-9vO" secondAttribute="height" multiplier="1:1" id="LU8-0P-1eJ"/>
@@ -34,27 +37,32 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstItem="73l-kE-1KG" firstAttribute="top" secondItem="6ek-jh-1iK" secondAttribute="top" constant="-7" id="Cd3-3v-PNz"/>
+                <constraint firstItem="73l-kE-1KG" firstAttribute="top" secondItem="6ek-jh-1iK" secondAttribute="top" constant="-11" id="Cd3-3v-PNz"/>
                 <constraint firstAttribute="centerY" secondItem="6ek-jh-1iK" secondAttribute="centerY" id="Cf2-L7-PcF"/>
                 <constraint firstItem="73l-kE-1KG" firstAttribute="leading" secondItem="6ek-jh-1iK" secondAttribute="leading" constant="-12" id="Eht-Ir-1FH"/>
                 <constraint firstItem="6ek-jh-1iK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="50" id="FIg-M8-BRB"/>
-                <constraint firstItem="6ek-jh-1iK" firstAttribute="top" secondItem="RKK-8d-9vO" secondAttribute="top" constant="8" id="RES-Wp-9mT"/>
-                <constraint firstItem="73l-kE-1KG" firstAttribute="trailing" secondItem="6ek-jh-1iK" secondAttribute="trailing" constant="16" id="hnR-dp-A2m"/>
+                <constraint firstItem="6ek-jh-1iK" firstAttribute="top" secondItem="RKK-8d-9vO" secondAttribute="top" constant="11" id="RES-Wp-9mT"/>
+                <constraint firstItem="1JC-jy-KNh" firstAttribute="leading" secondItem="6ek-jh-1iK" secondAttribute="trailing" constant="5" id="UAh-ab-38y"/>
+                <constraint firstItem="1JC-jy-KNh" firstAttribute="centerY" secondItem="RKK-8d-9vO" secondAttribute="centerY" id="Upo-MS-aQJ"/>
+                <constraint firstItem="73l-kE-1KG" firstAttribute="trailing" secondItem="6ek-jh-1iK" secondAttribute="trailing" constant="12" id="hnR-dp-A2m"/>
                 <constraint firstItem="RKK-8d-9vO" firstAttribute="leading" secondItem="6ek-jh-1iK" secondAttribute="trailing" constant="20" id="kwM-35-2Fj"/>
                 <constraint firstAttribute="trailing" secondItem="RKK-8d-9vO" secondAttribute="trailing" constant="15" id="vs0-4M-TaV"/>
-                <constraint firstItem="73l-kE-1KG" firstAttribute="bottom" secondItem="6ek-jh-1iK" secondAttribute="bottom" constant="7" id="zxe-wy-oro"/>
+                <constraint firstItem="73l-kE-1KG" firstAttribute="bottom" secondItem="6ek-jh-1iK" secondAttribute="bottom" constant="11" id="zxe-wy-oro"/>
             </constraints>
             <size key="customSize" width="417" height="131"/>
             <connections>
                 <outlet property="avatarImageView" destination="RKK-8d-9vO" id="Tsh-cB-lZt"/>
                 <outlet property="avatarImageViewWidthConstraint" destination="hm6-ty-e5H" id="Lvg-NA-gZh"/>
-                <outlet property="bubbleImageView" destination="73l-kE-1KG" id="gjj-pJ-ll1"/>
+                <outlet property="bubbleBodyImageView" destination="73l-kE-1KG" id="CiV-dM-4JT"/>
+                <outlet property="bubbleTailImageView" destination="1JC-jy-KNh" id="MGo-KB-Kb3"/>
                 <outlet property="textContentLabel" destination="6ek-jh-1iK" id="fCu-O7-a1E"/>
+                <outlet property="textContentLabelTrailingConstraint" destination="kwM-35-2Fj" id="sm6-rp-3Sj"/>
             </connections>
             <point key="canvasLocation" x="339.5" y="326.5"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="right_bubble" width="36" height="30"/>
+        <image name="bubble_body" width="42" height="40"/>
+        <image name="bubble_right_tail" width="13" height="14"/>
     </resources>
 </document>

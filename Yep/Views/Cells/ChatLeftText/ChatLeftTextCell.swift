@@ -23,7 +23,7 @@ class ChatLeftTextCell: UICollectionViewCell {
         super.awakeFromNib()
 
         textContentLabel.font = UIFont.chatTextFont()
-        textContentLabelLeadingConstaint.constant = YepConfig.chatCellTextContentLabelLeading()
+        textContentLabelLeadingConstaint.constant = YepConfig.chatCellGapBetweenTextContentLabelAvatar()
 
         bubbleBodyImageView.tintColor = UIColor.leftBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.leftBubbleTintColor()
