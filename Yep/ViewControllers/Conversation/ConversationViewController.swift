@@ -593,14 +593,58 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     }
 
                     cell.messageImageView.alpha = 0.0
-                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImageWidth, height: messageImageHeight), tailDirection: .Left) { image in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            cell.messageImageView.image = image
 
-                            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                                cell.messageImageView.alpha = 1.0
-                            }, completion: { (finished) -> Void in
-                            })
+                    if message.metaData.isEmpty {
+                        ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImageWidth, height: messageImageHeight), tailDirection: .Left) { image in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                cell.messageImageView.image = image
+
+                                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                                    cell.messageImageView.alpha = 1.0
+                                }, completion: { (finished) -> Void in
+                                })
+                            }
+                        }
+
+                    } else {
+                        if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                            if let metaDataDict = decodeJSON(data) {
+                                if
+                                    let imageWidth = metaDataDict["image_width"] as? CGFloat,
+                                    let imageHeight = metaDataDict["image_height"] as? CGFloat {
+
+                                        let aspectRatio = imageWidth / imageHeight
+
+                                        if aspectRatio >= 1 {
+                                            cell.messageImageViewWidthConstrint.constant = messageImageWidth
+
+                                            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImageWidth, height: messageImageWidth / aspectRatio), tailDirection: .Left) { image in
+                                                dispatch_async(dispatch_get_main_queue()) {
+                                                    cell.messageImageView.image = image
+
+                                                    UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                                                        cell.messageImageView.alpha = 1.0
+                                                    }, completion: { (finished) -> Void in
+                                                    })
+                                                }
+                                            }
+
+                                        } else {
+                                            cell.messageImageViewWidthConstrint.constant = 200 * aspectRatio
+
+                                            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: 200 * aspectRatio, height: 200), tailDirection: .Left) { image in
+                                                dispatch_async(dispatch_get_main_queue()) {
+                                                    cell.messageImageView.image = image
+
+                                                    UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                                                        cell.messageImageView.alpha = 1.0
+                                                    }, completion: { (finished) -> Void in
+                                                    })
+                                                }
+                                            }
+                                        }
+                                }
+                            }
                         }
                     }
 
@@ -676,7 +720,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                         UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                                             cell.messageImageView.alpha = 1.0
-                                            }, completion: { (finished) -> Void in
+                                        }, completion: { (finished) -> Void in
                                         })
                                     }
                                 }
@@ -689,8 +733,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                             let imageHeight = metaDataDict["image_height"] as? CGFloat {
 
                                                 let aspectRatio = imageWidth / imageHeight
-
-
 
                                                 if aspectRatio >= 1 {
                                                     cell.messageImageViewWidthConstrint.constant = messageImageWidth
@@ -720,8 +762,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                                         }
                                                     }
                                                 }
-
-
                                         }
                                     }
                                 }
@@ -879,7 +919,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         if let withFriend = self.conversation.withFriend {
 
-            sendImageInFilePath(nil, orFileData: imageData, metaData: nil, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message -> Void in
+            sendImageInFilePath(nil, orFileData: imageData, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message -> Void in
 
                 dispatch_async(dispatch_get_main_queue()) {
 
