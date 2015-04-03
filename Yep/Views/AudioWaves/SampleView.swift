@@ -55,8 +55,11 @@ class SampleView: UIView {
                 for (index, percent) in enumerate(samples) {
 
                     let x = CGFloat(index) * sampleWidth + sampleGap * CGFloat(index)
+                    let sampleHeightMax = viewHeight * 0.8
+                    let realSampleHeight = percent * viewHeight
+                    
 
-                    let sampleHeight = percent * (viewHeight * 0.9)
+                    let sampleHeight = realSampleHeight < sampleHeightMax ? realSampleHeight: sampleHeightMax
 
                     wavePath.moveToPoint(CGPointMake(x, viewHeight / 2.0 - sampleHeight / 2.0))
                     wavePath.addLineToPoint(CGPointMake(x, sampleHeight / 2.0 + viewHeight / 2.0))

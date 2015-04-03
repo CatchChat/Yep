@@ -20,6 +20,7 @@
 		0A8F54C71AB67D11004AD60E /* YepTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F54C61AB67D11004AD60E /* YepTests.swift */; };
 		0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A944C241AC8BB2F00037A06 /* YepStorageService.swift */; };
 		0AAFCFF91AC8CA5B00EB0EF8 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */; };
+		0ABF3EA71ACE60D5001E76ED /* Waver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABF3EA51ACE60D5001E76ED /* Waver.swift */; };
 		0AD7EA5E1AC3ED1200617758 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA5D1AC3ED1200617758 /* CFNetwork.framework */; };
 		0AD7EA601AC3ED1900617758 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA5F1AC3ED1900617758 /* CoreFoundation.framework */; };
 		0AD7EA621AC3ED2100617758 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA611AC3ED2100617758 /* CoreTelephony.framework */; };
@@ -87,8 +88,6 @@
 		50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */; };
 		50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */; };
 		50A9D4511ACD383E000B2599 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */; };
-		50A9D4551ACD393A000B2599 /* SquareWaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4521ACD393A000B2599 /* SquareWaveView.swift */; };
-		50A9D4561ACD393A000B2599 /* Waver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4531ACD393A000B2599 /* Waver.swift */; };
 		50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4541ACD393A000B2599 /* YepWaverView.swift */; };
 		50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */; };
 		50CDBE431ACA9B4200459CE0 /* ChatRightImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50CDBE411ACA9B4200459CE0 /* ChatRightImageCell.xib */; };
@@ -130,6 +129,7 @@
 		0A8F54C61AB67D11004AD60E /* YepTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepTests.swift; sourceTree = "<group>"; };
 		0A944C241AC8BB2F00037A06 /* YepStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepStorageService.swift; path = Services/YepStorageService.swift; sourceTree = "<group>"; };
 		0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		0ABF3EA51ACE60D5001E76ED /* Waver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Waver.swift; sourceTree = "<group>"; };
 		0AD7EA511AC3EA6F00617758 /* JPushSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JPushSDK.framework; path = "Pods/../build/Debug-iphoneos/Pods/JPushSDK.framework"; sourceTree = "<group>"; };
 		0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Yep-Bridging-Header.h"; sourceTree = "<group>"; };
 		0AD7EA5B1AC3ECD700617758 /* libPushSDK-1.8.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPushSDK-1.8.3.a"; path = "Yep/lib/libPushSDK-1.8.3.a"; sourceTree = "<group>"; };
@@ -201,8 +201,6 @@
 		50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Yep.swift"; path = "Extensions/NSFileManager+Yep.swift"; sourceTree = "<group>"; };
 		50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = NSDateTimeAgo.bundle; path = Extensions/NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Extensions/NSDate+Extension.swift"; sourceTree = "<group>"; };
-		50A9D4521ACD393A000B2599 /* SquareWaveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SquareWaveView.swift; path = Views/AudioWaves/SquareWaveView.swift; sourceTree = "<group>"; };
-		50A9D4531ACD393A000B2599 /* Waver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Waver.swift; path = Views/AudioWaves/Waver.swift; sourceTree = "<group>"; };
 		50A9D4541ACD393A000B2599 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/AudioWaves/YepWaverView.swift; sourceTree = "<group>"; };
 		50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightImageCell.swift; path = Views/Cells/ChatRightImage/ChatRightImageCell.swift; sourceTree = "<group>"; };
 		50CDBE411ACA9B4200459CE0 /* ChatRightImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatRightImageCell.xib; path = Views/Cells/ChatRightImage/ChatRightImageCell.xib; sourceTree = "<group>"; };
@@ -660,9 +658,8 @@
 		50A9D4581ACD3943000B2599 /* AudioWaves */ = {
 			isa = PBXGroup;
 			children = (
-				50A9D4521ACD393A000B2599 /* SquareWaveView.swift */,
+				0ABF3EA51ACE60D5001E76ED /* Waver.swift */,
 				504F41241ACE2D1D00FBB19A /* SampleView.swift */,
-				50A9D4531ACD393A000B2599 /* Waver.swift */,
 				50A9D4541ACD393A000B2599 /* YepWaverView.swift */,
 			);
 			name = AudioWaves;
@@ -922,14 +919,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */,
-				50A9D4561ACD393A000B2599 /* Waver.swift in Sources */,
 				5099B9C41AB9510D002F940B /* RankView.swift in Sources */,
 				502AE5311AB85067005BD199 /* RegisterPickMobileViewController.swift in Sources */,
 				5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */,
-				50A9D4551ACD393A000B2599 /* SquareWaveView.swift in Sources */,
 				502AE5581AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift in Sources */,
 				502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */,
 				502AE54E1AB93175005BD199 /* ProfileHeaderCell.swift in Sources */,
+				0ABF3EA71ACE60D5001E76ED /* Waver.swift in Sources */,
 				502AE5381AB866E3005BD199 /* LoginVerifyMobileViewController.swift in Sources */,
 				503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */,
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,

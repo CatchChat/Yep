@@ -20,6 +20,9 @@ class Waver: UIView {
         didSet {
             self.phase+=self.phaseShift; // Move the wave
             self.amplitude = fmax( level, self.idleAmplitude)
+            
+            self.appendValue(pow(CGFloat(level),3))
+            
             self.updateMeters()
         }
     }
@@ -42,10 +45,30 @@ class Waver: UIView {
     
     //
     
-    private var waveHeight: CGFloat!
-    private var waveWidth: CGFloat!
-    private var waveMid: CGFloat!
-    private var maxAmplitude: CGFloat!
+    var waveHeight: CGFloat!
+    var waveWidth: CGFloat!
+    var waveMid: CGFloat!
+    var maxAmplitude: CGFloat!
+    
+    // Sample Data
+    
+    var waveSampleCount = 0
+    
+    var waveSamples = [CGFloat]()
+    
+    var waveTotalCount: CGFloat!
+    
+    var waveSquareWidth: CGFloat = 2.0
+    
+    var waveGap: CGFloat = 1.0
+    
+    var maxSquareWaveLength = 256
+    
+    var maxTime = 60
+    
+    var fps = 6
+    
+    //
 
     var waverCallback: (() -> ())? {
         didSet {
@@ -82,6 +105,16 @@ class Waver: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+    }
+    
+    func appendValue(newValue: CGFloat) {
+        
+        if ++waveSampleCount % fps == 0{
+            
+            waveSamples.append(newValue*5)
+            
+            updateMeters()
+        }
     }
     
     private func setup() {
@@ -135,6 +168,68 @@ class Waver: UIView {
         }
         
         UIGraphicsEndImageContext()
+    }
+    
+    func compressSamples() -> [Float]? {
+        
+        println("Begin compress")
+        
+        var finalSamples = [Float]()
+        
+        var samplesCount = waveSamples.count //获取总的 Sample 数量
+        
+        var totalTime:CGFloat = CGFloat(waveSamples.count/(60/fps)) // 计算音频的时长
+        
+        var bubbleWidth = -0.071*(totalTime*totalTime) + 8.532*totalTime //计算这个时长下的Bubble宽度，Bubble 的宽度和时间的关系函数是一个一元二次函数
+        
+        var effectiveSample = bubbleWidth/(waveSquareWidth+waveGap) < 1 ? 1 : bubbleWidth/(waveSquareWidth+waveGap) //计算这个长度里实际可以放多少个sample图形
+        if (effectiveSample > 10) {
+            
+        }
+        
+        var sampleGap = Int(CGFloat(samplesCount)/effectiveSample) //计算按照实际可放的sample数量，原sample需要每几个合并一次
+        
+        var timePerSample = totalTime/(CGFloat(samplesCount)/effectiveSample) //计算合并后每个 sample 需要经过多少时间播放
+        
+
+        
+        println("samplesCount \(samplesCount) totalTime \(totalTime) bubbleWidth \(bubbleWidth) effectiveSample\(effectiveSample) sampleGap \(sampleGap) timePerSample\(timePerSample)")
+        
+        //
+        
+        var sampleCount = 0
+        
+        var lastSample: CGFloat = 0
+        
+        for sample in waveSamples {
+            
+            if ++sampleCount > sampleGap {
+                sampleCount = 0
+                finalSamples.append(Float(lastSample))
+                lastSample = 0
+            }else{
+                if (sample > lastSample) {
+                    lastSample = sample
+                }
+            }
+        }
+        
+        if (finalSamples.count < 10){
+            
+            finalSamples = [Float]()
+            
+            for sample in waveSamples {
+                finalSamples.append(Float(sample))
+            }
+        }
+        
+        println("Final Sample is \(finalSamples)")
+        
+        return finalSamples
+    }
+
+    func resetWaveSamples() {
+        waveSamples = [CGFloat]()
     }
     
     /*

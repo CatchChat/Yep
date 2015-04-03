@@ -15,7 +15,6 @@ class ConversationViewController: UIViewController {
     var conversation: Conversation!
     
     var waverView: YepWaverView!
-    var audioSamples = [Float]()
     var samplesCount = 0
     let samplingInterval = 6
 
@@ -178,10 +177,6 @@ class ConversationViewController: UIViewController {
 
                     var normalizedValue = pow(10, audioRecorder.averagePowerForChannel(0)/40)
 
-                    if (++self.samplesCount % self.samplingInterval) == 0 {
-                        self.audioSamples.append(normalizedValue)
-                    }
-
                     self.waverView.waver.level = CGFloat(normalizedValue)
                 }
             }
@@ -206,7 +201,7 @@ class ConversationViewController: UIViewController {
 
             let audioFileName = NSUUID().UUIDString
 
-            self.audioSamples.removeAll(keepCapacity: true)
+            self.waverView.waver.resetWaveSamples()
             self.samplesCount = 0
 
             if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
@@ -228,13 +223,15 @@ class ConversationViewController: UIViewController {
 
             var metaData: String? = nil
 
-            let audioSamples = self.audioSamples
+            let audioSamples = self.waverView.waver.compressSamples()
 
             if let fileURL = YepAudioService.sharedManager.audioFileURL {
                 let audioAsset = AVURLAsset(URL: fileURL, options: nil)
                 let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
-                let audioMetaDataInfo = ["audio_samples": audioSamples, "audio_duration": audioDuration]
+                println("Comporessed \(audioSamples)")
+                
+                let audioMetaDataInfo = ["audio_samples": audioSamples!, "audio_duration": audioDuration]
 
                 if let audioMetaData = NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: nil, error: nil) {
                     let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
@@ -669,6 +666,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             if let metaDataDict = decodeJSON(data) {
 
                                 if let audioSamples = metaDataDict["audio_samples"] as? [CGFloat] {
+                                    //
                                     cell.sampleViewWidthConstraint.constant = CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
                                     cell.sampleView.samples = audioSamples
 
