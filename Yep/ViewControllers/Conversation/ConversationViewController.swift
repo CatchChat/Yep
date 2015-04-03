@@ -791,8 +791,21 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
 
-        var imageData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
+        // Prepare meta data
 
+        var metaData: String? = nil
+
+        let audioMetaDataInfo = ["image_width": image.size.width, "image_height": image.size.height]
+
+        if let audioMetaData = NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: nil, error: nil) {
+            let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
+            metaData = audioMetaDataString
+        }
+
+
+        // Do send
+
+        var imageData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
 
         let messageImageName = NSUUID().UUIDString
 
@@ -807,6 +820,9 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         realm.beginWriteTransaction()
                         message.localAttachmentName = messageImageName
                         message.mediaType = MessageMediaType.Image.rawValue
+                        if let metaData = metaData {
+                            message.metaData = metaData
+                        }
                         realm.commitWriteTransaction()
                     }
 
@@ -830,6 +846,9 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         realm.beginWriteTransaction()
                         message.localAttachmentName = messageImageName
                         message.mediaType = MessageMediaType.Image.rawValue
+                        if let metaData = metaData {
+                            message.metaData = metaData
+                        }
                         realm.commitWriteTransaction()
                     }
 
