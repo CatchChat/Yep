@@ -66,7 +66,7 @@ class ConversationViewController: UIViewController {
         return self.collectionViewWidth * 0.6
         }()
     lazy var messageImageHeight: CGFloat = {
-        return self.messageImageWidth / YepConfig.messageImageViewAspectRatio()
+        return self.messageImageWidth / YepConfig.messageImageViewDefaultAspectRatio()
         }()
 
     let chatLeftTextCellIdentifier = "ChatLeftTextCell"
@@ -328,7 +328,27 @@ class ConversationViewController: UIViewController {
     private func heightOfMessage(message: Message) -> CGFloat {
         switch message.mediaType {
         case MessageMediaType.Image.rawValue:
-            return messageImageHeight + 10 + 10
+            //return messageImageHeight + 10 + 10
+            if !message.metaData.isEmpty {
+                if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                    if let metaDataDict = decodeJSON(data) {
+                        if
+                            let imageWidth = metaDataDict["image_width"] as? CGFloat,
+                            let imageHeight = metaDataDict["image_height"] as? CGFloat {
+
+                                let aspectRatio = imageWidth / imageHeight
+
+                                if aspectRatio >= 1 {
+                                    return messageImageWidth / aspectRatio
+                                } else {
+                                    return 200
+                                }
+                        }
+                    }
+                }
+            }
+
+            return messageImageHeight
 
         case MessageMediaType.Audio.rawValue:
             return 50
@@ -648,14 +668,62 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
 
                             cell.messageImageView.alpha = 0.0
-                            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImageWidth, height: messageImageHeight), tailDirection: .Right) { image in
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    cell.messageImageView.image = image
 
-                                    UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                                        cell.messageImageView.alpha = 1.0
-                                    }, completion: { (finished) -> Void in
-                                    })
+                            if message.metaData.isEmpty {
+                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImageWidth, height: messageImageHeight), tailDirection: .Right) { image in
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        cell.messageImageView.image = image
+
+                                        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                                            cell.messageImageView.alpha = 1.0
+                                            }, completion: { (finished) -> Void in
+                                        })
+                                    }
+                                }
+
+                            } else {
+                                if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                                    if let metaDataDict = decodeJSON(data) {
+                                        if
+                                            let imageWidth = metaDataDict["image_width"] as? CGFloat,
+                                            let imageHeight = metaDataDict["image_height"] as? CGFloat {
+
+                                                let aspectRatio = imageWidth / imageHeight
+
+
+
+                                                if aspectRatio >= 1 {
+                                                    cell.messageImageViewWidthConstrint.constant = messageImageWidth
+
+                                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImageWidth, height: messageImageWidth / aspectRatio), tailDirection: .Right) { image in
+                                                        dispatch_async(dispatch_get_main_queue()) {
+                                                            cell.messageImageView.image = image
+
+                                                            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                                                                cell.messageImageView.alpha = 1.0
+                                                            }, completion: { (finished) -> Void in
+                                                            })
+                                                        }
+                                                    }
+
+                                                } else {
+                                                    cell.messageImageViewWidthConstrint.constant = 200 * aspectRatio
+
+                                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: 200 * aspectRatio, height: 200), tailDirection: .Right) { image in
+                                                        dispatch_async(dispatch_get_main_queue()) {
+                                                            cell.messageImageView.image = image
+
+                                                            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                                                                cell.messageImageView.alpha = 1.0
+                                                            }, completion: { (finished) -> Void in
+                                                            })
+                                                        }
+                                                    }
+                                                }
+
+
+                                        }
+                                    }
                                 }
                             }
                     }

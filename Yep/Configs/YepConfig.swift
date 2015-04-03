@@ -30,7 +30,7 @@ class YepConfig {
         return 0.8
     }
 
-    class func messageImageViewAspectRatio() -> CGFloat {
+    class func messageImageViewDefaultAspectRatio() -> CGFloat {
         return 4.0 / 3.0
     }
 
