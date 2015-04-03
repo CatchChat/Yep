@@ -45,7 +45,6 @@ func downloadAttachmentOfMessage(message: Message) {
 
                         case MessageMediaType.Audio.rawValue:
                             if let fileURL = NSFileManager.saveMessageAudioData(data, withName: fileName) {
-
                                 updateMessage(message, withAttachmentFileName: fileName)
                             }
                             

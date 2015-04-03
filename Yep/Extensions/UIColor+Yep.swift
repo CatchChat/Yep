@@ -26,7 +26,7 @@ extension UIColor {
     }
 
     class func leftWaveColor() -> UIColor {
-        return UIColor.yepTintColor().colorWithAlphaComponent(0.9)
+        return UIColor.darkGrayColor().colorWithAlphaComponent(0.2)
     }
 
     class func rightWaveColor() -> UIColor {

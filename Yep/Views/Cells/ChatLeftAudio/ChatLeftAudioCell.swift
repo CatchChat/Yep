@@ -28,9 +28,10 @@ class ChatLeftAudioCell: UICollectionViewCell {
 
         sampleView.sampleColor = UIColor.leftWaveColor()
 
-        audioDurationLabel.textColor = UIColor.darkGrayColor()
+        audioDurationLabel.textColor = UIColor.blackColor()
 
         playButton.userInteractionEnabled = false
+        playButton.tintColor = UIColor.darkGrayColor()
     }
 
 }
