@@ -62,12 +62,14 @@ class ConversationViewController: UIViewController {
         return CGRectGetWidth(self.conversationCollectionView.bounds)
         }()
 
-    lazy var messageImageWidth: CGFloat = {
+    lazy var messageImagePreferredWidth: CGFloat = {
         return self.collectionViewWidth * 0.6
         }()
-    lazy var messageImageHeight: CGFloat = {
-        return self.messageImageWidth / YepConfig.messageImageViewDefaultAspectRatio()
+    lazy var messageImagePreferredHeight: CGFloat = {
+        return self.collectionViewWidth * 0.65
         }()
+
+    let messageImagePreferredAspectRatio: CGFloat = 4.0 / 3.0
 
     let chatLeftTextCellIdentifier = "ChatLeftTextCell"
     let chatRightTextCellIdentifier = "ChatRightTextCell"
@@ -328,7 +330,7 @@ class ConversationViewController: UIViewController {
     private func heightOfMessage(message: Message) -> CGFloat {
         switch message.mediaType {
         case MessageMediaType.Image.rawValue:
-            //return messageImageHeight + 10 + 10
+
             if !message.metaData.isEmpty {
                 if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                     if let metaDataDict = decodeJSON(data) {
@@ -339,16 +341,16 @@ class ConversationViewController: UIViewController {
                                 let aspectRatio = imageWidth / imageHeight
 
                                 if aspectRatio >= 1 {
-                                    return messageImageWidth / aspectRatio
+                                    return messageImagePreferredWidth / aspectRatio
                                 } else {
-                                    return 200
+                                    return messageImagePreferredHeight
                                 }
                         }
                     }
                 }
             }
 
-            return messageImageHeight
+            return messageImagePreferredWidth / messageImagePreferredAspectRatio
 
         case MessageMediaType.Audio.rawValue:
             return 50
@@ -595,7 +597,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     cell.messageImageView.alpha = 0.0
 
                     if message.metaData.isEmpty {
-                        ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImageWidth, height: messageImageHeight), tailDirection: .Left) { image in
+                        cell.messageImageViewWidthConstrint.constant = messageImagePreferredWidth
+
+                        ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: messageImagePreferredWidth / messageImagePreferredAspectRatio), tailDirection: .Left) { image in
                             dispatch_async(dispatch_get_main_queue()) {
                                 cell.messageImageView.image = image
 
@@ -616,9 +620,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         let aspectRatio = imageWidth / imageHeight
 
                                         if aspectRatio >= 1 {
-                                            cell.messageImageViewWidthConstrint.constant = messageImageWidth
+                                            cell.messageImageViewWidthConstrint.constant = messageImagePreferredWidth
 
-                                            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImageWidth, height: messageImageWidth / aspectRatio), tailDirection: .Left) { image in
+                                            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: messageImagePreferredWidth / aspectRatio), tailDirection: .Left) { image in
                                                 dispatch_async(dispatch_get_main_queue()) {
                                                     cell.messageImageView.image = image
 
@@ -630,9 +634,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                             }
 
                                         } else {
-                                            cell.messageImageViewWidthConstrint.constant = 200 * aspectRatio
+                                            cell.messageImageViewWidthConstrint.constant = messageImagePreferredHeight * aspectRatio
 
-                                            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: 200 * aspectRatio, height: 200), tailDirection: .Left) { image in
+                                            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Left) { image in
                                                 dispatch_async(dispatch_get_main_queue()) {
                                                     cell.messageImageView.image = image
 
@@ -714,7 +718,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             cell.messageImageView.alpha = 0.0
 
                             if message.metaData.isEmpty {
-                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImageWidth, height: messageImageHeight), tailDirection: .Right) { image in
+                                cell.messageImageViewWidthConstrint.constant = messageImagePreferredWidth
+
+                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: messageImagePreferredWidth / messageImagePreferredAspectRatio), tailDirection: .Right) { image in
                                     dispatch_async(dispatch_get_main_queue()) {
                                         cell.messageImageView.image = image
 
@@ -735,9 +741,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                                 let aspectRatio = imageWidth / imageHeight
 
                                                 if aspectRatio >= 1 {
-                                                    cell.messageImageViewWidthConstrint.constant = messageImageWidth
+                                                    cell.messageImageViewWidthConstrint.constant = messageImagePreferredWidth
 
-                                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImageWidth, height: messageImageWidth / aspectRatio), tailDirection: .Right) { image in
+                                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: messageImagePreferredWidth / aspectRatio), tailDirection: .Right) { image in
                                                         dispatch_async(dispatch_get_main_queue()) {
                                                             cell.messageImageView.image = image
 
@@ -749,9 +755,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                                     }
 
                                                 } else {
-                                                    cell.messageImageViewWidthConstrint.constant = 200 * aspectRatio
+                                                    cell.messageImageViewWidthConstrint.constant = messageImagePreferredHeight * aspectRatio
 
-                                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: 200 * aspectRatio, height: 200), tailDirection: .Right) { image in
+                                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Right) { image in
                                                         dispatch_async(dispatch_get_main_queue()) {
                                                             cell.messageImageView.image = image
 
