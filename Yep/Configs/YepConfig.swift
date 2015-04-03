@@ -33,4 +33,12 @@ class YepConfig {
     class func messageImageViewAspectRatio() -> CGFloat {
         return 4.0 / 3.0
     }
+
+    class func audioSampleWidth() -> CGFloat {
+        return 2
+    }
+
+    class func audioSampleGap() -> CGFloat {
+        return 1
+    }
 }

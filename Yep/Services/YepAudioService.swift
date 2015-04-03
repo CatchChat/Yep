@@ -91,6 +91,9 @@ class YepAudioService: NSObject {
             if self.audioPlayer.play() {
                 println("Do Play audio \(error)")
             }
+
+        } else {
+            println("play audio \(error)")
         }
     }
 }

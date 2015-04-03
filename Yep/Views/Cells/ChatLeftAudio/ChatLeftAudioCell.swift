@@ -14,10 +14,19 @@ class ChatLeftAudioCell: UICollectionViewCell {
 
     @IBOutlet weak var bubbleImageView: UIImageView!
     
+    @IBOutlet weak var sampleView: SampleView!
+    @IBOutlet weak var sampleViewWidthConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var audioDurationLabel: UILabel!
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
         bubbleImageView.tintColor = UIColor.leftBubbleTintColor()
+
+        sampleView.sampleColor = UIColor.rightBubbleTintColor()
+
+        audioDurationLabel.textColor = UIColor.blackColor()
     }
 
 }

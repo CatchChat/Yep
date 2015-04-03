@@ -36,13 +36,16 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mlz-An-Tuw" userLabel="Wave View">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mlz-An-Tuw" userLabel="Wave View" customClass="SampleView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="48" y="0.0" width="87" height="40"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="87" id="12R-C6-EyM"/>
+                                </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2&quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nar-PJ-uc5" userLabel="Time Length Label">
-                                <rect key="frame" x="48" y="0.0" width="87" height="40"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="43" y="0.0" width="97" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -53,15 +56,14 @@
                             <constraint firstAttribute="bottom" secondItem="j0p-8V-Tjb" secondAttribute="bottom" id="J5p-D5-MJf"/>
                             <constraint firstAttribute="trailing" secondItem="mlz-An-Tuw" secondAttribute="trailing" constant="15" id="Lps-ic-PsY"/>
                             <constraint firstAttribute="height" constant="40" id="N3O-u2-oYu"/>
-                            <constraint firstItem="Nar-PJ-uc5" firstAttribute="trailing" secondItem="mlz-An-Tuw" secondAttribute="trailing" id="PWf-JE-OeL"/>
+                            <constraint firstItem="Nar-PJ-uc5" firstAttribute="trailing" secondItem="mlz-An-Tuw" secondAttribute="trailing" constant="5" id="PWf-JE-OeL"/>
                             <constraint firstItem="mlz-An-Tuw" firstAttribute="top" secondItem="Whb-i5-kn8" secondAttribute="top" id="RO3-HD-5VX"/>
                             <constraint firstAttribute="centerY" secondItem="JJr-x8-Ljw" secondAttribute="centerY" id="RhN-1T-q4N"/>
                             <constraint firstItem="j0p-8V-Tjb" firstAttribute="leading" secondItem="Whb-i5-kn8" secondAttribute="leading" id="TmR-CA-j6B"/>
                             <constraint firstItem="mlz-An-Tuw" firstAttribute="leading" secondItem="JJr-x8-Ljw" secondAttribute="trailing" constant="5" id="UwV-wg-0GN"/>
-                            <constraint firstItem="Nar-PJ-uc5" firstAttribute="leading" secondItem="mlz-An-Tuw" secondAttribute="leading" id="YIF-on-6fg"/>
+                            <constraint firstItem="Nar-PJ-uc5" firstAttribute="leading" secondItem="mlz-An-Tuw" secondAttribute="leading" constant="-5" id="YIF-on-6fg"/>
                             <constraint firstItem="Nar-PJ-uc5" firstAttribute="bottom" secondItem="mlz-An-Tuw" secondAttribute="bottom" id="qyd-GU-56h"/>
                             <constraint firstAttribute="trailing" secondItem="j0p-8V-Tjb" secondAttribute="trailing" id="r6r-TN-l5p"/>
-                            <constraint firstAttribute="width" constant="150" id="sta-YS-9h3"/>
                             <constraint firstItem="Nar-PJ-uc5" firstAttribute="top" secondItem="mlz-An-Tuw" secondAttribute="top" id="vdR-5f-8fd"/>
                             <constraint firstAttribute="bottom" secondItem="mlz-An-Tuw" secondAttribute="bottom" id="zwN-D3-Jl5"/>
                         </constraints>
@@ -77,8 +79,11 @@
             </constraints>
             <size key="customSize" width="276" height="126"/>
             <connections>
+                <outlet property="audioDurationLabel" destination="Nar-PJ-uc5" id="cAT-ry-mhm"/>
                 <outlet property="avatarImageView" destination="1K0-wd-BOr" id="ldH-Pm-vDG"/>
                 <outlet property="bubbleImageView" destination="j0p-8V-Tjb" id="Uca-XB-lkc"/>
+                <outlet property="sampleView" destination="mlz-An-Tuw" id="Vne-hR-WQH"/>
+                <outlet property="sampleViewWidthConstraint" destination="12R-C6-EyM" id="UMe-Ql-Saj"/>
             </connections>
             <point key="canvasLocation" x="360" y="358"/>
         </collectionViewCell>

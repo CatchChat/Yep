@@ -37,13 +37,16 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ynj-aF-z4D" userLabel="Wave View">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ynj-aF-z4D" userLabel="Wave View" customClass="SampleView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="41" y="0.0" width="89" height="40"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="89" id="LKH-Qz-uop"/>
+                                </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2&quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alU-Q7-YxY" userLabel="Time Length Label">
-                                <rect key="frame" x="41" y="0.0" width="89" height="40"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="36" y="0.0" width="99" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -52,14 +55,13 @@
                             <constraint firstItem="XTQ-XN-AqX" firstAttribute="leading" secondItem="knU-A0-FO4" secondAttribute="leading" constant="6" id="2gQ-ob-cgb"/>
                             <constraint firstAttribute="trailing" secondItem="IUw-Mk-XlZ" secondAttribute="trailing" id="8dj-VI-b8r"/>
                             <constraint firstAttribute="centerY" secondItem="XTQ-XN-AqX" secondAttribute="centerY" id="9sZ-NN-OjE"/>
-                            <constraint firstItem="alU-Q7-YxY" firstAttribute="leading" secondItem="ynj-aF-z4D" secondAttribute="leading" id="DWl-Kd-47z"/>
+                            <constraint firstItem="alU-Q7-YxY" firstAttribute="leading" secondItem="ynj-aF-z4D" secondAttribute="leading" constant="-5" id="DWl-Kd-47z"/>
                             <constraint firstItem="alU-Q7-YxY" firstAttribute="bottom" secondItem="ynj-aF-z4D" secondAttribute="bottom" id="FfY-Nf-2Wq"/>
                             <constraint firstAttribute="trailing" secondItem="ynj-aF-z4D" secondAttribute="trailing" constant="20" id="HSM-71-9gP"/>
-                            <constraint firstAttribute="width" constant="150" id="LBt-mx-R7u"/>
                             <constraint firstItem="IUw-Mk-XlZ" firstAttribute="leading" secondItem="knU-A0-FO4" secondAttribute="leading" id="LgR-iA-qgz"/>
                             <constraint firstItem="IUw-Mk-XlZ" firstAttribute="top" secondItem="knU-A0-FO4" secondAttribute="top" id="PED-I8-vTn"/>
                             <constraint firstItem="ynj-aF-z4D" firstAttribute="top" secondItem="knU-A0-FO4" secondAttribute="top" id="RIA-cc-ovU"/>
-                            <constraint firstItem="alU-Q7-YxY" firstAttribute="trailing" secondItem="ynj-aF-z4D" secondAttribute="trailing" id="bWp-na-rZM"/>
+                            <constraint firstItem="alU-Q7-YxY" firstAttribute="trailing" secondItem="ynj-aF-z4D" secondAttribute="trailing" constant="5" id="bWp-na-rZM"/>
                             <constraint firstAttribute="bottom" secondItem="IUw-Mk-XlZ" secondAttribute="bottom" id="fGm-iu-3L1"/>
                             <constraint firstItem="alU-Q7-YxY" firstAttribute="top" secondItem="ynj-aF-z4D" secondAttribute="top" id="fyp-2L-t3i"/>
                             <constraint firstAttribute="bottom" secondItem="ynj-aF-z4D" secondAttribute="bottom" id="mJb-Pl-UbX"/>
@@ -78,8 +80,11 @@
             </constraints>
             <size key="customSize" width="316" height="105"/>
             <connections>
+                <outlet property="audioDurationLabel" destination="alU-Q7-YxY" id="2dD-Pg-BJw"/>
                 <outlet property="avatarImageView" destination="76j-Ht-EsY" id="uPV-sw-dlg"/>
                 <outlet property="bubbleImageView" destination="IUw-Mk-XlZ" id="eH5-bH-lrf"/>
+                <outlet property="sampleView" destination="ynj-aF-z4D" id="FIe-OE-IN2"/>
+                <outlet property="sampleViewWidthConstraint" destination="LKH-Qz-uop" id="TsO-kt-Lg5"/>
             </connections>
             <point key="canvasLocation" x="434" y="419.5"/>
         </collectionViewCell>
