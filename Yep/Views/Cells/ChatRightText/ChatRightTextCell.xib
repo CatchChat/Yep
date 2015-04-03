@@ -52,10 +52,12 @@
             <size key="customSize" width="417" height="131"/>
             <connections>
                 <outlet property="avatarImageView" destination="RKK-8d-9vO" id="Tsh-cB-lZt"/>
+                <outlet property="avatarImageViewTrailingConstraint" destination="vs0-4M-TaV" id="MTN-vF-fj5"/>
                 <outlet property="avatarImageViewWidthConstraint" destination="hm6-ty-e5H" id="Lvg-NA-gZh"/>
                 <outlet property="bubbleBodyImageView" destination="73l-kE-1KG" id="CiV-dM-4JT"/>
                 <outlet property="bubbleTailImageView" destination="1JC-jy-KNh" id="MGo-KB-Kb3"/>
                 <outlet property="textContentLabel" destination="6ek-jh-1iK" id="fCu-O7-a1E"/>
+                <outlet property="textContentLabelLeadingConstraint" destination="FIg-M8-BRB" id="izf-ae-aFY"/>
                 <outlet property="textContentLabelTrailingConstraint" destination="kwM-35-2Fj" id="sm6-rp-3Sj"/>
             </connections>
             <point key="canvasLocation" x="339.5" y="326.5"/>

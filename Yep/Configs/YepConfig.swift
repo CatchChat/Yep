@@ -22,8 +22,16 @@ class YepConfig {
         return 40.0
     }
 
-    class func chatCellGapBetweenTextContentLabelAvatar() -> CGFloat {
+    class func chatCellGapBetweenTextContentLabelAndAvatar() -> CGFloat {
         return 23
+    }
+
+    class func chatCellGapBetweenWallAndAvatar() -> CGFloat {
+        return 15
+    }
+
+    class func chatTextGapBetweenWallAndContentLabel() -> CGFloat {
+        return 50
     }
 
     class func avatarCompressionQuality() -> CGFloat {

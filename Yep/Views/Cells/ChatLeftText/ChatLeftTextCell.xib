@@ -52,11 +52,13 @@
             <size key="customSize" width="350" height="129"/>
             <connections>
                 <outlet property="avatarImageView" destination="hYu-LI-zcX" id="X8N-rV-848"/>
+                <outlet property="avatarImageViewLeadingConstraint" destination="hM8-00-nUm" id="gAV-2A-XjZ"/>
                 <outlet property="avatarImageViewWidthConstraint" destination="JV9-zT-1At" id="fe4-74-Gyw"/>
                 <outlet property="bubbleBodyImageView" destination="Yfx-Em-Job" id="bQk-7x-1RF"/>
                 <outlet property="bubbleTailImageView" destination="ppr-iG-zxj" id="kxh-jI-4L8"/>
                 <outlet property="textContentLabel" destination="7zi-6w-hpq" id="OKM-7J-J5k"/>
                 <outlet property="textContentLabelLeadingConstaint" destination="vhs-aH-mKd" id="YQf-Mz-Dr1"/>
+                <outlet property="textContentLabelTrailingConstraint" destination="cMB-IC-4ER" id="s52-26-mOq"/>
             </connections>
             <point key="canvasLocation" x="338" y="346.5"/>
         </collectionViewCell>

@@ -11,6 +11,7 @@ import UIKit
 class ChatRightTextCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var avatarImageViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var bubbleBodyImageView: UIImageView!
@@ -18,17 +19,22 @@ class ChatRightTextCell: UICollectionViewCell {
 
     @IBOutlet weak var textContentLabel: UILabel!
     @IBOutlet weak var textContentLabelTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var textContentLabelLeadingConstraint: NSLayoutConstraint!
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
+        avatarImageViewTrailingConstraint.constant = YepConfig.chatCellGapBetweenWallAndAvatar()
+
         textContentLabel.font = UIFont.chatTextFont()
-        textContentLabelTrailingConstraint.constant = YepConfig.chatCellGapBetweenTextContentLabelAvatar()
+        textContentLabelTrailingConstraint.constant = YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
+        textContentLabelLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel()
 
         bubbleBodyImageView.tintColor = UIColor.rightBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.rightBubbleTintColor()
 
-        avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
+
     }
 
 }
