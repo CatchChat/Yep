@@ -22,6 +22,10 @@ class YepConfig {
         return 40.0
     }
 
+    class func chatCellTextContentLabelLeading() -> CGFloat {
+        return 23
+    }
+
     class func avatarCompressionQuality() -> CGFloat {
         return 0.7
     }

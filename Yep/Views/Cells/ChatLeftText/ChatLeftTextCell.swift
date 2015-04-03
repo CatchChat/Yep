@@ -13,14 +13,20 @@ class ChatLeftTextCell: UICollectionViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var bubbleImageView: UIImageView!
+    @IBOutlet weak var bubbleBodyImageView: UIImageView!
+    @IBOutlet weak var bubbleTailImageView: UIImageView!
+
     @IBOutlet weak var textContentLabel: UILabel!
+    @IBOutlet weak var textContentLabelLeadingConstaint: NSLayoutConstraint!
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
         textContentLabel.font = UIFont.chatTextFont()
-        bubbleImageView.tintColor = UIColor.leftBubbleTintColor()
+        textContentLabelLeadingConstaint.constant = YepConfig.chatCellTextContentLabelLeading()
+
+        bubbleBodyImageView.tintColor = UIColor.leftBubbleTintColor()
+        bubbleTailImageView.tintColor = UIColor.leftBubbleTintColor()
 
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
     }

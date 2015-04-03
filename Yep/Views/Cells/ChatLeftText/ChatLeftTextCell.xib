@@ -13,8 +13,8 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="350" height="129"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="left_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="Yfx-Em-Job" userLabel="Left Bubble Image View">
-                        <rect key="frame" x="59" y="49" width="114" height="32"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_body" translatesAutoresizingMaskIntoConstraints="NO" id="Yfx-Em-Job" userLabel="Bubble Body Image View">
+                        <rect key="frame" x="63" y="45" width="110" height="40"/>
                         <color key="tintColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Content" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7zi-6w-hpq" userLabel="Text Content Label">
@@ -24,37 +24,45 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hYu-LI-zcX" userLabel="Avatar Image View">
-                        <rect key="frame" x="15" y="48" width="40" height="40"/>
+                        <rect key="frame" x="15" y="45" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="JV9-zT-1At"/>
                             <constraint firstAttribute="width" secondItem="hYu-LI-zcX" secondAttribute="height" multiplier="1:1" id="LI4-Sm-y72"/>
                         </constraints>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_left_tail" translatesAutoresizingMaskIntoConstraints="NO" id="ppr-iG-zxj" userLabel="Bubble Tail Image View">
+                        <rect key="frame" x="57" y="58" width="13" height="14"/>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
+                <constraint firstItem="hYu-LI-zcX" firstAttribute="centerY" secondItem="ppr-iG-zxj" secondAttribute="centerY" id="CqX-BA-AO1"/>
                 <constraint firstAttribute="centerY" secondItem="7zi-6w-hpq" secondAttribute="centerY" id="Dys-Uh-KBW"/>
-                <constraint firstItem="Yfx-Em-Job" firstAttribute="bottom" secondItem="7zi-6w-hpq" secondAttribute="bottom" constant="7" id="LKU-Sf-doh"/>
+                <constraint firstItem="Yfx-Em-Job" firstAttribute="bottom" secondItem="7zi-6w-hpq" secondAttribute="bottom" constant="11" id="LKU-Sf-doh"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7zi-6w-hpq" secondAttribute="trailing" constant="50" id="cMB-IC-4ER"/>
                 <constraint firstItem="Yfx-Em-Job" firstAttribute="trailing" secondItem="7zi-6w-hpq" secondAttribute="trailing" constant="12" id="cfS-ia-EAr"/>
                 <constraint firstItem="hYu-LI-zcX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="hM8-00-nUm"/>
-                <constraint firstItem="Yfx-Em-Job" firstAttribute="top" secondItem="7zi-6w-hpq" secondAttribute="top" constant="-7" id="jbo-J2-Eci"/>
-                <constraint firstItem="7zi-6w-hpq" firstAttribute="top" secondItem="hYu-LI-zcX" secondAttribute="top" constant="8" id="r3G-8a-a3O"/>
-                <constraint firstItem="Yfx-Em-Job" firstAttribute="leading" secondItem="7zi-6w-hpq" secondAttribute="leading" constant="-16" id="ror-T5-pvW"/>
+                <constraint firstItem="Yfx-Em-Job" firstAttribute="top" secondItem="7zi-6w-hpq" secondAttribute="top" constant="-11" id="jbo-J2-Eci"/>
+                <constraint firstItem="7zi-6w-hpq" firstAttribute="leading" secondItem="ppr-iG-zxj" secondAttribute="trailing" constant="5" id="mHv-gw-kJc"/>
+                <constraint firstItem="7zi-6w-hpq" firstAttribute="top" secondItem="hYu-LI-zcX" secondAttribute="top" constant="11" id="r3G-8a-a3O"/>
+                <constraint firstItem="Yfx-Em-Job" firstAttribute="leading" secondItem="7zi-6w-hpq" secondAttribute="leading" constant="-12" id="ror-T5-pvW"/>
                 <constraint firstItem="7zi-6w-hpq" firstAttribute="leading" secondItem="hYu-LI-zcX" secondAttribute="trailing" constant="20" id="vhs-aH-mKd"/>
             </constraints>
             <size key="customSize" width="350" height="129"/>
             <connections>
                 <outlet property="avatarImageView" destination="hYu-LI-zcX" id="X8N-rV-848"/>
                 <outlet property="avatarImageViewWidthConstraint" destination="JV9-zT-1At" id="fe4-74-Gyw"/>
-                <outlet property="bubbleImageView" destination="Yfx-Em-Job" id="0Uw-Mq-mhb"/>
+                <outlet property="bubbleBodyImageView" destination="Yfx-Em-Job" id="bQk-7x-1RF"/>
+                <outlet property="bubbleTailImageView" destination="ppr-iG-zxj" id="kxh-jI-4L8"/>
                 <outlet property="textContentLabel" destination="7zi-6w-hpq" id="OKM-7J-J5k"/>
+                <outlet property="textContentLabelLeadingConstaint" destination="vhs-aH-mKd" id="YQf-Mz-Dr1"/>
             </connections>
             <point key="canvasLocation" x="338" y="346.5"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="left_bubble" width="36" height="30"/>
+        <image name="bubble_body" width="42" height="40"/>
+        <image name="bubble_left_tail" width="13" height="14"/>
     </resources>
 </document>

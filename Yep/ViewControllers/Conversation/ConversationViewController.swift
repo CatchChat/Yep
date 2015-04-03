@@ -54,8 +54,9 @@ class ConversationViewController: UIViewController {
     let sectionInsetBottom: CGFloat = 10
 
     let messageTextAttributes = [NSFontAttributeName: UIFont.chatTextFont()]
-    let messageTextLabelMaxWidth: CGFloat = 320 - (15 + YepConfig.chatCellAvatarSize() + 20) - 20 // TODO: 根据 TextCell 的布局计算
-
+    lazy var messageTextLabelMaxWidth: CGFloat = {
+        self.collectionViewWidth - (15 + YepConfig.chatCellAvatarSize() + YepConfig.chatCellTextContentLabelLeading() + 50) // TODO: use config messageTextLabelMaxWidth
+        }()
 
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.conversationCollectionView.bounds)
@@ -321,7 +322,7 @@ class ConversationViewController: UIViewController {
     }
 
     private func setConversaitonCollectionViewOriginalContentInset() {
-        setConversaitonCollectionViewContentInsetBottom(CGRectGetHeight(messageToolbar.bounds))
+        setConversaitonCollectionViewContentInsetBottom(CGRectGetHeight(messageToolbar.bounds) + sectionInsetBottom)
     }
 
     private func heightOfMessage(message: Message) -> CGFloat {
@@ -350,12 +351,12 @@ class ConversationViewController: UIViewController {
             return messageImagePreferredWidth / messageImagePreferredAspectRatio
 
         case MessageMediaType.Audio.rawValue:
-            return 50
+            return 40
 
         default:
             let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
 
-            return max(ceil(rect.height) + 14 + 20, YepConfig.chatCellAvatarSize() + 20) + 10
+            return max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
         }
     }
 
