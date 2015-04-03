@@ -196,7 +196,9 @@ class ConversationViewController: UIViewController {
                 self.presentViewController(imagePicker, animated: true, completion: nil)
             }
         }
-        
+
+        // MARK: Audio Send
+
         messageToolbar.voiceSendBeginAction = { messageToolbar in
             self.view.window?.addSubview(self.waverView)
 
@@ -220,12 +222,25 @@ class ConversationViewController: UIViewController {
             YepAudioService.sharedManager.endRecord()
 
 
+            // Prepare meta data
+
             var metaData: String? = nil
 
             let audioSamples = self.audioSamples
-            if let audioSamplesData = NSJSONSerialization.dataWithJSONObject(audioSamples, options: nil, error: nil) {
-                metaData = NSString(data: audioSamplesData, encoding: NSUTF8StringEncoding) as? String
+
+            if let fileURL = YepAudioService.sharedManager.audioFileURL {
+                let audioAsset = AVURLAsset(URL: fileURL, options: nil)
+                let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
+
+                let audioMetaDataInfo = ["audio_samples": audioSamples, "audio_duration": audioDuration]
+
+                if let audioMetaData = NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: nil, error: nil) {
+                    let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
+                    metaData = audioMetaDataString
+                }
             }
+
+            // Do send
 
             if let fileURL = YepAudioService.sharedManager.audioFileURL {
                 if let withFriend = self.conversation.withFriend {
