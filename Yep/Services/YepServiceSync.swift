@@ -19,13 +19,14 @@ func downloadAttachmentOfMessage(message: Message) {
         let realm = message.realm
         realm.beginWriteTransaction()
         message.localAttachmentName = attachmentFileName
+        message.downloadState = MessageDownloadState.Downloaded.rawValue
         realm.commitWriteTransaction()
     }
 
     let attachmentURLString = message.attachmentURLString
     let localAttachmentName = message.localAttachmentName
 
-    if !attachmentURLString.isEmpty && localAttachmentName.isEmpty {
+    if !attachmentURLString.isEmpty && message.downloadState != MessageDownloadState.Downloaded.rawValue {
         if let url = NSURL(string: attachmentURLString) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                 let data = NSData(contentsOfURL: url)

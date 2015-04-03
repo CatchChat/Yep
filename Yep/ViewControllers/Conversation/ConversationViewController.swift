@@ -580,6 +580,18 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         downloadAttachmentOfMessage(message)
         
         if let sender = message.fromFriend {
+
+            markAsReadMessage(message, failureHandler: nil) { success in
+                dispatch_async(dispatch_get_main_queue()) {
+                    let realm = message.realm
+                    realm.beginWriteTransaction()
+                    message.readed = true
+                    realm.commitWriteTransaction()
+
+                    println("\(message.messageID) mark as read")
+                }
+            }
+
             if sender.friendState != UserFriendState.Me.rawValue {
                 switch message.mediaType {
                 case MessageMediaType.Image.rawValue:

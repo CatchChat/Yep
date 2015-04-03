@@ -751,3 +751,22 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
         }
     }
 }
+
+func markAsReadMessage(message: Message ,#failureHandler: ((Reason, String?) -> ())?, #completion: (Bool) -> Void) {
+
+    if message.readed || message.messageID.isEmpty || message.downloadState != MessageDownloadState.Downloaded.rawValue {
+        return
+    }
+
+    let parse: JSONDictionary -> Bool? = { data in
+        return true
+    }
+
+    let resource = authJsonResource(path: "/api/v1/messages/\(message.messageID)/mark_as_read", method: .PATCH, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
