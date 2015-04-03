@@ -325,7 +325,17 @@ class ConversationViewController: UIViewController {
         setConversaitonCollectionViewContentInsetBottom(CGRectGetHeight(messageToolbar.bounds) + sectionInsetBottom)
     }
 
+    private var messageHeights = [String: CGFloat]()
     private func heightOfMessage(message: Message) -> CGFloat {
+
+        let key = message.messageID
+
+        if let messageHeight = messageHeights[key] {
+            return messageHeight
+        }
+
+        var height: CGFloat = 0
+
         switch message.mediaType {
         case MessageMediaType.Image.rawValue:
 
@@ -348,16 +358,20 @@ class ConversationViewController: UIViewController {
                 }
             }
 
-            return messageImagePreferredWidth / messageImagePreferredAspectRatio
+            height = messageImagePreferredWidth / messageImagePreferredAspectRatio
 
         case MessageMediaType.Audio.rawValue:
-            return 40
+            height = 40
 
         default:
             let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
 
-            return max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
+            height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
         }
+
+        messageHeights[key] = height
+
+        return height
     }
 
     // MARK: Actions
