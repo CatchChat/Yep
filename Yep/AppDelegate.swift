@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker, error: nil)
         AVAudioSession.sharedInstance().setActive(true, error: nil)
 
+        application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         // 推送初始化
         APService.setupWithOption(launchOptions)
 
@@ -76,10 +77,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        syncUnreadMessages() {
+            
+        }
     }
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+        syncUnreadMessages() {
+            completionHandler(UIBackgroundFetchResult.NewData)
+        }
     }
 
     // MARK: APNs
@@ -107,12 +117,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             if let type = userInfo["type"] as? String {
                 if type == "message" {
-                    syncUnreadMessagesAndDoFurtherAction() {
-                        dispatch_async(dispatch_get_main_queue()) {
-                            NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
-                        }
+                    syncUnreadMessages() {
+                        
                     }
                 }
+            }
+        }
+    }
+    
+    func syncUnreadMessages(furtherAction: () -> Void) {
+        syncUnreadMessagesAndDoFurtherAction() {
+            furtherAction()
+            dispatch_async(dispatch_get_main_queue()) {
+                NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
             }
         }
     }
