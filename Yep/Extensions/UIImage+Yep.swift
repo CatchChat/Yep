@@ -180,8 +180,8 @@ extension UIImage {
         let scale = UIScreen.mainScreen().scale
 
         let cornerRadius: CGFloat = 20 * scale
-        let tailOffset: CGFloat = 9 * scale
-        let tailHeight: CGFloat = 9 * scale
+        let tailOffset: CGFloat = 8 * scale
+        let tailHeight: CGFloat = 8 * scale
 
         let width = size.width
         let height = size.height
