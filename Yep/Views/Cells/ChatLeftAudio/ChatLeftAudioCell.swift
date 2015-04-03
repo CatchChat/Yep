@@ -11,6 +11,7 @@ import UIKit
 class ChatLeftAudioCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var bubbleImageView: UIImageView!
     
@@ -24,6 +25,8 @@ class ChatLeftAudioCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
+        
         bubbleImageView.tintColor = UIColor.leftBubbleTintColor()
 
         sampleView.sampleColor = UIColor.leftWaveColor()
