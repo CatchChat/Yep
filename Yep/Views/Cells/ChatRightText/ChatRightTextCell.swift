@@ -20,6 +20,7 @@ class ChatRightTextCell: UICollectionViewCell {
     @IBOutlet weak var textContentLabel: UILabel!
     @IBOutlet weak var textContentLabelTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textContentLabelLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var textContentLabelWidthConstraint: NSLayoutConstraint!
 
     override func awakeFromNib() {
         super.awakeFromNib()

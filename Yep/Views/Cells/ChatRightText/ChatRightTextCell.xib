@@ -21,6 +21,9 @@
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Content" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ek-jh-1iK" userLabel="Text Content Label">
                         <rect key="frame" x="256" y="57" width="86" height="18"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="86" id="mFu-rE-sns"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -59,6 +62,7 @@
                 <outlet property="textContentLabel" destination="6ek-jh-1iK" id="fCu-O7-a1E"/>
                 <outlet property="textContentLabelLeadingConstraint" destination="FIg-M8-BRB" id="izf-ae-aFY"/>
                 <outlet property="textContentLabelTrailingConstraint" destination="kwM-35-2Fj" id="sm6-rp-3Sj"/>
+                <outlet property="textContentLabelWidthConstraint" destination="mFu-rE-sns" id="vNA-Lc-oZG"/>
             </connections>
             <point key="canvasLocation" x="339.5" y="326.5"/>
         </collectionViewCell>

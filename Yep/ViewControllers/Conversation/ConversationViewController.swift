@@ -379,6 +379,28 @@ class ConversationViewController: UIViewController {
         return height
     }
 
+    private var textContentLabelWidths = [String: CGFloat]()
+    private func textContentLabelWidthOfMessage(message: Message) -> CGFloat {
+        let key = message.messageID
+
+        if !key.isEmpty {
+            if let textContentLabelWidth = textContentLabelWidths[key] {
+                return textContentLabelWidth
+            }
+        }
+
+        let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
+
+
+        let width = ceil(rect.width)
+
+        if !key.isEmpty {
+            textContentLabelWidths[key] = width
+        }
+
+        return width
+    }
+
     // MARK: Actions
 
     func updateConversationCollectionView() {
@@ -721,6 +743,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
 
                     cell.textContentLabel.text = message.textContent
+                    
+                    cell.textContentLabelWidthConstraint.constant = textContentLabelWidthOfMessage(message)
 
                     AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
                         dispatch_async(dispatch_get_main_queue()) {
@@ -843,6 +867,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
 
                     cell.textContentLabel.text = message.textContent
+
+                    cell.textContentLabelWidthConstraint.constant = textContentLabelWidthOfMessage(message)
 
                     AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
                         dispatch_async(dispatch_get_main_queue()) {
