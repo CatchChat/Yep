@@ -55,7 +55,8 @@ class ConversationViewController: UIViewController {
 
     let messageTextAttributes = [NSFontAttributeName: UIFont.chatTextFont()]
     lazy var messageTextLabelMaxWidth: CGFloat = {
-        self.collectionViewWidth - (YepConfig.chatCellGapBetweenWallAndAvatar() + YepConfig.chatCellAvatarSize() + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() + YepConfig.chatTextGapBetweenWallAndContentLabel())
+        let maxWidth = self.collectionViewWidth - (YepConfig.chatCellGapBetweenWallAndAvatar() + YepConfig.chatCellAvatarSize() + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() + YepConfig.chatTextGapBetweenWallAndContentLabel())
+        return maxWidth
         }()
 
     lazy var collectionViewWidth: CGFloat = {
@@ -63,10 +64,10 @@ class ConversationViewController: UIViewController {
         }()
 
     lazy var messageImagePreferredWidth: CGFloat = {
-        return self.collectionViewWidth * 0.6
+        return ceil(self.collectionViewWidth * 0.6)
         }()
     lazy var messageImagePreferredHeight: CGFloat = {
-        return self.collectionViewWidth * 0.65
+        return ceil(self.collectionViewWidth * 0.65)
         }()
 
     let messageImagePreferredAspectRatio: CGFloat = 4.0 / 3.0
@@ -349,7 +350,7 @@ class ConversationViewController: UIViewController {
                                 let aspectRatio = imageWidth / imageHeight
 
                                 if aspectRatio >= 1 {
-                                    return messageImagePreferredWidth / aspectRatio
+                                    return ceil(messageImagePreferredWidth / aspectRatio)
                                 } else {
                                     return messageImagePreferredHeight
                                 }
@@ -358,7 +359,7 @@ class ConversationViewController: UIViewController {
                 }
             }
 
-            height = messageImagePreferredWidth / messageImagePreferredAspectRatio
+            height = ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)
 
         case MessageMediaType.Audio.rawValue:
             height = 40
@@ -623,7 +624,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     if message.metaData.isEmpty {
                         cell.messageImageViewWidthConstrint.constant = messageImagePreferredWidth
 
-                        ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: messageImagePreferredWidth / messageImagePreferredAspectRatio), tailDirection: .Left) { image in
+                        ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Left) { image in
                             dispatch_async(dispatch_get_main_queue()) {
                                 cell.messageImageView.image = image
 
@@ -646,7 +647,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         if aspectRatio >= 1 {
                                             cell.messageImageViewWidthConstrint.constant = messageImagePreferredWidth
 
-                                            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: messageImagePreferredWidth / aspectRatio), tailDirection: .Left) { image in
+                                            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Left) { image in
                                                 dispatch_async(dispatch_get_main_queue()) {
                                                     cell.messageImageView.image = image
 
@@ -745,7 +746,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             if message.metaData.isEmpty {
                                 cell.messageImageViewWidthConstrint.constant = messageImagePreferredWidth
 
-                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: messageImagePreferredWidth / messageImagePreferredAspectRatio), tailDirection: .Right) { image in
+                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Right) { image in
                                     dispatch_async(dispatch_get_main_queue()) {
                                         cell.messageImageView.image = image
 
@@ -768,7 +769,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                                 if aspectRatio >= 1 {
                                                     cell.messageImageViewWidthConstrint.constant = messageImagePreferredWidth
 
-                                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: messageImagePreferredWidth / aspectRatio), tailDirection: .Right) { image in
+                                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Right) { image in
                                                         dispatch_async(dispatch_get_main_queue()) {
                                                             cell.messageImageView.image = image
 
@@ -780,9 +781,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                                     }
 
                                                 } else {
-                                                    cell.messageImageViewWidthConstrint.constant = messageImagePreferredHeight * aspectRatio
+                                                    cell.messageImageViewWidthConstrint.constant = ceil(messageImagePreferredHeight * aspectRatio)
 
-                                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Right) { image in
+                                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: ceil(messageImagePreferredHeight * aspectRatio), height: messageImagePreferredHeight), tailDirection: .Right) { image in
                                                         dispatch_async(dispatch_get_main_queue()) {
                                                             cell.messageImageView.image = image
 
