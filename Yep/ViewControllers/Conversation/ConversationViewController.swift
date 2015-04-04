@@ -331,8 +331,10 @@ class ConversationViewController: UIViewController {
 
         let key = message.messageID
 
-        if let messageHeight = messageHeights[key] {
-            return messageHeight
+        if !key.isEmpty {
+            if let messageHeight = messageHeights[key] {
+                return messageHeight
+            }
         }
 
         var height: CGFloat = 0
@@ -370,7 +372,9 @@ class ConversationViewController: UIViewController {
             height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
         }
 
-        messageHeights[key] = height
+        if !key.isEmpty {
+            messageHeights[key] = height
+        }
 
         return height
     }
@@ -405,6 +409,7 @@ class ConversationViewController: UIViewController {
 
                 let height = heightOfMessage(message) + 10 // TODO: +10 cell line space
 
+                println("uuheight \(height)")
                 newMessagesTotalHeight += height
             }
             
