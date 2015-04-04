@@ -10,6 +10,6 @@ import UIKit
 
 extension UIFont {
     class func chatTextFont() -> UIFont {
-        return UIFont.systemFontOfSize(15)
+        return UIFont.systemFontOfSize(16)
     }
 }
