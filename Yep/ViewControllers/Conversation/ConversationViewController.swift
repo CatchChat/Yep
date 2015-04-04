@@ -370,6 +370,10 @@ class ConversationViewController: UIViewController {
             let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
 
             height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
+
+            if !key.isEmpty {
+                textContentLabelWidths[key] = ceil(rect.width)
+            }
         }
 
         if !key.isEmpty {
@@ -390,7 +394,6 @@ class ConversationViewController: UIViewController {
         }
 
         let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
-
 
         let width = ceil(rect.width)
 
