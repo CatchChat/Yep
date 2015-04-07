@@ -606,10 +606,6 @@ class ConversationViewController: UIViewController {
 // MARK: UICollectionViewDataSource, UICollectionViewDelegate
 
 extension ConversationViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-//        println("\(scrollView.contentSize) \(scrollView.contentOffset)")
-    }
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
@@ -622,23 +618,25 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let message = messages.objectAtIndex(UInt(indexPath.item)) as! Message
-
-        downloadAttachmentOfMessage(message)
         
         if let sender = message.fromFriend {
 
-            markAsReadMessage(message, failureHandler: nil) { success in
-                dispatch_async(dispatch_get_main_queue()) {
-                    let realm = message.realm
-                    realm.beginWriteTransaction()
-                    message.readed = true
-                    realm.commitWriteTransaction()
+            if sender.friendState != UserFriendState.Me.rawValue { // from Friend
 
-                    println("\(message.messageID) mark as read")
+                // TODO: 需要更好的下载与 mark as read 逻辑：也许未下载的也可以 mark as read
+                downloadAttachmentOfMessage(message)
+
+                markAsReadMessage(message, failureHandler: nil) { success in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        let realm = message.realm
+                        realm.beginWriteTransaction()
+                        message.readed = true
+                        realm.commitWriteTransaction()
+
+                        println("\(message.messageID) mark as read")
+                    }
                 }
-            }
 
-            if sender.friendState != UserFriendState.Me.rawValue {
                 switch message.mediaType {
                 case MessageMediaType.Image.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftImageCellIdentifier, forIndexPath: indexPath) as! ChatLeftImageCell
@@ -662,7 +660,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     return cell
                 }
 
-            } else {
+            } else { // from Me
 
                 switch message.mediaType {
                 case MessageMediaType.Image.rawValue:
@@ -842,7 +840,6 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 println("sendImage to friend: \(success)")
             })
         }
-
 
         dismissViewControllerAnimated(true, completion: nil)
     }
