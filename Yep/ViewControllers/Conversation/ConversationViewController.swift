@@ -745,15 +745,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
 
-                    cell.textContentLabel.text = message.textContent
-                    
-                    cell.textContentLabelWidthConstraint.constant = textContentLabelWidthOfMessage(message)
-
-                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            cell.avatarImageView.image = roundImage
-                        }
-                    }
+                    cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message))
                     
                     return cell
                 }
@@ -869,15 +861,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
 
-                    cell.textContentLabel.text = message.textContent
-
-                    cell.textContentLabelWidthConstraint.constant = textContentLabelWidthOfMessage(message)
-
-                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            cell.avatarImageView.image = roundImage
-                        }
-                    }
+                    cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message))
                     
                     return cell
                 }

@@ -36,4 +36,17 @@ class ChatLeftTextCell: UICollectionViewCell {
         bubbleTailImageView.tintColor = UIColor.leftBubbleTintColor()
     }
 
+    func configureWithMessage(message: Message, textContentLabelWidth: CGFloat) {
+        textContentLabel.text = message.textContent
+
+        textContentLabelWidthConstraint.constant = textContentLabelWidth
+
+        if let sender = message.fromFriend {
+            AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.avatarImageView.image = roundImage
+                }
+            }
+        }
+    }
 }
