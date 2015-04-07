@@ -423,31 +423,35 @@ class ConversationViewController: UIViewController {
         }
     }
     func updateAudioPlaybackProgress(timer: NSTimer) {
-        if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
-            let currentTime = audioPlayer.currentTime
+        func updateAudioCellOfMessage(message: Message, withCurrentTime currentTime: NSTimeInterval) {
+            let indexPath = NSIndexPath(forItem: Int(messages.indexOfObject(message)), inSection: 0)
 
-            if let playingMessage = YepAudioService.sharedManager.playingMessage {
-                setAudioPlayedDuration(currentTime, ofMessage: playingMessage)
+            if let sender = message.fromFriend {
+                if sender.friendState != UserFriendState.Me.rawValue {
+                    let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as! ChatLeftAudioCell
 
-                let indexPath = NSIndexPath(forItem: Int(messages.indexOfObject(playingMessage)), inSection: 0)
+                    cell.audioPlayedDuration = currentTime
 
-                if let sender = playingMessage.fromFriend {
-
-                    if sender.friendState != UserFriendState.Me.rawValue {
-                        let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as! ChatLeftAudioCell
-
-                        cell.audioPlayedDuration = currentTime
-
-                    } else {
-                        let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as! ChatRightAudioCell
-                        
-                        cell.audioPlayedDuration = currentTime
-                    }
+                } else {
+                    let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as! ChatRightAudioCell
+                    
+                    cell.audioPlayedDuration = currentTime
                 }
             }
         }
+
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
+
+            if let playingMessage = YepAudioService.sharedManager.playingMessage {
+
+                let currentTime = audioPlayer.currentTime
+
+                setAudioPlayedDuration(currentTime, ofMessage: playingMessage)
+
+                updateAudioCellOfMessage(playingMessage, withCurrentTime: currentTime)
+            }
+        }
     }
-    
 
     // MARK: Actions
 
@@ -721,7 +725,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     let audioPlayedDuration = audioPlayedDurationOfMessage(message)
                     cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration)
-                    
+
                     return cell
 
                 default:
@@ -781,6 +785,20 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
                                 playbackTimer.invalidate()
+                            }
+
+                            let indexPath = NSIndexPath(forItem: Int(messages.indexOfObject(playingMessage)), inSection: 0)
+                            if let sender = playingMessage.fromFriend {
+                                if sender.friendState != UserFriendState.Me.rawValue {
+                                    let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as! ChatLeftAudioCell
+
+                                    cell.playing = false
+
+                                } else {
+                                    let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as! ChatRightAudioCell
+                                    
+                                    cell.playing = false
+                                }
                             }
 
                             if message.isEqualToObject(playingMessage) {

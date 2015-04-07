@@ -14,7 +14,19 @@ class ChatRightAudioCell: UICollectionViewCell {
 
     var audioPlayedDuration: Double = 0 {
         willSet {
-            configureSampleView()
+            updateAudioInfoViews()
+        }
+    }
+
+    var playing: Bool = false {
+        willSet {
+            if newValue != playing {
+                if newValue {
+                    playButton.setImage(UIImage(named: "icon_pause"), forState: .Normal)
+                } else {
+                    playButton.setImage(UIImage(named: "icon_play"), forState: .Normal)
+                }
+            }
         }
     }
     
@@ -58,10 +70,10 @@ class ChatRightAudioCell: UICollectionViewCell {
             }
         }
 
-        configureSampleView()
+        updateAudioInfoViews()
     }
 
-    func configureSampleView() {
+    func updateAudioInfoViews() {
         if !message.metaData.isEmpty {
 
             if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
@@ -87,5 +99,19 @@ class ChatRightAudioCell: UICollectionViewCell {
                 audioDurationLabel.text = ""
             }
         }
+
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
+            if audioPlayer.playing {
+                if let playingMessage = YepAudioService.sharedManager.playingMessage {
+                    if message.isEqualToObject(playingMessage) {
+                        playing = true
+
+                        return
+                    }
+                }
+            }
+        }
+
+        playing = false
     }
 }
