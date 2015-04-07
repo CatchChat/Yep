@@ -423,24 +423,26 @@ class ConversationViewController: UIViewController {
         }
     }
     func updateAudioPlaybackProgress(timer: NSTimer) {
-        let currentTime = YepAudioService.sharedManager.audioPlayer.currentTime
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
+            let currentTime = audioPlayer.currentTime
 
-        if let playingMessage = YepAudioService.sharedManager.playingMessage {
-            setAudioPlayedDuration(currentTime, ofMessage: playingMessage)
+            if let playingMessage = YepAudioService.sharedManager.playingMessage {
+                setAudioPlayedDuration(currentTime, ofMessage: playingMessage)
 
-            let indexPath = NSIndexPath(forItem: Int(messages.indexOfObject(playingMessage)), inSection: 0)
+                let indexPath = NSIndexPath(forItem: Int(messages.indexOfObject(playingMessage)), inSection: 0)
 
-            if let sender = playingMessage.fromFriend {
+                if let sender = playingMessage.fromFriend {
 
-                if sender.friendState != UserFriendState.Me.rawValue {
-                    let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as! ChatLeftAudioCell
+                    if sender.friendState != UserFriendState.Me.rawValue {
+                        let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as! ChatLeftAudioCell
 
-                    cell.audioPlayedDuration = currentTime
+                        cell.audioPlayedDuration = currentTime
 
-                } else {
-                    let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as! ChatRightAudioCell
-
-                    cell.audioPlayedDuration = currentTime
+                    } else {
+                        let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as! ChatRightAudioCell
+                        
+                        cell.audioPlayedDuration = currentTime
+                    }
                 }
             }
         }
@@ -770,6 +772,24 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 break // TODO: download video
 
             case MessageMediaType.Audio.rawValue:
+
+                if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
+                    if let playingMessage = YepAudioService.sharedManager.playingMessage {
+                        if audioPlayer.playing {
+
+                            audioPlayer.pause()
+
+                            if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+                                playbackTimer.invalidate()
+                            }
+
+                            if message.isEqualToObject(playingMessage) {
+                                return
+                            }
+                        }
+                    }
+                }
+
                 YepAudioService.sharedManager.playAudioWithMessage(message, delegate: self) {
                     let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
                     YepAudioService.sharedManager.playbackTimer = playbackTimer
