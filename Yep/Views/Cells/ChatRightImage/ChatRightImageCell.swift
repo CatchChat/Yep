@@ -24,14 +24,12 @@ class ChatRightImageCell: UICollectionViewCell {
     }
 
     func configureWithMessage(message: Message, messageImagePreferredWidth: CGFloat, messageImagePreferredHeight: CGFloat, messageImagePreferredAspectRatio: CGFloat) {
-        if
-            let myUserID = YepUserDefaults.userID(),
-            let me = userWithUserID(myUserID) {
-                AvatarCache.sharedInstance.roundAvatarOfUser(me, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.avatarImageView.image = roundImage
-                    }
+        if let sender = message.fromFriend {
+            AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.avatarImageView.image = roundImage
                 }
+            }
         }
 
         messageImageView.alpha = 0.0
