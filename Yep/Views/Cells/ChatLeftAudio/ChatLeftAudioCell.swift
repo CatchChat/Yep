@@ -10,6 +10,12 @@ import UIKit
 
 class ChatLeftAudioCell: UICollectionViewCell {
 
+    var audioPlayedDuration: Double = 0 {
+        willSet {
+            println("audioPlayedDuration: \(newValue)")
+        }
+    }
+
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
@@ -37,7 +43,10 @@ class ChatLeftAudioCell: UICollectionViewCell {
         playButton.tintColor = UIColor.darkGrayColor()
     }
 
-    func configureWithMessage(message: Message) {
+    func configureWithMessage(message: Message, audioPlayedDuration: Double) {
+        
+        self.audioPlayedDuration = audioPlayedDuration
+
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
                 dispatch_async(dispatch_get_main_queue()) {

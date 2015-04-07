@@ -404,6 +404,49 @@ class ConversationViewController: UIViewController {
         return width
     }
 
+    private var audioPlayedDurations = [String: Double]()
+    private func audioPlayedDurationOfMessage(message: Message) -> Double {
+        let key = message.messageID
+
+        if !key.isEmpty {
+            if let playedDuration = audioPlayedDurations[key] {
+                return playedDuration
+            }
+        }
+
+        return 0
+    }
+    private func setAudioPlayedDuration(audioPlayedDuration: Double, ofMessage message: Message) {
+        let key = message.messageID
+        if !key.isEmpty {
+            audioPlayedDurations[key] = audioPlayedDuration
+        }
+    }
+    func updateAudioPlaybackProgress(timer: NSTimer) {
+        let currentTime = YepAudioService.sharedManager.audioPlayer.currentTime
+
+        if let playingMessage = YepAudioService.sharedManager.playingMessage {
+            setAudioPlayedDuration(currentTime, ofMessage: playingMessage)
+
+            let indexPath = NSIndexPath(forItem: Int(messages.indexOfObject(playingMessage)), inSection: 0)
+
+            if let sender = playingMessage.fromFriend {
+
+                if sender.friendState != UserFriendState.Me.rawValue {
+                    let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as! ChatLeftAudioCell
+
+                    cell.audioPlayedDuration = currentTime
+
+                } else {
+                    let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as! ChatRightAudioCell
+
+                    cell.audioPlayedDuration = currentTime
+                }
+            }
+        }
+    }
+    
+
     // MARK: Actions
 
     func updateConversationCollectionView() {
@@ -648,7 +691,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Audio.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftAudioCellIdentifier, forIndexPath: indexPath) as! ChatLeftAudioCell
 
-                    cell.configureWithMessage(message)
+                    let audioPlayedDuration = audioPlayedDurationOfMessage(message)
+                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration)
                                         
                     return cell
 
@@ -673,7 +717,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Audio.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightAudioCellIdentifier, forIndexPath: indexPath) as! ChatRightAudioCell
 
-                    cell.configureWithMessage(message)
+                    let audioPlayedDuration = audioPlayedDurationOfMessage(message)
+                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration)
                     
                     return cell
 
@@ -725,16 +770,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 break // TODO: download video
 
             case MessageMediaType.Audio.rawValue:
-
-                let fileName = message.localAttachmentName
-
-                if !fileName.isEmpty {
-                    if let fileURL = NSFileManager.yepMessageAudioURLWithName(fileName) {
-                        YepAudioService.sharedManager.playAudioWithURL(fileURL)
-                    }
-
-                } else {
-                    println("please wait for download")
+                YepAudioService.sharedManager.playAudioWithMessage(message, delegate: self) {
+                    let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                    YepAudioService.sharedManager.playbackTimer = playbackTimer
                 }
 
             default:
@@ -759,6 +797,34 @@ extension ConversationViewController : AVAudioRecorderDelegate {
     func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder!,
         error: NSError!) {
             println("\(error.localizedDescription)")
+    }
+}
+
+// MARK: AVAudioPlayerDelegate
+
+extension ConversationViewController: AVAudioPlayerDelegate {
+    func audioPlayerBeginInterruption(player: AVAudioPlayer!) {
+        println("audioPlayerBeginInterruption")
+
+        if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+            playbackTimer.invalidate()
+        }
+    }
+
+    func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer!, error: NSError!) {
+        println("audioPlayerDecodeErrorDidOccur")
+    }
+
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully flag: Bool) {
+        println("audioPlayerDidFinishPlaying")
+
+        if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+            playbackTimer.invalidate()
+        }
+    }
+
+    func audioPlayerEndInterruption(player: AVAudioPlayer!) {
+        println("audioPlayerEndInterruption")
     }
 }
 

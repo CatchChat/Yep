@@ -79,40 +79,43 @@ class YepAudioService: NSObject {
     }
     
     // MARK: Audio Player
-    
-    func playAudioWithURL(url: NSURL) {
+    var playingMessage: Message?
+    var playbackTimer: NSTimer? {
+        didSet {
+            if let oldPlaybackTimer = oldValue {
+                oldPlaybackTimer.invalidate()
+            }
+        }
+    }
+    func playAudioWithMessage(message: Message, delegate: AVAudioPlayerDelegate, success: () -> Void) {
 
-        var error: NSError?
-        if let audioPlayer = AVAudioPlayer(contentsOfURL: url, error: &error) {
-            self.audioPlayer = audioPlayer
-            self.audioPlayer.delegate = self
-            self.audioPlayer.prepareToPlay()
+        let fileName = message.localAttachmentName
 
-            if self.audioPlayer.play() {
-                println("Do Play audio \(error)")
+        if !fileName.isEmpty {
+            if let fileURL = NSFileManager.yepMessageAudioURLWithName(fileName) {
+
+                var error: NSError?
+                if let audioPlayer = AVAudioPlayer(contentsOfURL: fileURL, error: &error) {
+                    self.audioPlayer = audioPlayer
+                    self.audioPlayer.delegate = delegate
+                    self.audioPlayer.prepareToPlay()
+
+                    playingMessage = message
+                    
+                    if self.audioPlayer.play() {
+                        println("Do Play audio \(error)")
+
+                        success()
+                    }
+                    
+                } else {
+                    println("play audio \(error)")
+                }
             }
 
         } else {
-            println("play audio \(error)")
+            println("please wait for download") // TODO: Download audio message, check first
         }
-    }
-}
-
-extension YepAudioService: AVAudioPlayerDelegate {
-    func audioPlayerBeginInterruption(player: AVAudioPlayer!) {
-        println("audioPlayerBeginInterruption")
-    }
-    
-    func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer!, error: NSError!) {
-        println("audioPlayerDecodeErrorDidOccur")
-    }
-    
-    func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully flag: Bool) {
-        println("audioPlayerDidFinishPlaying")
-    }
-    
-    func audioPlayerEndInterruption(player: AVAudioPlayer!) {
-        println("audioPlayerEndInterruption")
     }
 }
 
