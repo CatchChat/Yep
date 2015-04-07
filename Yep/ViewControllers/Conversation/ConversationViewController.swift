@@ -650,34 +650,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Audio.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftAudioCellIdentifier, forIndexPath: indexPath) as! ChatLeftAudioCell
 
-                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            cell.avatarImageView.image = roundImage
-                        }
-                    }
-
-                    if !message.metaData.isEmpty {
-
-                        if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                            if let metaDataDict = decodeJSON(data) {
-
-                                if let audioSamples = metaDataDict["audio_samples"] as? [CGFloat] {
-                                    //
-                                    cell.sampleViewWidthConstraint.constant = CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
-                                    cell.sampleView.samples = audioSamples
-
-                                    if let audioDuration = metaDataDict["audio_duration"] as? Double {
-                                        cell.audioDurationLabel.text = NSString(format: "%.1f\"", audioDuration) as String
-                                    }
-                                }
-                            }
-
-                        } else {
-                            cell.sampleViewWidthConstraint.constant = 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
-                            cell.audioDurationLabel.text = ""
-                        }
-                    }
-                    
+                    cell.configureWithMessage(message)
+                                        
                     return cell
 
                 default:
@@ -701,33 +675,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Audio.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightAudioCellIdentifier, forIndexPath: indexPath) as! ChatRightAudioCell
 
-                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            cell.avatarImageView.image = roundImage
-                        }
-                    }
-
-                    if !message.metaData.isEmpty {
-
-                        if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                            if let metaDataDict = decodeJSON(data) {
-
-                                if let audioSamples = metaDataDict["audio_samples"] as? [CGFloat] {
-                                    cell.sampleViewWidthConstraint.constant = CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后一个 gap 不要
-                                    cell.sampleView.samples = audioSamples
-
-                                    if let audioDuration = metaDataDict["audio_duration"] as? Double {
-                                        cell.audioDurationLabel.text = NSString(format: "%.1f\"", audioDuration) as String
-                                    }
-                                }
-                            }
-
-                        } else {
-                            cell.sampleViewWidthConstraint.constant = 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
-                            cell.audioDurationLabel.text = ""
-                        }
-                    }
-
+                    cell.configureWithMessage(message)
+                    
                     return cell
 
                 default:

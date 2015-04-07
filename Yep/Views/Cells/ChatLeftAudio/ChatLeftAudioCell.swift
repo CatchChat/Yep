@@ -37,4 +37,34 @@ class ChatLeftAudioCell: UICollectionViewCell {
         playButton.tintColor = UIColor.darkGrayColor()
     }
 
+    func configureWithMessage(message: Message) {
+        if let sender = message.fromFriend {
+            AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.avatarImageView.image = roundImage
+                }
+            }
+        }
+
+        if !message.metaData.isEmpty {
+
+            if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                if let metaDataDict = decodeJSON(data) {
+
+                    if let audioSamples = metaDataDict["audio_samples"] as? [CGFloat] {
+                        sampleViewWidthConstraint.constant = CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
+                        sampleView.samples = audioSamples
+
+                        if let audioDuration = metaDataDict["audio_duration"] as? Double {
+                            audioDurationLabel.text = NSString(format: "%.1f\"", audioDuration) as String
+                        }
+                    }
+                }
+
+            } else {
+                sampleViewWidthConstraint.constant = 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
+                audioDurationLabel.text = ""
+            }
+        }
+    }
 }
