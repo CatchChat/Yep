@@ -10,11 +10,16 @@ import UIKit
 
 class ChatLeftAudioCell: UICollectionViewCell {
 
+    var message: Message!
+
     var audioPlayedDuration: Double = 0 {
         willSet {
             println("audioPlayedDuration: \(newValue)")
+
+            configureSampleView()
         }
     }
+
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
@@ -44,7 +49,9 @@ class ChatLeftAudioCell: UICollectionViewCell {
     }
 
     func configureWithMessage(message: Message, audioPlayedDuration: Double) {
-        
+
+        self.message = message
+
         self.audioPlayedDuration = audioPlayedDuration
 
         if let sender = message.fromFriend {
@@ -55,6 +62,10 @@ class ChatLeftAudioCell: UICollectionViewCell {
             }
         }
 
+        configureSampleView()
+    }
+
+    func configureSampleView() {
         if !message.metaData.isEmpty {
 
             if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
@@ -66,6 +77,11 @@ class ChatLeftAudioCell: UICollectionViewCell {
 
                         if let audioDuration = metaDataDict["audio_duration"] as? Double {
                             audioDurationLabel.text = NSString(format: "%.1f\"", audioDuration) as String
+
+                            sampleView.progress = CGFloat(audioPlayedDuration / audioDuration)
+
+                        } else {
+                            sampleView.progress = 0
                         }
                     }
                 }

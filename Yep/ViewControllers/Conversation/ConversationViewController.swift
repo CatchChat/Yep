@@ -771,7 +771,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             case MessageMediaType.Audio.rawValue:
                 YepAudioService.sharedManager.playAudioWithMessage(message, delegate: self) {
-                    let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                    let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
                     YepAudioService.sharedManager.playbackTimer = playbackTimer
                 }
 

@@ -11,22 +11,32 @@ import UIKit
 @IBDesignable
 class SampleView: UIView {
 
-    var samples: [CGFloat]? {
+    var samples: [CGFloat]?
+
+    var progress: CGFloat = 0 {
         didSet {
-            setNeedsLayout()
+            updateWave()
         }
     }
 
     @IBInspectable var sampleColor: UIColor = UIColor.yepTintColor() {
         willSet {
-            waveLayer.strokeColor = newValue.CGColor
+            playedWaveLayer.strokeColor = newValue.colorWithAlphaComponent(0.5).CGColor
+            unplayedWaveLayer.strokeColor = newValue.CGColor
         }
     }
 
     let sampleWidth: CGFloat = YepConfig.audioSampleWidth()
     let sampleGap = YepConfig.audioSampleGap()
 
-    lazy var waveLayer: CAShapeLayer = {
+    lazy var playedWaveLayer: CAShapeLayer = {
+        let layer = CAShapeLayer()
+        layer.lineWidth = self.sampleWidth
+        layer.strokeColor = self.sampleColor.colorWithAlphaComponent(0.5).CGColor
+        return layer
+        }()
+
+    lazy var unplayedWaveLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         layer.lineWidth = self.sampleWidth
         layer.strokeColor = self.sampleColor.CGColor
@@ -38,13 +48,20 @@ class SampleView: UIView {
 
         backgroundColor = UIColor.clearColor()
 
-        layer.addSublayer(waveLayer)
+        layer.addSublayer(unplayedWaveLayer)
+        layer.addSublayer(playedWaveLayer)
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        let wavePath = UIBezierPath()
+        updateWave()
+    }
+
+    func updateWave() {
+
+        let playedWavePath = UIBezierPath()
+        let unplayedWavePath = UIBezierPath()
 
         if let samples = samples {
 
@@ -57,20 +74,28 @@ class SampleView: UIView {
                     let x = CGFloat(index) * sampleWidth + sampleGap * CGFloat(index)
                     let sampleHeightMax = viewHeight * 0.8
                     var realSampleHeight = percent * viewHeight
-                    
+
                     realSampleHeight = realSampleHeight < 1 ? 1 : realSampleHeight
-                    
+
                     let sampleHeight = realSampleHeight < sampleHeightMax ? realSampleHeight: sampleHeightMax
 
-                    wavePath.moveToPoint(CGPointMake(x, viewHeight / 2.0 - sampleHeight / 2.0))
-                    wavePath.addLineToPoint(CGPointMake(x, sampleHeight / 2.0 + viewHeight / 2.0))
+                    if CGFloat(index) / CGFloat(samples.count) < progress {
+                        playedWavePath.moveToPoint(CGPointMake(x, viewHeight / 2.0 - sampleHeight / 2.0))
+                        playedWavePath.addLineToPoint(CGPointMake(x, sampleHeight / 2.0 + viewHeight / 2.0))
+
+                    } else {
+                        unplayedWavePath.moveToPoint(CGPointMake(x, viewHeight / 2.0 - sampleHeight / 2.0))
+                        unplayedWavePath.addLineToPoint(CGPointMake(x, sampleHeight / 2.0 + viewHeight / 2.0))
+                    }
                 }
-                
-                waveLayer.path = wavePath.CGPath
+
+                playedWaveLayer.path = playedWavePath.CGPath
+                unplayedWaveLayer.path = unplayedWavePath.CGPath
             }
 
         } else {
-            samples = [0.05, 0.05, 0.1, 0.2, 0.3, 0.6, 0.2, 0.7, 0.9, 0.7, 0.6, 0.3, 0.1, 0.1, 0.05] // count = 15 
+            samples = [0.05, 0.05, 0.1, 0.2, 0.3, 0.6, 0.2, 0.7, 0.9, 0.7, 0.6, 0.3, 0.1, 0.1, 0.05] // count = 15
+            progress = 0
         }
     }
 
