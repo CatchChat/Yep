@@ -225,19 +225,28 @@ class ConversationViewController: UIViewController {
 
             var metaData: String? = nil
 
-            let audioSamples = self.waverView.waver.compressSamples()
+            if let audioSamples = self.waverView.waver.compressSamples() {
 
-            if let fileURL = YepAudioService.sharedManager.audioFileURL {
-                let audioAsset = AVURLAsset(URL: fileURL, options: nil)
-                let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
+                var audioSamples = audioSamples
+                // 浮点数最多两位小数，使下面计算 metaData 时不至于太长
+                for i in 0..<audioSamples.count {
+                    var sample = audioSamples[i]
+                    sample = round(sample * 100.0) / 100.0
+                    audioSamples[i] = sample
+                }
 
-                println("Comporessed \(audioSamples)")
-                
-                let audioMetaDataInfo = ["audio_samples": audioSamples!, "audio_duration": audioDuration]
+                if let fileURL = YepAudioService.sharedManager.audioFileURL {
+                    let audioAsset = AVURLAsset(URL: fileURL, options: nil)
+                    let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
-                if let audioMetaData = NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: nil, error: nil) {
-                    let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
-                    metaData = audioMetaDataString
+                    println("\nComporessed \(audioSamples)")
+
+                    let audioMetaDataInfo = ["audio_samples": audioSamples, "audio_duration": audioDuration]
+
+                    if let audioMetaData = NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: nil, error: nil) {
+                        let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
+                        metaData = audioMetaDataString
+                    }
                 }
             }
 
