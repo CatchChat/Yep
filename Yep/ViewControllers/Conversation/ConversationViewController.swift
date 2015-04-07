@@ -643,70 +643,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Image.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftImageCellIdentifier, forIndexPath: indexPath) as! ChatLeftImageCell
 
-                    AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            cell.avatarImageView.image = roundImage
-                        }
-                    }
-
-                    cell.messageImageView.alpha = 0.0
-
-                    if message.metaData.isEmpty {
-                        cell.messageImageViewWidthConstrint.constant = messageImagePreferredWidth
-
-                        ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Left) { image in
-                            dispatch_async(dispatch_get_main_queue()) {
-                                cell.messageImageView.image = image
-
-                                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                                    cell.messageImageView.alpha = 1.0
-                                }, completion: { (finished) -> Void in
-                                })
-                            }
-                        }
-
-                    } else {
-                        if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                            if let metaDataDict = decodeJSON(data) {
-                                if
-                                    let imageWidth = metaDataDict["image_width"] as? CGFloat,
-                                    let imageHeight = metaDataDict["image_height"] as? CGFloat {
-
-                                        let aspectRatio = imageWidth / imageHeight
-
-                                        if aspectRatio >= 1 {
-                                            cell.messageImageViewWidthConstrint.constant = messageImagePreferredWidth
-
-                                            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Left) { image in
-                                                dispatch_async(dispatch_get_main_queue()) {
-                                                    cell.messageImageView.image = image
-
-                                                    UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                                                        cell.messageImageView.alpha = 1.0
-                                                    }, completion: { (finished) -> Void in
-                                                    })
-                                                }
-                                            }
-
-                                        } else {
-                                            cell.messageImageViewWidthConstrint.constant = messageImagePreferredHeight * aspectRatio
-
-                                            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Left) { image in
-                                                dispatch_async(dispatch_get_main_queue()) {
-                                                    cell.messageImageView.image = image
-
-                                                    UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                                                        cell.messageImageView.alpha = 1.0
-                                                    }, completion: { (finished) -> Void in
-                                                    })
-                                                }
-                                            }
-                                        }
-                                }
-                            }
-                        }
-                    }
-
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio)
+                    
                     return cell
 
                 case MessageMediaType.Audio.rawValue:
@@ -756,73 +694,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Image.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
 
-                    if
-                        let myUserID = YepUserDefaults.userID(),
-                        let me = userWithUserID(myUserID) {
-                            AvatarCache.sharedInstance.roundAvatarOfUser(me, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    cell.avatarImageView.image = roundImage
-                                }
-                            }
-
-                            cell.messageImageView.alpha = 0.0
-
-                            if message.metaData.isEmpty {
-                                cell.messageImageViewWidthConstrint.constant = messageImagePreferredWidth
-
-                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Right) { image in
-                                    dispatch_async(dispatch_get_main_queue()) {
-                                        cell.messageImageView.image = image
-
-                                        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                                            cell.messageImageView.alpha = 1.0
-                                        }, completion: { (finished) -> Void in
-                                        })
-                                    }
-                                }
-
-                            } else {
-                                if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                                    if let metaDataDict = decodeJSON(data) {
-                                        if
-                                            let imageWidth = metaDataDict["image_width"] as? CGFloat,
-                                            let imageHeight = metaDataDict["image_height"] as? CGFloat {
-
-                                                let aspectRatio = imageWidth / imageHeight
-
-                                                if aspectRatio >= 1 {
-                                                    cell.messageImageViewWidthConstrint.constant = messageImagePreferredWidth
-
-                                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Right) { image in
-                                                        dispatch_async(dispatch_get_main_queue()) {
-                                                            cell.messageImageView.image = image
-
-                                                            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                                                                cell.messageImageView.alpha = 1.0
-                                                            }, completion: { (finished) -> Void in
-                                                            })
-                                                        }
-                                                    }
-
-                                                } else {
-                                                    cell.messageImageViewWidthConstrint.constant = ceil(messageImagePreferredHeight * aspectRatio)
-
-                                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: ceil(messageImagePreferredHeight * aspectRatio), height: messageImagePreferredHeight), tailDirection: .Right) { image in
-                                                        dispatch_async(dispatch_get_main_queue()) {
-                                                            cell.messageImageView.image = image
-
-                                                            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                                                                cell.messageImageView.alpha = 1.0
-                                                            }, completion: { (finished) -> Void in
-                                                            })
-                                                        }
-                                                    }
-                                                }
-                                        }
-                                    }
-                                }
-                            }
-                    }
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio)
                     
                     return cell
 
