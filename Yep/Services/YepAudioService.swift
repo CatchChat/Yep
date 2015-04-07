@@ -87,23 +87,14 @@ class YepAudioService: NSObject {
             }
         }
     }
-    func playAudioWithMessage(message: Message, delegate: AVAudioPlayerDelegate, success: () -> Void) {
+    func playAudioWithMessage(message: Message, beginFromTime time: NSTimeInterval, delegate: AVAudioPlayerDelegate, success: () -> Void) {
 
         let fileName = message.localAttachmentName
 
         if !fileName.isEmpty {
+            
             if let fileURL = NSFileManager.yepMessageAudioURLWithName(fileName) {
 
-                if let audioPlayer = audioPlayer {
-                    if audioPlayer.url == fileURL {
-                        audioPlayer.play()
-
-                        success()
-
-                        return
-                    }
-                }
-                
                 var error: NSError?
                 if let audioPlayer = AVAudioPlayer(contentsOfURL: fileURL, error: &error) {
                     self.audioPlayer = audioPlayer
@@ -112,6 +103,7 @@ class YepAudioService: NSObject {
 
                     playingMessage = message
 
+                    audioPlayer.currentTime = time
                     if audioPlayer.play() {
                         println("Do Play audio \(error)")
 

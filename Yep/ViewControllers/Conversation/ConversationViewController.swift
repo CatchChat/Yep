@@ -790,7 +790,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     }
                 }
 
-                YepAudioService.sharedManager.playAudioWithMessage(message, delegate: self) {
+                let audioPlayedDuration = audioPlayedDurationOfMessage(message) as NSTimeInterval
+                YepAudioService.sharedManager.playAudioWithMessage(message, beginFromTime: audioPlayedDuration, delegate: self) {
                     let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
                     YepAudioService.sharedManager.playbackTimer = playbackTimer
                 }
@@ -836,10 +837,14 @@ extension ConversationViewController: AVAudioPlayerDelegate {
     }
 
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully flag: Bool) {
-        println("audioPlayerDidFinishPlaying")
+        println("audioPlayerDidFinishPlaying \(flag)")
 
         if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
             playbackTimer.invalidate()
+        }
+
+        if let playingMessage = YepAudioService.sharedManager.playingMessage {
+            setAudioPlayedDuration(0, ofMessage: playingMessage)
         }
     }
 

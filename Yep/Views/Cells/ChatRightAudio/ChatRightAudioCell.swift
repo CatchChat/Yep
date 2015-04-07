@@ -14,8 +14,6 @@ class ChatRightAudioCell: UICollectionViewCell {
 
     var audioPlayedDuration: Double = 0 {
         willSet {
-            println("audioPlayedDuration: \(newValue)")
-
             configureSampleView()
         }
     }
