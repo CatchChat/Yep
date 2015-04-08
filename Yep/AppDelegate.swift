@@ -204,7 +204,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 20)!
         ]
 
-        UINavigationBar.appearance().titleTextAttributes = textAttributes;
+        UINavigationBar.appearance().titleTextAttributes = textAttributes
+
+        UINavigationBar.appearance().setBackgroundImage(UIImage(named:"white"), forBarMetrics: .Default)
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().translucent = false
+
+
+        // TabBar
+
+        UITabBar.appearance().backgroundImage = UIImage(named:"white")
+        UITabBar.appearance().shadowImage = UIImage()
+        UITabBar.appearance().tintColor = UIColor.yepTintColor()
+        UITabBar.appearance().translucent = false
     }
 }
 
