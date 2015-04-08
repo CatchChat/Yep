@@ -48,7 +48,22 @@ class ConversationCell: UITableViewCell {
                 }
 
                 if let latestMessage = messagesInConversation(conversation).lastObject() as? Message {
-                    self.chatLabel.text = latestMessage.textContent
+                    
+                    switch latestMessage.mediaType {
+                        
+                        case MessageMediaType.Audio.rawValue:
+                            self.chatLabel.text = "[声音]"
+                        case MessageMediaType.Video.rawValue:
+                            self.chatLabel.text = "[视频]"
+                        case MessageMediaType.Image.rawValue:
+                            self.chatLabel.text = "[图片]"
+                        case MessageMediaType.Text.rawValue:
+                            self.chatLabel.text = latestMessage.textContent
+                        default:
+                            break
+                        
+                    }
+
                     self.timeAgoLabel.text = latestMessage.createdAt.timeAgo
                 } else {
                     self.chatLabel.text = ""

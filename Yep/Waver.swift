@@ -180,20 +180,15 @@ class Waver: UIView {
         
         var totalTime:CGFloat = CGFloat(waveSamples.count/(60/fps)) // 计算音频的时长
         
-        var bubbleWidth = -0.071*(totalTime*totalTime) + 8.532*totalTime //计算这个时长下的Bubble宽度，Bubble 的宽度和时间的关系函数是一个一元二次函数
+        var bubbleWidth = -0.05*(totalTime*totalTime) + 6.0*totalTime + 50.0 //计算这个时长下的Bubble宽度，Bubble 的宽度和时间的关系函数是一个一元二次函数
         
-        var effectiveSample = bubbleWidth/(waveSquareWidth+waveGap) < 1 ? 1 : bubbleWidth/(waveSquareWidth+waveGap) //计算这个长度里实际可以放多少个sample图形
-        if (effectiveSample > 10) {
-            
-        }
+        var effectiveSample = bubbleWidth/(waveSquareWidth+waveGap) < 1 ? 1 : bubbleWidth/(waveSquareWidth+waveGap) //计算这个长度里实际可以放多少个sample
         
         var sampleGap = Int(CGFloat(samplesCount)/effectiveSample) //计算按照实际可放的sample数量，原sample需要每几个合并一次
         
         var timePerSample = totalTime/(CGFloat(samplesCount)/effectiveSample) //计算合并后每个 sample 需要经过多少时间播放
         
-
-        
-        println("samplesCount \(samplesCount) totalTime \(totalTime) bubbleWidth \(bubbleWidth) effectiveSample\(effectiveSample) sampleGap \(sampleGap) timePerSample\(timePerSample)")
+        println("samplesCount \(samplesCount) totalTime \(totalTime) bubbleWidth \(bubbleWidth) effectiveSample \(effectiveSample) sampleGap \(sampleGap) timePerSample\(timePerSample)")
         
         //
         
@@ -211,15 +206,6 @@ class Waver: UIView {
                 if (sample > lastSample) {
                     lastSample = sample
                 }
-            }
-        }
-        
-        if (finalSamples.count < 10){
-            
-            finalSamples = [Float]()
-            
-            for sample in waveSamples {
-                finalSamples.append(Float(sample))
             }
         }
         
