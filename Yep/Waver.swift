@@ -180,7 +180,7 @@ class Waver: UIView {
         
         var totalTime:CGFloat = CGFloat(waveSamples.count/(60/fps)) // 计算音频的时长
         
-        var bubbleWidth = -0.071*(totalTime*totalTime) + 8.532*totalTime //计算这个时长下的Bubble宽度，Bubble 的宽度和时间的关系函数是一个一元二次函数
+        var bubbleWidth = -0.071*(totalTime*totalTime) + 8.532*totalTime + 50.0 //计算这个时长下的Bubble宽度，Bubble 的宽度和时间的关系函数是一个一元二次函数
         
         var effectiveSample = bubbleWidth/(waveSquareWidth+waveGap) < 1 ? 1 : bubbleWidth/(waveSquareWidth+waveGap) //计算这个长度里实际可以放多少个sample图形
         if (effectiveSample > 10) {
@@ -193,7 +193,7 @@ class Waver: UIView {
         
 
         
-        println("samplesCount \(samplesCount) totalTime \(totalTime) bubbleWidth \(bubbleWidth) effectiveSample\(effectiveSample) sampleGap \(sampleGap) timePerSample\(timePerSample)")
+        println("samplesCount \(samplesCount) totalTime \(totalTime) bubbleWidth \(bubbleWidth) effectiveSample \(effectiveSample) sampleGap \(sampleGap) timePerSample\(timePerSample)")
         
         //
         
@@ -214,14 +214,14 @@ class Waver: UIView {
             }
         }
         
-        if (finalSamples.count < 10){
-            
-            finalSamples = [Float]()
-            
-            for sample in waveSamples {
-                finalSamples.append(Float(sample))
-            }
-        }
+//        if (finalSamples.count < 10){
+//            
+//            finalSamples = [Float]()
+//            
+//            for sample in waveSamples {
+//                finalSamples.append(Float(sample))
+//            }
+//        }
         
         println("Final Sample is \(finalSamples)")
         
