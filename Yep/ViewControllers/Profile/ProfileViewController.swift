@@ -66,7 +66,7 @@ class ProfileViewController: UIViewController {
 
         profileCollectionView.alwaysBounceVertical = true
         
-        self.automaticallyAdjustsScrollViewInsets = false
+        automaticallyAdjustsScrollViewInsets = false
 
         if let tabBarController = tabBarController {
             profileCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: CGRectGetHeight(tabBarController.tabBar.bounds), right: 0)
@@ -78,14 +78,14 @@ class ProfileViewController: UIViewController {
             navigationController.navigationBar.shadowImage = UIImage()
             navigationController.navigationBar.barStyle = UIBarStyle.BlackTranslucent
             navigationController.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+
+            let textAttributes = [
+                NSForegroundColorAttributeName: UIColor.whiteColor(),
+                NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 20)!
+            ]
+
+            navigationController.navigationBar.titleTextAttributes = textAttributes
         }
-        
-        let textAttributes = [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
-            NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 20)!
-        ]
-        
-        self.navigationController?.navigationBar.titleTextAttributes = textAttributes
     }
     
     override func viewWillAppear(animated: Bool) {
