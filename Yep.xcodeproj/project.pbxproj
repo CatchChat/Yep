@@ -75,6 +75,8 @@
 		503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503CAB421AC00CB100DFE830 /* ConversationViewController.swift */; };
 		504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F41241ACE2D1D00FBB19A /* SampleView.swift */; };
 		504F41571AD4D35400FBB19A /* ProfileLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F41561AD4D35400FBB19A /* ProfileLayout.swift */; };
+		504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F41581AD5028200FBB19A /* SkillCell.swift */; };
+		504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504F41591AD5028200FBB19A /* SkillCell.xib */; };
 		506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */; };
 		5076C56A1AC46B9F00B22952 /* FayeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5076C5691AC46B9F00B22952 /* FayeService.swift */; };
 		508D17401ACCD2740092D666 /* YepButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D173F1ACCD2740092D666 /* YepButton.swift */; };
@@ -189,6 +191,8 @@
 		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
 		504F41241ACE2D1D00FBB19A /* SampleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleView.swift; path = Views/AudioWaves/SampleView.swift; sourceTree = "<group>"; };
 		504F41561AD4D35400FBB19A /* ProfileLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileLayout.swift; path = ViewControllers/Profile/ProfileLayout.swift; sourceTree = "<group>"; };
+		504F41581AD5028200FBB19A /* SkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillCell.swift; path = Views/Cells/Skill/SkillCell.swift; sourceTree = "<group>"; };
+		504F41591AD5028200FBB19A /* SkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillCell.xib; path = Views/Cells/Skill/SkillCell.xib; sourceTree = "<group>"; };
 		506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Yep.swift"; path = "Extensions/UIFont+Yep.swift"; sourceTree = "<group>"; };
 		5076C5691AC46B9F00B22952 /* FayeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FayeService.swift; path = Services/FayeService.swift; sourceTree = "<group>"; };
 		508D173F1ACCD2740092D666 /* YepButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepButton.swift; path = Views/Buttons/YepButton.swift; sourceTree = "<group>"; };
@@ -437,6 +441,7 @@
 			children = (
 				5023DE3B1AB697B000B3EE96 /* Conversation */,
 				502AE5421AB88866005BD199 /* SkillRank */,
+				504F415C1AD5028500FBB19A /* Skill */,
 				502AE5501AB93178005BD199 /* ProfileHeader */,
 				502AE5551AB93218005BD199 /* ProfileFooter */,
 				50E114FE1ABC549800F13000 /* Contacts */,
@@ -622,6 +627,15 @@
 				50165C441AC2860900C7AEBE /* ConversationLayout.swift */,
 			);
 			name = Conversation;
+			sourceTree = "<group>";
+		};
+		504F415C1AD5028500FBB19A /* Skill */ = {
+			isa = PBXGroup;
+			children = (
+				504F41581AD5028200FBB19A /* SkillCell.swift */,
+				504F41591AD5028200FBB19A /* SkillCell.xib */,
+			);
+			name = Skill;
 			sourceTree = "<group>";
 		};
 		508D17491ACCF4740092D666 /* ChatLeftAudio */ = {
@@ -826,6 +840,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */,
+				504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */,
 				502AE5591AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib in Resources */,
 				502AE5411AB88862005BD199 /* SkillRankCell.xib in Resources */,
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
@@ -980,6 +995,7 @@
 				502AE5531AB93215005BD199 /* ProfileFooterCell.swift in Sources */,
 				0A5D83991AC5D91E000045BF /* ContactsSearchTableViewController.swift in Sources */,
 				0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */,
+				504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */,
 				5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

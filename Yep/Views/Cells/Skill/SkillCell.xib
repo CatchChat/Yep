@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7528.3" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7518.3"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="SkillCell" customModule="Yep" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="99" height="24"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="99" height="24"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skill_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="4KZ-yR-VQ6" userLabel="Background Image View">
+                        <rect key="frame" x="0.0" y="0.0" width="99" height="24"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Skill" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="prI-fu-aCg" userLabel="Skill Label">
+                        <rect key="frame" x="0.0" y="0.0" width="99" height="24"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="4KZ-yR-VQ6" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="4sC-RB-pGY"/>
+                <constraint firstItem="prI-fu-aCg" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="VFw-pk-5m2"/>
+                <constraint firstItem="prI-fu-aCg" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="XPk-hp-Pnx"/>
+                <constraint firstAttribute="trailing" secondItem="4KZ-yR-VQ6" secondAttribute="trailing" id="YxK-JV-RP9"/>
+                <constraint firstAttribute="bottom" secondItem="4KZ-yR-VQ6" secondAttribute="bottom" id="ewi-IE-HdV"/>
+                <constraint firstAttribute="bottom" secondItem="prI-fu-aCg" secondAttribute="bottom" id="j2p-h5-mgW"/>
+                <constraint firstAttribute="trailing" secondItem="prI-fu-aCg" secondAttribute="trailing" id="tfv-VL-6Ld"/>
+                <constraint firstItem="4KZ-yR-VQ6" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="w4Z-jQ-pXH"/>
+            </constraints>
+            <size key="customSize" width="99" height="50"/>
+            <connections>
+                <outlet property="backgroundImageView" destination="4KZ-yR-VQ6" id="qZe-Gq-CEM"/>
+                <outlet property="skillLabel" destination="prI-fu-aCg" id="UgO-cv-Laf"/>
+            </connections>
+            <point key="canvasLocation" x="250.5" y="325"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="skill_bubble" width="25" height="24"/>
+    </resources>
+</document>

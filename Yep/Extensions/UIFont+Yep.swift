@@ -12,4 +12,8 @@ extension UIFont {
     class func chatTextFont() -> UIFont {
         return UIFont.systemFontOfSize(16)
     }
+
+    class func skillTextFont() -> UIFont {
+        return UIFont(name: "Helvetica-Light", size: 14)!
+    }
 }
