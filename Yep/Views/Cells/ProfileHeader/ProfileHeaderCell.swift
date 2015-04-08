@@ -21,6 +21,9 @@ class ProfileHeaderCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        nameLabel.hidden = true
+        joinedDateLabel.hidden = true
         
         let tap = UITapGestureRecognizer(target: self, action: "tryChangeAvatar")
         avatarImageView.userInteractionEnabled = true

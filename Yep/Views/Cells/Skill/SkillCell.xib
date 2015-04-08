@@ -7,17 +7,17 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="SkillCell" customModule="Yep" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="99" height="40"/>
+            <rect key="frame" x="0.0" y="0.0" width="99" height="24"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="99" height="40"/>
+                <rect key="frame" x="0.0" y="0.0" width="99" height="24"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_body" translatesAutoresizingMaskIntoConstraints="NO" id="4KZ-yR-VQ6" userLabel="Background Image View">
-                        <rect key="frame" x="0.0" y="0.0" width="99" height="40"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skill_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="4KZ-yR-VQ6" userLabel="Background Image View">
+                        <rect key="frame" x="0.0" y="0.0" width="99" height="24"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Skill" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="prI-fu-aCg" userLabel="Skill Label">
-                        <rect key="frame" x="0.0" y="0.0" width="99" height="40"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <rect key="frame" x="0.0" y="0.0" width="99" height="24"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -43,6 +43,6 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="bubble_body" width="42" height="40"/>
+        <image name="skill_bubble" width="25" height="24"/>
     </resources>
 </document>

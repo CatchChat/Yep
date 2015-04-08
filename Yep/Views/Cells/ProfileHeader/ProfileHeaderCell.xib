@@ -28,8 +28,8 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O8h-bQ-ZK8" userLabel="Location Label">
-                        <rect key="frame" x="320" y="219" width="53" height="15"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="广州市" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O8h-bQ-ZK8" userLabel="Location Label">
+                        <rect key="frame" x="178" y="219" width="36" height="15"/>
                         <fontDescription key="fontDescription" type="system" weight="thin" pointSize="12"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -39,14 +39,14 @@
             </view>
             <constraints>
                 <constraint firstItem="9iO-cK-3UB" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="0GC-5l-kfn"/>
-                <constraint firstItem="O8h-bQ-ZK8" firstAttribute="centerY" secondItem="NGG-vt-AMI" secondAttribute="centerY" id="0l4-yp-iX1"/>
                 <constraint firstItem="NGG-vt-AMI" firstAttribute="top" secondItem="g9S-Zs-82d" secondAttribute="bottom" constant="9" id="8I5-zm-l9l"/>
                 <constraint firstItem="NGG-vt-AMI" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="8fv-Rm-QbG"/>
+                <constraint firstAttribute="centerX" secondItem="O8h-bQ-ZK8" secondAttribute="centerX" constant="0.5" id="AQb-AI-JHu"/>
                 <constraint firstAttribute="bottom" secondItem="NGG-vt-AMI" secondAttribute="bottom" constant="20" id="Cu1-M1-6gp"/>
                 <constraint firstItem="g9S-Zs-82d" firstAttribute="leading" secondItem="NGG-vt-AMI" secondAttribute="leading" id="GmS-dS-tav"/>
+                <constraint firstAttribute="bottom" secondItem="O8h-bQ-ZK8" secondAttribute="bottom" constant="20" id="INr-hz-CLg"/>
                 <constraint firstAttribute="trailing" secondItem="9iO-cK-3UB" secondAttribute="trailing" id="Ykz-Gm-skT"/>
                 <constraint firstAttribute="bottom" secondItem="9iO-cK-3UB" secondAttribute="bottom" id="ZaW-Gv-rm4"/>
-                <constraint firstAttribute="trailing" secondItem="O8h-bQ-ZK8" secondAttribute="trailing" constant="20" id="m1m-M7-tKT"/>
                 <constraint firstItem="9iO-cK-3UB" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="sHm-q3-PrJ"/>
             </constraints>
             <size key="customSize" width="393" height="254"/>

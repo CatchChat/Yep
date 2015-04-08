@@ -27,9 +27,9 @@ class ProfileViewController: UIViewController {
         }()
     lazy var sectionLeftEdgeInset: CGFloat = { return 20 }()
     lazy var sectionRightEdgeInset: CGFloat = { return 20 }()
-    lazy var sectionBottomEdgeInset: CGFloat = { return 20 }()
+    lazy var sectionBottomEdgeInset: CGFloat = { return 15 }()
 
-    let cellHeight: CGFloat = 40
+    let skillCellHeight: CGFloat = 24
 
 
     let introductionText = "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
@@ -87,6 +87,8 @@ class ProfileViewController: UIViewController {
             ]
 
             navigationController.navigationBar.titleTextAttributes = textAttributes
+
+            navigationItem.title = YepUserDefaults.nickname()
         }
     }
     
@@ -153,9 +155,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
     enum ProfileSection: Int {
         case Header = 0
+        case Footer
         case Master
         case Learning
-        case Footer
     }
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -269,17 +271,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             switch indexPath.section {
 
-            case ProfileSection.Header.rawValue:
-                header.titleLabel.text = ""
-
             case ProfileSection.Master.rawValue:
                 header.titleLabel.text = NSLocalizedString("Master", comment: "")
 
             case ProfileSection.Learning.rawValue:
                 header.titleLabel.text = NSLocalizedString("Learning", comment: "")
-
-            case ProfileSection.Footer.rawValue:
-                header.titleLabel.text = NSLocalizedString("Introduction", comment: "")
 
             default:
                 header.titleLabel.text = ""
@@ -326,9 +322,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             let skillInfo = masterSkills[indexPath.row % masterSkills.count]
 
             if let skillString = skillInfo["skill"] as? String {
-                let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: cellHeight), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+                let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: skillCellHeight), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
-                return CGSizeMake(rect.width + 30, cellHeight)
+                return CGSizeMake(rect.width + 24, skillCellHeight)
             }
 
             return CGSizeZero
@@ -338,9 +334,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             let skillInfo = learningSkills[indexPath.row % learningSkills.count]
 
             if let skillString = skillInfo["skill"] as? String {
-                let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: cellHeight), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+                let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: skillCellHeight), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
-                return CGSizeMake(rect.width + 30, cellHeight)
+                return CGSizeMake(rect.width + 24, skillCellHeight)
             }
 
             return CGSizeZero
@@ -355,11 +351,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
-        if section == ProfileSection.Header.rawValue {
+        if section == ProfileSection.Header.rawValue || section == ProfileSection.Footer.rawValue {
             return CGSizeMake(collectionViewWidth, 0)
 
         } else {
-            return CGSizeMake(collectionViewWidth, cellHeight)
+            return CGSizeMake(collectionViewWidth, 40)
         }
     }
 
