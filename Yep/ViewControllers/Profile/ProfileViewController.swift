@@ -16,7 +16,7 @@ class ProfileViewController: UIViewController {
 
     @IBOutlet weak var profileCollectionView: UICollectionView!
 
-    let skillRanckCellIdentifier = "SkillRankCell"
+    let skillCellIdentifier = "SkillCell"
     let headerCellIdentifier = "ProfileHeaderCell"
     let footerCellIdentifier = "ProfileFooterCell"
     let sectionHeaderIdentifier = "ProfileSectionHeaderReusableView"
@@ -29,9 +29,6 @@ class ProfileViewController: UIViewController {
     lazy var sectionRightEdgeInset: CGFloat = { return 20 }()
     lazy var sectionBottomEdgeInset: CGFloat = { return 20 }()
 
-    lazy var cellWidth: CGFloat = {
-        return (self.collectionViewWidth - (self.sectionLeftEdgeInset + self.sectionRightEdgeInset)) / 3
-        }()
     let cellHeight: CGFloat = 40
 
 
@@ -41,12 +38,17 @@ class ProfileViewController: UIViewController {
         ["skill":"iOS Dev", "rank":3],
         ["skill":"Linux", "rank":2],
         ["skill":"Cook", "rank":1],
+        ["skill":"Love", "rank":1],
+        ["skill":"Walk", "rank":1],
+        ["skill":"Eat", "rank":1],
     ]
 
     let learningSkills = [
         ["skill":"Design", "rank":1],
         ["skill":"Speech", "rank":0],
     ]
+
+    let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
 
     lazy var footerCellHeight: CGFloat = {
         let attributes = [NSFontAttributeName: profileIntroductionLabelFont]
@@ -58,7 +60,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        profileCollectionView.registerNib(UINib(nibName: skillRanckCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillRanckCellIdentifier)
+        profileCollectionView.registerNib(UINib(nibName: skillCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: headerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: footerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: footerCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: sectionHeaderIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: sectionHeaderIdentifier)
@@ -168,10 +170,10 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return 1
 
         case ProfileSection.Master.rawValue:
-            return 3
+            return masterSkills.count
 
         case ProfileSection.Learning.rawValue:
-            return 2
+            return learningSkills.count
 
         case ProfileSection.Footer.rawValue:
             return 1
@@ -229,24 +231,19 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return cell
 
         case ProfileSection.Master.rawValue:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillRanckCellIdentifier, forIndexPath: indexPath) as! SkillRankCell
-
-            cell.rankView.barColor = UIColor.skillMasterColor()
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
 
             let skillInfo = masterSkills[indexPath.row % masterSkills.count]
             cell.skillLabel.text = skillInfo["skill"] as? String
-            cell.rankView.rank = skillInfo["rank"] as! Int
+
 
             return cell
 
         case ProfileSection.Learning.rawValue:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillRanckCellIdentifier, forIndexPath: indexPath) as! SkillRankCell
-
-            cell.rankView.barColor = UIColor.skillLearningColor()
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
 
             let skillInfo = learningSkills[indexPath.row % learningSkills.count]
             cell.skillLabel.text = skillInfo["skill"] as? String
-            cell.rankView.rank = skillInfo["rank"] as! Int
 
             return cell
 
@@ -258,7 +255,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return cell
 
         default:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillRanckCellIdentifier, forIndexPath: indexPath) as! SkillRankCell
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
 
             return cell
         }
@@ -325,10 +322,28 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return CGSizeMake(collectionViewWidth, collectionViewWidth * profileAvatarAspectRatio)
 
         case ProfileSection.Master.rawValue:
-            return CGSizeMake(cellWidth, cellHeight)
+
+            let skillInfo = masterSkills[indexPath.row % masterSkills.count]
+
+            if let skillString = skillInfo["skill"] as? String {
+                let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: cellHeight), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+
+                return CGSizeMake(rect.width + 30, cellHeight)
+            }
+
+            return CGSizeZero
 
         case ProfileSection.Learning.rawValue:
-            return CGSizeMake(cellWidth, cellHeight)
+            
+            let skillInfo = learningSkills[indexPath.row % learningSkills.count]
+
+            if let skillString = skillInfo["skill"] as? String {
+                let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: cellHeight), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+
+                return CGSizeMake(rect.width + 30, cellHeight)
+            }
+
+            return CGSizeZero
 
         case ProfileSection.Footer.rawValue:
             return CGSizeMake(collectionViewWidth, footerCellHeight)
