@@ -10,6 +10,7 @@ import UIKit
 import Realm
 
 let YepUpdatedProfileAvatarNotification = "YepUpdatedProfileAvatarNotification"
+let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
 class ProfileViewController: UIViewController {
 
@@ -32,7 +33,7 @@ class ProfileViewController: UIViewController {
         return (self.collectionViewWidth - (self.sectionLeftEdgeInset + self.sectionRightEdgeInset)) / 3
         }()
     let cellHeight: CGFloat = 40
-    let avatarAspectRatio: CGFloat = 12.0 / 16.0
+
 
     let introductionText = "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
 
@@ -321,7 +322,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         switch indexPath.section {
 
         case ProfileSection.Header.rawValue:
-            return CGSizeMake(collectionViewWidth, collectionViewWidth * avatarAspectRatio)
+            return CGSizeMake(collectionViewWidth, collectionViewWidth * profileAvatarAspectRatio)
 
         case ProfileSection.Master.rawValue:
             return CGSizeMake(cellWidth, cellHeight)
