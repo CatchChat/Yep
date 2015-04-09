@@ -65,18 +65,18 @@ class ContactsSearchTableViewController: UITableViewController,UISearchControlle
         var searchText = searchController.searchBar.text
         println(searchText)
         
-        searchUsersWithPhoneNumber(ofPhoneNumber: searchText, failureHandler: { (reason, errorMessage) in
-            
-            }, completion: { users in
-                self.searchResult = users
-                if (self.searchResult.count > 0) {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.tableView.reloadData()
-                    }
-                }
-            }
-        )
-        
+//        searchUsersWithPhoneNumber(ofPhoneNumber: searchText, failureHandler: { (reason, errorMessage) in
+//            
+//            }, completion: { users in
+//                self.searchResult = users
+//                if (self.searchResult.count > 0) {
+//                    dispatch_async(dispatch_get_main_queue()) {
+//                        self.tableView.reloadData()
+//                    }
+//                }
+//            }
+//        )
+
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

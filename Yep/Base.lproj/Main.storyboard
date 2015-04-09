@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7528.3" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7518.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <scenes>
         <!--Conversations-->
@@ -70,8 +70,8 @@
                                     <outlet property="delegate" destination="la3-6z-2aH" id="zOV-zM-2KH"/>
                                 </connections>
                             </collectionView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="490" width="600" height="50"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="496" width="600" height="44"/>
                                 <items/>
                             </toolbar>
                         </subviews>
@@ -128,7 +128,7 @@
                     <navigationItem key="navigationItem" title="Contacts" id="tYK-ax-VkQ">
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="JGC-Ux-Jad">
                             <connections>
-                                <segue destination="Z9h-1s-JwL" kind="show" id="xjZ-jf-70R"/>
+                                <segue destination="zAF-u5-qp5" kind="show" id="QyR-O5-XIC"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -184,7 +184,44 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="149" y="1835"/>
+            <point key="canvasLocation" x="-97" y="1833"/>
+        </scene>
+        <!--Search Users View Controller-->
+        <scene sceneID="CWo-xc-jUy">
+            <objects>
+                <viewController storyboardIdentifier="SearchUsersViewController" id="zAF-u5-qp5" customClass="SearchUsersViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="IOS-iW-LNE"/>
+                        <viewControllerLayoutGuide type="bottom" id="8au-1H-Dms"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GXa-Ra-uOH">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bNk-Db-D2Z">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="zAF-u5-qp5" id="GwH-xi-koY"/>
+                                    <outlet property="delegate" destination="zAF-u5-qp5" id="ACO-7G-xNU"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bNk-Db-D2Z" firstAttribute="leading" secondItem="GXa-Ra-uOH" secondAttribute="leading" id="Pnw-9s-Xos"/>
+                            <constraint firstItem="bNk-Db-D2Z" firstAttribute="top" secondItem="GXa-Ra-uOH" secondAttribute="top" id="bbq-bg-ajl"/>
+                            <constraint firstAttribute="trailing" secondItem="bNk-Db-D2Z" secondAttribute="trailing" id="lh3-CJ-iV0"/>
+                            <constraint firstAttribute="bottom" secondItem="bNk-Db-D2Z" secondAttribute="bottom" id="vtf-vd-Bt1"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="searchedUsersTableView" destination="bNk-Db-D2Z" id="1tX-ak-sT2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f0E-uq-Sae" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="547" y="1839"/>
         </scene>
         <!--Discover-->
         <scene sceneID="n5u-x5-QaP">

@@ -230,14 +230,14 @@ func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: S
 
 // MARK: Contacts
 
-func searchUsersWithPhoneNumber(ofPhoneNumber phoneNumber: String, #failureHandler: ((Reason, String?) -> ())?, #completion: [AnyObject] -> Void) {
+func searchUsersByMobile(mobile: String, #failureHandler: ((Reason, String?) -> ())?, #completion: [JSONDictionary] -> Void) {
     
     let requestParameters = [
-        "q": phoneNumber
+        "q": mobile
     ]
     
-    let parse: JSONDictionary -> [AnyObject]? = { data in
-        if let users = data["users"] as? [AnyObject] {
+    let parse: JSONDictionary -> [JSONDictionary]? = { data in
+        if let users = data["users"] as? [JSONDictionary] {
             return users
         }
         return []

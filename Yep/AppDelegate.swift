@@ -208,7 +208,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         UINavigationBar.appearance().setBackgroundImage(UIImage(named:"white"), forBarMetrics: .Default)
         UINavigationBar.appearance().shadowImage = UIImage()
-        UINavigationBar.appearance().translucent = false
+        //UINavigationBar.appearance().translucent = false
 
 
         // TabBar
@@ -216,7 +216,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().backgroundImage = UIImage(named:"white")
         UITabBar.appearance().shadowImage = UIImage()
         UITabBar.appearance().tintColor = UIColor.yepTintColor()
-        UITabBar.appearance().translucent = false
+        //UITabBar.appearance().translucent = false
     }
 }
 
