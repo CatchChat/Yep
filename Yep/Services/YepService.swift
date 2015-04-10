@@ -49,7 +49,7 @@ func saveTokenAndUserInfoOfLoginUser(loginUser: LoginUser) {
 
 // MARK: Register
 
-func validateMobile(mobile: String, withAreaCode areaCode: String, #failureHandler: ((Reason, String?) -> ())?, #completion: ((Bool, String)) -> Void) {
+func validateMobile(mobile: String, withAreaCode areaCode: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: ((Bool, String)) -> Void) {
     let requestParameters = [
         "mobile": mobile,
         "phone_code": areaCode,
@@ -80,7 +80,7 @@ func validateMobile(mobile: String, withAreaCode areaCode: String, #failureHandl
 
 }
 
-func registerMobile(mobile: String, withAreaCode areaCode: String, #nickname: String, #failureHandler: ((Reason, String?) -> ())?, #completion: Bool -> Void) {
+func registerMobile(mobile: String, withAreaCode areaCode: String, #nickname: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
     let requestParameters: JSONDictionary = [
         "mobile": mobile,
         "phone_code": areaCode,
@@ -108,7 +108,7 @@ func registerMobile(mobile: String, withAreaCode areaCode: String, #nickname: St
     }
 }
 
-func verifyMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: String, #failureHandler: ((Reason, String?) -> ())?, #completion: LoginUser -> Void) {
+func verifyMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: LoginUser -> Void) {
     let requestParameters: JSONDictionary = [
         "mobile": mobile,
         "phone_code": areaCode,
@@ -145,7 +145,7 @@ func verifyMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: St
 
 // MARK: User
 
-func updateMyselfWithInfo(info: JSONDictionary, #failureHandler: ((Reason, String?) -> ())?, #completion: Bool -> Void) {
+func updateMyselfWithInfo(info: JSONDictionary, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
 
     // nickname
     // avatar_url
@@ -166,7 +166,7 @@ func updateMyselfWithInfo(info: JSONDictionary, #failureHandler: ((Reason, Strin
     }
 }
 
-func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #failureHandler: ((Reason, String?) -> ())?, #completion: Bool -> Void) {
+func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
 
     let requestParameters = [
         "mobile": mobile,
@@ -192,7 +192,33 @@ func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #fai
     }
 }
 
-func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: String, #failureHandler: ((Reason, String?) -> ())?, #completion: LoginUser -> Void) {
+func resendVoiceVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+    let requestParameters = [
+        "mobile": mobile,
+        "phone_code": areaCode,
+    ]
+
+    let parse: JSONDictionary -> Bool? = { data in
+        if let status = data["state"] as? String {
+            if status == "active" {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    let resource = jsonResource(path: "/api/v1/registration/resend_verify_code_by_voice", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+
+}
+
+func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: LoginUser -> Void) {
 
     let requestParameters: JSONDictionary = [
         "mobile": mobile,
@@ -230,7 +256,7 @@ func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: S
 
 // MARK: Contacts
 
-func searchUsersByMobile(mobile: String, #failureHandler: ((Reason, String?) -> ())?, #completion: [JSONDictionary] -> Void) {
+func searchUsersByMobile(mobile: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: [JSONDictionary] -> Void) {
     
     let requestParameters = [
         "q": mobile
@@ -269,7 +295,7 @@ private func headFriendships(#completion: JSONDictionary -> Void) {
     apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
 }
 
-private func moreFriendships(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Reason, String?) -> ())?, #completion: JSONDictionary -> Void) {
+private func moreFriendships(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": page,
         "per_page": perPage,
@@ -288,7 +314,7 @@ private func moreFriendships(inPage page: Int, withPerPage perPage: Int, #failur
     }
 }
 
-func discoverUsers(#master_skills: [String], #learning_skills: [String], #sort: String,#failureHandler: ((Reason, String?) -> ())?, #completion: JSONDictionary -> Void) {
+func discoverUsers(#master_skills: [String], #learning_skills: [String], #sort: String,#failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
     
     let requestParameters = [
         "master_skills": master_skills,
@@ -357,7 +383,7 @@ func friendships(#completion: [JSONDictionary] -> Void) {
 
 // MARK: Groups
 
-func headGroups(#failureHandler: ((Reason, String?) -> ())?, #completion: JSONDictionary -> Void) {
+func headGroups(#failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": 1,
         "per_page": 100,
@@ -376,7 +402,7 @@ func headGroups(#failureHandler: ((Reason, String?) -> ())?, #completion: JSONDi
     }
 }
 
-func moreGroups(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Reason, String?) -> ())?, #completion: JSONDictionary -> Void) {
+func moreGroups(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": page,
         "per_page": perPage,
@@ -459,7 +485,7 @@ func headUnreadMessages(#completion: JSONDictionary -> Void) {
     apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
 }
 
-func moreUnreadMessages(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Reason, String?) -> ())?, #completion: JSONDictionary -> Void) {
+func moreUnreadMessages(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": page,
         "per_page": perPage,
@@ -523,7 +549,7 @@ func unreadMessages(#completion: [JSONDictionary] -> Void) {
     }
 }
 
-func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: ((Reason, String?) -> ())?, #completion: (messageID: String) -> Void) {
+func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: ((Reason, String?) -> Void)?, #completion: (messageID: String) -> Void) {
 
     let parse: JSONDictionary -> String? = { data in
         if let messageID = data["id"] as? String {
@@ -752,7 +778,7 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
     }
 }
 
-func markAsReadMessage(message: Message ,#failureHandler: ((Reason, String?) -> ())?, #completion: (Bool) -> Void) {
+func markAsReadMessage(message: Message ,#failureHandler: ((Reason, String?) -> Void)?, #completion: (Bool) -> Void) {
 
     if message.readed || message.messageID.isEmpty || message.downloadState != MessageDownloadState.Downloaded.rawValue {
         return

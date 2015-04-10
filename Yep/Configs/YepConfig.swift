@@ -14,6 +14,14 @@ class YepConfig {
         return 2
     }
 
+    class func verifyCodeLength() -> Int {
+        return 4
+    }
+
+    class func callMeInSeconds() -> Int {
+        return 60
+    }
+
     class func avatarMaxSize() -> CGSize {
         return CGSize(width: 600, height: 600)
     }

@@ -32,6 +32,9 @@ class LoginByMobileViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
+        backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
+        nextButton.setTitle(NSLocalizedString("Next", comment: ""), forState: .Normal)
+
         nextButton.enabled = false
     }
 
