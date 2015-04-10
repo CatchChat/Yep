@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var deviceToken: NSData?
     var notRegisteredPush = true
 
+    var isColdLaunch = true
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
@@ -77,9 +78,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        syncUnreadMessages() {
-            
+
+        if !isColdLaunch {
+            if let token = YepUserDefaults.v1AccessToken() {
+                syncUnreadMessages() {
+                }
+            }
         }
+
+        isColdLaunch = false
     }
 
     func applicationWillTerminate(application: UIApplication) {

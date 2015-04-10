@@ -21,8 +21,28 @@ class LoginVerifyMobileViewController: UIViewController {
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
 
+
+    lazy var callMeTimer: NSTimer = {
+        let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "tryCallMe:", userInfo: nil, repeats: true)
+        return timer
+        }()
+    var haveAppropriateInput = false {
+        willSet {
+            nextButton.enabled = newValue
+
+            if newValue {
+                nextButton.setTitle(NSLocalizedString("Done", comment: ""), forState: .Normal)
+            }
+        }
+    }
+    var callMeInSeconds = YepConfig.callMeInSeconds()
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
+        nextButton.setTitle(NSLocalizedString("Done", comment: ""), forState: .Normal)
 
         verifyCodeTextField.delegate = self
         verifyCodeTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
@@ -38,12 +58,43 @@ class LoginVerifyMobileViewController: UIViewController {
         super.viewDidAppear(animated)
 
         verifyCodeTextField.becomeFirstResponder()
+
+        callMeTimer.fire()
     }
 
     // MARK: Actions
 
+    func tryCallMe(timer: NSTimer) {
+        if !haveAppropriateInput {
+            if callMeInSeconds > 1 {
+                let callMeInSecondsString = NSLocalizedString("Call Me", comment: "") + " (\(callMeInSeconds))"
+                nextButton.setTitle(callMeInSecondsString, forState: .Normal)
+
+            } else {
+                nextButton.setTitle(NSLocalizedString("Call Me", comment: ""), forState: .Normal)
+                nextButton.enabled = true
+            }
+        }
+
+        if (callMeInSeconds > 1) {
+            callMeInSeconds--
+        }
+    }
+
+    func callMe() {
+        nextButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
+
+        resendVoiceVerifyCode(ofMobile: mobile, withAreaCode: areaCode, failureHandler: { (reason, errorMessage) -> () in
+            defaultFailureHandler(reason, errorMessage)
+            // TODO: 提醒发送语音验证码错误
+
+        }, completion: { success in
+            println("resendVoiceVerifyCode \(success)")
+        })
+    }
+
     func textFieldDidChange(textField: UITextField) {
-        nextButton.enabled = !textField.text.isEmpty
+        haveAppropriateInput = (count(textField.text) == YepConfig.verifyCodeLength())
     }
 
     @IBAction func back(sender: UIButton) {
@@ -56,36 +107,41 @@ class LoginVerifyMobileViewController: UIViewController {
 
     private func login() {
 
-        view.endEditing(true)
-        
-        let verifyCode = verifyCodeTextField.text
+        if haveAppropriateInput {
+            view.endEditing(true)
 
-        loginByMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
+            let verifyCode = verifyCodeTextField.text
 
-            if let errorMessage = errorMessage {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.nextButton.enabled = false
-                    
-                    YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
-                        verifyCodeTextField.becomeFirstResponder()
+            loginByMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
+                defaultFailureHandler(reason, errorMessage)
+
+                if let errorMessage = errorMessage {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.nextButton.enabled = false
+
+                        YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
+                            verifyCodeTextField.becomeFirstResponder()
+                        })
                     })
-                })
-            }
-
-        }, completion: { loginUser in
-
-            println("\(loginUser)")
-
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-
-                saveTokenAndUserInfoOfLoginUser(loginUser)
-
-                if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-                    appDelegate.startMainStory()
                 }
+
+            }, completion: { loginUser in
+
+                println("\(loginUser)")
+
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+
+                    saveTokenAndUserInfoOfLoginUser(loginUser)
+
+                    if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                        appDelegate.startMainStory()
+                    }
+                })
             })
-        })
+
+        } else {
+            callMe()
+        }
     }
 }
 

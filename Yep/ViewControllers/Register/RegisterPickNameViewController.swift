@@ -20,6 +20,9 @@ class RegisterPickNameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
+        nextButton.setTitle(NSLocalizedString("Next", comment: ""), forState: .Normal)
+
         nameTextField.delegate = self
         nameTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
     }
