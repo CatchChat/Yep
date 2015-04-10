@@ -86,12 +86,15 @@ class RegisterVerifyMobileViewController: UIViewController {
 
         resendVoiceVerifyCode(ofMobile: mobile, withAreaCode: areaCode, failureHandler: { (reason, errorMessage) -> () in
             defaultFailureHandler(reason, errorMessage)
-            // TODO: 提醒发送语音验证码错误
+
+            if let errorMessage = errorMessage {
+                dispatch_async(dispatch_get_main_queue()) {
+                    YepAlert.alertSorry(message: errorMessage, inViewController: self)
+                }
+            }
 
         }, completion: { success in
             println("resendVoiceVerifyCode \(success)")
-
-            // TODO: 如果号码不合法或不存在，提醒发送语音验证码错误
         })
     }
 
