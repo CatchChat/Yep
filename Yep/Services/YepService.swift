@@ -200,9 +200,7 @@ func resendVoiceVerifyCode(ofMobile mobile: String, withAreaCode areaCode: Strin
 
     let parse: JSONDictionary -> Bool? = { data in
         if let status = data["state"] as? String {
-            if status == "active" {
-                return true
-            }
+            return true
         }
 
         return false

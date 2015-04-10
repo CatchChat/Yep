@@ -22,6 +22,9 @@ class RegisterPickMobileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
+        nextButton.setTitle(NSLocalizedString("Next", comment: ""), forState: .Normal)
+
         areaCodeTextField.delegate = self
         areaCodeTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
