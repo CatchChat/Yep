@@ -22,6 +22,9 @@ class ConversationViewController: UIViewController {
         return messagesInConversation(self.conversation)
         }()
 
+    var lastDisplayedMessagesRange = NSRange()
+    var currentDisplayedMessagesRange = NSRange()
+
     // 上一次更新 UI 时的消息数
     var lastTimeMessagesCount: UInt = 0
 
@@ -122,9 +125,16 @@ class ConversationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
+        navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
 
-        //YepAudioService.sharedManager.audioRecorder.delegate = self
+        if messages.count >= 7 {
+            currentDisplayedMessagesRange = NSRange(location: Int(messages.count - 7), length: 7)
+        } else {
+            currentDisplayedMessagesRange = NSRange(location: 0, length: Int(messages.count))
+        }
+        lastDisplayedMessagesRange = currentDisplayedMessagesRange
+
+
         
         let undoBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Undo, target: self, action: "undoMessageSend")
         navigationItem.rightBarButtonItem = undoBarButtonItem
@@ -330,8 +340,8 @@ class ConversationViewController: UIViewController {
             // 先调整一下初次的 contentInset
             setConversaitonCollectionViewOriginalContentInset()
 
-            if messages.count > 0 {
-                conversationCollectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: Int(messages.count - 1), inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Bottom, animated: false)
+            if currentDisplayedMessagesRange.length > 0 {
+                conversationCollectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: currentDisplayedMessagesRange.length - 1, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Bottom, animated: false)
             }
         }
         
@@ -455,7 +465,7 @@ class ConversationViewController: UIViewController {
     }
     func updateAudioPlaybackProgress(timer: NSTimer) {
         func updateAudioCellOfMessage(message: Message, withCurrentTime currentTime: NSTimeInterval) {
-            let indexPath = NSIndexPath(forItem: Int(messages.indexOfObject(message)), inSection: 0)
+            let indexPath = NSIndexPath(forItem: Int(messages.indexOfObject(message)) - currentDisplayedMessagesRange.location, inSection: 0)
 
             if let sender = message.fromFriend {
                 if sender.friendState != UserFriendState.Me.rawValue {
@@ -496,10 +506,12 @@ class ConversationViewController: UIViewController {
             return
         }
         let newMessagesCount = messages.count - _lastTimeMessagesCount
-        
+
+        currentDisplayedMessagesRange.length += Int(newMessagesCount)
+
         var indexPaths = [NSIndexPath]()
-        for i in _lastTimeMessagesCount..<messages.count {
-            let indexPath = NSIndexPath(forItem: Int(i), inSection: 0)
+        for i in 0..<newMessagesCount {
+            let indexPath = NSIndexPath(forItem: currentDisplayedMessagesRange.length - 1 + Int(i), inSection: 0)
             indexPaths.append(indexPath)
         }
 
@@ -692,12 +704,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Int(messages.count)
+        return currentDisplayedMessagesRange.length
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let message = messages.objectAtIndex(UInt(indexPath.item)) as! Message
+        let message = messages.objectAtIndex(UInt(currentDisplayedMessagesRange.location + indexPath.item)) as! Message
 
         if message.mediaType == MessageMediaType.SectionDate.rawValue {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
@@ -795,7 +807,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        let message = messages.objectAtIndex(UInt(indexPath.item)) as! Message
+        let message = messages.objectAtIndex(UInt(currentDisplayedMessagesRange.location + indexPath.item)) as! Message
 
         return CGSizeMake(collectionViewWidth, heightOfMessage(message))
     }
@@ -809,7 +821,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             view.endEditing(true)
 
         } else {
-            let message = messages.objectAtIndex(UInt(indexPath.item)) as! Message
+            let message = messages.objectAtIndex(UInt(currentDisplayedMessagesRange.location + indexPath.item)) as! Message
 
             switch message.mediaType {
             case MessageMediaType.Image.rawValue:
