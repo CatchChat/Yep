@@ -32,6 +32,12 @@ class ConversationViewController: UIViewController {
         return dateFormatter
         }()
 
+    lazy var sectionDateInCurrentWeekFormatter: NSDateFormatter =  {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "EEEE HH:mm"
+        return dateFormatter
+        }()
+
 
     var conversationCollectionViewHasBeenMovedToBottomOnce = false
 
@@ -696,7 +702,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         if message.mediaType == MessageMediaType.SectionDate.rawValue {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
 
-            cell.sectionDateLabel.text = sectionDateFormatter.stringFromDate(message.createdAt)
+            if message.createdAt.isInCurrentWeek() {
+                cell.sectionDateLabel.text = sectionDateInCurrentWeekFormatter.stringFromDate(message.createdAt)
+            } else {
+                cell.sectionDateLabel.text = sectionDateFormatter.stringFromDate(message.createdAt)
+            }
 
             return cell
         }
