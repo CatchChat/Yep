@@ -22,7 +22,7 @@ class ConversationViewController: UIViewController {
         return messagesInConversation(self.conversation)
         }()
 
-    let messagesBunchCount = 7 // TODO: 分段载入的“一束”消息的数量
+    let messagesBunchCount = 12 // TODO: 分段载入的“一束”消息的数量
     var displayedMessagesRange = NSRange()
 
 
@@ -140,6 +140,8 @@ class ConversationViewController: UIViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationCollectionView", name: YepNewMessagesReceivedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationCollectionView", name: YepUpdatedProfileAvatarNotification, object: nil)
+
+        conversationCollectionView.alwaysBounceVertical = true
 
         conversationCollectionView.registerNib(UINib(nibName: chatSectionDateCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatSectionDateCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
@@ -893,7 +895,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             displayedMessagesRange.location -= newMessagesCount
             displayedMessagesRange.length += newMessagesCount
 
+            lastTimeMessagesCount = messages.count // 同样需要纪录它
+
+            // TODO: reloadData 再 scrollToItem 可以保持位置并不闪，但可能还有更好的办法
             conversationCollectionView.reloadData()
+            let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: 0)
+            conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Top, animated: false)
         }
     }
 }
