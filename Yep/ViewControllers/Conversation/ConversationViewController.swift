@@ -883,25 +883,28 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
 
-        let lastDisplayedMessagesRange = displayedMessagesRange
-
-        var newMessagesCount = messagesBunchCount
-
-        if (displayedMessagesRange.location - newMessagesCount) < 0 {
-            newMessagesCount = displayedMessagesRange.location - newMessagesCount
+        if (scrollView.contentOffset.y < 0) {
+            let lastDisplayedMessagesRange = displayedMessagesRange
+            
+            var newMessagesCount = messagesBunchCount
+            
+            if (displayedMessagesRange.location - newMessagesCount) < 0 {
+                newMessagesCount = displayedMessagesRange.location - newMessagesCount
+            }
+            
+            if newMessagesCount > 0 {
+                displayedMessagesRange.location -= newMessagesCount
+                displayedMessagesRange.length += newMessagesCount
+                
+                lastTimeMessagesCount = messages.count // 同样需要纪录它
+                
+                // TODO: reloadData 再 scrollToItem 可以保持位置并不闪，但可能还有更好的办法
+                conversationCollectionView.reloadData()
+                let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: 0)
+                conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Top, animated: false)
+            }
         }
 
-        if newMessagesCount > 0 {
-            displayedMessagesRange.location -= newMessagesCount
-            displayedMessagesRange.length += newMessagesCount
-
-            lastTimeMessagesCount = messages.count // 同样需要纪录它
-
-            // TODO: reloadData 再 scrollToItem 可以保持位置并不闪，但可能还有更好的办法
-            conversationCollectionView.reloadData()
-            let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: 0)
-            conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Top, animated: false)
-        }
     }
 }
 
