@@ -504,13 +504,15 @@ class ConversationViewController: UIViewController {
         if messages.count <= _lastTimeMessagesCount {
             return
         }
-        let newMessagesCount = messages.count - _lastTimeMessagesCount
+        let newMessagesCount = Int(messages.count - _lastTimeMessagesCount)
 
-        displayedMessagesRange.length += Int(newMessagesCount)
+        let lastDisplayedMessagesRange = displayedMessagesRange
+
+        displayedMessagesRange.length += newMessagesCount
 
         var indexPaths = [NSIndexPath]()
         for i in 0..<newMessagesCount {
-            let indexPath = NSIndexPath(forItem: displayedMessagesRange.length - 1 + Int(i), inSection: 0)
+            let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: 0)
             indexPaths.append(indexPath)
         }
 
