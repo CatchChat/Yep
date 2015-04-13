@@ -96,12 +96,13 @@ enum MessageDownloadState: Int {
 }
 
 enum MessageMediaType: Int, Printable {
-    case Text       = 0
-    case Image      = 1
-    case Video      = 2
-    case Audio      = 3
-    case Sticker    = 4
-    case Location   = 5
+    case Text           = 0
+    case Image          = 1
+    case Video          = 2
+    case Audio          = 3
+    case Sticker        = 4
+    case Location       = 5
+    case SectionDate    = 6
 
     var description: String {
         get {
@@ -118,6 +119,8 @@ enum MessageMediaType: Int, Printable {
                 return "sticker"
             case Location:
                 return "location"
+            case SectionDate:
+                return "sectionDate"
             }
         }
     }
