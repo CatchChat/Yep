@@ -233,3 +233,21 @@ func messagesInConversation(conversation: Conversation) -> RLMResults {
     return messages
 }
 
+func tryCreateSectionDateMessageInConversation(conversation: Conversation, beforeMessage message: Message, success: (Message) -> Void) {
+    let messages = messagesInConversation(conversation)
+    if messages.count > 1 {
+        if let prevMessage = messages.objectAtIndex(messages.count - 2) as? Message {
+            if message.createdAt.timeIntervalSinceDate(prevMessage.createdAt) > 30 { // TODO: Time Section
+
+                // insert a new SectionDate Message
+                let newSectionDateMessage = Message()
+                newSectionDateMessage.conversation = conversation
+                newSectionDateMessage.mediaType = MessageMediaType.SectionDate.rawValue
+                newSectionDateMessage.createdAt = message.createdAt.dateByAddingTimeInterval(-1) // 比新消息早一秒
+
+                success(newSectionDateMessage)
+            }
+        }
+    }
+}
+
