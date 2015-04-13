@@ -651,6 +651,21 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
     if let conversation = conversation {
         conversation.updatedAt = message.createdAt // 关键哦
         message.conversation = conversation
+
+        let messages = messagesInConversation(conversation)
+        if messages.count > 1 {
+            if let prevMessage = messages.objectAtIndex(messages.count - 2) as? Message {
+                if message.createdAt.timeIntervalSinceDate(prevMessage.createdAt) > 30 { // TODO: Time Section
+
+                    // insert a new SectionDate Message
+                    let newSectionDateMessage = Message()
+                    newSectionDateMessage.conversation = conversation
+                    newSectionDateMessage.mediaType = MessageMediaType.SectionDate.rawValue
+                    newSectionDateMessage.createdAt = message.createdAt.dateByAddingTimeInterval(-1) // 比新消息早一秒
+                    realm.addObject(newSectionDateMessage)
+                }
+            }
+        }
     }
 
     realm.commitWriteTransaction()
