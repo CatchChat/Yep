@@ -22,8 +22,9 @@ class ConversationViewController: UIViewController {
         return messagesInConversation(self.conversation)
         }()
 
-    var lastDisplayedMessagesRange = NSRange()
-    var currentDisplayedMessagesRange = NSRange()
+    let messagesBunchCount = 7 // TODO: 分段载入的“一束”消息的数量
+    var displayedMessagesRange = NSRange()
+
 
     // 上一次更新 UI 时的消息数
     var lastTimeMessagesCount: UInt = 0
@@ -127,13 +128,11 @@ class ConversationViewController: UIViewController {
 
         navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
 
-        if messages.count >= 7 {
-            currentDisplayedMessagesRange = NSRange(location: Int(messages.count - 7), length: 7)
+        if messages.count >= UInt(messagesBunchCount) {
+            displayedMessagesRange = NSRange(location: Int(messages.count) - messagesBunchCount, length: messagesBunchCount)
         } else {
-            currentDisplayedMessagesRange = NSRange(location: 0, length: Int(messages.count))
+            displayedMessagesRange = NSRange(location: 0, length: Int(messages.count))
         }
-        lastDisplayedMessagesRange = currentDisplayedMessagesRange
-
 
         
         let undoBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Undo, target: self, action: "undoMessageSend")
@@ -340,8 +339,8 @@ class ConversationViewController: UIViewController {
             // 先调整一下初次的 contentInset
             setConversaitonCollectionViewOriginalContentInset()
 
-            if currentDisplayedMessagesRange.length > 0 {
-                conversationCollectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: currentDisplayedMessagesRange.length - 1, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Bottom, animated: false)
+            if displayedMessagesRange.length > 0 {
+                conversationCollectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: displayedMessagesRange.length - 1, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Bottom, animated: false)
             }
         }
         
@@ -465,7 +464,7 @@ class ConversationViewController: UIViewController {
     }
     func updateAudioPlaybackProgress(timer: NSTimer) {
         func updateAudioCellOfMessage(message: Message, withCurrentTime currentTime: NSTimeInterval) {
-            let indexPath = NSIndexPath(forItem: Int(messages.indexOfObject(message)) - currentDisplayedMessagesRange.location, inSection: 0)
+            let indexPath = NSIndexPath(forItem: Int(messages.indexOfObject(message)) - displayedMessagesRange.location, inSection: 0)
 
             if let sender = message.fromFriend {
                 if sender.friendState != UserFriendState.Me.rawValue {
@@ -507,15 +506,15 @@ class ConversationViewController: UIViewController {
         }
         let newMessagesCount = messages.count - _lastTimeMessagesCount
 
-        currentDisplayedMessagesRange.length += Int(newMessagesCount)
+        displayedMessagesRange.length += Int(newMessagesCount)
 
         var indexPaths = [NSIndexPath]()
         for i in 0..<newMessagesCount {
-            let indexPath = NSIndexPath(forItem: currentDisplayedMessagesRange.length - 1 + Int(i), inSection: 0)
+            let indexPath = NSIndexPath(forItem: displayedMessagesRange.length - 1 + Int(i), inSection: 0)
             indexPaths.append(indexPath)
         }
 
-        self.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+        conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
 
         if newMessagesCount > 0 {
 
@@ -530,27 +529,27 @@ class ConversationViewController: UIViewController {
                 newMessagesTotalHeight += height
             }
             
-            let keyboardAndToolBarHeight = self.messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
+            let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
             
-            let totleMessagesHeight = self.conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + 64.0 + newMessagesTotalHeight
+            let totleMessagesHeight = conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + 64.0 + newMessagesTotalHeight
             
-            let visableMessageFieldHeight = self.conversationCollectionView.frame.size.height - (keyboardAndToolBarHeight + 64.0)
+            let visableMessageFieldHeight = conversationCollectionView.frame.size.height - (keyboardAndToolBarHeight + 64.0)
             
-            let totalMessagesContentHeight = self.conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + newMessagesTotalHeight
+            let totalMessagesContentHeight = conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + newMessagesTotalHeight
             
-            println("Size is \(self.conversationCollectionView.contentSize.height) \(newMessagesTotalHeight) visableMessageFieldHeight \(visableMessageFieldHeight)")
+            println("Size is \(conversationCollectionView.contentSize.height) \(newMessagesTotalHeight) visableMessageFieldHeight \(visableMessageFieldHeight)")
             
             //Calculate the space can be used
-            let useableSpace = visableMessageFieldHeight - self.conversationCollectionView.contentSize.height
+            let useableSpace = visableMessageFieldHeight - conversationCollectionView.contentSize.height
             
-            self.conversationCollectionView.contentSize = CGSizeMake(self.conversationCollectionView.contentSize.width, self.conversationCollectionView.contentSize.height + newMessagesTotalHeight)
+            conversationCollectionView.contentSize = CGSizeMake(conversationCollectionView.contentSize.width, conversationCollectionView.contentSize.height + newMessagesTotalHeight)
             
-            println("Size is after \(self.conversationCollectionView.contentSize.height)")
+            println("Size is after \(conversationCollectionView.contentSize.height)")
 
-            if (totleMessagesHeight > self.conversationCollectionView.frame.size.height) {
+            if (totleMessagesHeight > conversationCollectionView.frame.size.height) {
                 println("New Message scroll")
+
                 UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                    
                     if (useableSpace > 0) {
                         let contentToScroll = newMessagesTotalHeight - useableSpace
                         println("contentToScroll \(contentToScroll)")
@@ -704,12 +703,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return currentDisplayedMessagesRange.length
+        return displayedMessagesRange.length
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let message = messages.objectAtIndex(UInt(currentDisplayedMessagesRange.location + indexPath.item)) as! Message
+        let message = messages.objectAtIndex(UInt(displayedMessagesRange.location + indexPath.item)) as! Message
 
         if message.mediaType == MessageMediaType.SectionDate.rawValue {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
@@ -807,7 +806,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        let message = messages.objectAtIndex(UInt(currentDisplayedMessagesRange.location + indexPath.item)) as! Message
+        let message = messages.objectAtIndex(UInt(displayedMessagesRange.location + indexPath.item)) as! Message
 
         return CGSizeMake(collectionViewWidth, heightOfMessage(message))
     }
@@ -821,7 +820,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             view.endEditing(true)
 
         } else {
-            let message = messages.objectAtIndex(UInt(currentDisplayedMessagesRange.location + indexPath.item)) as! Message
+            let message = messages.objectAtIndex(UInt(displayedMessagesRange.location + indexPath.item)) as! Message
 
             switch message.mediaType {
             case MessageMediaType.Image.rawValue:
@@ -873,6 +872,26 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 break
             }
 
+        }
+    }
+
+    // MARK: Scroll View
+
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+
+        let lastDisplayedMessagesRange = displayedMessagesRange
+
+        var newMessagesCount = messagesBunchCount
+
+        if (displayedMessagesRange.location - newMessagesCount) < 0 {
+            newMessagesCount = displayedMessagesRange.location - newMessagesCount
+        }
+
+        if newMessagesCount > 0 {
+            displayedMessagesRange.location -= newMessagesCount
+            displayedMessagesRange.length += newMessagesCount
+
+            conversationCollectionView.reloadData()
         }
     }
 }
