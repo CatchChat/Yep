@@ -77,6 +77,8 @@
 		504F41571AD4D35400FBB19A /* ProfileLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F41561AD4D35400FBB19A /* ProfileLayout.swift */; };
 		504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F41581AD5028200FBB19A /* SkillCell.swift */; };
 		504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504F41591AD5028200FBB19A /* SkillCell.xib */; };
+		50553F8F1ADB8BA200F80B59 /* ChatSectionDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F8D1ADB8BA200F80B59 /* ChatSectionDateCell.swift */; };
+		50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50553F8E1ADB8BA200F80B59 /* ChatSectionDateCell.xib */; };
 		506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */; };
 		5076C56A1AC46B9F00B22952 /* FayeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5076C5691AC46B9F00B22952 /* FayeService.swift */; };
 		508C2AA01AD648B2002B8097 /* SearchUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C2A9F1AD648B2002B8097 /* SearchUsersViewController.swift */; };
@@ -196,6 +198,8 @@
 		504F41561AD4D35400FBB19A /* ProfileLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileLayout.swift; path = ViewControllers/Profile/ProfileLayout.swift; sourceTree = "<group>"; };
 		504F41581AD5028200FBB19A /* SkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillCell.swift; path = Views/Cells/Skill/SkillCell.swift; sourceTree = "<group>"; };
 		504F41591AD5028200FBB19A /* SkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillCell.xib; path = Views/Cells/Skill/SkillCell.xib; sourceTree = "<group>"; };
+		50553F8D1ADB8BA200F80B59 /* ChatSectionDateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatSectionDateCell.swift; path = Views/Cells/ChatSectionDate/ChatSectionDateCell.swift; sourceTree = "<group>"; };
+		50553F8E1ADB8BA200F80B59 /* ChatSectionDateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatSectionDateCell.xib; path = Views/Cells/ChatSectionDate/ChatSectionDateCell.xib; sourceTree = "<group>"; };
 		506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Yep.swift"; path = "Extensions/UIFont+Yep.swift"; sourceTree = "<group>"; };
 		5076C5691AC46B9F00B22952 /* FayeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FayeService.swift; path = Services/FayeService.swift; sourceTree = "<group>"; };
 		508C2A9F1AD648B2002B8097 /* SearchUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchUsersViewController.swift; path = ViewControllers/SearchUsers/SearchUsersViewController.swift; sourceTree = "<group>"; };
@@ -459,6 +463,7 @@
 				508D17491ACCF4740092D666 /* ChatLeftAudio */,
 				508D174E1ACCF49F0092D666 /* ChatRightAudio */,
 				508C2AA61AD661B8002B8097 /* UserState */,
+				50553F911ADB8BA600F80B59 /* ChatSectionDate */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -644,6 +649,15 @@
 				504F41591AD5028200FBB19A /* SkillCell.xib */,
 			);
 			name = Skill;
+			sourceTree = "<group>";
+		};
+		50553F911ADB8BA600F80B59 /* ChatSectionDate */ = {
+			isa = PBXGroup;
+			children = (
+				50553F8D1ADB8BA200F80B59 /* ChatSectionDateCell.swift */,
+				50553F8E1ADB8BA200F80B59 /* ChatSectionDateCell.xib */,
+			);
+			name = ChatSectionDate;
 			sourceTree = "<group>";
 		};
 		508C2AA11AD648BE002B8097 /* SearchUsers */ = {
@@ -867,6 +881,7 @@
 				5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */,
 				504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */,
 				502AE5591AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib in Resources */,
+				50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */,
 				502AE5411AB88862005BD199 /* SkillRankCell.xib in Resources */,
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
 				50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */,
@@ -969,6 +984,7 @@
 				502AE5581AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift in Sources */,
 				502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */,
 				502AE54E1AB93175005BD199 /* ProfileHeaderCell.swift in Sources */,
+				50553F8F1ADB8BA200F80B59 /* ChatSectionDateCell.swift in Sources */,
 				0ABF3EA71ACE60D5001E76ED /* Waver.swift in Sources */,
 				502AE5381AB866E3005BD199 /* LoginVerifyMobileViewController.swift in Sources */,
 				503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */,

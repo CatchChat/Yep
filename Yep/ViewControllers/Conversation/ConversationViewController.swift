@@ -25,6 +25,14 @@ class ConversationViewController: UIViewController {
     // 上一次更新 UI 时的消息数
     var lastTimeMessagesCount: UInt = 0
 
+    lazy var sectionDateFormatter: NSDateFormatter =  {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = .ShortStyle
+        dateFormatter.timeStyle = .ShortStyle
+        return dateFormatter
+        }()
+
+
     var conversationCollectionViewHasBeenMovedToBottomOnce = false
 
     // Keyboard 动画相关
@@ -72,13 +80,13 @@ class ConversationViewController: UIViewController {
 
     let messageImagePreferredAspectRatio: CGFloat = 4.0 / 3.0
 
+    let chatSectionDateCellIdentifier = "ChatSectionDateCell"
     let chatLeftTextCellIdentifier = "ChatLeftTextCell"
     let chatRightTextCellIdentifier = "ChatRightTextCell"
     let chatLeftImageCellIdentifier = "ChatLeftImageCell"
     let chatRightImageCellIdentifier = "ChatRightImageCell"
     let chatLeftAudioCellIdentifier = "ChatLeftAudioCell"
     let chatRightAudioCellIdentifier = "ChatRightAudioCell"
-
 
     // 使 messageToolbar 随着键盘出现或消失而移动
     var updateUIWithKeyboardChange = false {
@@ -118,6 +126,7 @@ class ConversationViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationCollectionView", name: YepNewMessagesReceivedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationCollectionView", name: YepUpdatedProfileAvatarNotification, object: nil)
 
+        conversationCollectionView.registerNib(UINib(nibName: chatSectionDateCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatSectionDateCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftImageCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftImageCellIdentifier)
@@ -349,6 +358,16 @@ class ConversationViewController: UIViewController {
         var height: CGFloat = 0
 
         switch message.mediaType {
+
+        case MessageMediaType.Text.rawValue:
+            let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
+
+            height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
+
+            if !key.isEmpty {
+                textContentLabelWidths[key] = ceil(rect.width)
+            }
+
         case MessageMediaType.Image.rawValue:
 
             if !message.metaData.isEmpty {
@@ -375,14 +394,11 @@ class ConversationViewController: UIViewController {
         case MessageMediaType.Audio.rawValue:
             height = 40
 
+        case MessageMediaType.SectionDate.rawValue:
+            height = 20
+
         default:
-            let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
-
-            height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
-
-            if !key.isEmpty {
-                textContentLabelWidths[key] = ceil(rect.width)
-            }
+            height = 20
         }
 
         if !key.isEmpty {
@@ -676,7 +692,15 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let message = messages.objectAtIndex(UInt(indexPath.item)) as! Message
-        
+
+        if message.mediaType == MessageMediaType.SectionDate.rawValue {
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
+
+            cell.sectionDateLabel.text = sectionDateFormatter.stringFromDate(message.createdAt)
+
+            return cell
+        }
+
         if let sender = message.fromFriend {
 
             if sender.friendState != UserFriendState.Me.rawValue { // from Friend
