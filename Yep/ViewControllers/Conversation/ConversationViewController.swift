@@ -13,10 +13,6 @@ import AVFoundation
 class ConversationViewController: UIViewController {
 
     var conversation: Conversation!
-    
-    var waverView: YepWaverView!
-    var samplesCount = 0
-    let samplingInterval = 6
 
     lazy var messages: RLMResults = {
         return messagesInConversation(self.conversation)
@@ -63,10 +59,16 @@ class ConversationViewController: UIViewController {
         }
     }
 
+    lazy var pullToRefreshView = PullToRefreshView()
+    
     @IBOutlet weak var conversationCollectionView: UICollectionView!
 
     @IBOutlet weak var messageToolbar: MessageToolbar!
     @IBOutlet weak var messageToolbarBottomConstraint: NSLayoutConstraint!
+
+    var waverView: YepWaverView!
+    var samplesCount = 0
+    let samplingInterval = 6
 
     let sectionInsetTop: CGFloat = 10
     let sectionInsetBottom: CGFloat = 10
@@ -134,12 +136,15 @@ class ConversationViewController: UIViewController {
             displayedMessagesRange = NSRange(location: 0, length: Int(messages.count))
         }
 
-        
+
         let undoBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Undo, target: self, action: "undoMessageSend")
         navigationItem.rightBarButtonItem = undoBarButtonItem
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationCollectionView", name: YepNewMessagesReceivedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationCollectionView", name: YepUpdatedProfileAvatarNotification, object: nil)
+
+
+        makePullToRefreshView()
 
         conversationCollectionView.alwaysBounceVertical = true
 
@@ -347,6 +352,29 @@ class ConversationViewController: UIViewController {
         }
         
         self.waverView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height)
+    }
+
+    // MARK: UI
+
+    private func makePullToRefreshView() {
+        pullToRefreshView.delegate = self
+
+        conversationCollectionView.insertSubview(pullToRefreshView, atIndex: 0)
+
+        pullToRefreshView.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+        let viewsDictionary = [
+            "pullToRefreshView": pullToRefreshView,
+            "view": view,
+        ]
+
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(-200)-[pullToRefreshView(200)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        // 非常奇怪，若直接用 "H:|[pullToRefreshView]|" 得到的实际宽度为 0
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[pullToRefreshView(==view)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        NSLayoutConstraint.activateConstraints(constraintsV)
+        NSLayoutConstraint.activateConstraints(constraintsH)
     }
 
     // MARK: Private
@@ -879,32 +907,80 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         }
     }
 
-    // MARK: Scroll View
+    // MARK: UIScrollViewDelegate
 
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        pullToRefreshView.scrollViewDidScroll(scrollView)
+    }
 
-        if (scrollView.contentOffset.y < 0) {
-            let lastDisplayedMessagesRange = displayedMessagesRange
-            
-            var newMessagesCount = messagesBunchCount
-            
-            if (displayedMessagesRange.location - newMessagesCount) < 0 {
-                newMessagesCount = displayedMessagesRange.location - newMessagesCount
-            }
-            
-            if newMessagesCount > 0 {
-                displayedMessagesRange.location -= newMessagesCount
-                displayedMessagesRange.length += newMessagesCount
-                
-                lastTimeMessagesCount = messages.count // 同样需要纪录它
-                
-                // TODO: reloadData 再 scrollToItem 可以保持位置并不闪，但可能还有更好的办法
-                conversationCollectionView.reloadData()
-                let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: 0)
-                conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Top, animated: false)
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
+    }
+}
+
+// MARK: PullToRefreshViewDelegate
+
+extension ConversationViewController: PullToRefreshViewDelegate {
+    func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
+
+        func delayBySeconds(seconds: Double, delayedCode: ()->()) {
+            let targetTime = dispatch_time(DISPATCH_TIME_NOW, Int64(Double(NSEC_PER_SEC) * seconds))
+            dispatch_after(targetTime, dispatch_get_main_queue()) {
+                delayedCode()
             }
         }
 
+        delayBySeconds(1) {
+            pulllToRefreshView.endRefreshingAndDoFurtherAction() {
+
+                let lastDisplayedMessagesRange = self.displayedMessagesRange
+
+                var newMessagesCount = self.messagesBunchCount
+
+                if (self.displayedMessagesRange.location - newMessagesCount) < 0 {
+                    newMessagesCount = self.displayedMessagesRange.location - newMessagesCount
+                }
+
+                if newMessagesCount > 0 {
+                    self.displayedMessagesRange.location -= newMessagesCount
+                    self.displayedMessagesRange.length += newMessagesCount
+
+                    self.lastTimeMessagesCount = self.messages.count // 同样需要纪录它
+
+                    var indexPaths = [NSIndexPath]()
+                    for i in 0..<newMessagesCount {
+                        let indexPath = NSIndexPath(forItem: Int(i), inSection: 0)
+                        indexPaths.append(indexPath)
+                    }
+
+                    let bottomOffset = self.conversationCollectionView.contentSize.height - self.conversationCollectionView.contentOffset.y
+                    
+                    CATransaction.begin()
+                    CATransaction.setDisableActions(true)
+
+                    self.conversationCollectionView.performBatchUpdates({ () -> Void in
+                        self.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
+                    }, completion: { (finished) -> Void in
+                        var contentOffset = self.conversationCollectionView.contentOffset
+                        contentOffset.y = self.conversationCollectionView.contentSize.height - bottomOffset
+
+                        self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
+
+                        CATransaction.commit()
+
+                        // 上面的 CATransaction 保证了 CollectionView 在插入后不闪动
+                        // 此时再做个 scroll 动画比较自然
+                        let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: 0)
+                        self.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: true)
+                    })
+                }
+            }
+        }
+    }
+
+    func scrollView() -> UIScrollView {
+        return conversationCollectionView
     }
 }
 
