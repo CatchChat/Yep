@@ -498,14 +498,14 @@ class ConversationViewController: UIViewController {
 
             if let sender = message.fromFriend {
                 if sender.friendState != UserFriendState.Me.rawValue {
-                    let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as! ChatLeftAudioCell
-
-                    cell.audioPlayedDuration = currentTime
+                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
+                        cell.audioPlayedDuration = currentTime   
+                    }
 
                 } else {
-                    let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as! ChatRightAudioCell
-                    
-                    cell.audioPlayedDuration = currentTime
+                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
+                        cell.audioPlayedDuration = currentTime
+                    }
                 }
             }
         }
@@ -876,14 +876,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             let indexPath = NSIndexPath(forItem: Int(messages.indexOfObject(playingMessage)), inSection: 0)
                             if let sender = playingMessage.fromFriend {
                                 if sender.friendState != UserFriendState.Me.rawValue {
-                                    let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as! ChatLeftAudioCell
-
-                                    cell.playing = false
+                                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
+                                        cell.playing = false
+                                    }
 
                                 } else {
-                                    let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as! ChatRightAudioCell
-                                    
-                                    cell.playing = false
+                                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
+                                        cell.playing = false
+                                    }
                                 }
                             }
 
