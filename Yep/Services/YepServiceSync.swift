@@ -514,6 +514,9 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: RLMR
 
                             message.conversation = conversation
 
+                            tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message) { sectionDateMessage in
+                                realm.addObject(sectionDateMessage)
+                            }
 
                             // 纪录消息的 detail 信息
 

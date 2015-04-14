@@ -96,12 +96,13 @@ enum MessageDownloadState: Int {
 }
 
 enum MessageMediaType: Int, Printable {
-    case Text       = 0
-    case Image      = 1
-    case Video      = 2
-    case Audio      = 3
-    case Sticker    = 4
-    case Location   = 5
+    case Text           = 0
+    case Image          = 1
+    case Video          = 2
+    case Audio          = 3
+    case Sticker        = 4
+    case Location       = 5
+    case SectionDate    = 6
 
     var description: String {
         get {
@@ -118,6 +119,8 @@ enum MessageMediaType: Int, Printable {
                 return "sticker"
             case Location:
                 return "location"
+            case SectionDate:
+                return "sectionDate"
             }
         }
     }
@@ -228,5 +231,23 @@ func messagesInConversation(conversation: Conversation) -> RLMResults {
     let predicate = NSPredicate(format: "conversation = %@", conversation)
     let messages = Message.objectsWithPredicate(predicate).sortedResultsUsingProperty("createdAt", ascending: true)
     return messages
+}
+
+func tryCreateSectionDateMessageInConversation(conversation: Conversation, beforeMessage message: Message, success: (Message) -> Void) {
+    let messages = messagesInConversation(conversation)
+    if messages.count > 1 {
+        if let prevMessage = messages.objectAtIndex(messages.count - 2) as? Message {
+            if message.createdAt.timeIntervalSinceDate(prevMessage.createdAt) > 30 { // TODO: Time Section
+
+                // insert a new SectionDate Message
+                let newSectionDateMessage = Message()
+                newSectionDateMessage.conversation = conversation
+                newSectionDateMessage.mediaType = MessageMediaType.SectionDate.rawValue
+                newSectionDateMessage.createdAt = message.createdAt.dateByAddingTimeInterval(-1) // 比新消息早一秒
+
+                success(newSectionDateMessage)
+            }
+        }
+    }
 }
 
