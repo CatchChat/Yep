@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A02E46F1AC9208A00235DBF /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A02E46E1AC9208A00235DBF /* libxml2.dylib */; };
+		0A0DE3C21ADD94A5006A4AAE /* YepRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0DE3C11ADD94A5006A4AAE /* YepRefreshView.swift */; };
 		0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A271FD61ACA055400822DFC /* YepAudioService.swift */; };
 		0A3E60601ACCA9C0003DC853 /* String+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */; };
 		0A3E60671ACCAECE003DC853 /* YepLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E60661ACCAECE003DC853 /* YepLocationService.swift */; };
@@ -123,6 +124,7 @@
 
 /* Begin PBXFileReference section */
 		0A02E46E1AC9208A00235DBF /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		0A0DE3C11ADD94A5006A4AAE /* YepRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YepRefreshView.swift; sourceTree = "<group>"; };
 		0A271FD61ACA055400822DFC /* YepAudioService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAudioService.swift; path = Services/YepAudioService.swift; sourceTree = "<group>"; };
 		0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Yep.swift"; path = "Extensions/String+Yep.swift"; sourceTree = "<group>"; };
 		0A3E60661ACCAECE003DC853 /* YepLocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepLocationService.swift; path = Services/YepLocationService.swift; sourceTree = "<group>"; };
@@ -268,6 +270,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A0DE3C31ADD94A8006A4AAE /* RefreshView */ = {
+			isa = PBXGroup;
+			children = (
+				0A0DE3C11ADD94A5006A4AAE /* YepRefreshView.swift */,
+			);
+			name = RefreshView;
+			sourceTree = "<group>";
+		};
 		0A3E60631ACCAC02003DC853 /* NSDate+TimeAgo */ = {
 			isa = PBXGroup;
 			children = (
@@ -440,6 +450,7 @@
 		5023DE391AB6979C00B3EE96 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0A0DE3C31ADD94A8006A4AAE /* RefreshView */,
 				50A9D4581ACD3943000B2599 /* AudioWaves */,
 				5023DE3A1AB697A700B3EE96 /* Cells */,
 				502AE5221AB71C82005BD199 /* Buttons */,
@@ -1000,6 +1011,7 @@
 				502AE54E1AB93175005BD199 /* ProfileHeaderCell.swift in Sources */,
 				50553F8F1ADB8BA200F80B59 /* ChatSectionDateCell.swift in Sources */,
 				0ABF3EA71ACE60D5001E76ED /* Waver.swift in Sources */,
+				0A0DE3C21ADD94A5006A4AAE /* YepRefreshView.swift in Sources */,
 				502AE5381AB866E3005BD199 /* LoginVerifyMobileViewController.swift in Sources */,
 				503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */,
 				50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */,
