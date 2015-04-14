@@ -16,6 +16,8 @@ protocol PullToRefreshViewDelegate: class {
 private let sceneHeight: CGFloat = 80
 
 class PullToRefreshView: UIView {
+    
+    var refreshView: YepRefreshView!
 
     var progressPercentage: CGFloat = 0
 
@@ -36,11 +38,14 @@ class PullToRefreshView: UIView {
     }
 
     func setupRefreshItems() {
-        let logoImageView = UIImageView(image: UIImage(named: "fans"))
+        
+        refreshView = YepRefreshView(frame: CGRectMake(0, 100, 50, 50))
+        
+        refreshView.center = CGPointMake(self.bounds.width/2.0, 100)
 
         refreshItems = [
             RefreshItem(
-                view: logoImageView,
+                view: refreshView,
                 centerEnd: CGPoint(
                     x: CGRectGetMidX(UIScreen.mainScreen().bounds),
                     y: 200 - sceneHeight * 0.5
@@ -56,11 +61,9 @@ class PullToRefreshView: UIView {
     }
 
     func updateColors() {
-        backgroundColor = UIColor(white: (1 - progressPercentage) * 1.0, alpha: 1.0)
-
-        for refreshItem in refreshItems {
-            refreshItem.updateViewTintColor(UIColor.yepTintColor().colorWithAlphaComponent(progressPercentage))
-        }
+        
+        refreshView.updatePullRefreshWithProgress(1-progressPercentage)
+        
     }
 
     func updateRefreshItemPositions() {
@@ -88,10 +91,8 @@ class PullToRefreshView: UIView {
             self.isRefreshing = false
 
             furtherAction()
-
-            for refreshItem in self.refreshItems {
-                refreshItem.view.layer.removeAllAnimations()
-            }
+            
+            self.refreshView.stopFlik()
         })
     }
 }
@@ -119,28 +120,7 @@ extension PullToRefreshView: UIScrollViewDelegate {
             targetContentOffset.memory.y = -scrollView.contentInset.top
 
             delegate?.pulllToRefreshViewDidRefresh(self)
-
-            for refreshItem in refreshItems {
-
-                CATransaction.begin()
-
-                let angle = CGFloat(M_PI * 2)
-
-                let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-                rotationAnimation.repeatCount = 4
-                rotationAnimation.byValue = angle
-                rotationAnimation.duration = 0.75
-                rotationAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-                rotationAnimation.removedOnCompletion = true
-
-                CATransaction.setCompletionBlock({ () -> Void in
-                    refreshItem.view.transform = CGAffineTransformRotate(refreshItem.view.transform, angle)
-                })
-
-                refreshItem.view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
-
-                CATransaction.commit()
-            }
+            
         }
     }
 }

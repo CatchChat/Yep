@@ -187,9 +187,11 @@ class YepRefreshView: UIView {
     }
     
     func stopFlik() {
+        refreshing = false
         for (index, shape) in enumerate(shapes) {
             shape.removeAnimationForKey("flip")
         }
+        updatePullRefreshWithProgress(1.0)
     }
 
     required init(coder aDecoder: NSCoder) {

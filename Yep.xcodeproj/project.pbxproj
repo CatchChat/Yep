@@ -270,14 +270,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0A0DE3C31ADD94A8006A4AAE /* RefreshView */ = {
-			isa = PBXGroup;
-			children = (
-				0A0DE3C11ADD94A5006A4AAE /* YepRefreshView.swift */,
-			);
-			name = RefreshView;
-			sourceTree = "<group>";
-		};
 		0A3E60631ACCAC02003DC853 /* NSDate+TimeAgo */ = {
 			isa = PBXGroup;
 			children = (
@@ -450,7 +442,6 @@
 		5023DE391AB6979C00B3EE96 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0A0DE3C31ADD94A8006A4AAE /* RefreshView */,
 				50A9D4581ACD3943000B2599 /* AudioWaves */,
 				5023DE3A1AB697A700B3EE96 /* Cells */,
 				502AE5221AB71C82005BD199 /* Buttons */,
@@ -697,6 +688,7 @@
 		508D16BE1ADCAF0900270E3F /* PullToRefresh */ = {
 			isa = PBXGroup;
 			children = (
+				0A0DE3C11ADD94A5006A4AAE /* YepRefreshView.swift */,
 				508D16BC1ADCAF0400270E3F /* PullToRefreshView.swift */,
 			);
 			name = PullToRefresh;
