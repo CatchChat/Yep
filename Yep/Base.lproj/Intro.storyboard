@@ -555,11 +555,69 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M2w-cs-Lzq" userLabel="Technology Button" customClass="SkillCategoryButton" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="160" y="246" width="280" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="Zbn-WD-Wk7"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" backgroundImage="button_skill_category_tech">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="categoryImage" value="icon_skill_tech"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="catogoryTitle" value="Tecknology"/>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Yn-C3-er7" userLabel="Art Button" customClass="SkillCategoryButton" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="160" y="327" width="280" height="60"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" backgroundImage="button_skill_category_art">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="categoryImage" value="icon_skill_art"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="catogoryTitle" value="Art"/>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fI1-K1-JfE" userLabel="Music Button" customClass="SkillCategoryButton" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="160" y="410" width="280" height="60"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" backgroundImage="button_skill_category_music">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="categoryImage" value="icon_skill_music"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="catogoryTitle" value="Music"/>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Buj-P4-eJ3" userLabel="Life Style Button" customClass="SkillCategoryButton" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="160" y="492" width="280" height="60"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" backgroundImage="button_skill_category_life">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="categoryImage" value="icon_skill_life"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="catogoryTitle" value="Life Style"/>
+                                </userDefinedRuntimeAttributes>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="bNl-1o-JmM" firstAttribute="top" secondItem="fI1-K1-JfE" secondAttribute="bottom" constant="130" id="1P2-yA-Kue"/>
+                            <constraint firstAttribute="centerX" secondItem="4Yn-C3-er7" secondAttribute="centerX" id="42q-UE-08U"/>
+                            <constraint firstItem="4Yn-C3-er7" firstAttribute="width" secondItem="fI1-K1-JfE" secondAttribute="width" id="5r5-dv-Lp9"/>
+                            <constraint firstItem="Buj-P4-eJ3" firstAttribute="width" secondItem="fI1-K1-JfE" secondAttribute="width" id="Ify-kY-KCQ"/>
+                            <constraint firstItem="bNl-1o-JmM" firstAttribute="top" secondItem="M2w-cs-Lzq" secondAttribute="bottom" constant="294" id="Uma-aR-4vX"/>
+                            <constraint firstAttribute="centerX" secondItem="fI1-K1-JfE" secondAttribute="centerX" id="Usk-rv-Cxp"/>
                             <constraint firstItem="aSB-2s-v3n" firstAttribute="top" secondItem="SoT-jT-Jpl" secondAttribute="bottom" constant="112" id="e2u-X2-MLW"/>
                             <constraint firstAttribute="centerX" secondItem="aSB-2s-v3n" secondAttribute="centerX" id="eUq-fb-anC"/>
+                            <constraint firstItem="bNl-1o-JmM" firstAttribute="top" secondItem="4Yn-C3-er7" secondAttribute="bottom" constant="213" id="k8W-O5-xTC"/>
+                            <constraint firstAttribute="centerX" secondItem="Buj-P4-eJ3" secondAttribute="centerX" id="lR9-mP-2cs"/>
+                            <constraint firstItem="M2w-cs-Lzq" firstAttribute="width" secondItem="4Yn-C3-er7" secondAttribute="width" id="pJj-lC-HV1"/>
+                            <constraint firstItem="bNl-1o-JmM" firstAttribute="top" secondItem="Buj-P4-eJ3" secondAttribute="bottom" constant="48" id="tS6-Ca-qip"/>
+                            <constraint firstAttribute="centerX" secondItem="M2w-cs-Lzq" secondAttribute="centerX" id="y1Z-EE-Kvc"/>
                         </constraints>
                     </view>
                     <connections>
@@ -787,6 +845,14 @@
     <resources>
         <image name="button_camera_roll" width="40" height="40"/>
         <image name="button_capture" width="70" height="70"/>
+        <image name="button_skill_category_art" width="61" height="60"/>
+        <image name="button_skill_category_life" width="61" height="60"/>
+        <image name="button_skill_category_music" width="59" height="60"/>
+        <image name="button_skill_category_tech" width="61" height="60"/>
         <image name="default_avatar" width="160" height="160"/>
+        <image name="icon_skill_art" width="60" height="60"/>
+        <image name="icon_skill_life" width="60" height="60"/>
+        <image name="icon_skill_music" width="60" height="60"/>
+        <image name="icon_skill_tech" width="60" height="60"/>
     </resources>
 </document>
