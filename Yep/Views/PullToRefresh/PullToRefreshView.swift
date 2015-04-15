@@ -59,7 +59,7 @@ class PullToRefreshView: UIView {
     }
 
     func updateColors() {
-        refreshView.updateShapeWithProgressPercentage(progressPercentage)
+        refreshView.updateShapePositionWithProgressPercentage(progressPercentage)
     }
 
     func updateRefreshItemPositions() {
@@ -88,7 +88,7 @@ class PullToRefreshView: UIView {
 
             furtherAction()
             
-            self.refreshView.stopFlik()
+            self.refreshView.stopFlashing()
         })
     }
 }
@@ -116,7 +116,6 @@ extension PullToRefreshView: UIScrollViewDelegate {
             targetContentOffset.memory.y = -scrollView.contentInset.top
 
             delegate?.pulllToRefreshViewDidRefresh(self)
-            
         }
     }
 }

@@ -57,7 +57,7 @@ class YepRefreshView: UIView {
     var originShapesPosition = [CGPoint]()
     var ramdonShapesPosition = [CGPoint]()
     
-    var refreshing = false
+    var isFlashing = false
     
     let shapeWidth: CGFloat = 15
     let shapeHeight: CGFloat = 4.0
@@ -153,79 +153,80 @@ class YepRefreshView: UIView {
         leafShape3.transform = CATransform3DMakeRotation(CGFloat(-M_PI + M_PI / 6), 0.0, 0.0, 1.0)
         
     }
-    
-    func beginFlik() {
 
-        if !refreshing {
-            refreshing = true
-            
-            for (index, shape) in enumerate(shapes) {
-                shape.opacity = 1.0
+    func updateShapePositionWithProgressPercentage(progressPercentage: CGFloat) {
 
-                let animation = CABasicAnimation(keyPath: "opacity")
-                animation.fromValue = 1.0
-                animation.toValue = 0.5
-                animation.repeatCount = 1000
-                animation.autoreverses = true
-                animation.fillMode = kCAFillModeBoth
-                animation.timingFunction = CAMediaTimingFunction(name: "linear")
-                
-                var delay: Double = 0
-                var timeScale: Double = 3
+        if progressPercentage >= 1.0 {
+            if !isFlashing {
+                beginFlashing()
+            }
 
-
-                switch index {
-                case 0, 5:
-                    delay = 0.1 * timeScale
-
-                case 1, 2:
-                    delay = 0.05 * timeScale
-
-                default:
-                    break
-                }
-
-                animation.duration = 0.09 * timeScale
-                animation.beginTime = CACurrentMediaTime() + delay
-
-                shape.addAnimation(animation, forKey: "flip")
+        } else {
+            if isFlashing {
+                stopFlashing()
             }
         }
-    }
-    
-    func updateShapeWithProgressPercentage(progressPercentage: CGFloat) {
-
-        if (!refreshing) {
-            if progressPercentage == 1.0 {
-                beginFlik()
-            }
-            
-            for (index, shape) in enumerate(shapes) {
-                
-                shape.opacity = Float(progressPercentage)
-
-                let x1 = ramdonShapesPosition[index].x
-                let y1 = ramdonShapesPosition[index].y
-
-                let x0 = originShapesPosition[index].x
-                let y0 = originShapesPosition[index].y
-                
-                shape.position = CGPoint(
-                    x: x1 + (x0 - x1) * progressPercentage,
-                    y: y1 + (y0 - y1) * progressPercentage
-                )
-            }
-        }
-    }
-    
-    func stopFlik() {
-        refreshing = false
 
         for (index, shape) in enumerate(shapes) {
+
+            shape.opacity = Float(progressPercentage)
+
+            let x1 = ramdonShapesPosition[index].x
+            let y1 = ramdonShapesPosition[index].y
+
+            let x0 = originShapesPosition[index].x
+            let y0 = originShapesPosition[index].y
+
+            shape.position = CGPoint(
+                x: x1 + (x0 - x1) * progressPercentage,
+                y: y1 + (y0 - y1) * progressPercentage
+            )
+        }
+    }
+    
+    func beginFlashing() {
+
+        isFlashing = true
+
+        for (index, shape) in enumerate(shapes) {
+            shape.opacity = 1.0
+
+            let animation = CABasicAnimation(keyPath: "opacity")
+            animation.fromValue = 1.0
+            animation.toValue = 0.5
+            animation.repeatCount = 1000
+            animation.autoreverses = true
+            animation.fillMode = kCAFillModeBoth
+            animation.timingFunction = CAMediaTimingFunction(name: "linear")
+
+            var delay: Double = 0
+            var timeScale: Double = 3
+
+            switch index {
+            case 0, 5:
+                delay = 0.1 * timeScale
+
+            case 1, 2:
+                delay = 0.05 * timeScale
+
+            default:
+                break
+            }
+
+            animation.duration = 0.09 * timeScale
+            animation.beginTime = CACurrentMediaTime() + delay
+
+            shape.addAnimation(animation, forKey: "flip")
+        }
+    }
+
+    func stopFlashing() {
+
+        isFlashing = false
+
+        for shape in shapes {
             shape.removeAnimationForKey("flip")
         }
-
-        updateShapeWithProgressPercentage(0)
     }
 
     required init(coder aDecoder: NSCoder) {
