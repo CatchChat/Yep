@@ -569,17 +569,6 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="catogoryTitle" value="Tecknology"/>
                                 </userDefinedRuntimeAttributes>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Yn-C3-er7" userLabel="Art Button" customClass="SkillCategoryButton" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="160" y="327" width="280" height="60"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" backgroundImage="button_skill_category_art">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="image" keyPath="categoryImage" value="icon_skill_art"/>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="catogoryTitle" value="Art"/>
-                                </userDefinedRuntimeAttributes>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fI1-K1-JfE" userLabel="Music Button" customClass="SkillCategoryButton" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="160" y="410" width="280" height="60"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -600,6 +589,17 @@
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="image" keyPath="categoryImage" value="icon_skill_life"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="catogoryTitle" value="Life Style"/>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Yn-C3-er7" userLabel="Art Button" customClass="SkillCategoryButton" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="160" y="327" width="280" height="60"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" backgroundImage="button_skill_category_art">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="categoryImage" value="icon_skill_art"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="catogoryTitle" value="Art"/>
                                 </userDefinedRuntimeAttributes>
                             </button>
                         </subviews>
