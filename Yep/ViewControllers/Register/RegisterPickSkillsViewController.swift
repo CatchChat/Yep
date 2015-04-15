@@ -41,6 +41,23 @@ class RegisterPickSkillsViewController: UIViewController {
         masterSkills = ["Love", "Hate"]
         learningSkills = ["Fly", "Say goodbye", "Play hard", "Cry like a baby", "Eat slow", "Run"]
     }
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "presentSelectSkills" {
+            let vc = segue.destinationViewController as! RegisterSelectSkillsViewController
+
+            if let skillSetType = sender as? Int {
+                switch skillSetType {
+                case SkillSetType.Master.rawValue:
+                    vc.annotationText = NSLocalizedString("What are you good at?", comment: "")
+                case SkillSetType.Learning.rawValue:
+                    vc.annotationText = NSLocalizedString("What are you learning?", comment: "")
+                default:
+                    break
+                }
+            }
+        }
+    }
 }
 
 // MARK: UICollectionViewDataSource, UICollectionViewDelegate
@@ -96,13 +113,17 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
             switch indexPath.section {
 
             case Section.Master.rawValue:
-                header.skillTypeLabel.text = NSLocalizedString("Master", comment: "")
+                header.skillSetType = .Master
 
             case Section.Learning.rawValue:
-                header.skillTypeLabel.text = NSLocalizedString("Learning", comment: "")
+                header.skillSetType = .Learning
 
             default:
                 break
+            }
+
+            header.addSkillsAction = { skillSetType in
+                self.performSegueWithIdentifier("presentSelectSkills", sender: skillSetType.rawValue)
             }
 
             return header

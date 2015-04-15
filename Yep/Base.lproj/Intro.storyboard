@@ -527,11 +527,48 @@
                     </view>
                     <connections>
                         <outlet property="skillsCollectionView" destination="Hi3-3R-BNx" id="3tf-cy-8EF"/>
+                        <segue destination="vEE-XY-eq4" kind="modal" identifier="presentSelectSkills" id="akJ-Zs-aMG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zsq-iH-xb1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4918" y="388"/>
+        </scene>
+        <!--Register Select Skills View Controller-->
+        <scene sceneID="Mb0-xw-Vkz">
+            <objects>
+                <viewController storyboardIdentifier="RegisterSelectSkillsViewController" id="vEE-XY-eq4" customClass="RegisterSelectSkillsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SoT-jT-Jpl"/>
+                        <viewControllerLayoutGuide type="bottom" id="bNl-1o-JmM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gsh-ws-D5N">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What are you learning?" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aSB-2s-v3n" userLabel="Annotation Label">
+                                <rect key="frame" x="200" y="132" width="200" height="72"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="bNN-vJ-go0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="30"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="aSB-2s-v3n" firstAttribute="top" secondItem="SoT-jT-Jpl" secondAttribute="bottom" constant="112" id="e2u-X2-MLW"/>
+                            <constraint firstAttribute="centerX" secondItem="aSB-2s-v3n" secondAttribute="centerX" id="eUq-fb-anC"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="annotationLabel" destination="aSB-2s-v3n" id="28n-7L-agm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kWc-cY-UDP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5614" y="388"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="bAi-xi-FcJ">
