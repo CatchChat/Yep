@@ -39,9 +39,7 @@ class PullToRefreshView: UIView {
 
     func setupRefreshItems() {
         
-        refreshView = YepRefreshView(frame: CGRectMake(0, 100, 50, 50))
-        
-        refreshView.center = CGPointMake(self.bounds.width/2.0, 100)
+        refreshView = YepRefreshView(frame: CGRectMake(0, 0, 50, 50))
 
         refreshItems = [
             RefreshItem(
@@ -61,9 +59,7 @@ class PullToRefreshView: UIView {
     }
 
     func updateColors() {
-        
-        refreshView.updatePullRefreshWithProgress(1-progressPercentage)
-        
+        refreshView.updateShapeWithProgressPercentage(progressPercentage)
     }
 
     func updateRefreshItemPositions() {
