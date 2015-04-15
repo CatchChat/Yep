@@ -8,13 +8,9 @@
 
 import UIKit
 
+let registerPickSkillsLayoutLeftEdgeInset: CGFloat = 20
+
 class RegisterPickSkillsLayout: UICollectionViewFlowLayout {
-
-    override func prepareLayout() {
-        super.prepareLayout()
-
-        sectionInset = UIEdgeInsets(top: 100, left: 20, bottom: 50, right: 20)
-    }
 
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
         let layoutAttributes = super.layoutAttributesForElementsInRect(rect) as! [UICollectionViewLayoutAttributes]
@@ -57,7 +53,7 @@ class RegisterPickSkillsLayout: UICollectionViewFlowLayout {
                 var itemFrame = attributes.frame
 
                 if CGRectEqualToRect(previousFrame, CGRectZero) {
-                    itemFrame.origin.x = sectionInset.left
+                    itemFrame.origin.x = registerPickSkillsLayoutLeftEdgeInset
                 } else {
                     itemFrame.origin.x = CGRectGetMaxX(previousFrame) + minimumInteritemSpacing
                 }

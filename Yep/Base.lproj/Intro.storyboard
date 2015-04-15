@@ -507,7 +507,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Hi3-3R-BNx">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="100" width="600" height="500"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewLayout key="collectionViewLayout" id="Dgv-j3-PVw" customClass="RegisterPickSkillsLayout" customModule="Yep" customModuleProvider="target"/>
                                 <cells/>
@@ -522,7 +522,7 @@
                             <constraint firstItem="Hi3-3R-BNx" firstAttribute="leading" secondItem="Ybu-mU-M88" secondAttribute="leading" id="98V-H7-LjP"/>
                             <constraint firstAttribute="bottom" secondItem="Hi3-3R-BNx" secondAttribute="bottom" id="MZ1-YZ-QyT"/>
                             <constraint firstAttribute="trailing" secondItem="Hi3-3R-BNx" secondAttribute="trailing" id="RoJ-Zy-4i2"/>
-                            <constraint firstItem="Hi3-3R-BNx" firstAttribute="top" secondItem="Ybu-mU-M88" secondAttribute="top" id="spl-5H-2mD"/>
+                            <constraint firstItem="Hi3-3R-BNx" firstAttribute="top" secondItem="Ybu-mU-M88" secondAttribute="top" constant="100" id="spl-5H-2mD"/>
                         </constraints>
                     </view>
                     <connections>
