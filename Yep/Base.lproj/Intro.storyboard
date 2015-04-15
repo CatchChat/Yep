@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6724" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
@@ -487,11 +487,51 @@
                         <outlet property="openCameraButton" destination="nqi-d1-G0k" id="GhI-uW-eZW"/>
                         <outlet property="retakeButton" destination="2pw-VA-qDr" id="Ilk-KJ-atU"/>
                         <outlet property="takePicturePromptLabel" destination="8It-jU-dm1" id="l9u-lB-2rc"/>
+                        <segue destination="OBL-Og-6Ae" kind="show" identifier="showRegisterPickSkills" id="fwO-Qy-gTW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rwD-fg-Cys" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4166" y="388"/>
+        </scene>
+        <!--Register Pick Skills View Controller-->
+        <scene sceneID="vgc-NH-qgo">
+            <objects>
+                <viewController storyboardIdentifier="RegisterPickSkillsViewController" id="OBL-Og-6Ae" customClass="RegisterPickSkillsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="p8G-DH-wnn"/>
+                        <viewControllerLayoutGuide type="bottom" id="iwK-9W-H4c"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ybu-mU-M88">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Hi3-3R-BNx">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewLayout key="collectionViewLayout" id="Dgv-j3-PVw" customClass="RegisterPickSkillsLayout" customModule="Yep" customModuleProvider="target"/>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="OBL-Og-6Ae" id="vKV-XZ-5xv"/>
+                                    <outlet property="delegate" destination="OBL-Og-6Ae" id="04k-XM-7YT"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Hi3-3R-BNx" firstAttribute="leading" secondItem="Ybu-mU-M88" secondAttribute="leading" id="98V-H7-LjP"/>
+                            <constraint firstAttribute="bottom" secondItem="Hi3-3R-BNx" secondAttribute="bottom" id="MZ1-YZ-QyT"/>
+                            <constraint firstAttribute="trailing" secondItem="Hi3-3R-BNx" secondAttribute="trailing" id="RoJ-Zy-4i2"/>
+                            <constraint firstItem="Hi3-3R-BNx" firstAttribute="top" secondItem="Ybu-mU-M88" secondAttribute="top" id="spl-5H-2mD"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="skillsCollectionView" destination="Hi3-3R-BNx" id="3tf-cy-8EF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zsq-iH-xb1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4918" y="388"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="bAi-xi-FcJ">

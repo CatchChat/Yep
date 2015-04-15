@@ -235,7 +235,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Master.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
 
-            let skillInfo = masterSkills[indexPath.row % masterSkills.count]
+            let skillInfo = masterSkills[indexPath.item % masterSkills.count]
             cell.skillLabel.text = skillInfo["skill"] as? String
 
 
@@ -244,7 +244,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Learning.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
 
-            let skillInfo = learningSkills[indexPath.row % learningSkills.count]
+            let skillInfo = learningSkills[indexPath.item % learningSkills.count]
             cell.skillLabel.text = skillInfo["skill"] as? String
 
             return cell
@@ -319,7 +319,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.Master.rawValue:
 
-            let skillInfo = masterSkills[indexPath.row % masterSkills.count]
+            let skillInfo = masterSkills[indexPath.item % masterSkills.count]
 
             if let skillString = skillInfo["skill"] as? String {
                 let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: skillCellHeight), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
@@ -331,7 +331,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.Learning.rawValue:
             
-            let skillInfo = learningSkills[indexPath.row % learningSkills.count]
+            let skillInfo = learningSkills[indexPath.item % learningSkills.count]
 
             if let skillString = skillInfo["skill"] as? String {
                 let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: skillCellHeight), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
