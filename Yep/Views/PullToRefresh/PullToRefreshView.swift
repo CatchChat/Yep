@@ -89,6 +89,8 @@ class PullToRefreshView: UIView {
             furtherAction()
             
             self.refreshView.stopFlashing()
+
+            self.refreshView.updateRamdonShapePositions()
         })
     }
 }

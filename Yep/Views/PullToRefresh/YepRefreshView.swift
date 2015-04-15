@@ -54,8 +54,8 @@ class YepRefreshView: UIView {
     
     var shapes = [YepShape]()
     
-    var originShapesPosition = [CGPoint]()
-    var ramdonShapesPosition = [CGPoint]()
+    var originShapePositions = [CGPoint]()
+    var ramdonShapePositions = [CGPoint]()
     
     var isFlashing = false
     
@@ -99,16 +99,16 @@ class YepRefreshView: UIView {
             y: shape5.position.y + shapeHeight)
         
         shape6.setupFlipPathWithWidth(shapeWidth, height: shapeHeight)
-        
-        originShapesPosition = [shape1.position, shape2.position, shape3.position, shape4.position, shape5.position, shape6.position]
-
-        ramdonShapesPosition = [CGPointMake(-110, -230.0), CGPointMake(-70, -110.0), CGPointMake(180, -30.0), CGPointMake(140, -220.0), CGPointMake(-140, 230.0), CGPointMake(-220, 40.0)]
 
         shapes = [shape1, shape2, shape3, shape4, shape5, shape6]
 
+        originShapePositions = shapes.map { $0.position }
+
+        ramdonShapePositions = generateRamdonShapePositionsWithCount(originShapePositions.count)
+
         for (index, shape) in enumerate(shapes) {
             shape.opacity = 0.0
-            shape.position = ramdonShapesPosition[index]
+            shape.position = ramdonShapePositions[index]
         }
         
         var leafShape1 = CAShapeLayer()
@@ -154,6 +154,33 @@ class YepRefreshView: UIView {
         
     }
 
+    func generateRamdonShapePositionsWithCount(count: Int) -> [CGPoint] {
+        func randomInRange(range: Range<Int>) -> CGFloat {
+            var offset = 0
+
+            if range.startIndex < 0 {
+                offset = abs(range.startIndex)
+            }
+
+            let mini = UInt32(range.startIndex + offset)
+            let maxi = UInt32(range.endIndex   + offset)
+
+            return CGFloat(Int(mini + arc4random_uniform(maxi - mini)) - offset)
+        }
+
+        var positions = [CGPoint]()
+
+        for i in 0..<count {
+            positions.append(CGPoint(x: randomInRange(-200...200), y: randomInRange(-200...200)))
+        }
+
+        return positions
+    }
+
+    func updateRamdonShapePositions() {
+        ramdonShapePositions = generateRamdonShapePositionsWithCount(ramdonShapePositions.count)
+    }
+
     func updateShapePositionWithProgressPercentage(progressPercentage: CGFloat) {
 
         if progressPercentage >= 1.0 {
@@ -171,11 +198,11 @@ class YepRefreshView: UIView {
 
             shape.opacity = Float(progressPercentage)
 
-            let x1 = ramdonShapesPosition[index].x
-            let y1 = ramdonShapesPosition[index].y
+            let x1 = ramdonShapePositions[index].x
+            let y1 = ramdonShapePositions[index].y
 
-            let x0 = originShapesPosition[index].x
-            let y0 = originShapesPosition[index].y
+            let x0 = originShapePositions[index].x
+            let y0 = originShapePositions[index].y
 
             shape.position = CGPoint(
                 x: x1 + (x0 - x1) * progressPercentage,
