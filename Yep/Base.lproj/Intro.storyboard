@@ -570,11 +570,25 @@
                                     <outlet property="delegate" destination="vEE-XY-eq4" id="csb-OZ-MJR"/>
                                 </connections>
                             </collectionView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xur-C9-Tc1" userLabel="Skills Collection View">
+                                <rect key="frame" x="0.0" y="213" width="600" height="387"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewLayout key="collectionViewLayout" id="C6X-CX-CTd" customClass="RegisterPickSkillsLayout" customModule="Yep" customModuleProvider="target"/>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="vEE-XY-eq4" id="sK5-GO-ZjU"/>
+                                    <outlet property="delegate" destination="vEE-XY-eq4" id="3Vs-cc-fvq"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="EJ5-Hf-UMM" secondAttribute="trailing" id="1YD-5H-hOD"/>
+                            <constraint firstItem="xur-C9-Tc1" firstAttribute="height" secondItem="EJ5-Hf-UMM" secondAttribute="height" id="D88-ER-CcS"/>
                             <constraint firstItem="bNl-1o-JmM" firstAttribute="top" secondItem="EJ5-Hf-UMM" secondAttribute="bottom" id="DLB-At-GP1"/>
+                            <constraint firstAttribute="trailing" secondItem="xur-C9-Tc1" secondAttribute="trailing" id="Sih-Gb-ELE"/>
+                            <constraint firstItem="xur-C9-Tc1" firstAttribute="leading" secondItem="gsh-ws-D5N" secondAttribute="leading" id="Sxw-3r-cDH"/>
+                            <constraint firstItem="bNl-1o-JmM" firstAttribute="top" secondItem="xur-C9-Tc1" secondAttribute="bottom" id="a1o-Ix-bA3"/>
                             <constraint firstItem="EJ5-Hf-UMM" firstAttribute="top" secondItem="aSB-2s-v3n" secondAttribute="bottom" constant="61" id="bUX-jt-JSI"/>
                             <constraint firstItem="EJ5-Hf-UMM" firstAttribute="leading" secondItem="gsh-ws-D5N" secondAttribute="leading" id="dDa-xG-8H8"/>
                             <constraint firstItem="aSB-2s-v3n" firstAttribute="top" secondItem="SoT-jT-Jpl" secondAttribute="bottom" constant="60" id="e2u-X2-MLW"/>
@@ -584,6 +598,8 @@
                     <connections>
                         <outlet property="annotationLabel" destination="aSB-2s-v3n" id="28n-7L-agm"/>
                         <outlet property="skillCategoriesCollectionView" destination="EJ5-Hf-UMM" id="WZ8-pq-Xox"/>
+                        <outlet property="skillsCollectionView" destination="xur-C9-Tc1" id="VuZ-ln-vlC"/>
+                        <outlet property="skillsCollectionViewBottomConstrain" destination="a1o-Ix-bA3" id="7Ht-mN-CpY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kWc-cY-UDP" userLabel="First Responder" sceneMemberID="firstResponder"/>

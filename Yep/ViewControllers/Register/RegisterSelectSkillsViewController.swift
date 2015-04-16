@@ -16,11 +16,21 @@ class RegisterSelectSkillsViewController: UIViewController {
 
     @IBOutlet weak var skillCategoriesCollectionView: UICollectionView!
 
+    @IBOutlet weak var skillsCollectionView: UICollectionView!
+    @IBOutlet weak var skillsCollectionViewBottomConstrain: NSLayoutConstraint!
+    
     let skillCategoryCellIdentifier = "SkillCategoryCell"
-
+    let skillCellIdentifier = "SkillCell"
+    
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.skillCategoriesCollectionView.bounds)
         }()
+
+    let skillCellHeight: CGFloat = 24
+    let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
+
+    let sectionLeftEdgeInset: CGFloat = registerPickSkillsLayoutLeftEdgeInset
+    let sectionRightEdgeInset: CGFloat = 20
 
     var skillCategories = [
         [
@@ -57,6 +67,8 @@ class RegisterSelectSkillsViewController: UIViewController {
         ],
     ]
 
+    var skills = ["Fly", "Say goodbye", "Play hard", "Cry like a baby", "Eat slow", "Run", "Fly", "Say goodbye", "Play hard", "Cry like a baby", "Eat slow", "Run"]
+
     var currentSkillCategoryButton: SkillCategoryButton?
     var currentSkillCategoryButtonTopConstraintOriginalConstant: CGFloat = 0
     var currentSkillCategoryButtonTopConstraint: NSLayoutConstraint!
@@ -64,12 +76,22 @@ class RegisterSelectSkillsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        skillsCollectionView.alpha = 0
+
         skillCategoriesCollectionView.registerNib(UINib(nibName: skillCategoryCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCategoryCellIdentifier)
+
+        skillsCollectionView.registerNib(UINib(nibName: skillCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCellIdentifier)
 
         annotationLabel.text = annotationText
 
         let tap = UITapGestureRecognizer(target: self, action: "dismiss")
         view.addGestureRecognizer(tap)
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        self.skillsCollectionViewBottomConstrain.constant = -CGRectGetHeight(skillsCollectionView.bounds)
     }
 
     func dismiss() {
@@ -86,102 +108,163 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return skillCategories.count
+        if collectionView == skillCategoriesCollectionView {
+            return skillCategories.count
+
+        } else if collectionView == skillsCollectionView {
+            return skills.count
+        }
+
+        return 0
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCategoryCellIdentifier, forIndexPath: indexPath) as! SkillCategoryCell
+        if collectionView == skillCategoriesCollectionView {
 
-        let skillCategoryInfo = skillCategories[indexPath.item]
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCategoryCellIdentifier, forIndexPath: indexPath) as! SkillCategoryCell
 
-        cell.categoryTitle = skillCategoryInfo["categoryName"] as? String
-        cell.categoryImage = skillCategoryInfo["categoryImage"] as? UIImage
+            let skillCategoryInfo = skillCategories[indexPath.item]
 
-        cell.toggleSelectionStateAction = { inSelectionState in
+            cell.categoryTitle = skillCategoryInfo["categoryName"] as? String
+            cell.categoryImage = skillCategoryInfo["categoryImage"] as? UIImage
 
-            if inSelectionState {
-                
-                let button = cell.skillCategoryButton
-                self.currentSkillCategoryButton = button
+            cell.toggleSelectionStateAction = { inSelectionState in
 
-                let frame = cell.convertRect(button.frame, toView: self.view)
+                if inSelectionState {
 
-                button.removeFromSuperview()
+                    let button = cell.skillCategoryButton
+                    self.currentSkillCategoryButton = button
 
-                self.view.addSubview(button)
+                    let frame = cell.convertRect(button.frame, toView: self.view)
 
-                button.setTranslatesAutoresizingMaskIntoConstraints(false)
+                    button.removeFromSuperview()
 
-                let viewsDictionary = [
-                    "button": button,
-                ]
+                    self.view.addSubview(button)
 
-                let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCellConfig.skillCategoryButtonWidth)
+                    button.setTranslatesAutoresizingMaskIntoConstraints(false)
 
-                let heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCellConfig.skillCategoryButtonHeight)
+                    let viewsDictionary = [
+                        "button": button,
+                    ]
 
-                let topConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: frame.origin.y)
+                    let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCellConfig.skillCategoryButtonWidth)
 
-                let centerXConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
+                    let heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCellConfig.skillCategoryButtonHeight)
 
-                NSLayoutConstraint.activateConstraints([widthConstraint, heightConstraint, topConstraint, centerXConstraint])
+                    let topConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: frame.origin.y)
 
-                self.view.layoutIfNeeded()
+                    let centerXConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
 
-
-                self.currentSkillCategoryButtonTopConstraint = topConstraint
-                self.currentSkillCategoryButtonTopConstraintOriginalConstant = self.currentSkillCategoryButtonTopConstraint.constant
-
-                UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
-
-                    topConstraint.constant = 100
+                    NSLayoutConstraint.activateConstraints([widthConstraint, heightConstraint, topConstraint, centerXConstraint])
 
                     self.view.layoutIfNeeded()
 
-                    collectionView.alpha = 0
 
-                }, completion: { (finished) -> Void in
-                })
+                    self.currentSkillCategoryButtonTopConstraint = topConstraint
+                    self.currentSkillCategoryButtonTopConstraintOriginalConstant = self.currentSkillCategoryButtonTopConstraint.constant
 
-            } else {
-                if let button = self.currentSkillCategoryButton {
                     UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
 
-                        self.currentSkillCategoryButtonTopConstraint.constant = self.currentSkillCategoryButtonTopConstraintOriginalConstant
+                        topConstraint.constant = 60
 
                         self.view.layoutIfNeeded()
 
-                        collectionView.alpha = 1
+                        collectionView.alpha = 0
+                        self.annotationLabel.alpha = 0
 
-                    }, completion: { (_) -> Void in
-
-                        button.removeFromSuperview()
-
-                        cell.contentView.addSubview(button)
-
-                        button.setTranslatesAutoresizingMaskIntoConstraints(false)
-
-                        let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCellConfig.skillCategoryButtonWidth)
-
-                        let heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCellConfig.skillCategoryButtonHeight)
-
-                        let centerXConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: cell.contentView, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
-
-                        let centerYConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: cell.contentView, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
-
-                        NSLayoutConstraint.activateConstraints([widthConstraint, heightConstraint, centerXConstraint, centerYConstraint])
+                    }, completion: { (finished) -> Void in
                     })
+
+                    UIView.animateWithDuration(0.5, delay: 0.2, options: .CurveEaseInOut, animations: { () -> Void in
+
+                        self.skillsCollectionViewBottomConstrain.constant = 0
+
+                        self.view.layoutIfNeeded()
+
+                        self.skillsCollectionView.alpha = 1
+
+                    }, completion: { (finished) -> Void in
+                    })
+
+                } else {
+                    if let button = self.currentSkillCategoryButton {
+                        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
+
+                            self.skillsCollectionView.alpha = 0
+                            
+                        }, completion: { (finished) -> Void in
+                        })
+
+                        UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
+
+                            self.currentSkillCategoryButtonTopConstraint.constant = self.currentSkillCategoryButtonTopConstraintOriginalConstant
+
+                            self.skillsCollectionViewBottomConstrain.constant = -CGRectGetHeight(self.skillsCollectionView.bounds)
+                            
+                            self.view.layoutIfNeeded()
+
+                            collectionView.alpha = 1
+                            self.annotationLabel.alpha = 1
+
+                        }, completion: { (_) -> Void in
+
+                            button.removeFromSuperview()
+
+                            cell.contentView.addSubview(button)
+
+                            button.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+                            let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCellConfig.skillCategoryButtonWidth)
+
+                            let heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCellConfig.skillCategoryButtonHeight)
+
+                            let centerXConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: cell.contentView, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
+
+                            let centerYConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: cell.contentView, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
+
+                            NSLayoutConstraint.activateConstraints([widthConstraint, heightConstraint, centerXConstraint, centerYConstraint])
+                        })
+                    }
                 }
             }
+
+            return cell
+            
+        } else { //if collectionView == skillsCollectionView {
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
+
+            cell.skillLabel.text = skills[indexPath.item]
+            
+            return cell
         }
 
-        return cell
     }
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        return CGSizeMake(collectionViewWidth, SkillCategoryCellConfig.skillCategoryButtonHeight)
+        if collectionView == skillCategoriesCollectionView {
+            return CGSizeMake(collectionViewWidth, SkillCategoryCellConfig.skillCategoryButtonHeight)
+
+        } else if collectionView == skillsCollectionView {
+
+            let skillString = skills[indexPath.item]
+            
+            let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: skillCellHeight), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+
+            return CGSizeMake(rect.width + 24, skillCellHeight)
+        }
+
+        return CGSizeZero
+    }
+
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+
+        if collectionView == skillsCollectionView {
+            return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: 0, right: sectionRightEdgeInset)
+        } else {
+            return UIEdgeInsetsZero
+        }
     }
 
 }
