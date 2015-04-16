@@ -22,7 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var isColdLaunch = true
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        
+
+        Crashlytics.startWithAPIKey("3030ba006e21bcf8eb4a2127b6a7931ea6667486")
+
         AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker, error: nil)
         AVAudioSession.sharedInstance().setActive(true, error: nil)
 
@@ -33,23 +35,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 全局的外观自定义
         customAppearce()
 
-        let isLogined: Bool
-        if let v1AccessToken = YepUserDefaults.v1AccessToken() {
-            isLogined = true
-        } else {
-            isLogined = false
-        }
+//        let isLogined: Bool
+//        if let v1AccessToken = YepUserDefaults.v1AccessToken() {
+//            isLogined = true
+//        } else {
+//            isLogined = false
+//        }
+//
+//        if !isLogined {
+//            startIntroStory()
+//        }
 
-        if !isLogined {
-            startIntroStory()
-        }
-        
-        Crashlytics.startWithAPIKey("3030ba006e21bcf8eb4a2127b6a7931ea6667486")
-
-        
-//        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
-//        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickAvatarViewController") as! RegisterPickAvatarViewController
-//        window?.rootViewController = rootViewController
+        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
+        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickSkillsViewController") as! RegisterPickSkillsViewController
+        window?.rootViewController = rootViewController
 
         // for test
 

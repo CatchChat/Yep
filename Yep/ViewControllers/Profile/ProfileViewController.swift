@@ -29,9 +29,6 @@ class ProfileViewController: UIViewController {
     lazy var sectionRightEdgeInset: CGFloat = { return 20 }()
     lazy var sectionBottomEdgeInset: CGFloat = { return 15 }()
 
-    let skillCellHeight: CGFloat = 24
-
-
     let introductionText = "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
 
     let masterSkills = [
@@ -322,9 +319,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             let skillInfo = masterSkills[indexPath.item % masterSkills.count]
 
             if let skillString = skillInfo["skill"] as? String {
-                let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: skillCellHeight), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+                let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
-                return CGSizeMake(rect.width + 24, skillCellHeight)
+                return CGSizeMake(rect.width + 24, SkillCell.height)
             }
 
             return CGSizeZero
@@ -334,9 +331,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             let skillInfo = learningSkills[indexPath.item % learningSkills.count]
 
             if let skillString = skillInfo["skill"] as? String {
-                let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: skillCellHeight), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+                let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
-                return CGSizeMake(rect.width + 24, skillCellHeight)
+                return CGSizeMake(rect.width + 24, SkillCell.height)
             }
 
             return CGSizeZero

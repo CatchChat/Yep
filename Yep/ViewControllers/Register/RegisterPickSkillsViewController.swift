@@ -16,11 +16,10 @@ class RegisterPickSkillsViewController: UIViewController {
     var masterSkills = [String]()
     var learningSkills = [String]()
 
-    let skillCellIdentifier = "SkillCell"
+    let skillSelectionCellIdentifier = "SkillSelectionCell"
     let addSkillsReusableViewIdentifier = "AddSkillsReusableView"
 
-    let skillCellHeight: CGFloat = 24
-    let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
+    let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextLargeFont()]
 
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.skillsCollectionView.bounds)
@@ -36,7 +35,7 @@ class RegisterPickSkillsViewController: UIViewController {
 
         skillsCollectionView.registerNib(UINib(nibName: addSkillsReusableViewIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: addSkillsReusableViewIdentifier)
         skillsCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
-        skillsCollectionView.registerNib(UINib(nibName: skillCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCellIdentifier)
+        skillsCollectionView.registerNib(UINib(nibName: skillSelectionCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillSelectionCellIdentifier)
 
         masterSkills = ["Love", "Hate"]
         learningSkills = ["Fly", "Say goodbye", "Play hard", "Cry like a baby", "Eat slow", "Run"]
@@ -88,7 +87,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillSelectionCellIdentifier, forIndexPath: indexPath) as! SkillSelectionCell
 
         switch indexPath.section {
         case Section.Master.rawValue:
@@ -163,9 +162,9 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
             break
         }
 
-        let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: skillCellHeight), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+        let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillSelectionCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
-        return CGSizeMake(rect.width + 24, skillCellHeight)
+        return CGSizeMake(rect.width + 24, SkillSelectionCell.height)
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {

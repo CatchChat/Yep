@@ -8,13 +8,10 @@
 
 import UIKit
 
+class SkillCategoryCell: UICollectionViewCell {
 
-struct SkillCategoryCellConfig {
     static let skillCategoryButtonWidth: CGFloat = CGRectGetWidth(UIScreen.mainScreen().bounds) - 20 * 2
     static let skillCategoryButtonHeight: CGFloat = 60
-}
-
-class SkillCategoryCell: UICollectionViewCell {
 
     @IBOutlet weak var skillCategoryButton: SkillCategoryButton!
     @IBOutlet weak var skillCategoryButtonWidthConstraint: NSLayoutConstraint!
@@ -45,8 +42,8 @@ class SkillCategoryCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        skillCategoryButtonWidthConstraint.constant = SkillCategoryCellConfig.skillCategoryButtonWidth
-        skillCategoryButtonHeightConstraint.constant = SkillCategoryCellConfig.skillCategoryButtonHeight
+        skillCategoryButtonWidthConstraint.constant = skillCategoryButtonWidth
+        skillCategoryButtonHeightConstraint.constant = skillCategoryButtonHeight
 
         skillCategoryButton.setBackgroundImage(UIImage(named: "button_skill_category_tech")!, forState: .Normal)
     }

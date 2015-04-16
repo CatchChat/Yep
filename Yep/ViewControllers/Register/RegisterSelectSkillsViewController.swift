@@ -20,14 +20,13 @@ class RegisterSelectSkillsViewController: UIViewController {
     @IBOutlet weak var skillsCollectionViewBottomConstrain: NSLayoutConstraint!
     
     let skillCategoryCellIdentifier = "SkillCategoryCell"
-    let skillCellIdentifier = "SkillCell"
+    let skillSelectionCellIdentifier = "SkillSelectionCell"
     
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.skillCategoriesCollectionView.bounds)
         }()
 
-    let skillCellHeight: CGFloat = 24
-    let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
+    let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextLargeFont()]
 
     let sectionLeftEdgeInset: CGFloat = registerPickSkillsLayoutLeftEdgeInset
     let sectionRightEdgeInset: CGFloat = 20
@@ -80,7 +79,7 @@ class RegisterSelectSkillsViewController: UIViewController {
 
         skillCategoriesCollectionView.registerNib(UINib(nibName: skillCategoryCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCategoryCellIdentifier)
 
-        skillsCollectionView.registerNib(UINib(nibName: skillCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCellIdentifier)
+        skillsCollectionView.registerNib(UINib(nibName: skillSelectionCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillSelectionCellIdentifier)
 
         annotationLabel.text = annotationText
 
@@ -148,9 +147,9 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                         "button": button,
                     ]
 
-                    let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCellConfig.skillCategoryButtonWidth)
+                    let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonWidth)
 
-                    let heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCellConfig.skillCategoryButtonHeight)
+                    let heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonHeight)
 
                     let topConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: frame.origin.y)
 
@@ -215,9 +214,9 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                             button.setTranslatesAutoresizingMaskIntoConstraints(false)
 
-                            let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCellConfig.skillCategoryButtonWidth)
+                            let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonWidth)
 
-                            let heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCellConfig.skillCategoryButtonHeight)
+                            let heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonHeight)
 
                             let centerXConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: cell.contentView, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
 
@@ -232,7 +231,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
             return cell
             
         } else { //if collectionView == skillsCollectionView {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillSelectionCellIdentifier, forIndexPath: indexPath) as! SkillSelectionCell
 
             cell.skillLabel.text = skills[indexPath.item]
             
@@ -244,15 +243,15 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
         if collectionView == skillCategoriesCollectionView {
-            return CGSizeMake(collectionViewWidth, SkillCategoryCellConfig.skillCategoryButtonHeight)
+            return CGSizeMake(collectionViewWidth, SkillCategoryCell.skillCategoryButtonHeight)
 
         } else if collectionView == skillsCollectionView {
 
             let skillString = skills[indexPath.item]
             
-            let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: skillCellHeight), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+            let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillSelectionCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
-            return CGSizeMake(rect.width + 24, skillCellHeight)
+            return CGSizeMake(rect.width + 24, SkillSelectionCell.height)
         }
 
         return CGSizeZero
