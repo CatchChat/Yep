@@ -17,9 +17,9 @@ class SkillCategoryButton: UIButton {
         }
     }
 
-    @IBInspectable var catogoryTitle: String = "" {
+    @IBInspectable var categoryTitle: String = "" {
         willSet {
-            catogoryTitleLabel.text = newValue
+            categoryTitleLabel.text = newValue
         }
     }
 
@@ -45,7 +45,7 @@ class SkillCategoryButton: UIButton {
         return imageView
         }()
 
-    lazy var catogoryTitleLabel: UILabel = {
+    lazy var categoryTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.whiteColor()
         label.font = UIFont(name: "HelveticaNeue-Thin", size: 24)!
@@ -71,22 +71,22 @@ class SkillCategoryButton: UIButton {
     func makeUI() {
 
         addSubview(categoryImageView)
-        addSubview(catogoryTitleLabel)
+        addSubview(categoryTitleLabel)
         addSubview(arrowImageView)
 
         categoryImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        catogoryTitleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        categoryTitleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
         arrowImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
 
         let viewsDictionary = [
             "categoryImageView": categoryImageView,
-            "catogoryTitleLabel": catogoryTitleLabel,
+            "categoryTitleLabel": categoryTitleLabel,
             "arrowImageView": arrowImageView,
         ]
 
         let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[categoryImageView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-20-[categoryImageView(40)]-20-[catogoryTitleLabel][arrowImageView(20)]-20-|", options: .AlignAllCenterY | .AlignAllTop | .AlignAllBottom, metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-20-[categoryImageView(40)]-20-[categoryTitleLabel][arrowImageView(20)]-20-|", options: .AlignAllCenterY | .AlignAllTop | .AlignAllBottom, metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(constraintsV)
         NSLayoutConstraint.activateConstraints(constraintsH)
