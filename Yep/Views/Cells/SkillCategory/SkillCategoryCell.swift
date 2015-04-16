@@ -8,9 +8,17 @@
 
 import UIKit
 
+
+struct SkillCategoryCellConfig {
+    static let skillCategoryButtonWidth: CGFloat = CGRectGetWidth(UIScreen.mainScreen().bounds) - 20 * 2
+    static let skillCategoryButtonHeight: CGFloat = 60
+}
+
 class SkillCategoryCell: UICollectionViewCell {
 
     @IBOutlet weak var skillCategoryButton: SkillCategoryButton!
+    @IBOutlet weak var skillCategoryButtonWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var skillCategoryButtonHeightConstraint: NSLayoutConstraint!
 
     var categoryImage: UIImage? {
         willSet {
@@ -28,8 +36,17 @@ class SkillCategoryCell: UICollectionViewCell {
         }
     }
 
+    var toggleSelectionStateAction: ((inSelectionState: Bool) -> Void)? {
+        willSet {
+            skillCategoryButton.toggleSelectionStateAction = newValue
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        skillCategoryButtonWidthConstraint.constant = SkillCategoryCellConfig.skillCategoryButtonWidth
+        skillCategoryButtonHeightConstraint.constant = SkillCategoryCellConfig.skillCategoryButtonHeight
 
         skillCategoryButton.setBackgroundImage(UIImage(named: "button_skill_category_tech")!, forState: .Normal)
     }

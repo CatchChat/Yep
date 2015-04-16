@@ -15,6 +15,7 @@
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pma-UE-goe" userLabel="Skill Category Button" customClass="SkillCategoryButton" customModule="Yep" customModuleProvider="target">
                         <rect key="frame" x="20" y="13" width="250" height="60"/>
                         <constraints>
+                            <constraint firstAttribute="width" constant="250" id="mYG-tY-bId"/>
                             <constraint firstAttribute="height" constant="60" id="oxI-4o-Gur"/>
                         </constraints>
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -32,12 +33,13 @@
             </view>
             <constraints>
                 <constraint firstAttribute="centerY" secondItem="pma-UE-goe" secondAttribute="centerY" id="GnN-Vq-x8L"/>
-                <constraint firstItem="pma-UE-goe" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="Tmn-L8-WRd"/>
-                <constraint firstAttribute="trailing" secondItem="pma-UE-goe" secondAttribute="trailing" constant="20" id="eI3-YU-Fss"/>
+                <constraint firstAttribute="centerX" secondItem="pma-UE-goe" secondAttribute="centerX" id="NeO-aZ-C2n"/>
             </constraints>
             <size key="customSize" width="290" height="86"/>
             <connections>
                 <outlet property="skillCategoryButton" destination="pma-UE-goe" id="zEe-H0-Ra1"/>
+                <outlet property="skillCategoryButtonHeightConstraint" destination="oxI-4o-Gur" id="z0V-JP-bzf"/>
+                <outlet property="skillCategoryButtonWidthConstraint" destination="mYG-tY-bId" id="8eW-C5-shy"/>
             </connections>
             <point key="canvasLocation" x="328" y="404"/>
         </collectionViewCell>

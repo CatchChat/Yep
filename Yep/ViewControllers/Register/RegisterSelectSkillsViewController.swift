@@ -39,7 +39,27 @@ class RegisterSelectSkillsViewController: UIViewController {
             "categoryName": "Life Style",
             "categoryImage": UIImage(named: "icon_skill_life")!,
         ],
+        [
+            "categoryName": "Love",
+            "categoryImage": UIImage(named: "icon_skill_tech")!,
+        ],
+        [
+            "categoryName": "Hate",
+            "categoryImage": UIImage(named: "icon_skill_art")!,
+        ],
+        [
+            "categoryName": "Laugh",
+            "categoryImage": UIImage(named: "icon_skill_music")!,
+        ],
+        [
+            "categoryName": "Cry",
+            "categoryImage": UIImage(named: "icon_skill_life")!,
+        ],
     ]
+
+    var currentSkillCategoryButton: SkillCategoryButton?
+    var currentSkillCategoryButtonTopConstraintOriginalConstant: CGFloat = 0
+    var currentSkillCategoryButtonTopConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,11 +98,90 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
         cell.categoryTitle = skillCategoryInfo["categoryName"] as? String
         cell.categoryImage = skillCategoryInfo["categoryImage"] as? UIImage
 
+        cell.toggleSelectionStateAction = { inSelectionState in
+
+            if inSelectionState {
+                
+                let button = cell.skillCategoryButton
+                self.currentSkillCategoryButton = button
+
+                let frame = cell.convertRect(button.frame, toView: self.view)
+
+                button.removeFromSuperview()
+
+                self.view.addSubview(button)
+
+                button.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+                let viewsDictionary = [
+                    "button": button,
+                ]
+
+                let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCellConfig.skillCategoryButtonWidth)
+
+                let heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCellConfig.skillCategoryButtonHeight)
+
+                let topConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: frame.origin.y)
+
+                let centerXConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: self.view, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
+
+                NSLayoutConstraint.activateConstraints([widthConstraint, heightConstraint, topConstraint, centerXConstraint])
+
+                self.view.layoutIfNeeded()
+
+
+                self.currentSkillCategoryButtonTopConstraint = topConstraint
+                self.currentSkillCategoryButtonTopConstraintOriginalConstant = self.currentSkillCategoryButtonTopConstraint.constant
+
+                UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
+
+                    topConstraint.constant = 100
+
+                    self.view.layoutIfNeeded()
+
+                    collectionView.alpha = 0
+
+                }, completion: { (finished) -> Void in
+                })
+
+            } else {
+                if let button = self.currentSkillCategoryButton {
+                    UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
+
+                        self.currentSkillCategoryButtonTopConstraint.constant = self.currentSkillCategoryButtonTopConstraintOriginalConstant
+
+                        self.view.layoutIfNeeded()
+
+                        collectionView.alpha = 1
+
+                    }, completion: { (_) -> Void in
+
+                        button.removeFromSuperview()
+
+                        cell.contentView.addSubview(button)
+
+                        button.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+                        let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCellConfig.skillCategoryButtonWidth)
+
+                        let heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCellConfig.skillCategoryButtonHeight)
+
+                        let centerXConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: cell.contentView, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
+
+                        let centerYConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: cell.contentView, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
+
+                        NSLayoutConstraint.activateConstraints([widthConstraint, heightConstraint, centerXConstraint, centerYConstraint])
+                    })
+                }
+            }
+        }
+
         return cell
     }
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        return CGSizeMake(collectionViewWidth, 60)
+        return CGSizeMake(collectionViewWidth, SkillCategoryCellConfig.skillCategoryButtonHeight)
     }
+
 }

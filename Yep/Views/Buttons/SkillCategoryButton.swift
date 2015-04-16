@@ -38,6 +38,8 @@ class SkillCategoryButton: UIButton {
         }
     }
 
+    var toggleSelectionStateAction: ((inSelectionState: Bool) -> Void)?
+
 
     lazy var categoryImageView: UIImageView = {
         let imageView = UIImageView()
@@ -94,6 +96,10 @@ class SkillCategoryButton: UIButton {
 
     func toggleSelectionState() {
         inSelectionState = !inSelectionState
+
+        if let action = toggleSelectionStateAction {
+            action(inSelectionState: inSelectionState)
+        }
     }
 
     func rotateArrowFromAngle(fromAngle: CGFloat, toAngle: CGFloat) {
