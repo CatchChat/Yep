@@ -31,7 +31,7 @@ class ProfileViewController: UIViewController {
 
     let introductionText = "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
 
-    let masterSkills = [
+    let masterSkills: [[String: AnyObject]] = [
         ["skill":"iOS Dev", "rank":3],
         ["skill":"Linux", "rank":2],
         ["skill":"Cook", "rank":1],

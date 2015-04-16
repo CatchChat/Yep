@@ -31,7 +31,7 @@ class RegisterSelectSkillsViewController: UIViewController {
     let sectionLeftEdgeInset: CGFloat = registerPickSkillsLayoutLeftEdgeInset
     let sectionRightEdgeInset: CGFloat = 20
 
-    var skillCategories = [
+    var skillCategories: [[String: AnyObject]] = [
         [
             "categoryName": "Technology",
             "categoryImage": UIImage(named: "icon_skill_tech")!,
