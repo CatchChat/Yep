@@ -39,6 +39,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
 
                 println("Will Subscribe \(personalChannel)")
                 client.setExtension(extensionData, forChannel: personalChannel)
+                client.setExtension(extensionData, forChannel: "handshake")
 
                 client.subscribeToChannel(personalChannel, usingBlock: { data in
                     //println("subscribeToChannel: \(data)")
