@@ -13,8 +13,8 @@ class RegisterPickSkillsViewController: UIViewController {
     @IBOutlet weak var skillsCollectionView: UICollectionView!
 
 
-    var masterSkills = [String]()
-    var learningSkills = [String]()
+    var masterSkills: [String] = ["Love", "Hate"]
+    var learningSkills: [String] = ["Fly", "Say goodbye", "Play hard"]
 
     let skillSelectionCellIdentifier = "SkillSelectionCell"
     let addSkillsReusableViewIdentifier = "AddSkillsReusableView"
@@ -36,9 +36,6 @@ class RegisterPickSkillsViewController: UIViewController {
         skillsCollectionView.registerNib(UINib(nibName: addSkillsReusableViewIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: addSkillsReusableViewIdentifier)
         skillsCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
         skillsCollectionView.registerNib(UINib(nibName: skillSelectionCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillSelectionCellIdentifier)
-
-        masterSkills = ["Love", "Hate"]
-        learningSkills = ["Fly", "Say goodbye", "Play hard", "Cry like a baby", "Eat slow", "Run"]
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -49,10 +46,64 @@ class RegisterPickSkillsViewController: UIViewController {
                 switch skillSetType {
                 case SkillSetType.Master.rawValue:
                     vc.annotationText = NSLocalizedString("What are you good at?", comment: "")
+                    vc.selectedSkillsSet = Set(self.masterSkills)
+
                 case SkillSetType.Learning.rawValue:
                     vc.annotationText = NSLocalizedString("What are you learning?", comment: "")
+                    vc.selectedSkillsSet = Set(self.learningSkills)
+
                 default:
                     break
+                }
+
+                vc.selectSkillAction = { (skill, selected) in
+
+                    var success = false
+
+                    switch skillSetType {
+                    case SkillSetType.Master.rawValue:
+                        if selected {
+                            self.masterSkills.append(skill)
+
+                            success = true
+                            
+                        } else {
+                            for (index, masterSkill) in enumerate(self.masterSkills) {
+                                if masterSkill == skill {
+                                    self.masterSkills.removeAtIndex(index)
+
+                                    success = true
+
+                                    break
+                                }
+                            }
+                        }
+
+                    case SkillSetType.Learning.rawValue:
+                        if selected {
+                            self.learningSkills.append(skill)
+
+                            success = true
+
+                        } else {
+                            for (index, learningSkill) in enumerate(self.learningSkills) {
+                                if learningSkill == skill {
+                                    self.learningSkills.removeAtIndex(index)
+
+                                    success = true
+
+                                    break
+                                }
+                            }
+                        }
+
+                    default:
+                        break
+                    }
+
+                    self.skillsCollectionView.reloadData()
+
+                    return success
                 }
             }
         }

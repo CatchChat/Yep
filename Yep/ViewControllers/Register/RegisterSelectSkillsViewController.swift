@@ -11,6 +11,8 @@ import UIKit
 class RegisterSelectSkillsViewController: UIViewController {
 
     var annotationText: String = ""
+    var selectSkillAction: ((skill: String, selected: Bool) -> Bool)?
+    var selectedSkillsSet = Set<String>()
 
     @IBOutlet weak var annotationLabel: UILabel!
 
@@ -66,7 +68,7 @@ class RegisterSelectSkillsViewController: UIViewController {
         ],
     ]
 
-    var skills = ["Fly", "Say goodbye", "Play hard", "Cry like a baby", "Eat slow", "Run", "Fly", "Say goodbye", "Play hard", "Cry like a baby", "Eat slow", "Run"]
+    var skills: [String] = ["Fly", "Say goodbye", "Play hard", "Cry like a baby", "Eat slow", "Run"]
 
     var currentSkillCategoryButton: SkillCategoryButton?
     var currentSkillCategoryButtonTopConstraintOriginalConstant: CGFloat = 0
@@ -84,7 +86,8 @@ class RegisterSelectSkillsViewController: UIViewController {
         annotationLabel.text = annotationText
 
         let tap = UITapGestureRecognizer(target: self, action: "dismiss")
-        view.addGestureRecognizer(tap)
+        annotationLabel.userInteractionEnabled = true
+        annotationLabel.addGestureRecognizer(tap)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -233,11 +236,22 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
         } else { //if collectionView == skillsCollectionView {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillSelectionCellIdentifier, forIndexPath: indexPath) as! SkillSelectionCell
 
-            cell.skillLabel.text = skills[indexPath.item]
+            let skill = skills[indexPath.item]
+
+            cell.skillLabel.text = skill
+
+            updateSkillSelectionCell(cell, withSkill: skill)
             
             return cell
         }
+    }
 
+    private func updateSkillSelectionCell(skillSelectionCell: SkillSelectionCell, withSkill skill: String) {
+        if selectedSkillsSet.contains(skill) {
+            skillSelectionCell.tintColor = UIColor.darkGrayColor()
+        } else {
+            skillSelectionCell.tintColor = UIColor.yepTintColor()
+        }
     }
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
@@ -263,6 +277,29 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
             return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: 0, right: sectionRightEdgeInset)
         } else {
             return UIEdgeInsetsZero
+        }
+    }
+
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        if collectionView == skillsCollectionView {
+            let skill = skills[indexPath.item]
+
+            if let action = selectSkillAction {
+
+                let isInSet = selectedSkillsSet.contains(skill)
+
+                if action(skill: skill, selected: !isInSet) {
+                    if isInSet {
+                        selectedSkillsSet.remove(skill)
+                    } else {
+                        selectedSkillsSet.insert(skill)
+                    }
+
+                    if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SkillSelectionCell {
+                        updateSkillSelectionCell(cell, withSkill: skill)
+                    }
+                }
+            }
         }
     }
 
