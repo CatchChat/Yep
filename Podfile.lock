@@ -25,9 +25,9 @@ PODS:
   - MZFayeClient (1.0.0):
     - Base64 (~> 1.0.1)
     - SocketRocket (~> 0.3.1-beta2)
-  - Realm (0.91.1):
-    - Realm/Headers (= 0.91.1)
-  - Realm/Headers (0.91.1)
+  - Realm (0.91.3):
+    - Realm/Headers (= 0.91.3)
+  - Realm/Headers (0.91.3)
   - SocketRocket (0.3.1-beta2)
 
 DEPENDENCIES:
@@ -45,7 +45,7 @@ SPEC CHECKSUMS:
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
   JPushSDK: c68dd04c595a5c93aa003f212974010790410d8e
   MZFayeClient: 19df756a4c86c8f414668e6edc54fccfee54adbb
-  Realm: b9c1fd9defa26aa7276ce938a8df52ec81f24528
+  Realm: 4bfdac6f0f3170a3947c7196e2e9a2e49c943719
   SocketRocket: 7284ab9370a06c99aba92b2fe3a32aedd0f9a6fa
 
 COCOAPODS: 0.36.3
