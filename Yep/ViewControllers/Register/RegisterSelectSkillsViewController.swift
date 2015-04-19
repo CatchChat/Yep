@@ -83,11 +83,7 @@ class RegisterSelectSkillsViewController: UIViewController {
 
         skillsCollectionView.registerNib(UINib(nibName: skillSelectionCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillSelectionCellIdentifier)
 
-        annotationLabel.text = annotationText
 
-        let tap = UITapGestureRecognizer(target: self, action: "dismiss")
-        annotationLabel.userInteractionEnabled = true
-        annotationLabel.addGestureRecognizer(tap)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -104,6 +100,26 @@ class RegisterSelectSkillsViewController: UIViewController {
 // MARK: UICollectionViewDataSource, UICollectionViewDelegate
 
 extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        var reusableview: UICollectionReusableView!
+        
+        if kind == UICollectionElementKindSectionHeader {
+            var headerView: AnnoationCollectionReusableView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "annoationLabelView", forIndexPath: indexPath) as! AnnoationCollectionReusableView
+            
+            headerView.label.text = annotationText
+            
+            let tap = UITapGestureRecognizer(target: self, action: "dismiss")
+            headerView.label.userInteractionEnabled = true
+            headerView.label.addGestureRecognizer(tap)
+            self.annotationLabel = headerView.label
+            
+            reusableview = headerView
+        }
+        
+        
+        return reusableview
+    }
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
@@ -180,7 +196,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                     UIView.animateWithDuration(0.5, delay: 0.2, options: .CurveEaseInOut, animations: { () -> Void in
 
-                        self.skillsCollectionViewBottomConstrain.constant = 0
+                        self.skillsCollectionViewBottomConstrain.constant = -150
 
                         self.view.layoutIfNeeded()
 

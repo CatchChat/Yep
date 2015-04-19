@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A02E46F1AC9208A00235DBF /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A02E46E1AC9208A00235DBF /* libxml2.dylib */; };
+		0A0A117F1AE382AC0008772C /* AnnoationCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A117E1AE382AC0008772C /* AnnoationCollectionReusableView.swift */; };
 		0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A271FD61ACA055400822DFC /* YepAudioService.swift */; };
 		0A3E60601ACCA9C0003DC853 /* String+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */; };
 		0A3E60671ACCAECE003DC853 /* YepLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E60661ACCAECE003DC853 /* YepLocationService.swift */; };
@@ -134,6 +135,7 @@
 
 /* Begin PBXFileReference section */
 		0A02E46E1AC9208A00235DBF /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		0A0A117E1AE382AC0008772C /* AnnoationCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnnoationCollectionReusableView.swift; path = Views/ReusableViews/AnnoationLabel/AnnoationCollectionReusableView.swift; sourceTree = "<group>"; };
 		0A271FD61ACA055400822DFC /* YepAudioService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAudioService.swift; path = Services/YepAudioService.swift; sourceTree = "<group>"; };
 		0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Yep.swift"; path = "Extensions/String+Yep.swift"; sourceTree = "<group>"; };
 		0A3E60661ACCAECE003DC853 /* YepLocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepLocationService.swift; path = Services/YepLocationService.swift; sourceTree = "<group>"; };
@@ -290,6 +292,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A0A11801AE382AF0008772C /* Annoation */ = {
+			isa = PBXGroup;
+			children = (
+				0A0A117E1AE382AC0008772C /* AnnoationCollectionReusableView.swift */,
+			);
+			name = Annoation;
+			sourceTree = "<group>";
+		};
 		0A3E60631ACCAC02003DC853 /* NSDate+TimeAgo */ = {
 			isa = PBXGroup;
 			children = (
@@ -610,6 +620,7 @@
 			children = (
 				502AE55A1AB932D9005BD199 /* ProfileSectionHeader */,
 				50C090A21ADE391900CC6389 /* AddSkills */,
+				0A0A11801AE382AF0008772C /* Annoation */,
 			);
 			name = ReusableViews;
 			sourceTree = "<group>";
@@ -1090,6 +1101,7 @@
 				5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */,
 				50E114F71ABBFA7000F13000 /* RLMSupport.swift in Sources */,
 				5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */,
+				0A0A117F1AE382AC0008772C /* AnnoationCollectionReusableView.swift in Sources */,
 				50A9D4511ACD383E000B2599 /* NSDate+Extension.swift in Sources */,
 				506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */,
 				50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */,

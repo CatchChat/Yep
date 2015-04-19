@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -194,7 +194,7 @@
                                 <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="86" placeholder="  " textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rD8-Pa-pw2" customClass="UnderLineTextField" customModule="Yep" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="86" placeholder="  " textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rD8-Pa-pw2" customClass="UnderLineTextField" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="200" y="94" width="37" height="35"/>
                                 <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -209,7 +209,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BMl-2s-Pwj" customClass="UnderLineTextField" customModule="Yep" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BMl-2s-Pwj" customClass="UnderLineTextField" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="237" y="94" width="163" height="35"/>
                                 <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -546,32 +546,50 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What are you learning?" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aSB-2s-v3n" userLabel="Annotation Label">
-                                <rect key="frame" x="200" y="80" width="200" height="72"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="bNN-vJ-go0"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="30"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="EJ5-Hf-UMM" userLabel="Skill Categories Collection View">
-                                <rect key="frame" x="0.0" y="213" width="600" height="387"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="10" id="njF-Go-k8V">
                                     <size key="itemSize" width="50" height="50"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="headerReferenceSize" width="50" height="150"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells/>
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="annoationLabelView" id="LgN-Ip-NL7" customClass="AnnoationCollectionReusableView" customModule="Yep" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="What are you learning?" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aSB-2s-v3n" userLabel="Annotation Label">
+                                            <rect key="frame" x="152" y="7" width="296" height="36"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="200" id="bNN-vJ-go0"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="30"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="bNN-vJ-go0"/>
+                                                </mask>
+                                            </variation>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="aSB-2s-v3n" firstAttribute="centerY" secondItem="LgN-Ip-NL7" secondAttribute="centerY" id="NGU-Qa-1Ei"/>
+                                        <constraint firstItem="aSB-2s-v3n" firstAttribute="centerX" secondItem="LgN-Ip-NL7" secondAttribute="centerX" id="Uoy-UR-fVT"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="label" destination="aSB-2s-v3n" id="e35-cS-i8u"/>
+                                    </connections>
+                                </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="vEE-XY-eq4" id="Xj0-IO-g3E"/>
                                     <outlet property="delegate" destination="vEE-XY-eq4" id="csb-OZ-MJR"/>
                                 </connections>
                             </collectionView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xur-C9-Tc1" userLabel="Skills Collection View">
-                                <rect key="frame" x="0.0" y="213" width="600" height="387"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewLayout key="collectionViewLayout" id="C6X-CX-CTd" customClass="RegisterPickSkillsLayout" customModule="Yep" customModuleProvider="target"/>
                                 <cells/>
@@ -589,14 +607,11 @@
                             <constraint firstAttribute="trailing" secondItem="xur-C9-Tc1" secondAttribute="trailing" id="Sih-Gb-ELE"/>
                             <constraint firstItem="xur-C9-Tc1" firstAttribute="leading" secondItem="gsh-ws-D5N" secondAttribute="leading" id="Sxw-3r-cDH"/>
                             <constraint firstItem="bNl-1o-JmM" firstAttribute="top" secondItem="xur-C9-Tc1" secondAttribute="bottom" id="a1o-Ix-bA3"/>
-                            <constraint firstItem="EJ5-Hf-UMM" firstAttribute="top" secondItem="aSB-2s-v3n" secondAttribute="bottom" constant="61" id="bUX-jt-JSI"/>
+                            <constraint firstItem="EJ5-Hf-UMM" firstAttribute="top" secondItem="SoT-jT-Jpl" secondAttribute="bottom" id="bff-NW-tC0"/>
                             <constraint firstItem="EJ5-Hf-UMM" firstAttribute="leading" secondItem="gsh-ws-D5N" secondAttribute="leading" id="dDa-xG-8H8"/>
-                            <constraint firstItem="aSB-2s-v3n" firstAttribute="top" secondItem="SoT-jT-Jpl" secondAttribute="bottom" constant="60" id="e2u-X2-MLW"/>
-                            <constraint firstAttribute="centerX" secondItem="aSB-2s-v3n" secondAttribute="centerX" id="eUq-fb-anC"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="annotationLabel" destination="aSB-2s-v3n" id="28n-7L-agm"/>
                         <outlet property="skillCategoriesCollectionView" destination="EJ5-Hf-UMM" id="WZ8-pq-Xox"/>
                         <outlet property="skillsCollectionView" destination="xur-C9-Tc1" id="VuZ-ln-vlC"/>
                         <outlet property="skillsCollectionViewBottomConstrain" destination="a1o-Ix-bA3" id="7Ht-mN-CpY"/>
@@ -650,7 +665,7 @@
                                 <color key="textColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="86" placeholder="  " textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lCp-RT-8MI" customClass="UnderLineTextField" customModule="Yep" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="86" placeholder="  " textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lCp-RT-8MI" customClass="UnderLineTextField" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="200" y="94" width="37" height="35"/>
                                 <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -665,7 +680,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FGO-sg-N4b" customClass="UnderLineTextField" customModule="Yep" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FGO-sg-N4b" customClass="UnderLineTextField" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="237" y="94" width="163" height="35"/>
                                 <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
