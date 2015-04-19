@@ -99,7 +99,7 @@ class RegisterSelectSkillsViewController: UIViewController {
                 (obj as! UICollectionViewFlowLayout).minimumLineSpacing = values[0]
             }
             
-            props.threshold = 0.01
+            props.threshold = 0.1
             
         }) as! POPAnimatableProperty
         
@@ -240,7 +240,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                             (obj as! UICollectionViewFlowLayout).minimumLineSpacing = values[0]
                         }
                         
-                        props.threshold = 0.01
+                        props.threshold = 0.1
                         
                     }) as! POPAnimatableProperty
                     
