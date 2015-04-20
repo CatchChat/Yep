@@ -13,8 +13,8 @@ class RegisterPickSkillsViewController: UIViewController {
     @IBOutlet weak var skillsCollectionView: UICollectionView!
 
 
-    var masterSkills: [String] = ["Love", "Hate"]
-    var learningSkills: [String] = ["Fly", "Say goodbye", "Play hard"]
+    var masterSkills = [Skill]()
+    var learningSkills = [Skill]()
 
     let skillSelectionCellIdentifier = "SkillSelectionCell"
     let addSkillsReusableViewIdentifier = "AddSkillsReusableView"
@@ -29,6 +29,7 @@ class RegisterPickSkillsViewController: UIViewController {
     let sectionRightEdgeInset: CGFloat = 20
     let sectionBottomEdgeInset: CGFloat = 50
 
+    var skillCategories: [SkillCategory]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +37,21 @@ class RegisterPickSkillsViewController: UIViewController {
         skillsCollectionView.registerNib(UINib(nibName: addSkillsReusableViewIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: addSkillsReusableViewIdentifier)
         skillsCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
         skillsCollectionView.registerNib(UINib(nibName: skillSelectionCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillSelectionCellIdentifier)
+
+        allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
+            defaultFailureHandler(reason, errorMessage)
+            
+        }, completion: { skillCategories -> Void in
+            self.skillCategories = skillCategories
+        })
     }
+
+    // MARK: Actions
+
+    @IBAction func saveSkills(sender: UIButton) {
+    }
+
+    // MARK: Navigaition
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "presentSelectSkills" {
@@ -54,6 +69,10 @@ class RegisterPickSkillsViewController: UIViewController {
 
                 default:
                     break
+                }
+
+                if let skillCategories = skillCategories {
+                    vc.skillCategories = skillCategories
                 }
 
                 vc.selectSkillAction = { (skill, selected) in
@@ -142,10 +161,12 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
         switch indexPath.section {
         case Section.Master.rawValue:
-            cell.skillLabel.text = masterSkills[indexPath.item]
+            let skill = masterSkills[indexPath.item]
+            cell.skillLabel.text = skill.localName
 
         case Section.Learning.rawValue:
-            cell.skillLabel.text = learningSkills[indexPath.item]
+            let skill = learningSkills[indexPath.item]
+            cell.skillLabel.text = skill.localName
 
         default:
             break
@@ -204,10 +225,12 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
         
         switch indexPath.section {
         case Section.Master.rawValue:
-            skillString = masterSkills[indexPath.item]
+            let skill = masterSkills[indexPath.item]
+            skillString = skill.localName
 
         case Section.Learning.rawValue:
-            skillString = learningSkills[indexPath.item]
+            let skill = learningSkills[indexPath.item]
+            skillString = skill.localName
 
         default:
             break
