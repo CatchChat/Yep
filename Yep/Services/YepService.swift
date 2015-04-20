@@ -201,6 +201,22 @@ func skillsInSkillCategory(skillCategoryID: String, #failureHandler: ((Reason, S
 }
 */
 
+func skillsFromSkillsData(skillsData: [JSONDictionary]) -> [Skill] {
+    var skills = [Skill]()
+
+    for skillInfo in skillsData {
+        if
+            let skillID = skillInfo["id"] as? String,
+            let skillName = skillInfo["name"] as? String,
+            let skillLocalName = skillInfo["name_string"] as? String {
+                let skill = Skill(id: skillID, name: skillName, localName: skillName)
+                skills.append(skill)
+        }
+    }
+
+    return skills
+}
+
 func allSkillCategories(#failureHandler: ((Reason, String?) -> Void)?, #completion: [SkillCategory] -> Void) {
 
     let parse: JSONDictionary -> [SkillCategory]? = { data in
@@ -217,17 +233,7 @@ func allSkillCategories(#failureHandler: ((Reason, String?) -> Void)?, #completi
                     let categoryLocalName = categoryInfo["name_string"] as? String,
                     let skillsData = categoryInfo["skills"] as? [JSONDictionary] {
 
-                        var skills = [Skill]()
-
-                        for skillInfo in skillsData {
-                            if
-                                let skillID = skillInfo["id"] as? String,
-                                let skillName = skillInfo["name"] as? String,
-                                let skillLocalName = skillInfo["name_string"] as? String {
-                                    let skill = Skill(id: skillID, name: skillName, localName: skillName)
-                                    skills.append(skill)
-                            }
-                        }
+                        let skills = skillsFromSkillsData(skillsData)
 
                         let skillCategory = SkillCategory(id: categoryID, name: categoryName, localName: categoryLocalName, skills: skills)
 
@@ -301,6 +307,21 @@ func deleteSkill(skill: Skill, fromSkillSet skillSet: SkillSet, #failureHandler:
 }
 
 // MARK: User
+
+func userInfo(#failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        println("userInfo \(data)")
+        return data
+    }
+
+    let resource = authJsonResource(path: "/api/v1/user", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
 
 func updateMyselfWithInfo(info: JSONDictionary, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
 
