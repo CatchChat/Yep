@@ -53,6 +53,16 @@ class RegisterSelectSkillsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = UIColor.clearColor()
+        skillCategoriesCollectionView.backgroundColor = UIColor.clearColor()
+        skillsCollectionView.backgroundColor = UIColor.clearColor()
+
+        let effect = UIBlurEffect(style: UIBlurEffectStyle.Light)
+        let effectView = UIVisualEffectView(effect: effect)
+        effectView.frame = view.bounds
+        view.insertSubview(effectView, atIndex: 0)
+
+
         skillsCollectionView.alpha = 0
 
         skillsCollectionViewEqualHeightToSkillCategoriesCollectionViewConstraint.constant = -annotationHeight
@@ -64,29 +74,36 @@ class RegisterSelectSkillsViewController: UIViewController {
 
         skillsCollectionView.registerNib(UINib(nibName: skillSelectionCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillSelectionCellIdentifier)
 
-        var layout = self.skillCategoriesCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        var originLineSpacing = layout.minimumLineSpacing
-        var anim = POPBasicAnimation();
-        anim.duration = 0.8
+
+        let layout = self.skillCategoriesCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        let originLineSpacing = layout.minimumLineSpacing
+
+        let initialMinimumLineSpacing: CGFloat = 100
+        layout.minimumLineSpacing = initialMinimumLineSpacing
+
+        let anim = POPBasicAnimation()
+        anim.beginTime = CACurrentMediaTime() + 0.0
+        anim.duration = 0.9
         anim.timingFunction = CAMediaTimingFunction(name: "easeInEaseOut")
         var prop = POPAnimatableProperty.propertyWithName("minimumLineSpacing", initializer: { props in
-            
+
             props.readBlock = { obj, values in
                 values[0] = (obj as! UICollectionViewFlowLayout).minimumLineSpacing
             }
             props.writeBlock = { obj, values in
                 (obj as! UICollectionViewFlowLayout).minimumLineSpacing = values[0]
             }
-            
+
             props.threshold = 0.1
-            
+
         }) as! POPAnimatableProperty
-        
+
         anim.property = prop
-        anim.fromValue = 100.0
+        anim.fromValue = initialMinimumLineSpacing
         anim.toValue = originLineSpacing
         
         layout.pop_addAnimation(anim, forKey: "AnimateLine")
+
 
         // 如果前一个 VC 来不及传递，这里还得再请求一次
         if skillCategories.isEmpty {
@@ -106,7 +123,7 @@ class RegisterSelectSkillsViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        self.skillsCollectionViewBottomConstrain.constant = -CGRectGetHeight(skillsCollectionView.bounds)
+        skillsCollectionViewBottomConstrain.constant = -CGRectGetHeight(skillsCollectionView.bounds)
     }
 
     func dismiss() {
@@ -136,9 +153,11 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
             } else {
                 let header = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: skillAnnotationHeaderIdentifier, forIndexPath: indexPath) as! SkillAnnotationHeader
 
-                let skillCategory = skillCategories[skillCategoryIndex]
+                if skillCategoryIndex < skillCategories.count {
+                    let skillCategory = skillCategories[skillCategoryIndex]
 
-                header.annotationLabel.text = NSLocalizedString("Poplular in ", comment: "") + "\(skillCategory.localName)"
+                    header.annotationLabel.text = NSLocalizedString("Poplular in ", comment: "") + "\(skillCategory.localName)"
+                }
                 
                 reusableView = header
             }
@@ -157,9 +176,10 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
         } else if collectionView == skillsCollectionView {
 
-            let skills = skillCategories[skillCategoryIndex].skills
-
-            return skills.count
+            if skillCategoryIndex < skillCategories.count {
+                let skills = skillCategories[skillCategoryIndex].skills
+                return skills.count
+            }
         }
 
         return 0
@@ -220,7 +240,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                     self.currentSkillCategoryButtonTopConstraint = topConstraint
                     self.currentSkillCategoryButtonTopConstraintOriginalConstant = self.currentSkillCategoryButtonTopConstraint.constant
 
-                    UIView.animateWithDuration(0.8, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
+                    UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
 
                         topConstraint.constant = 60
 
@@ -234,7 +254,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                     var layout = self.skillsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
                     var originLineSpacing = layout.minimumLineSpacing
                     var anim = POPBasicAnimation();
-                    anim.duration = 1.5
+                    anim.duration = 0.8
                     anim.timingFunction = CAMediaTimingFunction(name: "easeOut")
                     var prop = POPAnimatableProperty.propertyWithName("minimumLineSpacing", initializer: { props in
                         
@@ -256,7 +276,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                     layout.pop_addAnimation(anim, forKey: "AnimateLine")
                     
 
-                    UIView.animateWithDuration(0.8, delay: 0.2, options: .CurveEaseInOut, animations: { () -> Void in
+                    UIView.animateWithDuration(0.5, delay: 0.2, options: .CurveEaseInOut, animations: { () -> Void in
 
                         self.skillsCollectionViewBottomConstrain.constant = 0
                         self.view.layoutIfNeeded()
@@ -269,7 +289,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                 } else {
                     if let button = self.currentSkillCategoryButton {
 
-                        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
+                        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
 
                             self.skillsCollectionView.alpha = 0
                             
@@ -313,13 +333,15 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
         } else { //if collectionView == skillsCollectionView {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillSelectionCellIdentifier, forIndexPath: indexPath) as! SkillSelectionCell
 
-            let skills = skillCategories[skillCategoryIndex].skills
+            if skillCategoryIndex < skillCategories.count {
+                let skills = skillCategories[skillCategoryIndex].skills
 
-            let skill = skills[indexPath.item]
+                let skill = skills[indexPath.item]
 
-            cell.skillLabel.text = skill.localName
+                cell.skillLabel.text = skill.localName
 
-            updateSkillSelectionCell(cell, withSkill: skill)
+                updateSkillSelectionCell(cell, withSkill: skill)
+            }
             
             return cell
         }
@@ -344,13 +366,15 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
         } else if collectionView == skillsCollectionView {
 
-            let skills = skillCategories[skillCategoryIndex].skills
+            if skillCategoryIndex < skillCategories.count {
+                let skills = skillCategories[skillCategoryIndex].skills
 
-            let skill = skills[indexPath.item]
-            
-            let rect = skill.localName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillSelectionCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+                let skill = skills[indexPath.item]
 
-            return CGSizeMake(rect.width + 24, SkillSelectionCell.height)
+                let rect = skill.localName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillSelectionCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+
+                return CGSizeMake(rect.width + 24, SkillSelectionCell.height)
+            }
         }
 
         return CGSizeZero
@@ -368,23 +392,25 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if collectionView == skillsCollectionView {
 
-            let skills = skillCategories[skillCategoryIndex].skills
-            
-            let skill = skills[indexPath.item]
+            if skillCategoryIndex < skillCategories.count {
+                let skills = skillCategories[skillCategoryIndex].skills
 
-            if let action = selectSkillAction {
+                let skill = skills[indexPath.item]
 
-                let isInSet = selectedSkillsSet.contains(skill)
+                if let action = selectSkillAction {
 
-                if action(skill: skill, selected: !isInSet) {
-                    if isInSet {
-                        selectedSkillsSet.remove(skill)
-                    } else {
-                        selectedSkillsSet.insert(skill)
-                    }
+                    let isInSet = selectedSkillsSet.contains(skill)
 
-                    if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SkillSelectionCell {
-                        updateSkillSelectionCell(cell, withSkill: skill)
+                    if action(skill: skill, selected: !isInSet) {
+                        if isInSet {
+                            selectedSkillsSet.remove(skill)
+                        } else {
+                            selectedSkillsSet.insert(skill)
+                        }
+
+                        if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SkillSelectionCell {
+                            updateSkillSelectionCell(cell, withSkill: skill)
+                        }
                     }
                 }
             }

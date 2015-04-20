@@ -31,6 +31,9 @@ class RegisterPickSkillsViewController: UIViewController {
 
     var skillCategories: [SkillCategory]?
 
+
+    lazy var selectSkillsTransitionManager = RegisterPickSkillsSelectSkillsTransitionManager()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -44,6 +47,9 @@ class RegisterPickSkillsViewController: UIViewController {
         }, completion: { skillCategories -> Void in
             self.skillCategories = skillCategories
         })
+
+        //view.backgroundColor = UIColor.redColor()
+        //skillsCollectionView.backgroundColor = UIColor.blueColor()
     }
 
     // MARK: Actions
@@ -88,6 +94,9 @@ class RegisterPickSkillsViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "presentSelectSkills" {
             let vc = segue.destinationViewController as! RegisterSelectSkillsViewController
+
+            vc.modalPresentationStyle = UIModalPresentationStyle.Custom
+            vc.transitioningDelegate = selectSkillsTransitionManager
 
             if let skillSetType = sender as? Int {
                 switch skillSetType {
