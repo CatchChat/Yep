@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import pop
 
 class RegisterSelectSkillsViewController: UIViewController {
 
@@ -49,7 +50,30 @@ class RegisterSelectSkillsViewController: UIViewController {
 
         skillsCollectionView.registerNib(UINib(nibName: skillSelectionCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillSelectionCellIdentifier)
 
-        annotationLabel.text = annotationText
+        
+        var layout = self.skillCategoriesCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        var originLineSpacing = layout.minimumLineSpacing
+        var anim = POPBasicAnimation();
+        anim.duration = 0.8
+        anim.timingFunction = CAMediaTimingFunction(name: "easeInEaseOut")
+        var prop = POPAnimatableProperty.propertyWithName("minimumLineSpacing", initializer: { props in
+            
+            props.readBlock = { obj, values in
+                values[0] = (obj as! UICollectionViewFlowLayout).minimumLineSpacing
+            }
+            props.writeBlock = { obj, values in
+                (obj as! UICollectionViewFlowLayout).minimumLineSpacing = values[0]
+            }
+            
+            props.threshold = 0.1
+            
+        }) as! POPAnimatableProperty
+        
+        anim.property = prop
+        anim.fromValue = 100.0
+        anim.toValue = originLineSpacing
+        
+        layout.pop_addAnimation(anim, forKey: "AnimateLine")
 
         let tap = UITapGestureRecognizer(target: self, action: "dismiss")
         annotationLabel.userInteractionEnabled = true
@@ -84,6 +108,33 @@ class RegisterSelectSkillsViewController: UIViewController {
 // MARK: UICollectionViewDataSource, UICollectionViewDelegate
 
 extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        var reusableview: UICollectionReusableView!
+        
+        
+        if kind == UICollectionElementKindSectionHeader {
+            if collectionView == skillCategoriesCollectionView {
+                var headerView: AnnoationCollectionReusableView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "annoationLabelView", forIndexPath: indexPath) as! AnnoationCollectionReusableView
+                
+                headerView.label.text = annotationText
+                
+                let tap = UITapGestureRecognizer(target: self, action: "dismiss")
+                headerView.label.userInteractionEnabled = true
+                headerView.label.addGestureRecognizer(tap)
+                self.annotationLabel = headerView.label
+                
+                reusableview = headerView
+            }else {
+                var headerView: SecondAnnoationLabelView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "secondAnnoationLabelView", forIndexPath: indexPath) as! SecondAnnoationLabelView
+                
+                reusableview = headerView
+            }
+        }
+        
+        
+        return reusableview
+    }
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
@@ -149,7 +200,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                     self.currentSkillCategoryButtonTopConstraint = topConstraint
                     self.currentSkillCategoryButtonTopConstraintOriginalConstant = self.currentSkillCategoryButtonTopConstraint.constant
 
-                    UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
+                    UIView.animateWithDuration(0.8, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
 
                         topConstraint.constant = 60
 
@@ -160,20 +211,47 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                     }, completion: { (finished) -> Void in
                     })
+                    
+                    var layout = self.skillsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+                    var originLineSpacing = layout.minimumLineSpacing
+                    var anim = POPBasicAnimation();
+                    anim.duration = 1.5
+                    anim.timingFunction = CAMediaTimingFunction(name: "easeOut")
+                    var prop = POPAnimatableProperty.propertyWithName("minimumLineSpacing", initializer: { props in
+                        
+                        props.readBlock = { obj, values in
+                            values[0] = (obj as! UICollectionViewFlowLayout).minimumLineSpacing
+                        }
+                        props.writeBlock = { obj, values in
+                            (obj as! UICollectionViewFlowLayout).minimumLineSpacing = values[0]
+                        }
+                        
+                        props.threshold = 0.1
+                        
+                    }) as! POPAnimatableProperty
+                    
+                    anim.property = prop
+                    anim.fromValue = 150.0
+                    anim.toValue = originLineSpacing
+                    
+                    layout.pop_addAnimation(anim, forKey: "AnimateLine")
+                    
 
-                    UIView.animateWithDuration(0.5, delay: 0.2, options: .CurveEaseInOut, animations: { () -> Void in
-
-                        self.skillsCollectionViewBottomConstrain.constant = 0
-
+                    UIView.animateWithDuration(0.8, delay: 0.2, options: .CurveEaseInOut, animations: { () -> Void in
+                        
+                        
+                        self.skillsCollectionViewBottomConstrain.constant = -150
                         self.view.layoutIfNeeded()
-
                         self.skillsCollectionView.alpha = 1
-
+  
+                        
                     }, completion: { (finished) -> Void in
                     })
 
                 } else {
                     if let button = self.currentSkillCategoryButton {
+
+                        
                         UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
 
                             self.skillsCollectionView.alpha = 0
