@@ -33,13 +33,15 @@ class FayeService: NSObject, MZFayeClientDelegate {
             let userID = YepUserDefaults.userID() {
                 let extensionData = [
                     "access_token": v1AccessToken,
+                    "version": "v1",
                 ]
-
+                
                 let personalChannel = personalChannelWithUserID(userID)
 
                 println("Will Subscribe \(personalChannel)")
                 client.setExtension(extensionData, forChannel: personalChannel)
                 client.setExtension(extensionData, forChannel: "handshake")
+                client.setExtension(extensionData, forChannel: "connect")
 
                 client.subscribeToChannel(personalChannel, usingBlock: { data in
                     //println("subscribeToChannel: \(data)")
