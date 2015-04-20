@@ -26,6 +26,13 @@ class RegisterSelectSkillsViewController: UIViewController {
     let skillAnnotationHeaderIdentifier = "SkillAnnotationHeader"
     let skillCategoryCellIdentifier = "SkillCategoryCell"
     let skillSelectionCellIdentifier = "SkillSelectionCell"
+
+    let skillCategoryTintColors: [UIColor] = [
+        UIColor(red: 52 / 255.0, green: 152 / 255.0, blue: 219 / 255.0, alpha: 1),
+        UIColor(red: 26 / 255.0, green: 188 / 255.0, blue: 156 / 255.0, alpha: 1),
+        UIColor(red: 52 / 255.0, green: 73 / 255.0, blue: 94 / 255.0, alpha: 1),
+        UIColor(red: 245 / 255.0, green: 166 / 255.0, blue: 35 / 255.0, alpha: 1),
+    ]
     
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.skillCategoriesCollectionView.bounds)
@@ -167,7 +174,10 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
             let skillCategory = skillCategories[indexPath.item]
 
             cell.categoryTitle = skillCategory.localName
-            //cell.categoryImage =
+            //cell.categoryImage = 
+
+            let tintColor = skillCategoryTintColors[indexPath.item % skillCategoryTintColors.count]
+            cell.skillCategoryButton.setBackgroundImage(UIImage(named: "button_skill_category")!.imageWithGradientTintColor(tintColor).resizableImageWithCapInsets(UIEdgeInsets(top: 30, left: 40, bottom: 30, right: 40)), forState: .Normal)
 
             cell.toggleSelectionStateAction = { inSelectionState in
 

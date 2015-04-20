@@ -267,4 +267,32 @@ extension UIImage {
     }
 }
 
+extension UIImage {
 
+    func imageWithGradientTintColor(tintColor: UIColor) -> UIImage {
+        return imageWithTintColor(tintColor, blendMode: kCGBlendModeOverlay)
+    }
+
+
+    func imageWithTintColor(tintColor: UIColor, blendMode: CGBlendMode) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+
+        tintColor.setFill()
+
+        let bounds = CGRect(origin: CGPointZero, size: size)
+
+        UIRectFill(bounds)
+
+        self.drawInRect(bounds, blendMode: blendMode, alpha: 1)
+
+        if blendMode.value != kCGBlendModeDestinationIn.value {
+            self.drawInRect(bounds, blendMode: kCGBlendModeDestinationIn, alpha: 1)
+        }
+
+        let tintedImage = UIGraphicsGetImageFromCurrentImageContext()
+
+        UIGraphicsEndImageContext()
+
+        return tintedImage
+    }
+}
