@@ -58,7 +58,11 @@ class RegisterPickSkillsSelectSkillsTransitionManager: NSObject, UIViewControlle
 
         animatingView.frame = initialFrame
 
-        animatingView.alpha = 0
+        if self.isPresentation {
+            animatingView.alpha = 0
+        } else {
+            animatingView.alpha = 1
+        }
 
         UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, options: .AllowUserInteraction | .BeginFromCurrentState, animations: { () -> Void in
             animatingView.frame = finalFrame
