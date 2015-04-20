@@ -49,6 +49,38 @@ class RegisterPickSkillsViewController: UIViewController {
     // MARK: Actions
 
     @IBAction func saveSkills(sender: UIButton) {
+
+        let addSkillsGroup = dispatch_group_create()
+
+        for skill in masterSkills {
+            dispatch_group_enter(addSkillsGroup)
+
+            addSkill(skill, toSkillSet: .Master, failureHandler: { (reason, errorMessage) in
+                defaultFailureHandler(reason, errorMessage)
+                dispatch_group_leave(addSkillsGroup)
+
+            }, completion: { success in
+                dispatch_group_leave(addSkillsGroup)
+            })
+        }
+
+        for skill in learningSkills {
+            dispatch_group_enter(addSkillsGroup)
+
+            addSkill(skill, toSkillSet: .Learning, failureHandler: { (reason, errorMessage) in
+                defaultFailureHandler(reason, errorMessage)
+                dispatch_group_leave(addSkillsGroup)
+
+            }, completion: { success in
+                dispatch_group_leave(addSkillsGroup)
+            })
+        }
+
+        dispatch_group_notify(addSkillsGroup, dispatch_get_main_queue()) {
+            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                appDelegate.startMainStory()
+            }
+        }
     }
 
     // MARK: Navigaition

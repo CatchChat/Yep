@@ -250,6 +250,56 @@ func allSkillCategories(#failureHandler: ((Reason, String?) -> Void)?, #completi
     }
 }
 
+enum SkillSet: Printable {
+    case Master
+    case Learning
+
+    var description: String {
+        switch self {
+        case Master:
+            return "master_skills"
+        case Learning:
+            return "learning_skills"
+        }
+    }
+}
+
+func addSkill(skill: Skill, toSkillSet skillSet: SkillSet, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+
+    let requestParameters: JSONDictionary = [
+        "skill_id": skill.id,
+    ]
+
+    let parse: JSONDictionary -> Bool? = { data in
+        println("addSkill \(data)")
+        return true
+    }
+
+    let resource = authJsonResource(path: "/api/v1/\(skillSet)", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+func deleteSkill(skill: Skill, fromSkillSet skillSet: SkillSet, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+
+    let parse: JSONDictionary -> Bool? = { data in
+        println("deleteSkill \(data)")
+        return true
+    }
+
+    let resource = authJsonResource(path: "/api/v1/\(skillSet)/\(skill.id)", method: .DELETE, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
 // MARK: User
 
 func updateMyselfWithInfo(info: JSONDictionary, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
