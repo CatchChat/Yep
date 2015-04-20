@@ -173,6 +173,12 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                 if inSelectionState {
 
+                    // 刷新本次选择类别的 skills
+                    self.skillCategoryIndex = indexPath.item
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.skillsCollectionView.reloadData()
+                    }
+
                     let button = cell.skillCategoryButton
                     self.currentSkillCategoryButton = button
 
