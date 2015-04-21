@@ -67,8 +67,12 @@ class ConversationViewController: UIViewController {
     @IBOutlet weak var messageToolbarBottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var moreMessageTypesViewHeightConstraint: NSLayoutConstraint!
-
     let moreMessageTypesViewHeightConstraintConstant: CGFloat = 200
+
+    @IBOutlet weak var choosePhotoButton: MessageTypeButton!
+    @IBOutlet weak var takePhotoButton: MessageTypeButton!
+    @IBOutlet weak var addLocationButton: MessageTypeButton!
+    @IBOutlet weak var addContactButton: MessageTypeButton!
 
 
     var waverView: YepWaverView!
@@ -222,17 +226,6 @@ class ConversationViewController: UIViewController {
         }
 
         messageToolbar.imageSendAction = { messageToolbar in
-            /*
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
-                let imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
-                imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
-                imagePicker.allowsEditing = false
-
-                self.presentViewController(imagePicker, animated: true, completion: nil)
-            }
-            */
-
 
             UIView.animateWithDuration(0.5, delay: 0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: { () -> Void in
                 self.messageToolbarBottomConstraint.constant = self.moreMessageTypesViewHeightConstraintConstant
@@ -241,7 +234,6 @@ class ConversationViewController: UIViewController {
 
             }, completion: { (finished) -> Void in
             })
-
         }
 
         // MARK: Audio Send
@@ -350,6 +342,38 @@ class ConversationViewController: UIViewController {
                     })
                 }
             }
+        }
+
+        // MARK: More Message Types
+
+        choosePhotoButton.tapAction = {
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+                imagePicker.allowsEditing = false
+
+                self.presentViewController(imagePicker, animated: true, completion: nil)
+            }
+        }
+
+        takePhotoButton.tapAction = {
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
+                imagePicker.allowsEditing = false
+
+                self.presentViewController(imagePicker, animated: true, completion: nil)
+            }
+        }
+
+        addLocationButton.tapAction = {
+            YepAlert.alertSorry(message: "TODO: Add Location", inViewController: self)
+        }
+
+        addContactButton.tapAction = {
+            YepAlert.alertSorry(message: "TODO: Add Contact", inViewController: self)
         }
     }
 

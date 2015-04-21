@@ -25,6 +25,8 @@ class MessageTypeButton: UIButton {
         }
     }
 
+    var tapAction: (() -> Void)?
+
     lazy var typeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .Center
@@ -34,7 +36,7 @@ class MessageTypeButton: UIButton {
     lazy var typeTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.darkGrayColor()
-        label.font = UIFont(name: "HelveticaNeue-Thin", size: 15)!
+        label.font = UIFont(name: "HelveticaNeue-Light", size: 12)!
         label.textAlignment = .Center
         return label
         }()
@@ -44,7 +46,7 @@ class MessageTypeButton: UIButton {
 
         makeUI()
 
-        self.addTarget(self, action: "toggleSelectionState", forControlEvents: .TouchUpInside)
+        self.addTarget(self, action: "tryTapAction", forControlEvents: .TouchUpInside)
     }
 
     func makeUI() {
@@ -68,6 +70,12 @@ class MessageTypeButton: UIButton {
 
         NSLayoutConstraint.activateConstraints(constraintsV)
         NSLayoutConstraint.activateConstraints(constraintsH)
+    }
+
+    func tryTapAction() {
+        if let action = tapAction {
+            action()
+        }
     }
 
 }

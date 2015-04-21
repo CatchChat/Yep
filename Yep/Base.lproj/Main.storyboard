@@ -83,7 +83,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="image" keyPath="image" value="icon_me_active"/>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="image" value="icon_more_choose_photo"/>
                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Choose photo"/>
                                         </userDefinedRuntimeAttributes>
                                     </button>
@@ -93,7 +93,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="image" keyPath="image" value="icon_contact_active"/>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="image" value="icon_more_take_photo"/>
                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Take photo"/>
                                         </userDefinedRuntimeAttributes>
                                     </button>
@@ -103,7 +103,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="image" keyPath="image" value="icon_chat_active"/>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="image" value="icon_more_add_location"/>
                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Add location"/>
                                         </userDefinedRuntimeAttributes>
                                     </button>
@@ -113,7 +113,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="image" keyPath="image" value="icon_explore_active"/>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="image" value="icon_more_add_contact"/>
                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Add contact"/>
                                         </userDefinedRuntimeAttributes>
                                     </button>
@@ -155,10 +155,14 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="addContactButton" destination="Hzy-ll-cnY" id="Exh-MN-sS7"/>
+                        <outlet property="addLocationButton" destination="Hg3-Ss-sqD" id="WNz-XZ-VMJ"/>
+                        <outlet property="choosePhotoButton" destination="avI-im-eEZ" id="qkS-h6-VIM"/>
                         <outlet property="conversationCollectionView" destination="o5R-dM-KPW" id="lsW-8A-zmB"/>
                         <outlet property="messageToolbar" destination="Q0w-sM-iIR" id="vmQ-s1-SlQ"/>
                         <outlet property="messageToolbarBottomConstraint" destination="Sf8-1u-t01" id="f02-ze-rKh"/>
                         <outlet property="moreMessageTypesViewHeightConstraint" destination="faf-Xw-b0H" id="wNA-e7-3wx"/>
+                        <outlet property="takePhotoButton" destination="HcA-7v-16m" id="yfB-gA-lxG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="chH-Zx-2Ge" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -497,5 +501,9 @@
         <image name="icon_explore_active" width="30" height="30"/>
         <image name="icon_me" width="30" height="30"/>
         <image name="icon_me_active" width="30" height="30"/>
+        <image name="icon_more_add_contact" width="50" height="39"/>
+        <image name="icon_more_add_location" width="50" height="44"/>
+        <image name="icon_more_choose_photo" width="50" height="35"/>
+        <image name="icon_more_take_photo" width="50" height="36"/>
     </resources>
 </document>
