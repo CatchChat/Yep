@@ -35,20 +35,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 全局的外观自定义
         customAppearce()
 
-//        let isLogined: Bool
-//        if let v1AccessToken = YepUserDefaults.v1AccessToken() {
-//            isLogined = true
-//        } else {
-//            isLogined = false
-//        }
-//
-//        if !isLogined {
-//            startIntroStory()
-//        }
+        let isLogined: Bool
+        if let v1AccessToken = YepUserDefaults.v1AccessToken() {
+            isLogined = true
+        } else {
+            isLogined = false
+        }
 
-        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
-        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickSkillsViewController") as! RegisterPickSkillsViewController
-        window?.rootViewController = rootViewController
+        if !isLogined {
+            startIntroStory()
+        }
+
+//        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
+//        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickSkillsViewController") as! RegisterPickSkillsViewController
+//        window?.rootViewController = rootViewController
 
         // for test
 
