@@ -728,19 +728,37 @@ func unreadMessages(#completion: [JSONDictionary] -> Void) {
 
 func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: ((Reason, String?) -> Void)?, #completion: (messageID: String) -> Void) {
 
-    let parse: JSONDictionary -> String? = { data in
-        if let messageID = data["id"] as? String {
-            return messageID
+    println("Message info \(messageInfo)")
+    
+    if FayeService.sharedManager.client.connected {
+        
+        switch messageInfo["recipient_type"] as! String {
+        case "Circle":
+            FayeService.sharedManager.sendGroupMessage(messageInfo, circleID: messageInfo["recipient_id"] as! String)
+        case "User":
+            FayeService.sharedManager.sendPrivateMessage(messageInfo, userID: messageInfo["recipient_id"] as! String)
+        default:
+            break
+            
         }
-        return nil
-    }
-
-    let resource = authJsonResource(path: "/api/v1/messages", method: .POST, requestParameters: messageInfo, parse: parse)
-
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
-    } else {
-        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+        
+        completion(messageID: "")
+        
+    }else{
+        let parse: JSONDictionary -> String? = { data in
+            if let messageID = data["id"] as? String {
+                return messageID
+            }
+            return nil
+        }
+        
+        let resource = authJsonResource(path: "/api/v1/messages", method: .POST, requestParameters: messageInfo, parse: parse)
+        
+        if let failureHandler = failureHandler {
+            apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+        } else {
+            apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+        }
     }
 }
 

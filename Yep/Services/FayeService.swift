@@ -15,7 +15,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
     static let sharedManager = FayeService()
 
     let client: MZFayeClient
-
+    
     override init() {
 
         client = MZFayeClient(URL:NSURL(string: "ws://faye.catchchatchina.com/faye"))
@@ -23,18 +23,15 @@ class FayeService: NSObject, MZFayeClientDelegate {
         super.init()
         
         client.delegate = self
+        
     }
 
     // MARK: Public
 
     func startConnect() {
         if
-            let v1AccessToken = YepUserDefaults.v1AccessToken(),
+            let extensionData = extensionData(),
             let userID = YepUserDefaults.userID() {
-                let extensionData = [
-                    "access_token": v1AccessToken,
-                    "version": "v1",
-                ]
                 
                 let personalChannel = personalChannelWithUserID(userID)
 
@@ -44,9 +41,15 @@ class FayeService: NSObject, MZFayeClientDelegate {
                 client.setExtension(extensionData, forChannel: "connect")
 
                 client.subscribeToChannel(personalChannel, usingBlock: { data in
-                    //println("subscribeToChannel: \(data)")
+//                    println("subscribeToChannel: \(data)")
                     let messageInfo = data as! JSONDictionary
-                    self.saveMessageWithMessageInfo(messageInfo)
+                    let messageType = messageInfo["message_type"] as! String
+                    if messageType == "message" {
+                        if let messageDataInfo = messageInfo["message"] as? [String: AnyObject] {
+                            self.saveMessageWithMessageInfo(messageDataInfo)
+                        }
+                    }
+
                 })
                 client.connect()
 
@@ -56,9 +59,26 @@ class FayeService: NSObject, MZFayeClientDelegate {
     }
 
     // MARK: Private
+    
+    private func extensionData() -> [String: String]? {
 
-    private func personalChannelWithUserID(userID: String) -> String {
+        if let v1AccessToken = YepUserDefaults.v1AccessToken(){
+            return [
+                "access_token": v1AccessToken,
+                "version": "v1",
+            ]
+        }else {
+            return nil
+        }
+        
+    }
+
+    private func personalChannelWithUserID(userID: String) -> String?{
         return "/users/\(userID)/messages"
+    }
+    
+    private func circleChannelWithCircleID(circleID: String) -> String?{
+        return "/circles/\(circleID)/messages"
     }
 
     private func saveMessageWithMessageInfo(messageInfo: JSONDictionary) {
@@ -104,8 +124,37 @@ class FayeService: NSObject, MZFayeClientDelegate {
     func fayeClient(client: MZFayeClient!, didUnsubscribeFromChannel channel: String!) {
         println("fayeClient didUnsubscribeFromChannel \(channel)")
     }
+    
+    func sendPrivateMessage(message: JSONDictionary, userID: String) {
+        
+        if let userChannel = personalChannelWithUserID(userID),
+            let extensionData = extensionData(){
+                
+                var data: [String: AnyObject] = [
+                        "api_version" : "v1",
+                        "message_type" : "message",
+                        "message" : message
+                ]
+                
+            client.sendMessage(data, toChannel: userChannel, usingExtension: extensionData)
+        }
 
+    }
     
-    
+    func sendGroupMessage(message: JSONDictionary, circleID: String)  {
+        
+        if let circleChannel = circleChannelWithCircleID(circleID),
+            let extensionData = extensionData(){
+                
+                var data: [String: AnyObject] = [
+                    "api_version" : "v1",
+                    "message_type" : "message",
+                    "message" : message
+                ]
+                
+                client.sendMessage(data, toChannel: circleChannel, usingExtension: extensionData)
+        }
+    }
+
     
 }
