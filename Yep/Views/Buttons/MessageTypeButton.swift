@@ -51,7 +51,7 @@ class MessageTypeButton: UIButton {
 
     func makeUI() {
 
-        backgroundColor = UIColor.magentaColor()
+        //backgroundColor = UIColor.magentaColor()
 
         addSubview(typeImageView)
         addSubview(typeTitleLabel)
