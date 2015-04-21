@@ -18,7 +18,7 @@ class ConversationViewController: UIViewController {
         return messagesInConversation(self.conversation)
         }()
 
-    let messagesBunchCount = 12 // TODO: 分段载入的“一束”消息的数量
+    let messagesBunchCount = 50 // TODO: 分段载入的“一束”消息的数量
     var displayedMessagesRange = NSRange()
 
 
@@ -401,11 +401,11 @@ class ConversationViewController: UIViewController {
 
         // 初始时移动一次到底部
         if !conversationCollectionViewHasBeenMovedToBottomOnce {
-            conversationCollectionViewHasBeenMovedToBottomOnce = true
+            
 
             // 先调整一下初次的 contentInset
             setConversaitonCollectionViewOriginalContentInset()
-
+            
             if displayedMessagesRange.length > 0 {
                 conversationCollectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: displayedMessagesRange.length - 1, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Bottom, animated: false)
             }
@@ -969,11 +969,17 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         }
     }
-
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        conversationCollectionViewHasBeenMovedToBottomOnce = true
+    }
+    
     // MARK: UIScrollViewDelegate
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         pullToRefreshView.scrollViewDidScroll(scrollView)
+        println("Scrolled\(scrollView.contentOffset.y)")
     }
 
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
