@@ -335,28 +335,32 @@ class ConversationViewController: UIViewController {
 
         // MARK: MessageToolbar State Transitions
 
-        messageToolbar.transitionToStateDefaultAction = { previousState in
+        messageToolbar.stateTransitionAction = { (previousState, currentState) in
 
-            if previousState == .MoreMessages && !self.isKeyboardVisible {
+            switch (previousState, currentState) {
+            case (.MoreMessages, .Default):
+                if !self.isKeyboardVisible {
 
-                UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: { () -> Void in
-                    self.messageToolbarBottomConstraint.constant = 0
+                    UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: { () -> Void in
+                        self.messageToolbarBottomConstraint.constant = 0
 
-                    self.view.layoutIfNeeded()
+                        self.view.layoutIfNeeded()
 
-                }, completion: { (finished) -> Void in
-                })
+                    }, completion: { (finished) -> Void in
+                    })
+                }
+
+            default:
+                if currentState == .MoreMessages {
+                    UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: { () -> Void in
+                        self.messageToolbarBottomConstraint.constant = self.moreMessageTypesViewHeightConstraintConstant
+
+                        self.view.layoutIfNeeded()
+
+                    }, completion: { (finished) -> Void in
+                    })
+                }
             }
-        }
-
-        messageToolbar.transitionToStateMoreMessagesAction = { previousState in
-            UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: { () -> Void in
-                self.messageToolbarBottomConstraint.constant = self.moreMessageTypesViewHeightConstraintConstant
-
-                self.view.layoutIfNeeded()
-
-            }, completion: { (finished) -> Void in
-            })
         }
 
         // MARK: More Message Types

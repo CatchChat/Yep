@@ -35,8 +35,7 @@ class MessageToolbar: UIToolbar {
 
     let messageTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(15)]
 
-    var transitionToStateDefaultAction: ((previousState: MessageToolbarState) -> Void)?
-    var transitionToStateMoreMessagesAction: ((previousState: MessageToolbarState) -> Void)?
+    var stateTransitionAction: ((previousState: MessageToolbarState, currentState: MessageToolbarState) -> Void)?
 
     var previousState: MessageToolbarState = .Default
     var state: MessageToolbarState = .Default {
@@ -44,12 +43,12 @@ class MessageToolbar: UIToolbar {
 
             previousState = state
 
+            if let action = stateTransitionAction {
+                action(previousState: previousState, currentState: newValue)
+            }
+
             switch newValue {
             case .Default:
-                if let action = transitionToStateDefaultAction {
-                    action(previousState: previousState)
-                }
-
                 moreButton.hidden = false
                 sendButton.hidden = true
 
@@ -81,9 +80,7 @@ class MessageToolbar: UIToolbar {
                 showVoiceButtonAnimation()
 
             case .MoreMessages:
-                if let action = transitionToStateMoreMessagesAction {
-                    action(previousState: previousState)
-                }
+                break
             }
 
             updateHeightOfMessageTextView()
