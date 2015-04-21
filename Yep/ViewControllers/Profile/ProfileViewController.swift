@@ -29,24 +29,10 @@ class ProfileViewController: UIViewController {
     lazy var sectionRightEdgeInset: CGFloat = { return 20 }()
     lazy var sectionBottomEdgeInset: CGFloat = { return 15 }()
 
-    let skillCellHeight: CGFloat = 24
-
-
     let introductionText = "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
 
-    let masterSkills = [
-        ["skill":"iOS Dev", "rank":3],
-        ["skill":"Linux", "rank":2],
-        ["skill":"Cook", "rank":1],
-        ["skill":"Love", "rank":1],
-        ["skill":"Walk", "rank":1],
-        ["skill":"Eat", "rank":1],
-    ]
-
-    let learningSkills = [
-        ["skill":"Design", "rank":1],
-        ["skill":"Speech", "rank":0],
-    ]
+    var masterSkills = [Skill]()
+    var learningSkills = [Skill]()
 
     let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
 
@@ -89,6 +75,20 @@ class ProfileViewController: UIViewController {
             navigationController.navigationBar.titleTextAttributes = textAttributes
 
             navigationItem.title = YepUserDefaults.nickname()
+        }
+
+        userInfo(failureHandler: nil) { userInfo in
+            if let skillsData = userInfo["master_skills"] as? [JSONDictionary] {
+                self.masterSkills = skillsFromSkillsData(skillsData)
+            }
+
+            if let skillsData = userInfo["learning_skills"] as? [JSONDictionary] {
+                self.learningSkills = skillsFromSkillsData(skillsData)
+            }
+
+            dispatch_async(dispatch_get_main_queue()) {
+                self.profileCollectionView.reloadData()
+            }
         }
     }
     
@@ -235,17 +235,16 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Master.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
 
-            let skillInfo = masterSkills[indexPath.row % masterSkills.count]
-            cell.skillLabel.text = skillInfo["skill"] as? String
-
+            let skill = masterSkills[indexPath.item]
+            cell.skillLabel.text = skill.localName
 
             return cell
 
         case ProfileSection.Learning.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
 
-            let skillInfo = learningSkills[indexPath.row % learningSkills.count]
-            cell.skillLabel.text = skillInfo["skill"] as? String
+            let skill = learningSkills[indexPath.item]
+            cell.skillLabel.text = skill.localName
 
             return cell
 
@@ -319,27 +318,19 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.Master.rawValue:
 
-            let skillInfo = masterSkills[indexPath.row % masterSkills.count]
+            let skill = masterSkills[indexPath.item]
 
-            if let skillString = skillInfo["skill"] as? String {
-                let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: skillCellHeight), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+            let rect = skill.localName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
-                return CGSizeMake(rect.width + 24, skillCellHeight)
-            }
-
-            return CGSizeZero
+            return CGSizeMake(rect.width + 24, SkillCell.height)
 
         case ProfileSection.Learning.rawValue:
-            
-            let skillInfo = learningSkills[indexPath.row % learningSkills.count]
 
-            if let skillString = skillInfo["skill"] as? String {
-                let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: skillCellHeight), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+            let skill = learningSkills[indexPath.item]
 
-                return CGSizeMake(rect.width + 24, skillCellHeight)
-            }
+            let rect = skill.localName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
-            return CGSizeZero
+            return CGSizeMake(rect.width + 24, SkillCell.height)
 
         case ProfileSection.Footer.rawValue:
             return CGSizeMake(collectionViewWidth, footerCellHeight)

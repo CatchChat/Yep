@@ -143,7 +143,185 @@ func verifyMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: St
     }
 }
 
+// MARK: Skills
+
+struct Skill: Hashable {
+    let id: String
+    let name: String
+    let localName: String
+
+    var hashValue: Int {
+        return id.hashValue
+    }
+}
+
+func ==(lhs: Skill, rhs: Skill) -> Bool {
+    return lhs.id == rhs.id
+}
+
+struct SkillCategory {
+    let id: String
+    let name: String
+    let localName: String
+
+    let skills: [Skill]
+}
+
+/*
+func skillsInSkillCategory(skillCategoryID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: [Skill] -> Void) {
+    let parse: JSONDictionary -> [Skill]? = { data in
+        println("skillCategories \(data)")
+
+        if let skillsData = data["skills"] as? [JSONDictionary] {
+
+            var skills = [Skill]()
+
+            for skillInfo in skillsData {
+                if
+                    let skillID = skillInfo["id"] as? String,
+                    let skillName = skillInfo["name"] as? String {
+                        let skill = Skill(id: skillID, name: skillName, localName: skillName) // TODO: Skill localName
+                        skills.append(skill)
+                }
+            }
+
+            return skills
+        }
+
+        return nil
+    }
+
+    let resource = authJsonResource(path: "/api/v1/skill_categories/\(skillCategoryID)/skills", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+*/
+
+func skillsFromSkillsData(skillsData: [JSONDictionary]) -> [Skill] {
+    var skills = [Skill]()
+
+    for skillInfo in skillsData {
+        if
+            let skillID = skillInfo["id"] as? String,
+            let skillName = skillInfo["name"] as? String,
+            let skillLocalName = skillInfo["name_string"] as? String {
+                let skill = Skill(id: skillID, name: skillName, localName: skillName)
+                skills.append(skill)
+        }
+    }
+
+    return skills
+}
+
+func allSkillCategories(#failureHandler: ((Reason, String?) -> Void)?, #completion: [SkillCategory] -> Void) {
+
+    let parse: JSONDictionary -> [SkillCategory]? = { data in
+        println("skillCategories \(data)")
+
+        if let categoriesData = data["categories"] as? [JSONDictionary] {
+
+            var skillCategories = [SkillCategory]()
+
+            for categoryInfo in categoriesData {
+                if
+                    let categoryID = categoryInfo["id"] as? String,
+                    let categoryName = categoryInfo["name"] as? String,
+                    let categoryLocalName = categoryInfo["name_string"] as? String,
+                    let skillsData = categoryInfo["skills"] as? [JSONDictionary] {
+
+                        let skills = skillsFromSkillsData(skillsData)
+
+                        let skillCategory = SkillCategory(id: categoryID, name: categoryName, localName: categoryLocalName, skills: skills)
+
+                        skillCategories.append(skillCategory)
+                }
+            }
+
+            return skillCategories
+        }
+
+        return nil
+    }
+
+    let resource = authJsonResource(path: "/api/v1/skill_categories", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+enum SkillSet: Printable {
+    case Master
+    case Learning
+
+    var description: String {
+        switch self {
+        case Master:
+            return "master_skills"
+        case Learning:
+            return "learning_skills"
+        }
+    }
+}
+
+func addSkill(skill: Skill, toSkillSet skillSet: SkillSet, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+
+    let requestParameters: JSONDictionary = [
+        "skill_id": skill.id,
+    ]
+
+    let parse: JSONDictionary -> Bool? = { data in
+        println("addSkill \(data)")
+        return true
+    }
+
+    let resource = authJsonResource(path: "/api/v1/\(skillSet)", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+func deleteSkill(skill: Skill, fromSkillSet skillSet: SkillSet, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+
+    let parse: JSONDictionary -> Bool? = { data in
+        println("deleteSkill \(data)")
+        return true
+    }
+
+    let resource = authJsonResource(path: "/api/v1/\(skillSet)/\(skill.id)", method: .DELETE, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
 // MARK: User
+
+func userInfo(#failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        println("userInfo \(data)")
+        return data
+    }
+
+    let resource = authJsonResource(path: "/api/v1/user", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
 
 func updateMyselfWithInfo(info: JSONDictionary, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
 
@@ -154,6 +332,7 @@ func updateMyselfWithInfo(info: JSONDictionary, #failureHandler: ((Reason, Strin
     // longitude
 
     let parse: JSONDictionary -> Bool? = { data in
+        println("updateMyself \(data)")
         return true
     }
     

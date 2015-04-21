@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="SkillSelectionCell" customModule="Yep" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="100" height="35"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="100" height="35"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skill_bubble_large" translatesAutoresizingMaskIntoConstraints="NO" id="0Ci-Kc-gBv" userLabel="Background Image View">
+                        <rect key="frame" x="0.0" y="0.0" width="100" height="35"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Skill" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vRb-OJ-Abj" userLabel="Skill Label">
+                        <rect key="frame" x="0.0" y="0.0" width="100" height="35"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="vRb-OJ-Abj" secondAttribute="trailing" id="DaV-XH-xph"/>
+                <constraint firstAttribute="trailing" secondItem="0Ci-Kc-gBv" secondAttribute="trailing" id="HY8-jT-QYz"/>
+                <constraint firstItem="vRb-OJ-Abj" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="I0T-By-E7t"/>
+                <constraint firstAttribute="bottom" secondItem="vRb-OJ-Abj" secondAttribute="bottom" id="Pjb-2Y-g77"/>
+                <constraint firstItem="0Ci-Kc-gBv" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="ZTY-OF-tUa"/>
+                <constraint firstItem="0Ci-Kc-gBv" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Zc1-WF-b1k"/>
+                <constraint firstItem="vRb-OJ-Abj" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="iZn-HW-iJ1"/>
+                <constraint firstAttribute="bottom" secondItem="0Ci-Kc-gBv" secondAttribute="bottom" id="jMu-DY-I7H"/>
+            </constraints>
+            <size key="customSize" width="426" height="120"/>
+            <connections>
+                <outlet property="backgroundImageView" destination="0Ci-Kc-gBv" id="ter-Fl-quQ"/>
+                <outlet property="skillLabel" destination="vRb-OJ-Abj" id="l1C-Fj-ixc"/>
+            </connections>
+            <point key="canvasLocation" x="277" y="400"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="skill_bubble_large" width="35" height="35"/>
+    </resources>
+</document>

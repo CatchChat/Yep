@@ -207,8 +207,8 @@ class RegisterPickAvatarViewController: UIViewController {
                             dispatch_async(dispatch_get_main_queue()) {
                                 YepUserDefaults.setAvatarURLString(newAvatarURLString)
 
-                                if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-                                    appDelegate.startMainStory()
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    self.performSegueWithIdentifier("showRegisterPickSkills", sender: nil)
                                 }
                             }
                         }

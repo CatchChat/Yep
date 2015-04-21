@@ -16,4 +16,8 @@ extension UIFont {
     class func skillTextFont() -> UIFont {
         return UIFont(name: "Helvetica-Light", size: 14)!
     }
+
+    class func skillTextLargeFont() -> UIFont {
+        return UIFont(name: "Helvetica-Light", size: 20)!
+    }
 }

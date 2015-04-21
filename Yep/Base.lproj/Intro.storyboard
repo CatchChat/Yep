@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6724" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Welcome View Controller-->
@@ -487,11 +488,124 @@
                         <outlet property="openCameraButton" destination="nqi-d1-G0k" id="GhI-uW-eZW"/>
                         <outlet property="retakeButton" destination="2pw-VA-qDr" id="Ilk-KJ-atU"/>
                         <outlet property="takePicturePromptLabel" destination="8It-jU-dm1" id="l9u-lB-2rc"/>
+                        <segue destination="OBL-Og-6Ae" kind="show" identifier="showRegisterPickSkills" id="fwO-Qy-gTW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rwD-fg-Cys" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4166" y="388"/>
+        </scene>
+        <!--Register Pick Skills View Controller-->
+        <scene sceneID="vgc-NH-qgo">
+            <objects>
+                <viewController storyboardIdentifier="RegisterPickSkillsViewController" id="OBL-Og-6Ae" customClass="RegisterPickSkillsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="p8G-DH-wnn"/>
+                        <viewControllerLayoutGuide type="bottom" id="iwK-9W-H4c"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ybu-mU-M88">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Hi3-3R-BNx">
+                                <rect key="frame" x="0.0" y="100" width="600" height="500"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewLayout key="collectionViewLayout" id="Dgv-j3-PVw" customClass="RegisterPickSkillsLayout" customModule="Yep" customModuleProvider="target"/>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="OBL-Og-6Ae" id="vKV-XZ-5xv"/>
+                                    <outlet property="delegate" destination="OBL-Og-6Ae" id="04k-XM-7YT"/>
+                                </connections>
+                            </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hqc-oe-idI">
+                                <rect key="frame" x="547" y="50" width="37" height="30"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="saveSkills:" destination="OBL-Og-6Ae" eventType="touchUpInside" id="m4c-g5-XGq"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="hqc-oe-idI" firstAttribute="trailing" secondItem="Ybu-mU-M88" secondAttribute="trailingMargin" id="7wR-Co-EAu"/>
+                            <constraint firstItem="Hi3-3R-BNx" firstAttribute="leading" secondItem="Ybu-mU-M88" secondAttribute="leading" id="98V-H7-LjP"/>
+                            <constraint firstAttribute="bottom" secondItem="Hi3-3R-BNx" secondAttribute="bottom" id="MZ1-YZ-QyT"/>
+                            <constraint firstAttribute="trailing" secondItem="Hi3-3R-BNx" secondAttribute="trailing" id="RoJ-Zy-4i2"/>
+                            <constraint firstItem="Hi3-3R-BNx" firstAttribute="top" secondItem="hqc-oe-idI" secondAttribute="bottom" constant="20" id="hrk-J6-tYe"/>
+                            <constraint firstItem="Hi3-3R-BNx" firstAttribute="top" secondItem="Ybu-mU-M88" secondAttribute="top" constant="100" id="spl-5H-2mD"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="skillsCollectionView" destination="Hi3-3R-BNx" id="3tf-cy-8EF"/>
+                        <segue destination="vEE-XY-eq4" kind="modal" identifier="presentSelectSkills" id="akJ-Zs-aMG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zsq-iH-xb1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4918" y="388"/>
+        </scene>
+        <!--Register Select Skills View Controller-->
+        <scene sceneID="Mb0-xw-Vkz">
+            <objects>
+                <viewController storyboardIdentifier="RegisterSelectSkillsViewController" id="vEE-XY-eq4" customClass="RegisterSelectSkillsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SoT-jT-Jpl"/>
+                        <viewControllerLayoutGuide type="bottom" id="bNl-1o-JmM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gsh-ws-D5N">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="EJ5-Hf-UMM" userLabel="Skill Categories Collection View">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="10" id="njF-Go-k8V">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="vEE-XY-eq4" id="Xj0-IO-g3E"/>
+                                    <outlet property="delegate" destination="vEE-XY-eq4" id="csb-OZ-MJR"/>
+                                </connections>
+                            </collectionView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xur-C9-Tc1" userLabel="Skills Collection View">
+                                <rect key="frame" x="0.0" y="170" width="600" height="430"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewLayout key="collectionViewLayout" id="NKD-Qj-Ktb" customClass="RegisterPickSkillsLayout" customModule="Yep" customModuleProvider="target"/>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="vEE-XY-eq4" id="sK5-GO-ZjU"/>
+                                    <outlet property="delegate" destination="vEE-XY-eq4" id="3Vs-cc-fvq"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="EJ5-Hf-UMM" secondAttribute="trailing" id="1YD-5H-hOD"/>
+                            <constraint firstItem="xur-C9-Tc1" firstAttribute="height" secondItem="EJ5-Hf-UMM" secondAttribute="height" constant="-150" id="D88-ER-CcS"/>
+                            <constraint firstItem="bNl-1o-JmM" firstAttribute="top" secondItem="EJ5-Hf-UMM" secondAttribute="bottom" id="DLB-At-GP1"/>
+                            <constraint firstAttribute="trailing" secondItem="xur-C9-Tc1" secondAttribute="trailing" id="Sih-Gb-ELE"/>
+                            <constraint firstItem="xur-C9-Tc1" firstAttribute="leading" secondItem="gsh-ws-D5N" secondAttribute="leading" id="Sxw-3r-cDH"/>
+                            <constraint firstItem="bNl-1o-JmM" firstAttribute="top" secondItem="xur-C9-Tc1" secondAttribute="bottom" id="a1o-Ix-bA3"/>
+                            <constraint firstItem="EJ5-Hf-UMM" firstAttribute="top" secondItem="SoT-jT-Jpl" secondAttribute="bottom" id="bff-NW-tC0"/>
+                            <constraint firstItem="EJ5-Hf-UMM" firstAttribute="leading" secondItem="gsh-ws-D5N" secondAttribute="leading" id="dDa-xG-8H8"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="skillCategoriesCollectionView" destination="EJ5-Hf-UMM" id="WZ8-pq-Xox"/>
+                        <outlet property="skillsCollectionView" destination="xur-C9-Tc1" id="VuZ-ln-vlC"/>
+                        <outlet property="skillsCollectionViewBottomConstrain" destination="a1o-Ix-bA3" id="7Ht-mN-CpY"/>
+                        <outlet property="skillsCollectionViewEqualHeightToSkillCategoriesCollectionViewConstraint" destination="D88-ER-CcS" id="bnV-Ux-gNG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kWc-cY-UDP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5614" y="388"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="bAi-xi-FcJ">
