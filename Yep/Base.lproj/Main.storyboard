@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6724" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
     </dependencies>
     <scenes>
         <!--Conversations-->
@@ -71,17 +71,85 @@
                                 </connections>
                             </collectionView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="496" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="250" width="600" height="50"/>
                                 <items/>
                             </toolbar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g11-Ob-rEy" userLabel="More Message Types View">
+                                <rect key="frame" x="0.0" y="300" width="600" height="300"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avI-im-eEZ" userLabel="Choose Photo Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="20" width="173" height="122"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="image" value="icon_me_active"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="title" value="Choose photo"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HcA-7v-16m" userLabel="Take Photo Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
+                                        <rect key="frame" x="213" y="20" width="174" height="122"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="image" value="icon_contact_active"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="title" value="Take photo"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hg3-Ss-sqD" userLabel="Add Location Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
+                                        <rect key="frame" x="407" y="20" width="173" height="122"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="image" value="icon_chat_active"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="title" value="Add location"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hzy-ll-cnY" userLabel="Add Contact Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="159" width="173" height="121"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="image" value="icon_explore_active"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="title" value="Add contact"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="avI-im-eEZ" firstAttribute="top" secondItem="HcA-7v-16m" secondAttribute="top" id="0y8-Xc-wgh"/>
+                                    <constraint firstAttribute="trailing" secondItem="Hg3-Ss-sqD" secondAttribute="trailing" constant="20" id="662-1Z-vCm"/>
+                                    <constraint firstAttribute="bottom" secondItem="Hzy-ll-cnY" secondAttribute="bottom" constant="20" id="6k6-07-CC8"/>
+                                    <constraint firstItem="Hg3-Ss-sqD" firstAttribute="top" secondItem="HcA-7v-16m" secondAttribute="top" id="EhU-aN-fWf"/>
+                                    <constraint firstItem="Hg3-Ss-sqD" firstAttribute="width" secondItem="HcA-7v-16m" secondAttribute="width" id="NQU-rh-0gL"/>
+                                    <constraint firstItem="avI-im-eEZ" firstAttribute="width" secondItem="HcA-7v-16m" secondAttribute="width" id="Ngh-ef-Srv"/>
+                                    <constraint firstItem="avI-im-eEZ" firstAttribute="width" secondItem="Hzy-ll-cnY" secondAttribute="width" id="SVJ-7f-WJN"/>
+                                    <constraint firstItem="HcA-7v-16m" firstAttribute="leading" secondItem="avI-im-eEZ" secondAttribute="trailing" constant="20" id="T2D-2Y-aG4"/>
+                                    <constraint firstItem="Hzy-ll-cnY" firstAttribute="leading" secondItem="avI-im-eEZ" secondAttribute="leading" id="a1a-EP-5fl"/>
+                                    <constraint firstItem="avI-im-eEZ" firstAttribute="height" secondItem="HcA-7v-16m" secondAttribute="height" id="apZ-ns-N9S"/>
+                                    <constraint firstItem="avI-im-eEZ" firstAttribute="top" secondItem="g11-Ob-rEy" secondAttribute="top" constant="20" id="b4S-GW-ghP"/>
+                                    <constraint firstAttribute="height" constant="300" id="faf-Xw-b0H"/>
+                                    <constraint firstItem="Hzy-ll-cnY" firstAttribute="top" secondItem="avI-im-eEZ" secondAttribute="bottom" constant="17" id="fxB-3i-ogX"/>
+                                    <constraint firstItem="avI-im-eEZ" firstAttribute="height" secondItem="Hzy-ll-cnY" secondAttribute="height" id="hm1-A2-jFj"/>
+                                    <constraint firstItem="Hg3-Ss-sqD" firstAttribute="leading" secondItem="HcA-7v-16m" secondAttribute="trailing" constant="20" id="uSu-cr-saV"/>
+                                    <constraint firstItem="avI-im-eEZ" firstAttribute="leading" secondItem="g11-Ob-rEy" secondAttribute="leading" constant="20" id="uke-uY-P5h"/>
+                                    <constraint firstItem="Hg3-Ss-sqD" firstAttribute="height" secondItem="HcA-7v-16m" secondAttribute="height" id="xWM-E0-CPp"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Q0w-sM-iIR" secondAttribute="trailing" id="0ei-y5-SyW"/>
                             <constraint firstAttribute="bottom" secondItem="o5R-dM-KPW" secondAttribute="bottom" id="9CY-zU-Ezq"/>
+                            <constraint firstItem="g11-Ob-rEy" firstAttribute="leading" secondItem="P6X-OT-hT5" secondAttribute="leading" id="B04-LV-qWQ"/>
                             <constraint firstItem="Q0w-sM-iIR" firstAttribute="leading" secondItem="P6X-OT-hT5" secondAttribute="leading" id="BYY-lE-CF8"/>
                             <constraint firstItem="o5R-dM-KPW" firstAttribute="leading" secondItem="P6X-OT-hT5" secondAttribute="leading" id="BjN-8c-WjM"/>
-                            <constraint firstAttribute="bottom" secondItem="Q0w-sM-iIR" secondAttribute="bottom" constant="60" id="Sf8-1u-t01"/>
+                            <constraint firstAttribute="bottom" secondItem="Q0w-sM-iIR" secondAttribute="bottom" constant="300" id="Sf8-1u-t01"/>
+                            <constraint firstItem="g11-Ob-rEy" firstAttribute="top" secondItem="Q0w-sM-iIR" secondAttribute="bottom" id="UC0-RV-osX"/>
+                            <constraint firstAttribute="trailing" secondItem="g11-Ob-rEy" secondAttribute="trailing" id="cB1-tg-2P7"/>
                             <constraint firstItem="o5R-dM-KPW" firstAttribute="top" secondItem="P6X-OT-hT5" secondAttribute="top" id="d3q-cT-PCM"/>
                             <constraint firstAttribute="trailing" secondItem="o5R-dM-KPW" secondAttribute="trailing" id="qY6-Ly-z3r"/>
                         </constraints>
@@ -90,6 +158,7 @@
                         <outlet property="conversationCollectionView" destination="o5R-dM-KPW" id="lsW-8A-zmB"/>
                         <outlet property="messageToolbar" destination="Q0w-sM-iIR" id="vmQ-s1-SlQ"/>
                         <outlet property="messageToolbarBottomConstraint" destination="Sf8-1u-t01" id="f02-ze-rKh"/>
+                        <outlet property="moreMessageTypesViewHeightConstraint" destination="faf-Xw-b0H" id="wNA-e7-3wx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="chH-Zx-2Ge" userLabel="First Responder" sceneMemberID="firstResponder"/>

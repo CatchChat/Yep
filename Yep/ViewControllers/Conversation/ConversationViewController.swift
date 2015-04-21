@@ -66,6 +66,11 @@ class ConversationViewController: UIViewController {
     @IBOutlet weak var messageToolbar: MessageToolbar!
     @IBOutlet weak var messageToolbarBottomConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var moreMessageTypesViewHeightConstraint: NSLayoutConstraint!
+
+    let moreMessageTypesViewHeightConstraintConstant: CGFloat = 200
+
+
     var waverView: YepWaverView!
     var samplesCount = 0
     let samplingInterval = 6
@@ -159,6 +164,7 @@ class ConversationViewController: UIViewController {
         conversationCollectionView.bounces = true
 
         messageToolbarBottomConstraint.constant = 0
+        moreMessageTypesViewHeightConstraint.constant = moreMessageTypesViewHeightConstraintConstant
 
         updateUIWithKeyboardChange = true
 
@@ -216,7 +222,7 @@ class ConversationViewController: UIViewController {
         }
 
         messageToolbar.imageSendAction = { messageToolbar in
-            
+            /*
             if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
@@ -225,6 +231,17 @@ class ConversationViewController: UIViewController {
 
                 self.presentViewController(imagePicker, animated: true, completion: nil)
             }
+            */
+
+
+            UIView.animateWithDuration(0.5, delay: 0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: { () -> Void in
+                self.messageToolbarBottomConstraint.constant = self.moreMessageTypesViewHeightConstraintConstant
+
+                self.view.layoutIfNeeded()
+
+            }, completion: { (finished) -> Void in
+            })
+
         }
 
         // MARK: Audio Send
