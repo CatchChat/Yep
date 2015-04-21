@@ -93,9 +93,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+
         syncUnreadMessages() {
             completionHandler(UIBackgroundFetchResult.NewData)
         }
+        
     }
 
     // MARK: APNs
@@ -119,12 +121,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println("didReceiveRemoteNotification: \(userInfo)")
 
         if let v1AccessToken = YepUserDefaults.v1AccessToken() {
-            APService.handleRemoteNotification(userInfo)
-
+            
             if let type = userInfo["type"] as? String {
                 if type == "message" {
                     syncUnreadMessages() {
-                        
+                        completionHandler(UIBackgroundFetchResult.NewData)
+                        APService.handleRemoteNotification(userInfo)
                     }
                 }
             }

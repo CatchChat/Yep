@@ -979,7 +979,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         pullToRefreshView.scrollViewDidScroll(scrollView)
-        println("Scrolled\(scrollView.contentOffset.y)")
     }
 
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {

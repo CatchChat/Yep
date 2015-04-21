@@ -365,7 +365,8 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
 func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
     unreadMessages { allUnreadMessages in
         //println("\n allUnreadMessages: \(allUnreadMessages)")
-
+        println("Got unread message \(allUnreadMessages.count)")
+        
         dispatch_async(realmQueue) {
 
             let realm = RLMRealm.defaultRealm()
