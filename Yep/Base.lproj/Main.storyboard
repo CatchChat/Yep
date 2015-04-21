@@ -501,9 +501,9 @@
         <image name="icon_explore_active" width="30" height="30"/>
         <image name="icon_me" width="30" height="30"/>
         <image name="icon_me_active" width="30" height="30"/>
-        <image name="icon_more_add_contact" width="50" height="39"/>
-        <image name="icon_more_add_location" width="50" height="44"/>
-        <image name="icon_more_choose_photo" width="50" height="35"/>
-        <image name="icon_more_take_photo" width="50" height="36"/>
+        <image name="icon_more_add_contact" width="70" height="50"/>
+        <image name="icon_more_add_location" width="70" height="50"/>
+        <image name="icon_more_choose_photo" width="70" height="50"/>
+        <image name="icon_more_take_photo" width="70" height="50"/>
     </resources>
 </document>

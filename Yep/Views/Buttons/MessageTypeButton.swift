@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class MessageTypeButton: UIButton {
+class MessageTypeButton: TouchZoomButton {
 
     @IBInspectable
     var image: UIImage = UIImage() {
