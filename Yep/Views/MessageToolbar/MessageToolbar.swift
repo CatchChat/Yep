@@ -10,7 +10,8 @@ import UIKit
 
 enum MessageToolbarState: Printable {
     case Default
-    case TextInput
+    case BeginTextInput
+    case TextInputing
     case VoiceRecord
     case MoreMessages
 
@@ -18,8 +19,10 @@ enum MessageToolbarState: Printable {
         switch self {
         case .Default:
             return "Default"
-        case .TextInput:
-            return "TextInput"
+        case .BeginTextInput:
+            return "BeginTextInput"
+        case .TextInputing:
+            return "TextInputing"
         case .VoiceRecord:
             return "VoiceRecord"
         case .MoreMessages:
@@ -61,7 +64,10 @@ class MessageToolbar: UIToolbar {
 
                 hideVoiceButtonAnimation()
 
-            case .TextInput:
+            case .BeginTextInput:
+                break
+
+            case .TextInputing:
                 moreButton.hidden = true
                 sendButton.hidden = false
 
@@ -71,7 +77,7 @@ class MessageToolbar: UIToolbar {
             case .VoiceRecord:
                 messageTextView.hidden = true
                 voiceRecordButton.hidden = false
-                messageTextView.endEditing(true)
+
                 micButton.setImage(UIImage(named: "icon_keyboard"), forState: .Normal)
 
                 micButton.tintColor = UIColor.messageToolBarNormalColor()
@@ -87,11 +93,11 @@ class MessageToolbar: UIToolbar {
         }
 
         didSet {
-            switch oldValue {
-            case .Default, .MoreMessages:
-                messageTextView.resignFirstResponder()
-            default:
+            switch state {
+            case .BeginTextInput, .TextInputing:
                 break
+            default:
+                messageTextView.resignFirstResponder()
             }
         }
     }
@@ -351,9 +357,9 @@ extension MessageToolbar: UITextViewDelegate {
         let text = textView.text
 
         if text.isEmpty {
-            self.state = .Default
+            self.state = .BeginTextInput
         } else {
-            self.state = .TextInput
+            self.state = .TextInputing
         }
     }
 }

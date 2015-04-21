@@ -663,7 +663,7 @@ class ConversationViewController: UIViewController {
 
     func cleanTextInput() {
         messageToolbar.messageTextView.text = ""
-        messageToolbar.state = .Default
+        messageToolbar.state = .BeginTextInput
     }
     
     func undoMessageSend() {
