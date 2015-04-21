@@ -8,10 +8,24 @@
 
 import UIKit
 
-enum MessageToolbarState {
+enum MessageToolbarState: Printable {
     case Default
     case TextInput
     case VoiceRecord
+    case MoreMessages
+
+    var description: String {
+        switch self {
+        case .Default:
+            return "Default"
+        case .TextInput:
+            return "TextInput"
+        case .VoiceRecord:
+            return "VoiceRecord"
+        case .MoreMessages:
+            return "MoreMessages"
+        }
+    }
 }
 
 @IBDesignable
@@ -21,10 +35,21 @@ class MessageToolbar: UIToolbar {
 
     let messageTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(15)]
 
+    var transitionToStateDefaultAction: ((previousState: MessageToolbarState) -> Void)?
+    var transitionToStateMoreMessagesAction: ((previousState: MessageToolbarState) -> Void)?
+
+    var previousState: MessageToolbarState = .Default
     var state: MessageToolbarState = .Default {
         willSet {
+
+            previousState = state
+
             switch newValue {
             case .Default:
+                if let action = transitionToStateDefaultAction {
+                    action(previousState: previousState)
+                }
+
                 moreButton.hidden = false
                 sendButton.hidden = true
 
@@ -54,16 +79,29 @@ class MessageToolbar: UIToolbar {
                 moreButton.tintColor = UIColor.messageToolBarNormalColor()
                 
                 showVoiceButtonAnimation()
-                
+
+            case .MoreMessages:
+                if let action = transitionToStateMoreMessagesAction {
+                    action(previousState: previousState)
+                }
             }
 
             updateHeightOfMessageTextView()
+        }
+
+        didSet {
+            switch oldValue {
+            case .Default, .MoreMessages:
+                messageTextView.resignFirstResponder()
+            default:
+                break
+            }
         }
     }
 
     var textSendAction: ((messageToolBar: MessageToolbar) -> ())?
 
-    var imageSendAction: ((messageToolBar: MessageToolbar) -> ())?
+    var toggleMoreMessagesAction: ((messageToolBar: MessageToolbar) -> ())?
 
     var voiceSendBeginAction: ((messageToolBar: MessageToolbar) -> ())?
     
@@ -125,7 +163,7 @@ class MessageToolbar: UIToolbar {
         let button = UIButton()
         button.setImage(UIImage(named: "item_more"), forState: .Normal)
         button.tintColor = UIColor.messageToolBarHighlightColor()
-        button.addTarget(self, action: "trySendImageMessage", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: "toggleMoreMessages", forControlEvents: UIControlEvents.TouchUpInside)
         return button
         }()
 
@@ -277,12 +315,14 @@ class MessageToolbar: UIToolbar {
         }
     }
 
-    func trySendImageMessage() {
-        if let imageSendAction = imageSendAction {
-            imageSendAction(messageToolBar: self)
+    func toggleMoreMessages() {
+        if state != .MoreMessages {
+            state = .MoreMessages
+        } else {
+            state = .Default
         }
     }
-    
+
     func trySendVoiceMessageBegin() {
         if let textSendAction = voiceSendBeginAction {
             voiceRecordButton.backgroundColor = UIColor.lightGrayColor()

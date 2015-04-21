@@ -225,17 +225,6 @@ class ConversationViewController: UIViewController {
             }
         }
 
-        messageToolbar.imageSendAction = { messageToolbar in
-
-            UIView.animateWithDuration(0.5, delay: 0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: { () -> Void in
-                self.messageToolbarBottomConstraint.constant = self.moreMessageTypesViewHeightConstraintConstant
-
-                self.view.layoutIfNeeded()
-
-            }, completion: { (finished) -> Void in
-            })
-        }
-
         // MARK: Audio Send
 
         messageToolbar.voiceSendBeginAction = { messageToolbar in
@@ -342,6 +331,32 @@ class ConversationViewController: UIViewController {
                     })
                 }
             }
+        }
+
+        // MARK: MessageToolbar State Transitions
+
+        messageToolbar.transitionToStateDefaultAction = { previousState in
+
+            if previousState == .MoreMessages && !self.isKeyboardVisible {
+
+                UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: { () -> Void in
+                    self.messageToolbarBottomConstraint.constant = 0
+
+                    self.view.layoutIfNeeded()
+
+                }, completion: { (finished) -> Void in
+                })
+            }
+        }
+
+        messageToolbar.transitionToStateMoreMessagesAction = { previousState in
+            UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: { () -> Void in
+                self.messageToolbarBottomConstraint.constant = self.moreMessageTypesViewHeightConstraintConstant
+
+                self.view.layoutIfNeeded()
+
+            }, completion: { (finished) -> Void in
+            })
         }
 
         // MARK: More Message Types
@@ -688,7 +703,7 @@ class ConversationViewController: UIViewController {
             self.keyboardHeight = keyboardHeight
 
             UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { () -> Void in
-                
+
                 self.messageToolbarBottomConstraint.constant = keyboardHeight
                 
                 let keyboardAndToolBarHeight = keyboardHeight + CGRectGetHeight(self.messageToolbar.bounds)
@@ -713,7 +728,7 @@ class ConversationViewController: UIViewController {
                         self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
                     }
                     
-                }else{
+                } else {
                     
                     var contentOffset = self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow
                     contentOffset.y += keyboardHeight
@@ -746,8 +761,11 @@ class ConversationViewController: UIViewController {
             let keyboardHeight = keyboardEndFrame.height
 
             UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { () -> Void in
-                self.messageToolbarBottomConstraint.constant = 0
-                self.view.layoutIfNeeded()
+
+                if self.messageToolbar.state != .MoreMessages {
+                    self.messageToolbarBottomConstraint.constant = 0
+                    self.view.layoutIfNeeded()
+                }
 
                 var contentOffset = self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide
                 contentOffset.y -= keyboardHeight
@@ -890,7 +908,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if isKeyboardVisible {
-            view.endEditing(true)
+            messageToolbar.state = .Default
 
         } else {
             let message = messages.objectAtIndex(UInt(displayedMessagesRange.location + indexPath.item)) as! Message
