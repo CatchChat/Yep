@@ -902,22 +902,8 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
 
     } else {
 
-        // TODO: mimetype
-        var mimeType = ""
-
-        switch mediaType {
-        case .Image:
-            mimeType = "image/jpeg"
-        case .Video:
-            mimeType = "video/mp4"
-        case .Audio:
-            mimeType = "audio/m4a"
-        default:
-            break 
-        }
-
         s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in
-            uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mimeType, s3UploadParams: s3UploadParams) { (result, error) in
+            uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mediaType.mineType(), s3UploadParams: s3UploadParams) { (result, error) in
 
                 // TODO: attachments
                 switch mediaType {
@@ -928,16 +914,6 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
 
                     } else {
                         let attachments = ["image": [["file": s3UploadParams.key]]]
-                        messageInfo["attachments"] = attachments
-                    }
-
-                case .Video:
-                    if let metaData = metaData {
-                        let attachments = ["video": [["file": s3UploadParams.key, "metadata": metaData]]]
-                        messageInfo["attachments"] = attachments
-
-                    } else {
-                        let attachments = ["video": [["file": s3UploadParams.key]]]
                         messageInfo["attachments"] = attachments
                     }
 
@@ -955,28 +931,60 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
                     break
                 }
 
-                createMessageWithMessageInfo(messageInfo, failureHandler: { (reason, errorMessage) in
-                    if let failureHandler = failureHandler {
-                        failureHandler(reason, errorMessage)
+                let doCreateMessage = {
+                    createMessageWithMessageInfo(messageInfo, failureHandler: { (reason, errorMessage) in
+                        if let failureHandler = failureHandler {
+                            failureHandler(reason, errorMessage)
+                        }
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            realm.beginWriteTransaction()
+                            message.sendState = MessageSendState.Failed.rawValue
+                            realm.commitWriteTransaction()
+                        }
+
+                    }, completion: { messageID in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            realm.beginWriteTransaction()
+                            message.messageID = messageID
+                            message.sendState = MessageSendState.Successed.rawValue
+                            realm.commitWriteTransaction()
+                        }
+
+                        completion(success: true)
+                    })
+                }
+
+                // 对于 Video 还要再传 thumbnail，……
+                if mediaType == .Video {
+
+                    var thumbnailData: NSData?
+
+                    if
+                        let filePath = filePath,
+                        let image = thumbnailImageOfVideoInVideoURL(NSURL(fileURLWithPath: filePath)!) {
+                            thumbnailData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
                     }
 
-                    dispatch_async(dispatch_get_main_queue()) {
-                        realm.beginWriteTransaction()
-                        message.sendState = MessageSendState.Failed.rawValue
-                        realm.commitWriteTransaction()
+                    s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in
+                        uploadFileToS3(inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType(), s3UploadParams: s3UploadParams) { (result, error) in
+
+                            if let metaData = metaData {
+                                let attachments = ["video": [["file": s3UploadParams.key, "metadata": metaData]], "thumbnail": [["file": s3UploadParams.key]]]
+                                messageInfo["attachments"] = attachments
+
+                            } else {
+                                let attachments = ["video": [["file": s3UploadParams.key]], "thumbnail": [["file": s3UploadParams.key]]]
+                                messageInfo["attachments"] = attachments
+                            }
+
+                            doCreateMessage()
+                        }
                     }
 
-                }, completion: { messageID in
-                    dispatch_async(dispatch_get_main_queue()) {
-                        realm.beginWriteTransaction()
-                        message.messageID = messageID
-                        message.sendState = MessageSendState.Successed.rawValue
-                        realm.commitWriteTransaction()
-                    }
-
-                    completion(success: true)
-                })
-
+                } else {
+                    doCreateMessage()
+                }
             }
         }
     }

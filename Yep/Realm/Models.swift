@@ -124,6 +124,19 @@ enum MessageMediaType: Int, Printable {
             }
         }
     }
+
+    func mineType() -> String {
+        switch self {
+        case .Image:
+            return "image/jpeg"
+        case .Video:
+            return "video/mp4"
+        case .Audio:
+            return "audio/m4a"
+        default:
+            return "" // TODO: more mineType
+        }
+    }
 }
 
 enum MessageSendState: Int {
