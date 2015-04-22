@@ -108,4 +108,26 @@ extension NSFileManager {
         return nil
     }
 
+    // Video
+
+    class func yepMessageVideoURLWithName(name: String) -> NSURL? {
+
+        if let messageCachesURL = yepMessageCachesURL() {
+            return messageCachesURL.URLByAppendingPathComponent("\(name).mp4")
+        }
+
+        return nil
+    }
+
+    class func saveMessageVideoData(messageVideoData: NSData, withName name: String) -> NSURL? {
+
+        if let messageVideoURL = yepMessageVideoURLWithName(name) {
+            if NSFileManager.defaultManager().createFileAtPath(messageVideoURL.path!, contents: messageVideoData, attributes: nil) {
+                return messageVideoURL
+            }
+        }
+
+        return nil
+    }
+
 }

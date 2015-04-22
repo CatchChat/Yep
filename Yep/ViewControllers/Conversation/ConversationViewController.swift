@@ -9,6 +9,7 @@
 import UIKit
 import Realm
 import AVFoundation
+import MobileCoreServices
 
 class ConversationViewController: UIViewController {
 
@@ -369,7 +370,9 @@ class ConversationViewController: UIViewController {
             if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
-                imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+                imagePicker.sourceType = .PhotoLibrary
+                imagePicker.mediaTypes = [kUTTypeImage, kUTTypeMovie]
+                imagePicker.videoQuality = .TypeMedium
                 imagePicker.allowsEditing = false
 
                 self.presentViewController(imagePicker, animated: true, completion: nil)
@@ -380,7 +383,9 @@ class ConversationViewController: UIViewController {
             if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
-                imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
+                imagePicker.sourceType = .Camera
+                imagePicker.mediaTypes = [kUTTypeImage, kUTTypeMovie]
+                imagePicker.videoQuality = .TypeMedium
                 imagePicker.allowsEditing = false
 
                 self.presentViewController(imagePicker, animated: true, completion: nil)
@@ -855,7 +860,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
 
                     cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message))
-                    
+
                     return cell
                 }
 
@@ -881,7 +886,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
 
                     cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message))
-                    
+
                     return cell
                 }
             }
@@ -1105,8 +1110,30 @@ extension ConversationViewController: AVAudioPlayerDelegate {
 
 extension ConversationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
 
+        if let mediaType = info[UIImagePickerControllerMediaType] as? String {
+            println("mediaType \(mediaType)")
+
+            switch mediaType {
+            case kUTTypeImage as! String:
+                if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+                    sendImage(image)
+                }
+            case kUTTypeMovie as! String:
+                if let videoURL = info[UIImagePickerControllerMediaURL] as? NSURL {
+                    println("videoURL \(videoURL)")
+                    sendVideoWithVideoURL(videoURL)
+                }
+            default:
+                break
+            }
+        }
+
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    func sendImage(image: UIImage) {
         // Prepare meta data
 
         var metaData: String? = nil
@@ -1121,11 +1148,11 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         // Do send
 
-        var imageData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
+        let imageData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
 
         let messageImageName = NSUUID().UUIDString
 
-        if let withFriend = self.conversation.withFriend {
+        if let withFriend = conversation.withFriend {
 
             sendImageInFilePath(nil, orFileData: imageData, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message -> Void in
 
@@ -1153,7 +1180,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 println("sendImage to friend: \(success)")
             })
 
-        } else if let withGroup = self.conversation.withGroup {
+        } else if let withGroup = conversation.withGroup {
             sendImageInFilePath(nil, orFileData: imageData, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message -> Void in
 
                 dispatch_async(dispatch_get_main_queue()) {
@@ -1167,19 +1194,93 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                         realm.commitWriteTransaction()
                     }
-
+                    
                     self.updateConversationCollectionView()
                 }
-
+                
             }, failureHandler: {(reason, errorMessage) -> () in
                 defaultFailureHandler(reason, errorMessage)
                 // TODO: sendImage 错误提醒
-
+                    
             }, completion: { success -> Void in
-                println("sendImage to friend: \(success)")
+                println("sendImage to group: \(success)")
             })
         }
+    }
 
-        dismissViewControllerAnimated(true, completion: nil)
+    func sendVideoWithVideoURL(videoURL: NSURL) {
+
+        // Prepare meta data
+
+        var metaData: String? = nil
+
+        var thumbnailData: NSData?
+
+        if let image = thumbnailImageOfVideoInVideoURL(videoURL) {
+            let videoMetaDataInfo = ["video_width": image.size.width, "video_height": image.size.height]
+
+            if let videoMetaData = NSJSONSerialization.dataWithJSONObject(videoMetaDataInfo, options: nil, error: nil) {
+                let videoMetaDataString = NSString(data: videoMetaData, encoding: NSUTF8StringEncoding) as? String
+                metaData = videoMetaDataString
+            }
+
+            thumbnailData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
+        }
+
+        let messageVideoName = NSUUID().UUIDString
+
+        let afterCreatedMessageAction = { (message: Message) in
+            dispatch_async(dispatch_get_main_queue()) {
+
+                if let videoData = NSData(contentsOfURL: videoURL) {
+
+                    if let messageVideoURL = NSFileManager.saveMessageImageData(videoData, withName: messageVideoName) {
+                        let realm = message.realm
+                        realm.beginWriteTransaction()
+
+                        if let thumbnailData = thumbnailData {
+                            if let thumbnailURL = NSFileManager.saveMessageImageData(thumbnailData, withName: messageVideoName) {
+                                message.localThumbnailName = messageVideoName
+                            }
+                        }
+
+                        message.localAttachmentName = messageVideoName
+
+                        message.mediaType = MessageMediaType.Video.rawValue
+                        if let metaData = metaData {
+                            message.metaData = metaData
+                        }
+                        realm.commitWriteTransaction()
+                    }
+
+                    self.updateConversationCollectionView()
+                }
+            }
+        }
+
+        if let withFriend = conversation.withFriend {
+            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: afterCreatedMessageAction, failureHandler: {(reason, errorMessage) -> () in
+                defaultFailureHandler(reason, errorMessage)
+                // TODO: sendVideo 错误提醒
+
+                }, completion: { success -> Void in
+                    println("sendVideo to friend: \(success)")
+            })
+
+        } else if let withGroup = conversation.withGroup {
+            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: afterCreatedMessageAction, failureHandler: {(reason, errorMessage) -> () in
+                defaultFailureHandler(reason, errorMessage)
+                // TODO: sendVideo 错误提醒
+                
+                }, completion: { success -> Void in
+                    println("sendVideo to group: \(success)")
+            })
+        }
     }
 }
+
+
+
+
+
+
