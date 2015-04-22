@@ -65,7 +65,8 @@ class MessageToolbar: UIToolbar {
                 hideVoiceButtonAnimation()
 
             case .BeginTextInput:
-                break
+                moreButton.hidden = false
+                sendButton.hidden = true
 
             case .TextInputing:
                 moreButton.hidden = true
@@ -75,6 +76,9 @@ class MessageToolbar: UIToolbar {
                 voiceRecordButton.hidden = true
 
             case .VoiceRecord:
+                moreButton.hidden = false
+                sendButton.hidden = true
+                
                 messageTextView.hidden = true
                 voiceRecordButton.hidden = false
 
