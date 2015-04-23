@@ -24,7 +24,10 @@ class ImageCache {
 
         } else {
 
-            let fileName = message.localAttachmentName
+            var fileName = message.localAttachmentName
+            if message.mediaType == MessageMediaType.Video.rawValue {
+                fileName = message.localThumbnailName
+            }
             let attachmentURLString = message.attachmentURLString
 
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
