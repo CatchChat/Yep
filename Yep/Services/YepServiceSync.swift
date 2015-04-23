@@ -15,7 +15,7 @@ let YepNewMessagesReceivedNotification = "YepNewMessagesReceivedNotification"
 
 func downloadAttachmentOfMessage(message: Message) {
 
-    func updateMessage(message: Message, withAttachmentFileName attachmentFileName: String) {
+    func updateAttachmentOfMessage(message: Message, withAttachmentFileName attachmentFileName: String) {
         let realm = message.realm
         realm.beginWriteTransaction()
         message.localAttachmentName = attachmentFileName
@@ -23,8 +23,14 @@ func downloadAttachmentOfMessage(message: Message) {
         realm.commitWriteTransaction()
     }
 
+    func updateThumbnailOfMessage(message: Message, withThumbnailFileName thumbnailFileName: String) {
+        let realm = message.realm
+        realm.beginWriteTransaction()
+        message.localThumbnailName = thumbnailFileName
+        realm.commitWriteTransaction()
+    }
+
     let attachmentURLString = message.attachmentURLString
-    let localAttachmentName = message.localAttachmentName
 
     if !attachmentURLString.isEmpty && message.downloadState != MessageDownloadState.Downloaded.rawValue {
         if let url = NSURL(string: attachmentURLString) {
@@ -38,15 +44,17 @@ func downloadAttachmentOfMessage(message: Message) {
                         switch message.mediaType {
                         case MessageMediaType.Image.rawValue:
                             if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
-                                updateMessage(message, withAttachmentFileName: fileName)
+                                updateAttachmentOfMessage(message, withAttachmentFileName: fileName)
                             }
 
                         case MessageMediaType.Video.rawValue:
-                            break // TODO: download video
+                            if let fileURL = NSFileManager.saveMessageVideoData(data, withName: fileName) {
+                                updateAttachmentOfMessage(message, withAttachmentFileName: fileName)
+                            }
 
                         case MessageMediaType.Audio.rawValue:
                             if let fileURL = NSFileManager.saveMessageAudioData(data, withName: fileName) {
-                                updateMessage(message, withAttachmentFileName: fileName)
+                                updateAttachmentOfMessage(message, withAttachmentFileName: fileName)
                             }
                             
                         default:
@@ -57,6 +65,30 @@ func downloadAttachmentOfMessage(message: Message) {
             }
         }
     }
+
+    if message.mediaType == MessageMediaType.Video.rawValue {
+        let thumbnailURLString = message.thumbnailURLString
+
+        if !thumbnailURLString.isEmpty && message.localThumbnailName.isEmpty {
+            if let url = NSURL(string: attachmentURLString) {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                    let data = NSData(contentsOfURL: url)
+
+                    if let data = data {
+                        let fileName = NSUUID().UUIDString
+
+                        dispatch_async(dispatch_get_main_queue()) {
+
+                            if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
+                                updateThumbnailOfMessage(message, withThumbnailFileName: fileName)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
