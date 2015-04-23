@@ -9,7 +9,7 @@
 import Foundation
 import Realm
 
-let baseURL = NSURL(string: "http://park.catchchatchina.com")!
+let baseURL = NSURL(string: "http://park-staging.catchchatchina.com")!
 
 // Models
 
