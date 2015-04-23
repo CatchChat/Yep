@@ -109,6 +109,8 @@ class ConversationViewController: UIViewController {
     let chatRightImageCellIdentifier = "ChatRightImageCell"
     let chatLeftAudioCellIdentifier = "ChatLeftAudioCell"
     let chatRightAudioCellIdentifier = "ChatRightAudioCell"
+    let chatLeftVideoCellIdentifier = "ChatLeftVideoCell"
+    let chatRightVideoCellIdentifier = "ChatRightVideoCell"
 
     // 使 messageToolbar 随着键盘出现或消失而移动
     var updateUIWithKeyboardChange = false {
@@ -165,6 +167,8 @@ class ConversationViewController: UIViewController {
         conversationCollectionView.registerNib(UINib(nibName: chatRightImageCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightImageCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftAudioCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftAudioCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightAudioCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightAudioCellIdentifier)
+        conversationCollectionView.registerNib(UINib(nibName: chatLeftVideoCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftVideoCellIdentifier)
+        conversationCollectionView.registerNib(UINib(nibName: chatRightVideoCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightVideoCellIdentifier)
         
         conversationCollectionView.bounces = true
 
@@ -490,10 +494,12 @@ class ConversationViewController: UIViewController {
                                 let aspectRatio = imageWidth / imageHeight
 
                                 if aspectRatio >= 1 {
-                                    return ceil(messageImagePreferredWidth / aspectRatio)
+                                    height = ceil(messageImagePreferredWidth / aspectRatio)
                                 } else {
-                                    return messageImagePreferredHeight
+                                    height = messageImagePreferredHeight
                                 }
+
+                                break
                         }
                     }
                 }
@@ -503,6 +509,31 @@ class ConversationViewController: UIViewController {
 
         case MessageMediaType.Audio.rawValue:
             height = 40
+
+        case MessageMediaType.Video.rawValue:
+
+            if !message.metaData.isEmpty {
+                if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                    if let metaDataDict = decodeJSON(data) {
+                        if
+                            let imageWidth = metaDataDict["video_width"] as? CGFloat,
+                            let imageHeight = metaDataDict["video_height"] as? CGFloat {
+
+                                let aspectRatio = imageWidth / imageHeight
+
+                                if aspectRatio >= 1 {
+                                    height = ceil(messageImagePreferredWidth / aspectRatio)
+                                } else {
+                                    height = messageImagePreferredHeight
+                                }
+
+                                break
+                        }
+                    }
+                }
+            }
+            
+            height = ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)
 
         case MessageMediaType.SectionDate.rawValue:
             height = 20
@@ -856,6 +887,13 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         
                     return cell
 
+                case MessageMediaType.Video.rawValue:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftVideoCellIdentifier, forIndexPath: indexPath) as! ChatLeftVideoCell
+
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio)
+
+                    return cell
+
                 default:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
 
@@ -879,6 +917,13 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     let audioPlayedDuration = audioPlayedDurationOfMessage(message)
                     cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration)
+
+                    return cell
+
+                case MessageMediaType.Video.rawValue:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightVideoCellIdentifier, forIndexPath: indexPath) as! ChatRightVideoCell
+
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio)
 
                     return cell
 

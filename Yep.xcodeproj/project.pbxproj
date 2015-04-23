@@ -127,6 +127,10 @@
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
 		50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E114FB1ABC549300F13000 /* ContactsCell.xib */; };
 		50EB8C5E1AE78AB9001AC1EE /* YepAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */; };
+		50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */; };
+		50EB8CC01AE89ED8001AC1EE /* ChatLeftVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50EB8CBE1AE89ED8001AC1EE /* ChatLeftVideoCell.xib */; };
+		50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CC21AE89F12001AC1EE /* ChatRightVideoCell.swift */; };
+		50EB8CC51AE89F12001AC1EE /* ChatRightVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50EB8CC31AE89F12001AC1EE /* ChatRightVideoCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -268,6 +272,10 @@
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
 		50E114FB1ABC549300F13000 /* ContactsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactsCell.xib; path = Views/Cells/Contacts/ContactsCell.xib; sourceTree = "<group>"; };
 		50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAsset.swift; path = Helpers/YepAsset.swift; sourceTree = "<group>"; };
+		50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftVideoCell.swift; path = Views/Cells/ChatLeftVideo/ChatLeftVideoCell.swift; sourceTree = "<group>"; };
+		50EB8CBE1AE89ED8001AC1EE /* ChatLeftVideoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftVideoCell.xib; path = Views/Cells/ChatLeftVideo/ChatLeftVideoCell.xib; sourceTree = "<group>"; };
+		50EB8CC21AE89F12001AC1EE /* ChatRightVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightVideoCell.swift; path = Views/Cells/ChatRightVideo/ChatRightVideoCell.swift; sourceTree = "<group>"; };
+		50EB8CC31AE89F12001AC1EE /* ChatRightVideoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatRightVideoCell.xib; path = Views/Cells/ChatRightVideo/ChatRightVideoCell.xib; sourceTree = "<group>"; };
 		B33BE6A6016453F6673C8317 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FD88F6095DB46DFAD41AB5DB /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -508,6 +516,8 @@
 				50553F911ADB8BA600F80B59 /* ChatSectionDate */,
 				505EC8191ADF8155001D27E0 /* SkillCategory */,
 				505EC81E1ADFBE1F001D27E0 /* SkillSelection */,
+				50EB8CC11AE89EDE001AC1EE /* ChatLeftVideo */,
+				50EB8CC61AE89F15001AC1EE /* ChatRightVideo */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -857,6 +867,24 @@
 			name = Contacts;
 			sourceTree = "<group>";
 		};
+		50EB8CC11AE89EDE001AC1EE /* ChatLeftVideo */ = {
+			isa = PBXGroup;
+			children = (
+				50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */,
+				50EB8CBE1AE89ED8001AC1EE /* ChatLeftVideoCell.xib */,
+			);
+			name = ChatLeftVideo;
+			sourceTree = "<group>";
+		};
+		50EB8CC61AE89F15001AC1EE /* ChatRightVideo */ = {
+			isa = PBXGroup;
+			children = (
+				50EB8CC21AE89F12001AC1EE /* ChatRightVideoCell.swift */,
+				50EB8CC31AE89F12001AC1EE /* ChatRightVideoCell.xib */,
+			);
+			name = ChatRightVideo;
+			sourceTree = "<group>";
+		};
 		59CC1DE9D59AC08247B97B4F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -992,12 +1020,14 @@
 				5033159D1AC101C80008A209 /* ChatRightTextCell.xib in Resources */,
 				505EC8181ADF8151001D27E0 /* SkillCategoryCell.xib in Resources */,
 				505EC81D1ADFBE1B001D27E0 /* SkillSelectionCell.xib in Resources */,
+				50EB8CC01AE89ED8001AC1EE /* ChatLeftVideoCell.xib in Resources */,
 				50CDBE431ACA9B4200459CE0 /* ChatRightImageCell.xib in Resources */,
 				508C2AA51AD661B3002B8097 /* UserStateCell.xib in Resources */,
 				50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */,
 				502AE54F1AB93175005BD199 /* ProfileHeaderCell.xib in Resources */,
 				0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */,
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
+				50EB8CC51AE89F12001AC1EE /* ChatRightVideoCell.xib in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
 				508D174D1ACCF49B0092D666 /* ChatRightAudioCell.xib in Resources */,
 				50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */,
@@ -1099,6 +1129,7 @@
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				508D174C1ACCF49B0092D666 /* ChatRightAudioCell.swift in Sources */,
 				502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */,
+				50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */,
 				508D17471ACCF4710092D666 /* ChatLeftAudioCell.swift in Sources */,
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
 				50E114F41ABBF9CC00F13000 /* Models.swift in Sources */,
@@ -1111,6 +1142,7 @@
 				50CDBE461ACA9F2200459CE0 /* ImageCache.swift in Sources */,
 				505EC81C1ADFBE1B001D27E0 /* SkillSelectionCell.swift in Sources */,
 				5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */,
+				50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */,
 				502AE5331AB86020005BD199 /* RegisterVerifyMobileViewController.swift in Sources */,
 				502AE5401AB88862005BD199 /* SkillRankCell.swift in Sources */,
 				50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */,

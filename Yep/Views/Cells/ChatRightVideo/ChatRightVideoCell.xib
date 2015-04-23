@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ChatRightVideoCell" customModule="Yep" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="1" width="208" height="115"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="208" height="115"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cv4-jk-ysG" userLabel="Avatar Image View">
+                        <rect key="frame" x="153" y="4" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="Vwc-JE-HbI"/>
+                            <constraint firstAttribute="width" secondItem="cv4-jk-ysG" secondAttribute="height" multiplier="1:1" id="cPJ-aC-FeD"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Usu-mV-m39" userLabel="Thumbnail Image View">
+                        <rect key="frame" x="17" y="0.0" width="126" height="115"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="126" id="nix-mc-fis"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_play" translatesAutoresizingMaskIntoConstraints="NO" id="4Zc-y0-R7I" userLabel="Play Image View">
+                        <rect key="frame" x="65" y="43" width="30" height="30"/>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="Usu-mV-m39" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="8ku-OC-fVU"/>
+                <constraint firstAttribute="trailing" secondItem="cv4-jk-ysG" secondAttribute="trailing" constant="15" id="9W0-oW-HP0"/>
+                <constraint firstAttribute="bottom" secondItem="Usu-mV-m39" secondAttribute="bottom" id="V8A-BH-zoE"/>
+                <constraint firstItem="cv4-jk-ysG" firstAttribute="top" secondItem="Usu-mV-m39" secondAttribute="top" constant="4" id="Wni-Je-PVy"/>
+                <constraint firstItem="4Zc-y0-R7I" firstAttribute="centerX" secondItem="Usu-mV-m39" secondAttribute="centerX" id="YuD-W1-VF7"/>
+                <constraint firstItem="cv4-jk-ysG" firstAttribute="leading" secondItem="Usu-mV-m39" secondAttribute="trailing" constant="10" id="kHP-gM-bdJ"/>
+                <constraint firstItem="4Zc-y0-R7I" firstAttribute="centerY" secondItem="Usu-mV-m39" secondAttribute="centerY" id="mR7-Ve-yWj"/>
+            </constraints>
+            <size key="customSize" width="208" height="115"/>
+            <connections>
+                <outlet property="avatarImageView" destination="cv4-jk-ysG" id="pQU-nA-A0W"/>
+                <outlet property="avatarImageViewWidthConstraint" destination="Vwc-JE-HbI" id="Dto-Sj-M4f"/>
+                <outlet property="playImageView" destination="4Zc-y0-R7I" id="yph-te-Ga1"/>
+                <outlet property="thumbnailImageView" destination="Usu-mV-m39" id="Vsi-Q8-Ywh"/>
+                <outlet property="thumbnailImageViewWidthConstraint" destination="nix-mc-fis" id="rPY-SZ-rG5"/>
+            </connections>
+            <point key="canvasLocation" x="350" y="414.5"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="icon_play" width="30" height="30"/>
+    </resources>
+</document>
