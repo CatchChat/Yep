@@ -28,7 +28,11 @@ class ImageCache {
             if message.mediaType == MessageMediaType.Video.rawValue {
                 fileName = message.localThumbnailName
             }
-            let attachmentURLString = message.attachmentURLString
+
+            var imageURLString = message.attachmentURLString
+            if message.mediaType == MessageMediaType.Video.rawValue {
+                imageURLString = message.thumbnailURLString
+            }
 
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
 
@@ -49,37 +53,43 @@ class ImageCache {
 
                 // 下载
 
-                if attachmentURLString.isEmpty {
+                if imageURLString.isEmpty {
                     completion(UIImage())
 
                     return
                 }
 
-                let url = NSURL(string: attachmentURLString)!
+                if
+                    let url = NSURL(string: imageURLString),
+                    let data = NSData(contentsOfURL: url) {
+                        if let image = UIImage(data: data) {
 
-                if let data = NSData(contentsOfURL: url) {
-                    let image = UIImage(data: data)!
+                            let messageImageName = NSUUID().UUIDString
 
-                    let messageImageName = NSUUID().UUIDString
+                            let messageImageURL = NSFileManager.saveMessageImageData(data, withName: messageImageName)
 
-                    let messageImageURL = NSFileManager.saveMessageImageData(data, withName: messageImageName)
+                            dispatch_async(dispatch_get_main_queue()) {
+                                let realm = message.realm
+                                realm.beginWriteTransaction()
 
-                    dispatch_async(dispatch_get_main_queue()) {
-                        let realm = message.realm
-                        realm.beginWriteTransaction()
-                        message.localAttachmentName = messageImageName
-                        realm.commitWriteTransaction()
-                    }
+                                if message.mediaType == MessageMediaType.Image.rawValue {
+                                    message.localAttachmentName = messageImageName
 
-                    let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size)
+                                } else if message.mediaType == MessageMediaType.Video.rawValue {
+                                    message.localThumbnailName = messageImageName
+                                }
 
-                    self.cache.setObject(messageImage, forKey: imageKey)
-                    
-                    completion(messageImage)
+                                realm.commitWriteTransaction()
+                            }
+
+                            let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size)
+                            
+                            self.cache.setObject(messageImage, forKey: imageKey)
+                            
+                            completion(messageImage)
+                        }
                 }
             }
-
-
 
         }
     }
