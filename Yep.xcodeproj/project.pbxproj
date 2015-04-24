@@ -131,6 +131,7 @@
 		50EB8CC01AE89ED8001AC1EE /* ChatLeftVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50EB8CBE1AE89ED8001AC1EE /* ChatLeftVideoCell.xib */; };
 		50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CC21AE89F12001AC1EE /* ChatRightVideoCell.swift */; };
 		50EB8CC51AE89F12001AC1EE /* ChatRightVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50EB8CC31AE89F12001AC1EE /* ChatRightVideoCell.xib */; };
+		50EB8CCB1AEA1AC0001AC1EE /* MediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CCA1AEA1AC0001AC1EE /* MediaView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -276,6 +277,7 @@
 		50EB8CBE1AE89ED8001AC1EE /* ChatLeftVideoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftVideoCell.xib; path = Views/Cells/ChatLeftVideo/ChatLeftVideoCell.xib; sourceTree = "<group>"; };
 		50EB8CC21AE89F12001AC1EE /* ChatRightVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightVideoCell.swift; path = Views/Cells/ChatRightVideo/ChatRightVideoCell.swift; sourceTree = "<group>"; };
 		50EB8CC31AE89F12001AC1EE /* ChatRightVideoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatRightVideoCell.xib; path = Views/Cells/ChatRightVideo/ChatRightVideoCell.xib; sourceTree = "<group>"; };
+		50EB8CCA1AEA1AC0001AC1EE /* MediaView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaView.swift; path = Views/Media/MediaView.swift; sourceTree = "<group>"; };
 		B33BE6A6016453F6673C8317 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FD88F6095DB46DFAD41AB5DB /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -493,6 +495,7 @@
 				5099B9CA1AB9A7CF002F940B /* CameraPreview */,
 				503315A11AC126140008A209 /* MessageToolbar */,
 				508D16BE1ADCAF0900270E3F /* PullToRefresh */,
+				50EB8CCC1AEA1AC5001AC1EE /* Media */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -885,6 +888,14 @@
 			name = ChatRightVideo;
 			sourceTree = "<group>";
 		};
+		50EB8CCC1AEA1AC5001AC1EE /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				50EB8CCA1AEA1AC0001AC1EE /* MediaView.swift */,
+			);
+			name = Media;
+			sourceTree = "<group>";
+		};
 		59CC1DE9D59AC08247B97B4F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1187,6 +1198,7 @@
 				503315A01AC126100008A209 /* MessageToolbar.swift in Sources */,
 				50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */,
 				502AE5531AB93215005BD199 /* ProfileFooterCell.swift in Sources */,
+				50EB8CCB1AEA1AC0001AC1EE /* MediaView.swift in Sources */,
 				506923121ADE025200D27574 /* Waver.swift in Sources */,
 				0A5D83991AC5D91E000045BF /* ContactsSearchTableViewController.swift in Sources */,
 				0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */,
