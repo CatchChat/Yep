@@ -20,8 +20,8 @@ class MediaView: UIView {
     lazy var videoPlayerLayer: AVPlayerLayer = {
         let player = AVPlayer()
         let playerLayer = AVPlayerLayer(player: player)
-        playerLayer.frame = self.bounds
         playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        //playerLayer.backgroundColor = UIColor.darkGrayColor().CGColor
         return playerLayer
         }()
 
@@ -29,6 +29,9 @@ class MediaView: UIView {
         super.didMoveToSuperview()
 
         makeUI()
+
+        layer.addSublayer(videoPlayerLayer)
+        videoPlayerLayer.frame = bounds
     }
 
     func makeUI() {
