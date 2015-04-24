@@ -548,6 +548,7 @@
                     <connections>
                         <outlet property="avatarImageView" destination="kAg-ue-69C" id="vaB-SK-kBo"/>
                         <outlet property="avatarImageViewWidthConstraint" destination="fy0-3p-Tx4" id="u5u-Us-aIh"/>
+                        <outlet property="editProfileTableView" destination="obf-ax-Bn7" id="wPW-Jg-rwD"/>
                         <outlet property="mobileLabel" destination="bhV-NM-wXG" id="rUc-6h-9GQ"/>
                     </connections>
                 </viewController>

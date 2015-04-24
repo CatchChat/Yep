@@ -15,6 +15,10 @@ class EditProfileViewController: UIViewController {
 
     @IBOutlet weak var mobileLabel: UILabel!
 
+    @IBOutlet weak var editProfileTableView: UITableView!
+
+
+    let editProfileLessInfoCellIdentifier = "EditProfileLessInfoCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,28 +39,45 @@ class EditProfileViewController: UIViewController {
                 }
             }
         }
+
+        editProfileTableView.registerNib(UINib(nibName: editProfileLessInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileLessInfoCellIdentifier)
     }
 
 }
 
 extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate {
+    enum Row: Int {
+        case Name = 0
+        case Intro
+    }
+
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-
-        default:
-            return 0
-        }
+        return 1
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
-            
+        case Row.Name.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileLessInfoCell
+            cell.annotationLabel.text = NSLocalizedString("Nickname", comment: "")
+            cell.infoLabel.text = YepUserDefaults.nickname()
+            return cell
+
         default:
             return UITableViewCell()
+        }
+    }
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        switch indexPath.section {
+        case Row.Name.rawValue:
+            return 60
+        default:
+            return 0
         }
     }
 }
