@@ -412,7 +412,13 @@
                             <constraint firstItem="VZO-hp-fyU" firstAttribute="leading" secondItem="i2Z-NU-5Yq" secondAttribute="leading" id="EIq-yc-gkc"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Profile" id="4pO-kT-amp"/>
+                    <navigationItem key="navigationItem" title="Profile" id="4pO-kT-amp">
+                        <barButtonItem key="rightBarButtonItem" image="icon_settings" id="rTe-SV-2BV">
+                            <connections>
+                                <segue destination="XUP-IX-8LL" kind="show" id="srR-Ek-JSf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="profileCollectionView" destination="VZO-hp-fyU" id="xat-9E-RVG"/>
                     </connections>
@@ -420,6 +426,39 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2027" y="1045"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="qZs-Er-4wk">
+            <objects>
+                <viewController storyboardIdentifier="SettingsViewController" id="XUP-IX-8LL" customClass="SettingsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jwF-rD-Sd7"/>
+                        <viewControllerLayoutGuide type="bottom" id="MGN-9w-VIC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="XHY-eW-GV5">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="jKA-8q-sXn">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="jKA-8q-sXn" firstAttribute="top" secondItem="XHY-eW-GV5" secondAttribute="top" id="7Gp-Zh-LdM"/>
+                            <constraint firstItem="jKA-8q-sXn" firstAttribute="leading" secondItem="XHY-eW-GV5" secondAttribute="leading" id="AA6-c5-CDa"/>
+                            <constraint firstAttribute="bottom" secondItem="jKA-8q-sXn" secondAttribute="bottom" id="FA5-ho-6Kk"/>
+                            <constraint firstAttribute="trailing" secondItem="jKA-8q-sXn" secondAttribute="trailing" id="kLM-IQ-m5G"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="settingsTableView" destination="jKA-8q-sXn" id="DgR-gO-x2w"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zuA-bP-KGx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2769" y="1045"/>
         </scene>
         <!--Yep Tab Bar Controller-->
         <scene sceneID="vud-lc-IAG">
@@ -548,5 +587,6 @@
         <image name="icon_more_add_location" width="70" height="50"/>
         <image name="icon_more_choose_photo" width="70" height="50"/>
         <image name="icon_more_take_photo" width="70" height="50"/>
+        <image name="icon_settings" width="30" height="30"/>
     </resources>
 </document>

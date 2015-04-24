@@ -74,6 +74,8 @@ class ProfileViewController: UIViewController {
 
             navigationController.navigationBar.titleTextAttributes = textAttributes
 
+            navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
+
             navigationItem.title = YepUserDefaults.nickname()
         }
 
