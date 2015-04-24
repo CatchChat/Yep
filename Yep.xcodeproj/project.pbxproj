@@ -99,6 +99,7 @@
 		50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894CF41AEA4A01000981AF /* SettingsUserCell.xib */; };
 		50894CFA1AEA54BA000981AF /* SettingsMoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF81AEA54BA000981AF /* SettingsMoreCell.swift */; };
 		50894CFB1AEA54BA000981AF /* SettingsMoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894CF91AEA54BA000981AF /* SettingsMoreCell.xib */; };
+		50894CFE1AEA5A78000981AF /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CFD1AEA5A78000981AF /* EditProfileViewController.swift */; };
 		508C2AA01AD648B2002B8097 /* SearchUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C2A9F1AD648B2002B8097 /* SearchUsersViewController.swift */; };
 		508C2AA41AD661B3002B8097 /* UserStateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C2AA21AD661B3002B8097 /* UserStateCell.swift */; };
 		508C2AA51AD661B3002B8097 /* UserStateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508C2AA31AD661B3002B8097 /* UserStateCell.xib */; };
@@ -251,6 +252,7 @@
 		50894CF41AEA4A01000981AF /* SettingsUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsUserCell.xib; path = Views/Cells/SettingsUser/SettingsUserCell.xib; sourceTree = "<group>"; };
 		50894CF81AEA54BA000981AF /* SettingsMoreCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsMoreCell.swift; path = Views/Cells/SettingsMore/SettingsMoreCell.swift; sourceTree = "<group>"; };
 		50894CF91AEA54BA000981AF /* SettingsMoreCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsMoreCell.xib; path = Views/Cells/SettingsMore/SettingsMoreCell.xib; sourceTree = "<group>"; };
+		50894CFD1AEA5A78000981AF /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileViewController.swift; path = ViewControllers/EditProfile/EditProfileViewController.swift; sourceTree = "<group>"; };
 		508C2A9F1AD648B2002B8097 /* SearchUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchUsersViewController.swift; path = ViewControllers/SearchUsers/SearchUsersViewController.swift; sourceTree = "<group>"; };
 		508C2AA21AD661B3002B8097 /* UserStateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserStateCell.swift; path = Views/Cells/UserState/UserStateCell.swift; sourceTree = "<group>"; };
 		508C2AA31AD661B3002B8097 /* UserStateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UserStateCell.xib; path = Views/Cells/UserState/UserStateCell.xib; sourceTree = "<group>"; };
@@ -444,6 +446,7 @@
 				502AE5361AB864A3005BD199 /* Login */,
 				0A5D83951AC5D3CD000045BF /* TabBar */,
 				50894CF21AEA472B000981AF /* Settings */,
+				50894CFF1AEA5A7E000981AF /* EditProfile */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -795,6 +798,14 @@
 				50894CF91AEA54BA000981AF /* SettingsMoreCell.xib */,
 			);
 			name = SettingsMore;
+			sourceTree = "<group>";
+		};
+		50894CFF1AEA5A7E000981AF /* EditProfile */ = {
+			isa = PBXGroup;
+			children = (
+				50894CFD1AEA5A78000981AF /* EditProfileViewController.swift */,
+			);
+			name = EditProfile;
 			sourceTree = "<group>";
 		};
 		508C2AA11AD648BE002B8097 /* SearchUsers */ = {
@@ -1174,6 +1185,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50894CFE1AEA5A78000981AF /* EditProfileViewController.swift in Sources */,
 				50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */,
 				5099B9C41AB9510D002F940B /* RankView.swift in Sources */,
 				502AE5311AB85067005BD199 /* RegisterPickMobileViewController.swift in Sources */,

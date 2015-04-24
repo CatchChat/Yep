@@ -81,4 +81,18 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             return 0
         }
     }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        switch indexPath.section {
+
+        case Section.User.rawValue:
+            performSegueWithIdentifier("showEditProfile", sender: nil)
+
+        default:
+            break
+        }
+    }
 }
+
