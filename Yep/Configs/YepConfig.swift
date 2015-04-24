@@ -61,4 +61,8 @@ class YepConfig {
     class func settingsUserCellAvatarSize() -> CGFloat {
         return 80
     }
+
+    class func editProfileAvatarSize() -> CGFloat {
+        return 100
+    }
 }

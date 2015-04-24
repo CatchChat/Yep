@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Conversations-->
@@ -476,8 +477,55 @@
                     <view key="view" contentMode="scaleToFill" id="kD8-yp-vNu">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="obf-ax-Bn7">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="3ZX-Cq-RRV">
+                                    <rect key="frame" x="0.0" y="64" width="600" height="250"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kAg-ue-69C" userLabel="Avatar Image View">
+                                            <rect key="frame" x="250" y="45" width="100" height="100"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="kAg-ue-69C" secondAttribute="height" multiplier="1:1" id="QZL-P8-pNS"/>
+                                                <constraint firstAttribute="width" constant="100" id="fy0-3p-Tx4"/>
+                                            </constraints>
+                                        </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_avatar_frame" translatesAutoresizingMaskIntoConstraints="NO" id="icj-Kl-sR6" userLabel="Avatar Frame Image View">
+                                            <rect key="frame" x="244" y="39" width="112" height="112"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="icj-Kl-sR6" secondAttribute="height" multiplier="1:1" id="dFA-Cm-vac"/>
+                                                <constraint firstAttribute="width" constant="112" id="vdB-G2-ueS"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="centerY" secondItem="kAg-ue-69C" secondAttribute="centerY" constant="30" id="0AC-xE-tNu"/>
+                                        <constraint firstAttribute="centerX" secondItem="kAg-ue-69C" secondAttribute="centerX" id="31e-Aq-G0k"/>
+                                        <constraint firstItem="icj-Kl-sR6" firstAttribute="centerX" secondItem="kAg-ue-69C" secondAttribute="centerX" id="MNx-ow-h4U"/>
+                                        <constraint firstItem="icj-Kl-sR6" firstAttribute="centerY" secondItem="kAg-ue-69C" secondAttribute="centerY" id="zK4-Gg-43a"/>
+                                    </constraints>
+                                </view>
+                                <connections>
+                                    <outlet property="dataSource" destination="TTy-VD-aor" id="5KP-Bq-q7N"/>
+                                    <outlet property="delegate" destination="TTy-VD-aor" id="Aog-I2-3XH"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="obf-ax-Bn7" secondAttribute="trailing" id="2dl-aG-24h"/>
+                            <constraint firstItem="obf-ax-Bn7" firstAttribute="leading" secondItem="kD8-yp-vNu" secondAttribute="leading" id="uE7-uX-ieh"/>
+                            <constraint firstItem="obf-ax-Bn7" firstAttribute="top" secondItem="kD8-yp-vNu" secondAttribute="top" id="uJL-0g-NPA"/>
+                            <constraint firstAttribute="bottom" secondItem="obf-ax-Bn7" secondAttribute="bottom" id="vqw-zt-2jR"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="avatarImageView" destination="kAg-ue-69C" id="vaB-SK-kBo"/>
+                        <outlet property="avatarImageViewWidthConstraint" destination="fy0-3p-Tx4" id="u5u-Us-aIh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u2y-XJ-4gR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -611,5 +659,6 @@
         <image name="icon_more_choose_photo" width="70" height="50"/>
         <image name="icon_more_take_photo" width="70" height="50"/>
         <image name="icon_settings" width="30" height="30"/>
+        <image name="profile_avatar_frame" width="112" height="112"/>
     </resources>
 </document>
