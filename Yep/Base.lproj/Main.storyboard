@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6724" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
         <!--Conversations-->
@@ -163,11 +163,54 @@
                         <outlet property="messageToolbarBottomConstraint" destination="Sf8-1u-t01" id="f02-ze-rKh"/>
                         <outlet property="moreMessageTypesViewHeightConstraint" destination="faf-Xw-b0H" id="wNA-e7-3wx"/>
                         <outlet property="takePhotoButton" destination="HcA-7v-16m" id="yfB-gA-lxG"/>
+                        <segue destination="f92-fs-zdh" kind="presentation" identifier="presentMessageMedia" id="esY-9F-IrH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="chH-Zx-2Ge" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-783" y="1851"/>
+        </scene>
+        <!--Message Media View Controller-->
+        <scene sceneID="7qy-6q-Ufn">
+            <objects>
+                <viewController storyboardIdentifier="MessageMediaViewController" id="f92-fs-zdh" customClass="MessageMediaViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="NI3-w2-R9l"/>
+                        <viewControllerLayoutGuide type="bottom" id="eW6-5y-wrX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aNq-7S-JK2">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k4j-Ub-3bn" customClass="MediaView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="eW6-5y-wrX" firstAttribute="top" secondItem="k4j-Ub-3bn" secondAttribute="bottom" id="SD4-Rb-R2n"/>
+                            <constraint firstItem="k4j-Ub-3bn" firstAttribute="top" secondItem="aNq-7S-JK2" secondAttribute="top" id="Zbg-wi-X7W"/>
+                            <constraint firstItem="k4j-Ub-3bn" firstAttribute="leading" secondItem="aNq-7S-JK2" secondAttribute="leading" id="xJR-ze-vBa"/>
+                            <constraint firstAttribute="trailing" secondItem="k4j-Ub-3bn" secondAttribute="trailing" id="xvH-sO-9MX"/>
+                        </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="FJ8-iv-bdr" appends="YES" id="oWn-4w-WLf"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="mediaView" destination="k4j-Ub-3bn" id="RmJ-k6-aF2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k0Z-IA-ZNH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="down" id="FJ8-iv-bdr">
+                    <connections>
+                        <action selector="swipeDown:" destination="f92-fs-zdh" id="a4i-uw-O1M"/>
+                    </connections>
+                </swipeGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="-783" y="2579"/>
         </scene>
         <!--Contacts-->
         <scene sceneID="9ZG-MC-rxD">

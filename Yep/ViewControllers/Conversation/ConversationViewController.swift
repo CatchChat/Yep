@@ -823,6 +823,15 @@ class ConversationViewController: UIViewController {
         isKeyboardVisible = false
     }
 
+
+    // MARK: Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "presentMessageMedia" {
+            let vc = segue.destinationViewController as! MessageMediaViewController
+            vc.message = sender as? Message
+        }
+    }
 }
 
 // MARK: UICollectionViewDataSource, UICollectionViewDelegate
@@ -969,10 +978,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             switch message.mediaType {
             case MessageMediaType.Image.rawValue:
-                break
+                performSegueWithIdentifier("presentMessageMedia", sender: message)
 
             case MessageMediaType.Video.rawValue:
-                break // TODO: download video
+                performSegueWithIdentifier("presentMessageMedia", sender: message)
 
             case MessageMediaType.Audio.rawValue:
 
