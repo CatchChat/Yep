@@ -499,12 +499,35 @@
                                                 <constraint firstAttribute="width" constant="112" id="vdB-G2-ueS"/>
                                             </constraints>
                                         </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_profile_phone" translatesAutoresizingMaskIntoConstraints="NO" id="xcV-T4-317" userLabel="Phone Image View">
+                                            <rect key="frame" x="229" y="178" width="16" height="24"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="186-0235-4812" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhV-NM-wXG" userLabel="Mobile Label">
+                                            <rect key="frame" x="253" y="180" width="119" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zc6-4l-BNt" userLabel="Helper View">
+                                            <rect key="frame" x="229" y="175" width="143" height="30"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="4vv-aT-l3h"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="centerY" secondItem="kAg-ue-69C" secondAttribute="centerY" constant="30" id="0AC-xE-tNu"/>
+                                        <constraint firstItem="xcV-T4-317" firstAttribute="leading" secondItem="Zc6-4l-BNt" secondAttribute="leading" id="0pJ-e1-JNS"/>
                                         <constraint firstAttribute="centerX" secondItem="kAg-ue-69C" secondAttribute="centerX" id="31e-Aq-G0k"/>
+                                        <constraint firstAttribute="centerX" secondItem="Zc6-4l-BNt" secondAttribute="centerX" id="FZs-bJ-gip"/>
                                         <constraint firstItem="icj-Kl-sR6" firstAttribute="centerX" secondItem="kAg-ue-69C" secondAttribute="centerX" id="MNx-ow-h4U"/>
+                                        <constraint firstItem="bhV-NM-wXG" firstAttribute="leading" secondItem="xcV-T4-317" secondAttribute="trailing" constant="8" id="Qj2-CF-afz"/>
+                                        <constraint firstItem="bhV-NM-wXG" firstAttribute="centerY" secondItem="xcV-T4-317" secondAttribute="centerY" id="UfK-Vt-39G"/>
+                                        <constraint firstItem="xcV-T4-317" firstAttribute="centerY" secondItem="Zc6-4l-BNt" secondAttribute="centerY" id="fSp-Xk-2dy"/>
+                                        <constraint firstItem="bhV-NM-wXG" firstAttribute="trailing" secondItem="Zc6-4l-BNt" secondAttribute="trailing" id="lgi-Wh-O41"/>
+                                        <constraint firstItem="Zc6-4l-BNt" firstAttribute="top" secondItem="kAg-ue-69C" secondAttribute="bottom" constant="30" id="xwH-u4-H0K"/>
                                         <constraint firstItem="icj-Kl-sR6" firstAttribute="centerY" secondItem="kAg-ue-69C" secondAttribute="centerY" id="zK4-Gg-43a"/>
                                     </constraints>
                                 </view>
@@ -525,6 +548,7 @@
                     <connections>
                         <outlet property="avatarImageView" destination="kAg-ue-69C" id="vaB-SK-kBo"/>
                         <outlet property="avatarImageViewWidthConstraint" destination="fy0-3p-Tx4" id="u5u-Us-aIh"/>
+                        <outlet property="mobileLabel" destination="bhV-NM-wXG" id="rUc-6h-9GQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u2y-XJ-4gR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -658,6 +682,7 @@
         <image name="icon_more_add_location" width="70" height="50"/>
         <image name="icon_more_choose_photo" width="70" height="50"/>
         <image name="icon_more_take_photo" width="70" height="50"/>
+        <image name="icon_profile_phone" width="16" height="24"/>
         <image name="icon_settings" width="30" height="30"/>
         <image name="profile_avatar_frame" width="112" height="112"/>
     </resources>

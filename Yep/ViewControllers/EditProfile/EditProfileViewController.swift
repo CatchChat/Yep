@@ -13,6 +13,9 @@ class EditProfileViewController: UIViewController {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var mobileLabel: UILabel!
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -43,7 +46,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-            
+
         default:
             return 0
         }
