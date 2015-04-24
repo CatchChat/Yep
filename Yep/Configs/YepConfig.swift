@@ -57,4 +57,8 @@ class YepConfig {
     class func audioSampleGap() -> CGFloat {
         return 1
     }
+
+    class func settingsUserCellAvatarSize() -> CGFloat {
+        return 80
+    }
 }

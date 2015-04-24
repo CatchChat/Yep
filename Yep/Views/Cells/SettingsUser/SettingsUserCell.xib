@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="123" id="KGk-i7-Jjw" customClass="SettingsUserCell" customModule="Yep" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="123"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ibs-9N-MGR" userLabel="Avatar Image View">
+                        <rect key="frame" x="20" y="21" width="80" height="80"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="82W-iA-aCD"/>
+                            <constraint firstAttribute="width" secondItem="ibs-9N-MGR" secondAttribute="height" multiplier="1:1" id="seq-PX-N4G"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NIX" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gbe-2T-8A9" userLabel="Name Label">
+                        <rect key="frame" x="120" y="31" width="27" height="22"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VeK-Pq-9Rc" userLabel="Intro Label">
+                        <rect key="frame" x="120" y="61" width="29" height="15"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory" translatesAutoresizingMaskIntoConstraints="NO" id="8aX-g5-iad" userLabel="Accessory Image View">
+                        <rect key="frame" x="287" y="51" width="11" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="JYu-OH-0FU"/>
+                            <constraint firstAttribute="width" constant="11" id="NhX-BW-1H2"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="VeK-Pq-9Rc" firstAttribute="top" secondItem="Gbe-2T-8A9" secondAttribute="bottom" constant="8" id="DDp-pu-ZPK"/>
+                    <constraint firstItem="Gbe-2T-8A9" firstAttribute="leading" secondItem="ibs-9N-MGR" secondAttribute="trailing" constant="20" id="KXB-3a-b0G"/>
+                    <constraint firstAttribute="centerY" secondItem="8aX-g5-iad" secondAttribute="centerY" id="SGg-g6-2cW"/>
+                    <constraint firstItem="Gbe-2T-8A9" firstAttribute="leading" secondItem="VeK-Pq-9Rc" secondAttribute="leading" id="UrS-7v-tZ2"/>
+                    <constraint firstItem="Gbe-2T-8A9" firstAttribute="top" secondItem="ibs-9N-MGR" secondAttribute="top" constant="10" id="Vgm-9V-bum"/>
+                    <constraint firstItem="8aX-g5-iad" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VeK-Pq-9Rc" secondAttribute="trailing" constant="10" id="ZMC-Mq-uZN"/>
+                    <constraint firstAttribute="trailing" secondItem="8aX-g5-iad" secondAttribute="trailing" constant="22" id="d7J-7j-Sgh"/>
+                    <constraint firstAttribute="centerY" secondItem="ibs-9N-MGR" secondAttribute="centerY" id="lA7-wU-Dsu"/>
+                    <constraint firstItem="ibs-9N-MGR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="pcC-pd-KFR"/>
+                    <constraint firstItem="8aX-g5-iad" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Gbe-2T-8A9" secondAttribute="trailing" constant="10" id="yjm-3e-Mna"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="accessoryImageView" destination="8aX-g5-iad" id="SWg-BB-eau"/>
+                <outlet property="avatarImageView" destination="ibs-9N-MGR" id="h6d-w9-Tip"/>
+                <outlet property="avatarImageViewWidthConstraint" destination="82W-iA-aCD" id="7Ev-Bt-p6N"/>
+                <outlet property="introLabel" destination="VeK-Pq-9Rc" id="Voc-0o-2Oh"/>
+                <outlet property="nameLabel" destination="Gbe-2T-8A9" id="0lw-Og-My0"/>
+            </connections>
+            <point key="canvasLocation" x="293" y="424.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon_accessory" width="11" height="20"/>
+    </resources>
+</document>

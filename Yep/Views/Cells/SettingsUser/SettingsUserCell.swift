@@ -1,0 +1,55 @@
+//
+//  SettingsUserCell.swift
+//  Yep
+//
+//  Created by NIX on 15/4/24.
+//  Copyright (c) 2015年 Catch Inc. All rights reserved.
+//
+
+import UIKit
+
+class SettingsUserCell: UITableViewCell {
+
+    @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var nameLabel: UILabel!
+
+    @IBOutlet weak var introLabel: UILabel!
+
+    @IBOutlet weak var accessoryImageView: UIImageView!
+
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
+        let avatarSize = YepConfig.settingsUserCellAvatarSize()
+        avatarImageViewWidthConstraint.constant = avatarSize
+        
+        if let avatarURLString = YepUserDefaults.avatarURLString() {
+            AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: avatarSize * 0.5) { image in
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.avatarImageView.image = image
+                    UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
+                        self.avatarImageView.alpha = 1
+                    }, completion: { (finished) -> Void in
+                    })
+                }
+            }
+        }
+
+        nameLabel.text = YepUserDefaults.nickname()
+
+        introLabel.text = "I'm good at iOS Development and Singing. Come here, let me teach you."
+
+        accessoryImageView.tintColor = UIColor.lightGrayColor()
+
+    }
+
+    override func setSelected(selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        // Configure the view for the selected state
+    }
+    
+}

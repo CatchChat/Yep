@@ -95,6 +95,8 @@
 		506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */; };
 		5076C56A1AC46B9F00B22952 /* FayeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5076C5691AC46B9F00B22952 /* FayeService.swift */; };
 		50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF01AEA4726000981AF /* SettingsViewController.swift */; };
+		50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF31AEA4A01000981AF /* SettingsUserCell.swift */; };
+		50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894CF41AEA4A01000981AF /* SettingsUserCell.xib */; };
 		508C2AA01AD648B2002B8097 /* SearchUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C2A9F1AD648B2002B8097 /* SearchUsersViewController.swift */; };
 		508C2AA41AD661B3002B8097 /* UserStateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C2AA21AD661B3002B8097 /* UserStateCell.swift */; };
 		508C2AA51AD661B3002B8097 /* UserStateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508C2AA31AD661B3002B8097 /* UserStateCell.xib */; };
@@ -243,6 +245,8 @@
 		506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Yep.swift"; path = "Extensions/UIFont+Yep.swift"; sourceTree = "<group>"; };
 		5076C5691AC46B9F00B22952 /* FayeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FayeService.swift; path = Services/FayeService.swift; sourceTree = "<group>"; };
 		50894CF01AEA4726000981AF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = ViewControllers/Settings/SettingsViewController.swift; sourceTree = "<group>"; };
+		50894CF31AEA4A01000981AF /* SettingsUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsUserCell.swift; path = Views/Cells/SettingsUser/SettingsUserCell.swift; sourceTree = "<group>"; };
+		50894CF41AEA4A01000981AF /* SettingsUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsUserCell.xib; path = Views/Cells/SettingsUser/SettingsUserCell.xib; sourceTree = "<group>"; };
 		508C2A9F1AD648B2002B8097 /* SearchUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchUsersViewController.swift; path = ViewControllers/SearchUsers/SearchUsersViewController.swift; sourceTree = "<group>"; };
 		508C2AA21AD661B3002B8097 /* UserStateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserStateCell.swift; path = Views/Cells/UserState/UserStateCell.swift; sourceTree = "<group>"; };
 		508C2AA31AD661B3002B8097 /* UserStateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UserStateCell.xib; path = Views/Cells/UserState/UserStateCell.xib; sourceTree = "<group>"; };
@@ -527,6 +531,7 @@
 				505EC81E1ADFBE1F001D27E0 /* SkillSelection */,
 				50EB8CC11AE89EDE001AC1EE /* ChatLeftVideo */,
 				50EB8CC61AE89F15001AC1EE /* ChatRightVideo */,
+				50894CF71AEA4A04000981AF /* SettingsUser */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -767,6 +772,15 @@
 				50894CF01AEA4726000981AF /* SettingsViewController.swift */,
 			);
 			name = Settings;
+			sourceTree = "<group>";
+		};
+		50894CF71AEA4A04000981AF /* SettingsUser */ = {
+			isa = PBXGroup;
+			children = (
+				50894CF31AEA4A01000981AF /* SettingsUserCell.swift */,
+				50894CF41AEA4A01000981AF /* SettingsUserCell.xib */,
+			);
+			name = SettingsUser;
 			sourceTree = "<group>";
 		};
 		508C2AA11AD648BE002B8097 /* SearchUsers */ = {
@@ -1048,6 +1062,7 @@
 				502AE5411AB88862005BD199 /* SkillRankCell.xib in Resources */,
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
 				50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */,
+				50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */,
 				508D17481ACCF4710092D666 /* ChatLeftAudioCell.xib in Resources */,
 				0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */,
 				5033159D1AC101C80008A209 /* ChatRightTextCell.xib in Resources */,
@@ -1227,6 +1242,7 @@
 				0A5D83991AC5D91E000045BF /* ContactsSearchTableViewController.swift in Sources */,
 				0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */,
 				505EC8171ADF8151001D27E0 /* SkillCategoryCell.swift in Sources */,
+				50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */,
 				504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */,
 				5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */,
 			);
