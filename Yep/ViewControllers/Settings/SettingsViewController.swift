@@ -13,13 +13,21 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var settingsTableView: UITableView!
 
     let settingsUserCellIdentifier = "SettingsUserCell"
-    
+    let settingsMoreCellIdentifier = "SettingsMoreCell"
+
+    let moreAnnotations: [String] = [
+        NSLocalizedString("Notifications", comment: ""),
+        NSLocalizedString("Feedback", comment: ""),
+        NSLocalizedString("About", comment: ""),
+    ]
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("Settings", comment: "")
 
         settingsTableView.registerNib(UINib(nibName: settingsUserCellIdentifier, bundle: nil), forCellReuseIdentifier: settingsUserCellIdentifier)
+        settingsTableView.registerNib(UINib(nibName: settingsMoreCellIdentifier, bundle: nil), forCellReuseIdentifier: settingsMoreCellIdentifier)
     }
 
 }
@@ -40,7 +48,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         case Section.User.rawValue:
             return 1
         case Section.More.rawValue:
-            return 0
+            return moreAnnotations.count
         default:
             return 0
         }
@@ -48,11 +56,16 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         switch indexPath.section {
+
         case Section.User.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(settingsUserCellIdentifier) as! SettingsUserCell
             return cell
+
         case Section.More.rawValue:
-            return UITableViewCell()
+            let cell = tableView.dequeueReusableCellWithIdentifier(settingsMoreCellIdentifier) as! SettingsMoreCell
+            cell.annotationLabel.text = moreAnnotations[indexPath.row]
+            return cell
+
         default:
             return UITableViewCell()
         }
@@ -63,7 +76,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         case Section.User.rawValue:
             return 120
         case Section.More.rawValue:
-            return 0
+            return 60
         default:
             return 0
         }
