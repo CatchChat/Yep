@@ -14,13 +14,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Annotation" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0FC-Jf-4Gf" userLabel="Annotation Label">
-                        <rect key="frame" x="21" y="33" width="84" height="22"/>
+                        <rect key="frame" x="20" y="33" width="84" height="22"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Info" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fGP-fu-MyB" userLabel="Info Label">
-                        <rect key="frame" x="115" y="33" width="187" height="22"/>
+                        <rect key="frame" x="114" y="33" width="188" height="22"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -28,7 +28,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="centerY" secondItem="fGP-fu-MyB" secondAttribute="centerY" id="082-8c-wbn"/>
-                    <constraint firstItem="0FC-Jf-4Gf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="21" id="Ktt-S1-9Cv"/>
+                    <constraint firstItem="0FC-Jf-4Gf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Ktt-S1-9Cv"/>
                     <constraint firstItem="fGP-fu-MyB" firstAttribute="leading" secondItem="0FC-Jf-4Gf" secondAttribute="trailing" constant="10" id="UHV-0J-Zaw"/>
                     <constraint firstAttribute="trailing" secondItem="fGP-fu-MyB" secondAttribute="trailing" constant="18" id="Une-Pw-pgT"/>
                     <constraint firstAttribute="centerY" secondItem="0FC-Jf-4Gf" secondAttribute="centerY" id="lV1-c6-cFn"/>

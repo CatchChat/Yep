@@ -19,6 +19,7 @@ class EditProfileViewController: UIViewController {
 
 
     let editProfileLessInfoCellIdentifier = "EditProfileLessInfoCell"
+    let editProfileMoreInfoCellIdentifier = "EditProfileMoreInfoCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +42,7 @@ class EditProfileViewController: UIViewController {
         }
 
         editProfileTableView.registerNib(UINib(nibName: editProfileLessInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileLessInfoCellIdentifier)
+        editProfileTableView.registerNib(UINib(nibName: editProfileMoreInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileMoreInfoCellIdentifier)
     }
 
 }
@@ -56,15 +58,21 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 2
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch indexPath.section {
+        switch indexPath.row {
         case Row.Name.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileLessInfoCell
             cell.annotationLabel.text = NSLocalizedString("Nickname", comment: "")
             cell.infoLabel.text = YepUserDefaults.nickname()
+            return cell
+
+        case Row.Intro.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier(editProfileMoreInfoCellIdentifier) as! EditProfileMoreInfoCell
+            cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
+            cell.infoLabel.text = "I'm good at iOS Development and Singing. Come here, let me teach you."
             return cell
 
         default:
@@ -73,9 +81,11 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        switch indexPath.section {
+        switch indexPath.row {
         case Row.Name.rawValue:
             return 60
+        case Row.Intro.rawValue:
+            return 120
         default:
             return 0
         }

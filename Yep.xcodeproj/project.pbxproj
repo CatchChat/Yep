@@ -102,6 +102,8 @@
 		50894CFE1AEA5A78000981AF /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CFD1AEA5A78000981AF /* EditProfileViewController.swift */; };
 		50894D021AEA6433000981AF /* EditProfileLessInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894D001AEA6433000981AF /* EditProfileLessInfoCell.swift */; };
 		50894D031AEA6433000981AF /* EditProfileLessInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894D011AEA6433000981AF /* EditProfileLessInfoCell.xib */; };
+		50894D071AEDFDA2000981AF /* EditProfileMoreInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894D051AEDFDA2000981AF /* EditProfileMoreInfoCell.swift */; };
+		50894D081AEDFDA2000981AF /* EditProfileMoreInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894D061AEDFDA2000981AF /* EditProfileMoreInfoCell.xib */; };
 		508C2AA01AD648B2002B8097 /* SearchUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C2A9F1AD648B2002B8097 /* SearchUsersViewController.swift */; };
 		508C2AA41AD661B3002B8097 /* UserStateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C2AA21AD661B3002B8097 /* UserStateCell.swift */; };
 		508C2AA51AD661B3002B8097 /* UserStateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508C2AA31AD661B3002B8097 /* UserStateCell.xib */; };
@@ -257,6 +259,8 @@
 		50894CFD1AEA5A78000981AF /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileViewController.swift; path = ViewControllers/EditProfile/EditProfileViewController.swift; sourceTree = "<group>"; };
 		50894D001AEA6433000981AF /* EditProfileLessInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileLessInfoCell.swift; path = Views/Cells/EditProfileLessInfo/EditProfileLessInfoCell.swift; sourceTree = "<group>"; };
 		50894D011AEA6433000981AF /* EditProfileLessInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditProfileLessInfoCell.xib; path = Views/Cells/EditProfileLessInfo/EditProfileLessInfoCell.xib; sourceTree = "<group>"; };
+		50894D051AEDFDA2000981AF /* EditProfileMoreInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileMoreInfoCell.swift; path = Views/Cells/EditProfileMoreInfo/EditProfileMoreInfoCell.swift; sourceTree = "<group>"; };
+		50894D061AEDFDA2000981AF /* EditProfileMoreInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditProfileMoreInfoCell.xib; path = Views/Cells/EditProfileMoreInfo/EditProfileMoreInfoCell.xib; sourceTree = "<group>"; };
 		508C2A9F1AD648B2002B8097 /* SearchUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchUsersViewController.swift; path = ViewControllers/SearchUsers/SearchUsersViewController.swift; sourceTree = "<group>"; };
 		508C2AA21AD661B3002B8097 /* UserStateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserStateCell.swift; path = Views/Cells/UserState/UserStateCell.swift; sourceTree = "<group>"; };
 		508C2AA31AD661B3002B8097 /* UserStateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UserStateCell.xib; path = Views/Cells/UserState/UserStateCell.xib; sourceTree = "<group>"; };
@@ -545,6 +549,7 @@
 				50894CF71AEA4A04000981AF /* SettingsUser */,
 				50894CFC1AEA54BE000981AF /* SettingsMore */,
 				50894D041AEA6439000981AF /* EditProfileLessInfo */,
+				50894D091AEDFDA6000981AF /* EditProfileMoreInfo */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -820,6 +825,15 @@
 				50894D011AEA6433000981AF /* EditProfileLessInfoCell.xib */,
 			);
 			name = EditProfileLessInfo;
+			sourceTree = "<group>";
+		};
+		50894D091AEDFDA6000981AF /* EditProfileMoreInfo */ = {
+			isa = PBXGroup;
+			children = (
+				50894D051AEDFDA2000981AF /* EditProfileMoreInfoCell.swift */,
+				50894D061AEDFDA2000981AF /* EditProfileMoreInfoCell.xib */,
+			);
+			name = EditProfileMoreInfo;
 			sourceTree = "<group>";
 		};
 		508C2AA11AD648BE002B8097 /* SearchUsers */ = {
@@ -1117,6 +1131,7 @@
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 				50EB8CC51AE89F12001AC1EE /* ChatRightVideoCell.xib in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
+				50894D081AEDFDA2000981AF /* EditProfileMoreInfoCell.xib in Resources */,
 				508D174D1ACCF49B0092D666 /* ChatRightAudioCell.xib in Resources */,
 				50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */,
 				503315981AC1017E0008A209 /* ChatLeftTextCell.xib in Resources */,
@@ -1224,6 +1239,7 @@
 				50894D021AEA6433000981AF /* EditProfileLessInfoCell.swift in Sources */,
 				50894CFA1AEA54BA000981AF /* SettingsMoreCell.swift in Sources */,
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
+				50894D071AEDFDA2000981AF /* EditProfileMoreInfoCell.swift in Sources */,
 				50E114F41ABBF9CC00F13000 /* Models.swift in Sources */,
 				50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */,
 				50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */,
