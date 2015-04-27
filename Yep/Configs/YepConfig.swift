@@ -58,11 +58,16 @@ class YepConfig {
         return 1
     }
 
-    class func settingsUserCellAvatarSize() -> CGFloat {
-        return 80
-    }
-
     class func editProfileAvatarSize() -> CGFloat {
         return 100
     }
+
+
+    struct Settings {
+        static let userCellAvatarSize: CGFloat = 80
+
+        static let introFont = UIFont(name: "Helvetica-Light", size: 12)!
+        static let introInset: CGFloat = 20 + userCellAvatarSize + 20 + 11 + 20
+    }
+
 }

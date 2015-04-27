@@ -15,26 +15,26 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ibs-9N-MGR" userLabel="Avatar Image View">
-                        <rect key="frame" x="20" y="21" width="80" height="80"/>
+                        <rect key="frame" x="20" y="20" width="80" height="80"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="82W-iA-aCD"/>
                             <constraint firstAttribute="width" secondItem="ibs-9N-MGR" secondAttribute="height" multiplier="1:1" id="seq-PX-N4G"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NIX" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gbe-2T-8A9" userLabel="Name Label">
-                        <rect key="frame" x="120" y="31" width="27" height="22"/>
+                        <rect key="frame" x="120" y="30" width="27" height="22"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VeK-Pq-9Rc" userLabel="Intro Label">
-                        <rect key="frame" x="120" y="61" width="29" height="15"/>
+                        <rect key="frame" x="120" y="60" width="29" height="15"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory" translatesAutoresizingMaskIntoConstraints="NO" id="8aX-g5-iad" userLabel="Accessory Image View">
-                        <rect key="frame" x="287" y="51" width="11" height="20"/>
+                        <rect key="frame" x="289" y="51" width="11" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="JYu-OH-0FU"/>
                             <constraint firstAttribute="width" constant="11" id="NhX-BW-1H2"/>
@@ -48,8 +48,8 @@
                     <constraint firstItem="Gbe-2T-8A9" firstAttribute="leading" secondItem="VeK-Pq-9Rc" secondAttribute="leading" id="UrS-7v-tZ2"/>
                     <constraint firstItem="Gbe-2T-8A9" firstAttribute="top" secondItem="ibs-9N-MGR" secondAttribute="top" constant="10" id="Vgm-9V-bum"/>
                     <constraint firstItem="8aX-g5-iad" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VeK-Pq-9Rc" secondAttribute="trailing" constant="10" id="ZMC-Mq-uZN"/>
-                    <constraint firstAttribute="trailing" secondItem="8aX-g5-iad" secondAttribute="trailing" constant="22" id="d7J-7j-Sgh"/>
-                    <constraint firstAttribute="centerY" secondItem="ibs-9N-MGR" secondAttribute="centerY" id="lA7-wU-Dsu"/>
+                    <constraint firstAttribute="trailing" secondItem="8aX-g5-iad" secondAttribute="trailing" constant="20" id="d7J-7j-Sgh"/>
+                    <constraint firstItem="ibs-9N-MGR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="jBN-cc-b4Y"/>
                     <constraint firstItem="ibs-9N-MGR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="pcC-pd-KFR"/>
                     <constraint firstItem="8aX-g5-iad" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Gbe-2T-8A9" secondAttribute="trailing" constant="10" id="yjm-3e-Mna"/>
                 </constraints>

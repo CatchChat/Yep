@@ -23,7 +23,7 @@ class SettingsUserCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        let avatarSize = YepConfig.settingsUserCellAvatarSize()
+        let avatarSize = YepConfig.Settings.userCellAvatarSize
         avatarImageViewWidthConstraint.constant = avatarSize
         
         if let avatarURLString = YepUserDefaults.avatarURLString() {
@@ -40,7 +40,7 @@ class SettingsUserCell: UITableViewCell {
 
         nameLabel.text = YepUserDefaults.nickname()
 
-        introLabel.text = "I'm good at iOS Development and Singing. Come here, let me teach you."
+        introLabel.font = YepConfig.Settings.introFont
 
         accessoryImageView.tintColor = UIColor.lightGrayColor()
 
