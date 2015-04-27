@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Realm
+
+let YepUpdatedProfileAvatarNotification = "YepUpdatedProfileAvatarNotification"
 
 class EditProfileViewController: UIViewController {
 
@@ -33,10 +36,23 @@ class EditProfileViewController: UIViewController {
         let avatarSize = YepConfig.editProfileAvatarSize()
         avatarImageViewWidthConstraint.constant = avatarSize
 
+        updateAvatar()
+
+        editProfileTableView.registerNib(UINib(nibName: editProfileLessInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileLessInfoCellIdentifier)
+        editProfileTableView.registerNib(UINib(nibName: editProfileMoreInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileMoreInfoCellIdentifier)
+        editProfileTableView.registerNib(UINib(nibName: editProfileColoredTitleCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileColoredTitleCellIdentifier)
+    }
+
+    func updateAvatar() {
         if let avatarURLString = YepUserDefaults.avatarURLString() {
+
+            let avatarSize = YepConfig.editProfileAvatarSize()
+
+            self.avatarImageView.alpha = 0
             AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: avatarSize * 0.5) { image in
                 dispatch_async(dispatch_get_main_queue()) {
                     self.avatarImageView.image = image
+
                     UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
                         self.avatarImageView.alpha = 1
                     }, completion: { (finished) -> Void in
@@ -44,10 +60,43 @@ class EditProfileViewController: UIViewController {
                 }
             }
         }
+    }
 
-        editProfileTableView.registerNib(UINib(nibName: editProfileLessInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileLessInfoCellIdentifier)
-        editProfileTableView.registerNib(UINib(nibName: editProfileMoreInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileMoreInfoCellIdentifier)
-        editProfileTableView.registerNib(UINib(nibName: editProfileColoredTitleCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileColoredTitleCellIdentifier)
+    @IBAction func changeAvatar(sender: UITapGestureRecognizer) {
+
+
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+
+        let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { action -> Void in
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
+                imagePicker.allowsEditing = false
+
+                self.presentViewController(imagePicker, animated: true, completion: nil)
+            }
+        }
+        alertController.addAction(choosePhotoAction)
+
+        let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { action -> Void in
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
+                imagePicker.allowsEditing = false
+
+                self.presentViewController(imagePicker, animated: true, completion: nil)
+            }
+        }
+        alertController.addAction(takePhotoAction)
+
+        let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        alertController.addAction(cancelAction)
+
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
 
 }
@@ -144,5 +193,48 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
         default:
             return 0
         }
+    }
+}
+
+// MARK: UIImagePicker
+
+extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+        s3PublicUploadParams(failureHandler: nil) { s3UploadParams in
+
+            let image = image.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
+
+            var imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
+
+            // TODO: 等待的菊花
+            uploadFileToS3(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", s3UploadParams: s3UploadParams, completion: { (result, error) in
+                println("upload avatar to s3 result: \(result), error: \(error)")
+
+                if (result) {
+                    let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
+
+                    updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: nil) { success in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepUserDefaults.setAvatarURLString(newAvatarURLString)
+
+                            self.updateAvatar()
+
+                            if
+                                let myUserID = YepUserDefaults.userID(),
+                                let me = userWithUserID(myUserID) {
+                                    let realm = RLMRealm.defaultRealm()
+                                    realm.beginWriteTransaction()
+                                    me.avatarURLString = newAvatarURLString
+                                    realm.commitWriteTransaction()
+                            }
+
+                            NSNotificationCenter.defaultCenter().postNotificationName(YepUpdatedProfileAvatarNotification, object: nil)
+                        }
+                    }
+                }
+            })
+        }
+        
+        dismissViewControllerAnimated(true, completion: nil)
     }
 }

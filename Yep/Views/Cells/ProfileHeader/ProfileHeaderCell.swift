@@ -10,9 +10,6 @@ import UIKit
 
 class ProfileHeaderCell: UICollectionViewCell {
 
-    var changeAvatarAction: (() -> Void)?
-
-
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var joinedDateLabel: UILabel!
@@ -24,11 +21,15 @@ class ProfileHeaderCell: UICollectionViewCell {
 
         nameLabel.hidden = true
         joinedDateLabel.hidden = true
-        
-        let tap = UITapGestureRecognizer(target: self, action: "tryChangeAvatar")
-        avatarImageView.userInteractionEnabled = true
-        avatarImageView.addGestureRecognizer(tap)
 
+        updateAvatar()
+        
+        YepLocationService.sharedManager
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
+    }
+
+    func updateAvatar() {
         avatarImageView.alpha = 0
         if let avatarURLString = YepUserDefaults.avatarURLString() {
             AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!) { image in
@@ -41,10 +42,6 @@ class ProfileHeaderCell: UICollectionViewCell {
                 }
             }
         }
-        
-        YepLocationService.sharedManager
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
     }
     
     func updateAddress() {
@@ -54,9 +51,4 @@ class ProfileHeaderCell: UICollectionViewCell {
         self.locationLabel.text = YepLocationService.sharedManager.address
     }
     
-    func tryChangeAvatar() {
-        if let changeAvatarAction = changeAvatarAction {
-            changeAvatarAction()
-        }
-    }
 }
