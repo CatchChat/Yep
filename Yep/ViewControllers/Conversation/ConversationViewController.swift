@@ -1288,7 +1288,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                 if let videoData = NSData(contentsOfURL: videoURL) {
 
-                    if let messageVideoURL = NSFileManager.saveMessageImageData(videoData, withName: messageVideoName) {
+                    if let messageVideoURL = NSFileManager.saveMessageVideoData(videoData, withName: messageVideoName) {
                         let realm = message.realm
                         realm.beginWriteTransaction()
 
