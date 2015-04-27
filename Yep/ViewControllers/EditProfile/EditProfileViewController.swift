@@ -36,14 +36,15 @@ class EditProfileViewController: UIViewController {
         let avatarSize = YepConfig.editProfileAvatarSize()
         avatarImageViewWidthConstraint.constant = avatarSize
 
-        updateAvatar()
+        updateAvatar() {
+        }
 
         editProfileTableView.registerNib(UINib(nibName: editProfileLessInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileLessInfoCellIdentifier)
         editProfileTableView.registerNib(UINib(nibName: editProfileMoreInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileMoreInfoCellIdentifier)
         editProfileTableView.registerNib(UINib(nibName: editProfileColoredTitleCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileColoredTitleCellIdentifier)
     }
 
-    func updateAvatar() {
+    func updateAvatar(completion:() -> Void) {
         if let avatarURLString = YepUserDefaults.avatarURLString() {
 
             let avatarSize = YepConfig.editProfileAvatarSize()
@@ -52,6 +53,8 @@ class EditProfileViewController: UIViewController {
             AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: avatarSize * 0.5) { image in
                 dispatch_async(dispatch_get_main_queue()) {
                     self.avatarImageView.image = image
+
+                    completion()
 
                     UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
                         self.avatarImageView.alpha = 1
@@ -63,7 +66,6 @@ class EditProfileViewController: UIViewController {
     }
 
     @IBAction func changeAvatar(sender: UITapGestureRecognizer) {
-
 
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
 
@@ -200,24 +202,38 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
 extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
-        s3PublicUploadParams(failureHandler: nil) { s3UploadParams in
+
+        YepHUD.showActivityIndicator()
+
+        s3PublicUploadParams(failureHandler: { (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage)
+
+            YepHUD.hideActivityIndicator()
+
+        }, completion: { s3UploadParams in
 
             let image = image.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
 
             var imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
 
-            // TODO: 等待的菊花
-            uploadFileToS3(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", s3UploadParams: s3UploadParams, completion: { (result, error) in
-                println("upload avatar to s3 result: \(result), error: \(error)")
+            uploadFileToS3(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", s3UploadParams: s3UploadParams, completion: { (success, error) in
+                println("upload avatar to s3 result: \(success), error: \(error)")
 
-                if (result) {
+                if (success) {
                     let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
 
-                    updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: nil) { success in
+                    updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: { (reason, errorMessage) in
+                        defaultFailureHandler(reason, errorMessage)
+                        
+                        YepHUD.hideActivityIndicator()
+
+                    }, completion: { success in
                         dispatch_async(dispatch_get_main_queue()) {
                             YepUserDefaults.setAvatarURLString(newAvatarURLString)
 
-                            self.updateAvatar()
+                            self.updateAvatar() {
+                                YepHUD.hideActivityIndicator()
+                            }
 
                             if
                                 let myUserID = YepUserDefaults.userID(),
@@ -230,10 +246,13 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
 
                             NSNotificationCenter.defaultCenter().postNotificationName(YepUpdatedProfileAvatarNotification, object: nil)
                         }
-                    }
+                    })
+
+                } else {
+                    YepHUD.hideActivityIndicator()
                 }
             })
-        }
+        })
         
         dismissViewControllerAnimated(true, completion: nil)
     }
