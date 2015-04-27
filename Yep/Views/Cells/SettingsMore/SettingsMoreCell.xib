@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingsMoreCell" rowHeight="72" id="KGk-i7-Jjw" customClass="SettingsMoreCell" customModule="Yep" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="72"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="More" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rWz-Jb-Xgj" userLabel="Annotation Label">
+                        <rect key="frame" x="20" y="25" width="40" height="22"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory" translatesAutoresizingMaskIntoConstraints="NO" id="g81-Zw-MIi" userLabel="Accessory Image View">
+                        <rect key="frame" x="289" y="26" width="11" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="Vcq-kU-dBt"/>
+                            <constraint firstAttribute="width" constant="11" id="j4X-8c-Z1B"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="rWz-Jb-Xgj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="GZU-3e-Nos"/>
+                    <constraint firstAttribute="centerY" secondItem="rWz-Jb-Xgj" secondAttribute="centerY" constant="-0.5" id="KWc-LJ-REX"/>
+                    <constraint firstAttribute="trailing" secondItem="g81-Zw-MIi" secondAttribute="trailing" constant="20" id="Pbg-ZQ-Wwu"/>
+                    <constraint firstItem="g81-Zw-MIi" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rWz-Jb-Xgj" secondAttribute="trailing" constant="10" id="XiB-7u-nzk"/>
+                    <constraint firstAttribute="centerY" secondItem="g81-Zw-MIi" secondAttribute="centerY" id="f3M-TT-UGK"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="accessoryImageView" destination="g81-Zw-MIi" id="cGJ-DC-ZIp"/>
+                <outlet property="annotationLabel" destination="rWz-Jb-Xgj" id="HBc-nZ-Rbw"/>
+            </connections>
+            <point key="canvasLocation" x="321" y="409"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon_accessory" width="11" height="20"/>
+    </resources>
+</document>

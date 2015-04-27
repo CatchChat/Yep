@@ -7,9 +7,7 @@
 //
 
 import UIKit
-import Realm
 
-let YepUpdatedProfileAvatarNotification = "YepUpdatedProfileAvatarNotification"
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
 class ProfileViewController: UIViewController {
@@ -43,6 +41,7 @@ class ProfileViewController: UIViewController {
         return ceil(rect.height) + 4
         }()
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -74,6 +73,8 @@ class ProfileViewController: UIViewController {
 
             navigationController.navigationBar.titleTextAttributes = textAttributes
 
+            navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
+
             navigationItem.title = YepUserDefaults.nickname()
         }
 
@@ -101,52 +102,7 @@ class ProfileViewController: UIViewController {
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
-}
 
-// MARK: UIImagePicker
-
-extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
-        s3PublicUploadParams(failureHandler: nil) { s3UploadParams in
-
-            dispatch_async(dispatch_get_main_queue()) {
-                if let cell = self.profileCollectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as? ProfileHeaderCell {
-                    cell.avatarImageView.image = image
-                }
-            }
-
-            let image = image.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
-
-            var imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
-
-            uploadFileToS3(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", s3UploadParams: s3UploadParams, completion: { (result, error) in
-                println("upload avatar to s3 result: \(result), error: \(error)")
-
-                if (result) {
-                    let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
-
-                    updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: nil) { success in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            YepUserDefaults.setAvatarURLString(newAvatarURLString)
-
-                            if
-                                let myUserID = YepUserDefaults.userID(),
-                                let me = userWithUserID(myUserID) {
-                                    let realm = RLMRealm.defaultRealm()
-                                    realm.beginWriteTransaction()
-                                    me.avatarURLString = newAvatarURLString
-                                    realm.commitWriteTransaction()
-                            }
-
-                            NSNotificationCenter.defaultCenter().postNotificationName(YepUpdatedProfileAvatarNotification, object: nil)
-                        }
-                    }
-                }
-            })
-        }
-
-        dismissViewControllerAnimated(true, completion: nil)
-    }
 }
 
 // MARK: UICollectionView
@@ -193,42 +149,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! ProfileHeaderCell
 
             cell.nameLabel.text = YepUserDefaults.nickname()
-
-            cell.changeAvatarAction = {
-
-                let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-
-                let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { action -> Void in
-                    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
-                        let imagePicker = UIImagePickerController()
-                        imagePicker.delegate = self
-                        imagePicker.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
-                        imagePicker.allowsEditing = false
-
-                        self.presentViewController(imagePicker, animated: true, completion: nil)
-                    }
-                }
-                alertController.addAction(choosePhotoAction)
-
-                let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { action -> Void in
-                    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
-                        let imagePicker = UIImagePickerController()
-                        imagePicker.delegate = self
-                        imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
-                        imagePicker.allowsEditing = false
-
-                        self.presentViewController(imagePicker, animated: true, completion: nil)
-                    }
-                }
-                alertController.addAction(takePhotoAction)
-
-                let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                }
-                alertController.addAction(cancelAction)
-
-                self.presentViewController(alertController, animated: true, completion: nil)
-            }
 
             return cell
 

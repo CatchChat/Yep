@@ -143,7 +143,7 @@ class AvatarCache {
         }
 
         if let url = NSURL(string: avatarURLString) {
-            let roundImageKey = "round-\(url.hashValue)"
+            let roundImageKey = "round-\(radius)-\(url.hashValue)"
 
             // 先看看缓存
             if let roundImage = cache.objectForKey(roundImageKey) as? UIImage {
@@ -219,7 +219,7 @@ class AvatarCache {
         }
 
         if let url = NSURL(string: user.avatarURLString) {
-            let roundImageKey = "round-\(url.hashValue)"
+            let roundImageKey = "round-\(radius)-\(url.hashValue)"
 
             // 先看看缓存
             if let roundImage = cache.objectForKey(roundImageKey) as? UIImage {

@@ -57,4 +57,22 @@ class YepConfig {
     class func audioSampleGap() -> CGFloat {
         return 1
     }
+
+    class func editProfileAvatarSize() -> CGFloat {
+        return 100
+    }
+
+
+    struct Settings {
+        static let userCellAvatarSize: CGFloat = 80
+
+        static let introFont = UIFont(name: "Helvetica-Light", size: 12)!
+        static let introInset: CGFloat = 20 + userCellAvatarSize + 20 + 11 + 20
+    }
+
+    struct EditProfile {
+        static let introFont = UIFont(name: "Helvetica-Light", size: 15)!
+        static let introInset: CGFloat = 20 + 20
+    }
+
 }

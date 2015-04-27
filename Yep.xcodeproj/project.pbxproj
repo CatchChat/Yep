@@ -94,6 +94,18 @@
 		506E241E1AE6391A00A33C1A /* TouchZoomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506E241D1AE6391A00A33C1A /* TouchZoomButton.swift */; };
 		506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */; };
 		5076C56A1AC46B9F00B22952 /* FayeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5076C5691AC46B9F00B22952 /* FayeService.swift */; };
+		50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF01AEA4726000981AF /* SettingsViewController.swift */; };
+		50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF31AEA4A01000981AF /* SettingsUserCell.swift */; };
+		50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894CF41AEA4A01000981AF /* SettingsUserCell.xib */; };
+		50894CFA1AEA54BA000981AF /* SettingsMoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF81AEA54BA000981AF /* SettingsMoreCell.swift */; };
+		50894CFB1AEA54BA000981AF /* SettingsMoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894CF91AEA54BA000981AF /* SettingsMoreCell.xib */; };
+		50894CFE1AEA5A78000981AF /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CFD1AEA5A78000981AF /* EditProfileViewController.swift */; };
+		50894D021AEA6433000981AF /* EditProfileLessInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894D001AEA6433000981AF /* EditProfileLessInfoCell.swift */; };
+		50894D031AEA6433000981AF /* EditProfileLessInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894D011AEA6433000981AF /* EditProfileLessInfoCell.xib */; };
+		50894D071AEDFDA2000981AF /* EditProfileMoreInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894D051AEDFDA2000981AF /* EditProfileMoreInfoCell.swift */; };
+		50894D081AEDFDA2000981AF /* EditProfileMoreInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894D061AEDFDA2000981AF /* EditProfileMoreInfoCell.xib */; };
+		50894D0C1AEE0177000981AF /* EditProfileColoredTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894D0A1AEE0177000981AF /* EditProfileColoredTitleCell.swift */; };
+		50894D0D1AEE0177000981AF /* EditProfileColoredTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894D0B1AEE0177000981AF /* EditProfileColoredTitleCell.xib */; };
 		508C2AA01AD648B2002B8097 /* SearchUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C2A9F1AD648B2002B8097 /* SearchUsersViewController.swift */; };
 		508C2AA41AD661B3002B8097 /* UserStateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C2AA21AD661B3002B8097 /* UserStateCell.swift */; };
 		508C2AA51AD661B3002B8097 /* UserStateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508C2AA31AD661B3002B8097 /* UserStateCell.xib */; };
@@ -241,6 +253,18 @@
 		506E241D1AE6391A00A33C1A /* TouchZoomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouchZoomButton.swift; path = Views/Buttons/TouchZoomButton.swift; sourceTree = "<group>"; };
 		506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Yep.swift"; path = "Extensions/UIFont+Yep.swift"; sourceTree = "<group>"; };
 		5076C5691AC46B9F00B22952 /* FayeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FayeService.swift; path = Services/FayeService.swift; sourceTree = "<group>"; };
+		50894CF01AEA4726000981AF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = ViewControllers/Settings/SettingsViewController.swift; sourceTree = "<group>"; };
+		50894CF31AEA4A01000981AF /* SettingsUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsUserCell.swift; path = Views/Cells/SettingsUser/SettingsUserCell.swift; sourceTree = "<group>"; };
+		50894CF41AEA4A01000981AF /* SettingsUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsUserCell.xib; path = Views/Cells/SettingsUser/SettingsUserCell.xib; sourceTree = "<group>"; };
+		50894CF81AEA54BA000981AF /* SettingsMoreCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsMoreCell.swift; path = Views/Cells/SettingsMore/SettingsMoreCell.swift; sourceTree = "<group>"; };
+		50894CF91AEA54BA000981AF /* SettingsMoreCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsMoreCell.xib; path = Views/Cells/SettingsMore/SettingsMoreCell.xib; sourceTree = "<group>"; };
+		50894CFD1AEA5A78000981AF /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileViewController.swift; path = ViewControllers/EditProfile/EditProfileViewController.swift; sourceTree = "<group>"; };
+		50894D001AEA6433000981AF /* EditProfileLessInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileLessInfoCell.swift; path = Views/Cells/EditProfileLessInfo/EditProfileLessInfoCell.swift; sourceTree = "<group>"; };
+		50894D011AEA6433000981AF /* EditProfileLessInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditProfileLessInfoCell.xib; path = Views/Cells/EditProfileLessInfo/EditProfileLessInfoCell.xib; sourceTree = "<group>"; };
+		50894D051AEDFDA2000981AF /* EditProfileMoreInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileMoreInfoCell.swift; path = Views/Cells/EditProfileMoreInfo/EditProfileMoreInfoCell.swift; sourceTree = "<group>"; };
+		50894D061AEDFDA2000981AF /* EditProfileMoreInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditProfileMoreInfoCell.xib; path = Views/Cells/EditProfileMoreInfo/EditProfileMoreInfoCell.xib; sourceTree = "<group>"; };
+		50894D0A1AEE0177000981AF /* EditProfileColoredTitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileColoredTitleCell.swift; path = Views/Cells/EditProfileColoredTitle/EditProfileColoredTitleCell.swift; sourceTree = "<group>"; };
+		50894D0B1AEE0177000981AF /* EditProfileColoredTitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditProfileColoredTitleCell.xib; path = Views/Cells/EditProfileColoredTitle/EditProfileColoredTitleCell.xib; sourceTree = "<group>"; };
 		508C2A9F1AD648B2002B8097 /* SearchUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchUsersViewController.swift; path = ViewControllers/SearchUsers/SearchUsersViewController.swift; sourceTree = "<group>"; };
 		508C2AA21AD661B3002B8097 /* UserStateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserStateCell.swift; path = Views/Cells/UserState/UserStateCell.swift; sourceTree = "<group>"; };
 		508C2AA31AD661B3002B8097 /* UserStateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UserStateCell.xib; path = Views/Cells/UserState/UserStateCell.xib; sourceTree = "<group>"; };
@@ -433,6 +457,8 @@
 				502AE51F1AB712D6005BD199 /* Register */,
 				502AE5361AB864A3005BD199 /* Login */,
 				0A5D83951AC5D3CD000045BF /* TabBar */,
+				50894CF21AEA472B000981AF /* Settings */,
+				50894CFF1AEA5A7E000981AF /* EditProfile */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -524,6 +550,11 @@
 				505EC81E1ADFBE1F001D27E0 /* SkillSelection */,
 				50EB8CC11AE89EDE001AC1EE /* ChatLeftVideo */,
 				50EB8CC61AE89F15001AC1EE /* ChatRightVideo */,
+				50894CF71AEA4A04000981AF /* SettingsUser */,
+				50894CFC1AEA54BE000981AF /* SettingsMore */,
+				50894D041AEA6439000981AF /* EditProfileLessInfo */,
+				50894D091AEDFDA6000981AF /* EditProfileMoreInfo */,
+				50894D0E1AEE017B000981AF /* EditProfileColoredTitle */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -756,6 +787,67 @@
 				506BB7F41AE4E0A500C1A2A0 /* SkillAnnotationHeader.xib */,
 			);
 			name = SkillAnnotationHeader;
+			sourceTree = "<group>";
+		};
+		50894CF21AEA472B000981AF /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				50894CF01AEA4726000981AF /* SettingsViewController.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		50894CF71AEA4A04000981AF /* SettingsUser */ = {
+			isa = PBXGroup;
+			children = (
+				50894CF31AEA4A01000981AF /* SettingsUserCell.swift */,
+				50894CF41AEA4A01000981AF /* SettingsUserCell.xib */,
+			);
+			name = SettingsUser;
+			sourceTree = "<group>";
+		};
+		50894CFC1AEA54BE000981AF /* SettingsMore */ = {
+			isa = PBXGroup;
+			children = (
+				50894CF81AEA54BA000981AF /* SettingsMoreCell.swift */,
+				50894CF91AEA54BA000981AF /* SettingsMoreCell.xib */,
+			);
+			name = SettingsMore;
+			sourceTree = "<group>";
+		};
+		50894CFF1AEA5A7E000981AF /* EditProfile */ = {
+			isa = PBXGroup;
+			children = (
+				50894CFD1AEA5A78000981AF /* EditProfileViewController.swift */,
+			);
+			name = EditProfile;
+			sourceTree = "<group>";
+		};
+		50894D041AEA6439000981AF /* EditProfileLessInfo */ = {
+			isa = PBXGroup;
+			children = (
+				50894D001AEA6433000981AF /* EditProfileLessInfoCell.swift */,
+				50894D011AEA6433000981AF /* EditProfileLessInfoCell.xib */,
+			);
+			name = EditProfileLessInfo;
+			sourceTree = "<group>";
+		};
+		50894D091AEDFDA6000981AF /* EditProfileMoreInfo */ = {
+			isa = PBXGroup;
+			children = (
+				50894D051AEDFDA2000981AF /* EditProfileMoreInfoCell.swift */,
+				50894D061AEDFDA2000981AF /* EditProfileMoreInfoCell.xib */,
+			);
+			name = EditProfileMoreInfo;
+			sourceTree = "<group>";
+		};
+		50894D0E1AEE017B000981AF /* EditProfileColoredTitle */ = {
+			isa = PBXGroup;
+			children = (
+				50894D0A1AEE0177000981AF /* EditProfileColoredTitleCell.swift */,
+				50894D0B1AEE0177000981AF /* EditProfileColoredTitleCell.xib */,
+			);
+			name = EditProfileColoredTitle;
 			sourceTree = "<group>";
 		};
 		508C2AA11AD648BE002B8097 /* SearchUsers */ = {
@@ -1037,12 +1129,15 @@
 				502AE5411AB88862005BD199 /* SkillRankCell.xib in Resources */,
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
 				50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */,
+				50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */,
 				508D17481ACCF4710092D666 /* ChatLeftAudioCell.xib in Resources */,
 				0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */,
 				5033159D1AC101C80008A209 /* ChatRightTextCell.xib in Resources */,
+				50894CFB1AEA54BA000981AF /* SettingsMoreCell.xib in Resources */,
 				505EC8181ADF8151001D27E0 /* SkillCategoryCell.xib in Resources */,
 				505EC81D1ADFBE1B001D27E0 /* SkillSelectionCell.xib in Resources */,
 				50EB8CC01AE89ED8001AC1EE /* ChatLeftVideoCell.xib in Resources */,
+				50894D0D1AEE0177000981AF /* EditProfileColoredTitleCell.xib in Resources */,
 				50CDBE431ACA9B4200459CE0 /* ChatRightImageCell.xib in Resources */,
 				508C2AA51AD661B3002B8097 /* UserStateCell.xib in Resources */,
 				50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */,
@@ -1051,9 +1146,11 @@
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 				50EB8CC51AE89F12001AC1EE /* ChatRightVideoCell.xib in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
+				50894D081AEDFDA2000981AF /* EditProfileMoreInfoCell.xib in Resources */,
 				508D174D1ACCF49B0092D666 /* ChatRightAudioCell.xib in Resources */,
 				50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */,
 				503315981AC1017E0008A209 /* ChatLeftTextCell.xib in Resources */,
+				50894D031AEA6433000981AF /* EditProfileLessInfoCell.xib in Resources */,
 				0AD7EA771AC3EEB000617758 /* PushConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1133,6 +1230,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50894CFE1AEA5A78000981AF /* EditProfileViewController.swift in Sources */,
 				50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */,
 				5099B9C41AB9510D002F940B /* RankView.swift in Sources */,
 				502AE5311AB85067005BD199 /* RegisterPickMobileViewController.swift in Sources */,
@@ -1153,7 +1251,10 @@
 				502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */,
 				50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */,
 				508D17471ACCF4710092D666 /* ChatLeftAudioCell.swift in Sources */,
+				50894D021AEA6433000981AF /* EditProfileLessInfoCell.swift in Sources */,
+				50894CFA1AEA54BA000981AF /* SettingsMoreCell.swift in Sources */,
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
+				50894D071AEDFDA2000981AF /* EditProfileMoreInfoCell.swift in Sources */,
 				50E114F41ABBF9CC00F13000 /* Models.swift in Sources */,
 				50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */,
 				50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */,
@@ -1196,6 +1297,7 @@
 				506E241C1AE6254F00A33C1A /* MessageTypeButton.swift in Sources */,
 				508C2AA01AD648B2002B8097 /* SearchUsersViewController.swift in Sources */,
 				0A3E60671ACCAECE003DC853 /* YepLocationService.swift in Sources */,
+				50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */,
 				5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */,
 				50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */,
 				5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */,
@@ -1215,7 +1317,9 @@
 				0A5D83991AC5D91E000045BF /* ContactsSearchTableViewController.swift in Sources */,
 				0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */,
 				505EC8171ADF8151001D27E0 /* SkillCategoryCell.swift in Sources */,
+				50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */,
 				504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */,
+				50894D0C1AEE0177000981AF /* EditProfileColoredTitleCell.swift in Sources */,
 				5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

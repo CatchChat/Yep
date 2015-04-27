@@ -1,44 +1,57 @@
 //
-//  ProfileHeaderCell.swift
+//  SettingsUserCell.swift
 //  Yep
 //
-//  Created by NIX on 15/3/18.
+//  Created by NIX on 15/4/24.
 //  Copyright (c) 2015年 Catch Inc. All rights reserved.
 //
 
 import UIKit
 
-class ProfileHeaderCell: UICollectionViewCell {
+class SettingsUserCell: UITableViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var joinedDateLabel: UILabel!
-    @IBOutlet weak var locationLabel: UILabel!
+
+    @IBOutlet weak var introLabel: UILabel!
+
+    @IBOutlet weak var accessoryImageView: UIImageView!
+
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        nameLabel.hidden = true
-        joinedDateLabel.hidden = true
+        let avatarSize = YepConfig.Settings.userCellAvatarSize
+        avatarImageViewWidthConstraint.constant = avatarSize
 
         updateAvatar()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAvatar", name: YepUpdatedProfileAvatarNotification, object: nil)
-        
-        YepLocationService.sharedManager
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
+
+        nameLabel.text = YepUserDefaults.nickname()
+
+        introLabel.font = YepConfig.Settings.introFont
+
+        accessoryImageView.tintColor = UIColor.lightGrayColor()
+
     }
 
     func updateAvatar() {
-        avatarImageView.alpha = 0
+
         if let avatarURLString = YepUserDefaults.avatarURLString() {
-            AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!) { image in
+
+            let avatarSize = YepConfig.Settings.userCellAvatarSize
+
+            avatarImageView.alpha = 0
+            AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: avatarSize * 0.5) { image in
                 dispatch_async(dispatch_get_main_queue()) {
                     self.avatarImageView.image = image
+
                     UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
                         self.avatarImageView.alpha = 1
                     }, completion: { (finished) -> Void in
@@ -47,12 +60,11 @@ class ProfileHeaderCell: UICollectionViewCell {
             }
         }
     }
-    
-    func updateAddress() {
-        
-        println("Location YepLocationUpdated")
-        
-        self.locationLabel.text = YepLocationService.sharedManager.address
+
+    override func setSelected(selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        // Configure the view for the selected state
     }
     
 }
