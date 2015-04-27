@@ -15,6 +15,9 @@ class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var joinedDateLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,6 +26,7 @@ class ProfileHeaderCell: UICollectionViewCell {
         joinedDateLabel.hidden = true
 
         updateAvatar()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAvatar", name: YepUpdatedProfileAvatarNotification, object: nil)
         
         YepLocationService.sharedManager
         

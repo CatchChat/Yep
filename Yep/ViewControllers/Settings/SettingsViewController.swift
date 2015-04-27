@@ -24,24 +24,16 @@ class SettingsViewController: UIViewController {
 
     let introAttributes = [NSFontAttributeName: YepConfig.Settings.introFont]
 
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("Settings", comment: "")
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadSettingsTableView", name: YepUpdatedProfileAvatarNotification, object: nil)
-
         settingsTableView.registerNib(UINib(nibName: settingsUserCellIdentifier, bundle: nil), forCellReuseIdentifier: settingsUserCellIdentifier)
         settingsTableView.registerNib(UINib(nibName: settingsMoreCellIdentifier, bundle: nil), forCellReuseIdentifier: settingsMoreCellIdentifier)
     }
 
-    func reloadSettingsTableView() {
-        settingsTableView.reloadData()
-    }
 }
 
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -72,7 +64,6 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         case Section.User.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(settingsUserCellIdentifier) as! SettingsUserCell
             cell.introLabel.text = intro
-            cell.updateAvatar()
             return cell
 
         case Section.More.rawValue:

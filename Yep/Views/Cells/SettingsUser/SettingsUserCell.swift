@@ -20,6 +20,10 @@ class SettingsUserCell: UITableViewCell {
     @IBOutlet weak var accessoryImageView: UIImageView!
 
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -27,6 +31,7 @@ class SettingsUserCell: UITableViewCell {
         avatarImageViewWidthConstraint.constant = avatarSize
 
         updateAvatar()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAvatar", name: YepUpdatedProfileAvatarNotification, object: nil)
 
         nameLabel.text = YepUserDefaults.nickname()
 

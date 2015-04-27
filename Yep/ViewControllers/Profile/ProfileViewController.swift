@@ -41,15 +41,9 @@ class ProfileViewController: UIViewController {
         return ceil(rect.height) + 4
         }()
 
-    
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadProfileCollectionView", name: YepUpdatedProfileAvatarNotification, object: nil)
 
         profileCollectionView.registerNib(UINib(nibName: skillCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: headerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
@@ -109,9 +103,6 @@ class ProfileViewController: UIViewController {
         return UIStatusBarStyle.LightContent
     }
 
-    func reloadProfileCollectionView() {
-        profileCollectionView.reloadData()
-    }
 }
 
 // MARK: UICollectionView
@@ -156,8 +147,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.Header.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! ProfileHeaderCell
-
-            cell.updateAvatar()
 
             cell.nameLabel.text = YepUserDefaults.nickname()
 
