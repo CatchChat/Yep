@@ -20,6 +20,7 @@ class EditProfileViewController: UIViewController {
 
     let editProfileLessInfoCellIdentifier = "EditProfileLessInfoCell"
     let editProfileMoreInfoCellIdentifier = "EditProfileMoreInfoCell"
+    let editProfileColoredTitleCellIdentifier = "EditProfileColoredTitleCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,36 +44,68 @@ class EditProfileViewController: UIViewController {
 
         editProfileTableView.registerNib(UINib(nibName: editProfileLessInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileLessInfoCellIdentifier)
         editProfileTableView.registerNib(UINib(nibName: editProfileMoreInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileMoreInfoCellIdentifier)
+        editProfileTableView.registerNib(UINib(nibName: editProfileColoredTitleCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileColoredTitleCellIdentifier)
     }
 
 }
 
 extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate {
-    enum Row: Int {
+
+    enum Section: Int {
+        case Info
+        case LogOut
+    }
+
+    enum InfoRow: Int {
         case Name = 0
         case Intro
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch indexPath.row {
-        case Row.Name.rawValue:
-            let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileLessInfoCell
-            cell.annotationLabel.text = NSLocalizedString("Nickname", comment: "")
-            cell.infoLabel.text = YepUserDefaults.nickname()
-            return cell
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        case Row.Intro.rawValue:
-            let cell = tableView.dequeueReusableCellWithIdentifier(editProfileMoreInfoCellIdentifier) as! EditProfileMoreInfoCell
-            cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
-            cell.infoLabel.text = "I'm good at iOS Development and Singing. Come here, let me teach you."
+        switch section {
+
+        case Section.Info.rawValue:
+            return 2
+
+        case Section.LogOut.rawValue:
+            return 1
+
+        default:
+            return 0
+        }
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        switch indexPath.section {
+
+        case Section.Info.rawValue:
+
+            switch indexPath.row {
+            case InfoRow.Name.rawValue:
+                let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileLessInfoCell
+                cell.annotationLabel.text = NSLocalizedString("Nickname", comment: "")
+                cell.infoLabel.text = YepUserDefaults.nickname()
+                return cell
+
+            case InfoRow.Intro.rawValue:
+                let cell = tableView.dequeueReusableCellWithIdentifier(editProfileMoreInfoCellIdentifier) as! EditProfileMoreInfoCell
+                cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
+                cell.infoLabel.text = "I'm good at iOS Development and Singing. Come here, let me teach you."
+                return cell
+
+            default:
+                return UITableViewCell()
+            }
+
+        case Section.LogOut.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier(editProfileColoredTitleCellIdentifier) as! EditProfileColoredTitleCell
+            cell.coloredTitleLabel.text = NSLocalizedString("Log out", comment: "")
+            cell.coloredTitleColor = UIColor.redColor()
             return cell
 
         default:
@@ -81,11 +114,23 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        switch indexPath.row {
-        case Row.Name.rawValue:
-            return 60
-        case Row.Intro.rawValue:
-            return 120
+        switch indexPath.section {
+        case Section.Info.rawValue:
+
+            switch indexPath.row {
+            case InfoRow.Name.rawValue:
+                return 60
+
+            case InfoRow.Intro.rawValue:
+                return 120
+
+            default:
+                return 0
+            }
+
+        case Section.LogOut.rawValue:
+            return 80
+
         default:
             return 0
         }
