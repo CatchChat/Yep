@@ -21,7 +21,10 @@ class EditProfileViewController: UIViewController {
     let editProfileLessInfoCellIdentifier = "EditProfileLessInfoCell"
     let editProfileMoreInfoCellIdentifier = "EditProfileMoreInfoCell"
     let editProfileColoredTitleCellIdentifier = "EditProfileColoredTitleCell"
-    
+
+    let intro = "I'm good at iOS Development and Singing. Come here, let me teach you." // TODO: User Intro
+    let introAttributes = [NSFontAttributeName: YepConfig.EditProfile.introFont]
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -95,7 +98,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             case InfoRow.Intro.rawValue:
                 let cell = tableView.dequeueReusableCellWithIdentifier(editProfileMoreInfoCellIdentifier) as! EditProfileMoreInfoCell
                 cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
-                cell.infoLabel.text = "I'm good at iOS Development and Singing. Come here, let me teach you."
+                cell.infoLabel.text = intro
                 return cell
 
             default:
@@ -122,7 +125,14 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 return 60
 
             case InfoRow.Intro.rawValue:
-                return 120
+                let tableViewWidth = CGRectGetWidth(editProfileTableView.bounds)
+                let introLabelMaxWidth = tableViewWidth - YepConfig.EditProfile.introInset
+
+                let rect = intro.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: introAttributes, context: nil)
+
+                let height = 20 + 22 + 20 + ceil(rect.height) + 20
+                
+                return height
 
             default:
                 return 0

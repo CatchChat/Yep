@@ -17,7 +17,8 @@ class EditProfileMoreInfoCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        infoLabel.font = YepConfig.EditProfile.introFont
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
