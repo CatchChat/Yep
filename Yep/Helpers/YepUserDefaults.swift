@@ -39,11 +39,14 @@ class YepUserDefaults {
 
     var nicknameListenerSet = Set<Listener>()
 
-    class func bindAndFireNicknameListener(name: String, action: Listener.Action) {
-
+    class func bindNicknameListener(name: String, action: Listener.Action) {
         let listener = Listener(name: name, action: action)
 
         self.sharedInstance.nicknameListenerSet.insert(listener)
+    }
+
+    class func bindAndFireNicknameListener(name: String, action: Listener.Action) {
+        bindNicknameListener(name, action: action)
 
         action(nickname())
     }
@@ -59,9 +62,7 @@ class YepUserDefaults {
     }
 
     class func bindAndFireAvatarListener(name: String, action: Listener.Action) {
-        let listener = Listener(name: name, action: action)
-
-        self.sharedInstance.avatarListenerSet.insert(listener)
+        bindAvatarListener(name, action: action)
 
         action(avatarURLString())
     }
@@ -131,6 +132,15 @@ class YepUserDefaults {
     class func setNickname(nickname: String) {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(nickname, forKey: nicknameKey)
+
+        if
+            let myUserID = YepUserDefaults.userID(),
+            let me = userWithUserID(myUserID) {
+                let realm = RLMRealm.defaultRealm()
+                realm.beginWriteTransaction()
+                me.nickname = nickname
+                realm.commitWriteTransaction()
+        }
 
         // 让监听者知晓
         for listener in self.sharedInstance.nicknameListenerSet {

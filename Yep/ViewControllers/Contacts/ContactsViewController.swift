@@ -26,7 +26,11 @@ class ContactsViewController: UIViewController {
         contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         contactsTableView.rowHeight = 80
 
-        YepUserDefaults.bindAvatarListener("ContactsViewController") { _ in
+        YepUserDefaults.bindNicknameListener("ContactsViewController.Nickname") { _ in
+            self.reloadContactsTableView()
+        }
+
+        YepUserDefaults.bindAvatarListener("ContactsViewController.Avatar") { _ in
             self.reloadContactsTableView()
         }
     }
