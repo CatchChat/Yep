@@ -196,6 +196,57 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             return 0
         }
     }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        switch indexPath.section {
+
+        case Section.Info.rawValue:
+
+            switch indexPath.row {
+
+            case InfoRow.Name.rawValue:
+                YepAlert.textInput(title: NSLocalizedString("Change nickname", comment: ""), placeholder: YepUserDefaults.nickname(), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withFinishedAction: { (newNickname) -> Void in
+
+                    if let oldNickname = YepUserDefaults.nickname() {
+                        if oldNickname == newNickname {
+                            return
+                        }
+                    }
+
+                    YepHUD.showActivityIndicator()
+
+                    updateMyselfWithInfo(["nickname": newNickname], failureHandler: { (reason, errorMessage) in
+                        defaultFailureHandler(reason, errorMessage)
+
+                        YepHUD.hideActivityIndicator()
+
+                    }, completion: { success in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepUserDefaults.setNickname(newNickname)
+
+                            if let cell = tableView.cellForRowAtIndexPath(indexPath) as? EditProfileLessInfoCell {
+                                cell.infoLabel.text = YepUserDefaults.nickname()
+
+                            } else {
+                                self.editProfileTableView.reloadData()
+                            }
+                        }
+                        
+                        YepHUD.hideActivityIndicator()
+                    })
+                })
+
+            default:
+                break
+            }
+            
+        default:
+            break
+        }
+    }
 }
 
 // MARK: UIImagePicker
