@@ -142,14 +142,22 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             switch indexPath.row {
             case InfoRow.Name.rawValue:
                 let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileLessInfoCell
+
                 cell.annotationLabel.text = NSLocalizedString("Nickname", comment: "")
-                cell.infoLabel.text = YepUserDefaults.nickname()
+
+                YepUserDefaults.bindAndFireNicknameListener { nickname in
+                    cell.infoLabel.text = nickname
+                }
+
                 return cell
 
             case InfoRow.Intro.rawValue:
                 let cell = tableView.dequeueReusableCellWithIdentifier(editProfileMoreInfoCellIdentifier) as! EditProfileMoreInfoCell
+
                 cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
+
                 cell.infoLabel.text = intro
+
                 return cell
 
             default:
@@ -226,15 +234,8 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     }, completion: { success in
                         dispatch_async(dispatch_get_main_queue()) {
                             YepUserDefaults.setNickname(newNickname)
-
-                            if let cell = tableView.cellForRowAtIndexPath(indexPath) as? EditProfileLessInfoCell {
-                                cell.infoLabel.text = YepUserDefaults.nickname()
-
-                            } else {
-                                self.editProfileTableView.reloadData()
-                            }
                         }
-                        
+
                         YepHUD.hideActivityIndicator()
                     })
                 })

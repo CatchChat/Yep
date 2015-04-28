@@ -16,6 +16,24 @@ let pusherIDKey = "pusherID"
 
 class YepUserDefaults {
 
+    static let sharedInstance = YepUserDefaults()
+
+    // MARK: 绑定监听 Nickname
+
+    typealias NicknameListener = String? -> Void
+
+    var nicknameListeners = [NicknameListener]()
+
+    class func bindNicknameListener(nicknameListener: NicknameListener) {
+        self.sharedInstance.nicknameListeners.append(nicknameListener)
+    }
+
+    class func bindAndFireNicknameListener(nicknameListener: NicknameListener) {
+        self.sharedInstance.nicknameListeners.append(nicknameListener)
+
+        nicknameListener(nickname())
+    }
+
     // MARK: ReLogin
 
     class func userNeedRelogin() {
@@ -81,6 +99,11 @@ class YepUserDefaults {
     class func setNickname(nickname: String) {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(nickname, forKey: nicknameKey)
+
+        // 让监听者知晓
+        for nicknameListener in self.sharedInstance.nicknameListeners {
+            nicknameListener(nickname)
+        }
     }
 
     // MARK: avatarURLString

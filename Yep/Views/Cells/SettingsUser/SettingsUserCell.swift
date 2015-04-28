@@ -33,7 +33,9 @@ class SettingsUserCell: UITableViewCell {
         updateAvatar()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAvatar", name: YepUpdatedProfileAvatarNotification, object: nil)
 
-        nameLabel.text = YepUserDefaults.nickname()
+        YepUserDefaults.bindAndFireNicknameListener { nickname in
+            self.nameLabel.text = nickname
+        }
 
         introLabel.font = YepConfig.Settings.introFont
 

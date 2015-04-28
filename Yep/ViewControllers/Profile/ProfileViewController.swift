@@ -75,7 +75,9 @@ class ProfileViewController: UIViewController {
 
             navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
 
-            navigationItem.title = YepUserDefaults.nickname()
+            YepUserDefaults.bindAndFireNicknameListener { nickname in
+                self.navigationItem.title = nickname
+            }
         }
 
         userInfo(failureHandler: nil) { userInfo in

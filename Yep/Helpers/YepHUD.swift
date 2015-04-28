@@ -10,7 +10,7 @@ import UIKit
 
 class YepHUD: NSObject {
 
-    static var sharedInstance = YepHUD()
+    static let sharedInstance = YepHUD()
 
     var isShowing = false
 
