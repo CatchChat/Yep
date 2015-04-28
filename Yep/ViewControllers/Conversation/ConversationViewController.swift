@@ -153,7 +153,10 @@ class ConversationViewController: UIViewController {
         navigationItem.rightBarButtonItem = undoBarButtonItem
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationCollectionView", name: YepNewMessagesReceivedNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationCollectionView", name: YepUpdatedProfileAvatarNotification, object: nil)
+
+        YepUserDefaults.bindAvatarListener { _ in
+            self.reloadConversationCollectionView()
+        }
 
 
         makePullToRefreshView()

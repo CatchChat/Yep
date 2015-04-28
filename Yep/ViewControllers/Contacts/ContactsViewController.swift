@@ -23,10 +23,12 @@ class ContactsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadContactsTableView", name: YepUpdatedProfileAvatarNotification, object: nil)
-
         contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         contactsTableView.rowHeight = 80
+
+        YepUserDefaults.bindAvatarListener { _ in
+            self.reloadContactsTableView()
+        }
     }
 
     func reloadContactsTableView() {

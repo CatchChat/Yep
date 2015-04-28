@@ -27,7 +27,10 @@ class ConversationsViewController: UIViewController {
         super.viewDidLoad()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepNewMessagesReceivedNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepUpdatedProfileAvatarNotification, object: nil)
+
+        YepUserDefaults.bindAvatarListener { _ in
+            self.reloadConversationsTableView()
+        }
 
         view.backgroundColor = UIColor.whiteColor()
 

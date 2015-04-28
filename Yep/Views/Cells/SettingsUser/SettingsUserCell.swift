@@ -30,8 +30,9 @@ class SettingsUserCell: UITableViewCell {
         let avatarSize = YepConfig.Settings.userCellAvatarSize
         avatarImageViewWidthConstraint.constant = avatarSize
 
-        updateAvatar()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAvatar", name: YepUpdatedProfileAvatarNotification, object: nil)
+        YepUserDefaults.bindAndFireAvatarListener { _ in
+            self.updateAvatar()
+        }
 
         YepUserDefaults.bindAndFireNicknameListener { nickname in
             self.nameLabel.text = nickname

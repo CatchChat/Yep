@@ -25,8 +25,9 @@ class ProfileHeaderCell: UICollectionViewCell {
         nameLabel.hidden = true
         joinedDateLabel.hidden = true
 
-        updateAvatar()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAvatar", name: YepUpdatedProfileAvatarNotification, object: nil)
+        YepUserDefaults.bindAndFireAvatarListener { _ in
+            self.updateAvatar()
+        }
         
         YepLocationService.sharedManager
         

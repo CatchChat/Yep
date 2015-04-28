@@ -7,9 +7,6 @@
 //
 
 import UIKit
-import Realm
-
-let YepUpdatedProfileAvatarNotification = "YepUpdatedProfileAvatarNotification"
 
 class EditProfileViewController: UIViewController {
 
@@ -286,17 +283,6 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
                             self.updateAvatar() {
                                 YepHUD.hideActivityIndicator()
                             }
-
-                            if
-                                let myUserID = YepUserDefaults.userID(),
-                                let me = userWithUserID(myUserID) {
-                                    let realm = RLMRealm.defaultRealm()
-                                    realm.beginWriteTransaction()
-                                    me.avatarURLString = newAvatarURLString
-                                    realm.commitWriteTransaction()
-                            }
-
-                            NSNotificationCenter.defaultCenter().postNotificationName(YepUpdatedProfileAvatarNotification, object: nil)
                         }
                     })
 

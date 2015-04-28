@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Realm
 
 let v1AccessTokenKey = "v1AccessToken"
 let userIDKey = "userID"
@@ -20,7 +21,7 @@ class YepUserDefaults {
 
     // MARK: 绑定监听 Nickname
 
-    typealias NicknameListener = String? -> Void
+    typealias NicknameListener = (nickname: String?) -> Void
 
     var nicknameListeners = [NicknameListener]()
 
@@ -31,7 +32,23 @@ class YepUserDefaults {
     class func bindAndFireNicknameListener(nicknameListener: NicknameListener) {
         self.sharedInstance.nicknameListeners.append(nicknameListener)
 
-        nicknameListener(nickname())
+        nicknameListener(nickname: nickname())
+    }
+
+    // MARK: 绑定监听 Avatar
+
+    typealias AvatarListener = (avatarURLString: String?) -> Void
+
+    var avatarListeners = [AvatarListener]()
+
+    class func bindAvatarListener(avatarListener: AvatarListener) {
+        self.sharedInstance.avatarListeners.append(avatarListener)
+    }
+
+    class func bindAndFireAvatarListener(avatarListener: AvatarListener) {
+        self.sharedInstance.avatarListeners.append(avatarListener)
+
+        avatarListener(avatarURLString: avatarURLString())
     }
 
     // MARK: ReLogin
@@ -102,7 +119,7 @@ class YepUserDefaults {
 
         // 让监听者知晓
         for nicknameListener in self.sharedInstance.nicknameListeners {
-            nicknameListener(nickname)
+            nicknameListener(nickname: nickname)
         }
     }
 
@@ -116,6 +133,20 @@ class YepUserDefaults {
     class func setAvatarURLString(avatarURLString: String) {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(avatarURLString, forKey: avatarURLStringKey)
+
+        if
+            let myUserID = YepUserDefaults.userID(),
+            let me = userWithUserID(myUserID) {
+                let realm = RLMRealm.defaultRealm()
+                realm.beginWriteTransaction()
+                me.avatarURLString = avatarURLString
+                realm.commitWriteTransaction()
+        }
+
+        // 让监听者知晓
+        for avatarListener in self.sharedInstance.avatarListeners {
+            avatarListener(avatarURLString: avatarURLString)
+        }
     }
 
     // MARK: pusherID
