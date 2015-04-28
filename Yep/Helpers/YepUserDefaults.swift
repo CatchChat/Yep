@@ -15,40 +15,55 @@ let nicknameKey = "nickname"
 let avatarURLStringKey = "avatarURLString"
 let pusherIDKey = "pusherID"
 
+
+func ==(lhs: YepUserDefaults.Listener, rhs: YepUserDefaults.Listener) -> Bool {
+    return lhs.name == rhs.name
+}
+
 class YepUserDefaults {
+
+    struct Listener: Hashable {
+        let name: String
+
+        typealias Action = (String?) -> Void
+        let action: Action
+
+        var hashValue: Int {
+            return name.hashValue
+        }
+    }
 
     static let sharedInstance = YepUserDefaults()
 
     // MARK: 绑定监听 Nickname
 
-    typealias NicknameListener = (nickname: String?) -> Void
+    var nicknameListenerSet = Set<Listener>()
 
-    var nicknameListeners = [NicknameListener]()
+    class func bindAndFireNicknameListener(name: String, action: Listener.Action) {
 
-    class func bindNicknameListener(nicknameListener: NicknameListener) {
-        self.sharedInstance.nicknameListeners.append(nicknameListener)
-    }
+        let listener = Listener(name: name, action: action)
 
-    class func bindAndFireNicknameListener(nicknameListener: NicknameListener) {
-        self.sharedInstance.nicknameListeners.append(nicknameListener)
+        self.sharedInstance.nicknameListenerSet.insert(listener)
 
-        nicknameListener(nickname: nickname())
+        action(nickname())
     }
 
     // MARK: 绑定监听 Avatar
 
-    typealias AvatarListener = (avatarURLString: String?) -> Void
+    var avatarListenerSet = Set<Listener>()
 
-    var avatarListeners = [AvatarListener]()
+    class func bindAvatarListener(name: String, action: Listener.Action) {
+        let listener = Listener(name: name, action: action)
 
-    class func bindAvatarListener(avatarListener: AvatarListener) {
-        self.sharedInstance.avatarListeners.append(avatarListener)
+        self.sharedInstance.avatarListenerSet.insert(listener)
     }
 
-    class func bindAndFireAvatarListener(avatarListener: AvatarListener) {
-        self.sharedInstance.avatarListeners.append(avatarListener)
+    class func bindAndFireAvatarListener(name: String, action: Listener.Action) {
+        let listener = Listener(name: name, action: action)
 
-        avatarListener(avatarURLString: avatarURLString())
+        self.sharedInstance.avatarListenerSet.insert(listener)
+
+        action(avatarURLString())
     }
 
     // MARK: ReLogin
@@ -118,7 +133,9 @@ class YepUserDefaults {
         defaults.setObject(nickname, forKey: nicknameKey)
 
         // 让监听者知晓
-        self.sharedInstance.nicknameListeners.map { $0(nickname: nickname) }
+        for listener in self.sharedInstance.nicknameListenerSet {
+            listener.action(nickname)
+        }
     }
 
     // MARK: avatarURLString
@@ -142,7 +159,9 @@ class YepUserDefaults {
         }
 
         // 让监听者知晓
-        self.sharedInstance.avatarListeners.map { $0(avatarURLString: avatarURLString) }
+        for listener in self.sharedInstance.avatarListenerSet {
+            listener.action(avatarURLString)
+        }
     }
 
     // MARK: pusherID

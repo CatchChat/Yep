@@ -25,7 +25,7 @@ class ProfileHeaderCell: UICollectionViewCell {
         nameLabel.hidden = true
         joinedDateLabel.hidden = true
 
-        YepUserDefaults.bindAndFireAvatarListener { _ in
+        YepUserDefaults.bindAndFireAvatarListener("ProfileHeaderCell.Avatar") { _ in
             self.updateAvatar()
         }
         

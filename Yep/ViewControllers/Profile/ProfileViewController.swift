@@ -75,7 +75,7 @@ class ProfileViewController: UIViewController {
 
             navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
 
-            YepUserDefaults.bindAndFireNicknameListener { nickname in
+            YepUserDefaults.bindAndFireNicknameListener("ProfileViewController.Title") { nickname in
                 self.navigationItem.title = nickname
             }
         }

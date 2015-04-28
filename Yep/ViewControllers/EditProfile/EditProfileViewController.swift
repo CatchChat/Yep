@@ -142,7 +142,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 cell.annotationLabel.text = NSLocalizedString("Nickname", comment: "")
 
-                YepUserDefaults.bindAndFireNicknameListener { nickname in
+                YepUserDefaults.bindAndFireNicknameListener("EditProfileLessInfoCell.Nickname") { nickname in
                     cell.infoLabel.text = nickname
                 }
 

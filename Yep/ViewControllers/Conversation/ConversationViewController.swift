@@ -154,7 +154,7 @@ class ConversationViewController: UIViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationCollectionView", name: YepNewMessagesReceivedNotification, object: nil)
 
-        YepUserDefaults.bindAvatarListener { _ in
+        YepUserDefaults.bindAvatarListener("ConversationViewController") { _ in
             self.reloadConversationCollectionView()
         }
 
