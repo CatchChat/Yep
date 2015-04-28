@@ -118,9 +118,7 @@ class YepUserDefaults {
         defaults.setObject(nickname, forKey: nicknameKey)
 
         // 让监听者知晓
-        for nicknameListener in self.sharedInstance.nicknameListeners {
-            nicknameListener(nickname: nickname)
-        }
+        self.sharedInstance.nicknameListeners.map { $0(nickname: nickname) }
     }
 
     // MARK: avatarURLString
@@ -144,9 +142,7 @@ class YepUserDefaults {
         }
 
         // 让监听者知晓
-        for avatarListener in self.sharedInstance.avatarListeners {
-            avatarListener(avatarURLString: avatarURLString)
-        }
+        self.sharedInstance.avatarListeners.map { $0(avatarURLString: avatarURLString) }
     }
 
     // MARK: pusherID
