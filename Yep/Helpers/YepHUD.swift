@@ -8,9 +8,11 @@
 
 import UIKit
 
-class YepHUD {
+class YepHUD: NSObject {
 
     static var sharedInstance = YepHUD()
+
+    var isShowing = false
 
     lazy var containerView: UIView = {
         let view = UIView()
@@ -28,10 +30,17 @@ class YepHUD {
     }
 
     class func showActivityIndicatorWhileBlockingUI(blockingUI: Bool) {
+
+        if self.sharedInstance.isShowing {
+            return // TODO: 或者用新的取代旧的
+        }
+
         dispatch_async(dispatch_get_main_queue()) {
             if
                 let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate,
                 let window = appDelegate.window {
+
+                    self.sharedInstance.isShowing = true
 
                     self.sharedInstance.containerView.userInteractionEnabled = blockingUI
 
@@ -50,29 +59,55 @@ class YepHUD {
                         self.sharedInstance.activityIndicator.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
                         UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions(0), animations: { () -> Void in
                             self.sharedInstance.activityIndicator.transform = CGAffineTransformMakeScale(1.0, 1.0)
+
                         }, completion: { (finished) -> Void in
                             self.sharedInstance.activityIndicator.transform = CGAffineTransformIdentity
+
+                            let dismissTimer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: "forcedHideActivityIndicator", userInfo: nil, repeats: false)
                         })
                     })
             }
         }
     }
 
+    class func forcedHideActivityIndicator() {
+        hideActivityIndicator() {
+            if
+                let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate,
+                let viewController = appDelegate.window?.rootViewController {
+                    YepAlert.alertSorry(message: NSLocalizedString("Wait too long, the operation may not be completed.", comment: ""), inViewController: viewController)
+            }
+        }
+    }
+
     class func hideActivityIndicator() {
-        dispatch_async(dispatch_get_main_queue()) {
-            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions(0), animations: { () -> Void in
-                self.sharedInstance.activityIndicator.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
+        hideActivityIndicator() {
+        }
+    }
 
-            }, completion: { (finished) -> Void in
-                self.sharedInstance.activityIndicator.removeFromSuperview()
+    class func hideActivityIndicator(completion: () -> Void) {
 
-                UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions(0), animations: { () -> Void in
-                    self.sharedInstance.containerView.alpha = 0
+        if self.sharedInstance.isShowing {
+
+            dispatch_async(dispatch_get_main_queue()) {
+                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions(0), animations: { () -> Void in
+                    self.sharedInstance.activityIndicator.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
 
                 }, completion: { (finished) -> Void in
-                    self.sharedInstance.containerView.removeFromSuperview()
+                    self.sharedInstance.activityIndicator.removeFromSuperview()
+
+                    UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions(0), animations: { () -> Void in
+                        self.sharedInstance.containerView.alpha = 0
+
+                    }, completion: { (finished) -> Void in
+                        self.sharedInstance.containerView.removeFromSuperview()
+
+                        completion()
+                    })
                 })
-            })
+            }
+            
+            self.sharedInstance.isShowing = false
         }
     }
 }
