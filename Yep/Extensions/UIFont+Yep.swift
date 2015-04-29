@@ -20,4 +20,8 @@ extension UIFont {
     class func skillTextLargeFont() -> UIFont {
         return UIFont(name: "Helvetica-Light", size: 20)!
     }
+
+    class func navigationBarTitleFont() -> UIFont {
+        return UIFont(name: "HelveticaNeue-CondensedBlack", size: 20)!
+    }
 }

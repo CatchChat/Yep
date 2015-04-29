@@ -47,7 +47,7 @@ class SettingsViewController: UIViewController {
             
             let textAttributes = [
                 NSForegroundColorAttributeName: UIColor.yepTintColor(),
-                NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 20)!
+                NSFontAttributeName: UIFont.navigationBarTitleFont()
             ]
             
             navigationController.navigationBar.titleTextAttributes = textAttributes
