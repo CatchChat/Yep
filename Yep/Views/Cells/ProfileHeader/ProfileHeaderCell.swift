@@ -11,8 +11,6 @@ import UIKit
 class ProfileHeaderCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var joinedDateLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
 
     deinit {
@@ -21,9 +19,6 @@ class ProfileHeaderCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
-        nameLabel.hidden = true
-        joinedDateLabel.hidden = true
 
         YepUserDefaults.avatarURLString.bindAndFireListener("ProfileHeaderCell.Avatar") { _ in
             self.updateAvatar()

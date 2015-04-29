@@ -150,8 +150,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Header.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! ProfileHeaderCell
 
-            cell.nameLabel.text = YepUserDefaults.nickname.value
-
             return cell
 
         case ProfileSection.Master.rawValue:
