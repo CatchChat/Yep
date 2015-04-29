@@ -10,6 +10,8 @@ import UIKit
 
 class Waver: UIView {
     
+    var displayLink: CADisplayLink!
+    
     var numberOfWaves: Int = 5
     
     var waveColor: UIColor = UIColor(red: 50/255.0, green: 167/255.0, blue: 255/255.0, alpha: 1.0)
@@ -70,9 +72,9 @@ class Waver: UIView {
     
     //
 
-    var waverCallback: (() -> ())? {
+    var waverCallback: ((waver: Waver) -> ())? {
         didSet {
-            let displayLink = CADisplayLink(target: self, selector: Selector("callbackWaver"))
+            displayLink = CADisplayLink(target: self, selector: Selector("callbackWaver"))
             displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
             
             for var i = 0; i < self.numberOfWaves; ++i {
@@ -95,6 +97,10 @@ class Waver: UIView {
             }
             
         }
+    }
+
+    deinit {
+        displayLink.invalidate()
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -127,7 +133,7 @@ class Waver: UIView {
     }
     
     func callbackWaver() {
-        waverCallback!()
+        waverCallback!(waver: self)
     }
     
     private func updateMeters() {

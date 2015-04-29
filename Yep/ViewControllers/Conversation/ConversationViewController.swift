@@ -219,16 +219,15 @@ class ConversationViewController: UIViewController {
         
         self.waverView = YepWaverView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height))
 
-        self.waverView.waver.waverCallback = {
-            
+        self.waverView.waver.waverCallback = { waver in
             if let audioRecorder = YepAudioService.sharedManager.audioRecorder {
                 if (audioRecorder.recording) {
                     //println("Update waver")
                     audioRecorder.updateMeters()
-
+                    
                     var normalizedValue = pow(10, audioRecorder.averagePowerForChannel(0)/40)
-
-                    self.waverView.waver.level = CGFloat(normalizedValue)
+                    
+                    waver.level = CGFloat(normalizedValue)
                 }
             }
         }
