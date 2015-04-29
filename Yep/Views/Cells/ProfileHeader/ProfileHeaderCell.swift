@@ -25,7 +25,7 @@ class ProfileHeaderCell: UICollectionViewCell {
         nameLabel.hidden = true
         joinedDateLabel.hidden = true
 
-        YepUserDefaults.bindAndFireAvatarListener("ProfileHeaderCell.Avatar") { _ in
+        YepUserDefaults.avatarURLString.bindAndFireListener("ProfileHeaderCell.Avatar") { _ in
             self.updateAvatar()
         }
         
@@ -36,7 +36,7 @@ class ProfileHeaderCell: UICollectionViewCell {
 
     func updateAvatar() {
         avatarImageView.alpha = 0
-        if let avatarURLString = YepUserDefaults.avatarURLString() {
+        if let avatarURLString = YepUserDefaults.avatarURLString.value {
             AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!) { image in
                 dispatch_async(dispatch_get_main_queue()) {
                     self.avatarImageView.image = image

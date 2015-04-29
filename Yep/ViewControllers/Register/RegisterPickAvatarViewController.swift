@@ -205,7 +205,7 @@ class RegisterPickAvatarViewController: UIViewController {
 
                         updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: nil) { success in
                             dispatch_async(dispatch_get_main_queue()) {
-                                YepUserDefaults.setAvatarURLString(newAvatarURLString)
+                                YepUserDefaults.avatarURLString.value = newAvatarURLString
 
                                 dispatch_async(dispatch_get_main_queue()) {
                                     self.performSegueWithIdentifier("showRegisterPickSkills", sender: nil)

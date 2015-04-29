@@ -31,7 +31,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
     func startConnect() {
         if
             let extensionData = extensionData(),
-            let userID = YepUserDefaults.userID() {
+            let userID = YepUserDefaults.userID.value {
                 
                 let personalChannel = personalChannelWithUserID(userID)
 
@@ -62,12 +62,13 @@ class FayeService: NSObject, MZFayeClientDelegate {
     
     private func extensionData() -> [String: String]? {
 
-        if let v1AccessToken = YepUserDefaults.v1AccessToken(){
+        if let v1AccessToken = YepUserDefaults.v1AccessToken.value {
             return [
                 "access_token": v1AccessToken,
                 "version": "v1",
             ]
-        }else {
+
+        } else {
             return nil
         }
         

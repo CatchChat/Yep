@@ -121,7 +121,7 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                     realm.beginWriteTransaction()
 
                     localUser.friendshipID = ""
-                    if let myUserID = YepUserDefaults.userID() {
+                    if let myUserID = YepUserDefaults.userID.value {
                         if myUserID == localUser.userID {
                             localUser.friendState = UserFriendState.Me.rawValue
                         } else if localUser.friendState == UserFriendState.Normal.rawValue {
@@ -293,7 +293,7 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
                             newUser.avatarURLString = avatarURLString
                         }
 
-                        if let myUserID = YepUserDefaults.userID() {
+                        if let myUserID = YepUserDefaults.userID.value {
                             if myUserID == ownerID {
                                 newUser.friendState = UserFriendState.Me.rawValue
                             } else {
@@ -369,7 +369,7 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
                                 member.avatarURLString = avatarURLString
                             }
 
-                            if let myUserID = YepUserDefaults.userID() {
+                            if let myUserID = YepUserDefaults.userID.value {
                                 if myUserID == memberID {
                                     member.friendState = UserFriendState.Me.rawValue
                                 } else {

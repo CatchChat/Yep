@@ -211,7 +211,7 @@ public func jsonResource<A>(#path: String, #method: Method, #requestParameters: 
 }
 
 public func authJsonResource<A>(#path: String, #method: Method, #requestParameters: JSONDictionary, #parse: JSONDictionary -> A?) -> Resource<A> {
-    let token = YepUserDefaults.v1AccessToken()
+    let token = YepUserDefaults.v1AccessToken.value
     return jsonResource(token: token, path: path, method: method, requestParameters: requestParameters, parse: parse)
 }
 

@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         customAppearce()
 
         let isLogined: Bool
-        if let v1AccessToken = YepUserDefaults.v1AccessToken() {
+        if let v1AccessToken = YepUserDefaults.v1AccessToken.value {
             isLogined = true
         } else {
             isLogined = false
@@ -52,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // for test
 
-        if let token = YepUserDefaults.v1AccessToken() {
+        if let token = YepUserDefaults.v1AccessToken.value {
             sync()
 
             startFaye()
@@ -79,7 +79,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 
         if !isColdLaunch {
-            if let token = YepUserDefaults.v1AccessToken() {
+            if let token = YepUserDefaults.v1AccessToken.value {
                 syncUnreadMessages() {
                 }
             }
@@ -104,7 +104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
 
-        if let pusherID = YepUserDefaults.pusherID() {
+        if let pusherID = YepUserDefaults.pusherID.value {
             if notRegisteredPush {
                 notRegisteredPush = false
 
@@ -120,7 +120,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         println("didReceiveRemoteNotification: \(userInfo)")
 
-        if let v1AccessToken = YepUserDefaults.v1AccessToken() {
+        if let v1AccessToken = YepUserDefaults.v1AccessToken.value {
             
             if let type = userInfo["type"] as? String {
                 if type == "message" {

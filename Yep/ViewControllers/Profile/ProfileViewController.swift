@@ -59,7 +59,7 @@ class ProfileViewController: UIViewController {
             profileCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: CGRectGetHeight(tabBarController.tabBar.bounds), right: 0)
         }
 
-        YepUserDefaults.bindAndFireNicknameListener("ProfileViewController.Title") { nickname in
+        YepUserDefaults.nickname.bindAndFireListener("ProfileViewController.Title") { nickname in
             self.navigationItem.title = nickname
         }
 
@@ -150,7 +150,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Header.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! ProfileHeaderCell
 
-            cell.nameLabel.text = YepUserDefaults.nickname()
+            cell.nameLabel.text = YepUserDefaults.nickname.value
 
             return cell
 
