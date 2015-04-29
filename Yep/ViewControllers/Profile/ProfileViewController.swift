@@ -59,6 +59,9 @@ class ProfileViewController: UIViewController {
             profileCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: CGRectGetHeight(tabBarController.tabBar.bounds), right: 0)
         }
 
+        YepUserDefaults.bindAndFireNicknameListener("ProfileViewController.Title") { nickname in
+            self.navigationItem.title = nickname
+        }
 
         userInfo(failureHandler: nil) { userInfo in
             if let skillsData = userInfo["master_skills"] as? [JSONDictionary] {
@@ -77,6 +80,7 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
         if let navigationController = navigationController {
             navigationController.navigationBar.backgroundColor = UIColor.clearColor()
             navigationController.navigationBar.translucent = true
@@ -92,11 +96,8 @@ class ProfileViewController: UIViewController {
             navigationController.navigationBar.titleTextAttributes = textAttributes
             
             navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
-            
-            YepUserDefaults.bindAndFireNicknameListener("ProfileViewController.Title") { nickname in
-                self.navigationItem.title = nickname
-            }
         }
+
         self.setNeedsStatusBarAppearanceUpdate()
     }
     

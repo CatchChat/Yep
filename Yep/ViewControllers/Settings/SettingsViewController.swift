@@ -37,6 +37,7 @@ class SettingsViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
         if let navigationController = navigationController {
             navigationController.navigationBar.backgroundColor = nil
             navigationController.navigationBar.translucent = true
@@ -52,10 +53,6 @@ class SettingsViewController: UIViewController {
             navigationController.navigationBar.titleTextAttributes = textAttributes
             
             navigationItem.rightBarButtonItem?.tintColor = UIColor.yepTintColor()
-            
-            YepUserDefaults.bindAndFireNicknameListener("ProfileViewController.Title") { nickname in
-                self.navigationItem.title = nickname
-            }
         }
     }
 
