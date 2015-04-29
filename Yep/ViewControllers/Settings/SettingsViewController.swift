@@ -32,6 +32,27 @@ class SettingsViewController: UIViewController {
 
         settingsTableView.registerNib(UINib(nibName: settingsUserCellIdentifier, bundle: nil), forCellReuseIdentifier: settingsUserCellIdentifier)
         settingsTableView.registerNib(UINib(nibName: settingsMoreCellIdentifier, bundle: nil), forCellReuseIdentifier: settingsMoreCellIdentifier)
+        
+        if let navigationController = navigationController {
+            navigationController.navigationBar.backgroundColor = nil
+            navigationController.navigationBar.translucent = true
+            navigationController.navigationBar.shadowImage = nil
+            navigationController.navigationBar.barStyle = UIBarStyle.Default
+            navigationController.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
+            
+            let textAttributes = [
+                NSForegroundColorAttributeName: UIColor.yepTintColor(),
+                NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 20)!
+            ]
+            
+            navigationController.navigationBar.titleTextAttributes = textAttributes
+            
+            navigationItem.rightBarButtonItem?.tintColor = UIColor.yepTintColor()
+            
+            YepUserDefaults.bindAndFireNicknameListener("ProfileViewController.Title") { nickname in
+                self.navigationItem.title = nickname
+            }
+        }
     }
 
 }

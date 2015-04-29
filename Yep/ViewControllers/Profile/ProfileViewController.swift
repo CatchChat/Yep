@@ -59,26 +59,6 @@ class ProfileViewController: UIViewController {
             profileCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: CGRectGetHeight(tabBarController.tabBar.bounds), right: 0)
         }
 
-        if let navigationController = navigationController {
-            navigationController.navigationBar.backgroundColor = UIColor.clearColor()
-            navigationController.navigationBar.translucent = true
-            navigationController.navigationBar.shadowImage = UIImage()
-            navigationController.navigationBar.barStyle = UIBarStyle.BlackTranslucent
-            navigationController.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-
-            let textAttributes = [
-                NSForegroundColorAttributeName: UIColor.whiteColor(),
-                NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 20)!
-            ]
-
-            navigationController.navigationBar.titleTextAttributes = textAttributes
-
-            navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
-
-            YepUserDefaults.bindAndFireNicknameListener("ProfileViewController.Title") { nickname in
-                self.navigationItem.title = nickname
-            }
-        }
 
         userInfo(failureHandler: nil) { userInfo in
             if let skillsData = userInfo["master_skills"] as? [JSONDictionary] {
@@ -97,7 +77,26 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
+        if let navigationController = navigationController {
+            navigationController.navigationBar.backgroundColor = UIColor.clearColor()
+            navigationController.navigationBar.translucent = true
+            navigationController.navigationBar.shadowImage = UIImage()
+            navigationController.navigationBar.barStyle = UIBarStyle.BlackTranslucent
+            navigationController.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+            
+            let textAttributes = [
+                NSForegroundColorAttributeName: UIColor.whiteColor(),
+                NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 20)!
+            ]
+            
+            navigationController.navigationBar.titleTextAttributes = textAttributes
+            
+            navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
+            
+            YepUserDefaults.bindAndFireNicknameListener("ProfileViewController.Title") { nickname in
+                self.navigationItem.title = nickname
+            }
+        }
         self.setNeedsStatusBarAppearanceUpdate()
     }
     
