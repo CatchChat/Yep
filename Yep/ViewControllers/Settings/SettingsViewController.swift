@@ -33,6 +33,10 @@ class SettingsViewController: UIViewController {
         settingsTableView.registerNib(UINib(nibName: settingsUserCellIdentifier, bundle: nil), forCellReuseIdentifier: settingsUserCellIdentifier)
         settingsTableView.registerNib(UINib(nibName: settingsMoreCellIdentifier, bundle: nil), forCellReuseIdentifier: settingsMoreCellIdentifier)
         
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         if let navigationController = navigationController {
             navigationController.navigationBar.backgroundColor = nil
             navigationController.navigationBar.translucent = true
