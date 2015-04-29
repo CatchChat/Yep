@@ -55,7 +55,7 @@ class RegisterPickNameViewController: UIViewController {
 
     private func showRegisterPickMobile() {
         let nickname = nameTextField.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet());
-        YepUserDefaults.setNickname(nickname)
+        YepUserDefaults.nickname.value = nickname
 
         performSegueWithIdentifier("showRegisterPickMobile", sender: nil)
     }

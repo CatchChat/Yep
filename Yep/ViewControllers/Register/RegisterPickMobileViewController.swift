@@ -68,10 +68,10 @@ class RegisterPickMobileViewController: UIViewController {
         let areaCode = areaCodeTextField.text
 
         validateMobile(mobile, withAreaCode: areaCode, failureHandler: nil) { (available, message) in
-            if available {
+            if available, let nickname = YepUserDefaults.nickname.value {
                 println("ValidateMobile: available")
 
-                registerMobile(mobile, withAreaCode: areaCode, nickname: YepUserDefaults.nickname()!, failureHandler: { (reason, errorMessage) in
+                registerMobile(mobile, withAreaCode: areaCode, nickname: nickname, failureHandler: { (reason, errorMessage) in
                     defaultFailureHandler(reason, errorMessage)
 
                     if let errorMessage = errorMessage {

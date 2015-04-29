@@ -36,15 +36,13 @@ struct QiniuProvider: Printable {
 }
 
 func saveTokenAndUserInfoOfLoginUser(loginUser: LoginUser) {
-    YepUserDefaults.setUserID(loginUser.userID)
-    YepUserDefaults.setNickname(loginUser.nickname)
-    if let avatarURLString = loginUser.avatarURLString {
-        YepUserDefaults.setAvatarURLString(avatarURLString)
-    }
-    YepUserDefaults.setPusherID(loginUser.pusherID)
+    YepUserDefaults.userID.value = loginUser.userID
+    YepUserDefaults.nickname.value = loginUser.nickname
+    YepUserDefaults.avatarURLString.value = loginUser.avatarURLString
+    YepUserDefaults.pusherID.value = loginUser.pusherID
 
     // NOTICE: 因为一些操作依赖于 accessToken 做检测，又可能依赖上面其他值，所以要放在最后赋值
-    YepUserDefaults.setV1AccessToken(loginUser.accessToken)
+    YepUserDefaults.v1AccessToken.value = loginUser.accessToken
 }
 
 // MARK: Register

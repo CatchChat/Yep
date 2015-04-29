@@ -16,56 +16,56 @@ let avatarURLStringKey = "avatarURLString"
 let pusherIDKey = "pusherID"
 
 
-func ==(lhs: YepUserDefaults.Listener, rhs: YepUserDefaults.Listener) -> Bool {
+struct Listener<T>: Hashable {
+    let name: String
+
+    typealias Action = T -> Void
+    let action: Action
+
+    var hashValue: Int {
+        return name.hashValue
+    }
+}
+
+func ==<T>(lhs: Listener<T>, rhs: Listener<T>) -> Bool {
     return lhs.name == rhs.name
 }
 
-class YepUserDefaults {
+class Listenable<T> {
+    var value: T {
+        didSet {
+            setterAction(value)
 
-    struct Listener: Hashable {
-        let name: String
-
-        typealias Action = (String?) -> Void
-        let action: Action
-
-        var hashValue: Int {
-            return name.hashValue
+            for listener in listenerSet {
+                listener.action(value)
+            }
         }
     }
 
-    static let sharedInstance = YepUserDefaults()
+    typealias SetterAction = T -> Void
+    var setterAction: SetterAction
 
-    // MARK: 绑定监听 Nickname
+    var listenerSet = Set<Listener<T>>()
 
-    var nicknameListenerSet = Set<Listener>()
-
-    class func bindNicknameListener(name: String, action: Listener.Action) {
+    func bindListener(name: String, action: Listener<T>.Action) {
         let listener = Listener(name: name, action: action)
 
-        self.sharedInstance.nicknameListenerSet.insert(listener)
+        listenerSet.insert(listener)
     }
 
-    class func bindAndFireNicknameListener(name: String, action: Listener.Action) {
-        bindNicknameListener(name, action: action)
+    func bindAndFireListener(name: String, action: Listener<T>.Action) {
+        bindListener(name, action: action)
 
-        action(nickname())
+        action(value)
     }
 
-    // MARK: 绑定监听 Avatar
-
-    var avatarListenerSet = Set<Listener>()
-
-    class func bindAvatarListener(name: String, action: Listener.Action) {
-        let listener = Listener(name: name, action: action)
-
-        self.sharedInstance.avatarListenerSet.insert(listener)
+    init(_ v: T, setterAction action: SetterAction) {
+        value = v
+        setterAction = action
     }
+}
 
-    class func bindAndFireAvatarListener(name: String, action: Listener.Action) {
-        bindAvatarListener(name, action: action)
-
-        action(avatarURLString())
-    }
+class YepUserDefaults {
 
     // MARK: ReLogin
 
@@ -89,113 +89,91 @@ class YepUserDefaults {
         }
     }
 
-
-    // MARK: v1AccessToken
-
-    class func v1AccessToken() -> String? {
+    static var v1AccessToken: Listenable<String?> = {
         let defaults = NSUserDefaults.standardUserDefaults()
-        return defaults.stringForKey(v1AccessTokenKey)
-    }
+        let v1AccessToken = defaults.stringForKey(v1AccessTokenKey)
 
-    class func setV1AccessToken(accessToken: String) {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(accessToken, forKey: v1AccessTokenKey)
+        return Listenable<String?>(v1AccessToken) { v1AccessToken in
+            defaults.setObject(v1AccessToken, forKey: v1AccessTokenKey)
 
-        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-            // 注册或初次登录时同步数据的好时机
-            appDelegate.sync()
+            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                // 注册或初次登录时同步数据的好时机
+                appDelegate.sync()
 
-            // 也是注册或初次登录时启动 Faye 的好时机
-            appDelegate.startFaye()
-        }
-    }
-
-    // MARK: userID
-
-    class func userID() -> String? {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        return defaults.stringForKey(userIDKey)
-    }
-
-    class func setUserID(userID: String) {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(userID, forKey: userIDKey)
-    }
-
-    // MARK: nickname
-
-    class func nickname() -> String? {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        return defaults.stringForKey(nicknameKey)
-    }
-
-    class func setNickname(nickname: String) {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(nickname, forKey: nicknameKey)
-
-        if
-            let myUserID = YepUserDefaults.userID(),
-            let me = userWithUserID(myUserID) {
-                let realm = RLMRealm.defaultRealm()
-                realm.beginWriteTransaction()
-                me.nickname = nickname
-                realm.commitWriteTransaction()
-        }
-
-        // 让监听者知晓
-        for listener in self.sharedInstance.nicknameListenerSet {
-            listener.action(nickname)
-        }
-    }
-
-    // MARK: avatarURLString
-
-    class func avatarURLString() -> String? {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        return defaults.stringForKey(avatarURLStringKey)
-    }
-
-    class func setAvatarURLString(avatarURLString: String) {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(avatarURLString, forKey: avatarURLStringKey)
-
-        if
-            let myUserID = YepUserDefaults.userID(),
-            let me = userWithUserID(myUserID) {
-                let realm = RLMRealm.defaultRealm()
-                realm.beginWriteTransaction()
-                me.avatarURLString = avatarURLString
-                realm.commitWriteTransaction()
-        }
-
-        // 让监听者知晓
-        for listener in self.sharedInstance.avatarListenerSet {
-            listener.action(avatarURLString)
-        }
-    }
-
-    // MARK: pusherID
-
-    class func pusherID() -> String? {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        return defaults.stringForKey(pusherIDKey)
-    }
-
-    class func setPusherID(pusherID: String) {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(pusherID, forKey: pusherIDKey)
-
-        // 注册推送的好时机
-        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-            if appDelegate.notRegisteredPush {
-                appDelegate.notRegisteredPush = false
-
-                if let deviceToken = appDelegate.deviceToken {
-                    appDelegate.registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
-                }
+                // 也是注册或初次登录时启动 Faye 的好时机
+                appDelegate.startFaye()
             }
         }
-    }
+        }()
+
+    static var userID: Listenable<String?> = {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let userID = defaults.stringForKey(userIDKey)
+
+        return Listenable<String?>(userID) { userID in
+            defaults.setObject(userID, forKey: userIDKey)
+        }
+        }()
+
+    static var nickname: Listenable<String?> = {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let nickname = defaults.stringForKey(nicknameKey)
+
+        return Listenable<String?>(nickname) { nickname in
+            defaults.setObject(nickname, forKey: nicknameKey)
+
+            if let
+                nickname = nickname,
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID) {
+                    let realm = RLMRealm.defaultRealm()
+                    realm.beginWriteTransaction()
+                    me.nickname = nickname
+                    realm.commitWriteTransaction()
+            }
+        }
+        }()
+
+    static var avatarURLString: Listenable<String?> = {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let avatarURLString = defaults.stringForKey(avatarURLStringKey)
+
+        return Listenable<String?>(avatarURLString) { avatarURLString in
+            defaults.setObject(avatarURLString, forKey: avatarURLStringKey)
+
+            if let
+                avatarURLString = avatarURLString,
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID) {
+                    let realm = RLMRealm.defaultRealm()
+                    realm.beginWriteTransaction()
+                    me.avatarURLString = avatarURLString
+                    realm.commitWriteTransaction()
+            }
+        }
+        }()
+
+    static var pusherID: Listenable<String?> = {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let pusherID = defaults.stringForKey(pusherIDKey)
+
+        return Listenable<String?>(pusherID) { pusherID in
+            defaults.setObject(pusherID, forKey: pusherIDKey)
+
+            // 注册推送的好时机
+            if let
+                pusherID = pusherID,
+                appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                    if appDelegate.notRegisteredPush {
+                        appDelegate.notRegisteredPush = false
+
+                        if let deviceToken = appDelegate.deviceToken {
+                            appDelegate.registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
+                        }
+                    }
+            }
+        }
+        }()
 
 }
 

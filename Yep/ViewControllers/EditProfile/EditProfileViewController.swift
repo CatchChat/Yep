@@ -42,7 +42,7 @@ class EditProfileViewController: UIViewController {
     }
 
     func updateAvatar(completion:() -> Void) {
-        if let avatarURLString = YepUserDefaults.avatarURLString() {
+        if let avatarURLString = YepUserDefaults.avatarURLString.value {
 
             let avatarSize = YepConfig.editProfileAvatarSize()
 
@@ -142,7 +142,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 cell.annotationLabel.text = NSLocalizedString("Nickname", comment: "")
 
-                YepUserDefaults.bindAndFireNicknameListener("EditProfileLessInfoCell.Nickname") { nickname in
+                YepUserDefaults.nickname.bindAndFireListener("EditProfileLessInfoCell.Nickname") { nickname in
                     cell.infoLabel.text = nickname
                 }
 
@@ -213,9 +213,9 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             switch indexPath.row {
 
             case InfoRow.Name.rawValue:
-                YepAlert.textInput(title: NSLocalizedString("Change nickname", comment: ""), placeholder: YepUserDefaults.nickname(), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withFinishedAction: { (newNickname) -> Void in
+                YepAlert.textInput(title: NSLocalizedString("Change nickname", comment: ""), placeholder: YepUserDefaults.nickname.value, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withFinishedAction: { (newNickname) -> Void in
 
-                    if let oldNickname = YepUserDefaults.nickname() {
+                    if let oldNickname = YepUserDefaults.nickname.value {
                         if oldNickname == newNickname {
                             return
                         }
@@ -230,7 +230,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                     }, completion: { success in
                         dispatch_async(dispatch_get_main_queue()) {
-                            YepUserDefaults.setNickname(newNickname)
+                            YepUserDefaults.nickname.value = newNickname
                         }
 
                         YepHUD.hideActivityIndicator()
@@ -278,7 +278,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
 
                     }, completion: { success in
                         dispatch_async(dispatch_get_main_queue()) {
-                            YepUserDefaults.setAvatarURLString(newAvatarURLString)
+                            YepUserDefaults.avatarURLString.value = newAvatarURLString
 
                             self.updateAvatar() {
                                 YepHUD.hideActivityIndicator()

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7528.3" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7518.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,18 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="254"/>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Joined 1 week ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NGG-vt-AMI" userLabel="Joined Date Label">
-                        <rect key="frame" x="20" y="219" width="96" height="15"/>
-                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="12"/>
-                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nix" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g9S-Zs-82d" userLabel="Name Label">
-                        <rect key="frame" x="20" y="180" width="32" height="30"/>
-                        <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="25"/>
-                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="广州市" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O8h-bQ-ZK8" userLabel="Location Label">
                         <rect key="frame" x="178" y="219" width="36" height="15"/>
                         <fontDescription key="fontDescription" type="system" weight="thin" pointSize="12"/>
@@ -39,11 +27,7 @@
             </view>
             <constraints>
                 <constraint firstItem="9iO-cK-3UB" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="0GC-5l-kfn"/>
-                <constraint firstItem="NGG-vt-AMI" firstAttribute="top" secondItem="g9S-Zs-82d" secondAttribute="bottom" constant="9" id="8I5-zm-l9l"/>
-                <constraint firstItem="NGG-vt-AMI" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="8fv-Rm-QbG"/>
                 <constraint firstAttribute="centerX" secondItem="O8h-bQ-ZK8" secondAttribute="centerX" constant="0.5" id="AQb-AI-JHu"/>
-                <constraint firstAttribute="bottom" secondItem="NGG-vt-AMI" secondAttribute="bottom" constant="20" id="Cu1-M1-6gp"/>
-                <constraint firstItem="g9S-Zs-82d" firstAttribute="leading" secondItem="NGG-vt-AMI" secondAttribute="leading" id="GmS-dS-tav"/>
                 <constraint firstAttribute="bottom" secondItem="O8h-bQ-ZK8" secondAttribute="bottom" constant="20" id="INr-hz-CLg"/>
                 <constraint firstAttribute="trailing" secondItem="9iO-cK-3UB" secondAttribute="trailing" id="Ykz-Gm-skT"/>
                 <constraint firstAttribute="bottom" secondItem="9iO-cK-3UB" secondAttribute="bottom" id="ZaW-Gv-rm4"/>
@@ -52,9 +36,7 @@
             <size key="customSize" width="393" height="254"/>
             <connections>
                 <outlet property="avatarImageView" destination="9iO-cK-3UB" id="EVu-SY-baK"/>
-                <outlet property="joinedDateLabel" destination="NGG-vt-AMI" id="zGq-tD-400"/>
                 <outlet property="locationLabel" destination="O8h-bQ-ZK8" id="KRV-fd-AVq"/>
-                <outlet property="nameLabel" destination="g9S-Zs-82d" id="VgN-iJ-P4Y"/>
             </connections>
             <point key="canvasLocation" x="235.5" y="296"/>
         </collectionViewCell>

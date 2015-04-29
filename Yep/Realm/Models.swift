@@ -207,7 +207,7 @@ func avatarWithAvatarURLString(avatarURLString: String) -> Avatar? {
 }
 
 func tryGetOrCreateMe() -> User? {
-    if let userID = YepUserDefaults.userID() {
+    if let userID = YepUserDefaults.userID.value {
         if let me = userWithUserID(userID) {
             return me
 
@@ -221,11 +221,11 @@ func tryGetOrCreateMe() -> User? {
             me.userID = userID
             me.friendState = UserFriendState.Me.rawValue
 
-            if let nickname = YepUserDefaults.nickname() {
+            if let nickname = YepUserDefaults.nickname.value {
                 me.nickname = nickname
             }
 
-            if let avatarURLString = YepUserDefaults.avatarURLString() {
+            if let avatarURLString = YepUserDefaults.avatarURLString.value {
                 me.avatarURLString = avatarURLString
             }
 
