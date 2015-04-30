@@ -82,7 +82,10 @@ class DiscoverViewController: UIViewController {
                 let discoveredUser = discoveredUsers[indexPath.row]
 
                 let vc = segue.destinationViewController as! ProfileViewController
+                
                 vc.discoveredUser = discoveredUser
+
+                vc.hidesBottomBarWhenPushed = true
             }
         }
     }

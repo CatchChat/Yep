@@ -406,7 +406,7 @@
                                 </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sfC-fv-gcr" userLabel="Say Hi View">
-                                <rect key="frame" x="0.0" y="501" width="600" height="50"/>
+                                <rect key="frame" x="0.0" y="550" width="600" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g8r-Vj-XaN" userLabel="Say Hi Button">
                                         <rect key="frame" x="208" y="11" width="185" height="29"/>
@@ -434,8 +434,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="sfC-fv-gcr" secondAttribute="bottom" id="0KI-ei-eq8"/>
                             <constraint firstItem="VZO-hp-fyU" firstAttribute="top" secondItem="i2Z-NU-5Yq" secondAttribute="top" id="2n3-L6-Rzr"/>
-                            <constraint firstItem="Sj4-ac-cm0" firstAttribute="top" secondItem="sfC-fv-gcr" secondAttribute="bottom" id="3V9-ye-FAn"/>
                             <constraint firstAttribute="trailing" secondItem="sfC-fv-gcr" secondAttribute="trailing" id="5zV-iL-BpW"/>
                             <constraint firstAttribute="trailing" secondItem="VZO-hp-fyU" secondAttribute="trailing" id="Ag4-p9-ng1"/>
                             <constraint firstItem="VZO-hp-fyU" firstAttribute="leading" secondItem="i2Z-NU-5Yq" secondAttribute="leading" id="EIq-yc-gkc"/>

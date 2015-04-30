@@ -79,9 +79,10 @@ class ProfileViewController: UIViewController {
             let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
             navigationItem.rightBarButtonItem = moreBarButtonItem
 
+            sayHiButton.setTitle(NSLocalizedString("Say Hi", comment: ""), forState: .Normal)
             sayHiButton.layer.cornerRadius = 5
             sayHiButton.backgroundColor = UIColor.yepTintColor()
-            profileCollectionView.contentInset.bottom += sayHiView.bounds.height
+            profileCollectionView.contentInset.bottom = sayHiView.bounds.height
 
         } else {
             userInfo(failureHandler: nil) { userInfo in
@@ -133,6 +134,7 @@ class ProfileViewController: UIViewController {
 
     @IBAction func sayHi(sender: UIButton) {
         // TODO: sayHi
+        println("sayHi")
     }
 
     func moreAction() {
