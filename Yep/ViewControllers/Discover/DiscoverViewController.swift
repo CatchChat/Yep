@@ -15,7 +15,9 @@ class DiscoverViewController: UIViewController {
     let cellIdentifier = "ContactsCell"
     
     var discoveredUsers = [DiscoveredUser]()
-    
+
+    var isFirstAppear = true
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,21 +39,37 @@ class DiscoverViewController: UIViewController {
             self.discoveredUsers = discoveredUsers
 
             dispatch_async(dispatch_get_main_queue()) {
-                self.reloadDiscoverData()
+                self.reloadDiscoverTableView()
             }
         })
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if !isFirstAppear {
+            if let navigationController = navigationController {
+                navigationController.navigationBar.backgroundColor = nil
+                navigationController.navigationBar.translucent = true
+                navigationController.navigationBar.shadowImage = nil
+                navigationController.navigationBar.barStyle = UIBarStyle.Default
+                navigationController.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
+
+                let textAttributes = [
+                    NSForegroundColorAttributeName: UIColor.yepTintColor(),
+                    NSFontAttributeName: UIFont.navigationBarTitleFont()
+                ]
+
+                navigationController.navigationBar.titleTextAttributes = textAttributes
+            }
+        }
+
+        isFirstAppear = false
     }
+
     
-    func reloadDiscoverData() {
-        dispatch_async(dispatch_get_main_queue(),{
-            self.discoverTableView.reloadData()
-        });
-        
+    func reloadDiscoverTableView() {
+        self.discoverTableView.reloadData()
     }
 
 
