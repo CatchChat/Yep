@@ -17,6 +17,10 @@ class ProfileViewController: UIViewController {
 
     @IBOutlet weak var profileCollectionView: UICollectionView!
 
+    @IBOutlet weak var sayHiView: UIView!
+    @IBOutlet weak var sayHiButton: UIButton!
+
+
     let skillCellIdentifier = "SkillCell"
     let headerCellIdentifier = "ProfileHeaderCell"
     let footerCellIdentifier = "ProfileFooterCell"
@@ -75,6 +79,10 @@ class ProfileViewController: UIViewController {
             let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
             navigationItem.rightBarButtonItem = moreBarButtonItem
 
+            sayHiButton.layer.cornerRadius = 5
+            sayHiButton.backgroundColor = UIColor.yepTintColor()
+            profileCollectionView.contentInset.bottom += sayHiView.bounds.height
+
         } else {
             userInfo(failureHandler: nil) { userInfo in
                 if let skillsData = userInfo["master_skills"] as? [JSONDictionary] {
@@ -89,6 +97,8 @@ class ProfileViewController: UIViewController {
                     self.profileCollectionView.reloadData()
                 }
             }
+
+            sayHiView.hidden = true
         }
     }
     
@@ -120,6 +130,10 @@ class ProfileViewController: UIViewController {
     }
 
     // MARK: Actions
+
+    @IBAction func sayHi(sender: UIButton) {
+        // TODO: sayHi
+    }
 
     func moreAction() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
