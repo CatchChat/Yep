@@ -1012,7 +1012,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 playbackTimer.invalidate()
                             }
 
-                            let indexPath = NSIndexPath(forItem: Int(messages.indexOfObject(playingMessage)), inSection: 0)
+                            let indexPath = NSIndexPath(forItem: Int(messages.indexOfObject(playingMessage)) - displayedMessagesRange.location, inSection: 0)
                             if let sender = playingMessage.fromFriend {
                                 if sender.friendState != UserFriendState.Me.rawValue {
                                     if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
