@@ -371,6 +371,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="discoverTableView" destination="SPh-AI-uaZ" id="mB3-87-mQq"/>
+                        <segue destination="AyC-pt-NR2" kind="show" identifier="showProfile" id="l4P-ds-ihU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i6I-3Z-6M6" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -442,7 +443,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="jKA-8q-sXn">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="XUP-IX-8LL" id="Rme-G5-eRl"/>
                                     <outlet property="delegate" destination="XUP-IX-8LL" id="8aq-YD-a2x"/>
@@ -480,7 +481,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="obf-ax-Bn7">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="3ZX-Cq-RRV">
                                     <rect key="frame" x="0.0" y="64" width="600" height="250"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -696,4 +697,7 @@
         <image name="icon_settings" width="30" height="30"/>
         <image name="profile_avatar_frame" width="112" height="112"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="l4P-ds-ihU"/>
+    </inferredMetricsTieBreakers>
 </document>

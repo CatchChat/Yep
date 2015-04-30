@@ -53,19 +53,26 @@ class DiscoverViewController: UIViewController {
         
     }
 
-    /*
+
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
+        if segue.identifier == "showProfile" {
+            if let indexPath = sender as? NSIndexPath {
+                let discoveredUser = discoveredUsers[indexPath.row]
+
+                let vc = segue.destinationViewController as! ProfileViewController
+                vc.discoveredUser = discoveredUser
+            }
+        }
+    }
 }
 
+// MARK: UITableViewDataSource, UITableViewDelegate
+
 extension DiscoverViewController: UITableViewDataSource, UITableViewDelegate {
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return discoveredUsers.count
     }
@@ -84,8 +91,6 @@ extension DiscoverViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
 
-
-
         cell.joinedDateLabel.text = discoveredUser.createdAt.timeAgo
         cell.lastTimeSeenLabel.text = discoveredUser.lastSignInAt.timeAgo
 
@@ -95,6 +100,10 @@ extension DiscoverViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        performSegueWithIdentifier("showProfile", sender: nil)
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        performSegueWithIdentifier("showProfile", sender: indexPath)
     }
 }
+
+

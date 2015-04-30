@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class ProfileHeaderCell: UICollectionViewCell {
 
@@ -19,27 +20,49 @@ class ProfileHeaderCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+    }
 
-        YepUserDefaults.avatarURLString.bindAndFireListener("ProfileHeaderCell.Avatar") { _ in
-            self.updateAvatar()
+    func configureWithMyInfo() {
+        YepUserDefaults.avatarURLString.bindAndFireListener("ProfileHeaderCell.Avatar") { avatarURLString in
+            if let avatarURLString = avatarURLString {
+                self.updateAvatarWithAvatarURLString(avatarURLString)
+            }
         }
-        
-        YepLocationService.sharedManager
-        
+
+        YepLocationService.sharedManager // TODO: 要迁走
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
     }
 
-    func updateAvatar() {
-        avatarImageView.alpha = 0
-        if let avatarURLString = YepUserDefaults.avatarURLString.value {
-            AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!) { image in
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.avatarImageView.image = image
-                    UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
-                        self.avatarImageView.alpha = 1
-                    }, completion: { (finished) -> Void in
-                    })
+    func configureWithDiscoveredUser(discoveredUser: DiscoveredUser) {
+        updateAvatarWithAvatarURLString(discoveredUser.avatarURLString)
+
+        let location = CLLocation(latitude: discoveredUser.latitude, longitude: discoveredUser.longitude)
+
+        CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
+
+            if (error != nil) {
+                println("reverse geodcode fail: \(error.localizedDescription)")
+            }
+
+            if let placemarks = placemarks as? [CLPlacemark] {
+                if let firstPlacemark = placemarks.first {
+                    self.locationLabel.text = firstPlacemark.locality
                 }
+            }
+        })
+    }
+
+    func updateAvatarWithAvatarURLString(avatarURLString: String) {
+        avatarImageView.alpha = 0
+
+        AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!) { image in
+            dispatch_async(dispatch_get_main_queue()) {
+                self.avatarImageView.image = image
+                UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
+                    self.avatarImageView.alpha = 1
+                }, completion: { (finished) -> Void in
+                })
             }
         }
     }

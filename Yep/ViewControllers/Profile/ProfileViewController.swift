@@ -12,6 +12,9 @@ let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
 class ProfileViewController: UIViewController {
 
+    var discoveredUser: DiscoveredUser?
+
+
     @IBOutlet weak var profileCollectionView: UICollectionView!
 
     let skillCellIdentifier = "SkillCell"
@@ -59,8 +62,13 @@ class ProfileViewController: UIViewController {
             profileCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: CGRectGetHeight(tabBarController.tabBar.bounds), right: 0)
         }
 
-        YepUserDefaults.nickname.bindAndFireListener("ProfileViewController.Title") { nickname in
-            self.navigationItem.title = nickname
+        if let discoveredUser = discoveredUser {
+            self.navigationItem.title = discoveredUser.nickname
+
+        } else {
+            YepUserDefaults.nickname.bindAndFireListener("ProfileViewController.Title") { nickname in
+                self.navigationItem.title = nickname
+            }
         }
 
         userInfo(failureHandler: nil) { userInfo in
@@ -149,6 +157,13 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.Header.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! ProfileHeaderCell
+
+            if let discoveredUser = discoveredUser {
+                cell.configureWithDiscoveredUser(discoveredUser)
+
+            } else {
+                cell.configureWithMyInfo()
+            }
 
             return cell
 
