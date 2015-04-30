@@ -142,7 +142,6 @@ class ProfileViewController: UIViewController {
             
             navigationController.navigationBar.titleTextAttributes = textAttributes
             navigationController.navigationBar.tintColor = nil
-            navigationItem.rightBarButtonItem?.tintColor = UIColor.yepTintColor()
         }
         
     }
