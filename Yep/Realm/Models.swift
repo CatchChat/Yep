@@ -201,6 +201,21 @@ func groupWithGroupID(groupID: String) -> Group? {
     return Group.objectsWithPredicate(predicate).firstObject() as? Group
 }
 
+func nameOfConversation(conversation: Conversation) -> String? {
+    if conversation.type == ConversationType.OneToOne.rawValue {
+        if let withFriend = conversation.withFriend {
+            return withFriend.nickname
+        }
+
+    } else if conversation.type == ConversationType.Group.rawValue {
+        if let withGroup = conversation.withGroup {
+            return withGroup.groupName
+        }
+    }
+
+    return nil
+}
+
 func avatarWithAvatarURLString(avatarURLString: String) -> Avatar? {
     let predicate = NSPredicate(format: "avatarURLString = %@", avatarURLString)
     return Avatar.objectsWithPredicate(predicate).firstObject() as? Avatar

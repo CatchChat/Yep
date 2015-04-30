@@ -60,6 +60,13 @@ class ConversationViewController: UIViewController {
         }
     }
 
+    lazy var titleView: ConversationTitleView = {
+        let titleView = ConversationTitleView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 150, height: 44)))
+        titleView.nameLabel.text = nameOfConversation(self.conversation)
+        titleView.stateInfoLabel.text = "Hello world"
+        return titleView
+        }()
+    
     lazy var pullToRefreshView = PullToRefreshView()
     
     @IBOutlet weak var conversationCollectionView: UICollectionView!
@@ -148,6 +155,7 @@ class ConversationViewController: UIViewController {
             displayedMessagesRange = NSRange(location: 0, length: Int(messages.count))
         }
 
+        navigationItem.titleView = titleView
 
         let undoBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Undo, target: self, action: "undoMessageSend")
         navigationItem.rightBarButtonItem = undoBarButtonItem
