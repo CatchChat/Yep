@@ -18,7 +18,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
     
     override init() {
 
-        client = MZFayeClient(URL:NSURL(string: "ws://faye.catchchatchina.com/faye"))
+        client = MZFayeClient(URL:fayeBaseURL)
         
         super.init()
         
@@ -126,7 +126,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
         println("fayeClient didUnsubscribeFromChannel \(channel)")
     }
     
-    func sendPrivateMessage(message: JSONDictionary, userID: String) {
+    func sendPrivateMessage(message: JSONDictionary, userID: String, completion: (result: Bool, message_id: String?)->() ) {
         
         if let userChannel = personalChannelWithUserID(userID),
             let extensionData = extensionData(){
@@ -137,12 +137,22 @@ class FayeService: NSObject, MZFayeClientDelegate {
                         "message" : message
                 ]
                 
-            client.sendMessage(data, toChannel: userChannel, usingExtension: extensionData)
+//            client.sendMessage(data, toChannel: userChannel, usingExtension: extensionData)
+            client.sendMessage(data, toChannel: userChannel, usingExtension: extensionData, usingBlock: { message  in
+                println("Send Message \(message.successful)")
+                if message.successful == 1 {
+                    var messageData = message.ext["message"] as! [String: String]
+                    var messageID = messageData["id"]
+                    completion(result: true, message_id: messageID!)
+                }else{
+                    completion(result: false, message_id: nil)
+                }
+            })
         }
 
     }
     
-    func sendGroupMessage(message: JSONDictionary, circleID: String)  {
+    func sendGroupMessage(message: JSONDictionary, circleID: String,completion: (result: Bool, message_id: String?)->())  {
         
         if let circleChannel = circleChannelWithCircleID(circleID),
             let extensionData = extensionData(){
@@ -153,7 +163,16 @@ class FayeService: NSObject, MZFayeClientDelegate {
                     "message" : message
                 ]
                 
-                client.sendMessage(data, toChannel: circleChannel, usingExtension: extensionData)
+                client.sendMessage(data, toChannel: circleChannel, usingExtension: extensionData, usingBlock: { message  in
+                    println("Send Message \(message.successful)")
+                    if message.successful == 1 {
+                        var messageData = message.ext["message"] as! [String: String]
+                        var messageID = messageData["id"]
+                        completion(result: true, message_id: messageID!)
+                    }else{
+                        completion(result: false, message_id: nil)
+                    }
+                })
         }
     }
 

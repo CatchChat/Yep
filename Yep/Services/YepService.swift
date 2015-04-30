@@ -10,6 +10,7 @@ import Foundation
 import Realm
 
 let baseURL = NSURL(string: "http://park-staging.catchchatchina.com")!
+let fayeBaseURL = NSURL(string: "ws://faye-staging.catchchatchina.com/faye")!
 
 // Models
 
@@ -782,21 +783,39 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
 
     println("Message info \(messageInfo)")
     
-//    if FayeService.sharedManager.client.connected {
-//        
-//        switch messageInfo["recipient_type"] as! String {
-//        case "Circle":
-//            FayeService.sharedManager.sendGroupMessage(messageInfo, circleID: messageInfo["recipient_id"] as! String)
-//        case "User":
-//            FayeService.sharedManager.sendPrivateMessage(messageInfo, userID: messageInfo["recipient_id"] as! String)
-//        default:
-//            break
-//            
-//        }
-//        
-//        completion(messageID: "")
-//        
-//    } else {
+    if FayeService.sharedManager.client.connected {
+        
+        switch messageInfo["recipient_type"] as! String {
+        case "Circle":
+            FayeService.sharedManager.sendGroupMessage(messageInfo, circleID: messageInfo["recipient_id"] as! String, completion: { (result, message_id) in
+                
+                if result  {
+                    completion(messageID: message_id!)
+                }else {
+                    if let failureHandler = failureHandler {
+                        failureHandler(Reason.CouldNotParseJSON, "Created Message Error")
+                    }
+                }
+
+            })
+        case "User":
+            FayeService.sharedManager.sendPrivateMessage(messageInfo, userID: messageInfo["recipient_id"] as! String, completion: { (result, message_id) in
+                
+                if result  {
+                    completion(messageID: message_id!)
+                }else {
+                    if let failureHandler = failureHandler {
+                       failureHandler(Reason.CouldNotParseJSON, "Created Message Error")
+                    }   
+                }
+            })
+        default:
+            break
+            
+        }
+        
+        
+    } else {
         let parse: JSONDictionary -> String? = { data in
             if let messageID = data["id"] as? String {
                 return messageID
@@ -811,7 +830,7 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
         } else {
             apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
         }
-//    }
+    }
 }
 
 func sendText(text: String, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
