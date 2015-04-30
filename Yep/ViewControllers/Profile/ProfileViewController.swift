@@ -119,8 +119,7 @@ class ProfileViewController: UIViewController {
             ]
             
             navigationController.navigationBar.titleTextAttributes = textAttributes
-            
-            navigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
+            navigationController.navigationBar.tintColor = UIColor.whiteColor()
         }
 
         self.setNeedsStatusBarAppearanceUpdate()
