@@ -18,7 +18,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
     
     override init() {
 
-        client = MZFayeClient(URL:NSURL(string: "ws://faye.catchchatchina.com/faye"))
+        client = MZFayeClient(URL:fayeBaseURL)
         
         super.init()
         
