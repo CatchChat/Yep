@@ -14,6 +14,7 @@ class ConversationTitleView: UIView {
         let label = UILabel()
         label.textAlignment = .Center
         label.font = UIFont(name: "Helvetica-Bold", size: 15)!
+        //label.textColor = UIColor.yepTintColor()
         return label
         }()
 

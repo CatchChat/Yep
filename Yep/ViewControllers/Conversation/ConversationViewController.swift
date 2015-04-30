@@ -62,8 +62,15 @@ class ConversationViewController: UIViewController {
 
     lazy var titleView: ConversationTitleView = {
         let titleView = ConversationTitleView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 150, height: 44)))
+
         titleView.nameLabel.text = nameOfConversation(self.conversation)
-        titleView.stateInfoLabel.text = "Hello world"
+
+        if let timeAgo = lastChatTimeOfConversation(self.conversation)?.timeAgo {
+            titleView.stateInfoLabel.text = NSLocalizedString("Last chat at ", comment: "") + timeAgo.lowercaseString
+        } else {
+            titleView.stateInfoLabel.text = NSLocalizedString("Begin chat just now", comment: "")
+        }
+
         return titleView
         }()
     
