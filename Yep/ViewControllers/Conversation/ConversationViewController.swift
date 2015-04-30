@@ -82,12 +82,11 @@ class ConversationViewController: UIViewController {
     @IBOutlet weak var messageToolbarBottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var moreMessageTypesViewHeightConstraint: NSLayoutConstraint!
-    let moreMessageTypesViewHeightConstraintConstant: CGFloat = 200
+    let moreMessageTypesViewHeightConstraintConstant: CGFloat = 110
 
     @IBOutlet weak var choosePhotoButton: MessageTypeButton!
     @IBOutlet weak var takePhotoButton: MessageTypeButton!
     @IBOutlet weak var addLocationButton: MessageTypeButton!
-    @IBOutlet weak var addContactButton: MessageTypeButton!
 
 
     var waverView: YepWaverView!
@@ -362,25 +361,13 @@ class ConversationViewController: UIViewController {
             switch (previousState, currentState) {
             case (.MoreMessages, .Default):
                 if !self.isKeyboardVisible {
-
-                    UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: { () -> Void in
-                        self.messageToolbarBottomConstraint.constant = 0
-
-                        self.view.layoutIfNeeded()
-
-                    }, completion: { (finished) -> Void in
-                    })
+                    self.adjustBackCollectionViewWithHeight(0, animationDuration: 0.3, animationCurveValue: 7)
                 }
 
             default:
                 if currentState == .MoreMessages {
-                    UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.BeginFromCurrentState, animations: { () -> Void in
-                        self.messageToolbarBottomConstraint.constant = self.moreMessageTypesViewHeightConstraintConstant
-
-                        self.view.layoutIfNeeded()
-
-                    }, completion: { (finished) -> Void in
-                    })
+                    self.messageToolbar.messageTextView.resignFirstResponder()
+                    self.adjustCollectionViewWithViewHeight(self.moreMessageTypesViewHeightConstraintConstant, animationDuration: 0.3, animationCurveValue: 7, keyboard: false)
                 }
             }
         }
@@ -415,10 +402,6 @@ class ConversationViewController: UIViewController {
 
         addLocationButton.tapAction = {
             YepAlert.alertSorry(message: "TODO: Add Location", inViewController: self)
-        }
-
-        addContactButton.tapAction = {
-            YepAlert.alertSorry(message: "TODO: Add Contact", inViewController: self)
         }
     }
 
@@ -637,9 +620,18 @@ class ConversationViewController: UIViewController {
     }
 
     // MARK: Actions
+    
+    func updateMoreMessageConversationCollectionView() {
+        let moreMessageViewHeight = moreMessageTypesViewHeightConstraintConstant + CGRectGetHeight(messageToolbar.bounds)
+
+    }
 
     func updateConversationCollectionView() {
-
+        let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
+        adjustConversationCollectionViewWith(keyboardAndToolBarHeight)
+    }
+    
+    func adjustConversationCollectionViewWith(adjustHeight: CGFloat) {
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
         
@@ -648,33 +640,33 @@ class ConversationViewController: UIViewController {
             return
         }
         let newMessagesCount = Int(messages.count - _lastTimeMessagesCount)
-
+        
         let lastDisplayedMessagesRange = displayedMessagesRange
-
+        
         displayedMessagesRange.length += newMessagesCount
-
+        
         var indexPaths = [NSIndexPath]()
         for i in 0..<newMessagesCount {
             let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: 0)
             indexPaths.append(indexPath)
         }
-
+        
         conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-
+        
         if newMessagesCount > 0 {
-
+            
             var newMessagesTotalHeight: CGFloat = 0
-
+            
             for i in _lastTimeMessagesCount..<messages.count {
                 let message = messages.objectAtIndex(i) as! Message
-
+                
                 let height = heightOfMessage(message) + 10 // TODO: +10 cell line space
-
+                
                 println("uuheight \(height)")
                 newMessagesTotalHeight += height
             }
             
-            let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
+            let keyboardAndToolBarHeight = adjustHeight
             
             let totleMessagesHeight = conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + 64.0 + newMessagesTotalHeight
             
@@ -690,21 +682,21 @@ class ConversationViewController: UIViewController {
             conversationCollectionView.contentSize = CGSizeMake(conversationCollectionView.contentSize.width, conversationCollectionView.contentSize.height + newMessagesTotalHeight)
             
             println("Size is after \(conversationCollectionView.contentSize.height)")
-
+            
             if (totleMessagesHeight > conversationCollectionView.frame.size.height) {
                 println("New Message scroll")
-
+                
                 UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                     if (useableSpace > 0) {
                         let contentToScroll = newMessagesTotalHeight - useableSpace
                         println("contentToScroll \(contentToScroll)")
                         self.conversationCollectionView.contentOffset.y += contentToScroll
-
+                        
                     } else {
                         self.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
                     }
                     
-                }, completion: { (finished) -> Void in
+                    }, completion: { (finished) -> Void in
                 })
             }
         }
@@ -744,10 +736,6 @@ class ConversationViewController: UIViewController {
     func handleKeyboardWillShowNotification(notification: NSNotification) {
         keyboardShowTimes += 1
         
-        conversationCollectionViewContentOffsetBeforeKeyboardWillHide = CGPointZero
-        if (conversationCollectionViewContentOffsetBeforeKeyboardWillShow == CGPointZero) {
-            conversationCollectionViewContentOffsetBeforeKeyboardWillShow = conversationCollectionView.contentOffset
-        }
 //        println("Set offset before is \(conversationCollectionView.contentOffset)")
 
         if let userInfo = notification.userInfo {
@@ -758,82 +746,105 @@ class ConversationViewController: UIViewController {
             let keyboardHeight = keyboardEndFrame.height
 
             self.keyboardHeight = keyboardHeight
+            
+            adjustCollectionViewWithViewHeight(keyboardHeight, animationDuration: animationDuration, animationCurveValue: animationCurveValue, keyboard: true)
 
-            UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { () -> Void in
-
-                self.messageToolbarBottomConstraint.constant = keyboardHeight
+        }
+    }
+    
+    func adjustCollectionViewWithViewHeight(newHeight: CGFloat, animationDuration: NSTimeInterval, animationCurveValue: UInt, keyboard: Bool) {
+        
+        conversationCollectionViewContentOffsetBeforeKeyboardWillHide = CGPointZero
+        if (conversationCollectionViewContentOffsetBeforeKeyboardWillShow == CGPointZero) {
+            conversationCollectionViewContentOffsetBeforeKeyboardWillShow = conversationCollectionView.contentOffset
+        }
+        
+        UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { () -> Void in
+            
+            self.messageToolbarBottomConstraint.constant = newHeight
+            
+            let keyboardAndToolBarHeight = newHeight + CGRectGetHeight(self.messageToolbar.bounds)
+            
+            let totleMessagesHeight = self.conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + 64.0
+            
+            let visableMessageFieldHeight = self.conversationCollectionView.frame.size.height - (keyboardAndToolBarHeight + 64.0)
+            
+            //                println("Content size is \(self.conversationCollectionView.contentSize.height) visableMessageFieldHeight \(visableMessageFieldHeight) totleMessagesHeight \(totleMessagesHeight) toolbar \(CGRectGetHeight(self.messageToolbar.bounds) ) keyboardHeight \(keyboardHeight) Navitation 64.0")
+            
+            let unvisibaleMessageHeight = self.conversationCollectionView.contentSize.height - visableMessageFieldHeight
+            println("unvisibaleMessageHeight is \(unvisibaleMessageHeight)")
+            
+            //Only scroll the invisable field if invisable < keyboardAndToolBarHeight
+            if (unvisibaleMessageHeight < (keyboardAndToolBarHeight)) {
                 
-                let keyboardAndToolBarHeight = keyboardHeight + CGRectGetHeight(self.messageToolbar.bounds)
-                
-                let totleMessagesHeight = self.conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + 64.0
-                
-                let visableMessageFieldHeight = self.conversationCollectionView.frame.size.height - (keyboardAndToolBarHeight + 64.0)
-                
-//                println("Content size is \(self.conversationCollectionView.contentSize.height) visableMessageFieldHeight \(visableMessageFieldHeight) totleMessagesHeight \(totleMessagesHeight) toolbar \(CGRectGetHeight(self.messageToolbar.bounds) ) keyboardHeight \(keyboardHeight) Navitation 64.0")
-                
-                let unvisibaleMessageHeight = self.conversationCollectionView.contentSize.height - visableMessageFieldHeight
-                println("unvisibaleMessageHeight is \(unvisibaleMessageHeight)")
-                
-                //Only scroll the invisable field if invisable < keyboardAndToolBarHeight
-                if (unvisibaleMessageHeight < (keyboardAndToolBarHeight)) {
-                    
-                    //Only scroll if need
-                    if (unvisibaleMessageHeight > 0) {
-                        var contentOffset = CGPointMake(self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow.x, self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow.y+unvisibaleMessageHeight)
-                        println("Set offset is \(contentOffset)")
-                        
-                        self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
-                    }
-                    
-                } else {
-                    
-                    var contentOffset = self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow
-                    contentOffset.y += keyboardHeight
-                    
-                    println("Set offset is \(contentOffset)")
+                //Only scroll if need
+                if (unvisibaleMessageHeight > 0) {
+                    var contentOffset = CGPointMake(self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow.x, self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow.y+unvisibaleMessageHeight)
+                    println("Set offset 1 is \(contentOffset)")
                     
                     self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
                 }
                 
-                self.conversationCollectionView.contentInset.bottom = CGRectGetHeight(self.messageToolbar.bounds)  + keyboardHeight
+            } else {
                 
-                self.view.layoutIfNeeded()
+                var contentOffset = self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow
+                contentOffset.y += newHeight
+                
+                println("Set offset 2 is \(contentOffset)")
+                
+                self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
+            }
+            
+            self.conversationCollectionView.contentInset.bottom = CGRectGetHeight(self.messageToolbar.bounds)  + newHeight
+            
+            self.view.layoutIfNeeded()
             
             }, completion: { (finished) -> Void in
-                self.keyboardShowTimes -= 1
-            })
-        }
+                if keyboard {
+                    self.keyboardShowTimes -= 1
+                }
+                
+        })
     }
 
     func handleKeyboardWillHideNotification(notification: NSNotification) {
-        self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow = CGPointZero
-        if (conversationCollectionViewContentOffsetBeforeKeyboardWillHide == CGPointZero) {
-            conversationCollectionViewContentOffsetBeforeKeyboardWillHide = conversationCollectionView.contentOffset
-        }
 
         if let userInfo = notification.userInfo {
             let animationDuration: NSTimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
             let animationCurveValue = (userInfo[UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).unsignedLongValue
             let keyboardEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
             let keyboardHeight = keyboardEndFrame.height
+            adjustBackCollectionViewWithHeight(keyboardHeight, animationDuration: animationDuration, animationCurveValue: animationCurveValue)
 
-            UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { () -> Void in
-
-                if self.messageToolbar.state != .MoreMessages {
-                    self.messageToolbarBottomConstraint.constant = 0
-                    self.view.layoutIfNeeded()
-                }
-
-                var contentOffset = self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide
-                contentOffset.y -= keyboardHeight
-                //println("\(self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide.y) \(contentOffset.y) \(self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide.y-contentOffset.y)")
-                self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
-                self.conversationCollectionView.contentInset.bottom = CGRectGetHeight(self.messageToolbar.bounds)
-
-            }, completion: { (finished) -> Void in
-
-            })
         }
+    }
+    
+    func adjustBackCollectionViewWithHeight(newHeight: CGFloat, animationDuration: NSTimeInterval, animationCurveValue: UInt) {
+        
+        self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow = CGPointZero
+        if (conversationCollectionViewContentOffsetBeforeKeyboardWillHide == CGPointZero) {
+            conversationCollectionViewContentOffsetBeforeKeyboardWillHide = conversationCollectionView.contentOffset
+        }
+
+        
+        UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { () -> Void in
+            
+            var contentOffset = self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide
+            self.messageToolbarBottomConstraint.constant = 0
+            if self.messageToolbar.state != .MoreMessages {
+                contentOffset.y -= newHeight
+            }else {
+                contentOffset.y -= (newHeight - self.moreMessageTypesViewHeightConstraintConstant)
+            }
+            
+            //println("\(self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide.y) \(contentOffset.y) \(self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide.y-contentOffset.y)")
+            self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
+            self.conversationCollectionView.contentInset.bottom = CGRectGetHeight(self.messageToolbar.bounds)
+            self.view.layoutIfNeeded()
+            }, completion: { (finished) -> Void in
+                
+        })
+        
     }
 
     func handleKeyboardDidHideNotification(notification: NSNotification) {
