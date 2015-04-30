@@ -125,6 +125,28 @@ class ProfileViewController: UIViewController {
         self.setNeedsStatusBarAppearanceUpdate()
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if let navigationController = navigationController {
+            navigationController.navigationBar.backgroundColor = nil
+            navigationController.navigationBar.translucent = true
+            navigationController.navigationBar.shadowImage = nil
+            navigationController.navigationBar.barStyle = UIBarStyle.Default
+            navigationController.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
+            
+            let textAttributes = [
+                NSForegroundColorAttributeName: UIColor.yepTintColor(),
+                NSFontAttributeName: UIFont.navigationBarTitleFont()
+            ]
+            
+            navigationController.navigationBar.titleTextAttributes = textAttributes
+            navigationController.navigationBar.tintColor = nil
+            navigationItem.rightBarButtonItem?.tintColor = UIColor.yepTintColor()
+        }
+        
+    }
+    
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
@@ -134,6 +156,7 @@ class ProfileViewController: UIViewController {
     @IBAction func sayHi(sender: UIButton) {
         // TODO: sayHi
         println("sayHi")
+        
     }
 
     func moreAction() {

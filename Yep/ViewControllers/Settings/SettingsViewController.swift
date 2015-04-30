@@ -37,23 +37,6 @@ class SettingsViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
-        if let navigationController = navigationController {
-            navigationController.navigationBar.backgroundColor = nil
-            navigationController.navigationBar.translucent = true
-            navigationController.navigationBar.shadowImage = nil
-            navigationController.navigationBar.barStyle = UIBarStyle.Default
-            navigationController.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
-            
-            let textAttributes = [
-                NSForegroundColorAttributeName: UIColor.yepTintColor(),
-                NSFontAttributeName: UIFont.navigationBarTitleFont()
-            ]
-            
-            navigationController.navigationBar.titleTextAttributes = textAttributes
-            
-            navigationItem.rightBarButtonItem?.tintColor = UIColor.yepTintColor()
-        }
     }
 
 }
