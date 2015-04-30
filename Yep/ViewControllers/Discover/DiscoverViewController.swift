@@ -31,6 +31,7 @@ class DiscoverViewController: UIViewController {
 
 
         discoverUsers(masterSkills: ["ruby"], learningSkills: ["singing"], discoveredUserSortStyle: .LastSignIn, failureHandler: { (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage)
 
         }, completion: { discoveredUsers in
             self.discoveredUsers = discoveredUsers

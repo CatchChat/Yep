@@ -71,17 +71,19 @@ class ProfileViewController: UIViewController {
             }
         }
 
-        userInfo(failureHandler: nil) { userInfo in
-            if let skillsData = userInfo["master_skills"] as? [JSONDictionary] {
-                self.masterSkills = skillsFromSkillsData(skillsData)
-            }
+        if discoveredUser != nil {
+            userInfo(failureHandler: nil) { userInfo in
+                if let skillsData = userInfo["master_skills"] as? [JSONDictionary] {
+                    self.masterSkills = skillsFromSkillsData(skillsData)
+                }
 
-            if let skillsData = userInfo["learning_skills"] as? [JSONDictionary] {
-                self.learningSkills = skillsFromSkillsData(skillsData)
-            }
+                if let skillsData = userInfo["learning_skills"] as? [JSONDictionary] {
+                    self.learningSkills = skillsFromSkillsData(skillsData)
+                }
 
-            dispatch_async(dispatch_get_main_queue()) {
-                self.profileCollectionView.reloadData()
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.profileCollectionView.reloadData()
+                }
             }
         }
     }
@@ -138,10 +140,20 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return 1
 
         case ProfileSection.Master.rawValue:
-            return masterSkills.count
+            if let discoveredUser = discoveredUser {
+                return discoveredUser.masterSkills.count
+
+            } else {
+                return masterSkills.count
+            }
 
         case ProfileSection.Learning.rawValue:
-            return learningSkills.count
+            if let discoveredUser = discoveredUser {
+                return discoveredUser.learningSkills.count
+
+            } else {
+                return learningSkills.count
+            }
 
         case ProfileSection.Footer.rawValue:
             return 1
@@ -170,16 +182,28 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Master.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
 
-            let skill = masterSkills[indexPath.item]
-            cell.skillLabel.text = skill.localName
+            if let discoveredUser = discoveredUser {
+                let skill = discoveredUser.masterSkills[indexPath.item]
+                cell.skillLabel.text = skill.localName
+
+            } else {
+                let skill = masterSkills[indexPath.item]
+                cell.skillLabel.text = skill.localName
+            }
 
             return cell
 
         case ProfileSection.Learning.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
 
-            let skill = learningSkills[indexPath.item]
-            cell.skillLabel.text = skill.localName
+            if let discoveredUser = discoveredUser {
+                let skill = discoveredUser.learningSkills[indexPath.item]
+                cell.skillLabel.text = skill.localName
+
+            } else {
+                let skill = learningSkills[indexPath.item]
+                cell.skillLabel.text = skill.localName
+            }
 
             return cell
 
@@ -252,18 +276,30 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return CGSizeMake(collectionViewWidth, collectionViewWidth * profileAvatarAspectRatio)
 
         case ProfileSection.Master.rawValue:
+            var skillLocalName = ""
 
-            let skill = masterSkills[indexPath.item]
+            if let discoveredUser = discoveredUser {
+                skillLocalName = discoveredUser.masterSkills[indexPath.item].localName
 
-            let rect = skill.localName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+            } else {
+                skillLocalName = masterSkills[indexPath.item].localName
+            }
+
+            let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
             return CGSizeMake(rect.width + 24, SkillCell.height)
 
         case ProfileSection.Learning.rawValue:
+            var skillLocalName = ""
 
-            let skill = learningSkills[indexPath.item]
+            if let discoveredUser = discoveredUser {
+                skillLocalName = discoveredUser.learningSkills[indexPath.item].localName
+                
+            } else {
+                skillLocalName = learningSkills[indexPath.item].localName
+            }
 
-            let rect = skill.localName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+            let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
             return CGSizeMake(rect.width + 24, SkillCell.height)
 
