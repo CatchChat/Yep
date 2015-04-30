@@ -71,7 +71,11 @@ class ProfileViewController: UIViewController {
             }
         }
 
-        if discoveredUser != nil {
+        if let discoveredUser = discoveredUser {
+            let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
+            navigationItem.rightBarButtonItem = moreBarButtonItem
+
+        } else {
             userInfo(failureHandler: nil) { userInfo in
                 if let skillsData = userInfo["master_skills"] as? [JSONDictionary] {
                     self.masterSkills = skillsFromSkillsData(skillsData)
@@ -113,6 +117,29 @@ class ProfileViewController: UIViewController {
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
+    }
+
+    // MARK: Actions
+
+    func moreAction() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+
+        let reportAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Report", comment: ""), style: .Default) { action -> Void in
+            // TODO: reportAction
+        }
+        alertController.addAction(reportAction)
+
+        let blockAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Block", comment: ""), style: .Destructive) { action -> Void in
+            // TODO: blockAction
+        }
+        alertController.addAction(blockAction)
+
+        let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        alertController.addAction(cancelAction)
+
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
 
 }
