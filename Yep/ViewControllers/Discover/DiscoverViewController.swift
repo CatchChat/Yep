@@ -14,7 +14,7 @@ class DiscoverViewController: UIViewController {
     
     let cellIdentifier = "ContactsCell"
     
-    var users = [AnyObject]()
+    var discoveredUsers = [DiscoveredUser]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,16 +28,16 @@ class DiscoverViewController: UIViewController {
         discoverTableView.dataSource = self
         
         discoverTableView.delegate = self
-        
-        discoverUsers(master_skills: ["ruby"], learning_skills: ["singing"], sort: "last_sign_in_at", failureHandler: { (reason, error) in
-            
-        }, completion: { data in
 
-            self.users = data["users"] as! [AnyObject]
-            
-            println("\(self.users)")
-            
-            self.reloadDiscoverData()
+
+        discoverUsers(masterSkills: ["ruby"], learningSkills: ["singing"], discoveredUserSortStyle: .LastSignIn, failureHandler: { (reason, errorMessage) in
+
+        }, completion: { discoveredUsers in
+            self.discoveredUsers = discoveredUsers
+
+            dispatch_async(dispatch_get_main_queue()) {
+                self.reloadDiscoverData()
+            }
         })
     }
 
@@ -67,30 +67,34 @@ class DiscoverViewController: UIViewController {
 
 extension DiscoverViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Int(users.count)
+        return discoveredUsers.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
         
-        let user = users[indexPath.row] as! NSDictionary
+        let discoveredUser = discoveredUsers[indexPath.row]
         
         let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
         
-        if let avatarURLString = user.valueForKey("avatar_url") as? String {
-            AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { roundImage in
-                dispatch_async(dispatch_get_main_queue()) {
-                    cell.avatarImageView.image = roundImage
-                }
+        let avatarURLString = discoveredUser.avatarURLString
+        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { roundImage in
+            dispatch_async(dispatch_get_main_queue()) {
+                cell.avatarImageView.image = roundImage
             }
         }
 
-        if let last_sign_in_at = user.valueForKey("last_sign_in_at") as? String {
-            cell.joinedDateLabel.text = last_sign_in_at.toDate()?.timeAgo
-            cell.lastTimeSeenLabel.text = last_sign_in_at.toDate()?.timeAgo
-        }
-        cell.nameLabel.text = user.valueForKey("nickname") as? String
+
+
+        cell.joinedDateLabel.text = discoveredUser.createdAt.timeAgo
+        cell.lastTimeSeenLabel.text = discoveredUser.lastSignInAt.timeAgo
+
+        cell.nameLabel.text = discoveredUser.nickname
 
         return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        performSegueWithIdentifier("showProfile", sender: nil)
     }
 }

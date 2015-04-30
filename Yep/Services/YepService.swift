@@ -489,16 +489,70 @@ private func moreFriendships(inPage page: Int, withPerPage perPage: Int, #failur
     }
 }
 
-func discoverUsers(#master_skills: [String], #learning_skills: [String], #sort: String,#failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
+enum DiscoveredUserSortStyle: String {
+    case Distance = "distance"
+    case LastSignIn = "last_sign_in_at"
+}
+
+struct DiscoveredUser {
+    let id: String
+    let nickname: String
+    let avatarURLString: String
+
+    let createdAt: NSDate
+    let lastSignInAt: NSDate
+
+    let longitude: Double
+    let latitude: Double
+    let distance: Double
+
+    let masterSkills: [Skill]
+    let learningSkills: [Skill]
+}
+
+func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discoveredUserSortStyle: DiscoveredUserSortStyle, #failureHandler: ((Reason, String?) -> Void)?, #completion: [DiscoveredUser] -> Void) {
     
     let requestParameters = [
-        "master_skills": master_skills,
-        "learning_skills": learning_skills,
-        "sort": sort
+        "master_skills": masterSkills,
+        "learning_skills": learningSkills,
+        "sort": discoveredUserSortStyle.rawValue
     ]
     
-    let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
+    let parse: JSONDictionary -> [DiscoveredUser]? = { data in
+
+        println("discoverUsers: \(data)")
+
+        if let usersData = data["users"] as? [JSONDictionary] {
+
+            var discoveredUsers = [DiscoveredUser]()
+
+            for userInfo in usersData {
+                if let
+                    id = userInfo["id"] as? String,
+                    nickname = userInfo["nickname"] as? String,
+                    avatarURLString = userInfo["avatar_url"] as? String,
+                    //createdAt = userInfo["created_at"] as? String,
+                    longitude = userInfo["longitude"] as? Double,
+                    latitude = userInfo["latitude"] as? Double,
+                    distance = userInfo["distance"] as? Double,
+                    masterSkillsData = userInfo["master_skills"] as? [JSONDictionary],
+                    learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary] {
+                        let createdAt = NSDate()
+                        let lastSignInAt = NSDate()
+
+                        let masterSkills = skillsFromSkillsData(masterSkillsData)
+                        let learningSkills = skillsFromSkillsData(learningSkillsData)
+
+                        let discoverUser = DiscoveredUser(id: id, nickname: nickname, avatarURLString: avatarURLString, createdAt: createdAt, lastSignInAt: lastSignInAt, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills)
+                        
+                        discoveredUsers.append(discoverUser)
+                }
+            }
+
+            return discoveredUsers
+        }
+
+        return nil
     }
     
     let resource = authJsonResource(path: "/api/v1/user/discover", method: .GET, requestParameters: requestParameters as! JSONDictionary, parse: parse)
