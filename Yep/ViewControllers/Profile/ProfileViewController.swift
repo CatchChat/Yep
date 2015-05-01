@@ -199,6 +199,8 @@ class ProfileViewController: UIViewController {
 
                 if let conversation = stranger.conversation {
                     performSegueWithIdentifier("showConversation", sender: conversation)
+
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
                 }
             }
         }
