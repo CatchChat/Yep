@@ -191,6 +191,11 @@ class Conversation: RLMObject {
 
 // MARK: Helpers
 
+func normalUsers() -> RLMResults {
+    let predicate = NSPredicate(format: "friendState = %d", UserFriendState.Normal.rawValue)
+    return User.objectsWithPredicate(predicate)
+}
+
 func userWithUserID(userID: String) -> User? {
     let predicate = NSPredicate(format: "userID = %@", userID)
     return User.objectsWithPredicate(predicate).firstObject() as? User

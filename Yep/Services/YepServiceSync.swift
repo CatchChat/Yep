@@ -344,44 +344,36 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
                 for memberInfo in remoteMembers {
                     if let memberID = memberInfo["id"] as? String {
                         let predicate = NSPredicate(format: "userID = %@", memberID)
-                        var member = User.objectsWithPredicate(predicate).firstObject() as? User
+                        let member = User.objectsWithPredicate(predicate).firstObject() as? User
 
                         if member == nil {
                             let newMember = User()
 
                             newMember.userID = memberID
 
-                            realm.beginWriteTransaction()
-                            realm.addObject(newMember)
-                            realm.commitWriteTransaction()
-
-                            member = newMember
-                        }
-
-                        if let member = member {
-                            realm.beginWriteTransaction()
-
                             if let nickname = memberInfo["nickname"] as? String {
-                                member.nickname = nickname
+                                newMember.nickname = nickname
                             }
 
                             if let avatarURLString = memberInfo["avatar_url"] as? String {
-                                member.avatarURLString = avatarURLString
+                                newMember.avatarURLString = avatarURLString
                             }
 
                             if let myUserID = YepUserDefaults.userID.value {
                                 if myUserID == memberID {
-                                    member.friendState = UserFriendState.Me.rawValue
+                                    newMember.friendState = UserFriendState.Me.rawValue
                                 } else {
-                                    member.friendState = UserFriendState.Stranger.rawValue
+                                    newMember.friendState = UserFriendState.Stranger.rawValue
                                 }
                             } else {
-                                member.friendState = UserFriendState.Stranger.rawValue
+                                newMember.friendState = UserFriendState.Stranger.rawValue
                             }
 
-                            localMembers.addObject(member)
-
+                            realm.beginWriteTransaction()
+                            realm.addObject(newMember)
                             realm.commitWriteTransaction()
+                            
+                            localMembers.addObject(newMember)
                         }
                     }
                 }

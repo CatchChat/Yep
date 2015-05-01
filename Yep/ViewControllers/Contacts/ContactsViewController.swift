@@ -14,7 +14,7 @@ class ContactsViewController: UIViewController {
 
     let cellIdentifier = "ContactsCell"
 
-    lazy var friends = User.allObjects()
+    lazy var friends = normalUsers()
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
