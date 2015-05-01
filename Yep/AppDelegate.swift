@@ -179,14 +179,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {
         APService.registerDeviceToken(deviceToken)
-        APService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector: "", object: nil)
+        APService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector:nil, object: nil)
     }
 
-    func tagsAliasCallback(iResCode: Int, tags: NSSet, alias: String) {
+    func tagsAliasCallback(iResCode: Int, tags: NSSet, alias: NSString) {
         println("tagsAliasCallback \(iResCode), \(tags), \(alias)")
     }
-
-
 
     // MARK: Private
 
