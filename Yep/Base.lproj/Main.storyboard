@@ -235,6 +235,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="contactsTableView" destination="3hF-wd-yhY" id="RfM-bD-4Oe"/>
+                        <segue destination="la3-6z-2aH" kind="show" identifier="showConversation" id="oVL-QE-g4G"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ynX-sO-VM0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -713,7 +714,7 @@
         <image name="profile_avatar_frame" width="112" height="112"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="o3b-2D-AMq"/>
+        <segue reference="oVL-QE-g4G"/>
         <segue reference="l4P-ds-ihU"/>
     </inferredMetricsTieBreakers>
 </document>

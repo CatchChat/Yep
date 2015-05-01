@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Realm
 
 class ContactsViewController: UIViewController {
 
@@ -38,6 +39,15 @@ class ContactsViewController: UIViewController {
     func reloadContactsTableView() {
         contactsTableView.reloadData()
     }
+
+    // MARK: Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showConversation" {
+            let vc = segue.destinationViewController as! ConversationViewController
+            vc.conversation = sender as! Conversation
+        }
+    }
 }
 
 extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -63,5 +73,30 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         cell.lastTimeSeenLabel.text = friend.createdAt.timeAgo
 
         return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        // 去往聊天界面
+        let friend = friends.objectAtIndex(UInt(indexPath.row)) as! User
+        if let conversation = friend.conversation {
+            performSegueWithIdentifier("showConversation", sender: conversation)
+
+        } else {
+            let newConversation = Conversation()
+
+            newConversation.type = ConversationType.OneToOne.rawValue
+            newConversation.withFriend = friend
+
+            let realm = RLMRealm.defaultRealm()
+
+            realm.beginWriteTransaction()
+            realm.addObject(newConversation)
+            realm.commitWriteTransaction()
+
+            performSegueWithIdentifier("showConversation", sender: newConversation)
+        }
     }
 }
