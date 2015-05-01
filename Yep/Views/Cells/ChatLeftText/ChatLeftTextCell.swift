@@ -29,6 +29,7 @@ class ChatLeftTextCell: UICollectionViewCell {
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
 
         textContentLabel.font = UIFont.chatTextFont()
+        textContentLabel.textAlignment = NSTextAlignment.Center
         textContentLabelLeadingConstaint.constant = YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
         textContentLabelTrailingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel()
 
@@ -38,8 +39,12 @@ class ChatLeftTextCell: UICollectionViewCell {
 
     func configureWithMessage(message: Message, textContentLabelWidth: CGFloat) {
         textContentLabel.text = message.textContent
-
-        textContentLabelWidthConstraint.constant = textContentLabelWidth
+        
+        if textContentLabelWidth < minTextLabelWidth {
+            textContentLabelWidthConstraint.constant = minTextLabelWidth
+        }else{
+            textContentLabelWidthConstraint.constant = textContentLabelWidth
+        }
 
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
