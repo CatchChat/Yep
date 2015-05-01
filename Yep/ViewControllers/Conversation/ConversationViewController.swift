@@ -268,7 +268,7 @@ class ConversationViewController: UIViewController {
         
         messageToolbar.voiceSendEndAction = { messageToolbar in
             self.waverView.removeFromSuperview()
-            if YepAudioService.sharedManager.audioRecorder?.currentTime < 1.0 {
+            if YepAudioService.sharedManager.audioRecorder?.currentTime < 0.5 {
                 YepAudioService.sharedManager.endRecord()
                 return
             }
