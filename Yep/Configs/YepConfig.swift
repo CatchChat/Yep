@@ -11,7 +11,11 @@ import UIKit
 class YepConfig {
     class func clientType() -> Int {
         // TODO: clientType
-        return 2
+        #if DEBUG
+            return 2
+        #else
+            return 0
+        #endif
     }
 
     class func verifyCodeLength() -> Int {

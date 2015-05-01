@@ -184,6 +184,8 @@ class Waver: UIView {
         
         var samplesCount = waveSamples.count //获取总的 Sample 数量
         
+        println("Samples before compress \(waveSamples)")
+        
         var totalTime:CGFloat = CGFloat(waveSamples.count/(60/fps)) // 计算音频的时长
         
         var bubbleWidth = -0.05*(totalTime*totalTime) + 6.0*totalTime + 50.0 //计算这个时长下的Bubble宽度，Bubble 的宽度和时间的关系函数是一个一元二次函数
@@ -192,9 +194,13 @@ class Waver: UIView {
         
         var sampleGap = Int(CGFloat(samplesCount)/effectiveSample) //计算按照实际可放的sample数量，原sample需要每几个合并一次
         
+        if sampleGap < 1 {
+            sampleGap = 1
+        }
+        
         var timePerSample = totalTime/(CGFloat(samplesCount)/effectiveSample) //计算合并后每个 sample 需要经过多少时间播放
         
-        println("samplesCount \(samplesCount) totalTime \(totalTime) bubbleWidth \(bubbleWidth) effectiveSample \(effectiveSample) sampleGap \(sampleGap) timePerSample\(timePerSample)")
+        println("samplesCount \(samplesCount) totalTime \(totalTime) bubbleWidth \(bubbleWidth) effectiveSample \(effectiveSample) sampleGap \(sampleGap) timePerSample \(timePerSample)")
         
         //
         
