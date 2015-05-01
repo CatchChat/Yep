@@ -9,6 +9,11 @@
 import UIKit
 
 class YepConfig {
+    
+    static let minMessageTextLabelWidth: CGFloat = 20.0
+    
+    static let minMessageSampleViewWidth: CGFloat = 25.0
+    
     class func clientType() -> Int {
         // TODO: clientType
         #if DEBUG

@@ -8,8 +8,6 @@
 
 import UIKit
 
-let minTextLabelWidth: CGFloat = 20.0
-
 class ChatRightTextCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -44,12 +42,7 @@ class ChatRightTextCell: UICollectionViewCell {
     func configureWithMessage(message: Message, textContentLabelWidth: CGFloat) {
         textContentLabel.text = message.textContent
 
-        if textContentLabelWidth < minTextLabelWidth {
-            textContentLabelWidthConstraint.constant = minTextLabelWidth
-        }else{
-            textContentLabelWidthConstraint.constant = textContentLabelWidth
-        }
-
+        textContentLabelWidthConstraint.constant = max(YepConfig.minMessageTextLabelWidth, textContentLabelWidth)
 
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in

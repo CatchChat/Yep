@@ -8,8 +8,6 @@
 
 import UIKit
 
-let minSampleViewWidth: CGFloat = 25.0
-
 class ChatRightAudioCell: UICollectionViewCell {
 
     var message: Message!
@@ -84,9 +82,7 @@ class ChatRightAudioCell: UICollectionViewCell {
                     if let audioSamples = metaDataDict["audio_samples"] as? [CGFloat] {
                         sampleViewWidthConstraint.constant = CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
                         
-                        if sampleViewWidthConstraint.constant < minSampleViewWidth {
-                            sampleViewWidthConstraint.constant = minSampleViewWidth
-                        }
+                        sampleViewWidthConstraint.constant = max(YepConfig.minMessageSampleViewWidth, sampleViewWidthConstraint.constant)
                         
                         sampleView.samples = audioSamples
 
