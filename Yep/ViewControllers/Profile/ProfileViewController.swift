@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Realm
 
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
@@ -150,12 +151,57 @@ class ProfileViewController: UIViewController {
         return UIStatusBarStyle.LightContent
     }
 
+    // MARK: Navigation
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showConversation" {
+            let vc = segue.destinationViewController as! ConversationViewController
+            vc.conversation = sender as! Conversation
+        }
+    }
+
     // MARK: Actions
 
     @IBAction func sayHi(sender: UIButton) {
-        // TODO: sayHi
-        println("sayHi")
-        
+
+        if let discoveredUser = discoveredUser {
+            var stranger = userWithUserID(discoveredUser.id)
+
+            let realm = RLMRealm.defaultRealm()
+
+            if stranger == nil {
+                let newUser = User()
+
+                newUser.userID = discoveredUser.id
+                newUser.nickname = discoveredUser.nickname
+                newUser.avatarURLString = discoveredUser.avatarURLString
+
+                newUser.friendState = UserFriendState.Stranger.rawValue
+
+                realm.beginWriteTransaction()
+                realm.addObject(newUser)
+                realm.commitWriteTransaction()
+
+                stranger = newUser
+            }
+
+            if let stranger = stranger {
+                if stranger.conversation == nil {
+                    let newConversation = Conversation()
+
+                    newConversation.type = ConversationType.OneToOne.rawValue
+                    newConversation.withFriend = stranger
+
+                    realm.beginWriteTransaction()
+                    realm.addObject(newConversation)
+                    realm.commitWriteTransaction()
+                }
+
+                if let conversation = stranger.conversation {
+                    performSegueWithIdentifier("showConversation", sender: conversation)
+                }
+            }
+        }
     }
 
     func moreAction() {

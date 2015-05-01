@@ -285,7 +285,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="-97" y="1833"/>
+            <point key="canvasLocation" x="879" y="2007"/>
         </scene>
         <!--Search Users View Controller-->
         <scene sceneID="CWo-xc-jUy">
@@ -322,7 +322,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f0E-uq-Sae" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="547" y="1839"/>
+            <point key="canvasLocation" x="149" y="2007"/>
         </scene>
         <!--Discover-->
         <scene sceneID="n5u-x5-QaP">
@@ -438,6 +438,7 @@
                         <outlet property="profileCollectionView" destination="VZO-hp-fyU" id="xat-9E-RVG"/>
                         <outlet property="sayHiButton" destination="g8r-Vj-XaN" id="Evy-hG-CXL"/>
                         <outlet property="sayHiView" destination="sfC-fv-gcr" id="5bd-hx-FGY"/>
+                        <segue destination="la3-6z-2aH" kind="show" identifier="showConversation" id="o3b-2D-AMq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -712,6 +713,7 @@
         <image name="profile_avatar_frame" width="112" height="112"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="o3b-2D-AMq"/>
         <segue reference="l4P-ds-ihU"/>
     </inferredMetricsTieBreakers>
 </document>
