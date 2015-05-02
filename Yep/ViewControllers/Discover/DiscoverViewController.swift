@@ -30,7 +30,7 @@ class DiscoverViewController: UIViewController {
         discoverTableView.delegate = self
 
 
-        discoverUsers(masterSkills: ["ruby"], learningSkills: ["singing"], discoveredUserSortStyle: .LastSignIn, failureHandler: { (reason, errorMessage) in
+        discoverUsers(masterSkills: [], learningSkills: [], discoveredUserSortStyle: .LastSignIn, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage)
 
         }, completion: { discoveredUsers in

@@ -513,7 +513,7 @@ struct DiscoveredUser {
 
 func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discoveredUserSortStyle: DiscoveredUserSortStyle, #failureHandler: ((Reason, String?) -> Void)?, #completion: [DiscoveredUser] -> Void) {
     
-    let requestParameters = [
+    let requestParameters:[String: AnyObject] = [
         "master_skills": masterSkills,
         "learning_skills": learningSkills,
         "sort": discoveredUserSortStyle.rawValue
@@ -556,7 +556,7 @@ func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discover
         return nil
     }
     
-    let resource = authJsonResource(path: "/api/v1/user/discover", method: .GET, requestParameters: requestParameters as! JSONDictionary, parse: parse)
+    let resource = authJsonResource(path: "/api/v1/user/discover", method: .GET, requestParameters: requestParameters as JSONDictionary, parse: parse)
     
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)
