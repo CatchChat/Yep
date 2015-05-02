@@ -71,7 +71,7 @@
                                     <outlet property="delegate" destination="la3-6z-2aH" id="zOV-zM-2KH"/>
                                 </connections>
                             </collectionView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="250" width="600" height="50"/>
                                 <items/>
                             </toolbar>
@@ -352,7 +352,6 @@
                     </view>
                     <navigationItem key="navigationItem" title="Discover" id="di2-g9-owW">
                         <barButtonItem key="leftBarButtonItem" title="NearBy" id="mve-O6-ube"/>
-                        <barButtonItem key="rightBarButtonItem" title="Ruby" id="OaG-UO-oQi"/>
                     </navigationItem>
                     <connections>
                         <outlet property="discoverTableView" destination="SPh-AI-uaZ" id="mB3-87-mQq"/>
