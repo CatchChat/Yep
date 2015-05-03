@@ -74,6 +74,9 @@ class MessageToolbar: UIToolbar {
 
                 messageTextView.hidden = false
                 voiceRecordButton.hidden = true
+                
+                updateInputStatus()
+                
 
             case .VoiceRecord:
                 moreButton.hidden = false
@@ -107,6 +110,8 @@ class MessageToolbar: UIToolbar {
     }
 
     var textSendAction: ((messageToolBar: MessageToolbar) -> ())?
+    
+    var statusChangingAction: ((messageToolBar: MessageToolbar) -> ())?
 
     var toggleMoreMessagesAction: ((messageToolBar: MessageToolbar) -> ())?
 
@@ -115,8 +120,7 @@ class MessageToolbar: UIToolbar {
     var voiceSendEndAction: ((messageToolBar: MessageToolbar) -> ())?
     
     var voiceSendCancelAction: ((messageToolBar: MessageToolbar) -> ())?
-
-
+    
     lazy var micButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "item_mic"), forState: .Normal)
@@ -349,6 +353,14 @@ class MessageToolbar: UIToolbar {
             println("Cancel")
             voiceRecordButton.backgroundColor = UIColor.whiteColor()
             textSendAction(messageToolBar: self)
+        }
+    }
+    
+    // Update status
+    
+    func updateInputStatus() {
+        if let statusChangingAction = statusChangingAction {
+            statusChangingAction(messageToolBar: self)
         }
     }
 }

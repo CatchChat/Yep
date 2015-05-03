@@ -71,7 +71,6 @@ class YepConfig {
         return 100
     }
 
-
     struct Settings {
         static let userCellAvatarSize: CGFloat = 80
 

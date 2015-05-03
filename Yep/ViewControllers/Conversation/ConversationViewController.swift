@@ -47,6 +47,10 @@ class ConversationViewController: UIViewController {
     var conversationCollectionViewContentOffsetBeforeKeyboardWillHide = CGPointZero
     var isKeyboardVisible = false
     var keyboardHeight: CGFloat = 0
+
+    var timer: NSTimer!
+    
+    var typingResetDelay: Float = 0
     
     var keyboardShowTimes = 0 {
         willSet {
@@ -62,7 +66,6 @@ class ConversationViewController: UIViewController {
 
     lazy var titleView: ConversationTitleView = {
         let titleView = ConversationTitleView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 150, height: 44)))
-
         titleView.nameLabel.text = nameOfConversation(self.conversation)
 
         if let timeAgo = lastChatTimeOfConversation(self.conversation)?.timeAgo {
@@ -124,6 +127,14 @@ class ConversationViewController: UIViewController {
     let chatRightAudioCellIdentifier = "ChatRightAudioCell"
     let chatLeftVideoCellIdentifier = "ChatLeftVideoCell"
     let chatRightVideoCellIdentifier = "ChatRightVideoCell"
+    
+    func resetTitleDetailsLabel() {
+        if let timeAgo = lastChatTimeOfConversation(self.conversation)?.timeAgo {
+            titleView.stateInfoLabel.text = NSLocalizedString("Last chat at ", comment: "") + timeAgo.lowercaseString
+        } else {
+            titleView.stateInfoLabel.text = NSLocalizedString("Begin chat just now", comment: "")
+        }
+    }
 
     // 使 messageToolbar 随着键盘出现或消失而移动
     var updateUIWithKeyboardChange = false {
@@ -1062,6 +1073,23 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         conversationCollectionViewHasBeenMovedToBottomOnce = true
+        FayeService.sharedManager.delegate = self
+        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("checkTypingStatus"), userInfo: nil, repeats: true)
+        messageToolbar.statusChangingAction = {  messageToolbar in
+
+            if let withFriend = self.conversation.withFriend {
+            var typingMessage = ["state": FayeInstantStateType.Text.description  ]
+                FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant ,userID: withFriend.userID, completion: { (result, message_id) in
+                    println("Send typing \(result)")
+                })
+            }
+        }
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        FayeService.sharedManager.delegate = nil
+        timer.invalidate()
     }
     
     // MARK: UIScrollViewDelegate
@@ -1073,11 +1101,33 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
     }
+    
+    func checkTypingStatus() {
+        typingResetDelay = typingResetDelay - 0.5
+        if  typingResetDelay < 0 {
+            self.resetTitleDetailsLabel()
+        }
+    }
 }
 
 // MARK: PullToRefreshViewDelegate
 
-extension ConversationViewController: PullToRefreshViewDelegate {
+extension ConversationViewController: PullToRefreshViewDelegate, FayeServiceDelegate {
+    
+    func fayeRecievedCurrentStatus(status: String, userID: String) {
+        
+        if let withFriend = conversation.withFriend {
+            
+            if userID == conversation.withFriend?.userID,
+                let nickname = conversation.withFriend?.nickname {
+                    let content = NSLocalizedString("\(nickname) is \(status)", comment: "")
+                    self.titleView.stateInfoLabel.text = "\(content)..."
+                    self.typingResetDelay += 0.5
+            }
+            
+        }
+    }
+    
     func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
 
         func delayBySeconds(seconds: Double, delayedCode: ()->()) {

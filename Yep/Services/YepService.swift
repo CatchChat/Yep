@@ -799,7 +799,7 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
 
             })
         case "User":
-            FayeService.sharedManager.sendPrivateMessage(messageInfo, userID: messageInfo["recipient_id"] as! String, completion: { (result, message_id) in
+            FayeService.sharedManager.sendPrivateMessage(messageInfo,   messageType: .Default, userID: messageInfo["recipient_id"] as! String, completion: { (result, message_id) in
                 
                 if result  {
                     completion(messageID: message_id!)

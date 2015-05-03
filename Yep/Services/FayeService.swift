@@ -10,11 +10,53 @@ import Foundation
 import MZFayeClient
 import Realm
 
+enum FayeMessageType: Printable {
+    case Default
+    case Instant
+    
+    var description: String {
+        switch self {
+        case .Default:
+            return "message"
+        case .Instant:
+            return "instant_state"
+        }
+    }
+}
+
+enum FayeInstantStateType: Printable {
+    case Default
+    case Text
+    case Audio
+    
+    var description: String {
+        switch self {
+        case .Default:
+            return "Default"
+        case .Text:
+            return "typing"
+        case .Audio:
+            return "recording"
+        }
+    }
+}
+
+public protocol FayeServiceDelegate {
+    /**
+    * Current Typing Status
+    *
+    */
+    func fayeRecievedCurrentStatus(status: String, userID: String)
+    
+}
+
 class FayeService: NSObject, MZFayeClientDelegate {
 
     static let sharedManager = FayeService()
 
     let client: MZFayeClient
+    
+    var delegate:FayeServiceDelegate?
     
     override init() {
 
@@ -43,13 +85,29 @@ class FayeService: NSObject, MZFayeClientDelegate {
                 client.subscribeToChannel(personalChannel, usingBlock: { data in
 //                    println("subscribeToChannel: \(data)")
                     let messageInfo = data as! JSONDictionary
-                    let messageType = messageInfo["message_type"] as! String
-                    if messageType == "message" {
-                        if let messageDataInfo = messageInfo["message"] as? [String: AnyObject] {
-                            self.saveMessageWithMessageInfo(messageDataInfo)
+                    if let messageType = messageInfo["message_type"] as? String {
+                        
+                        switch messageType {
+                            
+                            case FayeMessageType.Default.description:
+                                if let messageDataInfo = messageInfo["message"] as? [String: AnyObject] {
+                                    self.saveMessageWithMessageInfo(messageDataInfo)
+                                }
+                                
+                            case FayeMessageType.Instant.description:
+                                if let messageDataInfo = messageInfo["message"] as? [String: AnyObject] {
+                                    let user = messageDataInfo["user"] as! [String: AnyObject]
+                                    let userID = user["id"] as! String
+                                    let state = messageDataInfo["state"] as! String
+                                    self.delegate?.fayeRecievedCurrentStatus(state, userID: userID)
+                                }
+                            
+                                
+                            default:
+                                println("Recieved unknow message type")
+                            
                         }
                     }
-
                 })
                 client.connect()
 
@@ -126,24 +184,27 @@ class FayeService: NSObject, MZFayeClientDelegate {
         println("fayeClient didUnsubscribeFromChannel \(channel)")
     }
     
-    func sendPrivateMessage(message: JSONDictionary, userID: String, completion: (result: Bool, message_id: String?)->() ) {
+    func sendPrivateMessage(message: JSONDictionary, messageType: FayeMessageType, userID: String, completion: (result: Bool, message_id: String?)->() ) {
         
         if let userChannel = personalChannelWithUserID(userID),
             let extensionData = extensionData(){
                 
                 var data: [String: AnyObject] = [
                         "api_version" : "v1",
-                        "message_type" : "message",
+                        "message_type" : messageType.description,
                         "message" : message
                 ]
                 
-//            client.sendMessage(data, toChannel: userChannel, usingExtension: extensionData)
             client.sendMessage(data, toChannel: userChannel, usingExtension: extensionData, usingBlock: { message  in
                 println("Send Message \(message.successful)")
                 if message.successful == 1 {
-                    var messageData = message.ext["message"] as! [String: String]
-                    var messageID = messageData["id"]
-                    completion(result: true, message_id: messageID!)
+                    if let messageData = (message.ext["message"] as? [String: String]) {
+                        var messageID = messageData["id"]
+                        completion(result: true, message_id: messageID!)
+                    }else {
+                        completion(result: true, message_id: nil)
+                    }
+
                 }else{
                     completion(result: false, message_id: nil)
                 }
