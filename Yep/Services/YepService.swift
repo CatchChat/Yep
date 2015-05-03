@@ -1066,6 +1066,12 @@ func markAsReadMessage(message: Message ,#failureHandler: ((Reason, String?) -> 
     if message.readed || message.messageID.isEmpty {
         return
     }
+    
+    var state = UIApplication.sharedApplication().applicationState
+    if state == UIApplicationState.Background || state == UIApplicationState.Inactive
+    {
+        return
+    }
 
     let parse: JSONDictionary -> Bool? = { data in
         return true
