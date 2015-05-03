@@ -370,10 +370,12 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
                             }
 
                             realm.beginWriteTransaction()
+
                             realm.addObject(newMember)
+
+                            localMembers.addObject(newMember) // 因为是 RLMArray，修改必须写在 write transacion 内
+
                             realm.commitWriteTransaction()
-                            
-                            localMembers.addObject(newMember)
                         }
                     }
                 }
