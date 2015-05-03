@@ -783,37 +783,46 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
 
     println("Message info \(messageInfo)")
     
-    if FayeService.sharedManager.client.connected {
-        
-        switch messageInfo["recipient_type"] as! String {
-        case "Circle":
-            FayeService.sharedManager.sendGroupMessage(messageInfo, circleID: messageInfo["recipient_id"] as! String, completion: { (result, message_id) in
-                
-                if result  {
-                    completion(messageID: message_id!)
-                }else {
-                    if let failureHandler = failureHandler {
-                        failureHandler(Reason.CouldNotParseJSON, "Created Message Error")
-                    }
-                }
+    if
+        FayeService.sharedManager.client.connected,
+        let recipientType = messageInfo["recipient_type"] as? String,
+        let recipientID = messageInfo["recipient_id"] as? String {
 
-            })
-        case "User":
-            FayeService.sharedManager.sendPrivateMessage(messageInfo,   messageType: .Default, userID: messageInfo["recipient_id"] as! String, completion: { (result, message_id) in
+            switch recipientType {
+
+            case "Circle":
+                FayeService.sharedManager.sendGroupMessage(messageInfo, circleID: recipientID, completion: { (success, messageID) in
+
+                    if success, let messageID = messageID {
+                        completion(messageID: messageID)
+
+                    } else {
+                        if let failureHandler = failureHandler {
+                            failureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
+                        } else {
+                            defaultFailureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
+                        }
+                    }
+                })
+
+            case "User":
+                FayeService.sharedManager.sendPrivateMessage(messageInfo, messageType: .Default, userID: recipientID, completion: { (success, messageID) in
+
+                    if success, let messageID = messageID {
+                        completion(messageID: messageID)
+
+                    } else {
+                        if let failureHandler = failureHandler {
+                            failureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
+                        } else {
+                            defaultFailureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
+                        }
+                    }
+                })
                 
-                if result  {
-                    completion(messageID: message_id!)
-                }else {
-                    if let failureHandler = failureHandler {
-                       failureHandler(Reason.CouldNotParseJSON, "Created Message Error")
-                    }   
-                }
-            })
-        default:
-            break
-            
-        }
-        
+            default:
+                break
+            }
         
     } else {
         let parse: JSONDictionary -> String? = { data in

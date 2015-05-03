@@ -184,56 +184,75 @@ class FayeService: NSObject, MZFayeClientDelegate {
         println("fayeClient didUnsubscribeFromChannel \(channel)")
     }
     
-    func sendPrivateMessage(message: JSONDictionary, messageType: FayeMessageType, userID: String, completion: (result: Bool, message_id: String?)->() ) {
+    func sendPrivateMessage(message: JSONDictionary, messageType: FayeMessageType, userID: String, completion: (success: Bool, messageID: String?)->() ) {
         
-        if let userChannel = personalChannelWithUserID(userID),
-            let extensionData = extensionData(){
+        if let
+            userChannel = personalChannelWithUserID(userID),
+            extensionData = extensionData(){
                 
-                var data: [String: AnyObject] = [
-                        "api_version" : "v1",
-                        "message_type" : messageType.description,
-                        "message" : message
+                let data: [String: AnyObject] = [
+                    "api_version": "v1",
+                    "message_type": messageType.description,
+                    "message": message
                 ]
                 
             client.sendMessage(data, toChannel: userChannel, usingExtension: extensionData, usingBlock: { message  in
-                println("Send Message \(message.successful)")
+                println("sendPrivateMessage \(message.successful)")
+
                 if message.successful == 1 {
-                    if let messageData = (message.ext["message"] as? [String: String]) {
-                        var messageID = messageData["id"]
-                        completion(result: true, message_id: messageID!)
-                    }else {
-                        completion(result: true, message_id: nil)
+                    if let
+                        messageData = message.ext["message"] as? [String: String],
+                        messageID = messageData["id"] {
+
+                            completion(success: true, messageID: messageID)
+
+                            return
                     }
-
-                }else{
-                    completion(result: false, message_id: nil)
                 }
-            })
-        }
 
+                completion(success: false, messageID: nil)
+            })
+
+        } else {
+            println("Can NOT sendPrivateMessage, not circleChannel or extensionData")
+
+            completion(success: false, messageID: nil)
+        }
     }
     
-    func sendGroupMessage(message: JSONDictionary, circleID: String,completion: (result: Bool, message_id: String?)->())  {
+    func sendGroupMessage(message: JSONDictionary, circleID: String, completion: (success: Bool, messageID: String?) -> Void)  {
         
-        if let circleChannel = circleChannelWithCircleID(circleID),
-            let extensionData = extensionData(){
+        if let
+            circleChannel = circleChannelWithCircleID(circleID),
+            extensionData = extensionData() {
                 
-                var data: [String: AnyObject] = [
-                    "api_version" : "v1",
-                    "message_type" : "message",
-                    "message" : message
+                let data: [String: AnyObject] = [
+                    "api_version": "v1",
+                    "message_type": "message",
+                    "message": message
                 ]
                 
                 client.sendMessage(data, toChannel: circleChannel, usingExtension: extensionData, usingBlock: { message  in
-                    println("Send Message \(message.successful)")
+                    println("sendGroupMessage \(message.successful)")
+
                     if message.successful == 1 {
-                        var messageData = message.ext["message"] as! [String: String]
-                        var messageID = messageData["id"]
-                        completion(result: true, message_id: messageID!)
-                    }else{
-                        completion(result: false, message_id: nil)
+                        if let
+                            messageData = message.ext["message"] as? [String: String],
+                            messageID = messageData["id"] {
+
+                                completion(success: true, messageID: messageID)
+
+                                return
+                        }
                     }
+
+                    completion(success: false, messageID: nil)
                 })
+
+        } else {
+            println("Can NOT sendGroupMessage, not circleChannel or extensionData")
+
+            completion(success: false, messageID: nil)
         }
     }
 
