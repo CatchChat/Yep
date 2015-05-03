@@ -174,9 +174,6 @@ class ConversationViewController: UIViewController {
 
         navigationItem.titleView = titleView
 
-        let undoBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Undo, target: self, action: "undoMessageSend")
-        navigationItem.rightBarButtonItem = undoBarButtonItem
-
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationCollectionView", name: YepNewMessagesReceivedNotification, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener("ConversationViewController") { _ in
@@ -733,26 +730,6 @@ class ConversationViewController: UIViewController {
         messageToolbar.state = .BeginTextInput
     }
     
-    func undoMessageSend() {
-        
-        if let lastMessage = messages.lastObject() as? Message {
-
-            let realm = RLMRealm.defaultRealm()
-            realm.beginWriteTransaction()
-            realm.deleteObject(lastMessage)
-            realm.commitWriteTransaction()
-            
-            lastTimeMessagesCount = messages.count
-            
-            let lastMessageIndexPath = NSIndexPath(forItem: Int(messages.count), inSection: 0)
-            conversationCollectionView.deleteItemsAtIndexPaths([lastMessageIndexPath])
-            println("\(conversationCollectionView.contentSize) \(conversationCollectionView.contentOffset)")
-//            messages = messagesInConversation(self.conversation)
-            
-//            println("Messages after refetch \(messages.count)")
-        }
-    }
-
     // MARK: Keyboard
 
     func handleKeyboardWillShowNotification(notification: NSNotification) {
