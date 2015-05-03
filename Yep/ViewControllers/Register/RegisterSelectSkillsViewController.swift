@@ -167,7 +167,16 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
     }
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 1
+        if collectionView == skillCategoriesCollectionView {
+            return 1
+
+        } else if collectionView == skillsCollectionView {
+            if skillCategoryIndex < skillCategories.count {
+                return 1
+            }
+        }
+
+       return 0
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
