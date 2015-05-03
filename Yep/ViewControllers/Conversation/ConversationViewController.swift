@@ -270,6 +270,15 @@ class ConversationViewController: UIViewController {
             if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
                 YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: self)
             }
+            
+            if let withFriend = self.conversation.withFriend {
+                var typingMessage = ["state": FayeInstantStateType.Audio.description]
+                
+                FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant,
+                    userID: withFriend.userID, completion: { (result, message_id) in
+                        println("Send recording \(result)")
+                })
+            }
         }
         
         messageToolbar.voiceSendCancelAction = { messageToolbar in
@@ -1078,8 +1087,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         messageToolbar.statusChangingAction = {  messageToolbar in
 
             if let withFriend = self.conversation.withFriend {
-            var typingMessage = ["state": FayeInstantStateType.Text.description  ]
-                FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant ,userID: withFriend.userID, completion: { (result, message_id) in
+                var typingMessage = ["state": FayeInstantStateType.Text.description]
+                
+                FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant,
+                    userID: withFriend.userID, completion: { (result, message_id) in
                     println("Send typing \(result)")
                 })
             }
@@ -1122,7 +1133,15 @@ extension ConversationViewController: PullToRefreshViewDelegate, FayeServiceDele
                 let nickname = conversation.withFriend?.nickname {
                     let content = NSLocalizedString("\(nickname) is \(status)", comment: "")
                     self.titleView.stateInfoLabel.text = "\(content)..."
-                    self.typingResetDelay += 0.5
+                    
+                    switch status {
+                        case FayeInstantStateType.Text.description:
+                            self.typingResetDelay = 0.5
+                        case FayeInstantStateType.Audio.description:
+                            self.typingResetDelay = 2.5
+                        default:
+                            break
+                    }
             }
             
         }
