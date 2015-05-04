@@ -149,11 +149,42 @@
                         <outlet property="moreMessageTypesViewHeightConstraint" destination="faf-Xw-b0H" id="wNA-e7-3wx"/>
                         <outlet property="takePhotoButton" destination="HcA-7v-16m" id="yfB-gA-lxG"/>
                         <segue destination="f92-fs-zdh" kind="presentation" identifier="presentMessageMedia" id="esY-9F-IrH"/>
+                        <segue destination="wNI-He-VjY" kind="presentation" identifier="presentPickLocation" id="8Uc-bg-xSe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="chH-Zx-2Ge" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-783" y="1851"/>
+        </scene>
+        <!--Pick Location-->
+        <scene sceneID="jjk-Bb-EhH">
+            <objects>
+                <viewController storyboardIdentifier="PickLocationViewController" id="Cb0-q4-fbE" customClass="PickLocationViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jl9-K7-T9R"/>
+                        <viewControllerLayoutGuide type="bottom" id="IOS-LP-INK"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rxB-62-E4m">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Pick Location" id="eb9-Md-SJn">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="bgy-iS-1dN">
+                            <connections>
+                                <action selector="cancel:" destination="Cb0-q4-fbE" id="XLf-m9-vNz"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Send" id="Dek-I8-RQb">
+                            <connections>
+                                <action selector="send:" destination="Cb0-q4-fbE" id="qdg-W1-4Na"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b42-ms-7Bt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1527" y="3483"/>
         </scene>
         <!--Message Media View Controller-->
         <scene sceneID="7qy-6q-Ufn">
@@ -195,7 +226,7 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-783" y="2579"/>
+            <point key="canvasLocation" x="-783" y="2715"/>
         </scene>
         <!--Contacts-->
         <scene sceneID="9ZG-MC-rxD">
@@ -286,7 +317,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="879" y="2007"/>
+            <point key="canvasLocation" x="1691" y="2007"/>
         </scene>
         <!--Search Users View Controller-->
         <scene sceneID="CWo-xc-jUy">
@@ -323,7 +354,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f0E-uq-Sae" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="149" y="2007"/>
+            <point key="canvasLocation" x="961" y="2007"/>
         </scene>
         <!--Discover-->
         <scene sceneID="n5u-x5-QaP">
@@ -694,6 +725,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jbh-lX-9VY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2027" y="253"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="L2z-Qr-Bhh">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wNI-He-VjY" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9T1-O2-J4Y">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Cb0-q4-fbE" kind="relationship" relationship="rootViewController" id="FhV-7q-zH1"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jxe-Rl-buF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1527" y="2715"/>
         </scene>
     </scenes>
     <resources>

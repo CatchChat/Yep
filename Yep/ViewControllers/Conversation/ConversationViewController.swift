@@ -420,7 +420,7 @@ class ConversationViewController: UIViewController {
         }
 
         addLocationButton.tapAction = {
-            YepAlert.alertSorry(message: "TODO: Add Location", inViewController: self)
+            self.performSegueWithIdentifier("presentPickLocation", sender: nil)
         }
     }
 
