@@ -194,6 +194,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="N6L-U8-EFf" id="xfc-We-pFG"/>
+                        <outlet property="sendButton" destination="Dek-I8-RQb" id="pzq-pU-tOf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b42-ms-7Bt" userLabel="First Responder" sceneMemberID="firstResponder"/>

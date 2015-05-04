@@ -11,7 +11,7 @@ import MapKit
 
 class PickLocationViewController: UIViewController {
 
-
+    @IBOutlet weak var sendButton: UIBarButtonItem!
     @IBOutlet weak var mapView: MKMapView!
 
     var isFirstShowUserLocation = true
@@ -22,6 +22,8 @@ class PickLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        sendButton.enabled = false
+        
         mapView.showsUserLocation = true
         mapView.delegate = self
 
@@ -57,7 +59,6 @@ class PickLocationViewController: UIViewController {
         mapView.addAnnotation(pin)
 
         userPickedLocationPin = pin
-
     }
 }
 
@@ -67,6 +68,8 @@ extension PickLocationViewController: MKMapViewDelegate {
 
         if isFirstShowUserLocation {
             isFirstShowUserLocation = false
+
+            sendButton.enabled = true
 
             let location = userLocation.location
             let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 2000, 2000)
