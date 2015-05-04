@@ -169,15 +169,34 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="N6L-U8-EFf">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="394"/>
                             </mapView>
+                            <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="yA1-aK-rWX">
+                                <rect key="frame" x="0.0" y="350" width="600" height="44"/>
+                                <color key="barTintColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Cb0-q4-fbE" id="raN-Ed-9gK"/>
+                                </connections>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="iqS-tv-kJf">
+                                <rect key="frame" x="0.0" y="394" width="600" height="206"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="N6L-U8-EFf" firstAttribute="leading" secondItem="rxB-62-E4m" secondAttribute="leading" id="3Xo-rA-I8u"/>
+                            <constraint firstItem="iqS-tv-kJf" firstAttribute="top" secondItem="yA1-aK-rWX" secondAttribute="bottom" id="AZN-4C-lTO"/>
+                            <constraint firstItem="iqS-tv-kJf" firstAttribute="leading" secondItem="rxB-62-E4m" secondAttribute="leading" id="L5q-Lx-pP6"/>
                             <constraint firstAttribute="trailing" secondItem="N6L-U8-EFf" secondAttribute="trailing" id="Mgy-xK-ztv"/>
+                            <constraint firstItem="IOS-LP-INK" firstAttribute="top" secondItem="iqS-tv-kJf" secondAttribute="bottom" id="NgK-5H-Y5v"/>
+                            <constraint firstItem="yA1-aK-rWX" firstAttribute="leading" secondItem="rxB-62-E4m" secondAttribute="leading" id="XlF-ls-19S"/>
+                            <constraint firstAttribute="trailing" secondItem="yA1-aK-rWX" secondAttribute="trailing" id="ZMc-g2-JoZ"/>
+                            <constraint firstItem="IOS-LP-INK" firstAttribute="top" secondItem="yA1-aK-rWX" secondAttribute="top" constant="250" id="eMX-4T-aMh"/>
                             <constraint firstItem="N6L-U8-EFf" firstAttribute="top" secondItem="rxB-62-E4m" secondAttribute="top" id="pmN-2M-x9u"/>
-                            <constraint firstItem="IOS-LP-INK" firstAttribute="top" secondItem="N6L-U8-EFf" secondAttribute="bottom" id="vgP-p2-vI1"/>
+                            <constraint firstAttribute="trailing" secondItem="iqS-tv-kJf" secondAttribute="trailing" id="sNX-hG-cIk"/>
+                            <constraint firstItem="IOS-LP-INK" firstAttribute="top" secondItem="N6L-U8-EFf" secondAttribute="bottom" constant="206" id="vgP-p2-vI1"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Pick Location" id="eb9-Md-SJn">
@@ -194,7 +213,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="N6L-U8-EFf" id="xfc-We-pFG"/>
+                        <outlet property="searchBar" destination="yA1-aK-rWX" id="F1H-sd-VHF"/>
+                        <outlet property="searchBarTopToSuperBottomConstraint" destination="eMX-4T-aMh" id="lYI-M0-98Y"/>
                         <outlet property="sendButton" destination="Dek-I8-RQb" id="pzq-pU-tOf"/>
+                        <outlet property="tableView" destination="iqS-tv-kJf" id="5Kn-ms-0Of"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b42-ms-7Bt" userLabel="First Responder" sceneMemberID="firstResponder"/>

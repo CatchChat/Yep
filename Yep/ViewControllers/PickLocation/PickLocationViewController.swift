@@ -13,6 +13,9 @@ class PickLocationViewController: UIViewController {
 
     @IBOutlet weak var sendButton: UIBarButtonItem!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var searchBarTopToSuperBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var tableView: UITableView!
 
     var isFirstShowUserLocation = true
 
@@ -75,6 +78,7 @@ extension PickLocationViewController: MKMapViewDelegate {
             let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 2000, 2000)
             mapView.setRegion(region, animated: true)
         }
+
     }
 
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
@@ -102,3 +106,35 @@ extension PickLocationViewController: MKMapViewDelegate {
     }
 }
 
+extension PickLocationViewController: UISearchBarDelegate {
+    
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+
+        navigationController?.setNavigationBarHidden(true, animated: true)
+
+        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+            self.searchBarTopToSuperBottomConstraint.constant = CGRectGetHeight(self.view.bounds) - 20
+            self.view.layoutIfNeeded()
+
+        }, completion: { finished in
+            self.searchBar.setShowsCancelButton(true, animated: true)
+        })
+
+        return true
+    }
+
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+
+        searchBar.resignFirstResponder()
+
+        navigationController?.setNavigationBarHidden(false, animated: true)
+
+        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+            self.searchBarTopToSuperBottomConstraint.constant = 250
+            self.view.layoutIfNeeded()
+
+        }, completion: { finished in
+            self.searchBar.setShowsCancelButton(false, animated: true)
+        })
+    }
+}
