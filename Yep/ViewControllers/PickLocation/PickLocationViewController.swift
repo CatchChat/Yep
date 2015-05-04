@@ -19,8 +19,18 @@ class PickLocationViewController: UIViewController {
 
     var isFirstShowUserLocation = true
 
-    var userPickedLocationPin: UserPickedLocationPin?
+    var userPickedLocationPin: UserPickedLocationPin? {
+        didSet {
+            reloadTableView()
+        }
+    }
 
+    lazy var geocoder = CLGeocoder()
+    var placemarks = [CLPlacemark]() {
+        didSet {
+            reloadTableView()
+        }
+    }
 
     let pickLocationCellIdentifier = "PickLocationCell"
 
@@ -68,6 +78,30 @@ class PickLocationViewController: UIViewController {
 
         userPickedLocationPin = pin
     }
+
+    func placemarksAroundLocation(location: CLLocation, completion: [CLPlacemark] -> Void) {
+        geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
+
+            if (error != nil) {
+                println("reverse geodcode fail: \(error.localizedDescription)")
+
+                completion([])
+            }
+
+            if let placemarks = placemarks as? [CLPlacemark] {
+                completion(placemarks)
+
+            } else {
+                println("No Placemarks!")
+
+                completion([])
+            }
+        })
+    }
+
+    func reloadTableView() {
+        tableView.reloadData()
+    }
 }
 
 extension PickLocationViewController: MKMapViewDelegate {
@@ -84,6 +118,9 @@ extension PickLocationViewController: MKMapViewDelegate {
             mapView.setRegion(region, animated: true)
         }
 
+        placemarksAroundLocation(userLocation.location) { placemarks in
+            self.placemarks = placemarks
+        }
     }
 
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
@@ -145,16 +182,58 @@ extension PickLocationViewController: UISearchBarDelegate {
 }
 
 extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate {
+
+    enum Section: Int {
+        case CurrentLocation = 0
+        case UserPickedLocation
+        case Placemarks
+    }
+
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 3
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+
+        switch section {
+        case Section.CurrentLocation.rawValue:
+            return 1
+        case Section.UserPickedLocation.rawValue:
+            return (userPickedLocationPin == nil ? 0 : 1)
+        case Section.Placemarks.rawValue:
+            return placemarks.count
+        default:
+            return 0
+        }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(pickLocationCellIdentifier) as! PickLocationCell
+
+        switch indexPath.section {
+
+        case Section.CurrentLocation.rawValue:
+            cell.iconImageView.hidden = false
+            cell.iconImageView.image = UIImage(named: "icon_current_location")
+            cell.locationLabel.text = NSLocalizedString("My Current Location", comment: "")
+            cell.checkImageView.hidden = false
+
+        case Section.UserPickedLocation.rawValue:
+            cell.iconImageView.hidden = false
+            cell.iconImageView.image = UIImage(named: "icon_pin")
+            cell.locationLabel.text = NSLocalizedString("Picked Location", comment: "")
+            cell.checkImageView.hidden = true
+
+        case Section.Placemarks.rawValue:
+            cell.iconImageView.hidden = true
+            let placemark = placemarks[indexPath.row]
+            cell.locationLabel.text = placemark.subLocality + " " + placemark.thoroughfare
+            cell.checkImageView.hidden = true
+
+        default:
+            break
+        }
+
         return cell
     }
 }
