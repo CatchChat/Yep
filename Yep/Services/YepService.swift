@@ -796,7 +796,6 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
 
                     if success, let messageID = messageID {
                         completion(messageID: messageID)
-
                     } else {
                         if let failureHandler = failureHandler {
                             failureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
@@ -811,7 +810,6 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
 
                     if success, let messageID = messageID {
                         completion(messageID: messageID)
-
                     } else {
                         if let failureHandler = failureHandler {
                             failureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
