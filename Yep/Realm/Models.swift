@@ -56,11 +56,15 @@ class User: RLMObject {
     dynamic var avatar: Avatar?
 
     dynamic var createdAt: NSDate = NSDate()
+    dynamic var lastSignInAt: NSDate = NSDate()
 
     dynamic var friendState: Int = UserFriendState.Stranger.rawValue
     dynamic var friendshipID: String = ""
     dynamic var isBestfriend: Bool = false
     dynamic var bestfriendIndex: Int = 0
+
+    dynamic var longitude: Double = 0
+    dynamic var latitude: Double = 0
 
     dynamic var learningSkills = RLMArray(objectClassName: UserSkill.className())
     dynamic var masterSkills = RLMArray(objectClassName: UserSkill.className())
