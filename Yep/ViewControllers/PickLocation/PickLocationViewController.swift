@@ -22,8 +22,13 @@ class PickLocationViewController: UIViewController {
     var userPickedLocationPin: UserPickedLocationPin?
 
 
+    let pickLocationCellIdentifier = "PickLocationCell"
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        tableView.registerNib(UINib(nibName: pickLocationCellIdentifier, bundle: nil), forCellReuseIdentifier: pickLocationCellIdentifier)
+        tableView.rowHeight = 50
 
         sendButton.enabled = false
         
@@ -138,3 +143,19 @@ extension PickLocationViewController: UISearchBarDelegate {
         })
     }
 }
+
+extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 4
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(pickLocationCellIdentifier) as! PickLocationCell
+        return cell
+    }
+}
+

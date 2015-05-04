@@ -80,6 +80,8 @@
 		504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504F41591AD5028200FBB19A /* SkillCell.xib */; };
 		5053AD4A1AF772C500B3CBFA /* PickLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD491AF772C500B3CBFA /* PickLocationViewController.swift */; };
 		5053AD4D1AF79EEA00B3CBFA /* UserPickedLocationPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD4C1AF79EEA00B3CBFA /* UserPickedLocationPin.swift */; };
+		5053AD501AF82A1700B3CBFA /* PickLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD4E1AF82A1700B3CBFA /* PickLocationCell.swift */; };
+		5053AD511AF82A1700B3CBFA /* PickLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5053AD4F1AF82A1700B3CBFA /* PickLocationCell.xib */; };
 		50553F8F1ADB8BA200F80B59 /* ChatSectionDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F8D1ADB8BA200F80B59 /* ChatSectionDateCell.swift */; };
 		50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50553F8E1ADB8BA200F80B59 /* ChatSectionDateCell.xib */; };
 		50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F921ADBA50600F80B59 /* NSDate+Yep.swift */; };
@@ -244,6 +246,8 @@
 		504F41591AD5028200FBB19A /* SkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillCell.xib; path = Views/Cells/Skill/SkillCell.xib; sourceTree = "<group>"; };
 		5053AD491AF772C500B3CBFA /* PickLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickLocationViewController.swift; path = ViewControllers/PickLocation/PickLocationViewController.swift; sourceTree = "<group>"; };
 		5053AD4C1AF79EEA00B3CBFA /* UserPickedLocationPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserPickedLocationPin.swift; path = ViewControllers/PickLocation/UserPickedLocationPin.swift; sourceTree = "<group>"; };
+		5053AD4E1AF82A1700B3CBFA /* PickLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickLocationCell.swift; path = Views/Cells/PickLocation/PickLocationCell.swift; sourceTree = "<group>"; };
+		5053AD4F1AF82A1700B3CBFA /* PickLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PickLocationCell.xib; path = Views/Cells/PickLocation/PickLocationCell.xib; sourceTree = "<group>"; };
 		50553F8D1ADB8BA200F80B59 /* ChatSectionDateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatSectionDateCell.swift; path = Views/Cells/ChatSectionDate/ChatSectionDateCell.swift; sourceTree = "<group>"; };
 		50553F8E1ADB8BA200F80B59 /* ChatSectionDateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatSectionDateCell.xib; path = Views/Cells/ChatSectionDate/ChatSectionDateCell.xib; sourceTree = "<group>"; };
 		50553F921ADBA50600F80B59 /* NSDate+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Yep.swift"; path = "Extensions/NSDate+Yep.swift"; sourceTree = "<group>"; };
@@ -567,6 +571,7 @@
 				50894D041AEA6439000981AF /* EditProfileLessInfo */,
 				50894D091AEDFDA6000981AF /* EditProfileMoreInfo */,
 				50894D0E1AEE017B000981AF /* EditProfileColoredTitle */,
+				5053AD521AF82A1E00B3CBFA /* PickLocation */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -772,6 +777,15 @@
 			children = (
 				5053AD491AF772C500B3CBFA /* PickLocationViewController.swift */,
 				5053AD4C1AF79EEA00B3CBFA /* UserPickedLocationPin.swift */,
+			);
+			name = PickLocation;
+			sourceTree = "<group>";
+		};
+		5053AD521AF82A1E00B3CBFA /* PickLocation */ = {
+			isa = PBXGroup;
+			children = (
+				5053AD4E1AF82A1700B3CBFA /* PickLocationCell.swift */,
+				5053AD4F1AF82A1700B3CBFA /* PickLocationCell.xib */,
 			);
 			name = PickLocation;
 			sourceTree = "<group>";
@@ -1174,6 +1188,7 @@
 				50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */,
 				502AE54F1AB93175005BD199 /* ProfileHeaderCell.xib in Resources */,
 				0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */,
+				5053AD511AF82A1700B3CBFA /* PickLocationCell.xib in Resources */,
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 				50EB8CC51AE89F12001AC1EE /* ChatRightVideoCell.xib in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
@@ -1355,6 +1370,7 @@
 				50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */,
 				504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */,
 				50894D0C1AEE0177000981AF /* EditProfileColoredTitleCell.swift in Sources */,
+				5053AD501AF82A1700B3CBFA /* PickLocationCell.swift in Sources */,
 				5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */,
 				5053AD4A1AF772C500B3CBFA /* PickLocationViewController.swift in Sources */,
 			);
