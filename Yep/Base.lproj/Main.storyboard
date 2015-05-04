@@ -71,7 +71,7 @@
                                     <outlet property="delegate" destination="la3-6z-2aH" id="zOV-zM-2KH"/>
                                 </connections>
                             </collectionView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="250" width="600" height="50"/>
                                 <items/>
                             </toolbar>
@@ -235,7 +235,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="contactsTableView" destination="3hF-wd-yhY" id="RfM-bD-4Oe"/>
-                        <segue destination="la3-6z-2aH" kind="show" identifier="showConversation" id="oVL-QE-g4G"/>
+                        <segue destination="AyC-pt-NR2" kind="show" identifier="showProfile" id="Pxr-1p-x84"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ynX-sO-VM0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -360,7 +360,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i6I-3Z-6M6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1079" y="1045"/>
+            <point key="canvasLocation" x="1079" y="991"/>
         </scene>
         <!--Profile-->
         <scene sceneID="Gwo-ON-4Er">
@@ -713,7 +713,7 @@
         <image name="profile_avatar_frame" width="112" height="112"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="oVL-QE-g4G"/>
         <segue reference="l4P-ds-ihU"/>
+        <segue reference="o3b-2D-AMq"/>
     </inferredMetricsTieBreakers>
 </document>

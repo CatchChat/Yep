@@ -53,6 +53,12 @@ class ProfileHeaderCell: UICollectionViewCell {
         })
     }
 
+    func configureWithUser(user: User) {
+        updateAvatarWithAvatarURLString(user.avatarURLString)
+
+        // TODO: User Location
+    }
+
     func updateAvatarWithAvatarURLString(avatarURLString: String) {
         avatarImageView.alpha = 0
 

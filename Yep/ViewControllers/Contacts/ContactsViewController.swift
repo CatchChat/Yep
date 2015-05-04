@@ -43,9 +43,14 @@ class ContactsViewController: UIViewController {
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showConversation" {
-            let vc = segue.destinationViewController as! ConversationViewController
-            vc.conversation = sender as! Conversation
+        if segue.identifier == "showProfile" {
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            if let user = sender as? User {
+                vc.profileUser = ProfileUser.UserType(user)
+            }
+
+            vc.hidesBottomBarWhenPushed = true
         }
     }
 }
@@ -79,24 +84,8 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        // 去往聊天界面
+        // 去往 Profile
         let friend = friends.objectAtIndex(UInt(indexPath.row)) as! User
-        if let conversation = friend.conversation {
-            performSegueWithIdentifier("showConversation", sender: conversation)
-
-        } else {
-            let newConversation = Conversation()
-
-            newConversation.type = ConversationType.OneToOne.rawValue
-            newConversation.withFriend = friend
-
-            let realm = RLMRealm.defaultRealm()
-
-            realm.beginWriteTransaction()
-            realm.addObject(newConversation)
-            realm.commitWriteTransaction()
-
-            performSegueWithIdentifier("showConversation", sender: newConversation)
-        }
-    }
+        performSegueWithIdentifier("showProfile", sender: friend)
+   }
 }

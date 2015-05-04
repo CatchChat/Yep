@@ -11,9 +11,14 @@ import Realm
 
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
+enum ProfileUser {
+    case DiscoveredUserType(DiscoveredUser)
+    case UserType(User)
+}
+
 class ProfileViewController: UIViewController {
 
-    var discoveredUser: DiscoveredUser?
+    var profileUser: ProfileUser?
 
 
     @IBOutlet weak var profileCollectionView: UICollectionView!
@@ -67,8 +72,13 @@ class ProfileViewController: UIViewController {
             profileCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: CGRectGetHeight(tabBarController.tabBar.bounds), right: 0)
         }
 
-        if let discoveredUser = discoveredUser {
-            self.navigationItem.title = discoveredUser.nickname
+        if let profileUser = profileUser {
+            switch profileUser {
+            case .DiscoveredUserType(let discoveredUser):
+                self.navigationItem.title = discoveredUser.nickname
+            case .UserType(let user):
+                self.navigationItem.title = user.nickname
+            }
 
         } else {
             YepUserDefaults.nickname.bindAndFireListener("ProfileViewController.Title") { nickname in
@@ -76,7 +86,7 @@ class ProfileViewController: UIViewController {
             }
         }
 
-        if let discoveredUser = discoveredUser {
+        if let profileUser = profileUser {
             let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
             navigationItem.rightBarButtonItem = moreBarButtonItem
 
@@ -164,40 +174,65 @@ class ProfileViewController: UIViewController {
 
     @IBAction func sayHi(sender: UIButton) {
 
-        if let discoveredUser = discoveredUser {
-            var stranger = userWithUserID(discoveredUser.id)
+        if let profileUser = profileUser {
 
-            let realm = RLMRealm.defaultRealm()
+            switch profileUser {
 
-            if stranger == nil {
-                let newUser = User()
+            case .DiscoveredUserType(let discoveredUser):
+                var stranger = userWithUserID(discoveredUser.id)
 
-                newUser.userID = discoveredUser.id
-                newUser.nickname = discoveredUser.nickname
-                newUser.avatarURLString = discoveredUser.avatarURLString
+                let realm = RLMRealm.defaultRealm()
 
-                newUser.friendState = UserFriendState.Stranger.rawValue
+                if stranger == nil {
+                    let newUser = User()
 
-                realm.beginWriteTransaction()
-                realm.addObject(newUser)
-                realm.commitWriteTransaction()
+                    newUser.userID = discoveredUser.id
+                    newUser.nickname = discoveredUser.nickname
+                    newUser.avatarURLString = discoveredUser.avatarURLString
 
-                stranger = newUser
-            }
+                    newUser.friendState = UserFriendState.Stranger.rawValue
 
-            if let stranger = stranger {
-                if stranger.conversation == nil {
+                    realm.beginWriteTransaction()
+                    realm.addObject(newUser)
+                    realm.commitWriteTransaction()
+
+                    stranger = newUser
+                }
+
+                if let stranger = stranger {
+                    if stranger.conversation == nil {
+                        let newConversation = Conversation()
+
+                        newConversation.type = ConversationType.OneToOne.rawValue
+                        newConversation.withFriend = stranger
+
+                        realm.beginWriteTransaction()
+                        realm.addObject(newConversation)
+                        realm.commitWriteTransaction()
+                    }
+
+                    if let conversation = stranger.conversation {
+                        performSegueWithIdentifier("showConversation", sender: conversation)
+                        
+                        NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
+                    }
+                }
+
+            case .UserType(let user):
+                if user.conversation == nil {
                     let newConversation = Conversation()
 
                     newConversation.type = ConversationType.OneToOne.rawValue
-                    newConversation.withFriend = stranger
+                    newConversation.withFriend = user
+
+                    let realm = RLMRealm.defaultRealm()
 
                     realm.beginWriteTransaction()
                     realm.addObject(newConversation)
                     realm.commitWriteTransaction()
                 }
 
-                if let conversation = stranger.conversation {
+                if let conversation = user.conversation {
                     performSegueWithIdentifier("showConversation", sender: conversation)
 
                     NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
@@ -252,16 +287,27 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return 1
 
         case ProfileSection.Master.rawValue:
-            if let discoveredUser = discoveredUser {
-                return discoveredUser.masterSkills.count
+            if let profileUser = profileUser {
+                switch profileUser {
+                case .DiscoveredUserType(let discoveredUser):
+                    return discoveredUser.masterSkills.count
+                case .UserType(let user):
+                    return Int(user.masterSkills.count)
+                }
 
             } else {
                 return masterSkills.count
             }
 
         case ProfileSection.Learning.rawValue:
-            if let discoveredUser = discoveredUser {
-                return discoveredUser.learningSkills.count
+
+            if let profileUser = profileUser {
+                switch profileUser {
+                case .DiscoveredUserType(let discoveredUser):
+                    return discoveredUser.learningSkills.count
+                case .UserType(let user):
+                    return Int(user.learningSkills.count)
+                }
 
             } else {
                 return learningSkills.count
@@ -282,8 +328,13 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Header.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! ProfileHeaderCell
 
-            if let discoveredUser = discoveredUser {
-                cell.configureWithDiscoveredUser(discoveredUser)
+            if let profileUser = profileUser {
+                switch profileUser {
+                case .DiscoveredUserType(let discoveredUser):
+                    cell.configureWithDiscoveredUser(discoveredUser)
+                case .UserType(let user):
+                    cell.configureWithUser(user)
+                }
 
             } else {
                 cell.configureWithMyInfo()
@@ -294,9 +345,15 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Master.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
 
-            if let discoveredUser = discoveredUser {
-                let skill = discoveredUser.masterSkills[indexPath.item]
-                cell.skillLabel.text = skill.localName
+            if let profileUser = profileUser {
+                switch profileUser {
+                case .DiscoveredUserType(let discoveredUser):
+                    let skill = discoveredUser.masterSkills[indexPath.item]
+                    cell.skillLabel.text = skill.localName
+                case .UserType(let user):
+                    let userSkill = user.masterSkills[UInt(indexPath.item)] as! UserSkill
+                    cell.skillLabel.text = userSkill.localName
+                }
 
             } else {
                 let skill = masterSkills[indexPath.item]
@@ -308,14 +365,21 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Learning.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
 
-            if let discoveredUser = discoveredUser {
-                let skill = discoveredUser.learningSkills[indexPath.item]
-                cell.skillLabel.text = skill.localName
+            if let profileUser = profileUser {
+                switch profileUser {
+                case .DiscoveredUserType(let discoveredUser):
+                    let skill = discoveredUser.learningSkills[indexPath.item]
+                    cell.skillLabel.text = skill.localName
+                case .UserType(let user):
+                    let userSkill = user.learningSkills[UInt(indexPath.item)] as! UserSkill
+                    cell.skillLabel.text = userSkill.localName
+                }
 
             } else {
                 let skill = learningSkills[indexPath.item]
                 cell.skillLabel.text = skill.localName
             }
+
 
             return cell
 
@@ -390,8 +454,14 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Master.rawValue:
             var skillLocalName = ""
 
-            if let discoveredUser = discoveredUser {
-                skillLocalName = discoveredUser.masterSkills[indexPath.item].localName
+            if let profileUser = profileUser {
+                switch profileUser {
+                case .DiscoveredUserType(let discoveredUser):
+                    skillLocalName = discoveredUser.masterSkills[indexPath.item].localName
+                case .UserType(let user):
+                    let userSkill = user.masterSkills[UInt(indexPath.item)] as! UserSkill
+                    skillLocalName = userSkill.localName
+                }
 
             } else {
                 skillLocalName = masterSkills[indexPath.item].localName
@@ -404,9 +474,15 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Learning.rawValue:
             var skillLocalName = ""
 
-            if let discoveredUser = discoveredUser {
-                skillLocalName = discoveredUser.learningSkills[indexPath.item].localName
-                
+            if let profileUser = profileUser {
+                switch profileUser {
+                case .DiscoveredUserType(let discoveredUser):
+                    skillLocalName = discoveredUser.learningSkills[indexPath.item].localName
+                case .UserType(let user):
+                    let userSkill = user.learningSkills[UInt(indexPath.item)] as! UserSkill
+                    skillLocalName = userSkill.localName
+                }
+
             } else {
                 skillLocalName = learningSkills[indexPath.item].localName
             }
