@@ -79,6 +79,7 @@
 		504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F41581AD5028200FBB19A /* SkillCell.swift */; };
 		504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504F41591AD5028200FBB19A /* SkillCell.xib */; };
 		5053AD4A1AF772C500B3CBFA /* PickLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD491AF772C500B3CBFA /* PickLocationViewController.swift */; };
+		5053AD4D1AF79EEA00B3CBFA /* UserPickedLocationPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD4C1AF79EEA00B3CBFA /* UserPickedLocationPin.swift */; };
 		50553F8F1ADB8BA200F80B59 /* ChatSectionDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F8D1ADB8BA200F80B59 /* ChatSectionDateCell.swift */; };
 		50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50553F8E1ADB8BA200F80B59 /* ChatSectionDateCell.xib */; };
 		50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F921ADBA50600F80B59 /* NSDate+Yep.swift */; };
@@ -242,6 +243,7 @@
 		504F41581AD5028200FBB19A /* SkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillCell.swift; path = Views/Cells/Skill/SkillCell.swift; sourceTree = "<group>"; };
 		504F41591AD5028200FBB19A /* SkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillCell.xib; path = Views/Cells/Skill/SkillCell.xib; sourceTree = "<group>"; };
 		5053AD491AF772C500B3CBFA /* PickLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickLocationViewController.swift; path = ViewControllers/PickLocation/PickLocationViewController.swift; sourceTree = "<group>"; };
+		5053AD4C1AF79EEA00B3CBFA /* UserPickedLocationPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserPickedLocationPin.swift; path = ViewControllers/PickLocation/UserPickedLocationPin.swift; sourceTree = "<group>"; };
 		50553F8D1ADB8BA200F80B59 /* ChatSectionDateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatSectionDateCell.swift; path = Views/Cells/ChatSectionDate/ChatSectionDateCell.swift; sourceTree = "<group>"; };
 		50553F8E1ADB8BA200F80B59 /* ChatSectionDateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatSectionDateCell.xib; path = Views/Cells/ChatSectionDate/ChatSectionDateCell.xib; sourceTree = "<group>"; };
 		50553F921ADBA50600F80B59 /* NSDate+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Yep.swift"; path = "Extensions/NSDate+Yep.swift"; sourceTree = "<group>"; };
@@ -769,6 +771,7 @@
 			isa = PBXGroup;
 			children = (
 				5053AD491AF772C500B3CBFA /* PickLocationViewController.swift */,
+				5053AD4C1AF79EEA00B3CBFA /* UserPickedLocationPin.swift */,
 			);
 			name = PickLocation;
 			sourceTree = "<group>";
@@ -1300,6 +1303,7 @@
 				50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */,
 				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
 				502AE53A1AB871C1005BD199 /* YepAlert.swift in Sources */,
+				5053AD4D1AF79EEA00B3CBFA /* UserPickedLocationPin.swift in Sources */,
 				50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */,
 				502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */,
 				0A7A7D561AF5E00600A7F5F5 /* YepHelper.swift in Sources */,
