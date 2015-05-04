@@ -33,6 +33,7 @@ class PickLocationViewController: UIViewController {
     }
 
     let pickLocationCellIdentifier = "PickLocationCell"
+    var pickLocationIndexPath: NSIndexPath?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -234,7 +235,33 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             break
         }
 
+        if let pickLocationIndexPath = pickLocationIndexPath {
+            cell.checkImageView.hidden = !(pickLocationIndexPath == indexPath)
+        }
+
         return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        if let pickLocationIndexPath = pickLocationIndexPath {
+            if let cell = tableView.cellForRowAtIndexPath(pickLocationIndexPath) as? PickLocationCell {
+                cell.checkImageView.hidden = true
+            }
+
+        } else {
+            if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: Section.CurrentLocation.rawValue)) as? PickLocationCell {
+                cell.checkImageView.hidden = true
+            }
+        }
+
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? PickLocationCell {
+            cell.checkImageView.hidden = false
+        }
+
+        pickLocationIndexPath = indexPath
     }
 }
 
