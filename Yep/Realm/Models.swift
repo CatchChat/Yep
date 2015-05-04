@@ -39,8 +39,12 @@ class UserSkill: RLMObject {
     dynamic var name: String = ""
     dynamic var localName: String = ""
 
-    var users: [User] {
-        return linkingObjectsOfClass("User", forProperty: "skills") as! [User]
+    var learningUsers: [User] {
+        return linkingObjectsOfClass("User", forProperty: "learningSkills") as! [User]
+    }
+
+    var masterUsers: [User] {
+        return linkingObjectsOfClass("User", forProperty: "masterSkills") as! [User]
     }
 }
 
@@ -58,7 +62,8 @@ class User: RLMObject {
     dynamic var isBestfriend: Bool = false
     dynamic var bestfriendIndex: Int = 0
 
-    dynamic var skills = RLMArray(objectClassName: UserSkill.className())
+    dynamic var learningSkills = RLMArray(objectClassName: UserSkill.className())
+    dynamic var masterSkills = RLMArray(objectClassName: UserSkill.className())
 
     var messages: [Message] {
         return linkingObjectsOfClass("Message", forProperty: "fromFriend") as! [Message]
@@ -207,6 +212,11 @@ class Conversation: RLMObject {
 func normalUsers() -> RLMResults {
     let predicate = NSPredicate(format: "friendState = %d", UserFriendState.Normal.rawValue)
     return User.objectsWithPredicate(predicate)
+}
+
+func userSkillWithSkillID(skillID: String) -> UserSkill? {
+    let predicate = NSPredicate(format: "skillID = %@", skillID)
+    return UserSkill.objectsWithPredicate(predicate).firstObject() as? UserSkill
 }
 
 func userWithUserID(userID: String) -> User? {

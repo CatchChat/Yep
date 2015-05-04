@@ -91,9 +91,40 @@ func downloadAttachmentOfMessage(message: Message) {
 
 }
 
+func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: RLMRealm) -> [UserSkill] {
+    var userSkills = [UserSkill]()
+
+    for skillInfo in skillsData {
+        if
+            let skillID = skillInfo["id"] as? String,
+            let skillName = skillInfo["name"] as? String,
+            let skillLocalName = skillInfo["name_string"] as? String {
+
+                var userSkill = userSkillWithSkillID(skillID)
+
+                if userSkill == nil {
+                    let newUserSkill = UserSkill()
+                    newUserSkill.skillID = skillID
+                    newUserSkill.name = skillID
+                    newUserSkill.localName = skillLocalName
+
+                    realm.addObject(newUserSkill)
+
+                    userSkill = newUserSkill
+                }
+
+                if let userSkill = userSkill {
+                    userSkills.append(userSkill)
+                }
+        }
+    }
+
+    return userSkills
+}
+
 func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
     friendships { allFriendships in
-        //println("\n allFriendships: \(allFriendships)")
+        println("\n allFriendships: \(allFriendships)")
 
         // 先整理出所有的 friend 的 userID
         var remoteUerIDSet = Set<String>()
@@ -146,6 +177,8 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                             let newUser = User()
                             newUser.userID = userID
 
+                            //newUser.createdAt = NSDate.dateWithISO08601String(<#dateString: String?#>)
+
                             realm.beginWriteTransaction()
                             realm.addObject(newUser)
                             realm.commitWriteTransaction()
@@ -177,7 +210,22 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                             if let bestfriendIndex = friendInfo["favored_position"] as? Int {
                                 user.bestfriendIndex = bestfriendIndex
                             }
-                            
+
+
+                            // 更新技能
+
+                            if let learningSkillsData = friendInfo["learning_skills"] as? [JSONDictionary] {
+                                user.learningSkills.removeAllObjects()
+                                let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: user.realm)
+                                user.learningSkills.addObjects(userSkills)
+                            }
+
+                            if let masterSkillsData = friendInfo["master_skills"] as? [JSONDictionary] {
+                                user.masterSkills.removeAllObjects()
+                                let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: user.realm)
+                                user.masterSkills.addObjects(userSkills)
+                            }
+
                             realm.commitWriteTransaction()
                         }
                     }
@@ -193,7 +241,7 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
 func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
     groups { allGroups in
-        //println("allGroups: \(allGroups)")
+        println("allGroups: \(allGroups)")
 
         // 先整理出所有的 group 的 groupID
         var remoteGroupIDSet = Set<String>()
