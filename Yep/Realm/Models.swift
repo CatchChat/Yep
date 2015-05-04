@@ -34,9 +34,20 @@ class Avatar: RLMObject {
     }
 }
 
+class UserSkill: RLMObject {
+    dynamic var skillID: String = ""
+    dynamic var name: String = ""
+    dynamic var localName: String = ""
+
+    var users: [User] {
+        return linkingObjectsOfClass("User", forProperty: "skills") as! [User]
+    }
+}
+
 class User: RLMObject {
     dynamic var userID: String = ""
     dynamic var nickname: String = ""
+    dynamic var introduction: String = ""
     dynamic var avatarURLString: String = ""
     dynamic var avatar: Avatar?
 
@@ -46,6 +57,8 @@ class User: RLMObject {
     dynamic var friendshipID: String = ""
     dynamic var isBestfriend: Bool = false
     dynamic var bestfriendIndex: Int = 0
+
+    dynamic var skills = RLMArray(objectClassName: UserSkill.className())
 
     var messages: [Message] {
         return linkingObjectsOfClass("Message", forProperty: "fromFriend") as! [Message]
