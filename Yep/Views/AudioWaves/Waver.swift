@@ -18,6 +18,8 @@ class Waver: UIView {
     
     private var phase: CGFloat = 0
     
+    var presented = false
+    
     var level: CGFloat! {
         didSet {
             self.phase+=self.phaseShift; // Move the wave
@@ -133,7 +135,9 @@ class Waver: UIView {
     }
     
     func callbackWaver() {
-        waverCallback!(waver: self)
+        if presented {
+            waverCallback!(waver: self)
+        }
     }
     
     private func updateMeters() {
@@ -229,6 +233,15 @@ class Waver: UIView {
         waveSamples = [CGFloat]()
     }
     
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        self.presented = true
+    }
+    
+    override func removeFromSuperview() {
+        super.removeFromSuperview()
+        self.presented = false
+    }
     /*
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
