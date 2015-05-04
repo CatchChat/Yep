@@ -423,7 +423,8 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: RLMR
         if message == nil {
             let newMessage = Message()
             newMessage.messageID = messageID
-            // TODO: createdAt use message's updated_at
+
+            newMessage.createdAt = NSDate.dateWithISO08601String(messageInfo["updated_at"] as? String)
 
             realm.beginWriteTransaction()
             realm.addObject(newMessage)

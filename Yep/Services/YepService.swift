@@ -532,14 +532,15 @@ func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discover
                     id = userInfo["id"] as? String,
                     nickname = userInfo["nickname"] as? String,
                     avatarURLString = userInfo["avatar_url"] as? String,
-                    //createdAt = userInfo["created_at"] as? String,
+                    createdAtString = userInfo["created_at"] as? String,
+                    lastSignInAtString = userInfo["last_sign_in_at"] as? String,
                     longitude = userInfo["longitude"] as? Double,
                     latitude = userInfo["latitude"] as? Double,
                     distance = userInfo["distance"] as? Double,
                     masterSkillsData = userInfo["master_skills"] as? [JSONDictionary],
                     learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary] {
-                        let createdAt = NSDate()
-                        let lastSignInAt = NSDate()
+                        let createdAt = NSDate.dateWithISO08601String(createdAtString)
+                        let lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
 
                         let masterSkills = skillsFromSkillsData(masterSkillsData)
                         let learningSkills = skillsFromSkillsData(learningSkillsData)
