@@ -19,8 +19,11 @@ class PickLocationViewController: UIViewController {
         super.viewDidLoad()
 
         let location = YepLocationService.sharedManager.locationManager.location
-        let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 2000, 2000)
+        let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 20000, 20000)
         mapView.setRegion(region, animated: true)
+
+        mapView.showsUserLocation = true
+        mapView.delegate = self
     }
 
 
@@ -36,3 +39,13 @@ class PickLocationViewController: UIViewController {
         })
     }
 }
+
+extension PickLocationViewController: MKMapViewDelegate {
+    
+    func mapView(mapView: MKMapView!, didUpdateUserLocation userLocation: MKUserLocation!) {
+        let location = userLocation.location
+        let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 2000, 2000)
+        mapView.setRegion(region, animated: true)
+    }
+}
+
