@@ -167,7 +167,18 @@
                     <view key="view" contentMode="scaleToFill" id="rxB-62-E4m">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="N6L-U8-EFf">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="N6L-U8-EFf" firstAttribute="leading" secondItem="rxB-62-E4m" secondAttribute="leading" id="3Xo-rA-I8u"/>
+                            <constraint firstAttribute="trailing" secondItem="N6L-U8-EFf" secondAttribute="trailing" id="Mgy-xK-ztv"/>
+                            <constraint firstItem="N6L-U8-EFf" firstAttribute="top" secondItem="rxB-62-E4m" secondAttribute="top" id="pmN-2M-x9u"/>
+                            <constraint firstItem="IOS-LP-INK" firstAttribute="top" secondItem="N6L-U8-EFf" secondAttribute="bottom" id="vgP-p2-vI1"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Pick Location" id="eb9-Md-SJn">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="bgy-iS-1dN">
@@ -181,6 +192,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="mapView" destination="N6L-U8-EFf" id="xfc-We-pFG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b42-ms-7Bt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

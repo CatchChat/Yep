@@ -7,12 +7,20 @@
 //
 
 import UIKit
+import MapKit
 
 class PickLocationViewController: UIViewController {
+
+
+    @IBOutlet weak var mapView: MKMapView!
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let location = YepLocationService.sharedManager.locationManager.location
+        let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 2000, 2000)
+        mapView.setRegion(region, animated: true)
     }
 
 
