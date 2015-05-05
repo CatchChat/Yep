@@ -182,7 +182,10 @@ extension PickLocationViewController: UISearchBarDelegate {
     }
 
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        shrinkSearchLocationView()
+    }
 
+    func shrinkSearchLocationView() {
         searchBar.resignFirstResponder()
 
         navigationController?.setNavigationBarHidden(false, animated: true)
@@ -194,6 +197,29 @@ extension PickLocationViewController: UISearchBarDelegate {
         }, completion: { finished in
             self.searchBar.setShowsCancelButton(false, animated: true)
         })
+    }
+
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        let text = searchBar.text
+
+        let request = MKLocalSearchRequest()
+        request.naturalLanguageQuery = text
+        request.region = MKCoordinateRegionMakeWithDistance(mapView.userLocation.location.coordinate, 200000, 200000)
+
+        let search = MKLocalSearch(request: request)
+
+        search.startWithCompletionHandler { response, error in
+            if error == nil {
+                if let mapItems = response.mapItems as? [MKMapItem] {
+                    for item in mapItems {
+                        let pin = UserPickedLocationPin(title: "Pin", subtitle: "User Searched Location", coordinate: item.placemark.location.coordinate)
+                        self.mapView.addAnnotation(pin)
+                    }
+                }
+            }
+        }
+
+        shrinkSearchLocationView()
     }
 }
 
