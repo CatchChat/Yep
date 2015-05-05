@@ -8,6 +8,7 @@
 
 import UIKit
 import Realm
+import MapKit
 
 class ImageCache {
     static let sharedInstance = ImageCache()
@@ -91,6 +92,38 @@ class ImageCache {
                 }
             }
 
+        }
+    }
+
+    func mapImageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (UIImage) -> ()) {
+        let imageKey = "mapImage-\(message.messageID)"
+
+        // 先看看缓存
+        if let image = cache.objectForKey(imageKey) as? UIImage {
+            completion(image)
+
+        } else {
+
+            if let coordinate = message.coordinate {
+                let options = MKMapSnapshotOptions()
+                options.scale = UIScreen.mainScreen().scale
+                options.size = size
+
+                let locationCoordinate = CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude)
+                options.region = MKCoordinateRegionMakeWithDistance(locationCoordinate, 500, 500)
+
+                let mapSnapshotter = MKMapSnapshotter(options: options)
+
+                mapSnapshotter.startWithCompletionHandler { (snapshot, error) -> Void in
+                    if error == nil {
+                        let mapImage = snapshot.image.bubbleImageWithTailDirection(tailDirection, size: size)
+
+                        self.cache.setObject(mapImage, forKey: imageKey)
+
+                        completion(mapImage)
+                    }
+                }
+            }
         }
     }
 }

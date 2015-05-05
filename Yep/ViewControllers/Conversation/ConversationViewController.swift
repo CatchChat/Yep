@@ -901,9 +901,6 @@ class ConversationViewController: UIViewController {
                         println("sendLocation to group: \(success)")
                     })
                 }
-
-
-
             }
         }
     }
@@ -980,6 +977,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 case MessageMediaType.Location.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftLocationCellIdentifier, forIndexPath: indexPath) as! ChatLeftLocationCell
+
+                    cell.configureWithMessage(message)
+
                     return cell
 
                 default:
@@ -1017,6 +1017,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 case MessageMediaType.Location.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightLocationCellIdentifier, forIndexPath: indexPath) as! ChatRightLocationCell
+
+                    cell.configureWithMessage(message)
+                    
                     return cell
 
                 default:
