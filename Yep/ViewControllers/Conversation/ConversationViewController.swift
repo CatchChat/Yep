@@ -127,6 +127,8 @@ class ConversationViewController: UIViewController {
     let chatRightAudioCellIdentifier = "ChatRightAudioCell"
     let chatLeftVideoCellIdentifier = "ChatLeftVideoCell"
     let chatRightVideoCellIdentifier = "ChatRightVideoCell"
+    let chatLeftLocationCellIdentifier =  "ChatLeftLocationCell"
+    let chatRightLocationCellIdentifier =  "ChatRightLocationCell"
     
     func resetTitleDetailsLabel() {
         if let timeAgo = lastChatTimeOfConversation(self.conversation)?.timeAgo {
@@ -194,6 +196,8 @@ class ConversationViewController: UIViewController {
         conversationCollectionView.registerNib(UINib(nibName: chatRightAudioCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightAudioCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftVideoCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftVideoCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightVideoCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightVideoCellIdentifier)
+        conversationCollectionView.registerNib(UINib(nibName: chatLeftLocationCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftLocationCellIdentifier)
+        conversationCollectionView.registerNib(UINib(nibName: chatRightLocationCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightLocationCellIdentifier)
         
         conversationCollectionView.bounces = true
 
@@ -553,6 +557,9 @@ class ConversationViewController: UIViewController {
             }
             
             height = ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)
+
+        case MessageMediaType.Location.rawValue:
+            height = 108
 
         case MessageMediaType.SectionDate.rawValue:
             height = 20
@@ -930,6 +937,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     return cell
 
+                case MessageMediaType.Location.rawValue:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftLocationCellIdentifier, forIndexPath: indexPath) as! ChatLeftLocationCell
+                    return cell
+
                 default:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
 
@@ -961,6 +972,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio)
 
+                    return cell
+
+                case MessageMediaType.Location.rawValue:
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightLocationCellIdentifier, forIndexPath: indexPath) as! ChatRightLocationCell
                     return cell
 
                 default:

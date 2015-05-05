@@ -82,6 +82,10 @@
 		5053AD4D1AF79EEA00B3CBFA /* UserPickedLocationPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD4C1AF79EEA00B3CBFA /* UserPickedLocationPin.swift */; };
 		5053AD501AF82A1700B3CBFA /* PickLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD4E1AF82A1700B3CBFA /* PickLocationCell.swift */; };
 		5053AD511AF82A1700B3CBFA /* PickLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5053AD4F1AF82A1700B3CBFA /* PickLocationCell.xib */; };
+		5053AD551AF83B0F00B3CBFA /* ChatRightLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD531AF83B0F00B3CBFA /* ChatRightLocationCell.swift */; };
+		5053AD561AF83B0F00B3CBFA /* ChatRightLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5053AD541AF83B0F00B3CBFA /* ChatRightLocationCell.xib */; };
+		5053AD5A1AF83B4200B3CBFA /* ChatLeftLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD581AF83B4200B3CBFA /* ChatLeftLocationCell.swift */; };
+		5053AD5B1AF83B4200B3CBFA /* ChatLeftLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5053AD591AF83B4200B3CBFA /* ChatLeftLocationCell.xib */; };
 		50553F8F1ADB8BA200F80B59 /* ChatSectionDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F8D1ADB8BA200F80B59 /* ChatSectionDateCell.swift */; };
 		50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50553F8E1ADB8BA200F80B59 /* ChatSectionDateCell.xib */; };
 		50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F921ADBA50600F80B59 /* NSDate+Yep.swift */; };
@@ -248,6 +252,10 @@
 		5053AD4C1AF79EEA00B3CBFA /* UserPickedLocationPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserPickedLocationPin.swift; path = ViewControllers/PickLocation/UserPickedLocationPin.swift; sourceTree = "<group>"; };
 		5053AD4E1AF82A1700B3CBFA /* PickLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickLocationCell.swift; path = Views/Cells/PickLocation/PickLocationCell.swift; sourceTree = "<group>"; };
 		5053AD4F1AF82A1700B3CBFA /* PickLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PickLocationCell.xib; path = Views/Cells/PickLocation/PickLocationCell.xib; sourceTree = "<group>"; };
+		5053AD531AF83B0F00B3CBFA /* ChatRightLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightLocationCell.swift; path = Views/Cells/ChatRightLocation/ChatRightLocationCell.swift; sourceTree = "<group>"; };
+		5053AD541AF83B0F00B3CBFA /* ChatRightLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatRightLocationCell.xib; path = Views/Cells/ChatRightLocation/ChatRightLocationCell.xib; sourceTree = "<group>"; };
+		5053AD581AF83B4200B3CBFA /* ChatLeftLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftLocationCell.swift; path = Views/Cells/ChatLeftLocation/ChatLeftLocationCell.swift; sourceTree = "<group>"; };
+		5053AD591AF83B4200B3CBFA /* ChatLeftLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftLocationCell.xib; path = Views/Cells/ChatLeftLocation/ChatLeftLocationCell.xib; sourceTree = "<group>"; };
 		50553F8D1ADB8BA200F80B59 /* ChatSectionDateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatSectionDateCell.swift; path = Views/Cells/ChatSectionDate/ChatSectionDateCell.swift; sourceTree = "<group>"; };
 		50553F8E1ADB8BA200F80B59 /* ChatSectionDateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatSectionDateCell.xib; path = Views/Cells/ChatSectionDate/ChatSectionDateCell.xib; sourceTree = "<group>"; };
 		50553F921ADBA50600F80B59 /* NSDate+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Yep.swift"; path = "Extensions/NSDate+Yep.swift"; sourceTree = "<group>"; };
@@ -572,6 +580,8 @@
 				50894D091AEDFDA6000981AF /* EditProfileMoreInfo */,
 				50894D0E1AEE017B000981AF /* EditProfileColoredTitle */,
 				5053AD521AF82A1E00B3CBFA /* PickLocation */,
+				5053AD5C1AF83B4600B3CBFA /* ChatLeftLocation */,
+				5053AD571AF83B1600B3CBFA /* ChatRightLocation */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -788,6 +798,24 @@
 				5053AD4F1AF82A1700B3CBFA /* PickLocationCell.xib */,
 			);
 			name = PickLocation;
+			sourceTree = "<group>";
+		};
+		5053AD571AF83B1600B3CBFA /* ChatRightLocation */ = {
+			isa = PBXGroup;
+			children = (
+				5053AD531AF83B0F00B3CBFA /* ChatRightLocationCell.swift */,
+				5053AD541AF83B0F00B3CBFA /* ChatRightLocationCell.xib */,
+			);
+			name = ChatRightLocation;
+			sourceTree = "<group>";
+		};
+		5053AD5C1AF83B4600B3CBFA /* ChatLeftLocation */ = {
+			isa = PBXGroup;
+			children = (
+				5053AD581AF83B4200B3CBFA /* ChatLeftLocationCell.swift */,
+				5053AD591AF83B4200B3CBFA /* ChatLeftLocationCell.xib */,
+			);
+			name = ChatLeftLocation;
 			sourceTree = "<group>";
 		};
 		50553F911ADB8BA600F80B59 /* ChatSectionDate */ = {
@@ -1170,6 +1198,7 @@
 				504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */,
 				502AE5591AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib in Resources */,
 				506BB7F61AE4E0A500C1A2A0 /* SkillAnnotationHeader.xib in Resources */,
+				5053AD561AF83B0F00B3CBFA /* ChatRightLocationCell.xib in Resources */,
 				50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */,
 				502AE5411AB88862005BD199 /* SkillRankCell.xib in Resources */,
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
@@ -1189,6 +1218,7 @@
 				502AE54F1AB93175005BD199 /* ProfileHeaderCell.xib in Resources */,
 				0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */,
 				5053AD511AF82A1700B3CBFA /* PickLocationCell.xib in Resources */,
+				5053AD5B1AF83B4200B3CBFA /* ChatLeftLocationCell.xib in Resources */,
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 				50EB8CC51AE89F12001AC1EE /* ChatRightVideoCell.xib in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
@@ -1303,6 +1333,7 @@
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
 				50894D071AEDFDA2000981AF /* EditProfileMoreInfoCell.swift in Sources */,
 				50E114F41ABBF9CC00F13000 /* Models.swift in Sources */,
+				5053AD551AF83B0F00B3CBFA /* ChatRightLocationCell.swift in Sources */,
 				50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */,
 				50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */,
 				50EB8C5E1AE78AB9001AC1EE /* YepAsset.swift in Sources */,
@@ -1368,6 +1399,7 @@
 				0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */,
 				505EC8171ADF8151001D27E0 /* SkillCategoryCell.swift in Sources */,
 				50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */,
+				5053AD5A1AF83B4200B3CBFA /* ChatLeftLocationCell.swift in Sources */,
 				504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */,
 				50894D0C1AEE0177000981AF /* EditProfileColoredTitleCell.swift in Sources */,
 				5053AD501AF82A1700B3CBFA /* PickLocationCell.swift in Sources */,
