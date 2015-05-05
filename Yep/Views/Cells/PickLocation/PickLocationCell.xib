@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PickLocationCell" rowHeight="75" id="KGk-i7-Jjw" customClass="PickLocationCell" customModule="Yep" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_pin" translatesAutoresizingMaskIntoConstraints="NO" id="vwp-bp-hV1">
+                        <rect key="frame" x="10" y="22" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="vwp-bp-hV1" secondAttribute="height" multiplier="1:1" id="0NQ-8H-mP2"/>
+                            <constraint firstAttribute="width" constant="30" id="1bm-Ow-1oe"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_location_checkmark" translatesAutoresizingMaskIntoConstraints="NO" id="UHL-DX-9X6">
+                        <rect key="frame" x="287" y="32" width="13" height="10"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="10" id="A9B-io-Gb7"/>
+                            <constraint firstAttribute="width" constant="13" id="bzb-my-RZd"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QvC-tH-7wP">
+                        <rect key="frame" x="50" y="28" width="56" height="18"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="centerY" secondItem="vwp-bp-hV1" secondAttribute="centerY" id="7PK-n2-vwT"/>
+                    <constraint firstItem="vwp-bp-hV1" firstAttribute="centerY" secondItem="QvC-tH-7wP" secondAttribute="centerY" id="Dlq-an-QWA"/>
+                    <constraint firstAttribute="trailing" secondItem="UHL-DX-9X6" secondAttribute="trailing" constant="20" id="Grf-aK-RlU"/>
+                    <constraint firstAttribute="centerY" secondItem="UHL-DX-9X6" secondAttribute="centerY" id="IG7-pV-NMB"/>
+                    <constraint firstItem="vwp-bp-hV1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Lvj-M8-wuA"/>
+                    <constraint firstItem="QvC-tH-7wP" firstAttribute="leading" secondItem="vwp-bp-hV1" secondAttribute="trailing" constant="10" id="t59-KX-lpp"/>
+                    <constraint firstItem="UHL-DX-9X6" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="QvC-tH-7wP" secondAttribute="trailing" constant="10" id="wrQ-YE-jbi"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="checkImageView" destination="UHL-DX-9X6" id="2It-Zw-OCT"/>
+                <outlet property="iconImageView" destination="vwp-bp-hV1" id="ETY-9v-ukn"/>
+                <outlet property="locationLabel" destination="QvC-tH-7wP" id="cFc-RP-KfS"/>
+            </connections>
+            <point key="canvasLocation" x="318" y="389.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon_location_checkmark" width="13" height="10"/>
+        <image name="icon_pin" width="30" height="30"/>
+    </resources>
+</document>
