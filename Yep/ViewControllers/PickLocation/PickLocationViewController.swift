@@ -353,6 +353,11 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             break
         }
 
+        if let pickedLocationCoordinate = pickedLocationCoordinate {
+            let region = MKCoordinateRegionMakeWithDistance(pickedLocationCoordinate, 1000, 1000)
+            mapView.setRegion(region, animated: true)
+        }
+
     }
 }
 
