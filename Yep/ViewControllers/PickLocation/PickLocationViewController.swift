@@ -51,9 +51,10 @@ class PickLocationViewController: UIViewController {
         mapView.showsUserLocation = true
         mapView.delegate = self
 
-        let location = YepLocationService.sharedManager.locationManager.location
-        let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 20000, 20000)
-        mapView.setRegion(region, animated: false)
+        if let location = YepLocationService.sharedManager.locationManager.location {
+            let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 20000, 20000)
+            mapView.setRegion(region, animated: false)
+        }
 
         let tap = UITapGestureRecognizer(target: self, action: "addAnnotation:")
         mapView.addGestureRecognizer(tap)
