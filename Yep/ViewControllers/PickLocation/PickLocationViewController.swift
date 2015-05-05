@@ -90,6 +90,8 @@ class PickLocationViewController: UIViewController {
         let pin = UserPickedLocationPin(title: "Pin", subtitle: "User Picked Location", coordinate: coordinate)
         mapView.addAnnotation(pin)
 
+        pickedLocationCoordinate = pin.coordinate
+        pickedLocationIndexPath = NSIndexPath(forRow: 0, inSection: Section.UserPickedLocation.rawValue)
         userPickedLocationPin = pin
     }
 
