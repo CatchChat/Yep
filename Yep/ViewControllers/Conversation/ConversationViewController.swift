@@ -176,7 +176,7 @@ class ConversationViewController: UIViewController {
 
         navigationItem.titleView = titleView
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationCollectionView", name: YepNewMessagesReceivedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationCollectionViewDefault", name: YepNewMessagesReceivedNotification, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener("ConversationViewController") { _ in
             self.reloadConversationCollectionView()
@@ -216,7 +216,7 @@ class ConversationViewController: UIViewController {
             if let withFriend = self.conversation.withFriend {
                 sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.updateConversationCollectionView()
+                        self.updateConversationCollectionView(scrollToBottom: true)
                     }
 
                 }, failureHandler: { (reason, errorMessage) -> () in
@@ -230,7 +230,7 @@ class ConversationViewController: UIViewController {
             } else if let withGroup = self.conversation.withGroup {
                 sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.updateConversationCollectionView()
+                        self.updateConversationCollectionView(scrollToBottom: true)
                     }
 
                 }, failureHandler: { (reason, errorMessage) -> () in
@@ -339,7 +339,7 @@ class ConversationViewController: UIViewController {
                             }
                             realm.commitWriteTransaction()
 
-                            self.updateConversationCollectionView()
+                            self.updateConversationCollectionView(scrollToBottom: true)
                         }
 
                     }, failureHandler: { (reason, errorMessage) -> Void in
@@ -363,7 +363,7 @@ class ConversationViewController: UIViewController {
                             }
                             realm.commitWriteTransaction()
 
-                            self.updateConversationCollectionView()
+                            self.updateConversationCollectionView(scrollToBottom: true)
                         }
 
                     }, failureHandler: { (reason, errorMessage) -> Void in
@@ -385,15 +385,17 @@ class ConversationViewController: UIViewController {
             case (.MoreMessages, .Default):
                 if !self.isKeyboardVisible {
                     self.adjustBackCollectionViewWithHeight(0, animationDuration: 0.3, animationCurveValue: 7)
+                }else{
+                    self.hideKeyboardAndShowMoreMessageView()
                 }
 
             default:
                 if currentState == .MoreMessages {
-                    self.messageToolbar.messageTextView.resignFirstResponder()
-                    self.adjustCollectionViewWithViewHeight(self.moreMessageTypesViewHeightConstraintConstant, animationDuration: 0.3, animationCurveValue: 7, keyboard: false)
+                    self.hideKeyboardAndShowMoreMessageView()
                 }
             }
         }
+    
 
         // MARK: More Message Types
 
@@ -427,6 +429,11 @@ class ConversationViewController: UIViewController {
             self.performSegueWithIdentifier("presentPickLocation", sender: nil)
         }
     }
+    
+    func hideKeyboardAndShowMoreMessageView() {
+        self.messageToolbar.messageTextView.resignFirstResponder()
+        self.adjustCollectionViewWithViewHeight(self.moreMessageTypesViewHeightConstraintConstant, animationDuration: 0.3, animationCurveValue: 7, keyboard: false)
+    }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -438,12 +445,18 @@ class ConversationViewController: UIViewController {
             // 先调整一下初次的 contentInset
             setConversaitonCollectionViewOriginalContentInset()
             
-            if displayedMessagesRange.length > 0 {
-                conversationCollectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: displayedMessagesRange.length - 1, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Bottom, animated: false)
-            }
+            scrollToLastMessage()
         }
         
         self.waverView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height)
+    }
+    
+    func scrollToLastMessage() {
+        
+        if displayedMessagesRange.length > 0 {
+            conversationCollectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: displayedMessagesRange.length - 1, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Bottom, animated: false)
+        
+        }
     }
 
     // MARK: UI
@@ -651,13 +664,17 @@ class ConversationViewController: UIViewController {
         let moreMessageViewHeight = moreMessageTypesViewHeightConstraintConstant + CGRectGetHeight(messageToolbar.bounds)
 
     }
+    
+    func updateConversationCollectionViewDefault() {
+        updateConversationCollectionView(scrollToBottom: false)
+    }
 
-    func updateConversationCollectionView() {
+    func updateConversationCollectionView(#scrollToBottom: Bool) {
         let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
-        adjustConversationCollectionViewWith(keyboardAndToolBarHeight)
+        adjustConversationCollectionViewWith(keyboardAndToolBarHeight, scrollToBottom: scrollToBottom)
     }
     
-    func adjustConversationCollectionViewWith(adjustHeight: CGFloat) {
+    func adjustConversationCollectionViewWith(adjustHeight: CGFloat, scrollToBottom: Bool) {
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
         
@@ -694,9 +711,11 @@ class ConversationViewController: UIViewController {
             
             let keyboardAndToolBarHeight = adjustHeight
             
-            let totleMessagesHeight = conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + 64.0 + newMessagesTotalHeight
+            let navicationBarAndKeyboardAndToolBarHeight = keyboardAndToolBarHeight + 64.0
             
-            let visableMessageFieldHeight = conversationCollectionView.frame.size.height - (keyboardAndToolBarHeight + 64.0)
+            let totleMessagesHeight = conversationCollectionView.contentSize.height + navicationBarAndKeyboardAndToolBarHeight + newMessagesTotalHeight
+            
+            let visableMessageFieldHeight = conversationCollectionView.frame.size.height - navicationBarAndKeyboardAndToolBarHeight
             
             let totalMessagesContentHeight = conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + newMessagesTotalHeight
             
@@ -713,14 +732,19 @@ class ConversationViewController: UIViewController {
                 println("New Message scroll")
                 
                 UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                    if (useableSpace > 0) {
-                        let contentToScroll = newMessagesTotalHeight - useableSpace
-                        println("contentToScroll \(contentToScroll)")
-                        self.conversationCollectionView.contentOffset.y += contentToScroll
-                        
-                    } else {
-                        self.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
+                    
+                    if scrollToBottom {
+                        self.conversationCollectionView.contentOffset.y = self.conversationCollectionView.contentSize.height - self.conversationCollectionView.frame.size.height + keyboardAndToolBarHeight
+                    }else {
+                        if (useableSpace > 0) {
+                            let contentToScroll = newMessagesTotalHeight - useableSpace
+                            println("contentToScroll \(contentToScroll)")
+                            self.conversationCollectionView.contentOffset.y += contentToScroll
+                        } else {
+                            self.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
+                        }
                     }
+
                     
                     }, completion: { (finished) -> Void in
                 })
@@ -875,7 +899,7 @@ class ConversationViewController: UIViewController {
 
                     sendLocationWithCoordinate(coordinate, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
                         dispatch_async(dispatch_get_main_queue()) {
-                            self.updateConversationCollectionView()
+                            self.updateConversationCollectionView(scrollToBottom: false)
                         }
 
                     }, failureHandler: { (reason, errorMessage) -> () in
@@ -890,7 +914,7 @@ class ConversationViewController: UIViewController {
 
                     sendLocationWithCoordinate(coordinate, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                         dispatch_async(dispatch_get_main_queue()) {
-                            self.updateConversationCollectionView()
+                            self.updateConversationCollectionView(scrollToBottom: false)
                         }
 
                     }, failureHandler: { (reason, errorMessage) -> () in
@@ -1358,7 +1382,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         realm.commitWriteTransaction()
                     }
 
-                    self.updateConversationCollectionView()
+                    self.updateConversationCollectionView(scrollToBottom: true)
                 }
 
             }, failureHandler: {(reason, errorMessage) -> () in
@@ -1384,7 +1408,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         realm.commitWriteTransaction()
                     }
                     
-                    self.updateConversationCollectionView()
+                    self.updateConversationCollectionView(scrollToBottom: true)
                 }
                 
             }, failureHandler: {(reason, errorMessage) -> () in
@@ -1442,7 +1466,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         realm.commitWriteTransaction()
                     }
 
-                    self.updateConversationCollectionView()
+                    self.updateConversationCollectionView(scrollToBottom: false)
                 }
             }
         }

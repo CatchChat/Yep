@@ -211,6 +211,7 @@ extension PickLocationViewController: UISearchBarDelegate {
 
         let request = MKLocalSearchRequest()
         request.naturalLanguageQuery = text
+
         request.region = MKCoordinateRegionMakeWithDistance(mapView.userLocation.location.coordinate, 200000, 200000)
 
         let search = MKLocalSearch(request: request)
