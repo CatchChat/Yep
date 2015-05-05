@@ -294,7 +294,8 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             cell.checkImageView.hidden = true
 
         case Section.SearchedLocation.rawValue:
-            cell.iconImageView.hidden = true
+            cell.iconImageView.hidden = false
+            cell.iconImageView.image = UIImage(named: "icon_pin")
             let placemark = self.searchedMapItems[indexPath.row].placemark
             cell.locationLabel.text = placemark.name
             cell.checkImageView.hidden = true
@@ -342,6 +343,10 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         case Section.Placemarks.rawValue:
             let placemark = placemarks[indexPath.row]
+            pickedLocationCoordinate = placemark.location.coordinate
+
+        case Section.SearchedLocation.rawValue:
+            let placemark = self.searchedMapItems[indexPath.row].placemark
             pickedLocationCoordinate = placemark.location.coordinate
 
         default:
