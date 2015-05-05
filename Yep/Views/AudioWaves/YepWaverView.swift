@@ -31,9 +31,19 @@ class YepWaverView: UIView {
     }
     
     private func setup() {
-        waver = Waver(frame: CGRectMake(0, CGRectGetHeight(self.bounds)/2.0 - 50.0, CGRectGetWidth(self.bounds), 100.0))
+        waver = Waver(frame: CGRectMake(0, CGRectGetHeight(self.bounds)/2.0 - 50.0 - 40.0, CGRectGetWidth(self.bounds), 100.0))
         self.backgroundColor = UIColor(white: 1.0, alpha: 0.9)
+    }
+    
+    override func willMoveToSuperview(newSuperview: UIView?) {
+        super.willMoveToSuperview(newSuperview)
         self.addSubview(waver)
     }
+    
+    override func removeFromSuperview() {
+        super.removeFromSuperview()
+        waver.removeFromSuperview()
+    }
+
 
 }

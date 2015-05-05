@@ -72,7 +72,7 @@ class SampleView: UIView {
                 for (index, percent) in enumerate(samples) {
 
                     let x = CGFloat(index) * sampleWidth + sampleGap * CGFloat(index)
-                    let sampleHeightMax = viewHeight * 0.8
+                    let sampleHeightMax = viewHeight * 0.7
                     var realSampleHeight = percent * viewHeight
 
                     realSampleHeight = realSampleHeight < 1 ? 1 : realSampleHeight

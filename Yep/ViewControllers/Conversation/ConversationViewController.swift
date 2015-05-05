@@ -445,6 +445,7 @@ class ConversationViewController: UIViewController {
             // 先调整一下初次的 contentInset
             setConversaitonCollectionViewOriginalContentInset()
             
+            //以前的方法不能保证边界情况滚到底部
             scrollToLastMessage()
         }
         
@@ -1173,6 +1174,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         super.viewDidDisappear(animated)
         FayeService.sharedManager.delegate = nil
         timer.invalidate()
+        self.waverView.removeFromSuperview()
     }
     
     // MARK: UIScrollViewDelegate
