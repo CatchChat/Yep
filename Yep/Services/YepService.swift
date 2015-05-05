@@ -1004,15 +1004,15 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
                 realm.commitWriteTransaction()
             }
 
-            }, completion: { messageID in
-                dispatch_async(dispatch_get_main_queue()) {
-                    realm.beginWriteTransaction()
-                    message.messageID = messageID
-                    message.sendState = MessageSendState.Successed.rawValue
-                    realm.commitWriteTransaction()
-                }
-                
-                completion(success: true)
+        }, completion: { messageID in
+            dispatch_async(dispatch_get_main_queue()) {
+                realm.beginWriteTransaction()
+                message.messageID = messageID
+                message.sendState = MessageSendState.Successed.rawValue
+                realm.commitWriteTransaction()
+            }
+
+            completion(success: true)
         })
 
     default:
