@@ -50,26 +50,26 @@ class ConversationCell: UITableViewCell {
                 if let latestMessage = messagesInConversation(conversation).lastObject() as? Message {
                     
                     switch latestMessage.mediaType {
-                        
-                        case MessageMediaType.Audio.rawValue:
-                            self.chatLabel.text = NSLocalizedString("[Audio]", comment: "")
-                        case MessageMediaType.Video.rawValue:
-                            self.chatLabel.text = NSLocalizedString("[Video]", comment: "")
-                        case MessageMediaType.Image.rawValue:
-                            self.chatLabel.text = NSLocalizedString("[Image]", comment: "")
-                        case MessageMediaType.Location.rawValue:
-                            self.chatLabel.text = NSLocalizedString("[Location]", comment: "")
-                        case MessageMediaType.Text.rawValue:
-                            self.chatLabel.text = latestMessage.textContent
-                        default:
-                            self.chatLabel.text = "I love NIX."
-                        
+
+                    case MessageMediaType.Audio.rawValue:
+                        self.chatLabel.text = NSLocalizedString("[Audio]", comment: "")
+                    case MessageMediaType.Video.rawValue:
+                        self.chatLabel.text = NSLocalizedString("[Video]", comment: "")
+                    case MessageMediaType.Image.rawValue:
+                        self.chatLabel.text = NSLocalizedString("[Image]", comment: "")
+                    case MessageMediaType.Location.rawValue:
+                        self.chatLabel.text = NSLocalizedString("[Location]", comment: "")
+                    case MessageMediaType.Text.rawValue:
+                        self.chatLabel.text = latestMessage.textContent
+                    default:
+                        self.chatLabel.text = "I love NIX."
+
                     }
 
                     self.timeAgoLabel.text = latestMessage.createdAt.timeAgo
 
                 } else {
-                    self.chatLabel.text = NSLocalizedString("[No Messages]", comment: "")
+                    self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
                     self.timeAgoLabel.text = NSLocalizedString("None", comment: "")
                 }
             }
@@ -90,27 +90,31 @@ class ConversationCell: UITableViewCell {
                         }
                     }
                 }
+
                 switch latestMessage.mediaType {
-                    
+
                 case MessageMediaType.Audio.rawValue:
-                    self.chatLabel.text = "[声音]"
+                    self.chatLabel.text = NSLocalizedString("[Audio]", comment: "")
                 case MessageMediaType.Video.rawValue:
-                    self.chatLabel.text = "[视频]"
+                    self.chatLabel.text = NSLocalizedString("[Video]", comment: "")
                 case MessageMediaType.Image.rawValue:
-                    self.chatLabel.text = "[图片]"
+                    self.chatLabel.text = NSLocalizedString("[Image]", comment: "")
+                case MessageMediaType.Location.rawValue:
+                    self.chatLabel.text = NSLocalizedString("[Location]", comment: "")
                 case MessageMediaType.Text.rawValue:
                     self.chatLabel.text = latestMessage.textContent
                 default:
-                    break
-                    
+                    self.chatLabel.text = "We love NIX."
+
                 }
+
                 self.timeAgoLabel.text = latestMessage.createdAt.timeAgo
 
             } else {
                 self.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(radius)
 
-                self.chatLabel.text = ""
-                self.timeAgoLabel.text = "None"
+                self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
+                self.timeAgoLabel.text = NSLocalizedString("None", comment: "")
             }
         }
     }
