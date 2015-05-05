@@ -8,6 +8,7 @@
 
 import Foundation
 import Realm
+import CoreLocation
 
 let baseURL = NSURL(string: "http://park-staging.catchchatchina.com")!
 let fayeBaseURL = NSURL(string: "ws://faye-staging.catchchatchina.com/faye")!
@@ -843,25 +844,43 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
 
 func sendText(text: String, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
 
-    sendMessageWithMediaType(.Text, inFilePath: nil, orFileData: nil, metaData: nil, text: text, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    let fillMoreInfo: JSONDictionary -> JSONDictionary = { info in
+        var moreInfo = info
+        moreInfo["text_content"] = text
+        return moreInfo
+    }
+    sendMessageWithMediaType(.Text, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
 func sendImageInFilePath(filePath: String?, orFileData fileData: NSData?, #metaData: String?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
 
-    sendMessageWithMediaType(.Image, inFilePath: filePath, orFileData: fileData, metaData: metaData, text: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    sendMessageWithMediaType(.Image, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
 func sendAudioInFilePath(filePath: String?, orFileData fileData: NSData?, #metaData: String?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
 
-    sendMessageWithMediaType(.Audio, inFilePath: filePath, orFileData: fileData, metaData: metaData, text: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    sendMessageWithMediaType(.Audio, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
 func sendVideoInFilePath(filePath: String?, orFileData fileData: NSData?, #metaData: String?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
 
-    sendMessageWithMediaType(.Video, inFilePath: filePath, orFileData: fileData, metaData: metaData, text: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    sendMessageWithMediaType(.Video, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, #metaData: String?, #text: String?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
+func sendLocationWithCoordinate(coordinate: CLLocationCoordinate2D, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
+
+    let fillMoreInfo: JSONDictionary -> JSONDictionary = { info in
+        var moreInfo = info
+        moreInfo["longitude"] = coordinate.longitude
+        moreInfo["latitude"] = coordinate.latitude
+        return moreInfo
+    }
+
+    sendMessageWithMediaType(.Location, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+}
+
+
+func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, #metaData: String?, #fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
     // 因为 message_id 必须来自远端，线程无法切换，所以这里暂时没用 realmQueue // TOOD: 也许有办法
 
     let realm = RLMRealm.defaultRealm()
@@ -872,10 +891,6 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
     //message.messageID = messageID
 
     message.mediaType = mediaType.rawValue
-
-    if let text = text {
-        message.textContent = text
-    }
 
     realm.addObject(message)
 
@@ -953,10 +968,31 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
         "media_type": mediaType.description,
     ]
 
-    if mediaType == MessageMediaType.Text {
+    if let fillMoreInfo = fillMoreInfo {
+        messageInfo = fillMoreInfo(messageInfo)
+    }
 
-        messageInfo["text_content"] = text
+    realm.beginWriteTransaction()
 
+    if let textContent = messageInfo["text_content"] as? String {
+        message.textContent = textContent
+    }
+
+    if let
+        longitude = messageInfo["longitude"] as? Double,
+        latitude = messageInfo["latitude"] as? Double {
+            let coordinate = Coordinate()
+            coordinate.longitude = longitude
+            coordinate.latitude = latitude
+
+            message.coordinate = coordinate
+    }
+
+    realm.commitWriteTransaction()
+
+    switch mediaType {
+
+    case .Text, .Location:
         createMessageWithMessageInfo(messageInfo, failureHandler: { (reason, errorMessage) in
             if let failureHandler = failureHandler {
                 failureHandler(reason, errorMessage)
@@ -968,18 +1004,18 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
                 realm.commitWriteTransaction()
             }
 
-        }, completion: { messageID in
-            dispatch_async(dispatch_get_main_queue()) {
-                realm.beginWriteTransaction()
-                message.messageID = messageID
-                message.sendState = MessageSendState.Successed.rawValue
-                realm.commitWriteTransaction()
-            }
-
-            completion(success: true)
+            }, completion: { messageID in
+                dispatch_async(dispatch_get_main_queue()) {
+                    realm.beginWriteTransaction()
+                    message.messageID = messageID
+                    message.sendState = MessageSendState.Successed.rawValue
+                    realm.commitWriteTransaction()
+                }
+                
+                completion(success: true)
         })
 
-    } else {
+    default:
 
         s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in
             uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mediaType.mineType(), s3UploadParams: s3UploadParams) { (result, error) in

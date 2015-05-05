@@ -9,7 +9,11 @@
 import UIKit
 import MapKit
 
+typealias SendLocationAction = (coordinate: CLLocationCoordinate2D) -> Void
+
 class PickLocationViewController: UIViewController {
+
+    var sendLocationAction: SendLocationAction?
 
     @IBOutlet weak var sendButton: UIBarButtonItem!
     @IBOutlet weak var mapView: MKMapView!
@@ -33,7 +37,8 @@ class PickLocationViewController: UIViewController {
     }
 
     let pickLocationCellIdentifier = "PickLocationCell"
-    var pickLocationIndexPath: NSIndexPath?
+    var pickedLocationIndexPath: NSIndexPath?
+    var pickedLocationCoordinate: CLLocationCoordinate2D?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +68,14 @@ class PickLocationViewController: UIViewController {
 
     @IBAction func send(sender: UIBarButtonItem) {
         dismissViewControllerAnimated(true, completion: { () -> Void in
-            // TODO: send location
+            if let sendLocationAction = self.sendLocationAction {
+
+                if let coordinate = self.pickedLocationCoordinate {
+                    sendLocationAction(coordinate: coordinate)
+                } else {
+                    sendLocationAction(coordinate: self.mapView.userLocation.location.coordinate)
+                }
+            }
         })
     }
 
@@ -235,7 +247,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             break
         }
 
-        if let pickLocationIndexPath = pickLocationIndexPath {
+        if let pickLocationIndexPath = pickedLocationIndexPath {
             cell.checkImageView.hidden = !(pickLocationIndexPath == indexPath)
         }
 
@@ -246,8 +258,8 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        if let pickLocationIndexPath = pickLocationIndexPath {
-            if let cell = tableView.cellForRowAtIndexPath(pickLocationIndexPath) as? PickLocationCell {
+        if let pickedLocationIndexPath = pickedLocationIndexPath {
+            if let cell = tableView.cellForRowAtIndexPath(pickedLocationIndexPath) as? PickLocationCell {
                 cell.checkImageView.hidden = true
             }
 
@@ -261,7 +273,25 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             cell.checkImageView.hidden = false
         }
 
-        pickLocationIndexPath = indexPath
+        pickedLocationIndexPath = indexPath
+
+
+        switch indexPath.section {
+
+        case Section.CurrentLocation.rawValue:
+            pickedLocationCoordinate = mapView.userLocation.location.coordinate
+
+        case Section.UserPickedLocation.rawValue:
+            pickedLocationCoordinate = userPickedLocationPin?.coordinate
+
+        case Section.Placemarks.rawValue:
+            let placemark = placemarks[indexPath.row]
+            pickedLocationCoordinate = placemark.location.coordinate
+
+        default:
+            break
+        }
+
     }
 }
 

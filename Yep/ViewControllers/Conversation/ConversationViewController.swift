@@ -864,6 +864,47 @@ class ConversationViewController: UIViewController {
         if segue.identifier == "presentMessageMedia" {
             let vc = segue.destinationViewController as! MessageMediaViewController
             vc.message = sender as? Message
+
+        } else if segue.identifier == "presentPickLocation" {
+            let nvc = segue.destinationViewController as! UINavigationController
+            let vc = nvc.topViewController as! PickLocationViewController
+
+            vc.sendLocationAction = { coordinate in
+
+                if let withFriend = self.conversation.withFriend {
+
+                    sendLocationWithCoordinate(coordinate, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.updateConversationCollectionView()
+                        }
+
+                    }, failureHandler: { (reason, errorMessage) -> () in
+                        defaultFailureHandler(reason, errorMessage)
+                        // TODO: sendLocation 错误提醒
+
+                    }, completion: { success -> Void in
+                        println("sendLocation to friend: \(success)")
+                    })
+
+                } else if let withGroup = self.conversation.withGroup {
+
+                    sendLocationWithCoordinate(coordinate, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.updateConversationCollectionView()
+                        }
+
+                    }, failureHandler: { (reason, errorMessage) -> () in
+                        defaultFailureHandler(reason, errorMessage)
+                        // TODO: sendLocation 错误提醒
+
+                    }, completion: { success -> Void in
+                        println("sendLocation to group: \(success)")
+                    })
+                }
+
+
+
+            }
         }
     }
 }
