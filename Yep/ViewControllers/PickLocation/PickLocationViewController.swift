@@ -29,6 +29,13 @@ class PickLocationViewController: UIViewController {
         }
     }
 
+    var searchedMapItems = [MKMapItem]() {
+        didSet {
+            reloadTableView()
+        }
+    }
+    var searchedLocationPins = [UserPickedLocationPin]()
+
     lazy var geocoder = CLGeocoder()
     var placemarks = [CLPlacemark]() {
         didSet {
@@ -211,10 +218,21 @@ extension PickLocationViewController: UISearchBarDelegate {
         search.startWithCompletionHandler { response, error in
             if error == nil {
                 if let mapItems = response.mapItems as? [MKMapItem] {
+
+                    self.searchedMapItems = mapItems
+
+                    self.mapView.removeAnnotations(self.searchedLocationPins)
+
+                    var searchedLocationPins = [UserPickedLocationPin]()
+
                     for item in mapItems {
                         let pin = UserPickedLocationPin(title: "Pin", subtitle: "User Searched Location", coordinate: item.placemark.location.coordinate)
                         self.mapView.addAnnotation(pin)
+
+                        searchedLocationPins.append(pin)
                     }
+
+                    self.searchedLocationPins = searchedLocationPins
                 }
             }
         }
@@ -229,10 +247,11 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
         case CurrentLocation = 0
         case UserPickedLocation
         case Placemarks
+        case SearchedLocation
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -244,6 +263,8 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             return (userPickedLocationPin == nil ? 0 : 1)
         case Section.Placemarks.rawValue:
             return placemarks.count
+        case Section.SearchedLocation.rawValue:
+            return self.searchedMapItems.count
         default:
             return 0
         }
@@ -270,6 +291,12 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             cell.iconImageView.hidden = true
             let placemark = placemarks[indexPath.row]
             cell.locationLabel.text = placemark.subLocality + " " + placemark.thoroughfare
+            cell.checkImageView.hidden = true
+
+        case Section.SearchedLocation.rawValue:
+            cell.iconImageView.hidden = true
+            let placemark = self.searchedMapItems[indexPath.row].placemark
+            cell.locationLabel.text = placemark.name
             cell.checkImageView.hidden = true
 
         default:
