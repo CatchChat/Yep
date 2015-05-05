@@ -8,6 +8,7 @@
 
 @class CLRegion;
 @class UILocalNotification;
+@import Foundation;
 
 extern NSString *const kJPFNetworkDidSetupNotification;     // 建立连接
 extern NSString *const kJPFNetworkDidCloseNotification;     // 关闭连接

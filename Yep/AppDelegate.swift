@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import JPushSDK
 import Crashlytics
 import AVFoundation
 

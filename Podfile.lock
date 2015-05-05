@@ -21,7 +21,6 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - Base64 (1.0.1)
-  - JPushSDK (1.8.2)
   - MZFayeClient (1.0.0):
     - Base64 (~> 1.0.1)
     - SocketRocket (~> 0.3.1-beta2)
@@ -33,7 +32,6 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
-  - JPushSDK
   - MZFayeClient (from `../CatchLib-iOS/MZFayeClient/`)
   - pop
   - Realm
@@ -45,7 +43,6 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: e1d86c2a96bb5d2e7408da36149806706ee122fe
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
-  JPushSDK: c68dd04c595a5c93aa003f212974010790410d8e
   MZFayeClient: 19df756a4c86c8f414668e6edc54fccfee54adbb
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   Realm: 670059efdb212ab939c1745a60aff27820c0a9c4

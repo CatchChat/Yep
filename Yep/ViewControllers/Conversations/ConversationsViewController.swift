@@ -8,7 +8,6 @@
 
 import UIKit
 import Realm
-import JPushSDK
 
 class ConversationsViewController: UIViewController {
 

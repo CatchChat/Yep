@@ -5,5 +5,4 @@ use_frameworks!
 pod 'pop'
 pod 'AFNetworking'
 pod 'MZFayeClient', :path => '../CatchLib-iOS/MZFayeClient/'
-pod 'JPushSDK'
 pod 'Realm'
