@@ -54,7 +54,7 @@ class ConversationViewController: UIViewController {
     
     var keyboardShowTimes = 0 {
         willSet {
-            println("set keyboardShowTimes \(newValue)")
+//            println("set keyboardShowTimes \(newValue)")
             
             if newValue == 0 {
                 if !self.isKeyboardVisible {
@@ -454,7 +454,17 @@ class ConversationViewController: UIViewController {
     func scrollToLastMessage() {
         
         if displayedMessagesRange.length > 0 {
-            conversationCollectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: displayedMessagesRange.length - 1, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Bottom, animated: false)
+            
+            let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
+            let navicationBarAndKeyboardAndToolBarHeight = keyboardAndToolBarHeight + 64.0
+            
+            let visableMessageFieldHeight = conversationCollectionView.frame.size.height - navicationBarAndKeyboardAndToolBarHeight
+            let useableSpace = visableMessageFieldHeight - conversationCollectionView.contentSize.height
+            if (useableSpace > 0) {
+                return
+            } else {
+                self.conversationCollectionView.contentOffset.y = self.conversationCollectionView.contentSize.height - self.conversationCollectionView.frame.size.height + keyboardAndToolBarHeight
+            }
         
         }
     }
@@ -733,18 +743,20 @@ class ConversationViewController: UIViewController {
                 
                 UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                     
-                    if scrollToBottom {
-                        self.conversationCollectionView.contentOffset.y = self.conversationCollectionView.contentSize.height - self.conversationCollectionView.frame.size.height + keyboardAndToolBarHeight
-                    }else {
-                        if (useableSpace > 0) {
-                            let contentToScroll = newMessagesTotalHeight - useableSpace
-                            println("contentToScroll \(contentToScroll)")
-                            self.conversationCollectionView.contentOffset.y += contentToScroll
-                        } else {
+                    if (useableSpace > 0) {
+                        let contentToScroll = newMessagesTotalHeight - useableSpace
+                        println("contentToScroll \(contentToScroll)")
+                        self.conversationCollectionView.contentOffset.y += contentToScroll
+                    } else {
+                        if scrollToBottom {
+                            
+                            self.conversationCollectionView.contentOffset.y = self.conversationCollectionView.contentSize.height - self.conversationCollectionView.frame.size.height + keyboardAndToolBarHeight
+                            
+                        }else {
                             self.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
                         }
+                        
                     }
-
                     
                     }, completion: { (finished) -> Void in
                 })
