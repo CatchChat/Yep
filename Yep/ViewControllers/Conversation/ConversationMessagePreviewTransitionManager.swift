@@ -14,7 +14,6 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
     var transitionView: UIView?
 
 
-
     var isPresentation = false
 
     var transitionContext: UIViewControllerContextTransitioning?
@@ -67,29 +66,12 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
         let animatingVC = toVC!
         let animatingView = toView!
 
-        let finalFrame = transitionContext.finalFrameForViewController(animatingVC)
-
-        let initialMaskPath = UIBezierPath(rect: frame)
-        let finalMaskPath = UIBezierPath(rect: finalFrame)
-
-        let maskLayer = CAShapeLayer()
-        maskLayer.path = finalMaskPath.CGPath
-        animatingView.layer.mask = maskLayer
-
-        let maskLayerAnimation = CABasicAnimation(keyPath: "path")
-        maskLayerAnimation.fromValue = finalMaskPath.CGPath
-        maskLayerAnimation.toValue = finalMaskPath.CGPath
-        maskLayerAnimation.duration = transitionDuration(transitionContext)
-        maskLayerAnimation.delegate = self
-        maskLayer.addAnimation(maskLayerAnimation, forKey: "path")
-
-
         if let transitionView = transitionView {
             animatingView.addSubview(transitionView)
             transitionView.frame = frame
 
-            toVC?.view.backgroundColor = UIColor.clearColor()
-            toVC?.mediaView.alpha = 0
+            animatingVC.view.backgroundColor = UIColor.clearColor()
+            animatingVC.mediaView.alpha = 0
 
             let fullDuration = transitionDuration(transitionContext)
 
@@ -119,19 +101,23 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
 
                 UIView.addKeyframeWithRelativeStartTime(0.9, relativeDuration: 0.0, animations: { () -> Void in
                     let ratio = (animatingView.bounds.width + self.largerOffset) / animatingView.bounds.width
-                    toVC?.mediaView.transform = CGAffineTransformMakeScale(ratio, ratio)
-                    toVC?.mediaView.alpha = 1
+                    animatingVC.mediaView.transform = CGAffineTransformMakeScale(ratio, ratio)
+                    animatingVC.mediaView.alpha = 1
                     transitionView.alpha = 0
                 })
 
                 UIView.addKeyframeWithRelativeStartTime(0.9, relativeDuration: 0.1, animations: { () -> Void in
-                    toVC?.mediaView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+                    animatingVC.mediaView.transform = CGAffineTransformMakeScale(1.0, 1.0)
                 })
 
             }, completion: { (finished) -> Void in
                 transitionView.removeFromSuperview()
+
+                transitionContext.completeTransition(true)
             })
 
+        } else {
+            transitionContext.completeTransition(false)
         }
     }
 
@@ -143,24 +129,6 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
         let animatingVC = fromVC!
         let animatingView = fromView!
 
-        let initialFrame = transitionContext.initialFrameForViewController(animatingVC)
-
-        let initialMaskPath = UIBezierPath(rect: initialFrame)
-        let finalMaskPath = UIBezierPath(rect: frame)
-
-        let maskLayer = CAShapeLayer()
-        maskLayer.path = finalMaskPath.CGPath
-        animatingView.layer.mask = maskLayer
-
-        let maskLayerAnimation = CABasicAnimation(keyPath: "path")
-        maskLayerAnimation.fromValue = initialMaskPath.CGPath
-        maskLayerAnimation.toValue = initialMaskPath.CGPath
-        maskLayerAnimation.duration = transitionDuration(transitionContext)
-        maskLayerAnimation.delegate = self
-        maskLayerAnimation.removedOnCompletion = true
-        maskLayer.addAnimation(maskLayerAnimation, forKey: "path")
-
-
         let fullDuration = transitionDuration(transitionContext)
 
         if let transitionView = transitionView {
@@ -169,7 +137,7 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
 
                 UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.2, animations: { () -> Void in
                     let ratio = (animatingView.bounds.width + self.largerOffset) / animatingView.bounds.width
-                    fromVC?.mediaView.transform = CGAffineTransformMakeScale(ratio, ratio)
+                    animatingVC.mediaView.transform = CGAffineTransformMakeScale(ratio, ratio)
                 })
 
                 UIView.addKeyframeWithRelativeStartTime(0.2, relativeDuration: 0.0, animations: { () -> Void in
@@ -177,84 +145,25 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
                     transitionView.center = animatingView.center
                     transitionView.alpha = 1
 
-                    fromVC?.mediaView.alpha = 0
+                    animatingVC.mediaView.alpha = 0
                 })
 
-                UIView.addKeyframeWithRelativeStartTime(0.2, relativeDuration: 0.5, animations: { () -> Void in
+                UIView.addKeyframeWithRelativeStartTime(0.2, relativeDuration: 0.6, animations: { () -> Void in
                     transitionView.frame = self.frame
                 })
 
-                UIView.addKeyframeWithRelativeStartTime(0.7, relativeDuration: 0.3, animations: { () -> Void in
+                UIView.addKeyframeWithRelativeStartTime(0.8, relativeDuration: 0.2, animations: { () -> Void in
                     animatingVC.view.backgroundColor = UIColor.clearColor()
                 })
 
             }, completion: { (finished) -> Void in
                 transitionView.removeFromSuperview()
+
+                transitionContext.completeTransition(true)
             })
+
+        } else {
+            transitionContext.completeTransition(false)
         }
-
-    }
-
-    #if XXX
-    func presentTransition(transitionContext: UIViewControllerContextTransitioning) {
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
-        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
-
-        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
-        let toView = transitionContext.viewForKey(UITransitionContextToViewKey)
-
-        let containerView = transitionContext.containerView()
-
-        containerView.addSubview(toView!)
-
-        let animatingVC = toVC!
-        let animatingView = toView!
-
-        let finalFrame = transitionContext.finalFrameForViewController(animatingVC)
-
-        let initialMaskPath = UIBezierPath(rect: frame)
-        let finalMaskPath = UIBezierPath(rect: finalFrame)
-
-        let maskLayer = CAShapeLayer()
-        maskLayer.path = finalMaskPath.CGPath
-        animatingView.layer.mask = maskLayer
-
-        let maskLayerAnimation = CABasicAnimation(keyPath: "path")
-        maskLayerAnimation.fromValue = initialMaskPath.CGPath
-        maskLayerAnimation.toValue = finalMaskPath.CGPath
-        maskLayerAnimation.duration = transitionDuration(transitionContext)
-        maskLayerAnimation.delegate = self
-        maskLayer.addAnimation(maskLayerAnimation, forKey: "path")
-    }
-
-    func dismissTransition(transitionContext: UIViewControllerContextTransitioning) {
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
-
-        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
-
-        let animatingVC = fromVC!
-        let animatingView = fromView!
-
-        let initialFrame = transitionContext.initialFrameForViewController(animatingVC)
-
-        let initialMaskPath = UIBezierPath(rect: initialFrame)
-        let finalMaskPath = UIBezierPath(rect: frame)
-
-        let maskLayer = CAShapeLayer()
-        maskLayer.path = finalMaskPath.CGPath
-        animatingView.layer.mask = maskLayer
-
-        let maskLayerAnimation = CABasicAnimation(keyPath: "path")
-        maskLayerAnimation.fromValue = initialMaskPath.CGPath
-        maskLayerAnimation.toValue = finalMaskPath.CGPath
-        maskLayerAnimation.duration = transitionDuration(transitionContext)
-        maskLayerAnimation.delegate = self
-        maskLayerAnimation.removedOnCompletion = true
-        maskLayer.addAnimation(maskLayerAnimation, forKey: "path")
-    }
-    #endif
-
-    override func animationDidStop(anim: CAAnimation!, finished flag: Bool) {
-        transitionContext?.completeTransition(true)
     }
 }
