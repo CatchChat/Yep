@@ -14,6 +14,10 @@ class YepConfig {
     
     static let minMessageSampleViewWidth: CGFloat = 25.0
     
+    static let skillHomeHeaderViewHeight: CGFloat = 250.0
+    
+    static let skillHomeHeaderButtonHeight: CGFloat = 50.0
+    
     class func clientType() -> Int {
         // TODO: clientType
         #if DEBUG

@@ -511,11 +511,12 @@
                         <outlet property="sayHiButton" destination="g8r-Vj-XaN" id="Evy-hG-CXL"/>
                         <outlet property="sayHiView" destination="sfC-fv-gcr" id="5bd-hx-FGY"/>
                         <segue destination="la3-6z-2aH" kind="show" identifier="showConversation" id="o3b-2D-AMq"/>
+                        <segue destination="3gg-0l-MYn" kind="show" identifier="showSkillHome" id="Jw0-fk-BDi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2027" y="1045"/>
+            <point key="canvasLocation" x="2011" y="1029"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="qZs-Er-4wk">
@@ -553,7 +554,56 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zuA-bP-KGx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2769" y="1045"/>
+            <point key="canvasLocation" x="2793" y="1045"/>
+        </scene>
+        <!--Skill Home View Controller-->
+        <scene sceneID="kj4-Yg-Eog">
+            <objects>
+                <viewController id="3gg-0l-MYn" customClass="SkillHomeViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Vlu-dB-Ukl"/>
+                        <viewControllerLayoutGuide type="bottom" id="IIx-oj-clN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EQO-b7-KgY">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cmT-Gk-qyV" customClass="SkillHomeHeaderView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="160"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="160" id="zQ8-r2-xvU"/>
+                                </constraints>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qu8-bN-78f">
+                                <rect key="frame" x="0.0" y="160" width="600" height="391"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Qu8-bN-78f" firstAttribute="top" secondItem="cmT-Gk-qyV" secondAttribute="bottom" id="2yo-3H-MMt"/>
+                            <constraint firstItem="cmT-Gk-qyV" firstAttribute="leading" secondItem="EQO-b7-KgY" secondAttribute="leading" id="9To-eb-Bk6"/>
+                            <constraint firstAttribute="trailing" secondItem="cmT-Gk-qyV" secondAttribute="trailing" id="XdR-Xa-qcN"/>
+                            <constraint firstAttribute="trailing" secondItem="Qu8-bN-78f" secondAttribute="trailing" id="fez-Gm-up4"/>
+                            <constraint firstItem="Qu8-bN-78f" firstAttribute="leading" secondItem="EQO-b7-KgY" secondAttribute="leading" id="hTe-1J-M6S"/>
+                            <constraint firstItem="Qu8-bN-78f" firstAttribute="bottom" secondItem="cmT-Gk-qyV" secondAttribute="bottom" id="hfd-P8-W1D"/>
+                            <constraint firstItem="IIx-oj-clN" firstAttribute="top" secondItem="Qu8-bN-78f" secondAttribute="bottom" id="jVI-TZ-cD2"/>
+                            <constraint firstItem="cmT-Gk-qyV" firstAttribute="top" secondItem="EQO-b7-KgY" secondAttribute="top" id="xdi-it-jhR"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="hfd-P8-W1D"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="headerView" destination="cmT-Gk-qyV" id="f7f-b5-C3d"/>
+                        <outlet property="headerViewHeightLayoutConstraint" destination="zQ8-r2-xvU" id="X8C-Td-b6p"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="O7a-Xh-Uff" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2836" y="1913"/>
         </scene>
         <!--Edit Profile View Controller-->
         <scene sceneID="l0f-Y7-OKE">

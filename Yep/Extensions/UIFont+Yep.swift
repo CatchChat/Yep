@@ -14,11 +14,15 @@ extension UIFont {
     }
 
     class func skillTextFont() -> UIFont {
-        return UIFont(name: "Helvetica-Light", size: 14)!
+        return UIFont(name: "HelveticaNeue-Light", size: 14)!
     }
 
     class func skillTextLargeFont() -> UIFont {
-        return UIFont(name: "Helvetica-Light", size: 20)!
+        return UIFont(name: "HelveticaNeue-Light", size: 20)!
+    }
+    
+    class func skillHomeTextLargeFont() -> UIFont {
+        return UIFont(name: "HelveticaNeue", size: 18)!
     }
 
     class func navigationBarTitleFont() -> UIFont {
