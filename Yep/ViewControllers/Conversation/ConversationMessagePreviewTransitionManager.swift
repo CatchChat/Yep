@@ -36,7 +36,7 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
     // MARK: UIViewControllerAnimatedTransitioning
 
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
-        return isPresentation ? 0.7 : 0.5
+        return isPresentation ? 0.9 : 0.5
     }
 
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
@@ -86,31 +86,49 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
             animatingView.addSubview(transitionView)
             transitionView.frame = frame
 
+            toVC?.view.backgroundColor = UIColor.clearColor()
             toVC?.mediaView.alpha = 0
 
             let fullDuration = transitionDuration(transitionContext)
 
-            UIView.animateWithDuration(fullDuration * 0.6, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
-                transitionView.center = animatingView.center
+            UIView.animateWithDuration(fullDuration * 0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+                animatingVC.view.backgroundColor = UIColor.whiteColor()
 
             }, completion: { finished in
-
-                UIView.animateWithDuration(fullDuration * 0.4, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
-
-                    let dw = animatingView.bounds.width - transitionView.bounds.width
-                    let ratio = animatingView.bounds.width / transitionView.bounds.width
-                    let height = ratio * transitionView.bounds.height
-                    let dh = height - transitionView.bounds.height
-
-                    let frame = CGRectInset(transitionView.frame, -dw * 0.5, -dh * 0.5)
-
-                    transitionView.frame = frame
+                UIView.animateWithDuration(fullDuration * 0.5, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
+                    transitionView.center = animatingView.center
 
                 }, completion: { finished in
-                    toVC?.mediaView.alpha = 1
-                    transitionView.removeFromSuperview()
-                })
 
+                    let largerOffset: CGFloat = 80
+
+                    UIView.animateWithDuration(fullDuration * 0.2, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
+
+                        let targetWidth = animatingView.bounds.width + largerOffset
+
+                        let dw = targetWidth - transitionView.bounds.width
+                        let ratio = targetWidth / transitionView.bounds.width
+                        let height = ratio * transitionView.bounds.height
+                        let dh = height - transitionView.bounds.height
+
+                        let frame = CGRectInset(transitionView.frame, -dw * 0.5, -dh * 0.5)
+
+                        transitionView.frame = frame
+
+                    }, completion: { finished in
+
+                        let ratio = (animatingView.bounds.width + largerOffset) / animatingView.bounds.width
+                        toVC?.mediaView.transform = CGAffineTransformMakeScale(ratio, ratio)
+                        toVC?.mediaView.alpha = 1
+                        transitionView.removeFromSuperview()
+
+                        UIView.animateWithDuration(fullDuration * 0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+                            toVC?.mediaView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+                        }, completion: { finished in
+                            toVC?.mediaView.transform = CGAffineTransformIdentity
+                        })
+                    })
+                })
             })
         }
     }
