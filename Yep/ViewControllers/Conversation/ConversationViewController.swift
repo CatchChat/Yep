@@ -910,6 +910,7 @@ class ConversationViewController: UIViewController {
                 if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) {
 
                     var frame = CGRectZero
+                    var transitionView: UIView?
 
                     if let sender = message.fromFriend {
                         if sender.friendState != UserFriendState.Me.rawValue {
@@ -917,14 +918,17 @@ class ConversationViewController: UIViewController {
 
                             case MessageMediaType.Image.rawValue:
                                 let cell = cell as! ChatLeftImageCell
+                                transitionView = cell.messageImageView.snapshotViewAfterScreenUpdates(false)
                                 frame = cell.convertRect(cell.messageImageView.frame, toView: view)
 
                             case MessageMediaType.Video.rawValue:
                                 let cell = cell as! ChatLeftVideoCell
+                                transitionView = cell.thumbnailImageView.snapshotViewAfterScreenUpdates(false)
                                 frame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
 
                             case MessageMediaType.Location.rawValue:
                                 let cell = cell as! ChatLeftLocationCell
+                                transitionView = cell.mapImageView.snapshotViewAfterScreenUpdates(false)
                                 frame = cell.convertRect(cell.mapImageView.frame, toView: view)
 
                             default:
@@ -936,14 +940,17 @@ class ConversationViewController: UIViewController {
                                 
                             case MessageMediaType.Image.rawValue:
                                 let cell = cell as! ChatRightImageCell
+                                transitionView = cell.messageImageView.snapshotViewAfterScreenUpdates(false)
                                 frame = cell.convertRect(cell.messageImageView.frame, toView: view)
 
                             case MessageMediaType.Video.rawValue:
                                 let cell = cell as! ChatRightVideoCell
+                                transitionView = cell.thumbnailImageView.snapshotViewAfterScreenUpdates(false)
                                 frame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
 
                             case MessageMediaType.Location.rawValue:
                                 let cell = cell as! ChatRightLocationCell
+                                transitionView = cell.mapImageView.snapshotViewAfterScreenUpdates(false)
                                 frame = cell.convertRect(cell.mapImageView.frame, toView: view)
 
                             default:
@@ -956,6 +963,8 @@ class ConversationViewController: UIViewController {
 
                     let transitionManager = ConversationMessagePreviewTransitionManager()
                     transitionManager.frame = frame
+                    transitionManager.transitionView = transitionView
+
                     vc.transitioningDelegate = transitionManager
 
                     messagePreviewTransitionManager = transitionManager
