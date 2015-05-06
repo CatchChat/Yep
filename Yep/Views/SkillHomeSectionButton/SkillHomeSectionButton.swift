@@ -9,6 +9,8 @@
 import UIKit
 import pop
 
+let skillHeomSectionButtonLineHeight: CGFloat = 2
+
 class SkillHomeSectionButton: UIButton {
     
     var highLight = CALayer()
@@ -17,7 +19,7 @@ class SkillHomeSectionButton: UIButton {
         
         UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.5,
             initialSpringVelocity: 0.5, options: nil, animations: {
-                self.highLight.frame =  CGRectMake(0, self.frame.size.height - 5, self.frame.size.width, 2)
+                self.highLight.frame =  CGRectMake(0, self.frame.size.height - skillHeomSectionButtonLineHeight, self.frame.size.width, skillHeomSectionButtonLineHeight)
                 self.highLight.backgroundColor = UIColor.yepTintColor().CGColor
             }, completion: nil)
     }
@@ -25,13 +27,13 @@ class SkillHomeSectionButton: UIButton {
     func setInActive() {
         UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.5,
             initialSpringVelocity: 0.5, options: nil, animations: {
-                self.highLight.frame =  CGRectMake(0, self.frame.size.height - 5, self.frame.size.width, 2)
+                self.highLight.frame =  CGRectMake(0, self.frame.size.height - skillHeomSectionButtonLineHeight, self.frame.size.width, skillHeomSectionButtonLineHeight)
                 self.highLight.backgroundColor = UIColor.yepDisabledColor().CGColor
             }, completion: nil)
     }
     
     func updateHightLightBounce() {
-        highLight.frame =  CGRectMake(0, self.frame.size.height - 5, self.frame.size.width, 0)
+        highLight.frame =  CGRectMake(0, self.frame.size.height - skillHeomSectionButtonLineHeight, self.frame.size.width, 0)
     }
     
 }

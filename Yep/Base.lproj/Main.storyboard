@@ -599,6 +599,7 @@
                     <connections>
                         <outlet property="headerView" destination="cmT-Gk-qyV" id="f7f-b5-C3d"/>
                         <outlet property="headerViewHeightLayoutConstraint" destination="zQ8-r2-xvU" id="X8C-Td-b6p"/>
+                        <outlet property="skillHomeScrollView" destination="Qu8-bN-78f" id="cIm-yb-8GU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O7a-Xh-Uff" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -24,6 +24,24 @@ enum SkillHomeState: Printable {
 
 class SkillHomeViewController: UIViewController {
     
+    lazy var masterTableView: UITableView = {
+        
+        var tempTableView = UITableView(frame: CGRectZero)
+
+        
+        return tempTableView;
+        
+    }()
+    
+    lazy var learningtTableView: UITableView = {
+        
+        var tempTableView = UITableView(frame: CGRectZero)
+        
+        
+        return tempTableView;
+        
+    }()
+    
     var skillName: String? {
         didSet {
             self.title = skillName
@@ -48,6 +66,8 @@ class SkillHomeViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var skillHomeScrollView: UIScrollView!
+    
     @IBOutlet weak var headerView: SkillHomeHeaderView!
     
     @IBOutlet weak var headerViewHeightLayoutConstraint: NSLayoutConstraint!
@@ -68,9 +88,22 @@ class SkillHomeViewController: UIViewController {
         headerView.masterButton.addTarget(self, action: "changeToMaster", forControlEvents: UIControlEvents.TouchUpInside)
         headerView.learningButton.addTarget(self, action: "changeToLearning", forControlEvents: UIControlEvents.TouchUpInside)
         
+        masterTableView.backgroundColor = UIColor.lightGrayColor()
+        learningtTableView.backgroundColor = UIColor.yepDisabledColor()
+        skillHomeScrollView.addSubview(masterTableView)
+        skillHomeScrollView.addSubview(learningtTableView)
+        skillHomeScrollView.pagingEnabled = true
+        
         customTitleView()
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        skillHomeScrollView.contentSize = CGSize(width: skillHomeScrollView.frame.size.width*2, height: skillHomeScrollView.frame.size.height)
+        masterTableView.frame = CGRect(x: 0, y: 0, width: skillHomeScrollView.frame.size.width, height: skillHomeScrollView.frame.size.height)
+        learningtTableView.frame = CGRect(x: masterTableView.frame.size.width, y: 0, width: skillHomeScrollView.frame.size.width, height: skillHomeScrollView.frame.size.height)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -86,7 +119,6 @@ class SkillHomeViewController: UIViewController {
     func changeToLearning() {
         state = .Learning
     }
-    
     
     func customTitleView() {
         
