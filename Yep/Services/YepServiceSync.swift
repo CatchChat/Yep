@@ -70,7 +70,7 @@ func downloadAttachmentOfMessage(message: Message) {
         let thumbnailURLString = message.thumbnailURLString
 
         if !thumbnailURLString.isEmpty && message.localThumbnailName.isEmpty {
-            if let url = NSURL(string: attachmentURLString) {
+            if let url = NSURL(string: thumbnailURLString) {
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                     let data = NSData(contentsOfURL: url)
 
