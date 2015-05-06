@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0A02E46F1AC9208A00235DBF /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A02E46E1AC9208A00235DBF /* libxml2.dylib */; };
 		0A0A11821AE389380008772C /* RegisterSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0A11811AE389380008772C /* RegisterSkillsLayout.swift */; };
-		0A1CAC6B1AFA3D8900826B45 /* SkillHomeViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1CAC6A1AFA3D8900826B45 /* SkillHomeViewControllerExtension.swift */; };
 		0A1CAC6E1AFA42D400826B45 /* SkillHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1CAC6D1AFA42D400826B45 /* SkillHomeViewController.swift */; };
 		0A1CAC701AFA481600826B45 /* SkillHomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1CAC6F1AFA481600826B45 /* SkillHomeHeaderView.swift */; };
 		0A1CAC731AFA526200826B45 /* SkillHomeSectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A1CAC721AFA526200826B45 /* SkillHomeSectionButton.swift */; };
@@ -175,7 +174,6 @@
 /* Begin PBXFileReference section */
 		0A02E46E1AC9208A00235DBF /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		0A0A11811AE389380008772C /* RegisterSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterSkillsLayout.swift; path = ViewControllers/Register/RegisterSkillsLayout.swift; sourceTree = "<group>"; };
-		0A1CAC6A1AFA3D8900826B45 /* SkillHomeViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillHomeViewControllerExtension.swift; path = ViewControllers/SkillPage/SkillHomeViewControllerExtension.swift; sourceTree = "<group>"; };
 		0A1CAC6D1AFA42D400826B45 /* SkillHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillHomeViewController.swift; path = ViewControllers/SkillHome/SkillHomeViewController.swift; sourceTree = "<group>"; };
 		0A1CAC6F1AFA481600826B45 /* SkillHomeHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillHomeHeaderView.swift; path = Views/SkillHomeHeaderView/SkillHomeHeaderView.swift; sourceTree = "<group>"; };
 		0A1CAC721AFA526200826B45 /* SkillHomeSectionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillHomeSectionButton.swift; path = Views/SkillHomeSectionButton/SkillHomeSectionButton.swift; sourceTree = "<group>"; };
@@ -374,7 +372,6 @@
 			isa = PBXGroup;
 			children = (
 				0A1CAC6D1AFA42D400826B45 /* SkillHomeViewController.swift */,
-				0A1CAC6A1AFA3D8900826B45 /* SkillHomeViewControllerExtension.swift */,
 			);
 			name = SkillPage;
 			sourceTree = "<group>";
@@ -1366,7 +1363,6 @@
 				508D17471ACCF4710092D666 /* ChatLeftAudioCell.swift in Sources */,
 				50894D021AEA6433000981AF /* EditProfileLessInfoCell.swift in Sources */,
 				50894CFA1AEA54BA000981AF /* SettingsMoreCell.swift in Sources */,
-				0A1CAC6B1AFA3D8900826B45 /* SkillHomeViewControllerExtension.swift in Sources */,
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
 				50894D071AEDFDA2000981AF /* EditProfileMoreInfoCell.swift in Sources */,
 				0A1CAC731AFA526200826B45 /* SkillHomeSectionButton.swift in Sources */,

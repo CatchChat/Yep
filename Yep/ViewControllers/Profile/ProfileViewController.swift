@@ -174,18 +174,22 @@ class ProfileViewController: UIViewController {
         shouldBackToDefaultNavgationbar = true
         
         if segue.identifier == "showConversation" {
+            
             let vc = segue.destinationViewController as! ConversationViewController
             vc.conversation = sender as! Conversation
+            
         } else if segue.identifier == "showSkillHome" {
             
             if let cell = sender as? SkillCell {
+                
                 let vc = segue.destinationViewController as! SkillHomeViewController
+                vc.hidesBottomBarWhenPushed = true
                 vc.skillName = cell.skillLabel.text
                 shouldBackToDefaultNavgationbar = false
+                
             }
         }
     }
-
     // MARK: Actions
 
     @IBAction func sayHi(sender: UIButton) {

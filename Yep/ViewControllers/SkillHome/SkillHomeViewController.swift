@@ -24,6 +24,8 @@ enum SkillHomeState: Printable {
 
 class SkillHomeViewController: UIViewController {
     
+    let cellIdentifier = "ContactsCell"
+    
     lazy var masterTableView: UITableView = {
         
         var tempTableView = UITableView(frame: CGRectZero)
@@ -56,10 +58,12 @@ class SkillHomeViewController: UIViewController {
             case .Master:
                 headerView.learningButton.setInActive()
                 headerView.masterButton.setActive()
+                skillHomeScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
                 
             case .Learning:
                 headerView.masterButton.setInActive()
                 headerView.learningButton.setActive()
+                skillHomeScrollView.setContentOffset(CGPoint(x: masterTableView.frame.size.width, y: 0), animated: true)
                 
             }
             
@@ -78,6 +82,19 @@ class SkillHomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        masterTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        masterTableView.rowHeight = 80
+        masterTableView.dataSource = self
+        masterTableView.delegate = self
+        masterTableView.tag = SkillHomeState.Master.hashValue
+        
+        
+        learningtTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        learningtTableView.rowHeight = 80
+        learningtTableView.dataSource = self
+        learningtTableView.delegate = self
+        learningtTableView.tag = SkillHomeState.Learning.hashValue
 
         if let skillNameString = skillName {
             discoverUserBySkillName(skillNameString)
@@ -88,11 +105,10 @@ class SkillHomeViewController: UIViewController {
         headerView.masterButton.addTarget(self, action: "changeToMaster", forControlEvents: UIControlEvents.TouchUpInside)
         headerView.learningButton.addTarget(self, action: "changeToLearning", forControlEvents: UIControlEvents.TouchUpInside)
         
-        masterTableView.backgroundColor = UIColor.lightGrayColor()
-        learningtTableView.backgroundColor = UIColor.yepDisabledColor()
         skillHomeScrollView.addSubview(masterTableView)
         skillHomeScrollView.addSubview(learningtTableView)
         skillHomeScrollView.pagingEnabled = true
+        skillHomeScrollView.delegate = self
         
         customTitleView()
 
@@ -101,9 +117,15 @@ class SkillHomeViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        skillHomeScrollView.contentSize = CGSize(width: skillHomeScrollView.frame.size.width*2, height: skillHomeScrollView.frame.size.height)
-        masterTableView.frame = CGRect(x: 0, y: 0, width: skillHomeScrollView.frame.size.width, height: skillHomeScrollView.frame.size.height)
-        learningtTableView.frame = CGRect(x: masterTableView.frame.size.width, y: 0, width: skillHomeScrollView.frame.size.width, height: skillHomeScrollView.frame.size.height)
+        
+        println("Resize height")
+        
+        let height = YepConfig.getScreenRect().height - headerView.frame.height
+        
+        skillHomeScrollView.contentSize = CGSize(width: skillHomeScrollView.frame.size.width*2, height: height)
+        masterTableView.frame = CGRect(x: 0, y: 0, width: skillHomeScrollView.frame.size.width, height: height)
+        learningtTableView.frame = CGRect(x: masterTableView.frame.size.width, y: 0, width: skillHomeScrollView.frame.size.width, height: height)
+        
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -148,6 +170,15 @@ class SkillHomeViewController: UIViewController {
         self.navigationItem.titleView = titleLabel
     }
     
+
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        if scrollView.contentOffset.x >= scrollView.contentSize.width / 2 {
+            state = .Learning
+        }else {
+            state = .Master
+        }
+    }
+    
     func discoverUserBySkillName(skillName: String) {
         
         discoverUsers(masterSkills: [skillName], learningSkills: [], discoveredUserSortStyle: .LastSignIn, failureHandler: { (reason, errorMessage) in
@@ -155,8 +186,9 @@ class SkillHomeViewController: UIViewController {
             
             }, completion: { discoveredUsers in
                 self.discoveredMasterUsers = discoveredUsers
-                
+
                 dispatch_async(dispatch_get_main_queue()) {
+                    self.masterTableView.reloadData()
                 }
         })
         
@@ -167,6 +199,7 @@ class SkillHomeViewController: UIViewController {
                 self.discoveredLearningUsers = discoveredUsers
                 
                 dispatch_async(dispatch_get_main_queue()) {
+                    self.learningtTableView.reloadData()
                 }
         })
     }
@@ -177,16 +210,70 @@ class SkillHomeViewController: UIViewController {
     }
     
 
-    /*
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "showProfile" {
+            if let indexPath = sender as? NSIndexPath {
+                let discoveredUser = getDiscoveredUserWithState(state.hashValue)[indexPath.row]
+                
+                let vc = segue.destinationViewController as! ProfileViewController
+                
+                vc.shouldBackToDefaultNavgationbar = false
+                
+                vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                
+                vc.hidesBottomBarWhenPushed = true
+            }
+        }
     }
-    */
+    
+    func getDiscoveredUserWithState(state: Int) -> [DiscoveredUser] {
+        if state == SkillHomeState.Master.hashValue {
+            return discoveredMasterUsers
+        }else{
+            return discoveredLearningUsers
+        }
+    }
 
 }
 
+extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource{
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return getDiscoveredUserWithState(tableView.tag).count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+        
+        var discoveredUser = getDiscoveredUserWithState(tableView.tag)[indexPath.row]
+        
+        let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
+        
+        let avatarURLString = discoveredUser.avatarURLString
+        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { roundImage in
+            dispatch_async(dispatch_get_main_queue()) {
+                cell.avatarImageView.image = roundImage
+            }
+        }
+        
+        cell.joinedDateLabel.text = discoveredUser.createdAt.timeAgo
+        cell.lastTimeSeenLabel.text = discoveredUser.lastSignInAt.timeAgo
+        
+        cell.nameLabel.text = discoveredUser.nickname
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        performSegueWithIdentifier("showProfile", sender: indexPath)
+    }
+    
+}
 

@@ -26,6 +26,10 @@ class YepConfig {
             return 0
         #endif
     }
+    
+    class func getScreenRect() -> CGRect {
+        return UIScreen.mainScreen().bounds
+    }
 
     class func verifyCodeLength() -> Int {
         return 4

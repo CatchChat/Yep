@@ -71,7 +71,7 @@
                                     <outlet property="delegate" destination="la3-6z-2aH" id="zOV-zM-2KH"/>
                                 </connections>
                             </collectionView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="250" width="600" height="50"/>
                                 <items/>
                             </toolbar>
@@ -576,23 +576,27 @@
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qu8-bN-78f">
-                                <rect key="frame" x="0.0" y="160" width="600" height="391"/>
+                                <rect key="frame" x="0.0" y="160" width="600" height="440"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Qu8-bN-78f" firstAttribute="top" secondItem="cmT-Gk-qyV" secondAttribute="bottom" id="2yo-3H-MMt"/>
+                            <constraint firstItem="IIx-oj-clN" firstAttribute="top" secondItem="Qu8-bN-78f" secondAttribute="bottom" id="7BO-hR-582"/>
                             <constraint firstItem="cmT-Gk-qyV" firstAttribute="leading" secondItem="EQO-b7-KgY" secondAttribute="leading" id="9To-eb-Bk6"/>
                             <constraint firstAttribute="trailing" secondItem="cmT-Gk-qyV" secondAttribute="trailing" id="XdR-Xa-qcN"/>
                             <constraint firstAttribute="trailing" secondItem="Qu8-bN-78f" secondAttribute="trailing" id="fez-Gm-up4"/>
                             <constraint firstItem="Qu8-bN-78f" firstAttribute="leading" secondItem="EQO-b7-KgY" secondAttribute="leading" id="hTe-1J-M6S"/>
                             <constraint firstItem="Qu8-bN-78f" firstAttribute="bottom" secondItem="cmT-Gk-qyV" secondAttribute="bottom" id="hfd-P8-W1D"/>
                             <constraint firstItem="IIx-oj-clN" firstAttribute="top" secondItem="Qu8-bN-78f" secondAttribute="bottom" id="jVI-TZ-cD2"/>
+                            <constraint firstAttribute="bottom" secondItem="Qu8-bN-78f" secondAttribute="bottom" id="oIq-g3-DaC"/>
                             <constraint firstItem="cmT-Gk-qyV" firstAttribute="top" secondItem="EQO-b7-KgY" secondAttribute="top" id="xdi-it-jhR"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="hfd-P8-W1D"/>
+                                <exclude reference="7BO-hR-582"/>
+                                <exclude reference="jVI-TZ-cD2"/>
                             </mask>
                         </variation>
                     </view>
@@ -600,6 +604,7 @@
                         <outlet property="headerView" destination="cmT-Gk-qyV" id="f7f-b5-C3d"/>
                         <outlet property="headerViewHeightLayoutConstraint" destination="zQ8-r2-xvU" id="X8C-Td-b6p"/>
                         <outlet property="skillHomeScrollView" destination="Qu8-bN-78f" id="cIm-yb-8GU"/>
+                        <segue destination="AyC-pt-NR2" kind="show" identifier="showProfile" id="Snz-CT-4aa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O7a-Xh-Uff" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -854,7 +859,7 @@
         <image name="profile_avatar_frame" width="112" height="112"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="l4P-ds-ihU"/>
         <segue reference="o3b-2D-AMq"/>
+        <segue reference="Snz-CT-4aa"/>
     </inferredMetricsTieBreakers>
 </document>
