@@ -15,6 +15,8 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
 
     var isPresentation = false
 
+    var transitionContext: UIViewControllerContextTransitioning?
+
     // MARK: UIViewControllerTransitioningDelegate
 
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -32,10 +34,12 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
     // MARK: UIViewControllerAnimatedTransitioning
 
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
-        return 2.6
+        return isPresentation ? 0.5 : 0.5
     }
 
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+
+        self.transitionContext = transitionContext
 
         if isPresentation {
             presentTransition(transitionContext)
@@ -60,41 +64,49 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
 
         let finalFrame = transitionContext.finalFrameForViewController(animatingVC)
 
-        animatingView.frame = frame
+        let initialMaskPath = UIBezierPath(rect: CGRectInset(frame, 50, 0))
+        let finalMaskPath = UIBezierPath(rect: finalFrame)
 
-        UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, options: .AllowUserInteraction | .BeginFromCurrentState, animations: { () -> Void in
-            animatingView.frame = finalFrame
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = finalMaskPath.CGPath
+        animatingView.layer.mask = maskLayer
 
-        }, completion: { (finished) -> Void in
-            transitionContext.completeTransition(true)
-        })
+        let maskLayerAnimation = CABasicAnimation(keyPath: "path")
+        maskLayerAnimation.fromValue = initialMaskPath.CGPath
+        maskLayerAnimation.toValue = finalMaskPath.CGPath
+        maskLayerAnimation.duration = transitionDuration(transitionContext)
+        maskLayerAnimation.delegate = self
+        maskLayer.addAnimation(maskLayerAnimation, forKey: "path")
     }
 
     func dismissTransition(transitionContext: UIViewControllerContextTransitioning) {
-        //let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
-        //let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
+        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
 
         let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
-        //let toView = transitionContext.viewForKey(UITransitionContextToViewKey)
 
-        //let containerView = transitionContext.containerView()
-
-        //containerView.addSubview(toView!)
-
-        //let animatingVC = fromVC!
+        let animatingVC = fromVC!
         let animatingView = fromView!
 
-        //let finalFrame = transitionContext.finalFrameForViewController(animatingVC)
+        let initialFrame = transitionContext.initialFrameForViewController(animatingVC)
 
-        //animatingView.frame = frame
+        let initialMaskPath = UIBezierPath(rect: initialFrame)
+        let finalMaskPath = UIBezierPath(rect: CGRectInset(frame, 50, 0))
 
-        UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, options: .AllowUserInteraction | .BeginFromCurrentState, animations: { () -> Void in
-            animatingView.frame = self.frame
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = finalMaskPath.CGPath
+        animatingView.layer.mask = maskLayer
 
-        }, completion: { (finished) -> Void in
-            animatingView.removeFromSuperview()
-            transitionContext.completeTransition(true)
-        })
+        let maskLayerAnimation = CABasicAnimation(keyPath: "path")
+        maskLayerAnimation.fromValue = initialMaskPath.CGPath
+        maskLayerAnimation.toValue = finalMaskPath.CGPath
+        maskLayerAnimation.duration = transitionDuration(transitionContext)
+        maskLayerAnimation.delegate = self
+        maskLayerAnimation.removedOnCompletion = true
+        maskLayer.addAnimation(maskLayerAnimation, forKey: "path")
+    }
+
+    override func animationDidStop(anim: CAAnimation!, finished flag: Bool) {
+        transitionContext?.completeTransition(true)
     }
     
 }
