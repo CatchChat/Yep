@@ -39,6 +39,8 @@ class ConversationViewController: UIViewController {
         return dateFormatter
         }()
 
+    var messagePreviewTransitionManager: ConversationMessagePreviewTransitionManager?
+
 
     var conversationCollectionViewHasBeenMovedToBottomOnce = false
 
@@ -900,7 +902,22 @@ class ConversationViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "presentMessageMedia" {
             let vc = segue.destinationViewController as! MessageMediaViewController
-            vc.message = sender as? Message
+            if let message = sender as? Message {
+                vc.message = message
+
+                let indexPath = NSIndexPath(forRow: Int(messages.indexOfObject(message)) - displayedMessagesRange.location , inSection: 0)
+
+                if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) {
+                    let frame = conversationCollectionView.convertRect(cell.frame, toView: view)
+                    vc.modalPresentationStyle = UIModalPresentationStyle.Custom
+
+                    let transitionManager = ConversationMessagePreviewTransitionManager()
+                    transitionManager.frame = frame
+                    vc.transitioningDelegate = transitionManager
+
+                    messagePreviewTransitionManager = transitionManager
+                }
+            }
 
         } else if segue.identifier == "presentPickLocation" {
             let nvc = segue.destinationViewController as! UINavigationController

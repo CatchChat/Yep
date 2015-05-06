@@ -103,6 +103,7 @@
 		506E241E1AE6391A00A33C1A /* TouchZoomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506E241D1AE6391A00A33C1A /* TouchZoomButton.swift */; };
 		506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */; };
 		5076C56A1AC46B9F00B22952 /* FayeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5076C5691AC46B9F00B22952 /* FayeService.swift */; };
+		5076FC5A1AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5076FC591AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift */; };
 		50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF01AEA4726000981AF /* SettingsViewController.swift */; };
 		50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF31AEA4A01000981AF /* SettingsUserCell.swift */; };
 		50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894CF41AEA4A01000981AF /* SettingsUserCell.xib */; };
@@ -273,6 +274,7 @@
 		506E241D1AE6391A00A33C1A /* TouchZoomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouchZoomButton.swift; path = Views/Buttons/TouchZoomButton.swift; sourceTree = "<group>"; };
 		506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Yep.swift"; path = "Extensions/UIFont+Yep.swift"; sourceTree = "<group>"; };
 		5076C5691AC46B9F00B22952 /* FayeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FayeService.swift; path = Services/FayeService.swift; sourceTree = "<group>"; };
+		5076FC591AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMessagePreviewTransitionManager.swift; path = ViewControllers/Conversation/ConversationMessagePreviewTransitionManager.swift; sourceTree = "<group>"; };
 		50894CF01AEA4726000981AF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = ViewControllers/Settings/SettingsViewController.swift; sourceTree = "<group>"; };
 		50894CF31AEA4A01000981AF /* SettingsUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsUserCell.swift; path = Views/Cells/SettingsUser/SettingsUserCell.swift; sourceTree = "<group>"; };
 		50894CF41AEA4A01000981AF /* SettingsUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsUserCell.xib; path = Views/Cells/SettingsUser/SettingsUserCell.xib; sourceTree = "<group>"; };
@@ -769,6 +771,7 @@
 			children = (
 				503CAB421AC00CB100DFE830 /* ConversationViewController.swift */,
 				50165C441AC2860900C7AEBE /* ConversationLayout.swift */,
+				5076FC591AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift */,
 			);
 			name = Conversation;
 			sourceTree = "<group>";
@@ -1362,6 +1365,7 @@
 				506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */,
 				0A0A11821AE389380008772C /* RegisterSkillsLayout.swift in Sources */,
 				50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */,
+				5076FC5A1AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift in Sources */,
 				508D16BD1ADCAF0400270E3F /* PullToRefreshView.swift in Sources */,
 				508D17441ACCDC9F0092D666 /* VoiceRecordButton.swift in Sources */,
 				502AE5271AB72D06005BD199 /* YepNetworking.swift in Sources */,
