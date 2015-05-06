@@ -36,7 +36,7 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
     // MARK: UIViewControllerAnimatedTransitioning
 
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
-        return isPresentation ? 0.9 : 0.5
+        return isPresentation ? 0.5 : 0.5
     }
 
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
@@ -91,6 +91,47 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
 
             let fullDuration = transitionDuration(transitionContext)
 
+            UIView.animateKeyframesWithDuration(fullDuration, delay: 0.0, options: .CalculationModeCubic, animations: { () -> Void in
+
+                UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 0.2, animations: { () -> Void in
+                    animatingVC.view.backgroundColor = UIColor.whiteColor()
+                })
+
+                UIView.addKeyframeWithRelativeStartTime(0.2, relativeDuration: 0.5, animations: { () -> Void in
+                    transitionView.center = animatingView.center
+                })
+
+                let largerOffset: CGFloat = 80
+
+                UIView.addKeyframeWithRelativeStartTime(0.7, relativeDuration: 0.2, animations: { () -> Void in
+                    let targetWidth = animatingView.bounds.width + largerOffset
+
+                    let dw = targetWidth - transitionView.bounds.width
+                    let ratio = targetWidth / transitionView.bounds.width
+                    let height = ratio * transitionView.bounds.height
+                    let dh = height - transitionView.bounds.height
+
+                    let frame = CGRectInset(transitionView.frame, -dw * 0.5, -dh * 0.5)
+
+                    transitionView.frame = frame
+                })
+
+                UIView.addKeyframeWithRelativeStartTime(0.9, relativeDuration: 0.0, animations: { () -> Void in
+                    let ratio = (animatingView.bounds.width + largerOffset) / animatingView.bounds.width
+                    toVC?.mediaView.transform = CGAffineTransformMakeScale(ratio, ratio)
+                    toVC?.mediaView.alpha = 1
+                    transitionView.alpha = 0
+                })
+
+                UIView.addKeyframeWithRelativeStartTime(0.9, relativeDuration: 0.1, animations: { () -> Void in
+                    toVC?.mediaView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+                })
+
+            }, completion: { (finished) -> Void in
+
+            })
+
+            #if YYY
             UIView.animateWithDuration(fullDuration * 0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
                 animatingVC.view.backgroundColor = UIColor.whiteColor()
 
@@ -130,6 +171,7 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
                     })
                 })
             })
+            #endif
         }
     }
 
