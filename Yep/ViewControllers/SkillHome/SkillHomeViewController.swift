@@ -138,7 +138,6 @@ class SkillHomeViewController: UIViewController {
             state = .Master
             isStateFirstInit = true
         }
-
         
     }
     
