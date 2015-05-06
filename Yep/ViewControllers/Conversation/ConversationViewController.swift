@@ -908,7 +908,50 @@ class ConversationViewController: UIViewController {
                 let indexPath = NSIndexPath(forRow: Int(messages.indexOfObject(message)) - displayedMessagesRange.location , inSection: 0)
 
                 if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) {
-                    let frame = conversationCollectionView.convertRect(cell.frame, toView: view)
+
+                    var frame = CGRectZero
+
+                    if let sender = message.fromFriend {
+                        if sender.friendState != UserFriendState.Me.rawValue {
+                            switch message.mediaType {
+
+                            case MessageMediaType.Image.rawValue:
+                                let cell = cell as! ChatLeftImageCell
+                                frame = cell.convertRect(cell.messageImageView.frame, toView: view)
+
+                            case MessageMediaType.Video.rawValue:
+                                let cell = cell as! ChatLeftVideoCell
+                                frame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+
+                            case MessageMediaType.Location.rawValue:
+                                let cell = cell as! ChatLeftLocationCell
+                                frame = cell.convertRect(cell.mapImageView.frame, toView: view)
+
+                            default:
+                                break
+                            }
+
+                        } else {
+                            switch message.mediaType {
+                                
+                            case MessageMediaType.Image.rawValue:
+                                let cell = cell as! ChatRightImageCell
+                                frame = cell.convertRect(cell.messageImageView.frame, toView: view)
+
+                            case MessageMediaType.Video.rawValue:
+                                let cell = cell as! ChatRightVideoCell
+                                frame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+
+                            case MessageMediaType.Location.rawValue:
+                                let cell = cell as! ChatRightLocationCell
+                                frame = cell.convertRect(cell.mapImageView.frame, toView: view)
+
+                            default:
+                                break
+                            }
+                        }
+                    }
+
                     vc.modalPresentationStyle = UIModalPresentationStyle.Custom
 
                     let transitionManager = ConversationMessagePreviewTransitionManager()

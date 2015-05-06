@@ -64,7 +64,7 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
 
         let finalFrame = transitionContext.finalFrameForViewController(animatingVC)
 
-        let initialMaskPath = UIBezierPath(rect: CGRectInset(frame, 50, 0))
+        let initialMaskPath = UIBezierPath(rect: frame)
         let finalMaskPath = UIBezierPath(rect: finalFrame)
 
         let maskLayer = CAShapeLayer()
@@ -90,7 +90,7 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
         let initialFrame = transitionContext.initialFrameForViewController(animatingVC)
 
         let initialMaskPath = UIBezierPath(rect: initialFrame)
-        let finalMaskPath = UIBezierPath(rect: CGRectInset(frame, 50, 0))
+        let finalMaskPath = UIBezierPath(rect: frame)
 
         let maskLayer = CAShapeLayer()
         maskLayer.path = finalMaskPath.CGPath
