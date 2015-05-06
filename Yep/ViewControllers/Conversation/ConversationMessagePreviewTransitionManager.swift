@@ -11,7 +11,14 @@ import UIKit
 class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
 
     var frame = CGRectZero
-    var transitionView: UIView?
+    var transitionView: UIView? {
+        didSet {
+            if let transitionView = transitionView {
+                transitionViewSnapshot = transitionView.snapshotViewAfterScreenUpdates(false)
+            }
+        }
+    }
+    var transitionViewSnapshot: UIView?
 
 
     var isPresentation = false
@@ -66,9 +73,10 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
         let animatingVC = toVC!
         let animatingView = toView!
 
-        if let transitionView = transitionView {
-            animatingView.addSubview(transitionView)
-            transitionView.frame = frame
+        if let transitionViewSnapshot = transitionViewSnapshot {
+
+            animatingView.addSubview(transitionViewSnapshot)
+            transitionViewSnapshot.frame = frame
 
             animatingVC.view.backgroundColor = UIColor.clearColor()
             animatingVC.mediaView.alpha = 0
@@ -82,28 +90,29 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
                 })
 
                 UIView.addKeyframeWithRelativeStartTime(0.2, relativeDuration: 0.5, animations: { () -> Void in
-                    transitionView.center = animatingView.center
+                    transitionViewSnapshot.center = animatingView.center
                 })
 
 
                 UIView.addKeyframeWithRelativeStartTime(0.7, relativeDuration: 0.2, animations: { () -> Void in
                     let targetWidth = animatingView.bounds.width + self.largerOffset
 
-                    let dw = targetWidth - transitionView.bounds.width
-                    let ratio = targetWidth / transitionView.bounds.width
-                    let height = ratio * transitionView.bounds.height
-                    let dh = height - transitionView.bounds.height
+                    let dw = targetWidth - transitionViewSnapshot.bounds.width
+                    let ratio = targetWidth / transitionViewSnapshot.bounds.width
+                    let height = ratio * transitionViewSnapshot.bounds.height
+                    let dh = height - transitionViewSnapshot.bounds.height
 
-                    let frame = CGRectInset(transitionView.frame, -dw * 0.5, -dh * 0.5)
+                    let frame = CGRectInset(transitionViewSnapshot.frame, -dw * 0.5, -dh * 0.5)
 
-                    transitionView.frame = frame
+                    transitionViewSnapshot.frame = frame
                 })
 
                 UIView.addKeyframeWithRelativeStartTime(0.9, relativeDuration: 0.0, animations: { () -> Void in
                     let ratio = (animatingView.bounds.width + self.largerOffset) / animatingView.bounds.width
                     animatingVC.mediaView.transform = CGAffineTransformMakeScale(ratio, ratio)
                     animatingVC.mediaView.alpha = 1
-                    transitionView.alpha = 0
+                    
+                    transitionViewSnapshot.alpha = 0
                 })
 
                 UIView.addKeyframeWithRelativeStartTime(0.9, relativeDuration: 0.1, animations: { () -> Void in
@@ -111,7 +120,7 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
                 })
 
             }, completion: { (finished) -> Void in
-                transitionView.removeFromSuperview()
+                transitionViewSnapshot.removeFromSuperview()
 
                 transitionContext.completeTransition(true)
             })
@@ -131,7 +140,11 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
 
         let fullDuration = transitionDuration(transitionContext)
 
-        if let transitionView = transitionView {
+        if let transitionViewSnapshot = transitionViewSnapshot {
+
+            if let transitionView = self.transitionView {
+                transitionView.alpha = 0
+            }
 
             UIView.animateKeyframesWithDuration(fullDuration, delay: 0.0, options: .CalculationModeCubic, animations: { () -> Void in
 
@@ -141,15 +154,15 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
                 })
 
                 UIView.addKeyframeWithRelativeStartTime(0.2, relativeDuration: 0.0, animations: { () -> Void in
-                    animatingView.addSubview(transitionView)
-                    transitionView.center = animatingView.center
-                    transitionView.alpha = 1
+                    animatingView.addSubview(transitionViewSnapshot)
+                    transitionViewSnapshot.center = animatingView.center
+                    transitionViewSnapshot.alpha = 1
 
                     animatingVC.mediaView.alpha = 0
                 })
 
                 UIView.addKeyframeWithRelativeStartTime(0.2, relativeDuration: 0.6, animations: { () -> Void in
-                    transitionView.frame = self.frame
+                    transitionViewSnapshot.frame = self.frame
                 })
 
                 UIView.addKeyframeWithRelativeStartTime(0.8, relativeDuration: 0.2, animations: { () -> Void in
@@ -157,7 +170,12 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
                 })
 
             }, completion: { (finished) -> Void in
-                transitionView.removeFromSuperview()
+
+                if let transitionView = self.transitionView {
+                    transitionView.alpha = 1
+                }
+
+                transitionViewSnapshot.removeFromSuperview()
 
                 transitionContext.completeTransition(true)
             })
