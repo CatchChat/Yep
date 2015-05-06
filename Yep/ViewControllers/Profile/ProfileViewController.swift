@@ -25,7 +25,8 @@ class ProfileViewController: UIViewController {
 
     @IBOutlet weak var sayHiView: UIView!
     @IBOutlet weak var sayHiButton: UIButton!
-
+    
+    var shouldBackToDefaultNavgationbar = true
 
     let skillCellIdentifier = "SkillCell"
     let headerCellIdentifier = "ProfileHeaderCell"
@@ -140,6 +141,11 @@ class ProfileViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         if let navigationController = navigationController {
+            
+            if !shouldBackToDefaultNavgationbar {
+                return
+            }
+            
             navigationController.navigationBar.backgroundColor = nil
             navigationController.navigationBar.translucent = true
             navigationController.navigationBar.shadowImage = nil
@@ -164,12 +170,26 @@ class ProfileViewController: UIViewController {
     // MARK: Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        shouldBackToDefaultNavgationbar = true
+        
         if segue.identifier == "showConversation" {
+            
             let vc = segue.destinationViewController as! ConversationViewController
             vc.conversation = sender as! Conversation
+            
+        } else if segue.identifier == "showSkillHome" {
+            
+            if let cell = sender as? SkillCell {
+                
+                let vc = segue.destinationViewController as! SkillHomeViewController
+                vc.hidesBottomBarWhenPushed = true
+                vc.skillName = cell.skillLabel.text
+                shouldBackToDefaultNavgationbar = false
+                
+            }
         }
     }
-
     // MARK: Actions
 
     @IBAction func sayHi(sender: UIButton) {
@@ -511,6 +531,16 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         return CGSizeMake(collectionViewWidth, 0)
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        
+        if indexPath.section == ProfileSection.Learning.rawValue || indexPath.section == ProfileSection.Master.rawValue {
+            let cell = collectionView.cellForItemAtIndexPath(indexPath) as! SkillCell
+            
+            self.performSegueWithIdentifier("showSkillHome", sender: cell)
+        }
+
     }
 }
 
