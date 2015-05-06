@@ -50,9 +50,10 @@ class SkillHomeViewController: UIViewController {
         }
     }
     
+    var isStateFirstInit = false
+    
     var state: SkillHomeState = .Master {
         willSet {
-            
             
             switch newValue {
             case .Master:
@@ -64,7 +65,7 @@ class SkillHomeViewController: UIViewController {
                 headerView.masterButton.setInActive()
                 headerView.learningButton.setActive()
                 skillHomeScrollView.setContentOffset(CGPoint(x: masterTableView.frame.size.width, y: 0), animated: true)
-                
+   
             }
             
         }
@@ -116,29 +117,39 @@ class SkillHomeViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
         
-        println("Resize height")
+        super.viewDidLayoutSubviews()
         
         let height = YepConfig.getScreenRect().height - headerView.frame.height
         
         skillHomeScrollView.contentSize = CGSize(width: skillHomeScrollView.frame.size.width*2, height: height)
+        
         masterTableView.frame = CGRect(x: 0, y: 0, width: skillHomeScrollView.frame.size.width, height: height)
+        
         learningtTableView.frame = CGRect(x: masterTableView.frame.size.width, y: 0, width: skillHomeScrollView.frame.size.width, height: height)
         
     }
 
     override func viewDidAppear(animated: Bool) {
+        
         super.viewDidAppear(animated)
-        state = .Master
+        
+        if !isStateFirstInit {
+            state = .Master
+            isStateFirstInit = true
+        }
+
+        
     }
     
     func changeToMaster() {
+        
         state = .Master
     }
     
     
     func changeToLearning() {
+        
         state = .Learning
     }
     
@@ -172,9 +183,13 @@ class SkillHomeViewController: UIViewController {
     
 
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        
         if scrollView.contentOffset.x >= scrollView.contentSize.width / 2 {
+            
             state = .Learning
-        }else {
+            
+        } else {
+            
             state = .Master
         }
     }
@@ -182,25 +197,29 @@ class SkillHomeViewController: UIViewController {
     func discoverUserBySkillName(skillName: String) {
         
         discoverUsers(masterSkills: [skillName], learningSkills: [], discoveredUserSortStyle: .LastSignIn, failureHandler: { (reason, errorMessage) in
+            
             defaultFailureHandler(reason, errorMessage)
             
-            }, completion: { discoveredUsers in
-                self.discoveredMasterUsers = discoveredUsers
+        }, completion: { discoveredUsers in
+                
+            self.discoveredMasterUsers = discoveredUsers
 
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.masterTableView.reloadData()
-                }
+            dispatch_async(dispatch_get_main_queue()) {
+                self.masterTableView.reloadData()
+            }
         })
         
         discoverUsers(masterSkills: [], learningSkills: [skillName], discoveredUserSortStyle: .LastSignIn, failureHandler: { (reason, errorMessage) in
+            
             defaultFailureHandler(reason, errorMessage)
             
-            }, completion: { discoveredUsers in
-                self.discoveredLearningUsers = discoveredUsers
+        }, completion: { discoveredUsers in
                 
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.learningtTableView.reloadData()
-                }
+            self.discoveredLearningUsers = discoveredUsers
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self.learningtTableView.reloadData()
+            }
         })
     }
 
