@@ -50,6 +50,9 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
         }
     }
 
+
+    let largerOffset: CGFloat = 80
+
     func presentTransition(transitionContext: UIViewControllerContextTransitioning) {
         let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as? ConversationsViewController
         let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as? MessageMediaViewController
@@ -81,7 +84,6 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
         maskLayer.addAnimation(maskLayerAnimation, forKey: "path")
 
 
-
         if let transitionView = transitionView {
             animatingView.addSubview(transitionView)
             transitionView.frame = frame
@@ -101,10 +103,9 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
                     transitionView.center = animatingView.center
                 })
 
-                let largerOffset: CGFloat = 80
 
                 UIView.addKeyframeWithRelativeStartTime(0.7, relativeDuration: 0.2, animations: { () -> Void in
-                    let targetWidth = animatingView.bounds.width + largerOffset
+                    let targetWidth = animatingView.bounds.width + self.largerOffset
 
                     let dw = targetWidth - transitionView.bounds.width
                     let ratio = targetWidth / transitionView.bounds.width
@@ -117,7 +118,7 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
                 })
 
                 UIView.addKeyframeWithRelativeStartTime(0.9, relativeDuration: 0.0, animations: { () -> Void in
-                    let ratio = (animatingView.bounds.width + largerOffset) / animatingView.bounds.width
+                    let ratio = (animatingView.bounds.width + self.largerOffset) / animatingView.bounds.width
                     toVC?.mediaView.transform = CGAffineTransformMakeScale(ratio, ratio)
                     toVC?.mediaView.alpha = 1
                     transitionView.alpha = 0
@@ -128,55 +129,14 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
                 })
 
             }, completion: { (finished) -> Void in
-
+                transitionView.removeFromSuperview()
             })
 
-            #if YYY
-            UIView.animateWithDuration(fullDuration * 0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                animatingVC.view.backgroundColor = UIColor.whiteColor()
-
-            }, completion: { finished in
-                UIView.animateWithDuration(fullDuration * 0.5, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
-                    transitionView.center = animatingView.center
-
-                }, completion: { finished in
-
-                    let largerOffset: CGFloat = 80
-
-                    UIView.animateWithDuration(fullDuration * 0.2, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
-
-                        let targetWidth = animatingView.bounds.width + largerOffset
-
-                        let dw = targetWidth - transitionView.bounds.width
-                        let ratio = targetWidth / transitionView.bounds.width
-                        let height = ratio * transitionView.bounds.height
-                        let dh = height - transitionView.bounds.height
-
-                        let frame = CGRectInset(transitionView.frame, -dw * 0.5, -dh * 0.5)
-
-                        transitionView.frame = frame
-
-                    }, completion: { finished in
-
-                        let ratio = (animatingView.bounds.width + largerOffset) / animatingView.bounds.width
-                        toVC?.mediaView.transform = CGAffineTransformMakeScale(ratio, ratio)
-                        toVC?.mediaView.alpha = 1
-                        transitionView.removeFromSuperview()
-
-                        UIView.animateWithDuration(fullDuration * 0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                            toVC?.mediaView.transform = CGAffineTransformMakeScale(1.0, 1.0)
-                        }, completion: { finished in
-                            toVC?.mediaView.transform = CGAffineTransformIdentity
-                        })
-                    })
-                })
-            })
-            #endif
         }
     }
 
     func dismissTransition(transitionContext: UIViewControllerContextTransitioning) {
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
+        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as? MessageMediaViewController
 
         let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
 
@@ -194,12 +154,44 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
 
         let maskLayerAnimation = CABasicAnimation(keyPath: "path")
         maskLayerAnimation.fromValue = initialMaskPath.CGPath
-        maskLayerAnimation.toValue = finalMaskPath.CGPath
+        maskLayerAnimation.toValue = initialMaskPath.CGPath
         maskLayerAnimation.duration = transitionDuration(transitionContext)
         maskLayerAnimation.delegate = self
         maskLayerAnimation.removedOnCompletion = true
         maskLayer.addAnimation(maskLayerAnimation, forKey: "path")
 
+
+        let fullDuration = transitionDuration(transitionContext)
+
+        if let transitionView = transitionView {
+
+            UIView.animateKeyframesWithDuration(fullDuration, delay: 0.0, options: .CalculationModeCubic, animations: { () -> Void in
+
+                UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.2, animations: { () -> Void in
+                    let ratio = (animatingView.bounds.width + self.largerOffset) / animatingView.bounds.width
+                    fromVC?.mediaView.transform = CGAffineTransformMakeScale(ratio, ratio)
+                })
+
+                UIView.addKeyframeWithRelativeStartTime(0.2, relativeDuration: 0.0, animations: { () -> Void in
+                    animatingView.addSubview(transitionView)
+                    transitionView.center = animatingView.center
+                    transitionView.alpha = 1
+
+                    fromVC?.mediaView.alpha = 0
+                })
+
+                UIView.addKeyframeWithRelativeStartTime(0.2, relativeDuration: 0.5, animations: { () -> Void in
+                    transitionView.frame = self.frame
+                })
+
+                UIView.addKeyframeWithRelativeStartTime(0.7, relativeDuration: 0.3, animations: { () -> Void in
+                    animatingVC.view.backgroundColor = UIColor.clearColor()
+                })
+
+            }, completion: { (finished) -> Void in
+                transitionView.removeFromSuperview()
+            })
+        }
 
     }
 
