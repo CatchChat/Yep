@@ -31,8 +31,13 @@ class MediaView: UIView {
         makeUI()
 
         layer.addSublayer(videoPlayerLayer)
-        videoPlayerLayer.frame = UIScreen.mainScreen().bounds
+
         println("videoPlayerLayer.frame: \(videoPlayerLayer.frame)")
+    }
+    
+    override func layoutSubviews() {
+        videoPlayerLayer.frame = UIScreen.mainScreen().bounds
+        super.layoutSubviews()
     }
 
     func makeUI() {
