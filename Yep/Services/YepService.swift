@@ -1082,7 +1082,7 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
                     }
 
                     s3PrivateUploadParams(failureHandler: nil) { thumbnailS3UploadParams in
-                        uploadFileToS3(inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType(), s3UploadParams: s3UploadParams) { (result, error) in
+                        uploadFileToS3(inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType(), s3UploadParams: thumbnailS3UploadParams) { (result, error) in
 
                             if let metaData = metaData {
                                 let attachments = [

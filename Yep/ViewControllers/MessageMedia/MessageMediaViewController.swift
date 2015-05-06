@@ -37,7 +37,6 @@ class MessageMediaViewController: UIViewController {
 
                         let x = NSFileManager.defaultManager().fileExistsAtPath(videoFileURL.path!)
 
-                        mediaView.videoPlayerLayer.frame = mediaView.bounds
                         playerItem.seekToTime(kCMTimeZero)
                         //mediaView.videoPlayerLayer.player.replaceCurrentItemWithPlayerItem(playerItem)
                         mediaView.videoPlayerLayer.player = AVPlayer(playerItem: playerItem)
