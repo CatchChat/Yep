@@ -21,12 +21,12 @@ class SkillHomeHeaderView: UIView {
         
     }()
     
-    lazy var masterButton: UIButton = {
+    lazy var masterButton: SkillHomeSectionButton = {
         var button = createSkillHomeButtonWithText("Master", 100, YepConfig.skillHomeHeaderButtonHeight)
         return button
     }()
     
-    lazy var learningButton: UIButton = {
+    lazy var learningButton: SkillHomeSectionButton = {
         var button = createSkillHomeButtonWithText("Learning", 100, YepConfig.skillHomeHeaderButtonHeight)
         return button
     }()
@@ -48,15 +48,20 @@ class SkillHomeHeaderView: UIView {
         self.addSubview(masterButton)
         self.addSubview(learningButton)
         self.backgroundColor = UIColor.lightGrayColor()
+
     }
     
     
     override func layoutSubviews() {
+        masterButton.setActive()
         headerImageView.frame = self.bounds
-        
         masterButton.frame = CGRectMake(0, self.frame.height - YepConfig.skillHomeHeaderButtonHeight, self.frame.size.width/2.0, YepConfig.skillHomeHeaderButtonHeight)
         
+        masterButton.updateHightLightBounce()
+        
         learningButton.frame = CGRectMake(masterButton.frame.size.width, self.frame.height - YepConfig.skillHomeHeaderButtonHeight, self.frame.size.width/2.0, YepConfig.skillHomeHeaderButtonHeight)
+        
+        learningButton.updateHightLightBounce()
     }
     
     /*

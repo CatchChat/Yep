@@ -22,7 +22,11 @@ extension UIFont {
     }
     
     class func skillHomeTextLargeFont() -> UIFont {
-        return UIFont(name: "HelveticaNeue", size: 18)!
+        return UIFont(name: "HelveticaNeue-Light", size: 18)!
+    }
+    
+    class func skillHomeButtonFont() -> UIFont {
+        return UIFont(name: "HelveticaNeue-Light", size: 16)!
     }
 
     class func navigationBarTitleFont() -> UIFont {

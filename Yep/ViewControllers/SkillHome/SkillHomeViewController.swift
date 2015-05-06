@@ -8,11 +8,43 @@
 
 import UIKit
 
+enum SkillHomeState: Printable {
+    case Master
+    case Learning
+    
+    var description: String {
+        switch self {
+        case .Master:
+            return "Master"
+        case .Learning:
+            return "Learning"
+        }
+    }
+}
+
 class SkillHomeViewController: UIViewController {
     
     var skillName: String? {
         didSet {
             self.title = skillName
+        }
+    }
+    
+    var state: SkillHomeState = .Master {
+        willSet {
+            
+            
+            switch newValue {
+            case .Master:
+                headerView.learningButton.setInActive()
+                headerView.masterButton.setActive()
+                
+            case .Learning:
+                headerView.masterButton.setInActive()
+                headerView.learningButton.setActive()
+                
+            }
+            
         }
     }
     
@@ -33,10 +65,28 @@ class SkillHomeViewController: UIViewController {
         
         self.headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
         
+        headerView.masterButton.addTarget(self, action: "changeToMaster", forControlEvents: UIControlEvents.TouchUpInside)
+        headerView.learningButton.addTarget(self, action: "changeToLearning", forControlEvents: UIControlEvents.TouchUpInside)
+        
         customTitleView()
 
         // Do any additional setup after loading the view.
     }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        state = .Master
+    }
+    
+    func changeToMaster() {
+        state = .Master
+    }
+    
+    
+    func changeToLearning() {
+        state = .Learning
+    }
+    
     
     func customTitleView() {
         
