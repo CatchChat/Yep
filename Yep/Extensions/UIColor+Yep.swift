@@ -48,5 +48,9 @@ extension UIColor {
     class func messageToolBarNormalColor() -> UIColor {
         return UIColor.lightGrayColor()
     }
+    
+    class func yepDisabledColor() -> UIColor {
+        return UIColor(red:0.95, green:0.95, blue:0.95, alpha:1)
+    }
 
 }
