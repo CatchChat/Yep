@@ -121,6 +121,12 @@ class MessageMediaViewController: UIViewController {
         }
     }
 
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        mediaView.videoPlayerLayer.player.pause()
+    }
+
     @IBAction func swipeDown(sender: UISwipeGestureRecognizer) {
 
         if let message = message {
@@ -134,16 +140,21 @@ class MessageMediaViewController: UIViewController {
 
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
         if let player = object as? AVPlayer {
+
             if player == mediaView.videoPlayerLayer.player {
+
                 if keyPath == "status" {
                     switch player.status {
+
                     case AVPlayerStatus.Failed:
                         println("Failed")
+
                     case AVPlayerStatus.ReadyToPlay:
                         println("ReadyToPlay")
                         dispatch_async(dispatch_get_main_queue()) {
                             self.mediaView.videoPlayerLayer.player.play()
                         }
+
                     case AVPlayerStatus.Unknown:
                         println("Unknown")
                     }
