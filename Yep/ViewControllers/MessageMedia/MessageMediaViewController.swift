@@ -17,6 +17,9 @@ class MessageMediaViewController: UIViewController {
 
     @IBOutlet weak var mediaControlView: MediaControlView!
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +62,8 @@ class MessageMediaViewController: UIViewController {
                             let coundDownTime = Double(Int((durationSeconds - currentSeconds) * 10)) / 10
                             self.mediaControlView.timeLabel.text = "\(coundDownTime)"
                         })
+
+                        NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
 
                         mediaView.videoPlayerLayer.player = player
 
@@ -103,5 +108,9 @@ class MessageMediaViewController: UIViewController {
                 }
             }
         }
+    }
+
+    func playerItemDidReachEnd(notification: NSNotification) {
+        mediaControlView.playState = .Pause
     }
 }
