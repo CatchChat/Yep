@@ -50,6 +50,8 @@ class MediaControlView: UIView {
     var playAction: (MediaControlView -> Void)?
     var pauseAction: (MediaControlView -> Void)?
 
+    var shareAction: (() -> Void)?
+
     lazy var timeLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .Center
@@ -126,6 +128,12 @@ class MediaControlView: UIView {
             if let action = playAction {
                 action(self)
             }
+        }
+    }
+
+    func share() {
+        if let action = shareAction {
+            action()
         }
     }
 

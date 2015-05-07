@@ -900,8 +900,11 @@ class ConversationViewController: UIViewController {
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
         if segue.identifier == "presentMessageMedia" {
+
             let vc = segue.destinationViewController as! MessageMediaViewController
+
             if let message = sender as? Message {
                 vc.message = message
 
@@ -972,6 +975,7 @@ class ConversationViewController: UIViewController {
             }
 
         } else if segue.identifier == "presentPickLocation" {
+
             let nvc = segue.destinationViewController as! UINavigationController
             let vc = nvc.topViewController as! PickLocationViewController
 

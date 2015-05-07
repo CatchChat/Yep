@@ -36,6 +36,19 @@ class MessageMediaViewController: UIViewController {
                     let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
                     let image = UIImage(contentsOfFile: imageFileURL.path!) {
                         mediaView.imageView.image = image
+
+                        mediaControlView.shareAction = {
+                            let presentingViewController = self.presentingViewController
+
+                            self.dismissViewControllerAnimated(true, completion: { () -> Void in
+
+                                let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+
+                                presentingViewController?.presentViewController(activityViewController, animated: true, completion: { () -> Void in
+
+                                })
+                            })
+                        }
                 }
 
             case MessageMediaType.Video.rawValue:
@@ -86,6 +99,20 @@ class MessageMediaViewController: UIViewController {
 
                         //mediaView.videoPlayerLayer.player.play()
                         mediaView.imageView.removeFromSuperview()
+
+
+                        mediaControlView.shareAction = {
+                            let presentingViewController = self.presentingViewController
+
+                            self.dismissViewControllerAnimated(true, completion: { () -> Void in
+
+                                let activityViewController = UIActivityViewController(activityItems: [videoFileURL], applicationActivities: nil)
+
+                                presentingViewController?.presentViewController(activityViewController, animated: true, completion: { () -> Void in
+                                    
+                                })
+                            })
+                        }
                 }
 
             default:
