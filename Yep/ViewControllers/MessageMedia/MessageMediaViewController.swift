@@ -57,10 +57,13 @@ class MessageMediaViewController: UIViewController {
                         mediaControlView.timeLabel.text = ""
 
                         player.addPeriodicTimeObserverForInterval(CMTimeMakeWithSeconds(0.1, Int32(NSEC_PER_SEC)), queue: nil, usingBlock: { time in
-                            let durationSeconds = CMTimeGetSeconds(player.currentItem.duration)
-                            let currentSeconds = CMTimeGetSeconds(time)
-                            let coundDownTime = Double(Int((durationSeconds - currentSeconds) * 10)) / 10
-                            self.mediaControlView.timeLabel.text = "\(coundDownTime)"
+
+                            if player.currentItem.status == .ReadyToPlay {
+                                let durationSeconds = CMTimeGetSeconds(player.currentItem.duration)
+                                let currentSeconds = CMTimeGetSeconds(time)
+                                let coundDownTime = Double(Int((durationSeconds - currentSeconds) * 10)) / 10
+                                self.mediaControlView.timeLabel.text = "\(coundDownTime)"
+                            }
                         })
 
                         NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
