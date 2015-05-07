@@ -13,14 +13,14 @@ class MediaView: UIView {
 
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
+        imageView.contentMode = .ScaleAspectFit
         return imageView
         }()
 
     lazy var videoPlayerLayer: AVPlayerLayer = {
         let player = AVPlayer()
         let playerLayer = AVPlayerLayer(player: player)
-        playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        playerLayer.videoGravity = AVLayerVideoGravityResizeAspect
         //playerLayer.backgroundColor = UIColor.darkGrayColor().CGColor
         return playerLayer
         }()
@@ -31,7 +31,14 @@ class MediaView: UIView {
         makeUI()
 
         layer.addSublayer(videoPlayerLayer)
-        videoPlayerLayer.frame = bounds
+
+        println("videoPlayerLayer.frame: \(videoPlayerLayer.frame)")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        videoPlayerLayer.frame = UIScreen.mainScreen().bounds
     }
 
     func makeUI() {

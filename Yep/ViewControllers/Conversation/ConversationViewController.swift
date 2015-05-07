@@ -39,6 +39,8 @@ class ConversationViewController: UIViewController {
         return dateFormatter
         }()
 
+    var messagePreviewTransitionManager: ConversationMessagePreviewTransitionManager?
+
 
     var conversationCollectionViewHasBeenMovedToBottomOnce = false
 
@@ -898,11 +900,82 @@ class ConversationViewController: UIViewController {
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
         if segue.identifier == "presentMessageMedia" {
+
             let vc = segue.destinationViewController as! MessageMediaViewController
-            vc.message = sender as? Message
+
+            if let message = sender as? Message {
+                vc.message = message
+
+                let indexPath = NSIndexPath(forRow: Int(messages.indexOfObject(message)) - displayedMessagesRange.location , inSection: 0)
+
+                if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) {
+
+                    var frame = CGRectZero
+                    var transitionView: UIView?
+
+                    if let sender = message.fromFriend {
+                        if sender.friendState != UserFriendState.Me.rawValue {
+                            switch message.mediaType {
+
+                            case MessageMediaType.Image.rawValue:
+                                let cell = cell as! ChatLeftImageCell
+                                transitionView = cell.messageImageView
+                                frame = cell.convertRect(cell.messageImageView.frame, toView: view)
+
+                            case MessageMediaType.Video.rawValue:
+                                let cell = cell as! ChatLeftVideoCell
+                                transitionView = cell.thumbnailImageView
+                                frame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+
+                            case MessageMediaType.Location.rawValue:
+                                let cell = cell as! ChatLeftLocationCell
+                                transitionView = cell.mapImageView
+                                frame = cell.convertRect(cell.mapImageView.frame, toView: view)
+
+                            default:
+                                break
+                            }
+
+                        } else {
+                            switch message.mediaType {
+                                
+                            case MessageMediaType.Image.rawValue:
+                                let cell = cell as! ChatRightImageCell
+                                transitionView = cell.messageImageView
+                                frame = cell.convertRect(cell.messageImageView.frame, toView: view)
+
+                            case MessageMediaType.Video.rawValue:
+                                let cell = cell as! ChatRightVideoCell
+                                transitionView = cell.thumbnailImageView
+                                frame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+
+                            case MessageMediaType.Location.rawValue:
+                                let cell = cell as! ChatRightLocationCell
+                                transitionView = cell.mapImageView
+                                frame = cell.convertRect(cell.mapImageView.frame, toView: view)
+
+                            default:
+                                break
+                            }
+                        }
+                    }
+
+                    vc.modalPresentationStyle = UIModalPresentationStyle.Custom
+
+                    let transitionManager = ConversationMessagePreviewTransitionManager()
+                    transitionManager.frame = frame
+                    transitionManager.transitionView = transitionView
+
+                    vc.transitioningDelegate = transitionManager
+
+                    messagePreviewTransitionManager = transitionManager
+                }
+            }
 
         } else if segue.identifier == "presentPickLocation" {
+
             let nvc = segue.destinationViewController as! UINavigationController
             let vc = nvc.topViewController as! PickLocationViewController
 

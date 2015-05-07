@@ -71,15 +71,15 @@
                                     <outlet property="delegate" destination="la3-6z-2aH" id="zOV-zM-2KH"/>
                                 </connections>
                             </collectionView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="250" width="600" height="50"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="396" width="600" height="44"/>
                                 <items/>
                             </toolbar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g11-Ob-rEy" userLabel="More Message Types View">
-                                <rect key="frame" x="0.0" y="300" width="600" height="300"/>
+                                <rect key="frame" x="0.0" y="440" width="600" height="300"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avI-im-eEZ" userLabel="Choose Photo Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="20" width="173" height="120"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avI-im-eEZ" userLabel="Choose Photo Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="20" width="173" height="260"/>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -88,8 +88,8 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Choose photo"/>
                                         </userDefinedRuntimeAttributes>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HcA-7v-16m" userLabel="Take Photo Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
-                                        <rect key="frame" x="213" y="20" width="174" height="120"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HcA-7v-16m" userLabel="Take Photo Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
+                                        <rect key="frame" x="213" y="20" width="174" height="260"/>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -98,8 +98,8 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Take photo"/>
                                         </userDefinedRuntimeAttributes>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hg3-Ss-sqD" userLabel="Add Location Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
-                                        <rect key="frame" x="407" y="20" width="173" height="120"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hg3-Ss-sqD" userLabel="Add Location Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
+                                        <rect key="frame" x="407" y="20" width="173" height="260"/>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -120,6 +120,7 @@
                                     <constraint firstItem="avI-im-eEZ" firstAttribute="height" secondItem="HcA-7v-16m" secondAttribute="height" id="apZ-ns-N9S"/>
                                     <constraint firstItem="avI-im-eEZ" firstAttribute="top" secondItem="g11-Ob-rEy" secondAttribute="top" constant="20" id="b4S-GW-ghP"/>
                                     <constraint firstAttribute="height" constant="300" id="faf-Xw-b0H"/>
+                                    <constraint firstAttribute="bottom" secondItem="avI-im-eEZ" secondAttribute="bottom" constant="20" id="sv1-0R-BYO"/>
                                     <constraint firstItem="Hg3-Ss-sqD" firstAttribute="leading" secondItem="HcA-7v-16m" secondAttribute="trailing" constant="20" id="uSu-cr-saV"/>
                                     <constraint firstItem="avI-im-eEZ" firstAttribute="leading" secondItem="g11-Ob-rEy" secondAttribute="leading" constant="20" id="uke-uY-P5h"/>
                                     <constraint firstItem="Hg3-Ss-sqD" firstAttribute="height" secondItem="HcA-7v-16m" secondAttribute="height" id="xWM-E0-CPp"/>
@@ -133,7 +134,7 @@
                             <constraint firstItem="g11-Ob-rEy" firstAttribute="leading" secondItem="P6X-OT-hT5" secondAttribute="leading" id="B04-LV-qWQ"/>
                             <constraint firstItem="Q0w-sM-iIR" firstAttribute="leading" secondItem="P6X-OT-hT5" secondAttribute="leading" id="BYY-lE-CF8"/>
                             <constraint firstItem="o5R-dM-KPW" firstAttribute="leading" secondItem="P6X-OT-hT5" secondAttribute="leading" id="BjN-8c-WjM"/>
-                            <constraint firstAttribute="bottom" secondItem="Q0w-sM-iIR" secondAttribute="bottom" constant="300" id="Sf8-1u-t01"/>
+                            <constraint firstAttribute="bottom" secondItem="Q0w-sM-iIR" secondAttribute="bottom" constant="160" id="Sf8-1u-t01"/>
                             <constraint firstItem="g11-Ob-rEy" firstAttribute="top" secondItem="Q0w-sM-iIR" secondAttribute="bottom" id="UC0-RV-osX"/>
                             <constraint firstAttribute="trailing" secondItem="g11-Ob-rEy" secondAttribute="trailing" id="cB1-tg-2P7"/>
                             <constraint firstItem="o5R-dM-KPW" firstAttribute="top" secondItem="P6X-OT-hT5" secondAttribute="top" id="d3q-cT-PCM"/>
@@ -243,12 +244,22 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Cb-zQ-dUZ" customClass="MediaControlView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="540" width="600" height="60"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="2CO-oT-53G"/>
+                                </constraints>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="eW6-5y-wrX" firstAttribute="top" secondItem="k4j-Ub-3bn" secondAttribute="bottom" id="SD4-Rb-R2n"/>
                             <constraint firstItem="k4j-Ub-3bn" firstAttribute="top" secondItem="aNq-7S-JK2" secondAttribute="top" id="Zbg-wi-X7W"/>
+                            <constraint firstAttribute="trailing" secondItem="2Cb-zQ-dUZ" secondAttribute="trailing" id="gVX-Fl-qnR"/>
+                            <constraint firstItem="2Cb-zQ-dUZ" firstAttribute="leading" secondItem="aNq-7S-JK2" secondAttribute="leading" id="lDq-Nl-fPd"/>
+                            <constraint firstItem="eW6-5y-wrX" firstAttribute="top" secondItem="2Cb-zQ-dUZ" secondAttribute="bottom" id="o3u-xh-Qwa"/>
                             <constraint firstItem="k4j-Ub-3bn" firstAttribute="leading" secondItem="aNq-7S-JK2" secondAttribute="leading" id="xJR-ze-vBa"/>
                             <constraint firstAttribute="trailing" secondItem="k4j-Ub-3bn" secondAttribute="trailing" id="xvH-sO-9MX"/>
                         </constraints>
@@ -257,6 +268,7 @@
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="mediaControlView" destination="2Cb-zQ-dUZ" id="x2S-Ga-6sm"/>
                         <outlet property="mediaView" destination="k4j-Ub-3bn" id="RmJ-k6-aF2"/>
                     </connections>
                 </viewController>

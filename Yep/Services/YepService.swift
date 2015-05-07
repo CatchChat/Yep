@@ -1081,15 +1081,25 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
                             thumbnailData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
                     }
 
-                    s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in
-                        uploadFileToS3(inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType(), s3UploadParams: s3UploadParams) { (result, error) in
+                    s3PrivateUploadParams(failureHandler: nil) { thumbnailS3UploadParams in
+                        uploadFileToS3(inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType(), s3UploadParams: thumbnailS3UploadParams) { (result, error) in
 
                             if let metaData = metaData {
-                                let attachments = ["video": [["file": s3UploadParams.key, "metadata": metaData]], "thumbnail": [["file": s3UploadParams.key]]]
+                                let attachments = [
+                                    "video": [
+                                        ["file": s3UploadParams.key, "metadata": metaData]
+                                    ],
+                                    "thumbnail": [["file": thumbnailS3UploadParams.key]]
+                                ]
                                 messageInfo["attachments"] = attachments
 
                             } else {
-                                let attachments = ["video": [["file": s3UploadParams.key]], "thumbnail": [["file": s3UploadParams.key]]]
+                                let attachments = [
+                                    "video": [
+                                        ["file": s3UploadParams.key]
+                                    ],
+                                    "thumbnail": [["file": thumbnailS3UploadParams.key]]
+                                ]
                                 messageInfo["attachments"] = attachments
                             }
 
