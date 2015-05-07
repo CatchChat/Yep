@@ -49,7 +49,18 @@ class MessageMediaViewController: UIViewController {
 
                         playerItem.seekToTime(kCMTimeZero)
                         //mediaView.videoPlayerLayer.player.replaceCurrentItemWithPlayerItem(playerItem)
-                        mediaView.videoPlayerLayer.player = AVPlayer(playerItem: playerItem)
+                        let player = AVPlayer(playerItem: playerItem)
+
+                        mediaControlView.timeLabel.text = ""
+
+                        player.addPeriodicTimeObserverForInterval(CMTimeMakeWithSeconds(0.1, Int32(NSEC_PER_SEC)), queue: nil, usingBlock: { time in
+                            let durationSeconds = CMTimeGetSeconds(player.currentItem.duration)
+                            let currentSeconds = CMTimeGetSeconds(time)
+                            let coundDownTime = Double(Int((durationSeconds - currentSeconds) * 10)) / 10
+                            self.mediaControlView.timeLabel.text = "\(coundDownTime)"
+                        })
+
+                        mediaView.videoPlayerLayer.player = player
 
                         mediaView.videoPlayerLayer.player.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(0), context: nil)
 
