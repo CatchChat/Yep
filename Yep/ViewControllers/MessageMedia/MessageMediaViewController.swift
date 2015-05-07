@@ -38,6 +38,7 @@ class MessageMediaViewController: UIViewController {
             case MessageMediaType.Video.rawValue:
 
                 mediaControlView.type = .Video
+                mediaControlView.playState = .Playing
 
                 if
                     let videoFileURL = NSFileManager.yepMessageVideoURLWithName(message.localAttachmentName),

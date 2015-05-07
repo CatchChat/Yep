@@ -31,6 +31,22 @@ class MediaControlView: UIView {
         }
     }
 
+    enum PlayState {
+        case Playing
+        case Pause
+    }
+
+    var playState: PlayState = .Pause {
+        didSet {
+            switch playState {
+            case .Playing:
+                playButton.setImage(UIImage(named: "icon_pause"), forState: .Normal)
+            case .Pause:
+                playButton.setImage(UIImage(named: "icon_play"), forState: .Normal)
+            }
+        }
+    }
+
     lazy var timeLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .Center
