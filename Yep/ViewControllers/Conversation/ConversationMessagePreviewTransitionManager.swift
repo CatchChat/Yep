@@ -80,6 +80,7 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
 
             animatingVC.view.backgroundColor = UIColor.clearColor()
             animatingVC.mediaView.alpha = 0
+            animatingVC.mediaControlView.alpha = 0
 
             let fullDuration = transitionDuration(transitionContext)
 
@@ -111,6 +112,7 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
                     let ratio = (animatingView.bounds.width + self.largerOffset) / animatingView.bounds.width
                     animatingVC.mediaView.transform = CGAffineTransformMakeScale(ratio, ratio)
                     animatingVC.mediaView.alpha = 1
+                    animatingVC.mediaControlView.alpha = 1
                     
                     transitionViewSnapshot.alpha = 0
                 })
@@ -151,6 +153,7 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
                 UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.2, animations: { () -> Void in
                     let ratio = (animatingView.bounds.width + self.largerOffset) / animatingView.bounds.width
                     animatingVC.mediaView.transform = CGAffineTransformMakeScale(ratio, ratio)
+                    animatingVC.mediaControlView.alpha = 0
                 })
 
                 UIView.addKeyframeWithRelativeStartTime(0.2, relativeDuration: 0.0, animations: { () -> Void in
