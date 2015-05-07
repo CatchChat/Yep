@@ -8,8 +8,28 @@
 
 import UIKit
 
-@IBDesignable
+//@IBDesignable
 class MediaControlView: UIView {
+
+    enum Type {
+        case Image
+        case Video
+    }
+
+    var type: Type = .Video {
+        didSet {
+            switch type {
+                
+            case .Image:
+                timeLabel.hidden = true
+                playButton.hidden = true
+
+            case .Video:
+                timeLabel.hidden = false
+                playButton.hidden = false
+            }
+        }
+    }
 
     lazy var timeLabel: UILabel = {
         let label = UILabel()

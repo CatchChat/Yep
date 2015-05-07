@@ -15,6 +15,9 @@ class MessageMediaViewController: UIViewController {
 
     @IBOutlet weak var mediaView: MediaView!
 
+    @IBOutlet weak var mediaControlView: MediaControlView!
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,6 +26,9 @@ class MessageMediaViewController: UIViewController {
             switch message.mediaType {
 
             case MessageMediaType.Image.rawValue:
+
+                mediaControlView.type = .Image
+
                 if
                     let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
                     let image = UIImage(contentsOfFile: imageFileURL.path!) {
@@ -30,6 +36,9 @@ class MessageMediaViewController: UIViewController {
                 }
 
             case MessageMediaType.Video.rawValue:
+
+                mediaControlView.type = .Video
+
                 if
                     let videoFileURL = NSFileManager.yepMessageVideoURLWithName(message.localAttachmentName),
                     let asset = AVURLAsset(URL: videoFileURL, options: [:]),
