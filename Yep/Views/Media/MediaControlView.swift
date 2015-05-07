@@ -47,6 +47,9 @@ class MediaControlView: UIView {
         }
     }
 
+    var playAction: (MediaControlView -> Void)?
+    var pauseAction: (MediaControlView -> Void)?
+
     lazy var timeLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .Center
@@ -107,4 +110,23 @@ class MediaControlView: UIView {
 
         NSLayoutConstraint.activateConstraints([playButtonConstraintCenterX])
     }
+
+    // MARK: Actions
+
+    func playOrPause() {
+
+        switch playState {
+
+        case .Playing:
+            if let action = pauseAction {
+                action(self)
+            }
+
+        case .Pause:
+            if let action = playAction {
+                action(self)
+            }
+        }
+    }
+
 }

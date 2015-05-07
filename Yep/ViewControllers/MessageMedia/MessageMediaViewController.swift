@@ -68,6 +68,18 @@ class MessageMediaViewController: UIViewController {
 
                         NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
 
+                        mediaControlView.playAction = { mediaControlView in
+                            player.play()
+
+                            mediaControlView.playState = .Playing
+                        }
+
+                        mediaControlView.pauseAction = { mediaControlView in
+                            player.pause()
+                            
+                            mediaControlView.playState = .Pause
+                        }
+
                         mediaView.videoPlayerLayer.player = player
 
                         mediaView.videoPlayerLayer.player.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(0), context: nil)
@@ -115,5 +127,9 @@ class MessageMediaViewController: UIViewController {
 
     func playerItemDidReachEnd(notification: NSNotification) {
         mediaControlView.playState = .Pause
+
+        if let playerItem = notification.object as? AVPlayerItem {
+            playerItem.seekToTime(kCMTimeZero)
+        }
     }
 }
