@@ -107,6 +107,7 @@
 		506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */; };
 		5076C56A1AC46B9F00B22952 /* FayeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5076C5691AC46B9F00B22952 /* FayeService.swift */; };
 		5076FC5A1AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5076FC591AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift */; };
+		507CF1681AFC84A500E261B4 /* CustomNavigationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */; };
 		50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF01AEA4726000981AF /* SettingsViewController.swift */; };
 		50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF31AEA4A01000981AF /* SettingsUserCell.swift */; };
 		50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894CF41AEA4A01000981AF /* SettingsUserCell.xib */; };
@@ -282,6 +283,7 @@
 		506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Yep.swift"; path = "Extensions/UIFont+Yep.swift"; sourceTree = "<group>"; };
 		5076C5691AC46B9F00B22952 /* FayeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FayeService.swift; path = Services/FayeService.swift; sourceTree = "<group>"; };
 		5076FC591AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMessagePreviewTransitionManager.swift; path = ViewControllers/Conversation/ConversationMessagePreviewTransitionManager.swift; sourceTree = "<group>"; };
+		507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomNavigationBarViewController.swift; path = ViewControllers/CustomNavigationBar/CustomNavigationBarViewController.swift; sourceTree = "<group>"; };
 		50894CF01AEA4726000981AF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = ViewControllers/Settings/SettingsViewController.swift; sourceTree = "<group>"; };
 		50894CF31AEA4A01000981AF /* SettingsUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsUserCell.swift; path = Views/Cells/SettingsUser/SettingsUserCell.swift; sourceTree = "<group>"; };
 		50894CF41AEA4A01000981AF /* SettingsUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsUserCell.xib; path = Views/Cells/SettingsUser/SettingsUserCell.xib; sourceTree = "<group>"; };
@@ -372,12 +374,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0A1CAC6C1AFA3D8C00826B45 /* SkillPage */ = {
+		0A1CAC6C1AFA3D8C00826B45 /* SkillHome */ = {
 			isa = PBXGroup;
 			children = (
 				0A1CAC6D1AFA42D400826B45 /* SkillHomeViewController.swift */,
 			);
-			name = SkillPage;
+			name = SkillHome;
 			sourceTree = "<group>";
 		};
 		0A1CAC711AFA481900826B45 /* SkillHomeHeaderView */ = {
@@ -516,7 +518,8 @@
 				0A5D83951AC5D3CD000045BF /* TabBar */,
 				50894CF21AEA472B000981AF /* Settings */,
 				50894CFF1AEA5A7E000981AF /* EditProfile */,
-				0A1CAC6C1AFA3D8C00826B45 /* SkillPage */,
+				0A1CAC6C1AFA3D8C00826B45 /* SkillHome */,
+				507CF1691AFC84AA00E261B4 /* CustomNavigationBar */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -890,6 +893,14 @@
 				506BB7F41AE4E0A500C1A2A0 /* SkillAnnotationHeader.xib */,
 			);
 			name = SkillAnnotationHeader;
+			sourceTree = "<group>";
+		};
+		507CF1691AFC84AA00E261B4 /* CustomNavigationBar */ = {
+			isa = PBXGroup;
+			children = (
+				507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */,
+			);
+			name = CustomNavigationBar;
 			sourceTree = "<group>";
 		};
 		50894CF21AEA472B000981AF /* Settings */ = {
@@ -1432,6 +1443,7 @@
 				506BB7F91AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift in Sources */,
 				502AE52B1AB819AF005BD199 /* YepConfig.swift in Sources */,
 				0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */,
+				507CF1681AFC84A500E261B4 /* CustomNavigationBarViewController.swift in Sources */,
 				0A3E60601ACCA9C0003DC853 /* String+Yep.swift in Sources */,
 				504F41571AD4D35400FBB19A /* ProfileLayout.swift in Sources */,
 				503315A01AC126100008A209 /* MessageToolbar.swift in Sources */,

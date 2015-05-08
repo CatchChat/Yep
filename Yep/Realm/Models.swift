@@ -34,10 +34,24 @@ class Avatar: RLMObject {
     }
 }
 
+class UserSkillCategory: RLMObject {
+    dynamic var skillCategoryID: String = ""
+    dynamic var name: String = ""
+    dynamic var localName: String = ""
+
+    var skills: [UserSkill] {
+        return linkingObjectsOfClass("UserSkill", forProperty: "category") as! [UserSkill]
+    }
+}
+
 class UserSkill: RLMObject {
+
+    dynamic var category: UserSkillCategory?
+
     dynamic var skillID: String = ""
     dynamic var name: String = ""
     dynamic var localName: String = ""
+    dynamic var coverURLString: String = ""
 
     var learningUsers: [User] {
         return linkingObjectsOfClass("User", forProperty: "learningSkills") as! [User]
@@ -221,6 +235,11 @@ func normalUsers() -> RLMResults {
 func userSkillWithSkillID(skillID: String) -> UserSkill? {
     let predicate = NSPredicate(format: "skillID = %@", skillID)
     return UserSkill.objectsWithPredicate(predicate).firstObject() as? UserSkill
+}
+
+func userSkillCategoryWithSkillCategoryID(skillCategoryID: String) -> UserSkillCategory? {
+    let predicate = NSPredicate(format: "skillCategoryID = %@", skillCategoryID)
+    return UserSkillCategory.objectsWithPredicate(predicate).firstObject() as? UserSkillCategory
 }
 
 func userWithUserID(userID: String) -> User? {

@@ -96,6 +96,7 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: RLMRe
 
     for skillInfo in skillsData {
         if
+            let categoryData = skillInfo["category"] as? JSONDictionary,
             let skillID = skillInfo["id"] as? String,
             let skillName = skillInfo["name"] as? String,
             let skillLocalName = skillInfo["name_string"] as? String {
@@ -108,12 +109,40 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: RLMRe
                     newUserSkill.name = skillID
                     newUserSkill.localName = skillLocalName
 
+                    if let coverURLString = skillInfo["cover_url"] as? String {
+                        newUserSkill.coverURLString = coverURLString
+                    }
+
                     realm.addObject(newUserSkill)
 
                     userSkill = newUserSkill
                 }
 
                 if let userSkill = userSkill {
+
+                    if let
+                        skillCategoryID = categoryData["id"] as? String,
+                        skillCategoryName = categoryData["name"] as? String,
+                        skillCategoryLocalName = categoryData["name_string"] as? String {
+
+                            var userSkillCategory = userSkillCategoryWithSkillCategoryID(skillCategoryID)
+
+                            if userSkillCategory == nil {
+                                let newUserSkillCategory = UserSkillCategory()
+                                newUserSkillCategory.skillCategoryID = skillCategoryID
+                                newUserSkillCategory.name = skillCategoryName
+                                newUserSkillCategory.localName = skillCategoryLocalName
+
+                                realm.addObject(newUserSkillCategory)
+
+                                userSkillCategory = newUserSkillCategory
+                            }
+
+                            if let userSkillCategory = userSkillCategory {
+                                userSkill.category = userSkillCategory
+                            }
+                    }
+
                     userSkills.append(userSkill)
                 }
         }
@@ -124,7 +153,7 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: RLMRe
 
 func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
     friendships { allFriendships in
-        //println("\n allFriendships: \(allFriendships)")
+        println("\n allFriendships: \(allFriendships)")
 
         // 先整理出所有的 friend 的 userID
         var remoteUerIDSet = Set<String>()
@@ -177,7 +206,9 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                             let newUser = User()
                             newUser.userID = userID
 
-                            //newUser.createdAt = NSDate.dateWithISO08601String(<#dateString: String?#>)
+                            if let createdAtString = friendInfo["created_at"] as? String {
+                                newUser.createdAt = NSDate.dateWithISO08601String(createdAtString)
+                            }
 
                             realm.beginWriteTransaction()
                             realm.addObject(newUser)
@@ -188,6 +219,12 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
                         if let user = user {
                             realm.beginWriteTransaction()
+
+                            // 更新用户信息
+
+                            if let lastSignInAtString = friendInfo["last_sign_in_at"] as? String {
+                                user.lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+                            }
 
                             if let nickname = friendInfo["nickname"] as? String {
                                 user.nickname = nickname
@@ -241,7 +278,7 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
 func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
     groups { allGroups in
-        //println("allGroups: \(allGroups)")
+        println("allGroups: \(allGroups)")
 
         // 先整理出所有的 group 的 groupID
         var remoteGroupIDSet = Set<String>()
@@ -333,12 +370,8 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
 
                         newUser.userID = ownerID
 
-                        if let nickname = ownerInfo["nickname"] as? String {
-                            newUser.nickname = nickname
-                        }
-
-                        if let avatarURLString = ownerInfo["avatar_url"] as? String {
-                            newUser.avatarURLString = avatarURLString
+                        if let createdAtString = ownerInfo["created_at"] as? String {
+                            newUser.createdAt = NSDate.dateWithISO08601String(createdAtString)
                         }
 
                         if let myUserID = YepUserDefaults.userID.value {
@@ -360,7 +393,37 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
                     
                     if let owner = owner {
                         realm.beginWriteTransaction()
+
+                        // 更新个人信息
+
+                        if let lastSignInAtString = ownerInfo["last_sign_in_at"] as? String {
+                            owner.lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+                        }
+
+                        if let nickname = ownerInfo["nickname"] as? String {
+                            owner.nickname = nickname
+                        }
+
+                        if let avatarURLString = ownerInfo["avatar_url"] as? String {
+                            owner.avatarURLString = avatarURLString
+                        }
+
+                        // 更新技能
+
+                        if let learningSkillsData = ownerInfo["learning_skills"] as? [JSONDictionary] {
+                            owner.learningSkills.removeAllObjects()
+                            let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: owner.realm)
+                            owner.learningSkills.addObjects(userSkills)
+                        }
+
+                        if let masterSkillsData = ownerInfo["master_skills"] as? [JSONDictionary] {
+                            owner.masterSkills.removeAllObjects()
+                            let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: owner.realm)
+                            owner.masterSkills.addObjects(userSkills)
+                        }
+
                         group.owner = owner
+
                         realm.commitWriteTransaction()
                     }
                 }
@@ -399,12 +462,8 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
 
                             newMember.userID = memberID
 
-                            if let nickname = memberInfo["nickname"] as? String {
-                                newMember.nickname = nickname
-                            }
-
-                            if let avatarURLString = memberInfo["avatar_url"] as? String {
-                                newMember.avatarURLString = avatarURLString
+                            if let createdAtString = memberInfo["created_at"] as? String {
+                                newMember.createdAt = NSDate.dateWithISO08601String(createdAtString)
                             }
 
                             if let myUserID = YepUserDefaults.userID.value {
@@ -422,6 +481,41 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
                             realm.addObject(newMember)
 
                             localMembers.addObject(newMember) // 因为是 RLMArray，修改必须写在 write transacion 内
+
+                            realm.commitWriteTransaction()
+                        }
+
+                        if let member = member {
+
+                            realm.beginWriteTransaction()
+
+                            // 更新个人信息
+
+                            if let lastSignInAtString = memberInfo["last_sign_in_at"] as? String {
+                                member.lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+                            }
+
+                            if let nickname = memberInfo["nickname"] as? String {
+                                member.nickname = nickname
+                            }
+
+                            if let avatarURLString = memberInfo["avatar_url"] as? String {
+                                member.avatarURLString = avatarURLString
+                            }
+
+                            // 更新技能
+
+                            if let learningSkillsData = memberInfo["learning_skills"] as? [JSONDictionary] {
+                                member.learningSkills.removeAllObjects()
+                                let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: member.realm)
+                                member.learningSkills.addObjects(userSkills)
+                            }
+
+                            if let masterSkillsData = memberInfo["master_skills"] as? [JSONDictionary] {
+                                member.masterSkills.removeAllObjects()
+                                let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: member.realm)
+                                member.masterSkills.addObjects(userSkills)
+                            }
 
                             realm.commitWriteTransaction()
                         }

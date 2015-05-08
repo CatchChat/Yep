@@ -22,7 +22,7 @@ enum SkillHomeState: Printable {
     }
 }
 
-class SkillHomeViewController: UIViewController {
+class SkillHomeViewController: CustomNavigationBarViewController {
     
     let cellIdentifier = "ContactsCell"
     
@@ -50,7 +50,7 @@ class SkillHomeViewController: UIViewController {
         }
     }
     
-    var isStateFirstInit = false
+    var isFirstAppear = true
     
     var state: SkillHomeState = .Master {
         willSet {
@@ -134,11 +134,11 @@ class SkillHomeViewController: UIViewController {
         
         super.viewDidAppear(animated)
         
-        if !isStateFirstInit {
+        if isFirstAppear {
+            isFirstAppear = false
+
             state = .Master
-            isStateFirstInit = true
         }
-        
     }
     
     func changeToMaster() {
@@ -237,9 +237,7 @@ class SkillHomeViewController: UIViewController {
                 let discoveredUser = getDiscoveredUserWithState(state.hashValue)[indexPath.row]
                 
                 let vc = segue.destinationViewController as! ProfileViewController
-                
-                vc.shouldBackToDefaultNavgationbar = false
-                
+
                 vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
                 
                 vc.hidesBottomBarWhenPushed = true

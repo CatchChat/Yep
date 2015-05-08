@@ -145,10 +145,22 @@ func verifyMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: St
 
 // MARK: Skills
 
-struct Skill: Hashable {
+struct SkillCategory {
     let id: String
     let name: String
     let localName: String
+
+    let skills: [Skill]
+}
+
+struct Skill: Hashable {
+
+    let category: SkillCategory?
+
+    let id: String
+    let name: String
+    let localName: String
+    let coverURLString: String?
 
     var hashValue: Int {
         return id.hashValue
@@ -157,14 +169,6 @@ struct Skill: Hashable {
 
 func ==(lhs: Skill, rhs: Skill) -> Bool {
     return lhs.id == rhs.id
-}
-
-struct SkillCategory {
-    let id: String
-    let name: String
-    let localName: String
-
-    let skills: [Skill]
 }
 
 /*
@@ -209,7 +213,20 @@ func skillsFromSkillsData(skillsData: [JSONDictionary]) -> [Skill] {
             let skillID = skillInfo["id"] as? String,
             let skillName = skillInfo["name"] as? String,
             let skillLocalName = skillInfo["name_string"] as? String {
-                let skill = Skill(id: skillID, name: skillName, localName: skillName)
+
+                var skillCategory: SkillCategory?
+                if
+                    let skillCategoryData = skillInfo["category"] as? JSONDictionary,
+                    let categoryID = skillCategoryData["id"] as? String,
+                    let categoryName = skillCategoryData["name"] as? String,
+                    let categoryLocalName = skillCategoryData["name_string"] as? String {
+                        skillCategory = SkillCategory(id: categoryID, name: categoryName, localName: categoryLocalName, skills: [])
+                }
+
+                let coverURLString = skillInfo["cover_url"] as? String
+
+                let skill = Skill(category: skillCategory, id: skillID, name: skillName, localName: skillName, coverURLString: coverURLString)
+
                 skills.append(skill)
         }
     }
@@ -522,7 +539,7 @@ func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discover
     
     let parse: JSONDictionary -> [DiscoveredUser]? = { data in
 
-//        println("discoverUsers: \(data)")
+        println("discoverUsers: \(data)")
 
         if let usersData = data["users"] as? [JSONDictionary] {
 
