@@ -206,7 +206,9 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                             let newUser = User()
                             newUser.userID = userID
 
-                            //newUser.createdAt = NSDate.dateWithISO08601String(<#dateString: String?#>)
+                            if let createdAtString = friendInfo["created_at"] as? String {
+                                newUser.createdAt = NSDate.dateWithISO08601String(createdAtString)
+                            }
 
                             realm.beginWriteTransaction()
                             realm.addObject(newUser)
@@ -217,6 +219,12 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
                         if let user = user {
                             realm.beginWriteTransaction()
+
+                            // 更新用户信息
+
+                            if let lastSignInAtString = friendInfo["last_sign_in_at"] as? String {
+                                user.lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+                            }
 
                             if let nickname = friendInfo["nickname"] as? String {
                                 user.nickname = nickname
@@ -362,6 +370,10 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
 
                         newUser.userID = ownerID
 
+                        if let createdAtString = ownerInfo["created_at"] as? String {
+                            newUser.createdAt = NSDate.dateWithISO08601String(createdAtString)
+                        }
+
                         if let myUserID = YepUserDefaults.userID.value {
                             if myUserID == ownerID {
                                 newUser.friendState = UserFriendState.Me.rawValue
@@ -383,6 +395,10 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
                         realm.beginWriteTransaction()
 
                         // 更新个人信息
+
+                        if let lastSignInAtString = ownerInfo["last_sign_in_at"] as? String {
+                            owner.lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+                        }
 
                         if let nickname = ownerInfo["nickname"] as? String {
                             owner.nickname = nickname
@@ -446,6 +462,10 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
 
                             newMember.userID = memberID
 
+                            if let createdAtString = memberInfo["created_at"] as? String {
+                                newMember.createdAt = NSDate.dateWithISO08601String(createdAtString)
+                            }
+
                             if let myUserID = YepUserDefaults.userID.value {
                                 if myUserID == memberID {
                                     newMember.friendState = UserFriendState.Me.rawValue
@@ -470,6 +490,10 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
                             realm.beginWriteTransaction()
 
                             // 更新个人信息
+
+                            if let lastSignInAtString = memberInfo["last_sign_in_at"] as? String {
+                                member.lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+                            }
 
                             if let nickname = memberInfo["nickname"] as? String {
                                 member.nickname = nickname
