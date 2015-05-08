@@ -96,6 +96,7 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: RLMRe
 
     for skillInfo in skillsData {
         if
+            let categoryData = skillInfo["category"] as? JSONDictionary,
             let skillID = skillInfo["id"] as? String,
             let skillName = skillInfo["name"] as? String,
             let skillLocalName = skillInfo["name_string"] as? String {
@@ -108,12 +109,40 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: RLMRe
                     newUserSkill.name = skillID
                     newUserSkill.localName = skillLocalName
 
+                    if let coverURLString = skillInfo["cover_url"] as? String {
+                        newUserSkill.coverURLString = coverURLString
+                    }
+
                     realm.addObject(newUserSkill)
 
                     userSkill = newUserSkill
                 }
 
                 if let userSkill = userSkill {
+
+                    if let
+                        skillCategoryID = categoryData["id"] as? String,
+                        skillCategoryName = categoryData["name"] as? String,
+                        skillCategoryLocalName = categoryData["name_string"] as? String {
+
+                            var userSkillCategory = userSkillCategoryWithSkillCategoryID(skillCategoryID)
+
+                            if userSkillCategory == nil {
+                                let newUserSkillCategory = UserSkillCategory()
+                                newUserSkillCategory.skillCategoryID = skillCategoryID
+                                newUserSkillCategory.name = skillCategoryName
+                                newUserSkillCategory.localName = skillCategoryLocalName
+
+                                realm.addObject(newUserSkillCategory)
+
+                                userSkillCategory = newUserSkillCategory
+                            }
+
+                            if let userSkillCategory = userSkillCategory {
+                                userSkill.category = userSkillCategory
+                            }
+                    }
+
                     userSkills.append(userSkill)
                 }
         }
