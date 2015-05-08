@@ -16,7 +16,7 @@ enum ProfileUser {
     case UserType(User)
 }
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: CustomNavigationBarViewController {
 
     var profileUser: ProfileUser?
 
@@ -26,7 +26,6 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var sayHiView: UIView!
     @IBOutlet weak var sayHiButton: UIButton!
     
-    var shouldBackToDefaultNavgationbar = true
 
     let skillCellIdentifier = "SkillCell"
     let headerCellIdentifier = "ProfileHeaderCell"
@@ -118,49 +117,7 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let navigationController = navigationController {
-            navigationController.navigationBar.backgroundColor = UIColor.clearColor()
-            navigationController.navigationBar.translucent = true
-            navigationController.navigationBar.shadowImage = UIImage()
-            navigationController.navigationBar.barStyle = UIBarStyle.BlackTranslucent
-            navigationController.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-            
-            let textAttributes = [
-                NSForegroundColorAttributeName: UIColor.whiteColor(),
-                NSFontAttributeName: UIFont.navigationBarTitleFont()
-            ]
-            
-            navigationController.navigationBar.titleTextAttributes = textAttributes
-            navigationController.navigationBar.tintColor = UIColor.whiteColor()
-        }
-
         self.setNeedsStatusBarAppearanceUpdate()
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        if let navigationController = navigationController {
-            
-            if !shouldBackToDefaultNavgationbar {
-                return
-            }
-            
-            navigationController.navigationBar.backgroundColor = nil
-            navigationController.navigationBar.translucent = true
-            navigationController.navigationBar.shadowImage = nil
-            navigationController.navigationBar.barStyle = UIBarStyle.Default
-            navigationController.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
-            
-            let textAttributes = [
-                NSForegroundColorAttributeName: UIColor.yepTintColor(),
-                NSFontAttributeName: UIFont.navigationBarTitleFont()
-            ]
-            
-            navigationController.navigationBar.titleTextAttributes = textAttributes
-            navigationController.navigationBar.tintColor = nil
-        }
-        
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -170,8 +127,6 @@ class ProfileViewController: UIViewController {
     // MARK: Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-        shouldBackToDefaultNavgationbar = true
         
         if segue.identifier == "showConversation" {
             
@@ -185,8 +140,6 @@ class ProfileViewController: UIViewController {
                 let vc = segue.destinationViewController as! SkillHomeViewController
                 vc.hidesBottomBarWhenPushed = true
                 vc.skillName = cell.skillLabel.text
-                shouldBackToDefaultNavgationbar = false
-                
             }
         }
     }
