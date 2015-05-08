@@ -362,14 +362,6 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
 
                         newUser.userID = ownerID
 
-                        if let nickname = ownerInfo["nickname"] as? String {
-                            newUser.nickname = nickname
-                        }
-
-                        if let avatarURLString = ownerInfo["avatar_url"] as? String {
-                            newUser.avatarURLString = avatarURLString
-                        }
-
                         if let myUserID = YepUserDefaults.userID.value {
                             if myUserID == ownerID {
                                 newUser.friendState = UserFriendState.Me.rawValue
@@ -389,7 +381,33 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
                     
                     if let owner = owner {
                         realm.beginWriteTransaction()
+
+                        // 更新个人信息
+
+                        if let nickname = ownerInfo["nickname"] as? String {
+                            owner.nickname = nickname
+                        }
+
+                        if let avatarURLString = ownerInfo["avatar_url"] as? String {
+                            owner.avatarURLString = avatarURLString
+                        }
+
+                        // 更新技能
+
+                        if let learningSkillsData = ownerInfo["learning_skills"] as? [JSONDictionary] {
+                            owner.learningSkills.removeAllObjects()
+                            let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: owner.realm)
+                            owner.learningSkills.addObjects(userSkills)
+                        }
+
+                        if let masterSkillsData = ownerInfo["master_skills"] as? [JSONDictionary] {
+                            owner.masterSkills.removeAllObjects()
+                            let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: owner.realm)
+                            owner.masterSkills.addObjects(userSkills)
+                        }
+
                         group.owner = owner
+
                         realm.commitWriteTransaction()
                     }
                 }
@@ -428,14 +446,6 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
 
                             newMember.userID = memberID
 
-                            if let nickname = memberInfo["nickname"] as? String {
-                                newMember.nickname = nickname
-                            }
-
-                            if let avatarURLString = memberInfo["avatar_url"] as? String {
-                                newMember.avatarURLString = avatarURLString
-                            }
-
                             if let myUserID = YepUserDefaults.userID.value {
                                 if myUserID == memberID {
                                     newMember.friendState = UserFriendState.Me.rawValue
@@ -451,6 +461,37 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
                             realm.addObject(newMember)
 
                             localMembers.addObject(newMember) // 因为是 RLMArray，修改必须写在 write transacion 内
+
+                            realm.commitWriteTransaction()
+                        }
+
+                        if let member = member {
+
+                            realm.beginWriteTransaction()
+
+                            // 更新个人信息
+
+                            if let nickname = memberInfo["nickname"] as? String {
+                                member.nickname = nickname
+                            }
+
+                            if let avatarURLString = memberInfo["avatar_url"] as? String {
+                                member.avatarURLString = avatarURLString
+                            }
+
+                            // 更新技能
+
+                            if let learningSkillsData = memberInfo["learning_skills"] as? [JSONDictionary] {
+                                member.learningSkills.removeAllObjects()
+                                let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: member.realm)
+                                member.learningSkills.addObjects(userSkills)
+                            }
+
+                            if let masterSkillsData = memberInfo["master_skills"] as? [JSONDictionary] {
+                                member.masterSkills.removeAllObjects()
+                                let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: member.realm)
+                                member.masterSkills.addObjects(userSkills)
+                            }
 
                             realm.commitWriteTransaction()
                         }
