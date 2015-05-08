@@ -210,13 +210,13 @@ func skillsFromSkillsData(skillsData: [JSONDictionary]) -> [Skill] {
 
     for skillInfo in skillsData {
         if
-            let skillCategoryData = skillInfo["category"] as? JSONDictionary,
             let skillID = skillInfo["id"] as? String,
             let skillName = skillInfo["name"] as? String,
             let skillLocalName = skillInfo["name_string"] as? String {
 
                 var skillCategory: SkillCategory?
                 if
+                    let skillCategoryData = skillInfo["category"] as? JSONDictionary,
                     let categoryID = skillCategoryData["id"] as? String,
                     let categoryName = skillCategoryData["name"] as? String,
                     let categoryLocalName = skillCategoryData["name_string"] as? String {
