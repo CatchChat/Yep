@@ -539,7 +539,7 @@ func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discover
     
     let parse: JSONDictionary -> [DiscoveredUser]? = { data in
 
-        println("discoverUsers: \(data)")
+        //println("discoverUsers: \(data)")
 
         if let usersData = data["users"] as? [JSONDictionary] {
 
@@ -814,6 +814,7 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
 
                     if success, let messageID = messageID {
                         completion(messageID: messageID)
+
                     } else {
                         if let failureHandler = failureHandler {
                             failureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
@@ -828,6 +829,7 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
 
                     if success, let messageID = messageID {
                         completion(messageID: messageID)
+
                     } else {
                         if let failureHandler = failureHandler {
                             failureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")

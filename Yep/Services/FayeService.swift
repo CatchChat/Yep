@@ -10,20 +10,6 @@ import Foundation
 import MZFayeClient
 import Realm
 
-enum FayeMessageType: Printable {
-    case Default
-    case Instant
-    
-    var description: String {
-        switch self {
-        case .Default:
-            return "message"
-        case .Instant:
-            return "instant_state"
-        }
-    }
-}
-
 protocol FayeServiceDelegate: class {
     /**
     * Current Typing Status
@@ -35,6 +21,11 @@ protocol FayeServiceDelegate: class {
 class FayeService: NSObject, MZFayeClientDelegate {
 
     static let sharedManager = FayeService()
+
+    enum MessageType: String {
+        case Default = "message"
+        case Instant = "instant_state"
+    }
 
     enum InstantStateType: Int, Printable {
         case Text = 0
@@ -88,16 +79,16 @@ class FayeService: NSObject, MZFayeClientDelegate {
 
                         switch messageType {
 
-                        case FayeMessageType.Default.description:
-                            if let messageDataInfo = messageInfo["message"] as? [String: AnyObject] {
+                        case FayeService.MessageType.Default.rawValue:
+                            if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
                                 self.saveMessageWithMessageInfo(messageDataInfo)
                             }
 
-                        case FayeMessageType.Instant.description:
-                            if let messageDataInfo = messageInfo["message"] as? [String: AnyObject] {
+                        case FayeService.MessageType.Instant.rawValue:
+                            if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
 
                                 if let
-                                    user = messageDataInfo["user"] as? [String: AnyObject],
+                                    user = messageDataInfo["user"] as? JSONDictionary,
                                     userID = user["id"] as? String,
                                     state = messageDataInfo["state"] as? Int {
 
@@ -110,6 +101,8 @@ class FayeService: NSObject, MZFayeClientDelegate {
 
                                         case InstantStateType.Audio.rawValue:
                                             instantStateType = .Audio
+
+                                        // TODO: more InstantStateType
 
                                         default:
                                             break
@@ -202,34 +195,36 @@ class FayeService: NSObject, MZFayeClientDelegate {
         println("fayeClient didUnsubscribeFromChannel \(channel)")
     }
     
-    func sendPrivateMessage(message: JSONDictionary, messageType: FayeMessageType, userID: String, completion: (success: Bool, messageID: String?)->() ) {
+    func sendPrivateMessage(message: JSONDictionary, messageType: FayeService.MessageType, userID: String, completion: (success: Bool, messageID: String?) -> Void) {
         
         if let
             userChannel = personalChannelWithUserID(userID),
-            extensionData = extensionData(){
-                
-                let data: [String: AnyObject] = [
+            extensionData = extensionData() {
+
+                let data: JSONDictionary = [
                     "api_version": "v1",
-                    "message_type": messageType.description,
+                    "message_type": messageType.rawValue,
                     "message": message
                 ]
-                
-            client.sendMessage(data, toChannel: userChannel, usingExtension: extensionData, usingBlock: { message  in
-                println("sendPrivateMessage \(message.successful)")
 
-                if message.successful == 1 {
-                    if let
-                        messageData = message.ext["message"] as? [String: String],
-                        messageID = messageData["id"] {
+                client.sendMessage(data, toChannel: userChannel, usingExtension: extensionData, usingBlock: { message  in
+                    println("sendPrivateMessage \(message.successful)")
 
-                            completion(success: true, messageID: messageID)
+                    if message.successful == 1 {
+                        if let
+                            messageData = message.ext["message"] as? JSONDictionary,
+                            messageID = messageData["id"] as? String {
 
-                            return
+                                completion(success: true, messageID: messageID)
+
+                        } else {
+                            completion(success: true, messageID: nil)
+                        }
+
+                    } else {
+                        completion(success: false, messageID: nil)
                     }
-                }
-
-                completion(success: false, messageID: nil)
-            })
+                })
 
         } else {
             println("Can NOT sendPrivateMessage, not circleChannel or extensionData")
@@ -244,9 +239,9 @@ class FayeService: NSObject, MZFayeClientDelegate {
             circleChannel = circleChannelWithCircleID(circleID),
             extensionData = extensionData() {
                 
-                let data: [String: AnyObject] = [
+                let data: JSONDictionary = [
                     "api_version": "v1",
-                    "message_type": "message",
+                    "message_type": FayeService.MessageType.Default.rawValue,
                     "message": message
                 ]
                 
