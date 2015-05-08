@@ -372,12 +372,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0A1CAC6C1AFA3D8C00826B45 /* SkillPage */ = {
+		0A1CAC6C1AFA3D8C00826B45 /* SkillHome */ = {
 			isa = PBXGroup;
 			children = (
 				0A1CAC6D1AFA42D400826B45 /* SkillHomeViewController.swift */,
 			);
-			name = SkillPage;
+			name = SkillHome;
 			sourceTree = "<group>";
 		};
 		0A1CAC711AFA481900826B45 /* SkillHomeHeaderView */ = {
@@ -516,7 +516,7 @@
 				0A5D83951AC5D3CD000045BF /* TabBar */,
 				50894CF21AEA472B000981AF /* Settings */,
 				50894CFF1AEA5A7E000981AF /* EditProfile */,
-				0A1CAC6C1AFA3D8C00826B45 /* SkillPage */,
+				0A1CAC6C1AFA3D8C00826B45 /* SkillHome */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";

@@ -50,7 +50,7 @@ class SkillHomeViewController: UIViewController {
         }
     }
     
-    var isStateFirstInit = false
+    var isFirstAppear = true
     
     var state: SkillHomeState = .Master {
         willSet {
@@ -134,11 +134,11 @@ class SkillHomeViewController: UIViewController {
         
         super.viewDidAppear(animated)
         
-        if !isStateFirstInit {
+        if isFirstAppear {
+            isFirstAppear = false
+
             state = .Master
-            isStateFirstInit = true
         }
-        
     }
     
     func changeToMaster() {
