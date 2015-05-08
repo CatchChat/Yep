@@ -34,10 +34,24 @@ class Avatar: RLMObject {
     }
 }
 
-class UserSkill: RLMObject {
+class UserSkillCategory: RLMObject {
     dynamic var skillID: String = ""
     dynamic var name: String = ""
     dynamic var localName: String = ""
+
+    var skills: [UserSkill] {
+        return linkingObjectsOfClass("UserSkill", forProperty: "category") as! [UserSkill]
+    }
+}
+
+class UserSkill: RLMObject {
+
+    dynamic var category: UserSkillCategory?
+
+    dynamic var skillID: String = ""
+    dynamic var name: String = ""
+    dynamic var localName: String = ""
+    dynamic var coverURLString: String = ""
 
     var learningUsers: [User] {
         return linkingObjectsOfClass("User", forProperty: "learningSkills") as! [User]
