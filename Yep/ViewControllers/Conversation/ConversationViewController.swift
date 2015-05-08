@@ -70,11 +70,7 @@ class ConversationViewController: UIViewController {
         let titleView = ConversationTitleView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 150, height: 44)))
         titleView.nameLabel.text = nameOfConversation(self.conversation)
 
-        if let timeAgo = lastChatTimeOfConversation(self.conversation)?.timeAgo {
-            titleView.stateInfoLabel.text = NSLocalizedString("Last chat at ", comment: "") + timeAgo.lowercaseString
-        } else {
-            titleView.stateInfoLabel.text = NSLocalizedString("Begin chat just now", comment: "")
-        }
+        self.updateStateInfoOfTitleView(titleView)
 
         return titleView
         }()
@@ -132,13 +128,7 @@ class ConversationViewController: UIViewController {
     let chatLeftLocationCellIdentifier =  "ChatLeftLocationCell"
     let chatRightLocationCellIdentifier =  "ChatRightLocationCell"
     
-    func resetTitleDetailsLabel() {
-        if let timeAgo = lastChatTimeOfConversation(self.conversation)?.timeAgo {
-            titleView.stateInfoLabel.text = NSLocalizedString("Last chat at ", comment: "") + timeAgo.lowercaseString
-        } else {
-            titleView.stateInfoLabel.text = NSLocalizedString("Begin chat just now", comment: "")
-        }
-    }
+
 
     // 使 messageToolbar 随着键盘出现或消失而移动
     var updateUIWithKeyboardChange = false {
@@ -775,7 +765,15 @@ class ConversationViewController: UIViewController {
         messageToolbar.messageTextView.text = ""
         messageToolbar.state = .BeginTextInput
     }
-    
+
+    func updateStateInfoOfTitleView(titleView: ConversationTitleView) {
+        if let timeAgo = lastSignDateOfConversation(self.conversation)?.timeAgo {
+            titleView.stateInfoLabel.text = NSLocalizedString("Last sign at ", comment: "") + timeAgo.lowercaseString
+        } else {
+            titleView.stateInfoLabel.text = NSLocalizedString("Begin chat just now", comment: "")
+        }
+    }
+
     // MARK: Keyboard
 
     func handleKeyboardWillShowNotification(notification: NSNotification) {
@@ -1227,6 +1225,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+
         conversationCollectionViewHasBeenMovedToBottomOnce = true
         FayeService.sharedManager.delegate = self
         timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("checkTypingStatus"), userInfo: nil, repeats: true)
@@ -1262,8 +1261,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     
     func checkTypingStatus() {
         typingResetDelay = typingResetDelay - 0.5
-        if  typingResetDelay < 0 {
-            self.resetTitleDetailsLabel()
+
+        if typingResetDelay < 0 {
+            self.updateStateInfoOfTitleView(titleView)
         }
     }
 }

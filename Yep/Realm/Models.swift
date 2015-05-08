@@ -330,7 +330,7 @@ func nameOfConversation(conversation: Conversation) -> String? {
     return nil
 }
 
-func lastChatTimeOfConversation(conversation: Conversation) -> NSDate? {
+func lastChatDateOfConversation(conversation: Conversation) -> NSDate? {
     let messages = messagesInConversation(conversation)
 
     if let lastMessage = messages.lastObject() as? Message {
@@ -339,4 +339,17 @@ func lastChatTimeOfConversation(conversation: Conversation) -> NSDate? {
 
     return nil
 }
+
+func lastSignDateOfConversation(conversation: Conversation) -> NSDate? {
+    let messages = messagesInConversation(conversation)
+
+    if let
+        lastMessage = messages.lastObject() as? Message,
+        user = lastMessage.fromFriend {
+            return user.lastSignInAt
+    }
+
+    return nil
+}
+
 
