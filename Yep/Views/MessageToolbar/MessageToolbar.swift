@@ -75,8 +75,7 @@ class MessageToolbar: UIToolbar {
                 messageTextView.hidden = false
                 voiceRecordButton.hidden = true
                 
-                updateInputStatus()
-                
+                notifyTyping()
 
             case .VoiceRecord:
                 moreButton.hidden = false
@@ -109,17 +108,17 @@ class MessageToolbar: UIToolbar {
         }
     }
 
-    var textSendAction: ((messageToolBar: MessageToolbar) -> ())?
-    
-    var statusChangingAction: ((messageToolBar: MessageToolbar) -> ())?
+    var notifyTypingAction: (() -> Void)?
 
-    var toggleMoreMessagesAction: ((messageToolBar: MessageToolbar) -> ())?
+    var textSendAction: ((messageToolBar: MessageToolbar) -> Void)?
 
-    var voiceSendBeginAction: ((messageToolBar: MessageToolbar) -> ())?
+    var toggleMoreMessagesAction: ((messageToolBar: MessageToolbar) -> Void)?
+
+    var voiceSendBeginAction: ((messageToolBar: MessageToolbar) -> Void)?
     
-    var voiceSendEndAction: ((messageToolBar: MessageToolbar) -> ())?
+    var voiceSendEndAction: ((messageToolBar: MessageToolbar) -> Void)?
     
-    var voiceSendCancelAction: ((messageToolBar: MessageToolbar) -> ())?
+    var voiceSendCancelAction: ((messageToolBar: MessageToolbar) -> Void)?
     
     lazy var micButton: UIButton = {
         let button = UIButton()
@@ -358,9 +357,9 @@ class MessageToolbar: UIToolbar {
     
     // Update status
     
-    func updateInputStatus() {
-        if let statusChangingAction = statusChangingAction {
-            statusChangingAction(messageToolBar: self)
+    func notifyTyping() {
+        if let notifyTypingAction = notifyTypingAction {
+            notifyTypingAction()
         }
     }
 }

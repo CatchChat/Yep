@@ -50,7 +50,7 @@ class ConversationViewController: UIViewController {
     var isKeyboardVisible = false
     var keyboardHeight: CGFloat = 0
 
-    var timer: NSTimer!
+    var checkTypingStatusTimer: NSTimer?
     
     var typingResetDelay: Float = 0
     
@@ -265,11 +265,10 @@ class ConversationViewController: UIViewController {
             }
             
             if let withFriend = self.conversation.withFriend {
-                var typingMessage = ["state": FayeInstantStateType.Audio.description]
+                var typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Audio.rawValue]
                 
-                FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant,
-                    userID: withFriend.userID, completion: { (result, message_id) in
-                        println("Send recording \(result)")
+                FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
+                    println("Send recording \(result)")
                 })
             }
         }
@@ -421,6 +420,37 @@ class ConversationViewController: UIViewController {
             self.performSegueWithIdentifier("presentPickLocation", sender: nil)
         }
     }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        conversationCollectionViewHasBeenMovedToBottomOnce = true
+
+        FayeService.sharedManager.delegate = self
+
+        checkTypingStatusTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("checkTypingStatus"), userInfo: nil, repeats: true)
+        
+        messageToolbar.notifyTypingAction = {
+
+            if let withFriend = self.conversation.withFriend {
+
+                let typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Text.rawValue]
+
+                FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
+                    println("Send typing \(result)")
+                })
+            }
+        }
+    }
+
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        FayeService.sharedManager.delegate = nil
+        checkTypingStatusTimer?.invalidate()
+
+        self.waverView.removeFromSuperview()
+    }
     
     func hideKeyboardAndShowMoreMessageView() {
         self.messageToolbar.messageTextView.resignFirstResponder()
@@ -453,12 +483,13 @@ class ConversationViewController: UIViewController {
             
             let visableMessageFieldHeight = conversationCollectionView.frame.size.height - navicationBarAndKeyboardAndToolBarHeight
             let useableSpace = visableMessageFieldHeight - conversationCollectionView.contentSize.height
+
             if (useableSpace > 0) {
                 return
+
             } else {
                 self.conversationCollectionView.contentOffset.y = self.conversationCollectionView.contentSize.height - self.conversationCollectionView.frame.size.height + keyboardAndToolBarHeight
             }
-        
         }
     }
 
@@ -1223,31 +1254,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
 
-        conversationCollectionViewHasBeenMovedToBottomOnce = true
-        FayeService.sharedManager.delegate = self
-        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("checkTypingStatus"), userInfo: nil, repeats: true)
-        messageToolbar.statusChangingAction = {  messageToolbar in
-
-            if let withFriend = self.conversation.withFriend {
-                var typingMessage = ["state": FayeInstantStateType.Text.description]
-                
-                FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant,
-                    userID: withFriend.userID, completion: { (result, message_id) in
-                    println("Send typing \(result)")
-                })
-            }
-        }
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        FayeService.sharedManager.delegate = nil
-        timer.invalidate()
-        self.waverView.removeFromSuperview()
-    }
     
     // MARK: UIScrollViewDelegate
 
@@ -1268,31 +1275,37 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
 }
 
-// MARK: PullToRefreshViewDelegate
+// MARK: FayeServiceDelegate
 
-extension ConversationViewController: PullToRefreshViewDelegate, FayeServiceDelegate {
-    
-    func fayeRecievedCurrentStatus(status: String, userID: String) {
-        
+extension ConversationViewController: FayeServiceDelegate {
+
+    func fayeRecievedInstantStateType(instantStateType: FayeService.InstantStateType, userID: String) {
         if let withFriend = conversation.withFriend {
-            
-            if userID == conversation.withFriend?.userID,
-                let nickname = conversation.withFriend?.nickname {
-                    let content = NSLocalizedString("\(nickname) is \(status)", comment: "")
-                    self.titleView.stateInfoLabel.text = "\(content)..."
-                    
-                    switch status {
-                        case FayeInstantStateType.Text.description:
-                            self.typingResetDelay = 0.5
-                        case FayeInstantStateType.Audio.description:
-                            self.typingResetDelay = 2.5
-                        default:
-                            break
-                    }
+
+            if userID == withFriend.userID {
+
+                let nickname = withFriend.nickname
+
+                let content = "\(nickname)" + NSLocalizedString(" is ", comment: "正在") + "\(instantStateType)"
+
+                self.titleView.stateInfoLabel.text = "\(content)..."
+
+                switch instantStateType {
+
+                case .Text:
+                    self.typingResetDelay = 0.5
+
+                case .Audio:
+                    self.typingResetDelay = 2.5
+                }
             }
-            
         }
     }
+}
+
+// MARK: PullToRefreshViewDelegate
+
+extension ConversationViewController: PullToRefreshViewDelegate {
     
     func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
 
@@ -1361,16 +1374,14 @@ extension ConversationViewController: PullToRefreshViewDelegate, FayeServiceDele
 
 extension ConversationViewController : AVAudioRecorderDelegate {
 
-    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!,
-        successfully flag: Bool) {
-            println("finished recording \(flag)")
-            
-            // ios8 and later
+    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
+        println("finished recording \(flag)")
+
+        // ios8 and later
     }
-    
-    func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder!,
-        error: NSError!) {
-            println("\(error.localizedDescription)")
+
+    func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder!, error: NSError!) {
+        println("\(error.localizedDescription)")
     }
 }
 

@@ -24,39 +24,38 @@ enum FayeMessageType: Printable {
     }
 }
 
-enum FayeInstantStateType: Printable {
-    case Default
-    case Text
-    case Audio
-    
-    var description: String {
-        switch self {
-        case .Default:
-            return "Default"
-        case .Text:
-            return "typing"
-        case .Audio:
-            return "recording"
-        }
-    }
-}
-
-public protocol FayeServiceDelegate {
+protocol FayeServiceDelegate: class {
     /**
     * Current Typing Status
     *
     */
-    func fayeRecievedCurrentStatus(status: String, userID: String)
-    
+    func fayeRecievedInstantStateType(instantStateType: FayeService.InstantStateType, userID: String)
 }
 
 class FayeService: NSObject, MZFayeClientDelegate {
 
     static let sharedManager = FayeService()
 
+    enum InstantStateType: Int, Printable {
+        case Text = 0
+        case Audio
+
+        var description: String {
+            
+            switch self {
+
+            case .Text:
+                return NSLocalizedString("typing", comment: "")
+
+            case .Audio:
+                return NSLocalizedString("recording", comment: "")
+            }
+        }
+    }
+
     let client: MZFayeClient
-    
-    var delegate:FayeServiceDelegate?
+
+    weak var delegate: FayeServiceDelegate?
     
     override init() {
 
@@ -65,7 +64,6 @@ class FayeService: NSObject, MZFayeClientDelegate {
         super.init()
         
         client.delegate = self
-        
     }
 
     // MARK: Public
@@ -85,30 +83,50 @@ class FayeService: NSObject, MZFayeClientDelegate {
                 client.subscribeToChannel(personalChannel, usingBlock: { data in
 //                    println("subscribeToChannel: \(data)")
                     let messageInfo = data as! JSONDictionary
+
                     if let messageType = messageInfo["message_type"] as? String {
-                        
+
                         switch messageType {
-                            
-                            case FayeMessageType.Default.description:
-                                if let messageDataInfo = messageInfo["message"] as? [String: AnyObject] {
-                                    self.saveMessageWithMessageInfo(messageDataInfo)
+
+                        case FayeMessageType.Default.description:
+                            if let messageDataInfo = messageInfo["message"] as? [String: AnyObject] {
+                                self.saveMessageWithMessageInfo(messageDataInfo)
+                            }
+
+                        case FayeMessageType.Instant.description:
+                            if let messageDataInfo = messageInfo["message"] as? [String: AnyObject] {
+
+                                if let
+                                    user = messageDataInfo["user"] as? [String: AnyObject],
+                                    userID = user["id"] as? String,
+                                    state = messageDataInfo["state"] as? Int {
+
+                                        var instantStateType = InstantStateType.Text
+
+                                        switch state {
+
+                                        case InstantStateType.Text.rawValue:
+                                            instantStateType = .Text
+
+                                        case InstantStateType.Audio.rawValue:
+                                            instantStateType = .Audio
+
+                                        default:
+                                            break
+                                        }
+
+                                        self.delegate?.fayeRecievedInstantStateType(instantStateType, userID: userID)
                                 }
-                                
-                            case FayeMessageType.Instant.description:
-                                if let messageDataInfo = messageInfo["message"] as? [String: AnyObject] {
-                                    let user = messageDataInfo["user"] as! [String: AnyObject]
-                                    let userID = user["id"] as! String
-                                    let state = messageDataInfo["state"] as! String
-                                    self.delegate?.fayeRecievedCurrentStatus(state, userID: userID)
-                                }
-                            
-                                
-                            default:
-                                println("Recieved unknow message type")
+                            }
+
+
+                        default:
+                            println("Recieved unknow message type")
                             
                         }
                     }
                 })
+
                 client.connect()
 
         } else {
@@ -256,5 +274,4 @@ class FayeService: NSObject, MZFayeClientDelegate {
         }
     }
 
-    
 }
