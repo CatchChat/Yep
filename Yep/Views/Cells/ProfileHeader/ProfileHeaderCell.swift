@@ -60,11 +60,14 @@ class ProfileHeaderCell: UICollectionViewCell {
     }
 
     func updateAvatarWithAvatarURLString(avatarURLString: String) {
-        avatarImageView.alpha = 0
+        if avatarImageView.image == nil {
+            avatarImageView.alpha = 0
+        }
 
         AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!) { image in
             dispatch_async(dispatch_get_main_queue()) {
                 self.avatarImageView.image = image
+
                 UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
                     self.avatarImageView.alpha = 1
                 }, completion: { (finished) -> Void in
