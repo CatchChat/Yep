@@ -11,17 +11,73 @@ import RealmSwift
 
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
+enum SocialAccount: Int, Printable {
+    case Dribbble = 0
+    case Github
+    case Instagram
+    case Behance
+    
+    var description: String {
+        
+        switch self {
+        case .Dribbble:
+            return "Dribbble"
+        case .Github:
+            return "Github"
+        case .Behance:
+            return "Behance"
+        case .Instagram:
+            return "Instagram"
+        }
+        
+    }
+    
+    var tintColor: UIColor {
+        
+        switch self {
+        case .Dribbble:
+            return UIColor(red:0.91, green:0.28, blue:0.5, alpha:1)
+        case .Github:
+            return UIColor.blackColor()
+        case .Behance:
+            return UIColor(red:0, green:0.46, blue:1, alpha:1)
+        case .Instagram:
+            return UIColor(red:0.15, green:0.36, blue:0.54, alpha:1)
+        }
+    }
+    
+    var iconName: String {
+        
+        switch self {
+        case .Dribbble:
+            return "icon_dribbble"
+        case .Github:
+            return "icon_github"
+        case .Behance:
+            return "icon_behance"
+        case .Instagram:
+            return "icon_instagram"
+        }
+    }
+    
+    var authURL: NSURL {
+        
+        switch self {
+        case .Dribbble:
+            return NSURL(string: "\(baseURL.absoluteString!)/auth/dribbble")!
+        case .Github:
+            return NSURL(string: "\(baseURL.absoluteString!)/auth/github")!
+        case .Behance:
+            return NSURL(string: "\(baseURL.absoluteString!)/auth/behance")!
+        case .Instagram:
+            return NSURL(string: "\(baseURL.absoluteString!)/auth/instagram")!
+        }
+    }
+}
+
 enum ProfileUser {
     case DiscoveredUserType(DiscoveredUser)
     case UserType(User)
-}
-
-enum ProfileSection: Int {
-    case Header = 0
-    case Footer
-    case Master
-    case Learning
-    case SocialAccount
 }
 
 class ProfileViewController: CustomNavigationBarViewController {
@@ -248,57 +304,15 @@ class ProfileViewController: CustomNavigationBarViewController {
 // MARK: UICollectionView
 
 extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-
-
-    enum SocialAccount: Int, Printable {
-        case Dribbble = 0
-        case Github
-        case Instagram
-        case Behance
-        
-        var description: String {
-            
-            switch self {
-            case .Dribbble:
-                return "Dribbble"
-            case .Github:
-                return "Github"
-            case .Behance:
-                return "Behance"
-            case .Instagram:
-                return "Instagram"
-            }
-            
-        }
-        
-        var tintColor: UIColor {
-            
-            switch self {
-            case .Dribbble:
-                return UIColor(red:0.91, green:0.28, blue:0.5, alpha:1)
-            case .Github:
-                return UIColor.blackColor()
-            case .Behance:
-                return UIColor(red:0, green:0.46, blue:1, alpha:1)
-            case .Instagram:
-                return UIColor(red:0.15, green:0.36, blue:0.54, alpha:1)
-            }
-        }
-        
-        var iconName: String {
-            
-            switch self {
-            case .Dribbble:
-                return "icon_dribbble"
-            case .Github:
-                return "icon_github"
-            case .Behance:
-                return "icon_behance"
-            case .Instagram:
-                return "icon_instagram"
-            }
-        }
+    
+    enum ProfileSection: Int {
+        case Header = 0
+        case Footer
+        case Master
+        case Learning
+        case SocialAccount
     }
+
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 5
@@ -567,6 +581,15 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             let cell = collectionView.cellForItemAtIndexPath(indexPath) as! SkillCell
             
             self.performSegueWithIdentifier("showSkillHome", sender: cell)
+            
+        } else if indexPath.section == ProfileSection.SocialAccount.rawValue {
+            
+            let vc = OAuthViewController()
+            vc.socialAccount = SocialAccount(rawValue: indexPath.item)
+            
+            presentViewController(vc, animated: true, completion: { () -> Void in
+                
+            })
         }
 
     }

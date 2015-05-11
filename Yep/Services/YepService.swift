@@ -1156,3 +1156,14 @@ func markAsReadMessage(message: Message ,#failureHandler: ((Reason, String?) -> 
         apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
     }
 }
+
+func authURLRequestWithURL(url: NSURL) -> NSURLRequest {
+    
+    var request = NSMutableURLRequest(URL: url)
+    
+    if let token = YepUserDefaults.v1AccessToken.value {
+        request.setValue("Token token=\"\(token)\"", forHTTPHeaderField: "Authorization")
+    }
+
+    return request
+}
