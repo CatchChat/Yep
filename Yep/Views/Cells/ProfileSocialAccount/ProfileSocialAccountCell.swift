@@ -10,6 +10,9 @@ import UIKit
 
 class ProfileSocialAccountCell: UICollectionViewCell {
 
+    @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

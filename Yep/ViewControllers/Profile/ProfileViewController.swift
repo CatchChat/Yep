@@ -16,6 +16,14 @@ enum ProfileUser {
     case UserType(User)
 }
 
+enum ProfileSection: Int {
+    case Header = 0
+    case Footer
+    case Master
+    case Learning
+    case SocialAccount
+}
+
 class ProfileViewController: CustomNavigationBarViewController {
 
     var profileUser: ProfileUser?
@@ -37,8 +45,8 @@ class ProfileViewController: CustomNavigationBarViewController {
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.profileCollectionView.bounds)
         }()
-    lazy var sectionLeftEdgeInset: CGFloat = { return 20 }()
-    lazy var sectionRightEdgeInset: CGFloat = { return 20 }()
+    lazy var sectionLeftEdgeInset: CGFloat = { return 38 }()
+    lazy var sectionRightEdgeInset: CGFloat = { return 38 }()
     lazy var sectionBottomEdgeInset: CGFloat = { return 15 }()
 
     let introductionText = "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
@@ -241,14 +249,57 @@ class ProfileViewController: CustomNavigationBarViewController {
 
 extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
-    enum ProfileSection: Int {
-        case Header = 0
-        case Footer
-        case Master
-        case Learning
-        case SocialAccount
-    }
 
+    enum SocialAccount: Int, Printable {
+        case Dribbble = 0
+        case Github
+        case Instagram
+        case Behance
+        
+        var description: String {
+            
+            switch self {
+            case .Dribbble:
+                return "Dribbble"
+            case .Github:
+                return "Github"
+            case .Behance:
+                return "Behance"
+            case .Instagram:
+                return "Instagram"
+            }
+            
+        }
+        
+        var tintColor: UIColor {
+            
+            switch self {
+            case .Dribbble:
+                return UIColor(red:0.91, green:0.28, blue:0.5, alpha:1)
+            case .Github:
+                return UIColor.blackColor()
+            case .Behance:
+                return UIColor(red:0, green:0.46, blue:1, alpha:1)
+            case .Instagram:
+                return UIColor(red:0.15, green:0.36, blue:0.54, alpha:1)
+            }
+        }
+        
+        var iconName: String {
+            
+            switch self {
+            case .Dribbble:
+                return "icon_dribbble"
+            case .Github:
+                return "icon_github"
+            case .Behance:
+                return "icon_behance"
+            case .Instagram:
+                return "icon_instagram"
+            }
+        }
+    }
+    
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 5
     }
@@ -371,6 +422,13 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountCell
             
+            if let socialAccount = SocialAccount(rawValue: indexPath.row) {
+                cell.iconImageView.image = UIImage(named: socialAccount.iconName)
+                cell.nameLabel.text = socialAccount.description
+                cell.iconImageView.tintColor = socialAccount.tintColor
+                cell.nameLabel.textColor = socialAccount.tintColor
+            }
+            
             return cell
 
 
@@ -424,7 +482,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return UIEdgeInsets(top: 0, left: 0, bottom: sectionBottomEdgeInset, right: 0)
             
         case ProfileSection.SocialAccount.rawValue:
-            return UIEdgeInsets(top: 0, left: 0, bottom: sectionBottomEdgeInset, right: 0)
+            return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: sectionBottomEdgeInset, right: sectionRightEdgeInset)
 
         default:
             return UIEdgeInsetsZero
@@ -482,7 +540,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return CGSizeMake(collectionViewWidth, footerCellHeight)
             
         case ProfileSection.SocialAccount.rawValue:
-            return CGSizeMake(collectionViewWidth, 60)
+            return CGSizeMake(collectionViewWidth, 40)
 
         default:
             return CGSizeZero

@@ -14,14 +14,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="268" height="100"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="esp-4R-pNj" userLabel="Icon Image View">
-                        <rect key="frame" x="23" y="38" width="24" height="24"/>
+                        <rect key="frame" x="38" y="38" width="24" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="esp-4R-pNj" secondAttribute="height" multiplier="1:1" id="Eoa-2R-f6V"/>
                             <constraint firstAttribute="width" constant="24" id="XTV-Ad-wry"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c0w-de-xST" userLabel="Name Label">
-                        <rect key="frame" x="62" y="39" width="42" height="21"/>
+                        <rect key="frame" x="77" y="39" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -31,12 +31,16 @@
             </view>
             <constraints>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="c0w-de-xST" secondAttribute="trailing" constant="20" id="3kw-DY-LH4"/>
-                <constraint firstItem="esp-4R-pNj" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="23" id="7BO-Qu-PM1"/>
+                <constraint firstItem="esp-4R-pNj" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="38" id="7BO-Qu-PM1"/>
                 <constraint firstItem="c0w-de-xST" firstAttribute="leading" secondItem="esp-4R-pNj" secondAttribute="trailing" constant="15" id="KDy-Wa-nKx"/>
-                <constraint firstItem="c0w-de-xST" firstAttribute="centerY" secondItem="esp-4R-pNj" secondAttribute="centerY" constant="-0.5" id="dR2-w0-Xh5"/>
+                <constraint firstItem="c0w-de-xST" firstAttribute="centerY" secondItem="esp-4R-pNj" secondAttribute="centerY" id="dR2-w0-Xh5"/>
                 <constraint firstAttribute="centerY" secondItem="esp-4R-pNj" secondAttribute="centerY" id="oQb-wQ-HzK"/>
             </constraints>
             <size key="customSize" width="268" height="100"/>
+            <connections>
+                <outlet property="iconImageView" destination="esp-4R-pNj" id="mU8-Jr-bBW"/>
+                <outlet property="nameLabel" destination="c0w-de-xST" id="DBv-If-Sp2"/>
+            </connections>
             <point key="canvasLocation" x="281" y="297"/>
         </collectionViewCell>
     </objects>

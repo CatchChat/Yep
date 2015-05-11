@@ -8,8 +8,8 @@
 
 import UIKit
 
-let profileIntroductionLabelLeadingSpaceToContainer: CGFloat = 20
-let profileIntroductionLabelTrailingSpaceToContainer: CGFloat = 20
+let profileIntroductionLabelLeadingSpaceToContainer: CGFloat = 38
+let profileIntroductionLabelTrailingSpaceToContainer: CGFloat = 38
 let profileIntroductionLabelFont = UIFont(name: "HelveticaNeue-Thin", size: 12)!
 
 class ProfileFooterCell: UICollectionViewCell {
