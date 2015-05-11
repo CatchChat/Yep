@@ -35,6 +35,8 @@ class ImageCache {
                 imageURLString = message.thumbnailURLString
             }
 
+            let messageID = message.messageID
+
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
 
                 if !fileName.isEmpty {
@@ -70,7 +72,10 @@ class ImageCache {
                             let messageImageURL = NSFileManager.saveMessageImageData(data, withName: messageImageName)
 
                             dispatch_async(dispatch_get_main_queue()) {
-                                if let realm = message.realm {
+
+                                let realm = Realm()
+
+                                if let message = messageWithMessageID(messageID, inRealm: realm) {
                                     realm.beginWrite()
 
                                     if message.mediaType == MessageMediaType.Image.rawValue {
