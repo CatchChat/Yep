@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Realm
+import RealmSwift
 import MapKit
 
 class ImageCache {
@@ -70,17 +70,18 @@ class ImageCache {
                             let messageImageURL = NSFileManager.saveMessageImageData(data, withName: messageImageName)
 
                             dispatch_async(dispatch_get_main_queue()) {
-                                let realm = message.realm
-                                realm.beginWriteTransaction()
+                                if let realm = message.realm {
+                                    realm.beginWrite()
 
-                                if message.mediaType == MessageMediaType.Image.rawValue {
-                                    message.localAttachmentName = messageImageName
+                                    if message.mediaType == MessageMediaType.Image.rawValue {
+                                        message.localAttachmentName = messageImageName
 
-                                } else if message.mediaType == MessageMediaType.Video.rawValue {
-                                    message.localThumbnailName = messageImageName
+                                    } else if message.mediaType == MessageMediaType.Video.rawValue {
+                                        message.localThumbnailName = messageImageName
+                                    }
+                                    
+                                    realm.commitWrite()
                                 }
-
-                                realm.commitWriteTransaction()
                             }
 
                             let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size)

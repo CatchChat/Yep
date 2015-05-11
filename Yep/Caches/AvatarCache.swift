@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Realm
+import RealmSwift
 
 class AvatarCache {
     static let sharedInstance = AvatarCache()
@@ -108,17 +108,17 @@ class AvatarCache {
                                 let avatarFileName = NSUUID().UUIDString
 
                                 if let avatarURL = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
-                                    let realm = RLMRealm.defaultRealm()
+                                    let realm = Realm()
 
-                                    realm.beginWriteTransaction()
+                                    realm.beginWrite()
 
                                     let newAvatar = Avatar()
                                     newAvatar.avatarURLString = avatarURLString
                                     newAvatar.avatarFileName = avatarFileName
 
-                                    realm.addObject(newAvatar)
+                                    realm.add(newAvatar)
                                     
-                                    realm.commitWriteTransaction()
+                                    realm.commitWrite()
                                 }
                             }
                         }
@@ -174,9 +174,9 @@ class AvatarCache {
                         // TODO 裁减 image
 
                         dispatch_async(dispatch_get_main_queue()) {
-                            let realm = RLMRealm.defaultRealm()
+                            let realm = Realm()
 
-                            realm.beginWriteTransaction()
+                            realm.beginWrite()
 
                             var avatar = avatarWithAvatarURLString(avatarURLString)
 
@@ -188,11 +188,11 @@ class AvatarCache {
                                     newAvatar.avatarURLString = avatarURLString
                                     newAvatar.avatarFileName = avatarFileName
 
-                                    realm.addObject(newAvatar)
+                                    realm.add(newAvatar)
                                 }
                             }
                             
-                            realm.commitWriteTransaction()
+                            realm.commitWrite()
                         }
 
                         let roundImage = image.roundImageOfRadius(radius)
@@ -246,16 +246,16 @@ class AvatarCache {
                     } else {
                         // 换了 Avatar，删除旧的
                         dispatch_async(dispatch_get_main_queue()) {
-                            let realm = RLMRealm.defaultRealm()
+                            let realm = Realm()
 
-                            realm.beginWriteTransaction()
+                            realm.beginWrite()
 
                             // 不能直接使用 user.avatar, 因为 realm 不同
                             if let avatar = avatarWithAvatarURLString(user.avatarURLString) {
-                                realm.deleteObject(avatar)
+                                realm.delete(avatar)
                             }
 
-                            realm.commitWriteTransaction()
+                            realm.commitWrite()
                         }
                     }
                 }
@@ -268,9 +268,9 @@ class AvatarCache {
                         // TODO 裁减 image
 
                         dispatch_async(dispatch_get_main_queue()) {
-                            let realm = RLMRealm.defaultRealm()
+                            let realm = Realm()
 
-                            realm.beginWriteTransaction()
+                            realm.beginWrite()
 
                             var avatar = avatarWithAvatarURLString(user.avatarURLString)
 
@@ -281,7 +281,7 @@ class AvatarCache {
                                     newAvatar.avatarURLString = user.avatarURLString
                                     newAvatar.avatarFileName = avatarFileName
 
-                                    realm.addObject(newAvatar)
+                                    realm.add(newAvatar)
 
                                     avatar = newAvatar
                                 }
@@ -291,7 +291,7 @@ class AvatarCache {
                                 user.avatar = avatar
                             }
                             
-                            realm.commitWriteTransaction()
+                            realm.commitWrite()
                         }
 
                         let roundImage = image.roundImageOfRadius(radius)
