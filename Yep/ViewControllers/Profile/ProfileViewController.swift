@@ -32,6 +32,7 @@ class ProfileViewController: CustomNavigationBarViewController {
     let footerCellIdentifier = "ProfileFooterCell"
     let sectionHeaderIdentifier = "ProfileSectionHeaderReusableView"
     let sectionFooterIdentifier = "ProfileSectionFooterReusableView"
+    let socialAccountCellIdentifier = "ProfileSocialAccountCell"
 
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.profileCollectionView.bounds)
@@ -61,6 +62,7 @@ class ProfileViewController: CustomNavigationBarViewController {
         profileCollectionView.registerNib(UINib(nibName: skillCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: headerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: footerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: footerCellIdentifier)
+        profileCollectionView.registerNib(UINib(nibName: socialAccountCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: sectionHeaderIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: sectionHeaderIdentifier)
         profileCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: sectionFooterIdentifier)
 
@@ -244,10 +246,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case Footer
         case Master
         case Learning
+        case SocialAccount
     }
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 4
+        return 5
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -286,6 +289,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.Footer.rawValue:
             return 1
+            
+        case ProfileSection.SocialAccount.rawValue:
+            return 3
 
         default:
             return 0
@@ -360,6 +366,13 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             cell.introductionLabel.text = introductionText
 
             return cell
+            
+        case ProfileSection.SocialAccount.rawValue:
+            
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountCell
+            
+            return cell
+
 
         default:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
@@ -408,6 +421,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: sectionBottomEdgeInset, right: sectionRightEdgeInset)
 
         case ProfileSection.Footer.rawValue:
+            return UIEdgeInsets(top: 0, left: 0, bottom: sectionBottomEdgeInset, right: 0)
+            
+        case ProfileSection.SocialAccount.rawValue:
             return UIEdgeInsets(top: 0, left: 0, bottom: sectionBottomEdgeInset, right: 0)
 
         default:
@@ -464,6 +480,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.Footer.rawValue:
             return CGSizeMake(collectionViewWidth, footerCellHeight)
+            
+        case ProfileSection.SocialAccount.rawValue:
+            return CGSizeMake(collectionViewWidth, 60)
 
         default:
             return CGSizeZero
