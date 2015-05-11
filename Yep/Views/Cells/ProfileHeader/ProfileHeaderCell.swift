@@ -75,7 +75,7 @@ class ProfileHeaderCell: UICollectionViewCell {
     
     func updateAddress() {
         
-        println("Location YepLocationUpdated")
+//        println("Location YepLocationUpdated")
         
         self.locationLabel.text = YepLocationService.sharedManager.address
     }

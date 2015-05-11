@@ -26,6 +26,8 @@
 		0A90187E1B01152800AE4B7F /* ProfileSocialAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A90187C1B01152800AE4B7F /* ProfileSocialAccountCell.swift */; };
 		0A90187F1B01152800AE4B7F /* ProfileSocialAccountCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A90187D1B01152800AE4B7F /* ProfileSocialAccountCell.xib */; };
 		0A9018821B0120A500AE4B7F /* OAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9018811B0120A500AE4B7F /* OAuthViewController.swift */; };
+		0A9018851B012B4600AE4B7F /* oauth.html in Resources */ = {isa = PBXBuildFile; fileRef = 0A9018841B012B4600AE4B7F /* oauth.html */; };
+		0A9018871B01321F00AE4B7F /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0A9018861B01321F00AE4B7F /* WebViewJavascriptBridge.js.txt */; };
 		0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A944C241AC8BB2F00037A06 /* YepStorageService.swift */; };
 		0AAFCFF91AC8CA5B00EB0EF8 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */; };
 		0AD7EA5E1AC3ED1200617758 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA5D1AC3ED1200617758 /* CFNetwork.framework */; };
@@ -200,6 +202,8 @@
 		0A90187C1B01152800AE4B7F /* ProfileSocialAccountCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountCell.swift; sourceTree = "<group>"; };
 		0A90187D1B01152800AE4B7F /* ProfileSocialAccountCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountCell.xib; sourceTree = "<group>"; };
 		0A9018811B0120A500AE4B7F /* OAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OAuthViewController.swift; path = ViewControllers/OAuth/OAuthViewController.swift; sourceTree = "<group>"; };
+		0A9018841B012B4600AE4B7F /* oauth.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = oauth.html; sourceTree = "<group>"; };
+		0A9018861B01321F00AE4B7F /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		0A944C241AC8BB2F00037A06 /* YepStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepStorageService.swift; path = Services/YepStorageService.swift; sourceTree = "<group>"; };
 		0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		0AD7EA511AC3EA6F00617758 /* JPushSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JPushSDK.framework; path = "Pods/../build/Debug-iphoneos/Pods/JPushSDK.framework"; sourceTree = "<group>"; };
@@ -451,6 +455,7 @@
 			isa = PBXGroup;
 			children = (
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
+				0A9018841B012B4600AE4B7F /* oauth.html */,
 				0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */,
 				50E114F51ABBF9D100F13000 /* Realm */,
 				502AE53B1AB871C5005BD199 /* Helpers */,
@@ -472,6 +477,7 @@
 		0A8F54AE1AB67D11004AD60E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0A9018881B01324100AE4B7F /* WebViewJSBridge */,
 				0AD7EA751AC3EE9B00617758 /* JPush */,
 				0A8F54AF1AB67D11004AD60E /* Info.plist */,
 			);
@@ -510,6 +516,14 @@
 				0A9018811B0120A500AE4B7F /* OAuthViewController.swift */,
 			);
 			name = OAuth;
+			sourceTree = "<group>";
+		};
+		0A9018881B01324100AE4B7F /* WebViewJSBridge */ = {
+			isa = PBXGroup;
+			children = (
+				0A9018861B01321F00AE4B7F /* WebViewJavascriptBridge.js.txt */,
+			);
+			name = WebViewJSBridge;
 			sourceTree = "<group>";
 		};
 		0AD7EA751AC3EE9B00617758 /* JPush */ = {
@@ -1295,11 +1309,13 @@
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 				50EB8CC51AE89F12001AC1EE /* ChatRightVideoCell.xib in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
+				0A9018871B01321F00AE4B7F /* WebViewJavascriptBridge.js.txt in Resources */,
 				50894D081AEDFDA2000981AF /* EditProfileMoreInfoCell.xib in Resources */,
 				508D174D1ACCF49B0092D666 /* ChatRightAudioCell.xib in Resources */,
 				50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */,
 				503315981AC1017E0008A209 /* ChatLeftTextCell.xib in Resources */,
 				50894D031AEA6433000981AF /* EditProfileLessInfoCell.xib in Resources */,
+				0A9018851B012B4600AE4B7F /* oauth.html in Resources */,
 				0AD7EA771AC3EEB000617758 /* PushConfig.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

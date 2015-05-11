@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title></title>
+    <script type="text/javascript">
+
+      function connectWebViewJavascriptBridge(callback) {
+
+        if (window.WebViewJavascriptBridge) {
+            callback(WebViewJavascriptBridge)
+
+        } else {
+            document.addEventListener('WebViewJavascriptBridgeReady', function() {
+                                      
+                callback(WebViewJavascriptBridge)
+
+            }, false)
+        }
+      }
+
+
+      connectWebViewJavascriptBridge(function(bridge) {
+
+        bridge.init(function(data, responseCallback) {
+            if (responseCallback) {
+                responseCallback("Right back atcha!")
+            }
+        })
+        bridge.send({ "success": true })
+                                     
+      })
+
+    </script>
+  </head>
+  <body>
+      haha
+  </body>
+</html>
