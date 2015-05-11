@@ -456,7 +456,7 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 
                 for memberInfo in remoteMembers {
                     if let memberID = memberInfo["id"] as? String {
-                        let member = userWithUserID(memberID, inRealm: realm)
+                        var member = userWithUserID(memberID, inRealm: realm)
 
                         if member == nil {
                             let newMember = User()
@@ -477,13 +477,13 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                                 newMember.friendState = UserFriendState.Stranger.rawValue
                             }
 
-                            realm.beginWrite()
+                            realm.write {
+                                realm.add(newMember)
 
-                            realm.add(newMember)
+                                localMembers.append(newMember)
+                            }
 
-                            localMembers.append(newMember)
-
-                            realm.commitWrite()
+                            member = newMember
                         }
 
                         if let member = member {
