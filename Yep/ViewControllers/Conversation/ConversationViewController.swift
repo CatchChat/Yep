@@ -15,8 +15,10 @@ class ConversationViewController: UIViewController {
 
     var conversation: Conversation!
 
+    var realm: Realm!
+
     lazy var messages: Results<Message> = {
-        return messagesInConversation(self.conversation)
+        return messagesOfConversation(self.conversation, inRealm: self.realm)
         }()
 
     let messagesBunchCount = 50 // TODO: 分段载入的“一束”消息的数量
@@ -157,6 +159,8 @@ class ConversationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        realm = Realm()
 
         navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
 
@@ -1093,10 +1097,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 markAsReadMessage(message, failureHandler: nil) { success in
                     dispatch_async(dispatch_get_main_queue()) {
-                        if let realm = message.realm {
-                            realm.beginWrite()
-                            message.readed = true
-                            realm.commitWrite()
+                        let realm = Realm()
+                        
+                        if let message = messageWithMessageID(message.messageID, inRealm: realm) {
+                            realm.write {
+                                message.readed = true
+                            }
 
                             println("\(message.messageID) mark as read")
                         }

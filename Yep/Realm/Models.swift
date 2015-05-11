@@ -300,14 +300,26 @@ func tryGetOrCreateMeInRealm(realm: Realm) -> User? {
 }
 
 func messagesInConversation(conversation: Conversation) -> Results<Message> {
-    let realm = Realm()
+
+    let predicate = NSPredicate(format: "conversation = %@", conversation)
+
+    if let realm = conversation.realm {
+        return realm.objects(Message).sorted("createdAt", ascending: true)
+
+    } else {
+        let realm = Realm()
+        return realm.objects(Message).sorted("createdAt", ascending: true)
+    }
+}
+
+func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
     let predicate = NSPredicate(format: "conversation = %@", conversation)
     let messages = realm.objects(Message).sorted("createdAt", ascending: true)
     return messages
 }
 
-func tryCreateSectionDateMessageInConversation(conversation: Conversation, beforeMessage message: Message, success: (Message) -> Void) {
-    let messages = messagesInConversation(conversation)
+func tryCreateSectionDateMessageInConversation(conversation: Conversation, beforeMessage message: Message, inRealm realm: Realm, success: (Message) -> Void) {
+    let messages = messagesOfConversation(conversation, inRealm: realm)
     if messages.count > 1 {
         let prevMessage = messages[messages.count - 2]
         if message.createdAt.timeIntervalSinceDate(prevMessage.createdAt) > 30 { // TODO: Time Section

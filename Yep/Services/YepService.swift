@@ -966,7 +966,7 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
         conversation.updatedAt = message.createdAt // 关键哦
         message.conversation = conversation
 
-        tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message) { sectionDateMessage in
+        tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in
             realm.add(sectionDateMessage)
         }
     }
@@ -1139,9 +1139,8 @@ func markAsReadMessage(message: Message ,#failureHandler: ((Reason, String?) -> 
         return
     }
     
-    var state = UIApplication.sharedApplication().applicationState
-    if state == UIApplicationState.Background || state == UIApplicationState.Inactive
-    {
+    let state = UIApplication.sharedApplication().applicationState
+    if state == UIApplicationState.Background || state == UIApplicationState.Inactive {
         return
     }
 

@@ -683,7 +683,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
 
                             message.conversation = conversation
 
-                            tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message) { sectionDateMessage in
+                            tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in
                                 realm.add(sectionDateMessage)
                             }
 

@@ -15,9 +15,10 @@ class ConversationsViewController: UIViewController {
 
     let cellIdentifier = "ConversationCell"
 
+    var realm: Realm!
+
     lazy var conversations: Results<Conversation> = {
-        let realm = Realm()
-        return realm.objects(Conversation).sorted("updatedAt", ascending: false)
+        return self.realm.objects(Conversation).sorted("updatedAt", ascending: false)
         }()
 
 
@@ -27,6 +28,8 @@ class ConversationsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        realm = Realm()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepNewMessagesReceivedNotification, object: nil)
 
