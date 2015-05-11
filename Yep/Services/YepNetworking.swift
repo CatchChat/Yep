@@ -145,10 +145,14 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
         if let httpResponse = response as? NSHTTPURLResponse {
             if httpResponse.statusCode == 200 {
                 if let responseData = data {
+
                     if let result = resource.parse(responseData) {
                         completion(result)
 
                     } else {
+                        let dataString = NSString(data: responseData, encoding: NSUTF8StringEncoding)
+                        println(dataString)
+                        
                         println("\(resource)")
                         failure(Reason.CouldNotParseJSON, errorMessageInData(data))
                     }

@@ -1167,3 +1167,18 @@ func authURLRequestWithURL(url: NSURL) -> NSURLRequest {
 
     return request
 }
+
+func socialAccountWithProvider(provider: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
+    
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+    
+    let resource = authJsonResource(path: "/api/v1/user/\(provider)", method: .GET, requestParameters: [:], parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}

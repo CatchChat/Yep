@@ -36,8 +36,17 @@ class OAuthViewController: UIViewController, UIWebViewDelegate, NSURLConnectionD
             if let status = data as? [String: Bool] {
                 if let success = status["success"] {
                     println("Got response \(success)")
-                } else {
                     
+                    socialAccountWithProvider(self.socialAccount.description.lowercaseString, failureHandler: { (reason, errorMessage) -> Void in
+                        
+                        defaultFailureHandler(reason, errorMessage)
+                        
+                        }, completion: { provider in
+                            println(provider)
+                    })
+                    
+                } else {
+
                 }
             } else {
                 
