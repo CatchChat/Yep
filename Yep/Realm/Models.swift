@@ -304,17 +304,17 @@ func messagesInConversation(conversation: Conversation) -> Results<Message> {
     let predicate = NSPredicate(format: "conversation = %@", conversation)
 
     if let realm = conversation.realm {
-        return realm.objects(Message).sorted("createdAt", ascending: true)
+        return realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
 
     } else {
         let realm = Realm()
-        return realm.objects(Message).sorted("createdAt", ascending: true)
+        return realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
     }
 }
 
 func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
     let predicate = NSPredicate(format: "conversation = %@", conversation)
-    let messages = realm.objects(Message).sorted("createdAt", ascending: true)
+    let messages = realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
     return messages
 }
 
