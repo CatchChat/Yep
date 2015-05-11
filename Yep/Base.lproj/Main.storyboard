@@ -649,7 +649,13 @@
                             <constraint firstAttribute="bottom" secondItem="9oB-pd-Kh9" secondAttribute="bottom" id="wWc-me-XWV"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Syj-dZ-pAz"/>
+                    <navigationItem key="navigationItem" id="Syj-dZ-pAz">
+                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="Djr-es-XZ6">
+                            <connections>
+                                <action selector="cancel:" destination="pm1-5Q-SW5" id="UyX-Ky-fjg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="webView" destination="9oB-pd-Kh9" id="td2-Id-mqD"/>
                     </connections>

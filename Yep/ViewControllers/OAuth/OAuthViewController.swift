@@ -55,8 +55,12 @@ class OAuthViewController: UIViewController, UIWebViewDelegate, NSURLConnectionD
                 println("Bridge Error")
             }
         })
+    }
 
-        // Do any additional setup after loading the view.
+    // MARK: Actions
+
+    @IBAction func cancel(sender: UIBarButtonItem) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
 
     // MARK: UIWebViewDelegate
