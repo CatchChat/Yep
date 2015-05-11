@@ -195,20 +195,25 @@ class ProfileViewController: CustomNavigationBarViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "showConversation" {
-            
             let vc = segue.destinationViewController as! ConversationViewController
             vc.conversation = sender as! Conversation
             
         } else if segue.identifier == "showSkillHome" {
-            
             if let cell = sender as? SkillCell {
-                
                 let vc = segue.destinationViewController as! SkillHomeViewController
                 vc.hidesBottomBarWhenPushed = true
                 vc.skillName = cell.skillLabel.text
             }
+
+        } else if segue.identifier == "presentOAuth" {
+            if let item = sender as? Int {
+                let nvc = segue.destinationViewController as! UINavigationController
+                let vc = nvc.topViewController as! OAuthViewController
+                vc.socialAccount = SocialAccount(rawValue: item)
+            }
         }
     }
+    
     // MARK: Actions
 
     @IBAction func sayHi(sender: UIButton) {
@@ -583,13 +588,8 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             self.performSegueWithIdentifier("showSkillHome", sender: cell)
             
         } else if indexPath.section == ProfileSection.SocialAccount.rawValue {
-            
-            let vc = OAuthViewController()
-            vc.socialAccount = SocialAccount(rawValue: indexPath.item)
-            
-            presentViewController(vc, animated: true, completion: { () -> Void in
-                
-            })
+
+            performSegueWithIdentifier("presentOAuth", sender: indexPath.item)
         }
 
     }
