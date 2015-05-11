@@ -918,10 +918,10 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
 
     // 消息来自于自己
 
-    if let me = tryGetOrCreateMe() {
-        realm.beginWrite()
-        message.fromFriend = me
-        realm.commitWrite()
+    if let me = tryGetOrCreateMeInRealm(realm) {
+        realm.write {
+            message.fromFriend = me
+        }
     }
 
     // 消息的 Conversation，没有就创建

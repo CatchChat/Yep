@@ -234,25 +234,21 @@ func normalUsers() -> Results<User> {
 }
 
 func userSkillWithSkillID(skillID: String, inRealm realm: Realm) -> UserSkill? {
-    let realm = Realm()
     let predicate = NSPredicate(format: "skillID = %@", skillID)
     return realm.objects(UserSkill).filter(predicate).first
 }
 
 func userSkillCategoryWithSkillCategoryID(skillCategoryID: String, inRealm realm: Realm) -> UserSkillCategory? {
-    let realm = Realm()
     let predicate = NSPredicate(format: "skillCategoryID = %@", skillCategoryID)
     return realm.objects(UserSkillCategory).filter(predicate).first
 }
 
 func userWithUserID(userID: String, inRealm realm: Realm) -> User? {
-    let realm = Realm()
     let predicate = NSPredicate(format: "userID = %@", userID)
     return realm.objects(User).filter(predicate).first
 }
 
 func groupWithGroupID(groupID: String, inRealm realm: Realm) -> Group? {
-    let realm = Realm()
     let predicate = NSPredicate(format: "groupID = %@", groupID)
     return realm.objects(Group).filter(predicate).first
 }
@@ -262,7 +258,6 @@ func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
         return nil
     }
 
-    let realm = Realm()
     let predicate = NSPredicate(format: "messageID = %@", messageID)
     return realm.objects(Message).filter(predicate).first
 }
@@ -272,10 +267,8 @@ func avatarWithAvatarURLString(avatarURLString: String, inRealm realm: Realm) ->
     return realm.objects(Avatar).filter(predicate).first
 }
 
-func tryGetOrCreateMe() -> User? {
+func tryGetOrCreateMeInRealm(realm: Realm) -> User? {
     if let userID = YepUserDefaults.userID.value {
-
-        let realm = Realm()
 
         if let me = userWithUserID(userID, inRealm: realm) {
             return me
