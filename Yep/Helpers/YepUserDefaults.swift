@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Realm
+import RealmSwift
 
 let v1AccessTokenKey = "v1AccessToken"
 let userIDKey = "userID"
@@ -126,10 +126,10 @@ class YepUserDefaults {
                 nickname = nickname,
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID) {
-                    let realm = RLMRealm.defaultRealm()
-                    realm.beginWriteTransaction()
+                    let realm = Realm()
+                    realm.beginWrite()
                     me.nickname = nickname
-                    realm.commitWriteTransaction()
+                    realm.commitWrite()
             }
         }
         }()
@@ -145,10 +145,10 @@ class YepUserDefaults {
                 avatarURLString = avatarURLString,
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID) {
-                    let realm = RLMRealm.defaultRealm()
-                    realm.beginWriteTransaction()
+                    let realm = Realm()
+                    realm.beginWrite()
                     me.avatarURLString = avatarURLString
-                    realm.commitWriteTransaction()
+                    realm.commitWrite()
             }
         }
         }()
