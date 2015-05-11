@@ -150,7 +150,6 @@
 		50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50CDBE481ACBAD3200459CE0 /* ChatLeftImageCell.xib */; };
 		50D4D0DB1AFA825B005AEB6F /* MediaControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */; };
 		50E114F41ABBF9CC00F13000 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F31ABBF9CC00F13000 /* Models.swift */; };
-		50E114F71ABBFA7000F13000 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F61ABBFA7000F13000 /* RLMSupport.swift */; };
 		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
 		50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E114FB1ABC549300F13000 /* ContactsCell.xib */; };
@@ -326,7 +325,6 @@
 		50CDBE481ACBAD3200459CE0 /* ChatLeftImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftImageCell.xib; path = Views/Cells/ChatLeftImage/ChatLeftImageCell.xib; sourceTree = "<group>"; };
 		50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaControlView.swift; path = Views/Media/MediaControlView.swift; sourceTree = "<group>"; };
 		50E114F31ABBF9CC00F13000 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Realm/Models.swift; sourceTree = "<group>"; };
-		50E114F61ABBFA7000F13000 /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RLMSupport.swift; path = Realm/RLMSupport.swift; sourceTree = "<group>"; };
 		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
 		50E114FB1ABC549300F13000 /* ContactsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactsCell.xib; path = Views/Cells/Contacts/ContactsCell.xib; sourceTree = "<group>"; };
@@ -1064,7 +1062,6 @@
 		50E114F51ABBF9D100F13000 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
-				50E114F61ABBFA7000F13000 /* RLMSupport.swift */,
 				50E114F31ABBF9CC00F13000 /* Models.swift */,
 			);
 			name = Realm;
@@ -1410,7 +1407,6 @@
 				508D17401ACCD2740092D666 /* YepButton.swift in Sources */,
 				506BB7F51AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift in Sources */,
 				5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */,
-				50E114F71ABBFA7000F13000 /* RLMSupport.swift in Sources */,
 				5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */,
 				50A9D4511ACD383E000B2599 /* NSDate+Extension.swift in Sources */,
 				506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */,
