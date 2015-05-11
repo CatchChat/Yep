@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Realm
+import RealmSwift
 import AVFoundation
 import MobileCoreServices
 
@@ -15,7 +15,7 @@ class ConversationViewController: UIViewController {
 
     var conversation: Conversation!
 
-    lazy var messages: RLMResults = {
+    lazy var messages: Results<Message> = {
         return messagesInConversation(self.conversation)
         }()
 
@@ -24,7 +24,7 @@ class ConversationViewController: UIViewController {
 
 
     // 上一次更新 UI 时的消息数
-    var lastTimeMessagesCount: UInt = 0
+    var lastTimeMessagesCount: Int = 0
 
     lazy var sectionDateFormatter: NSDateFormatter =  {
         let dateFormatter = NSDateFormatter()
@@ -160,7 +160,7 @@ class ConversationViewController: UIViewController {
 
         navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
 
-        if messages.count >= UInt(messagesBunchCount) {
+        if messages.count >= messagesBunchCount {
             displayedMessagesRange = NSRange(location: Int(messages.count) - messagesBunchCount, length: messagesBunchCount)
         } else {
             displayedMessagesRange = NSRange(location: 0, length: Int(messages.count))
@@ -321,16 +321,17 @@ class ConversationViewController: UIViewController {
                     sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message -> Void in
 
                         dispatch_async(dispatch_get_main_queue()) {
-                            let realm = message.realm
-                            realm.beginWriteTransaction()
-                            message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
-                            message.mediaType = MessageMediaType.Audio.rawValue
-                            if let metaData = metaData {
-                                message.metaData = metaData
-                            }
-                            realm.commitWriteTransaction()
+                            if let realm = message.realm {
+                                realm.beginWrite()
+                                message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
+                                message.mediaType = MessageMediaType.Audio.rawValue
+                                if let metaData = metaData {
+                                    message.metaData = metaData
+                                }
+                                realm.commitWrite()
 
-                            self.updateConversationCollectionView(scrollToBottom: true)
+                                self.updateConversationCollectionView(scrollToBottom: true)
+                            }
                         }
 
                     }, failureHandler: { (reason, errorMessage) -> Void in
@@ -345,16 +346,17 @@ class ConversationViewController: UIViewController {
                     sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { (message) -> Void in
 
                         dispatch_async(dispatch_get_main_queue()) {
-                            let realm = message.realm
-                            realm.beginWriteTransaction()
-                            message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
-                            message.mediaType = MessageMediaType.Audio.rawValue
-                            if let metaData = metaData {
-                                message.metaData = metaData
-                            }
-                            realm.commitWriteTransaction()
+                            if let realm = message.realm {
+                                realm.beginWrite()
+                                message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
+                                message.mediaType = MessageMediaType.Audio.rawValue
+                                if let metaData = metaData {
+                                    message.metaData = metaData
+                                }
+                                realm.commitWrite()
 
-                            self.updateConversationCollectionView(scrollToBottom: true)
+                                self.updateConversationCollectionView(scrollToBottom: true)
+                            }
                         }
 
                     }, failureHandler: { (reason, errorMessage) -> Void in
@@ -644,6 +646,7 @@ class ConversationViewController: UIViewController {
     }
 
     private var audioPlayedDurations = [String: Double]()
+
     private func audioPlayedDurationOfMessage(message: Message) -> Double {
         let key = message.messageID
 
@@ -655,25 +658,32 @@ class ConversationViewController: UIViewController {
 
         return 0
     }
+
     private func setAudioPlayedDuration(audioPlayedDuration: Double, ofMessage message: Message) {
         let key = message.messageID
         if !key.isEmpty {
             audioPlayedDurations[key] = audioPlayedDuration
         }
     }
+
     func updateAudioPlaybackProgress(timer: NSTimer) {
+
         func updateAudioCellOfMessage(message: Message, withCurrentTime currentTime: NSTimeInterval) {
-            let indexPath = NSIndexPath(forItem: Int(messages.indexOfObject(message)) - displayedMessagesRange.location, inSection: 0)
 
-            if let sender = message.fromFriend {
-                if sender.friendState != UserFriendState.Me.rawValue {
-                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
-                        cell.audioPlayedDuration = currentTime   
-                    }
+            if let messageIndex = messages.indexOf(message) {
 
-                } else {
-                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
-                        cell.audioPlayedDuration = currentTime
+                let indexPath = NSIndexPath(forItem: messageIndex - displayedMessagesRange.location, inSection: 0)
+
+                if let sender = message.fromFriend {
+                    if sender.friendState != UserFriendState.Me.rawValue {
+                        if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
+                            cell.audioPlayedDuration = currentTime
+                        }
+
+                    } else {
+                        if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
+                            cell.audioPlayedDuration = currentTime
+                        }
                     }
                 }
             }
@@ -735,7 +745,7 @@ class ConversationViewController: UIViewController {
             var newMessagesTotalHeight: CGFloat = 0
             
             for i in _lastTimeMessagesCount..<messages.count {
-                let message = messages.objectAtIndex(i) as! Message
+                let message = messages[i]
                 
                 let height = heightOfMessage(message) + 10 // TODO: +10 cell line space
                 
@@ -934,10 +944,11 @@ class ConversationViewController: UIViewController {
 
             let vc = segue.destinationViewController as! MessageMediaViewController
 
-            if let message = sender as? Message {
+            if let message = sender as? Message, messageIndex = messages.indexOf(message) {
+
                 vc.message = message
 
-                let indexPath = NSIndexPath(forRow: Int(messages.indexOfObject(message)) - displayedMessagesRange.location , inSection: 0)
+                let indexPath = NSIndexPath(forRow: messageIndex - displayedMessagesRange.location , inSection: 0)
 
                 if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) {
 
@@ -1059,7 +1070,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let message = messages.objectAtIndex(UInt(displayedMessagesRange.location + indexPath.item)) as! Message
+        let message = messages[displayedMessagesRange.location + indexPath.item]
 
         if message.mediaType == MessageMediaType.SectionDate.rawValue {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
@@ -1082,12 +1093,13 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 markAsReadMessage(message, failureHandler: nil) { success in
                     dispatch_async(dispatch_get_main_queue()) {
-                        let realm = message.realm
-                        realm.beginWriteTransaction()
-                        message.readed = true
-                        realm.commitWriteTransaction()
+                        if let realm = message.realm {
+                            realm.beginWrite()
+                            message.readed = true
+                            realm.commitWrite()
 
-                        println("\(message.messageID) mark as read")
+                            println("\(message.messageID) mark as read")
+                        }
                     }
                 }
 
@@ -1185,7 +1197,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        let message = messages.objectAtIndex(UInt(displayedMessagesRange.location + indexPath.item)) as! Message
+        let message = messages[displayedMessagesRange.location + indexPath.item]
 
         return CGSizeMake(collectionViewWidth, heightOfMessage(message))
     }
@@ -1199,7 +1211,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             messageToolbar.state = .Default
 
         } else {
-            let message = messages.objectAtIndex(UInt(displayedMessagesRange.location + indexPath.item)) as! Message
+            let message = messages[displayedMessagesRange.location + indexPath.item]
 
             switch message.mediaType {
             case MessageMediaType.Image.rawValue:
@@ -1220,8 +1232,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 playbackTimer.invalidate()
                             }
 
-                            let indexPath = NSIndexPath(forItem: Int(messages.indexOfObject(playingMessage)) - displayedMessagesRange.location, inSection: 0)
-                            if let sender = playingMessage.fromFriend {
+                            if let sender = playingMessage.fromFriend, playingMessageIndex = messages.indexOf(playingMessage) {
+
+                                let indexPath = NSIndexPath(forItem: playingMessageIndex - displayedMessagesRange.location, inSection: 0)
+
                                 if sender.friendState != UserFriendState.Me.rawValue {
                                     if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
                                         cell.playing = false
@@ -1234,7 +1248,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
                             }
 
-                            if message.isEqualToObject(playingMessage) {
+                            if message == playingMessage {
                                 return
                             }
                         }
@@ -1470,14 +1484,15 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 dispatch_async(dispatch_get_main_queue()) {
 
                     if let messageImageURL = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
-                        let realm = message.realm
-                        realm.beginWriteTransaction()
-                        message.localAttachmentName = messageImageName
-                        message.mediaType = MessageMediaType.Image.rawValue
-                        if let metaData = metaData {
-                            message.metaData = metaData
+                        if let realm = message.realm {
+                            realm.beginWrite()
+                            message.localAttachmentName = messageImageName
+                            message.mediaType = MessageMediaType.Image.rawValue
+                            if let metaData = metaData {
+                                message.metaData = metaData
+                            }
+                            realm.commitWrite()
                         }
-                        realm.commitWriteTransaction()
                     }
 
                     self.updateConversationCollectionView(scrollToBottom: true)
@@ -1496,14 +1511,15 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                 dispatch_async(dispatch_get_main_queue()) {
                     if let messageImageURL = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
-                        let realm = message.realm
-                        realm.beginWriteTransaction()
-                        message.localAttachmentName = messageImageName
-                        message.mediaType = MessageMediaType.Image.rawValue
-                        if let metaData = metaData {
-                            message.metaData = metaData
+                        if let realm = message.realm {
+                            realm.beginWrite()
+                            message.localAttachmentName = messageImageName
+                            message.mediaType = MessageMediaType.Image.rawValue
+                            if let metaData = metaData {
+                                message.metaData = metaData
+                            }
+                            realm.commitWrite()
                         }
-                        realm.commitWriteTransaction()
                     }
                     
                     self.updateConversationCollectionView(scrollToBottom: true)
@@ -1546,22 +1562,23 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 if let videoData = NSData(contentsOfURL: videoURL) {
 
                     if let messageVideoURL = NSFileManager.saveMessageVideoData(videoData, withName: messageVideoName) {
-                        let realm = message.realm
-                        realm.beginWriteTransaction()
+                        if let realm = message.realm {
+                            realm.beginWrite()
 
-                        if let thumbnailData = thumbnailData {
-                            if let thumbnailURL = NSFileManager.saveMessageImageData(thumbnailData, withName: messageVideoName) {
-                                message.localThumbnailName = messageVideoName
+                            if let thumbnailData = thumbnailData {
+                                if let thumbnailURL = NSFileManager.saveMessageImageData(thumbnailData, withName: messageVideoName) {
+                                    message.localThumbnailName = messageVideoName
+                                }
                             }
-                        }
 
-                        message.localAttachmentName = messageVideoName
+                            message.localAttachmentName = messageVideoName
 
-                        message.mediaType = MessageMediaType.Video.rawValue
-                        if let metaData = metaData {
-                            message.metaData = metaData
+                            message.mediaType = MessageMediaType.Video.rawValue
+                            if let metaData = metaData {
+                                message.metaData = metaData
+                            }
+                            realm.commitWrite()
                         }
-                        realm.commitWriteTransaction()
                     }
 
                     self.updateConversationCollectionView(scrollToBottom: false)

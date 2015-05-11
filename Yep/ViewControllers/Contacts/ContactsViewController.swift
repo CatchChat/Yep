@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Realm
+import RealmSwift
 
 class ContactsViewController: UIViewController {
 
@@ -63,7 +63,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
 
-        let friend = friends.objectAtIndex(UInt(indexPath.row)) as! User
+        let friend = friends[indexPath.row]
 
         let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
 
@@ -85,7 +85,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
         // 去往 Profile
-        let friend = friends.objectAtIndex(UInt(indexPath.row)) as! User
+        let friend = friends[indexPath.row]
         performSegueWithIdentifier("showProfile", sender: friend)
    }
 }

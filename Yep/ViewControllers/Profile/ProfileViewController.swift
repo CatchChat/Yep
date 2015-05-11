@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Realm
+import RealmSwift
 
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
@@ -154,7 +154,7 @@ class ProfileViewController: CustomNavigationBarViewController {
             case .DiscoveredUserType(let discoveredUser):
                 var stranger = userWithUserID(discoveredUser.id)
 
-                let realm = RLMRealm.defaultRealm()
+                let realm = Realm()
 
                 if stranger == nil {
                     let newUser = User()
@@ -165,9 +165,9 @@ class ProfileViewController: CustomNavigationBarViewController {
 
                     newUser.friendState = UserFriendState.Stranger.rawValue
 
-                    realm.beginWriteTransaction()
-                    realm.addObject(newUser)
-                    realm.commitWriteTransaction()
+                    realm.beginWrite()
+                    realm.add(newUser)
+                    realm.commitWrite()
 
                     stranger = newUser
                 }
@@ -179,9 +179,9 @@ class ProfileViewController: CustomNavigationBarViewController {
                         newConversation.type = ConversationType.OneToOne.rawValue
                         newConversation.withFriend = stranger
 
-                        realm.beginWriteTransaction()
-                        realm.addObject(newConversation)
-                        realm.commitWriteTransaction()
+                        realm.beginWrite()
+                        realm.add(newConversation)
+                        realm.commitWrite()
                     }
 
                     if let conversation = stranger.conversation {
@@ -198,11 +198,11 @@ class ProfileViewController: CustomNavigationBarViewController {
                     newConversation.type = ConversationType.OneToOne.rawValue
                     newConversation.withFriend = user
 
-                    let realm = RLMRealm.defaultRealm()
+                    let realm = Realm()
 
-                    realm.beginWriteTransaction()
-                    realm.addObject(newConversation)
-                    realm.commitWriteTransaction()
+                    realm.beginWrite()
+                    realm.add(newConversation)
+                    realm.commitWrite()
                 }
 
                 if let conversation = user.conversation {
@@ -324,7 +324,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     let skill = discoveredUser.masterSkills[indexPath.item]
                     cell.skillLabel.text = skill.localName
                 case .UserType(let user):
-                    let userSkill = user.masterSkills[UInt(indexPath.item)] as! UserSkill
+                    let userSkill = user.masterSkills[indexPath.item]
                     cell.skillLabel.text = userSkill.localName
                 }
 
@@ -344,7 +344,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     let skill = discoveredUser.learningSkills[indexPath.item]
                     cell.skillLabel.text = skill.localName
                 case .UserType(let user):
-                    let userSkill = user.learningSkills[UInt(indexPath.item)] as! UserSkill
+                    let userSkill = user.learningSkills[indexPath.item]
                     cell.skillLabel.text = userSkill.localName
                 }
 
@@ -432,7 +432,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 case .DiscoveredUserType(let discoveredUser):
                     skillLocalName = discoveredUser.masterSkills[indexPath.item].localName
                 case .UserType(let user):
-                    let userSkill = user.masterSkills[UInt(indexPath.item)] as! UserSkill
+                    let userSkill = user.masterSkills[indexPath.item]
                     skillLocalName = userSkill.localName
                 }
 
@@ -452,7 +452,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 case .DiscoveredUserType(let discoveredUser):
                     skillLocalName = discoveredUser.learningSkills[indexPath.item].localName
                 case .UserType(let user):
-                    let userSkill = user.learningSkills[UInt(indexPath.item)] as! UserSkill
+                    let userSkill = user.learningSkills[indexPath.item]
                     skillLocalName = userSkill.localName
                 }
 

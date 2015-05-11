@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Realm
+import RealmSwift
 
 class ConversationsViewController: UIViewController {
 
@@ -15,7 +15,10 @@ class ConversationsViewController: UIViewController {
 
     let cellIdentifier = "ConversationCell"
 
-    lazy var conversations = Conversation.allObjects().sortedResultsUsingProperty("updatedAt", ascending: false)
+    lazy var conversations: Results<Conversation> = {
+        let realm = Realm()
+        return realm.objects(Conversation).sorted("updatedAt", ascending: false)
+        }()
 
 
     deinit {
@@ -69,13 +72,13 @@ class ConversationsViewController: UIViewController {
 
 extension ConversationsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Int(conversations.count)
+        return conversations.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ConversationCell
 
-        let conversation = conversations.objectAtIndex(UInt(indexPath.row)) as! Conversation
+        let conversation = conversations[indexPath.row]
 
         let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
 
@@ -92,3 +95,4 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
         }
     }
 }
+
