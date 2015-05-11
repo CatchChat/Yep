@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Realm
+import RealmSwift
 
 class ConversationsViewController: UIViewController {
 
@@ -15,7 +15,11 @@ class ConversationsViewController: UIViewController {
 
     let cellIdentifier = "ConversationCell"
 
-    lazy var conversations = Conversation.allObjects().sortedResultsUsingProperty("updatedAt", ascending: false)
+    var realm: Realm!
+
+    lazy var conversations: Results<Conversation> = {
+        return self.realm.objects(Conversation).sorted("updatedAt", ascending: false)
+        }()
 
 
     deinit {
@@ -24,6 +28,8 @@ class ConversationsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        realm = Realm()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepNewMessagesReceivedNotification, object: nil)
 
@@ -69,13 +75,13 @@ class ConversationsViewController: UIViewController {
 
 extension ConversationsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Int(conversations.count)
+        return conversations.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ConversationCell
 
-        let conversation = conversations.objectAtIndex(UInt(indexPath.row)) as! Conversation
+        let conversation = conversations[indexPath.row]
 
         let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
 
@@ -92,3 +98,4 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
         }
     }
 }
+

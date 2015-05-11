@@ -106,7 +106,7 @@ class ChatRightAudioCell: UICollectionViewCell {
         if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
             if audioPlayer.playing {
                 if let playingMessage = YepAudioService.sharedManager.playingMessage {
-                    if message.isEqualToObject(playingMessage) {
+                    if message == playingMessage {
                         playing = true
 
                         return

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Realm
+import RealmSwift
 
 let v1AccessTokenKey = "v1AccessToken"
 let userIDKey = "userID"
@@ -122,14 +122,15 @@ class YepUserDefaults {
         return Listenable<String?>(nickname) { nickname in
             defaults.setObject(nickname, forKey: nicknameKey)
 
+            let realm = Realm()
+
             if let
                 nickname = nickname,
                 myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID) {
-                    let realm = RLMRealm.defaultRealm()
-                    realm.beginWriteTransaction()
+                me = userWithUserID(myUserID, inRealm: realm) {
+                    realm.beginWrite()
                     me.nickname = nickname
-                    realm.commitWriteTransaction()
+                    realm.commitWrite()
             }
         }
         }()
@@ -141,14 +142,16 @@ class YepUserDefaults {
         return Listenable<String?>(avatarURLString) { avatarURLString in
             defaults.setObject(avatarURLString, forKey: avatarURLStringKey)
 
+            let realm = Realm()
+
             if let
                 avatarURLString = avatarURLString,
                 myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID) {
-                    let realm = RLMRealm.defaultRealm()
-                    realm.beginWriteTransaction()
+                me = userWithUserID(myUserID, inRealm: realm) {
+                    let realm = Realm()
+                    realm.beginWrite()
                     me.avatarURLString = avatarURLString
-                    realm.commitWriteTransaction()
+                    realm.commitWrite()
             }
         }
         }()

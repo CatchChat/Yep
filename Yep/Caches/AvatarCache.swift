@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Realm
+import RealmSwift
 
 class AvatarCache {
     static let sharedInstance = AvatarCache()
@@ -83,7 +83,7 @@ class AvatarCache {
 
         } else {
             if
-                let avatar = avatarWithAvatarURLString(avatarURLString),
+                let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()),
                 let avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
                 let image = UIImage(contentsOfFile: avatarFileURL.path!) {
 
@@ -101,24 +101,22 @@ class AvatarCache {
 
                         dispatch_async(dispatch_get_main_queue()) {
 
-                            var avatar = avatarWithAvatarURLString(avatarURLString)
+                            var avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm())
 
                             if avatar == nil {
                                 
                                 let avatarFileName = NSUUID().UUIDString
 
                                 if let avatarURL = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
-                                    let realm = RLMRealm.defaultRealm()
-
-                                    realm.beginWriteTransaction()
+                                    let realm = Realm()
 
                                     let newAvatar = Avatar()
                                     newAvatar.avatarURLString = avatarURLString
                                     newAvatar.avatarFileName = avatarFileName
 
-                                    realm.addObject(newAvatar)
-                                    
-                                    realm.commitWriteTransaction()
+                                    realm.write {
+                                        realm.add(newAvatar)
+                                    }
                                 }
                             }
                         }
@@ -151,7 +149,7 @@ class AvatarCache {
 
             } else {
                 // 再看看是否已下载
-                if let avatar = avatarWithAvatarURLString(avatarURLString) {
+                if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()) {
 
                     if
                         let avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
@@ -174,11 +172,9 @@ class AvatarCache {
                         // TODO 裁减 image
 
                         dispatch_async(dispatch_get_main_queue()) {
-                            let realm = RLMRealm.defaultRealm()
+                            let realm = Realm()
 
-                            realm.beginWriteTransaction()
-
-                            var avatar = avatarWithAvatarURLString(avatarURLString)
+                            var avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm())
 
                             if avatar == nil {
                                 let avatarFileName = NSUUID().UUIDString
@@ -188,11 +184,11 @@ class AvatarCache {
                                     newAvatar.avatarURLString = avatarURLString
                                     newAvatar.avatarFileName = avatarFileName
 
-                                    realm.addObject(newAvatar)
+                                    realm.write {
+                                        realm.add(newAvatar)
+                                    }
                                 }
                             }
-                            
-                            realm.commitWriteTransaction()
                         }
 
                         let roundImage = image.roundImageOfRadius(radius)
@@ -231,67 +227,68 @@ class AvatarCache {
                 if let avatar = user.avatar {
                     if avatar.avatarURLString == user.avatarURLString {
 
-                        if
-                            let avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
-                            let image = UIImage(contentsOfFile: avatarFileURL.path!) {
-                            let roundImage = image.roundImageOfRadius(radius)
+                        if let
+                            avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
+                            image = UIImage(contentsOfFile: avatarFileURL.path!) {
+                                let roundImage = image.roundImageOfRadius(radius)
 
-                            self.cache.setObject(roundImage, forKey: roundImageKey)
+                                self.cache.setObject(roundImage, forKey: roundImageKey)
 
-                            completion(roundImage)
-
-                            return
+                                completion(roundImage)
+                                
+                                return
                         }
 
                     } else {
                         // 换了 Avatar，删除旧的
                         dispatch_async(dispatch_get_main_queue()) {
-                            let realm = RLMRealm.defaultRealm()
-
-                            realm.beginWriteTransaction()
+                            let realm = Realm()
 
                             // 不能直接使用 user.avatar, 因为 realm 不同
-                            if let avatar = avatarWithAvatarURLString(user.avatarURLString) {
-                                realm.deleteObject(avatar)
+                            if let avatar = avatarWithAvatarURLString(user.avatarURLString, inRealm: realm) {
+                                realm.write {
+                                    realm.delete(avatar)
+                                }
                             }
-
-                            realm.commitWriteTransaction()
                         }
                     }
                 }
 
                 // 没办法，下载吧
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                    if let data = NSData(contentsOfURL: url) {
-                        let image = UIImage(data: data)!
+                    if let data = NSData(contentsOfURL: url), image = UIImage(data: data) {
 
-                        // TODO 裁减 image
+                        // TODO: 裁减 image
 
                         dispatch_async(dispatch_get_main_queue()) {
-                            let realm = RLMRealm.defaultRealm()
+                            let realm = Realm()
 
-                            realm.beginWriteTransaction()
-
-                            var avatar = avatarWithAvatarURLString(user.avatarURLString)
+                            var avatar = avatarWithAvatarURLString(user.avatarURLString, inRealm: realm)
 
                             if avatar == nil {
                                 let avatarFileName = NSUUID().UUIDString
+
                                 if let avatarURL = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
                                     let newAvatar = Avatar()
                                     newAvatar.avatarURLString = user.avatarURLString
                                     newAvatar.avatarFileName = avatarFileName
 
-                                    realm.addObject(newAvatar)
+                                    realm.write {
+                                        realm.add(newAvatar)
+                                    }
 
                                     avatar = newAvatar
                                 }
                             }
-                            
-                            if let avatar = avatar {
-                                user.avatar = avatar
+
+                            // 这里重新用新 realm 获取 user，避免在不同线程访问，导致 "Realm accessed from incorrect thread"
+                            if let user = userWithUserID(user.userID, inRealm: realm) {
+                                if user.avatar == nil, let avatar = avatar {
+                                    realm.write {
+                                        user.avatar = avatar
+                                    }
+                                }
                             }
-                            
-                            realm.commitWriteTransaction()
                         }
 
                         let roundImage = image.roundImageOfRadius(radius)

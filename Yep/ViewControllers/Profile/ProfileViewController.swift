@@ -7,9 +7,73 @@
 //
 
 import UIKit
-import Realm
+import RealmSwift
 
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
+
+enum SocialAccount: Int, Printable {
+    case Dribbble = 0
+    case Github
+    case Instagram
+    case Behance
+    
+    var description: String {
+        
+        switch self {
+        case .Dribbble:
+            return "Dribbble"
+        case .Github:
+            return "Github"
+        case .Behance:
+            return "Behance"
+        case .Instagram:
+            return "Instagram"
+        }
+        
+    }
+    
+    var tintColor: UIColor {
+        
+        switch self {
+        case .Dribbble:
+            return UIColor(red:0.91, green:0.28, blue:0.5, alpha:1)
+        case .Github:
+            return UIColor.blackColor()
+        case .Behance:
+            return UIColor(red:0, green:0.46, blue:1, alpha:1)
+        case .Instagram:
+            return UIColor(red:0.15, green:0.36, blue:0.54, alpha:1)
+        }
+    }
+    
+    var iconName: String {
+        
+        switch self {
+        case .Dribbble:
+            return "icon_dribbble"
+        case .Github:
+            return "icon_github"
+        case .Behance:
+            return "icon_behance"
+        case .Instagram:
+            return "icon_instagram"
+        }
+    }
+    
+    var authURL: NSURL {
+        
+        switch self {
+        case .Dribbble:
+            return NSURL(string: "\(baseURL.absoluteString!)/auth/dribbble")!
+        case .Github:
+            return NSURL(string: "\(baseURL.absoluteString!)/auth/github")!
+        case .Behance:
+            return NSURL(string: "\(baseURL.absoluteString!)/auth/behance")!
+        case .Instagram:
+            return NSURL(string: "\(baseURL.absoluteString!)/auth/instagram")!
+        }
+    }
+}
 
 enum ProfileUser {
     case DiscoveredUserType(DiscoveredUser)
@@ -32,12 +96,13 @@ class ProfileViewController: CustomNavigationBarViewController {
     let footerCellIdentifier = "ProfileFooterCell"
     let sectionHeaderIdentifier = "ProfileSectionHeaderReusableView"
     let sectionFooterIdentifier = "ProfileSectionFooterReusableView"
+    let socialAccountCellIdentifier = "ProfileSocialAccountCell"
 
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.profileCollectionView.bounds)
         }()
-    lazy var sectionLeftEdgeInset: CGFloat = { return 20 }()
-    lazy var sectionRightEdgeInset: CGFloat = { return 20 }()
+    lazy var sectionLeftEdgeInset: CGFloat = { return 38 }()
+    lazy var sectionRightEdgeInset: CGFloat = { return 38 }()
     lazy var sectionBottomEdgeInset: CGFloat = { return 15 }()
 
     let introductionText = "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
@@ -61,6 +126,7 @@ class ProfileViewController: CustomNavigationBarViewController {
         profileCollectionView.registerNib(UINib(nibName: skillCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: headerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: footerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: footerCellIdentifier)
+        profileCollectionView.registerNib(UINib(nibName: socialAccountCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: sectionHeaderIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: sectionHeaderIdentifier)
         profileCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: sectionFooterIdentifier)
 
@@ -149,12 +215,12 @@ class ProfileViewController: CustomNavigationBarViewController {
 
         if let profileUser = profileUser {
 
+            let realm = Realm()
+
             switch profileUser {
 
             case .DiscoveredUserType(let discoveredUser):
-                var stranger = userWithUserID(discoveredUser.id)
-
-                let realm = RLMRealm.defaultRealm()
+                var stranger = userWithUserID(discoveredUser.id, inRealm: realm)
 
                 if stranger == nil {
                     let newUser = User()
@@ -165,9 +231,9 @@ class ProfileViewController: CustomNavigationBarViewController {
 
                     newUser.friendState = UserFriendState.Stranger.rawValue
 
-                    realm.beginWriteTransaction()
-                    realm.addObject(newUser)
-                    realm.commitWriteTransaction()
+                    realm.beginWrite()
+                    realm.add(newUser)
+                    realm.commitWrite()
 
                     stranger = newUser
                 }
@@ -179,9 +245,9 @@ class ProfileViewController: CustomNavigationBarViewController {
                         newConversation.type = ConversationType.OneToOne.rawValue
                         newConversation.withFriend = stranger
 
-                        realm.beginWriteTransaction()
-                        realm.addObject(newConversation)
-                        realm.commitWriteTransaction()
+                        realm.beginWrite()
+                        realm.add(newConversation)
+                        realm.commitWrite()
                     }
 
                     if let conversation = stranger.conversation {
@@ -198,11 +264,9 @@ class ProfileViewController: CustomNavigationBarViewController {
                     newConversation.type = ConversationType.OneToOne.rawValue
                     newConversation.withFriend = user
 
-                    let realm = RLMRealm.defaultRealm()
-
-                    realm.beginWriteTransaction()
-                    realm.addObject(newConversation)
-                    realm.commitWriteTransaction()
+                    realm.beginWrite()
+                    realm.add(newConversation)
+                    realm.commitWrite()
                 }
 
                 if let conversation = user.conversation {
@@ -240,16 +304,18 @@ class ProfileViewController: CustomNavigationBarViewController {
 // MARK: UICollectionView
 
 extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-
+    
     enum ProfileSection: Int {
         case Header = 0
         case Footer
         case Master
         case Learning
+        case SocialAccount
     }
 
+    
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 4
+        return 5
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -288,6 +354,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.Footer.rawValue:
             return 1
+            
+        case ProfileSection.SocialAccount.rawValue:
+            return 3
 
         default:
             return 0
@@ -324,7 +393,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     let skill = discoveredUser.masterSkills[indexPath.item]
                     cell.skillLabel.text = skill.localName
                 case .UserType(let user):
-                    let userSkill = user.masterSkills[UInt(indexPath.item)] as! UserSkill
+                    let userSkill = user.masterSkills[indexPath.item]
                     cell.skillLabel.text = userSkill.localName
                 }
 
@@ -344,7 +413,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     let skill = discoveredUser.learningSkills[indexPath.item]
                     cell.skillLabel.text = skill.localName
                 case .UserType(let user):
-                    let userSkill = user.learningSkills[UInt(indexPath.item)] as! UserSkill
+                    let userSkill = user.learningSkills[indexPath.item]
                     cell.skillLabel.text = userSkill.localName
                 }
 
@@ -362,6 +431,20 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             cell.introductionLabel.text = introductionText
 
             return cell
+            
+        case ProfileSection.SocialAccount.rawValue:
+            
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountCell
+            
+            if let socialAccount = SocialAccount(rawValue: indexPath.row) {
+                cell.iconImageView.image = UIImage(named: socialAccount.iconName)
+                cell.nameLabel.text = socialAccount.description
+                cell.iconImageView.tintColor = socialAccount.tintColor
+                cell.nameLabel.textColor = socialAccount.tintColor
+            }
+            
+            return cell
+
 
         default:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
@@ -411,6 +494,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.Footer.rawValue:
             return UIEdgeInsets(top: 0, left: 0, bottom: sectionBottomEdgeInset, right: 0)
+            
+        case ProfileSection.SocialAccount.rawValue:
+            return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: sectionBottomEdgeInset, right: sectionRightEdgeInset)
 
         default:
             return UIEdgeInsetsZero
@@ -432,7 +518,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 case .DiscoveredUserType(let discoveredUser):
                     skillLocalName = discoveredUser.masterSkills[indexPath.item].localName
                 case .UserType(let user):
-                    let userSkill = user.masterSkills[UInt(indexPath.item)] as! UserSkill
+                    let userSkill = user.masterSkills[indexPath.item]
                     skillLocalName = userSkill.localName
                 }
 
@@ -452,7 +538,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 case .DiscoveredUserType(let discoveredUser):
                     skillLocalName = discoveredUser.learningSkills[indexPath.item].localName
                 case .UserType(let user):
-                    let userSkill = user.learningSkills[UInt(indexPath.item)] as! UserSkill
+                    let userSkill = user.learningSkills[indexPath.item]
                     skillLocalName = userSkill.localName
                 }
 
@@ -466,6 +552,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.Footer.rawValue:
             return CGSizeMake(collectionViewWidth, footerCellHeight)
+            
+        case ProfileSection.SocialAccount.rawValue:
+            return CGSizeMake(collectionViewWidth, 40)
 
         default:
             return CGSizeZero
@@ -492,6 +581,15 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             let cell = collectionView.cellForItemAtIndexPath(indexPath) as! SkillCell
             
             self.performSegueWithIdentifier("showSkillHome", sender: cell)
+            
+        } else if indexPath.section == ProfileSection.SocialAccount.rawValue {
+            
+            let vc = OAuthViewController()
+            vc.socialAccount = SocialAccount(rawValue: indexPath.item)
+            
+            presentViewController(vc, animated: true, completion: { () -> Void in
+                
+            })
         }
 
     }

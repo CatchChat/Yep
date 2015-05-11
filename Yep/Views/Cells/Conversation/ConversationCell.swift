@@ -47,7 +47,7 @@ class ConversationCell: UITableViewCell {
                     }
                 }
 
-                if let latestMessage = messagesInConversation(conversation).lastObject() as? Message {
+                if let latestMessage = messagesInConversation(conversation).last {
                     
                     switch latestMessage.mediaType {
 
@@ -82,7 +82,7 @@ class ConversationCell: UITableViewCell {
                 self.nameLabel.text = ""
             }
 
-            if let latestMessage = messagesInConversation(conversation).lastObject() as? Message {
+            if let latestMessage = messagesInConversation(conversation).last {
                 if let messageSender = latestMessage.fromFriend {
                     AvatarCache.sharedInstance.roundAvatarOfUser(messageSender, withRadius: radius) { roundImage in
                         dispatch_async(dispatch_get_main_queue()) {

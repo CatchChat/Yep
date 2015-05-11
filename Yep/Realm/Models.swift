@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Catch Inc. All rights reserved.
 //
 
-import Realm
+import RealmSwift
 
 
 // 总是在这个队列里使用 Realm
@@ -24,27 +24,27 @@ enum UserFriendState: Int {
     case Me             = 4   // 自己
 }
 
-class Avatar: RLMObject {
+class Avatar: Object {
     dynamic var avatarURLString: String = ""
     dynamic var avatarFileName: String = ""
 
     var user: User? {
-        let users = linkingObjectsOfClass("User", forProperty: "avatar") as! [User]
+        let users = linkingObjects(User.self, forProperty: "avatar")
         return users.first
     }
 }
 
-class UserSkillCategory: RLMObject {
+class UserSkillCategory: Object {
     dynamic var skillCategoryID: String = ""
     dynamic var name: String = ""
     dynamic var localName: String = ""
 
     var skills: [UserSkill] {
-        return linkingObjectsOfClass("UserSkill", forProperty: "category") as! [UserSkill]
+        return linkingObjects(UserSkill.self, forProperty: "category")
     }
 }
 
-class UserSkill: RLMObject {
+class UserSkill: Object {
 
     dynamic var category: UserSkillCategory?
 
@@ -54,15 +54,15 @@ class UserSkill: RLMObject {
     dynamic var coverURLString: String = ""
 
     var learningUsers: [User] {
-        return linkingObjectsOfClass("User", forProperty: "learningSkills") as! [User]
+        return linkingObjects(User.self, forProperty: "learningSkills")
     }
 
     var masterUsers: [User] {
-        return linkingObjectsOfClass("User", forProperty: "masterSkills") as! [User]
+        return linkingObjects(User.self, forProperty: "masterSkills")
     }
 }
 
-class User: RLMObject {
+class User: Object {
     dynamic var userID: String = ""
     dynamic var nickname: String = ""
     dynamic var introduction: String = ""
@@ -80,47 +80,47 @@ class User: RLMObject {
     dynamic var longitude: Double = 0
     dynamic var latitude: Double = 0
 
-    dynamic var learningSkills = RLMArray(objectClassName: UserSkill.className())
-    dynamic var masterSkills = RLMArray(objectClassName: UserSkill.className())
+    let learningSkills = List<UserSkill>()
+    let masterSkills = List<UserSkill>()
 
     var messages: [Message] {
-        return linkingObjectsOfClass("Message", forProperty: "fromFriend") as! [Message]
+        return linkingObjects(Message.self, forProperty: "fromFriend")
     }
 
     var conversation: Conversation? {
-        let conversations = linkingObjectsOfClass("Conversation", forProperty: "withFriend") as! [Conversation]
+        let conversations = linkingObjects(Conversation.self, forProperty: "withFriend")
         return conversations.first
     }
 
     var ownedGroups: [Group] {
-        return linkingObjectsOfClass("Group", forProperty: "owner") as! [Group]
+        return linkingObjects(Group.self, forProperty: "owner")
     }
 
     var belongsToGroups: [Group] {
-        return linkingObjectsOfClass("Group", forProperty: "members") as! [Group]
+        return linkingObjects(Group.self, forProperty: "members")
     }
 }
 
 // MARK: Group
 
-class Group: RLMObject {
+class Group: Object {
     dynamic var groupID: String = ""
     dynamic var groupName: String = ""
 
     dynamic var createdAt: NSDate = NSDate()
 
     dynamic var owner: User?
-    dynamic var members = RLMArray(objectClassName: User.className())
+    let members = List<User>()
 
     var conversation: Conversation? {
-        let conversations = linkingObjectsOfClass("Conversation", forProperty: "withGroup") as! [Conversation]
+        let conversations = linkingObjects(Conversation.self, forProperty: "withGroup")
         return conversations.first
     }
 }
 
 // MARK: Message
 
-class Coordinate: RLMObject {
+class Coordinate: Object {
     dynamic var latitude: Double = 0
     dynamic var longitude: Double = 0
 }
@@ -181,7 +181,7 @@ enum MessageSendState: Int {
     case Successed  = 2
 }
 
-class Message: RLMObject {
+class Message: Object {
     dynamic var messageID: String = ""
 
     dynamic var createdAt: NSDate = NSDate()
@@ -211,7 +211,7 @@ enum ConversationType: Int {
     case Group      = 1 // 群组对话
 }
 
-class Conversation: RLMObject {
+class Conversation: Object {
     dynamic var type: Int = ConversationType.OneToOne.rawValue
     dynamic var updatedAt: NSDate = NSDate()
 
@@ -219,7 +219,7 @@ class Conversation: RLMObject {
     dynamic var withGroup: Group?
 
     var messages: [Message] {
-        return linkingObjectsOfClass("Message", forProperty: "conversation") as! [Message]
+        return linkingObjects(Message.self, forProperty: "conversation")
     }
 }
 
@@ -227,46 +227,54 @@ class Conversation: RLMObject {
 
 // MARK: Helpers
 
-func normalUsers() -> RLMResults {
+func normalUsers() -> Results<User> {
+    let realm = Realm()
     let predicate = NSPredicate(format: "friendState = %d", UserFriendState.Normal.rawValue)
-    return User.objectsWithPredicate(predicate)
+    return realm.objects(User).filter(predicate)
 }
 
-func userSkillWithSkillID(skillID: String) -> UserSkill? {
+func userSkillWithSkillID(skillID: String, inRealm realm: Realm) -> UserSkill? {
     let predicate = NSPredicate(format: "skillID = %@", skillID)
-    return UserSkill.objectsWithPredicate(predicate).firstObject() as? UserSkill
+    return realm.objects(UserSkill).filter(predicate).first
 }
 
-func userSkillCategoryWithSkillCategoryID(skillCategoryID: String) -> UserSkillCategory? {
+func userSkillCategoryWithSkillCategoryID(skillCategoryID: String, inRealm realm: Realm) -> UserSkillCategory? {
     let predicate = NSPredicate(format: "skillCategoryID = %@", skillCategoryID)
-    return UserSkillCategory.objectsWithPredicate(predicate).firstObject() as? UserSkillCategory
+    return realm.objects(UserSkillCategory).filter(predicate).first
 }
 
-func userWithUserID(userID: String) -> User? {
+func userWithUserID(userID: String, inRealm realm: Realm) -> User? {
     let predicate = NSPredicate(format: "userID = %@", userID)
-    return User.objectsWithPredicate(predicate).firstObject() as? User
+    return realm.objects(User).filter(predicate).first
 }
 
-func groupWithGroupID(groupID: String) -> Group? {
+func groupWithGroupID(groupID: String, inRealm realm: Realm) -> Group? {
     let predicate = NSPredicate(format: "groupID = %@", groupID)
-    return Group.objectsWithPredicate(predicate).firstObject() as? Group
+    return realm.objects(Group).filter(predicate).first
 }
 
-func avatarWithAvatarURLString(avatarURLString: String) -> Avatar? {
+func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
+    if messageID.isEmpty {
+        return nil
+    }
+
+    let predicate = NSPredicate(format: "messageID = %@", messageID)
+    return realm.objects(Message).filter(predicate).first
+}
+
+func avatarWithAvatarURLString(avatarURLString: String, inRealm realm: Realm) -> Avatar? {
     let predicate = NSPredicate(format: "avatarURLString = %@", avatarURLString)
-    return Avatar.objectsWithPredicate(predicate).firstObject() as? Avatar
+    return realm.objects(Avatar).filter(predicate).first
 }
 
-func tryGetOrCreateMe() -> User? {
+func tryGetOrCreateMeInRealm(realm: Realm) -> User? {
     if let userID = YepUserDefaults.userID.value {
-        if let me = userWithUserID(userID) {
+
+        if let me = userWithUserID(userID, inRealm: realm) {
             return me
 
         } else {
-            let realm = RLMRealm.defaultRealm()
 
-            realm.beginWriteTransaction()
-            
             let me = User()
 
             me.userID = userID
@@ -280,9 +288,9 @@ func tryGetOrCreateMe() -> User? {
                 me.avatarURLString = avatarURLString
             }
 
-            realm.addObject(me)
-
-            realm.commitWriteTransaction()
+            realm.write {
+                realm.add(me)
+            }
 
             return me
         }
@@ -291,26 +299,38 @@ func tryGetOrCreateMe() -> User? {
     return nil
 }
 
-func messagesInConversation(conversation: Conversation) -> RLMResults {
+func messagesInConversation(conversation: Conversation) -> Results<Message> {
+
     let predicate = NSPredicate(format: "conversation = %@", conversation)
-    let messages = Message.objectsWithPredicate(predicate).sortedResultsUsingProperty("createdAt", ascending: true)
+
+    if let realm = conversation.realm {
+        return realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
+
+    } else {
+        let realm = Realm()
+        return realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
+    }
+}
+
+func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
+    let predicate = NSPredicate(format: "conversation = %@", conversation)
+    let messages = realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
     return messages
 }
 
-func tryCreateSectionDateMessageInConversation(conversation: Conversation, beforeMessage message: Message, success: (Message) -> Void) {
-    let messages = messagesInConversation(conversation)
+func tryCreateSectionDateMessageInConversation(conversation: Conversation, beforeMessage message: Message, inRealm realm: Realm, success: (Message) -> Void) {
+    let messages = messagesOfConversation(conversation, inRealm: realm)
     if messages.count > 1 {
-        if let prevMessage = messages.objectAtIndex(messages.count - 2) as? Message {
-            if message.createdAt.timeIntervalSinceDate(prevMessage.createdAt) > 30 { // TODO: Time Section
+        let prevMessage = messages[messages.count - 2]
+        if message.createdAt.timeIntervalSinceDate(prevMessage.createdAt) > 30 { // TODO: Time Section
 
-                // insert a new SectionDate Message
-                let newSectionDateMessage = Message()
-                newSectionDateMessage.conversation = conversation
-                newSectionDateMessage.mediaType = MessageMediaType.SectionDate.rawValue
-                newSectionDateMessage.createdAt = message.createdAt.dateByAddingTimeInterval(-1) // 比新消息早一秒
+            // insert a new SectionDate Message
+            let newSectionDateMessage = Message()
+            newSectionDateMessage.conversation = conversation
+            newSectionDateMessage.mediaType = MessageMediaType.SectionDate.rawValue
+            newSectionDateMessage.createdAt = message.createdAt.dateByAddingTimeInterval(-1) // 比新消息早一秒
 
-                success(newSectionDateMessage)
-            }
+            success(newSectionDateMessage)
         }
     }
 }
@@ -333,18 +353,14 @@ func nameOfConversation(conversation: Conversation) -> String? {
 func lastChatDateOfConversation(conversation: Conversation) -> NSDate? {
     let messages = messagesInConversation(conversation)
 
-    if let lastMessage = messages.lastObject() as? Message {
-        return lastMessage.createdAt
-    }
-
-    return nil
+    return messages.last?.createdAt
 }
 
 func lastSignDateOfConversation(conversation: Conversation) -> NSDate? {
     let messages = messagesInConversation(conversation)
 
     if let
-        lastMessage = messages.lastObject() as? Message,
+        lastMessage = messages.last,
         user = lastMessage.fromFriend {
             return user.lastSignInAt
     }

@@ -25,16 +25,20 @@ PODS:
     - Base64 (~> 1.0.1)
     - SocketRocket (~> 0.3.1-beta2)
   - pop (1.0.7)
-  - Realm (0.91.5):
-    - Realm/Headers (= 0.91.5)
-  - Realm/Headers (0.91.5)
+  - Realm (0.92.1):
+    - Realm/Headers (= 0.92.1)
+  - Realm/Headers (0.92.1)
+  - RealmSwift (0.92.1):
+    - Realm (= 0.92.1)
   - SocketRocket (0.3.1-beta2)
+  - WebViewJavascriptBridge (4.1.4)
 
 DEPENDENCIES:
   - AFNetworking
   - MZFayeClient (from `../CatchLib-iOS/MZFayeClient/`)
   - pop
-  - Realm
+  - RealmSwift
+  - WebViewJavascriptBridge
 
 EXTERNAL SOURCES:
   MZFayeClient:
@@ -45,7 +49,9 @@ SPEC CHECKSUMS:
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
   MZFayeClient: 19df756a4c86c8f414668e6edc54fccfee54adbb
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
-  Realm: 670059efdb212ab939c1745a60aff27820c0a9c4
+  Realm: 10c91667c5c65d6fe56b206c2c31e9b5eafb8718
+  RealmSwift: edc7963f64c50852992751ba274ee506a0d104b2
   SocketRocket: 7284ab9370a06c99aba92b2fe3a32aedd0f9a6fa
+  WebViewJavascriptBridge: f10ac16f2cd3adf2b941bd79477c55a8f6e01044
 
 COCOAPODS: 0.37.1

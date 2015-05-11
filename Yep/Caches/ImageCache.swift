@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Realm
+import RealmSwift
 import MapKit
 
 class ImageCache {
@@ -34,6 +34,8 @@ class ImageCache {
             if message.mediaType == MessageMediaType.Video.rawValue {
                 imageURLString = message.thumbnailURLString
             }
+
+            let messageID = message.messageID
 
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
 
@@ -70,17 +72,21 @@ class ImageCache {
                             let messageImageURL = NSFileManager.saveMessageImageData(data, withName: messageImageName)
 
                             dispatch_async(dispatch_get_main_queue()) {
-                                let realm = message.realm
-                                realm.beginWriteTransaction()
 
-                                if message.mediaType == MessageMediaType.Image.rawValue {
-                                    message.localAttachmentName = messageImageName
+                                let realm = Realm()
 
-                                } else if message.mediaType == MessageMediaType.Video.rawValue {
-                                    message.localThumbnailName = messageImageName
+                                if let message = messageWithMessageID(messageID, inRealm: realm) {
+                                    realm.beginWrite()
+
+                                    if message.mediaType == MessageMediaType.Image.rawValue {
+                                        message.localAttachmentName = messageImageName
+
+                                    } else if message.mediaType == MessageMediaType.Video.rawValue {
+                                        message.localThumbnailName = messageImageName
+                                    }
+                                    
+                                    realm.commitWrite()
                                 }
-
-                                realm.commitWriteTransaction()
                             }
 
                             let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size)
