@@ -52,7 +52,7 @@ class OAuthViewController: UIViewController, UIWebViewDelegate, NSURLConnectionD
 
                 } else {
                     self.webViewDidFinishLoad(self.webView)
-                    
+
                     YepAlert.alertSorry(message: NSLocalizedString("OAuth Error", comment: ""), inViewController: self, withDismissAction: { () -> Void in
                         self.dismissViewControllerAnimated(true, completion: nil)
                     })

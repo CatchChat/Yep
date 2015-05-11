@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Catch Inc. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public enum Method: String, Printable {
     case OPTIONS = "OPTIONS"
@@ -97,6 +97,12 @@ func queryComponents(key: String, value: AnyObject) -> [(String, String)] {
     return components
 }
 
+var yepNetworkActivityCount = 0 {
+    didSet {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = (yepNetworkActivityCount > 0)
+    }
+}
+
 public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>, failure: (Reason, String?) -> Void, completion: A -> Void) {
     let session = NSURLSession.sharedSession()
     let url = baseURL.URLByAppendingPathComponent(resource.path)
@@ -181,9 +187,13 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
             println("\(resource)")
             failure(Reason.Other(error), errorMessageInData(data))
         }
+
+        yepNetworkActivityCount--
     }
 
     task.resume()
+
+    yepNetworkActivityCount++
 }
 
 func errorMessageInData(data: NSData?) -> String? {
