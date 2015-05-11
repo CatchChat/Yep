@@ -96,6 +96,7 @@ class ProfileViewController: CustomNavigationBarViewController {
     let footerCellIdentifier = "ProfileFooterCell"
     let sectionHeaderIdentifier = "ProfileSectionHeaderReusableView"
     let sectionFooterIdentifier = "ProfileSectionFooterReusableView"
+    let separationLineCellIdentifier = "ProfileSeparationLineCell"
     let socialAccountCellIdentifier = "ProfileSocialAccountCell"
 
     lazy var collectionViewWidth: CGFloat = {
@@ -103,7 +104,7 @@ class ProfileViewController: CustomNavigationBarViewController {
         }()
     lazy var sectionLeftEdgeInset: CGFloat = { return YepConfig.Profile.leftEdgeInset }()
     lazy var sectionRightEdgeInset: CGFloat = { return YepConfig.Profile.rightEdgeInset }()
-    lazy var sectionBottomEdgeInset: CGFloat = { return 15 }()
+    lazy var sectionBottomEdgeInset: CGFloat = { return 0 }()
 
     let introductionText = "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
 
@@ -126,6 +127,7 @@ class ProfileViewController: CustomNavigationBarViewController {
         profileCollectionView.registerNib(UINib(nibName: skillCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: headerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: footerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: footerCellIdentifier)
+        profileCollectionView.registerNib(UINib(nibName: separationLineCellIdentifier, bundle: nil), forCellWithReuseIdentifier: separationLineCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: socialAccountCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: sectionHeaderIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: sectionHeaderIdentifier)
         profileCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: sectionFooterIdentifier)
@@ -315,12 +317,13 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case Footer
         case Master
         case Learning
+        case SeparationLine
         case SocialAccount
     }
 
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 5
+        return 6
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -358,6 +361,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             }
 
         case ProfileSection.Footer.rawValue:
+            return 1
+
+        case ProfileSection.SeparationLine.rawValue:
             return 1
             
         case ProfileSection.SocialAccount.rawValue:
@@ -436,6 +442,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             cell.introductionLabel.text = introductionText
 
             return cell
+
+        case ProfileSection.SeparationLine.rawValue:
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(separationLineCellIdentifier, forIndexPath: indexPath) as! ProfileSeparationLineCell
+
+            return cell
             
         case ProfileSection.SocialAccount.rawValue:
             
@@ -492,16 +503,19 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return UIEdgeInsets(top: 0, left: 0, bottom: sectionBottomEdgeInset, right: 0)
 
         case ProfileSection.Master.rawValue:
-            return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: sectionBottomEdgeInset, right: sectionRightEdgeInset)
+            return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: 15, right: sectionRightEdgeInset)
 
         case ProfileSection.Learning.rawValue:
             return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: sectionBottomEdgeInset, right: sectionRightEdgeInset)
 
         case ProfileSection.Footer.rawValue:
-            return UIEdgeInsets(top: 0, left: 0, bottom: sectionBottomEdgeInset, right: 0)
+            return UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
             
+        case ProfileSection.SeparationLine.rawValue:
+            return UIEdgeInsets(top: 40, left: 0, bottom: 30, right: 0)
+
         case ProfileSection.SocialAccount.rawValue:
-            return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: sectionBottomEdgeInset, right: sectionRightEdgeInset)
+            return UIEdgeInsets(top: 0, left: 0, bottom: sectionBottomEdgeInset, right: 0)
 
         default:
             return UIEdgeInsetsZero
@@ -557,6 +571,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.Footer.rawValue:
             return CGSizeMake(collectionViewWidth, footerCellHeight)
+
+        case ProfileSection.SeparationLine.rawValue:
+            return CGSizeMake(collectionViewWidth, 1)
             
         case ProfileSection.SocialAccount.rawValue:
             return CGSizeMake(collectionViewWidth, 40)
@@ -568,11 +585,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
-        if section == ProfileSection.Header.rawValue || section == ProfileSection.Footer.rawValue {
-            return CGSizeMake(collectionViewWidth, 0)
+        if section == ProfileSection.Master.rawValue || section == ProfileSection.Learning.rawValue {
+            return CGSizeMake(collectionViewWidth, 40)
 
         } else {
-            return CGSizeMake(collectionViewWidth, 40)
+            return CGSizeMake(collectionViewWidth, 0)
         }
     }
 

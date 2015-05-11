@@ -135,6 +135,8 @@
 		508D17481ACCF4710092D666 /* ChatLeftAudioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508D17461ACCF4710092D666 /* ChatLeftAudioCell.xib */; };
 		508D174C1ACCF49B0092D666 /* ChatRightAudioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D174A1ACCF49B0092D666 /* ChatRightAudioCell.swift */; };
 		508D174D1ACCF49B0092D666 /* ChatRightAudioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508D174B1ACCF49B0092D666 /* ChatRightAudioCell.xib */; };
+		508F8FC81B0161EF00461B0B /* ProfileSeparationLineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FC61B0161EF00461B0B /* ProfileSeparationLineCell.swift */; };
+		508F8FC91B0161EF00461B0B /* ProfileSeparationLineCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508F8FC71B0161EF00461B0B /* ProfileSeparationLineCell.xib */; };
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
 		5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */; };
@@ -314,6 +316,8 @@
 		508D17461ACCF4710092D666 /* ChatLeftAudioCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftAudioCell.xib; path = Views/Cells/ChatLeftAudio/ChatLeftAudioCell.xib; sourceTree = "<group>"; };
 		508D174A1ACCF49B0092D666 /* ChatRightAudioCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightAudioCell.swift; path = Views/Cells/ChatRightAudio/ChatRightAudioCell.swift; sourceTree = "<group>"; };
 		508D174B1ACCF49B0092D666 /* ChatRightAudioCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatRightAudioCell.xib; path = Views/Cells/ChatRightAudio/ChatRightAudioCell.xib; sourceTree = "<group>"; };
+		508F8FC61B0161EF00461B0B /* ProfileSeparationLineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSeparationLineCell.swift; path = Views/Cells/ProfileSeparationLine/ProfileSeparationLineCell.swift; sourceTree = "<group>"; };
+		508F8FC71B0161EF00461B0B /* ProfileSeparationLineCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSeparationLineCell.xib; path = Views/Cells/ProfileSeparationLine/ProfileSeparationLineCell.xib; sourceTree = "<group>"; };
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
 		5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraPreviewView.swift; path = Views/CameraPreview/CameraPreviewView.swift; sourceTree = "<group>"; };
@@ -634,6 +638,7 @@
 				504F415C1AD5028500FBB19A /* Skill */,
 				502AE5501AB93178005BD199 /* ProfileHeader */,
 				502AE5551AB93218005BD199 /* ProfileFooter */,
+				508F8FCA1B0161F400461B0B /* ProfileSeparationLine */,
 				0A9018801B01152D00AE4B7F /* ProfileSocialAccount */,
 				50E114FE1ABC549800F13000 /* Contacts */,
 				503315991AC101830008A209 /* ChatLeftText */,
@@ -1042,6 +1047,15 @@
 			name = ChatRightAudio;
 			sourceTree = "<group>";
 		};
+		508F8FCA1B0161F400461B0B /* ProfileSeparationLine */ = {
+			isa = PBXGroup;
+			children = (
+				508F8FC61B0161EF00461B0B /* ProfileSeparationLineCell.swift */,
+				508F8FC71B0161EF00461B0B /* ProfileSeparationLineCell.xib */,
+			);
+			name = ProfileSeparationLine;
+			sourceTree = "<group>";
+		};
 		5099B9C51AB95111002F940B /* Rank */ = {
 			isa = PBXGroup;
 			children = (
@@ -1287,6 +1301,7 @@
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
 				50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */,
 				0A90187F1B01152800AE4B7F /* ProfileSocialAccountCell.xib in Resources */,
+				508F8FC91B0161EF00461B0B /* ProfileSeparationLineCell.xib in Resources */,
 				50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */,
 				508D17481ACCF4710092D666 /* ChatLeftAudioCell.xib in Resources */,
 				0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */,
@@ -1409,6 +1424,7 @@
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
+				508F8FC81B0161EF00461B0B /* ProfileSeparationLineCell.swift in Sources */,
 				508D174C1ACCF49B0092D666 /* ChatRightAudioCell.swift in Sources */,
 				502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */,
 				50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */,
