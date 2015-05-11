@@ -33,23 +33,29 @@ class OAuthViewController: UIViewController, UIWebViewDelegate, NSURLConnectionD
         webView.loadRequest(request)
         
         bridge = WebViewJavascriptBridge(forWebView: webView, webViewDelegate: self, handler: { data, responseCallback in
-            if let status = data as? [String: Bool] {
-                if let success = status["success"] {
-                    println("Got response \(success)")
+            if let status = data as? [String: Bool],
+                let success = status["success"] {
                     
-                    socialAccountWithProvider(self.socialAccount.description.lowercaseString, failureHandler: { (reason, errorMessage) -> Void in
+                    if success {
                         
-                        defaultFailureHandler(reason, errorMessage)
+                        self.dismissViewControllerAnimated(true, completion: nil)
                         
+                        socialAccountWithProvider(self.socialAccount.description.lowercaseString, failureHandler: { (reason, errorMessage) -> Void in
+                            
+                            defaultFailureHandler(reason, errorMessage)
+                            
                         }, completion: { provider in
+                                
                             println(provider)
-                    })
+                                
+                        })
+                        
+                    } else {
+                        println("OAuth Error")
+                    }
                     
-                } else {
-
-                }
             } else {
-                
+                println("Bridge Error")
             }
         
         })
