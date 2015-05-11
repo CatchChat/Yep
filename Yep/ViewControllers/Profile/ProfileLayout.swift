@@ -10,6 +10,8 @@ import UIKit
 
 class ProfileLayout: UICollectionViewFlowLayout {
 
+    let leftEdgeInset: CGFloat = 38
+
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
         let layoutAttributes = super.layoutAttributesForElementsInRect(rect) as! [UICollectionViewLayoutAttributes]
         let contentInset = collectionView!.contentInset
@@ -69,10 +71,12 @@ class ProfileLayout: UICollectionViewFlowLayout {
             for attributes in rowCollection {
                 var itemFrame = attributes.frame
 
-                if CGRectEqualToRect(previousFrame, CGRectZero) {
-                    itemFrame.origin.x = alignmentOffsetX
-                } else {
-                    itemFrame.origin.x = CGRectGetMaxX(previousFrame) + minimumInteritemSpacing
+                if attributes.representedElementCategory == .Cell && (attributes.indexPath.section == ProfileViewController.ProfileSection.Master.rawValue || attributes.indexPath.section == ProfileViewController.ProfileSection.Learning.rawValue) {
+                    if CGRectEqualToRect(previousFrame, CGRectZero) {
+                        itemFrame.origin.x = leftEdgeInset
+                    } else {
+                        itemFrame.origin.x = CGRectGetMaxX(previousFrame) + minimumInteritemSpacing
+                    }
                 }
 
                 attributes.frame = itemFrame
