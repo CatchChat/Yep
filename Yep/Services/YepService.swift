@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Realm
+import RealmSwift
 import CoreLocation
 
 let baseURL = NSURL(string: "http://park-staging.catchchatchina.com")!

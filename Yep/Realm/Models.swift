@@ -257,6 +257,16 @@ func groupWithGroupID(groupID: String) -> Group? {
     return realm.objects(Group).filter(predicate).first
 }
 
+func messageWithMessageID(messageID: String) -> Message? {
+    if messageID.isEmpty {
+        return nil
+    }
+
+    let realm = Realm()
+    let predicate = NSPredicate(format: "messageID = %@", messageID)
+    return realm.objects(Message).filter(predicate).first
+}
+
 func avatarWithAvatarURLString(avatarURLString: String) -> Avatar? {
     let realm = Realm()
     let predicate = NSPredicate(format: "avatarURLString = %@", avatarURLString)

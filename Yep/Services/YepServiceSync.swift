@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Realm
+import RealmSwift
 
 
 let YepNewMessagesReceivedNotification = "YepNewMessagesReceivedNotification"
@@ -16,18 +16,20 @@ let YepNewMessagesReceivedNotification = "YepNewMessagesReceivedNotification"
 func downloadAttachmentOfMessage(message: Message) {
 
     func updateAttachmentOfMessage(message: Message, withAttachmentFileName attachmentFileName: String) {
-        let realm = message.realm
-        realm.beginWriteTransaction()
-        message.localAttachmentName = attachmentFileName
-        message.downloadState = MessageDownloadState.Downloaded.rawValue
-        realm.commitWriteTransaction()
+        if let realm = message.realm {
+            realm.beginWrite()
+            message.localAttachmentName = attachmentFileName
+            message.downloadState = MessageDownloadState.Downloaded.rawValue
+            realm.commitWrite()
+        }
     }
 
     func updateThumbnailOfMessage(message: Message, withThumbnailFileName thumbnailFileName: String) {
-        let realm = message.realm
-        realm.beginWriteTransaction()
-        message.localThumbnailName = thumbnailFileName
-        realm.commitWriteTransaction()
+        if let realm = message.realm {
+            realm.beginWrite()
+            message.localThumbnailName = thumbnailFileName
+            realm.commitWrite()
+        }
     }
 
     let attachmentURLString = message.attachmentURLString
@@ -91,7 +93,7 @@ func downloadAttachmentOfMessage(message: Message) {
 
 }
 
-func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: RLMRealm) -> [UserSkill] {
+func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm) -> [UserSkill] {
     var userSkills = [UserSkill]()
 
     for skillInfo in skillsData {
@@ -113,7 +115,7 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: RLMRe
                         newUserSkill.coverURLString = coverURLString
                     }
 
-                    realm.addObject(newUserSkill)
+                    realm.add(newUserSkill)
 
                     userSkill = newUserSkill
                 }
@@ -133,7 +135,7 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: RLMRe
                                 newUserSkillCategory.name = skillCategoryName
                                 newUserSkillCategory.localName = skillCategoryLocalName
 
-                                realm.addObject(newUserSkillCategory)
+                                realm.add(newUserSkillCategory)
 
                                 userSkillCategory = newUserSkillCategory
                             }
@@ -169,28 +171,31 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
             // 改变没有 friendship 的 user 的状态
 
-            let realm = RLMRealm.defaultRealm()
+            let realm = Realm()
 
-            let localUsers = User.allObjects()
+            let localUsers = realm.objects(User)
 
             for i in 0..<localUsers.count {
-                let localUser = localUsers[i] as! User
+                let localUser = localUsers[i]
 
                 if !remoteUerIDSet.contains(localUser.userID) {
 
-                    realm.beginWriteTransaction()
+                    realm.beginWrite()
 
                     localUser.friendshipID = ""
+
                     if let myUserID = YepUserDefaults.userID.value {
                         if myUserID == localUser.userID {
                             localUser.friendState = UserFriendState.Me.rawValue
+
                         } else if localUser.friendState == UserFriendState.Normal.rawValue {
                             localUser.friendState = UserFriendState.Stranger.rawValue
                         }
                     }
+
                     localUser.isBestfriend = false
 
-                    realm.commitWriteTransaction()
+                    realm.commitWrite()
                 }
             }
 
@@ -199,8 +204,7 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
             for friendshipInfo in allFriendships {
                 if let friendInfo = friendshipInfo["friend"] as? JSONDictionary {
                     if let userID = friendInfo["id"] as? String {
-                        let predicate = NSPredicate(format: "userID = %@", userID)
-                        var user = User.objectsWithPredicate(predicate).firstObject() as? User
+                        var user = userWithUserID(userID)
 
                         if user == nil {
                             let newUser = User()
@@ -210,15 +214,15 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                                 newUser.createdAt = NSDate.dateWithISO08601String(createdAtString)
                             }
 
-                            realm.beginWriteTransaction()
-                            realm.addObject(newUser)
-                            realm.commitWriteTransaction()
+                            realm.beginWrite()
+                            realm.add(newUser)
+                            realm.commitWrite()
 
                             user = newUser
                         }
 
                         if let user = user {
-                            realm.beginWriteTransaction()
+                            realm.beginWrite()
 
                             // 更新用户信息
 
@@ -252,18 +256,18 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                             // 更新技能
 
                             if let learningSkillsData = friendInfo["learning_skills"] as? [JSONDictionary] {
-                                user.learningSkills.removeAllObjects()
-                                let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: user.realm)
-                                user.learningSkills.addObjects(userSkills)
+                                user.learningSkills.removeAll()
+                                let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: realm)
+                                user.learningSkills.extend(userSkills)
                             }
 
                             if let masterSkillsData = friendInfo["master_skills"] as? [JSONDictionary] {
-                                user.masterSkills.removeAllObjects()
-                                let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: user.realm)
-                                user.masterSkills.addObjects(userSkills)
+                                user.masterSkills.removeAll()
+                                let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
+                                user.masterSkills.extend(userSkills)
                             }
 
-                            realm.commitWriteTransaction()
+                            realm.commitWrite()
                         }
                     }
                 }
@@ -292,26 +296,26 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
             // 在本地去除远端没有的 Group
 
-            let realm = RLMRealm.defaultRealm()
+            let realm = Realm()
 
-            let localGroups = Group.allObjects()
+            let localGroups = realm.objects(Group)
 
-            realm.beginWriteTransaction()
+            realm.beginWrite()
 
             var groupsToDelete = [Group]()
             for i in 0..<localGroups.count {
-                let localGroup = localGroups[i] as! Group
+                let localGroup = localGroups[i]
 
                 if !remoteGroupIDSet.contains(localGroup.groupID) {
                     groupsToDelete.append(localGroup)
                 }
             }
             for group in groupsToDelete {
-                realm.deleteObject(group)
+                realm.delete(group)
                 // TODO: 级联删除关联的数据对象
             }
 
-            realm.commitWriteTransaction()
+            realm.commitWrite()
 
             // 增加本地没有的 Group
 
@@ -326,10 +330,9 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
     }
 }
 
-private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RLMRealm) {
+private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) {
     if let groupID = groupInfo["id"] as? String {
-        let predicate = NSPredicate(format: "groupID = %@", groupID)
-        var group = Group.objectsWithPredicate(predicate).firstObject() as? Group
+        var group = groupWithGroupID(groupID)
 
         if group == nil {
             let newGroup = Group()
@@ -338,9 +341,9 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
                 newGroup.groupName = groupName
             }
 
-            realm.beginWriteTransaction()
-            realm.addObject(newGroup)
-            realm.commitWriteTransaction()
+            realm.beginWrite()
+            realm.add(newGroup)
+            realm.commitWrite()
 
             group = newGroup
         }
@@ -353,17 +356,16 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
                 conversation.updatedAt = NSDate()
                 conversation.withGroup = group
 
-                realm.beginWriteTransaction()
-                realm.addObject(conversation)
-                realm.commitWriteTransaction()
+                realm.beginWrite()
+                realm.add(conversation)
+                realm.commitWrite()
             }
 
             // Group Owner
 
             if let ownerInfo = groupInfo["owner"] as? JSONDictionary {
                 if let ownerID = ownerInfo["id"] as? String {
-                    let predicate = NSPredicate(format: "userID = %@", ownerID)
-                    var owner = User.objectsWithPredicate(predicate).firstObject() as? User
+                    var owner = userWithUserID(ownerID)
 
                     if owner == nil {
                         let newUser = User()
@@ -384,15 +386,15 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
                             newUser.friendState = UserFriendState.Stranger.rawValue
                         }
 
-                        realm.beginWriteTransaction()
-                        realm.addObject(newUser)
-                        realm.commitWriteTransaction()
+                        realm.beginWrite()
+                        realm.add(newUser)
+                        realm.commitWrite()
                         
                         owner = newUser
                     }
                     
                     if let owner = owner {
-                        realm.beginWriteTransaction()
+                        realm.beginWrite()
 
                         // 更新个人信息
 
@@ -411,20 +413,20 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
                         // 更新技能
 
                         if let learningSkillsData = ownerInfo["learning_skills"] as? [JSONDictionary] {
-                            owner.learningSkills.removeAllObjects()
-                            let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: owner.realm)
-                            owner.learningSkills.addObjects(userSkills)
+                            owner.learningSkills.removeAll()
+                            let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: realm)
+                            owner.learningSkills.extend(userSkills)
                         }
 
                         if let masterSkillsData = ownerInfo["master_skills"] as? [JSONDictionary] {
-                            owner.masterSkills.removeAllObjects()
-                            let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: owner.realm)
-                            owner.masterSkills.addObjects(userSkills)
+                            owner.masterSkills.removeAll()
+                            let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
+                            owner.masterSkills.extend(userSkills)
                         }
 
                         group.owner = owner
 
-                        realm.commitWriteTransaction()
+                        realm.commitWrite()
                     }
                 }
             }
@@ -444,9 +446,9 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
                 // 去除远端没有的 member
 
                 for (index, member) in enumerate(localMembers) {
-                    let user = member as! User
+                    let user = member
                     if !memberIDSet.contains(user.userID) {
-                        localMembers.removeObjectAtIndex(UInt(index))
+                        localMembers.removeAtIndex(index)
                     }
                 }
 
@@ -454,8 +456,7 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
 
                 for memberInfo in remoteMembers {
                     if let memberID = memberInfo["id"] as? String {
-                        let predicate = NSPredicate(format: "userID = %@", memberID)
-                        let member = User.objectsWithPredicate(predicate).firstObject() as? User
+                        let member = userWithUserID(memberID)
 
                         if member == nil {
                             let newMember = User()
@@ -476,18 +477,18 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
                                 newMember.friendState = UserFriendState.Stranger.rawValue
                             }
 
-                            realm.beginWriteTransaction()
+                            realm.beginWrite()
 
-                            realm.addObject(newMember)
+                            realm.add(newMember)
 
-                            localMembers.addObject(newMember) // 因为是 RLMArray，修改必须写在 write transacion 内
+                            localMembers.append(newMember)
 
-                            realm.commitWriteTransaction()
+                            realm.commitWrite()
                         }
 
                         if let member = member {
 
-                            realm.beginWriteTransaction()
+                            realm.beginWrite()
 
                             // 更新个人信息
 
@@ -506,25 +507,25 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: RL
                             // 更新技能
 
                             if let learningSkillsData = memberInfo["learning_skills"] as? [JSONDictionary] {
-                                member.learningSkills.removeAllObjects()
-                                let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: member.realm)
-                                member.learningSkills.addObjects(userSkills)
+                                member.learningSkills.removeAll()
+                                let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: realm)
+                                member.learningSkills.extend(userSkills)
                             }
 
                             if let masterSkillsData = memberInfo["master_skills"] as? [JSONDictionary] {
-                                member.masterSkills.removeAllObjects()
-                                let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: member.realm)
-                                member.masterSkills.addObjects(userSkills)
+                                member.masterSkills.removeAll()
+                                let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
+                                member.masterSkills.extend(userSkills)
                             }
 
-                            realm.commitWriteTransaction()
+                            realm.commitWrite()
                         }
                     }
                 }
 
-                realm.beginWriteTransaction()
+                realm.beginWrite()
                 group.members = localMembers
-                realm.commitWriteTransaction()
+                realm.commitWrite()
             }
         }
     }
@@ -537,7 +538,7 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
         
         dispatch_async(realmQueue) {
 
-            let realm = RLMRealm.defaultRealm()
+            let realm = Realm()
 
             for messageInfo in allUnreadMessages {
                 syncMessageWithMessageInfo(messageInfo, inRealm: realm, andDoFurtherAction: nil)
@@ -550,17 +551,16 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
     }
 }
 
-func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: RLMRealm, andDoFurtherAction furtherAction: (() -> Void)? ) {
+func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Realm, andDoFurtherAction furtherAction: (() -> Void)? ) {
 
-    func deleteMessage(message: Message, inRealm realm: RLMRealm) {
-        realm.beginWriteTransaction()
-        realm.deleteObject(message)
-        realm.commitWriteTransaction()
+    func deleteMessage(message: Message, inRealm realm: Realm) {
+        realm.beginWrite()
+        realm.delete(message)
+        realm.commitWrite()
     }
 
     if let messageID = messageInfo["id"] as? String {
-        let predicate = NSPredicate(format: "messageID = %@", messageID)
-        var message = Message.objectsWithPredicate(predicate).firstObject() as? Message
+        var message = messageWithMessageID(messageID)
 
         if message == nil {
             let newMessage = Message()
@@ -568,9 +568,9 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: RLMR
 
             newMessage.createdAt = NSDate.dateWithISO08601String(messageInfo["updated_at"] as? String)
 
-            realm.beginWriteTransaction()
-            realm.addObject(newMessage)
-            realm.commitWriteTransaction()
+            realm.beginWrite()
+            realm.add(newMessage)
+            realm.commitWrite()
 
             message = newMessage
         }
@@ -583,8 +583,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: RLMR
 
             if let senderInfo = messageInfo["sender"] as? JSONDictionary {
                 if let senderID = senderInfo["id"] as? String {
-                    let predicate = NSPredicate(format: "userID = %@", senderID)
-                    var sender = User.objectsWithPredicate(predicate).firstObject() as? User
+                    var sender = userWithUserID(senderID)
 
                     if sender == nil {
                         let newUser = User()
@@ -593,15 +592,15 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: RLMR
 
                         newUser.friendState = UserFriendState.Stranger.rawValue
 
-                        realm.beginWriteTransaction()
-                        realm.addObject(newUser)
-                        realm.commitWriteTransaction()
+                        realm.beginWrite()
+                        realm.add(newUser)
+                        realm.commitWrite()
 
                         sender = newUser
                     }
 
                     if let sender = sender {
-                        realm.beginWriteTransaction()
+                        realm.beginWrite()
 
                         if let nickname = senderInfo["nickname"] as? String {
                             sender.nickname = nickname
@@ -613,7 +612,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: RLMR
 
                         message.fromFriend = sender
 
-                        realm.commitWriteTransaction()
+                        realm.commitWrite()
 
 
                         // 查询消息来自的 Group，为空就表示来自 User
@@ -623,8 +622,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: RLMR
                         if let recipientType = messageInfo["recipient_type"] as? String {
                             if recipientType == "Circle" {
                                 if let groupID = messageInfo["recipient_id"] as? String {
-                                    let predicate = NSPredicate(format: "groupID = %@", groupID)
-                                    sendFromGroup = Group.objectsWithPredicate(predicate).firstObject() as? Group
+                                    sendFromGroup = groupWithGroupID(groupID)
 
                                     if sendFromGroup == nil {
                                         let newGroup = Group()
@@ -636,9 +634,9 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: RLMR
                                             }
                                         }
 
-                                        realm.beginWriteTransaction()
-                                        realm.addObject(newGroup)
-                                        realm.commitWriteTransaction()
+                                        realm.beginWrite()
+                                        realm.add(newGroup)
+                                        realm.commitWrite()
 
                                         sendFromGroup = newGroup
                                     }
@@ -669,23 +667,23 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: RLMR
                                 newConversation.withFriend = sender
                             }
 
-                            realm.beginWriteTransaction()
-                            realm.addObject(newConversation)
-                            realm.commitWriteTransaction()
+                            realm.beginWrite()
+                            realm.add(newConversation)
+                            realm.commitWrite()
 
                             conversation = newConversation
                         }
 
                         // 在保证有 Conversation 的情况下继续，不然消息没有必要保留
                         if let conversation = conversation {
-                            realm.beginWriteTransaction()
+                            realm.beginWrite()
 
                             conversation.updatedAt = message.createdAt
 
                             message.conversation = conversation
 
                             tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message) { sectionDateMessage in
-                                realm.addObject(sectionDateMessage)
+                                realm.add(sectionDateMessage)
                             }
 
                             // 纪录消息的 detail 信息
@@ -761,7 +759,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: RLMR
                                 }
                             }
 
-                            realm.commitWriteTransaction()
+                            realm.commitWrite()
 
 
                             // Do furtherAction after sync
