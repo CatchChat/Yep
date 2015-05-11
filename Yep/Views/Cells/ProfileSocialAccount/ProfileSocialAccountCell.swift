@@ -11,11 +11,17 @@ import UIKit
 class ProfileSocialAccountCell: UICollectionViewCell {
 
     @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var iconImageViewLeadingConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var nameLabel: UILabel!
-    
+    @IBOutlet weak var nameLabelTrailingConstraint: NSLayoutConstraint!
+
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
+        nameLabelTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
     }
 
 }

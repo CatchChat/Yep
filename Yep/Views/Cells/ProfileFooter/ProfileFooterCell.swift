@@ -8,10 +8,6 @@
 
 import UIKit
 
-let profileIntroductionLabelLeadingSpaceToContainer: CGFloat = 38
-let profileIntroductionLabelTrailingSpaceToContainer: CGFloat = 38
-let profileIntroductionLabelFont = UIFont(name: "HelveticaNeue-Thin", size: 12)!
-
 class ProfileFooterCell: UICollectionViewCell {
 
     @IBOutlet weak var instroductionLabelLeftConstraint: NSLayoutConstraint!
@@ -22,10 +18,10 @@ class ProfileFooterCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        instroductionLabelLeftConstraint.constant = profileIntroductionLabelLeadingSpaceToContainer
-        instroductionLabelRightConstraint.constant = profileIntroductionLabelTrailingSpaceToContainer
+        instroductionLabelLeftConstraint.constant = YepConfig.Profile.leftEdgeInset
+        instroductionLabelRightConstraint.constant = YepConfig.Profile.rightEdgeInset
 
-        introductionLabel.font = profileIntroductionLabelFont
+        introductionLabel.font = YepConfig.Profile.introductionLabelFont
     }
 
 }

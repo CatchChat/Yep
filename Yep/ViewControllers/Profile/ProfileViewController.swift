@@ -101,8 +101,8 @@ class ProfileViewController: CustomNavigationBarViewController {
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.profileCollectionView.bounds)
         }()
-    lazy var sectionLeftEdgeInset: CGFloat = { return 38 }()
-    lazy var sectionRightEdgeInset: CGFloat = { return 38 }()
+    lazy var sectionLeftEdgeInset: CGFloat = { return YepConfig.Profile.leftEdgeInset }()
+    lazy var sectionRightEdgeInset: CGFloat = { return YepConfig.Profile.rightEdgeInset }()
     lazy var sectionBottomEdgeInset: CGFloat = { return 15 }()
 
     let introductionText = "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
@@ -113,8 +113,8 @@ class ProfileViewController: CustomNavigationBarViewController {
     let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
 
     lazy var footerCellHeight: CGFloat = {
-        let attributes = [NSFontAttributeName: profileIntroductionLabelFont]
-        let labelWidth = self.collectionViewWidth - (profileIntroductionLabelLeadingSpaceToContainer + profileIntroductionLabelTrailingSpaceToContainer)
+        let attributes = [NSFontAttributeName: YepConfig.Profile.introductionLabelFont]
+        let labelWidth = self.collectionViewWidth - (YepConfig.Profile.leftEdgeInset + YepConfig.Profile.rightEdgeInset)
         let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes:attributes, context:nil)
         return ceil(rect.height) + 4
         }()

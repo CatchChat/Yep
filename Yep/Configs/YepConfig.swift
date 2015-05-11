@@ -79,6 +79,12 @@ class YepConfig {
         return 100
     }
 
+    struct Profile {
+        static let leftEdgeInset: CGFloat = 38
+        static let rightEdgeInset: CGFloat = 38
+        static let introductionLabelFont = UIFont(name: "HelveticaNeue-Thin", size: 12)!
+    }
+    
     struct Settings {
         static let userCellAvatarSize: CGFloat = 80
 

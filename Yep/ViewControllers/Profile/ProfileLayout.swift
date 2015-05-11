@@ -10,7 +10,7 @@ import UIKit
 
 class ProfileLayout: UICollectionViewFlowLayout {
 
-    let leftEdgeInset: CGFloat = 38
+    let leftEdgeInset: CGFloat = YepConfig.Profile.leftEdgeInset
 
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
         let layoutAttributes = super.layoutAttributesForElementsInRect(rect) as! [UICollectionViewLayoutAttributes]
