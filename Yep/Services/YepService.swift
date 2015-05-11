@@ -931,12 +931,12 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
     realm.beginWrite()
 
     if recipientType == "User" {
-        if let withFriend = userWithUserID(recipientID) {
+        if let withFriend = userWithUserID(recipientID, inRealm: realm) {
             conversation = withFriend.conversation
         }
 
     } else {
-        if let withGroup = groupWithGroupID(recipientID) {
+        if let withGroup = groupWithGroupID(recipientID, inRealm: realm) {
             conversation = withGroup.conversation
         }
     }
@@ -947,15 +947,14 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
         if recipientType == "User" {
             newConversation.type = ConversationType.OneToOne.rawValue
 
-            if let withFriend = userWithUserID(recipientID) {
+            if let withFriend = userWithUserID(recipientID, inRealm: realm) {
                 newConversation.withFriend = withFriend
             }
-
 
         } else {
             newConversation.type = ConversationType.Group.rawValue
 
-            if let withGroup = groupWithGroupID(recipientID) {
+            if let withGroup = groupWithGroupID(recipientID, inRealm: realm) {
                 newConversation.withGroup = withGroup
             }
         }

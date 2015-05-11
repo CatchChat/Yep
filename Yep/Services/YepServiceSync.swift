@@ -103,7 +103,7 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm
             let skillName = skillInfo["name"] as? String,
             let skillLocalName = skillInfo["name_string"] as? String {
 
-                var userSkill = userSkillWithSkillID(skillID)
+                var userSkill = userSkillWithSkillID(skillID, inRealm: realm)
 
                 if userSkill == nil {
                     let newUserSkill = UserSkill()
@@ -127,7 +127,7 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm
                         skillCategoryName = categoryData["name"] as? String,
                         skillCategoryLocalName = categoryData["name_string"] as? String {
 
-                            var userSkillCategory = userSkillCategoryWithSkillCategoryID(skillCategoryID)
+                            var userSkillCategory = userSkillCategoryWithSkillCategoryID(skillCategoryID, inRealm: realm)
 
                             if userSkillCategory == nil {
                                 let newUserSkillCategory = UserSkillCategory()
@@ -204,7 +204,7 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
             for friendshipInfo in allFriendships {
                 if let friendInfo = friendshipInfo["friend"] as? JSONDictionary {
                     if let userID = friendInfo["id"] as? String {
-                        var user = userWithUserID(userID)
+                        var user = userWithUserID(userID, inRealm: realm)
 
                         if user == nil {
                             let newUser = User()
@@ -332,7 +332,7 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
 private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) {
     if let groupID = groupInfo["id"] as? String {
-        var group = groupWithGroupID(groupID)
+        var group = groupWithGroupID(groupID, inRealm: realm)
 
         if group == nil {
             let newGroup = Group()
@@ -365,7 +365,7 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 
             if let ownerInfo = groupInfo["owner"] as? JSONDictionary {
                 if let ownerID = ownerInfo["id"] as? String {
-                    var owner = userWithUserID(ownerID)
+                    var owner = userWithUserID(ownerID, inRealm: realm)
 
                     if owner == nil {
                         let newUser = User()
@@ -456,7 +456,7 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 
                 for memberInfo in remoteMembers {
                     if let memberID = memberInfo["id"] as? String {
-                        let member = userWithUserID(memberID)
+                        let member = userWithUserID(memberID, inRealm: realm)
 
                         if member == nil {
                             let newMember = User()
@@ -524,7 +524,8 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                 }
 
                 realm.beginWrite()
-                group.members = localMembers
+                group.members.removeAll()
+                group.members.extend(localMembers)
                 realm.commitWrite()
             }
         }
@@ -560,7 +561,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
     }
 
     if let messageID = messageInfo["id"] as? String {
-        var message = messageWithMessageID(messageID)
+        var message = messageWithMessageID(messageID, inRealm: realm)
 
         if message == nil {
             let newMessage = Message()
@@ -583,7 +584,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
 
             if let senderInfo = messageInfo["sender"] as? JSONDictionary {
                 if let senderID = senderInfo["id"] as? String {
-                    var sender = userWithUserID(senderID)
+                    var sender = userWithUserID(senderID, inRealm: realm)
 
                     if sender == nil {
                         let newUser = User()
@@ -622,7 +623,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
                         if let recipientType = messageInfo["recipient_type"] as? String {
                             if recipientType == "Circle" {
                                 if let groupID = messageInfo["recipient_id"] as? String {
-                                    sendFromGroup = groupWithGroupID(groupID)
+                                    sendFromGroup = groupWithGroupID(groupID, inRealm: realm)
 
                                     if sendFromGroup == nil {
                                         let newGroup = Group()

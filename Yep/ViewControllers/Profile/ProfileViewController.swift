@@ -149,12 +149,12 @@ class ProfileViewController: CustomNavigationBarViewController {
 
         if let profileUser = profileUser {
 
+            let realm = Realm()
+
             switch profileUser {
 
             case .DiscoveredUserType(let discoveredUser):
-                var stranger = userWithUserID(discoveredUser.id)
-
-                let realm = Realm()
+                var stranger = userWithUserID(discoveredUser.id, inRealm: realm)
 
                 if stranger == nil {
                     let newUser = User()
@@ -197,8 +197,6 @@ class ProfileViewController: CustomNavigationBarViewController {
 
                     newConversation.type = ConversationType.OneToOne.rawValue
                     newConversation.withFriend = user
-
-                    let realm = Realm()
 
                     realm.beginWrite()
                     realm.add(newConversation)
