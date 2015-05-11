@@ -640,12 +640,18 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="E58-MH-2nz" userLabel="Activity Indicator">
+                                <rect key="frame" x="282" y="164" width="37" height="37"/>
+                                <color key="color" red="0.13725490200000001" green="0.56862745100000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="9oB-pd-Kh9" secondAttribute="trailing" id="4Ch-yL-WRS"/>
                             <constraint firstItem="9oB-pd-Kh9" firstAttribute="leading" secondItem="vv2-Cr-yNp" secondAttribute="leading" id="CKZ-q4-KKM"/>
                             <constraint firstItem="9oB-pd-Kh9" firstAttribute="top" secondItem="vv2-Cr-yNp" secondAttribute="top" id="HFP-ge-N3i"/>
+                            <constraint firstAttribute="centerX" secondItem="E58-MH-2nz" secondAttribute="centerX" constant="-0.5" id="OHS-lz-cEQ"/>
+                            <constraint firstItem="E58-MH-2nz" firstAttribute="top" secondItem="rYc-th-ztZ" secondAttribute="bottom" constant="100" id="bgb-8V-WPM"/>
                             <constraint firstAttribute="bottom" secondItem="9oB-pd-Kh9" secondAttribute="bottom" id="wWc-me-XWV"/>
                         </constraints>
                     </view>
@@ -657,6 +663,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="E58-MH-2nz" id="ulq-yp-00E"/>
                         <outlet property="webView" destination="9oB-pd-Kh9" id="td2-Id-mqD"/>
                     </connections>
                 </viewController>

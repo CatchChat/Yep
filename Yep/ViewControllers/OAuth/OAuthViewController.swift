@@ -14,6 +14,7 @@ class OAuthViewController: UIViewController, UIWebViewDelegate, NSURLConnectionD
     var socialAccount: SocialAccount!
 
     @IBOutlet weak var webView: UIWebView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     var bridge: WebViewJavascriptBridge!
     
@@ -29,6 +30,8 @@ class OAuthViewController: UIViewController, UIWebViewDelegate, NSURLConnectionD
         let request = authURLRequestWithURL(socialAccount.authURL)
         
         webView.loadRequest(request)
+
+        webViewDidStartLoad(webView)
         
         bridge = WebViewJavascriptBridge(forWebView: webView, webViewDelegate: self, handler: { data, responseCallback in
 
@@ -74,6 +77,16 @@ class OAuthViewController: UIViewController, UIWebViewDelegate, NSURLConnectionD
         }
 
         return result
+    }
+
+    func webViewDidStartLoad(webView: UIWebView) {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        activityIndicator.startAnimating()
+    }
+
+    func webViewDidFinishLoad(webView: UIWebView) {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        activityIndicator.stopAnimating()
     }
 
     // MARK: NSURLConnectionDelegate
