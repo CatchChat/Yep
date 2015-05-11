@@ -12,7 +12,7 @@ class ProfileSeparationLineCell: UICollectionViewCell {
 
     var leftEdgeInset: CGFloat = YepConfig.Profile.leftEdgeInset
     var rightEdgeInset: CGFloat = YepConfig.Profile.rightEdgeInset
-    var lineColor: UIColor = UIColor.grayColor()
+    var lineColor: UIColor = UIColor.lightGrayColor()
 
     lazy var separationLineLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
@@ -32,8 +32,9 @@ class ProfileSeparationLineCell: UICollectionViewCell {
         super.layoutSubviews()
 
         let path = UIBezierPath()
-        path.moveToPoint(CGPoint(x: leftEdgeInset, y: CGRectGetHeight(bounds) * 0.5))
-        path.addLineToPoint(CGPoint(x: CGRectGetWidth(bounds) - rightEdgeInset, y: CGRectGetHeight(bounds) * 0.5))
+        let y = ceil(CGRectGetHeight(bounds) * 0.5)
+        path.moveToPoint(CGPoint(x: leftEdgeInset, y: y))
+        path.addLineToPoint(CGPoint(x: CGRectGetWidth(bounds) - rightEdgeInset, y: y))
 
         separationLineLayer.path = path.CGPath
     }
