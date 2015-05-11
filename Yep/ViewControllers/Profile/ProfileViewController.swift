@@ -213,7 +213,7 @@ class ProfileViewController: CustomNavigationBarViewController {
             }
         }
     }
-    
+
     // MARK: Actions
 
     @IBAction func sayHi(sender: UIButton) {

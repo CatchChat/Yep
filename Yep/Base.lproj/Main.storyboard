@@ -635,9 +635,24 @@
                     <view key="view" contentMode="scaleToFill" id="vv2-Cr-yNp">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9oB-pd-Kh9">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </webView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="9oB-pd-Kh9" secondAttribute="trailing" id="4Ch-yL-WRS"/>
+                            <constraint firstItem="9oB-pd-Kh9" firstAttribute="leading" secondItem="vv2-Cr-yNp" secondAttribute="leading" id="CKZ-q4-KKM"/>
+                            <constraint firstItem="9oB-pd-Kh9" firstAttribute="top" secondItem="vv2-Cr-yNp" secondAttribute="top" id="HFP-ge-N3i"/>
+                            <constraint firstAttribute="bottom" secondItem="9oB-pd-Kh9" secondAttribute="bottom" id="wWc-me-XWV"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Syj-dZ-pAz"/>
+                    <connections>
+                        <outlet property="webView" destination="9oB-pd-Kh9" id="td2-Id-mqD"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aYj-Hp-etu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
