@@ -515,7 +515,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return UIEdgeInsets(top: 40, left: 0, bottom: 30, right: 0)
 
         case ProfileSection.SocialAccount.rawValue:
-            return UIEdgeInsets(top: 0, left: 0, bottom: sectionBottomEdgeInset, right: 0)
+            return UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
 
         default:
             return UIEdgeInsetsZero
