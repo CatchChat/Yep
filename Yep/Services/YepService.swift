@@ -902,33 +902,33 @@ func sendLocationWithCoordinate(coordinate: CLLocationCoordinate2D, toRecipient 
 func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, #metaData: String?, #fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
     // 因为 message_id 必须来自远端，线程无法切换，所以这里暂时没用 realmQueue // TOOD: 也许有办法
 
-    let realm = RLMRealm.defaultRealm()
+    let realm = Realm()
 
-    realm.beginWriteTransaction()
+    realm.beginWrite()
 
     let message = Message()
     //message.messageID = messageID
 
     message.mediaType = mediaType.rawValue
 
-    realm.addObject(message)
+    realm.add(message)
 
-    realm.commitWriteTransaction()
+    realm.commitWrite()
 
 
     // 消息来自于自己
 
     if let me = tryGetOrCreateMe() {
-        realm.beginWriteTransaction()
+        realm.beginWrite()
         message.fromFriend = me
-        realm.commitWriteTransaction()
+        realm.commitWrite()
     }
 
     // 消息的 Conversation，没有就创建
 
     var conversation: Conversation? = nil
 
-    realm.beginWriteTransaction()
+    realm.beginWrite()
 
     if recipientType == "User" {
         if let withFriend = userWithUserID(recipientID) {
@@ -968,11 +968,11 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
         message.conversation = conversation
 
         tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message) { sectionDateMessage in
-            realm.addObject(sectionDateMessage)
+            realm.add(sectionDateMessage)
         }
     }
 
-    realm.commitWriteTransaction()
+    realm.commitWrite()
 
 
     // 发出之前就显示 Message
@@ -991,7 +991,7 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
         messageInfo = fillMoreInfo(messageInfo)
     }
 
-    realm.beginWriteTransaction()
+    realm.beginWrite()
 
     if let textContent = messageInfo["text_content"] as? String {
         message.textContent = textContent
@@ -1007,7 +1007,7 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
             message.coordinate = coordinate
     }
 
-    realm.commitWriteTransaction()
+    realm.commitWrite()
 
     switch mediaType {
 
@@ -1018,17 +1018,17 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
             }
 
             dispatch_async(dispatch_get_main_queue()) {
-                realm.beginWriteTransaction()
+                realm.beginWrite()
                 message.sendState = MessageSendState.Failed.rawValue
-                realm.commitWriteTransaction()
+                realm.commitWrite()
             }
 
         }, completion: { messageID in
             dispatch_async(dispatch_get_main_queue()) {
-                realm.beginWriteTransaction()
+                realm.beginWrite()
                 message.messageID = messageID
                 message.sendState = MessageSendState.Successed.rawValue
-                realm.commitWriteTransaction()
+                realm.commitWrite()
             }
 
             completion(success: true)
@@ -1072,17 +1072,17 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
                         }
 
                         dispatch_async(dispatch_get_main_queue()) {
-                            realm.beginWriteTransaction()
+                            realm.beginWrite()
                             message.sendState = MessageSendState.Failed.rawValue
-                            realm.commitWriteTransaction()
+                            realm.commitWrite()
                         }
 
                     }, completion: { messageID in
                         dispatch_async(dispatch_get_main_queue()) {
-                            realm.beginWriteTransaction()
+                            realm.beginWrite()
                             message.messageID = messageID
                             message.sendState = MessageSendState.Successed.rawValue
-                            realm.commitWriteTransaction()
+                            realm.commitWrite()
                         }
 
                         completion(success: true)
