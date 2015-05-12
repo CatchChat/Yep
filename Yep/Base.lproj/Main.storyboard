@@ -925,7 +925,7 @@
         <!--Social Work Github View Controller-->
         <scene sceneID="uMz-q7-gEc">
             <objects>
-                <viewController storyboardIdentifier="SocialWorkGithubViewController" id="RBe-Uc-vg0" customClass="SocialWorkGithubViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SocialWorkGithubViewController" hidesBottomBarWhenPushed="YES" id="RBe-Uc-vg0" customClass="SocialWorkGithubViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="S4W-Vn-TlJ"/>
                         <viewControllerLayoutGuide type="bottom" id="EDF-jz-V3f"/>
@@ -1032,7 +1032,7 @@
         <!--Social Work Dribbble View Controller-->
         <scene sceneID="Dzr-eb-QOy">
             <objects>
-                <viewController storyboardIdentifier="SocialWorkDribbbleViewController" id="ohm-zv-zHQ" customClass="SocialWorkDribbbleViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SocialWorkDribbbleViewController" hidesBottomBarWhenPushed="YES" id="ohm-zv-zHQ" customClass="SocialWorkDribbbleViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UMd-qB-LFd"/>
                         <viewControllerLayoutGuide type="bottom" id="PLn-9E-lGY"/>
