@@ -1227,6 +1227,8 @@ func githubWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, Strin
                 }
             }
 
+            repos.sort { $0.stargazersCount > $1.stargazersCount }
+
             if let
                 loginName = userInfo["login"] as? String,
                 avatarURLString = userInfo["avatar_url"] as? String,
