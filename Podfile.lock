@@ -25,11 +25,11 @@ PODS:
     - Base64 (~> 1.0.1)
     - SocketRocket (~> 0.3.1-beta2)
   - pop (1.0.7)
-  - Realm (0.92.1):
-    - Realm/Headers (= 0.92.1)
-  - Realm/Headers (0.92.1)
-  - RealmSwift (0.92.1):
-    - Realm (= 0.92.1)
+  - Realm (0.92.2):
+    - Realm/Headers (= 0.92.2)
+  - Realm/Headers (0.92.2)
+  - RealmSwift (0.92.2):
+    - Realm (= 0.92.2)
   - SocketRocket (0.3.1-beta2)
   - WebViewJavascriptBridge (4.1.4)
 
@@ -49,8 +49,8 @@ SPEC CHECKSUMS:
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
   MZFayeClient: 19df756a4c86c8f414668e6edc54fccfee54adbb
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
-  Realm: 10c91667c5c65d6fe56b206c2c31e9b5eafb8718
-  RealmSwift: edc7963f64c50852992751ba274ee506a0d104b2
+  Realm: fa8e8f7f788dd63744485c15b453487bc7546c8e
+  RealmSwift: 4d9054904335ce8c824c19a4793883c275017e57
   SocketRocket: 7284ab9370a06c99aba92b2fe3a32aedd0f9a6fa
   WebViewJavascriptBridge: f10ac16f2cd3adf2b941bd79477c55a8f6e01044
 
