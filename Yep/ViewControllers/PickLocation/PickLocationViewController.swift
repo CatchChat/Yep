@@ -337,7 +337,9 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
         switch indexPath.section {
 
         case Section.CurrentLocation.rawValue:
-            pickedLocationCoordinate = mapView.userLocation.location.coordinate
+            if let location = mapView.userLocation.location {
+                pickedLocationCoordinate = location.coordinate
+            }
 
         case Section.UserPickedLocation.rawValue:
             pickedLocationCoordinate = userPickedLocationPin?.coordinate
