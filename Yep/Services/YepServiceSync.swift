@@ -438,6 +438,20 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                             owner.masterSkills.extend(userSkills)
                         }
 
+                        // 更新 Social Account Provider
+
+                        owner.socialAccountProviders.removeAll()
+
+                        if let providersInfo = ownerInfo["providers"] as? [String: Bool] {
+                            for (name, enabled) in providersInfo {
+                                let provider = UserSocialAccountProvider()
+                                provider.name = name
+                                provider.enabled = enabled
+
+                                owner.socialAccountProviders.append(provider)
+                            }
+                        }
+
                         group.owner = owner
 
                         realm.commitWrite()
@@ -530,6 +544,20 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                                 member.masterSkills.removeAll()
                                 let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
                                 member.masterSkills.extend(userSkills)
+                            }
+
+                            // 更新 Social Account Provider
+
+                            member.socialAccountProviders.removeAll()
+
+                            if let providersInfo = memberInfo["providers"] as? [String: Bool] {
+                                for (name, enabled) in providersInfo {
+                                    let provider = UserSocialAccountProvider()
+                                    provider.name = name
+                                    provider.enabled = enabled
+
+                                    member.socialAccountProviders.append(provider)
+                                }
                             }
 
                             realm.commitWrite()
