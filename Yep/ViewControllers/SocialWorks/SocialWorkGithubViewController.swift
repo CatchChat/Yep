@@ -13,6 +13,8 @@ class SocialWorkGithubViewController: UIViewController {
     var socialAccount: SocialAccount?
 
     
+    @IBOutlet weak var infoView: UIView!
+
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var followersCountLabel: UILabel!
     @IBOutlet weak var starredCountLabel: UILabel!
@@ -22,7 +24,21 @@ class SocialWorkGithubViewController: UIViewController {
 
     let githubRepoCellIdentifier = "GithubRepoCell"
 
-    var githubUser: GithubWork.User?
+    var githubUser: GithubWork.User? {
+        didSet {
+            if let user = githubUser {
+                infoView.hidden = false
+
+                AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(user.avatarURLString, withRadius: avatarImageView.bounds.width * 0.5) { image in
+                    self.avatarImageView.image = image
+                }
+
+                followersCountLabel.text = "\(user.followersCount)"
+                followingCountLabel.text = "\(user.followingCount)"
+            }
+        }
+    }
+
     var githubRepos = Array<GithubWork.Repo>() {
         didSet {
             updateGithubTableView()
@@ -59,8 +75,10 @@ class SocialWorkGithubViewController: UIViewController {
             }, completion: { githubWork in
                 println("githubWork: \(githubWork)")
 
-                self.githubUser = githubWork.user
-                self.githubRepos = githubWork.repos
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.githubUser = githubWork.user
+                    self.githubRepos = githubWork.repos
+                }
             })
         }
     }
