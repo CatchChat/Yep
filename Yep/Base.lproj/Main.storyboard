@@ -370,7 +370,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="835" y="1999"/>
+            <point key="canvasLocation" x="141" y="2691"/>
         </scene>
         <!--Search Users View Controller-->
         <scene sceneID="CWo-xc-jUy">
@@ -525,6 +525,7 @@
                         <segue destination="la3-6z-2aH" kind="show" identifier="showConversation" id="o3b-2D-AMq"/>
                         <segue destination="3gg-0l-MYn" kind="show" identifier="showSkillHome" id="Jw0-fk-BDi"/>
                         <segue destination="0NC-ph-TBU" kind="presentation" identifier="presentOAuth" id="nnt-hh-VMn"/>
+                        <segue destination="RBe-Uc-vg0" kind="show" identifier="showSocialWorkGithub" id="IFH-d8-nL4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -622,7 +623,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O7a-Xh-Uff" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1708" y="1981"/>
+            <point key="canvasLocation" x="1204" y="1999"/>
         </scene>
         <!--Auth View Controller-->
         <scene sceneID="4gu-P3-U3G">
@@ -669,7 +670,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aYj-Hp-etu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2549" y="2715"/>
+            <point key="canvasLocation" x="2041" y="2783"/>
         </scene>
         <!--Edit Profile View Controller-->
         <scene sceneID="l0f-Y7-OKE">
@@ -917,7 +918,25 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E13-pa-e8B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2549" y="1963"/>
+            <point key="canvasLocation" x="2041" y="1999"/>
+        </scene>
+        <!--Social Work Github View Controller-->
+        <scene sceneID="uMz-q7-gEc">
+            <objects>
+                <viewController storyboardIdentifier="SocialWorkGithubViewController" id="RBe-Uc-vg0" customClass="SocialWorkGithubViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="S4W-Vn-TlJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="EDF-jz-V3f"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eOH-mG-8Zq">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ng6-AT-kmK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2805" y="1999"/>
         </scene>
     </scenes>
     <resources>

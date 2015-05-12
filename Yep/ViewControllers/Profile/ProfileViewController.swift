@@ -614,6 +614,17 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             
         } else if indexPath.section == ProfileSection.SocialAccount.rawValue {
 
+            if let socialAccount = SocialAccount(rawValue: indexPath.item) {
+                let providerName = socialAccount.description.lowercaseString
+                if let enabled = socialWorkProviderInfo[providerName] {
+                    if enabled {
+                        performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: nil)
+
+                        return
+                    }
+                }
+            }
+
             performSegueWithIdentifier("presentOAuth", sender: indexPath.item)
         }
 

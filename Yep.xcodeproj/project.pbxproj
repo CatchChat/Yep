@@ -137,6 +137,7 @@
 		508D174D1ACCF49B0092D666 /* ChatRightAudioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508D174B1ACCF49B0092D666 /* ChatRightAudioCell.xib */; };
 		508F8FC81B0161EF00461B0B /* ProfileSeparationLineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FC61B0161EF00461B0B /* ProfileSeparationLineCell.swift */; };
 		508F8FC91B0161EF00461B0B /* ProfileSeparationLineCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508F8FC71B0161EF00461B0B /* ProfileSeparationLineCell.xib */; };
+		508F8FCC1B01C7FC00461B0B /* SocialWorkGithubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FCB1B01C7FC00461B0B /* SocialWorkGithubViewController.swift */; };
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
 		5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */; };
@@ -318,6 +319,7 @@
 		508D174B1ACCF49B0092D666 /* ChatRightAudioCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatRightAudioCell.xib; path = Views/Cells/ChatRightAudio/ChatRightAudioCell.xib; sourceTree = "<group>"; };
 		508F8FC61B0161EF00461B0B /* ProfileSeparationLineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSeparationLineCell.swift; path = Views/Cells/ProfileSeparationLine/ProfileSeparationLineCell.swift; sourceTree = "<group>"; };
 		508F8FC71B0161EF00461B0B /* ProfileSeparationLineCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSeparationLineCell.xib; path = Views/Cells/ProfileSeparationLine/ProfileSeparationLineCell.xib; sourceTree = "<group>"; };
+		508F8FCB1B01C7FC00461B0B /* SocialWorkGithubViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkGithubViewController.swift; path = ViewControllers/SocialWorks/SocialWorkGithubViewController.swift; sourceTree = "<group>"; };
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
 		5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraPreviewView.swift; path = Views/CameraPreview/CameraPreviewView.swift; sourceTree = "<group>"; };
@@ -557,6 +559,7 @@
 				0A1CAC6C1AFA3D8C00826B45 /* SkillHome */,
 				507CF1691AFC84AA00E261B4 /* CustomNavigationBar */,
 				0A9018831B0120A800AE4B7F /* OAuth */,
+				508F8FCD1B01C80500461B0B /* SocialWorks */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1056,6 +1059,14 @@
 			name = ProfileSeparationLine;
 			sourceTree = "<group>";
 		};
+		508F8FCD1B01C80500461B0B /* SocialWorks */ = {
+			isa = PBXGroup;
+			children = (
+				508F8FCB1B01C7FC00461B0B /* SocialWorkGithubViewController.swift */,
+			);
+			name = SocialWorks;
+			sourceTree = "<group>";
+		};
 		5099B9C51AB95111002F940B /* Rank */ = {
 			isa = PBXGroup;
 			children = (
@@ -1433,6 +1444,7 @@
 				508D17471ACCF4710092D666 /* ChatLeftAudioCell.swift in Sources */,
 				50894D021AEA6433000981AF /* EditProfileLessInfoCell.swift in Sources */,
 				50894CFA1AEA54BA000981AF /* SettingsMoreCell.swift in Sources */,
+				508F8FCC1B01C7FC00461B0B /* SocialWorkGithubViewController.swift in Sources */,
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
 				50894D071AEDFDA2000981AF /* EditProfileMoreInfoCell.swift in Sources */,
 				0A1CAC731AFA526200826B45 /* SkillHomeSectionButton.swift in Sources */,
