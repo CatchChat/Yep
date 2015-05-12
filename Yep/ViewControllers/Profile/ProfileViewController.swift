@@ -643,7 +643,13 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     switch profileUser {
                         
                     case .DiscoveredUserType(let discoveredUser):
-                        break
+                        for provider in discoveredUser.socialAccountProviders {
+                            if (provider.name == providerName) && provider.enabled {
+                                performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
+
+                                break
+                            }
+                        }
 
                     case .UserType(let user):
                         for provider in user.socialAccountProviders {

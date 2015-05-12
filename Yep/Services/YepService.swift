@@ -513,6 +513,12 @@ enum DiscoveredUserSortStyle: String {
 }
 
 struct DiscoveredUser {
+
+    struct SocialAccountProvider {
+        let name: String
+        let enabled: Bool
+    }
+
     let id: String
     let nickname: String
     let avatarURLString: String
@@ -526,6 +532,8 @@ struct DiscoveredUser {
 
     let masterSkills: [Skill]
     let learningSkills: [Skill]
+
+    let socialAccountProviders: [SocialAccountProvider]
 }
 
 func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discoveredUserSortStyle: DiscoveredUserSortStyle, #failureHandler: ((Reason, String?) -> Void)?, #completion: [DiscoveredUser] -> Void) {
@@ -538,7 +546,7 @@ func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discover
     
     let parse: JSONDictionary -> [DiscoveredUser]? = { data in
 
-        //println("discoverUsers: \(data)")
+        println("discoverUsers: \(data)")
 
         if let usersData = data["users"] as? [JSONDictionary] {
 
@@ -555,14 +563,24 @@ func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discover
                     latitude = userInfo["latitude"] as? Double,
                     distance = userInfo["distance"] as? Double,
                     masterSkillsData = userInfo["master_skills"] as? [JSONDictionary],
-                    learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary] {
+                    learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary],
+                    socialAccountProvidersInfo = userInfo["providers"] as? [String: Bool] {
+
                         let createdAt = NSDate.dateWithISO08601String(createdAtString)
                         let lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
 
                         let masterSkills = skillsFromSkillsData(masterSkillsData)
                         let learningSkills = skillsFromSkillsData(learningSkillsData)
 
-                        let discoverUser = DiscoveredUser(id: id, nickname: nickname, avatarURLString: avatarURLString, createdAt: createdAt, lastSignInAt: lastSignInAt, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills)
+                        var socialAccountProviders = Array<DiscoveredUser.SocialAccountProvider>()
+
+                        for (name, enabled) in socialAccountProvidersInfo {
+                            let provider = DiscoveredUser.SocialAccountProvider(name: name, enabled: enabled)
+
+                            socialAccountProviders.append(provider)
+                        }
+
+                        let discoverUser = DiscoveredUser(id: id, nickname: nickname, avatarURLString: avatarURLString, createdAt: createdAt, lastSignInAt: lastSignInAt, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
                         
                         discoveredUsers.append(discoverUser)
                 }
