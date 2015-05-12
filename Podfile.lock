@@ -21,6 +21,7 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - Base64 (1.0.1)
+  - Kingfisher (1.4.1)
   - MZFayeClient (1.0.0):
     - Base64 (~> 1.0.1)
     - SocketRocket (~> 0.3.1-beta2)
@@ -35,6 +36,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
+  - Kingfisher
   - MZFayeClient (from `../CatchLib-iOS/MZFayeClient/`)
   - pop
   - RealmSwift
@@ -47,6 +49,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: e1d86c2a96bb5d2e7408da36149806706ee122fe
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
+  Kingfisher: 962a21cdc2a7b0fa63be3b2c45ea6f180feda535
   MZFayeClient: 19df756a4c86c8f414668e6edc54fccfee54adbb
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   Realm: 10c91667c5c65d6fe56b206c2c31e9b5eafb8718

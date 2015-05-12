@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class SocialWorkDribbbleViewController: UIViewController {
 
@@ -20,6 +21,12 @@ class SocialWorkDribbbleViewController: UIViewController {
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.dribbbleCollectionView.bounds)
         }()
+
+    var dribbbleShots = Array<DribbbleWork.Shot>() {
+        didSet {
+            updateDribbbleCollectionView()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,11 +55,19 @@ class SocialWorkDribbbleViewController: UIViewController {
 
             }, completion: { dribbbleWork in
                 println("dribbbleWork: \(dribbbleWork.shots.count)")
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.dribbbleShots = dribbbleWork.shots
+                }
             })
         }
     }
 
     // MARK: Actions
+
+    func updateDribbbleCollectionView() {
+        dribbbleCollectionView.reloadData()
+    }
 
     func gotoUserDribbbleHome() {
         // TODO: gotoUserDribbbleHome
@@ -67,14 +82,16 @@ extension SocialWorkDribbbleViewController: UICollectionViewDataSource, UICollec
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return dribbbleShots.count
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(dribbbleShotCellIdentifier, forIndexPath: indexPath) as! DribbbleShotCell
 
-        cell.imageView.image = UIImage(named: "Cover3")
+        let shot = dribbbleShots[indexPath.item]
+
+        cell.imageView.kf_setImageWithURL(NSURL(string: shot.images.normal)!)
 
         return cell
     }
