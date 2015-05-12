@@ -1187,7 +1187,7 @@ struct GithubWork {
 
     struct Repo {
         let name: String
-        let language: String
+        let language: String?
         let description: String
         let stargazersCount: Int
         let htmlURLString: String
@@ -1216,11 +1216,11 @@ func githubWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, Strin
             for repoInfo in reposData {
                 if let
                     name = repoInfo["name"] as? String,
-                    language = repoInfo["language"] as? String,
                     description = repoInfo["description"] as? String,
                     stargazersCount = repoInfo["stargazers_count"] as? Int,
                     htmlURLString = repoInfo["html_url"] as? String {
 
+                        let language = repoInfo["language"] as? String
                         let repo = GithubWork.Repo(name: name, language: language, description: description, stargazersCount: stargazersCount, htmlURLString: htmlURLString)
 
                         repos.append(repo)
