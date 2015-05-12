@@ -33,8 +33,18 @@ class SocialWorkDribbbleViewController: UIViewController {
             title = "Dribbble"
         }
 
+        let gotoButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "gotoUserDribbbleHome")
+        navigationItem.rightBarButtonItem = gotoButton
+        
+
         dribbbleCollectionView.registerNib(UINib(nibName: dribbbleShotCellIdentifier, bundle: nil), forCellWithReuseIdentifier: dribbbleShotCellIdentifier)
 
+    }
+
+    // MARK: Actions
+
+    func gotoUserDribbbleHome() {
+        // TODO: gotoUserDribbbleHome
     }
 
 }
