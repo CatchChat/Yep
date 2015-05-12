@@ -111,6 +111,9 @@ class ProfileViewController: CustomNavigationBarViewController {
     var masterSkills = [Skill]()
     var learningSkills = [Skill]()
 
+    typealias SocialWorkProviderInfo = [String: Bool]
+    var socialWorkProviderInfo = SocialWorkProviderInfo()
+
     let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
 
     lazy var footerCellHeight: CGFloat = {
@@ -171,6 +174,11 @@ class ProfileViewController: CustomNavigationBarViewController {
 
                 if let skillsData = userInfo["learning_skills"] as? [JSONDictionary] {
                     self.learningSkills = skillsFromSkillsData(skillsData)
+                }
+
+                if let providerInfo = userInfo["providers"] as? SocialWorkProviderInfo {
+                    self.socialWorkProviderInfo = providerInfo
+                    println("self.socialWorkProviderInfo: \(self.socialWorkProviderInfo)")
                 }
 
                 dispatch_async(dispatch_get_main_queue()) {
