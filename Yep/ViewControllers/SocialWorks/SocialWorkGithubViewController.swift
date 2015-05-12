@@ -11,6 +11,7 @@ import UIKit
 class SocialWorkGithubViewController: UIViewController {
 
     var socialAccount: SocialAccount?
+    var profileUser: ProfileUser?
 
 
     lazy var shareButton: UIBarButtonItem = {
@@ -74,7 +75,21 @@ class SocialWorkGithubViewController: UIViewController {
 
         // 获取 Github Work
 
-        if let userID = YepUserDefaults.userID.value {
+        var userID: String?
+
+        if let profileUser = profileUser {
+            switch profileUser {
+            case .DiscoveredUserType(let discoveredUser):
+                userID = discoveredUser.id
+            case .UserType(let user):
+                userID = user.userID
+            }
+
+        } else {
+            userID = YepUserDefaults.userID.value
+        }
+
+        if let userID = userID {
 
             githubWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
                 defaultFailureHandler(reason, errorMessage)

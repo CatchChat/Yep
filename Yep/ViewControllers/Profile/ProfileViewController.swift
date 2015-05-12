@@ -232,12 +232,14 @@ class ProfileViewController: CustomNavigationBarViewController {
             if let item = sender as? Int {
                 let vc = segue.destinationViewController as! SocialWorkGithubViewController
                 vc.socialAccount = SocialAccount(rawValue: item)
+                vc.profileUser = profileUser
             }
 
         } else if segue.identifier == "showSocialWorkDribbble" {
             if let item = sender as? Int {
                 let vc = segue.destinationViewController as! SocialWorkDribbbleViewController
                 vc.socialAccount = SocialAccount(rawValue: item)
+                vc.profileUser = profileUser
             }
         }
     }
@@ -633,17 +635,38 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         } else if indexPath.section == ProfileSection.SocialAccount.rawValue {
 
             if let socialAccount = SocialAccount(rawValue: indexPath.item) {
-                let providerName = socialAccount.description.lowercaseString
-                if let enabled = socialWorkProviderInfo[providerName] {
-                    if enabled {
-                        performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
 
-                        return
+                let providerName = socialAccount.description.lowercaseString
+
+                if let profileUser = profileUser {
+
+                    switch profileUser {
+                        
+                    case .DiscoveredUserType(let discoveredUser):
+                        break
+
+                    case .UserType(let user):
+                        for provider in user.socialAccountProviders {
+                            if (provider.name == providerName) && provider.enabled {
+                                performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
+
+                                break
+                            }
+                        }
                     }
+
+                } else {
+                    if let enabled = socialWorkProviderInfo[providerName] {
+                        if enabled {
+                            performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
+
+                            return
+                        }
+                    }
+
+                    performSegueWithIdentifier("presentOAuth", sender: indexPath.item)
                 }
             }
-
-            performSegueWithIdentifier("presentOAuth", sender: indexPath.item)
         }
 
     }
