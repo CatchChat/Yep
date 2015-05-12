@@ -39,6 +39,17 @@ class SocialWorkDribbbleViewController: UIViewController {
 
         dribbbleCollectionView.registerNib(UINib(nibName: dribbbleShotCellIdentifier, bundle: nil), forCellWithReuseIdentifier: dribbbleShotCellIdentifier)
 
+
+        // 获取 Dribbble Work
+
+        if let userID = YepUserDefaults.userID.value {
+            dribbbleWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
+                defaultFailureHandler(reason, errorMessage)
+
+            }, completion: { dribbbleWork in
+                println("dribbbleWork: \(dribbbleWork.shots.count)")
+            })
+        }
     }
 
     // MARK: Actions

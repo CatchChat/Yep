@@ -72,7 +72,7 @@ class SocialWorkGithubViewController: UIViewController {
         githubTableView.rowHeight = 100
 
 
-        // 获取 github Work
+        // 获取 Github Work
 
         if let userID = YepUserDefaults.userID.value {
 

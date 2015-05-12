@@ -1255,3 +1255,69 @@ func githubWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, Strin
         apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
     }
 }
+
+struct DribbbleWork {
+
+    struct Shot {
+
+        struct Images {
+            let hidpi: String?
+            let normal: String
+            let teaser: String
+        }
+
+        let title: String
+        let description: String
+        let htmlURLString: String
+        let images: Images
+        let likesCount: Int
+        let commentsCount: Int
+    }
+
+    let shots: [Shot]
+}
+
+func dribbbleWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: DribbbleWork -> Void) {
+
+    let parse: JSONDictionary -> DribbbleWork? = { data in
+
+        if let shotsData = data["shots"] as? [JSONDictionary] {
+            var shots = Array<DribbbleWork.Shot>()
+
+            for shotInfo in shotsData {
+                if let
+                    title = shotInfo["title"] as? String,
+                    description = shotInfo["description"] as? String,
+                    htmlURLString = shotInfo["html_url"] as? String,
+                    imagesInfo = shotInfo["images"] as? JSONDictionary,
+                    likesCount = shotInfo["comments_count"] as? Int,
+                    commentsCount = shotInfo["likes_count"] as? Int {
+                        if let
+                            normal = imagesInfo["normal"] as? String,
+                            teaser = imagesInfo["teaser"] as? String {
+                                let hidpi = imagesInfo["hidpi"] as? String
+
+                                let images = DribbbleWork.Shot.Images(hidpi: hidpi, normal: normal, teaser: teaser)
+
+                                let shot = DribbbleWork.Shot(title: title, description: description, htmlURLString: htmlURLString, images: images, likesCount: likesCount, commentsCount: commentsCount)
+
+                                shots.append(shot)
+                        }
+                }
+            }
+
+            return DribbbleWork(shots: shots)
+        }
+
+        return nil
+    }
+
+    let resource = authJsonResource(path: "/api/v1/users/\(userID)/dribbble", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
