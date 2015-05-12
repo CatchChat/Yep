@@ -1182,3 +1182,74 @@ func socialAccountWithProvider(provider: String, #failureHandler: ((Reason, Stri
         apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
     }
 }
+
+struct GithubWork {
+
+    struct Repo {
+        let name: String
+        let language: String
+        let description: String
+        let stargazersCount: Int
+        let htmlURLString: String
+    }
+
+    struct User {
+        let loginName: String
+        let avatarURLString: String
+        let htmlURLString: String
+        let followersCount: Int
+        let followingCount: Int
+    }
+
+    let repos: [Repo]
+    let user: User
+}
+
+func githubWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: GithubWork -> Void) {
+
+    let parse: JSONDictionary -> GithubWork? = { data in
+
+        if let reposData = data["repos"] as? [JSONDictionary], userInfo = data["user"] as? JSONDictionary {
+
+            var repos = Array<GithubWork.Repo>()
+
+            for repoInfo in reposData {
+                if let
+                    name = repoInfo["name"] as? String,
+                    language = repoInfo["language"] as? String,
+                    description = repoInfo["description"] as? String,
+                    stargazersCount = repoInfo["stargazers_count"] as? Int,
+                    htmlURLString = repoInfo["html_url"] as? String {
+
+                        let repo = GithubWork.Repo(name: name, language: language, description: description, stargazersCount: stargazersCount, htmlURLString: htmlURLString)
+
+                        repos.append(repo)
+                }
+            }
+
+            if let
+                loginName = userInfo["login"] as? String,
+                avatarURLString = userInfo["avatar_url"] as? String,
+                htmlURLString = userInfo["html_url"] as? String,
+                followersCount = userInfo["followers"] as? Int,
+                followingCount = userInfo["following"] as? Int {
+
+                    let user = GithubWork.User(loginName: loginName, avatarURLString: avatarURLString, htmlURLString: htmlURLString, followersCount: followersCount, followingCount: followingCount)
+
+                    let githubWork = GithubWork(repos: repos, user: user)
+
+                    return githubWork
+            }
+        }
+
+        return nil
+    }
+
+    let resource = authJsonResource(path: "/api/v1/users/\(userID)/github", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
