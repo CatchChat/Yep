@@ -931,8 +931,27 @@
                     <view key="view" contentMode="scaleToFill" id="eOH-mG-8Zq">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="UTC-GU-j3l">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="RBe-Uc-vg0" id="hV5-5w-FQJ"/>
+                                    <outlet property="delegate" destination="RBe-Uc-vg0" id="Hol-wh-EW8"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="UTC-GU-j3l" firstAttribute="top" secondItem="eOH-mG-8Zq" secondAttribute="top" id="0av-DG-7BX"/>
+                            <constraint firstItem="UTC-GU-j3l" firstAttribute="leading" secondItem="eOH-mG-8Zq" secondAttribute="leading" id="H9D-AE-2sC"/>
+                            <constraint firstAttribute="bottom" secondItem="UTC-GU-j3l" secondAttribute="bottom" id="Xal-mF-8nV"/>
+                            <constraint firstAttribute="trailing" secondItem="UTC-GU-j3l" secondAttribute="trailing" id="YJ8-Ep-IFd"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="githubTableView" destination="UTC-GU-j3l" id="UPL-Hm-KJY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ng6-AT-kmK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
