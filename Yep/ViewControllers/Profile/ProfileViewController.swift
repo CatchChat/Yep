@@ -220,6 +220,12 @@ class ProfileViewController: CustomNavigationBarViewController {
                 let nvc = segue.destinationViewController as! UINavigationController
                 let vc = nvc.topViewController as! OAuthViewController
                 vc.socialAccount = SocialAccount(rawValue: item)
+
+                vc.afterOAuthAction = { socialAccount in
+                    // 更新自己的 provider enabled 状态
+                    let providerName = socialAccount.description.lowercaseString
+                    self.socialWorkProviderInfo[providerName] = true
+                }
             }
 
         } else if segue.identifier == "showSocialWorkGithub" {
