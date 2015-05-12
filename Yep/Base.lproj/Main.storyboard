@@ -527,6 +527,7 @@
                         <segue destination="3gg-0l-MYn" kind="show" identifier="showSkillHome" id="Jw0-fk-BDi"/>
                         <segue destination="0NC-ph-TBU" kind="presentation" identifier="presentOAuth" id="nnt-hh-VMn"/>
                         <segue destination="RBe-Uc-vg0" kind="show" identifier="showSocialWorkGithub" id="IFH-d8-nL4"/>
+                        <segue destination="ohm-zv-zHQ" kind="show" identifier="showSocialWorkDribbble" id="u47-XX-oIL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1027,6 +1028,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ng6-AT-kmK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2805" y="1999"/>
+        </scene>
+        <!--Social Work Dribbble View Controller-->
+        <scene sceneID="Dzr-eb-QOy">
+            <objects>
+                <viewController storyboardIdentifier="SocialWorkDribbbleViewController" id="ohm-zv-zHQ" customClass="SocialWorkDribbbleViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="UMd-qB-LFd"/>
+                        <viewControllerLayoutGuide type="bottom" id="PLn-9E-lGY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="OC7-tw-04I">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NBj-dC-nzx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3541" y="1991"/>
         </scene>
     </scenes>
     <resources>

@@ -140,6 +140,7 @@
 		508F8FCC1B01C7FC00461B0B /* SocialWorkGithubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FCB1B01C7FC00461B0B /* SocialWorkGithubViewController.swift */; };
 		508F8FD01B01D04400461B0B /* GithubRepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FCE1B01D04400461B0B /* GithubRepoCell.swift */; };
 		508F8FD11B01D04400461B0B /* GithubRepoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508F8FCF1B01D04400461B0B /* GithubRepoCell.xib */; };
+		508F8FD41B01E3D100461B0B /* SocialWorkDribbbleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FD31B01E3D100461B0B /* SocialWorkDribbbleViewController.swift */; };
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
 		5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */; };
@@ -324,6 +325,7 @@
 		508F8FCB1B01C7FC00461B0B /* SocialWorkGithubViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkGithubViewController.swift; path = ViewControllers/SocialWorks/SocialWorkGithubViewController.swift; sourceTree = "<group>"; };
 		508F8FCE1B01D04400461B0B /* GithubRepoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GithubRepoCell.swift; path = Views/Cells/GithubRepo/GithubRepoCell.swift; sourceTree = "<group>"; };
 		508F8FCF1B01D04400461B0B /* GithubRepoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GithubRepoCell.xib; path = Views/Cells/GithubRepo/GithubRepoCell.xib; sourceTree = "<group>"; };
+		508F8FD31B01E3D100461B0B /* SocialWorkDribbbleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkDribbbleViewController.swift; path = ViewControllers/SocialWorks/SocialWorkDribbbleViewController.swift; sourceTree = "<group>"; };
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
 		5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraPreviewView.swift; path = Views/CameraPreview/CameraPreviewView.swift; sourceTree = "<group>"; };
@@ -1068,6 +1070,7 @@
 			isa = PBXGroup;
 			children = (
 				508F8FCB1B01C7FC00461B0B /* SocialWorkGithubViewController.swift */,
+				508F8FD31B01E3D100461B0B /* SocialWorkDribbbleViewController.swift */,
 			);
 			name = SocialWorks;
 			sourceTree = "<group>";
@@ -1474,6 +1477,7 @@
 				50CDBE461ACA9F2200459CE0 /* ImageCache.swift in Sources */,
 				505EC81C1ADFBE1B001D27E0 /* SkillSelectionCell.swift in Sources */,
 				5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */,
+				508F8FD41B01E3D100461B0B /* SocialWorkDribbbleViewController.swift in Sources */,
 				50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */,
 				502AE5331AB86020005BD199 /* RegisterVerifyMobileViewController.swift in Sources */,
 				0A1CAC6E1AFA42D400826B45 /* SkillHomeViewController.swift in Sources */,
