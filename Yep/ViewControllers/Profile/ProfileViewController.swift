@@ -221,6 +221,12 @@ class ProfileViewController: CustomNavigationBarViewController {
                 let vc = nvc.topViewController as! OAuthViewController
                 vc.socialAccount = SocialAccount(rawValue: item)
             }
+
+        } else if segue.identifier == "showSocialWorkGithub" {
+            if let item = sender as? Int {
+                let vc = segue.destinationViewController as! SocialWorkGithubViewController
+                vc.socialAccount = SocialAccount(rawValue: item)
+            }
         }
     }
 
@@ -618,7 +624,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 let providerName = socialAccount.description.lowercaseString
                 if let enabled = socialWorkProviderInfo[providerName] {
                     if enabled {
-                        performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: nil)
+                        performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
 
                         return
                     }

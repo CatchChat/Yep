@@ -10,7 +10,9 @@ import UIKit
 
 class SocialWorkGithubViewController: UIViewController {
 
+    var socialAccount: SocialAccount?
 
+    
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var followersCountLabel: UILabel!
     @IBOutlet weak var starredCountLabel: UILabel!
@@ -22,6 +24,15 @@ class SocialWorkGithubViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if let socialAccount = socialAccount {
+            let accountImageView = UIImageView(image: UIImage(named: socialAccount.iconName)!)
+            accountImageView.tintColor = socialAccount.tintColor
+            navigationItem.titleView = accountImageView
+
+        } else {
+            title = "Github"
+        }
 
         githubTableView.registerNib(UINib(nibName: githubRepoCellIdentifier, bundle: nil), forCellReuseIdentifier: githubRepoCellIdentifier)
 
