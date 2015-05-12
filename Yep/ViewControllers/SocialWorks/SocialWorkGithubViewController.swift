@@ -10,6 +10,12 @@ import UIKit
 
 class SocialWorkGithubViewController: UIViewController {
 
+
+    @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var followersCountLabel: UILabel!
+    @IBOutlet weak var starredCountLabel: UILabel!
+    @IBOutlet weak var followingCountLabel: UILabel!
+
     @IBOutlet weak var githubTableView: UITableView!
 
     let githubRepoCellIdentifier = "GithubRepoCell"

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -932,9 +933,75 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="UTC-GU-j3l">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="UTC-GU-j3l">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="TOk-uh-YYP">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="230"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YwC-QR-xbE" userLabel="Avatar Image View">
+                                            <rect key="frame" x="270" y="46" width="60" height="60"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="YwC-QR-xbE" secondAttribute="height" multiplier="1:1" id="IJm-F4-LP9"/>
+                                                <constraint firstAttribute="width" constant="60" id="eUC-Ve-cys"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="264" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zm7-GR-gdk" userLabel="Followers Count Label">
+                                            <rect key="frame" x="182" y="141" width="47" height="34"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Followers" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oJN-WT-en7" userLabel="Followers Label">
+                                            <rect key="frame" x="180" y="183" width="50" height="14"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="465" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AYA-Wt-nJZ" userLabel="Starred Count Label">
+                                            <rect key="frame" x="277" y="141" width="47" height="34"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Starred" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cGf-Ne-05g" userLabel="Starred Label">
+                                            <rect key="frame" x="281" y="183" width="38" height="14"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="odP-wn-O9l" userLabel="Following Count Label">
+                                            <rect key="frame" x="387" y="141" width="16" height="34"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Following" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hSD-4E-AKI" userLabel="Following Label">
+                                            <rect key="frame" x="370" y="183" width="50" height="14"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstItem="zm7-GR-gdk" firstAttribute="centerX" secondItem="oJN-WT-en7" secondAttribute="centerX" constant="0.5" id="2Fr-Oa-XdV"/>
+                                        <constraint firstItem="zm7-GR-gdk" firstAttribute="centerY" secondItem="AYA-Wt-nJZ" secondAttribute="centerY" id="3Ou-2t-Ve4"/>
+                                        <constraint firstItem="oJN-WT-en7" firstAttribute="top" secondItem="zm7-GR-gdk" secondAttribute="bottom" constant="8" id="DAb-lR-lmD"/>
+                                        <constraint firstItem="hSD-4E-AKI" firstAttribute="top" secondItem="odP-wn-O9l" secondAttribute="bottom" constant="8" id="FCx-SS-i2c"/>
+                                        <constraint firstItem="cGf-Ne-05g" firstAttribute="top" secondItem="AYA-Wt-nJZ" secondAttribute="bottom" constant="8" id="JDl-nt-kcU"/>
+                                        <constraint firstItem="cGf-Ne-05g" firstAttribute="centerX" secondItem="oJN-WT-en7" secondAttribute="leading" constant="120" id="Ozk-aM-tig"/>
+                                        <constraint firstItem="YwC-QR-xbE" firstAttribute="top" secondItem="TOk-uh-YYP" secondAttribute="top" constant="46" id="Txb-fb-m0L"/>
+                                        <constraint firstItem="odP-wn-O9l" firstAttribute="centerY" secondItem="AYA-Wt-nJZ" secondAttribute="centerY" id="ZIr-xf-KM5"/>
+                                        <constraint firstItem="hSD-4E-AKI" firstAttribute="trailing" secondItem="cGf-Ne-05g" secondAttribute="centerX" constant="120" id="fol-p9-JO3"/>
+                                        <constraint firstItem="YwC-QR-xbE" firstAttribute="centerX" secondItem="AYA-Wt-nJZ" secondAttribute="centerX" constant="-0.5" id="hd8-tj-WmJ"/>
+                                        <constraint firstAttribute="centerX" secondItem="YwC-QR-xbE" secondAttribute="centerX" id="jFM-6e-Gz6"/>
+                                        <constraint firstItem="AYA-Wt-nJZ" firstAttribute="centerX" secondItem="cGf-Ne-05g" secondAttribute="centerX" constant="0.5" id="qSZ-TA-4cK"/>
+                                        <constraint firstItem="AYA-Wt-nJZ" firstAttribute="top" secondItem="YwC-QR-xbE" secondAttribute="bottom" constant="35" id="wGw-Yr-sET"/>
+                                        <constraint firstItem="odP-wn-O9l" firstAttribute="centerX" secondItem="hSD-4E-AKI" secondAttribute="centerX" id="xKQ-ds-Zto"/>
+                                    </constraints>
+                                </view>
                                 <connections>
                                     <outlet property="dataSource" destination="RBe-Uc-vg0" id="hV5-5w-FQJ"/>
                                     <outlet property="delegate" destination="RBe-Uc-vg0" id="Hol-wh-EW8"/>
@@ -950,7 +1017,11 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="avatarImageView" destination="YwC-QR-xbE" id="c1U-ef-M3L"/>
+                        <outlet property="followersCountLabel" destination="zm7-GR-gdk" id="EFT-kS-Rnt"/>
+                        <outlet property="followingCountLabel" destination="odP-wn-O9l" id="RKA-Pu-Lih"/>
                         <outlet property="githubTableView" destination="UTC-GU-j3l" id="UPL-Hm-KJY"/>
+                        <outlet property="starredCountLabel" destination="AYA-Wt-nJZ" id="01v-MQ-CbP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ng6-AT-kmK" userLabel="First Responder" sceneMemberID="firstResponder"/>
