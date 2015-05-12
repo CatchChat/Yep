@@ -12,7 +12,12 @@ class SocialWorkGithubViewController: UIViewController {
 
     var socialAccount: SocialAccount?
 
-    
+
+    lazy var gotoButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "gotoUserGithubHome")
+        return button
+        }()
+
     @IBOutlet weak var infoView: UIView!
 
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -27,6 +32,8 @@ class SocialWorkGithubViewController: UIViewController {
     var githubUser: GithubWork.User? {
         didSet {
             if let user = githubUser {
+                gotoButton.enabled = true
+
                 infoView.hidden = false
 
                 AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(user.avatarURLString, withRadius: avatarImageView.bounds.width * 0.5) { image in
@@ -57,7 +64,7 @@ class SocialWorkGithubViewController: UIViewController {
             title = "Github"
         }
 
-        let gotoButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "gotoUserGithubHome")
+        gotoButton.enabled = false
         navigationItem.rightBarButtonItem = gotoButton
 
         githubTableView.registerNib(UINib(nibName: githubRepoCellIdentifier, bundle: nil), forCellReuseIdentifier: githubRepoCellIdentifier)
@@ -90,7 +97,9 @@ class SocialWorkGithubViewController: UIViewController {
     }
 
     func gotoUserGithubHome() {
-        // TODO: gotoUserGithubHome
+        if let user = githubUser {
+            UIApplication.sharedApplication().openURL(NSURL(string: user.htmlURLString)!)
+        }
     }
 
 }
