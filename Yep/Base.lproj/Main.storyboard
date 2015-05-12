@@ -940,7 +940,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="230"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YwC-QR-xbE" userLabel="Avatar Image View">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar" translatesAutoresizingMaskIntoConstraints="NO" id="YwC-QR-xbE" userLabel="Avatar Image View">
                                             <rect key="frame" x="270" y="46" width="60" height="60"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="YwC-QR-xbE" secondAttribute="height" multiplier="1:1" id="IJm-F4-LP9"/>
@@ -1030,6 +1030,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="default_avatar" width="160" height="160"/>
         <image name="icon_chat" width="30" height="30"/>
         <image name="icon_chat_active" width="30" height="30"/>
         <image name="icon_contact" width="30" height="30"/>

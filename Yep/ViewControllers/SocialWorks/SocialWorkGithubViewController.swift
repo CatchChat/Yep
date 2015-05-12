@@ -34,9 +34,18 @@ class SocialWorkGithubViewController: UIViewController {
             title = "Github"
         }
 
+        let gotoButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "gotoUserGithubHome")
+        navigationItem.rightBarButtonItem = gotoButton
+
         githubTableView.registerNib(UINib(nibName: githubRepoCellIdentifier, bundle: nil), forCellReuseIdentifier: githubRepoCellIdentifier)
 
         githubTableView.rowHeight = 100
+    }
+
+    // MARK: Actions
+
+    func gotoUserGithubHome() {
+        // TODO: gotoUserGithubHome
     }
 
 }
