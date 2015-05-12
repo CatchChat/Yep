@@ -141,6 +141,8 @@
 		508F8FD01B01D04400461B0B /* GithubRepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FCE1B01D04400461B0B /* GithubRepoCell.swift */; };
 		508F8FD11B01D04400461B0B /* GithubRepoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508F8FCF1B01D04400461B0B /* GithubRepoCell.xib */; };
 		508F8FD41B01E3D100461B0B /* SocialWorkDribbbleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FD31B01E3D100461B0B /* SocialWorkDribbbleViewController.swift */; };
+		508F8FD71B01EDB400461B0B /* DribbbleShotCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FD51B01EDB400461B0B /* DribbbleShotCell.swift */; };
+		508F8FD81B01EDB400461B0B /* DribbbleShotCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508F8FD61B01EDB400461B0B /* DribbbleShotCell.xib */; };
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
 		5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */; };
@@ -326,6 +328,8 @@
 		508F8FCE1B01D04400461B0B /* GithubRepoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GithubRepoCell.swift; path = Views/Cells/GithubRepo/GithubRepoCell.swift; sourceTree = "<group>"; };
 		508F8FCF1B01D04400461B0B /* GithubRepoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GithubRepoCell.xib; path = Views/Cells/GithubRepo/GithubRepoCell.xib; sourceTree = "<group>"; };
 		508F8FD31B01E3D100461B0B /* SocialWorkDribbbleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkDribbbleViewController.swift; path = ViewControllers/SocialWorks/SocialWorkDribbbleViewController.swift; sourceTree = "<group>"; };
+		508F8FD51B01EDB400461B0B /* DribbbleShotCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DribbbleShotCell.swift; path = Views/Cells/DribbbleShot/DribbbleShotCell.swift; sourceTree = "<group>"; };
+		508F8FD61B01EDB400461B0B /* DribbbleShotCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DribbbleShotCell.xib; path = Views/Cells/DribbbleShot/DribbbleShotCell.xib; sourceTree = "<group>"; };
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
 		5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraPreviewView.swift; path = Views/CameraPreview/CameraPreviewView.swift; sourceTree = "<group>"; };
@@ -671,6 +675,7 @@
 				5053AD5C1AF83B4600B3CBFA /* ChatLeftLocation */,
 				5053AD571AF83B1600B3CBFA /* ChatRightLocation */,
 				508F8FD21B01D04F00461B0B /* GithubRepo */,
+				508F8FD91B01EDBC00461B0B /* DribbbleShot */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1084,6 +1089,15 @@
 			name = GithubRepo;
 			sourceTree = "<group>";
 		};
+		508F8FD91B01EDBC00461B0B /* DribbbleShot */ = {
+			isa = PBXGroup;
+			children = (
+				508F8FD51B01EDB400461B0B /* DribbbleShotCell.swift */,
+				508F8FD61B01EDB400461B0B /* DribbbleShotCell.xib */,
+			);
+			name = DribbbleShot;
+			sourceTree = "<group>";
+		};
 		5099B9C51AB95111002F940B /* Rank */ = {
 			isa = PBXGroup;
 			children = (
@@ -1327,6 +1341,7 @@
 				50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */,
 				502AE5411AB88862005BD199 /* SkillRankCell.xib in Resources */,
 				508F8FD11B01D04400461B0B /* GithubRepoCell.xib in Resources */,
+				508F8FD81B01EDB400461B0B /* DribbbleShotCell.xib in Resources */,
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
 				50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */,
 				0A90187F1B01152800AE4B7F /* ProfileSocialAccountCell.xib in Resources */,
@@ -1489,6 +1504,7 @@
 				5053AD4D1AF79EEA00B3CBFA /* UserPickedLocationPin.swift in Sources */,
 				50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */,
 				502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */,
+				508F8FD71B01EDB400461B0B /* DribbbleShotCell.swift in Sources */,
 				0A7A7D561AF5E00600A7F5F5 /* YepHelper.swift in Sources */,
 				508D17401ACCD2740092D666 /* YepButton.swift in Sources */,
 				506BB7F51AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift in Sources */,

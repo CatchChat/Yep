@@ -1040,8 +1040,34 @@
                     <view key="view" contentMode="scaleToFill" id="OC7-tw-04I">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="TMU-4K-hAj">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="NZO-Bj-WBx">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="ohm-zv-zHQ" id="Cht-kh-aA2"/>
+                                    <outlet property="delegate" destination="ohm-zv-zHQ" id="Ezo-C3-O6z"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="TMU-4K-hAj" firstAttribute="top" secondItem="OC7-tw-04I" secondAttribute="top" id="BpD-kF-jx6"/>
+                            <constraint firstAttribute="bottom" secondItem="TMU-4K-hAj" secondAttribute="bottom" id="f2q-RP-RAG"/>
+                            <constraint firstItem="TMU-4K-hAj" firstAttribute="leading" secondItem="OC7-tw-04I" secondAttribute="leading" id="hZb-F2-pQO"/>
+                            <constraint firstAttribute="trailing" secondItem="TMU-4K-hAj" secondAttribute="trailing" id="tbk-Qa-LQh"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="dribbbleCollectionView" destination="TMU-4K-hAj" id="Ybn-q9-ZdY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NBj-dC-nzx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
