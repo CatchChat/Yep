@@ -13,8 +13,8 @@ class SocialWorkGithubViewController: UIViewController {
     var socialAccount: SocialAccount?
 
 
-    lazy var gotoButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "gotoUserGithubHome")
+    lazy var shareButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share")
         return button
         }()
 
@@ -32,7 +32,7 @@ class SocialWorkGithubViewController: UIViewController {
     var githubUser: GithubWork.User? {
         didSet {
             if let user = githubUser {
-                gotoButton.enabled = true
+                shareButton.enabled = true
 
                 infoView.hidden = false
 
@@ -64,8 +64,8 @@ class SocialWorkGithubViewController: UIViewController {
             title = "Github"
         }
 
-        gotoButton.enabled = false
-        navigationItem.rightBarButtonItem = gotoButton
+        shareButton.enabled = false
+        navigationItem.rightBarButtonItem = shareButton
 
         githubTableView.registerNib(UINib(nibName: githubRepoCellIdentifier, bundle: nil), forCellReuseIdentifier: githubRepoCellIdentifier)
 
@@ -96,9 +96,12 @@ class SocialWorkGithubViewController: UIViewController {
         githubTableView.reloadData()
     }
 
-    func gotoUserGithubHome() {
-        if let user = githubUser {
-            UIApplication.sharedApplication().openURL(NSURL(string: user.htmlURLString)!)
+    func share() {
+        if let user = githubUser, githubURL = NSURL(string: user.htmlURLString) {
+
+            let activityViewController = UIActivityViewController(activityItems: [githubURL], applicationActivities: nil)
+
+            presentViewController(activityViewController, animated: true, completion: nil)
         }
     }
 
