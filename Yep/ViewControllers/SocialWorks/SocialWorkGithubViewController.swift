@@ -115,6 +115,7 @@ extension SocialWorkGithubViewController: UITableViewDataSource, UITableViewDele
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCellWithIdentifier(githubRepoCellIdentifier) as! GithubRepoCell
 
         let repo = githubRepos[indexPath.row]
@@ -124,6 +125,15 @@ extension SocialWorkGithubViewController: UITableViewDataSource, UITableViewDele
         cell.starCountLabel.text = "\(repo.stargazersCount)" + "★"
 
         return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        let repo = githubRepos[indexPath.row]
+
+        UIApplication.sharedApplication().openURL(NSURL(string: repo.htmlURLString)!)
     }
 }
 
