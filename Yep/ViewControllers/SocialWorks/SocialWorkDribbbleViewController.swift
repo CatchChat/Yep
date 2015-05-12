@@ -10,6 +10,9 @@ import UIKit
 
 class SocialWorkDribbbleViewController: UIViewController {
 
+    var socialAccount: SocialAccount?
+
+    
     @IBOutlet weak var dribbbleCollectionView: UICollectionView!
 
     let dribbbleShotCellIdentifier = "DribbbleShotCell"
@@ -20,6 +23,15 @@ class SocialWorkDribbbleViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if let socialAccount = socialAccount {
+            let accountImageView = UIImageView(image: UIImage(named: socialAccount.iconName)!)
+            accountImageView.tintColor = socialAccount.tintColor
+            navigationItem.titleView = accountImageView
+
+        } else {
+            title = "Dribbble"
+        }
 
         dribbbleCollectionView.registerNib(UINib(nibName: dribbbleShotCellIdentifier, bundle: nil), forCellWithReuseIdentifier: dribbbleShotCellIdentifier)
 

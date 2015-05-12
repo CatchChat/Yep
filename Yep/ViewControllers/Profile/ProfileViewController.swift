@@ -233,6 +233,12 @@ class ProfileViewController: CustomNavigationBarViewController {
                 let vc = segue.destinationViewController as! SocialWorkGithubViewController
                 vc.socialAccount = SocialAccount(rawValue: item)
             }
+
+        } else if segue.identifier == "showSocialWorkDribbble" {
+            if let item = sender as? Int {
+                let vc = segue.destinationViewController as! SocialWorkDribbbleViewController
+                vc.socialAccount = SocialAccount(rawValue: item)
+            }
         }
     }
 
