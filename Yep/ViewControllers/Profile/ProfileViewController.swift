@@ -483,8 +483,45 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             if let socialAccount = SocialAccount(rawValue: indexPath.row) {
                 cell.iconImageView.image = UIImage(named: socialAccount.iconName)
                 cell.nameLabel.text = socialAccount.description
-                cell.iconImageView.tintColor = socialAccount.tintColor
-                cell.nameLabel.textColor = socialAccount.tintColor
+
+                cell.iconImageView.tintColor = UIColor.lightGrayColor()
+                cell.nameLabel.textColor = UIColor.lightGrayColor()
+
+                let providerName = socialAccount.description.lowercaseString
+
+                if let profileUser = profileUser {
+
+                    switch profileUser {
+
+                    case .DiscoveredUserType(let discoveredUser):
+                        for provider in discoveredUser.socialAccountProviders {
+                            if (provider.name == providerName) && provider.enabled {
+                                cell.iconImageView.tintColor = socialAccount.tintColor
+                                cell.nameLabel.textColor = socialAccount.tintColor
+
+                                break
+                            }
+                        }
+
+                    case .UserType(let user):
+                        for provider in user.socialAccountProviders {
+                            if (provider.name == providerName) && provider.enabled {
+                                cell.iconImageView.tintColor = socialAccount.tintColor
+                                cell.nameLabel.textColor = socialAccount.tintColor
+
+                                break
+                            }
+                        }
+                    }
+                    
+                } else {
+                    if let enabled = socialWorkProviderInfo[providerName] {
+                        if enabled {
+                            cell.iconImageView.tintColor = socialAccount.tintColor
+                            cell.nameLabel.textColor = socialAccount.tintColor
+                        }
+                    }
+                }
             }
             
             return cell
