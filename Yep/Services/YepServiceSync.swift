@@ -267,6 +267,20 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                                 user.masterSkills.extend(userSkills)
                             }
 
+                            // 更新 Social Account Provider
+
+                            user.socialAccountProviders.removeAll()
+
+                            if let providersInfo = friendInfo["providers"] as? [String: Bool] {
+                                for (name, enabled) in providersInfo {
+                                    let provider = UserSocialAccountProvider()
+                                    provider.name = name
+                                    provider.enabled = enabled
+
+                                    user.socialAccountProviders.append(provider)
+                                }
+                            }
+
                             realm.commitWrite()
                         }
                     }

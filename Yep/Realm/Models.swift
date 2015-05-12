@@ -65,8 +65,6 @@ class UserSkill: Object {
 class UserSocialAccountProvider: Object {
     dynamic var name: String = ""
     dynamic var enabled: Bool = false
-
-    dynamic var owner: User?
 }
 
 class User: Object {
