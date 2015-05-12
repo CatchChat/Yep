@@ -327,7 +327,6 @@ func deleteSkill(skill: Skill, fromSkillSet skillSet: SkillSet, #failureHandler:
 
 func userInfo(#failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
     let parse: JSONDictionary -> JSONDictionary? = { data in
-        println("userInfo \(data)")
         return data
     }
 
