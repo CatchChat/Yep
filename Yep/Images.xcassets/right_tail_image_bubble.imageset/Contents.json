@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "left_tail_image_bubble.pdf",
+      "filename" : "right_tail_image_bubble.pdf",
       "resizing" : {
         "mode" : "9-part",
         "center" : {
@@ -12,9 +12,9 @@
         },
         "capInsets" : {
           "bottom" : 20,
-          "top" : 25,
-          "right" : 20,
-          "left" : 27
+          "top" : 24,
+          "right" : 27,
+          "left" : 20
         }
       }
     }

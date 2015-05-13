@@ -37,6 +37,10 @@ class ImageCache {
 
             let messageID = message.messageID
 
+            // 先放个默认的图片
+            let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")! : UIImage(named: "right_tail_image_bubble")!
+            completion(defaultImage)
+
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
 
                 if !fileName.isEmpty {
@@ -120,6 +124,10 @@ class ImageCache {
 
                 let mapSnapshotter = MKMapSnapshotter(options: options)
 
+                // 先放个默认的图片
+                let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")! : UIImage(named: "right_tail_image_bubble")!
+                completion(defaultImage)
+                
                 mapSnapshotter.startWithCompletionHandler { (snapshot, error) -> Void in
                     if error == nil {
 
