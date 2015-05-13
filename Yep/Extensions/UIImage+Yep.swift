@@ -260,11 +260,11 @@ extension UIImage {
         return roundImage
     }
 
-    func bubbleImageWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize) -> UIImage {
-        let bubbleImage = self.fixRotation().cropToAspectRatio(size.width / size.height).resizeToTargetSize(size).bubbleImageWithTailDirection(tailDirection)
-
-        return bubbleImage
-    }
+//    func bubbleImageWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize) -> UIImage {
+//        let bubbleImage = self.fixRotation().cropToAspectRatio(size.width / size.height).resizeToTargetSize(size).bubbleImageWithTailDirection(tailDirection)
+//
+//        return bubbleImage
+//    }
 }
 
 extension UIImage {
@@ -295,4 +295,90 @@ extension UIImage {
 
         return tintedImage
     }
+}
+
+extension UIImage {
+
+    func renderAtSize(size: CGSize) -> UIImage {
+        UIGraphicsBeginImageContext(size)
+
+        //let scale: CGFloat = self.scale
+
+        //UIGraphicsBeginImageContextWithOptions(self.size, false, scale)
+
+        let context = UIGraphicsGetCurrentContext()
+
+        self.drawInRect(CGRect(origin: CGPointZero, size: size))
+
+        let cgImage = CGBitmapContextCreateImage(context)
+
+        let image = UIImage(CGImage: cgImage)!
+
+        UIGraphicsEndImageContext()
+
+        return image
+    }
+
+
+    func maskWithImage(maskImage: UIImage) -> UIImage {
+        //UIGraphicsBeginImageContext(size)
+
+        let scale = UIScreen.mainScreen().scale
+        UIGraphicsBeginImageContextWithOptions(self.size, false, scale)
+
+        let context = UIGraphicsGetCurrentContext()
+
+        var transform = CGAffineTransformConcat(CGAffineTransformIdentity, CGAffineTransformMakeScale(1.0, -1.0))
+        transform = CGAffineTransformConcat(transform, CGAffineTransformMakeTranslation(0.0, self.size.height))
+        CGContextConcatCTM(context, transform)
+
+        let drawRect = CGRect(origin: CGPointZero, size: self.size)
+
+        CGContextClipToMask(context, drawRect, maskImage.CGImage)
+
+        CGContextDrawImage(context, drawRect, self.CGImage)
+
+        let roundImage = UIGraphicsGetImageFromCurrentImageContext()
+
+        UIGraphicsEndImageContext()
+        
+        return roundImage
+    }
+
+    func bubbleImageWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize) -> UIImage {
+
+        let scale = UIScreen.mainScreen().scale
+        let orientation: UIImageOrientation = tailDirection == .Left ? .Up : .UpMirrored
+        var maskImage = UIImage(CGImage: UIImage(named: "left_tail_image_bubble")!.CGImage, scale: scale, orientation: orientation)!
+        maskImage = maskImage.resizableImageWithCapInsets(UIEdgeInsets(top: 25, left: 26, bottom: 20, right: 20), resizingMode: UIImageResizingMode.Stretch)
+        maskImage = maskImage.renderAtSize(size)
+
+        let bubbleImage = self.fixRotation().cropToAspectRatio(size.width / size.height).resizeToTargetSize(size).maskWithImage(maskImage)
+
+        return bubbleImage
+    }
+
+//    func maskWithImage(maskImage: UIImage) -> UIImage {
+//        //UIGraphicsBeginImageContext(size)
+//        
+//        let colorSpace = CGColorSpaceCreateDeviceRGB()
+//        let bitmapInfo = CGBitmapInfo(CGImageAlphaInfo.PremultipliedLast.rawValue)
+//        let context = CGBitmapContextCreate(nil, Int(maskImage.size.width), Int(maskImage.size.height), 8, 0, colorSpace, bitmapInfo)
+//
+////        var transform = CGAffineTransformConcat(CGAffineTransformIdentity, CGAffineTransformMakeScale(1.0, -1.0))
+////        transform = CGAffineTransformConcat(transform, CGAffineTransformMakeTranslation(0.0, self.size.height))
+////        CGContextConcatCTM(context, transform)
+//
+//        let drawRect = CGRect(origin: CGPointZero, size: self.size)
+//
+//        CGContextClipToMask(context, drawRect, maskImage.CGImage)
+//
+//        CGContextDrawImage(context, drawRect, self.CGImage)
+//
+//        let cgImage = CGBitmapContextCreateImage(context)!
+//
+//        //UIGraphicsEndImageContext()
+//
+//        return UIImage(CGImage: cgImage)!
+//    }
 }
