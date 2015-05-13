@@ -1329,14 +1329,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
     
     func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
 
-        func delayBySeconds(seconds: Double, delayedCode: ()->()) {
-            let targetTime = dispatch_time(DISPATCH_TIME_NOW, Int64(Double(NSEC_PER_SEC) * seconds))
-            dispatch_after(targetTime, dispatch_get_main_queue()) {
-                delayedCode()
-            }
-        }
-
-        delayBySeconds(1) {
+        delay(1) {
             pulllToRefreshView.endRefreshingAndDoFurtherAction() {
 
                 let lastDisplayedMessagesRange = self.displayedMessagesRange
