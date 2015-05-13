@@ -14,20 +14,20 @@
                 <rect key="frame" x="0.0" y="0.0" width="208" height="115"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cv4-jk-ysG" userLabel="Avatar Image View">
-                        <rect key="frame" x="153" y="4" width="40" height="40"/>
+                        <rect key="frame" x="153" y="0.0" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="Vwc-JE-HbI"/>
                             <constraint firstAttribute="width" secondItem="cv4-jk-ysG" secondAttribute="height" multiplier="1:1" id="cPJ-aC-FeD"/>
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Usu-mV-m39" userLabel="Thumbnail Image View">
-                        <rect key="frame" x="17" y="0.0" width="126" height="115"/>
+                        <rect key="frame" x="22" y="0.0" width="126" height="115"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="126" id="nix-mc-fis"/>
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_playvideo" translatesAutoresizingMaskIntoConstraints="NO" id="4Zc-y0-R7I" userLabel="Play Image View">
-                        <rect key="frame" x="65" y="43" width="30" height="30"/>
+                        <rect key="frame" x="70" y="43" width="30" height="30"/>
                     </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -36,9 +36,9 @@
                 <constraint firstItem="Usu-mV-m39" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="8ku-OC-fVU"/>
                 <constraint firstAttribute="trailing" secondItem="cv4-jk-ysG" secondAttribute="trailing" constant="15" id="9W0-oW-HP0"/>
                 <constraint firstAttribute="bottom" secondItem="Usu-mV-m39" secondAttribute="bottom" id="V8A-BH-zoE"/>
-                <constraint firstItem="cv4-jk-ysG" firstAttribute="top" secondItem="Usu-mV-m39" secondAttribute="top" constant="4" id="Wni-Je-PVy"/>
+                <constraint firstItem="cv4-jk-ysG" firstAttribute="top" secondItem="Usu-mV-m39" secondAttribute="top" id="Wni-Je-PVy"/>
                 <constraint firstItem="4Zc-y0-R7I" firstAttribute="centerX" secondItem="Usu-mV-m39" secondAttribute="centerX" id="YuD-W1-VF7"/>
-                <constraint firstItem="cv4-jk-ysG" firstAttribute="leading" secondItem="Usu-mV-m39" secondAttribute="trailing" constant="10" id="kHP-gM-bdJ"/>
+                <constraint firstItem="cv4-jk-ysG" firstAttribute="leading" secondItem="Usu-mV-m39" secondAttribute="trailing" constant="5" id="kHP-gM-bdJ"/>
                 <constraint firstItem="4Zc-y0-R7I" firstAttribute="centerY" secondItem="Usu-mV-m39" secondAttribute="centerY" id="mR7-Ve-yWj"/>
             </constraints>
             <size key="customSize" width="208" height="115"/>

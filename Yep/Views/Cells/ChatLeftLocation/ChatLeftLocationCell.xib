@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="354" height="127"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gG1-9X-ttU" userLabel="Avatar Image View">
-                        <rect key="frame" x="15" y="4" width="40" height="40"/>
+                        <rect key="frame" x="15" y="0.0" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="ZVq-SI-KxM"/>
                             <constraint firstAttribute="width" secondItem="gG1-9X-ttU" secondAttribute="height" multiplier="1:1" id="x8y-Jj-T5A"/>
@@ -34,7 +34,7 @@
                 <constraint firstAttribute="bottom" secondItem="J0W-x9-pAW" secondAttribute="bottom" id="GZA-vw-5eI"/>
                 <constraint firstItem="J0W-x9-pAW" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="cyp-v5-Lhu"/>
                 <constraint firstItem="J0W-x9-pAW" firstAttribute="leading" secondItem="gG1-9X-ttU" secondAttribute="trailing" constant="5" id="lGc-LF-Gz8"/>
-                <constraint firstItem="gG1-9X-ttU" firstAttribute="top" secondItem="J0W-x9-pAW" secondAttribute="top" constant="4" id="r7C-9i-vbV"/>
+                <constraint firstItem="gG1-9X-ttU" firstAttribute="top" secondItem="J0W-x9-pAW" secondAttribute="top" id="r7C-9i-vbV"/>
             </constraints>
             <size key="customSize" width="354" height="127"/>
             <connections>
