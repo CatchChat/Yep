@@ -14,6 +14,11 @@ class SocialWorkInstagramViewController: UIViewController {
     var profileUser: ProfileUser?
 
 
+    lazy var shareButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share")
+        return button
+        }()
+
     @IBOutlet weak var instagramCollectionView: UICollectionView!
 
     let instagramMediaCellIdentifier = "InstagramMediaCell"
@@ -30,6 +35,18 @@ class SocialWorkInstagramViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if let socialAccount = socialAccount {
+            let accountImageView = UIImageView(image: UIImage(named: socialAccount.iconName)!)
+            accountImageView.tintColor = socialAccount.tintColor
+            navigationItem.titleView = accountImageView
+
+        } else {
+            title = "Instagram"
+        }
+
+        shareButton.enabled = false
+        navigationItem.rightBarButtonItem = shareButton
 
         instagramCollectionView.registerNib(UINib(nibName: instagramMediaCellIdentifier, bundle: nil), forCellWithReuseIdentifier: instagramMediaCellIdentifier)
 
@@ -70,6 +87,10 @@ class SocialWorkInstagramViewController: UIViewController {
 
     func updateInstagramCollectionView() {
         instagramCollectionView.reloadData()
+    }
+
+    func share() {
+        
     }
 
 }
