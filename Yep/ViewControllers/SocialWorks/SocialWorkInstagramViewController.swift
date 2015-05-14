@@ -22,7 +22,7 @@ class SocialWorkInstagramViewController: UIViewController {
         return CGRectGetWidth(self.instagramCollectionView.bounds)
         }()
 
-    var dribbbleShots = Array<DribbbleWork.Shot>() {
+    var instagramMedias = Array<InstagramWork.Media>() {
         didSet {
             updateInstagramCollectionView()
         }
@@ -32,6 +32,37 @@ class SocialWorkInstagramViewController: UIViewController {
         super.viewDidLoad()
 
         instagramCollectionView.registerNib(UINib(nibName: instagramMediaCellIdentifier, bundle: nil), forCellWithReuseIdentifier: instagramMediaCellIdentifier)
+
+
+        // 获取 Instagram Work
+
+        var userID: String?
+
+        if let profileUser = profileUser {
+            switch profileUser {
+            case .DiscoveredUserType(let discoveredUser):
+                userID = discoveredUser.id
+            case .UserType(let user):
+                userID = user.userID
+            }
+
+        } else {
+            userID = YepUserDefaults.userID.value
+        }
+
+        if let userID = userID {
+
+            instagramWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
+                defaultFailureHandler(reason, errorMessage)
+
+            }, completion: { instagramWork in
+                println("instagramWork: \(instagramWork.medias.count)")
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.instagramMedias = instagramWork.medias
+                }
+            })
+        }
 
     }
 
@@ -50,14 +81,16 @@ extension SocialWorkInstagramViewController: UICollectionViewDataSource, UIColle
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return instagramMedias.count
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(instagramMediaCellIdentifier, forIndexPath: indexPath) as! InstagramMediaCell
 
-        cell.imageView.image = UIImage(named: "Cover3")!
+        let media = instagramMedias[indexPath.item]
+
+        cell.imageView.kf_setImageWithURL(NSURL(string: media.images.lowResolution)!)
 
         return cell
     }

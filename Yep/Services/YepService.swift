@@ -1307,8 +1307,8 @@ func dribbbleWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, Str
                     description = shotInfo["description"] as? String,
                     htmlURLString = shotInfo["html_url"] as? String,
                     imagesInfo = shotInfo["images"] as? JSONDictionary,
-                    likesCount = shotInfo["comments_count"] as? Int,
-                    commentsCount = shotInfo["likes_count"] as? Int {
+                    likesCount = shotInfo["likes_count"] as? Int,
+                    commentsCount = shotInfo["comments_count"] as? Int {
                         if let
                             normal = imagesInfo["normal"] as? String,
                             teaser = imagesInfo["teaser"] as? String {
@@ -1330,6 +1330,76 @@ func dribbbleWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, Str
     }
 
     let resource = authJsonResource(path: "/api/v1/users/\(userID)/dribbble", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+
+struct InstagramWork {
+
+    struct Media {
+
+        struct Images {
+            let lowResolution: String
+            let standardResolution: String
+            let thumbnail: String
+        }
+
+        let linkURLString: String
+        let images: Images
+        let likesCount: Int
+        let commentsCount: Int
+    }
+
+    let medias: [Media]
+}
+
+func instagramWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: InstagramWork -> Void) {
+
+    let parse: JSONDictionary -> InstagramWork? = { data in
+        println("instagramData:\(data)")
+
+        if let mediaData = data["media"] as? [JSONDictionary] {
+            var medias = Array<InstagramWork.Media>()
+
+            for mediaInfo in mediaData {
+                if let
+                    linkURLString = mediaInfo["link"] as? String,
+                    imagesInfo = mediaInfo["images"] as? JSONDictionary,
+                    likesInfo = mediaInfo["likes"] as? JSONDictionary,
+                    commentsInfo = mediaInfo["comments"] as? JSONDictionary {
+                        if let
+                            lowResolutionInfo = imagesInfo["low_resolution"] as? JSONDictionary,
+                            standardResolutionInfo = imagesInfo["standard_resolution"] as? JSONDictionary,
+                            thumbnailInfo = imagesInfo["thumbnail"] as? JSONDictionary,
+
+                            lowResolution = lowResolutionInfo["url"] as? String,
+                            standardResolution = standardResolutionInfo["url"] as? String,
+                            thumbnail = thumbnailInfo["url"] as? String,
+
+                            likesCount = likesInfo["count"] as? Int,
+                            commentsCount = commentsInfo["count"] as? Int {
+
+                                let images = InstagramWork.Media.Images(lowResolution: lowResolution, standardResolution: standardResolution, thumbnail: thumbnail)
+
+                                let media = InstagramWork.Media(linkURLString: linkURLString, images: images, likesCount: likesCount, commentsCount: commentsCount)
+
+                                medias.append(media)
+                        }
+                }
+            }
+
+            return InstagramWork(medias: medias)
+        }
+
+        return nil
+    }
+
+    let resource = authJsonResource(path: "/api/v1/users/\(userID)/instagram", method: .GET, requestParameters: [:], parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)
