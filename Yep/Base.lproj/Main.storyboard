@@ -1078,7 +1078,7 @@
         <!--Social Work Instagram View Controller-->
         <scene sceneID="3VB-zl-uHQ">
             <objects>
-                <viewController storyboardIdentifier="SocialWorkInstagramViewController" id="L64-Fk-OjC" customClass="SocialWorkInstagramViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SocialWorkInstagramViewController" hidesBottomBarWhenPushed="YES" id="L64-Fk-OjC" customClass="SocialWorkInstagramViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="55f-oB-O3f"/>
                         <viewControllerLayoutGuide type="bottom" id="4eT-IE-t1b"/>
@@ -1086,8 +1086,34 @@
                     <view key="view" contentMode="scaleToFill" id="P7v-N1-wiX">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jiJ-Zu-mTf">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="oKY-qa-Jdp">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="L64-Fk-OjC" id="Ppo-eG-M82"/>
+                                    <outlet property="delegate" destination="L64-Fk-OjC" id="f7a-T2-uub"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="jiJ-Zu-mTf" firstAttribute="top" secondItem="P7v-N1-wiX" secondAttribute="top" id="Ep7-Tb-Hdc"/>
+                            <constraint firstAttribute="trailing" secondItem="jiJ-Zu-mTf" secondAttribute="trailing" id="UmQ-w2-FJq"/>
+                            <constraint firstItem="jiJ-Zu-mTf" firstAttribute="leading" secondItem="P7v-N1-wiX" secondAttribute="leading" id="c7r-UL-WJV"/>
+                            <constraint firstAttribute="bottom" secondItem="jiJ-Zu-mTf" secondAttribute="bottom" id="rhO-FO-Wj3"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="instagramCollectionView" destination="jiJ-Zu-mTf" id="k6j-JK-0DI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zOv-Ou-71I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
