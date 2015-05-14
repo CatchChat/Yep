@@ -143,6 +143,7 @@
 		508F8FD41B01E3D100461B0B /* SocialWorkDribbbleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FD31B01E3D100461B0B /* SocialWorkDribbbleViewController.swift */; };
 		508F8FD71B01EDB400461B0B /* DribbbleShotCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FD51B01EDB400461B0B /* DribbbleShotCell.swift */; };
 		508F8FD81B01EDB400461B0B /* DribbbleShotCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508F8FD61B01EDB400461B0B /* DribbbleShotCell.xib */; };
+		508F8FDB1B0479E700461B0B /* SocialWorkInstagramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FDA1B0479E700461B0B /* SocialWorkInstagramViewController.swift */; };
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
 		5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */; };
@@ -330,6 +331,7 @@
 		508F8FD31B01E3D100461B0B /* SocialWorkDribbbleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkDribbbleViewController.swift; path = ViewControllers/SocialWorks/SocialWorkDribbbleViewController.swift; sourceTree = "<group>"; };
 		508F8FD51B01EDB400461B0B /* DribbbleShotCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DribbbleShotCell.swift; path = Views/Cells/DribbbleShot/DribbbleShotCell.swift; sourceTree = "<group>"; };
 		508F8FD61B01EDB400461B0B /* DribbbleShotCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DribbbleShotCell.xib; path = Views/Cells/DribbbleShot/DribbbleShotCell.xib; sourceTree = "<group>"; };
+		508F8FDA1B0479E700461B0B /* SocialWorkInstagramViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkInstagramViewController.swift; path = ViewControllers/SocialWorks/SocialWorkInstagramViewController.swift; sourceTree = "<group>"; };
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
 		5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraPreviewView.swift; path = Views/CameraPreview/CameraPreviewView.swift; sourceTree = "<group>"; };
@@ -1076,6 +1078,7 @@
 			children = (
 				508F8FCB1B01C7FC00461B0B /* SocialWorkGithubViewController.swift */,
 				508F8FD31B01E3D100461B0B /* SocialWorkDribbbleViewController.swift */,
+				508F8FDA1B0479E700461B0B /* SocialWorkInstagramViewController.swift */,
 			);
 			name = SocialWorks;
 			sourceTree = "<group>";
@@ -1455,6 +1458,7 @@
 				5099B9C41AB9510D002F940B /* RankView.swift in Sources */,
 				502AE5311AB85067005BD199 /* RegisterPickMobileViewController.swift in Sources */,
 				506E241E1AE6391A00A33C1A /* TouchZoomButton.swift in Sources */,
+				508F8FDB1B0479E700461B0B /* SocialWorkInstagramViewController.swift in Sources */,
 				5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */,
 				502AE5581AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift in Sources */,
 				502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */,
