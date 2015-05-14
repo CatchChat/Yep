@@ -146,6 +146,7 @@
 		508F8FDB1B0479E700461B0B /* SocialWorkInstagramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FDA1B0479E700461B0B /* SocialWorkInstagramViewController.swift */; };
 		508F8FDE1B049ACF00461B0B /* InstagramMediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FDC1B049ACF00461B0B /* InstagramMediaCell.swift */; };
 		508F8FDF1B049ACF00461B0B /* InstagramMediaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508F8FDD1B049ACF00461B0B /* InstagramMediaCell.xib */; };
+		508F8FE21B04B1F900461B0B /* UIDevice+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FE11B04B1F900461B0B /* UIDevice+Yep.swift */; };
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
 		5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */; };
@@ -336,6 +337,7 @@
 		508F8FDA1B0479E700461B0B /* SocialWorkInstagramViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkInstagramViewController.swift; path = ViewControllers/SocialWorks/SocialWorkInstagramViewController.swift; sourceTree = "<group>"; };
 		508F8FDC1B049ACF00461B0B /* InstagramMediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstagramMediaCell.swift; path = Views/Cells/InstagramMedia/InstagramMediaCell.swift; sourceTree = "<group>"; };
 		508F8FDD1B049ACF00461B0B /* InstagramMediaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InstagramMediaCell.xib; path = Views/Cells/InstagramMedia/InstagramMediaCell.xib; sourceTree = "<group>"; };
+		508F8FE11B04B1F900461B0B /* UIDevice+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIDevice+Yep.swift"; path = "Extensions/UIDevice+Yep.swift"; sourceTree = "<group>"; };
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
 		5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraPreviewView.swift; path = Views/CameraPreview/CameraPreviewView.swift; sourceTree = "<group>"; };
@@ -625,6 +627,7 @@
 				0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */,
 				50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */,
 				50553F921ADBA50600F80B59 /* NSDate+Yep.swift */,
+				508F8FE11B04B1F900461B0B /* UIDevice+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -1468,6 +1471,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				508F8FE21B04B1F900461B0B /* UIDevice+Yep.swift in Sources */,
 				50894CFE1AEA5A78000981AF /* EditProfileViewController.swift in Sources */,
 				50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */,
 				5099B9C41AB9510D002F940B /* RankView.swift in Sources */,

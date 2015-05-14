@@ -11,16 +11,20 @@ import UIKit
 class GithubRepoCell: UITableViewCell {
 
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var nameLabelLeadingConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var descriptionLabel: UILabel!
 
     @IBOutlet weak var starCountLabel: UILabel!
-
+    @IBOutlet weak var starCountLabelTrailingConstraint: NSLayoutConstraint!
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
         nameLabel.textColor = UIColor.yepTintColor()
+
+        nameLabelLeadingConstraint.constant = YepConfig.SocialWorkGithub.Repo.rightEdgeInset
+        starCountLabelTrailingConstraint.constant = YepConfig.SocialWorkGithub.Repo.leftEdgeInset
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

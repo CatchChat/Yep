@@ -21,7 +21,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="一些 iOS / Web 开发相关的翻译或原创博客文章" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nze-4M-viv" userLabel="Description Label">
-                        <rect key="frame" x="40" y="76" width="281" height="34"/>
+                        <rect key="frame" x="40" y="76" width="288" height="34"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -35,20 +35,22 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="centerY" secondItem="m1D-v1-odW" secondAttribute="bottom" id="712-2Y-Cbw"/>
-                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Nze-4M-viv" secondAttribute="trailing" constant="40" id="GYP-yu-1AH"/>
                     <constraint firstItem="Nze-4M-viv" firstAttribute="leading" secondItem="m1D-v1-odW" secondAttribute="leading" id="P1X-VZ-YM8"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Nze-4M-viv" secondAttribute="bottom" constant="5" id="V9z-vj-QNM"/>
                     <constraint firstItem="rYJ-oL-ZlI" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="m1D-v1-odW" secondAttribute="trailing" constant="10" id="bh0-XS-sXM"/>
                     <constraint firstItem="m1D-v1-odW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="40" id="hT5-gl-aei"/>
                     <constraint firstItem="rYJ-oL-ZlI" firstAttribute="centerY" secondItem="m1D-v1-odW" secondAttribute="centerY" id="m5O-Bc-Fdp"/>
                     <constraint firstItem="Nze-4M-viv" firstAttribute="top" secondItem="m1D-v1-odW" secondAttribute="bottom" constant="8" id="o9q-VV-8ln"/>
+                    <constraint firstItem="Nze-4M-viv" firstAttribute="trailing" secondItem="rYJ-oL-ZlI" secondAttribute="trailing" id="rRs-fI-WkI"/>
                     <constraint firstAttribute="trailing" secondItem="rYJ-oL-ZlI" secondAttribute="trailing" constant="40" id="vK2-88-OFX"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="descriptionLabel" destination="Nze-4M-viv" id="jzV-zp-mXf"/>
                 <outlet property="nameLabel" destination="m1D-v1-odW" id="3fE-0s-Q3v"/>
+                <outlet property="nameLabelLeadingConstraint" destination="hT5-gl-aei" id="9pe-ho-gSf"/>
                 <outlet property="starCountLabel" destination="rYJ-oL-ZlI" id="usu-KG-xJS"/>
+                <outlet property="starCountLabelTrailingConstraint" destination="vK2-88-OFX" id="kWX-TJ-Z02"/>
             </connections>
             <point key="canvasLocation" x="406" y="390"/>
         </tableViewCell>

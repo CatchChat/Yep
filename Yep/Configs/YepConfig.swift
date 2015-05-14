@@ -97,4 +97,20 @@ class YepConfig {
         static let introInset: CGFloat = 20 + 20
     }
 
+    struct SocialWorkGithub {
+        struct Repo {
+            static let leftEdgeInset: CGFloat = {
+                switch UIDevice.screenWidthModel {
+                case .Classic:
+                    return 20
+                case .Bigger:
+                    return 40
+                case .BiggerPlus:
+                    return 40
+                }
+                }()
+            static let rightEdgeInset = leftEdgeInset
+        }
+    }
+
 }
