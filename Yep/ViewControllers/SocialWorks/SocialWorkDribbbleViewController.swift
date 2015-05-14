@@ -14,6 +14,11 @@ class SocialWorkDribbbleViewController: UIViewController {
     var socialAccount: SocialAccount?
     var profileUser: ProfileUser?
 
+
+    lazy var shareButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share")
+        return button
+        }()
     
     @IBOutlet weak var dribbbleCollectionView: UICollectionView!
 
@@ -41,8 +46,8 @@ class SocialWorkDribbbleViewController: UIViewController {
             title = "Dribbble"
         }
 
-        let gotoButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "gotoUserDribbbleHome")
-        navigationItem.rightBarButtonItem = gotoButton
+        shareButton.enabled = false
+        navigationItem.rightBarButtonItem = shareButton
         
 
         dribbbleCollectionView.registerNib(UINib(nibName: dribbbleShotCellIdentifier, bundle: nil), forCellWithReuseIdentifier: dribbbleShotCellIdentifier)
@@ -85,8 +90,8 @@ class SocialWorkDribbbleViewController: UIViewController {
         dribbbleCollectionView.reloadData()
     }
 
-    func gotoUserDribbbleHome() {
-        // TODO: gotoUserDribbbleHome
+    func share() {
+        // TODO: share
     }
 
 }
