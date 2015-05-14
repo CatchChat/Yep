@@ -1361,7 +1361,7 @@ struct InstagramWork {
 func instagramWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: InstagramWork -> Void) {
 
     let parse: JSONDictionary -> InstagramWork? = { data in
-        println("instagramData:\(data)")
+        //println("instagramData:\(data)")
 
         if let mediaData = data["media"] as? [JSONDictionary] {
             var medias = Array<InstagramWork.Media>()

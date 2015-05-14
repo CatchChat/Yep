@@ -241,6 +241,13 @@ class ProfileViewController: CustomNavigationBarViewController {
                 vc.socialAccount = SocialAccount(rawValue: item)
                 vc.profileUser = profileUser
             }
+
+        } else if segue.identifier == "showSocialWorkInstagram" {
+            if let item = sender as? Int {
+                let vc = segue.destinationViewController as! SocialWorkInstagramViewController
+                vc.socialAccount = SocialAccount(rawValue: item)
+                vc.profileUser = profileUser
+            }
         }
     }
 
