@@ -176,22 +176,24 @@ class ProfileViewController: CustomNavigationBarViewController {
             profileCollectionView.contentInset.bottom = sayHiView.bounds.height
 
         } else {
-            userInfo(failureHandler: nil) { userInfo in
-                if let skillsData = userInfo["master_skills"] as? [JSONDictionary] {
-                    self.masterSkills = skillsFromSkillsData(skillsData)
-                }
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                userInfo(failureHandler: nil) { userInfo in
+                    if let skillsData = userInfo["master_skills"] as? [JSONDictionary] {
+                        self.masterSkills = skillsFromSkillsData(skillsData)
+                    }
 
-                if let skillsData = userInfo["learning_skills"] as? [JSONDictionary] {
-                    self.learningSkills = skillsFromSkillsData(skillsData)
-                }
+                    if let skillsData = userInfo["learning_skills"] as? [JSONDictionary] {
+                        self.learningSkills = skillsFromSkillsData(skillsData)
+                    }
 
-                if let providerInfo = userInfo["providers"] as? SocialWorkProviderInfo {
-                    self.socialWorkProviderInfo = providerInfo
-                    println("self.socialWorkProviderInfo: \(self.socialWorkProviderInfo)")
-                }
+                    if let providerInfo = userInfo["providers"] as? SocialWorkProviderInfo {
+                        self.socialWorkProviderInfo = providerInfo
+                        println("self.socialWorkProviderInfo: \(self.socialWorkProviderInfo)")
+                    }
 
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.profileCollectionView.reloadData()
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.profileCollectionView.reloadData()
+                    }
                 }
             }
 
