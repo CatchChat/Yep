@@ -92,6 +92,8 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
 
         let providerName = socialAccount.description.lowercaseString
 
+        var accountEnabled = false
+
         if let profileUser = profileUser {
 
             switch profileUser {
@@ -101,6 +103,8 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                     if (provider.name == providerName) && provider.enabled {
                         iconImageView.tintColor = socialAccount.tintColor
                         nameLabel.textColor = socialAccount.tintColor
+
+                        accountEnabled = true
 
                         break
                     }
@@ -112,6 +116,8 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                         iconImageView.tintColor = socialAccount.tintColor
                         nameLabel.textColor = socialAccount.tintColor
 
+                        accountEnabled = true
+
                         break
                     }
                 }
@@ -122,67 +128,79 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                 if enabled {
                     iconImageView.tintColor = socialAccount.tintColor
                     nameLabel.textColor = socialAccount.tintColor
+
+                    accountEnabled = true
                 }
             }
         }
 
+        if !accountEnabled {
+            imageView1.image = nil
+            imageView2.image = nil
+            imageView3.image = nil
 
-        if let socialWork = socialWork {
-            self.socialWork = socialWork
+            accessoryImageView.hidden = true
 
         } else {
-            var userID: String?
+            accessoryImageView.hidden = false
 
-            if let profileUser = profileUser {
-                switch profileUser {
-                case .DiscoveredUserType(let discoveredUser):
-                    userID = discoveredUser.id
-                case .UserType(let user):
-                    userID = user.userID
-                }
+            if let socialWork = socialWork {
+                self.socialWork = socialWork
 
             } else {
-                userID = YepUserDefaults.userID.value
-            }
+                var userID: String?
 
-            if let userID = userID {
+                if let profileUser = profileUser {
+                    switch profileUser {
+                    case .DiscoveredUserType(let discoveredUser):
+                        userID = discoveredUser.id
+                    case .UserType(let user):
+                        userID = user.userID
+                    }
 
-                switch socialAccount {
+                } else {
+                    userID = YepUserDefaults.userID.value
+                }
 
-                case .Dribbble:
-                    dribbbleWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
-                        defaultFailureHandler(reason, errorMessage)
+                if let userID = userID {
 
-                    }, completion: { dribbbleWork in
-                        println("dribbbleWork: \(dribbbleWork.shots.count)")
+                    switch socialAccount {
 
-                        dispatch_async(dispatch_get_main_queue()) {
-                            let socialWork = SocialWork.Dribbble(dribbbleWork)
+                    case .Dribbble:
+                        dribbbleWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
+                            defaultFailureHandler(reason, errorMessage)
 
-                            self.socialWork = socialWork
+                        }, completion: { dribbbleWork in
+                            //println("dribbbleWork: \(dribbbleWork.shots.count)")
 
-                            completion?(socialWork)
-                        }
-                    })
+                            dispatch_async(dispatch_get_main_queue()) {
+                                let socialWork = SocialWork.Dribbble(dribbbleWork)
 
-                case .Instagram:
-                    instagramWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
-                        defaultFailureHandler(reason, errorMessage)
+                                self.socialWork = socialWork
 
-                    }, completion: { instagramWork in
-                        println("instagramWork: \(instagramWork.medias.count)")
+                                completion?(socialWork)
+                            }
+                        })
 
-                        dispatch_async(dispatch_get_main_queue()) {
-                            let socialWork = SocialWork.Instagram(instagramWork)
+                    case .Instagram:
+                        instagramWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
+                            defaultFailureHandler(reason, errorMessage)
 
-                            self.socialWork = socialWork
+                        }, completion: { instagramWork in
+                            //println("instagramWork: \(instagramWork.medias.count)")
 
-                            completion?(socialWork)
-                        }
-                    })
+                            dispatch_async(dispatch_get_main_queue()) {
+                                let socialWork = SocialWork.Instagram(instagramWork)
 
-                default:
-                    break
+                                self.socialWork = socialWork
+
+                                completion?(socialWork)
+                            }
+                        })
+                        
+                    default:
+                        break
+                    }
                 }
             }
         }

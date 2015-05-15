@@ -51,6 +51,8 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
 
         let providerName = socialAccount.description.lowercaseString
 
+        var accountEnabled = false
+        
         if let profileUser = profileUser {
 
             switch profileUser {
@@ -60,6 +62,8 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
                     if (provider.name == providerName) && provider.enabled {
                         iconImageView.tintColor = socialAccount.tintColor
                         nameLabel.textColor = socialAccount.tintColor
+
+                        accountEnabled = true
 
                         break
                     }
@@ -71,6 +75,8 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
                         iconImageView.tintColor = socialAccount.tintColor
                         nameLabel.textColor = socialAccount.tintColor
 
+                        accountEnabled = true
+
                         break
                     }
                 }
@@ -81,43 +87,57 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
                 if enabled {
                     iconImageView.tintColor = socialAccount.tintColor
                     nameLabel.textColor = socialAccount.tintColor
+
+                    accountEnabled = true
                 }
             }
         }
 
 
-        if let githubWork = githubWork {
-            self.githubWork = githubWork
+        if !accountEnabled {
+            reposImageView.image = nil
+            reposCountLabel.text = ""
+            followersImageView.image = nil
+            followersCountLabel.text = ""
+
+            accessoryImageView.hidden = true
 
         } else {
-            var userID: String?
+            accessoryImageView.hidden = false
 
-            if let profileUser = profileUser {
-                switch profileUser {
-                case .DiscoveredUserType(let discoveredUser):
-                    userID = discoveredUser.id
-                case .UserType(let user):
-                    userID = user.userID
-                }
+            if let githubWork = githubWork {
+                self.githubWork = githubWork
 
             } else {
-                userID = YepUserDefaults.userID.value
-            }
+                var userID: String?
 
-            if let userID = userID {
-
-                githubWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
-                    defaultFailureHandler(reason, errorMessage)
-
-                }, completion: { githubWork in
-                    println("githubWork: \(githubWork)")
-
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.githubWork = githubWork
-
-                        completion?(githubWork)
+                if let profileUser = profileUser {
+                    switch profileUser {
+                    case .DiscoveredUserType(let discoveredUser):
+                        userID = discoveredUser.id
+                    case .UserType(let user):
+                        userID = user.userID
                     }
-                })
+
+                } else {
+                    userID = YepUserDefaults.userID.value
+                }
+
+                if let userID = userID {
+
+                    githubWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
+                        defaultFailureHandler(reason, errorMessage)
+
+                    }, completion: { githubWork in
+                        //println("githubWork: \(githubWork)")
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.githubWork = githubWork
+
+                            completion?(githubWork)
+                        }
+                    })
+                }
             }
         }
     }
