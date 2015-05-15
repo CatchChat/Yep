@@ -97,8 +97,9 @@ class ProfileViewController: CustomNavigationBarViewController {
     let sectionHeaderIdentifier = "ProfileSectionHeaderReusableView"
     let sectionFooterIdentifier = "ProfileSectionFooterReusableView"
     let separationLineCellIdentifier = "ProfileSeparationLineCell"
-    //let socialAccountCellIdentifier = "ProfileSocialAccountCell"
+    let socialAccountCellIdentifier = "ProfileSocialAccountCell"
     let socialAccountImagesCellIdentifier = "ProfileSocialAccountImagesCell"
+    let socialAccountGithubCellIdentifier = "ProfileSocialAccountGithubCell"
 
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.profileCollectionView.bounds)
@@ -136,7 +137,9 @@ class ProfileViewController: CustomNavigationBarViewController {
         profileCollectionView.registerNib(UINib(nibName: headerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: footerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: footerCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: separationLineCellIdentifier, bundle: nil), forCellWithReuseIdentifier: separationLineCellIdentifier)
+        profileCollectionView.registerNib(UINib(nibName: socialAccountCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: socialAccountImagesCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountImagesCellIdentifier)
+        profileCollectionView.registerNib(UINib(nibName: socialAccountGithubCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountGithubCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: sectionHeaderIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: sectionHeaderIdentifier)
         profileCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: sectionFooterIdentifier)
 
@@ -491,41 +494,52 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return cell
             
         case ProfileSection.SocialAccount.rawValue:
-            
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountImagesCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountImagesCell
 
             if let socialAccount = SocialAccount(rawValue: indexPath.row) {
 
-                var socialWork: SocialWork?
-
-                switch socialAccount {
+                if socialAccount == .Github {
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountGithubCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountGithubCell
                     
-                case .Dribbble:
-                    if let dribbbleWork = dribbbleWork {
-                        socialWork = SocialWork.Dribbble(dribbbleWork)
+                    return cell
+
+                } else {
+
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountImagesCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountImagesCell
+
+                    var socialWork: SocialWork?
+
+                    switch socialAccount {
+
+                    case .Dribbble:
+                        if let dribbbleWork = dribbbleWork {
+                            socialWork = SocialWork.Dribbble(dribbbleWork)
+                        }
+
+                    case .Instagram:
+                        if let instagramWork = instagramWork {
+                            socialWork = SocialWork.Instagram(instagramWork)
+                        }
+
+                    default:
+                        break
                     }
 
-                case .Instagram:
-                    if let instagramWork = instagramWork {
-                        socialWork = SocialWork.Instagram(instagramWork)
-                    }
-
-                default:
-                    break
+                    cell.configureWithProfileUser(profileUser, orSocialWorkProviderInfo: socialWorkProviderInfo, socialAccount: socialAccount, socialWork: socialWork, completion: { socialWork in
+                        switch socialWork {
+                        case .Dribbble(let dribbbleWork):
+                            self.dribbbleWork = dribbbleWork
+                        case .Instagram(let instagramWork):
+                            self.instagramWork = instagramWork
+                        }
+                    })
+                    
+                    return cell
                 }
 
-                cell.configureWithProfileUser(profileUser, orSocialWorkProviderInfo: socialWorkProviderInfo, socialAccount: socialAccount, socialWork: socialWork, completion: { socialWork in
-                    switch socialWork {
-                    case .Dribbble(let dribbbleWork):
-                        self.dribbbleWork = dribbbleWork
-                    case .Instagram(let instagramWork):
-                        self.instagramWork = instagramWork
-                    }
-                })
+            } else {
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountCell
+                return cell
             }
-            
-            return cell
-
 
         default:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
