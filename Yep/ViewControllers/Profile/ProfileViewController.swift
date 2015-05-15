@@ -97,7 +97,8 @@ class ProfileViewController: CustomNavigationBarViewController {
     let sectionHeaderIdentifier = "ProfileSectionHeaderReusableView"
     let sectionFooterIdentifier = "ProfileSectionFooterReusableView"
     let separationLineCellIdentifier = "ProfileSeparationLineCell"
-    let socialAccountCellIdentifier = "ProfileSocialAccountCell"
+    //let socialAccountCellIdentifier = "ProfileSocialAccountCell"
+    let socialAccountImagesCellIdentifier = "ProfileSocialAccountImagesCell"
 
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.profileCollectionView.bounds)
@@ -131,7 +132,7 @@ class ProfileViewController: CustomNavigationBarViewController {
         profileCollectionView.registerNib(UINib(nibName: headerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: footerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: footerCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: separationLineCellIdentifier, bundle: nil), forCellWithReuseIdentifier: separationLineCellIdentifier)
-        profileCollectionView.registerNib(UINib(nibName: socialAccountCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountCellIdentifier)
+        profileCollectionView.registerNib(UINib(nibName: socialAccountImagesCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountImagesCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: sectionHeaderIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: sectionHeaderIdentifier)
         profileCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: sectionFooterIdentifier)
 
@@ -485,7 +486,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             
         case ProfileSection.SocialAccount.rawValue:
             
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountCell
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountImagesCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountImagesCell
             
             if let socialAccount = SocialAccount(rawValue: indexPath.row) {
                 cell.iconImageView.image = UIImage(named: socialAccount.iconName)

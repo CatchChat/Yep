@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProfileSocialAccountImagesCell" id="gTV-IL-0wX" customClass="ProfileSocialAccountImagesCell" customModule="Yep" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="354" height="107"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="354" height="107"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rgR-HE-TH9" userLabel="Icon Image View">
+                        <rect key="frame" x="38" y="42" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="rgR-HE-TH9" secondAttribute="height" multiplier="1:1" id="VDC-LC-rjc"/>
+                            <constraint firstAttribute="width" constant="24" id="a7u-yp-siV"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sof-ns-iri" userLabel="Name Label">
+                        <rect key="frame" x="77" y="45" width="36" height="18"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ajW-JH-Ato" userLabel="Image View 3">
+                        <rect key="frame" x="198" y="42" width="30" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="fBc-oC-6ea"/>
+                            <constraint firstAttribute="width" constant="30" id="kIa-uD-42o"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T7K-fi-YkH" userLabel="Image View 2">
+                        <rect key="frame" x="234" y="42" width="30" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="BWO-7q-5mr"/>
+                            <constraint firstAttribute="height" constant="24" id="NrH-Oe-YXT"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8bD-nc-pyr" userLabel="Image View 1">
+                        <rect key="frame" x="270" y="42" width="30" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="9BQ-hK-QX5"/>
+                            <constraint firstAttribute="width" constant="30" id="j7H-vy-jRr"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory_mini" translatesAutoresizingMaskIntoConstraints="NO" id="k0W-jb-dBy">
+                        <rect key="frame" x="308" y="47" width="8" height="13"/>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="rgR-HE-TH9" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="38" id="0kL-iH-4Gb"/>
+                <constraint firstAttribute="centerY" secondItem="k0W-jb-dBy" secondAttribute="centerY" id="93M-47-iHw"/>
+                <constraint firstItem="T7K-fi-YkH" firstAttribute="centerY" secondItem="ajW-JH-Ato" secondAttribute="centerY" id="GFs-tA-SIC"/>
+                <constraint firstItem="Sof-ns-iri" firstAttribute="leading" secondItem="rgR-HE-TH9" secondAttribute="trailing" constant="15" id="GzD-kq-2ab"/>
+                <constraint firstItem="k0W-jb-dBy" firstAttribute="leading" secondItem="8bD-nc-pyr" secondAttribute="trailing" constant="8" id="OOt-Lv-vVa"/>
+                <constraint firstAttribute="centerY" secondItem="rgR-HE-TH9" secondAttribute="centerY" constant="-0.5" id="QTz-Sv-Igi"/>
+                <constraint firstItem="T7K-fi-YkH" firstAttribute="centerY" secondItem="8bD-nc-pyr" secondAttribute="centerY" id="SO6-qi-dvx"/>
+                <constraint firstAttribute="trailing" secondItem="k0W-jb-dBy" secondAttribute="trailing" constant="38" id="Xpi-03-UW2"/>
+                <constraint firstItem="rgR-HE-TH9" firstAttribute="centerY" secondItem="Sof-ns-iri" secondAttribute="centerY" id="a73-bL-kgd"/>
+                <constraint firstItem="T7K-fi-YkH" firstAttribute="leading" secondItem="ajW-JH-Ato" secondAttribute="trailing" constant="6" id="f7I-Sp-1bG"/>
+                <constraint firstItem="8bD-nc-pyr" firstAttribute="leading" secondItem="T7K-fi-YkH" secondAttribute="trailing" constant="6" id="lpb-cN-vfy"/>
+                <constraint firstItem="k0W-jb-dBy" firstAttribute="centerY" secondItem="8bD-nc-pyr" secondAttribute="centerY" constant="-0.5" id="zmi-p2-488"/>
+            </constraints>
+            <size key="customSize" width="354" height="107"/>
+            <connections>
+                <outlet property="accessoryImageView" destination="k0W-jb-dBy" id="nWd-MI-j4F"/>
+                <outlet property="accessoryImageViewTrailingConstraint" destination="Xpi-03-UW2" id="p67-7a-W28"/>
+                <outlet property="iconImageView" destination="rgR-HE-TH9" id="9GY-1w-Q7c"/>
+                <outlet property="iconImageViewLeadingConstraint" destination="0kL-iH-4Gb" id="RT6-Mj-oFw"/>
+                <outlet property="imageView1" destination="8bD-nc-pyr" id="gtB-Q7-OlA"/>
+                <outlet property="imageView2" destination="T7K-fi-YkH" id="Gn2-32-99n"/>
+                <outlet property="imageView3" destination="ajW-JH-Ato" id="bcD-sa-a1p"/>
+                <outlet property="nameLabel" destination="Sof-ns-iri" id="EQw-gf-F39"/>
+            </connections>
+            <point key="canvasLocation" x="328" y="399.5"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="icon_accessory_mini" width="8" height="13"/>
+    </resources>
+</document>
