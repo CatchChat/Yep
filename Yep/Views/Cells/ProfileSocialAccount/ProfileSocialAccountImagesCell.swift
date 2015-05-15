@@ -71,6 +71,15 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
         accessoryImageView.tintColor = UIColor.lightGrayColor()
         iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
+
+        let cornerRadius: CGFloat = 2
+        imageView1.layer.cornerRadius = cornerRadius
+        imageView2.layer.cornerRadius = cornerRadius
+        imageView3.layer.cornerRadius = cornerRadius
+
+        imageView1.clipsToBounds = true
+        imageView2.clipsToBounds = true
+        imageView3.clipsToBounds = true
     }
 
     func configureWithProfileUser(profileUser: ProfileUser?, orSocialWorkProviderInfo socialWorkProviderInfo: ProfileViewController.SocialWorkProviderInfo, socialAccount: SocialAccount, socialWork: SocialWork?, completion: ((SocialWork) -> Void)?) {
