@@ -14,6 +14,8 @@ class SocialWorkInstagramViewController: UIViewController {
     var profileUser: ProfileUser?
     var instagramWork: InstagramWork?
 
+    var afterGetInstagramWork: (InstagramWork -> Void)?
+
 
     lazy var shareButton: UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share")
@@ -82,6 +84,8 @@ class SocialWorkInstagramViewController: UIViewController {
 
                     dispatch_async(dispatch_get_main_queue()) {
                         self.instagramMedias = instagramWork.medias
+
+                        self.afterGetInstagramWork?(instagramWork)
                     }
                 })
             }

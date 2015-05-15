@@ -14,6 +14,8 @@ class SocialWorkGithubViewController: UIViewController {
     var profileUser: ProfileUser?
     var githubWork: GithubWork?
 
+    var afterGetGithubWork: (GithubWork -> Void)?
+
 
     lazy var shareButton: UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share")
@@ -106,6 +108,8 @@ class SocialWorkGithubViewController: UIViewController {
                     dispatch_async(dispatch_get_main_queue()) {
                         self.githubUser = githubWork.user
                         self.githubRepos = githubWork.repos
+
+                        self.afterGetGithubWork?(githubWork)
                     }
                 })
             }

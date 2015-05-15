@@ -243,6 +243,10 @@ class ProfileViewController: CustomNavigationBarViewController {
                 vc.socialAccount = SocialAccount(rawValue: item)
                 vc.profileUser = profileUser
                 vc.githubWork = githubWork
+
+                vc.afterGetGithubWork = { githubWork in
+                    self.githubWork = githubWork
+                }
             }
 
         } else if segue.identifier == "showSocialWorkDribbble" {
@@ -251,6 +255,10 @@ class ProfileViewController: CustomNavigationBarViewController {
                 vc.socialAccount = SocialAccount(rawValue: item)
                 vc.profileUser = profileUser
                 vc.dribbbleWork = dribbbleWork
+
+                vc.afterGetDribbbleWork = { dribbbleWork in
+                    self.dribbbleWork = dribbbleWork
+                }
             }
 
         } else if segue.identifier == "showSocialWorkInstagram" {
@@ -259,6 +267,10 @@ class ProfileViewController: CustomNavigationBarViewController {
                 vc.socialAccount = SocialAccount(rawValue: item)
                 vc.profileUser = profileUser
                 vc.instagramWork = instagramWork
+
+                vc.afterGetInstagramWork = { instagramWork in
+                    self.instagramWork = instagramWork
+                }
             }
         }
     }

@@ -15,6 +15,8 @@ class SocialWorkDribbbleViewController: UIViewController {
     var profileUser: ProfileUser?
     var dribbbleWork: DribbbleWork?
 
+    var afterGetDribbbleWork: (DribbbleWork -> Void)?
+
 
     lazy var shareButton: UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share")
@@ -84,6 +86,8 @@ class SocialWorkDribbbleViewController: UIViewController {
 
                     dispatch_async(dispatch_get_main_queue()) {
                         self.dribbbleShots = dribbbleWork.shots
+
+                        self.afterGetDribbbleWork?(dribbbleWork)
                     }
                 })
             }
