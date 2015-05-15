@@ -1408,3 +1408,7 @@ func instagramWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, St
     }
 }
 
+enum SocialWork {
+    case Dribbble(DribbbleWork)
+    case Instagram(InstagramWork)
+}
