@@ -12,6 +12,7 @@ class SocialWorkInstagramViewController: UIViewController {
 
     var socialAccount: SocialAccount?
     var profileUser: ProfileUser?
+    var instagramWork: InstagramWork?
 
 
     lazy var shareButton: UIBarButtonItem = {
@@ -51,36 +52,40 @@ class SocialWorkInstagramViewController: UIViewController {
         instagramCollectionView.registerNib(UINib(nibName: instagramMediaCellIdentifier, bundle: nil), forCellWithReuseIdentifier: instagramMediaCellIdentifier)
 
 
-        // 获取 Instagram Work
+        // 获取 Instagram Work，如果必要的话
 
-        var userID: String?
+        if let instagramWork = instagramWork {
+            self.instagramMedias = instagramWork.medias
+            
+        } else {
+            var userID: String?
 
-        if let profileUser = profileUser {
-            switch profileUser {
-            case .DiscoveredUserType(let discoveredUser):
-                userID = discoveredUser.id
-            case .UserType(let user):
-                userID = user.userID
+            if let profileUser = profileUser {
+                switch profileUser {
+                case .DiscoveredUserType(let discoveredUser):
+                    userID = discoveredUser.id
+                case .UserType(let user):
+                    userID = user.userID
+                }
+
+            } else {
+                userID = YepUserDefaults.userID.value
             }
 
-        } else {
-            userID = YepUserDefaults.userID.value
+            if let userID = userID {
+
+                instagramWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
+                    defaultFailureHandler(reason, errorMessage)
+
+                }, completion: { instagramWork in
+                    println("instagramWork: \(instagramWork.medias.count)")
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.instagramMedias = instagramWork.medias
+                    }
+                })
+            }
         }
-
-        if let userID = userID {
-
-            instagramWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
-                defaultFailureHandler(reason, errorMessage)
-
-            }, completion: { instagramWork in
-                println("instagramWork: \(instagramWork.medias.count)")
-
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.instagramMedias = instagramWork.medias
-                }
-            })
-        }
-
     }
 
     // MARK: Actions

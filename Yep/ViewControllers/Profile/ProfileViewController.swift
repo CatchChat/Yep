@@ -253,6 +253,7 @@ class ProfileViewController: CustomNavigationBarViewController {
                 let vc = segue.destinationViewController as! SocialWorkInstagramViewController
                 vc.socialAccount = SocialAccount(rawValue: item)
                 vc.profileUser = profileUser
+                vc.instagramWork = instagramWork
             }
         }
     }
