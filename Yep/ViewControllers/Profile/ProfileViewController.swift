@@ -115,6 +115,10 @@ class ProfileViewController: CustomNavigationBarViewController {
     typealias SocialWorkProviderInfo = [String: Bool]
     var socialWorkProviderInfo = SocialWorkProviderInfo()
 
+    var dribbbleWork: DribbbleWork?
+    var instagramWork: InstagramWork?
+
+
     let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
 
     lazy var footerCellHeight: CGFloat = {
@@ -489,8 +493,32 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountImagesCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountImagesCell
 
             if let socialAccount = SocialAccount(rawValue: indexPath.row) {
-                cell.configureWithProfileUser(profileUser, orSocialWorkProviderInfo: socialWorkProviderInfo, socialAccount: socialAccount, socialWork: nil, completion: { socialWork in
 
+                var socialWork: SocialWork?
+
+                switch socialAccount {
+                    
+                case .Dribbble:
+                    if let dribbbleWork = dribbbleWork {
+                        socialWork = SocialWork.Dribbble(dribbbleWork)
+                    }
+
+                case .Instagram:
+                    if let instagramWork = instagramWork {
+                        socialWork = SocialWork.Instagram(instagramWork)
+                    }
+
+                default:
+                    break
+                }
+
+                cell.configureWithProfileUser(profileUser, orSocialWorkProviderInfo: socialWorkProviderInfo, socialAccount: socialAccount, socialWork: socialWork, completion: { socialWork in
+                    switch socialWork {
+                    case .Dribbble(let dribbbleWork):
+                        self.dribbbleWork = dribbbleWork
+                    case .Instagram(let instagramWork):
+                        self.instagramWork = instagramWork
+                    }
                 })
             }
             
