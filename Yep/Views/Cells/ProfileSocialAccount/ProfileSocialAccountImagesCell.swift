@@ -7,8 +7,37 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ProfileSocialAccountImagesCell: UICollectionViewCell {
+
+    var socialWork: SocialWork? {
+        didSet {
+            if let work = socialWork {
+                switch work {
+                case .Dribbble(let dribbbleWork):
+                    let shots = dribbbleWork.shots
+
+                    if shots.count > 0 {
+                        let shot = shots[0]
+                        imageView1.kf_setImageWithURL(NSURL(string: shot.images.normal)!)
+                    }
+
+                    if shots.count > 1 {
+                        let shot = shots[1]
+                        imageView2.kf_setImageWithURL(NSURL(string: shot.images.normal)!)
+                    }
+                    if shots.count > 2 {
+                        let shot = shots[2]
+                        imageView3.kf_setImageWithURL(NSURL(string: shot.images.normal)!)
+                    }
+
+                case .Instagram(let instagramWork):
+                    break
+                }
+            }
+        }
+    }
 
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var iconImageViewLeadingConstraint: NSLayoutConstraint!
@@ -70,6 +99,51 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                 if enabled {
                     iconImageView.tintColor = socialAccount.tintColor
                     nameLabel.textColor = socialAccount.tintColor
+                }
+            }
+        }
+
+
+        if let socialWork = socialWork {
+            self.socialWork = socialWork
+
+        } else {
+            var userID: String?
+
+            if let profileUser = profileUser {
+                switch profileUser {
+                case .DiscoveredUserType(let discoveredUser):
+                    userID = discoveredUser.id
+                case .UserType(let user):
+                    userID = user.userID
+                }
+
+            } else {
+                userID = YepUserDefaults.userID.value
+            }
+
+            if let userID = userID {
+
+                switch socialAccount {
+
+                case .Dribbble:
+                    dribbbleWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
+                        defaultFailureHandler(reason, errorMessage)
+
+                    }, completion: { dribbbleWork in
+                        println("dribbbleWork: \(dribbbleWork.shots.count)")
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let socialWork = SocialWork.Dribbble(dribbbleWork)
+
+                            self.socialWork = socialWork
+
+                            completion?(socialWork)
+                        }
+                    })
+                    
+                default:
+                    break
                 }
             }
         }
