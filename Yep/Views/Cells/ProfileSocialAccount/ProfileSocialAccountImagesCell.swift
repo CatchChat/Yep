@@ -21,15 +21,22 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                     if shots.count > 0 {
                         let shot = shots[0]
                         imageView1.kf_setImageWithURL(NSURL(string: shot.images.teaser)!)
+                    } else {
+                        imageView1.image = nil
                     }
 
                     if shots.count > 1 {
                         let shot = shots[1]
                         imageView2.kf_setImageWithURL(NSURL(string: shot.images.teaser)!)
+                    } else {
+                        imageView2.image = nil
                     }
+
                     if shots.count > 2 {
                         let shot = shots[2]
                         imageView3.kf_setImageWithURL(NSURL(string: shot.images.teaser)!)
+                    } else {
+                        imageView3.image = nil
                     }
 
                 case .Instagram(let instagramWork):
@@ -38,15 +45,22 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                     if medias.count > 0 {
                         let media = medias[0]
                         imageView1.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!)
+                    } else {
+                        imageView1.image = nil
                     }
 
                     if medias.count > 1 {
                         let media = medias[1]
                         imageView2.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!)
+                    } else {
+                        imageView2.image = nil
                     }
+
                     if medias.count > 2 {
                         let media = medias[2]
                         imageView3.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!)
+                    } else {
+                        imageView3.image = nil
                     }
                 }
             }
