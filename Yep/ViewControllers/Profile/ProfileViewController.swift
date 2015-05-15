@@ -245,6 +245,7 @@ class ProfileViewController: CustomNavigationBarViewController {
                 let vc = segue.destinationViewController as! SocialWorkDribbbleViewController
                 vc.socialAccount = SocialAccount(rawValue: item)
                 vc.profileUser = profileUser
+                vc.dribbbleWork = dribbbleWork
             }
 
         } else if segue.identifier == "showSocialWorkInstagram" {

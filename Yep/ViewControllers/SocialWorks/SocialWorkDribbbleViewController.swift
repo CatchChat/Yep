@@ -13,6 +13,7 @@ class SocialWorkDribbbleViewController: UIViewController {
 
     var socialAccount: SocialAccount?
     var profileUser: ProfileUser?
+    var dribbbleWork: DribbbleWork?
 
 
     lazy var shareButton: UIBarButtonItem = {
@@ -53,34 +54,39 @@ class SocialWorkDribbbleViewController: UIViewController {
         dribbbleCollectionView.registerNib(UINib(nibName: dribbbleShotCellIdentifier, bundle: nil), forCellWithReuseIdentifier: dribbbleShotCellIdentifier)
 
 
-        // 获取 Dribbble Work
+        // 获取 Dribbble Work，如果必要的话
 
-        var userID: String?
-
-        if let profileUser = profileUser {
-            switch profileUser {
-            case .DiscoveredUserType(let discoveredUser):
-                userID = discoveredUser.id
-            case .UserType(let user):
-                userID = user.userID
-            }
+        if let dribbbleWork = dribbbleWork {
+            dribbbleShots = dribbbleWork.shots
 
         } else {
-            userID = YepUserDefaults.userID.value
-        }
+            var userID: String?
 
-        if let userID = userID {
-
-            dribbbleWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
-                defaultFailureHandler(reason, errorMessage)
-
-            }, completion: { dribbbleWork in
-                println("dribbbleWork: \(dribbbleWork.shots.count)")
-
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.dribbbleShots = dribbbleWork.shots
+            if let profileUser = profileUser {
+                switch profileUser {
+                case .DiscoveredUserType(let discoveredUser):
+                    userID = discoveredUser.id
+                case .UserType(let user):
+                    userID = user.userID
                 }
-            })
+
+            } else {
+                userID = YepUserDefaults.userID.value
+            }
+
+            if let userID = userID {
+
+                dribbbleWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
+                    defaultFailureHandler(reason, errorMessage)
+
+                }, completion: { dribbbleWork in
+                    println("dribbbleWork: \(dribbbleWork.shots.count)")
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.dribbbleShots = dribbbleWork.shots
+                    }
+                })
+            }
         }
     }
 
