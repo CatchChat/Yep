@@ -20,20 +20,34 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
 
                     if shots.count > 0 {
                         let shot = shots[0]
-                        imageView1.kf_setImageWithURL(NSURL(string: shot.images.normal)!)
+                        imageView1.kf_setImageWithURL(NSURL(string: shot.images.teaser)!)
                     }
 
                     if shots.count > 1 {
                         let shot = shots[1]
-                        imageView2.kf_setImageWithURL(NSURL(string: shot.images.normal)!)
+                        imageView2.kf_setImageWithURL(NSURL(string: shot.images.teaser)!)
                     }
                     if shots.count > 2 {
                         let shot = shots[2]
-                        imageView3.kf_setImageWithURL(NSURL(string: shot.images.normal)!)
+                        imageView3.kf_setImageWithURL(NSURL(string: shot.images.teaser)!)
                     }
 
                 case .Instagram(let instagramWork):
-                    break
+                    let medias = instagramWork.medias
+
+                    if medias.count > 0 {
+                        let media = medias[0]
+                        imageView1.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!)
+                    }
+
+                    if medias.count > 1 {
+                        let media = medias[1]
+                        imageView2.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!)
+                    }
+                    if medias.count > 2 {
+                        let media = medias[2]
+                        imageView3.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!)
+                    }
                 }
             }
         }
@@ -141,7 +155,23 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                             completion?(socialWork)
                         }
                     })
-                    
+
+                case .Instagram:
+                    instagramWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
+                        defaultFailureHandler(reason, errorMessage)
+
+                    }, completion: { instagramWork in
+                        println("instagramWork: \(instagramWork.medias.count)")
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let socialWork = SocialWork.Instagram(instagramWork)
+
+                            self.socialWork = socialWork
+
+                            completion?(socialWork)
+                        }
+                    })
+
                 default:
                     break
                 }
