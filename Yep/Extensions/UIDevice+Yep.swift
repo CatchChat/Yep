@@ -10,19 +10,13 @@ import UIKit
 
 extension UIDevice {
 
-    enum ScreenWidthModel: Int {
-        case Classic = 0
+    enum ScreenModel {
+        case Classic
         case Bigger
         case BiggerPlus
-
-        static var caseCount: Int {
-            var max: Int = 0
-            while let _ = self(rawValue: ++max) {}
-            return max
-        }
     }
 
-    static let screenWidthModel: ScreenWidthModel = {
+    static let screenModel: ScreenModel = {
 
         let screen = UIScreen.mainScreen()
         let nativeWidth = screen.nativeBounds.size.width
@@ -40,18 +34,14 @@ extension UIDevice {
         return .Bigger // Default
         }()
 
-    class func pickMarginIn(margins: [CGFloat]) -> CGFloat {
-
-        if margins.count < ScreenWidthModel.caseCount {
-            println("Warning: NOT enough margins")
-
-            if margins.count > 0 {
-                return margins[0]
-            } else {
-                return 0
-            }
+    class func matchMarginFrom(classic: CGFloat, _ bigger: CGFloat, _ biggerPlus: CGFloat) -> CGFloat {
+        switch screenModel {
+        case .Classic:
+            return classic
+        case .Bigger:
+            return bigger
+        case .BiggerPlus:
+            return biggerPlus
         }
-
-        return margins[screenWidthModel.rawValue]
     }
 }
