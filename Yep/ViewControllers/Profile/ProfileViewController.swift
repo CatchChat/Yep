@@ -499,6 +499,10 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                 if socialAccount == .Github {
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountGithubCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountGithubCell
+
+                    cell.configureWithProfileUser(profileUser, orSocialWorkProviderInfo: socialWorkProviderInfo, socialAccount: socialAccount, githubWork: nil, completion: { githubWork in
+
+                    })
                     
                     return cell
 

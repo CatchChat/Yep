@@ -1214,6 +1214,7 @@ struct GithubWork {
         let loginName: String
         let avatarURLString: String
         let htmlURLString: String
+        let publicReposCount: Int
         let followersCount: Int
         let followingCount: Int
     }
@@ -1250,10 +1251,11 @@ func githubWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, Strin
                 loginName = userInfo["login"] as? String,
                 avatarURLString = userInfo["avatar_url"] as? String,
                 htmlURLString = userInfo["html_url"] as? String,
+                publicReposCount = userInfo["public_repos"] as? Int,
                 followersCount = userInfo["followers"] as? Int,
                 followingCount = userInfo["following"] as? Int {
 
-                    let user = GithubWork.User(loginName: loginName, avatarURLString: avatarURLString, htmlURLString: htmlURLString, followersCount: followersCount, followingCount: followingCount)
+                    let user = GithubWork.User(loginName: loginName, avatarURLString: avatarURLString, htmlURLString: htmlURLString, publicReposCount: publicReposCount, followersCount: followersCount, followingCount: followingCount)
 
                     let githubWork = GithubWork(repos: repos, user: user)
 
