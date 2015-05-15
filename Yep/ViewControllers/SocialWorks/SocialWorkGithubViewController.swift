@@ -12,6 +12,7 @@ class SocialWorkGithubViewController: UIViewController {
 
     var socialAccount: SocialAccount?
     var profileUser: ProfileUser?
+    var githubWork: GithubWork?
 
 
     lazy var shareButton: UIBarButtonItem = {
@@ -73,35 +74,41 @@ class SocialWorkGithubViewController: UIViewController {
         githubTableView.rowHeight = 100
 
 
-        // 获取 Github Work
+        // 获取 Github Work，如果必要的话
 
-        var userID: String?
-
-        if let profileUser = profileUser {
-            switch profileUser {
-            case .DiscoveredUserType(let discoveredUser):
-                userID = discoveredUser.id
-            case .UserType(let user):
-                userID = user.userID
-            }
+        if let githubWork = githubWork {
+            githubUser = githubWork.user
+            githubRepos = githubWork.repos
 
         } else {
-            userID = YepUserDefaults.userID.value
-        }
+            var userID: String?
 
-        if let userID = userID {
-
-            githubWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
-                defaultFailureHandler(reason, errorMessage)
-
-            }, completion: { githubWork in
-                println("githubWork: \(githubWork)")
-
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.githubUser = githubWork.user
-                    self.githubRepos = githubWork.repos
+            if let profileUser = profileUser {
+                switch profileUser {
+                case .DiscoveredUserType(let discoveredUser):
+                    userID = discoveredUser.id
+                case .UserType(let user):
+                    userID = user.userID
                 }
-            })
+
+            } else {
+                userID = YepUserDefaults.userID.value
+            }
+
+            if let userID = userID {
+
+                githubWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
+                    defaultFailureHandler(reason, errorMessage)
+
+                }, completion: { githubWork in
+                    println("githubWork: \(githubWork)")
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.githubUser = githubWork.user
+                        self.githubRepos = githubWork.repos
+                    }
+                })
+            }
         }
     }
 

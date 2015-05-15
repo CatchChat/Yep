@@ -118,6 +118,7 @@ class ProfileViewController: CustomNavigationBarViewController {
 
     var dribbbleWork: DribbbleWork?
     var instagramWork: InstagramWork?
+    var githubWork: GithubWork?
 
 
     let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
@@ -241,6 +242,7 @@ class ProfileViewController: CustomNavigationBarViewController {
                 let vc = segue.destinationViewController as! SocialWorkGithubViewController
                 vc.socialAccount = SocialAccount(rawValue: item)
                 vc.profileUser = profileUser
+                vc.githubWork = githubWork
             }
 
         } else if segue.identifier == "showSocialWorkDribbble" {
@@ -500,8 +502,8 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 if socialAccount == .Github {
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountGithubCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountGithubCell
 
-                    cell.configureWithProfileUser(profileUser, orSocialWorkProviderInfo: socialWorkProviderInfo, socialAccount: socialAccount, githubWork: nil, completion: { githubWork in
-
+                    cell.configureWithProfileUser(profileUser, orSocialWorkProviderInfo: socialWorkProviderInfo, socialAccount: socialAccount, githubWork: githubWork, completion: { githubWork in
+                        self.githubWork = githubWork
                     })
                     
                     return cell
