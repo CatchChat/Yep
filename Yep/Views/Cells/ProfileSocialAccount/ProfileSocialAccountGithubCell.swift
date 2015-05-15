@@ -13,6 +13,10 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
     var githubWork: GithubWork? {
         didSet {
             if let work = githubWork {
+                reposImageView.hidden = false
+                followersImageView.hidden = false
+                accessoryImageView.hidden = false
+
                 let user = work.user
                 reposCountLabel.text = "\(user.publicReposCount)"
                 followersCountLabel.text = "\(user.followersCount)"
@@ -48,8 +52,8 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
         iconImageView.image = UIImage(named: socialAccount.iconName)
         nameLabel.text = socialAccount.description
 
-        iconImageView.tintColor = UIColor.lightGrayColor()
-        nameLabel.textColor = UIColor.lightGrayColor()
+        iconImageView.tintColor = UIColor.grayColor()
+        nameLabel.textColor = UIColor.grayColor()
 
         let providerName = socialAccount.description.lowercaseString
 
@@ -97,16 +101,14 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
 
 
         if !accountEnabled {
-            reposImageView.image = nil
+            reposImageView.hidden = true
             reposCountLabel.text = ""
-            followersImageView.image = nil
+            followersImageView.hidden = true
             followersCountLabel.text = ""
 
             accessoryImageView.hidden = true
 
         } else {
-            accessoryImageView.hidden = false
-
             if let githubWork = githubWork {
                 self.githubWork = githubWork
 

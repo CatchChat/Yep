@@ -14,6 +14,9 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
     var socialWork: SocialWork? {
         didSet {
             if let work = socialWork {
+
+                accessoryImageView.hidden = false
+
                 switch work {
                 case .Dribbble(let dribbbleWork):
                     let shots = dribbbleWork.shots
@@ -156,8 +159,6 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
             accessoryImageView.hidden = true
 
         } else {
-            accessoryImageView.hidden = false
-
             if let socialWork = socialWork {
                 self.socialWork = socialWork
 
