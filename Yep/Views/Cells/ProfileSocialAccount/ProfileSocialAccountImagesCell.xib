@@ -26,21 +26,21 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ajW-JH-Ato" userLabel="Image View 3">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ajW-JH-Ato" userLabel="Image View 3">
                         <rect key="frame" x="198" y="42" width="30" height="24"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="fBc-oC-6ea"/>
                             <constraint firstAttribute="width" constant="30" id="kIa-uD-42o"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T7K-fi-YkH" userLabel="Image View 2">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T7K-fi-YkH" userLabel="Image View 2">
                         <rect key="frame" x="234" y="42" width="30" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="30" id="BWO-7q-5mr"/>
                             <constraint firstAttribute="height" constant="24" id="NrH-Oe-YXT"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8bD-nc-pyr" userLabel="Image View 1">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8bD-nc-pyr" userLabel="Image View 1">
                         <rect key="frame" x="270" y="42" width="30" height="24"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="9BQ-hK-QX5"/>
