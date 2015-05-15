@@ -722,4 +722,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     }
 }
 
+extension ProfileViewController: UIScrollViewDelegate {
+
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if scrollView.contentOffset.y < -300 {
+            YepAlert.alert(title: "Hello", message: "How are you?", dismissTitle: "I'm fine.", inViewController: self, withDismissAction: nil)
+        }
+    }
+}
 
