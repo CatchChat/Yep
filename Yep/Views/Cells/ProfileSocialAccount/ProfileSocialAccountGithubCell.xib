@@ -26,7 +26,7 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ul5-ZC-9eP" userLabel="Repos Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_repo" translatesAutoresizingMaskIntoConstraints="NO" id="ul5-ZC-9eP" userLabel="Repos Image View">
                         <rect key="frame" x="232" y="50" width="24" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="ul5-ZC-9eP" secondAttribute="height" multiplier="1:1" id="8Mv-LF-7qq"/>
@@ -39,8 +39,9 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dPn-N6-z84" userLabel="Followers Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dPn-N6-z84" userLabel="Followers Image View">
                         <rect key="frame" x="295" y="50" width="24" height="24"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="dPn-N6-z84" secondAttribute="height" multiplier="1:1" id="GZJ-UL-AH5"/>
                             <constraint firstAttribute="width" constant="24" id="R3c-uN-Epy"/>
@@ -91,5 +92,6 @@
     </objects>
     <resources>
         <image name="icon_accessory_mini" width="8" height="13"/>
+        <image name="icon_repo" width="16" height="21"/>
     </resources>
 </document>

@@ -36,6 +36,8 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        reposImageView.tintColor = UIColor.lightGrayColor()
+        followersImageView.tintColor = UIColor.lightGrayColor()
         accessoryImageView.tintColor = UIColor.lightGrayColor()
         iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
