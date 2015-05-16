@@ -27,27 +27,15 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_repo" translatesAutoresizingMaskIntoConstraints="NO" id="ul5-ZC-9eP" userLabel="Repos Image View">
-                        <rect key="frame" x="232" y="50" width="24" height="24"/>
-                        <constraints>
-                            <constraint firstAttribute="width" secondItem="ul5-ZC-9eP" secondAttribute="height" multiplier="1:1" id="8Mv-LF-7qq"/>
-                            <constraint firstAttribute="width" constant="24" id="fVx-TJ-AzH"/>
-                        </constraints>
+                        <rect key="frame" x="253" y="51" width="16" height="21"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kps-k7-AVl" userLabel="Repos Count Label">
-                        <rect key="frame" x="264" y="53" width="16" height="17"/>
+                        <rect key="frame" x="275" y="53" width="16" height="17"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dPn-N6-z84" userLabel="Followers Image View">
-                        <rect key="frame" x="295" y="50" width="24" height="24"/>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="width" secondItem="dPn-N6-z84" secondAttribute="height" multiplier="1:1" id="GZJ-UL-AH5"/>
-                            <constraint firstAttribute="width" constant="24" id="R3c-uN-Epy"/>
-                        </constraints>
-                    </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="265" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0LO-nU-ZJO" userLabel="Followers Count Label">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="265" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0LO-nU-ZJO" userLabel="Stars Count Label">
                         <rect key="frame" x="327" y="53" width="24" height="17"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -56,36 +44,39 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory_mini" translatesAutoresizingMaskIntoConstraints="NO" id="CR7-72-b7M">
                         <rect key="frame" x="361" y="55" width="8" height="13"/>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_stars" translatesAutoresizingMaskIntoConstraints="NO" id="dPn-N6-z84" userLabel="Stars Image View">
+                        <rect key="frame" x="301" y="52" width="20" height="19"/>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstItem="CR7-72-b7M" firstAttribute="leading" secondItem="0LO-nU-ZJO" secondAttribute="trailing" constant="10" id="ABc-cU-QI6"/>
+                <constraint firstItem="dPn-N6-z84" firstAttribute="centerY" secondItem="Kps-k7-AVl" secondAttribute="centerY" id="5O1-E5-HW1"/>
+                <constraint firstItem="0LO-nU-ZJO" firstAttribute="centerY" secondItem="CR7-72-b7M" secondAttribute="centerY" id="9PW-Gj-hdK"/>
                 <constraint firstItem="lMb-I3-vEz" firstAttribute="centerY" secondItem="p2m-Rs-2cq" secondAttribute="centerY" id="C1v-pD-KfA"/>
-                <constraint firstItem="Kps-k7-AVl" firstAttribute="leading" secondItem="ul5-ZC-9eP" secondAttribute="trailing" constant="8" id="K1G-5t-gwa"/>
+                <constraint firstItem="0LO-nU-ZJO" firstAttribute="leading" secondItem="dPn-N6-z84" secondAttribute="trailing" constant="6" id="Dek-rT-4P5"/>
+                <constraint firstItem="Kps-k7-AVl" firstAttribute="leading" secondItem="ul5-ZC-9eP" secondAttribute="trailing" constant="6" id="K1G-5t-gwa"/>
                 <constraint firstAttribute="trailing" secondItem="CR7-72-b7M" secondAttribute="trailing" constant="38" id="Vdr-9B-U6G"/>
                 <constraint firstItem="p2m-Rs-2cq" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="38" id="Vzm-wx-Vnx"/>
-                <constraint firstItem="dPn-N6-z84" firstAttribute="leading" secondItem="Kps-k7-AVl" secondAttribute="trailing" constant="15" id="XQT-bW-aLU"/>
                 <constraint firstItem="lMb-I3-vEz" firstAttribute="leading" secondItem="p2m-Rs-2cq" secondAttribute="trailing" constant="15" id="dVk-zf-Zao"/>
                 <constraint firstItem="Kps-k7-AVl" firstAttribute="centerY" secondItem="ul5-ZC-9eP" secondAttribute="centerY" id="dmx-qb-Wmv"/>
-                <constraint firstAttribute="centerY" secondItem="0LO-nU-ZJO" secondAttribute="centerY" id="kJ2-XQ-A25"/>
-                <constraint firstItem="dPn-N6-z84" firstAttribute="centerY" secondItem="0LO-nU-ZJO" secondAttribute="centerY" id="n39-4e-egY"/>
-                <constraint firstItem="0LO-nU-ZJO" firstAttribute="leading" secondItem="dPn-N6-z84" secondAttribute="trailing" constant="8" id="nns-A7-hLN"/>
+                <constraint firstItem="dPn-N6-z84" firstAttribute="centerY" secondItem="0LO-nU-ZJO" secondAttribute="centerY" id="gfd-D0-PJx"/>
+                <constraint firstItem="CR7-72-b7M" firstAttribute="leading" secondItem="0LO-nU-ZJO" secondAttribute="trailing" constant="10" id="q2f-5V-Ve7"/>
+                <constraint firstItem="dPn-N6-z84" firstAttribute="leading" secondItem="Kps-k7-AVl" secondAttribute="trailing" constant="10" id="sJp-mY-mTK"/>
                 <constraint firstAttribute="centerY" secondItem="CR7-72-b7M" secondAttribute="centerY" id="yeV-e7-3Wj"/>
                 <constraint firstAttribute="centerY" secondItem="p2m-Rs-2cq" secondAttribute="centerY" id="zYc-Iv-GZo"/>
-                <constraint firstItem="dPn-N6-z84" firstAttribute="centerY" secondItem="Kps-k7-AVl" secondAttribute="centerY" id="zm5-5t-nEG"/>
             </constraints>
             <size key="customSize" width="407" height="123"/>
             <connections>
                 <outlet property="accessoryImageView" destination="CR7-72-b7M" id="lYv-cE-6kl"/>
                 <outlet property="accessoryImageViewTrailingConstraint" destination="Vdr-9B-U6G" id="TwQ-E8-4JI"/>
-                <outlet property="followersCountLabel" destination="0LO-nU-ZJO" id="1Ls-GQ-epu"/>
-                <outlet property="followersImageView" destination="dPn-N6-z84" id="LH3-rH-Ufb"/>
                 <outlet property="iconImageView" destination="p2m-Rs-2cq" id="xdn-BU-ILR"/>
                 <outlet property="iconImageViewLeadingConstraint" destination="Vzm-wx-Vnx" id="IAE-dj-pDM"/>
                 <outlet property="nameLabel" destination="lMb-I3-vEz" id="t1A-DH-dB0"/>
                 <outlet property="reposCountLabel" destination="Kps-k7-AVl" id="5BF-TU-7GI"/>
                 <outlet property="reposImageView" destination="ul5-ZC-9eP" id="a32-rx-a17"/>
+                <outlet property="starsCountLabel" destination="0LO-nU-ZJO" id="SI6-h7-8SZ"/>
+                <outlet property="starsImageView" destination="dPn-N6-z84" id="oME-kb-aft"/>
             </connections>
             <point key="canvasLocation" x="453.5" y="427.5"/>
         </collectionViewCell>
@@ -93,5 +84,6 @@
     <resources>
         <image name="icon_accessory_mini" width="8" height="13"/>
         <image name="icon_repo" width="16" height="21"/>
+        <image name="icon_stars" width="20" height="19"/>
     </resources>
 </document>

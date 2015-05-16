@@ -14,12 +14,17 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
         didSet {
             if let work = githubWork {
                 reposImageView.hidden = false
-                followersImageView.hidden = false
+                starsImageView.hidden = false
                 accessoryImageView.hidden = false
 
                 let user = work.user
                 reposCountLabel.text = "\(user.publicReposCount)"
-                followersCountLabel.text = "\(user.followersCount)"
+
+                let repos = work.repos
+                let starsCount = repos.reduce(0, combine: { (result, repo) -> Int in
+                    result + repo.stargazersCount
+                })
+                starsCountLabel.text = "\(starsCount)"
             }
         }
     }
@@ -31,8 +36,8 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
 
     @IBOutlet weak var reposImageView: UIImageView!
     @IBOutlet weak var reposCountLabel: UILabel!
-    @IBOutlet weak var followersImageView: UIImageView!
-    @IBOutlet weak var followersCountLabel: UILabel!
+    @IBOutlet weak var starsImageView: UIImageView!
+    @IBOutlet weak var starsCountLabel: UILabel!
 
     @IBOutlet weak var accessoryImageView: UIImageView!
     @IBOutlet weak var accessoryImageViewTrailingConstraint: NSLayoutConstraint!
@@ -41,7 +46,7 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
         super.awakeFromNib()
 
         reposImageView.tintColor = UIColor.lightGrayColor()
-        followersImageView.tintColor = UIColor.lightGrayColor()
+        starsImageView.tintColor = UIColor.lightGrayColor()
         accessoryImageView.tintColor = UIColor.lightGrayColor()
         iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
@@ -103,8 +108,8 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
         if !accountEnabled {
             reposImageView.hidden = true
             reposCountLabel.text = ""
-            followersImageView.hidden = true
-            followersCountLabel.text = ""
+            starsImageView.hidden = true
+            starsCountLabel.text = ""
 
             accessoryImageView.hidden = true
 
