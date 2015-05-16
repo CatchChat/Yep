@@ -108,7 +108,31 @@ class ProfileViewController: CustomNavigationBarViewController {
     lazy var sectionRightEdgeInset: CGFloat = { return YepConfig.Profile.rightEdgeInset }()
     lazy var sectionBottomEdgeInset: CGFloat = { return 0 }()
 
-    let introductionText = "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
+    lazy var introductionText: String = {
+
+        var intro: String?
+
+        if let profileUser = self.profileUser {
+            switch profileUser {
+                
+            case .DiscoveredUserType(let discoveredUser):
+                intro = discoveredUser.introduction
+
+            case .UserType(let user):
+                intro = user.introduction
+            }
+
+        } else {
+            intro = "Hello world"
+        }
+
+        if let intro = intro {
+            return intro
+        } else {
+            return ""
+        }
+        //return "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
+        }()
 
     var masterSkills = [Skill]()
     var learningSkills = [Skill]()
@@ -178,6 +202,9 @@ class ProfileViewController: CustomNavigationBarViewController {
         } else {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                 userInfo(failureHandler: nil) { userInfo in
+
+                    println("userInfo: \(userInfo)")
+
                     if let skillsData = userInfo["master_skills"] as? [JSONDictionary] {
                         self.masterSkills = skillsFromSkillsData(skillsData)
                     }

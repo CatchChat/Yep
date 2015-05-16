@@ -234,6 +234,10 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                                 user.nickname = nickname
                             }
 
+                            if let introduction = friendInfo["introduction"] as? String {
+                                user.introduction = introduction
+                            }
+
                             if let avatarURLString = friendInfo["avatar_url"] as? String {
                                 user.avatarURLString = avatarURLString
                             }
@@ -420,6 +424,10 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                             owner.nickname = nickname
                         }
 
+                        if let introduction = ownerInfo["introduction"] as? String {
+                            owner.introduction = introduction
+                        }
+
                         if let avatarURLString = ownerInfo["avatar_url"] as? String {
                             owner.avatarURLString = avatarURLString
                         }
@@ -526,6 +534,10 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 
                             if let nickname = memberInfo["nickname"] as? String {
                                 member.nickname = nickname
+                            }
+
+                            if let introduction = memberInfo["introduction"] as? String {
+                                member.introduction = introduction
                             }
 
                             if let avatarURLString = memberInfo["avatar_url"] as? String {

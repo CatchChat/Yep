@@ -423,6 +423,8 @@ func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: S
 
     let parse: JSONDictionary -> LoginUser? = { data in
 
+        //println("loginByMobile: \(data)")
+
         if let accessToken = data["access_token"] as? String {
             if let user = data["user"] as? [String: AnyObject] {
                 if
@@ -521,6 +523,7 @@ struct DiscoveredUser {
 
     let id: String
     let nickname: String
+    let introduction: String?
     let avatarURLString: String
 
     let createdAt: NSDate
@@ -580,7 +583,9 @@ func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discover
                             socialAccountProviders.append(provider)
                         }
 
-                        let discoverUser = DiscoveredUser(id: id, nickname: nickname, avatarURLString: avatarURLString, createdAt: createdAt, lastSignInAt: lastSignInAt, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
+                        let introduction = userInfo["introduction"] as? String
+
+                        let discoverUser = DiscoveredUser(id: id, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, createdAt: createdAt, lastSignInAt: lastSignInAt, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
                         
                         discoveredUsers.append(discoverUser)
                 }
