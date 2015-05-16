@@ -26,7 +26,7 @@ class SocialWorkGithubViewController: UIViewController {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var followersCountLabel: UILabel!
-    @IBOutlet weak var starredCountLabel: UILabel!
+    @IBOutlet weak var starsCountLabel: UILabel!
     @IBOutlet weak var followingCountLabel: UILabel!
 
     @IBOutlet weak var githubTableView: UITableView!
@@ -52,6 +52,13 @@ class SocialWorkGithubViewController: UIViewController {
 
     var githubRepos = Array<GithubWork.Repo>() {
         didSet {
+            let repos = githubRepos
+            let starsCount = repos.reduce(0, combine: { (result, repo) -> Int in
+                result + repo.stargazersCount
+            })
+
+            starsCountLabel.text = "\(starsCount)"
+
             updateGithubTableView()
         }
     }

@@ -950,37 +950,37 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="264" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zm7-GR-gdk" userLabel="Followers Count Label">
-                                            <rect key="frame" x="222" y="141" width="47" height="34"/>
+                                            <rect key="frame" x="183" y="141" width="47" height="34"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Followers" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oJN-WT-en7" userLabel="Followers Label">
-                                            <rect key="frame" x="220" y="183" width="50" height="14"/>
+                                            <rect key="frame" x="181" y="183" width="50" height="14"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="465" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AYA-Wt-nJZ" userLabel="Starred Count Label">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="465" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AYA-Wt-nJZ" userLabel="Stars Count Label">
                                             <rect key="frame" x="277" y="141" width="47" height="34"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Starred" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cGf-Ne-05g" userLabel="Starred Label">
-                                            <rect key="frame" x="281" y="183" width="38" height="14"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stars" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cGf-Ne-05g" userLabel="Stars Label">
+                                            <rect key="frame" x="287" y="183" width="27" height="14"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="odP-wn-O9l" userLabel="Following Count Label">
-                                            <rect key="frame" x="347" y="141" width="16" height="34"/>
+                                            <rect key="frame" x="388" y="141" width="16" height="34"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Following" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hSD-4E-AKI" userLabel="Following Label">
-                                            <rect key="frame" x="330" y="183" width="50" height="14"/>
+                                            <rect key="frame" x="371" y="183" width="50" height="14"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -993,10 +993,10 @@
                                         <constraint firstItem="oJN-WT-en7" firstAttribute="top" secondItem="zm7-GR-gdk" secondAttribute="bottom" constant="8" id="DAb-lR-lmD"/>
                                         <constraint firstItem="hSD-4E-AKI" firstAttribute="top" secondItem="odP-wn-O9l" secondAttribute="bottom" constant="8" id="FCx-SS-i2c"/>
                                         <constraint firstItem="cGf-Ne-05g" firstAttribute="top" secondItem="AYA-Wt-nJZ" secondAttribute="bottom" constant="8" id="JDl-nt-kcU"/>
-                                        <constraint firstItem="cGf-Ne-05g" firstAttribute="centerX" secondItem="oJN-WT-en7" secondAttribute="leading" constant="80" id="Ozk-aM-tig"/>
+                                        <constraint firstItem="cGf-Ne-05g" firstAttribute="centerX" secondItem="oJN-WT-en7" secondAttribute="leading" constant="120" id="Ozk-aM-tig"/>
                                         <constraint firstItem="YwC-QR-xbE" firstAttribute="top" secondItem="TOk-uh-YYP" secondAttribute="top" constant="46" id="Txb-fb-m0L"/>
                                         <constraint firstItem="odP-wn-O9l" firstAttribute="centerY" secondItem="AYA-Wt-nJZ" secondAttribute="centerY" id="ZIr-xf-KM5"/>
-                                        <constraint firstItem="hSD-4E-AKI" firstAttribute="trailing" secondItem="cGf-Ne-05g" secondAttribute="centerX" constant="80" id="fol-p9-JO3"/>
+                                        <constraint firstItem="hSD-4E-AKI" firstAttribute="trailing" secondItem="cGf-Ne-05g" secondAttribute="centerX" constant="120" id="fol-p9-JO3"/>
                                         <constraint firstItem="YwC-QR-xbE" firstAttribute="centerX" secondItem="AYA-Wt-nJZ" secondAttribute="centerX" constant="-0.5" id="hd8-tj-WmJ"/>
                                         <constraint firstAttribute="centerX" secondItem="YwC-QR-xbE" secondAttribute="centerX" id="jFM-6e-Gz6"/>
                                         <constraint firstItem="AYA-Wt-nJZ" firstAttribute="centerX" secondItem="cGf-Ne-05g" secondAttribute="centerX" constant="0.5" id="qSZ-TA-4cK"/>
@@ -1024,7 +1024,7 @@
                         <outlet property="followingCountLabel" destination="odP-wn-O9l" id="RKA-Pu-Lih"/>
                         <outlet property="githubTableView" destination="UTC-GU-j3l" id="UPL-Hm-KJY"/>
                         <outlet property="infoView" destination="TOk-uh-YYP" id="tzO-4v-f3V"/>
-                        <outlet property="starredCountLabel" destination="AYA-Wt-nJZ" id="01v-MQ-CbP"/>
+                        <outlet property="starsCountLabel" destination="AYA-Wt-nJZ" id="rYS-Ms-AT8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ng6-AT-kmK" userLabel="First Responder" sceneMemberID="firstResponder"/>
