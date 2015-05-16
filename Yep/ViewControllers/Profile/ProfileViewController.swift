@@ -110,27 +110,30 @@ class ProfileViewController: CustomNavigationBarViewController {
 
     lazy var introductionText: String = {
 
-        var intro: String?
+        var introduction: String?
 
         if let profileUser = self.profileUser {
             switch profileUser {
                 
             case .DiscoveredUserType(let discoveredUser):
-                intro = discoveredUser.introduction
+                introduction = discoveredUser.introduction
 
             case .UserType(let user):
-                intro = user.introduction
+                introduction = user.introduction
             }
 
         } else {
-            intro = "Hello world"
+            introduction = YepUserDefaults.introduction.value
+
+            YepUserDefaults.introduction.bindListener("Profile.introductionText") { introduction in
+                if let introduction = introduction {
+                    self.introductionText = introduction
+                    self.updateProfileCollectionView()
+                }
+            }
         }
 
-        if let intro = intro {
-            return intro
-        } else {
-            return ""
-        }
+        return introduction ?? NSLocalizedString("No Introduction yet.", comment: "")
         //return "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
         }()
 
@@ -147,12 +150,14 @@ class ProfileViewController: CustomNavigationBarViewController {
 
     let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
 
-    lazy var footerCellHeight: CGFloat = {
-        let attributes = [NSFontAttributeName: YepConfig.Profile.introductionLabelFont]
-        let labelWidth = self.collectionViewWidth - (YepConfig.Profile.leftEdgeInset + YepConfig.Profile.rightEdgeInset)
-        let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes:attributes, context:nil)
-        return ceil(rect.height) + 4
-        }()
+    var footerCellHeight: CGFloat {
+        get {
+            let attributes = [NSFontAttributeName: YepConfig.Profile.introductionLabelFont]
+            let labelWidth = self.collectionViewWidth - (YepConfig.Profile.leftEdgeInset + YepConfig.Profile.rightEdgeInset)
+            let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes:attributes, context:nil)
+            return ceil(rect.height) + 4
+        }
+    }
 
 
     override func viewDidLoad() {
@@ -204,6 +209,10 @@ class ProfileViewController: CustomNavigationBarViewController {
                 userInfo(failureHandler: nil) { userInfo in
 
                     println("userInfo: \(userInfo)")
+
+                    if let introduction = userInfo["introduction"] as? String {
+                        YepUserDefaults.introduction.value = introduction
+                    }
 
                     if let skillsData = userInfo["master_skills"] as? [JSONDictionary] {
                         self.masterSkills = skillsFromSkillsData(skillsData)
@@ -305,6 +314,10 @@ class ProfileViewController: CustomNavigationBarViewController {
     }
 
     // MARK: Actions
+
+    func updateProfileCollectionView() {
+        self.profileCollectionView.reloadData()
+    }
 
     @IBAction func sayHi(sender: UIButton) {
 
