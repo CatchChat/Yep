@@ -158,7 +158,9 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
 
-                cell.infoLabel.text = introduction
+                YepUserDefaults.introduction.bindAndFireListener("EditProfileLessInfoCell.Introduction") { introduction in
+                    cell.infoLabel.text = introduction
+                }
 
                 return cell
 

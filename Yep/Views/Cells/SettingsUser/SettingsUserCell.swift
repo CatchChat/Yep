@@ -38,6 +38,10 @@ class SettingsUserCell: UITableViewCell {
             self.nameLabel.text = nickname
         }
 
+        YepUserDefaults.introduction.bindAndFireListener("SettingsUserCell.Introduction") { introduction in
+            self.introLabel.text = introduction
+        }
+
         introLabel.font = YepConfig.Settings.introFont
 
         accessoryImageView.tintColor = UIColor.lightGrayColor()

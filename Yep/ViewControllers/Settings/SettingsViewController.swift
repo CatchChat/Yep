@@ -69,7 +69,6 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
         case Section.User.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(settingsUserCellIdentifier) as! SettingsUserCell
-            cell.introLabel.text = introduction
             return cell
 
         case Section.More.rawValue:
