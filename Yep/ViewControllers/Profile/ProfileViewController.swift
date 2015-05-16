@@ -116,10 +116,16 @@ class ProfileViewController: CustomNavigationBarViewController {
             switch profileUser {
                 
             case .DiscoveredUserType(let discoveredUser):
-                introduction = discoveredUser.introduction
+                if let _introduction = discoveredUser.introduction {
+                    if !_introduction.isEmpty {
+                        introduction = _introduction
+                    }
+                }
 
             case .UserType(let user):
-                introduction = user.introduction
+                if !user.introduction.isEmpty {
+                    introduction = user.introduction
+                }
             }
 
         } else {
@@ -134,7 +140,6 @@ class ProfileViewController: CustomNavigationBarViewController {
         }
 
         return introduction ?? NSLocalizedString("No Introduction yet.", comment: "")
-        //return "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
         }()
 
     var masterSkills = [Skill]()
@@ -208,7 +213,7 @@ class ProfileViewController: CustomNavigationBarViewController {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                 userInfo(failureHandler: nil) { userInfo in
 
-                    println("userInfo: \(userInfo)")
+                    //println("userInfo: \(userInfo)")
 
                     if let introduction = userInfo["introduction"] as? String {
                         YepUserDefaults.introduction.value = introduction
@@ -224,7 +229,6 @@ class ProfileViewController: CustomNavigationBarViewController {
 
                     if let providerInfo = userInfo["providers"] as? SocialWorkProviderInfo {
                         self.socialWorkProviderInfo = providerInfo
-                        println("self.socialWorkProviderInfo: \(self.socialWorkProviderInfo)")
                     }
 
                     dispatch_async(dispatch_get_main_queue()) {

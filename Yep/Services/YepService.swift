@@ -549,7 +549,7 @@ func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discover
     
     let parse: JSONDictionary -> [DiscoveredUser]? = { data in
 
-        println("discoverUsers: \(data)")
+        //println("discoverUsers: \(data)")
 
         if let usersData = data["users"] as? [JSONDictionary] {
 
