@@ -975,8 +975,7 @@ class ConversationViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showProfile" {
 
-            let nvc = segue.destinationViewController as! UINavigationController
-            let vc = nvc.topViewController as! ProfileViewController
+            let vc = segue.destinationViewController as! ProfileViewController
 
             if let withFriend = conversation?.withFriend {
                 let profileUser = ProfileUser.UserType(withFriend)
