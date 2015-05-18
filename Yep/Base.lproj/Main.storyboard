@@ -436,7 +436,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Discover" id="di2-g9-owW">
-                        <barButtonItem key="leftBarButtonItem" title="NearBy" id="mve-O6-ube"/>
+                        <barButtonItem key="rightBarButtonItem" title="NearBy" id="mve-O6-ube"/>
                     </navigationItem>
                     <connections>
                         <outlet property="discoverTableView" destination="SPh-AI-uaZ" id="mB3-87-mQq"/>
@@ -952,7 +952,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="264" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zm7-GR-gdk" userLabel="Followers Count Label">
                                             <rect key="frame" x="183" y="141" width="47" height="34"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Followers" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oJN-WT-en7" userLabel="Followers Label">
@@ -964,7 +964,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="465" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AYA-Wt-nJZ" userLabel="Stars Count Label">
                                             <rect key="frame" x="277" y="141" width="47" height="34"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stars" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cGf-Ne-05g" userLabel="Stars Label">
@@ -976,7 +976,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="odP-wn-O9l" userLabel="Following Count Label">
                                             <rect key="frame" x="388" y="141" width="16" height="34"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Following" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hSD-4E-AKI" userLabel="Following Label">
@@ -1138,7 +1138,7 @@
         <image name="profile_avatar_frame" width="112" height="112"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="l4P-ds-ihU"/>
         <segue reference="o3b-2D-AMq"/>
-        <segue reference="Snz-CT-4aa"/>
     </inferredMetricsTieBreakers>
 </document>
