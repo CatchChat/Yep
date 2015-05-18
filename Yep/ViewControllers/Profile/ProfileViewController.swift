@@ -393,6 +393,11 @@ class ProfileViewController: CustomNavigationBarViewController {
     func moreAction() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
 
+        let toggleDisturbAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Do not disturb", comment: ""), style: .Default) { action -> Void in
+            // TODO: toggleDisturbAction
+        }
+        alertController.addAction(toggleDisturbAction)
+
         let reportAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Report", comment: ""), style: .Default) { action -> Void in
             // TODO: reportAction
         }
