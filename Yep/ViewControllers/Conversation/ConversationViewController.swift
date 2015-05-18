@@ -177,9 +177,13 @@ class ConversationViewController: UIViewController {
         navigationItem.titleView = titleView
 
         if let withFriend = conversation?.withFriend {
-            AvatarCache.sharedInstance.roundAvatarOfUser(withFriend, withRadius: 22 * 0.5, completion: { image in
+            
+            let avatarSize: CGFloat = 30.0
+            
+            AvatarCache.sharedInstance.roundAvatarOfUser(withFriend, withRadius: avatarSize * 0.5, completion: { image in
                 dispatch_async(dispatch_get_main_queue()) {
-                    let button = UIButton(frame: CGRect(origin: CGPointZero, size: CGSize(width: 22, height: 22)))
+                    
+                    let button = UIButton(frame: CGRect(origin: CGPointZero, size: CGSize(width: avatarSize, height: avatarSize)))
                     button.addTarget(self, action: "showProfile", forControlEvents: .TouchUpInside)
                     button.setImage(image, forState: .Normal)
 
