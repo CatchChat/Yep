@@ -623,6 +623,8 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             let header = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: sectionHeaderIdentifier, forIndexPath: indexPath) as! ProfileSectionHeaderReusableView
 
+            var needEnabledTapAction = (profileUser == nil)
+
             switch indexPath.section {
 
             case ProfileSection.Master.rawValue:
@@ -633,26 +635,31 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             default:
                 header.titleLabel.text = ""
+
+                needEnabledTapAction = false
             }
 
-            header.tapAction = {
-                let storyboard = UIStoryboard(name: "Intro", bundle: nil)
-                let pickSkillsController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickSkillsViewController") as! RegisterPickSkillsViewController
+            if needEnabledTapAction {
 
-                pickSkillsController.isRegister = false
-                pickSkillsController.masterSkills = self.masterSkills
-                pickSkillsController.learningSkills = self.learningSkills
+                header.tapAction = {
+                    let storyboard = UIStoryboard(name: "Intro", bundle: nil)
+                    let pickSkillsController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickSkillsViewController") as! RegisterPickSkillsViewController
 
-                pickSkillsController.afterChangeSkillsAction = { masterSkills, learningSkills in
-                    self.masterSkills = masterSkills
-                    self.learningSkills = learningSkills
+                    pickSkillsController.isRegister = false
+                    pickSkillsController.masterSkills = self.masterSkills
+                    pickSkillsController.learningSkills = self.learningSkills
 
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.updateProfileCollectionView()
+                    pickSkillsController.afterChangeSkillsAction = { masterSkills, learningSkills in
+                        self.masterSkills = masterSkills
+                        self.learningSkills = learningSkills
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.updateProfileCollectionView()
+                        }
                     }
-                }
 
-                self.navigationController?.pushViewController(pickSkillsController, animated: true)
+                    self.navigationController?.pushViewController(pickSkillsController, animated: true)
+                }
             }
 
             return header
