@@ -176,6 +176,20 @@ class ConversationViewController: UIViewController {
 
         navigationItem.titleView = titleView
 
+        if let withFriend = conversation?.withFriend {
+            AvatarCache.sharedInstance.roundAvatarOfUser(withFriend, withRadius: 22 * 0.5, completion: { image in
+                dispatch_async(dispatch_get_main_queue()) {
+                    let button = UIButton(frame: CGRect(origin: CGPointZero, size: CGSize(width: 22, height: 22)))
+                    button.addTarget(self, action: "showProfile", forControlEvents: .TouchUpInside)
+                    button.setImage(image, forState: .Normal)
+
+                    let avatarBarButton = UIBarButtonItem(customView: button)
+
+                    self.navigationItem.rightBarButtonItem = avatarBarButton
+                }
+            })
+        }
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationCollectionViewDefault", name: YepNewMessagesReceivedNotification, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener("ConversationViewController") { _ in
@@ -719,6 +733,10 @@ class ConversationViewController: UIViewController {
     }
 
     // MARK: Actions
+
+    func showProfile() {
+        performSegueWithIdentifier("showProfile", sender: nil)
+    }
     
     func updateMoreMessageConversationCollectionView() {
         let moreMessageViewHeight = moreMessageTypesViewHeightConstraintConstant + CGRectGetHeight(messageToolbar.bounds)
@@ -955,6 +973,17 @@ class ConversationViewController: UIViewController {
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showProfile" {
+
+            let nvc = segue.destinationViewController as! UINavigationController
+            let vc = nvc.topViewController as! ProfileViewController
+
+            if let withFriend = conversation?.withFriend {
+                let profileUser = ProfileUser.UserType(withFriend)
+
+                vc.profileUser = profileUser
+            }
+        }
 
         if segue.identifier == "presentMessageMedia" {
 

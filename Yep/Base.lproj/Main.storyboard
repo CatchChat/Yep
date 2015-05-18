@@ -152,6 +152,7 @@
                         <outlet property="takePhotoButton" destination="HcA-7v-16m" id="yfB-gA-lxG"/>
                         <segue destination="f92-fs-zdh" kind="presentation" identifier="presentMessageMedia" id="esY-9F-IrH"/>
                         <segue destination="wNI-He-VjY" kind="presentation" identifier="presentPickLocation" id="8Uc-bg-xSe"/>
+                        <segue destination="dwP-GL-7hj" kind="show" identifier="showProfile" id="jgY-Rr-bdd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="chH-Zx-2Ge" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1140,5 +1141,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="l4P-ds-ihU"/>
         <segue reference="o3b-2D-AMq"/>
+        <segue reference="jgY-Rr-bdd"/>
     </inferredMetricsTieBreakers>
 </document>
