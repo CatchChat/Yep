@@ -638,6 +638,15 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 pickSkillsController.masterSkills = self.masterSkills
                 pickSkillsController.learningSkills = self.learningSkills
 
+                pickSkillsController.afterChangeSkillsAction = { masterSkills, learningSkills in
+                    self.masterSkills = masterSkills
+                    self.learningSkills = learningSkills
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.updateProfileCollectionView()
+                    }
+                }
+
                 self.navigationController?.pushViewController(pickSkillsController, animated: true)
             }
 

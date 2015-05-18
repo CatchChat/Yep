@@ -11,7 +11,7 @@ import UIKit
 class RegisterPickSkillsViewController: UIViewController {
 
     var isRegister = true
-
+    var afterChangeSkillsAction: ((masterSkills: [Skill], learningSkills: [Skill]) -> Void)?
 
     @IBOutlet weak var skillsCollectionView: UICollectionView!
 
@@ -104,6 +104,8 @@ class RegisterPickSkillsViewController: UIViewController {
 
             } else {
                 self.navigationController?.popViewControllerAnimated(true)
+
+                self.afterChangeSkillsAction?(masterSkills: self.masterSkills, learningSkills: self.learningSkills)
             }
         }
     }
