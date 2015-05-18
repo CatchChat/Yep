@@ -634,6 +634,10 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 let storyboard = UIStoryboard(name: "Intro", bundle: nil)
                 let pickSkillsController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickSkillsViewController") as! RegisterPickSkillsViewController
 
+                pickSkillsController.isRegister = false
+                pickSkillsController.masterSkills = self.masterSkills
+                pickSkillsController.learningSkills = self.learningSkills
+
                 self.navigationController?.pushViewController(pickSkillsController, animated: true)
             }
 

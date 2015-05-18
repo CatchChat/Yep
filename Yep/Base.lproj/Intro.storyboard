@@ -538,6 +538,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="doneButton" destination="hqc-oe-idI" id="v51-4G-ecf"/>
                         <outlet property="skillsCollectionView" destination="Hi3-3R-BNx" id="3tf-cy-8EF"/>
                         <segue destination="vEE-XY-eq4" kind="modal" identifier="presentSelectSkills" id="akJ-Zs-aMG"/>
                     </connections>
