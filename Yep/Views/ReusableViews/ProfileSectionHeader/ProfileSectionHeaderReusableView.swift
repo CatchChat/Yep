@@ -10,11 +10,19 @@ import UIKit
 
 class ProfileSectionHeaderReusableView: UICollectionReusableView {
 
+    var tapAction: (() -> Void)?
+
     @IBOutlet weak var titleLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        let tap = UITapGestureRecognizer(target: self, action: "tap")
+        addGestureRecognizer(tap)
+    }
+
+    func tap() {
+        tapAction?()
     }
     
 }

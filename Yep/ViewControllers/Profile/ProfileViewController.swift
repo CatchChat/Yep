@@ -630,6 +630,13 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 header.titleLabel.text = ""
             }
 
+            header.tapAction = {
+                let storyboard = UIStoryboard(name: "Intro", bundle: nil)
+                let pickSkillsController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickSkillsViewController") as! RegisterPickSkillsViewController
+
+                self.navigationController?.pushViewController(pickSkillsController, animated: true)
+            }
+
             return header
 
         } else {
