@@ -14,14 +14,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="284" height="118"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SGV-zQ-j8s" userLabel="Avatar Image View">
-                        <rect key="frame" x="229" y="4" width="40" height="40"/>
+                        <rect key="frame" x="229" y="0.0" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="jSz-gK-Ilt"/>
                             <constraint firstAttribute="width" secondItem="SGV-zQ-j8s" secondAttribute="height" multiplier="1:1" id="pNz-xQ-qpd"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ivW-u4-fKZ" userLabel="Map Image View">
-                        <rect key="frame" x="27" y="0.0" width="192" height="118"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ivW-u4-fKZ" userLabel="Map Image View">
+                        <rect key="frame" x="32" y="0.0" width="192" height="118"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="192" id="7Ua-Pv-tfQ"/>
                         </constraints>
@@ -31,9 +31,9 @@
             </view>
             <constraints>
                 <constraint firstItem="ivW-u4-fKZ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="1vJ-KG-oOM"/>
-                <constraint firstItem="SGV-zQ-j8s" firstAttribute="leading" secondItem="ivW-u4-fKZ" secondAttribute="trailing" constant="10" id="Dab-AU-NnN"/>
+                <constraint firstItem="SGV-zQ-j8s" firstAttribute="leading" secondItem="ivW-u4-fKZ" secondAttribute="trailing" constant="5" id="Dab-AU-NnN"/>
                 <constraint firstAttribute="bottom" secondItem="ivW-u4-fKZ" secondAttribute="bottom" id="PVp-nm-opV"/>
-                <constraint firstItem="SGV-zQ-j8s" firstAttribute="top" secondItem="ivW-u4-fKZ" secondAttribute="top" constant="4" id="QsZ-U0-BoH"/>
+                <constraint firstItem="SGV-zQ-j8s" firstAttribute="top" secondItem="ivW-u4-fKZ" secondAttribute="top" id="QsZ-U0-BoH"/>
                 <constraint firstAttribute="trailing" secondItem="SGV-zQ-j8s" secondAttribute="trailing" constant="15" id="jsX-hK-WmT"/>
             </constraints>
             <size key="customSize" width="284" height="118"/>

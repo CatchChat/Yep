@@ -20,6 +20,8 @@ class ChatLeftLocationCell: UICollectionViewCell {
         super.awakeFromNib()
 
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
+
+        mapImageView.tintColor = UIColor.leftBubbleTintColor()
     }
 
     func configureWithMessage(message: Message) {

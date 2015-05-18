@@ -327,7 +327,6 @@ func deleteSkill(skill: Skill, fromSkillSet skillSet: SkillSet, #failureHandler:
 
 func userInfo(#failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
     let parse: JSONDictionary -> JSONDictionary? = { data in
-        println("userInfo \(data)")
         return data
     }
 
@@ -424,6 +423,8 @@ func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: S
 
     let parse: JSONDictionary -> LoginUser? = { data in
 
+        //println("loginByMobile: \(data)")
+
         if let accessToken = data["access_token"] as? String {
             if let user = data["user"] as? [String: AnyObject] {
                 if
@@ -514,8 +515,15 @@ enum DiscoveredUserSortStyle: String {
 }
 
 struct DiscoveredUser {
+
+    struct SocialAccountProvider {
+        let name: String
+        let enabled: Bool
+    }
+
     let id: String
     let nickname: String
+    let introduction: String?
     let avatarURLString: String
 
     let createdAt: NSDate
@@ -527,6 +535,8 @@ struct DiscoveredUser {
 
     let masterSkills: [Skill]
     let learningSkills: [Skill]
+
+    let socialAccountProviders: [SocialAccountProvider]
 }
 
 func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discoveredUserSortStyle: DiscoveredUserSortStyle, #failureHandler: ((Reason, String?) -> Void)?, #completion: [DiscoveredUser] -> Void) {
@@ -556,14 +566,26 @@ func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discover
                     latitude = userInfo["latitude"] as? Double,
                     distance = userInfo["distance"] as? Double,
                     masterSkillsData = userInfo["master_skills"] as? [JSONDictionary],
-                    learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary] {
+                    learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary],
+                    socialAccountProvidersInfo = userInfo["providers"] as? [String: Bool] {
+
                         let createdAt = NSDate.dateWithISO08601String(createdAtString)
                         let lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
 
                         let masterSkills = skillsFromSkillsData(masterSkillsData)
                         let learningSkills = skillsFromSkillsData(learningSkillsData)
 
-                        let discoverUser = DiscoveredUser(id: id, nickname: nickname, avatarURLString: avatarURLString, createdAt: createdAt, lastSignInAt: lastSignInAt, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills)
+                        var socialAccountProviders = Array<DiscoveredUser.SocialAccountProvider>()
+
+                        for (name, enabled) in socialAccountProvidersInfo {
+                            let provider = DiscoveredUser.SocialAccountProvider(name: name, enabled: enabled)
+
+                            socialAccountProviders.append(provider)
+                        }
+
+                        let introduction = userInfo["introduction"] as? String
+
+                        let discoverUser = DiscoveredUser(id: id, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, createdAt: createdAt, lastSignInAt: lastSignInAt, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
                         
                         discoveredUsers.append(discoverUser)
                 }
@@ -1181,4 +1203,219 @@ func socialAccountWithProvider(provider: String, #failureHandler: ((Reason, Stri
     } else {
         apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
     }
+}
+
+struct GithubWork {
+
+    struct Repo {
+        let name: String
+        let language: String?
+        let description: String
+        let stargazersCount: Int
+        let htmlURLString: String
+    }
+
+    struct User {
+        let loginName: String
+        let avatarURLString: String
+        let htmlURLString: String
+        let publicReposCount: Int
+        let followersCount: Int
+        let followingCount: Int
+    }
+
+    let repos: [Repo]
+    let user: User
+}
+
+func githubWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: GithubWork -> Void) {
+
+    let parse: JSONDictionary -> GithubWork? = { data in
+
+        if let reposData = data["repos"] as? [JSONDictionary], userInfo = data["user"] as? JSONDictionary {
+
+            var repos = Array<GithubWork.Repo>()
+
+            for repoInfo in reposData {
+                if let
+                    name = repoInfo["name"] as? String,
+                    description = repoInfo["description"] as? String,
+                    stargazersCount = repoInfo["stargazers_count"] as? Int,
+                    htmlURLString = repoInfo["html_url"] as? String {
+
+                        let language = repoInfo["language"] as? String
+                        let repo = GithubWork.Repo(name: name, language: language, description: description, stargazersCount: stargazersCount, htmlURLString: htmlURLString)
+
+                        repos.append(repo)
+                }
+            }
+
+            repos.sort { $0.stargazersCount > $1.stargazersCount }
+
+            if let
+                loginName = userInfo["login"] as? String,
+                avatarURLString = userInfo["avatar_url"] as? String,
+                htmlURLString = userInfo["html_url"] as? String,
+                publicReposCount = userInfo["public_repos"] as? Int,
+                followersCount = userInfo["followers"] as? Int,
+                followingCount = userInfo["following"] as? Int {
+
+                    let user = GithubWork.User(loginName: loginName, avatarURLString: avatarURLString, htmlURLString: htmlURLString, publicReposCount: publicReposCount, followersCount: followersCount, followingCount: followingCount)
+
+                    let githubWork = GithubWork(repos: repos, user: user)
+
+                    return githubWork
+            }
+        }
+
+        return nil
+    }
+
+    let resource = authJsonResource(path: "/api/v1/users/\(userID)/github", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+struct DribbbleWork {
+
+    struct Shot {
+
+        struct Images {
+            let hidpi: String?
+            let normal: String
+            let teaser: String
+        }
+
+        let title: String
+        let description: String
+        let htmlURLString: String
+        let images: Images
+        let likesCount: Int
+        let commentsCount: Int
+    }
+
+    let shots: [Shot]
+}
+
+func dribbbleWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: DribbbleWork -> Void) {
+
+    let parse: JSONDictionary -> DribbbleWork? = { data in
+
+        if let shotsData = data["shots"] as? [JSONDictionary] {
+            var shots = Array<DribbbleWork.Shot>()
+
+            for shotInfo in shotsData {
+                if let
+                    title = shotInfo["title"] as? String,
+                    description = shotInfo["description"] as? String,
+                    htmlURLString = shotInfo["html_url"] as? String,
+                    imagesInfo = shotInfo["images"] as? JSONDictionary,
+                    likesCount = shotInfo["likes_count"] as? Int,
+                    commentsCount = shotInfo["comments_count"] as? Int {
+                        if let
+                            normal = imagesInfo["normal"] as? String,
+                            teaser = imagesInfo["teaser"] as? String {
+                                let hidpi = imagesInfo["hidpi"] as? String
+
+                                let images = DribbbleWork.Shot.Images(hidpi: hidpi, normal: normal, teaser: teaser)
+
+                                let shot = DribbbleWork.Shot(title: title, description: description, htmlURLString: htmlURLString, images: images, likesCount: likesCount, commentsCount: commentsCount)
+
+                                shots.append(shot)
+                        }
+                }
+            }
+
+            return DribbbleWork(shots: shots)
+        }
+
+        return nil
+    }
+
+    let resource = authJsonResource(path: "/api/v1/users/\(userID)/dribbble", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+
+struct InstagramWork {
+
+    struct Media {
+
+        struct Images {
+            let lowResolution: String
+            let standardResolution: String
+            let thumbnail: String
+        }
+
+        let linkURLString: String
+        let images: Images
+        let likesCount: Int
+        let commentsCount: Int
+    }
+
+    let medias: [Media]
+}
+
+func instagramWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: InstagramWork -> Void) {
+
+    let parse: JSONDictionary -> InstagramWork? = { data in
+        //println("instagramData:\(data)")
+
+        if let mediaData = data["media"] as? [JSONDictionary] {
+            var medias = Array<InstagramWork.Media>()
+
+            for mediaInfo in mediaData {
+                if let
+                    linkURLString = mediaInfo["link"] as? String,
+                    imagesInfo = mediaInfo["images"] as? JSONDictionary,
+                    likesInfo = mediaInfo["likes"] as? JSONDictionary,
+                    commentsInfo = mediaInfo["comments"] as? JSONDictionary {
+                        if let
+                            lowResolutionInfo = imagesInfo["low_resolution"] as? JSONDictionary,
+                            standardResolutionInfo = imagesInfo["standard_resolution"] as? JSONDictionary,
+                            thumbnailInfo = imagesInfo["thumbnail"] as? JSONDictionary,
+
+                            lowResolution = lowResolutionInfo["url"] as? String,
+                            standardResolution = standardResolutionInfo["url"] as? String,
+                            thumbnail = thumbnailInfo["url"] as? String,
+
+                            likesCount = likesInfo["count"] as? Int,
+                            commentsCount = commentsInfo["count"] as? Int {
+
+                                let images = InstagramWork.Media.Images(lowResolution: lowResolution, standardResolution: standardResolution, thumbnail: thumbnail)
+
+                                let media = InstagramWork.Media(linkURLString: linkURLString, images: images, likesCount: likesCount, commentsCount: commentsCount)
+
+                                medias.append(media)
+                        }
+                }
+            }
+
+            return InstagramWork(medias: medias)
+        }
+
+        return nil
+    }
+
+    let resource = authJsonResource(path: "/api/v1/users/\(userID)/instagram", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+enum SocialWork {
+    case Dribbble(DribbbleWork)
+    case Instagram(InstagramWork)
 }

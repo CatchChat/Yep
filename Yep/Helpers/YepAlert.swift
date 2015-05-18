@@ -30,12 +30,13 @@ class YepAlert {
         alert(title: NSLocalizedString("Sorry", comment: ""), message: message, dismissTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: viewController, withDismissAction: nil)
     }
 
-    class func textInput(#title: String, placeholder: String?, dismissTitle: String, inViewController viewController: UIViewController, withFinishedAction finishedAction: ((text: String) -> Void)?) {
+    class func textInput(#title: String, placeholder: String?, oldText: String?, dismissTitle: String, inViewController viewController: UIViewController, withFinishedAction finishedAction: ((text: String) -> Void)?) {
 
         let alertController = UIAlertController(title: title, message: nil, preferredStyle: .Alert)
 
         alertController.addTextFieldWithConfigurationHandler { (textField) -> Void in
             textField.placeholder = placeholder
+            textField.text = oldText
         }
 
         let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .Default) { action -> Void in

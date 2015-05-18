@@ -234,6 +234,10 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                                 user.nickname = nickname
                             }
 
+                            if let introduction = friendInfo["introduction"] as? String {
+                                user.introduction = introduction
+                            }
+
                             if let avatarURLString = friendInfo["avatar_url"] as? String {
                                 user.avatarURLString = avatarURLString
                             }
@@ -265,6 +269,20 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                                 user.masterSkills.removeAll()
                                 let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
                                 user.masterSkills.extend(userSkills)
+                            }
+
+                            // 更新 Social Account Provider
+
+                            user.socialAccountProviders.removeAll()
+
+                            if let providersInfo = friendInfo["providers"] as? [String: Bool] {
+                                for (name, enabled) in providersInfo {
+                                    let provider = UserSocialAccountProvider()
+                                    provider.name = name
+                                    provider.enabled = enabled
+
+                                    user.socialAccountProviders.append(provider)
+                                }
                             }
 
                             realm.commitWrite()
@@ -406,6 +424,10 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                             owner.nickname = nickname
                         }
 
+                        if let introduction = ownerInfo["introduction"] as? String {
+                            owner.introduction = introduction
+                        }
+
                         if let avatarURLString = ownerInfo["avatar_url"] as? String {
                             owner.avatarURLString = avatarURLString
                         }
@@ -422,6 +444,20 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                             owner.masterSkills.removeAll()
                             let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
                             owner.masterSkills.extend(userSkills)
+                        }
+
+                        // 更新 Social Account Provider
+
+                        owner.socialAccountProviders.removeAll()
+
+                        if let providersInfo = ownerInfo["providers"] as? [String: Bool] {
+                            for (name, enabled) in providersInfo {
+                                let provider = UserSocialAccountProvider()
+                                provider.name = name
+                                provider.enabled = enabled
+
+                                owner.socialAccountProviders.append(provider)
+                            }
                         }
 
                         group.owner = owner
@@ -500,6 +536,10 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                                 member.nickname = nickname
                             }
 
+                            if let introduction = memberInfo["introduction"] as? String {
+                                member.introduction = introduction
+                            }
+
                             if let avatarURLString = memberInfo["avatar_url"] as? String {
                                 member.avatarURLString = avatarURLString
                             }
@@ -516,6 +556,20 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                                 member.masterSkills.removeAll()
                                 let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
                                 member.masterSkills.extend(userSkills)
+                            }
+
+                            // 更新 Social Account Provider
+
+                            member.socialAccountProviders.removeAll()
+
+                            if let providersInfo = memberInfo["providers"] as? [String: Bool] {
+                                for (name, enabled) in providersInfo {
+                                    let provider = UserSocialAccountProvider()
+                                    provider.name = name
+                                    provider.enabled = enabled
+
+                                    member.socialAccountProviders.append(provider)
+                                }
                             }
 
                             realm.commitWrite()

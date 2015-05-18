@@ -21,6 +21,8 @@ class ChatLeftImageCell: UICollectionViewCell {
         super.awakeFromNib()
 
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
+
+        messageImageView.tintColor = UIColor.leftBubbleTintColor()
     }
 
     func configureWithMessage(message: Message, messageImagePreferredWidth: CGFloat, messageImagePreferredHeight: CGFloat, messageImagePreferredAspectRatio: CGFloat) {

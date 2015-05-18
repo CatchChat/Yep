@@ -22,7 +22,12 @@ class EditProfileViewController: UIViewController {
     let editProfileMoreInfoCellIdentifier = "EditProfileMoreInfoCell"
     let editProfileColoredTitleCellIdentifier = "EditProfileColoredTitleCell"
 
-    let intro = "I'm good at iOS Development and Singing. Come here, let me teach you." // TODO: User Intro
+    var introduction: String {
+        get {
+            return YepUserDefaults.introduction.value ?? NSLocalizedString("No Introduction yet.", comment: "")
+        }
+    }
+
     let introAttributes = [NSFontAttributeName: YepConfig.EditProfile.introFont]
 
     override func viewDidLoad() {
@@ -153,7 +158,9 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
 
-                cell.infoLabel.text = intro
+                YepUserDefaults.introduction.bindAndFireListener("EditProfileLessInfoCell.Introduction") { introduction in
+                    cell.infoLabel.text = introduction
+                }
 
                 return cell
 
@@ -184,7 +191,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 let tableViewWidth = CGRectGetWidth(editProfileTableView.bounds)
                 let introLabelMaxWidth = tableViewWidth - YepConfig.EditProfile.introInset
 
-                let rect = intro.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: introAttributes, context: nil)
+                let rect = introduction.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: introAttributes, context: nil)
 
                 let height = 20 + 22 + 20 + ceil(rect.height) + 20
                 
@@ -213,7 +220,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             switch indexPath.row {
 
             case InfoRow.Name.rawValue:
-                YepAlert.textInput(title: NSLocalizedString("Change nickname", comment: ""), placeholder: YepUserDefaults.nickname.value, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withFinishedAction: { (newNickname) -> Void in
+                YepAlert.textInput(title: NSLocalizedString("Change nickname", comment: ""), placeholder: YepUserDefaults.nickname.value, oldText: nil, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withFinishedAction: { (newNickname) -> Void in
 
                     if let oldNickname = YepUserDefaults.nickname.value {
                         if oldNickname == newNickname {
@@ -231,6 +238,31 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     }, completion: { success in
                         dispatch_async(dispatch_get_main_queue()) {
                             YepUserDefaults.nickname.value = newNickname
+                        }
+
+                        YepHUD.hideActivityIndicator()
+                    })
+                })
+
+            case InfoRow.Intro.rawValue:
+                YepAlert.textInput(title: NSLocalizedString("New introduction", comment: ""), placeholder: nil, oldText: YepUserDefaults.introduction.value, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withFinishedAction: { (newIntroduction) -> Void in
+
+                    if let oldIntroduction = YepUserDefaults.introduction.value {
+                        if oldIntroduction == newIntroduction {
+                            return
+                        }
+                    }
+
+                    YepHUD.showActivityIndicator()
+
+                    updateMyselfWithInfo(["introduction": newIntroduction], failureHandler: { (reason, errorMessage) in
+                        defaultFailureHandler(reason, errorMessage)
+
+                        YepHUD.hideActivityIndicator()
+
+                    }, completion: { success in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepUserDefaults.introduction.value = newIntroduction
                         }
 
                         YepHUD.hideActivityIndicator()

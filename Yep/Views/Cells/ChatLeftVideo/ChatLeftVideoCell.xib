@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="252" height="121"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NaY-sz-OCL" userLabel="Avatar Image View">
-                        <rect key="frame" x="15" y="4" width="40" height="40"/>
+                        <rect key="frame" x="15" y="0.0" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="Hgr-UG-6Vl"/>
                             <constraint firstAttribute="width" secondItem="NaY-sz-OCL" secondAttribute="height" multiplier="1:1" id="zbU-UC-mfu"/>
@@ -36,7 +36,7 @@
                 <constraint firstAttribute="bottom" secondItem="dJV-3p-NM6" secondAttribute="bottom" id="9st-fe-RF7"/>
                 <constraint firstItem="dJV-3p-NM6" firstAttribute="leading" secondItem="NaY-sz-OCL" secondAttribute="trailing" constant="5" id="BSL-oi-b0w"/>
                 <constraint firstItem="dJV-3p-NM6" firstAttribute="centerX" secondItem="kj2-PU-9Ld" secondAttribute="centerX" id="Kim-ke-x6p"/>
-                <constraint firstItem="dJV-3p-NM6" firstAttribute="top" secondItem="NaY-sz-OCL" secondAttribute="top" constant="-4" id="Ly2-sg-PTj"/>
+                <constraint firstItem="dJV-3p-NM6" firstAttribute="top" secondItem="NaY-sz-OCL" secondAttribute="top" id="Ly2-sg-PTj"/>
                 <constraint firstItem="NaY-sz-OCL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="NOl-Za-dpz"/>
                 <constraint firstItem="dJV-3p-NM6" firstAttribute="centerY" secondItem="kj2-PU-9Ld" secondAttribute="centerY" id="wjC-hS-DLv"/>
                 <constraint firstItem="dJV-3p-NM6" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="xR1-Mb-S6q"/>

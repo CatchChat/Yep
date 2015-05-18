@@ -21,6 +21,8 @@ class ChatRightLocationCell: UICollectionViewCell {
         super.awakeFromNib()
 
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
+
+        mapImageView.tintColor = UIColor.rightBubbleTintColor()
     }
 
 

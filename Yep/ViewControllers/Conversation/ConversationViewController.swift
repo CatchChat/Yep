@@ -13,6 +13,10 @@ import MobileCoreServices
 
 class ConversationViewController: UIViewController {
 
+    struct Notification {
+        static let MessageSent = "MessageSentNotification"
+    }
+
     var conversation: Conversation!
 
     var realm: Realm!
@@ -213,6 +217,8 @@ class ConversationViewController: UIViewController {
                 sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
                     dispatch_async(dispatch_get_main_queue()) {
                         self.updateConversationCollectionView(scrollToBottom: true)
+
+                        NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
                     }
 
                 }, failureHandler: { (reason, errorMessage) -> () in
@@ -227,6 +233,8 @@ class ConversationViewController: UIViewController {
                 sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                     dispatch_async(dispatch_get_main_queue()) {
                         self.updateConversationCollectionView(scrollToBottom: true)
+
+                        NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
                     }
 
                 }, failureHandler: { (reason, errorMessage) -> () in
@@ -335,6 +343,8 @@ class ConversationViewController: UIViewController {
                                 realm.commitWrite()
 
                                 self.updateConversationCollectionView(scrollToBottom: true)
+
+                                NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
                             }
                         }
 
@@ -360,6 +370,8 @@ class ConversationViewController: UIViewController {
                                 realm.commitWrite()
 
                                 self.updateConversationCollectionView(scrollToBottom: true)
+
+                                NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
                             }
                         }
 
@@ -1030,6 +1042,8 @@ class ConversationViewController: UIViewController {
                     sendLocationWithCoordinate(coordinate, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
                         dispatch_async(dispatch_get_main_queue()) {
                             self.updateConversationCollectionView(scrollToBottom: false)
+
+                            NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
                         }
 
                     }, failureHandler: { (reason, errorMessage) -> () in
@@ -1045,6 +1059,8 @@ class ConversationViewController: UIViewController {
                     sendLocationWithCoordinate(coordinate, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                         dispatch_async(dispatch_get_main_queue()) {
                             self.updateConversationCollectionView(scrollToBottom: false)
+
+                            NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
                         }
 
                     }, failureHandler: { (reason, errorMessage) -> () in
@@ -1329,14 +1345,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
     
     func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
 
-        func delayBySeconds(seconds: Double, delayedCode: ()->()) {
-            let targetTime = dispatch_time(DISPATCH_TIME_NOW, Int64(Double(NSEC_PER_SEC) * seconds))
-            dispatch_after(targetTime, dispatch_get_main_queue()) {
-                delayedCode()
-            }
-        }
-
-        delayBySeconds(1) {
+        delay(1) {
             pulllToRefreshView.endRefreshingAndDoFurtherAction() {
 
                 let lastDisplayedMessagesRange = self.displayedMessagesRange
@@ -1502,6 +1511,8 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                     }
 
                     self.updateConversationCollectionView(scrollToBottom: true)
+
+                    NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
                 }
 
             }, failureHandler: {(reason, errorMessage) -> () in
@@ -1529,6 +1540,8 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                     }
                     
                     self.updateConversationCollectionView(scrollToBottom: true)
+
+                    NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
                 }
                 
             }, failureHandler: {(reason, errorMessage) -> () in
@@ -1588,6 +1601,8 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                     }
 
                     self.updateConversationCollectionView(scrollToBottom: false)
+
+                    NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
                 }
             }
         }
@@ -1597,8 +1612,8 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 defaultFailureHandler(reason, errorMessage)
                 // TODO: sendVideo 错误提醒
 
-                }, completion: { success -> Void in
-                    println("sendVideo to friend: \(success)")
+            }, completion: { success -> Void in
+                println("sendVideo to friend: \(success)")
             })
 
         } else if let withGroup = conversation.withGroup {
@@ -1606,8 +1621,8 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 defaultFailureHandler(reason, errorMessage)
                 // TODO: sendVideo 错误提醒
                 
-                }, completion: { success -> Void in
-                    println("sendVideo to group: \(success)")
+            }, completion: { success -> Void in
+                println("sendVideo to group: \(success)")
             })
         }
     }

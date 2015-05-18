@@ -62,6 +62,11 @@ class UserSkill: Object {
     }
 }
 
+class UserSocialAccountProvider: Object {
+    dynamic var name: String = ""
+    dynamic var enabled: Bool = false
+}
+
 class User: Object {
     dynamic var userID: String = ""
     dynamic var nickname: String = ""
@@ -82,6 +87,7 @@ class User: Object {
 
     let learningSkills = List<UserSkill>()
     let masterSkills = List<UserSkill>()
+    let socialAccountProviders = List<UserSocialAccountProvider>()
 
     var messages: [Message] {
         return linkingObjects(Message.self, forProperty: "fromFriend")

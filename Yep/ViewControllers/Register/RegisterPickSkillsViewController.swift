@@ -10,8 +10,12 @@ import UIKit
 
 class RegisterPickSkillsViewController: UIViewController {
 
+    var isRegister = true
+    var afterChangeSkillsAction: ((masterSkills: [Skill], learningSkills: [Skill]) -> Void)?
+
     @IBOutlet weak var skillsCollectionView: UICollectionView!
 
+    @IBOutlet weak var doneButton: UIButton!
 
     var masterSkills = [Skill]()
     var learningSkills = [Skill]()
@@ -37,6 +41,15 @@ class RegisterPickSkillsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if !isRegister {
+            doneButton.hidden = true
+
+            let doneBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "saveSkills:")
+            navigationItem.rightBarButtonItem = doneBarButton
+
+            title = NSLocalizedString("Change Skills", comment: "")
+        }
+
         skillsCollectionView.registerNib(UINib(nibName: addSkillsReusableViewIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: addSkillsReusableViewIdentifier)
         skillsCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
         skillsCollectionView.registerNib(UINib(nibName: skillSelectionCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillSelectionCellIdentifier)
@@ -54,7 +67,7 @@ class RegisterPickSkillsViewController: UIViewController {
 
     // MARK: Actions
 
-    @IBAction func saveSkills(sender: UIButton) {
+    @IBAction func saveSkills(sender: AnyObject) {
 
         let addSkillsGroup = dispatch_group_create()
 
@@ -83,8 +96,16 @@ class RegisterPickSkillsViewController: UIViewController {
         }
 
         dispatch_group_notify(addSkillsGroup, dispatch_get_main_queue()) {
-            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-                appDelegate.startMainStory()
+
+            if self.isRegister {
+                if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                    appDelegate.startMainStory()
+                }
+
+            } else {
+                self.navigationController?.popViewControllerAnimated(true)
+
+                self.afterChangeSkillsAction?(masterSkills: self.masterSkills, learningSkills: self.learningSkills)
             }
         }
     }
@@ -132,6 +153,12 @@ class RegisterPickSkillsViewController: UIViewController {
                                 if masterSkill == skill {
                                     self.masterSkills.removeAtIndex(index)
 
+                                    if !self.isRegister {
+                                        deleteSkill(skill, fromSkillSet: .Master, failureHandler: nil, completion: { success in
+                                            println("deleteSkill \(skill.localName) from Master: \(success)")
+                                        })
+                                    }
+
                                     success = true
 
                                     break
@@ -149,6 +176,12 @@ class RegisterPickSkillsViewController: UIViewController {
                             for (index, learningSkill) in enumerate(self.learningSkills) {
                                 if learningSkill == skill {
                                     self.learningSkills.removeAtIndex(index)
+
+                                    if !self.isRegister {
+                                        deleteSkill(skill, fromSkillSet: .Learning, failureHandler: nil, completion: { success in
+                                            println("deleteSkill \(skill.localName) from Learning: \(success)")
+                                        })
+                                    }
 
                                     success = true
 

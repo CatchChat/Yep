@@ -175,7 +175,7 @@ extension UIImage {
         let cgImage = CGImageCreateWithImageInRect(self.CGImage, rect)
         return UIImage(CGImage: cgImage)!
     }
-
+/*
     private func bubblePathWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize) -> UIBezierPath {
         let scale = UIScreen.mainScreen().scale
 
@@ -265,6 +265,7 @@ extension UIImage {
 
         return bubbleImage
     }
+*/
 }
 
 extension UIImage {
@@ -295,4 +296,85 @@ extension UIImage {
 
         return tintedImage
     }
+}
+
+extension UIImage {
+
+    func renderAtSize(size: CGSize) -> UIImage {
+
+        UIGraphicsBeginImageContextWithOptions(size, false, 0) // key
+
+        let context = UIGraphicsGetCurrentContext()
+
+        drawInRect(CGRect(origin: CGPointZero, size: size))
+
+        let cgImage = CGBitmapContextCreateImage(context)
+
+        let image = UIImage(CGImage: cgImage)!
+
+        UIGraphicsEndImageContext()
+
+        return image
+    }
+
+    func maskWithImage(maskImage: UIImage) -> UIImage {
+
+        let scale = UIScreen.mainScreen().scale
+        UIGraphicsBeginImageContextWithOptions(self.size, false, scale)
+
+        let context = UIGraphicsGetCurrentContext()
+
+        var transform = CGAffineTransformConcat(CGAffineTransformIdentity, CGAffineTransformMakeScale(1.0, -1.0))
+        transform = CGAffineTransformConcat(transform, CGAffineTransformMakeTranslation(0.0, self.size.height))
+        CGContextConcatCTM(context, transform)
+
+        let drawRect = CGRect(origin: CGPointZero, size: self.size)
+
+        CGContextClipToMask(context, drawRect, maskImage.CGImage)
+
+        CGContextDrawImage(context, drawRect, self.CGImage)
+
+        let roundImage = UIGraphicsGetImageFromCurrentImageContext()
+
+        UIGraphicsEndImageContext()
+
+        return roundImage
+    }
+
+    struct BubbleMaskImage {
+
+        static let leftTail: UIImage = {
+            let scale = UIScreen.mainScreen().scale
+            let orientation: UIImageOrientation = .Up
+            var maskImage = UIImage(CGImage: UIImage(named: "left_tail_image_bubble")!.CGImage, scale: scale, orientation: orientation)!
+            maskImage = maskImage.resizableImageWithCapInsets(UIEdgeInsets(top: 25, left: 27, bottom: 20, right: 20), resizingMode: UIImageResizingMode.Stretch)
+            return maskImage
+            }()
+
+        static let rightTail: UIImage = {
+            let scale = UIScreen.mainScreen().scale
+            let orientation: UIImageOrientation = .UpMirrored
+            var maskImage = UIImage(CGImage: UIImage(named: "left_tail_image_bubble")!.CGImage, scale: scale, orientation: orientation)!
+            maskImage = maskImage.resizableImageWithCapInsets(UIEdgeInsets(top: 25, left: 27, bottom: 20, right: 20), resizingMode: UIImageResizingMode.Stretch)
+            return maskImage
+            }()
+    }
+
+    func bubbleImageWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize) -> UIImage {
+
+        let orientation: UIImageOrientation = tailDirection == .Left ? .Up : .UpMirrored
+
+        let maskImage: UIImage
+
+        if tailDirection == .Left {
+            maskImage = BubbleMaskImage.leftTail.renderAtSize(size)
+        } else {
+            maskImage = BubbleMaskImage.rightTail.renderAtSize(size)
+        }
+
+        let bubbleImage = self.fixRotation().cropToAspectRatio(size.width / size.height).resizeToTargetSize(size).maskWithImage(maskImage)
+
+        return bubbleImage
+    }
+
 }

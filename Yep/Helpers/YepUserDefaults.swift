@@ -12,6 +12,7 @@ import RealmSwift
 let v1AccessTokenKey = "v1AccessToken"
 let userIDKey = "userID"
 let nicknameKey = "nickname"
+let introductionKey = "introduction"
 let avatarURLStringKey = "avatarURLString"
 let pusherIDKey = "pusherID"
 
@@ -130,6 +131,26 @@ class YepUserDefaults {
                 me = userWithUserID(myUserID, inRealm: realm) {
                     realm.beginWrite()
                     me.nickname = nickname
+                    realm.commitWrite()
+            }
+        }
+        }()
+
+    static var introduction: Listenable<String?> = {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let introduction = defaults.stringForKey(introductionKey)
+
+        return Listenable<String?>(introduction) { introduction in
+            defaults.setObject(introduction, forKey: introductionKey)
+
+            let realm = Realm()
+
+            if let
+                introduction = introduction,
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID, inRealm: realm) {
+                    realm.beginWrite()
+                    me.introduction = introduction
                     realm.commitWrite()
             }
         }

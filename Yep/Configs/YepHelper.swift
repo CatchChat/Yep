@@ -8,11 +8,32 @@
 
 import Foundation
 
-func delay(delay:Double, closure:()->()) {
-    dispatch_after(
-        dispatch_time(
-            DISPATCH_TIME_NOW,
-            Int64(delay * Double(NSEC_PER_SEC))
-        ),
-        dispatch_get_main_queue(), closure)
+typealias CancelableTask = (cancel: Bool) -> Void
+
+func delay(time: NSTimeInterval, work: dispatch_block_t) -> CancelableTask? {
+
+    var finalTask: CancelableTask?
+
+    var cancelableTask: CancelableTask = { cancel in
+        if cancel {
+            finalTask = nil // key
+
+        } else {
+            dispatch_async(dispatch_get_main_queue(), work)
+        }
+    }
+
+    finalTask = cancelableTask
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+        if let task = finalTask {
+            task(cancel: false)
+        }
+    }
+
+    return finalTask
+}
+
+func cancel(cancelableTask: CancelableTask?) {
+    cancelableTask?(cancel: true)
 }

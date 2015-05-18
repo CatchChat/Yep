@@ -15,7 +15,12 @@ class SettingsViewController: UIViewController {
     let settingsUserCellIdentifier = "SettingsUserCell"
     let settingsMoreCellIdentifier = "SettingsMoreCell"
 
-    let intro = "I'm good at iOS Development and Singing. Come here, let me teach you." // TODO: User Intro
+    var introduction: String {
+        get {
+            return YepUserDefaults.introduction.value ?? NSLocalizedString("No Introduction yet.", comment: "")
+        }
+    }
+
     let moreAnnotations: [String] = [
         NSLocalizedString("Notifications", comment: ""),
         NSLocalizedString("Feedback", comment: ""),
@@ -64,7 +69,6 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
         case Section.User.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(settingsUserCellIdentifier) as! SettingsUserCell
-            cell.introLabel.text = intro
             return cell
 
         case Section.More.rawValue:
@@ -85,7 +89,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             let tableViewWidth = CGRectGetWidth(settingsTableView.bounds)
             let introLabelMaxWidth = tableViewWidth - YepConfig.Settings.introInset
 
-            let rect = intro.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: introAttributes, context: nil)
+            let rect = introduction.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: introAttributes, context: nil)
 
             let height = max(20 + 10 + 22 + 8 + ceil(rect.height) + 20, 20 + YepConfig.Settings.userCellAvatarSize + 20)
 

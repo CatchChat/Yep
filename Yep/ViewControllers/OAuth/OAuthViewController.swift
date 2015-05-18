@@ -12,6 +12,7 @@ import WebViewJavascriptBridge
 class OAuthViewController: UIViewController, UIWebViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate {
 
     var socialAccount: SocialAccount!
+    var afterOAuthAction: ((socialAccount: SocialAccount) -> Void)?
 
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -47,6 +48,11 @@ class OAuthViewController: UIViewController, UIWebViewDelegate, NSURLConnectionD
 
                     }, completion: { provider in
                         println(provider)
+
+                        if let afterOAuthAction = self.afterOAuthAction {
+                            afterOAuthAction(socialAccount: self.socialAccount)
+                        }
+
                         // TODO: 解析 socialAccount Provider
                     })
 

@@ -98,6 +98,8 @@ class ProfileViewController: CustomNavigationBarViewController {
     let sectionFooterIdentifier = "ProfileSectionFooterReusableView"
     let separationLineCellIdentifier = "ProfileSeparationLineCell"
     let socialAccountCellIdentifier = "ProfileSocialAccountCell"
+    let socialAccountImagesCellIdentifier = "ProfileSocialAccountImagesCell"
+    let socialAccountGithubCellIdentifier = "ProfileSocialAccountGithubCell"
 
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.profileCollectionView.bounds)
@@ -106,19 +108,61 @@ class ProfileViewController: CustomNavigationBarViewController {
     lazy var sectionRightEdgeInset: CGFloat = { return YepConfig.Profile.rightEdgeInset }()
     lazy var sectionBottomEdgeInset: CGFloat = { return 0 }()
 
-    let introductionText = "I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃"
+    lazy var introductionText: String = {
+
+        var introduction: String?
+
+        if let profileUser = self.profileUser {
+            switch profileUser {
+                
+            case .DiscoveredUserType(let discoveredUser):
+                if let _introduction = discoveredUser.introduction {
+                    if !_introduction.isEmpty {
+                        introduction = _introduction
+                    }
+                }
+
+            case .UserType(let user):
+                if !user.introduction.isEmpty {
+                    introduction = user.introduction
+                }
+            }
+
+        } else {
+            introduction = YepUserDefaults.introduction.value
+
+            YepUserDefaults.introduction.bindListener("Profile.introductionText") { introduction in
+                if let introduction = introduction {
+                    self.introductionText = introduction
+                    self.updateProfileCollectionView()
+                }
+            }
+        }
+
+        return introduction ?? NSLocalizedString("No Introduction yet.", comment: "")
+        }()
 
     var masterSkills = [Skill]()
     var learningSkills = [Skill]()
 
+    typealias SocialWorkProviderInfo = [String: Bool]
+    var socialWorkProviderInfo = SocialWorkProviderInfo()
+
+    var dribbbleWork: DribbbleWork?
+    var instagramWork: InstagramWork?
+    var githubWork: GithubWork?
+
+
     let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
 
-    lazy var footerCellHeight: CGFloat = {
-        let attributes = [NSFontAttributeName: YepConfig.Profile.introductionLabelFont]
-        let labelWidth = self.collectionViewWidth - (YepConfig.Profile.leftEdgeInset + YepConfig.Profile.rightEdgeInset)
-        let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes:attributes, context:nil)
-        return ceil(rect.height) + 4
-        }()
+    var footerCellHeight: CGFloat {
+        get {
+            let attributes = [NSFontAttributeName: YepConfig.Profile.introductionLabelFont]
+            let labelWidth = self.collectionViewWidth - (YepConfig.Profile.leftEdgeInset + YepConfig.Profile.rightEdgeInset)
+            let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes:attributes, context:nil)
+            return ceil(rect.height) + 4
+        }
+    }
 
 
     override func viewDidLoad() {
@@ -129,6 +173,8 @@ class ProfileViewController: CustomNavigationBarViewController {
         profileCollectionView.registerNib(UINib(nibName: footerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: footerCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: separationLineCellIdentifier, bundle: nil), forCellWithReuseIdentifier: separationLineCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: socialAccountCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountCellIdentifier)
+        profileCollectionView.registerNib(UINib(nibName: socialAccountImagesCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountImagesCellIdentifier)
+        profileCollectionView.registerNib(UINib(nibName: socialAccountGithubCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountGithubCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: sectionHeaderIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: sectionHeaderIdentifier)
         profileCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: sectionFooterIdentifier)
 
@@ -164,17 +210,30 @@ class ProfileViewController: CustomNavigationBarViewController {
             profileCollectionView.contentInset.bottom = sayHiView.bounds.height
 
         } else {
-            userInfo(failureHandler: nil) { userInfo in
-                if let skillsData = userInfo["master_skills"] as? [JSONDictionary] {
-                    self.masterSkills = skillsFromSkillsData(skillsData)
-                }
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                userInfo(failureHandler: nil) { userInfo in
 
-                if let skillsData = userInfo["learning_skills"] as? [JSONDictionary] {
-                    self.learningSkills = skillsFromSkillsData(skillsData)
-                }
+                    //println("userInfo: \(userInfo)")
 
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.profileCollectionView.reloadData()
+                    if let introduction = userInfo["introduction"] as? String {
+                        YepUserDefaults.introduction.value = introduction
+                    }
+
+                    if let skillsData = userInfo["master_skills"] as? [JSONDictionary] {
+                        self.masterSkills = skillsFromSkillsData(skillsData)
+                    }
+
+                    if let skillsData = userInfo["learning_skills"] as? [JSONDictionary] {
+                        self.learningSkills = skillsFromSkillsData(skillsData)
+                    }
+
+                    if let providerInfo = userInfo["providers"] as? SocialWorkProviderInfo {
+                        self.socialWorkProviderInfo = providerInfo
+                    }
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.profileCollectionView.reloadData()
+                    }
                 }
             }
 
@@ -212,11 +271,57 @@ class ProfileViewController: CustomNavigationBarViewController {
                 let nvc = segue.destinationViewController as! UINavigationController
                 let vc = nvc.topViewController as! OAuthViewController
                 vc.socialAccount = SocialAccount(rawValue: item)
+
+                vc.afterOAuthAction = { socialAccount in
+                    // 更新自己的 provider enabled 状态
+                    let providerName = socialAccount.description.lowercaseString
+                    self.socialWorkProviderInfo[providerName] = true
+                }
+            }
+
+        } else if segue.identifier == "showSocialWorkGithub" {
+            if let item = sender as? Int {
+                let vc = segue.destinationViewController as! SocialWorkGithubViewController
+                vc.socialAccount = SocialAccount(rawValue: item)
+                vc.profileUser = profileUser
+                vc.githubWork = githubWork
+
+                vc.afterGetGithubWork = { githubWork in
+                    self.githubWork = githubWork
+                }
+            }
+
+        } else if segue.identifier == "showSocialWorkDribbble" {
+            if let item = sender as? Int {
+                let vc = segue.destinationViewController as! SocialWorkDribbbleViewController
+                vc.socialAccount = SocialAccount(rawValue: item)
+                vc.profileUser = profileUser
+                vc.dribbbleWork = dribbbleWork
+
+                vc.afterGetDribbbleWork = { dribbbleWork in
+                    self.dribbbleWork = dribbbleWork
+                }
+            }
+
+        } else if segue.identifier == "showSocialWorkInstagram" {
+            if let item = sender as? Int {
+                let vc = segue.destinationViewController as! SocialWorkInstagramViewController
+                vc.socialAccount = SocialAccount(rawValue: item)
+                vc.profileUser = profileUser
+                vc.instagramWork = instagramWork
+
+                vc.afterGetInstagramWork = { instagramWork in
+                    self.instagramWork = instagramWork
+                }
             }
         }
     }
 
     // MARK: Actions
+
+    func updateProfileCollectionView() {
+        self.profileCollectionView.reloadData()
+    }
 
     @IBAction func sayHi(sender: UIButton) {
 
@@ -449,18 +554,56 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return cell
             
         case ProfileSection.SocialAccount.rawValue:
-            
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountCell
-            
-            if let socialAccount = SocialAccount(rawValue: indexPath.row) {
-                cell.iconImageView.image = UIImage(named: socialAccount.iconName)
-                cell.nameLabel.text = socialAccount.description
-                cell.iconImageView.tintColor = socialAccount.tintColor
-                cell.nameLabel.textColor = socialAccount.tintColor
-            }
-            
-            return cell
 
+            if let socialAccount = SocialAccount(rawValue: indexPath.row) {
+
+                if socialAccount == .Github {
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountGithubCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountGithubCell
+
+                    cell.configureWithProfileUser(profileUser, orSocialWorkProviderInfo: socialWorkProviderInfo, socialAccount: socialAccount, githubWork: githubWork, completion: { githubWork in
+                        self.githubWork = githubWork
+                    })
+                    
+                    return cell
+
+                } else {
+
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountImagesCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountImagesCell
+
+                    var socialWork: SocialWork?
+
+                    switch socialAccount {
+
+                    case .Dribbble:
+                        if let dribbbleWork = dribbbleWork {
+                            socialWork = SocialWork.Dribbble(dribbbleWork)
+                        }
+
+                    case .Instagram:
+                        if let instagramWork = instagramWork {
+                            socialWork = SocialWork.Instagram(instagramWork)
+                        }
+
+                    default:
+                        break
+                    }
+
+                    cell.configureWithProfileUser(profileUser, orSocialWorkProviderInfo: socialWorkProviderInfo, socialAccount: socialAccount, socialWork: socialWork, completion: { socialWork in
+                        switch socialWork {
+                        case .Dribbble(let dribbbleWork):
+                            self.dribbbleWork = dribbbleWork
+                        case .Instagram(let instagramWork):
+                            self.instagramWork = instagramWork
+                        }
+                    })
+                    
+                    return cell
+                }
+
+            } else {
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountCell
+                return cell
+            }
 
         default:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
@@ -485,6 +628,26 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             default:
                 header.titleLabel.text = ""
+            }
+
+            header.tapAction = {
+                let storyboard = UIStoryboard(name: "Intro", bundle: nil)
+                let pickSkillsController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickSkillsViewController") as! RegisterPickSkillsViewController
+
+                pickSkillsController.isRegister = false
+                pickSkillsController.masterSkills = self.masterSkills
+                pickSkillsController.learningSkills = self.learningSkills
+
+                pickSkillsController.afterChangeSkillsAction = { masterSkills, learningSkills in
+                    self.masterSkills = masterSkills
+                    self.learningSkills = learningSkills
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.updateProfileCollectionView()
+                    }
+                }
+
+                self.navigationController?.pushViewController(pickSkillsController, animated: true)
             }
 
             return header
@@ -606,10 +769,56 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             
         } else if indexPath.section == ProfileSection.SocialAccount.rawValue {
 
-            performSegueWithIdentifier("presentOAuth", sender: indexPath.item)
+            if let socialAccount = SocialAccount(rawValue: indexPath.item) {
+
+                let providerName = socialAccount.description.lowercaseString
+
+                if let profileUser = profileUser {
+
+                    switch profileUser {
+                        
+                    case .DiscoveredUserType(let discoveredUser):
+                        for provider in discoveredUser.socialAccountProviders {
+                            if (provider.name == providerName) && provider.enabled {
+                                performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
+
+                                break
+                            }
+                        }
+
+                    case .UserType(let user):
+                        for provider in user.socialAccountProviders {
+                            if (provider.name == providerName) && provider.enabled {
+                                performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
+
+                                break
+                            }
+                        }
+                    }
+
+                } else {
+                    if let enabled = socialWorkProviderInfo[providerName] {
+                        if enabled {
+                            performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
+
+                            return
+                        }
+                    }
+
+                    performSegueWithIdentifier("presentOAuth", sender: indexPath.item)
+                }
+            }
         }
 
     }
 }
 
+extension ProfileViewController: UIScrollViewDelegate {
+
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if scrollView.contentOffset.y < -300 {
+            YepAlert.alert(title: "Hello", message: "How are you?", dismissTitle: "I'm fine.", inViewController: self, withDismissAction: nil)
+        }
+    }
+}
 
