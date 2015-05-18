@@ -46,6 +46,8 @@ class RegisterPickSkillsViewController: UIViewController {
 
             let doneBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "saveSkills:")
             navigationItem.rightBarButtonItem = doneBarButton
+
+            title = NSLocalizedString("Change Skills", comment: "")
         }
 
         skillsCollectionView.registerNib(UINib(nibName: addSkillsReusableViewIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: addSkillsReusableViewIdentifier)
@@ -149,6 +151,12 @@ class RegisterPickSkillsViewController: UIViewController {
                                 if masterSkill == skill {
                                     self.masterSkills.removeAtIndex(index)
 
+                                    if !self.isRegister {
+                                        deleteSkill(skill, fromSkillSet: .Master, failureHandler: nil, completion: { success in
+                                            println("deleteSkill \(skill.localName) from Master: \(success)")
+                                        })
+                                    }
+
                                     success = true
 
                                     break
@@ -166,6 +174,12 @@ class RegisterPickSkillsViewController: UIViewController {
                             for (index, learningSkill) in enumerate(self.learningSkills) {
                                 if learningSkill == skill {
                                     self.learningSkills.removeAtIndex(index)
+
+                                    if !self.isRegister {
+                                        deleteSkill(skill, fromSkillSet: .Learning, failureHandler: nil, completion: { success in
+                                            println("deleteSkill \(skill.localName) from Learning: \(success)")
+                                        })
+                                    }
 
                                     success = true
 
