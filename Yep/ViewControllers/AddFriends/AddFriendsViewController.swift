@@ -22,7 +22,7 @@ class AddFriendsViewController: UIViewController {
 
 
         addFriendsTableView.rowHeight = 60
-        
+
         addFriendsTableView.registerNib(UINib(nibName: addFriendSearchCellIdentifier, bundle: nil), forCellReuseIdentifier: addFriendSearchCellIdentifier)
         addFriendsTableView.registerNib(UINib(nibName: addFriendMoreCellIdentifier, bundle: nil), forCellReuseIdentifier: addFriendMoreCellIdentifier)
     }
@@ -48,6 +48,28 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
+    enum More: Int, Printable {
+        case Contacts
+        case FaceToFace
+
+        static var caseCount: Int {
+            var max: Int = 0
+            while let _ = self(rawValue: ++max) {}
+            return max
+        }
+
+        var description: String {
+            switch self {
+
+            case .Contacts:
+                return NSLocalizedString("Friends in Contacts", comment: "")
+                
+            case .FaceToFace:
+                return NSLocalizedString("Face to Face", comment: "")
+            }
+        }
+    }
+
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return Section.caseCount
     }
@@ -59,7 +81,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
             return 1
 
         case Section.More.rawValue:
-            return 2
+            return More.caseCount
 
         default:
             return 0
@@ -75,6 +97,9 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
         case Section.More.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(addFriendMoreCellIdentifier) as! AddFriendMoreCell
+
+            cell.annotationLabel.text = More(rawValue: indexPath.row)?.description
+
             return cell
 
         default:
