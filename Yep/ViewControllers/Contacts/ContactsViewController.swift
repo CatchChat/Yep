@@ -40,6 +40,12 @@ class ContactsViewController: UIViewController {
         contactsTableView.reloadData()
     }
 
+    // MARK: Actions
+
+    @IBAction func presentAddFriends(sender: UIBarButtonItem) {
+        performSegueWithIdentifier("presentAddFriends", sender: nil)
+    }
+
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
