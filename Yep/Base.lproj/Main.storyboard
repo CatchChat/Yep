@@ -659,7 +659,24 @@
                     <view key="view" contentMode="scaleToFill" id="Dtr-6Z-xvc">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="RWL-Ot-i1T">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <sections/>
+                                <connections>
+                                    <outlet property="dataSource" destination="4Ji-K6-SJn" id="kdl-Q6-Ot3"/>
+                                    <outlet property="delegate" destination="4Ji-K6-SJn" id="wRO-6V-kYS"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="RWL-Ot-i1T" firstAttribute="leading" secondItem="Dtr-6Z-xvc" secondAttribute="leading" id="0eK-UP-PJP"/>
+                            <constraint firstAttribute="trailing" secondItem="RWL-Ot-i1T" secondAttribute="trailing" id="W9g-oW-JQX"/>
+                            <constraint firstAttribute="bottom" secondItem="RWL-Ot-i1T" secondAttribute="bottom" id="ffK-oF-sgC"/>
+                            <constraint firstItem="RWL-Ot-i1T" firstAttribute="top" secondItem="Dtr-6Z-xvc" secondAttribute="top" id="xMx-Gt-bzW"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="7hc-4a-qfO">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="0sg-UK-woz">
@@ -668,6 +685,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="addFriendsTableView" destination="RWL-Ot-i1T" id="znz-Hj-dRa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8KG-Vq-jhm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

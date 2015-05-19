@@ -106,6 +106,8 @@
 		505EC81C1ADFBE1B001D27E0 /* SkillSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505EC81A1ADFBE1B001D27E0 /* SkillSelectionCell.swift */; };
 		505EC81D1ADFBE1B001D27E0 /* SkillSelectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505EC81B1ADFBE1B001D27E0 /* SkillSelectionCell.xib */; };
 		5064F6501B0AE2E60089FAD4 /* AddFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5064F64F1B0AE2E60089FAD4 /* AddFriendsViewController.swift */; };
+		5064F6541B0B0E160089FAD4 /* AddFriendSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5064F6521B0B0E160089FAD4 /* AddFriendSearchCell.swift */; };
+		5064F6551B0B0E160089FAD4 /* AddFriendSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5064F6531B0B0E160089FAD4 /* AddFriendSearchCell.xib */; };
 		506923121ADE025200D27574 /* Waver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506923111ADE025200D27574 /* Waver.swift */; };
 		506923141ADE025F00D27574 /* YepRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506923131ADE025F00D27574 /* YepRefreshView.swift */; };
 		506BB7F51AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506BB7F31AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift */; };
@@ -302,6 +304,8 @@
 		505EC81A1ADFBE1B001D27E0 /* SkillSelectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillSelectionCell.swift; path = Views/Cells/SkillSelection/SkillSelectionCell.swift; sourceTree = "<group>"; };
 		505EC81B1ADFBE1B001D27E0 /* SkillSelectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillSelectionCell.xib; path = Views/Cells/SkillSelection/SkillSelectionCell.xib; sourceTree = "<group>"; };
 		5064F64F1B0AE2E60089FAD4 /* AddFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddFriendsViewController.swift; path = ViewControllers/AddFriends/AddFriendsViewController.swift; sourceTree = "<group>"; };
+		5064F6521B0B0E160089FAD4 /* AddFriendSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddFriendSearchCell.swift; path = Views/Cells/AddFriendSearch/AddFriendSearchCell.swift; sourceTree = "<group>"; };
+		5064F6531B0B0E160089FAD4 /* AddFriendSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddFriendSearchCell.xib; path = Views/Cells/AddFriendSearch/AddFriendSearchCell.xib; sourceTree = "<group>"; };
 		506923111ADE025200D27574 /* Waver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Waver.swift; path = Views/AudioWaves/Waver.swift; sourceTree = "<group>"; };
 		506923131ADE025F00D27574 /* YepRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepRefreshView.swift; path = Views/PullToRefresh/YepRefreshView.swift; sourceTree = "<group>"; };
 		506BB7F31AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillAnnotationHeader.swift; path = Views/ReusableViews/SkillAnnotationHeader/SkillAnnotationHeader.swift; sourceTree = "<group>"; };
@@ -701,6 +705,7 @@
 				508F8FD21B01D04F00461B0B /* GithubRepo */,
 				508F8FD91B01EDBC00461B0B /* DribbbleShot */,
 				508F8FE01B049AD400461B0B /* InstagramMedia */,
+				5064F6561B0B0E1B0089FAD4 /* AddFriendSearch */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -971,6 +976,15 @@
 				5064F64F1B0AE2E60089FAD4 /* AddFriendsViewController.swift */,
 			);
 			name = AddFriends;
+			sourceTree = "<group>";
+		};
+		5064F6561B0B0E1B0089FAD4 /* AddFriendSearch */ = {
+			isa = PBXGroup;
+			children = (
+				5064F6521B0B0E160089FAD4 /* AddFriendSearchCell.swift */,
+				5064F6531B0B0E160089FAD4 /* AddFriendSearchCell.xib */,
+			);
+			name = AddFriendSearch;
 			sourceTree = "<group>";
 		};
 		506BB7F71AE4E0AA00C1A2A0 /* SkillAnnotationHeader */ = {
@@ -1390,6 +1404,7 @@
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
 				50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */,
 				0A90187F1B01152800AE4B7F /* ProfileSocialAccountCell.xib in Resources */,
+				5064F6551B0B0E160089FAD4 /* AddFriendSearchCell.xib in Resources */,
 				508F8FC91B0161EF00461B0B /* ProfileSeparationLineCell.xib in Resources */,
 				50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */,
 				508D17481ACCF4710092D666 /* ChatLeftAudioCell.xib in Resources */,
@@ -1545,6 +1560,7 @@
 				508F8FD41B01E3D100461B0B /* SocialWorkDribbbleViewController.swift in Sources */,
 				50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */,
 				502AE5331AB86020005BD199 /* RegisterVerifyMobileViewController.swift in Sources */,
+				5064F6541B0B0E160089FAD4 /* AddFriendSearchCell.swift in Sources */,
 				0A1CAC6E1AFA42D400826B45 /* SkillHomeViewController.swift in Sources */,
 				502AE5401AB88862005BD199 /* SkillRankCell.swift in Sources */,
 				50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */,
