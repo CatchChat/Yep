@@ -15,17 +15,23 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ydA-Yz-mX6">
                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                     </imageView>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="udX-9O-RC5">
+                        <rect key="frame" x="90" y="90" width="20" height="20"/>
+                    </activityIndicatorView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="ydA-Yz-mX6" secondAttribute="bottom" id="3ZW-IL-atz"/>
                 <constraint firstAttribute="trailing" secondItem="ydA-Yz-mX6" secondAttribute="trailing" id="A2b-hi-zPH"/>
+                <constraint firstAttribute="centerX" secondItem="udX-9O-RC5" secondAttribute="centerX" id="FWk-gJ-Kti"/>
                 <constraint firstItem="ydA-Yz-mX6" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="TCV-Po-yFh"/>
+                <constraint firstAttribute="centerY" secondItem="udX-9O-RC5" secondAttribute="centerY" id="cu2-G7-zBb"/>
                 <constraint firstItem="ydA-Yz-mX6" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="gnE-JW-kb2"/>
             </constraints>
             <size key="customSize" width="174" height="147"/>
             <connections>
+                <outlet property="activityIndicator" destination="udX-9O-RC5" id="KD3-e1-jav"/>
                 <outlet property="imageView" destination="ydA-Yz-mX6" id="MOe-Bk-O8a"/>
             </connections>
             <point key="canvasLocation" x="330" y="469.5"/>

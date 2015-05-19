@@ -122,7 +122,7 @@ extension SocialWorkDribbbleViewController: UICollectionViewDataSource, UICollec
 
         let shot = dribbbleShots[indexPath.item]
 
-        cell.imageView.kf_setImageWithURL(NSURL(string: shot.images.normal)!)
+        cell.configureWithDribbbleShot(shot)
 
         return cell
     }
