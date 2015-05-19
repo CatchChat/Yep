@@ -29,7 +29,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="rWz-Jb-Xgj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="GZU-3e-Nos"/>
-                    <constraint firstAttribute="centerY" secondItem="rWz-Jb-Xgj" secondAttribute="centerY" constant="-0.5" id="KWc-LJ-REX"/>
+                    <constraint firstAttribute="centerY" secondItem="rWz-Jb-Xgj" secondAttribute="centerY" id="KWc-LJ-REX"/>
                     <constraint firstAttribute="trailing" secondItem="g81-Zw-MIi" secondAttribute="trailing" constant="20" id="Pbg-ZQ-Wwu"/>
                     <constraint firstItem="g81-Zw-MIi" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rWz-Jb-Xgj" secondAttribute="trailing" constant="10" id="XiB-7u-nzk"/>
                     <constraint firstAttribute="centerY" secondItem="g81-Zw-MIi" secondAttribute="centerY" id="f3M-TT-UGK"/>

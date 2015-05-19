@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddFriendMoreCell" id="KGk-i7-Jjw" customClass="AddFriendMoreCell" customModule="Yep" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="More" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rFJ-sX-tIW" userLabel="Annotation Label">
+                        <rect key="frame" x="20" y="11" width="40" height="22"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory" translatesAutoresizingMaskIntoConstraints="NO" id="kCv-aC-1z1" userLabel="Accessory Image View">
+                        <rect key="frame" x="289" y="12" width="11" height="20"/>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="kCv-aC-1z1" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rFJ-sX-tIW" secondAttribute="trailing" constant="10" id="0De-1O-4MH"/>
+                    <constraint firstItem="rFJ-sX-tIW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="A1H-Lw-FVI"/>
+                    <constraint firstAttribute="centerY" secondItem="rFJ-sX-tIW" secondAttribute="centerY" id="CCq-gC-j1w"/>
+                    <constraint firstAttribute="centerY" secondItem="kCv-aC-1z1" secondAttribute="centerY" id="LKT-hk-b97"/>
+                    <constraint firstAttribute="trailing" secondItem="kCv-aC-1z1" secondAttribute="trailing" constant="20" id="bDU-de-Kdw"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="accessoryImageView" destination="kCv-aC-1z1" id="v40-9S-4Ce"/>
+                <outlet property="annotationLabel" destination="rFJ-sX-tIW" id="BkL-Ji-WWZ"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon_accessory" width="11" height="20"/>
+    </resources>
+</document>

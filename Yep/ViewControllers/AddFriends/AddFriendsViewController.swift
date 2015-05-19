@@ -13,6 +13,7 @@ class AddFriendsViewController: UIViewController {
     @IBOutlet weak var addFriendsTableView: UITableView!
 
     let addFriendSearchCellIdentifier = "AddFriendSearchCell"
+    let addFriendMoreCellIdentifier = "AddFriendMoreCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +21,10 @@ class AddFriendsViewController: UIViewController {
         title = NSLocalizedString("Add Friends", comment: "")
 
 
+        addFriendsTableView.rowHeight = 60
+        
         addFriendsTableView.registerNib(UINib(nibName: addFriendSearchCellIdentifier, bundle: nil), forCellReuseIdentifier: addFriendSearchCellIdentifier)
+        addFriendsTableView.registerNib(UINib(nibName: addFriendMoreCellIdentifier, bundle: nil), forCellReuseIdentifier: addFriendMoreCellIdentifier)
     }
 
     // MARK: Actions
@@ -32,16 +36,49 @@ class AddFriendsViewController: UIViewController {
 }
 
 extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
+
+    enum Section: Int {
+        case Search = 0
+        case More
+
+        static var caseCount: Int {
+            var max: Int = 0
+            while let _ = self(rawValue: ++max) {}
+            return max
+        }
+    }
+
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return Section.caseCount
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        switch section {
+
+        case Section.Search.rawValue:
+            return 1
+
+        case Section.More.rawValue:
+            return 2
+
+        default:
+            return 0
+        }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(addFriendSearchCellIdentifier) as! AddFriendSearchCell
-        return cell
+        switch indexPath.section {
+
+        case Section.Search.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier(addFriendSearchCellIdentifier) as! AddFriendSearchCell
+            return cell
+
+        case Section.More.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier(addFriendMoreCellIdentifier) as! AddFriendMoreCell
+            return cell
+
+        default:
+            return UITableViewCell()
+        }
     }
 }
