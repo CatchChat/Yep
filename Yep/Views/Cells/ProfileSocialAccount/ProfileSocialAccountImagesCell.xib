@@ -27,21 +27,21 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ajW-JH-Ato" userLabel="Image View 3">
-                        <rect key="frame" x="198" y="42" width="30" height="24"/>
+                        <rect key="frame" x="191" y="42" width="30" height="24"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="fBc-oC-6ea"/>
                             <constraint firstAttribute="width" constant="30" id="kIa-uD-42o"/>
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T7K-fi-YkH" userLabel="Image View 2">
-                        <rect key="frame" x="234" y="42" width="30" height="24"/>
+                        <rect key="frame" x="227" y="42" width="30" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="30" id="BWO-7q-5mr"/>
                             <constraint firstAttribute="height" constant="24" id="NrH-Oe-YXT"/>
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8bD-nc-pyr" userLabel="Image View 1">
-                        <rect key="frame" x="270" y="42" width="30" height="24"/>
+                        <rect key="frame" x="263" y="42" width="30" height="24"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="9BQ-hK-QX5"/>
                             <constraint firstAttribute="width" constant="30" id="j7H-vy-jRr"/>
@@ -58,7 +58,7 @@
                 <constraint firstAttribute="centerY" secondItem="k0W-jb-dBy" secondAttribute="centerY" id="93M-47-iHw"/>
                 <constraint firstItem="T7K-fi-YkH" firstAttribute="centerY" secondItem="ajW-JH-Ato" secondAttribute="centerY" id="GFs-tA-SIC"/>
                 <constraint firstItem="Sof-ns-iri" firstAttribute="leading" secondItem="rgR-HE-TH9" secondAttribute="trailing" constant="15" id="GzD-kq-2ab"/>
-                <constraint firstItem="k0W-jb-dBy" firstAttribute="leading" secondItem="8bD-nc-pyr" secondAttribute="trailing" constant="8" id="OOt-Lv-vVa"/>
+                <constraint firstItem="k0W-jb-dBy" firstAttribute="leading" secondItem="8bD-nc-pyr" secondAttribute="trailing" constant="15" id="OOt-Lv-vVa"/>
                 <constraint firstAttribute="centerY" secondItem="rgR-HE-TH9" secondAttribute="centerY" constant="-0.5" id="QTz-Sv-Igi"/>
                 <constraint firstItem="T7K-fi-YkH" firstAttribute="centerY" secondItem="8bD-nc-pyr" secondAttribute="centerY" id="SO6-qi-dvx"/>
                 <constraint firstAttribute="trailing" secondItem="k0W-jb-dBy" secondAttribute="trailing" constant="38" id="Xpi-03-UW2"/>

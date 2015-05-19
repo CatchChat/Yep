@@ -27,16 +27,16 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_repo" translatesAutoresizingMaskIntoConstraints="NO" id="ul5-ZC-9eP" userLabel="Repos Image View">
-                        <rect key="frame" x="253" y="51" width="16" height="21"/>
+                        <rect key="frame" x="248" y="51" width="16" height="21"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kps-k7-AVl" userLabel="Repos Count Label">
-                        <rect key="frame" x="275" y="53" width="16" height="17"/>
+                        <rect key="frame" x="270" y="53" width="16" height="17"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="265" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0LO-nU-ZJO" userLabel="Stars Count Label">
-                        <rect key="frame" x="327" y="53" width="24" height="17"/>
+                        <rect key="frame" x="322" y="53" width="24" height="17"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -45,7 +45,7 @@
                         <rect key="frame" x="361" y="55" width="8" height="13"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_stars" translatesAutoresizingMaskIntoConstraints="NO" id="dPn-N6-z84" userLabel="Stars Image View">
-                        <rect key="frame" x="301" y="52" width="20" height="19"/>
+                        <rect key="frame" x="296" y="52" width="20" height="19"/>
                     </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -61,7 +61,7 @@
                 <constraint firstItem="lMb-I3-vEz" firstAttribute="leading" secondItem="p2m-Rs-2cq" secondAttribute="trailing" constant="15" id="dVk-zf-Zao"/>
                 <constraint firstItem="Kps-k7-AVl" firstAttribute="centerY" secondItem="ul5-ZC-9eP" secondAttribute="centerY" id="dmx-qb-Wmv"/>
                 <constraint firstItem="dPn-N6-z84" firstAttribute="centerY" secondItem="0LO-nU-ZJO" secondAttribute="centerY" id="gfd-D0-PJx"/>
-                <constraint firstItem="CR7-72-b7M" firstAttribute="leading" secondItem="0LO-nU-ZJO" secondAttribute="trailing" constant="10" id="q2f-5V-Ve7"/>
+                <constraint firstItem="CR7-72-b7M" firstAttribute="leading" secondItem="0LO-nU-ZJO" secondAttribute="trailing" constant="15" id="q2f-5V-Ve7"/>
                 <constraint firstItem="dPn-N6-z84" firstAttribute="leading" secondItem="Kps-k7-AVl" secondAttribute="trailing" constant="10" id="sJp-mY-mTK"/>
                 <constraint firstAttribute="centerY" secondItem="CR7-72-b7M" secondAttribute="centerY" id="yeV-e7-3Wj"/>
                 <constraint firstAttribute="centerY" secondItem="p2m-Rs-2cq" secondAttribute="centerY" id="zYc-Iv-GZo"/>
