@@ -15,17 +15,23 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MQU-6a-QTM">
                         <rect key="frame" x="0.0" y="0.0" width="140" height="140"/>
                     </imageView>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="qQJ-bT-n30">
+                        <rect key="frame" x="60" y="60" width="20" height="20"/>
+                    </activityIndicatorView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="MQU-6a-QTM" secondAttribute="bottom" id="DR5-ha-OcW"/>
                 <constraint firstItem="MQU-6a-QTM" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Kcd-lW-cVo"/>
+                <constraint firstAttribute="centerY" secondItem="qQJ-bT-n30" secondAttribute="centerY" id="Lxb-ef-SLg"/>
+                <constraint firstAttribute="centerX" secondItem="qQJ-bT-n30" secondAttribute="centerX" id="Mf9-fX-QNo"/>
                 <constraint firstItem="MQU-6a-QTM" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="q8C-RD-aiU"/>
                 <constraint firstAttribute="trailing" secondItem="MQU-6a-QTM" secondAttribute="trailing" id="tSw-Pz-L8c"/>
             </constraints>
             <size key="customSize" width="140" height="140"/>
             <connections>
+                <outlet property="activityIndicator" destination="qQJ-bT-n30" id="Yg0-s0-sYr"/>
                 <outlet property="imageView" destination="MQU-6a-QTM" id="Ca9-ln-KKQ"/>
             </connections>
             <point key="canvasLocation" x="352" y="243"/>

@@ -120,7 +120,7 @@ extension SocialWorkInstagramViewController: UICollectionViewDataSource, UIColle
 
         let media = instagramMedias[indexPath.item]
 
-        cell.imageView.kf_setImageWithURL(NSURL(string: media.images.lowResolution)!)
+        cell.configureWithInstagramMedia(media)
 
         return cell
     }
