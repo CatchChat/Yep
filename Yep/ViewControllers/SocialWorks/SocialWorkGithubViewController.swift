@@ -65,6 +65,7 @@ class SocialWorkGithubViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.whiteColor()
 
         if let socialAccount = socialAccount {
             let accountImageView = UIImageView(image: UIImage(named: socialAccount.iconName)!)
