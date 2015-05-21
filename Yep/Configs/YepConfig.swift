@@ -82,7 +82,7 @@ class YepConfig {
     struct Profile {
         static let leftEdgeInset: CGFloat = UIDevice.matchMarginFrom(20, 38, 40)
         static let rightEdgeInset: CGFloat = leftEdgeInset
-        static let introductionLabelFont = UIFont(name: "HelveticaNeue-Thin", size: 12)!
+        static let introductionLabelFont = UIFont(name: "Helvetica-Light", size: 14)!
     }
     
     struct Settings {

@@ -22,6 +22,7 @@ class ProfileFooterCell: UICollectionViewCell {
         instroductionLabelRightConstraint.constant = YepConfig.Profile.rightEdgeInset
 
         introductionLabel.font = YepConfig.Profile.introductionLabelFont
+        introductionLabel.textColor = UIColor.yepGrayColor()
     }
 
 }
