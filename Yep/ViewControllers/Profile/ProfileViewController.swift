@@ -771,7 +771,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         switch indexPath.section {
 
         case ProfileSection.Header.rawValue:
-            return CGSizeMake(collectionViewWidth, collectionViewWidth * profileAvatarAspectRatio)
+            return CGSize(width: collectionViewWidth, height: collectionViewWidth * profileAvatarAspectRatio)
 
         case ProfileSection.Master.rawValue:
             var skillLocalName = ""
@@ -791,7 +791,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
-            return CGSizeMake(rect.width + 24, SkillCell.height)
+            return CGSize(width: rect.width + 24, height: SkillCell.height)
 
         case ProfileSection.Learning.rawValue:
             var skillLocalName = ""
@@ -811,13 +811,13 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
-            return CGSizeMake(rect.width + 24, SkillCell.height)
+            return CGSize(width: rect.width + 24, height: SkillCell.height)
 
         case ProfileSection.Footer.rawValue:
-            return CGSizeMake(collectionViewWidth, footerCellHeight)
+            return CGSize(width: collectionViewWidth, height: footerCellHeight)
 
         case ProfileSection.SeparationLine.rawValue:
-            return CGSizeMake(collectionViewWidth, 1)
+            return CGSize(width: collectionViewWidth, height: 1)
             
         case ProfileSection.SocialAccount.rawValue:
             var enabled = true
@@ -829,7 +829,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 }
             }
 
-            return enabled ? CGSizeMake(collectionViewWidth, 40) : CGSizeZero
+            return enabled ? CGSize(width: collectionViewWidth, height: 40) : CGSizeZero
 
         default:
             return CGSizeZero
