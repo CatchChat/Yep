@@ -438,10 +438,15 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Discover" id="di2-g9-owW">
-                        <barButtonItem key="rightBarButtonItem" title="Nearby" id="mve-O6-ube"/>
+                        <barButtonItem key="rightBarButtonItem" title="Default" id="mve-O6-ube">
+                            <connections>
+                                <action selector="showMoreFilter:" destination="5NR-G1-qqW" id="qFK-V3-8qp"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="discoverTableView" destination="SPh-AI-uaZ" id="mB3-87-mQq"/>
+                        <outlet property="filterButtonItem" destination="mve-O6-ube" id="379-Fa-dSw"/>
                         <segue destination="AyC-pt-NR2" kind="show" identifier="showProfile" id="l4P-ds-ihU"/>
                     </connections>
                 </viewController>

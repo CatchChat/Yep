@@ -512,6 +512,7 @@ private func moreFriendships(inPage page: Int, withPerPage perPage: Int, #failur
 enum DiscoveredUserSortStyle: String {
     case Distance = "distance"
     case LastSignIn = "last_sign_in_at"
+    case Default = "default"
 }
 
 struct DiscoveredUser {

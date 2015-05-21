@@ -12,6 +12,8 @@ class DiscoverViewController: UIViewController {
 
     @IBOutlet weak var discoverTableView: UITableView!
     
+    @IBOutlet weak var filterButtonItem: UIBarButtonItem!
+    
     let cellIdentifier = "ContactsCell"
     
     var discoveredUsers = [DiscoveredUser]()
@@ -29,17 +31,52 @@ class DiscoverViewController: UIViewController {
         
         discoverTableView.delegate = self
 
+        refreshDiscoverUsersWithFilterType(.LastSignIn)
 
-        discoverUsers(masterSkills: [], learningSkills: [], discoveredUserSortStyle: .LastSignIn, failureHandler: { (reason, errorMessage) in
+    }
+    
+    func refreshDiscoverUsersWithFilterType(type: DiscoveredUserSortStyle) {
+        discoverUsers(masterSkills: [], learningSkills: [], discoveredUserSortStyle: type, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage)
-
-        }, completion: { discoveredUsers in
-            self.discoveredUsers = discoveredUsers
-
-            dispatch_async(dispatch_get_main_queue()) {
-                self.reloadDiscoverTableView()
-            }
+            
+            }, completion: { discoveredUsers in
+                self.discoveredUsers = discoveredUsers
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.reloadDiscoverTableView()
+                }
         })
+    }
+    
+    @IBAction func showMoreFilter(sender: UIBarButtonItem) {
+        moreAction()
+    }
+    
+    func moreAction() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        
+        let nearbyAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Nearby", comment: ""), style: .Default) { action -> Void in
+            
+            self.refreshDiscoverUsersWithFilterType(.Distance)
+            
+        }
+        alertController.addAction(nearbyAction)
+        
+        let timeAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Time", comment: ""), style: .Default) { action -> Void in
+
+            self.refreshDiscoverUsersWithFilterType(.LastSignIn)
+            
+        }
+        alertController.addAction(timeAction)
+        
+        let defaultAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Default", comment: ""), style: .Destructive) { action -> Void in
+            
+            self.refreshDiscoverUsersWithFilterType(.Default)
+            
+        }
+        alertController.addAction(defaultAction)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     func reloadDiscoverTableView() {
