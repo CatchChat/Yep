@@ -217,6 +217,10 @@ class AvatarCache {
         if let url = NSURL(string: user.avatarURLString) {
             let roundImageKey = "round-\(radius)-\(url.hashValue)"
 
+            // 为下面切换线程准备，Realm 不能跨线程访问
+            let avatarURLString = user.avatarURLString
+            let userID = user.userID
+
             // 先看看缓存
             if let roundImage = cache.objectForKey(roundImageKey) as? UIImage {
                 completion(roundImage)
@@ -225,7 +229,7 @@ class AvatarCache {
 
                 // 再看看是否已下载
                 if let avatar = user.avatar {
-                    if avatar.avatarURLString == user.avatarURLString {
+                    if avatar.avatarURLString == avatarURLString {
 
                         if let
                             avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
@@ -245,7 +249,7 @@ class AvatarCache {
                             let realm = Realm()
 
                             // 不能直接使用 user.avatar, 因为 realm 不同
-                            if let avatar = avatarWithAvatarURLString(user.avatarURLString, inRealm: realm) {
+                            if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
                                 realm.write {
                                     realm.delete(avatar)
                                 }
@@ -253,9 +257,6 @@ class AvatarCache {
                         }
                     }
                 }
-
-                let avatarURLString = user.avatarURLString
-                let userID = user.userID
 
                 // 没办法，下载吧
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
@@ -273,7 +274,7 @@ class AvatarCache {
 
                                 if let avatarURL = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
                                     let newAvatar = Avatar()
-                                    newAvatar.avatarURLString = user.avatarURLString
+                                    newAvatar.avatarURLString = avatarURLString
                                     newAvatar.avatarFileName = avatarFileName
 
                                     realm.write {
