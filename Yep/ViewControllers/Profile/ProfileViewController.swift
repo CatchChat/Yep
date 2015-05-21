@@ -78,6 +78,37 @@ enum SocialAccount: Int, Printable {
 enum ProfileUser {
     case DiscoveredUserType(DiscoveredUser)
     case UserType(User)
+
+    func enabledSocialAccount(socialAccount: SocialAccount) -> Bool {
+        var accountEnabled = false
+
+        let providerName = socialAccount.description.lowercaseString
+
+        switch self {
+
+        case .DiscoveredUserType(let discoveredUser):
+            for provider in discoveredUser.socialAccountProviders {
+                if (provider.name == providerName) && provider.enabled {
+
+                    accountEnabled = true
+
+                    break
+                }
+            }
+
+        case .UserType(let user):
+            for provider in user.socialAccountProviders {
+                if (provider.name == providerName) && provider.enabled {
+
+                    accountEnabled = true
+
+                    break
+                }
+            }
+        }
+        
+        return accountEnabled
+    }
 }
 
 class ProfileViewController: CustomNavigationBarViewController {
@@ -789,7 +820,16 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return CGSizeMake(collectionViewWidth, 1)
             
         case ProfileSection.SocialAccount.rawValue:
-            return CGSizeMake(collectionViewWidth, 40)
+            var enabled = true
+
+            // 对于他人，只看其绑定的 SocialAccount
+            if let profileUser = profileUser {
+                if let socialAccount = SocialAccount(rawValue: indexPath.row) {
+                    enabled = profileUser.enabledSocialAccount(socialAccount)
+                }
+            }
+
+            return enabled ? CGSizeMake(collectionViewWidth, 40) : CGSizeZero
 
         default:
             return CGSizeZero
