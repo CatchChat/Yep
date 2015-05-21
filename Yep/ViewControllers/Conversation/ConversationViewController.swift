@@ -985,6 +985,7 @@ class ConversationViewController: UIViewController {
                 let profileUser = ProfileUser.UserType(withFriend)
 
                 vc.profileUser = profileUser
+                vc.isFromConversation = true
             }
         }
 

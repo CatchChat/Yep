@@ -83,6 +83,7 @@ enum ProfileUser {
 class ProfileViewController: CustomNavigationBarViewController {
 
     var profileUser: ProfileUser?
+    var isFromConversation = false
 
 
     @IBOutlet weak var profileCollectionView: UICollectionView!
@@ -204,10 +205,15 @@ class ProfileViewController: CustomNavigationBarViewController {
             let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
             navigationItem.rightBarButtonItem = moreBarButtonItem
 
-            sayHiButton.setTitle(NSLocalizedString("Say Hi", comment: ""), forState: .Normal)
-            sayHiButton.layer.cornerRadius = 5
-            sayHiButton.backgroundColor = UIColor.yepTintColor()
-            profileCollectionView.contentInset.bottom = sayHiView.bounds.height
+            if isFromConversation {
+                sayHiView.hidden = true
+
+            } else {
+                sayHiButton.setTitle(NSLocalizedString("Say Hi", comment: ""), forState: .Normal)
+                sayHiButton.layer.cornerRadius = 5
+                sayHiButton.backgroundColor = UIColor.yepTintColor()
+                profileCollectionView.contentInset.bottom = sayHiView.bounds.height
+            }
 
         } else {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {

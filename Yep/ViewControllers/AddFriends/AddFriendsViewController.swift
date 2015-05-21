@@ -63,7 +63,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
             case .Contacts:
                 return NSLocalizedString("Friends in Contacts", comment: "")
-                
+
             case .FaceToFace:
                 return NSLocalizedString("Face to Face", comment: "")
             }
@@ -107,3 +107,4 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 }
+
