@@ -93,6 +93,64 @@ func downloadAttachmentOfMessage(message: Message) {
 
 }
 
+func userSkillsFromSkills(skills: [Skill], inRealm realm: Realm) -> [UserSkill] {
+
+    return skills.map({ skill -> UserSkill? in
+
+        let skillID = skill.id
+        var userSkill = userSkillWithSkillID(skillID, inRealm: realm)
+
+        if userSkill == nil {
+            let newUserSkill = UserSkill()
+            newUserSkill.skillID = skillID
+            newUserSkill.name = skillID
+            newUserSkill.localName = skill.localName
+
+            if let coverURLString = skill.coverURLString {
+                newUserSkill.coverURLString = coverURLString
+            }
+
+            realm.add(newUserSkill)
+
+            userSkill = newUserSkill
+        }
+
+        if let userSkill = userSkill {
+            if let skillCategory = skill.category, skillCategoryID = skill.category?.id {
+                var userSkillCategory = userSkillCategoryWithSkillCategoryID(skillCategoryID, inRealm: realm)
+
+                if userSkillCategory == nil {
+                    let newUserSkillCategory = UserSkillCategory()
+                    newUserSkillCategory.skillCategoryID = skillCategoryID
+                    newUserSkillCategory.name = skillCategory.name
+                    newUserSkillCategory.localName = skillCategory.localName
+
+                    realm.add(newUserSkillCategory)
+
+                    userSkillCategory = newUserSkillCategory
+                }
+
+                if let userSkillCategory = userSkillCategory {
+                    userSkill.category = userSkillCategory
+                }
+            }
+        }
+
+        return userSkill
+
+    }).filter({ $0 != nil }).map({ skill in skill! })
+}
+
+func userSocialAccountProvidersFromSocialAccountProviders(socialAccountProviders: [DiscoveredUser.SocialAccountProvider]) -> [UserSocialAccountProvider] {
+    return socialAccountProviders.map({ _provider -> UserSocialAccountProvider in
+        let provider = UserSocialAccountProvider()
+        provider.name = _provider.name
+        provider.enabled = _provider.enabled
+
+        return provider
+    })
+}
+
 func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm) -> [UserSkill] {
     var userSkills = [UserSkill]()
 

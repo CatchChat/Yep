@@ -344,8 +344,6 @@ class ProfileViewController: CustomNavigationBarViewController {
                     let newUser = User()
 
                     newUser.userID = discoveredUser.id
-                    newUser.nickname = discoveredUser.nickname
-                    newUser.avatarURLString = discoveredUser.avatarURLString
 
                     newUser.friendState = UserFriendState.Stranger.rawValue
 
@@ -356,19 +354,53 @@ class ProfileViewController: CustomNavigationBarViewController {
                     stranger = newUser
                 }
 
-                if let stranger = stranger {
-                    if stranger.conversation == nil {
+                if let user = stranger {
+
+                    realm.beginWrite()
+
+                    // 更新用户信息
+
+                    user.lastSignInAt = discoveredUser.lastSignInAt
+
+                    user.nickname = discoveredUser.nickname
+
+                    if let introduction = discoveredUser.introduction {
+                        user.introduction = introduction
+                    }
+                    
+                    user.avatarURLString = discoveredUser.avatarURLString
+
+                    // 更新技能
+
+                    user.learningSkills.removeAll()
+                    let learningUserSkills = userSkillsFromSkills(discoveredUser.learningSkills, inRealm: realm)
+                    user.learningSkills.extend(learningUserSkills)
+
+                    user.masterSkills.removeAll()
+                    let masterUserSkills = userSkillsFromSkills(discoveredUser.masterSkills, inRealm: realm)
+                    user.masterSkills.extend(masterUserSkills)
+
+                    // 更新 Social Account Provider
+
+                    user.socialAccountProviders.removeAll()
+                    let socialAccountProviders = userSocialAccountProvidersFromSocialAccountProviders(discoveredUser.socialAccountProviders)
+                    user.socialAccountProviders.extend(socialAccountProviders)
+
+                    realm.commitWrite()
+
+
+                    if user.conversation == nil {
                         let newConversation = Conversation()
 
                         newConversation.type = ConversationType.OneToOne.rawValue
-                        newConversation.withFriend = stranger
+                        newConversation.withFriend = user
 
                         realm.beginWrite()
                         realm.add(newConversation)
                         realm.commitWrite()
                     }
 
-                    if let conversation = stranger.conversation {
+                    if let conversation = user.conversation {
                         performSegueWithIdentifier("showConversation", sender: conversation)
                         
                         NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
