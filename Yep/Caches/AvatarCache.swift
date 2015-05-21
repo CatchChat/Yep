@@ -254,6 +254,9 @@ class AvatarCache {
                     }
                 }
 
+                let avatarURLString = user.avatarURLString
+                let userID = user.userID
+
                 // 没办法，下载吧
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                     if let data = NSData(contentsOfURL: url), image = UIImage(data: data) {
@@ -263,7 +266,7 @@ class AvatarCache {
                         dispatch_async(dispatch_get_main_queue()) {
                             let realm = Realm()
 
-                            var avatar = avatarWithAvatarURLString(user.avatarURLString, inRealm: realm)
+                            var avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm)
 
                             if avatar == nil {
                                 let avatarFileName = NSUUID().UUIDString
@@ -282,7 +285,7 @@ class AvatarCache {
                             }
 
                             // 这里重新用新 realm 获取 user，避免在不同线程访问，导致 "Realm accessed from incorrect thread"
-                            if let user = userWithUserID(user.userID, inRealm: realm) {
+                            if let user = userWithUserID(userID, inRealm: realm) {
                                 if user.avatar == nil, let avatar = avatar {
                                     realm.write {
                                         user.avatar = avatar
