@@ -944,29 +944,32 @@ class ConversationViewController: UIViewController {
     func adjustBackCollectionViewWithHeight(newHeight: CGFloat, animationDuration: NSTimeInterval, animationCurveValue: UInt) {
         
         self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow = CGPointZero
+
         if (conversationCollectionViewContentOffsetBeforeKeyboardWillHide == CGPointZero) {
             conversationCollectionViewContentOffsetBeforeKeyboardWillHide = conversationCollectionView.contentOffset
         }
 
-        
         UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { () -> Void in
             
             var contentOffset = self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide
+
             self.messageToolbarBottomConstraint.constant = 0
+
             if self.messageToolbar.state != .MoreMessages {
                 contentOffset.y -= newHeight
-            }else {
+
+            } else {
                 contentOffset.y -= (newHeight - self.moreMessageTypesViewHeightConstraintConstant)
             }
             
             //println("\(self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide.y) \(contentOffset.y) \(self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide.y-contentOffset.y)")
             self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
             self.conversationCollectionView.contentInset.bottom = CGRectGetHeight(self.messageToolbar.bounds)
+
             self.view.layoutIfNeeded()
-            }, completion: { (finished) -> Void in
-                
+
+        }, completion: { (finished) -> Void in
         })
-        
     }
 
     func handleKeyboardDidHideNotification(notification: NSNotification) {
