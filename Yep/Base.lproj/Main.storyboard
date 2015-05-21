@@ -438,7 +438,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Discover" id="di2-g9-owW">
-                        <barButtonItem key="rightBarButtonItem" title="NearBy" id="mve-O6-ube"/>
+                        <barButtonItem key="rightBarButtonItem" title="Nearby" id="mve-O6-ube"/>
                     </navigationItem>
                     <connections>
                         <outlet property="discoverTableView" destination="SPh-AI-uaZ" id="mB3-87-mQq"/>
@@ -1222,7 +1222,7 @@
         <image name="top_shadow" width="375" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Pxr-1p-x84"/>
         <segue reference="o3b-2D-AMq"/>
+        <segue reference="l4P-ds-ihU"/>
     </inferredMetricsTieBreakers>
 </document>

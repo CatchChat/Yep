@@ -87,8 +87,9 @@ extension DiscoverViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
 
-        cell.joinedDateLabel.text = discoveredUser.createdAt.timeAgo
-        cell.lastTimeSeenLabel.text = discoveredUser.lastSignInAt.timeAgo
+        cell.joinedDateLabel.text = discoveredUser.introduction
+        let distance = discoveredUser.distance.format(".1")
+        cell.lastTimeSeenLabel.text = "\(distance)km | \(discoveredUser.lastSignInAt.timeAgo)"
 
         cell.nameLabel.text = discoveredUser.nickname
 
