@@ -817,7 +817,20 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return CGSize(width: collectionViewWidth, height: footerCellHeight)
 
         case ProfileSection.SeparationLine.rawValue:
-            return CGSize(width: collectionViewWidth, height: 1)
+            var enabled = true
+
+            if let profileUser = profileUser {
+                switch profileUser {
+                case .DiscoveredUserType(let discoveredUser):
+                    enabled = discoveredUser.socialAccountProviders.filter({ socialAccountProvider in
+                        socialAccountProvider.enabled
+                    }).count > 0
+                case .UserType(let user):
+                    enabled = user.socialAccountProviders.filter("enabled = true").count > 0
+                }
+            }
+
+            return enabled ? CGSize(width: collectionViewWidth, height: 1) : CGSizeZero
             
         case ProfileSection.SocialAccount.rawValue:
             var enabled = true
