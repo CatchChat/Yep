@@ -40,7 +40,8 @@
 		0AD7EA6E1AC3ED4A00617758 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA6D1AC3ED4A00617758 /* libz.dylib */; };
 		0AD7EA741AC3EE9600617758 /* libPushSDK-1.8.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA731AC3EE9600617758 /* libPushSDK-1.8.3.a */; };
 		0AD7EA771AC3EEB000617758 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AD7EA761AC3EEB000617758 /* PushConfig.plist */; };
-		0AFE75AF1AC43DE0005AA33E /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AFE75AE1AC43DE0005AA33E /* Crashlytics.framework */; };
+		0AEB1CC21B0E69B500178C9C /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEB1CC11B0E69B500178C9C /* Fabric.framework */; };
+		0AEB1CC41B0E6A4B00178C9C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEB1CC31B0E6A4B00178C9C /* Crashlytics.framework */; };
 		15606C18E1487982869C0A42 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD88F6095DB46DFAD41AB5DB /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50165C441AC2860900C7AEBE /* ConversationLayout.swift */; };
 		5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE251AB6856300B3EE96 /* ConversationsViewController.swift */; };
@@ -240,7 +241,8 @@
 		0AD7EA721AC3EE9600617758 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APService.h; path = JPush/APService.h; sourceTree = "<group>"; };
 		0AD7EA731AC3EE9600617758 /* libPushSDK-1.8.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPushSDK-1.8.3.a"; path = "JPush/libPushSDK-1.8.3.a"; sourceTree = "<group>"; };
 		0AD7EA761AC3EEB000617758 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PushConfig.plist; path = JPush/PushConfig.plist; sourceTree = "<group>"; };
-		0AFE75AE1AC43DE0005AA33E /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Yep/Crashlytics.framework; sourceTree = "<group>"; };
+		0AEB1CC11B0E69B500178C9C /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		0AEB1CC31B0E6A4B00178C9C /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		2268251A75FF6766DC31CCFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		50165C441AC2860900C7AEBE /* ConversationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationLayout.swift; path = ViewControllers/Conversation/ConversationLayout.swift; sourceTree = "<group>"; };
 		5023DE251AB6856300B3EE96 /* ConversationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationsViewController.swift; path = ViewControllers/Conversations/ConversationsViewController.swift; sourceTree = "<group>"; };
@@ -396,6 +398,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AD7EA681AC3ED3600617758 /* Foundation.framework in Frameworks */,
+				0AEB1CC41B0E6A4B00178C9C /* Crashlytics.framework in Frameworks */,
 				0A02E46F1AC9208A00235DBF /* libxml2.dylib in Frameworks */,
 				0AAFCFF91AC8CA5B00EB0EF8 /* MobileCoreServices.framework in Frameworks */,
 				0AD7EA741AC3EE9600617758 /* libPushSDK-1.8.3.a in Frameworks */,
@@ -406,8 +409,8 @@
 				0AD7EA641AC3ED2A00617758 /* SystemConfiguration.framework in Frameworks */,
 				0AD7EA621AC3ED2100617758 /* CoreTelephony.framework in Frameworks */,
 				0AD7EA601AC3ED1900617758 /* CoreFoundation.framework in Frameworks */,
+				0AEB1CC21B0E69B500178C9C /* Fabric.framework in Frameworks */,
 				0AD7EA5E1AC3ED1200617758 /* CFNetwork.framework in Frameworks */,
-				0AFE75AF1AC43DE0005AA33E /* Crashlytics.framework in Frameworks */,
 				15606C18E1487982869C0A42 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1294,7 +1297,8 @@
 		67B708B60AAD1DEA82A6A682 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0AFE75AE1AC43DE0005AA33E /* Crashlytics.framework */,
+				0AEB1CC31B0E6A4B00178C9C /* Crashlytics.framework */,
+				0AEB1CC11B0E69B500178C9C /* Fabric.framework */,
 				0A02E46E1AC9208A00235DBF /* libxml2.dylib */,
 				0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */,
 				0AD7EA6D1AC3ED4A00617758 /* libz.dylib */,
@@ -1786,6 +1790,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Yep",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods",
+					"$(PROJECT_DIR)",
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = Yep/Info.plist;
@@ -1812,6 +1817,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Yep",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Yep/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
