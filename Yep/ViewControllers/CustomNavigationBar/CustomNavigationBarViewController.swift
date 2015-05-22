@@ -10,10 +10,12 @@ import UIKit
 
 class CustomNavigationBarViewController: UIViewController {
 
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
         if let navigationController = navigationController {
+            
             navigationController.navigationBar.backgroundColor = UIColor.clearColor()
             navigationController.navigationBar.translucent = true
             navigationController.navigationBar.shadowImage = UIImage()
@@ -30,24 +32,24 @@ class CustomNavigationBarViewController: UIViewController {
         }
     }
 
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        if let navigationController = navigationController {
-
-            navigationController.navigationBar.backgroundColor = nil
-            navigationController.navigationBar.translucent = true
-            navigationController.navigationBar.shadowImage = nil
-            navigationController.navigationBar.barStyle = UIBarStyle.Default
-            navigationController.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
-
-            let textAttributes = [
-                NSForegroundColorAttributeName: UIColor.yepTintColor(),
-                NSFontAttributeName: UIFont.navigationBarTitleFont()
-            ]
-
-            navigationController.navigationBar.titleTextAttributes = textAttributes
-            navigationController.navigationBar.tintColor = nil
-        }
-    }
+//    override func viewWillDisappear(animated: Bool) {
+//        super.viewWillDisappear(animated)
+//
+//        if let navigationController = navigationController {
+//
+//            navigationController.navigationBar.backgroundColor = nil
+//            navigationController.navigationBar.translucent = true
+//            navigationController.navigationBar.shadowImage = nil
+//            navigationController.navigationBar.barStyle = UIBarStyle.Default
+//            navigationController.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
+//
+//            let textAttributes = [
+//                NSForegroundColorAttributeName: UIColor.yepTintColor(),
+//                NSFontAttributeName: UIFont.navigationBarTitleFont()
+//            ]
+//
+//            navigationController.navigationBar.titleTextAttributes = textAttributes
+//            navigationController.navigationBar.tintColor = nil
+//        }
+//    }
 }

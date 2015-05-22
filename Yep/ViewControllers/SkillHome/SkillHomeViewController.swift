@@ -50,6 +50,11 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     var isFirstAppear = true
     
     var state: SkillHomeState = .Master {
@@ -80,6 +85,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     var discoveredMasterUsers = [DiscoveredUser]()
     
     var discoveredLearningUsers = [DiscoveredUser]()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()

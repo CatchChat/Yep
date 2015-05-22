@@ -111,17 +111,16 @@ enum ProfileUser {
     }
 }
 
-class ProfileViewController: CustomNavigationBarViewController {
+class ProfileViewController: UIViewController {
 
     var profileUser: ProfileUser?
     var isFromConversation = false
-
-
     @IBOutlet weak var profileCollectionView: UICollectionView!
 
     @IBOutlet weak var sayHiView: UIView!
     @IBOutlet weak var sayHiButton: UIButton!
-    
+
+    var customNavigationBar: UINavigationBar!
 
     let skillCellIdentifier = "SkillCell"
     let headerCellIdentifier = "ProfileHeaderCell"
@@ -213,6 +212,28 @@ class ProfileViewController: CustomNavigationBarViewController {
         profileCollectionView.alwaysBounceVertical = true
         
         automaticallyAdjustsScrollViewInsets = false
+        
+        
+        customNavigationBar = UINavigationBar(frame: CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 64.0))
+        var newItem = UINavigationItem(title: "Details")
+        customNavigationBar.alpha = 0
+        customNavigationBar.setItems([newItem], animated: false)
+        view.addSubview(customNavigationBar)
+        
+        customNavigationBar.backgroundColor = UIColor.clearColor()
+        customNavigationBar.translucent = true
+        customNavigationBar.shadowImage = UIImage()
+        customNavigationBar.barStyle = UIBarStyle.BlackTranslucent
+        customNavigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        
+        let textAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont.navigationBarTitleFont()
+        ]
+        
+        customNavigationBar.titleTextAttributes = textAttributes
+        customNavigationBar.tintColor = UIColor.whiteColor()
+
 
         if let tabBarController = tabBarController {
             profileCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: CGRectGetHeight(tabBarController.tabBar.bounds), right: 0)
@@ -277,12 +298,21 @@ class ProfileViewController: CustomNavigationBarViewController {
             sayHiView.hidden = true
         }
     }
+
     
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    
+        customNavigationBar.alpha = 1.0
+        
+        self.navigationController?.interactivePopGestureRecognizer.delegate = self
         
         self.setNeedsStatusBarAppearanceUpdate()
     }
+
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
@@ -489,7 +519,7 @@ class ProfileViewController: CustomNavigationBarViewController {
 
 // MARK: UICollectionView
 
-extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate {
     
     enum ProfileSection: Int {
         case Header = 0
