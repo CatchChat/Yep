@@ -361,24 +361,24 @@ func updateMyselfWithInfo(info: JSONDictionary, #failureHandler: ((Reason, Strin
     }
 }
 
-func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+enum VerifyCodeMethod: String {
+    case SMS = "sms"
+    case Call = "call"
+}
+
+func sendVerifyCodeOfMobile(mobile: String, withAreaCode areaCode: String, useMethod method: VerifyCodeMethod, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
 
     let requestParameters = [
         "mobile": mobile,
         "phone_code": areaCode,
+        "method": method.rawValue
     ]
 
     let parse: JSONDictionary -> Bool? = { data in
-        if let status = data["status"] as? String {
-            if status == "sms sent" {
-                return true
-            }
-        }
-
-        return false
+        return true
     }
 
-    let resource = jsonResource(path: "/api/v1/auth/send_verify_code", method: .POST, requestParameters: requestParameters, parse: parse)
+    let resource = jsonResource(path: "/api/v1/sms_verification_codes", method: .POST, requestParameters: requestParameters, parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)
