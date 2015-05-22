@@ -64,6 +64,18 @@ extension NSFileManager {
         return nil
     }
 
+    class func deleteAllMessageCaches() {
+        if let messagesCachesURL = yepMessageCachesURL() {
+            let fileManager = NSFileManager.defaultManager()
+
+            if let fileURLs = fileManager.contentsOfDirectoryAtURL(messagesCachesURL, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions.allZeros, error: nil) as? [NSURL] {
+                for fileURL in fileURLs {
+                    fileManager.removeItemAtURL(fileURL, error: nil)
+                }
+            }
+        }
+    }
+
     // Image
     
     class func yepMessageImageURLWithName(name: String) -> NSURL? {

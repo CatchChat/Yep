@@ -36,7 +36,7 @@ class YepConfig {
     }
 
     class func callMeInSeconds() -> Int {
-        return 10
+        return 60
     }
 
     class func avatarMaxSize() -> CGSize {

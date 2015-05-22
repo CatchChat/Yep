@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class EditProfileViewController: UIViewController {
 
@@ -282,7 +283,18 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     appDelegate.startIntroStory()
                 }
 
-                // TODO: clean Realm data & all files
+                // clean Realm
+
+                let realm = Realm()
+                realm.write {
+                    realm.deleteAll()
+                }
+
+                // clean Message file cache
+
+                NSFileManager.deleteAllMessageCaches()
+
+                // TODO: clean more Cache?
 
             }, cancelAction: { () -> Void in
             })
