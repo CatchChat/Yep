@@ -70,15 +70,19 @@ class YepUserDefaults {
 
     // MARK: ReLogin
 
-    class func userNeedRelogin() {
+    class func cleanAll() {
         let defaults = NSUserDefaults.standardUserDefaults()
 
         defaults.removeObjectForKey(v1AccessTokenKey)
         defaults.removeObjectForKey(userIDKey)
         defaults.removeObjectForKey(nicknameKey)
+        defaults.removeObjectForKey(introductionKey)
         defaults.removeObjectForKey(avatarURLStringKey)
         defaults.removeObjectForKey(pusherIDKey)
+    }
 
+    class func userNeedRelogin() {
+        cleanAll()
 
         if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
             if let rootViewController = appDelegate.window?.rootViewController {

@@ -50,4 +50,21 @@ class YepAlert {
 
         viewController.presentViewController(alertController, animated: true, completion: nil)
     }
+
+    class func confirmOrCancel(#title: String, message: String, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController, withConfirmAction confirmAction: () -> Void, cancelAction: () -> Void) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+
+        let confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action -> Void in
+            confirmAction()
+        }
+        alertController.addAction(confirmAction)
+
+        let cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action -> Void in
+            cancelAction()
+        }
+        alertController.addAction(cancelAction)
+
+        viewController.presentViewController(alertController, animated: true, completion: nil)
+    }
+
 }
