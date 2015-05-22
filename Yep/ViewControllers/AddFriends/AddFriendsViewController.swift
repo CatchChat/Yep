@@ -105,6 +105,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
         case Section.Search.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(addFriendSearchCellIdentifier) as! AddFriendSearchCell
 
+            cell.searchTextField.returnKeyType = .Search
             cell.searchTextField.delegate = self
 
             return cell
