@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SocialWorkInstagramViewController: UIViewController {
+class SocialWorkInstagramViewController: BaseViewController {
 
     var socialAccount: SocialAccount?
     var profileUser: ProfileUser?

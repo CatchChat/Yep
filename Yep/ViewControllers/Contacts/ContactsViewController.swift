@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class ContactsViewController: UIViewController {
+class ContactsViewController: BaseViewController {
 
     @IBOutlet weak var contactsTableView: UITableView!
 
@@ -21,10 +21,6 @@ class ContactsViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

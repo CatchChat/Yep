@@ -9,13 +9,14 @@
 import UIKit
 import WebViewJavascriptBridge
 
-class OAuthViewController: UIViewController, UIWebViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate {
+class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate {
 
     var socialAccount: SocialAccount!
     var afterOAuthAction: ((socialAccount: SocialAccount) -> Void)?
 
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
 
     var bridge: WebViewJavascriptBridge!
     

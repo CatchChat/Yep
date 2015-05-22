@@ -15,11 +15,6 @@ class BaseViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -40,6 +35,8 @@ class BaseViewController: UIViewController {
             navigationController.navigationBar.titleTextAttributes = textAttributes
             navigationController.navigationBar.tintColor = nil
         }
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     /*

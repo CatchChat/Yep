@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DiscoverViewController: UIViewController {
+class DiscoverViewController: BaseViewController {
 
     @IBOutlet weak var discoverTableView: UITableView!
     
@@ -37,10 +37,6 @@ class DiscoverViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

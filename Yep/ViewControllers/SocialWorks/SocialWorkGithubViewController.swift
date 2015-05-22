@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SocialWorkGithubViewController: UIViewController {
+class SocialWorkGithubViewController: BaseViewController {
 
     var socialAccount: SocialAccount?
     var profileUser: ProfileUser?
