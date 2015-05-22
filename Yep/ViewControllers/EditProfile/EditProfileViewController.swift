@@ -290,11 +290,13 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     realm.deleteAll()
                 }
 
-                // clean Message file cache
+                // clean Message caches
 
-                NSFileManager.deleteAllMessageCaches()
+                NSFileManager.cleanMessageCaches()
 
-                // TODO: clean more Cache?
+                // clean Avatar caches
+
+                NSFileManager.cleanAvatarCaches()
 
             }, cancelAction: { () -> Void in
             })
