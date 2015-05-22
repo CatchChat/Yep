@@ -46,6 +46,9 @@ class ConversationsViewController: UIViewController {
 
         conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         conversationsTableView.rowHeight = 80
+
+        navigationController?.tabBarItem.image = UIImage(named: "icon_chat_unread")
+        navigationController?.tabBarItem.selectedImage = UIImage(named: "icon_chat_active_unread")
     }
 
     override func viewDidAppear(animated: Bool) {
