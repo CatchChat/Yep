@@ -996,7 +996,11 @@ class ConversationViewController: UIViewController {
 
                 vc.profileUser = profileUser
                 vc.isFromConversation = true
+                
+                vc.setBackButtonWithTitle()
             }
+        
+
         }
 
         if segue.identifier == "presentMessageMedia" {

@@ -247,6 +247,8 @@ class SkillHomeViewController: CustomNavigationBarViewController {
                 vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
                 
                 vc.hidesBottomBarWhenPushed = true
+                
+                vc.setBackButtonWithTitle()
             }
         }
     }

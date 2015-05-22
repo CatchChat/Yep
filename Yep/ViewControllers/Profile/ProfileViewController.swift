@@ -195,8 +195,18 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    var customNavigationItem: UINavigationItem!
+    var customNavigationItem: UINavigationItem = UINavigationItem(title: "Details")
 
+    func setBackButtonWithTitle() {
+        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBack")
+        backBarButtonItem.tintColor = UIColor.whiteColor()
+        
+        customNavigationItem.leftBarButtonItem = backBarButtonItem
+    }
+    
+    func popBack() {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -217,7 +227,6 @@ class ProfileViewController: UIViewController {
         
         
         customNavigationBar = UINavigationBar(frame: CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 64.0))
-        customNavigationItem = UINavigationItem(title: "Details")
         customNavigationBar.alpha = 0
         customNavigationBar.setItems([customNavigationItem], animated: false)
         view.addSubview(customNavigationBar)

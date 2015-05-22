@@ -62,6 +62,8 @@ class ContactsViewController: UIViewController {
             }
 
             vc.hidesBottomBarWhenPushed = true
+            
+            vc.setBackButtonWithTitle()
         }
     }
 }
