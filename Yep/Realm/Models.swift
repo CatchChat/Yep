@@ -259,6 +259,11 @@ func groupWithGroupID(groupID: String, inRealm realm: Realm) -> Group? {
     return realm.objects(Group).filter(predicate).first
 }
 
+func countOfUnreadMessagesInRealm(realm: Realm) -> Int {
+    let predicate = NSPredicate(format: "readed = false AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
+    return realm.objects(Message).filter(predicate).count
+}
+
 func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
     if messageID.isEmpty {
         return nil
