@@ -11,7 +11,7 @@ import RealmSwift
 import AVFoundation
 import MobileCoreServices
 
-class ConversationViewController: UIViewController {
+class ConversationViewController: BaseViewController {
 
     struct Notification {
         static let MessageSent = "MessageSentNotification"
