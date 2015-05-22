@@ -38,6 +38,8 @@ class SocialWorkInstagramViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        animatedOnNavigationBar = false
 
         if let socialAccount = socialAccount {
             let accountImageView = UIImageView(image: UIImage(named: socialAccount.iconName)!)

@@ -9,7 +9,9 @@
 import UIKit
 
 class BaseViewController: UIViewController {
-
+    
+    var animatedOnNavigationBar = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -36,7 +38,7 @@ class BaseViewController: UIViewController {
             navigationController.navigationBar.tintColor = nil
         }
         
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.setNavigationBarHidden(false, animated: animatedOnNavigationBar)
     }
 
     /*

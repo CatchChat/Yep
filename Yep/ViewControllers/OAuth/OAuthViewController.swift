@@ -26,6 +26,8 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        animatedOnNavigationBar = false
 
         title = NSLocalizedString("OAuth", comment: "")
         

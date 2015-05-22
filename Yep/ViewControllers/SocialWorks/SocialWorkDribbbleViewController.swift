@@ -36,10 +36,13 @@ class SocialWorkDribbbleViewController: BaseViewController {
             updateDribbbleCollectionView()
         }
     }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        animatedOnNavigationBar = false
+        
         if let socialAccount = socialAccount {
             let accountImageView = UIImageView(image: UIImage(named: socialAccount.iconName)!)
             accountImageView.tintColor = socialAccount.tintColor
