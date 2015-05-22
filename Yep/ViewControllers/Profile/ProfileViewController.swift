@@ -194,6 +194,8 @@ class ProfileViewController: UIViewController {
             return ceil(rect.height) + 4
         }
     }
+    
+    var customNavigationItem: UINavigationItem!
 
 
     override func viewDidLoad() {
@@ -215,9 +217,9 @@ class ProfileViewController: UIViewController {
         
         
         customNavigationBar = UINavigationBar(frame: CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 64.0))
-        var newItem = UINavigationItem(title: "Details")
+        customNavigationItem = UINavigationItem(title: "Details")
         customNavigationBar.alpha = 0
-        customNavigationBar.setItems([newItem], animated: false)
+        customNavigationBar.setItems([customNavigationItem], animated: false)
         view.addSubview(customNavigationBar)
         
         customNavigationBar.backgroundColor = UIColor.clearColor()
@@ -242,20 +244,22 @@ class ProfileViewController: UIViewController {
         if let profileUser = profileUser {
             switch profileUser {
             case .DiscoveredUserType(let discoveredUser):
-                self.navigationItem.title = discoveredUser.nickname
+                customNavigationItem.title = discoveredUser.nickname
             case .UserType(let user):
-                self.navigationItem.title = user.nickname
+                customNavigationItem.title = user.nickname
             }
 
         } else {
             YepUserDefaults.nickname.bindAndFireListener("ProfileViewController.Title") { nickname in
-                self.navigationItem.title = nickname
+                self.customNavigationItem.title = nickname
             }
         }
 
         if let profileUser = profileUser {
             let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
-            navigationItem.rightBarButtonItem = moreBarButtonItem
+            
+            customNavigationItem.rightBarButtonItem = moreBarButtonItem
+
 
             if isFromConversation {
                 sayHiView.hidden = true
@@ -296,9 +300,16 @@ class ProfileViewController: UIViewController {
             }
 
             sayHiView.hidden = true
+            
+            let settingsBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_settings"), style: UIBarButtonItemStyle.Plain, target: self, action: "showSettings")
+            
+            customNavigationItem.rightBarButtonItem = settingsBarButtonItem
         }
     }
-
+    
+    func showSettings() {
+        self.performSegueWithIdentifier("showSettings", sender: self)
+    }
     
     override func viewWillAppear(animated: Bool) {
         
