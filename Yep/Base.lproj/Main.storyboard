@@ -427,6 +427,10 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="SPh-AI-uaZ">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="5NR-G1-qqW" id="b7q-jQ-0Na"/>
+                                    <outlet property="delegate" destination="5NR-G1-qqW" id="O3c-06-Lba"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -440,7 +444,7 @@
                     <navigationItem key="navigationItem" title="Discover" id="di2-g9-owW">
                         <barButtonItem key="rightBarButtonItem" title="Default" id="mve-O6-ube">
                             <connections>
-                                <action selector="showMoreFilter:" destination="5NR-G1-qqW" id="qFK-V3-8qp"/>
+                                <action selector="showFilters:" destination="5NR-G1-qqW" id="IQs-8r-M7C"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

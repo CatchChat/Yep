@@ -489,6 +489,17 @@ enum DiscoveredUserSortStyle: String {
     case Distance = "distance"
     case LastSignIn = "last_sign_in_at"
     case Default = "default"
+
+    var name: String {
+        switch self {
+        case .Distance:
+            return NSLocalizedString("Nearby", comment: "")
+        case .LastSignIn:
+            return NSLocalizedString("Time", comment: "")
+        case .Default:
+            return NSLocalizedString("Default", comment: "")
+        }
+    }
 }
 
 struct DiscoveredUser {
