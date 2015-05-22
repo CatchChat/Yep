@@ -29,6 +29,8 @@ class ConversationsViewController: UIViewController {
                     navigationController?.tabBarItem.image = UIImage(named: "icon_chat")
                     navigationController?.tabBarItem.selectedImage = UIImage(named: "icon_chat_active")
                 }
+
+                reloadConversationsTableView()
             }
         }
     }
