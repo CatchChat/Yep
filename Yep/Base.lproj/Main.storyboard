@@ -72,7 +72,7 @@
                                     <outlet property="delegate" destination="la3-6z-2aH" id="zOV-zM-2KH"/>
                                 </connections>
                             </collectionView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="390" width="600" height="50"/>
                                 <items/>
                             </toolbar>
@@ -710,8 +710,27 @@
                     <view key="view" contentMode="scaleToFill" id="wId-X1-Mzc">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="g8U-pG-JhU">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="sds-Gw-1Sf" id="TjN-Oa-tEx"/>
+                                    <outlet property="delegate" destination="sds-Gw-1Sf" id="XFJ-wF-OcC"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="g8U-pG-JhU" secondAttribute="trailing" id="EqT-Kf-FYL"/>
+                            <constraint firstItem="g8U-pG-JhU" firstAttribute="leading" secondItem="wId-X1-Mzc" secondAttribute="leading" id="NnD-aG-NJB"/>
+                            <constraint firstAttribute="bottom" secondItem="g8U-pG-JhU" secondAttribute="bottom" id="dKs-JH-0Gp"/>
+                            <constraint firstItem="g8U-pG-JhU" firstAttribute="top" secondItem="wId-X1-Mzc" secondAttribute="top" id="otn-jU-lTE"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="searchedUsersTableView" destination="g8U-pG-JhU" id="JkD-Sn-KGi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IY7-lg-OWx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -516,6 +516,57 @@ struct DiscoveredUser {
     let socialAccountProviders: [SocialAccountProvider]
 }
 
+let parseDiscoveredUsers: JSONDictionary -> [DiscoveredUser]? = { data in
+
+    println("discoverUsers: \(data)")
+
+    if let usersData = data["users"] as? [JSONDictionary] {
+
+        var discoveredUsers = [DiscoveredUser]()
+
+        for userInfo in usersData {
+            if let
+                id = userInfo["id"] as? String,
+                nickname = userInfo["nickname"] as? String,
+                avatarURLString = userInfo["avatar_url"] as? String,
+                createdAtString = userInfo["created_at"] as? String,
+                lastSignInAtString = userInfo["last_sign_in_at"] as? String,
+                longitude = userInfo["longitude"] as? Double,
+                latitude = userInfo["latitude"] as? Double,
+                distance = userInfo["distance"] as? Double,
+                masterSkillsData = userInfo["master_skills"] as? [JSONDictionary],
+                learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary],
+                socialAccountProvidersInfo = userInfo["providers"] as? [String: Bool] {
+
+                    let createdAt = NSDate.dateWithISO08601String(createdAtString)
+                    let lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+
+                    let masterSkills = skillsFromSkillsData(masterSkillsData)
+                    let learningSkills = skillsFromSkillsData(learningSkillsData)
+
+                    var socialAccountProviders = Array<DiscoveredUser.SocialAccountProvider>()
+
+                    for (name, enabled) in socialAccountProvidersInfo {
+                        let provider = DiscoveredUser.SocialAccountProvider(name: name, enabled: enabled)
+
+                        socialAccountProviders.append(provider)
+                    }
+
+                    let introduction = userInfo["introduction"] as? String
+
+                    let discoverUser = DiscoveredUser(id: id, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, createdAt: createdAt, lastSignInAt: lastSignInAt, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
+
+                    discoveredUsers.append(discoverUser)
+            }
+        }
+
+        return discoveredUsers
+    }
+    
+    return nil
+}
+
+
 func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discoveredUserSortStyle: DiscoveredUserSortStyle, #failureHandler: ((Reason, String?) -> Void)?, #completion: [DiscoveredUser] -> Void) {
     
     let requestParameters:[String: AnyObject] = [
@@ -524,58 +575,27 @@ func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discover
         "sort": discoveredUserSortStyle.rawValue
     ]
     
-    let parse: JSONDictionary -> [DiscoveredUser]? = { data in
-
-        //println("discoverUsers: \(data)")
-
-        if let usersData = data["users"] as? [JSONDictionary] {
-
-            var discoveredUsers = [DiscoveredUser]()
-
-            for userInfo in usersData {
-                if let
-                    id = userInfo["id"] as? String,
-                    nickname = userInfo["nickname"] as? String,
-                    avatarURLString = userInfo["avatar_url"] as? String,
-                    createdAtString = userInfo["created_at"] as? String,
-                    lastSignInAtString = userInfo["last_sign_in_at"] as? String,
-                    longitude = userInfo["longitude"] as? Double,
-                    latitude = userInfo["latitude"] as? Double,
-                    distance = userInfo["distance"] as? Double,
-                    masterSkillsData = userInfo["master_skills"] as? [JSONDictionary],
-                    learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary],
-                    socialAccountProvidersInfo = userInfo["providers"] as? [String: Bool] {
-
-                        let createdAt = NSDate.dateWithISO08601String(createdAtString)
-                        let lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
-
-                        let masterSkills = skillsFromSkillsData(masterSkillsData)
-                        let learningSkills = skillsFromSkillsData(learningSkillsData)
-
-                        var socialAccountProviders = Array<DiscoveredUser.SocialAccountProvider>()
-
-                        for (name, enabled) in socialAccountProvidersInfo {
-                            let provider = DiscoveredUser.SocialAccountProvider(name: name, enabled: enabled)
-
-                            socialAccountProviders.append(provider)
-                        }
-
-                        let introduction = userInfo["introduction"] as? String
-
-                        let discoverUser = DiscoveredUser(id: id, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, createdAt: createdAt, lastSignInAt: lastSignInAt, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
-                        
-                        discoveredUsers.append(discoverUser)
-                }
-            }
-
-            return discoveredUsers
-        }
-
-        return nil
-    }
+    let parse = parseDiscoveredUsers
     
     let resource = authJsonResource(path: "/api/v1/user/discover", method: .GET, requestParameters: requestParameters as JSONDictionary, parse: parse)
     
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+func searchUsersByQ(q: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: [DiscoveredUser] -> Void) {
+
+    let requestParameters = [
+        "q": q
+    ]
+
+    let parse = parseDiscoveredUsers
+
+    let resource = authJsonResource(path: "/api/v1/users/search", method: .GET, requestParameters: requestParameters, parse: parse)
+
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)
     } else {

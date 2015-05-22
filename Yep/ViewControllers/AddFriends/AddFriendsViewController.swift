@@ -33,6 +33,17 @@ class AddFriendsViewController: UIViewController {
         dismissViewControllerAnimated(true, completion: nil)
         // TODO: done add friend
     }
+
+    // MARK: Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showSearchedUsers" {
+            if let mobile = sender as? String {
+                let vc = segue.destinationViewController as! SearchedUsersViewController
+                vc.mobile = mobile
+            }
+        }
+    }
 }
 
 extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -93,6 +104,9 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
         case Section.Search.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(addFriendSearchCellIdentifier) as! AddFriendSearchCell
+
+            cell.searchTextField.delegate = self
+
             return cell
 
         case Section.More.rawValue:
@@ -105,6 +119,19 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
         default:
             return UITableViewCell()
         }
+    }
+}
+
+extension AddFriendsViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+
+        let text = textField.text
+
+        textField.resignFirstResponder()
+
+        performSegueWithIdentifier("showSearchedUsers", sender: text)
+
+        return true
     }
 }
 
