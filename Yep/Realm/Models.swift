@@ -264,6 +264,16 @@ func countOfUnreadMessagesInRealm(realm: Realm) -> Int {
     return realm.objects(Message).filter(predicate).count
 }
 
+func countOfUnreadMessagesInConversation(conversation: Conversation) -> Int {
+    return conversation.messages.filter({ message in
+        if let fromFriend = message.fromFriend {
+            return (message.readed == false) && (fromFriend.friendState != UserFriendState.Me.rawValue)
+        } else {
+            return false
+        }
+    }).count
+}
+
 func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
     if messageID.isEmpty {
         return nil

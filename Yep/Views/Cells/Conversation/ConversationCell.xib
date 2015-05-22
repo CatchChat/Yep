@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7528.3" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7518.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -40,26 +40,45 @@
                         <color key="textColor" white="0.50391171924717781" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unread_red_dot" translatesAutoresizingMaskIntoConstraints="NO" id="EBI-KB-5zQ" userLabel="Red Dot">
+                        <rect key="frame" x="47" y="11" width="18" height="19"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMI-cX-ITU" userLabel="Unread Count Label">
+                        <rect key="frame" x="52" y="12" width="8" height="16"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="kjj-pV-aMN" firstAttribute="leading" secondItem="e3N-7V-FD4" secondAttribute="trailing" constant="15" id="4dI-OE-G1N"/>
                     <constraint firstAttribute="centerY" secondItem="e3N-7V-FD4" secondAttribute="centerY" id="68L-vu-KnG"/>
                     <constraint firstItem="e3N-7V-FD4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="2" id="C6e-Zm-787"/>
                     <constraint firstItem="kjj-pV-aMN" firstAttribute="top" secondItem="e3N-7V-FD4" secondAttribute="top" id="GXJ-23-qOR"/>
+                    <constraint firstItem="EBI-KB-5zQ" firstAttribute="trailing" secondItem="iMI-cX-ITU" secondAttribute="trailing" constant="5" id="Jd7-6j-ojN"/>
                     <constraint firstItem="Xjd-IV-gXl" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="OgI-LN-3Ho"/>
+                    <constraint firstItem="EBI-KB-5zQ" firstAttribute="centerY" secondItem="iMI-cX-ITU" secondAttribute="centerY" id="PhU-kS-TVk"/>
+                    <constraint firstItem="iMI-cX-ITU" firstAttribute="leading" secondItem="EBI-KB-5zQ" secondAttribute="leading" constant="5" id="UKr-bJ-j2T"/>
                     <constraint firstItem="0ku-jC-UO9" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="dRu-r7-NyH"/>
                     <constraint firstItem="0ku-jC-UO9" firstAttribute="leading" secondItem="e3N-7V-FD4" secondAttribute="trailing" constant="15" id="e0B-sB-dWY"/>
                     <constraint firstItem="0ku-jC-UO9" firstAttribute="top" secondItem="kjj-pV-aMN" secondAttribute="bottom" constant="5" id="eDW-xc-nVc"/>
+                    <constraint firstItem="e3N-7V-FD4" firstAttribute="trailing" secondItem="iMI-cX-ITU" secondAttribute="trailing" constant="5" id="w3d-v9-Oot"/>
                     <constraint firstItem="kjj-pV-aMN" firstAttribute="bottom" secondItem="Xjd-IV-gXl" secondAttribute="bottom" constant="3" id="xLh-Pw-tXg"/>
+                    <constraint firstItem="e3N-7V-FD4" firstAttribute="top" secondItem="iMI-cX-ITU" secondAttribute="top" id="y3o-AE-eWY"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="avatarImageView" destination="e3N-7V-FD4" id="5w0-BC-TE5"/>
                 <outlet property="chatLabel" destination="0ku-jC-UO9" id="H1x-sw-0mt"/>
                 <outlet property="nameLabel" destination="kjj-pV-aMN" id="S01-c7-jYm"/>
+                <outlet property="redDotImageView" destination="EBI-KB-5zQ" id="opl-jx-dWm"/>
                 <outlet property="timeAgoLabel" destination="Xjd-IV-gXl" id="zeA-La-Coq"/>
+                <outlet property="unreadCountLabel" destination="iMI-cX-ITU" id="zOZ-bt-Z6J"/>
             </connections>
             <point key="canvasLocation" x="451" y="341"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="unread_red_dot" width="15" height="19"/>
+    </resources>
 </document>

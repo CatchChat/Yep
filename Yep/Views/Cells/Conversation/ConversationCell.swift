@@ -12,8 +12,22 @@ class ConversationCell: UITableViewCell {
 
     var conversation: Conversation!
 
+    var countOfUnreadMessages = 0 {
+        didSet {
+            let hidden = countOfUnreadMessages == 0
+
+            redDotImageView.hidden = hidden
+            unreadCountLabel.hidden = hidden
+
+            unreadCountLabel.text = "\(countOfUnreadMessages)"
+        }
+    }
 
     @IBOutlet weak var avatarImageView: UIImageView!
+
+    @IBOutlet weak var redDotImageView: UIImageView!
+    @IBOutlet weak var unreadCountLabel: UILabel!
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var chatLabel: UILabel!
     @IBOutlet weak var timeAgoLabel: UILabel!
@@ -34,6 +48,8 @@ class ConversationCell: UITableViewCell {
     func configureWithConversation(conversation: Conversation, avatarRadius radius: CGFloat) {
         
         self.conversation = conversation
+
+        countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
         
         if conversation.type == ConversationType.OneToOne.rawValue {
 
