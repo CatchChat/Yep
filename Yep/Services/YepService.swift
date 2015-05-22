@@ -387,30 +387,6 @@ func sendVerifyCodeOfMobile(mobile: String, withAreaCode areaCode: String, useMe
     }
 }
 
-func resendVoiceVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
-    let requestParameters = [
-        "mobile": mobile,
-        "phone_code": areaCode,
-    ]
-
-    let parse: JSONDictionary -> Bool? = { data in
-        if let status = data["state"] as? String {
-            return true
-        }
-
-        return false
-    }
-
-    let resource = jsonResource(path: "/api/v1/registration/resend_verify_code_by_voice", method: .POST, requestParameters: requestParameters, parse: parse)
-
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
-    } else {
-        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
-    }
-
-}
-
 func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: LoginUser -> Void) {
 
     let requestParameters: JSONDictionary = [
