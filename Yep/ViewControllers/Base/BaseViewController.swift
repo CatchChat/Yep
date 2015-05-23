@@ -38,7 +38,14 @@ class BaseViewController: UIViewController {
             navigationController.navigationBar.tintColor = nil
         }
         
-        self.navigationController?.setNavigationBarHidden(false, animated: animatedOnNavigationBar)
+        if let hidden = self.navigationController?.navigationBarHidden {
+            
+            if hidden {
+                self.navigationController?.setNavigationBarHidden(false, animated: animatedOnNavigationBar)
+            }
+
+        }
+
     }
 
     /*

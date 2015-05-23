@@ -612,7 +612,7 @@
                                     <constraint firstAttribute="height" constant="160" id="zQ8-r2-xvU"/>
                                 </constraints>
                             </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qu8-bN-78f">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qu8-bN-78f" customClass="YepScrollView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="160" width="600" height="440"/>
                             </scrollView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="top_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="nqy-s8-NRi" userLabel="Shadow Image View">
@@ -1269,7 +1269,7 @@
         <image name="top_shadow" width="375" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Snz-CT-4aa"/>
         <segue reference="o3b-2D-AMq"/>
-        <segue reference="l4P-ds-ihU"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -76,7 +76,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         }
     }
     
-    @IBOutlet weak var skillHomeScrollView: UIScrollView!
+    @IBOutlet weak var skillHomeScrollView: YepScrollView!
     
     @IBOutlet weak var headerView: SkillHomeHeaderView!
     
@@ -96,7 +96,6 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         masterTableView.delegate = self
         masterTableView.tag = SkillHomeState.Master.hashValue
         
-        
         learningtTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         learningtTableView.rowHeight = 80
         learningtTableView.dataSource = self
@@ -112,13 +111,30 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         headerView.masterButton.addTarget(self, action: "changeToMaster", forControlEvents: UIControlEvents.TouchUpInside)
         headerView.learningButton.addTarget(self, action: "changeToLearning", forControlEvents: UIControlEvents.TouchUpInside)
         
+        automaticallyAdjustsScrollViewInsets = false
+        
         skillHomeScrollView.addSubview(masterTableView)
         skillHomeScrollView.addSubview(learningtTableView)
         skillHomeScrollView.pagingEnabled = true
         skillHomeScrollView.delegate = self
         skillHomeScrollView.bounces = false
         
+        
+        if let gestures = navigationController?.view.gestureRecognizers {
+            for recognizer in gestures
+            {
+                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer)
+                {
+                    skillHomeScrollView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                    println("Require UIScreenEdgePanGestureRecognizer to failed")
+                    break
+                }
+            }
+        }
+
+        
         customTitleView()
+
 
         // Do any additional setup after loading the view.
     }

@@ -212,6 +212,8 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationController?.interactivePopGestureRecognizer.delegate = self
+        
         profileCollectionView.registerNib(UINib(nibName: skillCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: headerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: footerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: footerCellIdentifier)
@@ -330,8 +332,6 @@ class ProfileViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     
         customNavigationBar.alpha = 1.0
-        
-        self.navigationController?.interactivePopGestureRecognizer.delegate = self
         
         self.setNeedsStatusBarAppearanceUpdate()
     }
@@ -552,7 +552,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case SeparationLine
         case SocialAccount
     }
-
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 6
