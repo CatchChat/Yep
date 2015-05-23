@@ -116,6 +116,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         skillHomeScrollView.addSubview(learningtTableView)
         skillHomeScrollView.pagingEnabled = true
         skillHomeScrollView.delegate = self
+        skillHomeScrollView.bounces = false
         
         customTitleView()
 
@@ -189,7 +190,9 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         
-        if scrollView.contentOffset.x >= scrollView.contentSize.width / 2 {
+        println("Did end decelerating \(skillHomeScrollView.contentOffset.x)")
+        
+        if skillHomeScrollView.contentOffset.x + 10 >= skillHomeScrollView.contentSize.width / 2.0 {
             
             state = .Learning
             
