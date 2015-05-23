@@ -26,18 +26,18 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     
     let cellIdentifier = "ContactsCell"
     
-    lazy var masterTableView: UITableView = {
+    lazy var masterTableView: YepChildScrollView = {
         
-        var tempTableView = UITableView(frame: CGRectZero)
+        var tempTableView = YepChildScrollView(frame: CGRectZero)
 
         
         return tempTableView;
         
     }()
     
-    lazy var learningtTableView: UITableView = {
+    lazy var learningtTableView: YepChildScrollView = {
         
-        var tempTableView = UITableView(frame: CGRectZero)
+        var tempTableView = YepChildScrollView(frame: CGRectZero)
         
         
         return tempTableView;
@@ -118,7 +118,6 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         skillHomeScrollView.pagingEnabled = true
         skillHomeScrollView.delegate = self
         skillHomeScrollView.bounces = false
-        
         
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures

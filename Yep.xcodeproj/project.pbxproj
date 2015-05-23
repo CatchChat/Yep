@@ -31,6 +31,7 @@
 		0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A944C241AC8BB2F00037A06 /* YepStorageService.swift */; };
 		0AAFCFF91AC8CA5B00EB0EF8 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */; };
 		0AC25F031B1100F0009E6E13 /* YepScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC25F021B1100F0009E6E13 /* YepScrollView.swift */; };
+		0AC25F061B1105D5009E6E13 /* YepChildScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC25F051B1105D5009E6E13 /* YepChildScrollView.swift */; };
 		0AD7EA5E1AC3ED1200617758 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA5D1AC3ED1200617758 /* CFNetwork.framework */; };
 		0AD7EA601AC3ED1900617758 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA5F1AC3ED1900617758 /* CoreFoundation.framework */; };
 		0AD7EA621AC3ED2100617758 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA611AC3ED2100617758 /* CoreTelephony.framework */; };
@@ -232,6 +233,7 @@
 		0A944C241AC8BB2F00037A06 /* YepStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepStorageService.swift; path = Services/YepStorageService.swift; sourceTree = "<group>"; };
 		0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		0AC25F021B1100F0009E6E13 /* YepScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepScrollView.swift; path = Views/ScrollView/YepScrollView.swift; sourceTree = "<group>"; };
+		0AC25F051B1105D5009E6E13 /* YepChildScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepChildScrollView.swift; path = Views/ScrollView/YepChildScrollView.swift; sourceTree = "<group>"; };
 		0AD7EA511AC3EA6F00617758 /* JPushSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JPushSDK.framework; path = "Pods/../build/Debug-iphoneos/Pods/JPushSDK.framework"; sourceTree = "<group>"; };
 		0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Yep-Bridging-Header.h"; sourceTree = "<group>"; };
 		0AD7EA5B1AC3ECD700617758 /* libPushSDK-1.8.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPushSDK-1.8.3.a"; path = "Yep/lib/libPushSDK-1.8.3.a"; sourceTree = "<group>"; };
@@ -592,6 +594,7 @@
 			isa = PBXGroup;
 			children = (
 				0AC25F021B1100F0009E6E13 /* YepScrollView.swift */,
+				0AC25F051B1105D5009E6E13 /* YepChildScrollView.swift */,
 			);
 			name = ScrollView;
 			sourceTree = "<group>";
@@ -1605,6 +1608,7 @@
 				50E114F41ABBF9CC00F13000 /* Models.swift in Sources */,
 				5053AD551AF83B0F00B3CBFA /* ChatRightLocationCell.swift in Sources */,
 				50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */,
+				0AC25F061B1105D5009E6E13 /* YepChildScrollView.swift in Sources */,
 				0A943A7B1B0F8EAE0022DD67 /* BaseViewController.swift in Sources */,
 				50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */,
 				50EB8C5E1AE78AB9001AC1EE /* YepAsset.swift in Sources */,
