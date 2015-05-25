@@ -169,6 +169,7 @@ class ConversationViewController: BaseViewController {
         realm = Realm()
 
         navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
+        navigationController?.interactivePopGestureRecognizer.delegate = self
 
         if messages.count >= messagesBunchCount {
             displayedMessagesRange = NSRange(location: Int(messages.count) - messagesBunchCount, length: messagesBunchCount)
@@ -1235,6 +1236,26 @@ class ConversationViewController: BaseViewController {
                 }
             }
         }
+    }
+}
+
+// MARK: UIGestureRecognizerDelegate
+
+extension ConversationViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let isAnimated = navigationController?.transitionCoordinator()?.isAnimated() {
+            return !isAnimated
+        }
+
+        if navigationController?.viewControllers.count < 2 {
+            return false
+        }
+
+        if gestureRecognizer == navigationController?.interactivePopGestureRecognizer {
+            return true
+        }
+
+        return false
     }
 }
 

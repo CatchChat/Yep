@@ -10,17 +10,21 @@ import UIKit
 
 class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINavigationControllerDelegate, UIViewControllerAnimatedTransitioning {
 
+    // MARK: UINavigationControllerDelegate
+
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         if operation == .Push {
             if toVC.isKindOfClass(MessageMediaViewController.self) {
                 isPresentation = true
+                
                 return self
             }
 
         } else if operation == .Pop {
             if toVC.isKindOfClass(ConversationViewController.self) {
                 isPresentation = false
+
                 return self
             }
         }

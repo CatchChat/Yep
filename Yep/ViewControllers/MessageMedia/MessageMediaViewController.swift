@@ -135,7 +135,8 @@ class MessageMediaViewController: UIViewController {
             }
         }
 
-        dismissViewControllerAnimated(true, completion: nil)
+//        dismissViewControllerAnimated(true, completion: nil)
+        navigationController?.popViewControllerAnimated(true)
     }
 
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
