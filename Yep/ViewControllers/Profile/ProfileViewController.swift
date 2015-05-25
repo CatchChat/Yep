@@ -307,6 +307,14 @@ class ProfileViewController: UIViewController {
                         self.socialWorkProviderInfo = providerInfo
                     }
 
+                    if let areaCode = userInfo["phone_code"] as? String {
+                        YepUserDefaults.areaCode.value = areaCode
+                    }
+
+                    if let mobile = userInfo["mobile"] as? String {
+                        YepUserDefaults.mobile.value = mobile
+                    }
+
                     dispatch_async(dispatch_get_main_queue()) {
                         self.profileCollectionView.reloadData()
                     }
