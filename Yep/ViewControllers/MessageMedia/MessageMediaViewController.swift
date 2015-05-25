@@ -21,13 +21,21 @@ class MessageMediaViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("Preview", comment: "")
 
-        view.backgroundColor = UIColor.blackColor()
-        mediaView.backgroundColor = UIColor.blackColor()
+        self.view.backgroundColor = UIColor.blackColor()
+        self.mediaView.backgroundColor = UIColor.blackColor()
+        
+
+        
 
         if let message = message {
 

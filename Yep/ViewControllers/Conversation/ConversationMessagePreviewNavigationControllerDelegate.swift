@@ -93,8 +93,8 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
             UIView.animateKeyframesWithDuration(fullDuration, delay: 0.0, options: .CalculationModeCubic, animations: { () -> Void in
 
-                UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 0.2, animations: { () -> Void in
-                    animatingVC.view.backgroundColor = UIColor.whiteColor()
+                UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: fullDuration, animations: { () -> Void in
+                    animatingVC.view.backgroundColor = UIColor.blackColor()
                 })
 
                 UIView.addKeyframeWithRelativeStartTime(0.2, relativeDuration: 0.5, animations: { () -> Void in
@@ -162,6 +162,12 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
             }
 
             UIView.animateKeyframesWithDuration(fullDuration, delay: 0.0, options: .CalculationModeCubic, animations: { () -> Void in
+                
+                
+                UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: fullDuration, animations: { () -> Void in
+                    animatingVC.view.backgroundColor = UIColor.clearColor()
+                })
+
 
                 UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.2, animations: { () -> Void in
                     let ratio = (animatingView.bounds.width + self.largerOffset) / animatingView.bounds.width
@@ -173,7 +179,6 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
                     animatingView.addSubview(transitionViewSnapshot)
                     transitionViewSnapshot.center = animatingView.center
                     transitionViewSnapshot.alpha = 1
-
                     animatingVC.mediaView.alpha = 0
                 })
 
@@ -181,9 +186,6 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
                     transitionViewSnapshot.frame = self.frame
                 })
 
-                UIView.addKeyframeWithRelativeStartTime(0.8, relativeDuration: 0.2, animations: { () -> Void in
-                    animatingVC.view.backgroundColor = UIColor.clearColor()
-                })
                 
             }, completion: { (finished) -> Void in
                     

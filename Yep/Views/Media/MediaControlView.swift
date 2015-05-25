@@ -111,6 +111,8 @@ class MediaControlView: UIView {
         let playButtonConstraintCenterX = NSLayoutConstraint(item: playButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0)
 
         NSLayoutConstraint.activateConstraints([playButtonConstraintCenterX])
+        
+        backgroundColor = UIColor(white: 0.0, alpha: 0.3)
     }
 
     // MARK: Actions
