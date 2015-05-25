@@ -46,6 +46,7 @@ class ConversationViewController: BaseViewController {
         }()
 
     var messagePreviewTransitionManager: ConversationMessagePreviewTransitionManager?
+    var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
 
 
     var conversationCollectionViewHasBeenMovedToBottomOnce = false
@@ -1034,11 +1035,90 @@ class ConversationViewController: BaseViewController {
                 
                 vc.setBackButtonWithTitle()
             }
-        
 
-        }
+        } else if segue.identifier == "showMessageMedia" {
 
-        if segue.identifier == "presentMessageMedia" {
+            let vc = segue.destinationViewController as! MessageMediaViewController
+
+            if let message = sender as? Message, messageIndex = messages.indexOf(message) {
+
+                vc.message = message
+
+                let indexPath = NSIndexPath(forRow: messageIndex - displayedMessagesRange.location , inSection: 0)
+
+                if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) {
+
+                    var frame = CGRectZero
+                    var transitionView: UIView?
+
+                    if let sender = message.fromFriend {
+                        if sender.friendState != UserFriendState.Me.rawValue {
+                            switch message.mediaType {
+
+                            case MessageMediaType.Image.rawValue:
+                                let cell = cell as! ChatLeftImageCell
+                                transitionView = cell.messageImageView
+                                frame = cell.convertRect(cell.messageImageView.frame, toView: view)
+
+                            case MessageMediaType.Video.rawValue:
+                                let cell = cell as! ChatLeftVideoCell
+                                transitionView = cell.thumbnailImageView
+                                frame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+
+                            case MessageMediaType.Location.rawValue:
+                                let cell = cell as! ChatLeftLocationCell
+                                transitionView = cell.mapImageView
+                                frame = cell.convertRect(cell.mapImageView.frame, toView: view)
+
+                            default:
+                                break
+                            }
+
+                        } else {
+                            switch message.mediaType {
+
+                            case MessageMediaType.Image.rawValue:
+                                let cell = cell as! ChatRightImageCell
+                                transitionView = cell.messageImageView
+                                frame = cell.convertRect(cell.messageImageView.frame, toView: view)
+
+                            case MessageMediaType.Video.rawValue:
+                                let cell = cell as! ChatRightVideoCell
+                                transitionView = cell.thumbnailImageView
+                                frame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+
+                            case MessageMediaType.Location.rawValue:
+                                let cell = cell as! ChatRightLocationCell
+                                transitionView = cell.mapImageView
+                                frame = cell.convertRect(cell.mapImageView.frame, toView: view)
+
+                            default:
+                                break
+                            }
+                        }
+                    }
+
+//                    vc.modalPresentationStyle = UIModalPresentationStyle.Custom
+//
+//                    let transitionManager = ConversationMessagePreviewTransitionManager()
+//                    transitionManager.frame = frame
+//                    transitionManager.transitionView = transitionView
+//                    
+//                    vc.transitioningDelegate = transitionManager
+//                    
+//                    messagePreviewTransitionManager = transitionManager
+
+                    let delegate = ConversationMessagePreviewNavigationControllerDelegate()
+                    delegate.frame = frame
+                    delegate.transitionView = transitionView
+
+                    navigationControllerDelegate = delegate
+
+                    navigationController?.delegate = delegate
+                }
+            }
+
+        } else if segue.identifier == "presentMessageMedia" {
 
             let vc = segue.destinationViewController as! MessageMediaViewController
 
@@ -1322,10 +1402,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             switch message.mediaType {
             case MessageMediaType.Image.rawValue:
-                performSegueWithIdentifier("presentMessageMedia", sender: message)
+                //performSegueWithIdentifier("presentMessageMedia", sender: message)
+                performSegueWithIdentifier("showMessageMedia", sender: message)
 
             case MessageMediaType.Video.rawValue:
-                performSegueWithIdentifier("presentMessageMedia", sender: message)
+                //performSegueWithIdentifier("presentMessageMedia", sender: message)
+                performSegueWithIdentifier("showMessageMedia", sender: message)
 
             case MessageMediaType.Audio.rawValue:
 

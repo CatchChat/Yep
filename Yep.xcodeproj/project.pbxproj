@@ -101,6 +101,7 @@
 		5053AD561AF83B0F00B3CBFA /* ChatRightLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5053AD541AF83B0F00B3CBFA /* ChatRightLocationCell.xib */; };
 		5053AD5A1AF83B4200B3CBFA /* ChatLeftLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD581AF83B4200B3CBFA /* ChatLeftLocationCell.swift */; };
 		5053AD5B1AF83B4200B3CBFA /* ChatLeftLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5053AD591AF83B4200B3CBFA /* ChatLeftLocationCell.xib */; };
+		505498621B12FB0E0037E3BD /* ConversationMessagePreviewNavigationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505498611B12FB0E0037E3BD /* ConversationMessagePreviewNavigationControllerDelegate.swift */; };
 		50553F8F1ADB8BA200F80B59 /* ChatSectionDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F8D1ADB8BA200F80B59 /* ChatSectionDateCell.swift */; };
 		50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50553F8E1ADB8BA200F80B59 /* ChatSectionDateCell.xib */; };
 		50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F921ADBA50600F80B59 /* NSDate+Yep.swift */; };
@@ -307,6 +308,7 @@
 		5053AD541AF83B0F00B3CBFA /* ChatRightLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatRightLocationCell.xib; path = Views/Cells/ChatRightLocation/ChatRightLocationCell.xib; sourceTree = "<group>"; };
 		5053AD581AF83B4200B3CBFA /* ChatLeftLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftLocationCell.swift; path = Views/Cells/ChatLeftLocation/ChatLeftLocationCell.swift; sourceTree = "<group>"; };
 		5053AD591AF83B4200B3CBFA /* ChatLeftLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftLocationCell.xib; path = Views/Cells/ChatLeftLocation/ChatLeftLocationCell.xib; sourceTree = "<group>"; };
+		505498611B12FB0E0037E3BD /* ConversationMessagePreviewNavigationControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMessagePreviewNavigationControllerDelegate.swift; path = ViewControllers/Conversation/ConversationMessagePreviewNavigationControllerDelegate.swift; sourceTree = "<group>"; };
 		50553F8D1ADB8BA200F80B59 /* ChatSectionDateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatSectionDateCell.swift; path = Views/Cells/ChatSectionDate/ChatSectionDateCell.swift; sourceTree = "<group>"; };
 		50553F8E1ADB8BA200F80B59 /* ChatSectionDateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatSectionDateCell.xib; path = Views/Cells/ChatSectionDate/ChatSectionDateCell.xib; sourceTree = "<group>"; };
 		50553F921ADBA50600F80B59 /* NSDate+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Yep.swift"; path = "Extensions/NSDate+Yep.swift"; sourceTree = "<group>"; };
@@ -941,6 +943,7 @@
 				503CAB421AC00CB100DFE830 /* ConversationViewController.swift */,
 				50165C441AC2860900C7AEBE /* ConversationLayout.swift */,
 				5076FC591AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift */,
+				505498611B12FB0E0037E3BD /* ConversationMessagePreviewNavigationControllerDelegate.swift */,
 			);
 			name = Conversation;
 			sourceTree = "<group>";
@@ -1682,6 +1685,7 @@
 				506923121ADE025200D27574 /* Waver.swift in Sources */,
 				0A5D83991AC5D91E000045BF /* ContactsSearchTableViewController.swift in Sources */,
 				502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */,
+				505498621B12FB0E0037E3BD /* ConversationMessagePreviewNavigationControllerDelegate.swift in Sources */,
 				0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */,
 				505EC8171ADF8151001D27E0 /* SkillCategoryCell.swift in Sources */,
 				0A90187E1B01152800AE4B7F /* ProfileSocialAccountCell.swift in Sources */,
