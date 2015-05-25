@@ -15,14 +15,14 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         if operation == .Push {
-            if toVC.isKindOfClass(MessageMediaViewController.self) {
+            if fromVC.isKindOfClass(ConversationViewController.self) && toVC.isKindOfClass(MessageMediaViewController.self) {
                 isPresentation = true
                 
                 return self
             }
 
         } else if operation == .Pop {
-            if toVC.isKindOfClass(ConversationViewController.self) {
+            if fromVC.isKindOfClass(MessageMediaViewController.self) && toVC.isKindOfClass(ConversationViewController.self) {
                 isPresentation = false
 
                 return self
