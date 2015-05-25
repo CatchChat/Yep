@@ -21,7 +21,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
         } else if operation == .Pop {
             if toVC.isKindOfClass(ConversationViewController.self) {
                 isPresentation = false
-                return nil
+                return self
             }
         }
 
@@ -139,6 +139,12 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
         let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as? MessageMediaViewController
 
         let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
+        let toView = transitionContext.viewForKey(UITransitionContextToViewKey)
+
+        let containerView = transitionContext.containerView()
+
+        containerView.addSubview(toView!)
+        containerView.addSubview(fromView!)
 
         let animatingVC = fromVC!
         let animatingView = fromView!
