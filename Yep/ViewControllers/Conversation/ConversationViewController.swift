@@ -407,13 +407,15 @@ class ConversationViewController: BaseViewController {
 
         // MARK: MessageToolbar State Transitions
 
-        messageToolbar.stateTransitionAction = { (previousState, currentState) in
+        messageToolbar.stateTransitionAction = { (messageToolbar, previousState, currentState) in
 
             switch (previousState, currentState) {
+
             case (.MoreMessages, .Default):
                 if !self.isKeyboardVisible {
                     self.adjustBackCollectionViewWithHeight(0, animationDuration: 0.3, animationCurveValue: 7)
-                }else{
+
+                } else {
                     self.hideKeyboardAndShowMoreMessageView()
                 }
 
@@ -422,6 +424,30 @@ class ConversationViewController: BaseViewController {
                     self.hideKeyboardAndShowMoreMessageView()
                 }
             }
+
+
+            // 尝试保留草稿
+
+            let realm = Realm()
+
+            if let draft = self.conversation.draft {
+                realm.write {
+                    draft.messageToolbarState = currentState.rawValue
+
+                    if currentState == .TextInputing {
+                        draft.text = messageToolbar.messageTextView.text
+                    }
+                }
+
+            } else {
+                let draft = Draft()
+                draft.messageToolbarState = currentState.rawValue
+
+                realm.write {
+                    self.conversation.draft = draft
+                }
+            }
+
         }
     
 

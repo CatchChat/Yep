@@ -211,7 +211,7 @@ class Message: Object {
 }
 
 class Draft: Object {
-    dynamic var messageMediaType: Int = MessageMediaType.Text.rawValue
+    dynamic var messageToolbarState: Int = MessageToolbarState.Default.rawValue
 
     dynamic var text: String = ""
 }
