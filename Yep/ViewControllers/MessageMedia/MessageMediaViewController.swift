@@ -26,6 +26,9 @@ class MessageMediaViewController: UIViewController {
 
         title = NSLocalizedString("Preview", comment: "")
 
+        view.backgroundColor = UIColor.blackColor()
+        mediaView.backgroundColor = UIColor.blackColor()
+
         if let message = message {
 
             switch message.mediaType {
