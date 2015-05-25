@@ -40,15 +40,9 @@ class MessageMediaViewController: UIViewController {
                         mediaView.imageView.image = image
 
                         mediaControlView.shareAction = {
-                            let presentingViewController = self.presentingViewController
+                            let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
 
-                            self.dismissViewControllerAnimated(true, completion: { () -> Void in
-
-                                let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-
-                                presentingViewController?.presentViewController(activityViewController, animated: true, completion: { () -> Void in
-
-                                })
+                            self.presentViewController(activityViewController, animated: true, completion: { () -> Void in
                             })
                         }
                 }
@@ -104,15 +98,9 @@ class MessageMediaViewController: UIViewController {
 
 
                         mediaControlView.shareAction = {
-                            let presentingViewController = self.presentingViewController
+                            let activityViewController = UIActivityViewController(activityItems: [videoFileURL], applicationActivities: nil)
 
-                            self.dismissViewControllerAnimated(true, completion: { () -> Void in
-
-                                let activityViewController = UIActivityViewController(activityItems: [videoFileURL], applicationActivities: nil)
-
-                                presentingViewController?.presentViewController(activityViewController, animated: true, completion: { () -> Void in
-                                    
-                                })
+                            self.presentViewController(activityViewController, animated: true, completion: { () -> Void in
                             })
                         }
                 }
