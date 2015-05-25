@@ -9,13 +9,23 @@
 import UIKit
 
 class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINavigationControllerDelegate, UIViewControllerAnimatedTransitioning {
+
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         if operation == .Push {
-            return self
-        } else {
-            return nil
+            if toVC.isKindOfClass(MessageMediaViewController.self) {
+                isPresentation = true
+                return self
+            }
+
+        } else if operation == .Pop {
+            if toVC.isKindOfClass(ConversationViewController.self) {
+                isPresentation = false
+                return nil
+            }
         }
+
+        return nil
     }
 
     // MARK: UIViewControllerAnimatedTransitioning

@@ -506,7 +506,7 @@ class ConversationViewController: BaseViewController {
             }
         }
 
-        // 尝试回复 messageToolbar 的状态
+        // 尝试恢复 messageToolbar 的状态
         if let
             draft = conversation.draft,
             state = MessageToolbarState(rawValue: draft.messageToolbarState) {
