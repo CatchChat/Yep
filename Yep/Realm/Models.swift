@@ -210,6 +210,12 @@ class Message: Object {
     dynamic var conversation: Conversation?
 }
 
+class Draft: Object {
+    dynamic var messageMediaType: Int = MessageMediaType.Text.rawValue
+
+    dynamic var text: String = ""
+}
+
 // MARK: Conversation
 
 enum ConversationType: Int {
@@ -223,6 +229,8 @@ class Conversation: Object {
 
     dynamic var withFriend: User?
     dynamic var withGroup: Group?
+
+    dynamic var draft: Draft?
 
     var messages: [Message] {
         return linkingObjects(Message.self, forProperty: "conversation")
