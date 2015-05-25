@@ -489,6 +489,24 @@ class ConversationViewController: BaseViewController {
         addLocationButton.tapAction = {
             self.performSegueWithIdentifier("presentPickLocation", sender: nil)
         }
+    
+    }
+    
+    func prepareTextInputView() {
+        // 尝试恢复 messageToolbar 的状态
+        if let
+            draft = conversation.draft,
+            state = MessageToolbarState(rawValue: draft.messageToolbarState) {
+                
+                if state == .TextInputing {
+                    messageToolbar.messageTextView.text = draft.text
+                
+                //                    messageToolbar.messageTextView.becomeFirstResponder()
+                }
+        
+                // 这句要放在最后，因为它会触发 
+                messageToolbar.state = state
+        }
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -512,20 +530,6 @@ class ConversationViewController: BaseViewController {
             }
         }
 
-        // 尝试恢复 messageToolbar 的状态
-        if let
-            draft = conversation.draft,
-            state = MessageToolbarState(rawValue: draft.messageToolbarState) {
-
-                if state == .TextInputing {
-                    messageToolbar.messageTextView.text = draft.text
-
-                    messageToolbar.messageTextView.becomeFirstResponder()
-                }
-
-                // 这句要放在最后，因为它会触发 stateTransitionAction
-                messageToolbar.state = state
-        }
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -554,6 +558,7 @@ class ConversationViewController: BaseViewController {
             
             //以前的方法不能保证边界情况滚到底部
             scrollToLastMessage()
+            prepareTextInputView()
         }
         
         self.waverView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height)
