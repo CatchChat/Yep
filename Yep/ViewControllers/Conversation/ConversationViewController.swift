@@ -75,9 +75,14 @@ class ConversationViewController: BaseViewController {
 
     lazy var titleView: ConversationTitleView = {
         let titleView = ConversationTitleView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 150, height: 44)))
-        titleView.nameLabel.text = nameOfConversation(self.conversation)
+
+        let name = nameOfConversation(self.conversation)
+
+        titleView.nameLabel.text = name
 
         self.updateStateInfoOfTitleView(titleView)
+
+        self.navigationItem.title = name
 
         return titleView
         }()

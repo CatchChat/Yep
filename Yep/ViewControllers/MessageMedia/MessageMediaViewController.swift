@@ -24,6 +24,8 @@ class MessageMediaViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = NSLocalizedString("Preview", comment: "")
+
         if let message = message {
 
             switch message.mediaType {
