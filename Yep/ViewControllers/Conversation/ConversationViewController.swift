@@ -504,6 +504,21 @@ class ConversationViewController: BaseViewController {
                 })
             }
         }
+
+        // 尝试回复 messageToolbar 的状态
+        if let
+            draft = conversation.draft,
+            state = MessageToolbarState(rawValue: draft.messageToolbarState) {
+
+                if state == .TextInputing {
+                    messageToolbar.messageTextView.text = draft.text
+
+                    messageToolbar.messageTextView.becomeFirstResponder()
+                }
+
+                // 这句要放在最后，因为它会触发 stateTransitionAction
+                messageToolbar.state = state
+        }
     }
 
     override func viewDidDisappear(animated: Bool) {
