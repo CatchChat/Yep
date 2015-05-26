@@ -656,7 +656,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O7a-Xh-Uff" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1204" y="1999"/>
+            <point key="canvasLocation" x="1002" y="1981"/>
         </scene>
         <!--Add Friends View Controller-->
         <scene sceneID="f0W-Bv-ApN">
@@ -735,6 +735,7 @@
                     </view>
                     <connections>
                         <outlet property="searchedUsersTableView" destination="g8U-pG-JhU" id="JkD-Sn-KGi"/>
+                        <segue destination="AyC-pt-NR2" kind="show" identifier="showProfile" id="hTj-2y-9h4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IY7-lg-OWx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1270,8 +1271,8 @@
         <image name="top_shadow" width="375" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="6No-Lc-7X4"/>
+        <segue reference="hTj-2y-9h4"/>
         <segue reference="o3b-2D-AMq"/>
-        <segue reference="PTw-QB-dRp"/>
+        <segue reference="6No-Lc-7X4"/>
     </inferredMetricsTieBreakers>
 </document>

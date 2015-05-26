@@ -46,6 +46,24 @@ class SearchedUsersViewController: UIViewController {
     func updateSearchedUsersTableView() {
         searchedUsersTableView.reloadData()
     }
+
+    // MARK: Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showProfile" {
+            if let indexPath = sender as? NSIndexPath {
+                let discoveredUser = searchedUsers[indexPath.row]
+
+                let vc = segue.destinationViewController as! ProfileViewController
+
+                vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+
+                vc.setBackButtonWithTitle()
+
+                vc.hidesBottomBarWhenPushed = true
+            }
+        }
+    }
 }
 
 // MARK: UITableViewDataSource, UITableViewDelegate
@@ -82,6 +100,6 @@ extension SearchedUsersViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        //performSegueWithIdentifier("showProfile", sender: indexPath)
+        performSegueWithIdentifier("showProfile", sender: indexPath)
     }
 }
