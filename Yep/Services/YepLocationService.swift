@@ -17,6 +17,8 @@ class YepLocationService: NSObject, CLLocationManagerDelegate {
     var address:String?
     var geocoder = CLGeocoder()
     
+    var userLocationUpdated = false
+    
     override init() {
         super.init()
         locationManager.delegate = self
@@ -33,6 +35,18 @@ class YepLocationService: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!) {
+        
+        if !userLocationUpdated {
+            updateMyselfWithInfo(["latitude": newLocation.coordinate.latitude, "longitude": newLocation.coordinate.longitude], failureHandler: { (reason, errorMessage) in
+                
+                    defaultFailureHandler(reason, errorMessage)
+                
+                }, completion: { success in
+                    if success {
+                        self.userLocationUpdated = true
+                    }
+            })
+        }
         
         geocoder.reverseGeocodeLocation(newLocation, completionHandler: { (placemarks, error) in
             
