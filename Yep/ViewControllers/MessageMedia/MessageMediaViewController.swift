@@ -172,4 +172,8 @@ class MessageMediaViewController: UIViewController {
             playerItem.seekToTime(kCMTimeZero)
         }
     }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
 }
