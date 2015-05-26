@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchUsersViewController: UIViewController {
+class SearchUsersViewController: BaseViewController {
 
     @IBOutlet weak var searchedUsersTableView: UITableView!
 

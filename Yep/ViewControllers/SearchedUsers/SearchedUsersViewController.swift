@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchedUsersViewController: UIViewController {
+class SearchedUsersViewController: BaseViewController {
 
     var mobile = "18602354812"
 
