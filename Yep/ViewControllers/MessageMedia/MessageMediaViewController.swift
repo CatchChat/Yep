@@ -33,6 +33,8 @@ class MessageMediaViewController: UIViewController {
 
         self.view.backgroundColor = UIColor.blackColor()
         self.mediaView.backgroundColor = UIColor.blackColor()
+
+        automaticallyAdjustsScrollViewInsets = false
         
 
         if let message = message {
