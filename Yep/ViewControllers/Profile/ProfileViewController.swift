@@ -316,7 +316,7 @@ class ProfileViewController: UIViewController {
                     }
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.profileCollectionView.reloadData()
+                        self.updateProfileCollectionView()
                     }
                 }
             }
@@ -418,7 +418,9 @@ class ProfileViewController: UIViewController {
     // MARK: Actions
 
     func updateProfileCollectionView() {
-        self.profileCollectionView.reloadData()
+        profileCollectionView.collectionViewLayout.invalidateLayout()
+        profileCollectionView.reloadData()
+        profileCollectionView.layoutIfNeeded()
     }
 
     @IBAction func sayHi(sender: UIButton) {
@@ -915,12 +917,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return CGSizeMake(collectionViewWidth, 40)
 
         } else {
-            return CGSizeMake(collectionViewWidth, 0)
+            return CGSizeZero
         }
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSizeMake(collectionViewWidth, 0)
+        return CGSizeZero
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
