@@ -1468,7 +1468,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
                             }
 
-                            if message == playingMessage {
+                            if message.messageID == playingMessage.messageID {
                                 return
                             }
                         }
