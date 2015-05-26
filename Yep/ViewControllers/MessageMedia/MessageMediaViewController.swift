@@ -35,8 +35,6 @@ class MessageMediaViewController: UIViewController {
         self.mediaView.backgroundColor = UIColor.blackColor()
         
 
-        
-
         if let message = message {
 
             switch message.mediaType {
@@ -48,7 +46,7 @@ class MessageMediaViewController: UIViewController {
                 if
                     let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
                     let image = UIImage(contentsOfFile: imageFileURL.path!) {
-                        mediaView.imageView.image = image
+                        mediaView.image = image
 
                         mediaControlView.shareAction = {
                             let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
