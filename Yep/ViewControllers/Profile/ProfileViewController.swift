@@ -247,7 +247,20 @@ class ProfileViewController: UIViewController {
         
         customNavigationBar.titleTextAttributes = textAttributes
         customNavigationBar.tintColor = UIColor.whiteColor()
-
+        
+        
+        //Make sure when pan edge screen collectionview not scroll
+        if let gestures = navigationController?.view.gestureRecognizers {
+            for recognizer in gestures
+            {
+                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer)
+                {
+                    profileCollectionView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                    println("Require UIScreenEdgePanGestureRecognizer to failed")
+                    break
+                }
+            }
+        }
 
         if let tabBarController = tabBarController {
             profileCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: CGRectGetHeight(tabBarController.tabBar.bounds), right: 0)
