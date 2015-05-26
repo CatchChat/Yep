@@ -16,11 +16,9 @@ class MediaView: UIView {
             if let image = image {
                 imageView.image = image
 
-                let size = image.size
-//
                 scrollView.frame = UIScreen.mainScreen().bounds
-//                scrollView.contentSize = size
-//
+
+                let size = image.size
                 imageView.frame = CGRect(origin: CGPointZero, size: size)
 
                 setZoomParametersForSize(scrollView.bounds.size, imageSize: size)
@@ -32,8 +30,13 @@ class MediaView: UIView {
     }
 
     lazy var scrollView: UIScrollView = {
+
         let scrollView = UIScrollView()
         scrollView.delegate = self
+
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
+
         return scrollView
         }()
 
@@ -74,7 +77,6 @@ class MediaView: UIView {
         scrollView.setTranslatesAutoresizingMaskIntoConstraints(false)
 
         let viewsDictionary = [
-            "view": self,
             "scrollView": scrollView,
             "imageView": imageView,
         ]
@@ -89,34 +91,34 @@ class MediaView: UIView {
 
         scrollView.addSubview(imageView)
 
-        //imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
-//
-//
-//        let imageViewLeadingConstraint = NSLayoutConstraint(item: imageView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0)
-//
-//        let imageViewTrailingConstraint = NSLayoutConstraint(item: imageView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0)
-//
-//        let imageViewTopConstraint = NSLayoutConstraint(item: imageView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0)
-//
-//        let imageViewBottomConstraint = NSLayoutConstraint(item: imageView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0)
-//
-//         NSLayoutConstraint.activateConstraints([
-//            imageViewLeadingConstraint,
-//            imageViewTrailingConstraint,
-//            imageViewTopConstraint,
-//            imageViewBottomConstraint,
-//            ])
+        /*
+        imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
 
-//        let imageViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[imageView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
-//
-//        let imageViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[imageView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
-//
-//        NSLayoutConstraint.activateConstraints(imageViewConstraintsV)
-//        NSLayoutConstraint.activateConstraints(imageViewConstraintsH)
+        let imageViewLeadingConstraint = NSLayoutConstraint(item: imageView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1.0, constant: 0)
+
+        let imageViewTrailingConstraint = NSLayoutConstraint(item: imageView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1.0, constant: 0)
+
+        let imageViewTopConstraint = NSLayoutConstraint(item: imageView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0)
+
+        let imageViewBottomConstraint = NSLayoutConstraint(item: imageView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0)
+
+         NSLayoutConstraint.activateConstraints([
+            imageViewLeadingConstraint,
+            imageViewTrailingConstraint,
+            imageViewTopConstraint,
+            imageViewBottomConstraint,
+            ])
+
+        let imageViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[imageView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        let imageViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[imageView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        NSLayoutConstraint.activateConstraints(imageViewConstraintsV)
+        NSLayoutConstraint.activateConstraints(imageViewConstraintsH)
+        */
     }
 
     func setZoomParametersForSize(scrollViewSize: CGSize, imageSize: CGSize) {
-
 
         let widthScale = scrollViewSize.width / imageSize.width
         let heightScale = scrollViewSize.height / imageSize.height
@@ -124,19 +126,16 @@ class MediaView: UIView {
 
         scrollView.minimumZoomScale = minScale
         scrollView.maximumZoomScale = 3.0
-
-        println("scrollView.minimumZoomScale: \(scrollView.minimumZoomScale)")
     }
 
     func recenterImage() {
+
         let scrollViewSize = scrollView.bounds.size
         let imageSize = imageView.frame.size
 
         let hSpace = imageSize.width < scrollViewSize.width ? (scrollViewSize.width - imageSize.width) * 0.5 : 0
         let vSpace = imageSize.height < scrollViewSize.height ? (scrollViewSize.height - imageSize.height) * 0.5 : 0
 
-
-        println("hSpace: \(hSpace), vSpace: \(vSpace)")
         scrollView.contentInset = UIEdgeInsets(top: vSpace, left: hSpace, bottom: vSpace, right: hSpace)
     }
 }
