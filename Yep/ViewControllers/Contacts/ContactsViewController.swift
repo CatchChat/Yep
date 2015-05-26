@@ -54,7 +54,9 @@ class ContactsViewController: BaseViewController {
             let vc = segue.destinationViewController as! ProfileViewController
 
             if let user = sender as? User {
-                vc.profileUser = ProfileUser.UserType(user)
+                if user.userID != YepUserDefaults.userID.value {
+                    vc.profileUser = ProfileUser.UserType(user)
+                }
             }
 
             vc.hidesBottomBarWhenPushed = true

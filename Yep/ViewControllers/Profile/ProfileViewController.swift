@@ -277,8 +277,8 @@ class ProfileViewController: UIViewController {
                 sayHiView.hidden = true
 
             } else {
-                
                 view.bringSubviewToFront(sayHiView)
+
                 sayHiButton.setTitle(NSLocalizedString("Say Hi", comment: ""), forState: .Normal)
                 sayHiButton.layer.cornerRadius = 5
                 sayHiButton.backgroundColor = UIColor.yepTintColor()

@@ -95,8 +95,10 @@ class DiscoverViewController: BaseViewController {
                 let discoveredUser = discoveredUsers[indexPath.row]
 
                 let vc = segue.destinationViewController as! ProfileViewController
-                
-                vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+
+                if discoveredUser.id != YepUserDefaults.userID.value {
+                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                }
                 
                 vc.setBackButtonWithTitle()
 

@@ -1039,9 +1039,9 @@ class ConversationViewController: BaseViewController {
             let vc = segue.destinationViewController as! ProfileViewController
 
             if let withFriend = conversation?.withFriend {
-                let profileUser = ProfileUser.UserType(withFriend)
-
-                vc.profileUser = profileUser
+                if withFriend.userID != YepUserDefaults.userID.value {
+                    vc.profileUser = ProfileUser.UserType(withFriend)
+                }
                 vc.isFromConversation = true
                 
                 vc.setBackButtonWithTitle()

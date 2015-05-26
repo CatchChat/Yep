@@ -262,7 +262,9 @@ class SkillHomeViewController: CustomNavigationBarViewController {
                 
                 let vc = segue.destinationViewController as! ProfileViewController
 
-                vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                if discoveredUser.id != YepUserDefaults.userID.value {
+                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                }
                 
                 vc.hidesBottomBarWhenPushed = true
                 
