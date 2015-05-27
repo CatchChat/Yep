@@ -907,7 +907,7 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    func playMessageAudioWithMessage(message: Message) {
+    func playMessageAudioWithMessage(message: Message?) {
 
         if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
             if let playingMessage = YepAudioService.sharedManager.playingMessage {
@@ -935,17 +935,21 @@ class ConversationViewController: BaseViewController {
                         }
                     }
 
-                    if message.messageID == playingMessage.messageID {
-                        return
+                    if let message = message {
+                        if message.messageID == playingMessage.messageID {
+                            return
+                        }
                     }
                 }
             }
         }
 
-        let audioPlayedDuration = audioPlayedDurationOfMessage(message) as NSTimeInterval
-        YepAudioService.sharedManager.playAudioWithMessage(message, beginFromTime: audioPlayedDuration, delegate: self) {
-            let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
-            YepAudioService.sharedManager.playbackTimer = playbackTimer
+        if let message = message {
+            let audioPlayedDuration = audioPlayedDurationOfMessage(message) as NSTimeInterval
+            YepAudioService.sharedManager.playAudioWithMessage(message, beginFromTime: audioPlayedDuration, delegate: self) {
+                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                YepAudioService.sharedManager.playbackTimer = playbackTimer
+            }
         }
     }
     
