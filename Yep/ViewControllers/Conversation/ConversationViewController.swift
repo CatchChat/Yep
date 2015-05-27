@@ -1326,7 +1326,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftImageCellIdentifier, forIndexPath: indexPath) as! ChatLeftImageCell
 
                     cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
-                        println("ChatLeftImageCell mediaTapAction")
 
                         self.performSegueWithIdentifier("showMessageMedia", sender: message)
                     })
@@ -1344,7 +1343,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Video.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftVideoCellIdentifier, forIndexPath: indexPath) as! ChatLeftVideoCell
 
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio)
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
+
+                        self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                    })
 
                     return cell
 
@@ -1370,7 +1372,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
 
                     cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
-                        println("ChatRightImageCell mediaTapAction")
 
                         self.performSegueWithIdentifier("showMessageMedia", sender: message)
                     })
@@ -1388,7 +1389,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Video.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightVideoCellIdentifier, forIndexPath: indexPath) as! ChatRightVideoCell
 
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio)
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
+
+                        self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                    })
 
                     return cell
 
