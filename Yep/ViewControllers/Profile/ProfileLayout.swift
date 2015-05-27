@@ -32,6 +32,25 @@ class ProfileLayout: UICollectionViewFlowLayout {
                     break
                 }
             }
+
+        } else {
+            let coverHeight = CGRectGetWidth(collectionView!.bounds) * profileAvatarAspectRatio
+            let coverHideHeight = coverHeight - 64
+
+            if contentOffset.y > coverHideHeight {
+
+                let deltaY = abs(contentOffset.y - minY)
+
+                for (index, attributes) in enumerate(layoutAttributes) {
+                    if index == 0 {
+                        var frame = attributes.frame
+                        frame.origin.y = deltaY - coverHideHeight
+                        attributes.frame = frame
+
+                        break
+                    }
+                }
+            }
         }
 
         // 先按照每个 item 的 centerY 分组
