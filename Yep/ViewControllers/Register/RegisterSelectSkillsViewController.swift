@@ -110,11 +110,11 @@ class RegisterSelectSkillsViewController: UIViewController {
             allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
                 defaultFailureHandler(reason, errorMessage)
 
-            }, completion: { skillCategories -> Void in
+            }, completion: { skillCategories in
                 self.skillCategories = skillCategories
 
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.skillsCollectionView.reloadData()
+                    self.updateSkillsCollectionView()
                 }
             })
         }
@@ -124,6 +124,14 @@ class RegisterSelectSkillsViewController: UIViewController {
         super.viewDidAppear(animated)
 
         skillsCollectionViewBottomConstrain.constant = -CGRectGetHeight(skillsCollectionView.bounds)
+    }
+
+    // MARK: Actions
+
+    func updateSkillsCollectionView() {
+        skillsCollectionView.collectionViewLayout.invalidateLayout()
+        skillsCollectionView.reloadData()
+        skillsCollectionView.layoutIfNeeded()
     }
 
     func dismiss() {

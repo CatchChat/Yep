@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegisterPickSkillsViewController: UIViewController {
+class RegisterPickSkillsViewController: BaseViewController {
 
     var isRegister = true
     var afterChangeSkillsAction: ((masterSkills: [Skill], learningSkills: [Skill]) -> Void)?
@@ -34,7 +34,6 @@ class RegisterPickSkillsViewController: UIViewController {
     let sectionBottomEdgeInset: CGFloat = 50
 
     var skillCategories: [SkillCategory]?
-
 
     lazy var selectSkillsTransitionManager = RegisterPickSkillsSelectSkillsTransitionManager()
 
@@ -66,6 +65,10 @@ class RegisterPickSkillsViewController: UIViewController {
     }
 
     // MARK: Actions
+
+    func updateSkillsCollectionView() {
+        skillsCollectionView.reloadData()
+    }
 
     @IBAction func saveSkills(sender: AnyObject) {
 
@@ -194,7 +197,7 @@ class RegisterPickSkillsViewController: UIViewController {
                         break
                     }
 
-                    self.skillsCollectionView.reloadData()
+                    self.updateSkillsCollectionView()
 
                     return success
                 }
