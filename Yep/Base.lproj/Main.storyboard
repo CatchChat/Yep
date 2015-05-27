@@ -72,7 +72,7 @@
                                     <outlet property="delegate" destination="la3-6z-2aH" id="zOV-zM-2KH"/>
                                 </connections>
                             </collectionView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="390" width="600" height="50"/>
                                 <items/>
                             </toolbar>
@@ -243,11 +243,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k4j-Ub-3bn" customClass="MediaView" customModule="Yep" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k4j-Ub-3bn" customClass="MediaView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Cb-zQ-dUZ" customClass="MediaControlView" customModule="Yep" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Cb-zQ-dUZ" customClass="MediaControlView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="540" width="600" height="60"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -906,7 +906,7 @@
         <!--Chats-->
         <scene sceneID="ySr-fW-tdP">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hOb-vY-dSl" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hOb-vY-dSl" customClass="YepNavigationController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Chats" image="icon_chat" id="v0w-Lf-9uQ">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="icon_chat_active"/>
@@ -929,7 +929,7 @@
         <!--Contacts-->
         <scene sceneID="CIQ-7C-4Qf">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HI7-HE-lfi" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HI7-HE-lfi" customClass="YepNavigationController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Contacts" image="icon_contact" id="KN1-ry-ZuC">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="icon_contact_active"/>
@@ -952,7 +952,7 @@
         <!--Discover-->
         <scene sceneID="I0q-3N-v5s">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HFE-uY-fys" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HFE-uY-fys" customClass="YepNavigationController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Discover" image="icon_explore" id="NTl-bD-Fa2">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="icon_explore_active"/>
@@ -975,7 +975,7 @@
         <!--Profile-->
         <scene sceneID="E1Z-RL-QZO">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dwP-GL-7hj" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dwP-GL-7hj" customClass="YepNavigationController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" image="icon_me" id="zZf-BL-xLF">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="icon_me_active"/>
@@ -1247,7 +1247,7 @@
         <image name="top_shadow" width="375" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Pxr-1p-x84"/>
+        <segue reference="eTq-BP-vMS"/>
         <segue reference="o3b-2D-AMq"/>
         <segue reference="6No-Lc-7X4"/>
     </inferredMetricsTieBreakers>

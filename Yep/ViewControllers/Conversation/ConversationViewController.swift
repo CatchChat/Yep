@@ -174,7 +174,7 @@ class ConversationViewController: BaseViewController {
         realm = Realm()
 
         navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
-        navigationController?.interactivePopGestureRecognizer.delegate = self
+//        navigationController?.interactivePopGestureRecognizer.delegate = self
 
         if messages.count >= messagesBunchCount {
             displayedMessagesRange = NSRange(location: Int(messages.count) - messagesBunchCount, length: messagesBunchCount)
