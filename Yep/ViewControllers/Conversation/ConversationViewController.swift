@@ -907,6 +907,49 @@ class ConversationViewController: BaseViewController {
         }
     }
 
+    func playMessageAudioWithMessage(message: Message) {
+
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
+            if let playingMessage = YepAudioService.sharedManager.playingMessage {
+                if audioPlayer.playing {
+
+                    audioPlayer.pause()
+
+                    if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+                        playbackTimer.invalidate()
+                    }
+
+                    if let sender = playingMessage.fromFriend, playingMessageIndex = messages.indexOf(playingMessage) {
+
+                        let indexPath = NSIndexPath(forItem: playingMessageIndex - displayedMessagesRange.location, inSection: 0)
+
+                        if sender.friendState != UserFriendState.Me.rawValue {
+                            if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
+                                cell.playing = false
+                            }
+
+                        } else {
+                            if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
+                                cell.playing = false
+                            }
+                        }
+                    }
+
+                    if message.messageID == playingMessage.messageID {
+                        return
+                    }
+                }
+            }
+        }
+
+        let audioPlayedDuration = audioPlayedDurationOfMessage(message) as NSTimeInterval
+        YepAudioService.sharedManager.playAudioWithMessage(message, beginFromTime: audioPlayedDuration, delegate: self) {
+            let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+            YepAudioService.sharedManager.playbackTimer = playbackTimer
+        }
+    }
+    
+
     // MARK: Keyboard
 
     func handleKeyboardWillShowNotification(notification: NSNotification) {
@@ -1247,6 +1290,8 @@ class ConversationViewController: BaseViewController {
             }
         }
     }
+
+
 }
 
 // MARK: UIGestureRecognizerDelegate
@@ -1336,7 +1381,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftAudioCellIdentifier, forIndexPath: indexPath) as! ChatLeftAudioCell
 
                     let audioPlayedDuration = audioPlayedDurationOfMessage(message)
-                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration)
+
+                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { message in
+
+                        self.playMessageAudioWithMessage(message)
+                    })
                                         
                     return cell
 
@@ -1382,7 +1431,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightAudioCellIdentifier, forIndexPath: indexPath) as! ChatRightAudioCell
 
                     let audioPlayedDuration = audioPlayedDurationOfMessage(message)
-                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration)
+
+                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { message in
+
+                        self.playMessageAudioWithMessage(message)
+                    })
 
                     return cell
 

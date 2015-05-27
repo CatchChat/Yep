@@ -43,6 +43,9 @@ class ChatLeftAudioCell: UICollectionViewCell {
 
     @IBOutlet weak var playButton: UIButton!
 
+    typealias AudioBubbleTapAction = (message: Message) -> Void
+    var audioBubbleTapAction: AudioBubbleTapAction?
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -56,9 +59,19 @@ class ChatLeftAudioCell: UICollectionViewCell {
 
         playButton.userInteractionEnabled = false
         playButton.tintColor = UIColor.darkGrayColor()
+
+        bubbleImageView.userInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
+        bubbleImageView.addGestureRecognizer(tap)
     }
 
-    func configureWithMessage(message: Message, audioPlayedDuration: Double) {
+    func tapMediaView() {
+        audioBubbleTapAction?(message: message)
+    }
+    
+    func configureWithMessage(message: Message, audioPlayedDuration: Double, audioBubbleTapAction: AudioBubbleTapAction?) {
+
+        self.audioBubbleTapAction = audioBubbleTapAction
 
         self.message = message
 
