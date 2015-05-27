@@ -46,6 +46,7 @@ class ProfileLayout: UICollectionViewFlowLayout {
                         var frame = attributes.frame
                         frame.origin.y = deltaY - coverHideHeight
                         attributes.frame = frame
+                        attributes.zIndex = 1000
 
                         break
                     }
