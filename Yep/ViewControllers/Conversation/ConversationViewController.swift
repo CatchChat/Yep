@@ -1325,7 +1325,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Image.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftImageCellIdentifier, forIndexPath: indexPath) as! ChatLeftImageCell
 
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio)
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
+                        println("ChatLeftImageCell mediaTapAction")
+
+                        self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                    })
                     
                     return cell
 
@@ -1365,7 +1369,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Image.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
 
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio)
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
+                        println("ChatRightImageCell mediaTapAction")
+
+                        self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                    })
                     
                     return cell
 
@@ -1425,10 +1433,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if isKeyboardVisible {
+        if messageToolbar.state != .Default {
             messageToolbar.state = .Default
-
-        } else {
+        }
+        /*
+        else {
             let message = messages[displayedMessagesRange.location + indexPath.item]
 
             switch message.mediaType {
@@ -1486,8 +1495,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
 
         }
+        */
     }
-    
 
     
     // MARK: UIScrollViewDelegate

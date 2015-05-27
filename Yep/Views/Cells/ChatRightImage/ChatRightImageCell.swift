@@ -16,6 +16,10 @@ class ChatRightImageCell: UICollectionViewCell {
     @IBOutlet weak var messageImageView: UIImageView!
 
     @IBOutlet weak var messageImageViewWidthConstrint: NSLayoutConstraint!
+
+    typealias MediaTapAction = () -> Void
+    var mediaTapAction: MediaTapAction?
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,9 +27,20 @@ class ChatRightImageCell: UICollectionViewCell {
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
 
         messageImageView.tintColor = UIColor.rightBubbleTintColor()
+        
+        messageImageView.userInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
+        messageImageView.addGestureRecognizer(tap)
     }
 
-    func configureWithMessage(message: Message, messageImagePreferredWidth: CGFloat, messageImagePreferredHeight: CGFloat, messageImagePreferredAspectRatio: CGFloat) {
+    func tapMediaView() {
+        mediaTapAction?()
+    }
+
+    func configureWithMessage(message: Message, messageImagePreferredWidth: CGFloat, messageImagePreferredHeight: CGFloat, messageImagePreferredAspectRatio: CGFloat, mediaTapAction: MediaTapAction?) {
+
+        self.mediaTapAction = mediaTapAction
+
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
                 dispatch_async(dispatch_get_main_queue()) {
