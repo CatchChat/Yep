@@ -843,6 +843,7 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
                 FayeService.sharedManager.sendGroupMessage(messageInfo, circleID: recipientID, completion: { (success, messageID) in
 
                     if success, let messageID = messageID {
+                        
                         completion(messageID: messageID)
 
                     } else {
@@ -858,14 +859,21 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
                 FayeService.sharedManager.sendPrivateMessage(messageInfo, messageType: .Default, userID: recipientID, completion: { (success, messageID) in
 
                     if success, let messageID = messageID {
+                        
+                        println("Mesasge id is \(messageID)")
                         completion(messageID: messageID)
 
                     } else {
-                        if let failureHandler = failureHandler {
-                            failureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
+                        if success {
+                            println("Mesasgeing packge without message id")
                         } else {
-                            defaultFailureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
+                            if let failureHandler = failureHandler {
+                                failureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
+                            } else {
+                                defaultFailureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
+                            }
                         }
+
                     }
                 })
                 
