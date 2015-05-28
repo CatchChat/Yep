@@ -211,6 +211,16 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        let profileLayout = profileCollectionView.collectionViewLayout as! ProfileLayout
+        profileLayout.scrollUpAction = { progress in
+            println("progress \(progress)")
+
+            let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Header.rawValue)
+            if let coverCell = self.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
+                coverCell.locationLabel.alpha = progress > 0.5 ? 0 : (1.0 - progress * 2)
+            }
+        }
         
         profileCollectionView.registerNib(UINib(nibName: skillCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: headerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)

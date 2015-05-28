@@ -10,6 +10,9 @@ import UIKit
 
 class ProfileLayout: UICollectionViewFlowLayout {
 
+    var scrollUpAction: ((progress: CGFloat) -> Void)?
+
+
     let leftEdgeInset: CGFloat = YepConfig.Profile.leftEdgeInset
 
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
@@ -51,6 +54,13 @@ class ProfileLayout: UICollectionViewFlowLayout {
                         break
                     }
                 }
+            }
+
+            if coverHideHeight > contentOffset.y {
+                scrollUpAction?(progress: 1.0 - (coverHideHeight - contentOffset.y) / coverHideHeight)
+
+            } else {
+                scrollUpAction?(progress: 1.0)
             }
         }
 
