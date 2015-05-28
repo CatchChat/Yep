@@ -8,10 +8,12 @@
 
 import UIKit
 import CoreLocation
+import FXBlurView
 
 class ProfileHeaderCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var avatarBlurImageView: UIImageView!
     @IBOutlet weak var locationLabel: UILabel!
 
     deinit {
@@ -59,12 +61,29 @@ class ProfileHeaderCell: UICollectionViewCell {
         // TODO: User Location
     }
 
+
+    func blurImage(image: UIImage, completion: UIImage -> Void) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            let blurredImage = image.blurredImageWithRadius(10, iterations: 20, tintColor: UIColor.clearColor())
+
+            completion(blurredImage)
+        }
+    }
+
     func updateAvatarWithAvatarURLString(avatarURLString: String) {
         if avatarImageView.image == nil {
             avatarImageView.alpha = 0
+            avatarBlurImageView.alpha = 0
         }
 
         AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!) { image in
+
+            self.blurImage(image) { blurredImage in
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.avatarBlurImageView.image = blurredImage
+                }
+            }
+
             dispatch_async(dispatch_get_main_queue()) {
                 self.avatarImageView.image = image
 

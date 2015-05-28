@@ -21,6 +21,7 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - Base64 (1.0.1)
+  - FXBlurView (1.6.3)
   - Kingfisher (1.4.1)
   - MZFayeClient (1.0.0):
     - Base64 (~> 1.0.1)
@@ -36,6 +37,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
+  - FXBlurView
   - Kingfisher
   - MZFayeClient (from `../CatchLib-iOS/MZFayeClient/`)
   - pop
@@ -49,6 +51,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
+  FXBlurView: c6d23f3d35af2c6282296a2930f61c6e2c788d01
   Kingfisher: 962a21cdc2a7b0fa63be3b2c45ea6f180feda535
   MZFayeClient: 19df756a4c86c8f414668e6edc54fccfee54adbb
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923

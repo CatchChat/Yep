@@ -219,6 +219,7 @@ class ProfileViewController: UIViewController {
             let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Header.rawValue)
             if let coverCell = self.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
                 coverCell.locationLabel.alpha = progress > 0.5 ? 0 : (1.0 - progress * 2)
+                coverCell.avatarBlurImageView.alpha = progress
             }
         }
         
