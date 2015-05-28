@@ -116,6 +116,7 @@ class ProfileViewController: UIViewController {
     var profileUser: ProfileUser?
     var isFromConversation = false
     
+    @IBOutlet weak var topShadowImageView: UIImageView!
     @IBOutlet weak var profileCollectionView: UICollectionView!
 
     @IBOutlet weak var sayHiView: UIView!
@@ -219,7 +220,8 @@ class ProfileViewController: UIViewController {
             let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Header.rawValue)
             if let coverCell = self.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
                 coverCell.locationLabel.alpha = progress > 0.5 ? 0 : (1.0 - progress * 2)
-                coverCell.avatarBlurImageView.alpha = progress
+                self.topShadowImageView.alpha = 1 - progress
+                coverCell.avatarBlurImageView.alpha = progress * 2
             }
         }
         

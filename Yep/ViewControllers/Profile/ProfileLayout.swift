@@ -55,13 +55,15 @@ class ProfileLayout: UICollectionViewFlowLayout {
                     }
                 }
             }
+            
+            let alphaHeight = coverHeight/2.0
 
-            if coverHideHeight > contentOffset.y {
-                scrollUpAction?(progress: 1.0 - (coverHideHeight - contentOffset.y) / coverHideHeight)
-
+            if contentOffset.y > alphaHeight {
+                scrollUpAction?(progress: (contentOffset.y - alphaHeight) / (alphaHeight/2.0) )
             } else {
-                scrollUpAction?(progress: 1.0)
+                scrollUpAction?(progress: 0)
             }
+
         }
 
         // 先按照每个 item 的 centerY 分组
