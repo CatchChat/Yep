@@ -186,6 +186,7 @@
 		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
 		50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E114FB1ABC549300F13000 /* ContactsCell.xib */; };
+		50E18BB71B180F7D0076C3C6 /* SayHiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E18BB61B180F7D0076C3C6 /* SayHiView.swift */; };
 		50E61CEB1AF1F69D00908A9D /* ConversationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E61CEA1AF1F69D00908A9D /* ConversationTitleView.swift */; };
 		50EB8C5E1AE78AB9001AC1EE /* YepAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */; };
 		50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */; };
@@ -394,6 +395,7 @@
 		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
 		50E114FB1ABC549300F13000 /* ContactsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactsCell.xib; path = Views/Cells/Contacts/ContactsCell.xib; sourceTree = "<group>"; };
+		50E18BB61B180F7D0076C3C6 /* SayHiView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SayHiView.swift; path = Views/SayHi/SayHiView.swift; sourceTree = "<group>"; };
 		50E61CEA1AF1F69D00908A9D /* ConversationTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationTitleView.swift; path = Views/ConversationTitle/ConversationTitleView.swift; sourceTree = "<group>"; };
 		50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAsset.swift; path = Helpers/YepAsset.swift; sourceTree = "<group>"; };
 		50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftVideoCell.swift; path = Views/Cells/ChatLeftVideo/ChatLeftVideoCell.swift; sourceTree = "<group>"; };
@@ -726,6 +728,7 @@
 				0A1CAC711AFA481900826B45 /* SkillHomeHeaderView */,
 				0A1CAC741AFA526400826B45 /* SkillHomeSectionButton */,
 				0AC25F041B1100F3009E6E13 /* ScrollView */,
+				50E18BB81B180F8E0076C3C6 /* SayHi */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1295,6 +1298,14 @@
 			name = Contacts;
 			sourceTree = "<group>";
 		};
+		50E18BB81B180F8E0076C3C6 /* SayHi */ = {
+			isa = PBXGroup;
+			children = (
+				50E18BB61B180F7D0076C3C6 /* SayHiView.swift */,
+			);
+			name = SayHi;
+			sourceTree = "<group>";
+		};
 		50E61CEC1AF1F6A600908A9D /* ConversationTitle */ = {
 			isa = PBXGroup;
 			children = (
@@ -1700,6 +1711,7 @@
 				505498621B12FB0E0037E3BD /* ConversationMessagePreviewNavigationControllerDelegate.swift in Sources */,
 				0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */,
 				505EC8171ADF8151001D27E0 /* SkillCategoryCell.swift in Sources */,
+				50E18BB71B180F7D0076C3C6 /* SayHiView.swift in Sources */,
 				0A90187E1B01152800AE4B7F /* ProfileSocialAccountCell.swift in Sources */,
 				50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */,
 				5053AD5A1AF83B4200B3CBFA /* ChatLeftLocationCell.swift in Sources */,
