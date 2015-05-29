@@ -25,8 +25,8 @@ class ProfileLayout: UICollectionViewFlowLayout {
         if contentOffset.y < minY {
             let deltaY = abs(contentOffset.y - minY)
 
-            for (index, attributes) in enumerate(layoutAttributes) {
-                if index == 0 {
+            for attributes in layoutAttributes {
+                if attributes.indexPath.section == ProfileViewController.ProfileSection.Header.rawValue {
                     var frame = attributes.frame
                     frame.size.height = max(minY, CGRectGetWidth(collectionView!.bounds) * profileAvatarAspectRatio + deltaY)
                     frame.origin.y = CGRectGetMinY(frame) - deltaY
@@ -44,8 +44,8 @@ class ProfileLayout: UICollectionViewFlowLayout {
 
                 let deltaY = abs(contentOffset.y - minY)
 
-                for (index, attributes) in enumerate(layoutAttributes) {
-                    if index == 0 {
+                for attributes in layoutAttributes {
+                    if attributes.indexPath.section == ProfileViewController.ProfileSection.Header.rawValue {
                         var frame = attributes.frame
                         frame.origin.y = deltaY - coverHideHeight
                         attributes.frame = frame
@@ -67,7 +67,7 @@ class ProfileLayout: UICollectionViewFlowLayout {
 
         // 先按照每个 item 的 centerY 分组
         var rowCollections = [CGFloat: [UICollectionViewLayoutAttributes]]()
-        for (index, attributes) in enumerate(layoutAttributes) {
+        for attributes in layoutAttributes {
             let centerY = CGRectGetMidY(attributes.frame)
 
             if let rowCollection = rowCollections[centerY] {
@@ -108,9 +108,9 @@ class ProfileLayout: UICollectionViewFlowLayout {
                     } else {
                         itemFrame.origin.x = CGRectGetMaxX(previousFrame) + minimumInteritemSpacing
                     }
-                }
 
-                attributes.frame = itemFrame
+                    attributes.frame = itemFrame
+                }
 
                 previousFrame = itemFrame
             }
