@@ -29,20 +29,20 @@
                         </variation>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kjj-pV-aMN">
-                        <rect key="frame" x="85" y="10" width="41" height="18"/>
-                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                        <rect key="frame" x="85" y="10" width="38.5" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="0.24954602935097434" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 mins ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xjd-IV-gXl">
-                        <rect key="frame" x="263" y="13" width="48.5" height="12"/>
-                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="10"/>
+                        <rect key="frame" x="254" y="9" width="57.5" height="14.5"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
                         <color key="textColor" white="0.75092875874125886" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do not go gentle into that good night. Old age should burn and rage at close of day." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ku-jC-UO9">
-                        <rect key="frame" x="85" y="33" width="227" height="35"/>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                        <rect key="frame" x="85" y="32" width="227" height="28"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
                         <color key="textColor" white="0.50391171924717781" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
