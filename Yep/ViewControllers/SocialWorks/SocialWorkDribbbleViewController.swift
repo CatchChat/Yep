@@ -75,9 +75,6 @@ class SocialWorkDribbbleViewController: BaseViewController {
                     userID = user.userID
                 }
             }
-//            else {
-//                userID = YepUserDefaults.userID.value
-//            }
 
             if let userID = userID {
 

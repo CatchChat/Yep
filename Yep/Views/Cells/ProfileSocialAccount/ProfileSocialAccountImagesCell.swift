@@ -120,46 +120,6 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
             }
         }
 
-//        if let profileUser = profileUser {
-//
-//            switch profileUser {
-//
-//            case .DiscoveredUserType(let discoveredUser):
-//                for provider in discoveredUser.socialAccountProviders {
-//                    if (provider.name == providerName) && provider.enabled {
-//                        iconImageView.tintColor = socialAccount.tintColor
-//                        nameLabel.textColor = socialAccount.tintColor
-//
-//                        accountEnabled = true
-//
-//                        break
-//                    }
-//                }
-//
-//            case .UserType(let user):
-//                for provider in user.socialAccountProviders {
-//                    if (provider.name == providerName) && provider.enabled {
-//                        iconImageView.tintColor = socialAccount.tintColor
-//                        nameLabel.textColor = socialAccount.tintColor
-//
-//                        accountEnabled = true
-//
-//                        break
-//                    }
-//                }
-//            }
-//
-//        } else {
-//            if let enabled = socialWorkProviderInfo[providerName] {
-//                if enabled {
-//                    iconImageView.tintColor = socialAccount.tintColor
-//                    nameLabel.textColor = socialAccount.tintColor
-//
-//                    accountEnabled = true
-//                }
-//            }
-//        }
-
         if !accountEnabled {
             imageView1.image = nil
             imageView2.image = nil
@@ -182,9 +142,6 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                         userID = user.userID
                     }
                 }
-//                else {
-//                    userID = YepUserDefaults.userID.value
-//                }
 
                 if let userID = userID {
 

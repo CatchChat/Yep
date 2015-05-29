@@ -200,16 +200,6 @@ class ProfileViewController: UIViewController {
                 }
             }
         }
-//        else {
-//            introduction = YepUserDefaults.introduction.value
-//
-//            YepUserDefaults.introduction.bindListener("Profile.introductionText") { introduction in
-//                if let introduction = introduction {
-//                    self.introductionText = introduction
-//                    self.updateProfileCollectionView()
-//                }
-//            }
-//        }
 
         return introduction ?? NSLocalizedString("No Introduction yet.", comment: "")
         }()
@@ -372,11 +362,6 @@ class ProfileViewController: UIViewController {
                 }
             }
         }
-//        else {
-//            YepUserDefaults.nickname.bindAndFireListener("ProfileViewController.Title") { nickname in
-//                self.customNavigationItem.title = nickname
-//            }
-//        }
 
         if let profileUser = profileUser {
 
@@ -672,9 +657,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             }
 
             return 0
-//            else {
-//                return masterSkills.count
-//            }
 
         case ProfileSection.Learning.rawValue:
 
@@ -688,9 +670,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             }
 
             return 0
-//            else {
-//                return learningSkills.count
-//            }
 
         case ProfileSection.Footer.rawValue:
             return 1
@@ -721,9 +700,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     cell.configureWithUser(user)
                 }
             }
-//            else {
-//                cell.configureWithMyInfo()
-//            }
 
             return cell
 
@@ -740,10 +716,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     cell.skillLabel.text = userSkill.localName
                 }
             }
-//            else {
-//                let skill = masterSkills[indexPath.item]
-//                cell.skillLabel.text = skill.localName
-//            }
 
             return cell
 
@@ -760,11 +732,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     cell.skillLabel.text = userSkill.localName
                 }
             }
-//            else {
-//                let skill = learningSkills[indexPath.item]
-//                cell.skillLabel.text = skill.localName
-//            }
-
 
             return cell
 
@@ -817,8 +784,10 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                     cell.configureWithProfileUser(profileUser, socialAccount: socialAccount, socialWork: socialWork, completion: { socialWork in
                         switch socialWork {
+
                         case .Dribbble(let dribbbleWork):
                             self.dribbbleWork = dribbbleWork
+
                         case .Instagram(let instagramWork):
                             self.instagramWork = instagramWork
                         }
@@ -927,16 +896,15 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             if let profileUser = profileUser {
                 switch profileUser {
+
                 case .DiscoveredUserType(let discoveredUser):
                     skillLocalName = discoveredUser.masterSkills[indexPath.item].localName
+
                 case .UserType(let user):
                     let userSkill = user.masterSkills[indexPath.item]
                     skillLocalName = userSkill.localName
                 }
             }
-//            else {
-//                skillLocalName = masterSkills[indexPath.item].localName
-//            }
 
             let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
@@ -947,16 +915,15 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             if let profileUser = profileUser {
                 switch profileUser {
+
                 case .DiscoveredUserType(let discoveredUser):
                     skillLocalName = discoveredUser.learningSkills[indexPath.item].localName
+
                 case .UserType(let user):
                     let userSkill = user.learningSkills[indexPath.item]
                     skillLocalName = userSkill.localName
                 }
             }
-//            else {
-//                skillLocalName = learningSkills[indexPath.item].localName
-//            }
 
             let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
@@ -970,10 +937,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             if let profileUser = profileUser {
                 switch profileUser {
+
                 case .DiscoveredUserType(let discoveredUser):
                     enabled = discoveredUser.socialAccountProviders.filter({ socialAccountProvider in
                         socialAccountProvider.enabled
                     }).count > 0
+
                 case .UserType(let user):
                     if user.friendState != UserFriendState.Me.rawValue {
                         enabled = user.socialAccountProviders.filter("enabled = true").count > 0
@@ -1036,47 +1005,8 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                         }
                     }
                 }
-
-//                let providerName = socialAccount.description.lowercaseString
-//
-//                if let profileUser = profileUser {
-//
-//                    switch profileUser {
-//                        
-//                    case .DiscoveredUserType(let discoveredUser):
-//                        for provider in discoveredUser.socialAccountProviders {
-//                            if (provider.name == providerName) && provider.enabled {
-//                                performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
-//
-//                                break
-//                            }
-//                        }
-//
-//                    case .UserType(let user):
-//                        for provider in user.socialAccountProviders {
-//                            if (provider.name == providerName) && provider.enabled {
-//                                performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
-//
-//                                break
-//                            }
-//                        }
-//
-//                    }
-//
-//                } else {
-//                    if let enabled = socialWorkProviderInfo[providerName] {
-//                        if enabled {
-//                            performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
-//
-//                            return
-//                        }
-//                    }
-//
-//                    performSegueWithIdentifier("presentOAuth", sender: indexPath.item)
-//                }
             }
         }
-
     }
 }
 

@@ -78,47 +78,6 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
             }
         }
         
-//        if let profileUser = profileUser {
-//
-//            switch profileUser {
-//
-//            case .DiscoveredUserType(let discoveredUser):
-//                for provider in discoveredUser.socialAccountProviders {
-//                    if (provider.name == providerName) && provider.enabled {
-//                        iconImageView.tintColor = socialAccount.tintColor
-//                        nameLabel.textColor = socialAccount.tintColor
-//
-//                        accountEnabled = true
-//
-//                        break
-//                    }
-//                }
-//
-//            case .UserType(let user):
-//                for provider in user.socialAccountProviders {
-//                    if (provider.name == providerName) && provider.enabled {
-//                        iconImageView.tintColor = socialAccount.tintColor
-//                        nameLabel.textColor = socialAccount.tintColor
-//
-//                        accountEnabled = true
-//
-//                        break
-//                    }
-//                }
-//            }
-//
-//        } else {
-//            if let enabled = socialWorkProviderInfo[providerName] {
-//                if enabled {
-//                    iconImageView.tintColor = socialAccount.tintColor
-//                    nameLabel.textColor = socialAccount.tintColor
-//
-//                    accountEnabled = true
-//                }
-//            }
-//        }
-
-
         if !accountEnabled {
             reposImageView.hidden = true
             reposCountLabel.text = ""
@@ -142,9 +101,6 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
                         userID = user.userID
                     }
                 }
-//                else {
-//                    userID = YepUserDefaults.userID.value
-//                }
 
                 if let userID = userID {
 
