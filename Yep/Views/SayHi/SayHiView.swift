@@ -14,13 +14,6 @@ class SayHiView: UIView {
     @IBInspectable var topLineColor: UIColor = UIColor.lightGrayColor()
     @IBInspectable var topLineWidth: CGFloat = 1 / UIScreen.mainScreen().scale
 
-    lazy var toplineLayer: CAShapeLayer = {
-        let layer = CAShapeLayer()
-        layer.lineWidth = self.topLineWidth
-        layer.strokeColor = self.topLineColor.CGColor
-        return layer
-        }()
-
     lazy var sayHiButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont(name: "Helvetica-Regular", size: 14)
@@ -38,9 +31,6 @@ class SayHiView: UIView {
         super.didMoveToSuperview()
 
         backgroundColor = UIColor.whiteColor()
-
-        layer.addSublayer(toplineLayer)
-
 
         // Add sayHiButton
 
@@ -63,21 +53,24 @@ class SayHiView: UIView {
             ])
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        let path = UIBezierPath()
-        path.moveToPoint(CGPoint(x: 0, y: 0))
-        path.addLineToPoint(CGPoint(x: CGRectGetWidth(bounds), y: 0))
-
-        toplineLayer.path = path.CGPath
-    }
-
-
     // MARK: Actions
 
     func trySayHi() {
         sayHiAction?()
     }
 
+    // MARK: Draw
+
+    override func drawRect(rect: CGRect) {
+        super.drawRect(rect)
+
+        topLineColor.setStroke()
+
+        let context = UIGraphicsGetCurrentContext()
+
+        CGContextSetLineWidth(context, topLineWidth)
+        CGContextMoveToPoint(context, 0, 0)
+        CGContextAddLineToPoint(context, CGRectGetWidth(rect), 0)
+        CGContextStrokePath(context)
+    }
 }
