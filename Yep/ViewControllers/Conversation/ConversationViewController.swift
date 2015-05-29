@@ -1360,7 +1360,13 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         
         if message.mediaType == MessageMediaType.State.rawValue {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatStateCellIdentifier, forIndexPath: indexPath) as! ChatStateCell
-            cell.stateLabel.text = MessageSendState(rawValue: message.sendState)!.description
+            
+            if message.createdAt.isInCurrentWeek() {
+                cell.stateLabel.text = "\(MessageSendState(rawValue: message.sendState)!.description) \(sectionDateInCurrentWeekFormatter.stringFromDate(message.updatedAt))"
+            } else {
+                cell.stateLabel.text = "\(MessageSendState(rawValue: message.sendState)!.description) \(sectionDateFormatter.stringFromDate(message.updatedAt))"
+            }
+            
             return cell
         }
 

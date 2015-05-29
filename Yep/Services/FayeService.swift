@@ -121,6 +121,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                             
                                             for state in states {
                                                 state.sendState = MessageSendState.Read.rawValue
+                                                state.updatedAt = NSDate()
                                             }
                                             
                                             realm.commitWrite()

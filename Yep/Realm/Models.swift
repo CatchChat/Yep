@@ -211,6 +211,7 @@ class Message: Object {
     dynamic var refMessageID: String = ""
 
     dynamic var createdAt: NSDate = NSDate()
+    dynamic var updatedAt: NSDate = NSDate()
 
     dynamic var mediaType: Int = MessageMediaType.Text.rawValue
     dynamic var textContent: String = ""
@@ -426,6 +427,7 @@ func createChatStateInConversation(conversation: Conversation, afterMessage mess
     newSectionDateMessage.refMessageID = message.messageID
     newSectionDateMessage.mediaType = MessageMediaType.State.rawValue
     newSectionDateMessage.createdAt = message.createdAt.dateByAddingTimeInterval(+1) // 比新消息早一秒
+    newSectionDateMessage.updatedAt = NSDate()
     success(newSectionDateMessage)
 }
 
