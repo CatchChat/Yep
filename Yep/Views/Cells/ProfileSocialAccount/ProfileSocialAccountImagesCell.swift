@@ -99,7 +99,7 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
         imageView3.clipsToBounds = true
     }
 
-    func configureWithProfileUser(profileUser: ProfileUser?, orSocialWorkProviderInfo socialWorkProviderInfo: ProfileViewController.SocialWorkProviderInfo, socialAccount: SocialAccount, socialWork: SocialWork?, completion: ((SocialWork) -> Void)?) {
+    func configureWithProfileUser(profileUser: ProfileUser?, socialAccount: SocialAccount, socialWork: SocialWork?, completion: ((SocialWork) -> Void)?) {
 
         iconImageView.image = UIImage(named: socialAccount.iconName)
         nameLabel.text = socialAccount.description

@@ -57,7 +57,7 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
     }
 
-    func configureWithProfileUser(profileUser: ProfileUser?, orSocialWorkProviderInfo socialWorkProviderInfo: ProfileViewController.SocialWorkProviderInfo, socialAccount: SocialAccount, githubWork: GithubWork?, completion: ((GithubWork) -> Void)?) {
+    func configureWithProfileUser(profileUser: ProfileUser?, socialAccount: SocialAccount, githubWork: GithubWork?, completion: ((GithubWork) -> Void)?) {
 
         iconImageView.image = UIImage(named: socialAccount.iconName)
         nameLabel.text = socialAccount.description

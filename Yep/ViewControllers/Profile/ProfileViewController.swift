@@ -245,8 +245,8 @@ class ProfileViewController: UIViewController {
         }
     }
 
-    typealias SocialWorkProviderInfo = [String: Bool]
-    var socialWorkProviderInfo = SocialWorkProviderInfo()
+    //typealias SocialWorkProviderInfo = [String: Bool]
+    //var socialWorkProviderInfo = SocialWorkProviderInfo() 
 
     var dribbbleWork: DribbbleWork?
     var instagramWork: InstagramWork?
@@ -411,47 +411,47 @@ class ProfileViewController: UIViewController {
         self.setNeedsStatusBarAppearanceUpdate()
     }
 
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+//    override func viewDidAppear(animated: Bool) {
+//        super.viewDidAppear(animated)
+//
+//        if profileUser == nil {
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+//                userInfo(failureHandler: nil) { userInfo in
+//
+//                    //println("userInfo: \(userInfo)")
+//
+//                    if let introduction = userInfo["introduction"] as? String {
+//                        YepUserDefaults.introduction.value = introduction
+//                    }
+//
+//                    if let areaCode = userInfo["phone_code"] as? String {
+//                        YepUserDefaults.areaCode.value = areaCode
+//                    }
+//
+//                    if let mobile = userInfo["mobile"] as? String {
+//                        YepUserDefaults.mobile.value = mobile
+//                    }
+//
+//                    if let skillsData = userInfo["master_skills"] as? [JSONDictionary] {
+//                        self.masterSkills = skillsFromSkillsData(skillsData)
+//                    }
+//
+//                    if let skillsData = userInfo["learning_skills"] as? [JSONDictionary] {
+//                        self.learningSkills = skillsFromSkillsData(skillsData)
+//                    }
+//
+//                    if let providerInfo = userInfo["providers"] as? SocialWorkProviderInfo {
+//                        self.socialWorkProviderInfo = providerInfo
+//                    }
+//
+//                    dispatch_async(dispatch_get_main_queue()) {
+//                        self.updateProfileCollectionView()
+//                    }
+//                }
+//            }
+//        }
+//    }
 
-        if profileUser == nil {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                userInfo(failureHandler: nil) { userInfo in
-
-                    //println("userInfo: \(userInfo)")
-
-                    if let introduction = userInfo["introduction"] as? String {
-                        YepUserDefaults.introduction.value = introduction
-                    }
-
-                    if let areaCode = userInfo["phone_code"] as? String {
-                        YepUserDefaults.areaCode.value = areaCode
-                    }
-
-                    if let mobile = userInfo["mobile"] as? String {
-                        YepUserDefaults.mobile.value = mobile
-                    }
-
-                    if let skillsData = userInfo["master_skills"] as? [JSONDictionary] {
-                        self.masterSkills = skillsFromSkillsData(skillsData)
-                    }
-
-                    if let skillsData = userInfo["learning_skills"] as? [JSONDictionary] {
-                        self.learningSkills = skillsFromSkillsData(skillsData)
-                    }
-
-                    if let providerInfo = userInfo["providers"] as? SocialWorkProviderInfo {
-                        self.socialWorkProviderInfo = providerInfo
-                    }
-
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.updateProfileCollectionView()
-                    }
-                }
-            }
-        }
-    }
-    
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
@@ -480,7 +480,24 @@ class ProfileViewController: UIViewController {
                 vc.afterOAuthAction = { socialAccount in
                     // 更新自己的 provider enabled 状态
                     let providerName = socialAccount.description.lowercaseString
-                    self.socialWorkProviderInfo[providerName] = true
+//                    self.socialWorkProviderInfo[providerName] = true
+
+                    let realm = Realm()
+
+                    if let
+                        myUserID = YepUserDefaults.userID.value,
+                        me = userWithUserID(myUserID, inRealm: realm) {
+
+                            for socialAccountProvider in me.socialAccountProviders {
+                                if socialAccountProvider.name == providerName {
+                                    realm.write {
+                                        socialAccountProvider.enabled = true
+                                    }
+
+                                    break
+                                }
+                            }
+                    }
                 }
             }
 
@@ -811,7 +828,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 if socialAccount == .Github {
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountGithubCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountGithubCell
 
-                    cell.configureWithProfileUser(profileUser, orSocialWorkProviderInfo: socialWorkProviderInfo, socialAccount: socialAccount, githubWork: githubWork, completion: { githubWork in
+                    cell.configureWithProfileUser(profileUser, socialAccount: socialAccount, githubWork: githubWork, completion: { githubWork in
                         self.githubWork = githubWork
                     })
                     
@@ -839,7 +856,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                         break
                     }
 
-                    cell.configureWithProfileUser(profileUser, orSocialWorkProviderInfo: socialWorkProviderInfo, socialAccount: socialAccount, socialWork: socialWork, completion: { socialWork in
+                    cell.configureWithProfileUser(profileUser, socialAccount: socialAccount, socialWork: socialWork, completion: { socialWork in
                         switch socialWork {
                         case .Dribbble(let dribbbleWork):
                             self.dribbbleWork = dribbbleWork
