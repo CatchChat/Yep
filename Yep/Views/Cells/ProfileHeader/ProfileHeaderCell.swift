@@ -76,7 +76,7 @@ class ProfileHeaderCell: UICollectionViewCell {
 
     func blurImage(image: UIImage, completion: UIImage -> Void) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            let blurredImage = image.blurredImageWithRadius(10, iterations: 20, tintColor: UIColor.clearColor())
+            let blurredImage = image.blurredImageWithRadius(20, iterations: 20, tintColor: UIColor.blackColor())
 
             completion(blurredImage)
         }
