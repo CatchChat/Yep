@@ -33,6 +33,8 @@ class ConversationViewController: BaseViewController {
 
     let messagesBunchCount = 50 // TODO: 分段载入的“一束”消息的数量
     var displayedMessagesRange = NSRange()
+    
+    var realmChangeToken: NotificationToken?
 
 
     // 上一次更新 UI 时的消息数
@@ -180,9 +182,8 @@ class ConversationViewController: BaseViewController {
         self.swipeUpView.hidden = true
         realm = Realm()
         
-        let notificationToken = realm.addNotificationBlock { notification, realm in
-            println("Updated realm")
-            self.conversationCollectionView.reloadData()
+        realmChangeToken = realm.addNotificationBlock { (notification, realm) -> Void in
+            println("Here is notification")
         }
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "conversationMessagesInRealmChanged", name: MessageNotification.MessageChanged, object: nil)
@@ -255,13 +256,13 @@ class ConversationViewController: BaseViewController {
             self.cleanTextInput()
 
             if let withFriend = self.conversation.withFriend {
+                
+                println("Message count before send \(self.messages.count)")
                 sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
                     dispatch_async(dispatch_get_main_queue()) {
                         self.updateConversationCollectionView(scrollToBottom: true)
                         NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
                     }
-//                    
-//                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageChanged, object: nil)
 
                 }, failureHandler: { (reason, errorMessage) -> () in
                     defaultFailureHandler(reason, errorMessage)
@@ -837,10 +838,13 @@ class ConversationViewController: BaseViewController {
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
         
+        println("message count \(messages.count)")
+        
         // 保证是增加消息
         if messages.count <= _lastTimeMessagesCount {
             return
         }
+        
         let newMessagesCount = Int(messages.count - _lastTimeMessagesCount)
         
         let lastDisplayedMessagesRange = displayedMessagesRange
@@ -854,7 +858,7 @@ class ConversationViewController: BaseViewController {
         }
         
         conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-        
+
         if newMessagesCount > 0 {
             
             var newMessagesTotalHeight: CGFloat = 0
@@ -908,6 +912,7 @@ class ConversationViewController: BaseViewController {
                     }
                     
                     }, completion: { (finished) -> Void in
+
                 })
             }
         }
@@ -1347,6 +1352,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     
     func conversationMessagesInRealmChanged() {
         realm.refresh()
+        updateConversationCollectionView(scrollToBottom: true)
     }
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {

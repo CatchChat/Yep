@@ -415,11 +415,6 @@ func tryCreateSectionDateMessageInConversation(conversation: Conversation, befor
 func createChatStateInConversation(conversation: Conversation, afterMessage message: Message, inRealm realm: Realm, success: (Message) -> Void) {
     let messages = messagesOfConversation(conversation, inRealm: realm)
     
-    if message.sendState == MessageSendState.Successed.rawValue {
-        let sendStates = statesOfConversation(conversation, MessageSendState.Successed.rawValue, nil, inRealm: realm)
-        realm.delete(sendStates)
-    }
-    
     // insert a new State Message
     let newSectionDateMessage = Message()
     newSectionDateMessage.sendState = message.sendState

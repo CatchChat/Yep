@@ -1067,9 +1067,6 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
                 realm.beginWrite()
                 message.messageID = messageID
                 message.sendState = MessageSendState.Successed.rawValue
-                realm.commitWrite()
-                
-                realm.beginWrite()
                 if let conversation = message.conversation {
                     createChatStateInConversation(conversation, afterMessage: message, inRealm: realm, {
                         stateMessage in
@@ -1077,6 +1074,8 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
                     })
                 }
                 realm.commitWrite()
+                
+                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageChanged, object:   nil)
                 
             }
 
