@@ -125,7 +125,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                             }
                                             
                                             realm.commitWrite()
-                                            
+                                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageChanged, object:   nil)
                                     }
                                 }
                             default:

@@ -1077,7 +1077,6 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
                     })
                 }
                 realm.commitWrite()
-
                 
             }
 

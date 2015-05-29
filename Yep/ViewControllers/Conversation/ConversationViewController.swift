@@ -11,6 +11,10 @@ import RealmSwift
 import AVFoundation
 import MobileCoreServices
 
+struct MessageNotification {
+    static let MessageChanged = "MessageChangedNotification"
+}
+
 class ConversationViewController: BaseViewController {
 
     @IBOutlet weak var swipeUpView: UIView!
@@ -175,6 +179,13 @@ class ConversationViewController: BaseViewController {
         super.viewDidLoad()
         self.swipeUpView.hidden = true
         realm = Realm()
+        
+        let notificationToken = realm.addNotificationBlock { notification, realm in
+            println("Updated realm")
+            self.conversationCollectionView.reloadData()
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "conversationMessagesInRealmChanged", name: MessageNotification.MessageChanged, object: nil)
 
         navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
 //        navigationController?.interactivePopGestureRecognizer.delegate = self
@@ -249,6 +260,8 @@ class ConversationViewController: BaseViewController {
                         self.updateConversationCollectionView(scrollToBottom: true)
                         NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
                     }
+//                    
+//                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageChanged, object: nil)
 
                 }, failureHandler: { (reason, errorMessage) -> () in
                     defaultFailureHandler(reason, errorMessage)
@@ -1331,6 +1344,10 @@ extension ConversationViewController: UIGestureRecognizerDelegate {
 // MARK: UICollectionViewDataSource, UICollectionViewDelegate
 
 extension ConversationViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    func conversationMessagesInRealmChanged() {
+        realm.refresh()
+    }
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
