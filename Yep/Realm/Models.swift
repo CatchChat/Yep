@@ -368,6 +368,12 @@ func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) ->
     return messages
 }
 
+func unReadMessagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
+    let predicate = NSPredicate(format: "conversation = %@ AND readed = false", conversation)
+    let messages = realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
+    return messages
+}
+
 func statesOfConversation(conversation: Conversation, state: MessageSendState.RawValue, exceptForMessageID: String?, inRealm realm: Realm) -> Results<Message> {
     
     let messageMediaType = MessageMediaType.State.rawValue

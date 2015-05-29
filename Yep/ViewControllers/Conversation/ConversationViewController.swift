@@ -196,7 +196,10 @@ class ConversationViewController: BaseViewController {
         realm = Realm()
         
         realmChangeToken = realm.addNotificationBlock { (notification, realm) -> Void in
-            println("Here is notification")
+            if notification.rawValue == "RLMRealmDidChangeNotification"{
+                println("Here is notification")
+            }
+
         }
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "conversationMessagesInRealmChanged", name: MessageNotification.MessageChanged, object: nil)
@@ -563,7 +566,29 @@ class ConversationViewController: BaseViewController {
                 })
             }
         }
+        
+        // 防止未在此界面时被标记
+        if navigationController?.topViewController == self {
+            
+            var messages = unReadMessagesOfConversation(conversation, inRealm: realm)
+            
+            for message in messages {
+                markAsReadMessage(message, failureHandler: nil) { success in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        let realm = Realm()
+                        
+                        if let message = messageWithMessageID(message.messageID, inRealm: realm) {
+                            realm.write {
+                                message.readed = true
+                            }
+                            
+                            println("\(message.messageID) mark as read")
+                        }
+                    }
+                }
 
+            }
+        }
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -1412,23 +1437,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 // TODO: 需要更好的下载与 mark as read 逻辑：也许未下载的也可以 mark as read
                 downloadAttachmentOfMessage(message)
-
-                // 防止未在此界面时被标记
-                if navigationController?.topViewController == self {
-                    markAsReadMessage(message, failureHandler: nil) { success in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            let realm = Realm()
-
-                            if let message = messageWithMessageID(message.messageID, inRealm: realm) {
-                                realm.write {
-                                    message.readed = true
-                                }
-
-                                println("\(message.messageID) mark as read")
-                            }
-                        }
-                    }
-                }
 
                 switch message.mediaType {
                 case MessageMediaType.Image.rawValue:
