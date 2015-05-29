@@ -225,7 +225,7 @@ func skillsFromSkillsData(skillsData: [JSONDictionary]) -> [Skill] {
 
                 let coverURLString = skillInfo["cover_url"] as? String
 
-                let skill = Skill(category: skillCategory, id: skillID, name: skillName, localName: skillName, coverURLString: coverURLString)
+                let skill = Skill(category: skillCategory, id: skillID, name: skillName, localName: skillLocalName, coverURLString: coverURLString)
 
                 skills.append(skill)
         }
@@ -361,54 +361,30 @@ func updateMyselfWithInfo(info: JSONDictionary, #failureHandler: ((Reason, Strin
     }
 }
 
-func sendVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
-
-    let requestParameters = [
-        "mobile": mobile,
-        "phone_code": areaCode,
-    ]
-
-    let parse: JSONDictionary -> Bool? = { data in
-        if let status = data["status"] as? String {
-            if status == "sms sent" {
-                return true
-            }
-        }
-
-        return false
-    }
-
-    let resource = jsonResource(path: "/api/v1/auth/send_verify_code", method: .POST, requestParameters: requestParameters, parse: parse)
-
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
-    } else {
-        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
-    }
+enum VerifyCodeMethod: String {
+    case SMS = "sms"
+    case Call = "call"
 }
 
-func resendVoiceVerifyCode(ofMobile mobile: String, withAreaCode areaCode: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+func sendVerifyCodeOfMobile(mobile: String, withAreaCode areaCode: String, useMethod method: VerifyCodeMethod, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+
     let requestParameters = [
         "mobile": mobile,
         "phone_code": areaCode,
+        "method": method.rawValue
     ]
 
     let parse: JSONDictionary -> Bool? = { data in
-        if let status = data["state"] as? String {
-            return true
-        }
-
-        return false
+        return true
     }
 
-    let resource = jsonResource(path: "/api/v1/registration/resend_verify_code_by_voice", method: .POST, requestParameters: requestParameters, parse: parse)
+    let resource = jsonResource(path: "/api/v1/sms_verification_codes", method: .POST, requestParameters: requestParameters, parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)
     } else {
         apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
     }
-
 }
 
 func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: LoginUser -> Void) {
@@ -512,6 +488,18 @@ private func moreFriendships(inPage page: Int, withPerPage perPage: Int, #failur
 enum DiscoveredUserSortStyle: String {
     case Distance = "distance"
     case LastSignIn = "last_sign_in_at"
+    case Default = "default"
+
+    var name: String {
+        switch self {
+        case .Distance:
+            return NSLocalizedString("Nearby", comment: "")
+        case .LastSignIn:
+            return NSLocalizedString("Time", comment: "")
+        case .Default:
+            return NSLocalizedString("Default", comment: "")
+        }
+    }
 }
 
 struct DiscoveredUser {
@@ -539,6 +527,57 @@ struct DiscoveredUser {
     let socialAccountProviders: [SocialAccountProvider]
 }
 
+let parseDiscoveredUsers: JSONDictionary -> [DiscoveredUser]? = { data in
+
+    println("discoverUsers: \(data)")
+
+    if let usersData = data["users"] as? [JSONDictionary] {
+
+        var discoveredUsers = [DiscoveredUser]()
+
+        for userInfo in usersData {
+            if let
+                id = userInfo["id"] as? String,
+                nickname = userInfo["nickname"] as? String,
+                avatarURLString = userInfo["avatar_url"] as? String,
+                createdAtString = userInfo["created_at"] as? String,
+                lastSignInAtString = userInfo["last_sign_in_at"] as? String,
+                longitude = userInfo["longitude"] as? Double,
+                latitude = userInfo["latitude"] as? Double,
+                distance = userInfo["distance"] as? Double,
+                masterSkillsData = userInfo["master_skills"] as? [JSONDictionary],
+                learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary],
+                socialAccountProvidersInfo = userInfo["providers"] as? [String: Bool] {
+
+                    let createdAt = NSDate.dateWithISO08601String(createdAtString)
+                    let lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+
+                    let masterSkills = skillsFromSkillsData(masterSkillsData)
+                    let learningSkills = skillsFromSkillsData(learningSkillsData)
+
+                    var socialAccountProviders = Array<DiscoveredUser.SocialAccountProvider>()
+
+                    for (name, enabled) in socialAccountProvidersInfo {
+                        let provider = DiscoveredUser.SocialAccountProvider(name: name, enabled: enabled)
+
+                        socialAccountProviders.append(provider)
+                    }
+
+                    let introduction = userInfo["introduction"] as? String
+
+                    let discoverUser = DiscoveredUser(id: id, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, createdAt: createdAt, lastSignInAt: lastSignInAt, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
+
+                    discoveredUsers.append(discoverUser)
+            }
+        }
+
+        return discoveredUsers
+    }
+    
+    return nil
+}
+
+
 func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discoveredUserSortStyle: DiscoveredUserSortStyle, #failureHandler: ((Reason, String?) -> Void)?, #completion: [DiscoveredUser] -> Void) {
     
     let requestParameters:[String: AnyObject] = [
@@ -547,58 +586,27 @@ func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discover
         "sort": discoveredUserSortStyle.rawValue
     ]
     
-    let parse: JSONDictionary -> [DiscoveredUser]? = { data in
-
-        //println("discoverUsers: \(data)")
-
-        if let usersData = data["users"] as? [JSONDictionary] {
-
-            var discoveredUsers = [DiscoveredUser]()
-
-            for userInfo in usersData {
-                if let
-                    id = userInfo["id"] as? String,
-                    nickname = userInfo["nickname"] as? String,
-                    avatarURLString = userInfo["avatar_url"] as? String,
-                    createdAtString = userInfo["created_at"] as? String,
-                    lastSignInAtString = userInfo["last_sign_in_at"] as? String,
-                    longitude = userInfo["longitude"] as? Double,
-                    latitude = userInfo["latitude"] as? Double,
-                    distance = userInfo["distance"] as? Double,
-                    masterSkillsData = userInfo["master_skills"] as? [JSONDictionary],
-                    learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary],
-                    socialAccountProvidersInfo = userInfo["providers"] as? [String: Bool] {
-
-                        let createdAt = NSDate.dateWithISO08601String(createdAtString)
-                        let lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
-
-                        let masterSkills = skillsFromSkillsData(masterSkillsData)
-                        let learningSkills = skillsFromSkillsData(learningSkillsData)
-
-                        var socialAccountProviders = Array<DiscoveredUser.SocialAccountProvider>()
-
-                        for (name, enabled) in socialAccountProvidersInfo {
-                            let provider = DiscoveredUser.SocialAccountProvider(name: name, enabled: enabled)
-
-                            socialAccountProviders.append(provider)
-                        }
-
-                        let introduction = userInfo["introduction"] as? String
-
-                        let discoverUser = DiscoveredUser(id: id, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, createdAt: createdAt, lastSignInAt: lastSignInAt, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
-                        
-                        discoveredUsers.append(discoverUser)
-                }
-            }
-
-            return discoveredUsers
-        }
-
-        return nil
-    }
+    let parse = parseDiscoveredUsers
     
     let resource = authJsonResource(path: "/api/v1/user/discover", method: .GET, requestParameters: requestParameters as JSONDictionary, parse: parse)
     
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+func searchUsersByQ(q: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: [DiscoveredUser] -> Void) {
+
+    let requestParameters = [
+        "q": q
+    ]
+
+    let parse = parseDiscoveredUsers
+
+    let resource = authJsonResource(path: "/api/v1/users/search", method: .GET, requestParameters: requestParameters, parse: parse)
+
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)
     } else {
@@ -835,6 +843,7 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
                 FayeService.sharedManager.sendGroupMessage(messageInfo, circleID: recipientID, completion: { (success, messageID) in
 
                     if success, let messageID = messageID {
+                        
                         completion(messageID: messageID)
 
                     } else {
@@ -850,14 +859,21 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
                 FayeService.sharedManager.sendPrivateMessage(messageInfo, messageType: .Default, userID: recipientID, completion: { (success, messageID) in
 
                     if success, let messageID = messageID {
+                        
+                        println("Mesasge id is \(messageID)")
                         completion(messageID: messageID)
 
                     } else {
-                        if let failureHandler = failureHandler {
-                            failureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
+                        if success {
+                            println("Mesasgeing packge without message id")
                         } else {
-                            defaultFailureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
+                            if let failureHandler = failureHandler {
+                                failureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
+                            } else {
+                                defaultFailureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
+                            }
                         }
+
                     }
                 })
                 

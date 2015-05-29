@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class ContactsViewController: UIViewController {
+class ContactsViewController: BaseViewController {
 
     @IBOutlet weak var contactsTableView: UITableView!
 
@@ -20,6 +20,7 @@ class ContactsViewController: UIViewController {
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +41,12 @@ class ContactsViewController: UIViewController {
         contactsTableView.reloadData()
     }
 
+    // MARK: Actions
+
+    @IBAction func presentAddFriends(sender: UIBarButtonItem) {
+        performSegueWithIdentifier("presentAddFriends", sender: nil)
+    }
+
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -47,10 +54,14 @@ class ContactsViewController: UIViewController {
             let vc = segue.destinationViewController as! ProfileViewController
 
             if let user = sender as? User {
-                vc.profileUser = ProfileUser.UserType(user)
+                if user.userID != YepUserDefaults.userID.value {
+                    vc.profileUser = ProfileUser.UserType(user)
+                }
             }
 
             vc.hidesBottomBarWhenPushed = true
+            
+            vc.setBackButtonWithTitle()
         }
     }
 }
@@ -74,7 +85,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         cell.nameLabel.text = friend.nickname
-        cell.joinedDateLabel.text = friend.createdAt.timeAgo
+        cell.joinedDateLabel.text = friend.introduction
         cell.lastTimeSeenLabel.text = friend.createdAt.timeAgo
 
         return cell

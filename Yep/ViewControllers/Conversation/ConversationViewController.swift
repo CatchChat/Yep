@@ -11,8 +11,10 @@ import RealmSwift
 import AVFoundation
 import MobileCoreServices
 
-class ConversationViewController: UIViewController {
+class ConversationViewController: BaseViewController {
 
+    @IBOutlet weak var swipeUpView: UIView!
+    
     struct Notification {
         static let MessageSent = "MessageSentNotification"
     }
@@ -46,6 +48,7 @@ class ConversationViewController: UIViewController {
         }()
 
     var messagePreviewTransitionManager: ConversationMessagePreviewTransitionManager?
+    var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
 
 
     var conversationCollectionViewHasBeenMovedToBottomOnce = false
@@ -74,9 +77,14 @@ class ConversationViewController: UIViewController {
 
     lazy var titleView: ConversationTitleView = {
         let titleView = ConversationTitleView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 150, height: 44)))
-        titleView.nameLabel.text = nameOfConversation(self.conversation)
+
+        let name = nameOfConversation(self.conversation)
+
+        titleView.nameLabel.text = name
 
         self.updateStateInfoOfTitleView(titleView)
+
+        self.navigationItem.title = name
 
         return titleView
         }()
@@ -160,13 +168,15 @@ class ConversationViewController: UIViewController {
 
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.swipeUpView.hidden = true
         realm = Realm()
 
         navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
+//        navigationController?.interactivePopGestureRecognizer.delegate = self
 
         if messages.count >= messagesBunchCount {
             displayedMessagesRange = NSRange(location: Int(messages.count) - messagesBunchCount, length: messagesBunchCount)
@@ -283,8 +293,10 @@ class ConversationViewController: UIViewController {
         // MARK: Audio Send
 
         messageToolbar.voiceSendBeginAction = { messageToolbar in
-            self.view.window?.addSubview(self.waverView)
-
+            self.view.addSubview(self.waverView)
+            self.swipeUpView.hidden = false
+            self.view.bringSubviewToFront(self.swipeUpView)
+            
             let audioFileName = NSUUID().UUIDString
 
             self.waverView.waver.resetWaveSamples()
@@ -304,11 +316,13 @@ class ConversationViewController: UIViewController {
         }
         
         messageToolbar.voiceSendCancelAction = { messageToolbar in
+            self.swipeUpView.hidden = true
             self.waverView.removeFromSuperview()
             YepAudioService.sharedManager.endRecord()
         }
         
         messageToolbar.voiceSendEndAction = { messageToolbar in
+            self.swipeUpView.hidden = true
             self.waverView.removeFromSuperview()
             if YepAudioService.sharedManager.audioRecorder?.currentTime < 0.5 {
                 YepAudioService.sharedManager.endRecord()
@@ -406,13 +420,15 @@ class ConversationViewController: UIViewController {
 
         // MARK: MessageToolbar State Transitions
 
-        messageToolbar.stateTransitionAction = { (previousState, currentState) in
+        messageToolbar.stateTransitionAction = { (messageToolbar, previousState, currentState) in
 
             switch (previousState, currentState) {
+
             case (.MoreMessages, .Default):
                 if !self.isKeyboardVisible {
                     self.adjustBackCollectionViewWithHeight(0, animationDuration: 0.3, animationCurveValue: 7)
-                }else{
+
+                } else {
                     self.hideKeyboardAndShowMoreMessageView()
                 }
 
@@ -421,6 +437,30 @@ class ConversationViewController: UIViewController {
                     self.hideKeyboardAndShowMoreMessageView()
                 }
             }
+
+
+            // 尝试保留草稿
+
+            let realm = Realm()
+
+            if let draft = self.conversation.draft {
+                realm.write {
+                    draft.messageToolbarState = currentState.rawValue
+
+                    if currentState == .TextInputing {
+                        draft.text = messageToolbar.messageTextView.text
+                    }
+                }
+
+            } else {
+                let draft = Draft()
+                draft.messageToolbarState = currentState.rawValue
+
+                realm.write {
+                    self.conversation.draft = draft
+                }
+            }
+
         }
     
 
@@ -455,6 +495,24 @@ class ConversationViewController: UIViewController {
         addLocationButton.tapAction = {
             self.performSegueWithIdentifier("presentPickLocation", sender: nil)
         }
+    
+    }
+    
+    func prepareTextInputView() {
+        // 尝试恢复 messageToolbar 的状态
+        if let
+            draft = conversation.draft,
+            state = MessageToolbarState(rawValue: draft.messageToolbarState) {
+                
+                if state == .TextInputing {
+                    messageToolbar.messageTextView.text = draft.text
+                
+                //                    messageToolbar.messageTextView.becomeFirstResponder()
+                }
+        
+                // 这句要放在最后，因为它会触发 
+                messageToolbar.state = state
+        }
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -477,6 +535,7 @@ class ConversationViewController: UIViewController {
                 })
             }
         }
+
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -505,6 +564,7 @@ class ConversationViewController: UIViewController {
             
             //以前的方法不能保证边界情况滚到底部
             scrollToLastMessage()
+            prepareTextInputView()
         }
         
         self.waverView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height)
@@ -853,6 +913,53 @@ class ConversationViewController: UIViewController {
         }
     }
 
+    func playMessageAudioWithMessage(message: Message?) {
+
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
+            if let playingMessage = YepAudioService.sharedManager.playingMessage {
+                if audioPlayer.playing {
+
+                    audioPlayer.pause()
+
+                    if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+                        playbackTimer.invalidate()
+                    }
+
+                    if let sender = playingMessage.fromFriend, playingMessageIndex = messages.indexOf(playingMessage) {
+
+                        let indexPath = NSIndexPath(forItem: playingMessageIndex - displayedMessagesRange.location, inSection: 0)
+
+                        if sender.friendState != UserFriendState.Me.rawValue {
+                            if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
+                                cell.playing = false
+                            }
+
+                        } else {
+                            if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
+                                cell.playing = false
+                            }
+                        }
+                    }
+
+                    if let message = message {
+                        if message.messageID == playingMessage.messageID {
+                            return
+                        }
+                    }
+                }
+            }
+        }
+
+        if let message = message {
+            let audioPlayedDuration = audioPlayedDurationOfMessage(message) as NSTimeInterval
+            YepAudioService.sharedManager.playAudioWithMessage(message, beginFromTime: audioPlayedDuration, delegate: self) {
+                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                YepAudioService.sharedManager.playbackTimer = playbackTimer
+            }
+        }
+    }
+    
+
     // MARK: Keyboard
 
     func handleKeyboardWillShowNotification(notification: NSNotification) {
@@ -944,29 +1051,32 @@ class ConversationViewController: UIViewController {
     func adjustBackCollectionViewWithHeight(newHeight: CGFloat, animationDuration: NSTimeInterval, animationCurveValue: UInt) {
         
         self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow = CGPointZero
+
         if (conversationCollectionViewContentOffsetBeforeKeyboardWillHide == CGPointZero) {
             conversationCollectionViewContentOffsetBeforeKeyboardWillHide = conversationCollectionView.contentOffset
         }
 
-        
         UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { () -> Void in
             
             var contentOffset = self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide
+
             self.messageToolbarBottomConstraint.constant = 0
+
             if self.messageToolbar.state != .MoreMessages {
                 contentOffset.y -= newHeight
-            }else {
+
+            } else {
                 contentOffset.y -= (newHeight - self.moreMessageTypesViewHeightConstraintConstant)
             }
             
             //println("\(self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide.y) \(contentOffset.y) \(self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide.y-contentOffset.y)")
             self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
             self.conversationCollectionView.contentInset.bottom = CGRectGetHeight(self.messageToolbar.bounds)
+
             self.view.layoutIfNeeded()
-            }, completion: { (finished) -> Void in
-                
+
+        }, completion: { (finished) -> Void in
         })
-        
     }
 
     func handleKeyboardDidHideNotification(notification: NSNotification) {
@@ -982,13 +1092,97 @@ class ConversationViewController: UIViewController {
             let vc = segue.destinationViewController as! ProfileViewController
 
             if let withFriend = conversation?.withFriend {
-                let profileUser = ProfileUser.UserType(withFriend)
-
-                vc.profileUser = profileUser
+                if withFriend.userID != YepUserDefaults.userID.value {
+                    vc.profileUser = ProfileUser.UserType(withFriend)
+                }
+                vc.isFromConversation = true
+                
+                vc.setBackButtonWithTitle()
             }
-        }
 
-        if segue.identifier == "presentMessageMedia" {
+        } else if segue.identifier == "showMessageMedia" {
+
+            let vc = segue.destinationViewController as! MessageMediaViewController
+
+            if let message = sender as? Message, messageIndex = messages.indexOf(message) {
+
+                vc.message = message
+
+                let indexPath = NSIndexPath(forRow: messageIndex - displayedMessagesRange.location , inSection: 0)
+
+                if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) {
+
+                    var frame = CGRectZero
+                    var transitionView: UIView?
+
+                    if let sender = message.fromFriend {
+                        if sender.friendState != UserFriendState.Me.rawValue {
+                            switch message.mediaType {
+
+                            case MessageMediaType.Image.rawValue:
+                                let cell = cell as! ChatLeftImageCell
+                                transitionView = cell.messageImageView
+                                frame = cell.convertRect(cell.messageImageView.frame, toView: view)
+
+                            case MessageMediaType.Video.rawValue:
+                                let cell = cell as! ChatLeftVideoCell
+                                transitionView = cell.thumbnailImageView
+                                frame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+
+                            case MessageMediaType.Location.rawValue:
+                                let cell = cell as! ChatLeftLocationCell
+                                transitionView = cell.mapImageView
+                                frame = cell.convertRect(cell.mapImageView.frame, toView: view)
+
+                            default:
+                                break
+                            }
+
+                        } else {
+                            switch message.mediaType {
+
+                            case MessageMediaType.Image.rawValue:
+                                let cell = cell as! ChatRightImageCell
+                                transitionView = cell.messageImageView
+                                frame = cell.convertRect(cell.messageImageView.frame, toView: view)
+
+                            case MessageMediaType.Video.rawValue:
+                                let cell = cell as! ChatRightVideoCell
+                                transitionView = cell.thumbnailImageView
+                                frame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+
+                            case MessageMediaType.Location.rawValue:
+                                let cell = cell as! ChatRightLocationCell
+                                transitionView = cell.mapImageView
+                                frame = cell.convertRect(cell.mapImageView.frame, toView: view)
+
+                            default:
+                                break
+                            }
+                        }
+                    }
+
+//                    vc.modalPresentationStyle = UIModalPresentationStyle.Custom
+//
+//                    let transitionManager = ConversationMessagePreviewTransitionManager()
+//                    transitionManager.frame = frame
+//                    transitionManager.transitionView = transitionView
+//                    
+//                    vc.transitioningDelegate = transitionManager
+//                    
+//                    messagePreviewTransitionManager = transitionManager
+
+                    let delegate = ConversationMessagePreviewNavigationControllerDelegate()
+                    delegate.frame = frame
+                    delegate.transitionView = transitionView
+
+                    navigationControllerDelegate = delegate
+
+                    navigationController?.delegate = delegate
+                }
+            }
+
+        } else if segue.identifier == "presentMessageMedia" {
 
             let vc = segue.destinationViewController as! MessageMediaViewController
 
@@ -1106,6 +1300,28 @@ class ConversationViewController: UIViewController {
             }
         }
     }
+
+
+}
+
+// MARK: UIGestureRecognizerDelegate
+
+extension ConversationViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let isAnimated = navigationController?.transitionCoordinator()?.isAnimated() {
+            return !isAnimated
+        }
+
+        if navigationController?.viewControllers.count < 2 {
+            return false
+        }
+
+        if gestureRecognizer == navigationController?.interactivePopGestureRecognizer {
+            return true
+        }
+
+        return false
+    }
 }
 
 // MARK: UICollectionViewDataSource, UICollectionViewDelegate
@@ -1143,16 +1359,19 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 // TODO: 需要更好的下载与 mark as read 逻辑：也许未下载的也可以 mark as read
                 downloadAttachmentOfMessage(message)
 
-                markAsReadMessage(message, failureHandler: nil) { success in
-                    dispatch_async(dispatch_get_main_queue()) {
-                        let realm = Realm()
-                        
-                        if let message = messageWithMessageID(message.messageID, inRealm: realm) {
-                            realm.write {
-                                message.readed = true
-                            }
+                // 防止未在此界面时被标记
+                if navigationController?.topViewController == self {
+                    markAsReadMessage(message, failureHandler: nil) { success in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let realm = Realm()
 
-                            println("\(message.messageID) mark as read")
+                            if let message = messageWithMessageID(message.messageID, inRealm: realm) {
+                                realm.write {
+                                    message.readed = true
+                                }
+
+                                println("\(message.messageID) mark as read")
+                            }
                         }
                     }
                 }
@@ -1161,7 +1380,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Image.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftImageCellIdentifier, forIndexPath: indexPath) as! ChatLeftImageCell
 
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio)
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
+
+                        self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                    })
                     
                     return cell
 
@@ -1169,14 +1391,21 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftAudioCellIdentifier, forIndexPath: indexPath) as! ChatLeftAudioCell
 
                     let audioPlayedDuration = audioPlayedDurationOfMessage(message)
-                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration)
+
+                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { message in
+
+                        self.playMessageAudioWithMessage(message)
+                    })
                                         
                     return cell
 
                 case MessageMediaType.Video.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftVideoCellIdentifier, forIndexPath: indexPath) as! ChatLeftVideoCell
 
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio)
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
+
+                        self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                    })
 
                     return cell
 
@@ -1201,7 +1430,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Image.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
 
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio)
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
+
+                        self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                    })
                     
                     return cell
 
@@ -1209,14 +1441,21 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightAudioCellIdentifier, forIndexPath: indexPath) as! ChatRightAudioCell
 
                     let audioPlayedDuration = audioPlayedDurationOfMessage(message)
-                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration)
+
+                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { message in
+
+                        self.playMessageAudioWithMessage(message)
+                    })
 
                     return cell
 
                 case MessageMediaType.Video.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightVideoCellIdentifier, forIndexPath: indexPath) as! ChatRightVideoCell
 
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio)
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
+
+                        self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                    })
 
                     return cell
 
@@ -1261,18 +1500,21 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if isKeyboardVisible {
+        if messageToolbar.state != .Default {
             messageToolbar.state = .Default
-
-        } else {
+        }
+        /*
+        else {
             let message = messages[displayedMessagesRange.location + indexPath.item]
 
             switch message.mediaType {
             case MessageMediaType.Image.rawValue:
-                performSegueWithIdentifier("presentMessageMedia", sender: message)
+                //performSegueWithIdentifier("presentMessageMedia", sender: message)
+                performSegueWithIdentifier("showMessageMedia", sender: message)
 
             case MessageMediaType.Video.rawValue:
-                performSegueWithIdentifier("presentMessageMedia", sender: message)
+                //performSegueWithIdentifier("presentMessageMedia", sender: message)
+                performSegueWithIdentifier("showMessageMedia", sender: message)
 
             case MessageMediaType.Audio.rawValue:
 
@@ -1302,7 +1544,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
                             }
 
-                            if message == playingMessage {
+                            if message.messageID == playingMessage.messageID {
                                 return
                             }
                         }
@@ -1320,8 +1562,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
 
         }
+        */
     }
-    
 
     
     // MARK: UIScrollViewDelegate

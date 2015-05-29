@@ -8,42 +8,94 @@
 
 import UIKit
 
-class DiscoverViewController: UIViewController {
+class DiscoverViewController: BaseViewController {
 
     @IBOutlet weak var discoverTableView: UITableView!
     
-    let cellIdentifier = "ContactsCell"
+    @IBOutlet weak var filterButtonItem: UIBarButtonItem!
+
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
     
-    var discoveredUsers = [DiscoveredUser]()
+    let cellIdentifier = "ContactsCell"
+
+    var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
+        didSet {
+            filterButtonItem.title = discoveredUserSortStyle.name
+
+            activityIndicator.startAnimating()
+
+            discoverUsers(masterSkills: [], learningSkills: [], discoveredUserSortStyle: discoveredUserSortStyle, failureHandler: { (reason, errorMessage) in
+                defaultFailureHandler(reason, errorMessage)
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.activityIndicator.stopAnimating()
+                }
+
+            }, completion: { discoveredUsers in
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.discoveredUsers = discoveredUsers
+                    self.activityIndicator.stopAnimating()
+                }
+            })
+        }
+    }
+
+    var discoveredUsers = [DiscoveredUser]() {
+        didSet {
+            updateDiscoverTableView()
+        }
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         view.backgroundColor = UIColor.whiteColor()
         
         discoverTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         discoverTableView.rowHeight = 80
-        
-        discoverTableView.dataSource = self
-        
-        discoverTableView.delegate = self
+
+        discoverTableView.tableFooterView = UIView()
+
+        discoveredUserSortStyle = .Default
+    }
 
 
-        discoverUsers(masterSkills: [], learningSkills: [], discoveredUserSortStyle: .LastSignIn, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
+    // MARK: Actions
 
-        }, completion: { discoveredUsers in
-            self.discoveredUsers = discoveredUsers
-
-            dispatch_async(dispatch_get_main_queue()) {
-                self.reloadDiscoverTableView()
-            }
-        })
+    @IBAction func showFilters(sender: UIBarButtonItem) {
+        moreAction()
     }
     
-    func reloadDiscoverTableView() {
-        self.discoverTableView.reloadData()
+    func moreAction() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        
+        let nearbyAction: UIAlertAction = UIAlertAction(title: DiscoveredUserSortStyle.Distance.name, style: .Default) { action -> Void in
+            self.discoveredUserSortStyle = .Distance
+        }
+        alertController.addAction(nearbyAction)
+        
+        let timeAction: UIAlertAction = UIAlertAction(title: DiscoveredUserSortStyle.LastSignIn.name, style: .Default) { action -> Void in
+            self.discoveredUserSortStyle = .LastSignIn
+        }
+        alertController.addAction(timeAction)
+        
+        let defaultAction: UIAlertAction = UIAlertAction(title: DiscoveredUserSortStyle.Default.name, style: .Default) { action -> Void in
+            self.discoveredUserSortStyle = .Default
+        }
+        alertController.addAction(defaultAction)
+
+        let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
+        }
+        alertController.addAction(cancelAction)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func updateDiscoverTableView() {
+        //discoverTableView.reloadData()
+        discoverTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
     }
 
 
@@ -56,8 +108,12 @@ class DiscoverViewController: UIViewController {
                 let discoveredUser = discoveredUsers[indexPath.row]
 
                 let vc = segue.destinationViewController as! ProfileViewController
+
+                if discoveredUser.id != YepUserDefaults.userID.value {
+                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                }
                 
-                vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                vc.setBackButtonWithTitle()
 
                 vc.hidesBottomBarWhenPushed = true
             }
@@ -87,8 +143,10 @@ extension DiscoverViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
 
-        cell.joinedDateLabel.text = discoveredUser.createdAt.timeAgo
-        cell.lastTimeSeenLabel.text = discoveredUser.lastSignInAt.timeAgo
+        cell.joinedDateLabel.text = discoveredUser.introduction
+
+        let distance = discoveredUser.distance.format(".1")
+        cell.lastTimeSeenLabel.text = "\(distance) km | \(discoveredUser.lastSignInAt.timeAgo)"
 
         cell.nameLabel.text = discoveredUser.nickname
 

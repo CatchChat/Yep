@@ -84,7 +84,7 @@ class LoginVerifyMobileViewController: UIViewController {
     func callMe() {
         nextButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
 
-        resendVoiceVerifyCode(ofMobile: mobile, withAreaCode: areaCode, failureHandler: { (reason, errorMessage) -> () in
+        sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage)
 
             if let errorMessage = errorMessage {

@@ -21,8 +21,21 @@ class MessageMediaViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        title = NSLocalizedString("Preview", comment: "")
+
+        self.view.backgroundColor = UIColor.blackColor()
+        self.mediaView.backgroundColor = UIColor.blackColor()
+
+        automaticallyAdjustsScrollViewInsets = false
+        
 
         if let message = message {
 
@@ -35,18 +48,12 @@ class MessageMediaViewController: UIViewController {
                 if
                     let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
                     let image = UIImage(contentsOfFile: imageFileURL.path!) {
-                        mediaView.imageView.image = image
+                        mediaView.image = image
 
                         mediaControlView.shareAction = {
-                            let presentingViewController = self.presentingViewController
+                            let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
 
-                            self.dismissViewControllerAnimated(true, completion: { () -> Void in
-
-                                let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-
-                                presentingViewController?.presentViewController(activityViewController, animated: true, completion: { () -> Void in
-
-                                })
+                            self.presentViewController(activityViewController, animated: true, completion: { () -> Void in
                             })
                         }
                 }
@@ -102,15 +109,9 @@ class MessageMediaViewController: UIViewController {
 
 
                         mediaControlView.shareAction = {
-                            let presentingViewController = self.presentingViewController
+                            let activityViewController = UIActivityViewController(activityItems: [videoFileURL], applicationActivities: nil)
 
-                            self.dismissViewControllerAnimated(true, completion: { () -> Void in
-
-                                let activityViewController = UIActivityViewController(activityItems: [videoFileURL], applicationActivities: nil)
-
-                                presentingViewController?.presentViewController(activityViewController, animated: true, completion: { () -> Void in
-                                    
-                                })
+                            self.presentViewController(activityViewController, animated: true, completion: { () -> Void in
                             })
                         }
                 }
@@ -135,7 +136,8 @@ class MessageMediaViewController: UIViewController {
             }
         }
 
-        dismissViewControllerAnimated(true, completion: nil)
+//        dismissViewControllerAnimated(true, completion: nil)
+        navigationController?.popViewControllerAnimated(true)
     }
 
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
@@ -169,5 +171,9 @@ class MessageMediaViewController: UIViewController {
         if let playerItem = notification.object as? AVPlayerItem {
             playerItem.seekToTime(kCMTimeZero)
         }
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return true
     }
 }

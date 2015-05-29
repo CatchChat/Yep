@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum MessageToolbarState: Printable {
+enum MessageToolbarState: Int, Printable {
     case Default
     case BeginTextInput
     case TextInputing
@@ -38,7 +38,7 @@ class MessageToolbar: UIToolbar {
 
     let messageTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(15)]
 
-    var stateTransitionAction: ((previousState: MessageToolbarState, currentState: MessageToolbarState) -> Void)?
+    var stateTransitionAction: ((messageToolbar: MessageToolbar, previousState: MessageToolbarState, currentState: MessageToolbarState) -> Void)?
 
     var previousState: MessageToolbarState = .Default
     var state: MessageToolbarState = .Default {
@@ -47,7 +47,7 @@ class MessageToolbar: UIToolbar {
             previousState = state
 
             if let action = stateTransitionAction {
-                action(previousState: previousState, currentState: newValue)
+                action(messageToolbar: self, previousState: previousState, currentState: newValue)
             }
 
             switch newValue {

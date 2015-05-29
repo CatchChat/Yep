@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class EditProfileViewController: UIViewController {
 
@@ -40,6 +41,8 @@ class EditProfileViewController: UIViewController {
 
         updateAvatar() {
         }
+
+        mobileLabel.text = YepUserDefaults.mobile.value
 
         editProfileTableView.registerNib(UINib(nibName: editProfileLessInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileLessInfoCellIdentifier)
         editProfileTableView.registerNib(UINib(nibName: editProfileMoreInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileMoreInfoCellIdentifier)
@@ -272,7 +275,34 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             default:
                 break
             }
-            
+
+        case Section.LogOut.rawValue:
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Do you want to logout?", comment: ""), confirmTitle: NSLocalizedString("Yes", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { () -> Void in
+
+                YepUserDefaults.cleanAll()
+
+                if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                    appDelegate.startIntroStory()
+                }
+
+                // clean Realm
+
+                let realm = Realm()
+                realm.write {
+                    realm.deleteAll()
+                }
+
+                // clean Message caches
+
+                NSFileManager.cleanMessageCaches()
+
+                // clean Avatar caches
+
+                NSFileManager.cleanAvatarCaches()
+
+            }, cancelAction: { () -> Void in
+            })
+
         default:
             break
         }

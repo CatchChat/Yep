@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SocialWorkInstagramViewController: UIViewController {
+class SocialWorkInstagramViewController: BaseViewController {
 
     var socialAccount: SocialAccount?
     var profileUser: ProfileUser?
@@ -38,6 +38,8 @@ class SocialWorkInstagramViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        animatedOnNavigationBar = false
 
         if let socialAccount = socialAccount {
             let accountImageView = UIImageView(image: UIImage(named: socialAccount.iconName)!)
@@ -69,9 +71,6 @@ class SocialWorkInstagramViewController: UIViewController {
                 case .UserType(let user):
                     userID = user.userID
                 }
-
-            } else {
-                userID = YepUserDefaults.userID.value
             }
 
             if let userID = userID {

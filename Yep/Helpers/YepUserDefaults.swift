@@ -16,6 +16,9 @@ let introductionKey = "introduction"
 let avatarURLStringKey = "avatarURLString"
 let pusherIDKey = "pusherID"
 
+let areaCodeKey = "areaCode"
+let mobileKey = "mobile"
+
 
 struct Listener<T>: Hashable {
     let name: String
@@ -70,15 +73,22 @@ class YepUserDefaults {
 
     // MARK: ReLogin
 
-    class func userNeedRelogin() {
+    class func cleanAll() {
         let defaults = NSUserDefaults.standardUserDefaults()
 
         defaults.removeObjectForKey(v1AccessTokenKey)
         defaults.removeObjectForKey(userIDKey)
         defaults.removeObjectForKey(nicknameKey)
+        defaults.removeObjectForKey(introductionKey)
         defaults.removeObjectForKey(avatarURLStringKey)
         defaults.removeObjectForKey(pusherIDKey)
 
+        defaults.removeObjectForKey(areaCodeKey)
+        defaults.removeObjectForKey(mobileKey)
+    }
+
+    class func userNeedRelogin() {
+        cleanAll()
 
         if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
             if let rootViewController = appDelegate.window?.rootViewController {
@@ -196,6 +206,24 @@ class YepUserDefaults {
                         }
                     }
             }
+        }
+        }()
+
+    static var areaCode: Listenable<String?> = {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let areaCode = defaults.stringForKey(areaCodeKey)
+
+        return Listenable<String?>(areaCode) { areaCode in
+            defaults.setObject(areaCode, forKey: areaCodeKey)
+        }
+        }()
+
+    static var mobile: Listenable<String?> = {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let mobile = defaults.stringForKey(mobileKey)
+
+        return Listenable<String?>(mobile) { mobile in
+            defaults.setObject(mobile, forKey: mobileKey)
         }
         }()
 

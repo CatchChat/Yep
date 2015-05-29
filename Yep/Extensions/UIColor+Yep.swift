@@ -52,5 +52,9 @@ extension UIColor {
     class func yepDisabledColor() -> UIColor {
         return UIColor(red:0.95, green:0.95, blue:0.95, alpha:1)
     }
+    
+    class func yepGrayColor() -> UIColor {
+        return UIColor(red: 142.0/255.0, green: 142.0/255.0, blue: 147.0/255.0, alpha: 1.0)
+    }
 
 }

@@ -210,6 +210,12 @@ class Message: Object {
     dynamic var conversation: Conversation?
 }
 
+class Draft: Object {
+    dynamic var messageToolbarState: Int = MessageToolbarState.Default.rawValue
+
+    dynamic var text: String = ""
+}
+
 // MARK: Conversation
 
 enum ConversationType: Int {
@@ -223,6 +229,8 @@ class Conversation: Object {
 
     dynamic var withFriend: User?
     dynamic var withGroup: Group?
+
+    dynamic var draft: Draft?
 
     var messages: [Message] {
         return linkingObjects(Message.self, forProperty: "conversation")
@@ -257,6 +265,21 @@ func userWithUserID(userID: String, inRealm realm: Realm) -> User? {
 func groupWithGroupID(groupID: String, inRealm realm: Realm) -> Group? {
     let predicate = NSPredicate(format: "groupID = %@", groupID)
     return realm.objects(Group).filter(predicate).first
+}
+
+func countOfUnreadMessagesInRealm(realm: Realm) -> Int {
+    let predicate = NSPredicate(format: "readed = false AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
+    return realm.objects(Message).filter(predicate).count
+}
+
+func countOfUnreadMessagesInConversation(conversation: Conversation) -> Int {
+    return conversation.messages.filter({ message in
+        if let fromFriend = message.fromFriend {
+            return (message.readed == false) && (fromFriend.friendState != UserFriendState.Me.rawValue)
+        } else {
+            return false
+        }
+    }).count
 }
 
 func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {

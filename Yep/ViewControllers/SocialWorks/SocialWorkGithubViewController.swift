@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SocialWorkGithubViewController: UIViewController {
+class SocialWorkGithubViewController: BaseViewController {
 
     var socialAccount: SocialAccount?
     var profileUser: ProfileUser?
@@ -65,7 +65,8 @@ class SocialWorkGithubViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.whiteColor()
+        
+        animatedOnNavigationBar = false
 
         if let socialAccount = socialAccount {
             let accountImageView = UIImageView(image: UIImage(named: socialAccount.iconName)!)
@@ -100,9 +101,6 @@ class SocialWorkGithubViewController: UIViewController {
                 case .UserType(let user):
                     userID = user.userID
                 }
-
-            } else {
-                userID = YepUserDefaults.userID.value
             }
 
             if let userID = userID {

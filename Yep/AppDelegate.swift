@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
-        setSchemaVersion(3, Realm.defaultPath, { migration, oldSchemaVersion in
+        setSchemaVersion(5, Realm.defaultPath, { migration, oldSchemaVersion in
             // We haven’t migrated anything yet, so oldSchemaVersion == 0
             if oldSchemaVersion < 1 {
                 // Nothing to do!
@@ -35,6 +35,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
 
             if oldSchemaVersion < 3 {
+            }
+
+            if oldSchemaVersion < 4 {
+            }
+
+            if oldSchemaVersion < 5 {
             }
         })
 
@@ -176,11 +182,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func sync() {
-        syncFriendshipsAndDoFurtherAction {
-            syncGroupsAndDoFurtherAction {
-                syncUnreadMessagesAndDoFurtherAction {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
+        syncMyInfoAndDoFurtherAction {
+            syncFriendshipsAndDoFurtherAction {
+                syncGroupsAndDoFurtherAction {
+                    syncUnreadMessagesAndDoFurtherAction {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
+                        }
                     }
                 }
             }
@@ -224,9 +232,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSShadowAttributeName: shadow,
             NSFontAttributeName: UIFont.navigationBarTitleFont()
         ]
+        
+        let barButtonTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.yepTintColor(),
+            NSFontAttributeName: UIFont.barButtonFont()
+        ]
 
         UINavigationBar.appearance().titleTextAttributes = textAttributes
-
+        UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
+        UIBarButtonItem.appearance().setTitleTextAttributes(barButtonTextAttributes, forState: UIControlState.Normal)
         //UINavigationBar.appearance().setBackgroundImage(UIImage(named:"white"), forBarMetrics: .Default)
         //UINavigationBar.appearance().shadowImage = UIImage()
         //UINavigationBar.appearance().translucent = false
@@ -237,6 +251,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //UITabBar.appearance().backgroundImage = UIImage(named:"white")
         //UITabBar.appearance().shadowImage = UIImage()
         UITabBar.appearance().tintColor = UIColor.yepTintColor()
+        UITabBar.appearance().barTintColor = UIColor.whiteColor()
         //UITabBar.appearance().translucent = false
     }
 }

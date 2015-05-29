@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -15,25 +15,34 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9iO-cK-3UB" userLabel="Avatar Image View">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="254"/>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IZi-rr-4EQ" userLabel="Avatar Blur Image View">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="254"/>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="广州市" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O8h-bQ-ZK8" userLabel="Location Label">
-                        <rect key="frame" x="178" y="219" width="36" height="15"/>
-                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="12"/>
+                        <rect key="frame" x="176.5" y="218" width="39" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
+                        <size key="shadowOffset" width="1" height="1"/>
                     </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
                 <constraint firstItem="9iO-cK-3UB" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="0GC-5l-kfn"/>
+                <constraint firstItem="IZi-rr-4EQ" firstAttribute="top" secondItem="9iO-cK-3UB" secondAttribute="top" id="8h3-ze-qd4"/>
                 <constraint firstAttribute="centerX" secondItem="O8h-bQ-ZK8" secondAttribute="centerX" constant="0.5" id="AQb-AI-JHu"/>
                 <constraint firstAttribute="bottom" secondItem="O8h-bQ-ZK8" secondAttribute="bottom" constant="20" id="INr-hz-CLg"/>
                 <constraint firstAttribute="trailing" secondItem="9iO-cK-3UB" secondAttribute="trailing" id="Ykz-Gm-skT"/>
                 <constraint firstAttribute="bottom" secondItem="9iO-cK-3UB" secondAttribute="bottom" id="ZaW-Gv-rm4"/>
+                <constraint firstItem="IZi-rr-4EQ" firstAttribute="leading" secondItem="9iO-cK-3UB" secondAttribute="leading" id="bYp-3i-1lM"/>
                 <constraint firstItem="9iO-cK-3UB" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="sHm-q3-PrJ"/>
+                <constraint firstItem="IZi-rr-4EQ" firstAttribute="trailing" secondItem="9iO-cK-3UB" secondAttribute="trailing" id="vnA-ga-vcJ"/>
+                <constraint firstItem="IZi-rr-4EQ" firstAttribute="bottom" secondItem="9iO-cK-3UB" secondAttribute="bottom" id="yqn-wG-cQI"/>
             </constraints>
             <size key="customSize" width="393" height="254"/>
             <connections>
+                <outlet property="avatarBlurImageView" destination="IZi-rr-4EQ" id="XQt-hC-Y8v"/>
                 <outlet property="avatarImageView" destination="9iO-cK-3UB" id="EVu-SY-baK"/>
                 <outlet property="locationLabel" destination="O8h-bQ-ZK8" id="KRV-fd-AVq"/>
             </connections>

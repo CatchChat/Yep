@@ -17,6 +17,24 @@ class ConversationsViewController: UIViewController {
 
     var realm: Realm!
 
+    var unreadMessagesToken: NotificationToken?
+    var haveUnreadMessages = false {
+        didSet {
+            if haveUnreadMessages != oldValue {
+                if haveUnreadMessages {
+                    navigationController?.tabBarItem.image = UIImage(named: "icon_chat_unread")
+                    navigationController?.tabBarItem.selectedImage = UIImage(named: "icon_chat_active_unread")
+
+                } else {
+                    navigationController?.tabBarItem.image = UIImage(named: "icon_chat")
+                    navigationController?.tabBarItem.selectedImage = UIImage(named: "icon_chat_active")
+                }
+
+                reloadConversationsTableView()
+            }
+        }
+    }
+
     lazy var conversations: Results<Conversation> = {
         return self.realm.objects(Conversation).sorted("updatedAt", ascending: false)
         }()
@@ -32,6 +50,7 @@ class ConversationsViewController: UIViewController {
         realm = Realm()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepNewMessagesReceivedNotification, object: nil)
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: ConversationViewController.Notification.MessageSent, object: nil)
 
         YepUserDefaults.nickname.bindListener("ConversationsViewController.Nickname") { _ in
@@ -46,6 +65,10 @@ class ConversationsViewController: UIViewController {
 
         conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         conversationsTableView.rowHeight = 80
+
+        unreadMessagesToken = realm.addNotificationBlock { notification, realm in
+            self.haveUnreadMessages = countOfUnreadMessagesInRealm(realm) > 0
+        }
     }
 
     override func viewDidAppear(animated: Bool) {

@@ -217,6 +217,10 @@ class AvatarCache {
         if let url = NSURL(string: user.avatarURLString) {
             let roundImageKey = "round-\(radius)-\(url.hashValue)"
 
+            // 为下面切换线程准备，Realm 不能跨线程访问
+            let avatarURLString = user.avatarURLString
+            let userID = user.userID
+
             // 先看看缓存
             if let roundImage = cache.objectForKey(roundImageKey) as? UIImage {
                 completion(roundImage)
@@ -225,7 +229,7 @@ class AvatarCache {
 
                 // 再看看是否已下载
                 if let avatar = user.avatar {
-                    if avatar.avatarURLString == user.avatarURLString {
+                    if avatar.avatarURLString == avatarURLString {
 
                         if let
                             avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
@@ -245,7 +249,7 @@ class AvatarCache {
                             let realm = Realm()
 
                             // 不能直接使用 user.avatar, 因为 realm 不同
-                            if let avatar = avatarWithAvatarURLString(user.avatarURLString, inRealm: realm) {
+                            if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
                                 realm.write {
                                     realm.delete(avatar)
                                 }
@@ -263,14 +267,14 @@ class AvatarCache {
                         dispatch_async(dispatch_get_main_queue()) {
                             let realm = Realm()
 
-                            var avatar = avatarWithAvatarURLString(user.avatarURLString, inRealm: realm)
+                            var avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm)
 
                             if avatar == nil {
                                 let avatarFileName = NSUUID().UUIDString
 
                                 if let avatarURL = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
                                     let newAvatar = Avatar()
-                                    newAvatar.avatarURLString = user.avatarURLString
+                                    newAvatar.avatarURLString = avatarURLString
                                     newAvatar.avatarFileName = avatarFileName
 
                                     realm.write {
@@ -282,7 +286,7 @@ class AvatarCache {
                             }
 
                             // 这里重新用新 realm 获取 user，避免在不同线程访问，导致 "Realm accessed from incorrect thread"
-                            if let user = userWithUserID(user.userID, inRealm: realm) {
+                            if let user = userWithUserID(userID, inRealm: realm) {
                                 if user.avatar == nil, let avatar = avatar {
                                     realm.write {
                                         user.avatar = avatar

@@ -99,7 +99,7 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
         imageView3.clipsToBounds = true
     }
 
-    func configureWithProfileUser(profileUser: ProfileUser?, orSocialWorkProviderInfo socialWorkProviderInfo: ProfileViewController.SocialWorkProviderInfo, socialAccount: SocialAccount, socialWork: SocialWork?, completion: ((SocialWork) -> Void)?) {
+    func configureWithProfileUser(profileUser: ProfileUser?, socialAccount: SocialAccount, socialWork: SocialWork?, completion: ((SocialWork) -> Void)?) {
 
         iconImageView.image = UIImage(named: socialAccount.iconName)
         nameLabel.text = socialAccount.description
@@ -112,42 +112,11 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
         var accountEnabled = false
 
         if let profileUser = profileUser {
+            accountEnabled = profileUser.enabledSocialAccount(socialAccount)
 
-            switch profileUser {
-
-            case .DiscoveredUserType(let discoveredUser):
-                for provider in discoveredUser.socialAccountProviders {
-                    if (provider.name == providerName) && provider.enabled {
-                        iconImageView.tintColor = socialAccount.tintColor
-                        nameLabel.textColor = socialAccount.tintColor
-
-                        accountEnabled = true
-
-                        break
-                    }
-                }
-
-            case .UserType(let user):
-                for provider in user.socialAccountProviders {
-                    if (provider.name == providerName) && provider.enabled {
-                        iconImageView.tintColor = socialAccount.tintColor
-                        nameLabel.textColor = socialAccount.tintColor
-
-                        accountEnabled = true
-
-                        break
-                    }
-                }
-            }
-
-        } else {
-            if let enabled = socialWorkProviderInfo[providerName] {
-                if enabled {
-                    iconImageView.tintColor = socialAccount.tintColor
-                    nameLabel.textColor = socialAccount.tintColor
-
-                    accountEnabled = true
-                }
+            if accountEnabled {
+                iconImageView.tintColor = socialAccount.tintColor
+                nameLabel.textColor = socialAccount.tintColor
             }
         }
 
@@ -172,9 +141,6 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                     case .UserType(let user):
                         userID = user.userID
                     }
-
-                } else {
-                    userID = YepUserDefaults.userID.value
                 }
 
                 if let userID = userID {

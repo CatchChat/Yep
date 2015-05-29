@@ -8,10 +8,12 @@
 
 import UIKit
 import CoreLocation
+import FXBlurView
 
 class ProfileHeaderCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var avatarBlurImageView: UIImageView!
     @IBOutlet weak var locationLabel: UILabel!
 
     deinit {
@@ -22,17 +24,17 @@ class ProfileHeaderCell: UICollectionViewCell {
         super.awakeFromNib()
     }
 
-    func configureWithMyInfo() {
-        YepUserDefaults.avatarURLString.bindAndFireListener("ProfileHeaderCell.Avatar") { avatarURLString in
-            if let avatarURLString = avatarURLString {
-                self.updateAvatarWithAvatarURLString(avatarURLString)
-            }
-        }
-
-        YepLocationService.sharedManager // TODO: 要迁走
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
-    }
+//    func configureWithMyInfo() {
+//        YepUserDefaults.avatarURLString.bindAndFireListener("ProfileHeaderCell.Avatar") { avatarURLString in
+//            if let avatarURLString = avatarURLString {
+//                self.updateAvatarWithAvatarURLString(avatarURLString)
+//            }
+//        }
+//
+//        YepLocationService.sharedManager // TODO: 要迁走
+//
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
+//    }
 
     func configureWithDiscoveredUser(discoveredUser: DiscoveredUser) {
         updateAvatarWithAvatarURLString(discoveredUser.avatarURLString)
@@ -56,15 +58,44 @@ class ProfileHeaderCell: UICollectionViewCell {
     func configureWithUser(user: User) {
         updateAvatarWithAvatarURLString(user.avatarURLString)
 
+        if user.friendState == UserFriendState.Me.rawValue {
+            YepUserDefaults.avatarURLString.bindListener("ProfileHeaderCell.Avatar") { avatarURLString in
+                if let avatarURLString = avatarURLString {
+                    self.updateAvatarWithAvatarURLString(avatarURLString)
+                }
+            }
+
+            YepLocationService.sharedManager // TODO: 要迁走
+
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
+        }
+
         // TODO: User Location
+    }
+
+
+    func blurImage(image: UIImage, completion: UIImage -> Void) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            let blurredImage = image.blurredImageWithRadius(20, iterations: 20, tintColor: UIColor.blackColor())
+
+            completion(blurredImage)
+        }
     }
 
     func updateAvatarWithAvatarURLString(avatarURLString: String) {
         if avatarImageView.image == nil {
             avatarImageView.alpha = 0
+            avatarBlurImageView.alpha = 0
         }
 
         AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!) { image in
+
+            self.blurImage(image) { blurredImage in
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.avatarBlurImageView.image = blurredImage
+                }
+            }
+
             dispatch_async(dispatch_get_main_queue()) {
                 self.avatarImageView.image = image
 

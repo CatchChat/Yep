@@ -13,30 +13,24 @@ class ProfileSeparationLineCell: UICollectionViewCell {
     var leftEdgeInset: CGFloat = YepConfig.Profile.leftEdgeInset
     var rightEdgeInset: CGFloat = YepConfig.Profile.rightEdgeInset
     var lineColor: UIColor = UIColor.lightGrayColor()
+    var lineWidth: CGFloat = 1.0 / UIScreen.mainScreen().scale
 
-    lazy var separationLineLayer: CAShapeLayer = {
-        let layer = CAShapeLayer()
-        layer.lineWidth = 1.0 / UIScreen.mainScreen().scale
-        layer.strokeColor = self.lineColor.CGColor
-        return layer
-        }()
+    // MARK: Draw
 
+    override func drawRect(rect: CGRect) {
+        super.drawRect(rect)
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+        lineColor.setStroke()
 
-        layer.addSublayer(separationLineLayer)
+        let context = UIGraphicsGetCurrentContext()
+
+        CGContextSetLineWidth(context, lineWidth)
+
+        let y = ceil(CGRectGetHeight(rect) * 0.5)
+
+        CGContextMoveToPoint(context, leftEdgeInset, y)
+        CGContextAddLineToPoint(context, CGRectGetWidth(rect) - rightEdgeInset, y)
+
+        CGContextStrokePath(context)
     }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        let path = UIBezierPath()
-        let y = ceil(CGRectGetHeight(bounds) * 0.5)
-        path.moveToPoint(CGPoint(x: leftEdgeInset, y: y))
-        path.addLineToPoint(CGPoint(x: CGRectGetWidth(bounds) - rightEdgeInset, y: y))
-
-        separationLineLayer.path = path.CGPath
-    }
-
 }

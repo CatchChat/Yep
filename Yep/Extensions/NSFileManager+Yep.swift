@@ -130,4 +130,28 @@ extension NSFileManager {
         return nil
     }
 
+    // MARK: Clean Caches
+
+    class func cleanCachesDirectoryAtURL(cachesDirectoryURL: NSURL) {
+        let fileManager = NSFileManager.defaultManager()
+
+        if let fileURLs = fileManager.contentsOfDirectoryAtURL(cachesDirectoryURL, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions.allZeros, error: nil) as? [NSURL] {
+            for fileURL in fileURLs {
+                fileManager.removeItemAtURL(fileURL, error: nil)
+            }
+        }
+    }
+
+    class func cleanAvatarCaches() {
+        if let avatarCachesURL = yepAvatarCachesURL() {
+            cleanCachesDirectoryAtURL(avatarCachesURL)
+        }
+    }
+
+    class func cleanMessageCaches() {
+        if let messageCachesURL = yepMessageCachesURL() {
+            cleanCachesDirectoryAtURL(messageCachesURL)
+        }
+    }
+
 }

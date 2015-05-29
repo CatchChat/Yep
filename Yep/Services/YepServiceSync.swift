@@ -15,24 +15,22 @@ let YepNewMessagesReceivedNotification = "YepNewMessagesReceivedNotification"
 
 func downloadAttachmentOfMessage(message: Message) {
 
-    func updateAttachmentOfMessage(message: Message, withAttachmentFileName attachmentFileName: String) {
-        if let realm = message.realm {
-            realm.beginWrite()
+    func updateAttachmentOfMessage(message: Message, withAttachmentFileName attachmentFileName: String, inRealm realm: Realm) {
+        realm.write {
             message.localAttachmentName = attachmentFileName
             message.downloadState = MessageDownloadState.Downloaded.rawValue
-            realm.commitWrite()
         }
     }
 
-    func updateThumbnailOfMessage(message: Message, withThumbnailFileName thumbnailFileName: String) {
-        if let realm = message.realm {
-            realm.beginWrite()
+    func updateThumbnailOfMessage(message: Message, withThumbnailFileName thumbnailFileName: String, inRealm realm: Realm) {
+        realm.write {
             message.localThumbnailName = thumbnailFileName
-            realm.commitWrite()
         }
     }
 
+    let messageID = message.messageID
     let attachmentURLString = message.attachmentURLString
+    let mediaType = message.mediaType
 
     if !attachmentURLString.isEmpty && message.downloadState != MessageDownloadState.Downloaded.rawValue {
         if let url = NSURL(string: attachmentURLString) {
@@ -43,24 +41,30 @@ func downloadAttachmentOfMessage(message: Message) {
                     let fileName = NSUUID().UUIDString
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        switch message.mediaType {
-                        case MessageMediaType.Image.rawValue:
-                            if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
-                                updateAttachmentOfMessage(message, withAttachmentFileName: fileName)
-                            }
-
-                        case MessageMediaType.Video.rawValue:
-                            if let fileURL = NSFileManager.saveMessageVideoData(data, withName: fileName) {
-                                updateAttachmentOfMessage(message, withAttachmentFileName: fileName)
-                            }
-
-                        case MessageMediaType.Audio.rawValue:
-                            if let fileURL = NSFileManager.saveMessageAudioData(data, withName: fileName) {
-                                updateAttachmentOfMessage(message, withAttachmentFileName: fileName)
-                            }
+                        let realm = Realm()
+                        
+                        if let message = messageWithMessageID(messageID, inRealm: realm) {
                             
-                        default:
-                            break
+                            switch mediaType {
+                                
+                            case MessageMediaType.Image.rawValue:
+                                if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
+                                    updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
+                                }
+                                
+                            case MessageMediaType.Video.rawValue:
+                                if let fileURL = NSFileManager.saveMessageVideoData(data, withName: fileName) {
+                                    updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
+                                }
+                                
+                            case MessageMediaType.Audio.rawValue:
+                                if let fileURL = NSFileManager.saveMessageAudioData(data, withName: fileName) {
+                                    updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
+                                }
+                                
+                            default:
+                                break
+                            }
                         }
                     }
                 }
@@ -68,12 +72,15 @@ func downloadAttachmentOfMessage(message: Message) {
         }
     }
 
-    if message.mediaType == MessageMediaType.Video.rawValue {
+    if mediaType == MessageMediaType.Video.rawValue {
         let thumbnailURLString = message.thumbnailURLString
 
         if !thumbnailURLString.isEmpty && message.localThumbnailName.isEmpty {
+            
             if let url = NSURL(string: thumbnailURLString) {
+                
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                    
                     let data = NSData(contentsOfURL: url)
 
                     if let data = data {
@@ -81,8 +88,12 @@ func downloadAttachmentOfMessage(message: Message) {
 
                         dispatch_async(dispatch_get_main_queue()) {
 
-                            if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
-                                updateThumbnailOfMessage(message, withThumbnailFileName: fileName)
+                            let realm = Realm()
+                            
+                            if let message = messageWithMessageID(messageID, inRealm: realm) {
+                                if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
+                                    updateThumbnailOfMessage(message, withThumbnailFileName: fileName, inRealm: realm)
+                                }
                             }
                         }
                     }
@@ -91,6 +102,86 @@ func downloadAttachmentOfMessage(message: Message) {
         }
     }
 
+}
+
+func skillsFromUserSkillList(userSkillList: List<UserSkill>) -> [Skill] {
+
+    var userSkills = [UserSkill]()
+
+    for userSkill in userSkillList {
+        userSkills.append(userSkill)
+    }
+    
+    return userSkills.map({ userSkill -> Skill? in
+        if let category = userSkill.category {
+            let skillCategory = SkillCategory(id: category.skillCategoryID, name: category.name, localName: category.localName, skills: [])
+
+            let skill = Skill(category: skillCategory, id: userSkill.skillID, name: userSkill.name, localName: userSkill.localName, coverURLString: userSkill.coverURLString)
+
+            return skill
+        }
+
+        return nil
+
+    }).filter({ $0 != nil }).map({ skill in skill! })
+}
+
+func userSkillsFromSkills(skills: [Skill], inRealm realm: Realm) -> [UserSkill] {
+
+    return skills.map({ skill -> UserSkill? in
+
+        let skillID = skill.id
+        var userSkill = userSkillWithSkillID(skillID, inRealm: realm)
+
+        if userSkill == nil {
+            let newUserSkill = UserSkill()
+            newUserSkill.skillID = skillID
+            newUserSkill.name = skillID
+            newUserSkill.localName = skill.localName
+
+            if let coverURLString = skill.coverURLString {
+                newUserSkill.coverURLString = coverURLString
+            }
+
+            realm.add(newUserSkill)
+
+            userSkill = newUserSkill
+        }
+
+        if let userSkill = userSkill {
+            if let skillCategory = skill.category, skillCategoryID = skill.category?.id {
+                var userSkillCategory = userSkillCategoryWithSkillCategoryID(skillCategoryID, inRealm: realm)
+
+                if userSkillCategory == nil {
+                    let newUserSkillCategory = UserSkillCategory()
+                    newUserSkillCategory.skillCategoryID = skillCategoryID
+                    newUserSkillCategory.name = skillCategory.name
+                    newUserSkillCategory.localName = skillCategory.localName
+
+                    realm.add(newUserSkillCategory)
+
+                    userSkillCategory = newUserSkillCategory
+                }
+
+                if let userSkillCategory = userSkillCategory {
+                    userSkill.category = userSkillCategory
+                }
+            }
+        }
+
+        return userSkill
+
+    }).filter({ $0 != nil }).map({ skill in skill! })
+}
+
+func userSocialAccountProvidersFromSocialAccountProviders(socialAccountProviders: [DiscoveredUser.SocialAccountProvider]) -> [UserSocialAccountProvider] {
+    return socialAccountProviders.map({ _provider -> UserSocialAccountProvider in
+        let provider = UserSocialAccountProvider()
+        provider.name = _provider.name
+        provider.enabled = _provider.enabled
+
+        return provider
+    })
 }
 
 func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm) -> [UserSkill] {
@@ -151,6 +242,92 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm
     }
 
     return userSkills
+}
+
+func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
+
+    userInfo(failureHandler: nil) { friendInfo in
+
+        println("my userInfo: \(friendInfo)")
+
+        furtherAction()
+
+        if let myUserID = YepUserDefaults.userID.value {
+
+            let realm = Realm()
+
+            var me = userWithUserID(myUserID, inRealm: realm)
+
+            if me == nil {
+                let newUser = User()
+                newUser.userID = myUserID
+
+                newUser.friendState = UserFriendState.Me.rawValue
+
+                if let createdAtString = friendInfo["created_at"] as? String {
+                    newUser.createdAt = NSDate.dateWithISO08601String(createdAtString)
+                }
+
+                realm.beginWrite()
+                realm.add(newUser)
+                realm.commitWrite()
+
+                me = newUser
+            }
+
+            if let user = me {
+                realm.beginWrite()
+
+                // 更新用户信息
+
+                if let lastSignInAtString = friendInfo["last_sign_in_at"] as? String {
+                    user.lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+                }
+
+                if let nickname = friendInfo["nickname"] as? String {
+                    user.nickname = nickname
+                }
+
+                if let introduction = friendInfo["introduction"] as? String {
+                    user.introduction = introduction
+                }
+
+                if let avatarURLString = friendInfo["avatar_url"] as? String {
+                    user.avatarURLString = avatarURLString
+                }
+
+                // 更新技能
+
+                if let learningSkillsData = friendInfo["learning_skills"] as? [JSONDictionary] {
+                    user.learningSkills.removeAll()
+                    let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: realm)
+                    user.learningSkills.extend(userSkills)
+                }
+
+                if let masterSkillsData = friendInfo["master_skills"] as? [JSONDictionary] {
+                    user.masterSkills.removeAll()
+                    let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
+                    user.masterSkills.extend(userSkills)
+                }
+
+                // 更新 Social Account Provider
+
+                user.socialAccountProviders.removeAll()
+
+                if let providersInfo = friendInfo["providers"] as? [String: Bool] {
+                    for (name, enabled) in providersInfo {
+                        let provider = UserSocialAccountProvider()
+                        provider.name = name
+                        provider.enabled = enabled
+
+                        user.socialAccountProviders.append(provider)
+                    }
+                }
+
+                realm.commitWrite()
+            }
+        }
+    }
 }
 
 func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {

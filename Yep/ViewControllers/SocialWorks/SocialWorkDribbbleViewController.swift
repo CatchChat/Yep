@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class SocialWorkDribbbleViewController: UIViewController {
+class SocialWorkDribbbleViewController: BaseViewController {
 
     var socialAccount: SocialAccount?
     var profileUser: ProfileUser?
@@ -36,10 +36,13 @@ class SocialWorkDribbbleViewController: UIViewController {
             updateDribbbleCollectionView()
         }
     }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        animatedOnNavigationBar = false
+        
         if let socialAccount = socialAccount {
             let accountImageView = UIImageView(image: UIImage(named: socialAccount.iconName)!)
             accountImageView.tintColor = socialAccount.tintColor
@@ -71,9 +74,6 @@ class SocialWorkDribbbleViewController: UIViewController {
                 case .UserType(let user):
                     userID = user.userID
                 }
-
-            } else {
-                userID = YepUserDefaults.userID.value
             }
 
             if let userID = userID {

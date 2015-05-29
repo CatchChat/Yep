@@ -67,7 +67,7 @@ class LoginByMobileViewController: UIViewController {
         let mobile = mobileNumberTextField.text
         let areaCode = areaCodeTextField.text
 
-        sendVerifyCode(ofMobile: mobile, withAreaCode: areaCode, failureHandler: { (reason, errorMessage) in
+        sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .SMS, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage)
 
             if let errorMessage = errorMessage {

@@ -9,13 +9,14 @@
 import UIKit
 import WebViewJavascriptBridge
 
-class OAuthViewController: UIViewController, UIWebViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate {
+class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate {
 
     var socialAccount: SocialAccount!
     var afterOAuthAction: ((socialAccount: SocialAccount) -> Void)?
 
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
 
     var bridge: WebViewJavascriptBridge!
     
@@ -25,6 +26,11 @@ class OAuthViewController: UIViewController, UIWebViewDelegate, NSURLConnectionD
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        self.view.backgroundColor = UIColor.whiteColor()
+        
+        animatedOnNavigationBar = false
 
         title = NSLocalizedString("OAuth", comment: "")
         

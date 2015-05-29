@@ -26,18 +26,18 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     
     let cellIdentifier = "ContactsCell"
     
-    lazy var masterTableView: UITableView = {
+    lazy var masterTableView: YepChildScrollView = {
         
-        var tempTableView = UITableView(frame: CGRectZero)
+        var tempTableView = YepChildScrollView(frame: CGRectZero)
 
         
         return tempTableView;
         
     }()
     
-    lazy var learningtTableView: UITableView = {
+    lazy var learningtTableView: YepChildScrollView = {
         
-        var tempTableView = UITableView(frame: CGRectZero)
+        var tempTableView = YepChildScrollView(frame: CGRectZero)
         
         
         return tempTableView;
@@ -48,6 +48,11 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         didSet {
             self.title = skillName
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     var isFirstAppear = true
@@ -71,7 +76,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         }
     }
     
-    @IBOutlet weak var skillHomeScrollView: UIScrollView!
+    @IBOutlet weak var skillHomeScrollView: YepScrollView!
     
     @IBOutlet weak var headerView: SkillHomeHeaderView!
     
@@ -80,6 +85,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     var discoveredMasterUsers = [DiscoveredUser]()
     
     var discoveredLearningUsers = [DiscoveredUser]()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,7 +95,6 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         masterTableView.dataSource = self
         masterTableView.delegate = self
         masterTableView.tag = SkillHomeState.Master.hashValue
-        
         
         learningtTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         learningtTableView.rowHeight = 80
@@ -106,12 +111,29 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         headerView.masterButton.addTarget(self, action: "changeToMaster", forControlEvents: UIControlEvents.TouchUpInside)
         headerView.learningButton.addTarget(self, action: "changeToLearning", forControlEvents: UIControlEvents.TouchUpInside)
         
+        automaticallyAdjustsScrollViewInsets = false
+        
         skillHomeScrollView.addSubview(masterTableView)
         skillHomeScrollView.addSubview(learningtTableView)
         skillHomeScrollView.pagingEnabled = true
         skillHomeScrollView.delegate = self
+        skillHomeScrollView.bounces = false
+        
+        if let gestures = navigationController?.view.gestureRecognizers {
+            for recognizer in gestures
+            {
+                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer)
+                {
+                    skillHomeScrollView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                    println("Require UIScreenEdgePanGestureRecognizer to failed")
+                    break
+                }
+            }
+        }
+
         
         customTitleView()
+
 
         // Do any additional setup after loading the view.
     }
@@ -183,7 +205,9 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         
-        if scrollView.contentOffset.x >= scrollView.contentSize.width / 2 {
+        println("Did end decelerating \(skillHomeScrollView.contentOffset.x)")
+        
+        if skillHomeScrollView.contentOffset.x + 10 >= skillHomeScrollView.contentSize.width / 2.0 {
             
             state = .Learning
             
@@ -238,9 +262,13 @@ class SkillHomeViewController: CustomNavigationBarViewController {
                 
                 let vc = segue.destinationViewController as! ProfileViewController
 
-                vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                if discoveredUser.id != YepUserDefaults.userID.value {
+                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                }
                 
                 vc.hidesBottomBarWhenPushed = true
+                
+                vc.setBackButtonWithTitle()
             }
         }
     }
@@ -277,8 +305,10 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource{
             }
         }
         
-        cell.joinedDateLabel.text = discoveredUser.createdAt.timeAgo
-        cell.lastTimeSeenLabel.text = discoveredUser.lastSignInAt.timeAgo
+        cell.joinedDateLabel.text = discoveredUser.introduction
+        
+        let distance = discoveredUser.distance.format(".1")
+        cell.lastTimeSeenLabel.text = "\(distance) km | \(discoveredUser.lastSignInAt.timeAgo)"
         
         cell.nameLabel.text = discoveredUser.nickname
         

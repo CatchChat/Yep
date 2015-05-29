@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController {
+class SettingsViewController: BaseViewController {
 
     @IBOutlet weak var settingsTableView: UITableView!
 
@@ -32,6 +32,8 @@ class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        animatedOnNavigationBar = false
 
         title = NSLocalizedString("Settings", comment: "")
 

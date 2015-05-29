@@ -78,18 +78,80 @@ enum SocialAccount: Int, Printable {
 enum ProfileUser {
     case DiscoveredUserType(DiscoveredUser)
     case UserType(User)
+
+    func enabledSocialAccount(socialAccount: SocialAccount) -> Bool {
+        var accountEnabled = false
+
+        let providerName = socialAccount.description.lowercaseString
+
+        switch self {
+
+        case .DiscoveredUserType(let discoveredUser):
+            for provider in discoveredUser.socialAccountProviders {
+                if (provider.name == providerName) && provider.enabled {
+
+                    accountEnabled = true
+
+                    break
+                }
+            }
+
+        case .UserType(let user):
+            for provider in user.socialAccountProviders {
+                if (provider.name == providerName) && provider.enabled {
+
+                    accountEnabled = true
+
+                    break
+                }
+            }
+        }
+
+        return accountEnabled
+    }
 }
 
-class ProfileViewController: CustomNavigationBarViewController {
+class ProfileViewController: UIViewController {
+
+    var isFromConversation = false
 
     var profileUser: ProfileUser?
+    var profileUserIsMe = true {
+        didSet {
+            if !profileUserIsMe {
+
+                let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
+
+                customNavigationItem.rightBarButtonItem = moreBarButtonItem
 
 
+                if isFromConversation {
+                    sayHiView.hidden = true
+
+                } else {
+                    sayHiView.sayHiAction = {
+                        self.sayHi()
+                    }
+
+                    profileCollectionView.contentInset.bottom = sayHiView.bounds.height
+                }
+
+            } else {
+                sayHiView.hidden = true
+
+                let settingsBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_settings"), style: UIBarButtonItemStyle.Plain, target: self, action: "showSettings")
+
+                customNavigationItem.rightBarButtonItem = settingsBarButtonItem
+            }
+        }
+    }
+
+    @IBOutlet weak var topShadowImageView: UIImageView!
     @IBOutlet weak var profileCollectionView: UICollectionView!
 
-    @IBOutlet weak var sayHiView: UIView!
-    @IBOutlet weak var sayHiButton: UIButton!
-    
+    @IBOutlet weak var sayHiView: SayHiView!
+
+    var customNavigationBar: UINavigationBar!
 
     let skillCellIdentifier = "SkillCell"
     let headerCellIdentifier = "ProfileHeaderCell"
@@ -123,18 +185,18 @@ class ProfileViewController: CustomNavigationBarViewController {
                 }
 
             case .UserType(let user):
+
                 if !user.introduction.isEmpty {
                     introduction = user.introduction
                 }
-            }
 
-        } else {
-            introduction = YepUserDefaults.introduction.value
-
-            YepUserDefaults.introduction.bindListener("Profile.introductionText") { introduction in
-                if let introduction = introduction {
-                    self.introductionText = introduction
-                    self.updateProfileCollectionView()
+                if user.friendState == UserFriendState.Me.rawValue {
+                    YepUserDefaults.introduction.bindListener("Profile.introductionText") { introduction in
+                        if let introduction = introduction {
+                            self.introductionText = introduction
+                            self.updateProfileCollectionView()
+                        }
+                    }
                 }
             }
         }
@@ -142,11 +204,39 @@ class ProfileViewController: CustomNavigationBarViewController {
         return introduction ?? NSLocalizedString("No Introduction yet.", comment: "")
         }()
 
-    var masterSkills = [Skill]()
-    var learningSkills = [Skill]()
+    var masterSkills = [Skill]() {
+        didSet {
+            let realm = Realm()
 
-    typealias SocialWorkProviderInfo = [String: Bool]
-    var socialWorkProviderInfo = SocialWorkProviderInfo()
+            if let
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID, inRealm: realm) {
+                    realm.write {
+                        me.masterSkills.removeAll()
+                        let userSkills = userSkillsFromSkills(self.masterSkills, inRealm: realm)
+                        me.masterSkills.extend(userSkills)
+                    }
+            }
+        }
+    }
+    var learningSkills = [Skill]() {
+        didSet {
+            let realm = Realm()
+
+            if let
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID, inRealm: realm) {
+                    realm.write {
+                        me.learningSkills.removeAll()
+                        let userSkills = userSkillsFromSkills(self.learningSkills, inRealm: realm)
+                        me.learningSkills.extend(userSkills)
+                    }
+            }
+        }
+    }
+
+    //typealias SocialWorkProviderInfo = [String: Bool]
+    //var socialWorkProviderInfo = SocialWorkProviderInfo() 
 
     var dribbbleWork: DribbbleWork?
     var instagramWork: InstagramWork?
@@ -163,10 +253,53 @@ class ProfileViewController: CustomNavigationBarViewController {
             return ceil(rect.height) + 4
         }
     }
+    
+    var customNavigationItem: UINavigationItem = UINavigationItem(title: "Details")
 
+    func setBackButtonWithTitle() {
+        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBack")
+        backBarButtonItem.tintColor = UIColor.whiteColor()
+        
+        customNavigationItem.leftBarButtonItem = backBarButtonItem
+    }
+    
+    func popBack() {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if profileUser == nil {
+            if let
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID, inRealm: Realm()) {
+                    profileUser = ProfileUser.UserType(me)
+                    profileUserIsMe = true
+
+                    masterSkills = skillsFromUserSkillList(me.masterSkills)
+                    learningSkills = skillsFromUserSkillList(me.learningSkills)
+            }
+        }
+
+        if let profileLayout = profileCollectionView.collectionViewLayout as? ProfileLayout {
+
+            profileLayout.scrollUpAction = { progress in
+
+                let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Header.rawValue)
+                
+                if let coverCell = self.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
+                    
+                    let beginModifyPercentage: CGFloat = 0.9
+                    let modifablePercentage: CGFloat = 1.0 - 0.9
+                    let modifyPercentage: CGFloat = (progress - beginModifyPercentage)/modifablePercentage
+                    
+                    coverCell.locationLabel.alpha = progress > beginModifyPercentage ? 0 : modifyPercentage
+                    coverCell.avatarBlurImageView.alpha = progress < beginModifyPercentage ? 0 : modifyPercentage
+                    self.topShadowImageView.alpha = progress < beginModifyPercentage ? 1.0 : 1 - modifyPercentage
+                }
+            }
+        }
 
         profileCollectionView.registerNib(UINib(nibName: skillCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: headerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
@@ -181,6 +314,40 @@ class ProfileViewController: CustomNavigationBarViewController {
         profileCollectionView.alwaysBounceVertical = true
         
         automaticallyAdjustsScrollViewInsets = false
+        
+        
+        customNavigationBar = UINavigationBar(frame: CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 64.0))
+        customNavigationBar.alpha = 0
+        customNavigationBar.setItems([customNavigationItem], animated: false)
+        view.addSubview(customNavigationBar)
+        
+        customNavigationBar.backgroundColor = UIColor.clearColor()
+        customNavigationBar.translucent = true
+        customNavigationBar.shadowImage = UIImage()
+        customNavigationBar.barStyle = UIBarStyle.BlackTranslucent
+        customNavigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        
+        let textAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont.navigationBarTitleFont()
+        ]
+        
+        customNavigationBar.titleTextAttributes = textAttributes
+        customNavigationBar.tintColor = UIColor.whiteColor()
+        
+        
+        //Make sure when pan edge screen collectionview not scroll
+        if let gestures = navigationController?.view.gestureRecognizers {
+            for recognizer in gestures
+            {
+                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer)
+                {
+                    profileCollectionView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                    println("Require UIScreenEdgePanGestureRecognizer to failed")
+                    break
+                }
+            }
+        }
 
         if let tabBarController = tabBarController {
             profileCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: CGRectGetHeight(tabBarController.tabBar.bounds), right: 0)
@@ -189,64 +356,51 @@ class ProfileViewController: CustomNavigationBarViewController {
         if let profileUser = profileUser {
             switch profileUser {
             case .DiscoveredUserType(let discoveredUser):
-                self.navigationItem.title = discoveredUser.nickname
+                customNavigationItem.title = discoveredUser.nickname
             case .UserType(let user):
-                self.navigationItem.title = user.nickname
-            }
+                customNavigationItem.title = user.nickname
 
-        } else {
-            YepUserDefaults.nickname.bindAndFireListener("ProfileViewController.Title") { nickname in
-                self.navigationItem.title = nickname
+                if user.friendState == UserFriendState.Me.rawValue {
+                    YepUserDefaults.nickname.bindListener("ProfileViewController.Title") { nickname in
+                        self.customNavigationItem.title = nickname
+                    }
+                }
             }
         }
 
         if let profileUser = profileUser {
-            let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
-            navigationItem.rightBarButtonItem = moreBarButtonItem
 
-            sayHiButton.setTitle(NSLocalizedString("Say Hi", comment: ""), forState: .Normal)
-            sayHiButton.layer.cornerRadius = 5
-            sayHiButton.backgroundColor = UIColor.yepTintColor()
-            profileCollectionView.contentInset.bottom = sayHiView.bounds.height
+            switch profileUser {
 
-        } else {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                userInfo(failureHandler: nil) { userInfo in
+            case .DiscoveredUserType(let discoveredUser):
+                profileUserIsMe = false
 
-                    //println("userInfo: \(userInfo)")
+            case .UserType(let user):
+                if user.friendState == UserFriendState.Me.rawValue {
+                    profileUserIsMe = true
 
-                    if let introduction = userInfo["introduction"] as? String {
-                        YepUserDefaults.introduction.value = introduction
-                    }
-
-                    if let skillsData = userInfo["master_skills"] as? [JSONDictionary] {
-                        self.masterSkills = skillsFromSkillsData(skillsData)
-                    }
-
-                    if let skillsData = userInfo["learning_skills"] as? [JSONDictionary] {
-                        self.learningSkills = skillsFromSkillsData(skillsData)
-                    }
-
-                    if let providerInfo = userInfo["providers"] as? SocialWorkProviderInfo {
-                        self.socialWorkProviderInfo = providerInfo
-                    }
-
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.profileCollectionView.reloadData()
-                    }
+                } else {
+                    profileUserIsMe = false
                 }
             }
-
-            sayHiView.hidden = true
         }
     }
     
+    func showSettings() {
+        self.performSegueWithIdentifier("showSettings", sender: self)
+    }
+    
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    
+        customNavigationBar.alpha = 1.0
         
         self.setNeedsStatusBarAppearanceUpdate()
     }
-    
+
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
@@ -275,7 +429,24 @@ class ProfileViewController: CustomNavigationBarViewController {
                 vc.afterOAuthAction = { socialAccount in
                     // 更新自己的 provider enabled 状态
                     let providerName = socialAccount.description.lowercaseString
-                    self.socialWorkProviderInfo[providerName] = true
+//                    self.socialWorkProviderInfo[providerName] = true
+
+                    let realm = Realm()
+
+                    if let
+                        myUserID = YepUserDefaults.userID.value,
+                        me = userWithUserID(myUserID, inRealm: realm) {
+
+                            for socialAccountProvider in me.socialAccountProviders {
+                                if socialAccountProvider.name == providerName {
+                                    realm.write {
+                                        socialAccountProvider.enabled = true
+                                    }
+
+                                    break
+                                }
+                            }
+                    }
                 }
             }
 
@@ -320,10 +491,12 @@ class ProfileViewController: CustomNavigationBarViewController {
     // MARK: Actions
 
     func updateProfileCollectionView() {
-        self.profileCollectionView.reloadData()
+        profileCollectionView.collectionViewLayout.invalidateLayout()
+        profileCollectionView.reloadData()
+        profileCollectionView.layoutIfNeeded()
     }
 
-    @IBAction func sayHi(sender: UIButton) {
+    func sayHi() {
 
         if let profileUser = profileUser {
 
@@ -338,8 +511,6 @@ class ProfileViewController: CustomNavigationBarViewController {
                     let newUser = User()
 
                     newUser.userID = discoveredUser.id
-                    newUser.nickname = discoveredUser.nickname
-                    newUser.avatarURLString = discoveredUser.avatarURLString
 
                     newUser.friendState = UserFriendState.Stranger.rawValue
 
@@ -350,19 +521,53 @@ class ProfileViewController: CustomNavigationBarViewController {
                     stranger = newUser
                 }
 
-                if let stranger = stranger {
-                    if stranger.conversation == nil {
+                if let user = stranger {
+
+                    realm.beginWrite()
+
+                    // 更新用户信息
+
+                    user.lastSignInAt = discoveredUser.lastSignInAt
+
+                    user.nickname = discoveredUser.nickname
+
+                    if let introduction = discoveredUser.introduction {
+                        user.introduction = introduction
+                    }
+                    
+                    user.avatarURLString = discoveredUser.avatarURLString
+
+                    // 更新技能
+
+                    user.learningSkills.removeAll()
+                    let learningUserSkills = userSkillsFromSkills(discoveredUser.learningSkills, inRealm: realm)
+                    user.learningSkills.extend(learningUserSkills)
+
+                    user.masterSkills.removeAll()
+                    let masterUserSkills = userSkillsFromSkills(discoveredUser.masterSkills, inRealm: realm)
+                    user.masterSkills.extend(masterUserSkills)
+
+                    // 更新 Social Account Provider
+
+                    user.socialAccountProviders.removeAll()
+                    let socialAccountProviders = userSocialAccountProvidersFromSocialAccountProviders(discoveredUser.socialAccountProviders)
+                    user.socialAccountProviders.extend(socialAccountProviders)
+
+                    realm.commitWrite()
+
+
+                    if user.conversation == nil {
                         let newConversation = Conversation()
 
                         newConversation.type = ConversationType.OneToOne.rawValue
-                        newConversation.withFriend = stranger
+                        newConversation.withFriend = user
 
                         realm.beginWrite()
                         realm.add(newConversation)
                         realm.commitWrite()
                     }
 
-                    if let conversation = stranger.conversation {
+                    if let conversation = user.conversation {
                         performSegueWithIdentifier("showConversation", sender: conversation)
                         
                         NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
@@ -370,21 +575,25 @@ class ProfileViewController: CustomNavigationBarViewController {
                 }
 
             case .UserType(let user):
-                if user.conversation == nil {
-                    let newConversation = Conversation()
 
-                    newConversation.type = ConversationType.OneToOne.rawValue
-                    newConversation.withFriend = user
+                if user.friendState != UserFriendState.Me.rawValue {
 
-                    realm.beginWrite()
-                    realm.add(newConversation)
-                    realm.commitWrite()
-                }
+                    if user.conversation == nil {
+                        let newConversation = Conversation()
 
-                if let conversation = user.conversation {
-                    performSegueWithIdentifier("showConversation", sender: conversation)
+                        newConversation.type = ConversationType.OneToOne.rawValue
+                        newConversation.withFriend = user
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
+                        realm.beginWrite()
+                        realm.add(newConversation)
+                        realm.commitWrite()
+                    }
+
+                    if let conversation = user.conversation {
+                        performSegueWithIdentifier("showConversation", sender: conversation)
+
+                        NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
+                    }
                 }
             }
         }
@@ -420,7 +629,7 @@ class ProfileViewController: CustomNavigationBarViewController {
 
 // MARK: UICollectionView
 
-extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate {
     
     enum ProfileSection: Int {
         case Header = 0
@@ -430,7 +639,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case SeparationLine
         case SocialAccount
     }
-
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 6
@@ -451,10 +659,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 case .UserType(let user):
                     return Int(user.masterSkills.count)
                 }
-
-            } else {
-                return masterSkills.count
             }
+
+            return 0
 
         case ProfileSection.Learning.rawValue:
 
@@ -465,10 +672,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 case .UserType(let user):
                     return Int(user.learningSkills.count)
                 }
-
-            } else {
-                return learningSkills.count
             }
+
+            return 0
 
         case ProfileSection.Footer.rawValue:
             return 1
@@ -498,9 +704,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 case .UserType(let user):
                     cell.configureWithUser(user)
                 }
-
-            } else {
-                cell.configureWithMyInfo()
             }
 
             return cell
@@ -517,10 +720,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     let userSkill = user.masterSkills[indexPath.item]
                     cell.skillLabel.text = userSkill.localName
                 }
-
-            } else {
-                let skill = masterSkills[indexPath.item]
-                cell.skillLabel.text = skill.localName
             }
 
             return cell
@@ -537,12 +736,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     let userSkill = user.learningSkills[indexPath.item]
                     cell.skillLabel.text = userSkill.localName
                 }
-
-            } else {
-                let skill = learningSkills[indexPath.item]
-                cell.skillLabel.text = skill.localName
             }
-
 
             return cell
 
@@ -565,7 +759,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 if socialAccount == .Github {
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountGithubCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountGithubCell
 
-                    cell.configureWithProfileUser(profileUser, orSocialWorkProviderInfo: socialWorkProviderInfo, socialAccount: socialAccount, githubWork: githubWork, completion: { githubWork in
+                    cell.configureWithProfileUser(profileUser, socialAccount: socialAccount, githubWork: githubWork, completion: { githubWork in
                         self.githubWork = githubWork
                     })
                     
@@ -593,10 +787,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                         break
                     }
 
-                    cell.configureWithProfileUser(profileUser, orSocialWorkProviderInfo: socialWorkProviderInfo, socialAccount: socialAccount, socialWork: socialWork, completion: { socialWork in
+                    cell.configureWithProfileUser(profileUser, socialAccount: socialAccount, socialWork: socialWork, completion: { socialWork in
                         switch socialWork {
+
                         case .Dribbble(let dribbbleWork):
                             self.dribbbleWork = dribbbleWork
+
                         case .Instagram(let instagramWork):
                             self.instagramWork = instagramWork
                         }
@@ -623,8 +819,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             let header = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: sectionHeaderIdentifier, forIndexPath: indexPath) as! ProfileSectionHeaderReusableView
 
-            var needEnabledTapAction = (profileUser == nil)
-
             switch indexPath.section {
 
             case ProfileSection.Master.rawValue:
@@ -635,11 +829,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             default:
                 header.titleLabel.text = ""
-
-                needEnabledTapAction = false
             }
 
-            if needEnabledTapAction {
+            if profileUserIsMe {
 
                 header.tapAction = {
                     let storyboard = UIStoryboard(name: "Intro", bundle: nil)
@@ -702,56 +894,80 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         switch indexPath.section {
 
         case ProfileSection.Header.rawValue:
-            return CGSizeMake(collectionViewWidth, collectionViewWidth * profileAvatarAspectRatio)
+            return CGSize(width: collectionViewWidth, height: collectionViewWidth * profileAvatarAspectRatio)
 
         case ProfileSection.Master.rawValue:
             var skillLocalName = ""
 
             if let profileUser = profileUser {
                 switch profileUser {
+
                 case .DiscoveredUserType(let discoveredUser):
                     skillLocalName = discoveredUser.masterSkills[indexPath.item].localName
+
                 case .UserType(let user):
                     let userSkill = user.masterSkills[indexPath.item]
                     skillLocalName = userSkill.localName
                 }
-
-            } else {
-                skillLocalName = masterSkills[indexPath.item].localName
             }
 
             let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
-            return CGSizeMake(rect.width + 24, SkillCell.height)
+            return CGSize(width: rect.width + 24, height: SkillCell.height)
 
         case ProfileSection.Learning.rawValue:
             var skillLocalName = ""
 
             if let profileUser = profileUser {
                 switch profileUser {
+
                 case .DiscoveredUserType(let discoveredUser):
                     skillLocalName = discoveredUser.learningSkills[indexPath.item].localName
+
                 case .UserType(let user):
                     let userSkill = user.learningSkills[indexPath.item]
                     skillLocalName = userSkill.localName
                 }
-
-            } else {
-                skillLocalName = learningSkills[indexPath.item].localName
             }
 
             let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
-            return CGSizeMake(rect.width + 24, SkillCell.height)
+            return CGSize(width: rect.width + 24, height: SkillCell.height)
 
         case ProfileSection.Footer.rawValue:
-            return CGSizeMake(collectionViewWidth, footerCellHeight)
+            return CGSize(width: collectionViewWidth, height: footerCellHeight)
 
         case ProfileSection.SeparationLine.rawValue:
-            return CGSizeMake(collectionViewWidth, 1)
+            var enabled = true
+
+            if let profileUser = profileUser {
+                switch profileUser {
+
+                case .DiscoveredUserType(let discoveredUser):
+                    enabled = discoveredUser.socialAccountProviders.filter({ socialAccountProvider in
+                        socialAccountProvider.enabled
+                    }).count > 0
+
+                case .UserType(let user):
+                    if user.friendState != UserFriendState.Me.rawValue {
+                        enabled = user.socialAccountProviders.filter("enabled = true").count > 0
+                    }
+                }
+            }
+
+            return enabled ? CGSize(width: collectionViewWidth, height: 1) : CGSizeZero
             
         case ProfileSection.SocialAccount.rawValue:
-            return CGSizeMake(collectionViewWidth, 40)
+            var enabled = true
+
+            // 对于他人，只看其绑定的 SocialAccount
+            if !profileUserIsMe, let profileUser = profileUser {
+                if let socialAccount = SocialAccount(rawValue: indexPath.row) {
+                    enabled = profileUser.enabledSocialAccount(socialAccount)
+                }
+            }
+
+            return enabled ? CGSize(width: collectionViewWidth, height: 40) : CGSizeZero
 
         default:
             return CGSizeZero
@@ -764,12 +980,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return CGSizeMake(collectionViewWidth, 40)
 
         } else {
-            return CGSizeMake(collectionViewWidth, 0)
+            return CGSizeZero
         }
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSizeMake(collectionViewWidth, 0)
+        return CGSizeZero
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -783,45 +999,19 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             if let socialAccount = SocialAccount(rawValue: indexPath.item) {
 
-                let providerName = socialAccount.description.lowercaseString
-
                 if let profileUser = profileUser {
 
-                    switch profileUser {
-                        
-                    case .DiscoveredUserType(let discoveredUser):
-                        for provider in discoveredUser.socialAccountProviders {
-                            if (provider.name == providerName) && provider.enabled {
-                                performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
+                    if profileUser.enabledSocialAccount(socialAccount) {
+                        performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
 
-                                break
-                            }
-                        }
-
-                    case .UserType(let user):
-                        for provider in user.socialAccountProviders {
-                            if (provider.name == providerName) && provider.enabled {
-                                performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
-
-                                break
-                            }
+                    } else {
+                        if profileUserIsMe {
+                            performSegueWithIdentifier("presentOAuth", sender: indexPath.item)
                         }
                     }
-
-                } else {
-                    if let enabled = socialWorkProviderInfo[providerName] {
-                        if enabled {
-                            performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
-
-                            return
-                        }
-                    }
-
-                    performSegueWithIdentifier("presentOAuth", sender: indexPath.item)
                 }
             }
         }
-
     }
 }
 
