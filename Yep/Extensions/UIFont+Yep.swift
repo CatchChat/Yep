@@ -28,6 +28,10 @@ extension UIFont {
     class func skillHomeButtonFont() -> UIFont {
         return UIFont(name: "Helvetica-Light", size: 16)!
     }
+    
+    class func barButtonFont() -> UIFont {
+        return UIFont(name: "Helvetica-Light", size: 14)!
+    }
 
     class func navigationBarTitleFont() -> UIFont {
         return UIFont(name: "Helvetica-Bold", size: 15)!
