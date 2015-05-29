@@ -212,18 +212,20 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let profileLayout = profileCollectionView.collectionViewLayout as! ProfileLayout
-        profileLayout.scrollUpAction = { progress in
-            println("progress \(progress)")
+        if let profileLayout = profileCollectionView.collectionViewLayout as? ProfileLayout {
 
-            let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Header.rawValue)
-            if let coverCell = self.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
-                coverCell.locationLabel.alpha = progress > 0.5 ? 0 : (1.0 - progress * 2)
-                self.topShadowImageView.alpha = 1 - progress
-                coverCell.avatarBlurImageView.alpha = progress * 2
+            profileLayout.scrollUpAction = { progress in
+
+                let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Header.rawValue)
+                if let coverCell = self.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
+                    coverCell.locationLabel.alpha = progress > 0.5 ? 0 : (1.0 - progress * 2)
+                    coverCell.avatarBlurImageView.alpha = progress < 0.5 ? 0 : (progress - 0.5) * 2
+
+                    self.topShadowImageView.alpha = progress < 0.5 ? 1.0 : 1 - (progress - 0.5) * 2
+                }
             }
         }
-        
+
         profileCollectionView.registerNib(UINib(nibName: skillCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: headerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: footerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: footerCellIdentifier)
