@@ -225,7 +225,7 @@ func skillsFromSkillsData(skillsData: [JSONDictionary]) -> [Skill] {
 
                 let coverURLString = skillInfo["cover_url"] as? String
 
-                let skill = Skill(category: skillCategory, id: skillID, name: skillName, localName: skillName, coverURLString: coverURLString)
+                let skill = Skill(category: skillCategory, id: skillID, name: skillName, localName: skillLocalName, coverURLString: coverURLString)
 
                 skills.append(skill)
         }

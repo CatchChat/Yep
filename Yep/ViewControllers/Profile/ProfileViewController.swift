@@ -214,8 +214,36 @@ class ProfileViewController: UIViewController {
         return introduction ?? NSLocalizedString("No Introduction yet.", comment: "")
         }()
 
-    var masterSkills = [Skill]()
-    var learningSkills = [Skill]()
+    var masterSkills = [Skill]() {
+        didSet {
+            let realm = Realm()
+
+            if let
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID, inRealm: realm) {
+                    realm.write {
+                        me.masterSkills.removeAll()
+                        let userSkills = userSkillsFromSkills(self.masterSkills, inRealm: realm)
+                        me.masterSkills.extend(userSkills)
+                    }
+            }
+        }
+    }
+    var learningSkills = [Skill]() {
+        didSet {
+            let realm = Realm()
+
+            if let
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID, inRealm: realm) {
+                    realm.write {
+                        me.learningSkills.removeAll()
+                        let userSkills = userSkillsFromSkills(self.learningSkills, inRealm: realm)
+                        me.learningSkills.extend(userSkills)
+                    }
+            }
+        }
+    }
 
     typealias SocialWorkProviderInfo = [String: Bool]
     var socialWorkProviderInfo = SocialWorkProviderInfo()
@@ -258,6 +286,9 @@ class ProfileViewController: UIViewController {
                 me = userWithUserID(myUserID, inRealm: Realm()) {
                     profileUser = ProfileUser.UserType(me)
                     profileUserIsMe = true
+
+                    masterSkills = skillsFromUserSkillList(me.masterSkills)
+                    learningSkills = skillsFromUserSkillList(me.learningSkills)
             }
         }
 

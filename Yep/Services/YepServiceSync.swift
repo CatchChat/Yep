@@ -104,6 +104,28 @@ func downloadAttachmentOfMessage(message: Message) {
 
 }
 
+func skillsFromUserSkillList(userSkillList: List<UserSkill>) -> [Skill] {
+
+    var userSkills = [UserSkill]()
+
+    for userSkill in userSkillList {
+        userSkills.append(userSkill)
+    }
+    
+    return userSkills.map({ userSkill -> Skill? in
+        if let category = userSkill.category {
+            let skillCategory = SkillCategory(id: category.skillCategoryID, name: category.name, localName: category.localName, skills: [])
+
+            let skill = Skill(category: skillCategory, id: userSkill.skillID, name: userSkill.name, localName: userSkill.localName, coverURLString: userSkill.coverURLString)
+
+            return skill
+        }
+
+        return nil
+
+    }).filter({ $0 != nil }).map({ skill in skill! })
+}
+
 func userSkillsFromSkills(skills: [Skill], inRealm realm: Realm) -> [UserSkill] {
 
     return skills.map({ skill -> UserSkill? in
