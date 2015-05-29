@@ -27,6 +27,9 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        self.view.backgroundColor = UIColor.whiteColor()
+        
         animatedOnNavigationBar = false
 
         title = NSLocalizedString("OAuth", comment: "")
