@@ -19,10 +19,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="254"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="广州市" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O8h-bQ-ZK8" userLabel="Location Label">
-                        <rect key="frame" x="178" y="219" width="36" height="15"/>
-                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="12"/>
+                        <rect key="frame" x="176.5" y="218" width="39" height="16"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
+                        <size key="shadowOffset" width="1" height="1"/>
                     </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
