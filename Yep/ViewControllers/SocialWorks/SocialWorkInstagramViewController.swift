@@ -71,10 +71,10 @@ class SocialWorkInstagramViewController: BaseViewController {
                 case .UserType(let user):
                     userID = user.userID
                 }
-
-            } else {
-                userID = YepUserDefaults.userID.value
             }
+//            else {
+//                userID = YepUserDefaults.userID.value
+//            }
 
             if let userID = userID {
 

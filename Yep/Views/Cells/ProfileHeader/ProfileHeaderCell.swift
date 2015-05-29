@@ -24,17 +24,17 @@ class ProfileHeaderCell: UICollectionViewCell {
         super.awakeFromNib()
     }
 
-    func configureWithMyInfo() {
-        YepUserDefaults.avatarURLString.bindAndFireListener("ProfileHeaderCell.Avatar") { avatarURLString in
-            if let avatarURLString = avatarURLString {
-                self.updateAvatarWithAvatarURLString(avatarURLString)
-            }
-        }
-
-        YepLocationService.sharedManager // TODO: 要迁走
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
-    }
+//    func configureWithMyInfo() {
+//        YepUserDefaults.avatarURLString.bindAndFireListener("ProfileHeaderCell.Avatar") { avatarURLString in
+//            if let avatarURLString = avatarURLString {
+//                self.updateAvatarWithAvatarURLString(avatarURLString)
+//            }
+//        }
+//
+//        YepLocationService.sharedManager // TODO: 要迁走
+//
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
+//    }
 
     func configureWithDiscoveredUser(discoveredUser: DiscoveredUser) {
         updateAvatarWithAvatarURLString(discoveredUser.avatarURLString)
@@ -57,6 +57,18 @@ class ProfileHeaderCell: UICollectionViewCell {
 
     func configureWithUser(user: User) {
         updateAvatarWithAvatarURLString(user.avatarURLString)
+
+        if user.friendState == UserFriendState.Me.rawValue {
+            YepUserDefaults.avatarURLString.bindListener("ProfileHeaderCell.Avatar") { avatarURLString in
+                if let avatarURLString = avatarURLString {
+                    self.updateAvatarWithAvatarURLString(avatarURLString)
+                }
+            }
+
+            YepLocationService.sharedManager // TODO: 要迁走
+
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
+        }
 
         // TODO: User Location
     }

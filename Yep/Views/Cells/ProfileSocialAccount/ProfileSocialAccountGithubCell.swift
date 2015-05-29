@@ -68,46 +68,55 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
         let providerName = socialAccount.description.lowercaseString
 
         var accountEnabled = false
-        
+
         if let profileUser = profileUser {
+            accountEnabled = profileUser.enabledSocialAccount(socialAccount)
 
-            switch profileUser {
-
-            case .DiscoveredUserType(let discoveredUser):
-                for provider in discoveredUser.socialAccountProviders {
-                    if (provider.name == providerName) && provider.enabled {
-                        iconImageView.tintColor = socialAccount.tintColor
-                        nameLabel.textColor = socialAccount.tintColor
-
-                        accountEnabled = true
-
-                        break
-                    }
-                }
-
-            case .UserType(let user):
-                for provider in user.socialAccountProviders {
-                    if (provider.name == providerName) && provider.enabled {
-                        iconImageView.tintColor = socialAccount.tintColor
-                        nameLabel.textColor = socialAccount.tintColor
-
-                        accountEnabled = true
-
-                        break
-                    }
-                }
-            }
-
-        } else {
-            if let enabled = socialWorkProviderInfo[providerName] {
-                if enabled {
-                    iconImageView.tintColor = socialAccount.tintColor
-                    nameLabel.textColor = socialAccount.tintColor
-
-                    accountEnabled = true
-                }
+            if accountEnabled {
+                iconImageView.tintColor = socialAccount.tintColor
+                nameLabel.textColor = socialAccount.tintColor
             }
         }
+        
+//        if let profileUser = profileUser {
+//
+//            switch profileUser {
+//
+//            case .DiscoveredUserType(let discoveredUser):
+//                for provider in discoveredUser.socialAccountProviders {
+//                    if (provider.name == providerName) && provider.enabled {
+//                        iconImageView.tintColor = socialAccount.tintColor
+//                        nameLabel.textColor = socialAccount.tintColor
+//
+//                        accountEnabled = true
+//
+//                        break
+//                    }
+//                }
+//
+//            case .UserType(let user):
+//                for provider in user.socialAccountProviders {
+//                    if (provider.name == providerName) && provider.enabled {
+//                        iconImageView.tintColor = socialAccount.tintColor
+//                        nameLabel.textColor = socialAccount.tintColor
+//
+//                        accountEnabled = true
+//
+//                        break
+//                    }
+//                }
+//            }
+//
+//        } else {
+//            if let enabled = socialWorkProviderInfo[providerName] {
+//                if enabled {
+//                    iconImageView.tintColor = socialAccount.tintColor
+//                    nameLabel.textColor = socialAccount.tintColor
+//
+//                    accountEnabled = true
+//                }
+//            }
+//        }
 
 
         if !accountEnabled {
@@ -132,10 +141,10 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
                     case .UserType(let user):
                         userID = user.userID
                     }
-
-                } else {
-                    userID = YepUserDefaults.userID.value
                 }
+//                else {
+//                    userID = YepUserDefaults.userID.value
+//                }
 
                 if let userID = userID {
 

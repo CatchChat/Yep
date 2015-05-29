@@ -106,16 +106,46 @@ enum ProfileUser {
                 }
             }
         }
-        
+
         return accountEnabled
     }
 }
 
 class ProfileViewController: UIViewController {
 
-    var profileUser: ProfileUser?
     var isFromConversation = false
-    
+
+    var profileUser: ProfileUser?
+    var profileUserIsMe = true {
+        didSet {
+            if !profileUserIsMe {
+
+                let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
+
+                customNavigationItem.rightBarButtonItem = moreBarButtonItem
+
+
+                if isFromConversation {
+                    sayHiView.hidden = true
+
+                } else {
+                    sayHiView.sayHiAction = {
+                        self.sayHi()
+                    }
+
+                    profileCollectionView.contentInset.bottom = sayHiView.bounds.height
+                }
+
+            } else {
+                sayHiView.hidden = true
+
+                let settingsBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_settings"), style: UIBarButtonItemStyle.Plain, target: self, action: "showSettings")
+
+                customNavigationItem.rightBarButtonItem = settingsBarButtonItem
+            }
+        }
+    }
+
     @IBOutlet weak var topShadowImageView: UIImageView!
     @IBOutlet weak var profileCollectionView: UICollectionView!
 
@@ -155,21 +185,31 @@ class ProfileViewController: UIViewController {
                 }
 
             case .UserType(let user):
+
                 if !user.introduction.isEmpty {
                     introduction = user.introduction
                 }
-            }
 
-        } else {
-            introduction = YepUserDefaults.introduction.value
-
-            YepUserDefaults.introduction.bindListener("Profile.introductionText") { introduction in
-                if let introduction = introduction {
-                    self.introductionText = introduction
-                    self.updateProfileCollectionView()
+                if user.friendState == UserFriendState.Me.rawValue {
+                    YepUserDefaults.introduction.bindListener("Profile.introductionText") { introduction in
+                        if let introduction = introduction {
+                            self.introductionText = introduction
+                            self.updateProfileCollectionView()
+                        }
+                    }
                 }
             }
         }
+//        else {
+//            introduction = YepUserDefaults.introduction.value
+//
+//            YepUserDefaults.introduction.bindListener("Profile.introductionText") { introduction in
+//                if let introduction = introduction {
+//                    self.introductionText = introduction
+//                    self.updateProfileCollectionView()
+//                }
+//            }
+//        }
 
         return introduction ?? NSLocalizedString("No Introduction yet.", comment: "")
         }()
@@ -211,6 +251,15 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if profileUser == nil {
+            if let
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID, inRealm: Realm()) {
+                    profileUser = ProfileUser.UserType(me)
+                    profileUserIsMe = true
+            }
+        }
 
         if let profileLayout = profileCollectionView.collectionViewLayout as? ProfileLayout {
 
@@ -284,37 +333,35 @@ class ProfileViewController: UIViewController {
                 customNavigationItem.title = discoveredUser.nickname
             case .UserType(let user):
                 customNavigationItem.title = user.nickname
-            }
 
-        } else {
-            YepUserDefaults.nickname.bindAndFireListener("ProfileViewController.Title") { nickname in
-                self.customNavigationItem.title = nickname
+                if user.friendState == UserFriendState.Me.rawValue {
+                    YepUserDefaults.nickname.bindListener("ProfileViewController.Title") { nickname in
+                        self.customNavigationItem.title = nickname
+                    }
+                }
             }
         }
+//        else {
+//            YepUserDefaults.nickname.bindAndFireListener("ProfileViewController.Title") { nickname in
+//                self.customNavigationItem.title = nickname
+//            }
+//        }
 
         if let profileUser = profileUser {
-            let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
-            
-            customNavigationItem.rightBarButtonItem = moreBarButtonItem
 
+            switch profileUser {
 
-            if isFromConversation {
-                sayHiView.hidden = true
+            case .DiscoveredUserType(let discoveredUser):
+                profileUserIsMe = false
 
-            } else {
-                sayHiView.sayHiAction = {
-                    self.sayHi()
+            case .UserType(let user):
+                if user.friendState == UserFriendState.Me.rawValue {
+                    profileUserIsMe = true
+
+                } else {
+                    profileUserIsMe = false
                 }
-
-                profileCollectionView.contentInset.bottom = sayHiView.bounds.height
             }
-
-        } else {
-            sayHiView.hidden = true
-            
-            let settingsBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_settings"), style: UIBarButtonItemStyle.Plain, target: self, action: "showSettings")
-            
-            customNavigationItem.rightBarButtonItem = settingsBarButtonItem
         }
     }
     
@@ -531,21 +578,25 @@ class ProfileViewController: UIViewController {
                 }
 
             case .UserType(let user):
-                if user.conversation == nil {
-                    let newConversation = Conversation()
 
-                    newConversation.type = ConversationType.OneToOne.rawValue
-                    newConversation.withFriend = user
+                if user.friendState != UserFriendState.Me.rawValue {
 
-                    realm.beginWrite()
-                    realm.add(newConversation)
-                    realm.commitWrite()
-                }
+                    if user.conversation == nil {
+                        let newConversation = Conversation()
 
-                if let conversation = user.conversation {
-                    performSegueWithIdentifier("showConversation", sender: conversation)
+                        newConversation.type = ConversationType.OneToOne.rawValue
+                        newConversation.withFriend = user
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
+                        realm.beginWrite()
+                        realm.add(newConversation)
+                        realm.commitWrite()
+                    }
+
+                    if let conversation = user.conversation {
+                        performSegueWithIdentifier("showConversation", sender: conversation)
+
+                        NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
+                    }
                 }
             }
         }
@@ -611,10 +662,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 case .UserType(let user):
                     return Int(user.masterSkills.count)
                 }
-
-            } else {
-                return masterSkills.count
             }
+
+            return 0
+//            else {
+//                return masterSkills.count
+//            }
 
         case ProfileSection.Learning.rawValue:
 
@@ -625,10 +678,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 case .UserType(let user):
                     return Int(user.learningSkills.count)
                 }
-
-            } else {
-                return learningSkills.count
             }
+
+            return 0
+//            else {
+//                return learningSkills.count
+//            }
 
         case ProfileSection.Footer.rawValue:
             return 1
@@ -658,10 +713,10 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 case .UserType(let user):
                     cell.configureWithUser(user)
                 }
-
-            } else {
-                cell.configureWithMyInfo()
             }
+//            else {
+//                cell.configureWithMyInfo()
+//            }
 
             return cell
 
@@ -677,11 +732,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     let userSkill = user.masterSkills[indexPath.item]
                     cell.skillLabel.text = userSkill.localName
                 }
-
-            } else {
-                let skill = masterSkills[indexPath.item]
-                cell.skillLabel.text = skill.localName
             }
+//            else {
+//                let skill = masterSkills[indexPath.item]
+//                cell.skillLabel.text = skill.localName
+//            }
 
             return cell
 
@@ -697,11 +752,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     let userSkill = user.learningSkills[indexPath.item]
                     cell.skillLabel.text = userSkill.localName
                 }
-
-            } else {
-                let skill = learningSkills[indexPath.item]
-                cell.skillLabel.text = skill.localName
             }
+//            else {
+//                let skill = learningSkills[indexPath.item]
+//                cell.skillLabel.text = skill.localName
+//            }
 
 
             return cell
@@ -875,10 +930,10 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     let userSkill = user.masterSkills[indexPath.item]
                     skillLocalName = userSkill.localName
                 }
-
-            } else {
-                skillLocalName = masterSkills[indexPath.item].localName
             }
+//            else {
+//                skillLocalName = masterSkills[indexPath.item].localName
+//            }
 
             let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
@@ -895,10 +950,10 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     let userSkill = user.learningSkills[indexPath.item]
                     skillLocalName = userSkill.localName
                 }
-
-            } else {
-                skillLocalName = learningSkills[indexPath.item].localName
             }
+//            else {
+//                skillLocalName = learningSkills[indexPath.item].localName
+//            }
 
             let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
@@ -917,7 +972,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                         socialAccountProvider.enabled
                     }).count > 0
                 case .UserType(let user):
-                    enabled = user.socialAccountProviders.filter("enabled = true").count > 0
+                    if user.friendState != UserFriendState.Me.rawValue {
+                        enabled = user.socialAccountProviders.filter("enabled = true").count > 0
+                    }
                 }
             }
 
@@ -927,7 +984,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             var enabled = true
 
             // 对于他人，只看其绑定的 SocialAccount
-            if let profileUser = profileUser {
+            if !profileUserIsMe, let profileUser = profileUser {
                 if let socialAccount = SocialAccount(rawValue: indexPath.row) {
                     enabled = profileUser.enabledSocialAccount(socialAccount)
                 }
@@ -965,42 +1022,55 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             if let socialAccount = SocialAccount(rawValue: indexPath.item) {
 
-                let providerName = socialAccount.description.lowercaseString
-
                 if let profileUser = profileUser {
 
-                    switch profileUser {
-                        
-                    case .DiscoveredUserType(let discoveredUser):
-                        for provider in discoveredUser.socialAccountProviders {
-                            if (provider.name == providerName) && provider.enabled {
-                                performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
+                    if profileUser.enabledSocialAccount(socialAccount) {
+                        performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
 
-                                break
-                            }
-                        }
-
-                    case .UserType(let user):
-                        for provider in user.socialAccountProviders {
-                            if (provider.name == providerName) && provider.enabled {
-                                performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
-
-                                break
-                            }
+                    } else {
+                        if profileUserIsMe {
+                            performSegueWithIdentifier("presentOAuth", sender: indexPath.item)
                         }
                     }
-
-                } else {
-                    if let enabled = socialWorkProviderInfo[providerName] {
-                        if enabled {
-                            performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
-
-                            return
-                        }
-                    }
-
-                    performSegueWithIdentifier("presentOAuth", sender: indexPath.item)
                 }
+
+//                let providerName = socialAccount.description.lowercaseString
+//
+//                if let profileUser = profileUser {
+//
+//                    switch profileUser {
+//                        
+//                    case .DiscoveredUserType(let discoveredUser):
+//                        for provider in discoveredUser.socialAccountProviders {
+//                            if (provider.name == providerName) && provider.enabled {
+//                                performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
+//
+//                                break
+//                            }
+//                        }
+//
+//                    case .UserType(let user):
+//                        for provider in user.socialAccountProviders {
+//                            if (provider.name == providerName) && provider.enabled {
+//                                performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
+//
+//                                break
+//                            }
+//                        }
+//
+//                    }
+//
+//                } else {
+//                    if let enabled = socialWorkProviderInfo[providerName] {
+//                        if enabled {
+//                            performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
+//
+//                            return
+//                        }
+//                    }
+//
+//                    performSegueWithIdentifier("presentOAuth", sender: indexPath.item)
+//                }
             }
         }
 
