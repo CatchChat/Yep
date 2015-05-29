@@ -46,6 +46,8 @@ class DiscoverViewController: BaseViewController {
         discoverTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         discoverTableView.rowHeight = 80
 
+        discoverTableView.tableFooterView = UIView()
+
         discoveredUserSortStyle = .Default
     }
 
@@ -82,7 +84,8 @@ class DiscoverViewController: BaseViewController {
     }
     
     func updateDiscoverTableView() {
-        self.discoverTableView.reloadData()
+        //discoverTableView.reloadData()
+        discoverTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
     }
 
 
