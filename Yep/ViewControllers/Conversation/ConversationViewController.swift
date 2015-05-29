@@ -178,6 +178,19 @@ class ConversationViewController: BaseViewController {
     
 
     override func viewDidLoad() {
+        
+        if let gestures = navigationController?.view.gestureRecognizers {
+            for recognizer in gestures
+            {
+                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer)
+                {
+                    conversationCollectionView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                    println("Require UIScreenEdgePanGestureRecognizer to failed")
+                    break
+                }
+            }
+        }
+        
         super.viewDidLoad()
         self.swipeUpView.hidden = true
         realm = Realm()
