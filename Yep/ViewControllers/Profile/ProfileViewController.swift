@@ -411,47 +411,6 @@ class ProfileViewController: UIViewController {
         self.setNeedsStatusBarAppearanceUpdate()
     }
 
-//    override func viewDidAppear(animated: Bool) {
-//        super.viewDidAppear(animated)
-//
-//        if profileUser == nil {
-//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-//                userInfo(failureHandler: nil) { userInfo in
-//
-//                    //println("userInfo: \(userInfo)")
-//
-//                    if let introduction = userInfo["introduction"] as? String {
-//                        YepUserDefaults.introduction.value = introduction
-//                    }
-//
-//                    if let areaCode = userInfo["phone_code"] as? String {
-//                        YepUserDefaults.areaCode.value = areaCode
-//                    }
-//
-//                    if let mobile = userInfo["mobile"] as? String {
-//                        YepUserDefaults.mobile.value = mobile
-//                    }
-//
-//                    if let skillsData = userInfo["master_skills"] as? [JSONDictionary] {
-//                        self.masterSkills = skillsFromSkillsData(skillsData)
-//                    }
-//
-//                    if let skillsData = userInfo["learning_skills"] as? [JSONDictionary] {
-//                        self.learningSkills = skillsFromSkillsData(skillsData)
-//                    }
-//
-//                    if let providerInfo = userInfo["providers"] as? SocialWorkProviderInfo {
-//                        self.socialWorkProviderInfo = providerInfo
-//                    }
-//
-//                    dispatch_async(dispatch_get_main_queue()) {
-//                        self.updateProfileCollectionView()
-//                    }
-//                }
-//            }
-//        }
-//    }
-
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }

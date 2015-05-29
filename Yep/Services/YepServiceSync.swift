@@ -244,6 +244,92 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm
     return userSkills
 }
 
+func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
+
+    userInfo(failureHandler: nil) { friendInfo in
+
+        println("my userInfo: \(friendInfo)")
+
+        furtherAction()
+
+        if let myUserID = YepUserDefaults.userID.value {
+
+            let realm = Realm()
+
+            var me = userWithUserID(myUserID, inRealm: realm)
+
+            if me == nil {
+                let newUser = User()
+                newUser.userID = myUserID
+
+                newUser.friendState = UserFriendState.Me.rawValue
+
+                if let createdAtString = friendInfo["created_at"] as? String {
+                    newUser.createdAt = NSDate.dateWithISO08601String(createdAtString)
+                }
+
+                realm.beginWrite()
+                realm.add(newUser)
+                realm.commitWrite()
+
+                me = newUser
+            }
+
+            if let user = me {
+                realm.beginWrite()
+
+                // 更新用户信息
+
+                if let lastSignInAtString = friendInfo["last_sign_in_at"] as? String {
+                    user.lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+                }
+
+                if let nickname = friendInfo["nickname"] as? String {
+                    user.nickname = nickname
+                }
+
+                if let introduction = friendInfo["introduction"] as? String {
+                    user.introduction = introduction
+                }
+
+                if let avatarURLString = friendInfo["avatar_url"] as? String {
+                    user.avatarURLString = avatarURLString
+                }
+
+                // 更新技能
+
+                if let learningSkillsData = friendInfo["learning_skills"] as? [JSONDictionary] {
+                    user.learningSkills.removeAll()
+                    let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: realm)
+                    user.learningSkills.extend(userSkills)
+                }
+
+                if let masterSkillsData = friendInfo["master_skills"] as? [JSONDictionary] {
+                    user.masterSkills.removeAll()
+                    let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
+                    user.masterSkills.extend(userSkills)
+                }
+
+                // 更新 Social Account Provider
+
+                user.socialAccountProviders.removeAll()
+
+                if let providersInfo = friendInfo["providers"] as? [String: Bool] {
+                    for (name, enabled) in providersInfo {
+                        let provider = UserSocialAccountProvider()
+                        provider.name = name
+                        provider.enabled = enabled
+
+                        user.socialAccountProviders.append(provider)
+                    }
+                }
+
+                realm.commitWrite()
+            }
+        }
+    }
+}
+
 func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
     friendships { allFriendships in
         //println("\n allFriendships: \(allFriendships)")

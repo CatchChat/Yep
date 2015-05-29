@@ -182,11 +182,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func sync() {
-        syncFriendshipsAndDoFurtherAction {
-            syncGroupsAndDoFurtherAction {
-                syncUnreadMessagesAndDoFurtherAction {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
+        syncMyInfoAndDoFurtherAction {
+            syncFriendshipsAndDoFurtherAction {
+                syncGroupsAndDoFurtherAction {
+                    syncUnreadMessagesAndDoFurtherAction {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
+                        }
                     }
                 }
             }
