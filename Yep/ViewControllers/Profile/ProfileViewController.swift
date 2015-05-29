@@ -287,11 +287,16 @@ class ProfileViewController: UIViewController {
             profileLayout.scrollUpAction = { progress in
 
                 let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Header.rawValue)
+                
                 if let coverCell = self.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
-                    coverCell.locationLabel.alpha = progress > 0.5 ? 0 : (1.0 - progress * 2)
-                    coverCell.avatarBlurImageView.alpha = progress < 0.5 ? 0 : (progress - 0.5) * 2
-
-                    self.topShadowImageView.alpha = progress < 0.5 ? 1.0 : 1 - (progress - 0.5) * 2
+                    
+                    let beginModifyPercentage: CGFloat = 0.9
+                    let modifablePercentage: CGFloat = 1.0 - 0.9
+                    let modifyPercentage: CGFloat = (progress - beginModifyPercentage)/modifablePercentage
+                    
+                    coverCell.locationLabel.alpha = progress > beginModifyPercentage ? 0 : modifyPercentage
+                    coverCell.avatarBlurImageView.alpha = progress < beginModifyPercentage ? 0 : modifyPercentage
+                    self.topShadowImageView.alpha = progress < beginModifyPercentage ? 1.0 : 1 - modifyPercentage
                 }
             }
         }

@@ -55,12 +55,12 @@ class ProfileLayout: UICollectionViewFlowLayout {
                     }
                 }
             }
-            let alphaHeight = coverHeight/1.8
             
-            if contentOffset.y > alphaHeight {
-                scrollUpAction?(progress: (contentOffset.y - alphaHeight) / (alphaHeight/2.0) )
+            if coverHideHeight > contentOffset.y {
+                scrollUpAction?(progress: 1.0 - (coverHideHeight - contentOffset.y) / coverHideHeight)
+
             } else {
-                scrollUpAction?(progress: 0)
+                scrollUpAction?(progress: 1.0)
             }
 
         }
