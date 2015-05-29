@@ -30,6 +30,6 @@ extension UIFont {
     }
 
     class func navigationBarTitleFont() -> UIFont {
-        return UIFont(name: "HelveticaNeue-CondensedBlack", size: 20)!
+        return UIFont(name: "Helvetica-Bold", size: 15)!
     }
 }

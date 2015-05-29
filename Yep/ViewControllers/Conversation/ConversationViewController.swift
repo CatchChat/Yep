@@ -13,6 +13,8 @@ import MobileCoreServices
 
 class ConversationViewController: BaseViewController {
 
+    @IBOutlet weak var swipeUpView: UIView!
+    
     struct Notification {
         static let MessageSent = "MessageSentNotification"
     }
@@ -170,7 +172,7 @@ class ConversationViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.swipeUpView.hidden = true
         realm = Realm()
 
         navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
@@ -291,8 +293,10 @@ class ConversationViewController: BaseViewController {
         // MARK: Audio Send
 
         messageToolbar.voiceSendBeginAction = { messageToolbar in
-            self.view.window?.addSubview(self.waverView)
-
+            self.view.addSubview(self.waverView)
+            self.swipeUpView.hidden = false
+            self.view.bringSubviewToFront(self.swipeUpView)
+            
             let audioFileName = NSUUID().UUIDString
 
             self.waverView.waver.resetWaveSamples()
@@ -312,11 +316,13 @@ class ConversationViewController: BaseViewController {
         }
         
         messageToolbar.voiceSendCancelAction = { messageToolbar in
+            self.swipeUpView.hidden = true
             self.waverView.removeFromSuperview()
             YepAudioService.sharedManager.endRecord()
         }
         
         messageToolbar.voiceSendEndAction = { messageToolbar in
+            self.swipeUpView.hidden = true
             self.waverView.removeFromSuperview()
             if YepAudioService.sharedManager.audioRecorder?.currentTime < 0.5 {
                 YepAudioService.sharedManager.endRecord()

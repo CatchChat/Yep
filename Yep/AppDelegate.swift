@@ -234,6 +234,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ]
 
         UINavigationBar.appearance().titleTextAttributes = textAttributes
+        UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
 
         //UINavigationBar.appearance().setBackgroundImage(UIImage(named:"white"), forBarMetrics: .Default)
         //UINavigationBar.appearance().shadowImage = UIImage()
@@ -245,6 +246,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //UITabBar.appearance().backgroundImage = UIImage(named:"white")
         //UITabBar.appearance().shadowImage = UIImage()
         UITabBar.appearance().tintColor = UIColor.yepTintColor()
+        UITabBar.appearance().barTintColor = UIColor.whiteColor()
         //UITabBar.appearance().translucent = false
     }
 }
