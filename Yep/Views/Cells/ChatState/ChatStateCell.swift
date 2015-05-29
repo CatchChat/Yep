@@ -10,6 +10,8 @@ import UIKit
 
 class ChatStateCell: UICollectionViewCell {
 
+    @IBOutlet weak var stateLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

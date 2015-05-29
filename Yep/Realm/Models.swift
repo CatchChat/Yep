@@ -145,6 +145,7 @@ enum MessageMediaType: Int, Printable {
     case Sticker        = 4
     case Location       = 5
     case SectionDate    = 6
+    case State          = 7
 
     var description: String {
         get {
@@ -163,6 +164,8 @@ enum MessageMediaType: Int, Printable {
                 return "location"
             case SectionDate:
                 return "sectionDate"
+            case State:
+                return "state"
             }
         }
     }
@@ -181,14 +184,31 @@ enum MessageMediaType: Int, Printable {
     }
 }
 
-enum MessageSendState: Int {
+enum MessageSendState: Int, Printable {
     case NotSend    = 0
     case Failed     = 1
     case Successed  = 2
+    case Read       = 3
+    
+    var description: String {
+        get {
+            switch self {
+            case NotSend:
+                return "NotSend"
+            case Failed:
+                return "Failed"
+            case Successed:
+                return "Sent"
+            case Read:
+                return "Read"
+            }
+        }
+    }
 }
 
 class Message: Object {
     dynamic var messageID: String = ""
+    dynamic var refMessageID: String = ""
 
     dynamic var createdAt: NSDate = NSDate()
 
@@ -347,11 +367,38 @@ func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) ->
     return messages
 }
 
+func statesOfConversation(conversation: Conversation, state: MessageSendState.RawValue, exceptForMessageID: String?, inRealm realm: Realm) -> Results<Message> {
+    
+    let messageMediaType = MessageMediaType.State.rawValue
+    
+    var queryPredicate = "conversation = %@ AND sendState = %@ AND mediaType = %@"
+    
+    var queryArgs = [conversation, state, messageMediaType]
+    
+    if let exceptForMessageID = exceptForMessageID {
+        queryPredicate = "conversation = %@ AND sendState = %@ AND mediaType = %@ AND refMessageID != %@"
+        queryArgs = [conversation, state, messageMediaType, exceptForMessageID]
+    }
+    
+    let predicate = NSPredicate(format: queryPredicate, argumentArray: queryArgs)
+    let messages = realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
+    return messages
+}
+
+func statesOfMessage(messageID: String, inRealm realm: Realm) -> Results<Message> {
+    
+    let messageMediaType = MessageMediaType.State.rawValue
+    
+    let predicate = NSPredicate(format: "refMessageID = %@ AND mediaType = %@", argumentArray: [messageID, messageMediaType])
+    let messages = realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
+    return messages
+}
+
 func tryCreateSectionDateMessageInConversation(conversation: Conversation, beforeMessage message: Message, inRealm realm: Realm, success: (Message) -> Void) {
     let messages = messagesOfConversation(conversation, inRealm: realm)
     if messages.count > 1 {
         let prevMessage = messages[messages.count - 2]
-        if message.createdAt.timeIntervalSinceDate(prevMessage.createdAt) > 30 { // TODO: Time Section
+        if message.createdAt.timeIntervalSinceDate(prevMessage.createdAt) > 180 { // TODO: Time Section
 
             // insert a new SectionDate Message
             let newSectionDateMessage = Message()
@@ -363,6 +410,25 @@ func tryCreateSectionDateMessageInConversation(conversation: Conversation, befor
         }
     }
 }
+
+func createChatStateInConversation(conversation: Conversation, afterMessage message: Message, inRealm realm: Realm, success: (Message) -> Void) {
+    let messages = messagesOfConversation(conversation, inRealm: realm)
+    
+    if message.sendState == MessageSendState.Successed.rawValue {
+        let sendStates = statesOfConversation(conversation, MessageSendState.Successed.rawValue, nil, inRealm: realm)
+        realm.delete(sendStates)
+    }
+    
+    // insert a new State Message
+    let newSectionDateMessage = Message()
+    newSectionDateMessage.sendState = message.sendState
+    newSectionDateMessage.conversation = conversation
+    newSectionDateMessage.refMessageID = message.messageID
+    newSectionDateMessage.mediaType = MessageMediaType.State.rawValue
+    newSectionDateMessage.createdAt = message.createdAt.dateByAddingTimeInterval(+1) // 比新消息早一秒
+    success(newSectionDateMessage)
+}
+
 
 func nameOfConversation(conversation: Conversation) -> String? {
     if conversation.type == ConversationType.OneToOne.rawValue {

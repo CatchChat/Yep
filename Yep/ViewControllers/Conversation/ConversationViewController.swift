@@ -131,6 +131,7 @@ class ConversationViewController: BaseViewController {
     let messageImagePreferredAspectRatio: CGFloat = 4.0 / 3.0
 
     let chatSectionDateCellIdentifier = "ChatSectionDateCell"
+    let chatStateCellIdentifier = "ChatStateCell"
     let chatLeftTextCellIdentifier = "ChatLeftTextCell"
     let chatRightTextCellIdentifier = "ChatRightTextCell"
     let chatLeftImageCellIdentifier = "ChatLeftImageCell"
@@ -215,6 +216,7 @@ class ConversationViewController: BaseViewController {
 
         conversationCollectionView.alwaysBounceVertical = true
 
+        conversationCollectionView.registerNib(UINib(nibName: chatStateCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatStateCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatSectionDateCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatSectionDateCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
@@ -245,7 +247,6 @@ class ConversationViewController: BaseViewController {
                 sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
                     dispatch_async(dispatch_get_main_queue()) {
                         self.updateConversationCollectionView(scrollToBottom: true)
-
                         NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
                     }
 
@@ -705,6 +706,9 @@ class ConversationViewController: BaseViewController {
             height = 108
 
         case MessageMediaType.SectionDate.rawValue:
+            height = 20
+            
+        case MessageMediaType.State.rawValue:
             height = 20
 
         default:
@@ -1351,6 +1355,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             return cell
         }
+        
+        //ChatState
+        
+        if message.mediaType == MessageMediaType.State.rawValue {
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatStateCellIdentifier, forIndexPath: indexPath) as! ChatStateCell
+            cell.stateLabel.text = MessageSendState(rawValue: message.sendState)!.description
+            return cell
+        }
 
         if let sender = message.fromFriend {
 
@@ -1498,6 +1510,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: sectionInsetTop, left: 0, bottom: sectionInsetBottom, right: 0)
     }
+    
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if messageToolbar.state != .Default {

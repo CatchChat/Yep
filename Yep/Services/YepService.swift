@@ -1055,17 +1055,30 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
             }
 
             dispatch_async(dispatch_get_main_queue()) {
+                
                 realm.beginWrite()
                 message.sendState = MessageSendState.Failed.rawValue
                 realm.commitWrite()
             }
 
         }, completion: { messageID in
+            
             dispatch_async(dispatch_get_main_queue()) {
                 realm.beginWrite()
                 message.messageID = messageID
                 message.sendState = MessageSendState.Successed.rawValue
                 realm.commitWrite()
+                
+                realm.beginWrite()
+                if let conversation = message.conversation {
+                    createChatStateInConversation(conversation, afterMessage: message, inRealm: realm, {
+                        stateMessage in
+                        realm.add(stateMessage)
+                    })
+                }
+                realm.commitWrite()
+
+                
             }
 
             completion(success: true)

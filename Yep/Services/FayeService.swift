@@ -25,6 +25,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
     enum MessageType: String {
         case Default = "message"
         case Instant = "instant_state"
+        case Read = "mark_as_read"
     }
 
     enum InstantStateType: Int, Printable {
@@ -97,7 +98,35 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                             }
                                     }
                                 }
+                                
+                            case FayeService.MessageType.Read.rawValue:
+                                if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
+                                    
+                                    if let
+                                        recipientID = messageDataInfo["recipient_id"] as? String,
+                                        messageID = messageDataInfo["id"] as? String {
+                                            println("Mark Message \(messageID) As Read")
+                                            
+                                            let realm = Realm()
 
+                                            var states = statesOfMessage(messageID, inRealm: realm)
+                                            realm.beginWrite()
+                                            
+                                            if let lastMessage = states.last,
+                                                let conversation = lastMessage.conversation {
+                                                    
+                                                var oldReadStates = statesOfConversation(conversation, MessageSendState.Read.rawValue, messageID,inRealm: realm)
+                                                realm.delete(oldReadStates)
+                                            }
+                                            
+                                            for state in states {
+                                                state.sendState = MessageSendState.Read.rawValue
+                                            }
+                                            
+                                            realm.commitWrite()
+                                            
+                                    }
+                                }
                             default:
                                 println("Recieved unknow message type")
                             }
