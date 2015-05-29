@@ -13,6 +13,9 @@ class DiscoverViewController: BaseViewController {
     @IBOutlet weak var discoverTableView: UITableView!
     
     @IBOutlet weak var filterButtonItem: UIBarButtonItem!
+
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
     
     let cellIdentifier = "ContactsCell"
 
@@ -20,12 +23,19 @@ class DiscoverViewController: BaseViewController {
         didSet {
             filterButtonItem.title = discoveredUserSortStyle.name
 
+            activityIndicator.startAnimating()
+
             discoverUsers(masterSkills: [], learningSkills: [], discoveredUserSortStyle: discoveredUserSortStyle, failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage)
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.activityIndicator.stopAnimating()
+                }
 
             }, completion: { discoveredUsers in
                 dispatch_async(dispatch_get_main_queue()) {
                     self.discoveredUsers = discoveredUsers
+                    self.activityIndicator.stopAnimating()
                 }
             })
         }
