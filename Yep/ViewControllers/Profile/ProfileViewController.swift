@@ -119,8 +119,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var topShadowImageView: UIImageView!
     @IBOutlet weak var profileCollectionView: UICollectionView!
 
-    @IBOutlet weak var sayHiView: UIView!
-    @IBOutlet weak var sayHiButton: UIButton!
+    @IBOutlet weak var sayHiView: SayHiView!
 
     var customNavigationBar: UINavigationBar!
 
@@ -301,11 +300,10 @@ class ProfileViewController: UIViewController {
                 sayHiView.hidden = true
 
             } else {
-                view.bringSubviewToFront(sayHiView)
+                sayHiView.sayHiAction = {
+                    self.sayHi()
+                }
 
-                sayHiButton.setTitle(NSLocalizedString("Say Hi", comment: ""), forState: .Normal)
-                sayHiButton.layer.cornerRadius = 5
-                sayHiButton.backgroundColor = UIColor.yepTintColor()
                 profileCollectionView.contentInset.bottom = sayHiView.bounds.height
             }
 
@@ -447,7 +445,7 @@ class ProfileViewController: UIViewController {
         profileCollectionView.layoutIfNeeded()
     }
 
-    @IBAction func sayHi(sender: UIButton) {
+    func sayHi() {
 
         if let profileUser = profileUser {
 
