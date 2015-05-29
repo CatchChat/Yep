@@ -838,8 +838,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             let header = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: sectionHeaderIdentifier, forIndexPath: indexPath) as! ProfileSectionHeaderReusableView
 
-            var needEnabledTapAction = (profileUser == nil)
-
             switch indexPath.section {
 
             case ProfileSection.Master.rawValue:
@@ -850,11 +848,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             default:
                 header.titleLabel.text = ""
-
-                needEnabledTapAction = false
             }
 
-            if needEnabledTapAction {
+            if profileUserIsMe {
 
                 header.tapAction = {
                     let storyboard = UIStoryboard(name: "Intro", bundle: nil)
