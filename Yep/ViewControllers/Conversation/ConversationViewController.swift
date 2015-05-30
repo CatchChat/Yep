@@ -981,8 +981,11 @@ class ConversationViewController: BaseViewController {
                         if scrollToBottom {
                             
                             var newContentOffsetY = self.conversationCollectionView.contentSize.height - self.conversationCollectionView.frame.size.height + keyboardAndToolBarHeight
+                            var oldContentOffsetY = self.conversationCollectionView.contentOffset.y
+                            if newContentOffsetY - oldContentOffsetY > 50 {
+                                self.conversationCollectionView.contentOffset.y = newContentOffsetY
+                            }
                             
-                            self.conversationCollectionView.contentOffset.y  = newContentOffsetY
                             
                         }else {
                             self.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
