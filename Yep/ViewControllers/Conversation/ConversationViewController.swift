@@ -945,7 +945,7 @@ class ConversationViewController: BaseViewController {
                 
                 let height = heightOfMessage(message) + 10 // TODO: +10 cell line space
                 
-                println("uuheight \(height)")
+//                println("uuheight \(height)")
                 newMessagesTotalHeight += height
             }
             
@@ -959,28 +959,30 @@ class ConversationViewController: BaseViewController {
             
             let totalMessagesContentHeight = conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + newMessagesTotalHeight
             
-            println("Size is \(conversationCollectionView.contentSize.height) \(newMessagesTotalHeight) visableMessageFieldHeight \(visableMessageFieldHeight)")
+//            println("Size is \(conversationCollectionView.contentSize.height) \(newMessagesTotalHeight) visableMessageFieldHeight \(visableMessageFieldHeight)")
             
             //Calculate the space can be used
             let useableSpace = visableMessageFieldHeight - conversationCollectionView.contentSize.height
             
             conversationCollectionView.contentSize = CGSizeMake(conversationCollectionView.contentSize.width, conversationCollectionView.contentSize.height + newMessagesTotalHeight)
             
-            println("Size is after \(conversationCollectionView.contentSize.height)")
+//            println("Size is after \(conversationCollectionView.contentSize.height)")
             
             if (totleMessagesHeight > conversationCollectionView.frame.size.height) {
-                println("New Message scroll")
+//                println("New Message scroll")
                 
                 UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                     
                     if (useableSpace > 0) {
                         let contentToScroll = newMessagesTotalHeight - useableSpace
-                        println("contentToScroll \(contentToScroll)")
+//                        println("contentToScroll \(contentToScroll)")
                         self.conversationCollectionView.contentOffset.y += contentToScroll
                     } else {
                         if scrollToBottom {
                             
-                            self.conversationCollectionView.contentOffset.y = self.conversationCollectionView.contentSize.height - self.conversationCollectionView.frame.size.height + keyboardAndToolBarHeight
+                            var newContentOffsetY = self.conversationCollectionView.contentSize.height - self.conversationCollectionView.frame.size.height + keyboardAndToolBarHeight
+                            
+                            self.conversationCollectionView.contentOffset.y  = newContentOffsetY
                             
                         }else {
                             self.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
@@ -1438,9 +1440,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     func removeSendStates() {
         
         var sendStates = statesOfConversation(self.conversation, MessageSendState.Successed.rawValue, nil, inRealm: self.realm)
-    
         
         var indexPaths = [NSIndexPath]()
+
         for sendState in sendStates {
             if let indexInMessage = self.messages.indexOf(sendState) {
                 var reverseIndex = (self.messages.count - indexInMessage)
@@ -1455,8 +1457,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         self.realm.write {
             self.realm.delete(sendStates)
         }
+
         self.lastTimeMessagesCount = self.messages.count
         
+        let contentOffSet = self.conversationCollectionView.contentOffset
+        var layout = self.conversationCollectionView.collectionViewLayout as! ConversationLayout
+        layout.lastTimeContentSize = layout.collectionViewContentSize()
         self.conversationCollectionView.deleteItemsAtIndexPaths(indexPaths)
     }
     
@@ -1467,29 +1473,29 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         if let message = messages.first,
             let conversation = message.conversation {
             
-            println("Create new send state")
+//            println("Create new send state")
             createChatStateInConversation(conversation, afterMessage: message, inRealm: realm, { stateMessage in
                 self.realm.write {
                     stateMessage.sendState = MessageSendState.Successed.rawValue
                     self.realm.add(stateMessage)
                 }
-                println("State Mesage Created")
+//                println("State Mesage Created")
             })
                 
         } else {
-            println("Message can not be found")
+//            println("Message can not be found")
         }
         
     }
     
     func updateMessagesStates() {
         
-        println("Print queue")
+//        println("Print queue")
         
-        println(ConversationOperationQueue.sharedManager.oprationQueue)
+//        println(ConversationOperationQueue.sharedManager.oprationQueue)
         
         if !ConversationOperationQueue.sharedManager.lock {
-            println("Begin opration")
+//            println("Begin opration")
             if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
                 
                 ConversationOperationQueue.sharedManager.lock = true
@@ -1499,7 +1505,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 switch operation.type.rawValue {
                     
                 case MessageStateOperationType.Read.rawValue:
-                    println("Message Read")
+//                    println("Message Read")
                     removeReadStates()
                     
                     updateMessageStateWithMessageID(operation.messageID)
@@ -1507,22 +1513,22 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
 
                     ConversationOperationQueue.sharedManager.lock = false
-                    println("Lock released")
+//                    println("Lock released")
                     if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
-                        println("Message Read finished")
+//                        println("Message Read finished")
                         self.updateMessagesStates()
                     }
                     
                 case MessageStateOperationType.Sent.rawValue:
-                    println("Message Sent")
+//                    println("Message Sent")
                     removeSendStates()
-                    println("Message Removed")
+//                    println("Message Removed")
                     createNewSentMessageWithMessageID(operation.messageID)
-                    println("Message Sent State Created")
-                    delay(0.3) {
+//                    println("Message Sent State Created")
+                    delay(1) {
                         self.updateMessageStatesOperation(operation)
                     }
-                    println("CollectionView Updated")
+//                    println("CollectionView Updated")
                     
                 default:
                     break
@@ -1536,11 +1542,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     
     func updateMessageStatesOperation(operation: MessageStateOperation) {
         
-        println("Begin update new state into ColllectionView")
+//        println("Begin update new state into ColllectionView")
         
         self.updateConversationCollectionView(scrollToBottom: true, success: { success in
 
-            println("Update Finished")
+//            println("Update Finished")
             dispatch_async(dispatch_get_main_queue()) {
                 ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
                 
@@ -1649,7 +1655,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             if sender.friendState != UserFriendState.Me.rawValue { // from Friend
 
-                // TODO: 需要更好的下载与 mark as read 逻辑：也许未下载的也可以 mark as read
                 downloadAttachmentOfMessage(message)
                 
                 markMessageAsReaded(message)
