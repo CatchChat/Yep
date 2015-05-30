@@ -184,6 +184,7 @@ class ConversationViewController: BaseViewController {
     
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures
@@ -196,10 +197,10 @@ class ConversationViewController: BaseViewController {
                 }
             }
         }
+        
         var layout = ConversationLayout()
         conversationCollectionView.setCollectionViewLayout(layout, animated: false)
         
-        super.viewDidLoad()
         self.swipeUpView.hidden = true
         realm = Realm()
         
@@ -238,6 +239,8 @@ class ConversationViewController: BaseViewController {
         }
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationCollectionViewDefault", name: YepNewMessagesReceivedNotification, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateMessagesStates", name: MessageNotification.MessageRead, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener("ConversationViewController") { _ in
             self.reloadConversationCollectionView()
@@ -1453,6 +1456,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             self.realm.delete(sendStates)
         }
         self.lastTimeMessagesCount = self.messages.count
+        
         self.conversationCollectionView.deleteItemsAtIndexPaths(indexPaths)
     }
     
@@ -1493,6 +1497,15 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             switch operation.type.rawValue {
             case MessageStateOperationType.Read.rawValue:
                 println("Message Read")
+                removeReadStates()
+                updateMessageStateWithMessageID(operation.messageID)
+                ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
+                
+                ConversationOperationQueue.sharedManager.lock = false
+                
+                if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
+                    self.updateMessagesStates()
+                }
                 
             case MessageStateOperationType.Sent.rawValue:
                 println("Message Sent")
@@ -1500,7 +1513,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 println("Message Removed")
                 createNewSentMessageWithMessageID(operation.messageID)
                 println("Message Sent State Created")
-                updateMessageStatesOperation()
+                delay(0.3) {
+                    self.updateMessageStatesOperation(operation)
+                }
                 println("CollectionView Updated")
                 
             default:
@@ -1510,7 +1525,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         }
     }
     
-    func updateMessageStatesOperation() {
+    
+    func updateMessageStatesOperation(operation: MessageStateOperation) {
         
         println("Begin update new state into ColllectionView")
         
@@ -1530,22 +1546,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         })
     }
     
-    func removeReadStates(exceptForMessageID: String) {
+    func removeReadStates() {
         
-        var messageStates = statesOfConversation(conversation, MessageSendState.Read.rawValue, nil,inRealm: realm)
-        
-        var readStates = statesOfConversation(self.conversation, MessageSendState.Read.rawValue, exceptForMessageID, inRealm: self.realm)
-        
-        var newMessageState = messageStates.count - readStates.count
-        
-        if readStates.count < 1 {
-            return
-        }
+        var readStates = statesOfConversation(self.conversation, MessageSendState.Read.rawValue, nil, inRealm: self.realm)
         
         var indexPaths = [NSIndexPath]()
         for sendState in readStates {
             if let indexInMessage = self.messages.indexOf(sendState) {
-                var reverseIndex = (self.messages.count - indexInMessage - newMessageState)
+                var reverseIndex = self.messages.count - indexInMessage
                 var actuallIndexInCollectionView = self.displayedMessagesRange.length - reverseIndex
                 var newIndexPath = NSIndexPath(forItem: actuallIndexInCollectionView, inSection: 0)
                 indexPaths.append(newIndexPath)
@@ -1558,40 +1566,33 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             self.realm.delete(readStates)
         }
         
-        self.lastTimeMessagesCount = self.messages.count - newMessageState
+        self.lastTimeMessagesCount = self.messages.count
         
         self.conversationCollectionView.deleteItemsAtIndexPaths(indexPaths)
         
     }
     
-    func conversationMessagesInRealmChanged(notification: NSNotification) {
-        
-        let messageID = notification.object as! String
-        
-        
-        return
+    func updateMessageStateWithMessageID(messageID: String) {
         
         var messages = messagesOfConversationByMe(conversation, inRealm: self.realm)
         if let message = messages.last {
+            
             if message.messageID == messageID {
-                self.delay(0.5) {
-                    
-                    self.removeReadStates(messageID)
-                    var sendStates = statesOfConversationWithMessageID(self.conversation, MessageSendState.Successed.rawValue, messageID, inRealm: self.realm)
-                    
-                    self.realm.beginWrite()
-                    if let sendState = sendStates.last {
-                        sendState.sendState = MessageSendState.Read.rawValue
-                        sendState.updatedAt = NSDate()
-                    }
-                    self.realm.commitWrite()
-                    
-                    var indexPaths = [NSIndexPath]()
-                    var itemIndex = self.displayedMessagesRange.length - 1
-                    indexPaths.append(NSIndexPath(forItem:itemIndex , inSection: 0))
-                    
-                    self.conversationCollectionView.reloadItemsAtIndexPaths(indexPaths)
+                
+                var sendStates = statesOfConversationWithMessageID(self.conversation, MessageSendState.Successed.rawValue, messageID, inRealm: self.realm)
+                
+                self.realm.beginWrite()
+                if let sendState = sendStates.last {
+                    sendState.sendState = MessageSendState.Read.rawValue
+                    sendState.updatedAt = NSDate()
                 }
+                self.realm.commitWrite()
+                
+                var indexPaths = [NSIndexPath]()
+                var itemIndex = self.displayedMessagesRange.length - 1
+                indexPaths.append(NSIndexPath(forItem:itemIndex , inSection: 0))
+                
+                self.conversationCollectionView.reloadItemsAtIndexPaths(indexPaths)
             }
         }
     }

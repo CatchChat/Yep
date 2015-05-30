@@ -112,6 +112,8 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                                 var operation = MessageStateOperation(type: .Read, messageID: messageID)
                                                 
                                                 ConversationOperationQueue.sharedManager.addNewQperationQueue(operation)
+                                                
+                                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageRead, object: nil)
                                             }
 
                                     }
