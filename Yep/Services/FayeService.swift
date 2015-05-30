@@ -106,26 +106,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                         recipientID = messageDataInfo["recipient_id"] as? String,
                                         messageID = messageDataInfo["id"] as? String {
                                             println("Mark Message \(messageID) As Read")
-                                            
-                                            let realm = Realm()
-
-                                            var states = statesOfMessage(messageID, inRealm: realm)
-                                            realm.beginWrite()
-                                            
-                                            if let lastMessage = states.last,
-                                                let conversation = lastMessage.conversation {
-                                                    
-                                                var oldReadStates = statesOfConversation(conversation, MessageSendState.Read.rawValue, messageID,inRealm: realm)
-                                                realm.delete(oldReadStates)
-                                            }
-                                            
-                                            for state in states {
-                                                state.sendState = MessageSendState.Read.rawValue
-                                                state.updatedAt = NSDate()
-                                            }
-                                            
-                                            realm.commitWrite()
-                                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageChanged, object:   nil)
+                                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageRead, object: messageID)
                                     }
                                 }
                             default:

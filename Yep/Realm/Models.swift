@@ -392,6 +392,18 @@ func statesOfConversation(conversation: Conversation, state: MessageSendState.Ra
     return messages
 }
 
+func statesOfConversationWithMessageID(conversation: Conversation, state: MessageSendState.RawValue, refMessageID: String, inRealm realm: Realm) -> Results<Message> {
+    
+    let messageMediaType = MessageMediaType.State.rawValue
+
+    var queryPredicate = "conversation = %@ AND sendState = %@ AND mediaType = %@ AND refMessageID == %@"
+    var queryArgs = [conversation, state, messageMediaType, refMessageID]
+
+    let predicate = NSPredicate(format: queryPredicate, argumentArray: queryArgs)
+    let messages = realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
+    return messages
+}
+
 func statesOfMessage(messageID: String, inRealm realm: Realm) -> Results<Message> {
     
     let messageMediaType = MessageMediaType.State.rawValue
