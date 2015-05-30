@@ -1489,10 +1489,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         println(ConversationOperationQueue.sharedManager.oprationQueue)
         
         if !ConversationOperationQueue.sharedManager.lock {
-            
-            ConversationOperationQueue.sharedManager.lock = true
-            
+            println("Begin opration")
             if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
+                
+                ConversationOperationQueue.sharedManager.lock = true
                 
                 let operation = ConversationOperationQueue.sharedManager.oprationQueue[0]
                 
@@ -1501,12 +1501,15 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageStateOperationType.Read.rawValue:
                     println("Message Read")
                     removeReadStates()
+                    
                     updateMessageStateWithMessageID(operation.messageID)
+                    
                     ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
-                    
+
                     ConversationOperationQueue.sharedManager.lock = false
-                    
+                    println("Lock released")
                     if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
+                        println("Message Read finished")
                         self.updateMessagesStates()
                     }
                     
@@ -1525,9 +1528,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     break
                 }
             }
-            
-
-            
+        } else {
+            println("Skip lock")
         }
     }
     
