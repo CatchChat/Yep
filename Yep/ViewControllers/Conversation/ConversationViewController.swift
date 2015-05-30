@@ -1492,35 +1492,41 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             
             ConversationOperationQueue.sharedManager.lock = true
             
-            var operation = ConversationOperationQueue.sharedManager.oprationQueue[0]
-            
-            switch operation.type.rawValue {
-            case MessageStateOperationType.Read.rawValue:
-                println("Message Read")
-                removeReadStates()
-                updateMessageStateWithMessageID(operation.messageID)
-                ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
+            if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
                 
-                ConversationOperationQueue.sharedManager.lock = false
+                let operation = ConversationOperationQueue.sharedManager.oprationQueue[0]
                 
-                if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
-                    self.updateMessagesStates()
+                switch operation.type.rawValue {
+                    
+                case MessageStateOperationType.Read.rawValue:
+                    println("Message Read")
+                    removeReadStates()
+                    updateMessageStateWithMessageID(operation.messageID)
+                    ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
+                    
+                    ConversationOperationQueue.sharedManager.lock = false
+                    
+                    if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
+                        self.updateMessagesStates()
+                    }
+                    
+                case MessageStateOperationType.Sent.rawValue:
+                    println("Message Sent")
+                    removeSendStates()
+                    println("Message Removed")
+                    createNewSentMessageWithMessageID(operation.messageID)
+                    println("Message Sent State Created")
+                    delay(0.3) {
+                        self.updateMessageStatesOperation(operation)
+                    }
+                    println("CollectionView Updated")
+                    
+                default:
+                    break
                 }
-                
-            case MessageStateOperationType.Sent.rawValue:
-                println("Message Sent")
-                removeSendStates()
-                println("Message Removed")
-                createNewSentMessageWithMessageID(operation.messageID)
-                println("Message Sent State Created")
-                delay(0.3) {
-                    self.updateMessageStatesOperation(operation)
-                }
-                println("CollectionView Updated")
-                
-            default:
-                break
             }
+            
+
             
         }
     }
@@ -1533,13 +1539,15 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         self.updateConversationCollectionView(scrollToBottom: true, success: { success in
 
             println("Update Finished")
-            
-            ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
-            
-            ConversationOperationQueue.sharedManager.lock = false
-            
-            if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
-                self.updateMessagesStates()
+            dispatch_async(dispatch_get_main_queue()) {
+                ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
+                
+                ConversationOperationQueue.sharedManager.lock = false
+                
+                if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
+                    self.updateMessagesStates()
+                }
+
             }
 
             
