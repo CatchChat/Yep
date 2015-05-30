@@ -106,7 +106,14 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                         recipientID = messageDataInfo["recipient_id"] as? String,
                                         messageID = messageDataInfo["id"] as? String {
                                             println("Mark Message \(messageID) As Read")
-                                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageRead, object: messageID)
+                                            
+                                            dispatch_async(dispatch_get_main_queue()) {
+                                                
+                                                var operation = MessageStateOperation(type: .Read, messageID: messageID)
+                                                
+                                                ConversationOperationQueue.sharedManager.addNewQperationQueue(operation)
+                                            }
+
                                     }
                                 }
                             default:

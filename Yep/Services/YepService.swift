@@ -1062,22 +1062,21 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
             }
 
         }, completion: { messageID in
+
             
             dispatch_async(dispatch_get_main_queue()) {
+                //Add to queue
+                
+                var operation = MessageStateOperation(type: .Sent, messageID: messageID)
+                
+                ConversationOperationQueue.sharedManager.addNewQperationQueue(operation)
+                
                 realm.beginWrite()
                 message.messageID = messageID
                 message.sendState = MessageSendState.Successed.rawValue
-                if let conversation = message.conversation {
-                    createChatStateInConversation(conversation, afterMessage: message, inRealm: realm, {
-                        stateMessage in
-                        realm.add(stateMessage)
-                    })
-                }
                 realm.commitWrite()
-                
+                completion(success: true)
             }
-
-            completion(success: true)
         })
 
     default:

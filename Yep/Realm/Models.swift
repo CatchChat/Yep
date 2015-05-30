@@ -362,6 +362,12 @@ func messagesInConversation(conversation: Conversation) -> Results<Message> {
     }
 }
 
+func messagesOfConversationByMe(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
+    let predicate = NSPredicate(format: "conversation = %@ AND fromFriend.friendState == %d", argumentArray: [conversation, UserFriendState.Me.rawValue])
+    let messages = realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
+    return messages
+}
+
 func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
     let predicate = NSPredicate(format: "conversation = %@", conversation)
     let messages = realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
@@ -396,7 +402,7 @@ func statesOfConversationWithMessageID(conversation: Conversation, state: Messag
     
     let messageMediaType = MessageMediaType.State.rawValue
 
-    var queryPredicate = "conversation = %@ AND sendState = %@ AND mediaType = %@ AND refMessageID == %@"
+    var queryPredicate = "conversation = %@ AND sendState = %@ AND mediaType = %@ AND refMessageID = %@"
     var queryArgs = [conversation, state, messageMediaType, refMessageID]
 
     let predicate = NSPredicate(format: queryPredicate, argumentArray: queryArgs)
@@ -430,9 +436,15 @@ func tryCreateSectionDateMessageInConversation(conversation: Conversation, befor
     }
 }
 
-func createChatStateInConversation(conversation: Conversation, afterMessage message: Message, inRealm realm: Realm, success: (Message) -> Void) {
-    let messages = messagesOfConversation(conversation, inRealm: realm)
+func findMessageByMessageID(messageID: String, inRealm realm: Realm) -> Results<Message> {
     
+    let predicate = NSPredicate(format: "messageID = %@", argumentArray: [messageID])
+    let messages = realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
+    return messages
+    
+}
+
+func createChatStateInConversation(conversation: Conversation, afterMessage message: Message, inRealm realm: Realm, success: (Message) -> Void) {    
     // insert a new State Message
     let newSectionDateMessage = Message()
     newSectionDateMessage.sendState = message.sendState

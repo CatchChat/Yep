@@ -11,17 +11,15 @@ import RealmSwift
 import AVFoundation
 import MobileCoreServices
 
+
 struct MessageNotification {
-    static let MessageRead = "MessageRead"
+    static let MessageSent = "MessageSentNotification"
+    static let MessageRead = "MessageReadNotification"
 }
 
 class ConversationViewController: BaseViewController {
 
     @IBOutlet weak var swipeUpView: UIView!
-    
-    struct Notification {
-        static let MessageSent = "MessageSentNotification"
-    }
 
     var conversation: Conversation!
 
@@ -198,6 +196,8 @@ class ConversationViewController: BaseViewController {
                 }
             }
         }
+        var layout = ConversationLayout()
+        conversationCollectionView.setCollectionViewLayout(layout, animated: false)
         
         super.viewDidLoad()
         self.swipeUpView.hidden = true
@@ -208,8 +208,6 @@ class ConversationViewController: BaseViewController {
             }
 
         }
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "conversationMessagesInRealmChanged:", name: MessageNotification.MessageRead, object: nil)
 
         navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
 
@@ -281,8 +279,10 @@ class ConversationViewController: BaseViewController {
 
                 sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.updateConversationCollectionView(scrollToBottom: true)
-                        NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                        self.updateConversationCollectionView(scrollToBottom: true, success: { success in
+                            
+                        })
+                        NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                         
                     }
 
@@ -302,9 +302,11 @@ class ConversationViewController: BaseViewController {
             } else if let withGroup = self.conversation.withGroup {
                 sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.updateConversationCollectionView(scrollToBottom: true)
+                        self.updateConversationCollectionView(scrollToBottom: true, success: { success in
+                            
+                        })
 
-                        NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                        NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                     }
 
                 }, failureHandler: { (reason, errorMessage) -> () in
@@ -416,9 +418,11 @@ class ConversationViewController: BaseViewController {
                                 }
                                 realm.commitWrite()
 
-                                self.updateConversationCollectionView(scrollToBottom: true)
+                                self.updateConversationCollectionView(scrollToBottom: true, success: { success in
+                                    
+                                })
 
-                                NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                             }
                         }
 
@@ -443,9 +447,11 @@ class ConversationViewController: BaseViewController {
                                 }
                                 realm.commitWrite()
 
-                                self.updateConversationCollectionView(scrollToBottom: true)
+                                self.updateConversationCollectionView(scrollToBottom: true, success: { success in
+                                    
+                                })
 
-                                NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                             }
                         }
 
@@ -890,15 +896,19 @@ class ConversationViewController: BaseViewController {
     }
     
     func updateConversationCollectionViewDefault() {
-        updateConversationCollectionView(scrollToBottom: false)
+        updateConversationCollectionView(scrollToBottom: false, success: { success in
+            
+        })
     }
 
-    func updateConversationCollectionView(#scrollToBottom: Bool) {
+    func updateConversationCollectionView(#scrollToBottom: Bool, success: (Bool) -> Void) {
         let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
-        adjustConversationCollectionViewWith(keyboardAndToolBarHeight, scrollToBottom: scrollToBottom)
+        adjustConversationCollectionViewWith(keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
+            success(finished)
+        }
     }
     
-    func adjustConversationCollectionViewWith(adjustHeight: CGFloat, scrollToBottom: Bool) {
+    func adjustConversationCollectionViewWith(adjustHeight: CGFloat, scrollToBottom: Bool, success: (Bool) -> Void) {
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
 
@@ -920,7 +930,7 @@ class ConversationViewController: BaseViewController {
             let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: 0)
             indexPaths.append(indexPath)
         }
-        println("Bengin add new rows \(messages.count) \(self.displayedMessagesRange.length)")
+        
         conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
 
         if newMessagesCount > 0 {
@@ -975,10 +985,14 @@ class ConversationViewController: BaseViewController {
                         
                     }
                     
-                    }, completion: { (finished) -> Void in
-
+                }, completion: { finished in
+                        success(true)
                 })
+            } else {
+                success(true)
             }
+        } else {
+            success(true)
         }
     }
 
@@ -1353,9 +1367,11 @@ class ConversationViewController: BaseViewController {
 
                     sendLocationWithCoordinate(coordinate, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
                         dispatch_async(dispatch_get_main_queue()) {
-                            self.updateConversationCollectionView(scrollToBottom: false)
+                            self.updateConversationCollectionView(scrollToBottom: false, success: { success in
+                                
+                            })
 
-                            NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                         }
 
                     }, failureHandler: { (reason, errorMessage) -> () in
@@ -1370,9 +1386,11 @@ class ConversationViewController: BaseViewController {
 
                     sendLocationWithCoordinate(coordinate, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                         dispatch_async(dispatch_get_main_queue()) {
-                            self.updateConversationCollectionView(scrollToBottom: false)
+                            self.updateConversationCollectionView(scrollToBottom: false, success: { success in
+                                
+                            })
 
-                            NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                         }
 
                     }, failureHandler: { (reason, errorMessage) -> () in
@@ -1416,58 +1434,100 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     
     func removeSendStates() {
         
-        var messageStates = statesOfConversation(self.conversation, MessageSendState.Successed.rawValue, nil, inRealm: self.realm)
+        var sendStates = statesOfConversation(self.conversation, MessageSendState.Successed.rawValue, nil, inRealm: self.realm)
+    
         
-        if let lastMessage = messageStates.last {
-            
-//            println("Message \(lastMessage.refMessageID) count before send \(self.messages.count) \(self.displayedMessagesRange.length)")
-            
-            var sendStates = statesOfConversation(self.conversation, MessageSendState.Successed.rawValue, lastMessage.refMessageID, inRealm: self.realm)
-            
-            var newMessageState = messageStates.count - sendStates.count
-            
-            if sendStates.count < 1 {
-                return
+        var indexPaths = [NSIndexPath]()
+        for sendState in sendStates {
+            if let indexInMessage = self.messages.indexOf(sendState) {
+                var reverseIndex = (self.messages.count - indexInMessage)
+                var actuallIndexInCollectionView = self.displayedMessagesRange.length - reverseIndex
+                var newIndexPath = NSIndexPath(forItem: actuallIndexInCollectionView, inSection: 0)
+                indexPaths.append(newIndexPath)
             }
-            
-            var indexPaths = [NSIndexPath]()
-            for sendState in sendStates {
-                if let indexInMessage = self.messages.indexOf(sendState) {
-                    var reverseIndex = (self.messages.count - indexInMessage - newMessageState)
-                    var actuallIndexInCollectionView = self.displayedMessagesRange.length - reverseIndex
-                    var newIndexPath = NSIndexPath(forItem: actuallIndexInCollectionView, inSection: 0)
-                    indexPaths.append(newIndexPath)
-                }
-            }
-            
-            self.displayedMessagesRange.length -= sendStates.count
-            
-            self.realm.write {
-                self.realm.delete(sendStates)
-            }
-            self.lastTimeMessagesCount = self.messages.count - newMessageState
-            self.conversationCollectionView.deleteItemsAtIndexPaths(indexPaths)
-            
-//            println("before send text \(self.messages.count) \(self.displayedMessagesRange.length)")
         }
         
+        self.displayedMessagesRange.length -= sendStates.count
+        
+        self.realm.write {
+            self.realm.delete(sendStates)
+        }
+        self.lastTimeMessagesCount = self.messages.count
+        self.conversationCollectionView.deleteItemsAtIndexPaths(indexPaths)
+    }
+    
+    func createNewSentMessageWithMessageID(messageID: String) {
+        
+        var messages = findMessageByMessageID(messageID, inRealm: realm)
+        
+        if let message = messages.first,
+            let conversation = message.conversation {
+            
+            println("Create new send state")
+            createChatStateInConversation(conversation, afterMessage: message, inRealm: realm, { stateMessage in
+                self.realm.write {
+                    stateMessage.sendState = MessageSendState.Successed.rawValue
+                    self.realm.add(stateMessage)
+                }
+                println("State Mesage Created")
+            })
+                
+        } else {
+            println("Message can not be found")
+        }
         
     }
     
     func updateMessagesStates() {
-
-        self.delay(0.1) {
-
-            self.removeSendStates()
-
-            self.delay(0.3) {
-                self.updateConversationCollectionView(scrollToBottom: true)
+        
+        println("Print queue")
+        
+        println(ConversationOperationQueue.sharedManager.oprationQueue)
+        
+        if !ConversationOperationQueue.sharedManager.lock {
+            
+            ConversationOperationQueue.sharedManager.lock = true
+            
+            var operation = ConversationOperationQueue.sharedManager.oprationQueue[0]
+            
+            switch operation.type.rawValue {
+            case MessageStateOperationType.Read.rawValue:
+                println("Message Read")
                 
-                //            println("before Add new rows \(messages.count) \(displayedMessagesRange.length)")
+            case MessageStateOperationType.Sent.rawValue:
+                println("Message Sent")
+                removeSendStates()
+                println("Message Removed")
+                createNewSentMessageWithMessageID(operation.messageID)
+                println("Message Sent State Created")
+                updateMessageStatesOperation()
+                println("CollectionView Updated")
+                
+            default:
+                break
             }
-//            println("before Add new rows \(messages.count) \(displayedMessagesRange.length)")
+            
         }
+    }
+    
+    func updateMessageStatesOperation() {
+        
+        println("Begin update new state into ColllectionView")
+        
+        self.updateConversationCollectionView(scrollToBottom: true, success: { success in
 
+            println("Update Finished")
+            
+            ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
+            
+            ConversationOperationQueue.sharedManager.lock = false
+            
+            if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
+                self.updateMessagesStates()
+            }
+
+            
+        })
     }
     
     func removeReadStates(exceptForMessageID: String) {
@@ -1508,26 +1568,32 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         
         let messageID = notification.object as! String
         
-        self.delay(0.5) {
-            
-            self.removeReadStates(messageID)
-            var sendStates = statesOfConversationWithMessageID(self.conversation, MessageSendState.Successed.rawValue, messageID, inRealm: self.realm)
-            
-            self.realm.beginWrite()
-            if let sendState = sendStates.last {
-                sendState.sendState = MessageSendState.Read.rawValue
-                sendState.updatedAt = NSDate()
+        
+        return
+        
+        var messages = messagesOfConversationByMe(conversation, inRealm: self.realm)
+        if let message = messages.last {
+            if message.messageID == messageID {
+                self.delay(0.5) {
+                    
+                    self.removeReadStates(messageID)
+                    var sendStates = statesOfConversationWithMessageID(self.conversation, MessageSendState.Successed.rawValue, messageID, inRealm: self.realm)
+                    
+                    self.realm.beginWrite()
+                    if let sendState = sendStates.last {
+                        sendState.sendState = MessageSendState.Read.rawValue
+                        sendState.updatedAt = NSDate()
+                    }
+                    self.realm.commitWrite()
+                    
+                    var indexPaths = [NSIndexPath]()
+                    var itemIndex = self.displayedMessagesRange.length - 1
+                    indexPaths.append(NSIndexPath(forItem:itemIndex , inSection: 0))
+                    
+                    self.conversationCollectionView.reloadItemsAtIndexPaths(indexPaths)
+                }
             }
-            self.realm.commitWrite()
-            
-            var indexPaths = [NSIndexPath]()
-            var itemIndex = self.displayedMessagesRange.length - 1
-            indexPaths.append(NSIndexPath(forItem:itemIndex , inSection: 0))
-            
-            self.conversationCollectionView.reloadItemsAtIndexPaths(indexPaths)
         }
-
-
     }
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -1986,9 +2052,11 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
 
-                    self.updateConversationCollectionView(scrollToBottom: true)
+                    self.updateConversationCollectionView(scrollToBottom: true, success: { success in
+                        
+                    })
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                 }
 
             }, failureHandler: {(reason, errorMessage) -> () in
@@ -2015,9 +2083,11 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
                     
-                    self.updateConversationCollectionView(scrollToBottom: true)
+                    self.updateConversationCollectionView(scrollToBottom: true, success: { success in
+                        
+                    })
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                 }
                 
             }, failureHandler: {(reason, errorMessage) -> () in
@@ -2076,9 +2146,11 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
 
-                    self.updateConversationCollectionView(scrollToBottom: false)
+                    self.updateConversationCollectionView(scrollToBottom: false, success: { success in
+                        
+                    })
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                 }
             }
         }
