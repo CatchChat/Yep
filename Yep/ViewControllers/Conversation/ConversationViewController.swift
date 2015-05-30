@@ -168,7 +168,15 @@ class ConversationViewController: BaseViewController {
             keyboardChangeObserver?.addObserver(self, selector: "handleKeyboardDidHideNotification:", name: UIKeyboardDidHideNotification, object: nil)
         }
     }
-
+    
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
+    }
 
     deinit {
         updateUIWithKeyboardChange = false
@@ -197,7 +205,6 @@ class ConversationViewController: BaseViewController {
         
         realmChangeToken = realm.addNotificationBlock { (notification, realm) -> Void in
             if notification.rawValue == "RLMRealmDidChangeNotification"{
-                println("Here is notification")
             }
 
         }
@@ -205,7 +212,6 @@ class ConversationViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "conversationMessagesInRealmChanged", name: MessageNotification.MessageChanged, object: nil)
 
         navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
-//        navigationController?.interactivePopGestureRecognizer.delegate = self
 
         if messages.count >= messagesBunchCount {
             displayedMessagesRange = NSRange(location: Int(messages.count) - messagesBunchCount, length: messagesBunchCount)
@@ -272,12 +278,12 @@ class ConversationViewController: BaseViewController {
             self.cleanTextInput()
 
             if let withFriend = self.conversation.withFriend {
-                
-                println("Message count before send \(self.messages.count)")
+
                 sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
                     dispatch_async(dispatch_get_main_queue()) {
                         self.updateConversationCollectionView(scrollToBottom: true)
                         NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                        
                     }
 
                 }, failureHandler: { (reason, errorMessage) -> () in
@@ -285,6 +291,11 @@ class ConversationViewController: BaseViewController {
                     // TODO: sendText 错误提醒
 
                 }, completion: { success -> Void in
+                    if success {
+
+                        self.updateMessagesStates()
+
+                    }
                     println("sendText to friend: \(success)")
                 })
 
@@ -529,6 +540,41 @@ class ConversationViewController: BaseViewController {
     
     }
     
+    func removeSendStates() {
+
+        var messageStates = statesOfConversation(self.conversation, MessageSendState.Successed.rawValue, nil, inRealm: self.realm)
+        
+        if let lastMessage = messageStates.last {
+            
+            println("Message \(lastMessage.refMessageID) count before send \(self.messages.count) \(self.displayedMessagesRange.length)")
+            
+            var sendStates = statesOfConversation(self.conversation, MessageSendState.Successed.rawValue, lastMessage.refMessageID, inRealm: self.realm)
+            
+            var indexPaths = [NSIndexPath]()
+            
+            for sendState in sendStates {
+                if let indexInMessage = self.messages.indexOf(sendState) {
+                    var reverseIndex = (self.messages.count - indexInMessage - 1)
+                    var actuallIndexInCollectionView = self.displayedMessagesRange.length - reverseIndex
+                    var newIndexPath = NSIndexPath(forItem: actuallIndexInCollectionView, inSection: 0)
+                    indexPaths.append(newIndexPath)
+                }
+            }
+            
+            self.displayedMessagesRange.length -= sendStates.count
+            
+            self.realm.write {
+                self.realm.delete(sendStates)
+            }
+            self.lastTimeMessagesCount = self.messages.count - 1
+            self.conversationCollectionView.deleteItemsAtIndexPaths(indexPaths)
+            
+            println("before send text \(self.messages.count) \(self.displayedMessagesRange.length)")
+        }
+        
+
+    }
+    
     func prepareTextInputView() {
         // 尝试恢复 messageToolbar 的状态
         if let
@@ -570,8 +616,14 @@ class ConversationViewController: BaseViewController {
         // 防止未在此界面时被标记
         if navigationController?.topViewController == self {
             
-            var messages = unReadMessagesOfConversation(conversation, inRealm: realm)
-            
+            var messages = conversation.messages.filter({ message in
+                if let fromFriend = message.fromFriend {
+                    return (message.readed == false) && (fromFriend.friendState != UserFriendState.Me.rawValue)
+                } else {
+                    return false
+                }
+            })
+
             for message in messages {
                 markAsReadMessage(message, failureHandler: nil) { success in
                     dispatch_async(dispatch_get_main_queue()) {
@@ -875,14 +927,14 @@ class ConversationViewController: BaseViewController {
     func adjustConversationCollectionViewWith(adjustHeight: CGFloat, scrollToBottom: Bool) {
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
+
         
-        println("message count \(messages.count)")
-        
-        // 保证是增加消息
-        if messages.count <= _lastTimeMessagesCount {
-            return
-        }
-        
+//        // 保证是增加消息
+//        if messages.count <= _lastTimeMessagesCount {
+//            displayedMessagesRange.length += newMessagesCount
+//            return
+//        }
+
         let newMessagesCount = Int(messages.count - _lastTimeMessagesCount)
         
         let lastDisplayedMessagesRange = displayedMessagesRange
@@ -894,7 +946,7 @@ class ConversationViewController: BaseViewController {
             let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: 0)
             indexPaths.append(indexPath)
         }
-        
+        println("Bengin add new rows \(messages.count) \(self.displayedMessagesRange.length)")
         conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
 
         if newMessagesCount > 0 {
@@ -1388,9 +1440,25 @@ extension ConversationViewController: UIGestureRecognizerDelegate {
 
 extension ConversationViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
+    func updateMessagesStates() {
+
+        self.delay(0.5) {
+
+            self.removeSendStates()
+
+            self.delay(0.5) {
+                self.updateConversationCollectionView(scrollToBottom: true)
+                
+                //            println("before Add new rows \(messages.count) \(displayedMessagesRange.length)")
+            }
+//            println("before Add new rows \(messages.count) \(displayedMessagesRange.length)")
+        }
+
+    }
+    
     func conversationMessagesInRealmChanged() {
-        realm.refresh()
-        updateConversationCollectionView(scrollToBottom: true)
+
+
     }
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {

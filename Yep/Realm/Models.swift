@@ -351,7 +351,7 @@ func tryGetOrCreateMeInRealm(realm: Realm) -> User? {
 
 func messagesInConversation(conversation: Conversation) -> Results<Message> {
 
-    let predicate = NSPredicate(format: "conversation = %@", conversation)
+    let predicate = NSPredicate(format: "conversation = %@ AND mediaType != %@", argumentArray: [conversation, MessageMediaType.State.rawValue])
 
     if let realm = conversation.realm {
         return realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
@@ -369,7 +369,7 @@ func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) ->
 }
 
 func unReadMessagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
-    let predicate = NSPredicate(format: "conversation = %@ AND readed = false", conversation)
+    let predicate = NSPredicate(format: "conversation = %@ AND readed = 0", conversation)
     let messages = realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
     return messages
 }

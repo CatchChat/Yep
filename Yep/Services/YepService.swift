@@ -1075,8 +1075,6 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
                 }
                 realm.commitWrite()
                 
-                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageChanged, object:   nil)
-                
             }
 
             completion(success: true)
