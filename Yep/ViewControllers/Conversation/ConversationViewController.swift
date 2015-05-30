@@ -543,18 +543,23 @@ class ConversationViewController: BaseViewController {
     func removeSendStates() {
 
         var messageStates = statesOfConversation(self.conversation, MessageSendState.Successed.rawValue, nil, inRealm: self.realm)
-        
+
         if let lastMessage = messageStates.last {
             
             println("Message \(lastMessage.refMessageID) count before send \(self.messages.count) \(self.displayedMessagesRange.length)")
             
             var sendStates = statesOfConversation(self.conversation, MessageSendState.Successed.rawValue, lastMessage.refMessageID, inRealm: self.realm)
             
-            var indexPaths = [NSIndexPath]()
+            var newMessageState = messageStates.count - sendStates.count
             
+            if sendStates.count < 1 {
+                return
+            }
+            
+            var indexPaths = [NSIndexPath]()
             for sendState in sendStates {
                 if let indexInMessage = self.messages.indexOf(sendState) {
-                    var reverseIndex = (self.messages.count - indexInMessage - 1)
+                    var reverseIndex = (self.messages.count - indexInMessage - newMessageState)
                     var actuallIndexInCollectionView = self.displayedMessagesRange.length - reverseIndex
                     var newIndexPath = NSIndexPath(forItem: actuallIndexInCollectionView, inSection: 0)
                     indexPaths.append(newIndexPath)
@@ -614,33 +619,40 @@ class ConversationViewController: BaseViewController {
         }
         
         // 防止未在此界面时被标记
-        if navigationController?.topViewController == self {
             
-            var messages = conversation.messages.filter({ message in
-                if let fromFriend = message.fromFriend {
-                    return (message.readed == false) && (fromFriend.friendState != UserFriendState.Me.rawValue)
-                } else {
-                    return false
-                }
-            })
+        var messages = conversation.messages.filter({ message in
+            if let fromFriend = message.fromFriend {
+                return (message.readed == false) && (fromFriend.friendState != UserFriendState.Me.rawValue)
+            } else {
+                return false
+            }
+        })
 
-            for message in messages {
-                markAsReadMessage(message, failureHandler: nil) { success in
-                    dispatch_async(dispatch_get_main_queue()) {
-                        let realm = Realm()
-                        
-                        if let message = messageWithMessageID(message.messageID, inRealm: realm) {
-                            realm.write {
-                                message.readed = true
-                            }
-                            
-                            println("\(message.messageID) mark as read")
+        for message in messages {
+            markMessageAsReaded(message)
+        }
+
+    }
+    
+    func markMessageAsReaded(message: Message) {
+        
+        if navigationController?.topViewController == self {
+        
+            markAsReadMessage(message, failureHandler: nil) { success in
+                dispatch_async(dispatch_get_main_queue()) {
+                    let realm = Realm()
+                    
+                    if let message = messageWithMessageID(message.messageID, inRealm: realm) {
+                        realm.write {
+                            message.readed = true
                         }
+                        
+                        println("\(message.messageID) mark as read")
                     }
                 }
-
             }
         }
+
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -1442,7 +1454,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     
     func updateMessagesStates() {
 
-        self.delay(0.5) {
+        self.delay(0.1) {
 
             self.removeSendStates()
 
@@ -1505,6 +1517,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 // TODO: 需要更好的下载与 mark as read 逻辑：也许未下载的也可以 mark as read
                 downloadAttachmentOfMessage(message)
+                
+                markMessageAsReaded(message)
 
                 switch message.mediaType {
                 case MessageMediaType.Image.rawValue:
