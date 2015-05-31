@@ -1534,7 +1534,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     
                     updateMessageReadStatesChangeOperation()
 
-                    
                 case MessageStateOperationType.Sent.rawValue:
 //                    println("Message Sent")
                     removeSendStates()
@@ -1630,6 +1629,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 self.realm.beginWrite()
                 if let sendState = sendStates.last {
                     sendState.sendState = MessageSendState.Read.rawValue
+                    message.sendState = MessageSendState.Read.rawValue
                     sendState.updatedAt = NSDate()
                 }
                 self.realm.commitWrite()
@@ -1641,6 +1641,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 indexPaths.append(indexPath)
                 
                 if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatStateCell {
+                    
+                    println("Config Chat State Cell \(cell.stateLabel.text)")
                     
                     configChatStateWithMessage(message, cell: cell)
                     
@@ -1667,6 +1669,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         } else {
             cell.stateLabel.text = "\(MessageSendState(rawValue: message.sendState)!.description) \(sectionDateFormatter.stringFromDate(message.updatedAt))"
         }
+        
+        cell.setNeedsDisplay()
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
