@@ -199,6 +199,7 @@ class ConversationViewController: BaseViewController {
         }
         
         var layout = ConversationLayout()
+        layout.minimumLineSpacing = 5
         conversationCollectionView.setCollectionViewLayout(layout, animated: false)
         
         self.swipeUpView.hidden = true
@@ -802,7 +803,7 @@ class ConversationViewController: BaseViewController {
             height = 20
             
         case MessageMediaType.State.rawValue:
-            height = 20
+            height = 20 - 5
 
         default:
             height = 20
@@ -911,8 +912,15 @@ class ConversationViewController: BaseViewController {
     }
 
     func updateConversationCollectionView(#scrollToBottom: Bool, success: (Bool) -> Void) {
+        dispatch_async(dispatch_get_main_queue()) {
+            ConversationOperationQueue.sharedManager.conversationLock = true
+        }
+        
         let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
         adjustConversationCollectionViewWith(keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
+            dispatch_async(dispatch_get_main_queue()) {
+                ConversationOperationQueue.sharedManager.conversationLock = false
+            }
             success(finished)
         }
     }
@@ -953,8 +961,7 @@ class ConversationViewController: BaseViewController {
             for i in _lastTimeMessagesCount..<messages.count {
                 let message = messages[i]
                 
-                let height = heightOfMessage(message) + 10 // TODO: +10 cell line space
-                
+                let height = heightOfMessage(message) + 5// TODO: +10 cell line space
 //                println("uuheight \(height)")
                 newMessagesTotalHeight += height
             }
@@ -974,7 +981,7 @@ class ConversationViewController: BaseViewController {
             //Calculate the space can be used
             let useableSpace = visableMessageFieldHeight - conversationCollectionView.contentSize.height
             
-            conversationCollectionView.contentSize = CGSizeMake(conversationCollectionView.contentSize.width, conversationCollectionView.contentSize.height + newMessagesTotalHeight)
+            conversationCollectionView.contentSize = CGSizeMake(conversationCollectionView.contentSize.width, self.conversationCollectionView.contentSize.height + newMessagesTotalHeight)
             
 //            println("Size is after \(conversationCollectionView.contentSize.height)")
             
@@ -988,19 +995,27 @@ class ConversationViewController: BaseViewController {
 //                        println("contentToScroll \(contentToScroll)")
                         self.conversationCollectionView.contentOffset.y += contentToScroll
                     } else {
+                        
+                        var newContentSize = self.conversationCollectionView.collectionViewLayout.collectionViewContentSize()
+                        self.conversationCollectionView.contentSize = newContentSize
+                        
                         if scrollToBottom {
                             
-                            var newContentSize = self.conversationCollectionView.collectionViewLayout.collectionViewContentSize()
-                            
                             var newContentOffsetY = newContentSize.height - self.conversationCollectionView.frame.size.height + keyboardAndToolBarHeight
+                            
                             var oldContentOffsetY = self.conversationCollectionView.contentOffset.y
                             
 //                            println("New contenct offset \(self.conversationCollectionView.contentSize.height - newContentSize.height) \(newContentOffsetY) \(oldContentOffsetY) \(newContentOffsetY - oldContentOffsetY)")
                             
                             self.conversationCollectionView.contentOffset.y = newContentOffsetY
                             
+//                            println("Content Size is \(self.conversationCollectionView.contentSize.height) \(self.conversationCollectionView.contentOffset.y)")
+                            
                             
                         }else {
+                            
+//                            println("Content Size is \(self.conversationCollectionView.contentSize.height) \(self.conversationCollectionView.contentOffset.y)")
+                            
                             self.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
                         }
                         
@@ -1552,7 +1567,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 //                    println("Message Removed")
                     createNewSentMessageWithMessageID(operation.messageID)
 //                    println("Message Sent State Created")
-                    updateMessageStatesOperation(operation)
+                    updateMessageStatesOperation()
 //                    println("CollectionView Updated")
                     
                 default:
@@ -1576,56 +1591,65 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
     
     
-    func updateMessageStatesOperation(operation: MessageStateOperation) {
+    func updateMessageStatesOperation() {
         
 //        println("Begin update new state into ColllectionView")
-        
-        updateConversationCollectionView(scrollToBottom: true, success: { success in
-
-//            println("Update Finished")
-            dispatch_async(dispatch_get_main_queue()) {
-                ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
-                
-                ConversationOperationQueue.sharedManager.lock = false
-                
-                if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
-                    self.updateMessagesStates()
-                }
-
-            }
-
+        if ConversationOperationQueue.sharedManager.conversationLock {
             
-        })
+            delay(0.3) {
+                self.updateMessageStatesOperation()
+            }
+            
+        } else {
+            updateConversationCollectionView(scrollToBottom: true, success: { success in
+                
+                //            println("Update Finished")
+                dispatch_async(dispatch_get_main_queue()) {
+                    ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
+                    
+                    ConversationOperationQueue.sharedManager.lock = false
+                    
+                    if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
+                        self.updateMessagesStates()
+                    }
+                    
+                }
+            })
+        }
     }
     
     func removeReadStates() {
         
-        var readStates = statesOfConversation(conversation, MessageSendState.Read.rawValue, nil, inRealm: self.realm)
-        
-        var indexPaths = [NSIndexPath]()
-        for sendState in readStates {
-            if let indexInMessage = self.messages.indexOf(sendState) {
-                var reverseIndex = self.messages.count - indexInMessage
-                var actuallIndexInCollectionView = self.displayedMessagesRange.length - reverseIndex
-                
-                if actuallIndexInCollectionView >= 0 {
-                    var newIndexPath = NSIndexPath(forItem: actuallIndexInCollectionView, inSection: 0)
-                    indexPaths.append(newIndexPath)
+        var messages = messagesOfConversationByMe(conversation, inRealm: self.realm)
+        if let message = messages.last {
+            var readStates = statesOfConversation(conversation, MessageSendState.Read.rawValue, message.messageID, inRealm: self.realm)
+            
+            var indexPaths = [NSIndexPath]()
+            for sendState in readStates {
+                if let indexInMessage = self.messages.indexOf(sendState) {
+                    var reverseIndex = self.messages.count - indexInMessage
+                    var actuallIndexInCollectionView = self.displayedMessagesRange.length - reverseIndex
+                    
+                    if actuallIndexInCollectionView >= 0 {
+                        var newIndexPath = NSIndexPath(forItem: actuallIndexInCollectionView, inSection: 0)
+                        indexPaths.append(newIndexPath)
+                    }
                 }
             }
+            
+            displayedMessagesRange.length -= readStates.count
+            
+            self.realm.write {
+                self.realm.delete(readStates)
+            }
+            
+            lastTimeMessagesCount = self.messages.count
+            
+            prepareContentSizeForStateChangeWithIndexPaths(indexPaths)
+            
+            conversationCollectionView.deleteItemsAtIndexPaths(indexPaths)
         }
-        
-        displayedMessagesRange.length -= readStates.count
-        
-        self.realm.write {
-            self.realm.delete(readStates)
-        }
-        
-        lastTimeMessagesCount = self.messages.count
-        
-        prepareContentSizeForStateChangeWithIndexPaths(indexPaths)
-        
-        conversationCollectionView.deleteItemsAtIndexPaths(indexPaths)
+
         
     }
     

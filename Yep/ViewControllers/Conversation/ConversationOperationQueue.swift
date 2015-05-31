@@ -27,6 +27,8 @@ class ConversationOperationQueue: NSObject {
     
     var lock = false
     
+    var conversationLock = false
+    
     func addNewQperationQueue(opration: MessageStateOperation) {
         
         println(opration)

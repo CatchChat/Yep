@@ -100,7 +100,7 @@ class ConversationsViewController: UIViewController {
     // MARK: Actions
 
     func reloadConversationsTableView() {
-        println("reloadConversationsTableView")
+//        println("reloadConversationsTableView")
         conversationsTableView.reloadData()
     }
 }
