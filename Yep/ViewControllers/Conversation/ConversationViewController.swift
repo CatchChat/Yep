@@ -434,6 +434,12 @@ class ConversationViewController: BaseViewController {
                         // TODO: 音频发送失败
                         
                     }, completion: { (success) -> Void in
+                        
+                        if success {
+                            
+                            self.updateMessagesStates()
+                            
+                        }
                         println("send audio to friend: \(success)")
                     })
 
@@ -1394,6 +1400,12 @@ class ConversationViewController: BaseViewController {
                         // TODO: sendLocation 错误提醒
 
                     }, completion: { success -> Void in
+                        
+                        if success {
+                            
+                            self.updateMessagesStates()
+                            
+                        }
                         println("sendLocation to friend: \(success)")
                     })
 
@@ -2128,6 +2140,11 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 // TODO: sendImage 错误提醒
 
             }, completion: { success -> Void in
+                if success {
+                    
+                    self.updateMessagesStates()
+                    
+                }
                 println("sendImage to friend: \(success)")
             })
 
@@ -2225,6 +2242,11 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 // TODO: sendVideo 错误提醒
 
             }, completion: { success -> Void in
+                if success {
+                    
+                    self.updateMessagesStates()
+                    
+                }
                 println("sendVideo to friend: \(success)")
             })
 

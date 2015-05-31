@@ -1128,9 +1128,14 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
                             message.messageID = messageID
                             message.sendState = MessageSendState.Successed.rawValue
                             realm.commitWrite()
+                            
+                            var operation = MessageStateOperation(type: .Sent, messageID: messageID)
+                            
+                            ConversationOperationQueue.sharedManager.addNewQperationQueue(operation)
+                            
+                            completion(success: true)
                         }
 
-                        completion(success: true)
                     })
                 }
 
