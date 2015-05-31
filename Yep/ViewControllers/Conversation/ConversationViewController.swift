@@ -980,11 +980,14 @@ class ConversationViewController: BaseViewController {
                     } else {
                         if scrollToBottom {
                             
-                            var newContentOffsetY = self.conversationCollectionView.contentSize.height - self.conversationCollectionView.frame.size.height + keyboardAndToolBarHeight
+                            var newContentSize = self.conversationCollectionView.collectionViewLayout.collectionViewContentSize()
+                            
+                            var newContentOffsetY = newContentSize.height - self.conversationCollectionView.frame.size.height + keyboardAndToolBarHeight
                             var oldContentOffsetY = self.conversationCollectionView.contentOffset.y
-                            if newContentOffsetY - oldContentOffsetY > 50 {
-                                self.conversationCollectionView.contentOffset.y = newContentOffsetY
-                            }
+                            
+//                            println("New contenct offset \(self.conversationCollectionView.contentSize.height - newContentSize.height) \(newContentOffsetY) \(oldContentOffsetY) \(newContentOffsetY - oldContentOffsetY)")
+                            
+                            self.conversationCollectionView.contentOffset.y = newContentOffsetY
                             
                             
                         }else {
@@ -1528,7 +1531,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 //                    println("Message Removed")
                     createNewSentMessageWithMessageID(operation.messageID)
 //                    println("Message Sent State Created")
-                    delay(1) {
+                    delay(0.0) {
                         self.updateMessageStatesOperation(operation)
                     }
 //                    println("CollectionView Updated")
