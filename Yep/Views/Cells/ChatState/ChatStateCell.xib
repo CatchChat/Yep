@@ -23,7 +23,7 @@
             </view>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="E0L-TW-YjN" secondAttribute="trailing" constant="10" id="3nF-1l-FTH"/>
-                <constraint firstAttribute="centerY" secondItem="E0L-TW-YjN" secondAttribute="centerY" constant="0.5" id="xwR-If-Qpi"/>
+                <constraint firstAttribute="centerY" secondItem="E0L-TW-YjN" secondAttribute="centerY" id="xwR-If-Qpi"/>
             </constraints>
             <size key="customSize" width="367" height="50"/>
             <connections>

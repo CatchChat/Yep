@@ -929,12 +929,16 @@ class ConversationViewController: BaseViewController {
         displayedMessagesRange.length += newMessagesCount
         
         var indexPaths = [NSIndexPath]()
-        for i in 0..<newMessagesCount {
-            let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: 0)
-            indexPaths.append(indexPath)
-        }
         
-        conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+        if newMessagesCount > 0 {
+            
+            for i in 0..<newMessagesCount {
+                let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: 0)
+                indexPaths.append(indexPath)
+            }
+            
+            conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+        }
 
         if newMessagesCount > 0 {
             
@@ -1445,31 +1449,43 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     
     func removeSendStates() {
         
-        var sendStates = statesOfConversation(self.conversation, MessageSendState.Successed.rawValue, nil, inRealm: self.realm)
+        var sendStates = statesOfConversation(conversation, MessageSendState.Successed.rawValue, nil, inRealm: realm)
         
         var indexPaths = [NSIndexPath]()
 
         for sendState in sendStates {
-            if let indexInMessage = self.messages.indexOf(sendState) {
-                var reverseIndex = (self.messages.count - indexInMessage)
-                var actuallIndexInCollectionView = self.displayedMessagesRange.length - reverseIndex
-                var newIndexPath = NSIndexPath(forItem: actuallIndexInCollectionView, inSection: 0)
-                indexPaths.append(newIndexPath)
+            if let indexInMessage = messages.indexOf(sendState) {
+                var reverseIndex = (messages.count - indexInMessage)
+                var actuallIndexInCollectionView = displayedMessagesRange.length - reverseIndex
+                
+                if actuallIndexInCollectionView >= 0 {
+                    var newIndexPath = NSIndexPath(forItem: actuallIndexInCollectionView, inSection: 0)
+                    indexPaths.append(newIndexPath)
+                }
             }
         }
         
-        self.displayedMessagesRange.length -= sendStates.count
+        displayedMessagesRange.length -= sendStates.count
         
-        self.realm.write {
+        realm.write {
             self.realm.delete(sendStates)
         }
 
-        self.lastTimeMessagesCount = self.messages.count
+        lastTimeMessagesCount = messages.count
         
-        let contentOffSet = self.conversationCollectionView.contentOffset
-        var layout = self.conversationCollectionView.collectionViewLayout as! ConversationLayout
+        prepareContentSizeForStateChangeWithIndexPaths(indexPaths)
+        
+        conversationCollectionView.deleteItemsAtIndexPaths(indexPaths)
+    }
+    
+    func prepareContentSizeForStateChangeWithIndexPaths(indexPaths: [NSIndexPath]) {
+        
+        let contentOffSet = conversationCollectionView.contentOffset
+        var layout = conversationCollectionView.collectionViewLayout as! ConversationLayout
+        
+        layout.itemsDeleteIndexPaths = layout.itemsDeleteIndexPaths + indexPaths
+        
         layout.lastTimeContentSize = layout.collectionViewContentSize()
-        self.conversationCollectionView.deleteItemsAtIndexPaths(indexPaths)
     }
     
     func createNewSentMessageWithMessageID(messageID: String) {
@@ -1516,14 +1532,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     
                     updateMessageStateWithMessageID(operation.messageID)
                     
-                    ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
+                    updateMessageReadStatesChangeOperation()
 
-                    ConversationOperationQueue.sharedManager.lock = false
-//                    println("Lock released")
-                    if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
-//                        println("Message Read finished")
-                        self.updateMessagesStates()
-                    }
                     
                 case MessageStateOperationType.Sent.rawValue:
 //                    println("Message Sent")
@@ -1531,9 +1541,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 //                    println("Message Removed")
                     createNewSentMessageWithMessageID(operation.messageID)
 //                    println("Message Sent State Created")
-                    delay(0.0) {
-                        self.updateMessageStatesOperation(operation)
-                    }
+                    updateMessageStatesOperation(operation)
 //                    println("CollectionView Updated")
                     
                 default:
@@ -1545,12 +1553,23 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         }
     }
     
+    func updateMessageReadStatesChangeOperation() {
+        ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
+        
+        ConversationOperationQueue.sharedManager.lock = false
+        //                    println("Lock released")
+        if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
+            //                        println("Message Read finished")
+            updateMessagesStates()
+        }
+    }
+    
     
     func updateMessageStatesOperation(operation: MessageStateOperation) {
         
 //        println("Begin update new state into ColllectionView")
         
-        self.updateConversationCollectionView(scrollToBottom: true, success: { success in
+        updateConversationCollectionView(scrollToBottom: true, success: { success in
 
 //            println("Update Finished")
             dispatch_async(dispatch_get_main_queue()) {
@@ -1570,27 +1589,32 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     
     func removeReadStates() {
         
-        var readStates = statesOfConversation(self.conversation, MessageSendState.Read.rawValue, nil, inRealm: self.realm)
+        var readStates = statesOfConversation(conversation, MessageSendState.Read.rawValue, nil, inRealm: self.realm)
         
         var indexPaths = [NSIndexPath]()
         for sendState in readStates {
             if let indexInMessage = self.messages.indexOf(sendState) {
                 var reverseIndex = self.messages.count - indexInMessage
                 var actuallIndexInCollectionView = self.displayedMessagesRange.length - reverseIndex
-                var newIndexPath = NSIndexPath(forItem: actuallIndexInCollectionView, inSection: 0)
-                indexPaths.append(newIndexPath)
+                
+                if actuallIndexInCollectionView >= 0 {
+                    var newIndexPath = NSIndexPath(forItem: actuallIndexInCollectionView, inSection: 0)
+                    indexPaths.append(newIndexPath)
+                }
             }
         }
         
-        self.displayedMessagesRange.length -= readStates.count
+        displayedMessagesRange.length -= readStates.count
         
         self.realm.write {
             self.realm.delete(readStates)
         }
         
-        self.lastTimeMessagesCount = self.messages.count
+        lastTimeMessagesCount = self.messages.count
         
-        self.conversationCollectionView.deleteItemsAtIndexPaths(indexPaths)
+        prepareContentSizeForStateChangeWithIndexPaths(indexPaths)
+        
+        conversationCollectionView.deleteItemsAtIndexPaths(indexPaths)
         
     }
     
@@ -1612,9 +1636,18 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 
                 var indexPaths = [NSIndexPath]()
                 var itemIndex = self.displayedMessagesRange.length - 1
-                indexPaths.append(NSIndexPath(forItem:itemIndex , inSection: 0))
+                var indexPath = NSIndexPath(forItem:itemIndex , inSection: 0)
                 
-                self.conversationCollectionView.reloadItemsAtIndexPaths(indexPaths)
+                indexPaths.append(indexPath)
+                
+                if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatStateCell {
+                    
+                    configChatStateWithMessage(message, cell: cell)
+                    
+                } else {
+                    self.conversationCollectionView.reloadItemsAtIndexPaths(indexPaths)
+                }
+
             }
         }
     }
@@ -1625,6 +1658,15 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return displayedMessagesRange.length
+    }
+    
+    func configChatStateWithMessage(message: Message, cell: ChatStateCell) {
+        
+        if message.updatedAt.isInCurrentWeek() {
+            cell.stateLabel.text = "\(MessageSendState(rawValue: message.sendState)!.description) \(sectionDateInCurrentWeekFormatter.stringFromDate(message.updatedAt))"
+        } else {
+            cell.stateLabel.text = "\(MessageSendState(rawValue: message.sendState)!.description) \(sectionDateFormatter.stringFromDate(message.updatedAt))"
+        }
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -1648,11 +1690,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         if message.mediaType == MessageMediaType.State.rawValue {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatStateCellIdentifier, forIndexPath: indexPath) as! ChatStateCell
             
-            if message.createdAt.isInCurrentWeek() {
-                cell.stateLabel.text = "\(MessageSendState(rawValue: message.sendState)!.description) \(sectionDateInCurrentWeekFormatter.stringFromDate(message.updatedAt))"
-            } else {
-                cell.stateLabel.text = "\(MessageSendState(rawValue: message.sendState)!.description) \(sectionDateFormatter.stringFromDate(message.updatedAt))"
-            }
+            configChatStateWithMessage(message, cell: cell)
             
             return cell
         }
