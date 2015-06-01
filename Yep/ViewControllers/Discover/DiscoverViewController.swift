@@ -52,7 +52,10 @@ class DiscoverViewController: BaseViewController {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.whiteColor()
-        
+
+        discoverTableView.separatorColor = UIColor.yepCellSeparatorColor()
+        discoverTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+
         discoverTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         discoverTableView.rowHeight = 80
 

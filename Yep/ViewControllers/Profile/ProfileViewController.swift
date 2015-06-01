@@ -11,11 +11,11 @@ import RealmSwift
 
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
-enum SocialAccount: Int, Printable {
-    case Dribbble = 0
-    case Github
-    case Instagram
-    case Behance
+enum SocialAccount: String, Printable {
+    case Dribbble = "dribbble"
+    case Github = "github"
+    case Instagram = "instagram"
+    case Behance = "behance"
     
     var description: String {
         
@@ -82,7 +82,7 @@ enum ProfileUser {
     func enabledSocialAccount(socialAccount: SocialAccount) -> Bool {
         var accountEnabled = false
 
-        let providerName = socialAccount.description.lowercaseString
+        let providerName = socialAccount.rawValue
 
         switch self {
 
@@ -235,8 +235,6 @@ class ProfileViewController: UIViewController {
         }
     }
 
-    //typealias SocialWorkProviderInfo = [String: Bool]
-    //var socialWorkProviderInfo = SocialWorkProviderInfo() 
 
     var dribbbleWork: DribbbleWork?
     var instagramWork: InstagramWork?
@@ -289,14 +287,15 @@ class ProfileViewController: UIViewController {
                 let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Header.rawValue)
                 
                 if let coverCell = self.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
-                    
-                    let beginModifyPercentage: CGFloat = 0.9
-                    let modifablePercentage: CGFloat = 1.0 - 0.9
-                    let modifyPercentage: CGFloat = (progress - beginModifyPercentage)/modifablePercentage
-                    
-                    coverCell.locationLabel.alpha = progress > beginModifyPercentage ? 0 : modifyPercentage
-                    coverCell.avatarBlurImageView.alpha = progress < beginModifyPercentage ? 0 : modifyPercentage
-                    self.topShadowImageView.alpha = progress < beginModifyPercentage ? 1.0 : 1 - modifyPercentage
+
+                    let beginChangePercentage: CGFloat = 1 - 64 / self.collectionViewWidth * profileAvatarAspectRatio
+                    let normalizedProgressForChange: CGFloat = (progress - beginChangePercentage) / (1 - beginChangePercentage)
+
+                    coverCell.avatarBlurImageView.alpha = progress < beginChangePercentage ? 0 : normalizedProgressForChange
+
+                    self.topShadowImageView.alpha = progress < beginChangePercentage ? 1 : 1 - normalizedProgressForChange
+
+                    coverCell.locationLabel.alpha = progress < 0.5 ? 1 : 1 - min(1, (progress - 0.5) * 2 * 2) // 特别对待，在后半程的前半段即完成 alpha -> 0
                 }
             }
         }
@@ -421,15 +420,14 @@ class ProfileViewController: UIViewController {
             }
 
         } else if segue.identifier == "presentOAuth" {
-            if let item = sender as? Int {
+            if let providerName = sender as? String {
                 let nvc = segue.destinationViewController as! UINavigationController
                 let vc = nvc.topViewController as! OAuthViewController
-                vc.socialAccount = SocialAccount(rawValue: item)
+                vc.socialAccount = SocialAccount(rawValue: providerName)
 
                 vc.afterOAuthAction = { socialAccount in
                     // 更新自己的 provider enabled 状态
-                    let providerName = socialAccount.description.lowercaseString
-//                    self.socialWorkProviderInfo[providerName] = true
+                    let providerName = socialAccount.rawValue
 
                     let realm = Realm()
 
@@ -451,9 +449,9 @@ class ProfileViewController: UIViewController {
             }
 
         } else if segue.identifier == "showSocialWorkGithub" {
-            if let item = sender as? Int {
+            if let providerName = sender as? String {
                 let vc = segue.destinationViewController as! SocialWorkGithubViewController
-                vc.socialAccount = SocialAccount(rawValue: item)
+                vc.socialAccount = SocialAccount(rawValue: providerName)
                 vc.profileUser = profileUser
                 vc.githubWork = githubWork
 
@@ -463,9 +461,9 @@ class ProfileViewController: UIViewController {
             }
 
         } else if segue.identifier == "showSocialWorkDribbble" {
-            if let item = sender as? Int {
+            if let providerName = sender as? String {
                 let vc = segue.destinationViewController as! SocialWorkDribbbleViewController
-                vc.socialAccount = SocialAccount(rawValue: item)
+                vc.socialAccount = SocialAccount(rawValue: providerName)
                 vc.profileUser = profileUser
                 vc.dribbbleWork = dribbbleWork
 
@@ -475,9 +473,9 @@ class ProfileViewController: UIViewController {
             }
 
         } else if segue.identifier == "showSocialWorkInstagram" {
-            if let item = sender as? Int {
+            if let providerName = sender as? String {
                 let vc = segue.destinationViewController as! SocialWorkInstagramViewController
-                vc.socialAccount = SocialAccount(rawValue: item)
+                vc.socialAccount = SocialAccount(rawValue: providerName)
                 vc.profileUser = profileUser
                 vc.instagramWork = instagramWork
 
@@ -683,7 +681,25 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return 1
             
         case ProfileSection.SocialAccount.rawValue:
-            return 3
+
+            if let profileUser = profileUser {
+                switch profileUser {
+
+                case .DiscoveredUserType(let discoveredUser):
+                    return discoveredUser.socialAccountProviders.filter({ $0.enabled }).count
+
+                case .UserType(let user):
+
+                    if user.friendState == UserFriendState.Me.rawValue {
+                        return user.socialAccountProviders.count
+
+                    } else {
+                        return user.socialAccountProviders.filter("enabled = true").count
+                    }
+                }
+            }
+
+            return 0
 
         default:
             return 0
@@ -754,57 +770,79 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             
         case ProfileSection.SocialAccount.rawValue:
 
-            if let socialAccount = SocialAccount(rawValue: indexPath.row) {
+            if let profileUser = profileUser {
 
-                if socialAccount == .Github {
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountGithubCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountGithubCell
+                var providerName = ""
 
-                    cell.configureWithProfileUser(profileUser, socialAccount: socialAccount, githubWork: githubWork, completion: { githubWork in
-                        self.githubWork = githubWork
-                    })
-                    
-                    return cell
+                switch profileUser {
 
-                } else {
+                case .DiscoveredUserType(let discoveredUser):
+                    let provider = discoveredUser.socialAccountProviders.filter({ $0.enabled })[indexPath.row]
+                    providerName = provider.name
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountImagesCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountImagesCell
+                case .UserType(let user):
+                    if user.friendState == UserFriendState.Me.rawValue {
+                        let provider = user.socialAccountProviders[indexPath.row]
+                        providerName = provider.name
 
-                    var socialWork: SocialWork?
-
-                    switch socialAccount {
-
-                    case .Dribbble:
-                        if let dribbbleWork = dribbbleWork {
-                            socialWork = SocialWork.Dribbble(dribbbleWork)
-                        }
-
-                    case .Instagram:
-                        if let instagramWork = instagramWork {
-                            socialWork = SocialWork.Instagram(instagramWork)
-                        }
-
-                    default:
-                        break
+                    } else {
+                        let provider = user.socialAccountProviders.filter("enabled = true")[indexPath.row]
+                        providerName = provider.name
                     }
-
-                    cell.configureWithProfileUser(profileUser, socialAccount: socialAccount, socialWork: socialWork, completion: { socialWork in
-                        switch socialWork {
-
-                        case .Dribbble(let dribbbleWork):
-                            self.dribbbleWork = dribbbleWork
-
-                        case .Instagram(let instagramWork):
-                            self.instagramWork = instagramWork
-                        }
-                    })
-                    
-                    return cell
                 }
 
-            } else {
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountCell
-                return cell
+                if let socialAccount = SocialAccount(rawValue: providerName) {
+
+                    if socialAccount == .Github {
+                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountGithubCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountGithubCell
+
+                        cell.configureWithProfileUser(profileUser, socialAccount: socialAccount, githubWork: githubWork, completion: { githubWork in
+                            self.githubWork = githubWork
+                        })
+
+                        return cell
+
+                    } else {
+
+                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountImagesCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountImagesCell
+
+                        var socialWork: SocialWork?
+
+                        switch socialAccount {
+
+                        case .Dribbble:
+                            if let dribbbleWork = dribbbleWork {
+                                socialWork = SocialWork.Dribbble(dribbbleWork)
+                            }
+
+                        case .Instagram:
+                            if let instagramWork = instagramWork {
+                                socialWork = SocialWork.Instagram(instagramWork)
+                            }
+
+                        default:
+                            break
+                        }
+
+                        cell.configureWithProfileUser(profileUser, socialAccount: socialAccount, socialWork: socialWork, completion: { socialWork in
+                            switch socialWork {
+
+                            case .Dribbble(let dribbbleWork):
+                                self.dribbbleWork = dribbbleWork
+                                
+                            case .Instagram(let instagramWork):
+                                self.instagramWork = instagramWork
+                            }
+                        })
+                        
+                        return cell
+                    }
+                    
+                }
             }
+
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountCell
+            return cell
 
         default:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
@@ -944,9 +982,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 switch profileUser {
 
                 case .DiscoveredUserType(let discoveredUser):
-                    enabled = discoveredUser.socialAccountProviders.filter({ socialAccountProvider in
-                        socialAccountProvider.enabled
-                    }).count > 0
+                    enabled = discoveredUser.socialAccountProviders.filter({ $0.enabled }).count > 0
 
                 case .UserType(let user):
                     if user.friendState != UserFriendState.Me.rawValue {
@@ -958,16 +994,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return enabled ? CGSize(width: collectionViewWidth, height: 1) : CGSizeZero
             
         case ProfileSection.SocialAccount.rawValue:
-            var enabled = true
-
-            // 对于他人，只看其绑定的 SocialAccount
-            if !profileUserIsMe, let profileUser = profileUser {
-                if let socialAccount = SocialAccount(rawValue: indexPath.row) {
-                    enabled = profileUser.enabledSocialAccount(socialAccount)
-                }
-            }
-
-            return enabled ? CGSize(width: collectionViewWidth, height: 40) : CGSizeZero
+            return CGSize(width: collectionViewWidth, height: 40)
 
         default:
             return CGSizeZero
@@ -997,16 +1024,36 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             
         } else if indexPath.section == ProfileSection.SocialAccount.rawValue {
 
-            if let socialAccount = SocialAccount(rawValue: indexPath.item) {
+            if let profileUser = profileUser {
 
-                if let profileUser = profileUser {
+                var providerName = ""
+
+                switch profileUser {
+
+                case .DiscoveredUserType(let discoveredUser):
+                    let provider = discoveredUser.socialAccountProviders.filter({ $0.enabled })[indexPath.row]
+                    providerName = provider.name
+
+                case .UserType(let user):
+
+                    if user.friendState == UserFriendState.Me.rawValue {
+                        let provider = user.socialAccountProviders[indexPath.row]
+                        providerName = provider.name
+
+                    } else {
+                        let provider = user.socialAccountProviders.filter("enabled = true")[indexPath.row]
+                        providerName = provider.name
+                    }
+                }
+
+                if let socialAccount = SocialAccount(rawValue: providerName) {
 
                     if profileUser.enabledSocialAccount(socialAccount) {
-                        performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: indexPath.item)
+                        performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: providerName)
 
                     } else {
                         if profileUserIsMe {
-                            performSegueWithIdentifier("presentOAuth", sender: indexPath.item)
+                            performSegueWithIdentifier("presentOAuth", sender: providerName)
                         }
                     }
                 }
@@ -1019,7 +1066,7 @@ extension ProfileViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if scrollView.contentOffset.y < -300 {
-            YepAlert.alert(title: "Hello", message: "How are you?", dismissTitle: "I'm fine.", inViewController: self, withDismissAction: nil)
+            YepAlert.alert(title: "Hello", message: "My name is NIX. How are you?", dismissTitle: "I'm fine.", inViewController: self, withDismissAction: nil)
         }
     }
 }

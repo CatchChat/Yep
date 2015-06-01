@@ -89,15 +89,23 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        masterTableView.separatorColor = UIColor.yepCellSeparatorColor()
+        masterTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+
         masterTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         masterTableView.rowHeight = 80
+        masterTableView.tableFooterView = UIView()
         masterTableView.dataSource = self
         masterTableView.delegate = self
         masterTableView.tag = SkillHomeState.Master.hashValue
-        
+
+        learningtTableView.separatorColor = UIColor.yepCellSeparatorColor()
+        learningtTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+
         learningtTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         learningtTableView.rowHeight = 80
+        learningtTableView.tableFooterView = UIView()
         learningtTableView.dataSource = self
         learningtTableView.delegate = self
         learningtTableView.tag = SkillHomeState.Learning.hashValue

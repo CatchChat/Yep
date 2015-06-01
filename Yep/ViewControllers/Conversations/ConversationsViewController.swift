@@ -63,8 +63,12 @@ class ConversationsViewController: UIViewController {
 
         view.backgroundColor = UIColor.whiteColor()
 
+        conversationsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+        conversationsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+
         conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         conversationsTableView.rowHeight = 80
+        conversationsTableView.tableFooterView = UIView()
 
         unreadMessagesToken = realm.addNotificationBlock { notification, realm in
             self.haveUnreadMessages = countOfUnreadMessagesInRealm(realm) > 0

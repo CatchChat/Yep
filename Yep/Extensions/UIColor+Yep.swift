@@ -57,4 +57,8 @@ extension UIColor {
         return UIColor(red: 142.0/255.0, green: 142.0/255.0, blue: 147.0/255.0, alpha: 1.0)
     }
 
+    class func yepCellSeparatorColor() -> UIColor {
+        return UIColor.lightGrayColor().colorWithAlphaComponent(0.3)
+    }
+
 }

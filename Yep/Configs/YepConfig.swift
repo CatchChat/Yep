@@ -104,4 +104,8 @@ class YepConfig {
         }
     }
 
+    struct ContactsCell {
+        static let separatorInset = UIEdgeInsets(top: 0, left: 90, bottom: 0, right: 0) 
+    }
+
 }

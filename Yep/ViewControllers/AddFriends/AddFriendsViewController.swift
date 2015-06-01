@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AddressBook
 
 class AddFriendsViewController: UIViewController {
 
@@ -119,6 +120,57 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
         default:
             return UITableViewCell()
+        }
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        if indexPath.section == Section.More.rawValue {
+
+            switch indexPath.row {
+
+            case More.Contacts.rawValue:
+
+                switch ABAddressBookGetAuthorizationStatus() {
+
+                case .NotDetermined:
+                    YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Yep need to read your Contacts to continue this operation.\nIs that OK?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("No now", comment: ""), inViewController: self, withConfirmAction: {
+
+                        if let addressBook: ABAddressBook = ABAddressBookCreateWithOptions(nil, nil)?.takeRetainedValue() {
+                            ABAddressBookRequestAccessWithCompletion(addressBook, { granted, error in
+                                if granted {
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        self.performSegueWithIdentifier("showFriendsInContacts", sender: nil)
+                                    }
+                                }
+                            })
+                        }
+
+                    }, cancelAction: {
+                    })
+
+                case .Authorized:
+                    performSegueWithIdentifier("showFriendsInContacts", sender: nil)
+
+                case .Denied:
+                    YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not read your Contacts!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+
+                        UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+                        
+                    }, cancelAction: {
+                    })
+
+                case .Restricted:
+                    YepAlert.alertSorry(message: NSLocalizedString("Yep can not read your Contacts!", comment: ""), inViewController: self)
+                }
+
+            case More.FaceToFace.rawValue:
+                break
+                
+            default:
+                break
+            }
         }
     }
 }
