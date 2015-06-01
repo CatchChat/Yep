@@ -734,8 +734,27 @@
                     <view key="view" contentMode="scaleToFill" id="rqb-L0-RRO">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vdN-uK-rFe">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="KtV-SQ-G84" id="OVq-w5-ONj"/>
+                                    <outlet property="delegate" destination="KtV-SQ-G84" id="VCQ-Db-f3r"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="vdN-uK-rFe" secondAttribute="bottom" id="K2v-hJ-HU9"/>
+                            <constraint firstItem="vdN-uK-rFe" firstAttribute="top" secondItem="rqb-L0-RRO" secondAttribute="top" id="dOq-t0-giI"/>
+                            <constraint firstAttribute="trailing" secondItem="vdN-uK-rFe" secondAttribute="trailing" id="nZB-Gj-f5W"/>
+                            <constraint firstItem="vdN-uK-rFe" firstAttribute="leading" secondItem="rqb-L0-RRO" secondAttribute="leading" id="vMg-c4-RUe"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="friendsTableView" destination="vdN-uK-rFe" id="aVj-dZ-a7Q"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Rg-GM-ojT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

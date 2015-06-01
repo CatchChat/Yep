@@ -11,17 +11,29 @@ import APAddressBook
 
 class FriendsInContactsViewController: UIViewController {
 
+    @IBOutlet weak var friendsTableView: UITableView!
+
     lazy var addressBook: APAddressBook = {
         let addressBook = APAddressBook()
         addressBook.fieldsMask = APContactField(rawValue: APContactField.CompositeName.rawValue | APContactField.Phones.rawValue)
         return addressBook
         }()
 
+    var discoveredUsers = [DiscoveredUser]() {
+        didSet {
+            updateDiscoverTableView()
+        }
+    }
+    
+    let cellIdentifier = "ContactsCell"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("Available Friends", comment: "")
 
+        friendsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        friendsTableView.rowHeight = 80
 
         addressBook.loadContacts{ (contacts: [AnyObject]!, error: NSError!) in
             if let contacts = contacts as? [APContact] {
@@ -29,7 +41,6 @@ class FriendsInContactsViewController: UIViewController {
                 var uploadContacts = [UploadContact]()
 
                 for contact in contacts {
-                    println(contact.compositeName, contact.phones)
 
                     let name = contact.compositeName
 
@@ -41,10 +52,12 @@ class FriendsInContactsViewController: UIViewController {
                     }
                 }
 
-                println(uploadContacts)
+                //println(uploadContacts)
 
-                friendsInContacts(uploadContacts, failureHandler: nil, completion: { x in
-                    println(x)
+                friendsInContacts(uploadContacts, failureHandler: nil, completion: { discoveredUsers in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.discoveredUsers = discoveredUsers
+                    }
                 })
 
             } else if (error != nil) {
@@ -53,4 +66,50 @@ class FriendsInContactsViewController: UIViewController {
         }
     }
 
+    // MARK: Actions
+
+    func updateDiscoverTableView() {
+        friendsTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
+    }
+
 }
+
+// MARK: UITableViewDataSource, UITableViewDelegate
+
+extension FriendsInContactsViewController: UITableViewDataSource, UITableViewDelegate {
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return discoveredUsers.count
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+
+        let discoveredUser = discoveredUsers[indexPath.row]
+
+        let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
+
+        let avatarURLString = discoveredUser.avatarURLString
+        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { roundImage in
+            dispatch_async(dispatch_get_main_queue()) {
+                cell.avatarImageView.image = roundImage
+            }
+        }
+
+        cell.joinedDateLabel.text = discoveredUser.introduction
+
+        let distance = discoveredUser.distance.format(".1")
+        cell.lastTimeSeenLabel.text = "\(distance) km | \(discoveredUser.lastSignInAt.timeAgo)"
+
+        cell.nameLabel.text = discoveredUser.nickname
+
+        return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        //performSegueWithIdentifier("showProfile", sender: indexPath)
+    }
+}
+

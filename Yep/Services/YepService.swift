@@ -451,7 +451,7 @@ func searchUsersByMobile(mobile: String, #failureHandler: ((Reason, String?) -> 
 
 typealias UploadContact = [String: String]
 
-func friendsInContacts(contacts: [UploadContact], #failureHandler: ((Reason, String?) -> Void)?, #completion: [JSONDictionary] -> Void) {
+func friendsInContacts(contacts: [UploadContact], #failureHandler: ((Reason, String?) -> Void)?, #completion: [DiscoveredUser] -> Void) {
 
     if let
         contactsData = NSJSONSerialization.dataWithJSONObject(contacts, options: .PrettyPrinted, error: nil),
@@ -461,9 +461,21 @@ func friendsInContacts(contacts: [UploadContact], #failureHandler: ((Reason, Str
                 "contacts": contactsString
             ]
 
-            let parse: JSONDictionary -> [JSONDictionary]? = { data in
-                if let registeredContacts = data["registered_contacts"] as? [JSONDictionary] {
-                    return registeredContacts
+            let parse: JSONDictionary -> [DiscoveredUser]? = { data in
+                if let registeredContacts = data["registered_users"] as? [JSONDictionary] {
+
+                    //println("registeredContacts: \(registeredContacts)")
+                    
+                    var discoveredUsers = [DiscoveredUser]()
+
+                    for registeredContact in registeredContacts {
+                        if let discoverUser = parseDiscoveredUser(registeredContact) {
+                            discoveredUsers.append(discoverUser)
+                        }
+                    }
+
+                    return discoveredUsers
+
                 } else {
                     return nil
                 }
@@ -560,47 +572,56 @@ struct DiscoveredUser {
     let socialAccountProviders: [SocialAccountProvider]
 }
 
+let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
+    if let
+        id = userInfo["id"] as? String,
+        nickname = userInfo["nickname"] as? String,
+        avatarURLString = userInfo["avatar_url"] as? String,
+        createdAtString = userInfo["created_at"] as? String,
+        lastSignInAtString = userInfo["last_sign_in_at"] as? String,
+        longitude = userInfo["longitude"] as? Double,
+        latitude = userInfo["latitude"] as? Double,
+        distance = userInfo["distance"] as? Double,
+        masterSkillsData = userInfo["master_skills"] as? [JSONDictionary],
+        learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary],
+        socialAccountProvidersInfo = userInfo["providers"] as? [String: Bool] {
+
+            let createdAt = NSDate.dateWithISO08601String(createdAtString)
+            let lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+
+            let masterSkills = skillsFromSkillsData(masterSkillsData)
+            let learningSkills = skillsFromSkillsData(learningSkillsData)
+
+            var socialAccountProviders = Array<DiscoveredUser.SocialAccountProvider>()
+
+            for (name, enabled) in socialAccountProvidersInfo {
+                let provider = DiscoveredUser.SocialAccountProvider(name: name, enabled: enabled)
+
+                socialAccountProviders.append(provider)
+            }
+
+            let introduction = userInfo["introduction"] as? String
+
+            let discoverUser = DiscoveredUser(id: id, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, createdAt: createdAt, lastSignInAt: lastSignInAt, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
+
+            return discoverUser
+    }
+
+    return nil
+}
+
 let parseDiscoveredUsers: JSONDictionary -> [DiscoveredUser]? = { data in
 
-    println("discoverUsers: \(data)")
+    //println("discoverUsers: \(data)")
 
     if let usersData = data["users"] as? [JSONDictionary] {
 
         var discoveredUsers = [DiscoveredUser]()
 
         for userInfo in usersData {
-            if let
-                id = userInfo["id"] as? String,
-                nickname = userInfo["nickname"] as? String,
-                avatarURLString = userInfo["avatar_url"] as? String,
-                createdAtString = userInfo["created_at"] as? String,
-                lastSignInAtString = userInfo["last_sign_in_at"] as? String,
-                longitude = userInfo["longitude"] as? Double,
-                latitude = userInfo["latitude"] as? Double,
-                distance = userInfo["distance"] as? Double,
-                masterSkillsData = userInfo["master_skills"] as? [JSONDictionary],
-                learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary],
-                socialAccountProvidersInfo = userInfo["providers"] as? [String: Bool] {
 
-                    let createdAt = NSDate.dateWithISO08601String(createdAtString)
-                    let lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
-
-                    let masterSkills = skillsFromSkillsData(masterSkillsData)
-                    let learningSkills = skillsFromSkillsData(learningSkillsData)
-
-                    var socialAccountProviders = Array<DiscoveredUser.SocialAccountProvider>()
-
-                    for (name, enabled) in socialAccountProvidersInfo {
-                        let provider = DiscoveredUser.SocialAccountProvider(name: name, enabled: enabled)
-
-                        socialAccountProviders.append(provider)
-                    }
-
-                    let introduction = userInfo["introduction"] as? String
-
-                    let discoverUser = DiscoveredUser(id: id, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, createdAt: createdAt, lastSignInAt: lastSignInAt, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
-
-                    discoveredUsers.append(discoverUser)
+            if let discoverUser = parseDiscoveredUser(userInfo) {
+                discoveredUsers.append(discoverUser)
             }
         }
 
