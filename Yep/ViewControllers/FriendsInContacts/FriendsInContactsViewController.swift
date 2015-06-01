@@ -72,6 +72,27 @@ class FriendsInContactsViewController: UIViewController {
         friendsTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
     }
 
+    // MARK: - Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        if segue.identifier == "showProfile" {
+            if let indexPath = sender as? NSIndexPath {
+                let discoveredUser = discoveredUsers[indexPath.row]
+
+                let vc = segue.destinationViewController as! ProfileViewController
+
+                if discoveredUser.id != YepUserDefaults.userID.value {
+                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                }
+
+                vc.setBackButtonWithTitle()
+
+                vc.hidesBottomBarWhenPushed = true
+            }
+        }
+    }
+
 }
 
 // MARK: UITableViewDataSource, UITableViewDelegate
@@ -109,7 +130,7 @@ extension FriendsInContactsViewController: UITableViewDataSource, UITableViewDel
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        //performSegueWithIdentifier("showProfile", sender: indexPath)
+        performSegueWithIdentifier("showProfile", sender: indexPath)
     }
 }
 
