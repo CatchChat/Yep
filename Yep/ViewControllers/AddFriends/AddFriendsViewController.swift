@@ -121,6 +121,25 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
     }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        if indexPath.section == Section.More.rawValue {
+
+            switch indexPath.row {
+
+            case More.Contacts.rawValue:
+                performSegueWithIdentifier("showFriendsInContacts", sender: nil)
+                
+            case More.FaceToFace.rawValue:
+                break
+                
+            default:
+                break
+            }
+        }
+    }
 }
 
 extension AddFriendsViewController: UITextFieldDelegate {

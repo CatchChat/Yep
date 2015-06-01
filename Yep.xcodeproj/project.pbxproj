@@ -52,6 +52,7 @@
 		15606C18E1487982869C0A42 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD88F6095DB46DFAD41AB5DB /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50165C441AC2860900C7AEBE /* ConversationLayout.swift */; };
 		502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */; };
+		502280F81B1C3F2800E984EE /* FriendsInContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502280F71B1C3F2800E984EE /* FriendsInContactsViewController.swift */; };
 		5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE251AB6856300B3EE96 /* ConversationsViewController.swift */; };
 		5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE291AB685BA00B3EE96 /* ContactsViewController.swift */; };
 		5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE2C1AB685ED00B3EE96 /* DiscoverViewController.swift */; };
@@ -263,6 +264,7 @@
 		2268251A75FF6766DC31CCFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		50165C441AC2860900C7AEBE /* ConversationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationLayout.swift; path = ViewControllers/Conversation/ConversationLayout.swift; sourceTree = "<group>"; };
 		502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedUsersViewController.swift; path = ViewControllers/SearchedUsers/SearchedUsersViewController.swift; sourceTree = "<group>"; };
+		502280F71B1C3F2800E984EE /* FriendsInContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendsInContactsViewController.swift; path = ViewControllers/FriendsInContacts/FriendsInContactsViewController.swift; sourceTree = "<group>"; };
 		5023DE251AB6856300B3EE96 /* ConversationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationsViewController.swift; path = ViewControllers/Conversations/ConversationsViewController.swift; sourceTree = "<group>"; };
 		5023DE291AB685BA00B3EE96 /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsViewController.swift; path = ViewControllers/Contacts/ContactsViewController.swift; sourceTree = "<group>"; };
 		5023DE2C1AB685ED00B3EE96 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverViewController.swift; path = ViewControllers/Discover/DiscoverViewController.swift; sourceTree = "<group>"; };
@@ -644,6 +646,14 @@
 			name = SearchedUsers;
 			sourceTree = "<group>";
 		};
+		502280F91B1C3F2F00E984EE /* FriendsInContacts */ = {
+			isa = PBXGroup;
+			children = (
+				502280F71B1C3F2800E984EE /* FriendsInContactsViewController.swift */,
+			);
+			name = FriendsInContacts;
+			sourceTree = "<group>";
+		};
 		5023DE271AB6856600B3EE96 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -667,6 +677,7 @@
 				508F8FCD1B01C80500461B0B /* SocialWorks */,
 				5064F6511B0AE2ED0089FAD4 /* AddFriends */,
 				502048251B0F1BB8002EBFC7 /* SearchedUsers */,
+				502280F91B1C3F2F00E984EE /* FriendsInContacts */,
 				0A943A7C1B0F8EB10022DD67 /* Base */,
 				0AB8F79B1B15D1DF00F4AF09 /* Nav */,
 			);
@@ -1675,6 +1686,7 @@
 				502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */,
 				508F8FD71B01EDB400461B0B /* DribbbleShotCell.swift in Sources */,
 				0A7A7D561AF5E00600A7F5F5 /* YepHelper.swift in Sources */,
+				502280F81B1C3F2800E984EE /* FriendsInContactsViewController.swift in Sources */,
 				508D17401ACCD2740092D666 /* YepButton.swift in Sources */,
 				506BB7F51AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift in Sources */,
 				5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */,
