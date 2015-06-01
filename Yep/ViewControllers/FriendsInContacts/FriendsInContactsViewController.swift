@@ -9,7 +9,7 @@
 import UIKit
 import APAddressBook
 
-class FriendsInContactsViewController: UIViewController {
+class FriendsInContactsViewController: BaseViewController {
 
     @IBOutlet weak var friendsTableView: UITableView!
 

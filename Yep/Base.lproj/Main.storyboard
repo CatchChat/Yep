@@ -685,7 +685,7 @@
         <!--Add Friends View Controller-->
         <scene sceneID="f0W-Bv-ApN">
             <objects>
-                <viewController id="4Ji-K6-SJn" customClass="AddFriendsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="4Ji-K6-SJn" customClass="AddFriendsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hrO-Fa-cs0"/>
                         <viewControllerLayoutGuide type="bottom" id="mMl-TQ-Jon"/>
