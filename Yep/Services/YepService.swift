@@ -449,6 +449,39 @@ func searchUsersByMobile(mobile: String, #failureHandler: ((Reason, String?) -> 
     }
 }
 
+typealias UploadContact = [String: String]
+
+func friendsInContacts(contacts: [UploadContact], #failureHandler: ((Reason, String?) -> Void)?, #completion: [JSONDictionary] -> Void) {
+
+    if let
+        contactsData = NSJSONSerialization.dataWithJSONObject(contacts, options: .PrettyPrinted, error: nil),
+        contactsString = NSString(data: contactsData, encoding: NSUTF8StringEncoding) {
+
+            let requestParameters: JSONDictionary = [
+                "contacts": contactsString
+            ]
+
+            let parse: JSONDictionary -> [JSONDictionary]? = { data in
+                if let registeredContacts = data["registered_contacts"] as? [JSONDictionary] {
+                    return registeredContacts
+                } else {
+                    return nil
+                }
+            }
+
+            let resource = authJsonResource(path: "/api/v1/contacts/upload", method: .POST, requestParameters: requestParameters, parse: parse)
+            
+            if let failureHandler = failureHandler {
+                apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+            } else {
+                apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+            }
+
+    } else {
+        completion([])
+    }
+}
+
 // MARK: Friendships
 
 private func headFriendships(#completion: JSONDictionary -> Void) {
