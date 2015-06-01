@@ -32,6 +32,7 @@ class ContactsViewController: BaseViewController {
 
         contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         contactsTableView.rowHeight = 80
+        contactsTableView.tableFooterView = UIView()
 
         YepUserDefaults.nickname.bindListener("ContactsViewController.Nickname") { _ in
             self.updateContactsTableView()

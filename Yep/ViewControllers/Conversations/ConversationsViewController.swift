@@ -68,6 +68,7 @@ class ConversationsViewController: UIViewController {
 
         conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         conversationsTableView.rowHeight = 80
+        conversationsTableView.tableFooterView = UIView()
 
         unreadMessagesToken = realm.addNotificationBlock { notification, realm in
             self.haveUnreadMessages = countOfUnreadMessagesInRealm(realm) > 0
