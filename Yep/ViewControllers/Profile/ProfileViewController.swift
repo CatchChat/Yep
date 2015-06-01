@@ -82,7 +82,7 @@ enum ProfileUser {
     func enabledSocialAccount(socialAccount: SocialAccount) -> Bool {
         var accountEnabled = false
 
-        let providerName = socialAccount.description.lowercaseString
+        let providerName = socialAccount.rawValue
 
         switch self {
 
@@ -235,8 +235,6 @@ class ProfileViewController: UIViewController {
         }
     }
 
-    //typealias SocialWorkProviderInfo = [String: Bool]
-    //var socialWorkProviderInfo = SocialWorkProviderInfo() 
 
     var dribbbleWork: DribbbleWork?
     var instagramWork: InstagramWork?
@@ -429,8 +427,7 @@ class ProfileViewController: UIViewController {
 
                 vc.afterOAuthAction = { socialAccount in
                     // 更新自己的 provider enabled 状态
-                    let providerName = socialAccount.description.lowercaseString
-//                    self.socialWorkProviderInfo[providerName] = true
+                    let providerName = socialAccount.rawValue
 
                     let realm = Realm()
 
@@ -1069,7 +1066,7 @@ extension ProfileViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if scrollView.contentOffset.y < -300 {
-            YepAlert.alert(title: "Hello", message: "How are you?", dismissTitle: "I'm fine.", inViewController: self, withDismissAction: nil)
+            YepAlert.alert(title: "Hello", message: "My name is NIX. How are you?", dismissTitle: "I'm fine.", inViewController: self, withDismissAction: nil)
         }
     }
 }
