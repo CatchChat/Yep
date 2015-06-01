@@ -50,6 +50,9 @@ class FriendsInContactsViewController: BaseViewController {
 
         title = NSLocalizedString("Available Friends", comment: "")
 
+        friendsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+        friendsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+        
         friendsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         friendsTableView.rowHeight = 80
         friendsTableView.tableFooterView = UIView()

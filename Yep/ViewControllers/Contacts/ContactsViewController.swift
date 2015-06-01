@@ -27,6 +27,9 @@ class ContactsViewController: BaseViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "syncFriendships", name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
 
+        contactsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+        contactsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+
         contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         contactsTableView.rowHeight = 80
 
