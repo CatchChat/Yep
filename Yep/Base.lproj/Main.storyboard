@@ -77,14 +77,14 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gu7-gn-2ia">
                                 <rect key="frame" x="0.0" y="270" width="600" height="100"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Swipe Up to Cancel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zew-F7-znc">
-                                        <rect key="frame" x="223" y="59" width="153" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe Up to Cancel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zew-F7-znc">
+                                        <rect key="frame" x="235" y="62" width="130" height="18"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
                                         <color key="textColor" red="1" green="0.0" blue="0.23529411764705882" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="swipe_up" translatesAutoresizingMaskIntoConstraints="NO" id="4p2-ZI-7q3">
-                                        <rect key="frame" x="287" y="41" width="25" height="8"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swipe_up" translatesAutoresizingMaskIntoConstraints="NO" id="4p2-ZI-7q3">
+                                        <rect key="frame" x="287" y="44" width="25" height="8"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="8" id="OSV-g6-oH8"/>
                                             <constraint firstAttribute="width" constant="25" id="l0G-ny-LlM"/>
@@ -93,7 +93,6 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="600" id="5x8-l8-Hlh"/>
                                     <constraint firstAttribute="height" constant="100" id="BJQ-S4-SYw"/>
                                     <constraint firstAttribute="bottom" secondItem="Zew-F7-znc" secondAttribute="bottom" constant="20" id="DEv-gm-aP4"/>
                                     <constraint firstAttribute="centerX" secondItem="Zew-F7-znc" secondAttribute="centerX" id="IrJ-B5-rtp"/>
