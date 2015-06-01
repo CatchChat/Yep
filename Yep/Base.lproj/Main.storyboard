@@ -742,16 +742,22 @@
                                     <outlet property="delegate" destination="KtV-SQ-G84" id="VCQ-Db-f3r"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Ne0-z8-YLq">
+                                <rect key="frame" x="290" y="184" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="Ne0-z8-YLq" secondAttribute="centerX" id="9X7-7I-MAy"/>
                             <constraint firstAttribute="bottom" secondItem="vdN-uK-rFe" secondAttribute="bottom" id="K2v-hJ-HU9"/>
+                            <constraint firstItem="Ne0-z8-YLq" firstAttribute="top" secondItem="fhI-xM-Gql" secondAttribute="bottom" constant="120" id="NjG-bW-jWL"/>
                             <constraint firstItem="vdN-uK-rFe" firstAttribute="top" secondItem="rqb-L0-RRO" secondAttribute="top" id="dOq-t0-giI"/>
                             <constraint firstAttribute="trailing" secondItem="vdN-uK-rFe" secondAttribute="trailing" id="nZB-Gj-f5W"/>
                             <constraint firstItem="vdN-uK-rFe" firstAttribute="leading" secondItem="rqb-L0-RRO" secondAttribute="leading" id="vMg-c4-RUe"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="Ne0-z8-YLq" id="8pl-RI-dYU"/>
                         <outlet property="friendsTableView" destination="vdN-uK-rFe" id="aVj-dZ-a7Q"/>
                         <segue destination="AyC-pt-NR2" kind="show" identifier="showProfile" id="btf-on-xQx"/>
                     </connections>

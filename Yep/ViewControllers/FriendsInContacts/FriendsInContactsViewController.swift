@@ -12,6 +12,7 @@ import APAddressBook
 class FriendsInContactsViewController: BaseViewController {
 
     @IBOutlet weak var friendsTableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     lazy var addressBook: APAddressBook = {
         let addressBook = APAddressBook()
@@ -21,7 +22,12 @@ class FriendsInContactsViewController: BaseViewController {
 
     var discoveredUsers = [DiscoveredUser]() {
         didSet {
-            updateDiscoverTableView()
+            if discoveredUsers.count > 0 {
+                updateDiscoverTableView()
+
+            } else {
+
+            }
         }
     }
     
@@ -34,6 +40,7 @@ class FriendsInContactsViewController: BaseViewController {
 
         friendsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         friendsTableView.rowHeight = 80
+        friendsTableView.tableFooterView = UIView()
 
         addressBook.loadContacts{ (contacts: [AnyObject]!, error: NSError!) in
             if let contacts = contacts as? [APContact] {
@@ -54,9 +61,20 @@ class FriendsInContactsViewController: BaseViewController {
 
                 //println(uploadContacts)
 
-                friendsInContacts(uploadContacts, failureHandler: nil, completion: { discoveredUsers in
+                self.activityIndicator.startAnimating()
+
+                friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
+                    defaultFailureHandler(reason, errorMessage)
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.activityIndicator.stopAnimating()
+                    }
+
+                }, completion: { discoveredUsers in
                     dispatch_async(dispatch_get_main_queue()) {
                         self.discoveredUsers = discoveredUsers
+
+                        self.activityIndicator.stopAnimating()
                     }
                 })
 
