@@ -29,7 +29,16 @@ class ChatLeftTextCell: UICollectionViewCell {
         avatarImageViewLeadingConstraint.constant = YepConfig.chatCellGapBetweenWallAndAvatar()
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
 
+        textContentLabel.linkAttributes = [
+            kCTForegroundColorAttributeName: UIColor.blackColor(),
+            kCTUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
+        ]
+        textContentLabel.activeLinkAttributes = [
+            kCTForegroundColorAttributeName: UIColor.rightBubbleTintColor(),
+            kCTUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
+        ]
         textContentLabel.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue | NSTextCheckingType.PhoneNumber.rawValue
+
         textContentLabel.delegate = self
 
         textContentLabel.font = UIFont.chatTextFont()
