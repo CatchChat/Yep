@@ -11,6 +11,10 @@ import APAddressBook
 
 class FriendsInContactsViewController: BaseViewController {
 
+    struct Notification {
+        static let NewFriends = "NewFriendsInContactsNotification"
+    }
+
     @IBOutlet weak var friendsTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
@@ -24,6 +28,8 @@ class FriendsInContactsViewController: BaseViewController {
         didSet {
             if discoveredUsers.count > 0 {
                 updateDiscoverTableView()
+
+                NSNotificationCenter.defaultCenter().postNotificationName(Notification.NewFriends, object: nil)
 
             } else {
                 let label = UILabel(frame: CGRect(x: 0, y: 0, width: friendsTableView.bounds.width, height: 240))

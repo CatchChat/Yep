@@ -25,23 +25,33 @@ class ContactsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "syncFriendships", name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
+
         contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         contactsTableView.rowHeight = 80
 
         YepUserDefaults.nickname.bindListener("ContactsViewController.Nickname") { _ in
-            self.reloadContactsTableView()
+            self.updateContactsTableView()
         }
 
         YepUserDefaults.avatarURLString.bindListener("ContactsViewController.Avatar") { _ in
-            self.reloadContactsTableView()
+            self.updateContactsTableView()
         }
     }
 
-    func reloadContactsTableView() {
+    // MARK: Actions
+
+    func updateContactsTableView() {
         contactsTableView.reloadData()
     }
 
-    // MARK: Actions
+    func syncFriendships() {
+        syncFriendshipsAndDoFurtherAction {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.updateContactsTableView()
+            }
+        }
+    }
 
     @IBAction func presentAddFriends(sender: UIBarButtonItem) {
         performSegueWithIdentifier("presentAddFriends", sender: nil)
