@@ -289,14 +289,15 @@ class ProfileViewController: UIViewController {
                 let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Header.rawValue)
                 
                 if let coverCell = self.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
-                    
-                    let beginModifyPercentage: CGFloat = 0.9
-                    let modifablePercentage: CGFloat = 1.0 - 0.9
-                    let modifyPercentage: CGFloat = (progress - beginModifyPercentage)/modifablePercentage
-                    
-                    coverCell.locationLabel.alpha = progress > beginModifyPercentage ? 0 : modifyPercentage
-                    coverCell.avatarBlurImageView.alpha = progress < beginModifyPercentage ? 0 : modifyPercentage
-                    self.topShadowImageView.alpha = progress < beginModifyPercentage ? 1.0 : 1 - modifyPercentage
+
+                    let beginChangePercentage: CGFloat = 1 - 64 / self.collectionViewWidth * profileAvatarAspectRatio
+                    let normalizedProgressForChange: CGFloat = (progress - beginChangePercentage) / (1 - beginChangePercentage)
+
+                    coverCell.avatarBlurImageView.alpha = progress < beginChangePercentage ? 0 : normalizedProgressForChange
+
+                    self.topShadowImageView.alpha = progress < beginChangePercentage ? 1 : 1 - normalizedProgressForChange
+
+                    coverCell.locationLabel.alpha = progress < 0.5 ? 1 : 1 - min(1, (progress - 0.5) * 2 * 2) // 特别对待，在后半程的前半段即完成 alpha -> 0
                 }
             }
         }
