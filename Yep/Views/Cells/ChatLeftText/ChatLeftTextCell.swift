@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TTTAttributedLabel
 
 class ChatLeftTextCell: UICollectionViewCell {
 
@@ -17,7 +18,7 @@ class ChatLeftTextCell: UICollectionViewCell {
     @IBOutlet weak var bubbleBodyImageView: UIImageView!
     @IBOutlet weak var bubbleTailImageView: UIImageView!
 
-    @IBOutlet weak var textContentLabel: UILabel!
+    @IBOutlet weak var textContentLabel: TTTAttributedLabel!
     @IBOutlet weak var textContentLabelLeadingConstaint: NSLayoutConstraint!
     @IBOutlet weak var textContentLabelTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textContentLabelWidthConstraint: NSLayoutConstraint!
@@ -27,6 +28,18 @@ class ChatLeftTextCell: UICollectionViewCell {
 
         avatarImageViewLeadingConstraint.constant = YepConfig.chatCellGapBetweenWallAndAvatar()
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
+
+        textContentLabel.linkAttributes = [
+            kCTForegroundColorAttributeName: UIColor.blackColor(),
+            kCTUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
+        ]
+        textContentLabel.activeLinkAttributes = [
+            kCTForegroundColorAttributeName: UIColor.rightBubbleTintColor(),
+            kCTUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
+        ]
+        textContentLabel.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue | NSTextCheckingType.PhoneNumber.rawValue
+
+        textContentLabel.delegate = self
 
         textContentLabel.font = UIFont.chatTextFont()
 
@@ -50,5 +63,16 @@ class ChatLeftTextCell: UICollectionViewCell {
                 }
             }
         }
+    }
+}
+
+extension ChatLeftTextCell: TTTAttributedLabelDelegate {
+
+    func attributedLabel(label: TTTAttributedLabel!, didSelectLinkWithURL url: NSURL!) {
+        UIApplication.sharedApplication().openURL(url)
+    }
+
+    func attributedLabel(label: TTTAttributedLabel!, didSelectLinkWithPhoneNumber phoneNumber: String!) {
+        UIApplication.sharedApplication().openURL(NSURL(string: "tel://" + phoneNumber)!)
     }
 }

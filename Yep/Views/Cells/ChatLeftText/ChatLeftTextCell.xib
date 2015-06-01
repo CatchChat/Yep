@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -14,18 +14,18 @@
                 <rect key="frame" x="0.0" y="0.0" width="500" height="129"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_left_tail" translatesAutoresizingMaskIntoConstraints="NO" id="ppr-iG-zxj" userLabel="Bubble Tail Image View">
-                        <rect key="frame" x="57" y="49" width="13" height="14"/>
+                        <rect key="frame" x="57" y="40" width="13" height="14"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="13" id="TUy-IJ-8Vo"/>
                             <constraint firstAttribute="height" constant="14" id="sV7-oL-IJa"/>
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_body" translatesAutoresizingMaskIntoConstraints="NO" id="Yfx-Em-Job" userLabel="Bubble Body Image View">
-                        <rect key="frame" x="63" y="36" width="110" height="57"/>
+                        <rect key="frame" x="63" y="27" width="110" height="75"/>
                         <color key="tintColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7zi-6w-hpq" userLabel="Text Content Label">
-                        <rect key="frame" x="75" y="47" width="86" height="35"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7zi-6w-hpq" userLabel="Text Content Label" customClass="TTTAttributedLabel">
+                        <rect key="frame" x="75" y="38" width="86" height="53"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="86" id="P4e-TT-ZYl"/>
                         </constraints>
@@ -36,7 +36,7 @@ Hello World</string>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hYu-LI-zcX" userLabel="Avatar Image View">
-                        <rect key="frame" x="15" y="36" width="40" height="40"/>
+                        <rect key="frame" x="15" y="27" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="JV9-zT-1At"/>
                             <constraint firstAttribute="width" secondItem="hYu-LI-zcX" secondAttribute="height" multiplier="1:1" id="LI4-Sm-y72"/>
