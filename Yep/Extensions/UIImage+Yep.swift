@@ -11,6 +11,7 @@ import UIKit
 extension UIImage {
 
     func roundImageOfRadius(radius: CGFloat) -> UIImage {
+        let radius = floor(radius - 0.5)
         return self.largestCenteredSquareImage().resizeToTargetSize(CGSize(width: radius * 2, height: radius * 2)).roundImage()
     }
 
