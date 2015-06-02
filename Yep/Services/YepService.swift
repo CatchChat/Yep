@@ -494,6 +494,62 @@ func friendsInContacts(contacts: [UploadContact], #failureHandler: ((Reason, Str
     }
 }
 
+enum ReportReason {
+    case Porno
+    case Advertising
+    case Scams
+    case Other(String)
+
+    var type: Int {
+        switch self {
+        case .Porno:
+            return 0
+        case .Advertising:
+            return 1
+        case .Scams:
+            return 2
+        case .Other(let description):
+            return 3
+        }
+    }
+}
+
+func reportProfileUser(profileUser: ProfileUser, forReason reason: ReportReason, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+
+    let userID: String
+
+    switch profileUser {
+    case .DiscoveredUserType(let discoveredUser):
+        userID = discoveredUser.id
+    case .UserType(let user):
+        userID = user.userID
+    }
+
+    var requestParameters: JSONDictionary = [
+        "recipient_id": userID,
+        "report_type": reason.type
+    ]
+
+    switch reason {
+    case .Other(let description):
+        requestParameters["reason"] = description
+    default:
+        break
+    }
+
+    let parse: JSONDictionary -> Bool? = { data in
+        return true
+    }
+
+    let resource = authJsonResource(path: "/api/v1/user_reports", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
 // MARK: Friendships
 
 private func headFriendships(#completion: JSONDictionary -> Void) {

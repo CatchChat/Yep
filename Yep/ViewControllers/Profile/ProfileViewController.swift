@@ -606,7 +606,24 @@ class ProfileViewController: UIViewController {
         alertController.addAction(toggleDisturbAction)
 
         let reportAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Report", comment: ""), style: .Default) { action -> Void in
-            // TODO: reportAction
+
+            if let profileUser = self.profileUser {
+
+                reportProfileUser(profileUser, forReason: .Porno, failureHandler: { (reason, errorMessage) in
+                    defaultFailureHandler(reason, errorMessage)
+
+                    if let errorMessage = errorMessage {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepAlert.alertSorry(message: errorMessage, inViewController: self)
+                        }
+                    }
+
+                }, completion: { success in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Report recorded!", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+                    }
+                })
+            }
         }
         alertController.addAction(reportAction)
 
