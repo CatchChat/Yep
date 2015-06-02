@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 import AVFoundation
 import MobileCoreServices
+import MapKit
 
 class ConversationViewController: BaseViewController {
 
@@ -1412,7 +1413,17 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Location.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftLocationCellIdentifier, forIndexPath: indexPath) as! ChatLeftLocationCell
 
-                    cell.configureWithMessage(message)
+                    cell.configureWithMessage(message, mediaTapAction: {
+                        if let coordinate = message.coordinate {
+                            let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+                            let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+                            /*
+                            let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+                            mapItem.openInMapsWithLaunchOptions(launchOptions)
+                            */
+                            mapItem.openInMapsWithLaunchOptions(nil)
+                        }
+                    })
 
                     return cell
 
@@ -1462,8 +1473,18 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Location.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightLocationCellIdentifier, forIndexPath: indexPath) as! ChatRightLocationCell
 
-                    cell.configureWithMessage(message)
-                    
+                    cell.configureWithMessage(message, mediaTapAction: {
+                        if let coordinate = message.coordinate {
+                            let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+                            let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+                            /*
+                            let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+                            mapItem.openInMapsWithLaunchOptions(launchOptions)
+                            */
+                            mapItem.openInMapsWithLaunchOptions(nil)
+                        }
+                    })
+
                     return cell
 
                 default:

@@ -16,6 +16,8 @@ class ChatRightLocationCell: UICollectionViewCell {
 
     @IBOutlet weak var mapImageView: UIImageView!
 
+    typealias MediaTapAction = () -> Void
+    var mediaTapAction: MediaTapAction?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,10 +25,19 @@ class ChatRightLocationCell: UICollectionViewCell {
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
 
         mapImageView.tintColor = UIColor.rightBubbleTintColor()
+
+        mapImageView.userInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
+        mapImageView.addGestureRecognizer(tap)
     }
 
+    func tapMediaView() {
+        mediaTapAction?()
+    }
+    
+    func configureWithMessage(message: Message, mediaTapAction: MediaTapAction?) {
 
-    func configureWithMessage(message: Message) {
+        self.mediaTapAction = mediaTapAction
 
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
