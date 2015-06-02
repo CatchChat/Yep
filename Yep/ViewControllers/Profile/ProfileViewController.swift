@@ -647,9 +647,9 @@ class ProfileViewController: UIViewController {
             reportAlertController.addAction(scamsReasonAction)
 
             let otherReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Other("").description, style: .Default) { action -> Void in
-                YepAlert.textInput(title: NSLocalizedString("Other Reason", comment: ""), placeholder: nil, oldText: nil, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withFinishedAction: { text in
+                YepAlert.textInput(title: NSLocalizedString("Other Reason", comment: ""), placeholder: nil, oldText: nil, confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
                     reportWithReason(.Other(text))
-                })
+                }, cancelAction: nil)
             }
             reportAlertController.addAction(otherReasonAction)
 
