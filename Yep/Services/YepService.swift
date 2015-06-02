@@ -885,7 +885,26 @@ func unreadMessages(#completion: [JSONDictionary] -> Void) {
 func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: ((Reason, String?) -> Void)?, #completion: (messageID: String) -> Void) {
 
     println("Message info \(messageInfo)")
-    
+
+    func apiCreateMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: ((Reason, String?) -> Void)?, #completion: (messageID: String) -> Void) {
+
+        let parse: JSONDictionary -> String? = { data in
+            if let messageID = data["id"] as? String {
+                return messageID
+            }
+            return nil
+        }
+
+        let resource = authJsonResource(path: "/api/v1/messages", method: .POST, requestParameters: messageInfo, parse: parse)
+
+        if let failureHandler = failureHandler {
+            apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+        } else {
+            apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+        }
+    }
+
+
     if
         FayeService.sharedManager.client.connected,
         let recipientType = messageInfo["recipient_type"] as? String,
@@ -897,7 +916,8 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
                 FayeService.sharedManager.sendGroupMessage(messageInfo, circleID: recipientID, completion: { (success, messageID) in
 
                     if success, let messageID = messageID {
-                        
+                        println("Mesasge id is \(messageID)")
+
                         completion(messageID: messageID)
 
                     } else {
@@ -906,6 +926,9 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
                         } else {
                             defaultFailureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
                         }
+
+                        println("Faye failed, use API to create message")
+                        apiCreateMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: completion)
                     }
                 })
 
@@ -913,21 +936,24 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
                 FayeService.sharedManager.sendPrivateMessage(messageInfo, messageType: .Default, userID: recipientID, completion: { (success, messageID) in
 
                     if success, let messageID = messageID {
-                        
                         println("Mesasge id is \(messageID)")
+
                         completion(messageID: messageID)
 
                     } else {
                         if success {
-                            println("Mesasgeing packge without message id")
+                            println("Mesasgeing package without message id")
+
                         } else {
                             if let failureHandler = failureHandler {
                                 failureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
                             } else {
                                 defaultFailureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
                             }
-                        }
 
+                            println("Faye failed, use API to create message")
+                            apiCreateMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: completion)
+                        }
                     }
                 })
                 
@@ -936,20 +962,7 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
             }
         
     } else {
-        let parse: JSONDictionary -> String? = { data in
-            if let messageID = data["id"] as? String {
-                return messageID
-            }
-            return nil
-        }
-        
-        let resource = authJsonResource(path: "/api/v1/messages", method: .POST, requestParameters: messageInfo, parse: parse)
-        
-        if let failureHandler = failureHandler {
-            apiRequest({_ in}, baseURL, resource, failureHandler, completion)
-        } else {
-            apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
-        }
+        apiCreateMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: completion)
     }
 }
 
