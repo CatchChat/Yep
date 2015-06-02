@@ -598,6 +598,7 @@ class ProfileViewController: UIViewController {
     }
 
     func moreAction() {
+
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
 
         let toggleDisturbAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Do not disturb", comment: ""), style: .Default) { action -> Void in
@@ -607,23 +608,57 @@ class ProfileViewController: UIViewController {
 
         let reportAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Report", comment: ""), style: .Default) { action -> Void in
 
-            if let profileUser = self.profileUser {
+            let reportWithReason: ReportReason -> Void = { reason in
 
-                reportProfileUser(profileUser, forReason: .Porno, failureHandler: { (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage)
+                if let profileUser = self.profileUser {
 
-                    if let errorMessage = errorMessage {
-                        dispatch_async(dispatch_get_main_queue()) {
-                            YepAlert.alertSorry(message: errorMessage, inViewController: self)
+                    reportProfileUser(profileUser, forReason: reason, failureHandler: { (reason, errorMessage) in
+                        defaultFailureHandler(reason, errorMessage)
+
+                        if let errorMessage = errorMessage {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                YepAlert.alertSorry(message: errorMessage, inViewController: self)
+                            }
                         }
-                    }
 
-                }, completion: { success in
-                    dispatch_async(dispatch_get_main_queue()) {
-                        YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Report recorded!", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
-                    }
+                    }, completion: { success in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Report recorded!", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+                        }
+                    })
+                }
+            }
+
+            let reportAlertController = UIAlertController(title: NSLocalizedString("Report Reason", comment: ""), message: nil, preferredStyle: .ActionSheet)
+
+            let pornoReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Porno.description, style: .Default) { action -> Void in
+                reportWithReason(.Porno)
+            }
+            reportAlertController.addAction(pornoReasonAction)
+
+            let advertisingReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Advertising.description, style: .Default) { action -> Void in
+                reportWithReason(.Advertising)
+            }
+            reportAlertController.addAction(advertisingReasonAction)
+
+            let scamsReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Scams.description, style: .Default) { action -> Void in
+                reportWithReason(.Scams)
+            }
+            reportAlertController.addAction(scamsReasonAction)
+
+            let otherReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Other("").description, style: .Default) { action -> Void in
+                YepAlert.textInput(title: NSLocalizedString("Other Reason", comment: ""), placeholder: nil, oldText: nil, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withFinishedAction: { text in
+                    reportWithReason(.Other(text))
                 })
             }
+            reportAlertController.addAction(otherReasonAction)
+
+            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+            reportAlertController.addAction(cancelAction)
+
+            self.presentViewController(reportAlertController, animated: true, completion: nil)
         }
         alertController.addAction(reportAction)
 

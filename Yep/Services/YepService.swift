@@ -512,6 +512,19 @@ enum ReportReason {
             return 3
         }
     }
+
+    var description: String {
+        switch self {
+        case .Porno:
+            return NSLocalizedString("Porno", comment: "")
+        case .Advertising:
+            return NSLocalizedString("Advertising", comment: "")
+        case .Scams:
+            return NSLocalizedString("Scams", comment: "")
+        case .Other(let description):
+            return NSLocalizedString("Other", comment: "")
+        }
+    }
 }
 
 func reportProfileUser(profileUser: ProfileUser, forReason reason: ReportReason, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
