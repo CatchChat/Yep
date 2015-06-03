@@ -30,8 +30,6 @@
 		0A9018871B01321F00AE4B7F /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0A9018861B01321F00AE4B7F /* WebViewJavascriptBridge.js.txt */; };
 		0A943A7B1B0F8EAE0022DD67 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A943A7A1B0F8EAE0022DD67 /* BaseViewController.swift */; };
 		0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A944C241AC8BB2F00037A06 /* YepStorageService.swift */; };
-		0A98288F1B18D2BD001725B7 /* ChatStateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A98288D1B18D2BD001725B7 /* ChatStateCell.swift */; };
-		0A9828901B18D2BD001725B7 /* ChatStateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A98288E1B18D2BD001725B7 /* ChatStateCell.xib */; };
 		0AAFCFF91AC8CA5B00EB0EF8 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */; };
 		0AB8F79A1B15D1DC00F4AF09 /* YepNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB8F7991B15D1DC00F4AF09 /* YepNavigationController.swift */; };
 		0AC25F031B1100F0009E6E13 /* YepScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC25F021B1100F0009E6E13 /* YepScrollView.swift */; };
@@ -239,8 +237,6 @@
 		0A9018861B01321F00AE4B7F /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		0A943A7A1B0F8EAE0022DD67 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseViewController.swift; path = ViewControllers/Base/BaseViewController.swift; sourceTree = "<group>"; };
 		0A944C241AC8BB2F00037A06 /* YepStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepStorageService.swift; path = Services/YepStorageService.swift; sourceTree = "<group>"; };
-		0A98288D1B18D2BD001725B7 /* ChatStateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatStateCell.swift; path = Views/Cells/ChatState/ChatStateCell.swift; sourceTree = "<group>"; };
-		0A98288E1B18D2BD001725B7 /* ChatStateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatStateCell.xib; path = Views/Cells/ChatState/ChatStateCell.xib; sourceTree = "<group>"; };
 		0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		0AB8F7991B15D1DC00F4AF09 /* YepNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepNavigationController.swift; path = ViewControllers/Nav/YepNavigationController.swift; sourceTree = "<group>"; };
 		0AC25F021B1100F0009E6E13 /* YepScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepScrollView.swift; path = Views/ScrollView/YepScrollView.swift; sourceTree = "<group>"; };
@@ -604,15 +600,6 @@
 			name = Base;
 			sourceTree = "<group>";
 		};
-		0A9828911B18D2C3001725B7 /* ChatState */ = {
-			isa = PBXGroup;
-			children = (
-				0A98288E1B18D2BD001725B7 /* ChatStateCell.xib */,
-				0A98288D1B18D2BD001725B7 /* ChatStateCell.swift */,
-			);
-			name = ChatState;
-			sourceTree = "<group>";
-		};
 		0AB8F79B1B15D1DF00F4AF09 /* Nav */ = {
 			isa = PBXGroup;
 			children = (
@@ -795,7 +782,6 @@
 				508F8FE01B049AD400461B0B /* InstagramMedia */,
 				5064F6561B0B0E1B0089FAD4 /* AddFriendSearch */,
 				5064F65B1B0B14470089FAD4 /* AddFriendMore */,
-				0A9828911B18D2C3001725B7 /* ChatState */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1510,7 +1496,6 @@
 				50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */,
 				502AE5411AB88862005BD199 /* SkillRankCell.xib in Resources */,
 				508F8FD11B01D04400461B0B /* GithubRepoCell.xib in Resources */,
-				0A9828901B18D2BD001725B7 /* ChatStateCell.xib in Resources */,
 				508F8FD81B01EDB400461B0B /* DribbbleShotCell.xib in Resources */,
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
 				50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */,
@@ -1735,7 +1720,6 @@
 				50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */,
 				502AE5531AB93215005BD199 /* ProfileFooterCell.swift in Sources */,
 				50EB8CCB1AEA1AC0001AC1EE /* MediaView.swift in Sources */,
-				0A98288F1B18D2BD001725B7 /* ChatStateCell.swift in Sources */,
 				506923121ADE025200D27574 /* Waver.swift in Sources */,
 				0A5D83991AC5D91E000045BF /* ContactsSearchTableViewController.swift in Sources */,
 				502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */,
