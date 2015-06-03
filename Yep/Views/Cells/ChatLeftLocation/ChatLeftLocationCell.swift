@@ -15,6 +15,9 @@ class ChatLeftLocationCell: UICollectionViewCell {
 
     @IBOutlet weak var mapImageView: UIImageView!
 
+    @IBOutlet weak var dotImageView: UIImageView!
+    @IBOutlet weak var gapBetweenDotImageViewAndBubbleConstraint: NSLayoutConstraint!
+    
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
 
