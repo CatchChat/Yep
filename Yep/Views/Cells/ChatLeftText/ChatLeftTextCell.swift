@@ -51,6 +51,8 @@ class ChatLeftTextCell: UICollectionViewCell {
 
         bubbleBodyImageView.tintColor = UIColor.leftBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.leftBubbleTintColor()
+
+        gapBetweenDotImageViewAndBubbleConstraint.constant = YepConfig.ChatCell.gapBetweenDotImageViewAndBubble
     }
 
     func configureWithMessage(message: Message, textContentLabelWidth: CGFloat) {

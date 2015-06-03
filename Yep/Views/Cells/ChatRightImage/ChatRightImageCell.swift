@@ -29,6 +29,8 @@ class ChatRightImageCell: UICollectionViewCell {
 
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
 
+        gapBetweenDotImageViewAndBubbleConstraint.constant = YepConfig.ChatCell.gapBetweenDotImageViewAndBubble
+        
         messageImageView.tintColor = UIColor.rightBubbleTintColor()
         
         messageImageView.userInteractionEnabled = true

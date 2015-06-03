@@ -108,4 +108,8 @@ class YepConfig {
         static let separatorInset = UIEdgeInsets(top: 0, left: 90, bottom: 0, right: 0) 
     }
 
+    struct ChatCell {
+        static let gapBetweenDotImageViewAndBubble: CGFloat = 5
+    }
+
 }

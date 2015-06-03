@@ -29,6 +29,8 @@ class ChatLeftVideoCell: UICollectionViewCell {
 
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
 
+        gapBetweenDotImageViewAndBubbleConstraint.constant = YepConfig.ChatCell.gapBetweenDotImageViewAndBubble
+        
         thumbnailImageView.tintColor = UIColor.leftBubbleTintColor()
 
         thumbnailImageView.userInteractionEnabled = true

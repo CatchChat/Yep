@@ -52,6 +52,8 @@ class ChatRightAudioCell: UICollectionViewCell {
         super.awakeFromNib()
 
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
+
+        gapBetweenDotImageViewAndBubbleConstraint.constant = YepConfig.ChatCell.gapBetweenDotImageViewAndBubble
         
         bubbleImageView.tintColor = UIColor.rightBubbleTintColor()
 
