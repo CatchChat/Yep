@@ -25,6 +25,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
     enum MessageType: String {
         case Default = "message"
         case Instant = "instant_state"
+        case Read = "mark_as_read"
     }
 
     enum InstantStateType: Int, Printable {
@@ -97,7 +98,26 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                             }
                                     }
                                 }
+                                
+                            case FayeService.MessageType.Read.rawValue:
+                                if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
+                                    
+                                    if let
+                                        recipientID = messageDataInfo["recipient_id"] as? String,
+                                        messageID = messageDataInfo["id"] as? String {
+                                            println("Mark Message \(messageID) As Read")
+                                            
+//                                            dispatch_async(dispatch_get_main_queue()) {
+//                                                
+//                                                var operation = MessageStateOperation(type: .Read, messageID: messageID)
+//                                                
+//                                                ConversationOperationQueue.sharedManager.addNewQperationQueue(operation)
+//                                                
+//                                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageRead, object: nil)
+//                                            }
 
+                                    }
+                                }
                             default:
                                 println("Recieved unknow message type")
                             }
@@ -138,6 +158,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
     private func saveMessageWithMessageInfo(messageInfo: JSONDictionary) {
         //这里不用 realmQueue 是为了下面的通知同步，用了 realmQueue 可能导致数据更新慢于通知
         let realm = Realm()
+        
         syncMessageWithMessageInfo(messageInfo, inRealm: realm) {
             dispatch_async(dispatch_get_main_queue()) {
                 NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)

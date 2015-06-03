@@ -51,7 +51,7 @@ class ConversationsViewController: UIViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepNewMessagesReceivedNotification, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: ConversationViewController.Notification.MessageSent, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: MessageNotification.MessageSent, object: nil)
 
         YepUserDefaults.nickname.bindListener("ConversationsViewController.Nickname") { _ in
             self.reloadConversationsTableView()
@@ -69,10 +69,18 @@ class ConversationsViewController: UIViewController {
         conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         conversationsTableView.rowHeight = 80
         conversationsTableView.tableFooterView = UIView()
-
         unreadMessagesToken = realm.addNotificationBlock { notification, realm in
             self.haveUnreadMessages = countOfUnreadMessagesInRealm(realm) > 0
         }
+
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //Make sure unread message refreshed
+        conversationsTableView.reloadData()
+        
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -95,7 +103,7 @@ class ConversationsViewController: UIViewController {
     // MARK: Actions
 
     func reloadConversationsTableView() {
-        println("reloadConversationsTableView")
+//        println("reloadConversationsTableView")
         conversationsTableView.reloadData()
     }
 }

@@ -12,13 +12,15 @@ import AVFoundation
 import MobileCoreServices
 import MapKit
 
+
+struct MessageNotification {
+    static let MessageSent = "MessageSentNotification"
+    static let MessageRead = "MessageReadNotification"
+}
+
 class ConversationViewController: BaseViewController {
 
     @IBOutlet weak var swipeUpView: UIView!
-    
-    struct Notification {
-        static let MessageSent = "MessageSentNotification"
-    }
 
     var conversation: Conversation!
 
@@ -30,6 +32,8 @@ class ConversationViewController: BaseViewController {
 
     let messagesBunchCount = 50 // TODO: 分段载入的“一束”消息的数量
     var displayedMessagesRange = NSRange()
+    
+    var realmChangeToken: NotificationToken?
 
 
     // 上一次更新 UI 时的消息数
@@ -132,6 +136,7 @@ class ConversationViewController: BaseViewController {
     let messageImagePreferredAspectRatio: CGFloat = 4.0 / 3.0
 
     let chatSectionDateCellIdentifier = "ChatSectionDateCell"
+    let chatStateCellIdentifier = "ChatStateCell"
     let chatLeftTextCellIdentifier = "ChatLeftTextCell"
     let chatRightTextCellIdentifier = "ChatRightTextCell"
     let chatLeftImageCellIdentifier = "ChatLeftImageCell"
@@ -162,7 +167,15 @@ class ConversationViewController: BaseViewController {
             keyboardChangeObserver?.addObserver(self, selector: "handleKeyboardDidHideNotification:", name: UIKeyboardDidHideNotification, object: nil)
         }
     }
-
+    
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
+    }
 
     deinit {
         updateUIWithKeyboardChange = false
@@ -173,11 +186,33 @@ class ConversationViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let gestures = navigationController?.view.gestureRecognizers {
+            for recognizer in gestures
+            {
+                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer)
+                {
+                    conversationCollectionView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                    println("Require UIScreenEdgePanGestureRecognizer to failed")
+                    break
+                }
+            }
+        }
+        
+        var layout = ConversationLayout()
+        layout.minimumLineSpacing = 5
+        conversationCollectionView.setCollectionViewLayout(layout, animated: false)
+        
         self.swipeUpView.hidden = true
         realm = Realm()
+        
+        realmChangeToken = realm.addNotificationBlock { (notification, realm) -> Void in
+            if notification.rawValue == "RLMRealmDidChangeNotification"{
+            }
+
+        }
 
         navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
-//        navigationController?.interactivePopGestureRecognizer.delegate = self
 
         if messages.count >= messagesBunchCount {
             displayedMessagesRange = NSRange(location: Int(messages.count) - messagesBunchCount, length: messagesBunchCount)
@@ -206,6 +241,8 @@ class ConversationViewController: BaseViewController {
         }
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationCollectionViewDefault", name: YepNewMessagesReceivedNotification, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateMessagesStates", name: MessageNotification.MessageRead, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener("ConversationViewController") { _ in
             self.reloadConversationCollectionView()
@@ -216,6 +253,7 @@ class ConversationViewController: BaseViewController {
 
         conversationCollectionView.alwaysBounceVertical = true
 
+        conversationCollectionView.registerNib(UINib(nibName: chatStateCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatStateCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatSectionDateCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatSectionDateCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
@@ -243,11 +281,14 @@ class ConversationViewController: BaseViewController {
             self.cleanTextInput()
 
             if let withFriend = self.conversation.withFriend {
+
                 sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.updateConversationCollectionView(scrollToBottom: true)
-
-                        NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                        self.updateConversationCollectionView(scrollToBottom: true, success: { success in
+                            
+                        })
+                        NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
+                        
                     }
 
                 }, failureHandler: { (reason, errorMessage) -> () in
@@ -255,15 +296,22 @@ class ConversationViewController: BaseViewController {
                     // TODO: sendText 错误提醒
 
                 }, completion: { success -> Void in
+                    if success {
+
+                        self.updateMessagesStates()
+
+                    }
                     println("sendText to friend: \(success)")
                 })
 
             } else if let withGroup = self.conversation.withGroup {
                 sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.updateConversationCollectionView(scrollToBottom: true)
+                        self.updateConversationCollectionView(scrollToBottom: true, success: { success in
+                            
+                        })
 
-                        NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                        NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                     }
 
                 }, failureHandler: { (reason, errorMessage) -> () in
@@ -375,9 +423,11 @@ class ConversationViewController: BaseViewController {
                                 }
                                 realm.commitWrite()
 
-                                self.updateConversationCollectionView(scrollToBottom: true)
+                                self.updateConversationCollectionView(scrollToBottom: true, success: { success in
+                                    
+                                })
 
-                                NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                             }
                         }
 
@@ -386,6 +436,12 @@ class ConversationViewController: BaseViewController {
                         // TODO: 音频发送失败
                         
                     }, completion: { (success) -> Void in
+                        
+                        if success {
+                            
+                            self.updateMessagesStates()
+                            
+                        }
                         println("send audio to friend: \(success)")
                     })
 
@@ -402,9 +458,11 @@ class ConversationViewController: BaseViewController {
                                 }
                                 realm.commitWrite()
 
-                                self.updateConversationCollectionView(scrollToBottom: true)
+                                self.updateConversationCollectionView(scrollToBottom: true, success: { success in
+                                    
+                                })
 
-                                NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                             }
                         }
 
@@ -499,6 +557,8 @@ class ConversationViewController: BaseViewController {
     
     }
     
+
+    
     func prepareTextInputView() {
         // 尝试恢复 messageToolbar 的状态
         if let
@@ -534,6 +594,41 @@ class ConversationViewController: BaseViewController {
                 FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
                     println("Send typing \(result)")
                 })
+            }
+        }
+        
+        // 防止未在此界面时被标记
+            
+        var messages = conversation.messages.filter({ message in
+            if let fromFriend = message.fromFriend {
+                return (message.readed == false) && (fromFriend.friendState != UserFriendState.Me.rawValue)
+            } else {
+                return false
+            }
+        })
+
+        for message in messages {
+            markMessageAsReaded(message)
+        }
+
+    }
+    
+    func markMessageAsReaded(message: Message) {
+        
+        if navigationController?.topViewController == self {
+        
+            markAsReadMessage(message, failureHandler: nil) { success in
+                dispatch_async(dispatch_get_main_queue()) {
+                    let realm = Realm()
+                    
+                    if let message = messageWithMessageID(message.messageID, inRealm: realm) {
+                        realm.write {
+                            message.readed = true
+                        }
+                        
+                        println("\(message.messageID) mark as read")
+                    }
+                }
             }
         }
 
@@ -707,6 +802,9 @@ class ConversationViewController: BaseViewController {
 
         case MessageMediaType.SectionDate.rawValue:
             height = 20
+            
+        case MessageMediaType.State.rawValue:
+            height = 20 - 5
 
         default:
             height = 20
@@ -809,22 +907,36 @@ class ConversationViewController: BaseViewController {
     }
     
     func updateConversationCollectionViewDefault() {
-        updateConversationCollectionView(scrollToBottom: false)
+        updateConversationCollectionView(scrollToBottom: false, success: { success in
+            
+        })
     }
 
-    func updateConversationCollectionView(#scrollToBottom: Bool) {
+    func updateConversationCollectionView(#scrollToBottom: Bool, success: (Bool) -> Void) {
+        dispatch_async(dispatch_get_main_queue()) {
+            ConversationOperationQueue.sharedManager.conversationLock = true
+        }
+        
         let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
-        adjustConversationCollectionViewWith(keyboardAndToolBarHeight, scrollToBottom: scrollToBottom)
+        adjustConversationCollectionViewWith(keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
+            dispatch_async(dispatch_get_main_queue()) {
+                ConversationOperationQueue.sharedManager.conversationLock = false
+            }
+            success(finished)
+        }
     }
     
-    func adjustConversationCollectionViewWith(adjustHeight: CGFloat, scrollToBottom: Bool) {
+    func adjustConversationCollectionViewWith(adjustHeight: CGFloat, scrollToBottom: Bool, success: (Bool) -> Void) {
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
+
         
-        // 保证是增加消息
-        if messages.count <= _lastTimeMessagesCount {
-            return
-        }
+//        // 保证是增加消息
+//        if messages.count <= _lastTimeMessagesCount {
+//            displayedMessagesRange.length += newMessagesCount
+//            return
+//        }
+
         let newMessagesCount = Int(messages.count - _lastTimeMessagesCount)
         
         let lastDisplayedMessagesRange = displayedMessagesRange
@@ -832,13 +944,17 @@ class ConversationViewController: BaseViewController {
         displayedMessagesRange.length += newMessagesCount
         
         var indexPaths = [NSIndexPath]()
-        for i in 0..<newMessagesCount {
-            let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: 0)
-            indexPaths.append(indexPath)
+        
+        if newMessagesCount > 0 {
+            
+            for i in 0..<newMessagesCount {
+                let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: 0)
+                indexPaths.append(indexPath)
+            }
+            
+            conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
         }
-        
-        conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-        
+
         if newMessagesCount > 0 {
             
             var newMessagesTotalHeight: CGFloat = 0
@@ -846,9 +962,8 @@ class ConversationViewController: BaseViewController {
             for i in _lastTimeMessagesCount..<messages.count {
                 let message = messages[i]
                 
-                let height = heightOfMessage(message) + 10 // TODO: +10 cell line space
-                
-                println("uuheight \(height)")
+                let height = heightOfMessage(message) + 5// TODO: +10 cell line space
+//                println("uuheight \(height)")
                 newMessagesTotalHeight += height
             }
             
@@ -862,38 +977,59 @@ class ConversationViewController: BaseViewController {
             
             let totalMessagesContentHeight = conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + newMessagesTotalHeight
             
-            println("Size is \(conversationCollectionView.contentSize.height) \(newMessagesTotalHeight) visableMessageFieldHeight \(visableMessageFieldHeight)")
+//            println("Size is \(conversationCollectionView.contentSize.height) \(newMessagesTotalHeight) visableMessageFieldHeight \(visableMessageFieldHeight)")
             
             //Calculate the space can be used
             let useableSpace = visableMessageFieldHeight - conversationCollectionView.contentSize.height
             
-            conversationCollectionView.contentSize = CGSizeMake(conversationCollectionView.contentSize.width, conversationCollectionView.contentSize.height + newMessagesTotalHeight)
+            conversationCollectionView.contentSize = CGSizeMake(conversationCollectionView.contentSize.width, self.conversationCollectionView.contentSize.height + newMessagesTotalHeight)
             
-            println("Size is after \(conversationCollectionView.contentSize.height)")
+//            println("Size is after \(conversationCollectionView.contentSize.height)")
             
             if (totleMessagesHeight > conversationCollectionView.frame.size.height) {
-                println("New Message scroll")
+//                println("New Message scroll")
                 
                 UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                     
                     if (useableSpace > 0) {
                         let contentToScroll = newMessagesTotalHeight - useableSpace
-                        println("contentToScroll \(contentToScroll)")
+//                        println("contentToScroll \(contentToScroll)")
                         self.conversationCollectionView.contentOffset.y += contentToScroll
                     } else {
+                        
+                        var newContentSize = self.conversationCollectionView.collectionViewLayout.collectionViewContentSize()
+                        self.conversationCollectionView.contentSize = newContentSize
+                        
                         if scrollToBottom {
                             
-                            self.conversationCollectionView.contentOffset.y = self.conversationCollectionView.contentSize.height - self.conversationCollectionView.frame.size.height + keyboardAndToolBarHeight
+                            var newContentOffsetY = newContentSize.height - self.conversationCollectionView.frame.size.height + keyboardAndToolBarHeight
+                            
+                            var oldContentOffsetY = self.conversationCollectionView.contentOffset.y
+                            
+//                            println("New contenct offset \(self.conversationCollectionView.contentSize.height - newContentSize.height) \(newContentOffsetY) \(oldContentOffsetY) \(newContentOffsetY - oldContentOffsetY)")
+                            
+                            self.conversationCollectionView.contentOffset.y = newContentOffsetY
+                            
+//                            println("Content Size is \(self.conversationCollectionView.contentSize.height) \(self.conversationCollectionView.contentOffset.y)")
+                            
                             
                         }else {
+                            
+//                            println("Content Size is \(self.conversationCollectionView.contentSize.height) \(self.conversationCollectionView.contentOffset.y)")
+                            
                             self.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
                         }
                         
                     }
                     
-                    }, completion: { (finished) -> Void in
+                }, completion: { finished in
+                        success(true)
                 })
+            } else {
+                success(true)
             }
+        } else {
+            success(true)
         }
     }
 
@@ -1268,9 +1404,11 @@ class ConversationViewController: BaseViewController {
 
                     sendLocationWithCoordinate(coordinate, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
                         dispatch_async(dispatch_get_main_queue()) {
-                            self.updateConversationCollectionView(scrollToBottom: false)
+                            self.updateConversationCollectionView(scrollToBottom: false, success: { success in
+                                
+                            })
 
-                            NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                         }
 
                     }, failureHandler: { (reason, errorMessage) -> () in
@@ -1278,6 +1416,12 @@ class ConversationViewController: BaseViewController {
                         // TODO: sendLocation 错误提醒
 
                     }, completion: { success -> Void in
+                        
+                        if success {
+                            
+                            self.updateMessagesStates()
+                            
+                        }
                         println("sendLocation to friend: \(success)")
                     })
 
@@ -1285,9 +1429,11 @@ class ConversationViewController: BaseViewController {
 
                     sendLocationWithCoordinate(coordinate, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                         dispatch_async(dispatch_get_main_queue()) {
-                            self.updateConversationCollectionView(scrollToBottom: false)
+                            self.updateConversationCollectionView(scrollToBottom: false, success: { success in
+                                
+                            })
 
-                            NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                         }
 
                     }, failureHandler: { (reason, errorMessage) -> () in
@@ -1328,6 +1474,222 @@ extension ConversationViewController: UIGestureRecognizerDelegate {
 // MARK: UICollectionViewDataSource, UICollectionViewDelegate
 
 extension ConversationViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    func removeSendStates() {
+        
+        var sendStates = statesOfConversation(conversation, MessageSendState.Successed.rawValue, nil, inRealm: realm)
+        
+        var indexPaths = [NSIndexPath]()
+
+        for sendState in sendStates {
+            if let indexInMessage = messages.indexOf(sendState) {
+                var reverseIndex = (messages.count - indexInMessage)
+                var actuallIndexInCollectionView = displayedMessagesRange.length - reverseIndex
+                
+                if actuallIndexInCollectionView >= 0 {
+                    var newIndexPath = NSIndexPath(forItem: actuallIndexInCollectionView, inSection: 0)
+                    indexPaths.append(newIndexPath)
+                }
+            }
+        }
+        
+        displayedMessagesRange.length -= sendStates.count
+        
+        realm.write {
+            self.realm.delete(sendStates)
+        }
+
+        lastTimeMessagesCount = messages.count
+        
+        prepareContentSizeForStateChangeWithIndexPaths(indexPaths)
+        
+        conversationCollectionView.deleteItemsAtIndexPaths(indexPaths)
+    }
+    
+    func prepareContentSizeForStateChangeWithIndexPaths(indexPaths: [NSIndexPath]) {
+        
+        let contentOffSet = conversationCollectionView.contentOffset
+        var layout = conversationCollectionView.collectionViewLayout as! ConversationLayout
+        
+        layout.itemsDeleteIndexPaths = layout.itemsDeleteIndexPaths + indexPaths
+        
+        layout.lastTimeContentSize = layout.collectionViewContentSize()
+    }
+    
+    func createNewSentMessageWithMessageID(messageID: String) {
+        
+        var messages = findMessageByMessageID(messageID, inRealm: realm)
+        
+        if let message = messages.first,
+            let conversation = message.conversation {
+            
+//            println("Create new send state")
+            createChatStateInConversation(conversation, afterMessage: message, inRealm: realm, { stateMessage in
+                self.realm.write {
+                    stateMessage.sendState = MessageSendState.Successed.rawValue
+                    self.realm.add(stateMessage)
+                }
+//                println("State Mesage Created")
+            })
+                
+        } else {
+//            println("Message can not be found")
+        }
+        
+    }
+    
+    func updateMessagesStates() {
+        
+//        println("Print queue")
+        
+//        println(ConversationOperationQueue.sharedManager.oprationQueue)
+        
+        if !ConversationOperationQueue.sharedManager.lock {
+//            println("Begin opration")
+            if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
+                
+                ConversationOperationQueue.sharedManager.lock = true
+                
+                let operation = ConversationOperationQueue.sharedManager.oprationQueue[0]
+                
+                switch operation.type.rawValue {
+                    
+                case MessageStateOperationType.Read.rawValue:
+//                    println("Message Read")
+                    removeReadStates()
+                    
+                    updateMessageStateWithMessageID(operation.messageID)
+                    
+                    updateMessageReadStatesChangeOperation()
+
+                case MessageStateOperationType.Sent.rawValue:
+//                    println("Message Sent")
+                    removeSendStates()
+//                    println("Message Removed")
+                    createNewSentMessageWithMessageID(operation.messageID)
+//                    println("Message Sent State Created")
+                    updateMessageStatesOperation()
+//                    println("CollectionView Updated")
+                    
+                default:
+                    break
+                }
+            }
+        } else {
+            println("Skip lock")
+        }
+    }
+    
+    func updateMessageReadStatesChangeOperation() {
+        ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
+        
+        ConversationOperationQueue.sharedManager.lock = false
+        //                    println("Lock released")
+        if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
+            //                        println("Message Read finished")
+            updateMessagesStates()
+        }
+    }
+    
+    
+    func updateMessageStatesOperation() {
+        
+//        println("Begin update new state into ColllectionView")
+        if ConversationOperationQueue.sharedManager.conversationLock {
+            
+            delay(0.3) {
+                self.updateMessageStatesOperation()
+            }
+            
+        } else {
+            updateConversationCollectionView(scrollToBottom: true, success: { success in
+                
+                //            println("Update Finished")
+                dispatch_async(dispatch_get_main_queue()) {
+                    ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
+                    
+                    ConversationOperationQueue.sharedManager.lock = false
+                    
+                    if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
+                        self.updateMessagesStates()
+                    }
+                    
+                }
+            })
+        }
+    }
+    
+    func removeReadStates() {
+        
+        var messages = messagesOfConversationByMe(conversation, inRealm: self.realm)
+        if let message = messages.last {
+            var readStates = statesOfConversation(conversation, MessageSendState.Read.rawValue, message.messageID, inRealm: self.realm)
+            
+            var indexPaths = [NSIndexPath]()
+            for sendState in readStates {
+                if let indexInMessage = self.messages.indexOf(sendState) {
+                    var reverseIndex = self.messages.count - indexInMessage
+                    var actuallIndexInCollectionView = self.displayedMessagesRange.length - reverseIndex
+                    
+                    if actuallIndexInCollectionView >= 0 {
+                        var newIndexPath = NSIndexPath(forItem: actuallIndexInCollectionView, inSection: 0)
+                        indexPaths.append(newIndexPath)
+                    }
+                }
+            }
+            
+            displayedMessagesRange.length -= readStates.count
+            
+            self.realm.write {
+                self.realm.delete(readStates)
+            }
+            
+            lastTimeMessagesCount = self.messages.count
+            
+            prepareContentSizeForStateChangeWithIndexPaths(indexPaths)
+            
+            conversationCollectionView.deleteItemsAtIndexPaths(indexPaths)
+        }
+
+        
+    }
+    
+    func updateMessageStateWithMessageID(messageID: String) {
+        
+        var messages = messagesOfConversationByMe(conversation, inRealm: self.realm)
+        if let message = messages.last {
+            
+            if message.messageID == messageID {
+                
+                var sendStates = statesOfConversationWithMessageID(self.conversation, MessageSendState.Successed.rawValue, messageID, inRealm: self.realm)
+                
+                self.realm.beginWrite()
+                if let sendState = sendStates.last {
+                    sendState.sendState = MessageSendState.Read.rawValue
+                    message.sendState = MessageSendState.Read.rawValue
+                    sendState.updatedAt = NSDate()
+                }
+                self.realm.commitWrite()
+                
+                var indexPaths = [NSIndexPath]()
+                var itemIndex = self.displayedMessagesRange.length - 1
+                var indexPath = NSIndexPath(forItem:itemIndex , inSection: 0)
+                
+                indexPaths.append(indexPath)
+                
+                if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatStateCell {
+                    
+                    println("Config Chat State Cell \(cell.stateLabel.text)")
+                    
+                    configChatStateWithMessage(message, cell: cell)
+                    
+                } else {
+                    self.conversationCollectionView.reloadItemsAtIndexPaths(indexPaths)
+                }
+
+            }
+        }
+    }
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
@@ -1335,6 +1697,17 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return displayedMessagesRange.length
+    }
+    
+    func configChatStateWithMessage(message: Message, cell: ChatStateCell) {
+        
+        if message.updatedAt.isInCurrentWeek() {
+            cell.stateLabel.text = "\(MessageSendState(rawValue: message.sendState)!.description) \(sectionDateInCurrentWeekFormatter.stringFromDate(message.updatedAt))"
+        } else {
+            cell.stateLabel.text = "\(MessageSendState(rawValue: message.sendState)!.description) \(sectionDateFormatter.stringFromDate(message.updatedAt))"
+        }
+        
+        cell.setNeedsDisplay()
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -1352,30 +1725,24 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             return cell
         }
+        
+        //ChatState
+        
+        if message.mediaType == MessageMediaType.State.rawValue {
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatStateCellIdentifier, forIndexPath: indexPath) as! ChatStateCell
+            
+            configChatStateWithMessage(message, cell: cell)
+            
+            return cell
+        }
 
         if let sender = message.fromFriend {
 
             if sender.friendState != UserFriendState.Me.rawValue { // from Friend
 
-                // TODO: 需要更好的下载与 mark as read 逻辑：也许未下载的也可以 mark as read
                 downloadAttachmentOfMessage(message)
-
-                // 防止未在此界面时被标记
-                if navigationController?.topViewController == self {
-                    markAsReadMessage(message, failureHandler: nil) { success in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            let realm = Realm()
-
-                            if let message = messageWithMessageID(message.messageID, inRealm: realm) {
-                                realm.write {
-                                    message.readed = true
-                                }
-
-                                println("\(message.messageID) mark as read")
-                            }
-                        }
-                    }
-                }
+                
+                markMessageAsReaded(message)
 
                 switch message.mediaType {
                 case MessageMediaType.Image.rawValue:
@@ -1519,6 +1886,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: sectionInsetTop, left: 0, bottom: sectionInsetBottom, right: 0)
     }
+    
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if messageToolbar.state != .Default {
@@ -1805,9 +2173,11 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
 
-                    self.updateConversationCollectionView(scrollToBottom: true)
+                    self.updateConversationCollectionView(scrollToBottom: true, success: { success in
+                        
+                    })
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                 }
 
             }, failureHandler: {(reason, errorMessage) -> () in
@@ -1815,6 +2185,11 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 // TODO: sendImage 错误提醒
 
             }, completion: { success -> Void in
+                if success {
+                    
+                    self.updateMessagesStates()
+                    
+                }
                 println("sendImage to friend: \(success)")
             })
 
@@ -1834,9 +2209,11 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
                     
-                    self.updateConversationCollectionView(scrollToBottom: true)
+                    self.updateConversationCollectionView(scrollToBottom: true, success: { success in
+                        
+                    })
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                 }
                 
             }, failureHandler: {(reason, errorMessage) -> () in
@@ -1895,9 +2272,11 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
 
-                    self.updateConversationCollectionView(scrollToBottom: false)
+                    self.updateConversationCollectionView(scrollToBottom: false, success: { success in
+                        
+                    })
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notification.MessageSent, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                 }
             }
         }
@@ -1908,6 +2287,11 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 // TODO: sendVideo 错误提醒
 
             }, completion: { success -> Void in
+                if success {
+                    
+                    self.updateMessagesStates()
+                    
+                }
                 println("sendVideo to friend: \(success)")
             })
 

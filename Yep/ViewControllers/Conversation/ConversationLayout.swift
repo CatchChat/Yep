@@ -7,97 +7,52 @@
 //
 
 import UIKit
+import QuartzCore
 
 class ConversationLayout: UICollectionViewFlowLayout {
 
-    var animator: UIDynamicAnimator?
-
-    var needUpdate = false {
-        willSet {
-            if newValue {
-                animator = nil
+    var lastTimeContentSize: CGSize?
+    
+    var itemsDeleteIndexPaths = [NSIndexPath]()
+    
+    override func collectionViewContentSize() -> CGSize {
+        var contentSize = super.collectionViewContentSize()
+        
+        if let lastTimeContentSize = lastTimeContentSize {
+            if lastTimeContentSize.height > contentSize.height {
+                contentSize.height = lastTimeContentSize.height
             }
+        } else {
+            lastTimeContentSize = contentSize
         }
+        
+        return contentSize
     }
-
-    // 减震
-    var springDampling: CGFloat = 0.5 {
-        willSet {
-            for spring in animator!.behaviors as! [UIAttachmentBehavior] {
-                spring.damping = newValue
-            }
-        }
-    }
-
-    // 频率
-    var springFrequency: CGFloat = 0.8 {
-        willSet {
-            for spring in animator!.behaviors as! [UIAttachmentBehavior] {
-                spring.frequency = newValue
-            }
-        }
-    }
-
-    // 阻力系数
-    var resistanceFactor: CGFloat = 1100
-
-
-    override func prepareLayout() {
-        super.prepareLayout()
-
-        if animator == nil {
-            needUpdate = false
-
-            animator = UIDynamicAnimator(collectionViewLayout: self)
-
-            if let items = super.layoutAttributesForElementsInRect(CGRect(origin: CGPointZero, size: self.collectionViewContentSize())) as? [UICollectionViewLayoutAttributes] {
-
-                for item in items {
-                    addSpringForItem(item)
+    
+    override func finalLayoutAttributesForDisappearingItemAtIndexPath(itemIndexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
+        var attr = super.finalLayoutAttributesForDisappearingItemAtIndexPath(itemIndexPath)
+        
+        for (index, indexPath) in enumerate(itemsDeleteIndexPaths) {
+            if indexPath == itemIndexPath {
+                
+                if let cell = collectionView?.cellForItemAtIndexPath(indexPath) as? ChatStateCell {
+                    var scale: CGFloat = 0.8
+                    var offsetScale: CGFloat  = (1-scale)*0.5
+                    
+                    attr?.transform = CGAffineTransformMakeScale(scale, scale)
+                    attr?.alpha = 0
+                    
+                    println("Frame width \(cell.stateLabel.frame.width)")
+                    
+                    attr?.center = CGPointMake(attr!.center.x + attr!.size.width*offsetScale - cell.stateLabel.frame.width*offsetScale, attr!.center.y - cell.stateLabel.frame.height*scale*0.5)
                 }
+
+                itemsDeleteIndexPaths.removeAtIndex(index)
             }
         }
+
+        
+        return attr
     }
-
-    private func addSpringForItem(item: UICollectionViewLayoutAttributes) {
-        let spring = UIAttachmentBehavior(item: item, attachedToAnchor: item.center)
-
-        spring.length = 0
-        spring.damping = springDampling
-        spring.frequency = springFrequency
-
-        animator!.addBehavior(spring)
-    }
-
-    override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
-        return animator!.itemsInRect(rect)
-    }
-
-    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
-
-        return animator!.layoutAttributesForCellAtIndexPath(indexPath)
-    }
-
-    override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
-        let scrollView = collectionView! as UIScrollView
-
-        let scrollDelta = newBounds.origin.y - scrollView.bounds.origin.y
-
-        let touchLocation = scrollView.panGestureRecognizer.locationInView(scrollView)
-
-        for spring in animator!.behaviors as! [UIAttachmentBehavior] {
-            let anchorPoint = spring.anchorPoint
-            let distanceFromTouch = abs(touchLocation.y - anchorPoint.y)
-            let scrollResistance = distanceFromTouch / resistanceFactor
-
-            let attributes = spring.items.first as! UICollectionViewLayoutAttributes
-
-            attributes.center.y += scrollDelta > 0 ? min(scrollDelta, scrollDelta * scrollResistance) : max(scrollDelta, scrollDelta * scrollResistance)
-
-            animator!.updateItemUsingCurrentState(attributes)
-        }
-
-        return false
-    }
-
+    
 }
