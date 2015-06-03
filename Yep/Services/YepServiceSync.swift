@@ -325,6 +325,21 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                 }
 
                 realm.commitWrite()
+
+
+                // also save some infomation in YepUserDefaults
+
+                if let introduction = friendInfo["introduction"] as? String {
+                    YepUserDefaults.introduction.value = introduction
+                }
+
+                if let areaCode = friendInfo["phone_code"] as? String {
+                    YepUserDefaults.areaCode.value = areaCode
+                }
+
+                if let mobile = friendInfo["mobile"] as? String {
+                    YepUserDefaults.mobile.value = mobile
+                }
             }
         }
     }
