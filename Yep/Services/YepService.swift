@@ -1067,9 +1067,9 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
             dispatch_async(dispatch_get_main_queue()) {
                 //Add to queue
                 
-                var operation = MessageStateOperation(type: .Sent, messageID: messageID)
-                
-                ConversationOperationQueue.sharedManager.addNewQperationQueue(operation)
+//                var operation = MessageStateOperation(type: .Sent, messageID: messageID)
+//                
+//                ConversationOperationQueue.sharedManager.addNewQperationQueue(operation)
                 
                 realm.beginWrite()
                 message.messageID = messageID
@@ -1129,9 +1129,9 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
                             message.sendState = MessageSendState.Successed.rawValue
                             realm.commitWrite()
                             
-                            var operation = MessageStateOperation(type: .Sent, messageID: messageID)
-                            
-                            ConversationOperationQueue.sharedManager.addNewQperationQueue(operation)
+//                            var operation = MessageStateOperation(type: .Sent, messageID: messageID)
+//                            
+//                            ConversationOperationQueue.sharedManager.addNewQperationQueue(operation)
                             
                             completion(success: true)
                         }
