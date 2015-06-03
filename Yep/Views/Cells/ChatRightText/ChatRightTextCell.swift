@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TTTAttributedLabel
 
 class ChatRightTextCell: UICollectionViewCell {
 
@@ -17,15 +18,10 @@ class ChatRightTextCell: UICollectionViewCell {
     @IBOutlet weak var bubbleBodyImageView: UIImageView!
     @IBOutlet weak var bubbleTailImageView: UIImageView!
 
-//    @IBOutlet weak var textContentLabel: UILabel!
-//    @IBOutlet weak var textContentLabelTrailingConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var textContentLabelLeadingConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var textContentLabelWidthConstraint: NSLayoutConstraint!
-
-    @IBOutlet weak var textContentTextView: UITextView!
-    @IBOutlet weak var textContentTextViewTrailingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var textContentTextViewLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var textContentTextViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var textContentLabel: TTTAttributedLabel!
+    @IBOutlet weak var textContentLabelTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var textContentLabelLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var textContentLabelWidthConstraint: NSLayoutConstraint!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,29 +29,32 @@ class ChatRightTextCell: UICollectionViewCell {
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
         avatarImageViewTrailingConstraint.constant = YepConfig.chatCellGapBetweenWallAndAvatar()
 
-//        println("textContentTextView.textContainerInset: \(textContentTextView.textContainerInset.top),\(textContentTextView.textContainerInset.left),\(textContentTextView.textContainerInset.bottom),\(textContentTextView.textContainerInset.right)")
-//        textContentTextView.textContainerInset = UIEdgeInsetsZero
-        textContentTextView.textContainer.lineFragmentPadding = 0
-//        textContentTextView.contentOffset = CGPoint(x: 0, y: 3)
-//        textContentTextView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-        textContentTextView.font = UIFont.chatTextFont()
+        textContentLabel.linkAttributes = [
+            kCTForegroundColorAttributeName: UIColor.whiteColor(),
+            kCTUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
+        ]
+        textContentLabel.activeLinkAttributes = [
+            kCTForegroundColorAttributeName: UIColor.greenColor(),
+            kCTUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
+        ]
+        textContentLabel.enabledTextCheckingTypes = NSTextCheckingType.Link.rawValue | NSTextCheckingType.PhoneNumber.rawValue
 
-        textContentTextView.backgroundColor = UIColor.clearColor()
-        textContentTextView.textColor = UIColor.whiteColor()
-        textContentTextView.tintColor = UIColor.whiteColor()
+        textContentLabel.delegate = self
 
-        textContentTextViewTrailingConstraint.constant = YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
-        textContentTextViewLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel()
+        textContentLabel.font = UIFont.chatTextFont()
+
+        textContentLabelTrailingConstraint.constant = YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
+        textContentLabelLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel()
 
         bubbleBodyImageView.tintColor = UIColor.rightBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.rightBubbleTintColor()
     }
 
     func configureWithMessage(message: Message, textContentLabelWidth: CGFloat) {
-        textContentTextView.text = message.textContent
+        textContentLabel.text = message.textContent
 
-        textContentTextViewWidthConstraint.constant = max(YepConfig.minMessageTextLabelWidth, textContentLabelWidth)
-        textContentTextView.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left
+        textContentLabelWidthConstraint.constant = max(YepConfig.minMessageTextLabelWidth, textContentLabelWidth)
+        textContentLabel.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left
 
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
@@ -64,5 +63,16 @@ class ChatRightTextCell: UICollectionViewCell {
                 }
             }
         }
+    }
+}
+
+extension ChatRightTextCell: TTTAttributedLabelDelegate {
+
+    func attributedLabel(label: TTTAttributedLabel!, didSelectLinkWithURL url: NSURL!) {
+        UIApplication.sharedApplication().openURL(url)
+    }
+
+    func attributedLabel(label: TTTAttributedLabel!, didSelectLinkWithPhoneNumber phoneNumber: String!) {
+        UIApplication.sharedApplication().openURL(NSURL(string: "tel://" + phoneNumber)!)
     }
 }

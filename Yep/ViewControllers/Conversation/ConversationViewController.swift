@@ -1868,7 +1868,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
 
-            cell.textContentTextView.text = ""
+            cell.textContentLabel.text = ""
             cell.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(YepConfig.chatCellAvatarSize() * 0.5)
 
             return cell
