@@ -286,8 +286,8 @@ class AvatarCache {
                             }
 
                             // 这里重新用新 realm 获取 user，避免在不同线程访问，导致 "Realm accessed from incorrect thread"
-                            if let user = userWithUserID(userID, inRealm: realm) {
-                                if user.avatar == nil, let avatar = avatar {
+                            if let avatar = avatar {
+                                if let user = userWithUserID(userID, inRealm: realm) {
                                     realm.write {
                                         user.avatar = avatar
                                     }
