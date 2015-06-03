@@ -296,11 +296,9 @@ class ConversationViewController: BaseViewController {
                     // TODO: sendText 错误提醒
 
                 }, completion: { success -> Void in
-                    if success {
-
-                        self.updateMessagesStates()
-
-                    }
+//                    if success {
+//                        self.updateMessagesStates()
+//                    }
                     println("sendText to friend: \(success)")
                 })
 
@@ -436,12 +434,9 @@ class ConversationViewController: BaseViewController {
                         // TODO: 音频发送失败
                         
                     }, completion: { (success) -> Void in
-                        
-                        if success {
-                            
-                            self.updateMessagesStates()
-                            
-                        }
+//                        if success {
+//                            self.updateMessagesStates()
+//                        }
                         println("send audio to friend: \(success)")
                     })
 
@@ -910,19 +905,19 @@ class ConversationViewController: BaseViewController {
     }
 
     func updateConversationCollectionView(#scrollToBottom: Bool, success: (Bool) -> Void) {
-        dispatch_async(dispatch_get_main_queue()) {
-            ConversationOperationQueue.sharedManager.conversationLock = true
-        }
-        
+//        dispatch_async(dispatch_get_main_queue()) {
+//            ConversationOperationQueue.sharedManager.conversationLock = true
+//        }
+
         let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
         adjustConversationCollectionViewWith(keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
-            dispatch_async(dispatch_get_main_queue()) {
-                ConversationOperationQueue.sharedManager.conversationLock = false
-            }
+//            dispatch_async(dispatch_get_main_queue()) {
+//                ConversationOperationQueue.sharedManager.conversationLock = false
+//            }
             success(finished)
         }
     }
-    
+
     func adjustConversationCollectionViewWith(adjustHeight: CGFloat, scrollToBottom: Bool, success: (Bool) -> Void) {
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
@@ -1413,11 +1408,9 @@ class ConversationViewController: BaseViewController {
 
                     }, completion: { success -> Void in
                         
-                        if success {
-                            
-                            self.updateMessagesStates()
-                            
-                        }
+//                        if success {
+//                            self.updateMessagesStates()
+//                        }
                         println("sendLocation to friend: \(success)")
                     })
 
@@ -1471,75 +1464,75 @@ extension ConversationViewController: UIGestureRecognizerDelegate {
 
 extension ConversationViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
-    func updateMessagesStates() {
-        
-//        println("Print queue")
-        
-//        println(ConversationOperationQueue.sharedManager.oprationQueue)
-        
-        if !ConversationOperationQueue.sharedManager.lock {
-//            println("Begin opration")
-            if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
-                
-                ConversationOperationQueue.sharedManager.lock = true
-                
-                let operation = ConversationOperationQueue.sharedManager.oprationQueue[0]
-                
-                switch operation.type.rawValue {
-                    
-                case MessageStateOperationType.Read.rawValue:
-                    println("Message Read")
+//    func updateMessagesStates() {
+//        
+////        println("Print queue")
+//        
+////        println(ConversationOperationQueue.sharedManager.oprationQueue)
+//        
+//        if !ConversationOperationQueue.sharedManager.lock {
+////            println("Begin opration")
+//            if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
+//                
+//                ConversationOperationQueue.sharedManager.lock = true
+//                
+//                let operation = ConversationOperationQueue.sharedManager.oprationQueue[0]
+//                
+//                switch operation.type.rawValue {
+//                    
+//                case MessageStateOperationType.Read.rawValue:
+//                    println("Message Read")
+//
+//                case MessageStateOperationType.Sent.rawValue:
+//                    println("Message Sent")
+//                default:
+//                    break
+//                }
+//            }
+//        } else {
+//            println("Skip lock")
+//        }
+//    }
 
-                case MessageStateOperationType.Sent.rawValue:
-                    println("Message Sent")
-                default:
-                    break
-                }
-            }
-        } else {
-            println("Skip lock")
-        }
-    }
+//    func updateMessageReadStatesChangeOperation() {
+//        ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
+//        
+//        ConversationOperationQueue.sharedManager.lock = false
+//        //                    println("Lock released")
+//        if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
+//            //                        println("Message Read finished")
+//            updateMessagesStates()
+//        }
+//    }
+
     
-    func updateMessageReadStatesChangeOperation() {
-        ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
-        
-        ConversationOperationQueue.sharedManager.lock = false
-        //                    println("Lock released")
-        if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
-            //                        println("Message Read finished")
-            updateMessagesStates()
-        }
-    }
-    
-    
-    func updateMessageStatesOperation() {
-        
-//        println("Begin update new state into ColllectionView")
-        if ConversationOperationQueue.sharedManager.conversationLock {
-            
-            delay(0.3) {
-                self.updateMessageStatesOperation()
-            }
-            
-        } else {
-            updateConversationCollectionView(scrollToBottom: true, success: { success in
-                
-                //            println("Update Finished")
-                dispatch_async(dispatch_get_main_queue()) {
-                    ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
-                    
-                    ConversationOperationQueue.sharedManager.lock = false
-                    
-                    if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
-                        self.updateMessagesStates()
-                    }
-                    
-                }
-            })
-        }
-    }
-    
+//    func updateMessageStatesOperation() {
+//        
+////        println("Begin update new state into ColllectionView")
+//        if ConversationOperationQueue.sharedManager.conversationLock {
+//            
+//            delay(0.3) {
+//                self.updateMessageStatesOperation()
+//            }
+//            
+//        } else {
+//            updateConversationCollectionView(scrollToBottom: true, success: { success in
+//                
+//                //            println("Update Finished")
+//                dispatch_async(dispatch_get_main_queue()) {
+//                    ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
+//                    
+//                    ConversationOperationQueue.sharedManager.lock = false
+//                    
+//                    if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
+//                        self.updateMessagesStates()
+//                    }
+//                    
+//                }
+//            })
+//        }
+//    }
+
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -1960,11 +1953,9 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 // TODO: sendImage 错误提醒
 
             }, completion: { success -> Void in
-                if success {
-                    
-                    self.updateMessagesStates()
-                    
-                }
+//                if success {
+//                    self.updateMessagesStates()
+//                }
                 println("sendImage to friend: \(success)")
             })
 
@@ -2062,11 +2053,9 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 // TODO: sendVideo 错误提醒
 
             }, completion: { success -> Void in
-                if success {
-                    
-                    self.updateMessagesStates()
-                    
-                }
+//                if success {
+//                    self.updateMessagesStates()
+//                }
                 println("sendVideo to friend: \(success)")
             })
 

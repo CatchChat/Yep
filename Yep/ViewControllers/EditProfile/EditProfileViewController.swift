@@ -11,6 +11,10 @@ import RealmSwift
 
 class EditProfileViewController: UIViewController {
 
+    struct Notification {
+        static let Logout = "LogoutNotification"
+    }
+
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
@@ -299,6 +303,8 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 // clean Avatar caches
 
                 NSFileManager.cleanAvatarCaches()
+
+                NSNotificationCenter.defaultCenter().postNotificationName(Notification.Logout, object: nil)
 
             }, cancelAction: { () -> Void in
             })
