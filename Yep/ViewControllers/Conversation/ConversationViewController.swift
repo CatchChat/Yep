@@ -244,6 +244,8 @@ class ConversationViewController: BaseViewController {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateMessagesStates", name: MessageNotification.MessageRead, object: nil)
 
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout", name: EditProfileViewController.Notification.Logout, object: nil)
+
         YepUserDefaults.avatarURLString.bindListener("ConversationViewController") { _ in
             self.reloadConversationCollectionView()
         }
@@ -1086,7 +1088,10 @@ class ConversationViewController: BaseViewController {
             }
         }
     }
-    
+
+    func cleanForLogout() {
+        displayedMessagesRange.length = 0
+    }
 
     // MARK: Keyboard
 
