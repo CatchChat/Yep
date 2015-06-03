@@ -928,11 +928,10 @@ class ConversationViewController: BaseViewController {
         lastTimeMessagesCount = messages.count
 
         
-//        // 保证是增加消息
-//        if messages.count <= _lastTimeMessagesCount {
-//            displayedMessagesRange.length += newMessagesCount
-//            return
-//        }
+        // 保证是增加消息
+        if messages.count <= _lastTimeMessagesCount {
+            return
+        }
 
         let newMessagesCount = Int(messages.count - _lastTimeMessagesCount)
         
