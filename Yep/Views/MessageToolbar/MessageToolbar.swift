@@ -104,7 +104,6 @@ class MessageToolbar: UIToolbar {
                 break
             default:
                 messageTextView.resignFirstResponder()
-                println("Resign Keyboard")
             }
         }
     }
@@ -369,13 +368,13 @@ class MessageToolbar: UIToolbar {
 
 extension MessageToolbar: UITextViewDelegate {
 
-    func textViewDidChange(textView: UITextView) {
-        let text = textView.text
+    func textViewDidBeginEditing(textView: UITextView) {
+        state = .BeginTextInput
+    }
 
-        if text.isEmpty {
-            self.state = .BeginTextInput
-        } else {
-            self.state = .TextInputing
+    func textViewDidChange(textView: UITextView) {
+        if let text = textView.text {
+            state = text.isEmpty ? .BeginTextInput : .TextInputing
         }
     }
 }
