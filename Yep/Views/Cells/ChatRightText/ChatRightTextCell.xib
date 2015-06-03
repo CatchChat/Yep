@@ -75,7 +75,7 @@ Hello World</string>
                 <outlet property="bubbleBodyImageView" destination="73l-kE-1KG" id="CiV-dM-4JT"/>
                 <outlet property="bubbleTailImageView" destination="1JC-jy-KNh" id="MGo-KB-Kb3"/>
                 <outlet property="dotImageView" destination="l93-41-FuF" id="luU-kN-NDm"/>
-                <outlet property="dotImageViewGapBetweenBubbleConstraint" destination="lbA-MA-nvF" id="yPN-RZ-oUx"/>
+                <outlet property="gapBetweenDotImageViewAndBubbleConstraint" destination="lbA-MA-nvF" id="HtB-1P-GzV"/>
                 <outlet property="textContentLabel" destination="6ek-jh-1iK" id="fCu-O7-a1E"/>
                 <outlet property="textContentLabelLeadingConstraint" destination="FIg-M8-BRB" id="izf-ae-aFY"/>
                 <outlet property="textContentLabelTrailingConstraint" destination="kwM-35-2Fj" id="sm6-rp-3Sj"/>

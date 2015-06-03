@@ -26,11 +26,20 @@
                             <constraint firstAttribute="width" constant="180" id="ywK-Cr-C5H"/>
                         </constraints>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_unread" translatesAutoresizingMaskIntoConstraints="NO" id="NCK-WT-VYh" userLabel="Dot Image View">
+                        <rect key="frame" x="245" y="69" width="6" height="6"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="6" id="9Gi-9P-iQr"/>
+                            <constraint firstAttribute="width" secondItem="NCK-WT-VYh" secondAttribute="height" multiplier="1:1" id="i2h-Pb-rmp"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
                 <constraint firstItem="2Dg-WB-LbN" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="2kd-sa-eEC"/>
+                <constraint firstItem="NCK-WT-VYh" firstAttribute="leading" secondItem="2Dg-WB-LbN" secondAttribute="trailing" constant="5" id="B7o-bT-dFZ"/>
+                <constraint firstItem="NCK-WT-VYh" firstAttribute="centerY" secondItem="2Dg-WB-LbN" secondAttribute="centerY" id="LIi-Qz-4Qq"/>
                 <constraint firstItem="2Dg-WB-LbN" firstAttribute="leading" secondItem="m2x-3M-xx2" secondAttribute="trailing" constant="5" id="XGu-Kt-JG7"/>
                 <constraint firstItem="2Dg-WB-LbN" firstAttribute="top" secondItem="m2x-3M-xx2" secondAttribute="top" id="Z28-JS-Ei8"/>
                 <constraint firstAttribute="bottom" secondItem="2Dg-WB-LbN" secondAttribute="bottom" id="aYs-Kl-RF4"/>
@@ -40,10 +49,15 @@
             <connections>
                 <outlet property="avatarImageView" destination="m2x-3M-xx2" id="YKv-gh-cr8"/>
                 <outlet property="avatarImageViewWidthConstraint" destination="JD9-KR-rN4" id="NiB-3l-0jJ"/>
+                <outlet property="dotImageView" destination="NCK-WT-VYh" id="yVJ-My-X3y"/>
+                <outlet property="gapBetweenDotImageViewAndBubbleConstraint" destination="B7o-bT-dFZ" id="PAz-lg-9P9"/>
                 <outlet property="messageImageView" destination="2Dg-WB-LbN" id="JaH-m0-woi"/>
                 <outlet property="messageImageViewWidthConstrint" destination="ywK-Cr-C5H" id="WVJ-Ub-r8n"/>
             </connections>
             <point key="canvasLocation" x="288" y="408"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="icon_dot_unread" width="6" height="6"/>
+    </resources>
 </document>
