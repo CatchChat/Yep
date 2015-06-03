@@ -1719,9 +1719,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if messageToolbar.state != .Default {
-            messageToolbar.state = .Default
-        }
+        
+        println("Did select cell")
+        
+        messageToolbar.messageTextView.resignFirstResponder()
         /*
         else {
             let message = messages[displayedMessagesRange.location + indexPath.item]

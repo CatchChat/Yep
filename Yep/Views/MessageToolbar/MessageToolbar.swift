@@ -104,6 +104,7 @@ class MessageToolbar: UIToolbar {
                 break
             default:
                 messageTextView.resignFirstResponder()
+                println("Resign Keyboard")
             }
         }
     }
