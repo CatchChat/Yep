@@ -43,6 +43,9 @@ class ChatLeftAudioCell: UICollectionViewCell {
 
     @IBOutlet weak var playButton: UIButton!
 
+    @IBOutlet weak var dotImageView: UIImageView!
+    @IBOutlet weak var gapBetweenDotImageViewAndBubbleConstraint: NSLayoutConstraint!
+    
     typealias AudioBubbleTapAction = (message: Message?) -> Void
     var audioBubbleTapAction: AudioBubbleTapAction?
 

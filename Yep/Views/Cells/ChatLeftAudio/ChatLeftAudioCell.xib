@@ -68,12 +68,21 @@
                             <constraint firstAttribute="bottom" secondItem="mlz-An-Tuw" secondAttribute="bottom" id="zwN-D3-Jl5"/>
                         </constraints>
                     </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_unread" translatesAutoresizingMaskIntoConstraints="NO" id="uuV-kn-fc4" userLabel="Dot Image View">
+                        <rect key="frame" x="215" y="60" width="6" height="6"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="uuV-kn-fc4" secondAttribute="height" multiplier="1:1" id="sJU-Zd-SLf"/>
+                            <constraint firstAttribute="width" constant="6" id="xSX-QK-8QB"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
                 <constraint firstItem="Whb-i5-kn8" firstAttribute="leading" secondItem="1K0-wd-BOr" secondAttribute="trailing" constant="5" id="0XT-SX-UNS"/>
                 <constraint firstAttribute="centerY" secondItem="1K0-wd-BOr" secondAttribute="centerY" id="8np-sL-P6D"/>
+                <constraint firstItem="uuV-kn-fc4" firstAttribute="leading" secondItem="Whb-i5-kn8" secondAttribute="trailing" constant="5" id="NKb-rC-CqV"/>
+                <constraint firstItem="Whb-i5-kn8" firstAttribute="centerY" secondItem="uuV-kn-fc4" secondAttribute="centerY" id="Tth-Mg-bUY"/>
                 <constraint firstItem="1K0-wd-BOr" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="kHD-0i-acN"/>
                 <constraint firstItem="1K0-wd-BOr" firstAttribute="centerY" secondItem="Whb-i5-kn8" secondAttribute="centerY" id="pkM-ef-orb"/>
             </constraints>
@@ -83,6 +92,8 @@
                 <outlet property="avatarImageView" destination="1K0-wd-BOr" id="ldH-Pm-vDG"/>
                 <outlet property="avatarImageViewWidthConstraint" destination="d1f-94-FWk" id="u3Q-bz-Vpe"/>
                 <outlet property="bubbleImageView" destination="j0p-8V-Tjb" id="Uca-XB-lkc"/>
+                <outlet property="dotImageView" destination="uuV-kn-fc4" id="T9K-aJ-LKL"/>
+                <outlet property="gapBetweenDotImageViewAndBubbleConstraint" destination="NKb-rC-CqV" id="OO4-TT-xUD"/>
                 <outlet property="playButton" destination="JJr-x8-Ljw" id="iMv-JQ-MHS"/>
                 <outlet property="sampleView" destination="mlz-An-Tuw" id="Vne-hR-WQH"/>
                 <outlet property="sampleViewWidthConstraint" destination="12R-C6-EyM" id="UMe-Ql-Saj"/>
@@ -91,6 +102,7 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="icon_dot_unread" width="6" height="6"/>
         <image name="icon_play" width="30" height="30"/>
         <image name="left_tail_bubble" width="48" height="40"/>
     </resources>
