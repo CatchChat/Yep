@@ -18,6 +18,9 @@ class ChatLeftVideoCell: UICollectionViewCell {
 
     @IBOutlet weak var playImageView: UIImageView!
 
+    @IBOutlet weak var dotImageView: UIImageView!
+    @IBOutlet weak var gapBetweenDotImageViewAndBubbleConstraint: NSLayoutConstraint!
+    
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
     
