@@ -42,10 +42,19 @@ Hello World</string>
                             <constraint firstAttribute="width" secondItem="hYu-LI-zcX" secondAttribute="height" multiplier="1:1" id="LI4-Sm-y72"/>
                         </constraints>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_unread" translatesAutoresizingMaskIntoConstraints="NO" id="g0T-WW-FbS" userLabel="Dot Image View">
+                        <rect key="frame" x="178" y="62" width="6" height="6"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="6" id="0yv-9x-n96"/>
+                            <constraint firstAttribute="width" secondItem="g0T-WW-FbS" secondAttribute="height" multiplier="1:1" id="Qbq-Ex-S9W"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
+                <constraint firstItem="g0T-WW-FbS" firstAttribute="leading" secondItem="Yfx-Em-Job" secondAttribute="trailing" constant="5" id="0Ru-dt-Nc3"/>
+                <constraint firstItem="Yfx-Em-Job" firstAttribute="centerY" secondItem="g0T-WW-FbS" secondAttribute="centerY" id="4dq-vb-ddn"/>
                 <constraint firstItem="hYu-LI-zcX" firstAttribute="centerY" secondItem="ppr-iG-zxj" secondAttribute="centerY" id="CqX-BA-AO1"/>
                 <constraint firstAttribute="centerY" secondItem="7zi-6w-hpq" secondAttribute="centerY" id="Dys-Uh-KBW"/>
                 <constraint firstItem="Yfx-Em-Job" firstAttribute="bottom" secondItem="7zi-6w-hpq" secondAttribute="bottom" constant="11" id="LKU-Sf-doh"/>
@@ -65,6 +74,8 @@ Hello World</string>
                 <outlet property="avatarImageViewWidthConstraint" destination="JV9-zT-1At" id="fe4-74-Gyw"/>
                 <outlet property="bubbleBodyImageView" destination="Yfx-Em-Job" id="bQk-7x-1RF"/>
                 <outlet property="bubbleTailImageView" destination="ppr-iG-zxj" id="kxh-jI-4L8"/>
+                <outlet property="dotImageView" destination="g0T-WW-FbS" id="WDj-GR-cYy"/>
+                <outlet property="dotImageViewGapBetweenBubbleConstraint" destination="0Ru-dt-Nc3" id="48n-Qv-JG0"/>
                 <outlet property="textContentLabel" destination="7zi-6w-hpq" id="OKM-7J-J5k"/>
                 <outlet property="textContentLabelLeadingConstaint" destination="vhs-aH-mKd" id="YQf-Mz-Dr1"/>
                 <outlet property="textContentLabelTrailingConstraint" destination="cMB-IC-4ER" id="s52-26-mOq"/>
@@ -76,5 +87,6 @@ Hello World</string>
     <resources>
         <image name="bubble_body" width="42" height="40"/>
         <image name="bubble_left_tail" width="13" height="14"/>
+        <image name="icon_dot_unread" width="6" height="6"/>
     </resources>
 </document>

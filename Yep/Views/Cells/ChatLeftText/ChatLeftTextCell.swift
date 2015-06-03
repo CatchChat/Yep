@@ -18,6 +18,9 @@ class ChatLeftTextCell: UICollectionViewCell {
     @IBOutlet weak var bubbleBodyImageView: UIImageView!
     @IBOutlet weak var bubbleTailImageView: UIImageView!
 
+    @IBOutlet weak var dotImageView: UIImageView!
+    @IBOutlet weak var dotImageViewGapBetweenBubbleConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var textContentLabel: TTTAttributedLabel!
     @IBOutlet weak var textContentLabelLeadingConstaint: NSLayoutConstraint!
     @IBOutlet weak var textContentLabelTrailingConstraint: NSLayoutConstraint!
