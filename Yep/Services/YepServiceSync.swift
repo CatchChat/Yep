@@ -791,6 +791,31 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
                 syncMessageWithMessageInfo(messageInfo, inRealm: realm, andDoFurtherAction: nil)
             }
             
+            var messages = realm.objects(Message)
+            
+            realm.write {
+                for oldMessage in messages {
+                    
+                    if allUnreadMessages.count < 1 {
+                        if oldMessage.sendState == MessageSendState.Successed.rawValue {
+                            oldMessage.sendState = MessageSendState.Read.rawValue
+                            oldMessage.readed = true
+                        }
+                    } else {
+                        for messageInfo in allUnreadMessages {
+                            if let messageID = messageInfo["id"] as? String {
+                                if oldMessage.messageID != messageID && oldMessage.sendState == MessageSendState.Successed.rawValue {
+                                    oldMessage.sendState = MessageSendState.Read.rawValue
+                                    oldMessage.readed = true
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+            
+
             // do futher action
             println("加个打印，希望能等到 Realm 在线程间同步好")
             furtherAction()
@@ -807,6 +832,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
     }
 
     if let messageID = messageInfo["id"] as? String {
+        
         var message = messageWithMessageID(messageID, inRealm: realm)
 
         if message == nil {

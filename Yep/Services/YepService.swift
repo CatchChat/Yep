@@ -1211,6 +1211,8 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
                 message.messageID = messageID
                 message.sendState = MessageSendState.Successed.rawValue
                 realm.commitWrite()
+                
+                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
                 completion(success: true)
             }
         })

@@ -42,7 +42,7 @@ Hello World</string>
                             <constraint firstAttribute="width" constant="40" id="hm6-ty-e5H"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_unread" translatesAutoresizingMaskIntoConstraints="NO" id="l93-41-FuF" userLabel="Dot Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_sending" translatesAutoresizingMaskIntoConstraints="NO" id="l93-41-FuF" userLabel="Dot Image View">
                         <rect key="frame" x="316" y="63" width="6" height="6"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="l93-41-FuF" secondAttribute="height" multiplier="1:1" id="1c1-JW-Hdk"/>
@@ -87,6 +87,6 @@ Hello World</string>
     <resources>
         <image name="bubble_body" width="42" height="40"/>
         <image name="bubble_right_tail" width="13" height="14"/>
-        <image name="icon_dot_unread" width="6" height="6"/>
+        <image name="icon_dot_sending" width="8" height="8"/>
     </resources>
 </document>

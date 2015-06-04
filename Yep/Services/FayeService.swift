@@ -71,7 +71,8 @@ class FayeService: NSObject, MZFayeClientDelegate {
                 client.setExtension(extensionData, forChannel: personalChannel)
                 client.setExtension(extensionData, forChannel: "handshake")
                 client.setExtension(extensionData, forChannel: "connect")
-
+                let realm = Realm()
+                
                 client.subscribeToChannel(personalChannel, usingBlock: { data in
 //                    println("subscribeToChannel: \(data)")
                     if let
@@ -105,17 +106,16 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                     if let
                                         recipientID = messageDataInfo["recipient_id"] as? String,
                                         messageID = messageDataInfo["id"] as? String {
+                                            
                                             println("Mark Message \(messageID) As Read")
                                             
-//                                            dispatch_async(dispatch_get_main_queue()) {
-//                                                
-//                                                var operation = MessageStateOperation(type: .Read, messageID: messageID)
-//                                                
-//                                                ConversationOperationQueue.sharedManager.addNewQperationQueue(operation)
-//                                                
-//                                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageRead, object: nil)
-//                                            }
-
+                                            if let message = messageWithMessageID(messageID, inRealm: realm) {
+                                                realm.write {
+                                                    message.sendState = MessageSendState.Read.rawValue
+                                                }
+                                                
+                                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                                            }
                                     }
                                 }
                             default:

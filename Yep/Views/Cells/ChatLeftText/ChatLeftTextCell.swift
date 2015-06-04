@@ -57,7 +57,7 @@ class ChatLeftTextCell: UICollectionViewCell {
 
     func configureWithMessage(message: Message, textContentLabelWidth: CGFloat) {
         textContentLabel.text = message.textContent
-        
+
         textContentLabelWidthConstraint.constant = max(YepConfig.minMessageTextLabelWidth, textContentLabelWidth)
         textContentLabel.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left
 

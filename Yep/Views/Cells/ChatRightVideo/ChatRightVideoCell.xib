@@ -29,7 +29,7 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_playvideo" translatesAutoresizingMaskIntoConstraints="NO" id="4Zc-y0-R7I" userLabel="Play Image View">
                         <rect key="frame" x="111" y="43" width="30" height="30"/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_unread" translatesAutoresizingMaskIntoConstraints="NO" id="t6J-8M-Prm" userLabel="Dot Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_sending" translatesAutoresizingMaskIntoConstraints="NO" id="t6J-8M-Prm" userLabel="Dot Image View">
                         <rect key="frame" x="52" y="55" width="6" height="6"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="t6J-8M-Prm" secondAttribute="height" multiplier="1:1" id="bga-IS-jlb"/>
@@ -64,7 +64,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="icon_dot_unread" width="6" height="6"/>
+        <image name="icon_dot_sending" width="8" height="8"/>
         <image name="icon_playvideo" width="30" height="30"/>
     </resources>
 </document>

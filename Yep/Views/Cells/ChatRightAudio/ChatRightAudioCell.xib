@@ -69,7 +69,7 @@
                             <constraint firstItem="ynj-aF-z4D" firstAttribute="leading" secondItem="XTQ-XN-AqX" secondAttribute="trailing" constant="5" id="uLL-Bt-Lsk"/>
                         </constraints>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_unread" translatesAutoresizingMaskIntoConstraints="NO" id="dkr-y8-xRJ" userLabel="Dot Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_sending" translatesAutoresizingMaskIntoConstraints="NO" id="dkr-y8-xRJ" userLabel="Dot Image View">
                         <rect key="frame" x="95" y="50" width="6" height="6"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="6" id="DRh-dD-dg1"/>
@@ -103,7 +103,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="icon_dot_unread" width="6" height="6"/>
+        <image name="icon_dot_sending" width="8" height="8"/>
         <image name="icon_play" width="30" height="30"/>
         <image name="right_tail_bubble" width="48" height="40"/>
     </resources>
