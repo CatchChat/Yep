@@ -50,16 +50,19 @@ class RegisterPickSkillsLayout: UICollectionViewFlowLayout {
             // 调整每个 item 的 origin.x 即可
             var previousFrame = CGRectZero
             for attributes in rowCollection {
+                
                 var itemFrame = attributes.frame
 
-                if CGRectEqualToRect(previousFrame, CGRectZero) {
-                    itemFrame.origin.x = registerPickSkillsLayoutLeftEdgeInset
-                } else {
-                    itemFrame.origin.x = CGRectGetMaxX(previousFrame) + minimumInteritemSpacing
+                if attributes.representedElementCategory == .Cell {
+                    if CGRectEqualToRect(previousFrame, CGRectZero) {
+                        itemFrame.origin.x = registerPickSkillsLayoutLeftEdgeInset
+                    } else {
+                        itemFrame.origin.x = CGRectGetMaxX(previousFrame) + minimumInteritemSpacing
+                    }
+                    
+                    attributes.frame = itemFrame
                 }
-
-                attributes.frame = itemFrame
-
+                
                 previousFrame = itemFrame
             }
         }
