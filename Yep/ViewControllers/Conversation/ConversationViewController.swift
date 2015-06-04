@@ -557,8 +557,7 @@ class ConversationViewController: BaseViewController {
         }
     }
     
-    func recoverMessageToolBar() {
-        // 尝试恢复 messageToolbar 的状态
+    func tryRecoverMessageToolBar() {
         if let
             draft = conversation.draft,
             state = MessageToolbarState(rawValue: draft.messageToolbarState) {
@@ -568,7 +567,9 @@ class ConversationViewController: BaseViewController {
                 }
         
                 // 这句要放在最后，因为它会触发 stateTransitionAction
-                messageToolbar.state = state
+                if state != .MoreMessages {
+                    messageToolbar.state = state
+                }
         }
     }
 
@@ -654,8 +655,8 @@ class ConversationViewController: BaseViewController {
             // 先调整一下初次的 contentInset
             setConversaitonCollectionViewOriginalContentInset()
 
-            // 恢复 messageToolBar
-            recoverMessageToolBar()
+            // 尝试恢复 messageToolbar 的状态
+            tryRecoverMessageToolBar()
 
             // 尽量滚到底部
             tryScrollToBottom()
