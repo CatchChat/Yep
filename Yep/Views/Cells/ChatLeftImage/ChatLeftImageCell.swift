@@ -16,9 +16,6 @@ class ChatLeftImageCell: UICollectionViewCell {
     @IBOutlet weak var messageImageView: UIImageView!
     
     @IBOutlet weak var messageImageViewWidthConstrint: NSLayoutConstraint!
-
-    @IBOutlet weak var dotImageView: UIImageView!
-    @IBOutlet weak var gapBetweenDotImageViewAndBubbleConstraint: NSLayoutConstraint!
     
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
@@ -27,8 +24,6 @@ class ChatLeftImageCell: UICollectionViewCell {
         super.awakeFromNib()
 
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
-
-        gapBetweenDotImageViewAndBubbleConstraint.constant = YepConfig.ChatCell.gapBetweenDotImageViewAndBubble
 
         messageImageView.tintColor = UIColor.leftBubbleTintColor()
 

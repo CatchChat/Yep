@@ -18,9 +18,6 @@ class ChatLeftTextCell: UICollectionViewCell {
     @IBOutlet weak var bubbleBodyImageView: UIImageView!
     @IBOutlet weak var bubbleTailImageView: UIImageView!
 
-    @IBOutlet weak var dotImageView: UIImageView!
-    @IBOutlet weak var gapBetweenDotImageViewAndBubbleConstraint: NSLayoutConstraint!
-
     @IBOutlet weak var textContentLabel: TTTAttributedLabel!
     @IBOutlet weak var textContentLabelLeadingConstaint: NSLayoutConstraint!
     @IBOutlet weak var textContentLabelTrailingConstraint: NSLayoutConstraint!
@@ -51,8 +48,6 @@ class ChatLeftTextCell: UICollectionViewCell {
 
         bubbleBodyImageView.tintColor = UIColor.leftBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.leftBubbleTintColor()
-
-        gapBetweenDotImageViewAndBubbleConstraint.constant = YepConfig.ChatCell.gapBetweenDotImageViewAndBubble
     }
 
     func configureWithMessage(message: Message, textContentLabelWidth: CGFloat) {

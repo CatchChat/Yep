@@ -42,9 +42,6 @@ class ChatLeftAudioCell: UICollectionViewCell {
     @IBOutlet weak var audioDurationLabel: UILabel!
 
     @IBOutlet weak var playButton: UIButton!
-
-    @IBOutlet weak var dotImageView: UIImageView!
-    @IBOutlet weak var gapBetweenDotImageViewAndBubbleConstraint: NSLayoutConstraint!
     
     typealias AudioBubbleTapAction = (message: Message?) -> Void
     var audioBubbleTapAction: AudioBubbleTapAction?
@@ -53,8 +50,6 @@ class ChatLeftAudioCell: UICollectionViewCell {
         super.awakeFromNib()
 
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
-
-        gapBetweenDotImageViewAndBubbleConstraint.constant = YepConfig.ChatCell.gapBetweenDotImageViewAndBubble
         
         bubbleImageView.tintColor = UIColor.leftBubbleTintColor()
 
