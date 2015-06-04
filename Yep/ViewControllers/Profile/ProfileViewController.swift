@@ -254,19 +254,17 @@ class ProfileViewController: UIViewController {
     
     var customNavigationItem: UINavigationItem = UINavigationItem(title: "Details")
 
-    func setBackButtonWithTitle() {
-        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBack")
-        backBarButtonItem.tintColor = UIColor.whiteColor()
-        
-        customNavigationItem.leftBarButtonItem = backBarButtonItem
-    }
-    
-    func popBack() {
-        self.navigationController?.popViewControllerAnimated(true)
+
+    // MARK: Life cycle
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout", name: EditProfileViewController.Notification.Logout, object: nil)
 
         if profileUser == nil {
             if let
@@ -487,6 +485,21 @@ class ProfileViewController: UIViewController {
     }
 
     // MARK: Actions
+
+    func setBackButtonWithTitle() {
+        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBack")
+        backBarButtonItem.tintColor = UIColor.whiteColor()
+
+        customNavigationItem.leftBarButtonItem = backBarButtonItem
+    }
+
+    func popBack() {
+        navigationController?.popViewControllerAnimated(true)
+    }
+
+    func cleanForLogout() {
+        profileUser = nil
+    }
 
     func updateProfileCollectionView() {
         profileCollectionView.collectionViewLayout.invalidateLayout()
