@@ -557,7 +557,7 @@ class ConversationViewController: BaseViewController {
         }
     }
     
-    func prepareTextInputView() {
+    func recoverMessageToolBar() {
         // 尝试恢复 messageToolbar 的状态
         if let
             draft = conversation.draft,
@@ -644,6 +644,7 @@ class ConversationViewController: BaseViewController {
         self.adjustCollectionViewWithViewHeight(self.moreMessageTypesViewHeightConstraintConstant, animationDuration: 0.3, animationCurveValue: 7, keyboard: false)
     }
 
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -652,31 +653,29 @@ class ConversationViewController: BaseViewController {
 
             // 先调整一下初次的 contentInset
             setConversaitonCollectionViewOriginalContentInset()
-            
-            //以前的方法不能保证边界情况滚到底部
-            scrollToLastMessage()
 
-            prepareTextInputView()
+            // 恢复 messageToolBar
+            recoverMessageToolBar()
+
+            // 尽量滚到底部
+            tryScrollToBottom()
         }
         
         self.waverView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height)
     }
     
-    func scrollToLastMessage() {
+    func tryScrollToBottom() {
         
         if displayedMessagesRange.length > 0 {
             
-            let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
-            let navicationBarAndKeyboardAndToolBarHeight = keyboardAndToolBarHeight + 64.0
-            
-            let visableMessageFieldHeight = conversationCollectionView.frame.size.height - navicationBarAndKeyboardAndToolBarHeight
-            let useableSpace = visableMessageFieldHeight - conversationCollectionView.contentSize.height
+            let messageToolBarTop = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
+            let invisibleHeight = messageToolBarTop + 64.0
+            let visibleHeight = conversationCollectionView.frame.height - invisibleHeight
 
-            if (useableSpace > 0) {
-                return
+            let canScroll = visibleHeight <= conversationCollectionView.contentSize.height
 
-            } else {
-                self.conversationCollectionView.contentOffset.y = self.conversationCollectionView.contentSize.height - self.conversationCollectionView.frame.size.height + keyboardAndToolBarHeight
+            if canScroll {
+                self.conversationCollectionView.contentOffset.y = self.conversationCollectionView.contentSize.height - self.conversationCollectionView.frame.size.height + messageToolBarTop
             }
         }
     }
