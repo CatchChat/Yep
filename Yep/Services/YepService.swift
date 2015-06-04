@@ -1212,8 +1212,9 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
                 message.sendState = MessageSendState.Successed.rawValue
                 realm.commitWrite()
                 
-                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
                 completion(success: true)
+
+                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
             }
         })
 
@@ -1270,8 +1271,10 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
 //                            var operation = MessageStateOperation(type: .Sent, messageID: messageID)
 //                            
 //                            ConversationOperationQueue.sharedManager.addNewQperationQueue(operation)
-                            
+
                             completion(success: true)
+
+                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
                         }
 
                     })

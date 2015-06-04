@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChatRightImageCell: UICollectionViewCell {
+class ChatRightImageCell: ChatRightBaseCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
@@ -17,20 +17,14 @@ class ChatRightImageCell: UICollectionViewCell {
 
     @IBOutlet weak var messageImageViewWidthConstrint: NSLayoutConstraint!
 
-    @IBOutlet weak var dotImageView: UIImageView!
-    @IBOutlet weak var gapBetweenDotImageViewAndBubbleConstraint: NSLayoutConstraint!
-    
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
-
     
     override func awakeFromNib() {
         super.awakeFromNib()
 
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
 
-        gapBetweenDotImageViewAndBubbleConstraint.constant = YepConfig.ChatCell.gapBetweenDotImageViewAndBubble
-        
         messageImageView.tintColor = UIColor.rightBubbleTintColor()
         
         messageImageView.userInteractionEnabled = true
@@ -43,6 +37,8 @@ class ChatRightImageCell: UICollectionViewCell {
     }
 
     func configureWithMessage(message: Message, messageImagePreferredWidth: CGFloat, messageImagePreferredHeight: CGFloat, messageImagePreferredAspectRatio: CGFloat, mediaTapAction: MediaTapAction?) {
+
+        self.message = message
 
         self.mediaTapAction = mediaTapAction
 
