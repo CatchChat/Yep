@@ -675,7 +675,11 @@ class ConversationViewController: BaseViewController {
             let canScroll = visibleHeight <= conversationCollectionView.contentSize.height
 
             if canScroll {
-                self.conversationCollectionView.contentOffset.y = self.conversationCollectionView.contentSize.height - self.conversationCollectionView.frame.size.height + messageToolBarTop
+                conversationCollectionView.contentOffset.y = conversationCollectionView.contentSize.height - conversationCollectionView.frame.size.height + messageToolBarTop
+
+                conversationCollectionView.contentInset.bottom = messageToolBarTop
+
+                conversationCollectionViewContentOffsetBeforeKeyboardWillShow = conversationCollectionView.contentOffset
             }
         }
     }
@@ -1123,23 +1127,23 @@ class ConversationViewController: BaseViewController {
             
             self.messageToolbarBottomConstraint.constant = newHeight
             
-            let keyboardAndToolBarHeight = newHeight + CGRectGetHeight(self.messageToolbar.bounds)
+            let invisibleHeight = newHeight + CGRectGetHeight(self.messageToolbar.bounds) + 64
             
-            let totleMessagesHeight = self.conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + 64.0
+            //let totleMessagesHeight = self.conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + 64.0
             
-            let visableMessageFieldHeight = self.conversationCollectionView.frame.size.height - (keyboardAndToolBarHeight + 64.0)
+            let visibleHeight = self.conversationCollectionView.frame.size.height - invisibleHeight
             
             //                println("Content size is \(self.conversationCollectionView.contentSize.height) visableMessageFieldHeight \(visableMessageFieldHeight) totleMessagesHeight \(totleMessagesHeight) toolbar \(CGRectGetHeight(self.messageToolbar.bounds) ) keyboardHeight \(keyboardHeight) Navitation 64.0")
             
-            let unvisibaleMessageHeight = self.conversationCollectionView.contentSize.height - visableMessageFieldHeight
-            println("unvisibaleMessageHeight is \(unvisibaleMessageHeight)")
+            let invisibleContentSizeHeight = self.conversationCollectionView.contentSize.height - visibleHeight
+            println("invisibleContentSizeHeight is \(invisibleContentSizeHeight)")
             
             //Only scroll the invisable field if invisable < keyboardAndToolBarHeight
-            if (unvisibaleMessageHeight < (keyboardAndToolBarHeight)) {
+            if (invisibleContentSizeHeight < invisibleHeight) {
                 
                 //Only scroll if need
-                if (unvisibaleMessageHeight > 0) {
-                    var contentOffset = CGPointMake(self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow.x, self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow.y+unvisibaleMessageHeight)
+                if (invisibleContentSizeHeight > 0) {
+                    let contentOffset = CGPointMake(self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow.x, self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow.y + invisibleContentSizeHeight)
                     println("Set offset 1 is \(contentOffset)")
                     
                     self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
