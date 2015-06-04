@@ -523,6 +523,7 @@ class ConversationViewController: BaseViewController {
 
         // MARK: More Message Types
 
+        choosePhotoButton.title = NSLocalizedString("Choose photo", comment: "")
         choosePhotoButton.tapAction = {
             if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
                 let imagePicker = UIImagePickerController()
@@ -536,6 +537,7 @@ class ConversationViewController: BaseViewController {
             }
         }
 
+        takePhotoButton.title = NSLocalizedString("Take photo", comment: "")
         takePhotoButton.tapAction = {
             if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
                 let imagePicker = UIImagePickerController()
@@ -549,13 +551,11 @@ class ConversationViewController: BaseViewController {
             }
         }
 
+        addLocationButton.title = NSLocalizedString("Share location", comment: "")
         addLocationButton.tapAction = {
             self.performSegueWithIdentifier("presentPickLocation", sender: nil)
         }
-    
     }
-    
-
     
     func prepareTextInputView() {
         // 尝试恢复 messageToolbar 的状态
