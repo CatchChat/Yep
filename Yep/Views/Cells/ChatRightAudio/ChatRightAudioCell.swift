@@ -8,9 +8,7 @@
 
 import UIKit
 
-class ChatRightAudioCell: UICollectionViewCell {
-
-    var message: Message?
+class ChatRightAudioCell: ChatRightBaseCell {
 
     var audioPlayedDuration: Double = 0 {
         willSet {
@@ -42,9 +40,6 @@ class ChatRightAudioCell: UICollectionViewCell {
 
     @IBOutlet weak var playButton: UIButton!
 
-    @IBOutlet weak var dotImageView: UIImageView!
-    @IBOutlet weak var gapBetweenDotImageViewAndBubbleConstraint: NSLayoutConstraint!
-    
     typealias AudioBubbleTapAction = (message: Message?) -> Void
     var audioBubbleTapAction: AudioBubbleTapAction?
     
@@ -53,8 +48,6 @@ class ChatRightAudioCell: UICollectionViewCell {
 
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
 
-        gapBetweenDotImageViewAndBubbleConstraint.constant = YepConfig.ChatCell.gapBetweenDotImageViewAndBubble
-        
         bubbleImageView.tintColor = UIColor.rightBubbleTintColor()
 
         sampleView.sampleColor = UIColor.rightWaveColor()
