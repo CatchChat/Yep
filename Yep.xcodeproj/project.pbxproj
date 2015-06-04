@@ -144,6 +144,7 @@
 		50894D0C1AEE0177000981AF /* EditProfileColoredTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894D0A1AEE0177000981AF /* EditProfileColoredTitleCell.swift */; };
 		50894D0D1AEE0177000981AF /* EditProfileColoredTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894D0B1AEE0177000981AF /* EditProfileColoredTitleCell.xib */; };
 		50894D101AEE3C25000981AF /* YepHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894D0F1AEE3C25000981AF /* YepHUD.swift */; };
+		508B717D1B1FE9B6006BDDB3 /* ChatRightBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508B717C1B1FE9B6006BDDB3 /* ChatRightBaseCell.swift */; };
 		508C2AA01AD648B2002B8097 /* SearchUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C2A9F1AD648B2002B8097 /* SearchUsersViewController.swift */; };
 		508C2AA41AD661B3002B8097 /* UserStateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C2AA21AD661B3002B8097 /* UserStateCell.swift */; };
 		508C2AA51AD661B3002B8097 /* UserStateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508C2AA31AD661B3002B8097 /* UserStateCell.xib */; };
@@ -355,6 +356,7 @@
 		50894D0A1AEE0177000981AF /* EditProfileColoredTitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileColoredTitleCell.swift; path = Views/Cells/EditProfileColoredTitle/EditProfileColoredTitleCell.swift; sourceTree = "<group>"; };
 		50894D0B1AEE0177000981AF /* EditProfileColoredTitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditProfileColoredTitleCell.xib; path = Views/Cells/EditProfileColoredTitle/EditProfileColoredTitleCell.xib; sourceTree = "<group>"; };
 		50894D0F1AEE3C25000981AF /* YepHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepHUD.swift; path = Helpers/YepHUD.swift; sourceTree = "<group>"; };
+		508B717C1B1FE9B6006BDDB3 /* ChatRightBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightBaseCell.swift; path = Views/Cells/ChatRightBase/ChatRightBaseCell.swift; sourceTree = "<group>"; };
 		508C2A9F1AD648B2002B8097 /* SearchUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchUsersViewController.swift; path = ViewControllers/SearchUsers/SearchUsersViewController.swift; sourceTree = "<group>"; };
 		508C2AA21AD661B3002B8097 /* UserStateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserStateCell.swift; path = Views/Cells/UserState/UserStateCell.swift; sourceTree = "<group>"; };
 		508C2AA31AD661B3002B8097 /* UserStateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UserStateCell.xib; path = Views/Cells/UserState/UserStateCell.xib; sourceTree = "<group>"; };
@@ -757,6 +759,7 @@
 				508F8FCA1B0161F400461B0B /* ProfileSeparationLine */,
 				0A9018801B01152D00AE4B7F /* ProfileSocialAccount */,
 				50E114FE1ABC549800F13000 /* Contacts */,
+				508B717E1B1FE9BD006BDDB3 /* ChatRightBase */,
 				503315991AC101830008A209 /* ChatLeftText */,
 				5033159E1AC101CB0008A209 /* ChatRightText */,
 				50CDBE4B1ACBAD3700459CE0 /* ChatLeftImageCell */,
@@ -1150,6 +1153,14 @@
 				50894D0B1AEE0177000981AF /* EditProfileColoredTitleCell.xib */,
 			);
 			name = EditProfileColoredTitle;
+			sourceTree = "<group>";
+		};
+		508B717E1B1FE9BD006BDDB3 /* ChatRightBase */ = {
+			isa = PBXGroup;
+			children = (
+				508B717C1B1FE9B6006BDDB3 /* ChatRightBaseCell.swift */,
+			);
+			name = ChatRightBase;
 			sourceTree = "<group>";
 		};
 		508C2AA11AD648BE002B8097 /* SearchUsers */ = {
@@ -1717,6 +1728,7 @@
 				0A3E60601ACCA9C0003DC853 /* String+Yep.swift in Sources */,
 				504F41571AD4D35400FBB19A /* ProfileLayout.swift in Sources */,
 				503315A01AC126100008A209 /* MessageToolbar.swift in Sources */,
+				508B717D1B1FE9B6006BDDB3 /* ChatRightBaseCell.swift in Sources */,
 				50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */,
 				502AE5531AB93215005BD199 /* ProfileFooterCell.swift in Sources */,
 				50EB8CCB1AEA1AC0001AC1EE /* MediaView.swift in Sources */,

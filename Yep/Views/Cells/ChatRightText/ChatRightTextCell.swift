@@ -9,7 +9,7 @@
 import UIKit
 import TTTAttributedLabel
 
-class ChatRightTextCell: UICollectionViewCell {
+class ChatRightTextCell: ChatRightBaseCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarImageViewTrailingConstraint: NSLayoutConstraint!
@@ -18,7 +18,7 @@ class ChatRightTextCell: UICollectionViewCell {
     @IBOutlet weak var bubbleBodyImageView: UIImageView!
     @IBOutlet weak var bubbleTailImageView: UIImageView!
 
-    @IBOutlet weak var dotImageView: UIImageView!
+    //@IBOutlet weak override var dotImageView: UIImageView!
     @IBOutlet weak var gapBetweenDotImageViewAndBubbleConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var textContentLabel: TTTAttributedLabel!
@@ -26,12 +26,6 @@ class ChatRightTextCell: UICollectionViewCell {
     @IBOutlet weak var textContentLabelLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textContentLabelWidthConstraint: NSLayoutConstraint!
     
-    private var messageStateChangeContent = 0
-    
-    var messageData: Message!
-    
-    let sendingAnimationName = "RotationOnStateAnimation"
-
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -59,16 +53,10 @@ class ChatRightTextCell: UICollectionViewCell {
         bubbleTailImageView.tintColor = UIColor.rightBubbleTintColor()
 
         gapBetweenDotImageViewAndBubbleConstraint.constant = YepConfig.ChatCell.gapBetweenDotImageViewAndBubble
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "messageStateUpdated", name: MessageNotification.MessageStateChanged, object: nil)
     }
     
-    func messageStateUpdated() {
-        changeStateImage(messageData.sendState)
-    }
-
     func configureWithMessage(message: Message, textContentLabelWidth: CGFloat) {
-        messageData = message
+        self.message = message
         
         textContentLabel.text = message.textContent
         changeStateImage(message.sendState)
@@ -84,44 +72,6 @@ class ChatRightTextCell: UICollectionViewCell {
             }
         }
     }
-    
-    
-    func changeStateImage(state: MessageSendState.RawValue) {
-        switch state {
-        case MessageSendState.NotSend.rawValue:
-            dotImageView.hidden = false
-            dotImageView.image = UIImage(named: "icon_dot_sending")
-            rotationAnimationOnImageView()
-        case MessageSendState.Successed.rawValue:
-            dotImageView.hidden = false
-            dotImageView.image = UIImage(named: "icon_dot_unread")
-            removeSendingAnimation()
-        case MessageSendState.Read.rawValue:
-            removeSendingAnimation()
-            dotImageView.hidden = true
-        case MessageSendState.Failed.rawValue:
-            removeSendingAnimation()
-            dotImageView.hidden = true
-        default:
-            removeSendingAnimation()
-            break
-        }
-    }
-    
-    func rotationAnimationOnImageView() {
-        var animation = CABasicAnimation(keyPath: "transform.rotation.z")
-        animation.fromValue = 0.0
-        animation.toValue = 2*M_PI
-        animation.duration = 3.0
-        animation.repeatCount = MAXFLOAT
-        dotImageView.layer.addAnimation(animation, forKey: sendingAnimationName)
-    }
-    
-    func removeSendingAnimation() {
-        dotImageView.layer.removeAnimationForKey(sendingAnimationName)
-    }
-    
-    
 }
 
 extension ChatRightTextCell: TTTAttributedLabelDelegate {
