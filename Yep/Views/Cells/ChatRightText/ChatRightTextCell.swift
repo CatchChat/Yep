@@ -18,9 +18,6 @@ class ChatRightTextCell: ChatRightBaseCell {
     @IBOutlet weak var bubbleBodyImageView: UIImageView!
     @IBOutlet weak var bubbleTailImageView: UIImageView!
 
-    //@IBOutlet weak override var dotImageView: UIImageView!
-    @IBOutlet weak var gapBetweenDotImageViewAndBubbleConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var textContentLabel: TTTAttributedLabel!
     @IBOutlet weak var textContentLabelTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textContentLabelLeadingConstraint: NSLayoutConstraint!
@@ -51,16 +48,13 @@ class ChatRightTextCell: ChatRightBaseCell {
 
         bubbleBodyImageView.tintColor = UIColor.rightBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.rightBubbleTintColor()
-
-        gapBetweenDotImageViewAndBubbleConstraint.constant = YepConfig.ChatCell.gapBetweenDotImageViewAndBubble
     }
     
     func configureWithMessage(message: Message, textContentLabelWidth: CGFloat) {
         self.message = message
         
         textContentLabel.text = message.textContent
-        changeStateImage(message.sendState)
-        
+
         textContentLabelWidthConstraint.constant = max(YepConfig.minMessageTextLabelWidth, textContentLabelWidth)
         textContentLabel.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left
 

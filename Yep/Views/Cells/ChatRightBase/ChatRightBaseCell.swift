@@ -8,21 +8,50 @@
 
 import UIKit
 
-protocol MessageStateChanged {
-    var dotImageView: UIImageView { get }
-}
-
 class ChatRightBaseCell: UICollectionViewCell {
     
     @IBOutlet weak var dotImageView: UIImageView!
-
+    @IBOutlet weak var gapBetweenDotImageViewAndBubbleConstraint: NSLayoutConstraint!
+    
     var messageSendState: MessageSendState = .NotSend {
         didSet {
-            
+            switch messageSendState {
+
+            case MessageSendState.NotSend:
+                dotImageView.image = UIImage(named: "icon_dot_sending")
+                dotImageView.hidden = false
+
+                showSendingAnimation()
+
+            case MessageSendState.Successed:
+                dotImageView.image = UIImage(named: "icon_dot_unread")
+                dotImageView.hidden = false
+
+                removeSendingAnimation()
+
+            case MessageSendState.Read:
+                dotImageView.hidden = true
+
+                removeSendingAnimation()
+
+            case MessageSendState.Failed:
+                dotImageView.hidden = true
+
+                removeSendingAnimation()
+
+            default:
+                dotImageView.hidden = true
+
+                removeSendingAnimation()
+            }
         }
     }
 
-    var message: Message!
+    var message: Message? {
+        didSet {
+            tryUpdateMessageState()
+        }
+    }
 
     let sendingAnimationName = "RotationOnStateAnimation"
 
@@ -33,41 +62,24 @@ class ChatRightBaseCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "messageStateUpdated", name: MessageNotification.MessageStateChanged, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "tryUpdateMessageState", name: MessageNotification.MessageStateChanged, object: nil)
+
+        gapBetweenDotImageViewAndBubbleConstraint.constant = YepConfig.ChatCell.gapBetweenDotImageViewAndBubble
     }
 
-    func messageStateUpdated() {
-        changeStateImage(message.sendState)
-    }
-
-    func changeStateImage(state: MessageSendState.RawValue) {
-        switch state {
-        case MessageSendState.NotSend.rawValue:
-            dotImageView.hidden = false
-            dotImageView.image = UIImage(named: "icon_dot_sending")
-            rotationAnimationOnImageView()
-        case MessageSendState.Successed.rawValue:
-            dotImageView.hidden = false
-            dotImageView.image = UIImage(named: "icon_dot_unread")
-            removeSendingAnimation()
-        case MessageSendState.Read.rawValue:
-            removeSendingAnimation()
-            dotImageView.hidden = true
-        case MessageSendState.Failed.rawValue:
-            removeSendingAnimation()
-            dotImageView.hidden = true
-        default:
-            removeSendingAnimation()
-            break
+    func tryUpdateMessageState() {
+        if let message = message, messageSendState = MessageSendState(rawValue: message.sendState) {
+            self.messageSendState = messageSendState
         }
     }
 
-    func rotationAnimationOnImageView() {
-        var animation = CABasicAnimation(keyPath: "transform.rotation.z")
+    func showSendingAnimation() {
+        let animation = CABasicAnimation(keyPath: "transform.rotation.z")
         animation.fromValue = 0.0
-        animation.toValue = 2*M_PI
+        animation.toValue = 2 * M_PI
         animation.duration = 3.0
         animation.repeatCount = MAXFLOAT
+
         dotImageView.layer.addAnimation(animation, forKey: sendingAnimationName)
     }
 
