@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChatRightVideoCell: UICollectionViewCell {
+class ChatRightVideoCell: ChatRightBaseCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
@@ -18,9 +18,6 @@ class ChatRightVideoCell: UICollectionViewCell {
 
     @IBOutlet weak var playImageView: UIImageView!
 
-    @IBOutlet weak var dotImageView: UIImageView!
-    @IBOutlet weak var gapBetweenDotImageViewAndBubbleConstraint: NSLayoutConstraint!
-    
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
     
@@ -29,8 +26,6 @@ class ChatRightVideoCell: UICollectionViewCell {
 
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
 
-        gapBetweenDotImageViewAndBubbleConstraint.constant = YepConfig.ChatCell.gapBetweenDotImageViewAndBubble
-        
         thumbnailImageView.tintColor = UIColor.rightBubbleTintColor()
 
         thumbnailImageView.userInteractionEnabled = true
@@ -44,6 +39,8 @@ class ChatRightVideoCell: UICollectionViewCell {
     
     func configureWithMessage(message: Message, messageImagePreferredWidth: CGFloat, messageImagePreferredHeight: CGFloat, messageImagePreferredAspectRatio: CGFloat, mediaTapAction: MediaTapAction?) {
 
+        self.message = message
+        
         self.mediaTapAction = mediaTapAction
         
         if let sender = message.fromFriend {
