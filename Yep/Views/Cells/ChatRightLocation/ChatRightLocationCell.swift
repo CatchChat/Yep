@@ -9,16 +9,13 @@
 import UIKit
 import MapKit
 
-class ChatRightLocationCell: UICollectionViewCell {
+class ChatRightLocationCell: ChatRightBaseCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var mapImageView: UIImageView!
 
-    @IBOutlet weak var dotImageView: UIImageView!
-    @IBOutlet weak var gapBetweenDotImageViewAndBubbleConstraint: NSLayoutConstraint!
-    
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
 
@@ -27,8 +24,6 @@ class ChatRightLocationCell: UICollectionViewCell {
 
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
 
-        gapBetweenDotImageViewAndBubbleConstraint.constant = YepConfig.ChatCell.gapBetweenDotImageViewAndBubble
-        
         mapImageView.tintColor = UIColor.rightBubbleTintColor()
 
         mapImageView.userInteractionEnabled = true
@@ -41,6 +36,8 @@ class ChatRightLocationCell: UICollectionViewCell {
     }
     
     func configureWithMessage(message: Message, mediaTapAction: MediaTapAction?) {
+
+        self.message = message
 
         self.mediaTapAction = mediaTapAction
 
