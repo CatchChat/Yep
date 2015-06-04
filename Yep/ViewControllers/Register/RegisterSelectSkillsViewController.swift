@@ -164,7 +164,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                 if skillCategoryIndex < skillCategories.count {
                     let skillCategory = skillCategories[skillCategoryIndex]
 
-                    header.annotationLabel.text = NSLocalizedString("Poplular in ", comment: "") + "\(skillCategory.localName)"
+                    header.annotationLabel.text = NSLocalizedString("Popular in ", comment: "") + "\(skillCategory.localName)"
                 }
                 
                 reusableView = header
