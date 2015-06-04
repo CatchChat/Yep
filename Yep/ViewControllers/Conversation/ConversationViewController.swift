@@ -563,13 +563,11 @@ class ConversationViewController: BaseViewController {
             draft = conversation.draft,
             state = MessageToolbarState(rawValue: draft.messageToolbarState) {
                 
-                if state == .TextInputing {
+                if state == .TextInputing || state == .Default {
                     messageToolbar.messageTextView.text = draft.text
-                
-                //                    messageToolbar.messageTextView.becomeFirstResponder()
                 }
         
-                // 这句要放在最后，因为它会触发 
+                // 这句要放在最后，因为它会触发 stateTransitionAction
                 messageToolbar.state = state
         }
     }
@@ -651,13 +649,13 @@ class ConversationViewController: BaseViewController {
 
         // 初始时移动一次到底部
         if !conversationCollectionViewHasBeenMovedToBottomOnce {
-            
 
             // 先调整一下初次的 contentInset
             setConversaitonCollectionViewOriginalContentInset()
             
             //以前的方法不能保证边界情况滚到底部
             scrollToLastMessage()
+
             prepareTextInputView()
         }
         

@@ -369,7 +369,9 @@ class MessageToolbar: UIToolbar {
 extension MessageToolbar: UITextViewDelegate {
 
     func textViewDidBeginEditing(textView: UITextView) {
-        state = .BeginTextInput
+        if let text = textView.text {
+            state = text.isEmpty ? .BeginTextInput : .TextInputing
+        }
     }
 
     func textViewDidChange(textView: UITextView) {
