@@ -22,6 +22,9 @@ class ChatRightTextCell: ChatRightBaseCell {
     @IBOutlet weak var textContentLabelTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textContentLabelLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textContentLabelWidthConstraint: NSLayoutConstraint!
+
+    typealias MediaTapAction = () -> Void
+    var mediaTapAction: MediaTapAction?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -48,11 +51,22 @@ class ChatRightTextCell: ChatRightBaseCell {
 
         bubbleBodyImageView.tintColor = UIColor.rightBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.rightBubbleTintColor()
+
+        bubbleBodyImageView.userInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
+        bubbleBodyImageView.addGestureRecognizer(tap)
+    }
+
+    func tapMediaView() {
+        mediaTapAction?()
     }
     
-    func configureWithMessage(message: Message, textContentLabelWidth: CGFloat) {
+    func configureWithMessage(message: Message, textContentLabelWidth: CGFloat, mediaTapAction: MediaTapAction?) {
+
         self.message = message
-        
+
+        self.mediaTapAction = mediaTapAction
+
         textContentLabel.text = message.textContent
 
         textContentLabelWidthConstraint.constant = max(YepConfig.minMessageTextLabelWidth, textContentLabelWidth)

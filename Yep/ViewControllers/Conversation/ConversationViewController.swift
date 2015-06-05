@@ -1643,10 +1643,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         if message.sendState == MessageSendState.Failed.rawValue {
                             resendMessage(message, failureHandler: { (reason, errorMessage) in
                                 defaultFailureHandler(reason, errorMessage)
-                                // TODO: resendText 错误提醒
+                                // TODO: resendImage 错误提醒
 
                             }, completion: { success in
-                                println("resendText: \(success)")
+                                println("resendImage: \(success)")
                             })
 
                         } else {
@@ -1698,7 +1698,19 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
 
-                    cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message))
+                    cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: {
+
+                        if message.sendState == MessageSendState.Failed.rawValue {
+
+                            resendMessage(message, failureHandler: { (reason, errorMessage) in
+                                defaultFailureHandler(reason, errorMessage)
+                                // TODO: resendText 错误提醒
+
+                            }, completion: { success in
+                                println("resendText: \(success)")
+                            })
+                        }
+                    })
 
                     return cell
                 }
