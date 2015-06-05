@@ -15,6 +15,8 @@ class RegisterPickSkillsViewController: BaseViewController {
 
     @IBOutlet weak var skillsCollectionView: UICollectionView!
 
+    @IBOutlet weak var addSkillsLabel: UILabel!
+
     @IBOutlet weak var doneButton: UIButton!
 
     var masterSkills = [Skill]()
@@ -41,12 +43,17 @@ class RegisterPickSkillsViewController: BaseViewController {
         super.viewDidLoad()
 
         if !isRegister {
+            addSkillsLabel.hidden = true
             doneButton.hidden = true
 
             let doneBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "saveSkills:")
             navigationItem.rightBarButtonItem = doneBarButton
 
             title = NSLocalizedString("Change Skills", comment: "")
+
+        } else {
+            navigationController?.navigationBarHidden = true
+            addSkillsLabel.text = NSLocalizedString("Pick some skills", comment: "")
         }
 
         skillsCollectionView.registerNib(UINib(nibName: addSkillsReusableViewIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: addSkillsReusableViewIdentifier)
@@ -62,6 +69,14 @@ class RegisterPickSkillsViewController: BaseViewController {
 
         //view.backgroundColor = UIColor.redColor()
         //skillsCollectionView.backgroundColor = UIColor.blueColor()
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        if isRegister {
+            navigationController?.navigationBarHidden = true
+        }
     }
 
     // MARK: Actions
