@@ -1334,6 +1334,57 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
     }
 }
 
+func resendMessage(message: Message, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
+
+    var recipientID: String?
+    var recipientType: String?
+
+    if let conversation = message.conversation {
+        if conversation.type == ConversationType.OneToOne.rawValue {
+            recipientID = conversation.withFriend?.userID
+            recipientType = ConversationType.OneToOne.nameForServer
+
+        } else if conversation.type == ConversationType.Group.rawValue {
+            recipientID = conversation.withGroup?.groupID
+            recipientType = ConversationType.Group.nameForServer
+        }
+    }
+
+    if let
+        recipientID = recipientID,
+        recipientType = recipientType,
+        messageMediaType = MessageMediaType(rawValue: message.mediaType) {
+
+            switch messageMediaType {
+
+            case .Text:
+
+                let fillMoreInfo: JSONDictionary -> JSONDictionary = { info in
+                    var moreInfo = info
+                    moreInfo["text_content"] = message.textContent
+                    return moreInfo
+                }
+
+                sendMessage(message, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
+
+            case .Image:
+                let filePath =  NSFileManager.yepMessageImageURLWithName(message.localAttachmentName)?.path
+
+                sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
+
+            default:
+                break
+                //        case Text           = 0
+                //        case Image          = 1
+                //        case Video          = 2
+                //        case Audio          = 3
+                //        case Sticker        = 4
+                //        case Location       = 5
+                //        case SectionDate    = 6
+            }
+    }
+}
+
 func markAsReadMessage(message: Message ,#failureHandler: ((Reason, String?) -> Void)?, #completion: (Bool) -> Void) {
 
     if message.readed || message.messageID.isEmpty {

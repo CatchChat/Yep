@@ -1640,7 +1640,18 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
 
-                        self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                        if message.sendState == MessageSendState.Failed.rawValue {
+                            resendMessage(message, failureHandler: { (reason, errorMessage) in
+                                defaultFailureHandler(reason, errorMessage)
+                                // TODO: resendText 错误提醒
+
+                            }, completion: { success in
+                                println("resendText: \(success)")
+                            })
+
+                        } else {
+                            self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                        }
                     })
                     
                     return cell
