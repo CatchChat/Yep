@@ -72,6 +72,8 @@ class RegisterPickSkillsViewController: BaseViewController {
 
     @IBAction func saveSkills(sender: AnyObject) {
 
+        YepHUD.showActivityIndicator()
+        
         let addSkillsGroup = dispatch_group_create()
 
         for skill in masterSkills {
@@ -99,6 +101,8 @@ class RegisterPickSkillsViewController: BaseViewController {
         }
 
         dispatch_group_notify(addSkillsGroup, dispatch_get_main_queue()) {
+
+            YepHUD.hideActivityIndicator()
 
             if self.isRegister {
                 if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
