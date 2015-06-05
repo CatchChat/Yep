@@ -14,8 +14,6 @@ import MapKit
 
 
 struct MessageNotification {
-    static let MessageSent = "MessageSentNotification"
-    static let MessageRead = "MessageReadNotification"
     static let MessageStateChanged = "MessageStateChangedNotification"
 }
 

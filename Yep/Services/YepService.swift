@@ -1212,6 +1212,8 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
                     realm?.write {
                         message.sendState = MessageSendState.Failed.rawValue
                     }
+
+                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
                 }
 
             }, completion: { messageID in
@@ -1271,6 +1273,8 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
                                 realm?.write {
                                     message.sendState = MessageSendState.Failed.rawValue
                                 }
+
+                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
                             }
 
                         }, completion: { messageID in
