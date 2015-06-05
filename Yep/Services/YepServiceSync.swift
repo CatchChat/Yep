@@ -246,7 +246,12 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm
 
 func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
-    userInfo(failureHandler: nil) { friendInfo in
+    userInfo(failureHandler: { (reason, errorMessage) in
+        defaultFailureHandler(reason, errorMessage)
+
+        furtherAction()
+
+    }, completion: { friendInfo in
 
         println("my userInfo: \(friendInfo)")
 
@@ -342,7 +347,7 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                 }
             }
         }
-    }
+    })
 }
 
 func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {

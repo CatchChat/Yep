@@ -117,14 +117,22 @@ class RegisterPickSkillsViewController: BaseViewController {
 
         dispatch_group_notify(addSkillsGroup, dispatch_get_main_queue()) {
 
-            YepHUD.hideActivityIndicator()
-
             if self.isRegister {
-                if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-                    appDelegate.startMainStory()
+                // 同步一下我的信息，因为 appDelegate.sync() 执行太早，导致初次注册 Profile 里不显示 skills
+                syncMyInfoAndDoFurtherAction {
+
+                    YepHUD.hideActivityIndicator()
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                            appDelegate.startMainStory()
+                        }
+                    }
                 }
 
             } else {
+                YepHUD.hideActivityIndicator()
+
                 self.navigationController?.popViewControllerAnimated(true)
 
                 self.afterChangeSkillsAction?(masterSkills: self.masterSkills, learningSkills: self.learningSkills)
