@@ -1042,22 +1042,22 @@ func sendText(text: String, toRecipient recipientID: String, #recipientType: Str
         moreInfo["text_content"] = text
         return moreInfo
     }
-    sendMessageWithMediaType(.Text, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    createAndSendMessageWithMediaType(.Text, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
 func sendImageInFilePath(filePath: String?, orFileData fileData: NSData?, #metaData: String?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
 
-    sendMessageWithMediaType(.Image, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    createAndSendMessageWithMediaType(.Image, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
 func sendAudioInFilePath(filePath: String?, orFileData fileData: NSData?, #metaData: String?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
 
-    sendMessageWithMediaType(.Audio, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    createAndSendMessageWithMediaType(.Audio, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
 func sendVideoInFilePath(filePath: String?, orFileData fileData: NSData?, #metaData: String?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
 
-    sendMessageWithMediaType(.Video, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    createAndSendMessageWithMediaType(.Video, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
 func sendLocationWithCoordinate(coordinate: CLLocationCoordinate2D, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
@@ -1069,11 +1069,10 @@ func sendLocationWithCoordinate(coordinate: CLLocationCoordinate2D, toRecipient 
         return moreInfo
     }
 
-    sendMessageWithMediaType(.Location, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    createAndSendMessageWithMediaType(.Location, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-
-func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, #metaData: String?, #fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
+func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, #metaData: String?, #fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
     // 因为 message_id 必须来自远端，线程无法切换，所以这里暂时没用 realmQueue // TOOD: 也许有办法
 
     let realm = Realm()
@@ -1148,12 +1147,6 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
     realm.commitWrite()
 
 
-    // 发出之前就显示 Message
-    afterCreatedMessage(message)
-
-
-    // 下面开始真正的消息发送
-
     var messageInfo: JSONDictionary = [
         "recipient_id": recipientID,
         "recipient_type": recipientType,
@@ -1182,146 +1175,232 @@ func sendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: 
 
     realm.commitWrite()
 
-    switch mediaType {
 
-    case .Text, .Location:
-        createMessageWithMessageInfo(messageInfo, failureHandler: { (reason, errorMessage) in
-            if let failureHandler = failureHandler {
-                failureHandler(reason, errorMessage)
-            }
+    // 发出之前就显示 Message
+    afterCreatedMessage(message)
 
-            dispatch_async(dispatch_get_main_queue()) {
-                
-                realm.beginWrite()
-                message.sendState = MessageSendState.Failed.rawValue
-                realm.commitWrite()
-            }
+    // 下面开始真正的消息发送
+    sendMessage(message, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
+}
 
-        }, completion: { messageID in
+func sendMessage(message: Message, inFilePath filePath: String?, orFileData fileData: NSData?, #metaData: String?, #fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipientID: String, #recipientType: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
 
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                //Add to queue
-                
-//                var operation = MessageStateOperation(type: .Sent, messageID: messageID)
-//                
-//                ConversationOperationQueue.sharedManager.addNewQperationQueue(operation)
-                
-                realm.beginWrite()
-                message.messageID = messageID
-                message.sendState = MessageSendState.Successed.rawValue
-                realm.commitWrite()
-                
-                completion(success: true)
+    if let mediaType = MessageMediaType(rawValue: message.mediaType) {
 
-                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
-            }
-        })
+        var messageInfo: JSONDictionary = [
+            "recipient_id": recipientID,
+            "recipient_type": recipientType,
+            "media_type": mediaType.description,
+        ]
 
-    default:
+        if let fillMoreInfo = fillMoreInfo {
+            messageInfo = fillMoreInfo(messageInfo)
+        }
 
-        s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in
-            uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mediaType.mineType(), s3UploadParams: s3UploadParams) { (result, error) in
+        switch mediaType {
 
-                // TODO: attachments
-                switch mediaType {
-                case .Image:
-                    if let metaData = metaData {
-                        let attachments = ["image": [["file": s3UploadParams.key, "metadata": metaData]]]
-                        messageInfo["attachments"] = attachments
-
-                    } else {
-                        let attachments = ["image": [["file": s3UploadParams.key]]]
-                        messageInfo["attachments"] = attachments
-                    }
-
-                case .Audio:
-                    if let metaData = metaData {
-                        let attachments = ["audio": [["file": s3UploadParams.key, "metadata": metaData]]]
-                        messageInfo["attachments"] = attachments
-
-                    } else {
-                        let attachments = ["audio": [["file": s3UploadParams.key]]]
-                        messageInfo["attachments"] = attachments
-                    }
-
-                default:
-                    break
+        case .Text, .Location:
+            createMessageWithMessageInfo(messageInfo, failureHandler: { (reason, errorMessage) in
+                if let failureHandler = failureHandler {
+                    failureHandler(reason, errorMessage)
                 }
 
-                let doCreateMessage = {
-                    createMessageWithMessageInfo(messageInfo, failureHandler: { (reason, errorMessage) in
-                        if let failureHandler = failureHandler {
-                            failureHandler(reason, errorMessage)
-                        }
+                dispatch_async(dispatch_get_main_queue()) {
 
-                        dispatch_async(dispatch_get_main_queue()) {
-                            realm.beginWrite()
-                            message.sendState = MessageSendState.Failed.rawValue
-                            realm.commitWrite()
-                        }
+                    let realm = message.realm
 
-                    }, completion: { messageID in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            realm.beginWrite()
-                            message.messageID = messageID
-                            message.sendState = MessageSendState.Successed.rawValue
-                            realm.commitWrite()
-                            
-//                            var operation = MessageStateOperation(type: .Sent, messageID: messageID)
-//                            
-//                            ConversationOperationQueue.sharedManager.addNewQperationQueue(operation)
-
-                            completion(success: true)
-
-                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
-                        }
-
-                    })
-                }
-
-                // 对于 Video 还要再传 thumbnail，……
-                if mediaType == .Video {
-
-                    var thumbnailData: NSData?
-
-                    if
-                        let filePath = filePath,
-                        let image = thumbnailImageOfVideoInVideoURL(NSURL(fileURLWithPath: filePath)!) {
-                            thumbnailData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
+                    realm?.write {
+                        message.sendState = MessageSendState.Failed.rawValue
                     }
 
-                    s3PrivateUploadParams(failureHandler: nil) { thumbnailS3UploadParams in
-                        uploadFileToS3(inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType(), s3UploadParams: thumbnailS3UploadParams) { (result, error) in
+                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                }
 
-                            if let metaData = metaData {
-                                let attachments = [
-                                    "video": [
-                                        ["file": s3UploadParams.key, "metadata": metaData]
-                                    ],
-                                    "thumbnail": [["file": thumbnailS3UploadParams.key]]
-                                ]
-                                messageInfo["attachments"] = attachments
+            }, completion: { messageID in
 
-                            } else {
-                                let attachments = [
-                                    "video": [
-                                        ["file": s3UploadParams.key]
-                                    ],
-                                    "thumbnail": [["file": thumbnailS3UploadParams.key]]
-                                ]
-                                messageInfo["attachments"] = attachments
+                dispatch_async(dispatch_get_main_queue()) {
+                    let realm = message.realm
+                    realm?.write {
+                        message.messageID = messageID
+                        message.sendState = MessageSendState.Successed.rawValue
+                    }
+
+                    completion(success: true)
+
+                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                }
+            })
+
+        default:
+
+            s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in
+                uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mediaType.mineType(), s3UploadParams: s3UploadParams) { (result, error) in
+
+                    // TODO: attachments
+                    switch mediaType {
+                    case .Image:
+                        if let metaData = metaData {
+                            let attachments = ["image": [["file": s3UploadParams.key, "metadata": metaData]]]
+                            messageInfo["attachments"] = attachments
+
+                        } else {
+                            let attachments = ["image": [["file": s3UploadParams.key]]]
+                            messageInfo["attachments"] = attachments
+                        }
+
+                    case .Audio:
+                        if let metaData = metaData {
+                            let attachments = ["audio": [["file": s3UploadParams.key, "metadata": metaData]]]
+                            messageInfo["attachments"] = attachments
+
+                        } else {
+                            let attachments = ["audio": [["file": s3UploadParams.key]]]
+                            messageInfo["attachments"] = attachments
+                        }
+
+                    default:
+                        break
+                    }
+
+                    let doCreateMessage = {
+                        createMessageWithMessageInfo(messageInfo, failureHandler: { (reason, errorMessage) in
+                            if let failureHandler = failureHandler {
+                                failureHandler(reason, errorMessage)
                             }
 
-                            doCreateMessage()
-                        }
+                            dispatch_async(dispatch_get_main_queue()) {
+                                let realm = message.realm
+                                realm?.write {
+                                    message.sendState = MessageSendState.Failed.rawValue
+                                }
+
+                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                            }
+
+                        }, completion: { messageID in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                let realm = message.realm
+                                realm?.write {
+                                    message.messageID = messageID
+                                    message.sendState = MessageSendState.Successed.rawValue
+                                }
+
+                                completion(success: true)
+
+                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                            }
+                        })
                     }
 
-                } else {
-                    doCreateMessage()
+                    // 对于 Video 还要再传 thumbnail，……
+                    if mediaType == .Video {
+
+                        var thumbnailData: NSData?
+
+                        if
+                            let filePath = filePath,
+                            let image = thumbnailImageOfVideoInVideoURL(NSURL(fileURLWithPath: filePath)!) {
+                                thumbnailData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
+                        }
+
+                        s3PrivateUploadParams(failureHandler: nil) { thumbnailS3UploadParams in
+                            uploadFileToS3(inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType(), s3UploadParams: thumbnailS3UploadParams) { (result, error) in
+
+                                if let metaData = metaData {
+                                    let attachments = [
+                                        "video": [
+                                            ["file": s3UploadParams.key, "metadata": metaData]
+                                        ],
+                                        "thumbnail": [["file": thumbnailS3UploadParams.key]]
+                                    ]
+                                    messageInfo["attachments"] = attachments
+                                    
+                                } else {
+                                    let attachments = [
+                                        "video": [
+                                            ["file": s3UploadParams.key]
+                                        ],
+                                        "thumbnail": [["file": thumbnailS3UploadParams.key]]
+                                    ]
+                                    messageInfo["attachments"] = attachments
+                                }
+                                
+                                doCreateMessage()
+                            }
+                        }
+                        
+                    } else {
+                        doCreateMessage()
+                    }
                 }
             }
         }
+    }
+}
+
+func resendMessage(message: Message, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
+
+    var recipientID: String?
+    var recipientType: String?
+
+    if let conversation = message.conversation {
+        if conversation.type == ConversationType.OneToOne.rawValue {
+            recipientID = conversation.withFriend?.userID
+            recipientType = ConversationType.OneToOne.nameForServer
+
+        } else if conversation.type == ConversationType.Group.rawValue {
+            recipientID = conversation.withGroup?.groupID
+            recipientType = ConversationType.Group.nameForServer
+        }
+    }
+
+    if let
+        recipientID = recipientID,
+        recipientType = recipientType,
+        messageMediaType = MessageMediaType(rawValue: message.mediaType) {
+
+            switch messageMediaType {
+
+            case .Text:
+
+                let fillMoreInfo: JSONDictionary -> JSONDictionary = { info in
+                    var moreInfo = info
+                    moreInfo["text_content"] = message.textContent
+                    return moreInfo
+                }
+
+                sendMessage(message, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
+
+            case .Image:
+                let filePath = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName)?.path
+
+                sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
+
+           case .Video:
+                let filePath = NSFileManager.yepMessageVideoURLWithName(message.localAttachmentName)?.path
+
+                sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
+
+            case .Audio:
+                let filePath = NSFileManager.yepMessageAudioURLWithName(message.localAttachmentName)?.path
+
+                sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
+
+            case .Location:
+                if let coordinate = message.coordinate {
+                    let fillMoreInfo: JSONDictionary -> JSONDictionary = { info in
+                        var moreInfo = info
+                        moreInfo["longitude"] = coordinate.longitude
+                        moreInfo["latitude"] = coordinate.latitude
+                        return moreInfo
+                    }
+
+                    sendMessage(message, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
+                }
+
+            default:
+                break
+            }
     }
 }
 

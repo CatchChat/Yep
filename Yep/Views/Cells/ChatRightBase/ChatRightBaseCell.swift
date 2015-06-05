@@ -35,7 +35,8 @@ class ChatRightBaseCell: UICollectionViewCell {
                 removeSendingAnimation()
 
             case MessageSendState.Failed:
-                dotImageView.hidden = true
+                dotImageView.image = UIImage(named: "icon_dot_failed")
+                dotImageView.hidden = false
 
                 removeSendingAnimation()
 

@@ -14,8 +14,6 @@ import MapKit
 
 
 struct MessageNotification {
-    static let MessageSent = "MessageSentNotification"
-    static let MessageRead = "MessageReadNotification"
     static let MessageStateChanged = "MessageStateChangedNotification"
 }
 
@@ -1640,7 +1638,24 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
 
-                        self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                        if message.sendState == MessageSendState.Failed.rawValue {
+
+                            YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend image?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+
+                                resendMessage(message, failureHandler: { (reason, errorMessage) in
+                                    defaultFailureHandler(reason, errorMessage)
+                                    // TODO: resendImage 错误提醒
+
+                                }, completion: { success in
+                                    println("resendImage: \(success)")
+                                })
+
+                            }, cancelAction: {
+                            })
+
+                        } else {
+                            self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                        }
                     })
                     
                     return cell
@@ -1652,6 +1667,26 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { message in
 
+                        if let message = message {
+                            if message.sendState == MessageSendState.Failed.rawValue {
+
+                                YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend audio?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+
+                                    resendMessage(message, failureHandler: { (reason, errorMessage) in
+                                        defaultFailureHandler(reason, errorMessage)
+                                        // TODO: resendAudio 错误提醒
+
+                                    }, completion: { success in
+                                        println("resendAudio: \(success)")
+                                    })
+
+                                }, cancelAction: {
+                                })
+
+                                return
+                            }
+                        }
+
                         self.playMessageAudioWithMessage(message)
                     })
 
@@ -1662,7 +1697,24 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
 
-                        self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                        if message.sendState == MessageSendState.Failed.rawValue {
+
+                            YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend video?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+
+                                resendMessage(message, failureHandler: { (reason, errorMessage) in
+                                    defaultFailureHandler(reason, errorMessage)
+                                    // TODO: resendVideo 错误提醒
+
+                                }, completion: { success in
+                                    println("resendVideo: \(success)")
+                                })
+
+                            }, cancelAction: {
+                            })
+
+                        } else {
+                            self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                        }
                     })
 
                     return cell
@@ -1671,14 +1723,32 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightLocationCellIdentifier, forIndexPath: indexPath) as! ChatRightLocationCell
 
                     cell.configureWithMessage(message, mediaTapAction: {
-                        if let coordinate = message.coordinate {
-                            let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-                            let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
-                            /*
-                            let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
-                            mapItem.openInMapsWithLaunchOptions(launchOptions)
-                            */
-                            mapItem.openInMapsWithLaunchOptions(nil)
+
+                        if message.sendState == MessageSendState.Failed.rawValue {
+
+                            YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend location?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+
+                                resendMessage(message, failureHandler: { (reason, errorMessage) in
+                                    defaultFailureHandler(reason, errorMessage)
+                                    // TODO: resendLocation 错误提醒
+
+                                }, completion: { success in
+                                    println("resendLocation: \(success)")
+                                })
+
+                            }, cancelAction: {
+                            })
+
+                        } else {
+                            if let coordinate = message.coordinate {
+                                let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+                                let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+                                /*
+                                let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+                                mapItem.openInMapsWithLaunchOptions(launchOptions)
+                                */
+                                mapItem.openInMapsWithLaunchOptions(nil)
+                            }
                         }
                     })
 
@@ -1687,7 +1757,24 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
 
-                    cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message))
+                    cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: {
+
+                        if message.sendState == MessageSendState.Failed.rawValue {
+
+                            YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend text?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+
+                                resendMessage(message, failureHandler: { (reason, errorMessage) in
+                                    defaultFailureHandler(reason, errorMessage)
+                                    // TODO: resendText 错误提醒
+
+                                }, completion: { success in
+                                    println("resendText: \(success)")
+                                })
+
+                            }, cancelAction: {
+                            })
+                        }
+                    })
 
                     return cell
                 }

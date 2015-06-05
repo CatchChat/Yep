@@ -238,6 +238,15 @@ class Draft: Object {
 enum ConversationType: Int {
     case OneToOne   = 0 // 一对一对话
     case Group      = 1 // 群组对话
+
+    var nameForServer: String {
+        switch self {
+        case .OneToOne:
+            return "User"
+        case .Group:
+            return "Circle"
+        }
+    }
 }
 
 class Conversation: Object {
