@@ -67,12 +67,21 @@ class RegisterPickMobileViewController: UIViewController {
         let mobile = mobileNumberTextField.text
         let areaCode = areaCodeTextField.text
 
-        validateMobile(mobile, withAreaCode: areaCode, failureHandler: nil) { (available, message) in
+        YepHUD.showActivityIndicator()
+        
+        validateMobile(mobile, withAreaCode: areaCode, failureHandler: { (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage)
+            
+            YepHUD.hideActivityIndicator()
+
+        }, completion: { (available, message) in
             if available, let nickname = YepUserDefaults.nickname.value {
                 println("ValidateMobile: available")
 
                 registerMobile(mobile, withAreaCode: areaCode, nickname: nickname, failureHandler: { (reason, errorMessage) in
                     defaultFailureHandler(reason, errorMessage)
+
+                    YepHUD.hideActivityIndicator()
 
                     if let errorMessage = errorMessage {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -83,6 +92,9 @@ class RegisterPickMobileViewController: UIViewController {
                     }
 
                 }, completion: { created in
+
+                    YepHUD.hideActivityIndicator()
+
                     if created {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             self.performSegueWithIdentifier("showRegisterVerifyMobile", sender: ["mobile" : mobile, "areaCode": areaCode])
@@ -102,15 +114,18 @@ class RegisterPickMobileViewController: UIViewController {
             } else {
                 println("ValidateMobile: \(message)")
 
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                YepHUD.hideActivityIndicator()
+
+                dispatch_async(dispatch_get_main_queue()) {
+
                     self.nextButton.enabled = false
 
                     YepAlert.alertSorry(message: message, inViewController: self, withDismissAction: { () -> Void in
                         mobileNumberTextField.becomeFirstResponder()
                     })
-                })
+                }
             }
-        }
+        })
 
     }
 
