@@ -1641,12 +1641,18 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
 
                         if message.sendState == MessageSendState.Failed.rawValue {
-                            resendMessage(message, failureHandler: { (reason, errorMessage) in
-                                defaultFailureHandler(reason, errorMessage)
-                                // TODO: resendImage 错误提醒
 
-                            }, completion: { success in
-                                println("resendImage: \(success)")
+                            YepAlert.confirmOrCancel(title: NSLocalizedString("Resend", comment: ""), message: NSLocalizedString("Resend text?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+
+                                resendMessage(message, failureHandler: { (reason, errorMessage) in
+                                    defaultFailureHandler(reason, errorMessage)
+                                    // TODO: resendImage 错误提醒
+
+                                }, completion: { success in
+                                    println("resendImage: \(success)")
+                                })
+
+                            }, cancelAction: {
                             })
 
                         } else {
@@ -1702,12 +1708,17 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         if message.sendState == MessageSendState.Failed.rawValue {
 
-                            resendMessage(message, failureHandler: { (reason, errorMessage) in
-                                defaultFailureHandler(reason, errorMessage)
-                                // TODO: resendText 错误提醒
+                            YepAlert.confirmOrCancel(title: NSLocalizedString("Resend", comment: ""), message: NSLocalizedString("Resend text?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
 
-                            }, completion: { success in
-                                println("resendText: \(success)")
+                                resendMessage(message, failureHandler: { (reason, errorMessage) in
+                                    defaultFailureHandler(reason, errorMessage)
+                                    // TODO: resendText 错误提醒
+
+                                }, completion: { success in
+                                    println("resendText: \(success)")
+                                })
+
+                            }, cancelAction: {
                             })
                         }
                     })
