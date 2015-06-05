@@ -73,7 +73,7 @@ class YepUserDefaults {
 
     // MARK: ReLogin
 
-    class func cleanAll() {
+    class func cleanAllUserDefaults() {
         let defaults = NSUserDefaults.standardUserDefaults()
 
         defaults.removeObjectForKey(v1AccessTokenKey)
@@ -90,8 +90,8 @@ class YepUserDefaults {
     class func userNeedRelogin() {
 
         cleanRealmAndCaches()
-        
-        cleanAll()
+
+        cleanAllUserDefaults()
 
         if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
             if let rootViewController = appDelegate.window?.rootViewController {
