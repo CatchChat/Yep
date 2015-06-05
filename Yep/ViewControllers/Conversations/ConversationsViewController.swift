@@ -51,8 +51,6 @@ class ConversationsViewController: UIViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepNewMessagesReceivedNotification, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: MessageNotification.MessageSent, object: nil)
-
         YepUserDefaults.nickname.bindListener("ConversationsViewController.Nickname") { _ in
             self.reloadConversationsTableView()
         }

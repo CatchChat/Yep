@@ -148,7 +148,6 @@ class ConversationViewController: BaseViewController {
     let chatRightLocationCellIdentifier =  "ChatRightLocationCell"
     
 
-
     // 使 messageToolbar 随着键盘出现或消失而移动
     var updateUIWithKeyboardChange = false {
         willSet {
@@ -181,7 +180,6 @@ class ConversationViewController: BaseViewController {
 
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -208,7 +206,6 @@ class ConversationViewController: BaseViewController {
         realmChangeToken = realm.addNotificationBlock { (notification, realm) -> Void in
             if notification.rawValue == "RLMRealmDidChangeNotification"{
             }
-
         }
 
         navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
@@ -241,8 +238,6 @@ class ConversationViewController: BaseViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationCollectionViewDefault", name: YepNewMessagesReceivedNotification, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateMessagesStates", name: MessageNotification.MessageRead, object: nil)
-
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout", name: EditProfileViewController.Notification.Logout, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener("ConversationViewController") { _ in
@@ -288,8 +283,6 @@ class ConversationViewController: BaseViewController {
                         self.updateConversationCollectionView(scrollToBottom: true, success: { success in
                             
                         })
-                        NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
-                        
                     }
 
                 }, failureHandler: { (reason, errorMessage) -> () in
@@ -297,9 +290,6 @@ class ConversationViewController: BaseViewController {
                     // TODO: sendText 错误提醒
 
                 }, completion: { success -> Void in
-//                    if success {
-//                        self.updateMessagesStates()
-//                    }
                     println("sendText to friend: \(success)")
                 })
 
@@ -309,8 +299,6 @@ class ConversationViewController: BaseViewController {
                         self.updateConversationCollectionView(scrollToBottom: true, success: { success in
                             
                         })
-
-                        NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                     }
 
                 }, failureHandler: { (reason, errorMessage) -> () in
@@ -423,10 +411,7 @@ class ConversationViewController: BaseViewController {
                                 realm.commitWrite()
 
                                 self.updateConversationCollectionView(scrollToBottom: true, success: { success in
-                                    
                                 })
-
-                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                             }
                         }
 
@@ -435,9 +420,6 @@ class ConversationViewController: BaseViewController {
                         // TODO: 音频发送失败
                         
                     }, completion: { (success) -> Void in
-//                        if success {
-//                            self.updateMessagesStates()
-//                        }
                         println("send audio to friend: \(success)")
                     })
 
@@ -455,10 +437,7 @@ class ConversationViewController: BaseViewController {
                                 realm.commitWrite()
 
                                 self.updateConversationCollectionView(scrollToBottom: true, success: { success in
-                                    
                                 })
-
-                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                             }
                         }
 
@@ -605,7 +584,6 @@ class ConversationViewController: BaseViewController {
         for message in messages {
             markMessageAsReaded(message)
         }
-
     }
     
     func markMessageAsReaded(message: Message) {
@@ -908,15 +886,9 @@ class ConversationViewController: BaseViewController {
     }
 
     func updateConversationCollectionView(#scrollToBottom: Bool, success: (Bool) -> Void) {
-//        dispatch_async(dispatch_get_main_queue()) {
-//            ConversationOperationQueue.sharedManager.conversationLock = true
-//        }
-
         let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
+
         adjustConversationCollectionViewWith(keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
-//            dispatch_async(dispatch_get_main_queue()) {
-//                ConversationOperationQueue.sharedManager.conversationLock = false
-//            }
             success(finished)
         }
     }
@@ -1162,11 +1134,10 @@ class ConversationViewController: BaseViewController {
             
             self.view.layoutIfNeeded()
             
-            }, completion: { (finished) -> Void in
-                if keyboard {
-                    self.keyboardShowTimes -= 1
-                }
-                
+        }, completion: { (finished) -> Void in
+            if keyboard {
+                self.keyboardShowTimes -= 1
+            }
         })
     }
 
@@ -1296,16 +1267,6 @@ class ConversationViewController: BaseViewController {
                         }
                     }
 
-//                    vc.modalPresentationStyle = UIModalPresentationStyle.Custom
-//
-//                    let transitionManager = ConversationMessagePreviewTransitionManager()
-//                    transitionManager.frame = frame
-//                    transitionManager.transitionView = transitionView
-//                    
-//                    vc.transitioningDelegate = transitionManager
-//                    
-//                    messagePreviewTransitionManager = transitionManager
-
                     let delegate = ConversationMessagePreviewNavigationControllerDelegate()
                     delegate.frame = frame
                     delegate.transitionView = transitionView
@@ -1404,8 +1365,6 @@ class ConversationViewController: BaseViewController {
                             self.updateConversationCollectionView(scrollToBottom: false, success: { success in
                                 
                             })
-
-                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                         }
 
                     }, failureHandler: { (reason, errorMessage) -> () in
@@ -1413,10 +1372,6 @@ class ConversationViewController: BaseViewController {
                         // TODO: sendLocation 错误提醒
 
                     }, completion: { success -> Void in
-                        
-//                        if success {
-//                            self.updateMessagesStates()
-//                        }
                         println("sendLocation to friend: \(success)")
                     })
 
@@ -1425,10 +1380,7 @@ class ConversationViewController: BaseViewController {
                     sendLocationWithCoordinate(coordinate, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                         dispatch_async(dispatch_get_main_queue()) {
                             self.updateConversationCollectionView(scrollToBottom: false, success: { success in
-                                
                             })
-
-                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                         }
 
                     }, failureHandler: { (reason, errorMessage) -> () in
@@ -1470,75 +1422,6 @@ extension ConversationViewController: UIGestureRecognizerDelegate {
 
 extension ConversationViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
-//    func updateMessagesStates() {
-//        
-////        println("Print queue")
-//        
-////        println(ConversationOperationQueue.sharedManager.oprationQueue)
-//        
-//        if !ConversationOperationQueue.sharedManager.lock {
-////            println("Begin opration")
-//            if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
-//                
-//                ConversationOperationQueue.sharedManager.lock = true
-//                
-//                let operation = ConversationOperationQueue.sharedManager.oprationQueue[0]
-//                
-//                switch operation.type.rawValue {
-//                    
-//                case MessageStateOperationType.Read.rawValue:
-//                    println("Message Read")
-//
-//                case MessageStateOperationType.Sent.rawValue:
-//                    println("Message Sent")
-//                default:
-//                    break
-//                }
-//            }
-//        } else {
-//            println("Skip lock")
-//        }
-//    }
-
-//    func updateMessageReadStatesChangeOperation() {
-//        ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
-//        
-//        ConversationOperationQueue.sharedManager.lock = false
-//        //                    println("Lock released")
-//        if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
-//            //                        println("Message Read finished")
-//            updateMessagesStates()
-//        }
-//    }
-
-    
-//    func updateMessageStatesOperation() {
-//        
-////        println("Begin update new state into ColllectionView")
-//        if ConversationOperationQueue.sharedManager.conversationLock {
-//            
-//            delay(0.3) {
-//                self.updateMessageStatesOperation()
-//            }
-//            
-//        } else {
-//            updateConversationCollectionView(scrollToBottom: true, success: { success in
-//                
-//                //            println("Update Finished")
-//                dispatch_async(dispatch_get_main_queue()) {
-//                    ConversationOperationQueue.sharedManager.oprationQueue.removeAtIndex(0)
-//                    
-//                    ConversationOperationQueue.sharedManager.lock = false
-//                    
-//                    if ConversationOperationQueue.sharedManager.oprationQueue.count > 0 {
-//                        self.updateMessagesStates()
-//                    }
-//                    
-//                }
-//            })
-//        }
-//    }
-
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -2037,10 +1920,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                     }
 
                     self.updateConversationCollectionView(scrollToBottom: true, success: { success in
-                        
                     })
-
-                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                 }
 
             }, failureHandler: {(reason, errorMessage) -> () in
@@ -2048,9 +1928,6 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 // TODO: sendImage 错误提醒
 
             }, completion: { success -> Void in
-//                if success {
-//                    self.updateMessagesStates()
-//                }
                 println("sendImage to friend: \(success)")
             })
 
@@ -2071,10 +1948,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                     }
                     
                     self.updateConversationCollectionView(scrollToBottom: true, success: { success in
-                        
                     })
-
-                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                 }
                 
             }, failureHandler: {(reason, errorMessage) -> () in
@@ -2134,10 +2008,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                     }
 
                     self.updateConversationCollectionView(scrollToBottom: false, success: { success in
-                        
                     })
-
-                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageSent, object: nil)
                 }
             }
         }
@@ -2148,9 +2019,6 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 // TODO: sendVideo 错误提醒
 
             }, completion: { success -> Void in
-//                if success {
-//                    self.updateMessagesStates()
-//                }
                 println("sendVideo to friend: \(success)")
             })
 
