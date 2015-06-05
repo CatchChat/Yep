@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 typealias CancelableTask = (cancel: Bool) -> Void
 
@@ -37,3 +38,23 @@ func delay(time: NSTimeInterval, work: dispatch_block_t) -> CancelableTask? {
 func cancel(cancelableTask: CancelableTask?) {
     cancelableTask?(cancel: true)
 }
+
+func cleanRealmAndCaches() {
+    // clean Realm
+
+    let realm = Realm()
+    realm.write {
+        realm.deleteAll()
+    }
+
+    // clean Message caches
+
+    NSFileManager.cleanMessageCaches()
+
+    // clean Avatar caches
+
+    NSFileManager.cleanAvatarCaches()
+
+    NSNotificationCenter.defaultCenter().postNotificationName(EditProfileViewController.Notification.Logout, object: nil)
+}
+

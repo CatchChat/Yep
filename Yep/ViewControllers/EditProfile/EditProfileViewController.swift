@@ -289,22 +289,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     appDelegate.startIntroStory()
                 }
 
-                // clean Realm
-
-                let realm = Realm()
-                realm.write {
-                    realm.deleteAll()
-                }
-
-                // clean Message caches
-
-                NSFileManager.cleanMessageCaches()
-
-                // clean Avatar caches
-
-                NSFileManager.cleanAvatarCaches()
-
-                NSNotificationCenter.defaultCenter().postNotificationName(Notification.Logout, object: nil)
+                cleanRealmAndCaches()
 
             }, cancelAction: { () -> Void in
             })

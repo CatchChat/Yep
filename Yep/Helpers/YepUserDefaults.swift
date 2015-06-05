@@ -88,6 +88,9 @@ class YepUserDefaults {
     }
 
     class func userNeedRelogin() {
+
+        cleanRealmAndCaches()
+        
         cleanAll()
 
         if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
