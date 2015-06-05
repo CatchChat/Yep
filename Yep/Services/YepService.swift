@@ -1368,19 +1368,34 @@ func resendMessage(message: Message, #failureHandler: ((Reason, String?) -> Void
                 sendMessage(message, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
 
             case .Image:
-                let filePath =  NSFileManager.yepMessageImageURLWithName(message.localAttachmentName)?.path
+                let filePath = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName)?.path
 
                 sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
 
+           case .Video:
+                let filePath = NSFileManager.yepMessageVideoURLWithName(message.localAttachmentName)?.path
+
+                sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
+
+            case .Audio:
+                let filePath = NSFileManager.yepMessageAudioURLWithName(message.localAttachmentName)?.path
+
+                sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
+
+            case .Location:
+                if let coordinate = message.coordinate {
+                    let fillMoreInfo: JSONDictionary -> JSONDictionary = { info in
+                        var moreInfo = info
+                        moreInfo["longitude"] = coordinate.longitude
+                        moreInfo["latitude"] = coordinate.latitude
+                        return moreInfo
+                    }
+
+                    sendMessage(message, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
+                }
+
             default:
                 break
-                //        case Text           = 0
-                //        case Image          = 1
-                //        case Video          = 2
-                //        case Audio          = 3
-                //        case Sticker        = 4
-                //        case Location       = 5
-                //        case SectionDate    = 6
             }
     }
 }
