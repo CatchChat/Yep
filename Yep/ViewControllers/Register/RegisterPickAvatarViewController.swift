@@ -190,20 +190,35 @@ class RegisterPickAvatarViewController: UIViewController {
 
     @IBAction func captureOrFinish(sender: UIButton) {
         if pickAvatarState == .Captured {
-            // TODO: 需要等待的菊花
-            s3PublicUploadParams(failureHandler: nil) { s3UploadParams in
+
+            YepHUD.showActivityIndicator()
+
+            s3PublicUploadParams(failureHandler: { (reason, errorMessage) in
+                defaultFailureHandler(reason, errorMessage)
+
+                YepHUD.hideActivityIndicator()
+
+            }, completion: { s3UploadParams in
 
                 self.avatar = self.avatar.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
 
                 var imageData = UIImageJPEGRepresentation(self.avatar, YepConfig.avatarCompressionQuality())
 
-                uploadFileToS3(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", s3UploadParams: s3UploadParams, completion: { (result, error) in
-                    println("upload avatar to s3 result: \(result), error: \(error)")
+                uploadFileToS3(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", s3UploadParams: s3UploadParams, completion: { (success, error) in
+                    println("upload avatar to s3 success: \(success), error: \(error)")
 
-                    if (result) {
+                    if (success) {
                         let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
 
-                        updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: nil) { success in
+                        updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: { (reason, errorMessage) in
+                            defaultFailureHandler(reason, errorMessage)
+
+                            YepHUD.hideActivityIndicator()
+                            
+                        }, completion: { success in
+
+                            YepHUD.hideActivityIndicator()
+
                             dispatch_async(dispatch_get_main_queue()) {
                                 YepUserDefaults.avatarURLString.value = newAvatarURLString
 
@@ -211,28 +226,30 @@ class RegisterPickAvatarViewController: UIViewController {
                                     self.performSegueWithIdentifier("showRegisterPickSkills", sender: nil)
                                 }
                             }
-                        }
+                        })
+
+                    } else {
+                        YepHUD.hideActivityIndicator()
                     }
                 })
-            }
+            })
 
         } else {
             dispatch_async(sessionQueue) {
-                self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(self.stillImageOutput.connectionWithMediaType(self.mediaType
-                    ), completionHandler: { (imageDataSampleBuffer, error) -> Void in
-                        if error == nil {
-                            let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
-                            var image = UIImage(data: data)!
+                self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(self.stillImageOutput.connectionWithMediaType(self.mediaType), completionHandler: { (imageDataSampleBuffer, error) -> Void in
+                    if error == nil {
+                        let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
+                        var image = UIImage(data: data)!
 
-                            image = UIImage(CGImage: image.CGImage, scale: image.scale, orientation: .LeftMirrored)!
+                        image = UIImage(CGImage: image.CGImage, scale: image.scale, orientation: .LeftMirrored)!
 
-                            image = image.fixRotation().largestCenteredSquareImage()
+                        image = image.fixRotation().largestCenteredSquareImage()
 
-                            dispatch_async(dispatch_get_main_queue()) {
-                                self.avatar = image
-                                self.pickAvatarState = .Captured
-                            }
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.avatar = image
+                            self.pickAvatarState = .Captured
                         }
+                    }
                 })
             }
         }
