@@ -117,8 +117,12 @@ class LoginVerifyMobileViewController: UIViewController {
 
             let verifyCode = verifyCodeTextField.text
 
+            YepHUD.showActivityIndicator()
+            
             loginByMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage)
+
+                YepHUD.hideActivityIndicator()
 
                 if let errorMessage = errorMessage {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -133,6 +137,8 @@ class LoginVerifyMobileViewController: UIViewController {
             }, completion: { loginUser in
 
                 println("\(loginUser)")
+
+                YepHUD.hideActivityIndicator()
 
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
 

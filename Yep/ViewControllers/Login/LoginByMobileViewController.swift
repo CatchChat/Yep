@@ -67,8 +67,12 @@ class LoginByMobileViewController: UIViewController {
         let mobile = mobileNumberTextField.text
         let areaCode = areaCodeTextField.text
 
+        YepHUD.showActivityIndicator()
+        
         sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .SMS, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage)
+
+            YepHUD.hideActivityIndicator()
 
             if let errorMessage = errorMessage {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -79,6 +83,9 @@ class LoginByMobileViewController: UIViewController {
             }
             
         }, completion: { success in
+
+            YepHUD.hideActivityIndicator()
+
             if success {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.showLoginVerifyMobile()
