@@ -117,8 +117,13 @@ class RegisterVerifyMobileViewController: UIViewController {
             view.endEditing(true)
 
             let verifyCode = verifyCodeTextField.text
+
+            YepHUD.showActivityIndicator()
+            
             verifyMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage)
+
+                YepHUD.hideActivityIndicator()
 
                 if let errorMessage = errorMessage {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -134,12 +139,14 @@ class RegisterVerifyMobileViewController: UIViewController {
 
                 println("\(loginUser)")
 
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                YepHUD.hideActivityIndicator()
+
+                dispatch_async(dispatch_get_main_queue()) {
 
                     saveTokenAndUserInfoOfLoginUser(loginUser)
 
                     self.performSegueWithIdentifier("showRegisterPickAvatar", sender: nil)
-                })
+                }
             })
 
         } else {
