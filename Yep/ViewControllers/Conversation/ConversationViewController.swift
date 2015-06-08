@@ -799,7 +799,7 @@ class ConversationViewController: BaseViewController {
 
         let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
 
-        let width = ceil(rect.width)
+        let width = ceil(rect.width) + 1 // + 1 for TTTAttributedLabel
 
         if !key.isEmpty {
             textContentLabelWidths[key] = width
