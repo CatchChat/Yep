@@ -227,6 +227,15 @@ class AvatarCache {
                                     }
 
                                     if let user = userWithAvatarURLString(avatarURLString, inRealm: realm) {
+
+                                        if let oldAvatar = user.avatar {
+                                            NSFileManager.deleteAvatarImageWithName(oldAvatar.avatarFileName)
+
+                                            realm.write {
+                                                realm.delete(oldAvatar)
+                                            }
+                                        }
+
                                         realm.write {
                                             user.avatar = newAvatar
                                         }
