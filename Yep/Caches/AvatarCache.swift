@@ -160,7 +160,7 @@ class AvatarCache {
             }
         }
 
-        // remove these completion
+        // 完成过的就不需要了
         avatarCompletions = avatarCompletions.filter({ $0.avatarURLString != avatarURLString })
     }
 
@@ -210,26 +210,24 @@ class AvatarCache {
 
                             // TODO 裁减 image
 
-                            dispatch_async(dispatch_get_main_queue()) {
-                                let realm = Realm()
+                            let realm = Realm()
 
-                                var avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm())
+                            var avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm())
 
-                                if avatar == nil {
-                                    let avatarFileName = NSUUID().UUIDString
+                            if avatar == nil {
+                                let avatarFileName = NSUUID().UUIDString
 
-                                    if let avatarURL = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
-                                        let newAvatar = Avatar()
-                                        newAvatar.avatarURLString = avatarURLString
-                                        newAvatar.avatarFileName = avatarFileName
-                                        
-                                        realm.write {
-                                            realm.add(newAvatar)
-                                        }
+                                if let avatarURL = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
+                                    let newAvatar = Avatar()
+                                    newAvatar.avatarURLString = avatarURLString
+                                    newAvatar.avatarFileName = avatarFileName
+
+                                    realm.write {
+                                        realm.add(newAvatar)
                                     }
                                 }
                             }
-                            
+
                             self.completeWithImage(image, avatarURLString: avatarURLString)
                         }
                     }
