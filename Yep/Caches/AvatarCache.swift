@@ -73,6 +73,9 @@ class AvatarCache {
 //    }
 
     func avatarFromURL(url: NSURL, completion: (UIImage) -> ()) {
+
+        completion(UIImage(named: "default_avatar")!)
+
         let normalImageKey = "normal-\(url.hashValue)"
 
         let avatarURLString = url.absoluteString!
@@ -123,9 +126,6 @@ class AvatarCache {
                         self.cache.setObject(image, forKey: normalImageKey)
                         
                         completion(image)
-
-                    } else {
-                        completion(UIImage(named: "default_avatar")!)
                     }
                 }
             }
@@ -133,9 +133,10 @@ class AvatarCache {
     }
 
     func roundAvatarWithAvatarURLString(avatarURLString: String, withRadius radius: CGFloat, completion: (UIImage) -> ()) {
-        if avatarURLString.isEmpty {
-            completion(defaultRoundAvatarOfRadius(radius))
 
+        completion(defaultRoundAvatarOfRadius(radius))
+
+        if avatarURLString.isEmpty {
             return
         }
 
@@ -194,24 +195,17 @@ class AvatarCache {
                         self.cache.setObject(roundImage, forKey: roundImageKey)
 
                         completion(roundImage)
-
-                    } else {
-                        completion(UIImage(named: "default_avatar")!)
                     }
                 }
             }
-            
-        } else {
-            completion(defaultRoundAvatarOfRadius(radius))
         }
-
     }
 
     func roundAvatarOfUser(user: User, withRadius radius: CGFloat, completion: (UIImage) -> ()) {
 
-        if user.avatarURLString.isEmpty {
-            completion(defaultRoundAvatarOfRadius(radius))
+        completion(defaultRoundAvatarOfRadius(radius))
 
+        if user.avatarURLString.isEmpty {
             return
         }
 
@@ -301,15 +295,9 @@ class AvatarCache {
                         self.cache.setObject(roundImage, forKey: roundImageKey)
 
                         completion(roundImage)
-
-                    } else {
-                        completion(UIImage(named: "default_avatar")!)
                     }
                 }
             }
-
-        } else {
-            completion(defaultRoundAvatarOfRadius(radius))
         }
     }
 
