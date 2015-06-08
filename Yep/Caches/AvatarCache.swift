@@ -94,8 +94,7 @@ class AvatarCache {
             } else {
                 // 没办法，下载吧
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                    if let data = NSData(contentsOfURL: url) {
-                        let image = UIImage(data: data)!
+                    if let data = NSData(contentsOfURL: url), image = UIImage(data: data) {
 
                         // TODO 裁减 image
 
@@ -166,8 +165,7 @@ class AvatarCache {
 
                 // 没办法，下载吧
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                    if let data = NSData(contentsOfURL: url) {
-                        let image = UIImage(data: data)!
+                    if let data = NSData(contentsOfURL: url), image = UIImage(data: data) {
 
                         // TODO 裁减 image
 
@@ -192,10 +190,13 @@ class AvatarCache {
                         }
 
                         let roundImage = image.roundImageOfRadius(radius)
-                        
+
                         self.cache.setObject(roundImage, forKey: roundImageKey)
-                        
+
                         completion(roundImage)
+
+                    } else {
+                        completion(UIImage(named: "default_avatar")!)
                     }
                 }
             }
@@ -300,6 +301,9 @@ class AvatarCache {
                         self.cache.setObject(roundImage, forKey: roundImageKey)
 
                         completion(roundImage)
+
+                    } else {
+                        completion(UIImage(named: "default_avatar")!)
                     }
                 }
             }
