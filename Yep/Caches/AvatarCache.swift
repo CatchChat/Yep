@@ -132,74 +132,6 @@ class AvatarCache {
         }
     }
 
-    func roundAvatarWithAvatarURLString(avatarURLString: String, withRadius radius: CGFloat, completion: (UIImage) -> ()) {
-
-        completion(defaultRoundAvatarOfRadius(radius))
-
-        if avatarURLString.isEmpty {
-            return
-        }
-
-        if let url = NSURL(string: avatarURLString) {
-            let roundImageKey = "round-\(radius)-\(url.hashValue)"
-
-            // 先看看缓存
-            if let roundImage = cache.objectForKey(roundImageKey) as? UIImage {
-                completion(roundImage)
-
-            } else {
-                // 再看看是否已下载
-                if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()) {
-
-                    if
-                        let avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
-                        let image = UIImage(contentsOfFile: avatarFileURL.path!) {
-                        let roundImage = image.roundImageOfRadius(radius)
-
-                        self.cache.setObject(roundImage, forKey: roundImageKey)
-
-                        completion(roundImage)
-
-                        return
-                    }
-                }
-
-                // 没办法，下载吧
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                    if let data = NSData(contentsOfURL: url), image = UIImage(data: data) {
-
-                        // TODO 裁减 image
-
-                        dispatch_async(dispatch_get_main_queue()) {
-                            let realm = Realm()
-
-                            var avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm())
-
-                            if avatar == nil {
-                                let avatarFileName = NSUUID().UUIDString
-
-                                if let avatarURL = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
-                                    let newAvatar = Avatar()
-                                    newAvatar.avatarURLString = avatarURLString
-                                    newAvatar.avatarFileName = avatarFileName
-
-                                    realm.write {
-                                        realm.add(newAvatar)
-                                    }
-                                }
-                            }
-                        }
-
-                        let roundImage = image.roundImageOfRadius(radius)
-
-                        self.cache.setObject(roundImage, forKey: roundImageKey)
-
-                        completion(roundImage)
-                    }
-                }
-            }
-        }
-    }
 
     typealias Completion = UIImage -> Void
 
@@ -232,6 +164,81 @@ class AvatarCache {
         avatarCompletions = avatarCompletions.filter({ $0.avatarURLString != avatarURLString })
     }
 
+
+    func roundAvatarWithAvatarURLString(avatarURLString: String, withRadius radius: CGFloat, completion: (UIImage) -> ()) {
+
+        completion(defaultRoundAvatarOfRadius(radius))
+
+        if avatarURLString.isEmpty {
+            return
+        }
+
+        if let url = NSURL(string: avatarURLString) {
+
+            let avatarCompletion = AvatarCompletion(avatarURLString: avatarURLString, radius: radius, completion: completion)
+
+            let avatarKey = avatarCompletion.avatarKey
+
+            // 先看看缓存
+            if let roundImage = cache.objectForKey(avatarKey) as? UIImage {
+                completion(roundImage)
+
+            } else {
+                avatarCompletions.append(avatarCompletion)
+
+                if avatarCompletions.filter({ $0.avatarURLString == avatarURLString }).count > 1 {
+                    avatarCompletions.append(avatarCompletion)
+
+                } else {
+                    // 再看看是否已下载
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+
+                        if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()) {
+
+                            if let
+                                avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
+                                avatarFilePath = avatarFileURL.path,
+                                image = UIImage(contentsOfFile: avatarFilePath) {
+                                    self.completeWithImage(image, avatarURLString: avatarURLString)
+
+                                    return
+                            }
+                        }
+
+                        // 没办法，下载吧
+                        if let data = NSData(contentsOfURL: url), image = UIImage(data: data) {
+
+                            // TODO 裁减 image
+
+                            dispatch_async(dispatch_get_main_queue()) {
+                                let realm = Realm()
+
+                                var avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm())
+
+                                if avatar == nil {
+                                    let avatarFileName = NSUUID().UUIDString
+
+                                    if let avatarURL = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
+                                        let newAvatar = Avatar()
+                                        newAvatar.avatarURLString = avatarURLString
+                                        newAvatar.avatarFileName = avatarFileName
+                                        
+                                        realm.write {
+                                            realm.add(newAvatar)
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            self.completeWithImage(image, avatarURLString: avatarURLString)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
     func roundAvatarOfUser(user: User, withRadius radius: CGFloat, completion: (UIImage) -> ()) {
 
         completion(defaultRoundAvatarOfRadius(radius))
@@ -255,7 +262,6 @@ class AvatarCache {
                 completion(roundImage)
 
             } else {
-
                 avatarCompletions.append(avatarCompletion)
 
                 if avatarCompletions.filter({ $0.avatarURLString == avatarURLString }).count > 1 {
