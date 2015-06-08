@@ -269,32 +269,35 @@ class AvatarCache {
 
                 } else {
 
-                    let avatarsAvatarURLString = user.avatar?.avatarURLString
+                    let oldAvatarURLString = user.avatar?.avatarURLString
 
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
 
                         let realm = Realm()
 
                         // 再看看是否已下载
-                        if let
-                            avatarsAvatarURLString = avatarsAvatarURLString,
-                            avatar = avatarWithAvatarURLString(avatarsAvatarURLString, inRealm: realm) {
+                        if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
 
-                                if avatar.avatarURLString == avatarURLString {
-                                    if let
-                                        avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
-                                        avatarFilePath = avatarFileURL.path,
-                                        image = UIImage(contentsOfFile: avatarFilePath) {
-                                            self.completeWithImage(image, avatarURLString: avatarURLString)
+                            if let
+                                avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
+                                avatarFilePath = avatarFileURL.path,
+                                image = UIImage(contentsOfFile: avatarFilePath) {
+                                    self.completeWithImage(image, avatarURLString: avatarURLString)
 
-                                            return
-                                    }
+                                    return
+                            }
 
-                                } else { // 换了 Avatar，删除旧的
+                        } else { // 换了 Avatar，删除旧的
+                            if let
+                                oldAvatarURLString = oldAvatarURLString,
+                                avatar = avatarWithAvatarURLString(oldAvatarURLString, inRealm: realm) {
+
+                                    NSFileManager.deleteAvatarImageWithName(avatar.avatarFileName)
+
                                     realm.write {
                                         realm.delete(avatar)
                                     }
-                                }
+                            }
                         }
 
                         // 没办法，下载吧

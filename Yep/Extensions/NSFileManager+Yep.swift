@@ -49,6 +49,12 @@ extension NSFileManager {
         return nil
     }
 
+    class func deleteAvatarImageWithName(name: String) {
+        if let avatarURL = yepAvatarURLWithName(name) {
+            NSFileManager.defaultManager().removeItemAtURL(avatarURL, error: nil)
+        }
+    }
+
     // MARK: Message
 
     class func yepMessageCachesURL() -> NSURL? {
