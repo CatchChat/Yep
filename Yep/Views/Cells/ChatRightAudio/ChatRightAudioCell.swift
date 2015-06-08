@@ -65,7 +65,7 @@ class ChatRightAudioCell: ChatRightBaseCell {
         audioBubbleTapAction?(message: message)
     }
 
-    func configureWithMessage(message: Message, audioPlayedDuration: Double, audioBubbleTapAction: AudioBubbleTapAction?) {
+    func configureWithMessage(message: Message, audioPlayedDuration: Double, audioBubbleTapAction: AudioBubbleTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
 
         self.message = message
 
@@ -76,7 +76,9 @@ class ChatRightAudioCell: ChatRightBaseCell {
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.avatarImageView.image = roundImage
+                    if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
+                        self.avatarImageView.image = roundImage
+                    }
                 }
             }
         }

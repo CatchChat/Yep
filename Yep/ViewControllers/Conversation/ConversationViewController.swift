@@ -1472,7 +1472,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { message in
 
                         self.playMessageAudioWithMessage(message)
-                    })
+
+                    }, collectionView: collectionView, indexPath: indexPath)
                                         
                     return cell
 
@@ -1570,7 +1571,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         }
 
                         self.playMessageAudioWithMessage(message)
-                    })
+
+                    }, collectionView: collectionView, indexPath: indexPath)
 
                     return cell
 
