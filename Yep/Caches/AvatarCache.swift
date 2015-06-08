@@ -225,6 +225,12 @@ class AvatarCache {
                                     realm.write {
                                         realm.add(newAvatar)
                                     }
+
+                                    if let user = userWithAvatarURLString(avatarURLString, inRealm: realm) {
+                                        realm.write {
+                                            user.avatar = newAvatar
+                                        }
+                                    }
                                 }
                             }
 

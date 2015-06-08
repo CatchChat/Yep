@@ -288,6 +288,11 @@ func userWithUserID(userID: String, inRealm realm: Realm) -> User? {
     return realm.objects(User).filter(predicate).first
 }
 
+func userWithAvatarURLString(avatarURLString: String, inRealm realm: Realm) -> User? {
+    let predicate = NSPredicate(format: "avatarURLString = %@", avatarURLString)
+    return realm.objects(User).filter(predicate).first
+}
+
 func groupWithGroupID(groupID: String, inRealm realm: Realm) -> Group? {
     let predicate = NSPredicate(format: "groupID = %@", groupID)
     return realm.objects(Group).filter(predicate).first
