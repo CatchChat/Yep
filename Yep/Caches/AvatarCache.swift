@@ -201,65 +201,101 @@ class AvatarCache {
         }
     }
 
+    typealias Completion = UIImage -> Void
+
+    struct AvatarCompletion {
+        let avatarURLString: String
+        let radius: CGFloat
+        let completion: Completion
+
+        var avatarKey: String {
+            return "round-\(radius)-\(avatarURLString.hashValue)"
+        }
+    }
+
+    var avatarCompletions = [AvatarCompletion]()
+
+    func completeWithImage(image: UIImage, avatarURLString: String) {
+
+        for avatarCompletion in avatarCompletions.filter({ $0.avatarURLString == avatarURLString }) {
+
+            let avatar = image.roundImageOfRadius(avatarCompletion.radius)
+
+            cache.setObject(avatar, forKey: avatarCompletion.avatarKey)
+
+            dispatch_async(dispatch_get_main_queue()) {
+                avatarCompletion.completion(avatar)
+            }
+        }
+
+        // remove these completion
+        avatarCompletions = avatarCompletions.filter({ $0.avatarURLString != avatarURLString })
+    }
+
     func roundAvatarOfUser(user: User, withRadius radius: CGFloat, completion: (UIImage) -> ()) {
 
         completion(defaultRoundAvatarOfRadius(radius))
 
-        if user.avatarURLString.isEmpty {
+        // 为下面切换线程准备，Realm 不能跨线程访问
+        let avatarURLString = user.avatarURLString
+        let userID = user.userID
+
+        if avatarURLString.isEmpty {
             return
         }
 
-        if let url = NSURL(string: user.avatarURLString) {
-            let roundImageKey = "round-\(radius)-\(url.hashValue)"
+        if let url = NSURL(string: avatarURLString) {
 
-            // 为下面切换线程准备，Realm 不能跨线程访问
-            let avatarURLString = user.avatarURLString
-            let userID = user.userID
+            let avatarCompletion = AvatarCompletion(avatarURLString: avatarURLString, radius: radius, completion: completion)
+
+            let avatarKey = avatarCompletion.avatarKey
 
             // 先看看缓存
-            if let roundImage = cache.objectForKey(roundImageKey) as? UIImage {
+            if let roundImage = cache.objectForKey(avatarKey) as? UIImage {
                 completion(roundImage)
 
             } else {
 
-                // 再看看是否已下载
-                if let avatar = user.avatar {
-                    if avatar.avatarURLString == avatarURLString {
+                avatarCompletions.append(avatarCompletion)
 
+                if avatarCompletions.filter({ $0.avatarURLString == avatarURLString }).count > 1 {
+                    avatarCompletions.append(avatarCompletion)
+
+                } else {
+
+                    let avatarsAvatarURLString = user.avatar?.avatarURLString
+
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+
+                        let realm = Realm()
+
+                        // 再看看是否已下载
                         if let
-                            avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
-                            image = UIImage(contentsOfFile: avatarFileURL.path!) {
-                                let roundImage = image.roundImageOfRadius(radius)
+                            avatarsAvatarURLString = avatarsAvatarURLString,
+                            avatar = avatarWithAvatarURLString(avatarsAvatarURLString, inRealm: realm) {
 
-                                self.cache.setObject(roundImage, forKey: roundImageKey)
+                                if avatar.avatarURLString == avatarURLString {
+                                    if let
+                                        avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
+                                        avatarFilePath = avatarFileURL.path,
+                                        image = UIImage(contentsOfFile: avatarFilePath) {
+                                            self.completeWithImage(image, avatarURLString: avatarURLString)
 
-                                completion(roundImage)
-                                
-                                return
-                        }
+                                            return
+                                    }
 
-                    } else {
-                        // 换了 Avatar，删除旧的
-                        dispatch_async(dispatch_get_main_queue()) {
-                            let realm = Realm()
-
-                            // 不能直接使用 user.avatar, 因为 realm 不同
-                            if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
-                                realm.write {
-                                    realm.delete(avatar)
+                                } else { // 换了 Avatar，删除旧的
+                                    realm.write {
+                                        realm.delete(avatar)
+                                    }
                                 }
-                            }
                         }
-                    }
-                }
 
-                // 没办法，下载吧
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                    if let data = NSData(contentsOfURL: url), image = UIImage(data: data) {
+                        // 没办法，下载吧
+                        if let data = NSData(contentsOfURL: url), image = UIImage(data: data) {
 
-                        // TODO: 裁减 image
+                            // TODO: 裁减 image
 
-                        dispatch_async(dispatch_get_main_queue()) {
                             let realm = Realm()
 
                             var avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm)
@@ -280,7 +316,6 @@ class AvatarCache {
                                 }
                             }
 
-                            // 这里重新用新 realm 获取 user，避免在不同线程访问，导致 "Realm accessed from incorrect thread"
                             if let avatar = avatar {
                                 if let user = userWithUserID(userID, inRealm: realm) {
                                     realm.write {
@@ -288,19 +323,14 @@ class AvatarCache {
                                     }
                                 }
                             }
+                            
+                            self.completeWithImage(image, avatarURLString: avatarURLString)
                         }
-
-                        let roundImage = image.roundImageOfRadius(radius)
-
-                        self.cache.setObject(roundImage, forKey: roundImageKey)
-
-                        completion(roundImage)
                     }
                 }
             }
         }
     }
-
 }
 
 
