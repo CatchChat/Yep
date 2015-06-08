@@ -36,7 +36,7 @@ class ChatRightImageCell: ChatRightBaseCell {
         mediaTapAction?()
     }
 
-    func configureWithMessage(message: Message, messageImagePreferredWidth: CGFloat, messageImagePreferredHeight: CGFloat, messageImagePreferredAspectRatio: CGFloat, mediaTapAction: MediaTapAction?) {
+    func configureWithMessage(message: Message, messageImagePreferredWidth: CGFloat, messageImagePreferredHeight: CGFloat, messageImagePreferredAspectRatio: CGFloat, mediaTapAction: MediaTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
 
         self.message = message
 
@@ -45,7 +45,9 @@ class ChatRightImageCell: ChatRightBaseCell {
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.avatarImageView.image = roundImage
+                    if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
+                        self.avatarImageView.image = roundImage
+                    }
                 }
             }
         }
@@ -57,12 +59,14 @@ class ChatRightImageCell: ChatRightBaseCell {
 
             ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Right) { image in
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.messageImageView.image = image
+                    if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
+                        self.messageImageView.image = image
 
-                    UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                        self.messageImageView.alpha = 1.0
+                        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                            self.messageImageView.alpha = 1.0
                         }, completion: { (finished) -> Void in
-                    })
+                        })
+                    }
                 }
             }
 
@@ -80,12 +84,14 @@ class ChatRightImageCell: ChatRightBaseCell {
 
                                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Right) { image in
                                     dispatch_async(dispatch_get_main_queue()) {
-                                        self.messageImageView.image = image
+                                        if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
+                                            self.messageImageView.image = image
 
-                                        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                                            self.messageImageView.alpha = 1.0
+                                            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                                                self.messageImageView.alpha = 1.0
                                             }, completion: { (finished) -> Void in
-                                        })
+                                            })
+                                        }
                                     }
                                 }
 
@@ -94,12 +100,14 @@ class ChatRightImageCell: ChatRightBaseCell {
 
                                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Right) { image in
                                     dispatch_async(dispatch_get_main_queue()) {
-                                        self.messageImageView.image = image
+                                        if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
+                                            self.messageImageView.image = image
 
-                                        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                                            self.messageImageView.alpha = 1.0
+                                            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                                                self.messageImageView.alpha = 1.0
                                             }, completion: { (finished) -> Void in
-                                        })
+                                            })
+                                        }
                                     }
                                 }
                             }

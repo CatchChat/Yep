@@ -1459,7 +1459,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
 
                         self.performSegueWithIdentifier("showMessageMedia", sender: message)
-                    })
+
+                    }, collectionView: collectionView, indexPath: indexPath)
                     
                     return cell
 
@@ -1536,7 +1537,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         } else {
                             self.performSegueWithIdentifier("showMessageMedia", sender: message)
                         }
-                    })
+
+                    }, collectionView: collectionView, indexPath: indexPath)
                     
                     return cell
 
