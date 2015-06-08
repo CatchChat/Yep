@@ -480,10 +480,7 @@ class ConversationViewController: BaseViewController {
             if let draft = self.conversation.draft {
                 realm.write {
                     draft.messageToolbarState = currentState.rawValue
-
-                    if currentState == .TextInputing {
-                        draft.text = messageToolbar.messageTextView.text
-                    }
+                    draft.text = messageToolbar.messageTextView.text
                 }
 
             } else {
