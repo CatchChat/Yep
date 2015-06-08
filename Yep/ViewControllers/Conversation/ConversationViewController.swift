@@ -1508,7 +1508,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
 
-                    cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message))
+                    cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
 
                     return cell
                 }
@@ -1657,7 +1657,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }, cancelAction: {
                             })
                         }
-                    })
+                    }, collectionView: collectionView, indexPath: indexPath)
 
                     return cell
                 }

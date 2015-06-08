@@ -50,7 +50,7 @@ class ChatLeftTextCell: UICollectionViewCell {
         bubbleTailImageView.tintColor = UIColor.leftBubbleTintColor()
     }
 
-    func configureWithMessage(message: Message, textContentLabelWidth: CGFloat) {
+    func configureWithMessage(message: Message, textContentLabelWidth: CGFloat, collectionView: UICollectionView, indexPath: NSIndexPath) {
         textContentLabel.text = message.textContent
 
         textContentLabelWidthConstraint.constant = max(YepConfig.minMessageTextLabelWidth, textContentLabelWidth)
@@ -59,7 +59,9 @@ class ChatLeftTextCell: UICollectionViewCell {
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.avatarImageView.image = roundImage
+                    if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
+                        self.avatarImageView.image = roundImage
+                    }
                 }
             }
         }

@@ -61,7 +61,7 @@ class ChatRightTextCell: ChatRightBaseCell {
         mediaTapAction?()
     }
     
-    func configureWithMessage(message: Message, textContentLabelWidth: CGFloat, mediaTapAction: MediaTapAction?) {
+    func configureWithMessage(message: Message, textContentLabelWidth: CGFloat, mediaTapAction: MediaTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
 
         self.message = message
 
@@ -75,7 +75,9 @@ class ChatRightTextCell: ChatRightBaseCell {
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.avatarImageView.image = roundImage
+                    if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
+                        self.avatarImageView.image = roundImage
+                    }
                 }
             }
         }
