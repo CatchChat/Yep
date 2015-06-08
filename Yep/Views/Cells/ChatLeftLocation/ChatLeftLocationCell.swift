@@ -34,20 +34,26 @@ class ChatLeftLocationCell: UICollectionViewCell {
         mediaTapAction?()
     }
     
-    func configureWithMessage(message: Message, mediaTapAction: MediaTapAction?) {
+    func configureWithMessage(message: Message, mediaTapAction: MediaTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
 
         self.mediaTapAction = mediaTapAction
 
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { roundImage in
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.avatarImageView.image = roundImage
+                    if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
+                        self.avatarImageView.image = roundImage
+                    }
                 }
             }
         }
 
         ImageCache.sharedInstance.mapImageOfMessage(message, withSize: CGSize(width: 192, height: 108), tailDirection: .Left) { mapImage in
-            self.mapImageView.image = mapImage
+            dispatch_async(dispatch_get_main_queue()) {
+                if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
+                    self.mapImageView.image = mapImage
+                }
+            }
         }
     }
 }

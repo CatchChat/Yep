@@ -1501,7 +1501,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             */
                             mapItem.openInMapsWithLaunchOptions(nil)
                         }
-                    })
+
+                    }, collectionView: collectionView, indexPath: indexPath)
 
                     return cell
 
@@ -1636,7 +1637,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 mapItem.openInMapsWithLaunchOptions(nil)
                             }
                         }
-                    })
+
+                    }, collectionView: collectionView, indexPath: indexPath)
 
                     return cell
 
