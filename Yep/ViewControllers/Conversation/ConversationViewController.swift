@@ -907,13 +907,19 @@ class ConversationViewController: BaseViewController {
         var indexPaths = [NSIndexPath]()
         
         if newMessagesCount > 0 {
-            
+            // TODO: 下面插入逻辑的假设有问题，对方的新消息并不会一直排在最后一个
             for i in 0..<newMessagesCount {
                 let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: 0)
                 indexPaths.append(indexPath)
             }
-            
+
             conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
+            // 先治标
+            if _lastTimeMessagesCount > 0 {
+                let oldLastMessageIndexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length - 1, inSection: 0)
+                conversationCollectionView.reloadItemsAtIndexPaths([oldLastMessageIndexPath])
+            }
         }
 
         if newMessagesCount > 0 {
