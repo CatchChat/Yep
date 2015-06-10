@@ -269,8 +269,8 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
                 newUser.friendState = UserFriendState.Me.rawValue
 
-                if let createdAtString = friendInfo["created_at"] as? String {
-                    newUser.createdAt = NSDate.dateWithISO08601String(createdAtString)
+                if let createdUnixTime = friendInfo["created_at"] as? NSTimeInterval {
+                    newUser.createdUnixTime = createdUnixTime
                 }
 
                 realm.beginWrite()
@@ -285,8 +285,8 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
                 // 更新用户信息
 
-                if let lastSignInAtString = friendInfo["last_sign_in_at"] as? String {
-                    user.lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+                if let lastSignInUnixTime = friendInfo["last_sign_in_at"] as? NSTimeInterval {
+                    user.lastSignInUnixTime = lastSignInUnixTime
                 }
 
                 if let nickname = friendInfo["nickname"] as? String {
@@ -407,8 +407,8 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                             let newUser = User()
                             newUser.userID = userID
 
-                            if let createdAtString = friendInfo["created_at"] as? String {
-                                newUser.createdAt = NSDate.dateWithISO08601String(createdAtString)
+                            if let createdUnixTime = friendInfo["created_at"] as? NSTimeInterval {
+                                newUser.createdUnixTime = createdUnixTime
                             }
 
                             realm.beginWrite()
@@ -423,8 +423,8 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
                             // 更新用户信息
 
-                            if let lastSignInAtString = friendInfo["last_sign_in_at"] as? String {
-                                user.lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+                            if let lastSignInUnixTime = friendInfo["last_sign_in_at"] as? NSTimeInterval {
+                                user.lastSignInUnixTime = lastSignInUnixTime
                             }
 
                             if let nickname = friendInfo["nickname"] as? String {
@@ -568,7 +568,6 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
             if group.conversation == nil {
                 let conversation = Conversation()
                 conversation.type = ConversationType.Group.rawValue
-                conversation.updatedAt = NSDate()
                 conversation.withGroup = group
 
                 realm.beginWrite()
@@ -587,8 +586,8 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 
                         newUser.userID = ownerID
 
-                        if let createdAtString = ownerInfo["created_at"] as? String {
-                            newUser.createdAt = NSDate.dateWithISO08601String(createdAtString)
+                        if let createdUnixTime = ownerInfo["created_at"] as? NSTimeInterval {
+                            newUser.createdUnixTime = createdUnixTime
                         }
 
                         if let myUserID = YepUserDefaults.userID.value {
@@ -613,8 +612,8 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 
                         // 更新个人信息
 
-                        if let lastSignInAtString = ownerInfo["last_sign_in_at"] as? String {
-                            owner.lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+                        if let lastSignInUnixTime = ownerInfo["last_sign_in_at"] as? NSTimeInterval {
+                            owner.lastSignInUnixTime = lastSignInUnixTime
                         }
 
                         if let nickname = ownerInfo["nickname"] as? String {
@@ -696,8 +695,8 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 
                             newMember.userID = memberID
 
-                            if let createdAtString = memberInfo["created_at"] as? String {
-                                newMember.createdAt = NSDate.dateWithISO08601String(createdAtString)
+                            if let createdUnixTime = memberInfo["created_at"] as? NSTimeInterval {
+                                newMember.createdUnixTime = createdUnixTime
                             }
 
                             if let myUserID = YepUserDefaults.userID.value {
@@ -725,8 +724,8 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 
                             // 更新个人信息
 
-                            if let lastSignInAtString = memberInfo["last_sign_in_at"] as? String {
-                                member.lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+                            if let lastSignInUnixTime = memberInfo["last_sign_in_at"] as? NSTimeInterval {
+                                member.lastSignInUnixTime = lastSignInUnixTime
                             }
 
                             if let nickname = memberInfo["nickname"] as? String {
@@ -783,7 +782,7 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
     }
 }
 
-func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
+func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) -> Void) {
     unreadMessages { allUnreadMessages in
         //println("\n allUnreadMessages: \(allUnreadMessages)")
         println("Got unread message \(allUnreadMessages.count)")
@@ -792,8 +791,12 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
 
             let realm = Realm()
 
+            var messageIDs = [String]()
+
             for messageInfo in allUnreadMessages {
-                syncMessageWithMessageInfo(messageInfo, inRealm: realm, andDoFurtherAction: nil)
+                syncMessageWithMessageInfo(messageInfo, inRealm: realm) { messageID in
+                    messageIDs.append(messageID)
+                }
             }
             
             var messages = realm.objects(Message)
@@ -823,12 +826,12 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
 
             // do futher action
             println("加个打印，希望能等到 Realm 在线程间同步好")
-            furtherAction()
+            furtherAction(messageIDs: messageIDs)
         }
     }
 }
 
-func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Realm, andDoFurtherAction furtherAction: (() -> Void)? ) {
+func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageID: String) -> Void)? ) {
 
     func deleteMessage(message: Message, inRealm realm: Realm) {
         realm.beginWrite()
@@ -844,11 +847,13 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
             let newMessage = Message()
             newMessage.messageID = messageID
 
-            newMessage.createdAt = NSDate.dateWithISO08601String(messageInfo["updated_at"] as? String)
+            if let updatedUnixTime = messageInfo["updated_at"] as? NSTimeInterval {
+                newMessage.createdUnixTime = updatedUnixTime
+            }
 
-            realm.beginWrite()
-            realm.add(newMessage)
-            realm.commitWrite()
+            realm.write {
+                realm.add(newMessage)
+            }
 
             message = newMessage
         }
@@ -956,7 +961,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
                         if let conversation = conversation {
                             realm.beginWrite()
 
-                            conversation.updatedAt = message.createdAt
+                            conversation.updatedUnixTime = message.createdUnixTime
 
                             message.conversation = conversation
 
@@ -1042,10 +1047,8 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
 
                             // Do furtherAction after sync
 
-                            if let furtherAction = furtherAction {
-                                //println("syncMessageWithMessageInfo do furtherAction")
-                                furtherAction()
-                            }
+                            //println("syncMessageWithMessageInfo do furtherAction")
+                            furtherAction?(messageID: messageID)
 
                         } else {
                             deleteMessage(message, inRealm: realm)

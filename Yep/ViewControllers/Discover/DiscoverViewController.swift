@@ -149,7 +149,7 @@ extension DiscoverViewController: UITableViewDataSource, UITableViewDelegate {
         cell.joinedDateLabel.text = discoveredUser.introduction
 
         let distance = discoveredUser.distance.format(".1")
-        cell.lastTimeSeenLabel.text = "\(distance) km | \(discoveredUser.lastSignInAt.timeAgo)"
+        cell.lastTimeSeenLabel.text = "\(distance) km | \(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
 
         cell.nameLabel.text = discoveredUser.nickname
 

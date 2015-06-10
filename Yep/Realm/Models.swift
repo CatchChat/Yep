@@ -74,8 +74,8 @@ class User: Object {
     dynamic var avatarURLString: String = ""
     dynamic var avatar: Avatar?
 
-    dynamic var createdAt: NSDate = NSDate()
-    dynamic var lastSignInAt: NSDate = NSDate()
+    dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+    dynamic var lastSignInUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
 
     dynamic var friendState: Int = UserFriendState.Stranger.rawValue
     dynamic var friendshipID: String = ""
@@ -113,7 +113,7 @@ class Group: Object {
     dynamic var groupID: String = ""
     dynamic var groupName: String = ""
 
-    dynamic var createdAt: NSDate = NSDate()
+    dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
 
     dynamic var owner: User?
     let members = List<User>()
@@ -206,8 +206,8 @@ enum MessageSendState: Int, Printable {
 class Message: Object {
     dynamic var messageID: String = ""
 
-    dynamic var createdAt: NSDate = NSDate()
-    dynamic var updatedAt: NSDate = NSDate()
+    dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+    dynamic var updatedUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
 
     dynamic var mediaType: Int = MessageMediaType.Text.rawValue
     dynamic var textContent: String = ""
@@ -251,7 +251,7 @@ enum ConversationType: Int {
 
 class Conversation: Object {
     dynamic var type: Int = ConversationType.OneToOne.rawValue
-    dynamic var updatedAt: NSDate = NSDate()
+    dynamic var updatedUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
 
     dynamic var withFriend: User?
     dynamic var withGroup: Group?
@@ -364,29 +364,29 @@ func messagesInConversation(conversation: Conversation) -> Results<Message> {
     let predicate = NSPredicate(format: "conversation = %@", argumentArray: [conversation])
 
     if let realm = conversation.realm {
-        return realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
+        return realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
 
     } else {
         let realm = Realm()
-        return realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
+        return realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     }
 }
 
 func messagesOfConversationByMe(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
     let predicate = NSPredicate(format: "conversation = %@ AND fromFriend.friendState == %d", argumentArray: [conversation, UserFriendState.Me.rawValue])
-    let messages = realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
+    let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
 }
 
 func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
     let predicate = NSPredicate(format: "conversation = %@", conversation)
-    let messages = realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
+    let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
 }
 
 func unReadMessagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
     let predicate = NSPredicate(format: "conversation = %@ AND readed = 0", conversation)
-    let messages = realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
+    let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
 }
 
@@ -394,13 +394,14 @@ func tryCreateSectionDateMessageInConversation(conversation: Conversation, befor
     let messages = messagesOfConversation(conversation, inRealm: realm)
     if messages.count > 1 {
         let prevMessage = messages[messages.count - 2]
-        if message.createdAt.timeIntervalSinceDate(prevMessage.createdAt) > 180 { // TODO: Time Section
+
+        if message.createdUnixTime - prevMessage.createdUnixTime > 180 { // TODO: Time Section
 
             // insert a new SectionDate Message
             let newSectionDateMessage = Message()
             newSectionDateMessage.conversation = conversation
             newSectionDateMessage.mediaType = MessageMediaType.SectionDate.rawValue
-            newSectionDateMessage.createdAt = message.createdAt.dateByAddingTimeInterval(-1) // 比新消息早一秒
+            newSectionDateMessage.createdUnixTime = message.createdUnixTime - 1 // 比新消息早一秒
 
             success(newSectionDateMessage)
         }
@@ -433,7 +434,11 @@ func nameOfConversation(conversation: Conversation) -> String? {
 func lastChatDateOfConversation(conversation: Conversation) -> NSDate? {
     let messages = messagesInConversation(conversation)
 
-    return messages.last?.createdAt
+    if let lastMessage = messages.last {
+        return NSDate(timeIntervalSince1970: lastMessage.createdUnixTime)
+    }
+    
+    return nil
 }
 
 func lastSignDateOfConversation(conversation: Conversation) -> NSDate? {
@@ -442,7 +447,7 @@ func lastSignDateOfConversation(conversation: Conversation) -> NSDate? {
     if let
         lastMessage = messages.last,
         user = lastMessage.fromFriend {
-            return user.lastSignInAt
+            return NSDate(timeIntervalSince1970: user.lastSignInUnixTime)
     }
 
     return nil

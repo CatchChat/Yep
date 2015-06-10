@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
-        setSchemaVersion(8, Realm.defaultPath, { migration, oldSchemaVersion in
+        setSchemaVersion(10, Realm.defaultPath, { migration, oldSchemaVersion in
             // We haven’t migrated anything yet, so oldSchemaVersion == 0
             if oldSchemaVersion < 1 {
                 // Nothing to do!
@@ -31,19 +31,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // And will update the schema on disk automatically
             }
 
-            if oldSchemaVersion < 2 {
+            if oldSchemaVersion < 9 {
+                migration.enumerate(Message.className()) { oldObject, newObject in
+                    let createdAt = oldObject!["createdAt"] as! NSDate
+                    let updatedAt = oldObject!["updatedAt"] as! NSDate
+
+                    newObject!["createdUnixTime"] = createdAt.timeIntervalSince1970
+                    newObject!["updatedUnixTime"] = updatedAt.timeIntervalSince1970
+                }
+
+                migration.enumerate(Conversation.className()) { oldObject, newObject in
+                    let updatedAt = oldObject!["updatedAt"] as! NSDate
+
+                    newObject!["updatedUnixTime"] = updatedAt.timeIntervalSince1970
+                }
             }
 
-            if oldSchemaVersion < 3 {
-            }
+            if oldSchemaVersion < 10 {
+                migration.enumerate(User.className()) { oldObject, newObject in
+                    let createdAt = oldObject!["createdAt"] as! NSDate
+                    let lastSignInAt = oldObject!["lastSignInAt"] as! NSDate
 
-            if oldSchemaVersion < 4 {
-            }
+                    newObject!["createdUnixTime"] = createdAt.timeIntervalSince1970
+                    newObject!["lastSignInUnixTime"] = lastSignInAt.timeIntervalSince1970
+                }
 
-            if oldSchemaVersion < 5 {
-            }
-            
-            if oldSchemaVersion < 6 {
+                migration.enumerate(Group.className()) { oldObject, newObject in
+                    let createdAt = oldObject!["createdAt"] as! NSDate
+
+                    newObject!["createdUnixTime"] = createdAt.timeIntervalSince1970
+                }
             }
         })
 
@@ -161,10 +178,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func syncUnreadMessages(furtherAction: () -> Void) {
-        syncUnreadMessagesAndDoFurtherAction() {
+        syncUnreadMessagesAndDoFurtherAction() { messageIDs in
             furtherAction()
             dispatch_async(dispatch_get_main_queue()) {
-                NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
+                let object = ["messageIDs": messageIDs]
+                NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: object)
             }
         }
     }
@@ -191,9 +209,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         syncMyInfoAndDoFurtherAction {
             syncFriendshipsAndDoFurtherAction {
                 syncGroupsAndDoFurtherAction {
-                    syncUnreadMessagesAndDoFurtherAction {
+                    syncUnreadMessagesAndDoFurtherAction { messageIDs in
                         dispatch_async(dispatch_get_main_queue()) {
-                            NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
+                            let object = ["messageIDs": messageIDs]
+                            NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: object)
                         }
                     }
                 }

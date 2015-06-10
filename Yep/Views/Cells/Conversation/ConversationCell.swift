@@ -82,7 +82,8 @@ class ConversationCell: UITableViewCell {
 
                     }
 
-                    self.timeAgoLabel.text = latestMessage.createdAt.timeAgo
+                    let createdAt = NSDate(timeIntervalSince1970: latestMessage.createdUnixTime)
+                    self.timeAgoLabel.text = createdAt.timeAgo
 
                 } else {
                     self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
@@ -124,7 +125,8 @@ class ConversationCell: UITableViewCell {
 
                 }
 
-                self.timeAgoLabel.text = latestMessage.createdAt.timeAgo
+                let createdAt = NSDate(timeIntervalSince1970: latestMessage.createdUnixTime)
+                self.timeAgoLabel.text = createdAt.timeAgo
 
             } else {
                 self.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(radius)
