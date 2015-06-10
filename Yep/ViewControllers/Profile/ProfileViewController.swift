@@ -538,7 +538,7 @@ class ProfileViewController: UIViewController {
 
                     // 更新用户信息
 
-                    user.lastSignInAt = discoveredUser.lastSignInAt
+                    user.lastSignInUnixTime = discoveredUser.lastSignInUnixTime
 
                     user.nickname = discoveredUser.nickname
 

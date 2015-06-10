@@ -74,8 +74,8 @@ class User: Object {
     dynamic var avatarURLString: String = ""
     dynamic var avatar: Avatar?
 
-    dynamic var createdAt: NSDate = NSDate()
-    dynamic var lastSignInAt: NSDate = NSDate()
+    dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+    dynamic var lastSignInUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
 
     dynamic var friendState: Int = UserFriendState.Stranger.rawValue
     dynamic var friendshipID: String = ""
@@ -113,7 +113,7 @@ class Group: Object {
     dynamic var groupID: String = ""
     dynamic var groupName: String = ""
 
-    dynamic var createdAt: NSDate = NSDate()
+    dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
 
     dynamic var owner: User?
     let members = List<User>()
@@ -447,7 +447,7 @@ func lastSignDateOfConversation(conversation: Conversation) -> NSDate? {
     if let
         lastMessage = messages.last,
         user = lastMessage.fromFriend {
-            return user.lastSignInAt
+            return NSDate(timeIntervalSince1970: user.lastSignInUnixTime)
     }
 
     return nil

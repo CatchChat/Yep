@@ -100,7 +100,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.nameLabel.text = friend.nickname
         cell.joinedDateLabel.text = friend.introduction
-        cell.lastTimeSeenLabel.text = friend.createdAt.timeAgo
+        cell.lastTimeSeenLabel.text = NSDate(timeIntervalSince1970: friend.createdUnixTime).timeAgo
 
         return cell
     }

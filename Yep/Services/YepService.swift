@@ -628,8 +628,8 @@ struct DiscoveredUser {
     let introduction: String?
     let avatarURLString: String
 
-    let createdAt: NSDate
-    let lastSignInAt: NSDate
+    let createdUnixTime: NSTimeInterval
+    let lastSignInUnixTime: NSTimeInterval
 
     let longitude: Double
     let latitude: Double
@@ -646,17 +646,14 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
         id = userInfo["id"] as? String,
         nickname = userInfo["nickname"] as? String,
         avatarURLString = userInfo["avatar_url"] as? String,
-        createdAtString = userInfo["created_at"] as? String,
-        lastSignInAtString = userInfo["last_sign_in_at"] as? String,
+        createdUnixTime = userInfo["created_at"] as? NSTimeInterval,
+        lastSignInUnixTime = userInfo["last_sign_in_at"] as? NSTimeInterval,
         longitude = userInfo["longitude"] as? Double,
         latitude = userInfo["latitude"] as? Double,
         distance = userInfo["distance"] as? Double,
         masterSkillsData = userInfo["master_skills"] as? [JSONDictionary],
         learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary],
         socialAccountProvidersInfo = userInfo["providers"] as? [String: Bool] {
-
-            let createdAt = NSDate.dateWithISO08601String(createdAtString)
-            let lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
 
             let masterSkills = skillsFromSkillsData(masterSkillsData)
             let learningSkills = skillsFromSkillsData(learningSkillsData)
@@ -671,7 +668,7 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
 
             let introduction = userInfo["introduction"] as? String
 
-            let discoverUser = DiscoveredUser(id: id, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, createdAt: createdAt, lastSignInAt: lastSignInAt, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
+            let discoverUser = DiscoveredUser(id: id, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, createdUnixTime: createdUnixTime, lastSignInUnixTime: lastSignInUnixTime, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
 
             return discoverUser
     }

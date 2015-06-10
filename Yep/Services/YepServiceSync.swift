@@ -269,8 +269,8 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
                 newUser.friendState = UserFriendState.Me.rawValue
 
-                if let createdAtString = friendInfo["created_at"] as? String {
-                    newUser.createdAt = NSDate.dateWithISO08601String(createdAtString)
+                if let createdUnixTime = friendInfo["created_at"] as? NSTimeInterval {
+                    newUser.createdUnixTime = createdUnixTime
                 }
 
                 realm.beginWrite()
@@ -285,8 +285,8 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
                 // 更新用户信息
 
-                if let lastSignInAtString = friendInfo["last_sign_in_at"] as? String {
-                    user.lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+                if let lastSignInUnixTime = friendInfo["last_sign_in_at"] as? NSTimeInterval {
+                    user.lastSignInUnixTime = lastSignInUnixTime
                 }
 
                 if let nickname = friendInfo["nickname"] as? String {
@@ -407,8 +407,8 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                             let newUser = User()
                             newUser.userID = userID
 
-                            if let createdAtString = friendInfo["created_at"] as? String {
-                                newUser.createdAt = NSDate.dateWithISO08601String(createdAtString)
+                            if let createdUnixTime = friendInfo["created_at"] as? NSTimeInterval {
+                                newUser.createdUnixTime = createdUnixTime
                             }
 
                             realm.beginWrite()
@@ -423,8 +423,8 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
                             // 更新用户信息
 
-                            if let lastSignInAtString = friendInfo["last_sign_in_at"] as? String {
-                                user.lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+                            if let lastSignInUnixTime = friendInfo["last_sign_in_at"] as? NSTimeInterval {
+                                user.lastSignInUnixTime = lastSignInUnixTime
                             }
 
                             if let nickname = friendInfo["nickname"] as? String {
@@ -586,8 +586,8 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 
                         newUser.userID = ownerID
 
-                        if let createdAtString = ownerInfo["created_at"] as? String {
-                            newUser.createdAt = NSDate.dateWithISO08601String(createdAtString)
+                        if let createdUnixTime = ownerInfo["created_at"] as? NSTimeInterval {
+                            newUser.createdUnixTime = createdUnixTime
                         }
 
                         if let myUserID = YepUserDefaults.userID.value {
@@ -612,8 +612,8 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 
                         // 更新个人信息
 
-                        if let lastSignInAtString = ownerInfo["last_sign_in_at"] as? String {
-                            owner.lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+                        if let lastSignInUnixTime = ownerInfo["last_sign_in_at"] as? NSTimeInterval {
+                            owner.lastSignInUnixTime = lastSignInUnixTime
                         }
 
                         if let nickname = ownerInfo["nickname"] as? String {
@@ -695,8 +695,8 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 
                             newMember.userID = memberID
 
-                            if let createdAtString = memberInfo["created_at"] as? String {
-                                newMember.createdAt = NSDate.dateWithISO08601String(createdAtString)
+                            if let createdUnixTime = memberInfo["created_at"] as? NSTimeInterval {
+                                newMember.createdUnixTime = createdUnixTime
                             }
 
                             if let myUserID = YepUserDefaults.userID.value {
@@ -724,8 +724,8 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 
                             // 更新个人信息
 
-                            if let lastSignInAtString = memberInfo["last_sign_in_at"] as? String {
-                                member.lastSignInAt = NSDate.dateWithISO08601String(lastSignInAtString)
+                            if let lastSignInUnixTime = memberInfo["last_sign_in_at"] as? NSTimeInterval {
+                                member.lastSignInUnixTime = lastSignInUnixTime
                             }
 
                             if let nickname = memberInfo["nickname"] as? String {
@@ -843,11 +843,13 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
             let newMessage = Message()
             newMessage.messageID = messageID
 
-            newMessage.createdUnixTime = NSDate.dateWithISO08601String(messageInfo["updated_at"] as? String).timeIntervalSince1970
+            if let updatedUnixTime = messageInfo["updated_at"] as? NSTimeInterval {
+                newMessage.createdUnixTime = updatedUnixTime
+            }
 
-            realm.beginWrite()
-            realm.add(newMessage)
-            realm.commitWrite()
+            realm.write {
+                realm.add(newMessage)
+            }
 
             message = newMessage
         }
