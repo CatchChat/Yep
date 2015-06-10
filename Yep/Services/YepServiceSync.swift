@@ -782,7 +782,7 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
     }
 }
 
-func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
+func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) -> Void) {
     unreadMessages { allUnreadMessages in
         //println("\n allUnreadMessages: \(allUnreadMessages)")
         println("Got unread message \(allUnreadMessages.count)")
@@ -791,8 +791,12 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
 
             let realm = Realm()
 
+            var messageIDs = [String]()
+
             for messageInfo in allUnreadMessages {
-                syncMessageWithMessageInfo(messageInfo, inRealm: realm, andDoFurtherAction: nil)
+                syncMessageWithMessageInfo(messageInfo, inRealm: realm) { messageID in
+                    messageIDs.append(messageID)
+                }
             }
             
             var messages = realm.objects(Message)
@@ -822,12 +826,12 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: () -> Void) {
 
             // do futher action
             println("加个打印，希望能等到 Realm 在线程间同步好")
-            furtherAction()
+            furtherAction(messageIDs: messageIDs)
         }
     }
 }
 
-func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Realm, andDoFurtherAction furtherAction: (() -> Void)? ) {
+func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageID: String) -> Void)? ) {
 
     func deleteMessage(message: Message, inRealm realm: Realm) {
         realm.beginWrite()
@@ -1043,10 +1047,8 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
 
                             // Do furtherAction after sync
 
-                            if let furtherAction = furtherAction {
-                                //println("syncMessageWithMessageInfo do furtherAction")
-                                furtherAction()
-                            }
+                            //println("syncMessageWithMessageInfo do furtherAction")
+                            furtherAction?(messageID: messageID)
 
                         } else {
                             deleteMessage(message, inRealm: realm)

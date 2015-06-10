@@ -236,7 +236,7 @@ class ConversationViewController: BaseViewController {
             })
         }
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedNewMessages", name: YepNewMessagesReceivedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedNewMessagesNotification:", name: YepNewMessagesReceivedNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout", name: EditProfileViewController.Notification.Logout, object: nil)
 
@@ -279,9 +279,9 @@ class ConversationViewController: BaseViewController {
             if let withFriend = self.conversation.withFriend {
 
                 sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
+
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.updateConversationCollectionView(scrollToBottom: true, success: { success in
-                            
+                        self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
                         })
                     }
 
@@ -295,9 +295,9 @@ class ConversationViewController: BaseViewController {
 
             } else if let withGroup = self.conversation.withGroup {
                 sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
+
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.updateConversationCollectionView(scrollToBottom: true, success: { success in
-                            
+                        self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
                         })
                     }
 
@@ -410,7 +410,7 @@ class ConversationViewController: BaseViewController {
                                 }
                                 realm.commitWrite()
 
-                                self.updateConversationCollectionView(scrollToBottom: true, success: { success in
+                                self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
                                 })
                             }
                         }
@@ -436,7 +436,7 @@ class ConversationViewController: BaseViewController {
                                 }
                                 realm.commitWrite()
 
-                                self.updateConversationCollectionView(scrollToBottom: true, success: { success in
+                                self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
                                 })
                             }
                         }
@@ -876,20 +876,27 @@ class ConversationViewController: BaseViewController {
 
     }
     
-    func handleReceivedNewMessages() {
-        updateConversationCollectionView(scrollToBottom: false, success: { success in
+    func handleReceivedNewMessagesNotification(notification: NSNotification) {
+
+        var messageIDs: [String]?
+
+        if let messagesInfo = notification.object as? [String: [String]], let _messageIDs = messagesInfo["messageIDs"] {
+            messageIDs = _messageIDs
+        }
+
+        updateConversationCollectionViewWithMessageIDs(messageIDs, scrollToBottom: false, success: { success in
         })
     }
 
-    func updateConversationCollectionView(#scrollToBottom: Bool, success: (Bool) -> Void) {
+    func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, scrollToBottom: Bool, success: (Bool) -> Void) {
         let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
 
-        adjustConversationCollectionViewWith(keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
+        adjustConversationCollectionViewWithMessageIDs(messageIDs, adjustHeight: keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
             success(finished)
         }
     }
 
-    func adjustConversationCollectionViewWith(adjustHeight: CGFloat, scrollToBottom: Bool, success: (Bool) -> Void) {
+    func adjustConversationCollectionViewWithMessageIDs(messageIDs: [String]?, adjustHeight: CGFloat, scrollToBottom: Bool, success: (Bool) -> Void) {
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
 
@@ -907,6 +914,8 @@ class ConversationViewController: BaseViewController {
         var indexPaths = [NSIndexPath]()
         
         if newMessagesCount > 0 {
+
+            /*
             // TODO: 下面插入逻辑的假设有问题，对方的新消息并不会一直排在最后一个
             for i in 0..<newMessagesCount {
                 let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: 0)
@@ -919,6 +928,25 @@ class ConversationViewController: BaseViewController {
             if _lastTimeMessagesCount > 0 {
                 let oldLastMessageIndexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length - 1, inSection: 0)
                 conversationCollectionView.reloadItemsAtIndexPaths([oldLastMessageIndexPath])
+            }
+            */
+
+            // 我们来治本
+
+            if let messageIDs = messageIDs {
+                for messageID in messageIDs {
+                    if let message = messageWithMessageID(messageID, inRealm: realm) {
+                        if let index = messages.indexOf(message) {
+                            if let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: 0) {
+                                println("insert item: \(indexPath.item)")
+                                conversationCollectionView.insertItemsAtIndexPaths([indexPath])
+                            }
+                        }
+                    }
+                }
+
+            } else {
+                conversationCollectionView.reloadData()
             }
         }
 
@@ -1362,9 +1390,9 @@ class ConversationViewController: BaseViewController {
                 if let withFriend = self.conversation.withFriend {
 
                     sendLocationWithCoordinate(coordinate, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
+
                         dispatch_async(dispatch_get_main_queue()) {
-                            self.updateConversationCollectionView(scrollToBottom: false, success: { success in
-                                
+                            self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
                             })
                         }
 
@@ -1380,7 +1408,7 @@ class ConversationViewController: BaseViewController {
 
                     sendLocationWithCoordinate(coordinate, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                         dispatch_async(dispatch_get_main_queue()) {
-                            self.updateConversationCollectionView(scrollToBottom: false, success: { success in
+                            self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
                             })
                         }
 
@@ -1932,7 +1960,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
 
-                    self.updateConversationCollectionView(scrollToBottom: true, success: { success in
+                    self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
                     })
                 }
 
@@ -1960,7 +1988,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
                     
-                    self.updateConversationCollectionView(scrollToBottom: true, success: { success in
+                    self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
                     })
                 }
                 
@@ -2020,7 +2048,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
 
-                    self.updateConversationCollectionView(scrollToBottom: false, success: { success in
+                    self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
                     })
                 }
             }
