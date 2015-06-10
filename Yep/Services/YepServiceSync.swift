@@ -568,7 +568,6 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
             if group.conversation == nil {
                 let conversation = Conversation()
                 conversation.type = ConversationType.Group.rawValue
-                conversation.updatedAt = NSDate()
                 conversation.withGroup = group
 
                 realm.beginWrite()
@@ -844,7 +843,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
             let newMessage = Message()
             newMessage.messageID = messageID
 
-            newMessage.createdAt = NSDate.dateWithISO08601String(messageInfo["updated_at"] as? String)
+            newMessage.createdUnixTime = NSDate.dateWithISO08601String(messageInfo["updated_at"] as? String).timeIntervalSince1970
 
             realm.beginWrite()
             realm.add(newMessage)
@@ -956,7 +955,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
                         if let conversation = conversation {
                             realm.beginWrite()
 
-                            conversation.updatedAt = message.createdAt
+                            conversation.updatedUnixTime = message.createdUnixTime
 
                             message.conversation = conversation
 

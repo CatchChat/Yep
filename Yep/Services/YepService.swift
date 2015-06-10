@@ -1136,7 +1136,7 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
     }
 
     if let conversation = conversation {
-        conversation.updatedAt = message.createdAt // 关键哦
+        conversation.updatedUnixTime = message.createdUnixTime // 关键哦
         message.conversation = conversation
 
         tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in

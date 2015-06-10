@@ -36,7 +36,7 @@ class ConversationsViewController: UIViewController {
     }
 
     lazy var conversations: Results<Conversation> = {
-        return self.realm.objects(Conversation).sorted("updatedAt", ascending: false)
+        return self.realm.objects(Conversation).sorted("updatedUnixTime", ascending: false)
         }()
 
 

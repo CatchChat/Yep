@@ -236,7 +236,7 @@ class ConversationViewController: BaseViewController {
             })
         }
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversationCollectionViewDefault", name: YepNewMessagesReceivedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedNewMessages", name: YepNewMessagesReceivedNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout", name: EditProfileViewController.Notification.Logout, object: nil)
 
@@ -876,9 +876,18 @@ class ConversationViewController: BaseViewController {
 
     }
     
-    func updateConversationCollectionViewDefault() {
+    func handleReceivedNewMessages() {
+
+//        let newMessagesCount = messages.count - (displayedMessagesRange.location + displayedMessagesRange.length)
+//
+//        println("newMessagesCount: \(newMessagesCount)")
+//
+////        if newMessagesCount > 0 {
+//////            displayedMessagesRange.length += newMessagesCount
+////            lastTimeMessagesCount += 1// newMessagesCount
+////        }
+
         updateConversationCollectionView(scrollToBottom: false, success: { success in
-            
         })
     }
 
@@ -894,7 +903,6 @@ class ConversationViewController: BaseViewController {
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
 
-        
         // 保证是增加消息
         if messages.count <= _lastTimeMessagesCount {
             return
@@ -1431,13 +1439,17 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         let message = messages[displayedMessagesRange.location + indexPath.item]
 
+        println("item messageID: \(message.messageID), \(message.textContent), userID: \(message.fromFriend?.userID), name: \(message.fromFriend?.nickname)")
+
         if message.mediaType == MessageMediaType.SectionDate.rawValue {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
 
-            if message.createdAt.isInCurrentWeek() {
-                cell.sectionDateLabel.text = sectionDateInCurrentWeekFormatter.stringFromDate(message.createdAt)
+            let createdAt = NSDate(timeIntervalSince1970: message.createdUnixTime)
+
+            if createdAt.isInCurrentWeek() {
+                cell.sectionDateLabel.text = sectionDateInCurrentWeekFormatter.stringFromDate(createdAt)
             } else {
-                cell.sectionDateLabel.text = sectionDateFormatter.stringFromDate(message.createdAt)
+                cell.sectionDateLabel.text = sectionDateFormatter.stringFromDate(createdAt)
             }
 
             return cell

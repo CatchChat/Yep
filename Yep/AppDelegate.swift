@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
-        setSchemaVersion(8, Realm.defaultPath, { migration, oldSchemaVersion in
+        setSchemaVersion(9, Realm.defaultPath, { migration, oldSchemaVersion in
             // We haven’t migrated anything yet, so oldSchemaVersion == 0
             if oldSchemaVersion < 1 {
                 // Nothing to do!
@@ -31,19 +31,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // And will update the schema on disk automatically
             }
 
-            if oldSchemaVersion < 2 {
-            }
+            if oldSchemaVersion < 9 {
+                migration.enumerate(Message.className()) { oldObject, newObject in
+                    let createdAt = oldObject!["createdAt"] as! NSDate
+                    let updatedAt = oldObject!["updatedAt"] as! NSDate
 
-            if oldSchemaVersion < 3 {
-            }
+                    newObject!["createdUnixTime"] = createdAt.timeIntervalSince1970
+                    newObject!["updatedUnixTime"] = updatedAt.timeIntervalSince1970
+                }
 
-            if oldSchemaVersion < 4 {
-            }
+                migration.enumerate(Conversation.className()) { oldObject, newObject in
+                    let updatedAt = oldObject!["updatedAt"] as! NSDate
 
-            if oldSchemaVersion < 5 {
-            }
-            
-            if oldSchemaVersion < 6 {
+                    newObject!["updatedUnixTime"] = updatedAt.timeIntervalSince1970
+                }
             }
         })
 
