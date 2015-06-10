@@ -877,16 +877,6 @@ class ConversationViewController: BaseViewController {
     }
     
     func handleReceivedNewMessages() {
-
-//        let newMessagesCount = messages.count - (displayedMessagesRange.location + displayedMessagesRange.length)
-//
-//        println("newMessagesCount: \(newMessagesCount)")
-//
-////        if newMessagesCount > 0 {
-//////            displayedMessagesRange.length += newMessagesCount
-////            lastTimeMessagesCount += 1// newMessagesCount
-////        }
-
         updateConversationCollectionView(scrollToBottom: false, success: { success in
         })
     }
