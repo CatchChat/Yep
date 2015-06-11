@@ -1703,12 +1703,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
 
         } else {
-            println("Conversation: Should not be there")
+            println("🐌 Conversation: Should not be there")
 
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
 
-            cell.textContentLabel.text = ""
-            cell.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(YepConfig.chatCellAvatarSize() * 0.5)
+            cell.sectionDateLabel.text = "🐌"
 
             return cell
         }
