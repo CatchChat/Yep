@@ -47,7 +47,7 @@ class ChatRightTextCell: ChatRightBaseCell {
         textContentLabel.font = UIFont.chatTextFont()
 
         textContentLabelTrailingConstraint.constant = YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
-        textContentLabelLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel()
+        textContentLabelLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel() - 1
 
         bubbleBodyImageView.tintColor = UIColor.rightBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.rightBubbleTintColor()

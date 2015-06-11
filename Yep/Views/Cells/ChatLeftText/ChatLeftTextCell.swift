@@ -44,7 +44,7 @@ class ChatLeftTextCell: UICollectionViewCell {
         textContentLabel.font = UIFont.chatTextFont()
 
         textContentLabelLeadingConstaint.constant = YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
-        textContentLabelTrailingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel()
+        textContentLabelTrailingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel() - 1
 
         bubbleBodyImageView.tintColor = UIColor.leftBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.leftBubbleTintColor()

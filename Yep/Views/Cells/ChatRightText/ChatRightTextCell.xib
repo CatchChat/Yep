@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15A178w" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -13,18 +13,21 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="500" height="131"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="bubble_right_tail" translatesAutoresizingMaskIntoConstraints="NO" id="1JC-jy-KNh" userLabel="Bubble Tail Image View">
-                        <rect key="frame" x="430" y="50" width="13" height="14"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_right_tail" translatesAutoresizingMaskIntoConstraints="NO" id="1JC-jy-KNh" userLabel="Bubble Tail Image View">
+                        <rect key="frame" x="430" y="41" width="13" height="14"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="14" id="GPy-Nl-hAU"/>
                             <constraint firstAttribute="width" constant="13" id="V5D-yH-fLA"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="bubble_body" translatesAutoresizingMaskIntoConstraints="NO" id="73l-kE-1KG" userLabel="Bubble Body Image View">
-                        <rect key="frame" x="327" y="37" width="110" height="57"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_body" translatesAutoresizingMaskIntoConstraints="NO" id="73l-kE-1KG" userLabel="Bubble Body Image View">
+                        <rect key="frame" x="327" y="28" width="110" height="75"/>
+                        <animations/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ek-jh-1iK" userLabel="Text Content Label" customClass="TTTAttributedLabel">
-                        <rect key="frame" x="339" y="48" width="86" height="35"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ek-jh-1iK" userLabel="Text Content Label" customClass="TTTAttributedLabel">
+                        <rect key="frame" x="339" y="39" width="86" height="53"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="86" id="mFu-rE-sns"/>
                         </constraints>
@@ -34,8 +37,9 @@ Hello World</string>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RKK-8d-9vO" userLabel="Avatar Image View">
-                        <rect key="frame" x="445" y="37" width="40" height="40"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RKK-8d-9vO" userLabel="Avatar Image View">
+                        <rect key="frame" x="445" y="28" width="40" height="40"/>
+                        <animations/>
                         <color key="tintColor" red="0.80000001192092896" green="0.40000000596046448" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="RKK-8d-9vO" secondAttribute="height" multiplier="1:1" id="LU8-0P-1eJ"/>
@@ -44,14 +48,17 @@ Hello World</string>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_sending" translatesAutoresizingMaskIntoConstraints="NO" id="l93-41-FuF" userLabel="Dot Image View">
                         <rect key="frame" x="316" y="63" width="6" height="6"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="l93-41-FuF" secondAttribute="height" multiplier="1:1" id="1c1-JW-Hdk"/>
                             <constraint firstAttribute="width" constant="6" id="5xl-b1-mjw"/>
                         </constraints>
                     </imageView>
                 </subviews>
+                <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
+            <animations/>
             <constraints>
                 <constraint firstItem="73l-kE-1KG" firstAttribute="top" secondItem="6ek-jh-1iK" secondAttribute="top" constant="-11" id="Cd3-3v-PNz"/>
                 <constraint firstAttribute="centerY" secondItem="6ek-jh-1iK" secondAttribute="centerY" id="Cf2-L7-PcF"/>
