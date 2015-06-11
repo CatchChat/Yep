@@ -1480,6 +1480,8 @@ func githubWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, Strin
 
         if let reposData = data["repos"] as? [JSONDictionary], userInfo = data["user"] as? JSONDictionary {
 
+            //println("reposData: \(reposData)")
+
             var repos = Array<GithubWork.Repo>()
 
             for repoInfo in reposData {

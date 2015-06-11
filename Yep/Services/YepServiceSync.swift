@@ -253,7 +253,7 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
     }, completion: { friendInfo in
 
-        println("my userInfo: \(friendInfo)")
+        //println("my userInfo: \(friendInfo)")
 
         furtherAction()
 

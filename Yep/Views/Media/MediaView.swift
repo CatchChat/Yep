@@ -50,7 +50,6 @@ class MediaView: UIView {
         let player = AVPlayer()
         let playerLayer = AVPlayerLayer(player: player)
         playerLayer.videoGravity = AVLayerVideoGravityResizeAspect
-        //playerLayer.backgroundColor = UIColor.darkGrayColor().CGColor
         return playerLayer
         }()
 
@@ -60,8 +59,6 @@ class MediaView: UIView {
         makeUI()
 
         layer.addSublayer(videoPlayerLayer)
-
-        println("videoPlayerLayer.frame: \(videoPlayerLayer.frame)")
     }
 
     override func layoutSubviews() {

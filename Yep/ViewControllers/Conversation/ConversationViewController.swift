@@ -1463,8 +1463,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         let message = messages[displayedMessagesRange.location + indexPath.item]
 
-        println("item messageID: \(message.messageID), \(message.textContent), userID: \(message.fromFriend?.userID), name: \(message.fromFriend?.nickname)")
-
         if message.mediaType == MessageMediaType.SectionDate.rawValue {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
 
