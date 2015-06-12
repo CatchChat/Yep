@@ -159,9 +159,9 @@ class FayeService: NSObject, MZFayeClientDelegate {
         //这里不用 realmQueue 是为了下面的通知同步，用了 realmQueue 可能导致数据更新慢于通知
         let realm = Realm()
         
-        syncMessageWithMessageInfo(messageInfo, inRealm: realm) { messageID in
+        syncMessageWithMessageInfo(messageInfo, inRealm: realm) { messageIDs in
             dispatch_async(dispatch_get_main_queue()) {
-                let object = ["messageIDs": [messageID]]
+                let object = ["messageIDs": messageIDs]
                 NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: object)
             }
         }

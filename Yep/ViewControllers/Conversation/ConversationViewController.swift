@@ -934,18 +934,28 @@ class ConversationViewController: BaseViewController {
             // 我们来治本
 
             if let messageIDs = messageIDs {
-                for messageID in messageIDs {
-                    if let message = messageWithMessageID(messageID, inRealm: realm) {
-                        if let index = messages.indexOf(message) {
-                            if let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: 0) {
+
+                if messageIDs.filter({ $0.isEmpty }).count > 0 {
+                    println("have sectionDate")
+                    conversationCollectionView.reloadData()
+
+                } else {
+                    for messageID in messageIDs {
+                        if let
+                            message = messageWithMessageID(messageID, inRealm: realm),
+                            index = messages.indexOf(message),
+                            indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: 0) {
                                 println("insert item: \(indexPath.item)")
                                 conversationCollectionView.insertItemsAtIndexPaths([indexPath])
-                            }
+                        } else {
+                            println("unknown message")
+                            conversationCollectionView.reloadData()
                         }
                     }
                 }
 
             } else {
+                println("self message")
                 conversationCollectionView.reloadData()
             }
         }

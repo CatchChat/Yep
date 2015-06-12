@@ -794,8 +794,8 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
             var messageIDs = [String]()
 
             for messageInfo in allUnreadMessages {
-                syncMessageWithMessageInfo(messageInfo, inRealm: realm) { messageID in
-                    messageIDs.append(messageID)
+                syncMessageWithMessageInfo(messageInfo, inRealm: realm) { _messageIDs in
+                    messageIDs += _messageIDs
                 }
             }
             
@@ -831,7 +831,7 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
     }
 }
 
-func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageID: String) -> Void)? ) {
+func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)? ) {
 
     func deleteMessage(message: Message, inRealm realm: Realm) {
         realm.beginWrite()
@@ -965,8 +965,10 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
 
                             message.conversation = conversation
 
+                            var createdSectionDateMessage = false
                             tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in
                                 realm.add(sectionDateMessage)
+                                createdSectionDateMessage = true
                             }
 
                             // 纪录消息的 detail 信息
@@ -1048,7 +1050,11 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
                             // Do furtherAction after sync
 
                             //println("syncMessageWithMessageInfo do furtherAction")
-                            furtherAction?(messageID: messageID)
+                            if createdSectionDateMessage {
+                                furtherAction?(messageIDs: ["", messageID])
+                            } else {
+                                furtherAction?(messageIDs: [messageID])
+                            }
 
                         } else {
                             deleteMessage(message, inRealm: realm)
