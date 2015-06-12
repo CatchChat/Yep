@@ -399,6 +399,7 @@ func tryCreateSectionDateMessageInConversation(conversation: Conversation, befor
 
             // insert a new SectionDate Message
             let newSectionDateMessage = Message()
+            newSectionDateMessage.messageID = "sectionDate-" + NSUUID().UUIDString
             newSectionDateMessage.conversation = conversation
             newSectionDateMessage.mediaType = MessageMediaType.SectionDate.rawValue
             newSectionDateMessage.createdUnixTime = message.createdUnixTime - 1 // 比新消息早一秒

@@ -965,10 +965,10 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
 
                             message.conversation = conversation
 
-                            var createdSectionDateMessage = false
+                            var sectionDateMessageID: String?
                             tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in
                                 realm.add(sectionDateMessage)
-                                createdSectionDateMessage = true
+                                sectionDateMessageID = sectionDateMessage.messageID
                             }
 
                             // 纪录消息的 detail 信息
@@ -1050,8 +1050,8 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
                             // Do furtherAction after sync
 
                             //println("syncMessageWithMessageInfo do furtherAction")
-                            if createdSectionDateMessage {
-                                furtherAction?(messageIDs: ["", messageID])
+                            if let sectionDateMessageID = sectionDateMessageID{
+                                furtherAction?(messageIDs: [sectionDateMessageID, messageID])
                             } else {
                                 furtherAction?(messageIDs: [messageID])
                             }
