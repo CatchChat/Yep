@@ -240,7 +240,7 @@ class ConversationViewController: BaseViewController {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout", name: EditProfileViewController.Notification.Logout, object: nil)
 
-        YepUserDefaults.avatarURLString.bindListener("ConversationViewController") { _ in
+        YepUserDefaults.avatarURLString.bindListener("ConversationViewController") { [unowned self] _ in
             self.reloadConversationCollectionView()
         }
 

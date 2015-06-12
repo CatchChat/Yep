@@ -34,11 +34,11 @@ class ContactsViewController: BaseViewController {
         contactsTableView.rowHeight = 80
         contactsTableView.tableFooterView = UIView()
 
-        YepUserDefaults.nickname.bindListener("ContactsViewController.Nickname") { _ in
+        YepUserDefaults.nickname.bindListener("ContactsViewController.Nickname") { [unowned self] _ in
             self.updateContactsTableView()
         }
 
-        YepUserDefaults.avatarURLString.bindListener("ContactsViewController.Avatar") { _ in
+        YepUserDefaults.avatarURLString.bindListener("ContactsViewController.Avatar") { [unowned self] _ in
             self.updateContactsTableView()
         }
     }

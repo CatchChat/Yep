@@ -191,7 +191,7 @@ class ProfileViewController: UIViewController {
                 }
 
                 if user.friendState == UserFriendState.Me.rawValue {
-                    YepUserDefaults.introduction.bindListener("Profile.introductionText") { introduction in
+                    YepUserDefaults.introduction.bindListener("Profile.introductionText") { [unowned self] introduction in
                         if let introduction = introduction {
                             self.introductionText = introduction
                             self.updateProfileCollectionView()
@@ -358,7 +358,7 @@ class ProfileViewController: UIViewController {
                 customNavigationItem.title = user.nickname
 
                 if user.friendState == UserFriendState.Me.rawValue {
-                    YepUserDefaults.nickname.bindListener("ProfileViewController.Title") { nickname in
+                    YepUserDefaults.nickname.bindListener("ProfileViewController.Title") { [unowned self] nickname in
                         self.customNavigationItem.title = nickname
                     }
                 }

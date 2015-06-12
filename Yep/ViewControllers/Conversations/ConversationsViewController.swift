@@ -51,11 +51,11 @@ class ConversationsViewController: UIViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepNewMessagesReceivedNotification, object: nil)
         
-        YepUserDefaults.nickname.bindListener("ConversationsViewController.Nickname") { _ in
+        YepUserDefaults.nickname.bindListener("ConversationsViewController.Nickname") { [unowned self] _ in
             self.reloadConversationsTableView()
         }
 
-        YepUserDefaults.avatarURLString.bindListener("ConversationsViewController.Avatar") { _ in
+        YepUserDefaults.avatarURLString.bindListener("ConversationsViewController.Avatar") { [unowned self] _ in
             self.reloadConversationsTableView()
         }
 
