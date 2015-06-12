@@ -271,7 +271,7 @@ class ConversationViewController: BaseViewController {
 
         lastTimeMessagesCount = messages.count
 
-        messageToolbar.textSendAction = { messageToolbar in
+        messageToolbar.textSendAction = { [unowned self] messageToolbar in
             let text = messageToolbar.messageTextView.text!
 
             self.cleanTextInput()
@@ -294,10 +294,10 @@ class ConversationViewController: BaseViewController {
                 })
 
             } else if let withGroup = self.conversation.withGroup {
-                sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
+                sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [unowned self] message in
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
+                        self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                         })
                     }
 
@@ -319,7 +319,7 @@ class ConversationViewController: BaseViewController {
                     //println("Update waver")
                     audioRecorder.updateMeters()
                     
-                    var normalizedValue = pow(10, audioRecorder.averagePowerForChannel(0)/40)
+                    let normalizedValue = pow(10, audioRecorder.averagePowerForChannel(0)/40)
                     
                     waver.level = CGFloat(normalizedValue)
                 }
@@ -328,7 +328,7 @@ class ConversationViewController: BaseViewController {
 
         // MARK: Audio Send
 
-        messageToolbar.voiceSendBeginAction = { messageToolbar in
+        messageToolbar.voiceSendBeginAction = { [unowned self] messageToolbar in
             self.view.addSubview(self.waverView)
             self.swipeUpView.hidden = false
             self.view.bringSubviewToFront(self.swipeUpView)
@@ -351,13 +351,13 @@ class ConversationViewController: BaseViewController {
             }
         }
         
-        messageToolbar.voiceSendCancelAction = { messageToolbar in
+        messageToolbar.voiceSendCancelAction = { [unowned self] messageToolbar in
             self.swipeUpView.hidden = true
             self.waverView.removeFromSuperview()
             YepAudioService.sharedManager.endRecord()
         }
         
-        messageToolbar.voiceSendEndAction = { messageToolbar in
+        messageToolbar.voiceSendEndAction = { [unowned self] messageToolbar in
             self.swipeUpView.hidden = true
             self.waverView.removeFromSuperview()
             if YepAudioService.sharedManager.audioRecorder?.currentTime < 0.5 {
@@ -398,7 +398,7 @@ class ConversationViewController: BaseViewController {
 
             if let fileURL = YepAudioService.sharedManager.audioFileURL {
                 if let withFriend = self.conversation.withFriend {
-                    sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message -> Void in
+                    sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [unowned self] message in
 
                         dispatch_async(dispatch_get_main_queue()) {
                             if let realm = message.realm {
@@ -410,7 +410,7 @@ class ConversationViewController: BaseViewController {
                                 }
                                 realm.commitWrite()
 
-                                self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
+                                self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                                 })
                             }
                         }
@@ -424,7 +424,7 @@ class ConversationViewController: BaseViewController {
                     })
 
                 } else if let withGroup = self.conversation.withGroup {
-                    sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { (message) -> Void in
+                    sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [unowned self] message in
 
                         dispatch_async(dispatch_get_main_queue()) {
                             if let realm = message.realm {
@@ -436,7 +436,7 @@ class ConversationViewController: BaseViewController {
                                 }
                                 realm.commitWrite()
 
-                                self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
+                                self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                                 })
                             }
                         }
@@ -454,7 +454,7 @@ class ConversationViewController: BaseViewController {
 
         // MARK: MessageToolbar State Transitions
 
-        messageToolbar.stateTransitionAction = { (messageToolbar, previousState, currentState) in
+        messageToolbar.stateTransitionAction = { [unowned self] (messageToolbar, previousState, currentState) in
 
             switch (previousState, currentState) {
 
@@ -884,7 +884,7 @@ class ConversationViewController: BaseViewController {
             messageIDs = _messageIDs
         }
 
-        updateConversationCollectionViewWithMessageIDs(messageIDs, scrollToBottom: false, success: { success in
+        updateConversationCollectionViewWithMessageIDs(messageIDs, scrollToBottom: false, success: { _ in
         })
     }
 
@@ -1001,7 +1001,7 @@ class ConversationViewController: BaseViewController {
             if (totleMessagesHeight > conversationCollectionView.frame.size.height) {
 //                println("New Message scroll")
                 
-                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [unowned self] in
                     
                     if (useableSpace > 0) {
                         let contentToScroll = newMessagesTotalHeight - useableSpace
@@ -1140,7 +1140,7 @@ class ConversationViewController: BaseViewController {
             conversationCollectionViewContentOffsetBeforeKeyboardWillShow = conversationCollectionView.contentOffset
         }
         
-        UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { () -> Void in
+        UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { [unowned self] in
             
             self.messageToolbarBottomConstraint.constant = newHeight
             
@@ -1180,7 +1180,7 @@ class ConversationViewController: BaseViewController {
             
             self.view.layoutIfNeeded()
             
-        }, completion: { (finished) -> Void in
+        }, completion: { [unowned self] finished in
             if keyboard {
                 self.keyboardShowTimes -= 1
             }
@@ -1207,7 +1207,7 @@ class ConversationViewController: BaseViewController {
             conversationCollectionViewContentOffsetBeforeKeyboardWillHide = conversationCollectionView.contentOffset
         }
 
-        UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { () -> Void in
+        UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { [unowned self] in
             
             var contentOffset = self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide
 
@@ -1226,7 +1226,7 @@ class ConversationViewController: BaseViewController {
 
             self.view.layoutIfNeeded()
 
-        }, completion: { (finished) -> Void in
+        }, completion: { _ in
         })
     }
 
@@ -1402,14 +1402,14 @@ class ConversationViewController: BaseViewController {
             let nvc = segue.destinationViewController as! UINavigationController
             let vc = nvc.topViewController as! PickLocationViewController
 
-            vc.sendLocationAction = { coordinate in
+            vc.sendLocationAction = { [unowned self] coordinate in
 
                 if let withFriend = self.conversation.withFriend {
 
                     sendLocationWithCoordinate(coordinate, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
 
                         dispatch_async(dispatch_get_main_queue()) {
-                            self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
+                            self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                             })
                         }
 
@@ -1425,7 +1425,7 @@ class ConversationViewController: BaseViewController {
 
                     sendLocationWithCoordinate(coordinate, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                         dispatch_async(dispatch_get_main_queue()) {
-                            self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
+                            self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                             })
                         }
 
@@ -1507,7 +1507,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Image.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftImageCellIdentifier, forIndexPath: indexPath) as! ChatLeftImageCell
 
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [unowned self] in
 
                         self.performSegueWithIdentifier("showMessageMedia", sender: message)
 
@@ -1520,7 +1520,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     let audioPlayedDuration = audioPlayedDurationOfMessage(message)
 
-                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { message in
+                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { [unowned self] message in
 
                         self.playMessageAudioWithMessage(message)
 
@@ -1531,7 +1531,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Video.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftVideoCellIdentifier, forIndexPath: indexPath) as! ChatLeftVideoCell
 
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [unowned self] in
 
                         self.performSegueWithIdentifier("showMessageMedia", sender: message)
 
@@ -1542,7 +1542,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Location.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftLocationCellIdentifier, forIndexPath: indexPath) as! ChatLeftLocationCell
 
-                    cell.configureWithMessage(message, mediaTapAction: {
+                    cell.configureWithMessage(message, mediaTapAction: { [unowned self] in
                         if let coordinate = message.coordinate {
                             let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
                             let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
@@ -1571,7 +1571,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Image.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
 
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [unowned self] in
 
                         if message.sendState == MessageSendState.Failed.rawValue {
 
@@ -1601,7 +1601,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     let audioPlayedDuration = audioPlayedDurationOfMessage(message)
 
-                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { message in
+                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { [unowned self] message in
 
                         if let message = message {
                             if message.sendState == MessageSendState.Failed.rawValue {
@@ -1632,7 +1632,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Video.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightVideoCellIdentifier, forIndexPath: indexPath) as! ChatRightVideoCell
 
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: {
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [unowned self] in
 
                         if message.sendState == MessageSendState.Failed.rawValue {
 
@@ -1660,7 +1660,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Location.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightLocationCellIdentifier, forIndexPath: indexPath) as! ChatRightLocationCell
 
-                    cell.configureWithMessage(message, mediaTapAction: {
+                    cell.configureWithMessage(message, mediaTapAction: { [unowned self] in
 
                         if message.sendState == MessageSendState.Failed.rawValue {
 
@@ -1696,7 +1696,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
 
-                    cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: {
+                    cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: { [unowned self] in
 
                         if message.sendState == MessageSendState.Failed.rawValue {
 
@@ -1810,7 +1810,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
     func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
 
         delay(1) {
-            pulllToRefreshView.endRefreshingAndDoFurtherAction() {
+            pulllToRefreshView.endRefreshingAndDoFurtherAction() { [unowned self] in
 
                 let lastDisplayedMessagesRange = self.displayedMessagesRange
 
@@ -1958,7 +1958,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         if let withFriend = conversation.withFriend {
 
-            sendImageInFilePath(nil, orFileData: imageData, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message -> Void in
+            sendImageInFilePath(nil, orFileData: imageData, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [unowned self] message in
 
                 dispatch_async(dispatch_get_main_queue()) {
 
@@ -1974,7 +1974,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
 
-                    self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
+                    self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                     })
                 }
 
@@ -1987,7 +1987,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             })
 
         } else if let withGroup = conversation.withGroup {
-            sendImageInFilePath(nil, orFileData: imageData, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message -> Void in
+            sendImageInFilePath(nil, orFileData: imageData, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [unowned self] message in
 
                 dispatch_async(dispatch_get_main_queue()) {
                     if let messageImageURL = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
@@ -2002,7 +2002,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
                     
-                    self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
+                    self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                     })
                 }
                 
@@ -2037,7 +2037,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         let messageVideoName = NSUUID().UUIDString
 
-        let afterCreatedMessageAction = { (message: Message) in
+        let afterCreatedMessageAction = { [unowned self] (message: Message) in
             dispatch_async(dispatch_get_main_queue()) {
 
                 if let videoData = NSData(contentsOfURL: videoURL) {
@@ -2062,27 +2062,27 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
 
-                    self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
+                    self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                     })
                 }
             }
         }
 
         if let withFriend = conversation.withFriend {
-            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: afterCreatedMessageAction, failureHandler: {(reason, errorMessage) -> () in
+            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage)
                 // TODO: sendVideo 错误提醒
 
-            }, completion: { success -> Void in
+            }, completion: { success in
                 println("sendVideo to friend: \(success)")
             })
 
         } else if let withGroup = conversation.withGroup {
-            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: afterCreatedMessageAction, failureHandler: {(reason, errorMessage) -> () in
+            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage)
                 // TODO: sendVideo 错误提醒
                 
-            }, completion: { success -> Void in
+            }, completion: { success in
                 println("sendVideo to group: \(success)")
             })
         }
