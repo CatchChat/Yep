@@ -934,36 +934,35 @@ class ConversationViewController: BaseViewController {
 
             if let messageIDs = messageIDs {
 
-                if messageIDs.filter({ $0.isEmpty }).count > 0 {
-                    println("have sectionDate")
-                    conversationCollectionView.reloadData()
+                var indexPaths = [NSIndexPath]()
 
-                } else {
+                for messageID in messageIDs {
+                    if let
+                        message = messageWithMessageID(messageID, inRealm: realm),
+                        index = messages.indexOf(message),
+                        indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: 0) {
+                            println("insert item: \(indexPath.item)")
 
-                    println("why?")
+                            indexPaths.append(indexPath)
 
-                    var indexPaths = [NSIndexPath]()
-
-                    for messageID in messageIDs {
-                        if let
-                            message = messageWithMessageID(messageID, inRealm: realm),
-                            index = messages.indexOf(message),
-                            indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: 0) {
-                                println("insert item: \(indexPath.item)")
-
-                                indexPaths.append(indexPath)
-
-                        } else {
-                            println("unknown message")
-                        }
+                    } else {
+                        println("unknown message")
                     }
-
-                    conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
                 }
+
+                conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
 
             } else {
                 println("self message")
-                conversationCollectionView.reloadData()
+
+                var indexPaths = [NSIndexPath]()
+
+                for i in 0..<newMessagesCount {
+                    let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: 0)
+                    indexPaths.append(indexPath)
+                }
+
+                conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
             }
         }
 
