@@ -889,10 +889,14 @@ class ConversationViewController: BaseViewController {
     }
 
     func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, scrollToBottom: Bool, success: (Bool) -> Void) {
-        let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
 
-        adjustConversationCollectionViewWithMessageIDs(messageIDs, adjustHeight: keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
-            success(finished)
+        if navigationController?.topViewController == self { // 防止 pop/push 后，原来未释放的 VC 也执行这下面的代码
+
+            let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
+
+            adjustConversationCollectionViewWithMessageIDs(messageIDs, adjustHeight: keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
+                success(finished)
+            }
         }
     }
 
