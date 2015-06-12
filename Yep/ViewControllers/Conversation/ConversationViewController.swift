@@ -940,18 +940,24 @@ class ConversationViewController: BaseViewController {
                     conversationCollectionView.reloadData()
 
                 } else {
+
+                    var indexPaths = [NSIndexPath]()
+
                     for messageID in messageIDs {
                         if let
                             message = messageWithMessageID(messageID, inRealm: realm),
                             index = messages.indexOf(message),
                             indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: 0) {
                                 println("insert item: \(indexPath.item)")
-                                conversationCollectionView.insertItemsAtIndexPaths([indexPath])
+
+                                indexPaths.append(indexPath)
+
                         } else {
                             println("unknown message")
-                            conversationCollectionView.reloadData()
                         }
                     }
+
+                    conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
                 }
 
             } else {
