@@ -910,12 +910,11 @@ class ConversationViewController: BaseViewController {
         let lastDisplayedMessagesRange = displayedMessagesRange
         
         displayedMessagesRange.length += newMessagesCount
-        
-        var indexPaths = [NSIndexPath]()
-        
+
         if newMessagesCount > 0 {
 
             /*
+            //var indexPaths = [NSIndexPath]()
             // TODO: 下面插入逻辑的假设有问题，对方的新消息并不会一直排在最后一个
             for i in 0..<newMessagesCount {
                 let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: 0)
@@ -940,6 +939,8 @@ class ConversationViewController: BaseViewController {
                     conversationCollectionView.reloadData()
 
                 } else {
+
+                    println("why?")
 
                     var indexPaths = [NSIndexPath]()
 
