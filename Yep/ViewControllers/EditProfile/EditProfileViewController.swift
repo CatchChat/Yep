@@ -154,7 +154,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 cell.annotationLabel.text = NSLocalizedString("Nickname", comment: "")
 
-                YepUserDefaults.nickname.bindAndFireListener("EditProfileLessInfoCell.Nickname") { nickname in
+                YepUserDefaults.nickname.bindAndFireListener("EditProfileLessInfoCell.Nickname") { [unowned self] nickname in
                     cell.infoLabel.text = nickname
                 }
 
@@ -165,7 +165,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
 
-                YepUserDefaults.introduction.bindAndFireListener("EditProfileLessInfoCell.Introduction") { introduction in
+                YepUserDefaults.introduction.bindAndFireListener("EditProfileLessInfoCell.Introduction") { [unowned self] introduction in
                     cell.infoLabel.text = introduction
                 }
 

@@ -402,6 +402,7 @@ func tryCreateSectionDateMessageInConversation(conversation: Conversation, befor
             newSectionDateMessage.conversation = conversation
             newSectionDateMessage.mediaType = MessageMediaType.SectionDate.rawValue
             newSectionDateMessage.createdUnixTime = message.createdUnixTime - 1 // 比新消息早一秒
+            newSectionDateMessage.messageID = "sectionDate-\(newSectionDateMessage.createdUnixTime)"
 
             success(newSectionDateMessage)
         }

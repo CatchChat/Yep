@@ -30,15 +30,15 @@ class SettingsUserCell: UITableViewCell {
         let avatarSize = YepConfig.Settings.userCellAvatarSize
         avatarImageViewWidthConstraint.constant = avatarSize
 
-        YepUserDefaults.avatarURLString.bindAndFireListener("SettingsUserCell.Avatar") { _ in
+        YepUserDefaults.avatarURLString.bindAndFireListener("SettingsUserCell.Avatar") { [unowned self] _ in
             self.updateAvatar()
         }
 
-        YepUserDefaults.nickname.bindAndFireListener("SettingsUserCell.Nickname") { nickname in
+        YepUserDefaults.nickname.bindAndFireListener("SettingsUserCell.Nickname") { [unowned self] nickname in
             self.nameLabel.text = nickname
         }
 
-        YepUserDefaults.introduction.bindAndFireListener("SettingsUserCell.Introduction") { introduction in
+        YepUserDefaults.introduction.bindAndFireListener("SettingsUserCell.Introduction") { [unowned self] introduction in
             self.introLabel.text = introduction
         }
 
