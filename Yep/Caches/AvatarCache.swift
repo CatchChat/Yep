@@ -167,9 +167,9 @@ class AvatarCache {
 
     func roundAvatarWithAvatarURLString(avatarURLString: String, withRadius radius: CGFloat, completion: (UIImage) -> ()) {
 
-        completion(defaultRoundAvatarOfRadius(radius))
-
         if avatarURLString.isEmpty {
+            completion(defaultRoundAvatarOfRadius(radius))
+
             return
         }
 
@@ -187,7 +187,7 @@ class AvatarCache {
                 avatarCompletions.append(avatarCompletion)
 
                 if avatarCompletions.filter({ $0.avatarURLString == avatarURLString }).count > 1 {
-                    avatarCompletions.append(avatarCompletion)
+                    // 不用做事，等着具有同样 avatarURLString 的 avatarCompletion 帮忙完成
 
                 } else {
                     // 再看看是否已下载
@@ -244,23 +244,29 @@ class AvatarCache {
                             }
 
                             self.completeWithImage(image, avatarURLString: avatarURLString)
+
+                        } else {
+                            self.completeWithImage(self.defaultRoundAvatarOfRadius(radius), avatarURLString: avatarURLString)
                         }
                     }
                 }
             }
+
+        } else {
+            completion(defaultRoundAvatarOfRadius(radius))
         }
     }
 
 
     func roundAvatarOfUser(user: User, withRadius radius: CGFloat, completion: (UIImage) -> ()) {
 
-        completion(defaultRoundAvatarOfRadius(radius))
-
         // 为下面切换线程准备，Realm 不能跨线程访问
         let avatarURLString = user.avatarURLString
         let userID = user.userID
 
         if avatarURLString.isEmpty {
+            completion(defaultRoundAvatarOfRadius(radius))
+
             return
         }
 
@@ -278,7 +284,7 @@ class AvatarCache {
                 avatarCompletions.append(avatarCompletion)
 
                 if avatarCompletions.filter({ $0.avatarURLString == avatarURLString }).count > 1 {
-                    avatarCompletions.append(avatarCompletion)
+                    // 不用做事，等着具有同样 avatarURLString 的 avatarCompletion 帮忙完成
 
                 } else {
 
@@ -347,10 +353,16 @@ class AvatarCache {
                             }
                             
                             self.completeWithImage(image, avatarURLString: avatarURLString)
+
+                        } else {
+                            self.completeWithImage(self.defaultRoundAvatarOfRadius(radius), avatarURLString: avatarURLString)
                         }
                     }
                 }
             }
+
+        } else {
+            completion(defaultRoundAvatarOfRadius(radius))
         }
     }
 }
