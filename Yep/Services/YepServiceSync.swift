@@ -826,10 +826,12 @@ func syncMessagesReadStatus() {
                 }
             } else {
                 for messageID in messageIDs {
-                    
                     let predicate = NSPredicate(format: "messageID != %@", argumentArray: [messageID])
-                    let searchedMesage = messages.filter(predicate)
-                    toMarkMessages += searchedMesage
+                    messages = messages.filter(predicate)
+                }
+                
+                for message in messages {
+                    toMarkMessages.append(message)
                 }
             }
             
