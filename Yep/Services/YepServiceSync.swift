@@ -798,37 +798,51 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
                     messageIDs += _messageIDs
                 }
             }
-            
-            var messages = realm.objects(Message)
-            
-            realm.write {
-                for oldMessage in messages {
-                    
-                    if allUnreadMessages.count < 1 {
-                        if oldMessage.sendState == MessageSendState.Successed.rawValue {
-                            oldMessage.sendState = MessageSendState.Read.rawValue
-                            oldMessage.readed = true
-                        }
-                    } else {
-                        for messageInfo in allUnreadMessages {
-                            if let messageID = messageInfo["id"] as? String {
-                                if oldMessage.messageID != messageID && oldMessage.sendState == MessageSendState.Successed.rawValue {
-                                    oldMessage.sendState = MessageSendState.Read.rawValue
-                                    oldMessage.readed = true
-                                }
-                            }
-                        }
-                    }
-
-                }
-            }
-            
 
             // do futher action
             println("加个打印，希望能等到 Realm 在线程间同步好")
             furtherAction(messageIDs: messageIDs)
         }
     }
+}
+
+func syncMessagesReadStatus() {
+    
+    sentButUnreadMessages(failureHandler: { (reason, message) -> Void in
+        
+    }, completion: { messagesDictionary in
+      
+        if let messageIDs = messagesDictionary["message_ids"] as? [String] {
+            let realm = Realm()
+            var messages = messagesUnreadSentByMe(inRealm: realm)
+            
+            var toMarkMessages = [Message]()
+            
+            if messageIDs.count < 1 {
+                for oldMessage in messages {
+                    if oldMessage.sendState == MessageSendState.Successed.rawValue {
+                        toMarkMessages.append(oldMessage)
+                    }
+                }
+            } else {
+                for messageID in messageIDs {
+                    
+                    let predicate = NSPredicate(format: "messageID = %@", argumentArray: [messageID])
+                    let searchedMesage = messages.filter(predicate)
+                    toMarkMessages += searchedMesage
+                }
+            }
+            
+            realm.write {
+                for message in toMarkMessages {
+                    message.sendState = MessageSendState.Read.rawValue
+                    message.readed = true
+                }
+            }
+            
+            
+        }
+    })
 }
 
 func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)? ) {

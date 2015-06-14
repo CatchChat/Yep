@@ -127,7 +127,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
-
+        syncMessagesReadStatus()
         isColdLaunch = false
     
     }

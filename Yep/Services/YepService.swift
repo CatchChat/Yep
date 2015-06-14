@@ -903,6 +903,22 @@ func moreUnreadMessages(inPage page: Int, withPerPage perPage: Int, #failureHand
     }
 }
 
+func sentButUnreadMessages(#failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+    
+    let resource = authJsonResource(path: "/api/v1/messages/sent_unread", method: .GET, requestParameters:[:] , parse: parse )
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+
 func unreadMessages(#completion: [JSONDictionary] -> Void) {
     headUnreadMessages { result in
         if
