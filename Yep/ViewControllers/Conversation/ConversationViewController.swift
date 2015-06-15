@@ -108,12 +108,6 @@ class ConversationViewController: BaseViewController {
     @IBOutlet weak var addLocationButton: MessageTypeButton!
 
 
-    lazy var mediaPreviewView: MediaPreviewView = {
-        let view = MediaPreviewView()
-        return view
-        }()
-
-
     var waverView: YepWaverView!
     var samplesCount = 0
     let samplingInterval = 6
@@ -1524,7 +1518,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [unowned self] in
 
-                        self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                        //self.performSegueWithIdentifier("showMessageMedia", sender: message)
+
+                        let mediaPreviewView = MediaPreviewView()
+                        mediaPreviewView.showMessage(message, inView: self.view.window)
 
                     }, collectionView: collectionView, indexPath: indexPath)
                     
@@ -1548,7 +1545,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [unowned self] in
 
-                        self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                        //self.performSegueWithIdentifier("showMessageMedia", sender: message)
+
+                        let mediaPreviewView = MediaPreviewView()
+                        mediaPreviewView.showMessage(message, inView: self.view.window)
 
                     }, collectionView: collectionView, indexPath: indexPath)
 
@@ -1606,7 +1606,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         } else {
                             //self.performSegueWithIdentifier("showMessageMedia", sender: message)
 
-                            self.mediaPreviewView.showMessage(message, inView: self.view.window)
+                            let mediaPreviewView = MediaPreviewView()
+                            mediaPreviewView.showMessage(message, inView: self.view.window)
                         }
 
                     }, collectionView: collectionView, indexPath: indexPath)
@@ -1669,7 +1670,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         } else {
                             //self.performSegueWithIdentifier("showMessageMedia", sender: message)
 
-                            self.mediaPreviewView.showMessage(message, inView: self.view.window)
+                            let mediaPreviewView = MediaPreviewView()
+                            mediaPreviewView.showMessage(message, inView: self.view.window)
                         }
 
                     }, collectionView: collectionView, indexPath: indexPath)
