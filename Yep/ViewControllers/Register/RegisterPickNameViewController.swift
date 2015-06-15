@@ -14,14 +14,17 @@ class RegisterPickNameViewController: UIViewController {
 
     @IBOutlet weak var nameTextField: UnderLineTextField!
     
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var nextButton: BorderButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
+        title = NSLocalizedString("Sign up", comment: "")
+
+        pickNamePromptLabel.text = NSLocalizedString("What's your name?", comment: "")
+        
         nextButton.setTitle(NSLocalizedString("Next", comment: ""), forState: .Normal)
+        nextButton.backgroundColor = UIColor.yepTintColor()
 
         nameTextField.delegate = self
         nameTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
