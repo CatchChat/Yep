@@ -208,6 +208,7 @@ class Message: Object {
 
     dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
     dynamic var updatedUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+    dynamic var arrivalUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
 
     dynamic var mediaType: Int = MessageMediaType.Text.rawValue
     dynamic var textContent: String = ""

@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
-        setSchemaVersion(10, Realm.defaultPath, { migration, oldSchemaVersion in
+        setSchemaVersion(11, Realm.defaultPath, { migration, oldSchemaVersion in
             // We haven’t migrated anything yet, so oldSchemaVersion == 0
             if oldSchemaVersion < 1 {
                 // Nothing to do!
@@ -61,6 +61,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
                     newObject!["createdUnixTime"] = createdAt.timeIntervalSince1970
                 }
+            }
+
+            if oldSchemaVersion < 11 {
             }
         })
 
