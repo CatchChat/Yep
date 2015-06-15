@@ -155,13 +155,12 @@ class MediaPreviewView: UIView {
         swipe.direction = .Down
 
         addGestureRecognizer(swipe)
-
-        println("addHideGesture")
     }
 
     func hide() {
         if let message = message {
             if message.mediaType == MessageMediaType.Video.rawValue {
+                mediaView.videoPlayerLayer.player.pause()
                 mediaView.videoPlayerLayer.player.removeObserver(self, forKeyPath: "status")
             }
         }
@@ -176,8 +175,7 @@ class MediaPreviewView: UIView {
 
             frame = superView.bounds
 
-            backgroundColor = UIColor.redColor()
-
+            backgroundColor = UIColor.blackColor()
 
             self.message = message
         }
