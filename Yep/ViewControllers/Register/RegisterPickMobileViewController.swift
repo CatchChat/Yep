@@ -12,18 +12,21 @@ class RegisterPickMobileViewController: UIViewController {
 
     @IBOutlet weak var pickMobileNumberPromptLabel: UILabel!
 
-    @IBOutlet weak var areaCodeTextField: UnderLineTextField!
-    @IBOutlet weak var mobileNumberTextField: UnderLineTextField!
+    @IBOutlet weak var areaCodeTextField: BorderTextField!
+    @IBOutlet weak var mobileNumberTextField: BorderTextField!
 
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var nextButton: BorderButton!
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
+        navigationItem.title = NSLocalizedString("Sign up", comment: "")
+
+        pickMobileNumberPromptLabel.text = NSLocalizedString("What's your number?", comment: "")
+
         nextButton.setTitle(NSLocalizedString("Next", comment: ""), forState: .Normal)
+        nextButton.backgroundColor = UIColor.yepTintColor()
 
         areaCodeTextField.delegate = self
         areaCodeTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
