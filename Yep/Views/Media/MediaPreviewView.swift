@@ -151,10 +151,14 @@ class MediaPreviewView: UIView {
     }
 
     func addHideGesture() {
-        let swipe = UISwipeGestureRecognizer(target: self, action: "hide")
-        swipe.direction = .Down
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: "hide")
+        swipeUp.direction = .Up
 
-        addGestureRecognizer(swipe)
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: "hide")
+        swipeDown.direction = .Down
+
+        addGestureRecognizer(swipeUp)
+        addGestureRecognizer(swipeDown)
     }
 
     func hide() {
