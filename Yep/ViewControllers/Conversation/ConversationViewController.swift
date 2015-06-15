@@ -1667,7 +1667,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             })
 
                         } else {
-                            self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                            //self.performSegueWithIdentifier("showMessageMedia", sender: message)
+
+                            self.mediaPreviewView.showMessage(message, inView: self.view.window)
                         }
 
                     }, collectionView: collectionView, indexPath: indexPath)
