@@ -12,7 +12,7 @@ class RegisterPickNameViewController: UIViewController {
 
     @IBOutlet weak var pickNamePromptLabel: UILabel!
 
-    @IBOutlet weak var nameTextField: UnderLineTextField!
+    @IBOutlet weak var nameTextField: BorderTextField!
     
     @IBOutlet weak var nextButton: BorderButton!
 
