@@ -214,7 +214,15 @@ class FayeService: NSObject, MZFayeClientDelegate {
                 ]
 
                 client.sendMessage(data, toChannel: userChannel, usingExtension: extensionData, usingBlock: { message  in
-                    println("sendPrivateMessage \(message.successful)")
+                    if messageType == .Default {
+                        println("sendPrivateMessage-Default \(message.successful)")
+
+                    } else if messageType == .Instant {
+                        println("sendPrivateMessage-Instant \(message.successful)")
+
+                    } else {
+                        println("sendPrivateMessage-\(messageType) \(message.successful)")
+                    }
 
                     if message.successful == 1 {
                         if let

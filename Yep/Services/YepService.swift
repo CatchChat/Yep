@@ -1017,6 +1017,9 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
             case "User":
                 FayeService.sharedManager.sendPrivateMessage(messageInfo, messageType: .Default, userID: recipientID, completion: { (success, messageID) in
 
+                    // 这里有一定概率不执行，导致不能标记，也没有 messageID，需要进一步研究
+                    println("completion sendPrivateMessage Default")
+
                     if success, let messageID = messageID {
                         println("Mesasge id is \(messageID)")
 

@@ -344,10 +344,12 @@ class ConversationViewController: BaseViewController {
             
             if let withFriend = self.conversation.withFriend {
                 var typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Audio.rawValue]
-                
-                FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
-                    println("Send recording \(result)")
-                })
+
+                if FayeService.sharedManager.client.connected {
+                    FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
+                        println("Send recording \(result)")
+                    })
+                }
             }
         }
         
@@ -562,9 +564,11 @@ class ConversationViewController: BaseViewController {
 
                 let typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Text.rawValue]
 
-                FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
-                    println("Send typing \(result)")
-                })
+                if FayeService.sharedManager.client.connected {
+                    FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
+                        println("Send typing \(result)")
+                    })
+                }
             }
         }
         
@@ -1482,6 +1486,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let message = messages[displayedMessagesRange.location + indexPath.item]
+
+        println("conversation \(message.textContent) messageID: \(message.messageID)")
 
         if message.mediaType == MessageMediaType.SectionDate.rawValue {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
