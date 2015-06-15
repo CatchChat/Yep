@@ -200,6 +200,7 @@
 		50EB8CCB1AEA1AC0001AC1EE /* MediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CCA1AEA1AC0001AC1EE /* MediaView.swift */; };
 		50EB8CCE1AEA1B38001AC1EE /* MessageMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CCD1AEA1B38001AC1EE /* MessageMediaViewController.swift */; };
 		50F2B9781B2EDF3D00F840CC /* BorderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */; };
+		50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -414,6 +415,7 @@
 		50EB8CCA1AEA1AC0001AC1EE /* MediaView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaView.swift; path = Views/Media/MediaView.swift; sourceTree = "<group>"; };
 		50EB8CCD1AEA1B38001AC1EE /* MessageMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageMediaViewController.swift; path = ViewControllers/MessageMedia/MessageMediaViewController.swift; sourceTree = "<group>"; };
 		50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BorderTextField.swift; path = Views/TextFields/BorderTextField.swift; sourceTree = "<group>"; };
+		50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTitleLabel.swift; path = Views/Labels/NavigationTitleLabel.swift; sourceTree = "<group>"; };
 		B33BE6A6016453F6673C8317 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		FD88F6095DB46DFAD41AB5DB /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -733,6 +735,7 @@
 		5023DE391AB6979C00B3EE96 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				50F2B9791B2EEAE300F840CC /* Labels */,
 				50A9D4581ACD3943000B2599 /* AudioWaves */,
 				5023DE3A1AB697A700B3EE96 /* Cells */,
 				502AE5221AB71C82005BD199 /* Buttons */,
@@ -1380,6 +1383,14 @@
 			name = MessageMedia;
 			sourceTree = "<group>";
 		};
+		50F2B9791B2EEAE300F840CC /* Labels */ = {
+			isa = PBXGroup;
+			children = (
+				50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */,
+			);
+			name = Labels;
+			sourceTree = "<group>";
+		};
 		59CC1DE9D59AC08247B97B4F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1751,6 +1762,7 @@
 				50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */,
 				5053AD5A1AF83B4200B3CBFA /* ChatLeftLocationCell.swift in Sources */,
 				508F8FD01B01D04400461B0B /* GithubRepoCell.swift in Sources */,
+				50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */,
 				504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */,
 				0A0027D61B19CEC000AD4BE0 /* ConversationOperationQueue.swift in Sources */,
 				50894D0C1AEE0177000981AF /* EditProfileColoredTitleCell.swift in Sources */,

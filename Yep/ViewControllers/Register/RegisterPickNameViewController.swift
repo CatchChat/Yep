@@ -19,7 +19,7 @@ class RegisterPickNameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Sign up", comment: "")
+        navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Sign up", comment: ""))
 
         pickNamePromptLabel.text = NSLocalizedString("What's your name?", comment: "")
         

@@ -21,7 +21,7 @@ class RegisterPickMobileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = NSLocalizedString("Sign up", comment: "")
+        navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Sign up", comment: ""))
 
         pickMobileNumberPromptLabel.text = NSLocalizedString("What's your number?", comment: "")
 
