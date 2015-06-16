@@ -63,6 +63,14 @@ class Listenable<T> {
         action(value)
     }
 
+    func removeListenerWithName(name: String) {
+        for listener in listenerSet {
+            if listener.name == name {
+                listenerSet.remove(listener)
+            }
+        }
+    }
+
     init(_ v: T, setterAction action: SetterAction) {
         value = v
         setterAction = action
