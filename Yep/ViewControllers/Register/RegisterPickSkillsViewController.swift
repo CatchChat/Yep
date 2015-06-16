@@ -69,7 +69,9 @@ class RegisterPickSkillsViewController: BaseViewController {
     @IBAction func saveSkills(sender: AnyObject) {
 
         YepHUD.showActivityIndicator()
-        
+
+        var saveSkillsErrorMessage: String?
+
         let addSkillsGroup = dispatch_group_create()
 
         for skill in masterSkills {
@@ -77,6 +79,9 @@ class RegisterPickSkillsViewController: BaseViewController {
 
             addSkill(skill, toSkillSet: .Master, failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage)
+
+                saveSkillsErrorMessage = errorMessage
+
                 dispatch_group_leave(addSkillsGroup)
 
             }, completion: { success in
@@ -89,6 +94,9 @@ class RegisterPickSkillsViewController: BaseViewController {
 
             addSkill(skill, toSkillSet: .Learning, failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage)
+
+                saveSkillsErrorMessage = errorMessage
+
                 dispatch_group_leave(addSkillsGroup)
 
             }, completion: { success in
@@ -114,9 +122,14 @@ class RegisterPickSkillsViewController: BaseViewController {
             } else {
                 YepHUD.hideActivityIndicator()
 
-                self.navigationController?.popViewControllerAnimated(true)
+                if let errorMessage = saveSkillsErrorMessage {
+                    YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
-                self.afterChangeSkillsAction?(masterSkills: self.masterSkills, learningSkills: self.learningSkills)
+                } else {
+                    self.navigationController?.popViewControllerAnimated(true)
+
+                    self.afterChangeSkillsAction?(masterSkills: self.masterSkills, learningSkills: self.learningSkills)
+                }
             }
         }
     }
@@ -131,14 +144,17 @@ class RegisterPickSkillsViewController: BaseViewController {
             vc.transitioningDelegate = selectSkillsTransitionManager
 
             if let skillSetType = sender as? Int {
+
                 switch skillSetType {
                 case SkillSetType.Master.rawValue:
                     vc.annotationText = NSLocalizedString("What are you good at?", comment: "")
                     vc.selectedSkillsSet = Set(self.masterSkills)
+                    vc.failedSelectSkillMessage = NSLocalizedString("This skill already in another learning skills set!", comment: "")
 
                 case SkillSetType.Learning.rawValue:
                     vc.annotationText = NSLocalizedString("What are you learning?", comment: "")
                     vc.selectedSkillsSet = Set(self.learningSkills)
+                    vc.failedSelectSkillMessage = NSLocalizedString("This skill already in another master skills set!", comment: "")
 
                 default:
                     break
@@ -155,9 +171,13 @@ class RegisterPickSkillsViewController: BaseViewController {
                     switch skillSetType {
                     case SkillSetType.Master.rawValue:
                         if selected {
-                            self.masterSkills.append(skill)
 
-                            success = true
+                            if self.learningSkills.filter({ $0.id == skill.id }).count == 0 {
+
+                                self.masterSkills.append(skill)
+
+                                success = true
+                            }
                             
                         } else {
                             for (index, masterSkill) in enumerate(self.masterSkills) {
@@ -179,9 +199,12 @@ class RegisterPickSkillsViewController: BaseViewController {
 
                     case SkillSetType.Learning.rawValue:
                         if selected {
-                            self.learningSkills.append(skill)
+                            if self.masterSkills.filter({ $0.id == skill.id }).count == 0 {
 
-                            success = true
+                                self.learningSkills.append(skill)
+
+                                success = true
+                            }
 
                         } else {
                             for (index, learningSkill) in enumerate(self.learningSkills) {
