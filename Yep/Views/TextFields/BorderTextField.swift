@@ -13,6 +13,12 @@ class BorderTextField: UITextField {
 
     @IBInspectable var lineColor: UIColor = UIColor.lightGrayColor()
     @IBInspectable var lineWidth: CGFloat = 1 / UIScreen.mainScreen().scale
+
+    @IBInspectable var enabledTopLine: Bool = true
+    @IBInspectable var enabledLeftLine: Bool = false
+    @IBInspectable var enabledBottomLine: Bool = true
+    @IBInspectable var enabledRightLine: Bool = false
+
     @IBInspectable var horizontalInset: CGFloat = 20
 
     override func drawRect(rect: CGRect) {
@@ -24,14 +30,33 @@ class BorderTextField: UITextField {
 
         CGContextSetLineWidth(context, lineWidth)
 
-        CGContextMoveToPoint(context, 0, 0)
-        CGContextAddLineToPoint(context, CGRectGetWidth(rect), 0)
-        CGContextStrokePath(context)
+        if enabledTopLine {
+            CGContextMoveToPoint(context, 0, 0)
+            CGContextAddLineToPoint(context, CGRectGetWidth(rect), 0)
+            CGContextStrokePath(context)
+        }
 
-        let y = CGRectGetHeight(rect)
-        CGContextMoveToPoint(context, 0, y)
-        CGContextAddLineToPoint(context, CGRectGetWidth(rect), y)
-        CGContextStrokePath(context)
+        if enabledLeftLine {
+            let y = CGRectGetHeight(rect)
+            CGContextMoveToPoint(context, 0, 0)
+            CGContextAddLineToPoint(context, 0, y)
+            CGContextStrokePath(context)
+        }
+
+        if enabledBottomLine {
+            let y = CGRectGetHeight(rect)
+            CGContextMoveToPoint(context, 0, y)
+            CGContextAddLineToPoint(context, CGRectGetWidth(rect), y)
+            CGContextStrokePath(context)
+        }
+
+        if enabledRightLine {
+            let x = CGRectGetWidth(rect)
+            let y = CGRectGetHeight(rect)
+            CGContextMoveToPoint(context, x, 0)
+            CGContextAddLineToPoint(context, x, y)
+            CGContextStrokePath(context)
+        }
     }
 
     override func textRectForBounds(bounds: CGRect) -> CGRect {
