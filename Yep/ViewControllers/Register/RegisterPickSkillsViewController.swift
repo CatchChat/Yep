@@ -15,10 +15,6 @@ class RegisterPickSkillsViewController: BaseViewController {
 
     @IBOutlet weak var skillsCollectionView: UICollectionView!
 
-    @IBOutlet weak var addSkillsLabel: UILabel!
-
-    @IBOutlet weak var doneButton: UIButton!
-
     var masterSkills = [Skill]()
     var learningSkills = [Skill]()
 
@@ -42,19 +38,15 @@ class RegisterPickSkillsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let doneBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "saveSkills:")
+        navigationItem.rightBarButtonItem = doneBarButton
+
         if !isRegister {
-            addSkillsLabel.hidden = true
-            doneButton.hidden = true
-
-            let doneBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "saveSkills:")
-            navigationItem.rightBarButtonItem = doneBarButton
-
-            title = NSLocalizedString("Change Skills", comment: "")
-
+            navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Change Skills", comment: ""))
         } else {
-            navigationController?.navigationBarHidden = true
-            addSkillsLabel.text = NSLocalizedString("Pick some skills", comment: "")
+            navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Pick some skills", comment: ""))
         }
+
 
         skillsCollectionView.registerNib(UINib(nibName: addSkillsReusableViewIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: addSkillsReusableViewIdentifier)
         skillsCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
@@ -66,17 +58,6 @@ class RegisterPickSkillsViewController: BaseViewController {
         }, completion: { skillCategories -> Void in
             self.skillCategories = skillCategories
         })
-
-        //view.backgroundColor = UIColor.redColor()
-        //skillsCollectionView.backgroundColor = UIColor.blueColor()
-    }
-
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-
-        if isRegister {
-            navigationController?.navigationBarHidden = true
-        }
     }
 
     // MARK: Actions

@@ -4,7 +4,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Welcome View Controller-->
@@ -288,8 +287,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NZO-a3-Kcl">
-                                <rect key="frame" x="200" y="149" width="65" height="48"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NZO-a3-Kcl">
+                                <rect key="frame" x="200" y="193" width="65" height="48"/>
                                 <animations/>
                                 <inset key="contentEdgeInsets" minX="15" minY="15" maxX="15" maxY="15"/>
                                 <state key="normal" title="Back">
@@ -299,8 +298,8 @@
                                     <action selector="back:" destination="RMg-rt-U0Z" eventType="touchUpInside" id="6Da-g3-SjU"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1984" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nGo-Vv-zCO" customClass="UnderLineTextField" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="200" y="94" width="200" height="35"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1984" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nGo-Vv-zCO" customClass="UnderLineTextField" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="200" y="138" width="200" height="35"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -311,15 +310,15 @@
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Verification code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="31u-94-iEu">
-                                <rect key="frame" x="232" y="50" width="136" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Verification code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="31u-94-iEu">
+                                <rect key="frame" x="232" y="94" width="136" height="24"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yzY-RW-Wmy">
-                                <rect key="frame" x="338" y="149" width="62" height="48"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yzY-RW-Wmy">
+                                <rect key="frame" x="338" y="193" width="62" height="48"/>
                                 <animations/>
                                 <inset key="contentEdgeInsets" minX="15" minY="15" maxX="15" maxY="15"/>
                                 <state key="normal" title="Next">
@@ -367,8 +366,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e0h-Ho-j4F" userLabel="Avatar Container View">
-                                <rect key="frame" x="220" y="70" width="160" height="160"/>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e0h-Ho-j4F" userLabel="Avatar Container View">
+                                <rect key="frame" x="220" y="114" width="160" height="160"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar" translatesAutoresizingMaskIntoConstraints="NO" id="qI7-tW-94Q" userLabel="Avatar Image View">
                                         <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
@@ -399,8 +398,8 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Take a good picture for your Avatar" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8It-jU-dm1" userLabel="Take Picture Prompt Label">
-                                <rect key="frame" x="177" y="260" width="246" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Take a good picture for your Avatar" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8It-jU-dm1" userLabel="Take Picture Prompt Label">
+                                <rect key="frame" x="177" y="304" width="246" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -517,40 +516,17 @@
                                     <outlet property="delegate" destination="OBL-Og-6Ae" id="04k-XM-7YT"/>
                                 </connections>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hqc-oe-idI">
-                                <rect key="frame" x="547" y="47" width="37" height="30"/>
-                                <animations/>
-                                <state key="normal" title="Done">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="saveSkills:" destination="OBL-Og-6Ae" eventType="touchUpInside" id="m4c-g5-XGq"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Skills" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UYb-xa-Jae">
-                                <rect key="frame" x="259" y="50" width="82" height="24"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="20"/>
-                                <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="UYb-xa-Jae" firstAttribute="centerY" secondItem="hqc-oe-idI" secondAttribute="centerY" id="4Cl-RU-yqO"/>
-                            <constraint firstItem="hqc-oe-idI" firstAttribute="trailing" secondItem="Ybu-mU-M88" secondAttribute="trailingMargin" id="7wR-Co-EAu"/>
                             <constraint firstItem="Hi3-3R-BNx" firstAttribute="leading" secondItem="Ybu-mU-M88" secondAttribute="leading" id="98V-H7-LjP"/>
                             <constraint firstItem="Hi3-3R-BNx" firstAttribute="top" secondItem="Ybu-mU-M88" secondAttribute="top" constant="100" id="9DJ-h8-5RQ"/>
                             <constraint firstAttribute="bottom" secondItem="Hi3-3R-BNx" secondAttribute="bottom" id="MZ1-YZ-QyT"/>
                             <constraint firstAttribute="trailing" secondItem="Hi3-3R-BNx" secondAttribute="trailing" id="RoJ-Zy-4i2"/>
-                            <constraint firstItem="Hi3-3R-BNx" firstAttribute="top" secondItem="hqc-oe-idI" secondAttribute="bottom" constant="23" id="hrk-J6-tYe"/>
-                            <constraint firstAttribute="centerX" secondItem="UYb-xa-Jae" secondAttribute="centerX" id="p3y-HQ-wUp"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="addSkillsLabel" destination="UYb-xa-Jae" id="gA0-YX-zRB"/>
-                        <outlet property="doneButton" destination="hqc-oe-idI" id="v51-4G-ecf"/>
                         <outlet property="skillsCollectionView" destination="Hi3-3R-BNx" id="3tf-cy-8EF"/>
                         <segue destination="vEE-XY-eq4" kind="modal" identifier="presentSelectSkills" id="akJ-Zs-aMG"/>
                     </connections>
