@@ -39,9 +39,16 @@ class ConversationsViewController: UIViewController {
         return self.realm.objects(Conversation).sorted("updatedUnixTime", ascending: false)
         }()
 
+    struct Listener {
+        static let Nickname = "ConversationsViewController.Nickname"
+        static let Avatar = "ConversationsViewController.Avatar"
+    }
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+
+        YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
+        YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
     }
 
     override func viewDidLoad() {
@@ -51,11 +58,11 @@ class ConversationsViewController: UIViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepNewMessagesReceivedNotification, object: nil)
         
-        YepUserDefaults.nickname.bindListener("ConversationsViewController.Nickname") { [unowned self] _ in
+        YepUserDefaults.nickname.bindListener(Listener.Nickname) { [unowned self] _ in
             self.reloadConversationsTableView()
         }
 
-        YepUserDefaults.avatarURLString.bindListener("ConversationsViewController.Avatar") { [unowned self] _ in
+        YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [unowned self] _ in
             self.reloadConversationsTableView()
         }
 

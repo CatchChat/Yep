@@ -35,6 +35,16 @@ class EditProfileViewController: UIViewController {
 
     let introAttributes = [NSFontAttributeName: YepConfig.EditProfile.introFont]
 
+    struct Listener {
+        static let Nickname = "EditProfileLessInfoCell.Nickname"
+        static let Introduction = "EditProfileLessInfoCell.Introduction"
+    }
+
+    deinit {
+        YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
+        YepUserDefaults.introduction.removeListenerWithName(Listener.Introduction)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -154,7 +164,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 cell.annotationLabel.text = NSLocalizedString("Nickname", comment: "")
 
-                YepUserDefaults.nickname.bindAndFireListener("EditProfileLessInfoCell.Nickname") { [unowned self] nickname in
+                YepUserDefaults.nickname.bindAndFireListener(Listener.Nickname) { [unowned self] nickname in
                     cell.infoLabel.text = nickname
                 }
 
@@ -165,7 +175,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
 
-                YepUserDefaults.introduction.bindAndFireListener("EditProfileLessInfoCell.Introduction") { [unowned self] introduction in
+                YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [unowned self] introduction in
                     cell.infoLabel.text = introduction
                 }
 

@@ -16,8 +16,14 @@ class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var avatarBlurImageView: UIImageView!
     @IBOutlet weak var locationLabel: UILabel!
 
+    struct Listener {
+        static let Avatar = "ProfileHeaderCell.Avatar"
+    }
+
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+
+        YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
     }
 
     override func awakeFromNib() {
@@ -59,7 +65,7 @@ class ProfileHeaderCell: UICollectionViewCell {
         updateAvatarWithAvatarURLString(user.avatarURLString)
 
         if user.friendState == UserFriendState.Me.rawValue {
-            YepUserDefaults.avatarURLString.bindListener("ProfileHeaderCell.Avatar") { [unowned self] avatarURLString in
+            YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [unowned self] avatarURLString in
                 if let avatarURLString = avatarURLString {
                     self.updateAvatarWithAvatarURLString(avatarURLString)
                 }

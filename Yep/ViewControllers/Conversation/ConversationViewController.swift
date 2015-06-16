@@ -175,10 +175,16 @@ class ConversationViewController: BaseViewController {
             dispatch_get_main_queue(), closure)
     }
 
+    struct Listener {
+        static let Avatar = "ConversationViewController"
+    }
+
     deinit {
         updateUIWithKeyboardChange = false
 
         NSNotificationCenter.defaultCenter().removeObserver(self)
+
+        YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
     }
 
     override func viewDidLoad() {
@@ -240,7 +246,7 @@ class ConversationViewController: BaseViewController {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout", name: EditProfileViewController.Notification.Logout, object: nil)
 
-        YepUserDefaults.avatarURLString.bindListener("ConversationViewController") { [unowned self] _ in
+        YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [unowned self] _ in
             self.reloadConversationCollectionView()
         }
 
