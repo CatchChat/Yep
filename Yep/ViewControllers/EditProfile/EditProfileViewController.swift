@@ -283,6 +283,8 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     }, completion: { success in
                         dispatch_async(dispatch_get_main_queue()) {
                             YepUserDefaults.introduction.value = newIntroduction
+
+                            self.editProfileTableView.reloadData()
                         }
 
                         YepHUD.hideActivityIndicator()
