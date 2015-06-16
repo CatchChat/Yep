@@ -19,9 +19,16 @@ class SettingsUserCell: UITableViewCell {
 
     @IBOutlet weak var accessoryImageView: UIImageView!
 
+    struct Listener {
+        static let Avatar = "SettingsUserCell.Avatar"
+        static let Nickname = "SettingsUserCell.Nickname"
+        static let Introduction = "SettingsUserCell.Introduction"
+    }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
+        YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
+        YepUserDefaults.introduction.removeListenerWithName(Listener.Introduction)
     }
     
     override func awakeFromNib() {
@@ -30,15 +37,15 @@ class SettingsUserCell: UITableViewCell {
         let avatarSize = YepConfig.Settings.userCellAvatarSize
         avatarImageViewWidthConstraint.constant = avatarSize
 
-        YepUserDefaults.avatarURLString.bindAndFireListener("SettingsUserCell.Avatar") { [unowned self] _ in
+        YepUserDefaults.avatarURLString.bindAndFireListener(Listener.Avatar) { [unowned self] _ in
             self.updateAvatar()
         }
 
-        YepUserDefaults.nickname.bindAndFireListener("SettingsUserCell.Nickname") { [unowned self] nickname in
+        YepUserDefaults.nickname.bindAndFireListener(Listener.Nickname) { [unowned self] nickname in
             self.nameLabel.text = nickname
         }
 
-        YepUserDefaults.introduction.bindAndFireListener("SettingsUserCell.Introduction") { [unowned self] introduction in
+        YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [unowned self] introduction in
             self.introLabel.text = introduction
         }
 

@@ -15,24 +15,29 @@ class LoginVerifyMobileViewController: UIViewController {
 
 
     @IBOutlet weak var verifyMobileNumberPromptLabel: UILabel!
+    @IBOutlet weak var verifyMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var verifyCodeTextField: UnderLineTextField!
+    @IBOutlet weak var phoneNumberLabel: UILabel!
 
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var verifyCodeTextField: BorderTextField!
+    @IBOutlet weak var verifyCodeTextFieldTopConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var callMePromptLabel: UILabel!
+    @IBOutlet weak var callMeButton: UIButton!
+    @IBOutlet weak var callMeButtonTopConstraint: NSLayoutConstraint!
+
+    lazy var nextButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
+        return button
+        }()
 
     lazy var callMeTimer: NSTimer = {
         let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "tryCallMe:", userInfo: nil, repeats: true)
         return timer
         }()
     var haveAppropriateInput = false {
-        willSet {
-            nextButton.enabled = newValue
-
-            if newValue {
-                nextButton.setTitle(NSLocalizedString("Done", comment: ""), forState: .Normal)
-            }
+        didSet {
+            nextButton.enabled = haveAppropriateInput
         }
     }
     var callMeInSeconds = YepConfig.callMeInSeconds()
@@ -41,11 +46,22 @@ class LoginVerifyMobileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
-        nextButton.setTitle(NSLocalizedString("Done", comment: ""), forState: .Normal)
+        navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Login", comment: ""))
+
+        navigationItem.rightBarButtonItem = nextButton
+
+        verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code send to", comment: "")
+        phoneNumberLabel.text = "+" + areaCode + " " + mobile
 
         verifyCodeTextField.delegate = self
         verifyCodeTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+
+        callMePromptLabel.text = NSLocalizedString("Didn't get it?", comment: "")
+        callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+
+        verifyMobileNumberPromptLabelTopConstraint.constant = UIDevice.matchMarginFrom(40, 50, 60, 60)
+        verifyCodeTextFieldTopConstraint.constant = UIDevice.matchMarginFrom(30, 40, 50, 50)
+        callMeButtonTopConstraint.constant = UIDevice.matchMarginFrom(10, 20, 40, 40)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -67,12 +83,12 @@ class LoginVerifyMobileViewController: UIViewController {
     func tryCallMe(timer: NSTimer) {
         if !haveAppropriateInput {
             if callMeInSeconds > 1 {
-                let callMeInSecondsString = NSLocalizedString("Call Me", comment: "") + " (\(callMeInSeconds))"
-                nextButton.setTitle(callMeInSecondsString, forState: .Normal)
+                let callMeInSecondsString = NSLocalizedString("Call me", comment: "") + " (\(callMeInSeconds))"
+                callMeButton.setTitle(callMeInSecondsString, forState: .Normal)
 
             } else {
-                nextButton.setTitle(NSLocalizedString("Call Me", comment: ""), forState: .Normal)
-                nextButton.enabled = true
+                callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                callMeButton.enabled = true
             }
         }
 
@@ -81,8 +97,15 @@ class LoginVerifyMobileViewController: UIViewController {
         }
     }
 
-    func callMe() {
-        nextButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
+    @IBAction func callMe(sender: UIButton) {
+        
+        callMeTimer.invalidate()
+
+        callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
+
+        delay(5) {
+            self.callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
+        }
 
         sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage)
@@ -90,6 +113,8 @@ class LoginVerifyMobileViewController: UIViewController {
             if let errorMessage = errorMessage {
                 dispatch_async(dispatch_get_main_queue()) {
                     YepAlert.alertSorry(message: errorMessage, inViewController: self)
+
+                    self.callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
                 }
             }
 
@@ -102,57 +127,48 @@ class LoginVerifyMobileViewController: UIViewController {
         haveAppropriateInput = (count(textField.text) == YepConfig.verifyCodeLength())
     }
 
-    @IBAction func back(sender: UIButton) {
-        navigationController?.popViewControllerAnimated(true)
-    }
-
-    @IBAction func next(sender: UIButton) {
+    func next(sender: UIBarButtonItem) {
         login()
     }
 
     private func login() {
 
-        if haveAppropriateInput {
-            view.endEditing(true)
+        view.endEditing(true)
 
-            let verifyCode = verifyCodeTextField.text
+        let verifyCode = verifyCodeTextField.text
 
-            YepHUD.showActivityIndicator()
-            
-            loginByMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason, errorMessage)
+        YepHUD.showActivityIndicator()
 
-                YepHUD.hideActivityIndicator()
+        loginByMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage)
 
-                if let errorMessage = errorMessage {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.nextButton.enabled = false
+            YepHUD.hideActivityIndicator()
 
-                        YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
-                            verifyCodeTextField.becomeFirstResponder()
-                        })
-                    })
-                }
-
-            }, completion: { loginUser in
-
-                println("\(loginUser)")
-
-                YepHUD.hideActivityIndicator()
-
+            if let errorMessage = errorMessage {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.nextButton.enabled = false
 
-                    saveTokenAndUserInfoOfLoginUser(loginUser)
-
-                    if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-                        appDelegate.startMainStory()
-                    }
+                    YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
+                        verifyCodeTextField.becomeFirstResponder()
+                    })
                 })
-            })
+            }
 
-        } else {
-            callMe()
-        }
+        }, completion: { loginUser in
+
+            println("\(loginUser)")
+
+            YepHUD.hideActivityIndicator()
+
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+
+                saveTokenAndUserInfoOfLoginUser(loginUser)
+
+                if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                    appDelegate.startMainStory()
+                }
+            })
+        })
     }
 }
 

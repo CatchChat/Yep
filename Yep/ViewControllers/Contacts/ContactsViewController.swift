@@ -17,10 +17,17 @@ class ContactsViewController: BaseViewController {
 
     lazy var friends = normalUsers()
 
+    struct Listener {
+        static let Nickname = "ContactsViewController.Nickname"
+        static let Avatar = "ContactsViewController.Avatar"
+    }
+
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+
+        YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
+        YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
     }
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,11 +41,11 @@ class ContactsViewController: BaseViewController {
         contactsTableView.rowHeight = 80
         contactsTableView.tableFooterView = UIView()
 
-        YepUserDefaults.nickname.bindListener("ContactsViewController.Nickname") { [unowned self] _ in
+        YepUserDefaults.nickname.bindListener(Listener.Nickname) { [unowned self] _ in
             self.updateContactsTableView()
         }
 
-        YepUserDefaults.avatarURLString.bindListener("ContactsViewController.Avatar") { [unowned self] _ in
+        YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [unowned self] _ in
             self.updateContactsTableView()
         }
     }

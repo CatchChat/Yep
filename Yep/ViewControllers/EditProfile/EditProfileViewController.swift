@@ -35,6 +35,16 @@ class EditProfileViewController: UIViewController {
 
     let introAttributes = [NSFontAttributeName: YepConfig.EditProfile.introFont]
 
+    struct Listener {
+        static let Nickname = "EditProfileLessInfoCell.Nickname"
+        static let Introduction = "EditProfileLessInfoCell.Introduction"
+    }
+
+    deinit {
+        YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
+        YepUserDefaults.introduction.removeListenerWithName(Listener.Introduction)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -154,7 +164,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 cell.annotationLabel.text = NSLocalizedString("Nickname", comment: "")
 
-                YepUserDefaults.nickname.bindAndFireListener("EditProfileLessInfoCell.Nickname") { [unowned self] nickname in
+                YepUserDefaults.nickname.bindAndFireListener(Listener.Nickname) { [unowned self] nickname in
                     cell.infoLabel.text = nickname
                 }
 
@@ -165,7 +175,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
 
-                YepUserDefaults.introduction.bindAndFireListener("EditProfileLessInfoCell.Introduction") { [unowned self] introduction in
+                YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [unowned self] introduction in
                     cell.infoLabel.text = introduction
                 }
 
@@ -227,7 +237,8 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             switch indexPath.row {
 
             case InfoRow.Name.rawValue:
-                YepAlert.textInput(title: NSLocalizedString("Change nickname", comment: ""), placeholder: YepUserDefaults.nickname.value, oldText: nil, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withFinishedAction: { (newNickname) -> Void in
+
+                YepAlert.textInput(title: NSLocalizedString("Change nickname", comment: ""), placeholder: YepUserDefaults.nickname.value, oldText: YepUserDefaults.nickname.value, confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { newNickname in
 
                     if let oldNickname = YepUserDefaults.nickname.value {
                         if oldNickname == newNickname {
@@ -249,10 +260,12 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                         YepHUD.hideActivityIndicator()
                     })
-                })
+
+                }, cancelAction: nil)
 
             case InfoRow.Intro.rawValue:
-                YepAlert.textInput(title: NSLocalizedString("New introduction", comment: ""), placeholder: nil, oldText: YepUserDefaults.introduction.value, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withFinishedAction: { (newIntroduction) -> Void in
+
+                YepAlert.textInput(title: NSLocalizedString("New introduction", comment: ""), placeholder: nil, oldText: YepUserDefaults.introduction.value, confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { newIntroduction in
 
                     if let oldIntroduction = YepUserDefaults.introduction.value {
                         if oldIntroduction == newIntroduction {
@@ -270,11 +283,14 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     }, completion: { success in
                         dispatch_async(dispatch_get_main_queue()) {
                             YepUserDefaults.introduction.value = newIntroduction
+
+                            self.editProfileTableView.reloadData()
                         }
 
                         YepHUD.hideActivityIndicator()
                     })
-                })
+
+                }, cancelAction: nil)
 
             default:
                 break

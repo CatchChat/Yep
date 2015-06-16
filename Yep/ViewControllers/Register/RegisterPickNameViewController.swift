@@ -11,20 +11,30 @@ import UIKit
 class RegisterPickNameViewController: UIViewController {
 
     @IBOutlet weak var pickNamePromptLabel: UILabel!
+    @IBOutlet weak var pickNamePromptLabelTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var nameTextField: UnderLineTextField!
+    @IBOutlet weak var nameTextField: BorderTextField!
+    @IBOutlet weak var nameTextFieldTopConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var nextButton: UIButton!
+    lazy var nextButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
+        return button
+        }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
-        nextButton.setTitle(NSLocalizedString("Next", comment: ""), forState: .Normal)
+        navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Sign up", comment: ""))
+
+        navigationItem.rightBarButtonItem = nextButton
+
+        pickNamePromptLabel.text = NSLocalizedString("What's your name?", comment: "")
 
         nameTextField.delegate = self
         nameTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+
+        pickNamePromptLabelTopConstraint.constant = UIDevice.matchMarginFrom(40, 50, 60, 60)
+        nameTextFieldTopConstraint.constant = UIDevice.matchMarginFrom(30, 40, 50, 50)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -45,11 +55,7 @@ class RegisterPickNameViewController: UIViewController {
         nextButton.enabled = !textField.text.isEmpty
     }
 
-    @IBAction func back(sender: UIButton) {
-        navigationController?.popViewControllerAnimated(true)
-    }
-    
-    @IBAction func next(sender: UIButton) {
+    func next(sender: UIBarButtonItem) {
         showRegisterPickMobile()
     }
 

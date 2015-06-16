@@ -11,29 +11,38 @@ import UIKit
 class LoginByMobileViewController: UIViewController {
 
     @IBOutlet weak var pickMobileNumberPromptLabel: UILabel!
-
-    @IBOutlet weak var areaCodeTextField: UnderLineTextField!
-    @IBOutlet weak var mobileNumberTextField: UnderLineTextField!
-
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var nextButton: UIButton!
-
+    @IBOutlet weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var areaCodeTextField: BorderTextField!
+    @IBOutlet weak var mobileNumberTextField: BorderTextField!
+    @IBOutlet weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
+    
+    lazy var nextButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
+        return button
+        }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Login", comment: ""))
+   
+        navigationItem.rightBarButtonItem = nextButton
+
+        pickMobileNumberPromptLabel.text = NSLocalizedString("What's your number?", comment: "")
 
         areaCodeTextField.delegate = self
         areaCodeTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
         mobileNumberTextField.delegate = self
         mobileNumberTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+
+        pickMobileNumberPromptLabelTopConstraint.constant = UIDevice.matchMarginFrom(40, 50, 60, 60)
+        mobileNumberTextFieldTopConstraint.constant = UIDevice.matchMarginFrom(30, 40, 50, 50)
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
-        backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
-        nextButton.setTitle(NSLocalizedString("Next", comment: ""), forState: .Normal)
 
         nextButton.enabled = false
     }
@@ -51,12 +60,7 @@ class LoginByMobileViewController: UIViewController {
         nextButton.enabled = !areaCodeTextField.text.isEmpty && !mobileNumberTextField.text.isEmpty
     }
 
-    @IBAction func back(sender: UIButton) {
-        navigationController?.popViewControllerAnimated(true)
-    }
-
-
-    @IBAction func next(sender: UIButton) {
+    func next(sender: UIBarButtonItem) {
         tryShowLoginVerifyMobile()
     }
 

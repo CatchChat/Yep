@@ -63,6 +63,14 @@ class Listenable<T> {
         action(value)
     }
 
+    func removeListenerWithName(name: String) {
+        for listener in listenerSet {
+            if listener.name == name {
+                listenerSet.remove(listener)
+            }
+        }
+    }
+
     init(_ v: T, setterAction action: SetterAction) {
         value = v
         setterAction = action
@@ -89,16 +97,19 @@ class YepUserDefaults {
 
     class func userNeedRelogin() {
 
-        cleanRealmAndCaches()
+        if let token = v1AccessToken.value {
 
-        cleanAllUserDefaults()
+            cleanRealmAndCaches()
 
-        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-            if let rootViewController = appDelegate.window?.rootViewController {
-                YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { () -> Void in
+            cleanAllUserDefaults()
 
-                    appDelegate.startIntroStory()
-                })
+            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                if let rootViewController = appDelegate.window?.rootViewController {
+                    YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { () -> Void in
+
+                        appDelegate.startIntroStory()
+                    })
+                }
             }
         }
     }

@@ -15,10 +15,6 @@ class RegisterPickSkillsViewController: BaseViewController {
 
     @IBOutlet weak var skillsCollectionView: UICollectionView!
 
-    @IBOutlet weak var addSkillsLabel: UILabel!
-
-    @IBOutlet weak var doneButton: UIButton!
-
     var masterSkills = [Skill]()
     var learningSkills = [Skill]()
 
@@ -42,19 +38,15 @@ class RegisterPickSkillsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let doneBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "saveSkills:")
+        navigationItem.rightBarButtonItem = doneBarButton
+
         if !isRegister {
-            addSkillsLabel.hidden = true
-            doneButton.hidden = true
-
-            let doneBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "saveSkills:")
-            navigationItem.rightBarButtonItem = doneBarButton
-
-            title = NSLocalizedString("Change Skills", comment: "")
-
+            navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Change Skills", comment: ""))
         } else {
-            navigationController?.navigationBarHidden = true
-            addSkillsLabel.text = NSLocalizedString("Pick some skills", comment: "")
+            navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Pick some skills", comment: ""))
         }
+
 
         skillsCollectionView.registerNib(UINib(nibName: addSkillsReusableViewIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: addSkillsReusableViewIdentifier)
         skillsCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
@@ -66,17 +58,6 @@ class RegisterPickSkillsViewController: BaseViewController {
         }, completion: { skillCategories -> Void in
             self.skillCategories = skillCategories
         })
-
-        //view.backgroundColor = UIColor.redColor()
-        //skillsCollectionView.backgroundColor = UIColor.blueColor()
-    }
-
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-
-        if isRegister {
-            navigationController?.navigationBarHidden = true
-        }
     }
 
     // MARK: Actions
@@ -88,7 +69,9 @@ class RegisterPickSkillsViewController: BaseViewController {
     @IBAction func saveSkills(sender: AnyObject) {
 
         YepHUD.showActivityIndicator()
-        
+
+        var saveSkillsErrorMessage: String?
+
         let addSkillsGroup = dispatch_group_create()
 
         for skill in masterSkills {
@@ -96,6 +79,9 @@ class RegisterPickSkillsViewController: BaseViewController {
 
             addSkill(skill, toSkillSet: .Master, failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage)
+
+                saveSkillsErrorMessage = errorMessage
+
                 dispatch_group_leave(addSkillsGroup)
 
             }, completion: { success in
@@ -108,6 +94,9 @@ class RegisterPickSkillsViewController: BaseViewController {
 
             addSkill(skill, toSkillSet: .Learning, failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage)
+
+                saveSkillsErrorMessage = errorMessage
+
                 dispatch_group_leave(addSkillsGroup)
 
             }, completion: { success in
@@ -133,9 +122,14 @@ class RegisterPickSkillsViewController: BaseViewController {
             } else {
                 YepHUD.hideActivityIndicator()
 
-                self.navigationController?.popViewControllerAnimated(true)
+                if let errorMessage = saveSkillsErrorMessage {
+                    YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
-                self.afterChangeSkillsAction?(masterSkills: self.masterSkills, learningSkills: self.learningSkills)
+                } else {
+                    self.navigationController?.popViewControllerAnimated(true)
+
+                    self.afterChangeSkillsAction?(masterSkills: self.masterSkills, learningSkills: self.learningSkills)
+                }
             }
         }
     }
@@ -150,14 +144,17 @@ class RegisterPickSkillsViewController: BaseViewController {
             vc.transitioningDelegate = selectSkillsTransitionManager
 
             if let skillSetType = sender as? Int {
+
                 switch skillSetType {
                 case SkillSetType.Master.rawValue:
                     vc.annotationText = NSLocalizedString("What are you good at?", comment: "")
                     vc.selectedSkillsSet = Set(self.masterSkills)
+                    vc.failedSelectSkillMessage = NSLocalizedString("This skill already in another learning skills set!", comment: "")
 
                 case SkillSetType.Learning.rawValue:
                     vc.annotationText = NSLocalizedString("What are you learning?", comment: "")
                     vc.selectedSkillsSet = Set(self.learningSkills)
+                    vc.failedSelectSkillMessage = NSLocalizedString("This skill already in another master skills set!", comment: "")
 
                 default:
                     break
@@ -174,9 +171,13 @@ class RegisterPickSkillsViewController: BaseViewController {
                     switch skillSetType {
                     case SkillSetType.Master.rawValue:
                         if selected {
-                            self.masterSkills.append(skill)
 
-                            success = true
+                            if self.learningSkills.filter({ $0.id == skill.id }).count == 0 {
+
+                                self.masterSkills.append(skill)
+
+                                success = true
+                            }
                             
                         } else {
                             for (index, masterSkill) in enumerate(self.masterSkills) {
@@ -198,9 +199,12 @@ class RegisterPickSkillsViewController: BaseViewController {
 
                     case SkillSetType.Learning.rawValue:
                         if selected {
-                            self.learningSkills.append(skill)
+                            if self.masterSkills.filter({ $0.id == skill.id }).count == 0 {
 
-                            success = true
+                                self.learningSkills.append(skill)
+
+                                success = true
+                            }
 
                         } else {
                             for (index, learningSkill) in enumerate(self.learningSkills) {

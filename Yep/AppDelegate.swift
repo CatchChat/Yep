@@ -125,14 +125,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 
         if !isColdLaunch {
+            isColdLaunch = false
+
             if let token = YepUserDefaults.v1AccessToken.value {
                 syncUnreadMessages() {
                 }
             }
         }
-        syncMessagesReadStatus()
-        isColdLaunch = false
-    
+
+        if let token = YepUserDefaults.v1AccessToken.value {
+            syncMessagesReadStatus()
+        }
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -244,6 +247,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Global Tint Color
 
         window!.tintColor = UIColor.yepTintColor()
+
+
+        // NacigationBar Item Style
+
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.yepTintColor()], forState: .Normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.yepTintColor().colorWithAlphaComponent(0.3)], forState: .Disabled)
 
 
         // NavigationBar Title Style

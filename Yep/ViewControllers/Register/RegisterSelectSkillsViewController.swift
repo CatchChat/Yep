@@ -14,6 +14,7 @@ class RegisterSelectSkillsViewController: UIViewController {
     var annotationText: String = ""
     var selectSkillAction: ((skill: Skill, selected: Bool) -> Bool)?
     var selectedSkillsSet = Set<Skill>()
+    var failedSelectSkillMessage: String = ""
 
     @IBOutlet weak var skillCategoriesCollectionView: UICollectionView!
 
@@ -428,6 +429,9 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                         if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SkillSelectionCell {
                             updateSkillSelectionCell(cell, withSkill: skill)
                         }
+
+                    } else {
+                        YepAlert.alertSorry(message: failedSelectSkillMessage, inViewController: self)
                     }
                 }
             }

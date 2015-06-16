@@ -60,19 +60,17 @@ class YepAlert {
             textField.text = oldText
         }
 
-        let _confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action -> Void in
-            if let confirmAction = confirmAction {
-                if let textField = alertController.textFields?.first as? UITextField {
-                    confirmAction(text: textField.text)
-                }
-            }
-        }
-        alertController.addAction(_confirmAction)
-
         let _cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action -> Void in
             cancelAction?()
         }
         alertController.addAction(_cancelAction)
+
+        let _confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action -> Void in
+            if let textField = alertController.textFields?.first as? UITextField {
+                confirmAction?(text: textField.text)
+            }
+        }
+        alertController.addAction(_confirmAction)
 
         viewController.presentViewController(alertController, animated: true, completion: nil)
     }
@@ -80,15 +78,15 @@ class YepAlert {
     class func confirmOrCancel(#title: String, message: String, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController, withConfirmAction confirmAction: () -> Void, cancelAction: () -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 
-        let confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action -> Void in
-            confirmAction()
-        }
-        alertController.addAction(confirmAction)
-
         let cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action -> Void in
             cancelAction()
         }
         alertController.addAction(cancelAction)
+
+        let confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action -> Void in
+            confirmAction()
+        }
+        alertController.addAction(confirmAction)
 
         viewController.presentViewController(alertController, animated: true, completion: nil)
     }

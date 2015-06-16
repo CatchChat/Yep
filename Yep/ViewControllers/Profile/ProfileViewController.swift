@@ -191,7 +191,7 @@ class ProfileViewController: UIViewController {
                 }
 
                 if user.friendState == UserFriendState.Me.rawValue {
-                    YepUserDefaults.introduction.bindListener("Profile.introductionText") { [unowned self] introduction in
+                    YepUserDefaults.introduction.bindListener(Listener.Introduction) { [unowned self] introduction in
                         if let introduction = introduction {
                             self.introductionText = introduction
                             self.updateProfileCollectionView()
@@ -255,10 +255,18 @@ class ProfileViewController: UIViewController {
     var customNavigationItem: UINavigationItem = UINavigationItem(title: "Details")
 
 
+    struct Listener {
+        static let Nickname = "ProfileViewController.Title"
+        static let Introduction = "Profile.introductionText"
+    }
+
     // MARK: Life cycle
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+
+        YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
+        YepUserDefaults.introduction.removeListenerWithName(Listener.Introduction)
     }
 
     override func viewDidLoad() {
@@ -358,7 +366,7 @@ class ProfileViewController: UIViewController {
                 customNavigationItem.title = user.nickname
 
                 if user.friendState == UserFriendState.Me.rawValue {
-                    YepUserDefaults.nickname.bindListener("ProfileViewController.Title") { [unowned self] nickname in
+                    YepUserDefaults.nickname.bindListener(Listener.Nickname) { [unowned self] nickname in
                         self.customNavigationItem.title = nickname
                     }
                 }
