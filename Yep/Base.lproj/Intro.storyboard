@@ -632,24 +632,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VLr-1V-wc9" customClass="BorderButton" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="208" y="275" width="185" height="30"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.13725490200000001" green="0.56862745100000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="8ex-v3-K7u"/>
-                                    <constraint firstAttribute="width" constant="185" id="cvU-jX-95E"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
-                                <inset key="contentEdgeInsets" minX="15" minY="15" maxX="15" maxY="15"/>
-                                <state key="normal" title="Next">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="next:" destination="ts5-9s-OML" eventType="touchUpInside" id="c7t-7o-W0H"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3xh-wN-AXR">
                                 <rect key="frame" x="20" y="213" width="12" height="21"/>
                                 <animations/>
@@ -680,9 +662,7 @@
                             <constraint firstItem="3xh-wN-AXR" firstAttribute="centerY" secondItem="lCp-RT-8MI" secondAttribute="centerY" constant="-2" id="0dj-R0-PTF"/>
                             <constraint firstItem="kW8-kQ-Gt5" firstAttribute="top" secondItem="QXO-mH-KhA" secondAttribute="bottom" constant="60" id="2bb-XR-jvx"/>
                             <constraint firstItem="lCp-RT-8MI" firstAttribute="leading" secondItem="FF2-np-WVt" secondAttribute="leading" id="6Xv-KG-tg9"/>
-                            <constraint firstItem="VLr-1V-wc9" firstAttribute="top" secondItem="FGO-sg-N4b" secondAttribute="bottom" constant="20" id="9kf-1r-Vc2"/>
                             <constraint firstItem="3xh-wN-AXR" firstAttribute="leading" secondItem="lCp-RT-8MI" secondAttribute="leading" constant="20" id="Fio-af-afA"/>
-                            <constraint firstAttribute="centerX" secondItem="VLr-1V-wc9" secondAttribute="centerX" id="M16-9A-Gat"/>
                             <constraint firstItem="FGO-sg-N4b" firstAttribute="leading" secondItem="lCp-RT-8MI" secondAttribute="trailing" id="M4H-ZN-kvl"/>
                             <constraint firstAttribute="centerX" secondItem="kW8-kQ-Gt5" secondAttribute="centerX" id="OcV-8f-s23"/>
                             <constraint firstItem="FGO-sg-N4b" firstAttribute="height" secondItem="lCp-RT-8MI" secondAttribute="height" id="OyJ-Gm-LD2"/>
@@ -694,8 +674,9 @@
                     <connections>
                         <outlet property="areaCodeTextField" destination="lCp-RT-8MI" id="PNR-q3-UgK"/>
                         <outlet property="mobileNumberTextField" destination="FGO-sg-N4b" id="JCU-eL-h0g"/>
-                        <outlet property="nextButton" destination="VLr-1V-wc9" id="Tbd-yD-uRP"/>
+                        <outlet property="mobileNumberTextFieldTopConstraint" destination="jvi-H9-xom" id="qwq-T3-wDp"/>
                         <outlet property="pickMobileNumberPromptLabel" destination="kW8-kQ-Gt5" id="e7o-ps-gBm"/>
+                        <outlet property="pickMobileNumberPromptLabelTopConstraint" destination="2bb-XR-jvx" id="2A8-nd-68e"/>
                         <segue destination="hOk-H8-kcY" kind="show" identifier="showLoginVerifyMobile" id="uFP-eJ-Her"/>
                     </connections>
                 </viewController>
@@ -753,6 +734,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="callMe:" destination="hOk-H8-kcY" eventType="touchUpInside" id="bXQ-bk-JaI"/>
                                     <action selector="callMe:" destination="RMg-rt-U0Z" eventType="touchUpInside" id="w7e-3J-dKF"/>
                                 </connections>
                             </button>
