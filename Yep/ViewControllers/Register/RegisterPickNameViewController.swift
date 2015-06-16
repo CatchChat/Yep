@@ -11,8 +11,10 @@ import UIKit
 class RegisterPickNameViewController: UIViewController {
 
     @IBOutlet weak var pickNamePromptLabel: UILabel!
+    @IBOutlet weak var pickNamePromptLabelTopConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var nameTextField: BorderTextField!
+    @IBOutlet weak var nameTextFieldTopConstraint: NSLayoutConstraint!
     
     lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
@@ -30,6 +32,9 @@ class RegisterPickNameViewController: UIViewController {
 
         nameTextField.delegate = self
         nameTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+
+        pickNamePromptLabelTopConstraint.constant = UIDevice.matchMarginFrom(50, 60, 60, 60)
+        nameTextFieldTopConstraint.constant = UIDevice.matchMarginFrom(40, 50, 50, 50)
     }
 
     override func viewWillAppear(animated: Bool) {

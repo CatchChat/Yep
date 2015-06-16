@@ -11,9 +11,11 @@ import UIKit
 class RegisterPickMobileViewController: UIViewController {
 
     @IBOutlet weak var pickMobileNumberPromptLabel: UILabel!
+    @IBOutlet weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var areaCodeTextField: BorderTextField!
     @IBOutlet weak var mobileNumberTextField: BorderTextField!
+    @IBOutlet weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
 
     lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
@@ -34,6 +36,9 @@ class RegisterPickMobileViewController: UIViewController {
 
         mobileNumberTextField.delegate = self
         mobileNumberTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+
+        pickMobileNumberPromptLabelTopConstraint.constant = UIDevice.matchMarginFrom(50, 60, 60, 60)
+        mobileNumberTextFieldTopConstraint.constant = UIDevice.matchMarginFrom(40, 50, 50, 50)
     }
 
     override func viewWillAppear(animated: Bool) {

@@ -141,7 +141,9 @@
                     </view>
                     <connections>
                         <outlet property="nameTextField" destination="XiO-W9-kya" id="Tq9-gM-NSb"/>
+                        <outlet property="nameTextFieldTopConstraint" destination="Dcj-Qh-qTh" id="fl7-xd-prE"/>
                         <outlet property="pickNamePromptLabel" destination="Pw6-yh-kid" id="Qcq-Q7-euR"/>
+                        <outlet property="pickNamePromptLabelTopConstraint" destination="RJx-dt-P2H" id="MbW-vC-xD0"/>
                         <segue destination="047-MJ-GYQ" kind="show" identifier="showRegisterPickMobile" id="Geb-Ph-Xb5"/>
                     </connections>
                 </viewController>
@@ -167,7 +169,7 @@
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="86" placeholder="  " textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rD8-Pa-pw2" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="86" placeholder="  " textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rD8-Pa-pw2" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="195" width="77" height="60"/>
                                 <animations/>
                                 <constraints>
@@ -185,7 +187,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BMl-2s-Pwj" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BMl-2s-Pwj" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="77" y="195" width="523" height="60"/>
                                 <animations/>
                                 <constraints>
@@ -224,7 +226,9 @@
                     <connections>
                         <outlet property="areaCodeTextField" destination="rD8-Pa-pw2" id="StR-hY-GsA"/>
                         <outlet property="mobileNumberTextField" destination="BMl-2s-Pwj" id="LEg-gh-jC9"/>
+                        <outlet property="mobileNumberTextFieldTopConstraint" destination="dRU-8w-k4X" id="7nH-5T-02a"/>
                         <outlet property="pickMobileNumberPromptLabel" destination="i8w-Yk-LWX" id="006-t1-jQc"/>
+                        <outlet property="pickMobileNumberPromptLabelTopConstraint" destination="amm-bW-f3Y" id="wGR-rl-5oo"/>
                         <segue destination="RMg-rt-U0Z" kind="show" identifier="showRegisterVerifyMobile" id="ha1-Zh-7Gf"/>
                     </connections>
                 </viewController>
@@ -244,17 +248,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NZO-a3-Kcl">
-                                <rect key="frame" x="200" y="193" width="65" height="48"/>
-                                <animations/>
-                                <inset key="contentEdgeInsets" minX="15" minY="15" maxX="15" maxY="15"/>
-                                <state key="normal" title="Back">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="back:" destination="RMg-rt-U0Z" eventType="touchUpInside" id="6Da-g3-SjU"/>
-                                </connections>
-                            </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1984" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nGo-Vv-zCO" customClass="UnderLineTextField" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="200" y="138" width="200" height="35"/>
                                 <animations/>
@@ -274,34 +267,17 @@
                                 <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yzY-RW-Wmy">
-                                <rect key="frame" x="338" y="193" width="62" height="48"/>
-                                <animations/>
-                                <inset key="contentEdgeInsets" minX="15" minY="15" maxX="15" maxY="15"/>
-                                <state key="normal" title="Next">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="next:" destination="RMg-rt-U0Z" eventType="touchUpInside" id="q9e-hS-04W"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="31u-94-iEu" secondAttribute="centerX" id="09K-ZJ-IAc"/>
-                            <constraint firstItem="NZO-a3-Kcl" firstAttribute="centerY" secondItem="yzY-RW-Wmy" secondAttribute="centerY" id="4yw-dK-ecf"/>
-                            <constraint firstItem="nGo-Vv-zCO" firstAttribute="leading" secondItem="NZO-a3-Kcl" secondAttribute="leading" id="Eg3-UE-vyp"/>
                             <constraint firstItem="nGo-Vv-zCO" firstAttribute="centerX" secondItem="31u-94-iEu" secondAttribute="centerX" id="OAl-4g-rxJ"/>
                             <constraint firstItem="31u-94-iEu" firstAttribute="top" secondItem="rhv-Ug-NcK" secondAttribute="bottom" constant="30" id="U85-Fz-seV"/>
-                            <constraint firstItem="NZO-a3-Kcl" firstAttribute="top" secondItem="nGo-Vv-zCO" secondAttribute="bottom" constant="20" id="UVF-Hi-Lgn"/>
-                            <constraint firstItem="nGo-Vv-zCO" firstAttribute="trailing" secondItem="yzY-RW-Wmy" secondAttribute="trailing" id="hGb-CY-A7T"/>
                             <constraint firstItem="nGo-Vv-zCO" firstAttribute="top" secondItem="31u-94-iEu" secondAttribute="bottom" constant="20" id="j5N-58-CFC"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="backButton" destination="NZO-a3-Kcl" id="6an-gu-s7t"/>
-                        <outlet property="nextButton" destination="yzY-RW-Wmy" id="Ipu-4m-7Qz"/>
                         <outlet property="verifyCodeTextField" destination="nGo-Vv-zCO" id="nqn-o4-aYw"/>
                         <outlet property="verifyMobileNumberPromptLabel" destination="31u-94-iEu" id="sWK-YD-CQ3"/>
                         <segue destination="9hR-GW-qJG" kind="show" identifier="showRegisterPickAvatar" id="Id6-b0-9oq"/>
