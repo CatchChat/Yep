@@ -22,6 +22,9 @@ class RegisterVerifyMobileViewController: UIViewController {
     @IBOutlet weak var verifyCodeTextField: BorderTextField!
     @IBOutlet weak var verifyCodeTextFieldTopConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var callMePromptLabel: UILabel!
+    @IBOutlet weak var callMeButton: UIButton!
+    @IBOutlet weak var callMeButtonTopConstraint: NSLayoutConstraint!
 
     lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
@@ -57,8 +60,12 @@ class RegisterVerifyMobileViewController: UIViewController {
         verifyCodeTextField.delegate = self
         verifyCodeTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
-        verifyMobileNumberPromptLabelTopConstraint.constant = UIDevice.matchMarginFrom(50, 60, 60, 60)
-        verifyCodeTextFieldTopConstraint.constant = UIDevice.matchMarginFrom(40, 50, 50, 50)
+        callMePromptLabel.text = NSLocalizedString("Didn't get it?", comment: "")
+        callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+
+        verifyMobileNumberPromptLabelTopConstraint.constant = UIDevice.matchMarginFrom(40, 50, 60, 60)
+        verifyCodeTextFieldTopConstraint.constant = UIDevice.matchMarginFrom(30, 40, 50, 50)
+        callMeButtonTopConstraint.constant = UIDevice.matchMarginFrom(10, 20, 40, 40)
     }
 
     override func viewWillAppear(animated: Bool) {
