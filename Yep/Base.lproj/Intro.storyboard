@@ -608,7 +608,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You mobile number?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kW8-kQ-Gt5">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You mobile number?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kW8-kQ-Gt5">
                                 <rect key="frame" x="218" y="124" width="165" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
@@ -715,66 +715,83 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kC8-eE-yO3">
-                                <rect key="frame" x="200" y="149" width="65" height="48"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Verification code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3TS-6h-Jhq">
+                                <rect key="frame" x="233" y="124" width="135" height="21"/>
                                 <animations/>
-                                <inset key="contentEdgeInsets" minX="15" minY="15" maxX="15" maxY="15"/>
-                                <state key="normal" title="Back">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="back:" destination="hOk-H8-kcY" eventType="touchUpInside" id="bDd-BR-8fV"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1984" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ofP-ec-R5d" customClass="UnderLineTextField" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="200" y="94" width="200" height="35"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1984" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ofP-ec-R5d" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="195" width="600" height="60"/>
                                 <animations/>
-                                <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="El6-pg-ZHx"/>
-                                    <constraint firstAttribute="height" constant="35" id="pnG-UD-6zw"/>
+                                    <constraint firstAttribute="height" constant="60" id="pnG-UD-6zw"/>
                                 </constraints>
                                 <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LJm-hB-ULZ">
-                                <rect key="frame" x="338" y="149" width="62" height="48"/>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5XO-0K-ihg" userLabel="Helper View">
+                                <rect key="frame" x="233" y="305" width="135" height="30"/>
                                 <animations/>
-                                <inset key="contentEdgeInsets" minX="15" minY="15" maxX="15" maxY="15"/>
-                                <state key="normal" title="Next">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="MiF-PI-x2H"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Didn't get it?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9oW-Rx-Fxw">
+                                <rect key="frame" x="233" y="311" width="79" height="17"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5f3-u0-uhX">
+                                <rect key="frame" x="320" y="305" width="48" height="29"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
+                                <state key="normal" title="Call me">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="next:" destination="hOk-H8-kcY" eventType="touchUpInside" id="0sp-Zf-CgQ"/>
+                                    <action selector="callMe:" destination="RMg-rt-U0Z" eventType="touchUpInside" id="w7e-3J-dKF"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Verification code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3TS-6h-Jhq">
-                                <rect key="frame" x="232" y="50" width="136" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="18602354812" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gqa-1C-yyI">
+                                <rect key="frame" x="257" y="149" width="86" height="17"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="20"/>
-                                <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ofP-ec-R5d" firstAttribute="centerX" secondItem="3TS-6h-Jhq" secondAttribute="centerX" id="621-Bc-Z6F"/>
-                            <constraint firstItem="ofP-ec-R5d" firstAttribute="trailing" secondItem="LJm-hB-ULZ" secondAttribute="trailing" id="OJz-kU-p8n"/>
-                            <constraint firstItem="3TS-6h-Jhq" firstAttribute="top" secondItem="6V2-qQ-Nbs" secondAttribute="bottom" constant="30" id="PGZ-Yb-5uK"/>
-                            <constraint firstItem="ofP-ec-R5d" firstAttribute="top" secondItem="3TS-6h-Jhq" secondAttribute="bottom" constant="20" id="T3h-YG-LL0"/>
-                            <constraint firstItem="ofP-ec-R5d" firstAttribute="leading" secondItem="kC8-eE-yO3" secondAttribute="leading" id="Ti6-LZ-p96"/>
-                            <constraint firstItem="kC8-eE-yO3" firstAttribute="top" secondItem="ofP-ec-R5d" secondAttribute="bottom" constant="20" id="uBB-2U-Af5"/>
-                            <constraint firstItem="kC8-eE-yO3" firstAttribute="centerY" secondItem="LJm-hB-ULZ" secondAttribute="centerY" id="voT-vX-gyX"/>
+                            <constraint firstItem="5XO-0K-ihg" firstAttribute="centerX" secondItem="ofP-ec-R5d" secondAttribute="centerX" id="0yT-6d-kUY"/>
+                            <constraint firstItem="5XO-0K-ihg" firstAttribute="centerY" secondItem="5f3-u0-uhX" secondAttribute="centerY" id="23H-QI-Jn7"/>
+                            <constraint firstItem="Gqa-1C-yyI" firstAttribute="top" secondItem="3TS-6h-Jhq" secondAttribute="bottom" constant="4" id="AN4-WU-KWj"/>
+                            <constraint firstItem="5XO-0K-ihg" firstAttribute="leading" secondItem="9oW-Rx-Fxw" secondAttribute="leading" id="DTA-He-ZAA"/>
+                            <constraint firstItem="5f3-u0-uhX" firstAttribute="top" secondItem="ofP-ec-R5d" secondAttribute="bottom" constant="50" id="Ftc-6c-Yb6"/>
+                            <constraint firstAttribute="trailing" secondItem="ofP-ec-R5d" secondAttribute="trailing" id="J5g-t0-YK8"/>
+                            <constraint firstItem="3TS-6h-Jhq" firstAttribute="top" secondItem="6V2-qQ-Nbs" secondAttribute="bottom" constant="60" id="PGZ-Yb-5uK"/>
+                            <constraint firstItem="Gqa-1C-yyI" firstAttribute="centerX" secondItem="3TS-6h-Jhq" secondAttribute="centerX" id="Rgd-OI-Vjf"/>
+                            <constraint firstItem="ofP-ec-R5d" firstAttribute="top" secondItem="3TS-6h-Jhq" secondAttribute="bottom" constant="50" id="T3h-YG-LL0"/>
+                            <constraint firstItem="ofP-ec-R5d" firstAttribute="leading" secondItem="53c-s3-mzh" secondAttribute="leading" id="ZXo-4A-ruK"/>
+                            <constraint firstItem="9oW-Rx-Fxw" firstAttribute="centerY" secondItem="5f3-u0-uhX" secondAttribute="centerY" id="am1-iK-y7P"/>
+                            <constraint firstItem="5XO-0K-ihg" firstAttribute="trailing" secondItem="5f3-u0-uhX" secondAttribute="trailing" id="f0n-bu-9r8"/>
+                            <constraint firstItem="5f3-u0-uhX" firstAttribute="leading" secondItem="9oW-Rx-Fxw" secondAttribute="trailing" constant="8" id="mbp-dZ-6kp"/>
                             <constraint firstAttribute="centerX" secondItem="3TS-6h-Jhq" secondAttribute="centerX" id="yFu-Ip-DQz"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="backButton" destination="kC8-eE-yO3" id="mRH-CF-121"/>
-                        <outlet property="nextButton" destination="LJm-hB-ULZ" id="e9j-iW-ejd"/>
+                        <outlet property="callMeButton" destination="5f3-u0-uhX" id="jC5-XU-fsd"/>
+                        <outlet property="callMeButtonTopConstraint" destination="Ftc-6c-Yb6" id="7mE-zz-iBA"/>
+                        <outlet property="callMePromptLabel" destination="9oW-Rx-Fxw" id="DKX-D0-eBS"/>
+                        <outlet property="phoneNumberLabel" destination="Gqa-1C-yyI" id="HRy-8R-ZEE"/>
                         <outlet property="verifyCodeTextField" destination="ofP-ec-R5d" id="SB7-R3-pu7"/>
+                        <outlet property="verifyCodeTextFieldTopConstraint" destination="T3h-YG-LL0" id="Wj8-Tg-GtL"/>
                         <outlet property="verifyMobileNumberPromptLabel" destination="3TS-6h-Jhq" id="bc9-0C-J2o"/>
+                        <outlet property="verifyMobileNumberPromptLabelTopConstraint" destination="PGZ-Yb-5uK" id="5KV-6p-jDB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AJ9-SH-Zaq" userLabel="First Responder" sceneMemberID="firstResponder"/>
