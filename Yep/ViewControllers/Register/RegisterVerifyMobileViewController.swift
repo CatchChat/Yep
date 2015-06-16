@@ -84,11 +84,11 @@ class RegisterVerifyMobileViewController: UIViewController {
     func tryCallMe(timer: NSTimer) {
         if !haveAppropriateInput {
             if callMeInSeconds > 1 {
-                let callMeInSecondsString = NSLocalizedString("Call Me", comment: "") + " (\(callMeInSeconds))"
+                let callMeInSecondsString = NSLocalizedString("Call me", comment: "") + " (\(callMeInSeconds))"
                 callMeButton.setTitle(callMeInSecondsString, forState: .Normal)
 
             } else {
-                callMeButton.setTitle(NSLocalizedString("Call Me", comment: ""), forState: .Normal)
+                callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
                 callMeButton.enabled = true
             }
         }
@@ -105,7 +105,7 @@ class RegisterVerifyMobileViewController: UIViewController {
         callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
 
         delay(5) {
-            self.callMeButton.setTitle(NSLocalizedString("Call Me", comment: ""), forState: .Normal)
+            self.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
         }
 
         sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { (reason, errorMessage) in
@@ -114,6 +114,8 @@ class RegisterVerifyMobileViewController: UIViewController {
             if let errorMessage = errorMessage {
                 dispatch_async(dispatch_get_main_queue()) {
                     YepAlert.alertSorry(message: errorMessage, inViewController: self)
+
+                    self.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
                 }
             }
 
