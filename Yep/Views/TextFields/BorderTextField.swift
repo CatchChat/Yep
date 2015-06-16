@@ -19,7 +19,8 @@ class BorderTextField: UITextField {
     @IBInspectable var enabledBottomLine: Bool = true
     @IBInspectable var enabledRightLine: Bool = false
 
-    @IBInspectable var horizontalInset: CGFloat = 20
+    @IBInspectable var leftTextInset: CGFloat = 20
+    @IBInspectable var rightTextInset: CGFloat = 20
 
     override func drawRect(rect: CGRect) {
         super.drawRect(rect)
@@ -60,7 +61,7 @@ class BorderTextField: UITextField {
     }
 
     override func textRectForBounds(bounds: CGRect) -> CGRect {
-        return CGRectInset(bounds, horizontalInset, 0)
+        return CGRect(x: leftTextInset, y: 0, width: bounds.width - leftTextInset - rightTextInset, height: bounds.height)
     }
 
     override func editingRectForBounds(bounds: CGRect) -> CGRect {
