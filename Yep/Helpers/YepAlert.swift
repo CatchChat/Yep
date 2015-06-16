@@ -60,19 +60,17 @@ class YepAlert {
             textField.text = oldText
         }
 
-        let _confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action -> Void in
-            if let confirmAction = confirmAction {
-                if let textField = alertController.textFields?.first as? UITextField {
-                    confirmAction(text: textField.text)
-                }
-            }
-        }
-        alertController.addAction(_confirmAction)
-
         let _cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action -> Void in
             cancelAction?()
         }
         alertController.addAction(_cancelAction)
+
+        let _confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action -> Void in
+            if let textField = alertController.textFields?.first as? UITextField {
+                confirmAction?(text: textField.text)
+            }
+        }
+        alertController.addAction(_confirmAction)
 
         viewController.presentViewController(alertController, animated: true, completion: nil)
     }

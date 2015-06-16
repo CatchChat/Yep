@@ -237,7 +237,8 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             switch indexPath.row {
 
             case InfoRow.Name.rawValue:
-                YepAlert.textInput(title: NSLocalizedString("Change nickname", comment: ""), placeholder: YepUserDefaults.nickname.value, oldText: nil, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withFinishedAction: { (newNickname) -> Void in
+
+                YepAlert.textInput(title: NSLocalizedString("Change nickname", comment: ""), placeholder: YepUserDefaults.nickname.value, oldText: YepUserDefaults.nickname.value, confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { newNickname in
 
                     if let oldNickname = YepUserDefaults.nickname.value {
                         if oldNickname == newNickname {
@@ -259,10 +260,12 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                         YepHUD.hideActivityIndicator()
                     })
-                })
+
+                }, cancelAction: nil)
 
             case InfoRow.Intro.rawValue:
-                YepAlert.textInput(title: NSLocalizedString("New introduction", comment: ""), placeholder: nil, oldText: YepUserDefaults.introduction.value, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withFinishedAction: { (newIntroduction) -> Void in
+
+                YepAlert.textInput(title: NSLocalizedString("New introduction", comment: ""), placeholder: nil, oldText: YepUserDefaults.introduction.value, confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { newIntroduction in
 
                     if let oldIntroduction = YepUserDefaults.introduction.value {
                         if oldIntroduction == newIntroduction {
@@ -284,7 +287,8 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                         YepHUD.hideActivityIndicator()
                     })
-                })
+
+                }, cancelAction: nil)
 
             default:
                 break
