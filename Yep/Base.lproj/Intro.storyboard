@@ -183,14 +183,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You mobile number?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i8w-Yk-LWX">
-                                <rect key="frame" x="215" y="124" width="171" height="24"/>
+                                <rect key="frame" x="218" y="124" width="165" height="21"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="20"/>
-                                <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="86" placeholder="  " textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rD8-Pa-pw2" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="198" width="77" height="60"/>
+                                <rect key="frame" x="0.0" y="195" width="77" height="60"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="Uzt-dE-3IR"/>
@@ -208,7 +207,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BMl-2s-Pwj" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="77" y="198" width="523" height="60"/>
+                                <rect key="frame" x="77" y="195" width="523" height="60"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="5y7-kD-E2s"/>
@@ -221,14 +220,14 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HUR-xX-H68">
-                                <rect key="frame" x="20" y="216" width="12" height="21"/>
+                                <rect key="frame" x="20" y="213" width="12" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
                                 <color key="textColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Jh-qa-Yt5" customClass="BorderButton" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="208" y="278" width="185" height="30"/>
+                                <rect key="frame" x="208" y="275" width="185" height="30"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.13725490200000001" green="0.56862745100000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -630,114 +629,91 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KP2-6u-YSW" userLabel="Helper View">
-                                <rect key="frame" x="200" y="101" width="200" height="0.0"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You mobile number?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kW8-kQ-Gt5">
+                                <rect key="frame" x="218" y="124" width="165" height="21"/>
                                 <animations/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="aEY-k9-pTW"/>
-                                    <constraint firstAttribute="height" id="xbQ-9Y-CW5"/>
-                                </constraints>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="You mobile number?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kW8-kQ-Gt5">
-                                <rect key="frame" x="215" y="50" width="171" height="24"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="20"/>
-                                <color key="textColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="86" placeholder="  " textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lCp-RT-8MI" customClass="UnderLineTextField" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="200" y="94" width="37" height="35"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="86" placeholder="  " textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lCp-RT-8MI" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="195" width="77" height="60"/>
                                 <animations/>
-                                <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="LIQ-lH-fzY"/>
+                                    <constraint firstAttribute="height" constant="60" id="LIQ-lH-fzY"/>
                                 </constraints>
                                 <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
                                         <real key="value" value="10"/>
                                     </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FGO-sg-N4b" customClass="UnderLineTextField" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="237" y="94" width="163" height="35"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="U4j-Tg-Ig3"/>
-                                </constraints>
-                                <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
-                                        <real key="value" value="8"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="leftTextInset">
+                                        <real key="value" value="32"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3j8-pV-58t">
-                                <rect key="frame" x="200" y="163" width="65" height="48"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VLr-1V-wc9" customClass="BorderButton" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="208" y="275" width="185" height="30"/>
                                 <animations/>
-                                <inset key="contentEdgeInsets" minX="15" minY="15" maxX="15" maxY="15"/>
-                                <state key="normal" title="Back">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="back:" destination="ts5-9s-OML" eventType="touchUpInside" id="F4z-Z1-Wxj"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VLr-1V-wc9">
-                                <rect key="frame" x="338" y="163" width="62" height="48"/>
-                                <animations/>
+                                <color key="backgroundColor" red="0.13725490200000001" green="0.56862745100000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="8ex-v3-K7u"/>
+                                    <constraint firstAttribute="width" constant="185" id="cvU-jX-95E"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
                                 <inset key="contentEdgeInsets" minX="15" minY="15" maxX="15" maxY="15"/>
                                 <state key="normal" title="Next">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="next:" destination="ts5-9s-OML" eventType="touchUpInside" id="c7t-7o-W0H"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="+" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3xh-wN-AXR">
-                                <rect key="frame" x="200" y="97" width="12" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3xh-wN-AXR">
+                                <rect key="frame" x="20" y="213" width="12" height="21"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
                                 <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FGO-sg-N4b" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="77" y="195" width="523" height="60"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="U4j-Tg-Ig3"/>
+                                </constraints>
+                                <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="enabledLeftLine" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </textField>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="3xh-wN-AXR" firstAttribute="centerY" secondItem="lCp-RT-8MI" secondAttribute="centerY" constant="-2" id="0dj-R0-PTF"/>
-                            <constraint firstItem="FGO-sg-N4b" firstAttribute="trailing" secondItem="KP2-6u-YSW" secondAttribute="trailing" id="1QJ-73-XoR"/>
-                            <constraint firstItem="lCp-RT-8MI" firstAttribute="top" secondItem="kW8-kQ-Gt5" secondAttribute="bottom" constant="20" id="1qw-ZV-6VK"/>
-                            <constraint firstItem="kW8-kQ-Gt5" firstAttribute="top" secondItem="QXO-mH-KhA" secondAttribute="bottom" constant="30" id="2bb-XR-jvx"/>
-                            <constraint firstItem="FGO-sg-N4b" firstAttribute="trailing" secondItem="VLr-1V-wc9" secondAttribute="trailing" id="7z7-pP-KOG"/>
-                            <constraint firstItem="3xh-wN-AXR" firstAttribute="leading" secondItem="lCp-RT-8MI" secondAttribute="leading" id="Fio-af-afA"/>
+                            <constraint firstItem="kW8-kQ-Gt5" firstAttribute="top" secondItem="QXO-mH-KhA" secondAttribute="bottom" constant="60" id="2bb-XR-jvx"/>
+                            <constraint firstItem="lCp-RT-8MI" firstAttribute="leading" secondItem="FF2-np-WVt" secondAttribute="leading" id="6Xv-KG-tg9"/>
+                            <constraint firstItem="VLr-1V-wc9" firstAttribute="top" secondItem="FGO-sg-N4b" secondAttribute="bottom" constant="20" id="9kf-1r-Vc2"/>
+                            <constraint firstItem="3xh-wN-AXR" firstAttribute="leading" secondItem="lCp-RT-8MI" secondAttribute="leading" constant="20" id="Fio-af-afA"/>
+                            <constraint firstAttribute="centerX" secondItem="VLr-1V-wc9" secondAttribute="centerX" id="M16-9A-Gat"/>
                             <constraint firstItem="FGO-sg-N4b" firstAttribute="leading" secondItem="lCp-RT-8MI" secondAttribute="trailing" id="M4H-ZN-kvl"/>
-                            <constraint firstItem="KP2-6u-YSW" firstAttribute="leading" secondItem="lCp-RT-8MI" secondAttribute="leading" id="MCQ-wX-uAt"/>
                             <constraint firstAttribute="centerX" secondItem="kW8-kQ-Gt5" secondAttribute="centerX" id="OcV-8f-s23"/>
                             <constraint firstItem="FGO-sg-N4b" firstAttribute="height" secondItem="lCp-RT-8MI" secondAttribute="height" id="OyJ-Gm-LD2"/>
-                            <constraint firstItem="KP2-6u-YSW" firstAttribute="centerX" secondItem="kW8-kQ-Gt5" secondAttribute="centerX" constant="-0.5" id="T8J-0L-UTH"/>
-                            <constraint firstItem="KP2-6u-YSW" firstAttribute="centerY" secondItem="kW8-kQ-Gt5" secondAttribute="centerY" constant="39" id="hCF-cC-tJM"/>
-                            <constraint firstItem="3j8-pV-58t" firstAttribute="centerY" secondItem="VLr-1V-wc9" secondAttribute="centerY" id="lqa-G3-8Kx"/>
-                            <constraint firstItem="3j8-pV-58t" firstAttribute="leading" secondItem="lCp-RT-8MI" secondAttribute="leading" id="q7l-Si-Mny"/>
-                            <constraint firstItem="3j8-pV-58t" firstAttribute="top" secondItem="lCp-RT-8MI" secondAttribute="bottom" constant="34" id="sa6-af-Sl7"/>
+                            <constraint firstItem="FGO-sg-N4b" firstAttribute="top" secondItem="kW8-kQ-Gt5" secondAttribute="bottom" constant="50" id="jvi-H9-xom"/>
                             <constraint firstItem="FGO-sg-N4b" firstAttribute="centerY" secondItem="lCp-RT-8MI" secondAttribute="centerY" id="tnH-z8-IDU"/>
-                            <constraint firstItem="kW8-kQ-Gt5" firstAttribute="leading" secondItem="KP2-6u-YSW" secondAttribute="trailing" constant="-235" id="wcg-k6-w63"/>
+                            <constraint firstAttribute="trailing" secondItem="FGO-sg-N4b" secondAttribute="trailing" id="zqd-0G-Iy8"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="wcg-k6-w63"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="areaCodeTextField" destination="lCp-RT-8MI" id="PNR-q3-UgK"/>
-                        <outlet property="backButton" destination="3j8-pV-58t" id="xLM-ba-htJ"/>
                         <outlet property="mobileNumberTextField" destination="FGO-sg-N4b" id="JCU-eL-h0g"/>
                         <outlet property="nextButton" destination="VLr-1V-wc9" id="Tbd-yD-uRP"/>
                         <outlet property="pickMobileNumberPromptLabel" destination="kW8-kQ-Gt5" id="e7o-ps-gBm"/>
