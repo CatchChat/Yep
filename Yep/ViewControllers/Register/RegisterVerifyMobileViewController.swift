@@ -36,12 +36,8 @@ class RegisterVerifyMobileViewController: UIViewController {
         return timer
         }()
     var haveAppropriateInput = false {
-        willSet {
-            nextButton.enabled = newValue
-
-            if newValue {
-                //nextButton.setTitle(NSLocalizedString("Next", comment: ""), forState: .Normal)
-            }
+        didSet {
+            nextButton.enabled = haveAppropriateInput
         }
     }
     var callMeInSeconds = YepConfig.callMeInSeconds()
@@ -72,6 +68,7 @@ class RegisterVerifyMobileViewController: UIViewController {
         super.viewWillAppear(animated)
 
         nextButton.enabled = false
+        callMeButton.enabled = false
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -88,11 +85,11 @@ class RegisterVerifyMobileViewController: UIViewController {
         if !haveAppropriateInput {
             if callMeInSeconds > 1 {
                 let callMeInSecondsString = NSLocalizedString("Call Me", comment: "") + " (\(callMeInSeconds))"
-                //nextButton.setTitle(callMeInSecondsString, forState: .Normal)
+                callMeButton.setTitle(callMeInSecondsString, forState: .Normal)
 
             } else {
-                //nextButton.setTitle(NSLocalizedString("Call Me", comment: ""), forState: .Normal)
-                nextButton.enabled = true
+                callMeButton.setTitle(NSLocalizedString("Call Me", comment: ""), forState: .Normal)
+                callMeButton.enabled = true
             }
         }
 
@@ -101,8 +98,15 @@ class RegisterVerifyMobileViewController: UIViewController {
         }
     }
 
-    func callMe() {
-        //nextButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
+    @IBAction func callMe(sender: UIButton) {
+
+        callMeTimer.invalidate()
+
+        callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
+
+        delay(5) {
+            self.callMeButton.setTitle(NSLocalizedString("Call Me", comment: ""), forState: .Normal)
+        }
 
         sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage)
@@ -122,56 +126,46 @@ class RegisterVerifyMobileViewController: UIViewController {
         haveAppropriateInput = (count(textField.text) == YepConfig.verifyCodeLength())
     }
 
-    @IBAction func back(sender: UIButton) {
-        navigationController?.popViewControllerAnimated(true)
-    }
-
-    @IBAction func next(sender: UIButton) {
+    func next(sender: UIBarButtonItem) {
         verifyRegisterMobile()
     }
 
     private func verifyRegisterMobile() {
 
-        if haveAppropriateInput {
-            
-            view.endEditing(true)
+        view.endEditing(true)
 
-            let verifyCode = verifyCodeTextField.text
+        let verifyCode = verifyCodeTextField.text
 
-            YepHUD.showActivityIndicator()
-            
-            verifyMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason, errorMessage)
+        YepHUD.showActivityIndicator()
 
-                YepHUD.hideActivityIndicator()
+        verifyMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage)
 
-                if let errorMessage = errorMessage {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.nextButton.enabled = false
+            YepHUD.hideActivityIndicator()
 
-                        YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
-                            verifyCodeTextField.becomeFirstResponder()
-                        })
+            if let errorMessage = errorMessage {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.nextButton.enabled = false
+
+                    YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
+                        verifyCodeTextField.becomeFirstResponder()
                     })
-                }
+                })
+            }
 
-            }, completion: { loginUser in
+        }, completion: { loginUser in
 
-                println("\(loginUser)")
+            println("\(loginUser)")
 
-                YepHUD.hideActivityIndicator()
+            YepHUD.hideActivityIndicator()
 
-                dispatch_async(dispatch_get_main_queue()) {
+            dispatch_async(dispatch_get_main_queue()) {
 
-                    saveTokenAndUserInfoOfLoginUser(loginUser)
+                saveTokenAndUserInfoOfLoginUser(loginUser)
 
-                    self.performSegueWithIdentifier("showRegisterPickAvatar", sender: nil)
-                }
-            })
-
-        } else {
-            callMe()
-        }
+                self.performSegueWithIdentifier("showRegisterPickAvatar", sender: nil)
+            }
+        })
     }
 }
 
