@@ -14,17 +14,19 @@ class RegisterPickNameViewController: UIViewController {
 
     @IBOutlet weak var nameTextField: BorderTextField!
     
-    @IBOutlet weak var nextButton: BorderButton!
+    lazy var nextButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
+        return button
+        }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Sign up", comment: ""))
 
+        navigationItem.rightBarButtonItem = nextButton
+
         pickNamePromptLabel.text = NSLocalizedString("What's your name?", comment: "")
-        
-        nextButton.setTitle(NSLocalizedString("Next", comment: ""), forState: .Normal)
-        nextButton.backgroundColor = UIColor.yepTintColor()
 
         nameTextField.delegate = self
         nameTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
@@ -48,11 +50,7 @@ class RegisterPickNameViewController: UIViewController {
         nextButton.enabled = !textField.text.isEmpty
     }
 
-    @IBAction func back(sender: UIButton) {
-        navigationController?.popViewControllerAnimated(true)
-    }
-    
-    @IBAction func next(sender: UIButton) {
+    func next(sender: UIBarButtonItem) {
         showRegisterPickMobile()
     }
 

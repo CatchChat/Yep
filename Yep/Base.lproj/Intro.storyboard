@@ -128,31 +128,11 @@
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OaS-1D-Ags" customClass="BorderButton" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="208" y="275" width="185" height="30"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.13725490200000001" green="0.56862745100000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="185" id="9hI-dn-rhj"/>
-                                    <constraint firstAttribute="height" constant="30" id="Ii8-d6-6M8"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
-                                <inset key="contentEdgeInsets" minX="15" minY="15" maxX="15" maxY="15"/>
-                                <state key="normal" title="Next">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="next:" destination="wEE-7G-Hr8" eventType="touchUpInside" id="AiP-2L-Rvt"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="XiO-W9-kya" firstAttribute="top" secondItem="Pw6-yh-kid" secondAttribute="bottom" constant="50" id="Dcj-Qh-qTh"/>
-                            <constraint firstItem="OaS-1D-Ags" firstAttribute="centerX" secondItem="XiO-W9-kya" secondAttribute="centerX" id="Gb3-nU-Trm"/>
-                            <constraint firstItem="OaS-1D-Ags" firstAttribute="top" secondItem="XiO-W9-kya" secondAttribute="bottom" constant="20" id="Oj2-f2-W7L"/>
                             <constraint firstItem="Pw6-yh-kid" firstAttribute="top" secondItem="858-DQ-gir" secondAttribute="bottom" constant="60" id="RJx-dt-P2H"/>
                             <constraint firstAttribute="centerX" secondItem="Pw6-yh-kid" secondAttribute="centerX" id="TDv-6e-cOk"/>
                             <constraint firstItem="XiO-W9-kya" firstAttribute="leading" secondItem="eKx-gr-CiN" secondAttribute="leading" id="WDa-TI-Mow"/>
@@ -161,7 +141,6 @@
                     </view>
                     <connections>
                         <outlet property="nameTextField" destination="XiO-W9-kya" id="Tq9-gM-NSb"/>
-                        <outlet property="nextButton" destination="OaS-1D-Ags" id="HQb-Ab-jbI"/>
                         <outlet property="pickNamePromptLabel" destination="Pw6-yh-kid" id="Qcq-Q7-euR"/>
                         <segue destination="047-MJ-GYQ" kind="show" identifier="showRegisterPickMobile" id="Geb-Ph-Xb5"/>
                     </connections>
@@ -188,7 +167,7 @@
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="86" placeholder="  " textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rD8-Pa-pw2" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="86" placeholder="  " textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rD8-Pa-pw2" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="195" width="77" height="60"/>
                                 <animations/>
                                 <constraints>
@@ -206,7 +185,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BMl-2s-Pwj" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BMl-2s-Pwj" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="77" y="195" width="523" height="60"/>
                                 <animations/>
                                 <constraints>
@@ -226,24 +205,6 @@
                                 <color key="textColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Jh-qa-Yt5" customClass="BorderButton" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="208" y="275" width="185" height="30"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.13725490200000001" green="0.56862745100000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="ALJ-Xb-4eF"/>
-                                    <constraint firstAttribute="width" constant="185" id="og3-ek-5z0"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
-                                <inset key="contentEdgeInsets" minX="15" minY="15" maxX="15" maxY="15"/>
-                                <state key="normal" title="Next">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="next:" destination="047-MJ-GYQ" eventType="touchUpInside" id="ecx-Py-PPs"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -254,10 +215,8 @@
                             <constraint firstItem="BMl-2s-Pwj" firstAttribute="centerY" secondItem="rD8-Pa-pw2" secondAttribute="centerY" id="AhX-AW-EMN"/>
                             <constraint firstItem="BMl-2s-Pwj" firstAttribute="height" secondItem="rD8-Pa-pw2" secondAttribute="height" id="HTY-ZH-iuw"/>
                             <constraint firstItem="BMl-2s-Pwj" firstAttribute="leading" secondItem="rD8-Pa-pw2" secondAttribute="trailing" id="O8c-r9-B6w"/>
-                            <constraint firstItem="9Jh-qa-Yt5" firstAttribute="top" secondItem="BMl-2s-Pwj" secondAttribute="bottom" constant="20" id="T4e-zE-4oI"/>
                             <constraint firstItem="i8w-Yk-LWX" firstAttribute="top" secondItem="yhA-AZ-j8N" secondAttribute="bottom" constant="60" id="amm-bW-f3Y"/>
                             <constraint firstItem="BMl-2s-Pwj" firstAttribute="top" secondItem="i8w-Yk-LWX" secondAttribute="bottom" constant="50" id="dRU-8w-k4X"/>
-                            <constraint firstAttribute="centerX" secondItem="9Jh-qa-Yt5" secondAttribute="centerX" id="hhb-I8-hPk"/>
                             <constraint firstAttribute="centerX" secondItem="i8w-Yk-LWX" secondAttribute="centerX" id="mjZ-i3-rDK"/>
                             <constraint firstItem="rD8-Pa-pw2" firstAttribute="leading" secondItem="Uy6-Wq-9E4" secondAttribute="leading" id="ojc-g2-FkI"/>
                         </constraints>
@@ -265,7 +224,6 @@
                     <connections>
                         <outlet property="areaCodeTextField" destination="rD8-Pa-pw2" id="StR-hY-GsA"/>
                         <outlet property="mobileNumberTextField" destination="BMl-2s-Pwj" id="LEg-gh-jC9"/>
-                        <outlet property="nextButton" destination="9Jh-qa-Yt5" id="dpj-p8-Gz3"/>
                         <outlet property="pickMobileNumberPromptLabel" destination="i8w-Yk-LWX" id="006-t1-jQc"/>
                         <segue destination="RMg-rt-U0Z" kind="show" identifier="showRegisterVerifyMobile" id="ha1-Zh-7Gf"/>
                     </connections>

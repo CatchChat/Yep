@@ -249,6 +249,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window!.tintColor = UIColor.yepTintColor()
 
 
+        // NacigationBar Item Style
+
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.yepTintColor()], forState: .Normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.yepTintColor().colorWithAlphaComponent(0.3)], forState: .Disabled)
+
+
         // NavigationBar Title Style
 
         let shadow: NSShadow = {
