@@ -15,13 +15,19 @@ class RegisterVerifyMobileViewController: UIViewController {
 
     
     @IBOutlet weak var verifyMobileNumberPromptLabel: UILabel!
+    @IBOutlet weak var verifyMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var verifyCodeTextField: UnderLineTextField!
+    @IBOutlet weak var phoneNumberLabel: UILabel!
 
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var verifyCodeTextField: BorderTextField!
+    @IBOutlet weak var verifyCodeTextFieldTopConstraint: NSLayoutConstraint!
 
 
+    lazy var nextButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
+        return button
+        }()
+    
     lazy var callMeTimer: NSTimer = {
         let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "tryCallMe:", userInfo: nil, repeats: true)
         return timer
@@ -31,7 +37,7 @@ class RegisterVerifyMobileViewController: UIViewController {
             nextButton.enabled = newValue
 
             if newValue {
-                nextButton.setTitle(NSLocalizedString("Next", comment: ""), forState: .Normal)
+                //nextButton.setTitle(NSLocalizedString("Next", comment: ""), forState: .Normal)
             }
         }
     }
@@ -41,11 +47,18 @@ class RegisterVerifyMobileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
-        nextButton.setTitle(NSLocalizedString("Next", comment: ""), forState: .Normal)
+        navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Sign up", comment: ""))
+
+        navigationItem.rightBarButtonItem = nextButton
+
+        verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code send to", comment: "")
+        phoneNumberLabel.text = "+" + areaCode + " " + mobile
 
         verifyCodeTextField.delegate = self
         verifyCodeTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+
+        verifyMobileNumberPromptLabelTopConstraint.constant = UIDevice.matchMarginFrom(50, 60, 60, 60)
+        verifyCodeTextFieldTopConstraint.constant = UIDevice.matchMarginFrom(40, 50, 50, 50)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -68,10 +81,10 @@ class RegisterVerifyMobileViewController: UIViewController {
         if !haveAppropriateInput {
             if callMeInSeconds > 1 {
                 let callMeInSecondsString = NSLocalizedString("Call Me", comment: "") + " (\(callMeInSeconds))"
-                nextButton.setTitle(callMeInSecondsString, forState: .Normal)
+                //nextButton.setTitle(callMeInSecondsString, forState: .Normal)
 
             } else {
-                nextButton.setTitle(NSLocalizedString("Call Me", comment: ""), forState: .Normal)
+                //nextButton.setTitle(NSLocalizedString("Call Me", comment: ""), forState: .Normal)
                 nextButton.enabled = true
             }
         }
@@ -82,7 +95,7 @@ class RegisterVerifyMobileViewController: UIViewController {
     }
 
     func callMe() {
-        nextButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
+        //nextButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
 
         sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage)
@@ -165,3 +178,4 @@ extension RegisterVerifyMobileViewController: UITextFieldDelegate {
         return true
     }
 }
+

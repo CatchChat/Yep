@@ -112,7 +112,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What's your name?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pw6-yh-kid">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What's your name?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pw6-yh-kid">
                                 <rect key="frame" x="223" y="124" width="154" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
@@ -163,7 +163,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You mobile number?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i8w-Yk-LWX">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You mobile number?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i8w-Yk-LWX">
                                 <rect key="frame" x="218" y="124" width="165" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
@@ -248,23 +248,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1984" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nGo-Vv-zCO" customClass="UnderLineTextField" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="200" y="138" width="200" height="35"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1984" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nGo-Vv-zCO" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="195" width="600" height="60"/>
                                 <animations/>
-                                <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="PC6-Ng-anu"/>
-                                    <constraint firstAttribute="width" constant="200" id="dp5-CA-6IL"/>
+                                    <constraint firstAttribute="height" constant="60" id="PC6-Ng-anu"/>
                                 </constraints>
                                 <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Verification code" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="31u-94-iEu">
-                                <rect key="frame" x="232" y="94" width="136" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Verification code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="31u-94-iEu">
+                                <rect key="frame" x="233" y="124" width="135" height="21"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="20"/>
-                                <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="18602354812" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LYm-e5-5ST">
+                                <rect key="frame" x="257" y="149" width="86" height="17"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -272,14 +276,20 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="31u-94-iEu" secondAttribute="centerX" id="09K-ZJ-IAc"/>
-                            <constraint firstItem="nGo-Vv-zCO" firstAttribute="centerX" secondItem="31u-94-iEu" secondAttribute="centerX" id="OAl-4g-rxJ"/>
-                            <constraint firstItem="31u-94-iEu" firstAttribute="top" secondItem="rhv-Ug-NcK" secondAttribute="bottom" constant="30" id="U85-Fz-seV"/>
-                            <constraint firstItem="nGo-Vv-zCO" firstAttribute="top" secondItem="31u-94-iEu" secondAttribute="bottom" constant="20" id="j5N-58-CFC"/>
+                            <constraint firstAttribute="trailing" secondItem="nGo-Vv-zCO" secondAttribute="trailing" id="ARb-BR-FLC"/>
+                            <constraint firstItem="31u-94-iEu" firstAttribute="top" secondItem="rhv-Ug-NcK" secondAttribute="bottom" constant="60" id="U85-Fz-seV"/>
+                            <constraint firstItem="nGo-Vv-zCO" firstAttribute="leading" secondItem="zC3-EB-VHX" secondAttribute="leading" id="Xon-ER-pOe"/>
+                            <constraint firstItem="LYm-e5-5ST" firstAttribute="centerX" secondItem="31u-94-iEu" secondAttribute="centerX" id="e4o-Z1-X2b"/>
+                            <constraint firstItem="nGo-Vv-zCO" firstAttribute="top" secondItem="31u-94-iEu" secondAttribute="bottom" constant="50" id="j5N-58-CFC"/>
+                            <constraint firstItem="LYm-e5-5ST" firstAttribute="top" secondItem="31u-94-iEu" secondAttribute="bottom" constant="4" id="pcr-3Q-KOV"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="phoneNumberLabel" destination="LYm-e5-5ST" id="liH-wf-SWV"/>
                         <outlet property="verifyCodeTextField" destination="nGo-Vv-zCO" id="nqn-o4-aYw"/>
+                        <outlet property="verifyCodeTextFieldTopConstraint" destination="j5N-58-CFC" id="cvZ-cp-dpY"/>
                         <outlet property="verifyMobileNumberPromptLabel" destination="31u-94-iEu" id="sWK-YD-CQ3"/>
+                        <outlet property="verifyMobileNumberPromptLabelTopConstraint" destination="U85-Fz-seV" id="wMX-Mf-o1i"/>
                         <segue destination="9hR-GW-qJG" kind="show" identifier="showRegisterPickAvatar" id="Id6-b0-9oq"/>
                     </connections>
                 </viewController>
