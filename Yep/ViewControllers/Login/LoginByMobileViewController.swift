@@ -37,7 +37,7 @@ class LoginByMobileViewController: UIViewController {
         mobileNumberTextField.delegate = self
         mobileNumberTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
-        pickMobileNumberPromptLabelTopConstraint.constant = UIDevice.matchMarginFrom(40, 50, 60, 60)
+        pickMobileNumberPromptLabelTopConstraint.constant = UIDevice.matchMarginFrom(30, 50, 60, 60)
         mobileNumberTextFieldTopConstraint.constant = UIDevice.matchMarginFrom(30, 40, 50, 50)
     }
 

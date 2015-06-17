@@ -59,7 +59,7 @@ class LoginVerifyMobileViewController: UIViewController {
         callMePromptLabel.text = NSLocalizedString("Didn't get it?", comment: "")
         callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
 
-        verifyMobileNumberPromptLabelTopConstraint.constant = UIDevice.matchMarginFrom(40, 50, 60, 60)
+        verifyMobileNumberPromptLabelTopConstraint.constant = UIDevice.matchMarginFrom(30, 50, 60, 60)
         verifyCodeTextFieldTopConstraint.constant = UIDevice.matchMarginFrom(30, 40, 50, 50)
         callMeButtonTopConstraint.constant = UIDevice.matchMarginFrom(10, 20, 40, 40)
     }

@@ -33,7 +33,7 @@ class RegisterPickNameViewController: UIViewController {
         nameTextField.delegate = self
         nameTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
-        pickNamePromptLabelTopConstraint.constant = UIDevice.matchMarginFrom(40, 50, 60, 60)
+        pickNamePromptLabelTopConstraint.constant = UIDevice.matchMarginFrom(30, 50, 60, 60)
         nameTextFieldTopConstraint.constant = UIDevice.matchMarginFrom(30, 40, 50, 50)
     }
 
