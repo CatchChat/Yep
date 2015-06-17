@@ -155,6 +155,8 @@ class MediaPreviewView: UIView {
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
+        backgroundColor = UIColor.blackColor()
+        
         clipsToBounds = true
 
         makeUI()
@@ -211,8 +213,9 @@ class MediaPreviewView: UIView {
             }
         }
 
-        UIView.animateWithDuration(0.05, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+        UIView.animateWithDuration(0.05, delay: 0.0, options: .CurveLinear, animations: { _ in
             self.mediaView.coverImageView.alpha = 1
+            self.mediaControlView.alpha = 0
 
         }, completion: { finished in
 
@@ -240,6 +243,8 @@ class MediaPreviewView: UIView {
 
             self.initialframe = initialframe
 
+            mediaControlView.alpha = 0
+
             frame = initialframe
             layoutIfNeeded()
 
@@ -251,6 +256,11 @@ class MediaPreviewView: UIView {
                 if message.mediaType != MessageMediaType.Video.rawValue {
                     self.mediaView.coverImage = nil
                 }
+
+                UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveLinear, animations: { _ in
+                    self.mediaControlView.alpha = 1
+                }, completion: { finished in
+                })
             })
         }
     }
