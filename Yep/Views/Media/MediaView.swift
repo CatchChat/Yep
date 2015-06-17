@@ -32,11 +32,15 @@ class MediaView: UIView {
     var coverImage: UIImage? {
         didSet {
             if let coverImage = coverImage {
-                coverImageView.hidden = false
                 coverImageView.image = coverImage
+                coverImageView.alpha = 1
+                bringSubviewToFront(coverImageView)
                 
             } else {
-                coverImageView.hidden = true
+                UIView.animateWithDuration(0.05, delay: 0.0, options: .CurveLinear, animations: { _ in
+                    self.coverImageView.alpha = 0
+                }, completion: { finished in
+                })
             }
         }
     }

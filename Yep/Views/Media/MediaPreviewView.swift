@@ -221,27 +221,12 @@ class MediaPreviewView: UIView {
 
             self.message = message
 
-//            frame = initialframe
-//
-//            UIView.animateWithDuration(2.5, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-//                self.frame = parentView.bounds
-//            }, completion: { finished in
-//            })
-
-//            frame = parentView.bounds
-//
-//            center = CGPoint(x: CGRectGetMidX(initialframe), y: CGRectGetMidY(initialframe))
-//            
-//            let scale = initialframe.width / parentView.bounds.width
-////            transform = CGAffineTransformScale(scale, scale)
-//            transform = CGAffineTransformScale(transform, scale, scale)
-
 
             frame = initialframe
 
             layoutIfNeeded()
 
-            UIView.animateWithDuration(5.5, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+            UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseOut, animations: { _ in
                 self.frame = parentView.bounds
                 self.layoutIfNeeded()
 
@@ -264,8 +249,10 @@ class MediaPreviewView: UIView {
 
                     case AVPlayerStatus.ReadyToPlay:
                         println("ReadyToPlay")
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self.mediaView.videoPlayerLayer.player.play()
+                        delay(0.3) {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self.mediaView.videoPlayerLayer.player.play()
+                            }
                         }
 
                     case AVPlayerStatus.Unknown:
