@@ -1527,7 +1527,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         //self.performSegueWithIdentifier("showMessageMedia", sender: message)
 
                         let mediaPreviewView = MediaPreviewView()
-                        mediaPreviewView.showMessage(message, inView: self.view.window)
+                        mediaPreviewView.showMediaOfMessage(message, inView: self.view.window, fromViewController: self)
 
                     }, collectionView: collectionView, indexPath: indexPath)
                     
@@ -1554,7 +1554,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         //self.performSegueWithIdentifier("showMessageMedia", sender: message)
 
                         let mediaPreviewView = MediaPreviewView()
-                        mediaPreviewView.showMessage(message, inView: self.view.window)
+                        mediaPreviewView.showMediaOfMessage(message, inView: self.view.window, fromViewController: self)
 
                     }, collectionView: collectionView, indexPath: indexPath)
 
@@ -1613,7 +1613,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             //self.performSegueWithIdentifier("showMessageMedia", sender: message)
 
                             let mediaPreviewView = MediaPreviewView()
-                            mediaPreviewView.showMessage(message, inView: self.view.window)
+                            mediaPreviewView.showMediaOfMessage(message, inView: self.view.window, fromViewController: self)
                         }
 
                     }, collectionView: collectionView, indexPath: indexPath)
@@ -1677,7 +1677,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             //self.performSegueWithIdentifier("showMessageMedia", sender: message)
 
                             let mediaPreviewView = MediaPreviewView()
-                            mediaPreviewView.showMessage(message, inView: self.view.window)
+                            mediaPreviewView.showMediaOfMessage(message, inView: self.view.window, fromViewController: self)
                         }
 
                     }, collectionView: collectionView, indexPath: indexPath)

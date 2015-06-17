@@ -11,6 +11,8 @@ import AVFoundation
 
 class MediaPreviewView: UIView {
 
+    weak var parentViewController: UIViewController?
+
     var message: Message? {
         didSet {
             if let message = message {
@@ -29,10 +31,24 @@ class MediaPreviewView: UIView {
                             mediaView.image = image
 
                             mediaControlView.shareAction = {
-                                let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+                                if let vc = self.parentViewController {
 
-                                //self.presentViewController(activityViewController, animated: true, completion: { () -> Void in
-                                //})
+                                    UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+                                        self.alpha = 0.0
+                                    }, completion: { finished in
+                                    })
+
+                                    let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+                                    
+                                    activityViewController.completionWithItemsHandler = { (_, _, _, _) in
+                                        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+                                            self.alpha = 1.0
+                                        }, completion: { finished in
+                                        })
+                                    }
+
+                                    vc.presentViewController(activityViewController, animated: true, completion: nil)
+                                }
                             }
                     }
 
@@ -87,10 +103,24 @@ class MediaPreviewView: UIView {
                             
                             
                             mediaControlView.shareAction = {
-                                let activityViewController = UIActivityViewController(activityItems: [videoFileURL], applicationActivities: nil)
-                                
-                                //self.presentViewController(activityViewController, animated: true, completion: { () -> Void in
-                                //})
+                                if let vc = self.parentViewController {
+
+                                    UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+                                        self.alpha = 0.0
+                                    }, completion: { finished in
+                                    })
+
+                                    let activityViewController = UIActivityViewController(activityItems: [videoFileURL], applicationActivities: nil)
+                                    
+                                    activityViewController.completionWithItemsHandler = { (_, _, _, _) in
+                                        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+                                            self.alpha = 1.0
+                                        }, completion: { finished in
+                                        })
+                                    }
+
+                                    vc.presentViewController(activityViewController, animated: true, completion: nil)
+                                }
                             }
                     }
                     
@@ -172,7 +202,7 @@ class MediaPreviewView: UIView {
         removeFromSuperview()
     }
 
-    func showMessage(message: Message, inView view: UIView?) {
+    func showMediaOfMessage(message: Message, inView view: UIView?, fromViewController viewController: UIViewController) {
         if let superView = view {
 
             superView.addSubview(self)
@@ -180,6 +210,8 @@ class MediaPreviewView: UIView {
             frame = superView.bounds
 
             backgroundColor = UIColor.blackColor()
+
+            parentViewController = viewController
 
             self.message = message
         }
