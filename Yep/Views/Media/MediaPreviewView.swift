@@ -219,7 +219,7 @@ class MediaPreviewView: UIView {
 
         }, completion: { finished in
 
-            UIView.animateWithDuration(0.15, delay: 0.0, options: .CurveEaseOut, animations: { _ in
+            UIView.animateWithDuration(0.10, delay: 0.0, options: .CurveEaseOut, animations: { _ in
                 self.frame = self.initialframe
                 self.layoutIfNeeded()
 
@@ -248,7 +248,7 @@ class MediaPreviewView: UIView {
             frame = initialframe
             layoutIfNeeded()
 
-            UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseOut, animations: { _ in
+            UIView.animateWithDuration(0.15, delay: 0.0, options: .CurveEaseOut, animations: { _ in
                 self.frame = parentView.bounds
                 self.layoutIfNeeded()
 
