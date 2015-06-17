@@ -239,7 +239,6 @@ class MediaPreviewView: UIView {
             self.initialframe = initialframe
 
             frame = initialframe
-
             layoutIfNeeded()
 
             UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseOut, animations: { _ in

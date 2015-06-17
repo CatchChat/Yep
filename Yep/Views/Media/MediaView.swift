@@ -35,8 +35,14 @@ class MediaView: UIView {
                 coverImageView.image = coverImage
                 coverImageView.alpha = 1
                 bringSubviewToFront(coverImageView)
+
+                scrollView.alpha = 0
+                videoPlayerLayer.opacity = 0
                 
             } else {
+                scrollView.alpha = 1
+                videoPlayerLayer.opacity = 1
+
                 UIView.animateWithDuration(0.05, delay: 0.0, options: .CurveLinear, animations: { _ in
                     self.coverImageView.alpha = 0
                 }, completion: { finished in
