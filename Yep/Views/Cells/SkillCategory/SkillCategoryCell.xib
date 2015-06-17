@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6724" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15A178w" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,6 +14,7 @@
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pma-UE-goe" userLabel="Skill Category Button" customClass="SkillCategoryButton" customModule="Yep" customModuleProvider="target">
                         <rect key="frame" x="20" y="13" width="250" height="60"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="250" id="mYG-tY-bId"/>
                             <constraint firstAttribute="height" constant="60" id="oxI-4o-Gur"/>
@@ -24,13 +25,14 @@
                         </state>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="categoryImage" value="icon_skill_art"/>
-                            <userDefinedRuntimeAttribute type="string" keyPath="catogoryTitle" value="Technology"/>
                             <userDefinedRuntimeAttribute type="string" keyPath="categoryTitle" value="Art"/>
                         </userDefinedRuntimeAttributes>
                     </button>
                 </subviews>
+                <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
+            <animations/>
             <constraints>
                 <constraint firstAttribute="centerY" secondItem="pma-UE-goe" secondAttribute="centerY" id="GnN-Vq-x8L"/>
                 <constraint firstAttribute="centerX" secondItem="pma-UE-goe" secondAttribute="centerX" id="NeO-aZ-C2n"/>
