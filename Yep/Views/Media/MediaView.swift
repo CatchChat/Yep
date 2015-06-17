@@ -29,6 +29,18 @@ class MediaView: UIView {
         }
     }
 
+    var coverImage: UIImage? {
+        didSet {
+            if let coverImage = coverImage {
+                coverImageView.hidden = false
+                coverImageView.image = coverImage
+                
+            } else {
+                coverImageView.hidden = true
+            }
+        }
+    }
+
     lazy var scrollView: UIScrollView = {
 
         let scrollView = UIScrollView()
@@ -41,6 +53,12 @@ class MediaView: UIView {
         }()
 
     lazy var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .ScaleAspectFit
+        return imageView
+        }()
+
+    lazy var coverImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .ScaleAspectFit
         return imageView
@@ -70,12 +88,15 @@ class MediaView: UIView {
     func makeUI() {
 
         addSubview(scrollView)
+        addSubview(coverImageView)
 
         scrollView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        coverImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
 
         let viewsDictionary = [
             "scrollView": scrollView,
             "imageView": imageView,
+            "coverImageView": coverImageView,
         ]
 
         let scrollViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[scrollView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
@@ -87,6 +108,14 @@ class MediaView: UIView {
 
 
         scrollView.addSubview(imageView)
+
+
+        let coverImageViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[coverImageView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        let coverImageViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[coverImageView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        NSLayoutConstraint.activateConstraints(coverImageViewConstraintsV)
+        NSLayoutConstraint.activateConstraints(coverImageViewConstraintsH)
 
         /*
         imageView.setTranslatesAutoresizingMaskIntoConstraints(false)

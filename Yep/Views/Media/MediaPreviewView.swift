@@ -29,6 +29,7 @@ class MediaPreviewView: UIView {
 
                             mediaView.scrollView.hidden = false
                             mediaView.image = image
+                            mediaView.coverImage = image
 
                             mediaControlView.shareAction = {
                                 if let vc = self.parentViewController {
@@ -100,7 +101,12 @@ class MediaPreviewView: UIView {
                             
                             //mediaView.videoPlayerLayer.player.play()
                             mediaView.scrollView.hidden = true
-                            
+
+                            if
+                                let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localThumbnailName),
+                                let image = UIImage(contentsOfFile: imageFileURL.path!) {
+                                    mediaView.coverImage = image
+                            }
                             
                             mediaControlView.shareAction = {
                                 if let vc = self.parentViewController {
@@ -111,7 +117,7 @@ class MediaPreviewView: UIView {
                                     })
 
                                     let activityViewController = UIActivityViewController(activityItems: [videoFileURL], applicationActivities: nil)
-                                    
+
                                     activityViewController.completionWithItemsHandler = { (_, _, _, _) in
                                         UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
                                             self.alpha = 1.0
@@ -144,6 +150,8 @@ class MediaPreviewView: UIView {
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
+
+        clipsToBounds = true
 
         makeUI()
 
@@ -202,18 +210,44 @@ class MediaPreviewView: UIView {
         removeFromSuperview()
     }
 
-    func showMediaOfMessage(message: Message, inView view: UIView?, fromViewController viewController: UIViewController) {
-        if let superView = view {
+    func showMediaOfMessage(message: Message, inView view: UIView?, withInitialFrame initialframe: CGRect, fromViewController viewController: UIViewController) {
+        if let parentView = view {
 
-            superView.addSubview(self)
-
-            frame = superView.bounds
+            parentView.addSubview(self)
 
             backgroundColor = UIColor.blackColor()
 
             parentViewController = viewController
 
             self.message = message
+
+//            frame = initialframe
+//
+//            UIView.animateWithDuration(2.5, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+//                self.frame = parentView.bounds
+//            }, completion: { finished in
+//            })
+
+//            frame = parentView.bounds
+//
+//            center = CGPoint(x: CGRectGetMidX(initialframe), y: CGRectGetMidY(initialframe))
+//            
+//            let scale = initialframe.width / parentView.bounds.width
+////            transform = CGAffineTransformScale(scale, scale)
+//            transform = CGAffineTransformScale(transform, scale, scale)
+
+
+            frame = initialframe
+
+            layoutIfNeeded()
+
+            UIView.animateWithDuration(5.5, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+                self.frame = parentView.bounds
+                self.layoutIfNeeded()
+
+            }, completion: { finished in
+                self.mediaView.coverImage = nil
+            })
         }
     }
 
