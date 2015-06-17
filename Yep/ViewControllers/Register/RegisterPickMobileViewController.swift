@@ -37,8 +37,8 @@ class RegisterPickMobileViewController: UIViewController {
         mobileNumberTextField.delegate = self
         mobileNumberTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
-        pickMobileNumberPromptLabelTopConstraint.constant = UIDevice.matchMarginFrom(30, 50, 60, 60)
-        mobileNumberTextFieldTopConstraint.constant = UIDevice.matchMarginFrom(30, 40, 50, 50)
+        pickMobileNumberPromptLabelTopConstraint.constant = UIDevice.matchFrom(30, 50, 60, 60)
+        mobileNumberTextFieldTopConstraint.constant = UIDevice.matchFrom(30, 40, 50, 50)
     }
 
     override func viewWillAppear(animated: Bool) {

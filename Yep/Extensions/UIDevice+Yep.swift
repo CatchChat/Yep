@@ -36,7 +36,7 @@ extension UIDevice {
         return .Bigger // Default
         }()
 
-    class func matchMarginFrom(classic: CGFloat, _ bigger: CGFloat, _ biggerPlus: CGFloat) -> CGFloat {
+    class func matchWidthFrom(classic: CGFloat, _ bigger: CGFloat, _ biggerPlus: CGFloat) -> CGFloat {
         switch screenWidthModel {
         case .Classic:
             return classic
@@ -76,7 +76,7 @@ extension UIDevice {
         return .Bigger // Default
         }()
 
-    class func matchMarginFrom(inch35: CGFloat, _ inch4: CGFloat, _ bigger: CGFloat, _ biggerPlus: CGFloat) -> CGFloat {
+    class func matchFrom(inch35: CGFloat, _ inch4: CGFloat, _ bigger: CGFloat, _ biggerPlus: CGFloat) -> CGFloat {
         switch screenModel {
         case .Inch35:
             return inch35

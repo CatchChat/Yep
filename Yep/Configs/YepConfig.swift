@@ -80,7 +80,7 @@ class YepConfig {
     }
 
     struct Profile {
-        static let leftEdgeInset: CGFloat = UIDevice.matchMarginFrom(20, 38, 40)
+        static let leftEdgeInset: CGFloat = UIDevice.matchWidthFrom(20, 38, 40)
         static let rightEdgeInset: CGFloat = leftEdgeInset
         static let introductionLabelFont = UIFont(name: "Helvetica-Light", size: 14)!
     }
@@ -99,7 +99,7 @@ class YepConfig {
 
     struct SocialWorkGithub {
         struct Repo {
-            static let leftEdgeInset = UIDevice.matchMarginFrom(20, 38, 40)
+            static let leftEdgeInset = UIDevice.matchWidthFrom(20, 38, 40)
             static let rightEdgeInset = leftEdgeInset
         }
     }
