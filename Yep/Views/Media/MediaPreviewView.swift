@@ -13,6 +13,8 @@ class MediaPreviewView: UIView {
 
     weak var parentViewController: UIViewController?
 
+    var initialframe: CGRect = CGRectZero
+
     var message: Message? {
         didSet {
             if let message = message {
@@ -207,7 +209,19 @@ class MediaPreviewView: UIView {
             }
         }
 
-        removeFromSuperview()
+        UIView.animateWithDuration(0.05, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+            self.mediaView.coverImageView.alpha = 1
+
+        }, completion: { finished in
+
+            UIView.animateWithDuration(0.15, delay: 0.0, options: .CurveEaseOut, animations: { _ in
+                self.frame = self.initialframe
+                self.layoutIfNeeded()
+
+            }, completion: { finished in
+                self.removeFromSuperview()
+            })
+        })
     }
 
     func showMediaOfMessage(message: Message, inView view: UIView?, withInitialFrame initialframe: CGRect, fromViewController viewController: UIViewController) {
@@ -221,6 +235,8 @@ class MediaPreviewView: UIView {
 
             self.message = message
 
+
+            self.initialframe = initialframe
 
             frame = initialframe
 
