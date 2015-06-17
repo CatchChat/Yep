@@ -100,7 +100,9 @@ class MediaPreviewView: UIView {
                             mediaView.videoPlayerLayer.player = player
 
                             mediaView.videoPlayerLayer.player.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(0), context: nil)
-                            
+
+                            mediaView.videoPlayerLayer.addObserver(self, forKeyPath: "readyForDisplay", options: NSKeyValueObservingOptions(0), context: nil)
+
                             //mediaView.videoPlayerLayer.player.play()
                             mediaView.scrollView.hidden = true
 
@@ -246,12 +248,24 @@ class MediaPreviewView: UIView {
                 self.layoutIfNeeded()
 
             }, completion: { finished in
-                self.mediaView.coverImage = nil
+                if message.mediaType != MessageMediaType.Video.rawValue {
+                    self.mediaView.coverImage = nil
+                }
             })
         }
     }
 
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+
+        struct VideoPrepareState {
+            static var readyToPlay = false
+            static var readyForDisplay = false
+
+            static var isReady: Bool {
+                return readyToPlay && readyForDisplay
+            }
+        }
+
         if let player = object as? AVPlayer {
 
             if player == mediaView.videoPlayerLayer.player {
@@ -264,6 +278,9 @@ class MediaPreviewView: UIView {
 
                     case AVPlayerStatus.ReadyToPlay:
                         println("ReadyToPlay")
+
+                        VideoPrepareState.readyToPlay = true
+
                         delay(0.3) {
                             dispatch_async(dispatch_get_main_queue()) {
                                 self.mediaView.videoPlayerLayer.player.play()
@@ -275,6 +292,18 @@ class MediaPreviewView: UIView {
                     }
                 }
             }
+        }
+
+        if let videoPlayerLayer = object as? AVPlayerLayer {
+            if keyPath == "readyForDisplay" {
+                if videoPlayerLayer.readyForDisplay {
+                    VideoPrepareState.readyForDisplay = true
+                }
+            }
+        }
+
+        if VideoPrepareState.isReady {
+            self.mediaView.coverImage = nil
         }
     }
 

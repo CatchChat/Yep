@@ -43,10 +43,7 @@ class MediaView: UIView {
                 scrollView.alpha = 1
                 videoPlayerLayer.opacity = 1
 
-                UIView.animateWithDuration(0.05, delay: 0.0, options: .CurveLinear, animations: { _ in
-                    self.coverImageView.alpha = 0
-                }, completion: { finished in
-                })
+                coverImageView.alpha = 0
             }
         }
     }
