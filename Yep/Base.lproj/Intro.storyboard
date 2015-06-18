@@ -377,10 +377,9 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Take a good picture for your Avatar" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8It-jU-dm1" userLabel="Take Picture Prompt Label">
-                                <rect key="frame" x="177" y="304" width="246" height="21"/>
+                                <rect key="frame" x="159" y="334" width="283" height="21"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i4k-kS-w32" userLabel="Cemera Roll Button">
@@ -444,7 +443,7 @@
                         <constraints>
                             <constraint firstItem="nqi-d1-G0k" firstAttribute="centerY" secondItem="2pw-VA-qDr" secondAttribute="centerY" id="3j4-0d-fOt"/>
                             <constraint firstItem="8It-jU-dm1" firstAttribute="centerX" secondItem="AEj-wj-Yl6" secondAttribute="centerX" id="Gi2-lW-tBc"/>
-                            <constraint firstItem="8It-jU-dm1" firstAttribute="top" secondItem="AEj-wj-Yl6" secondAttribute="bottom" constant="30" id="O5p-lh-gut"/>
+                            <constraint firstItem="8It-jU-dm1" firstAttribute="top" secondItem="AEj-wj-Yl6" secondAttribute="bottom" constant="60" id="O5p-lh-gut"/>
                             <constraint firstItem="uke-GF-N1u" firstAttribute="centerX" secondItem="nqi-d1-G0k" secondAttribute="centerX" id="OAz-6g-WOE"/>
                             <constraint firstItem="e0h-Ho-j4F" firstAttribute="top" secondItem="Z4g-rM-AaZ" secondAttribute="bottom" constant="50" id="Okw-OW-FJ5"/>
                             <constraint firstItem="nqi-d1-G0k" firstAttribute="trailing" secondItem="2pw-VA-qDr" secondAttribute="centerX" id="QZC-jz-2kN"/>

@@ -123,10 +123,12 @@ class RegisterPickAvatarViewController: UIViewController {
 
         pickAvatarState = .Default
 
-        takePicturePromptLabel.textColor = UIColor.yepTintColor()
-        takePicturePromptLabel.text = NSLocalizedString("Take a good picture for your Avatar", comment: "")
+        takePicturePromptLabel.textColor = UIColor.blackColor()
+        takePicturePromptLabel.text = NSLocalizedString("Set an avatar", comment: "")
 
-        openCameraButton.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
+        openCameraButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        openCameraButton.backgroundColor = UIColor.yepTintColor()
+        
         cameraRollButton.tintColor = UIColor.yepTintColor()
         captureButton.tintColor = UIColor.yepTintColor()
         retakeButton.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
