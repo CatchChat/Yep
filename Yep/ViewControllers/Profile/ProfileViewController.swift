@@ -431,7 +431,7 @@ class ProfileViewController: UIViewController {
                 let vc = nvc.topViewController as! OAuthViewController
                 vc.socialAccount = SocialAccount(rawValue: providerName)
 
-                vc.afterOAuthAction = { socialAccount in
+                vc.afterOAuthAction = { [unowned self] socialAccount in
                     // 更新自己的 provider enabled 状态
                     let providerName = socialAccount.rawValue
 
@@ -450,6 +450,11 @@ class ProfileViewController: UIViewController {
                                     break
                                 }
                             }
+
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self.updateProfileCollectionView()
+                            }
+
                     }
                 }
             }
