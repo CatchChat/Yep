@@ -94,7 +94,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickSkillsViewController") as! RegisterPickSkillsViewController
 //        window?.rootViewController = rootViewController
 
-        // for test
+//        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
+//        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickAvatarViewController") as! RegisterPickAvatarViewController
+//        window?.rootViewController = UINavigationController(rootViewController: rootViewController)
 
         if let token = YepUserDefaults.v1AccessToken.value {
             sync()
