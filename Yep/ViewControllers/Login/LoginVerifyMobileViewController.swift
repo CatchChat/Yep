@@ -68,6 +68,7 @@ class LoginVerifyMobileViewController: UIViewController {
         super.viewWillAppear(animated)
 
         nextButton.enabled = false
+        callMeButton.enabled = false
     }
 
     override func viewDidAppear(animated: Bool) {
