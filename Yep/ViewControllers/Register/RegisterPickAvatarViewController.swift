@@ -22,6 +22,11 @@ class RegisterPickAvatarViewController: UIViewController {
     @IBOutlet weak var captureButton: UIButton!
     @IBOutlet weak var retakeButton: UIButton!
 
+    lazy var nextButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
+        return button
+        }()
+
     var avatar = UIImage() {
         willSet {
             avatarImageView.image = newValue
@@ -49,6 +54,8 @@ class RegisterPickAvatarViewController: UIViewController {
 
                 avatarImageView.image = UIImage(named: "default_avatar")
 
+                nextButton.enabled = false
+
             case .CameraOpen:
                 openCameraButton.hidden = true
 
@@ -61,6 +68,8 @@ class RegisterPickAvatarViewController: UIViewController {
 
                 captureButton.setImage(UIImage(named: "button_capture"), forState: .Normal)
 
+                nextButton.enabled = false
+
             case .Captured:
                 openCameraButton.hidden = true
 
@@ -72,6 +81,8 @@ class RegisterPickAvatarViewController: UIViewController {
                 avatarImageView.hidden = false
 
                 captureButton.setImage(UIImage(named: "button_capture_ok"), forState: .Normal)
+
+                nextButton.enabled = true
             }
         }
     }
@@ -106,6 +117,8 @@ class RegisterPickAvatarViewController: UIViewController {
 
         navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Avatar", comment: ""))
 
+        navigationItem.rightBarButtonItem = nextButton
+
         view.backgroundColor = UIColor.whiteColor()
 
         pickAvatarState = .Default
@@ -117,6 +130,12 @@ class RegisterPickAvatarViewController: UIViewController {
         cameraRollButton.tintColor = UIColor.yepTintColor()
         captureButton.tintColor = UIColor.yepTintColor()
         retakeButton.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        nextButton.enabled = false
     }
 
     // MARK: Helpers
@@ -135,6 +154,10 @@ class RegisterPickAvatarViewController: UIViewController {
     }
 
     // MARK: Actions
+
+    func next(sender: UIBarButtonItem) {
+        uploadAvatarAndGotoPickSkills()
+    }
 
     @IBAction func tryOpenCamera(sender: UIButton) {
 
@@ -190,15 +213,13 @@ class RegisterPickAvatarViewController: UIViewController {
         }
     }
 
-    @IBAction func captureOrFinish(sender: UIButton) {
-        if pickAvatarState == .Captured {
+    func uploadAvatarAndGotoPickSkills() {
+        YepHUD.showActivityIndicator()
 
-            YepHUD.showActivityIndicator()
+        s3PublicUploadParams(failureHandler: { (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage)
 
-            s3PublicUploadParams(failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason, errorMessage)
-
-                YepHUD.hideActivityIndicator()
+            YepHUD.hideActivityIndicator()
 
             }, completion: { s3UploadParams in
 
@@ -216,7 +237,7 @@ class RegisterPickAvatarViewController: UIViewController {
                             defaultFailureHandler(reason, errorMessage)
 
                             YepHUD.hideActivityIndicator()
-                            
+
                         }, completion: { success in
 
                             YepHUD.hideActivityIndicator()
@@ -229,12 +250,17 @@ class RegisterPickAvatarViewController: UIViewController {
                                 }
                             }
                         })
-
+                        
                     } else {
                         YepHUD.hideActivityIndicator()
                     }
                 })
-            })
+        })
+    }
+
+    @IBAction func captureOrFinish(sender: UIButton) {
+        if pickAvatarState == .Captured {
+            uploadAvatarAndGotoPickSkills()
 
         } else {
             dispatch_async(sessionQueue) {
