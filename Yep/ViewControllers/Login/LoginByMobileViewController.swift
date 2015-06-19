@@ -151,14 +151,6 @@ class LoginByMobileViewController: UIViewController {
 
 extension LoginByMobileViewController: UITextFieldDelegate {
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if !textField.text.isEmpty {
-            tryShowLoginVerifyMobile()
-        }
-        
-        return true
-    }
-
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
         if textField == areaCodeTextField {
             adjustAreaCodeTextFieldWidth()
