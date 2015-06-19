@@ -615,12 +615,12 @@
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="86" placeholder="  " textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lCp-RT-8MI" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="86" placeholder="  " minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lCp-RT-8MI" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="195" width="77" height="60"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="LIQ-lH-fzY"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="77" id="OAq-al-0Fr"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="OAq-al-0Fr"/>
                                 </constraints>
                                 <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
