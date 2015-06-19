@@ -137,6 +137,8 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
             }, completion: { (finished) -> Void in
                 transitionViewSnapshot.removeFromSuperview()
 
+                //self.snapshot?.removeFromSuperview()
+
                 transitionContext.completeTransition(true)
             })
 
@@ -154,6 +156,11 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
         let containerView = transitionContext.containerView()
 
         containerView.addSubview(toView!)
+
+        if let snapshot = snapshot {
+            containerView.addSubview(snapshot)
+        }
+
         containerView.addSubview(fromView!)
 
         let animatingVC = fromVC!
@@ -200,6 +207,8 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
                 }
 
                 transitionViewSnapshot.removeFromSuperview()
+
+                self.snapshot?.removeFromSuperview()
 
                 transitionContext.completeTransition(true)
             })

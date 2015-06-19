@@ -21,18 +21,10 @@ class MessageMediaViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("Preview", comment: "")
-
-        self.view.backgroundColor = UIColor.blackColor()
-        self.mediaView.backgroundColor = UIColor.blackColor()
 
         automaticallyAdjustsScrollViewInsets = false
         
@@ -120,6 +112,12 @@ class MessageMediaViewController: UIViewController {
                 break
             }
         }
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     override func viewWillDisappear(animated: Bool) {
