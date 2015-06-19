@@ -107,6 +107,7 @@ class ConversationViewController: BaseViewController {
     @IBOutlet weak var takePhotoButton: MessageTypeButton!
     @IBOutlet weak var addLocationButton: MessageTypeButton!
 
+    var originalNavigationControllerDelegate: UINavigationControllerDelegate?
 
     var waverView: YepWaverView!
     var samplesCount = 0
@@ -114,8 +115,6 @@ class ConversationViewController: BaseViewController {
 
     let sectionInsetTop: CGFloat = 10
     let sectionInsetBottom: CGFloat = 10
-    
-    var originUINavigationControllerDelegate: UINavigationControllerDelegate!
 
     let messageTextAttributes = [NSFontAttributeName: UIFont.chatTextFont()]
     lazy var messageTextLabelMaxWidth: CGFloat = {
@@ -191,19 +190,20 @@ class ConversationViewController: BaseViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.delegate = originUINavigationControllerDelegate
+
+        // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
+        if let delegate = originalNavigationControllerDelegate {
+            navigationController?.delegate = delegate
+        }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        originUINavigationControllerDelegate = navigationController!.delegate
-        
+        // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
         if let gestures = navigationController?.view.gestureRecognizers {
-            for recognizer in gestures
-            {
-                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer)
-                {
+            for recognizer in gestures {
+                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
                     conversationCollectionView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
                     println("Require UIScreenEdgePanGestureRecognizer to failed")
                     break
@@ -1340,6 +1340,9 @@ class ConversationViewController: BaseViewController {
                     delegate.transitionView = transitionView
 
                     navigationControllerDelegate = delegate
+
+                    // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
+                    originalNavigationControllerDelegate = navigationController!.delegate
 
                     navigationController?.delegate = delegate
                 }
