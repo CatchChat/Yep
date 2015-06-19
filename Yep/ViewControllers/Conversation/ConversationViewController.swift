@@ -114,6 +114,8 @@ class ConversationViewController: BaseViewController {
 
     let sectionInsetTop: CGFloat = 10
     let sectionInsetBottom: CGFloat = 10
+    
+    var originUINavigationControllerDelegate: UINavigationControllerDelegate!
 
     let messageTextAttributes = [NSFontAttributeName: UIFont.chatTextFont()]
     lazy var messageTextLabelMaxWidth: CGFloat = {
@@ -186,9 +188,16 @@ class ConversationViewController: BaseViewController {
 
         YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.delegate = originUINavigationControllerDelegate
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        originUINavigationControllerDelegate = navigationController!.delegate
         
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures
