@@ -59,21 +59,25 @@ class LoginByMobileViewController: UIViewController {
 
     // MARK: Actions
 
+    func adjustAreaCodeTextFieldWidth() {
+        let text = areaCodeTextField.text
+        let size = text.sizeWithAttributes(areaCodeTextField.editing ? areaCodeTextField.typingAttributes : areaCodeTextField.defaultTextAttributes)
+
+        let width = 32 + (size.width + 22) + 20
+
+        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+            self.areaCodeTextFieldWidthConstraint.constant = max(width, 100)
+            self.view.layoutIfNeeded()
+        }, completion: { finished in
+        })
+    }
+
     func textFieldDidChange(textField: UITextField) {
 
         nextButton.enabled = !areaCodeTextField.text.isEmpty && !mobileNumberTextField.text.isEmpty
 
         if textField == areaCodeTextField {
-            let text = textField.text
-            let size = text.sizeWithAttributes(textField.typingAttributes)
-
-            let width = 32 + (size.width + 22) + 20
-
-            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                self.areaCodeTextFieldWidthConstraint.constant = max(width, 100)
-                self.view.layoutIfNeeded()
-            }, completion: { finished in
-            })
+            adjustAreaCodeTextFieldWidth()
         }
     }
 
@@ -157,16 +161,7 @@ extension LoginByMobileViewController: UITextFieldDelegate {
 
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
         if textField == areaCodeTextField {
-            let text = textField.text
-            let size = text.sizeWithAttributes(textField.defaultTextAttributes)
-
-            let width = 32 + (size.width + 22) + 20
-            
-            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                self.areaCodeTextFieldWidthConstraint.constant = max(width, 100)
-                self.view.layoutIfNeeded()
-            }, completion: { finished in
-            })
+            adjustAreaCodeTextFieldWidth()
         }
 
         return true
