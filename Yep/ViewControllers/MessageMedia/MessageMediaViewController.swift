@@ -136,7 +136,6 @@ class MessageMediaViewController: UIViewController {
             }
         }
 
-//        dismissViewControllerAnimated(true, completion: nil)
         navigationController?.popViewControllerAnimated(true)
     }
 

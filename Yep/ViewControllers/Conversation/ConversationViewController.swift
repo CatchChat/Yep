@@ -1524,12 +1524,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [unowned self] in
 
-                        //self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                        self.performSegueWithIdentifier("showMessageMedia", sender: message)
 
-                        let frame = cell.convertRect(cell.messageImageView.frame, toView: self.view.window)
+                        //let frame = cell.convertRect(cell.messageImageView.frame, toView: self.view.window)
 
-                        let mediaPreviewView = MediaPreviewView()
-                        mediaPreviewView.showMediaOfMessage(message, inView: self.view.window, withInitialFrame: frame, fromViewController: self)
+                        //let mediaPreviewView = MediaPreviewView()
+                        //mediaPreviewView.showMediaOfMessage(message, inView: self.view.window, withInitialFrame: frame, fromViewController: self)
 
                     }, collectionView: collectionView, indexPath: indexPath)
                     
@@ -1553,12 +1553,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [unowned self] in
 
-                        //self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                        self.performSegueWithIdentifier("showMessageMedia", sender: message)
 
-                        let frame = cell.convertRect(cell.thumbnailImageView.frame, toView: self.view.window)
+                        //let frame = cell.convertRect(cell.thumbnailImageView.frame, toView: self.view.window)
 
-                        let mediaPreviewView = MediaPreviewView()
-                        mediaPreviewView.showMediaOfMessage(message, inView: self.view.window, withInitialFrame: frame, fromViewController: self)
+                        //let mediaPreviewView = MediaPreviewView()
+                        //mediaPreviewView.showMediaOfMessage(message, inView: self.view.window, withInitialFrame: frame, fromViewController: self)
 
                     }, collectionView: collectionView, indexPath: indexPath)
 
@@ -1614,12 +1614,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             })
 
                         } else {
-                            //self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                            self.performSegueWithIdentifier("showMessageMedia", sender: message)
 
-                            let frame = cell.convertRect(cell.messageImageView.frame, toView: self.view.window)
+                            //let frame = cell.convertRect(cell.messageImageView.frame, toView: self.view.window)
 
-                            let mediaPreviewView = MediaPreviewView()
-                            mediaPreviewView.showMediaOfMessage(message, inView: self.view.window, withInitialFrame: frame, fromViewController: self)
+                            //let mediaPreviewView = MediaPreviewView()
+                            //mediaPreviewView.showMediaOfMessage(message, inView: self.view.window, withInitialFrame: frame, fromViewController: self)
                         }
 
                     }, collectionView: collectionView, indexPath: indexPath)
@@ -1680,12 +1680,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             })
 
                         } else {
-                            //self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                            self.performSegueWithIdentifier("showMessageMedia", sender: message)
 
-                            let frame = cell.convertRect(cell.thumbnailImageView.frame, toView: self.view.window)
+                            //let frame = cell.convertRect(cell.thumbnailImageView.frame, toView: self.view.window)
 
-                            let mediaPreviewView = MediaPreviewView()
-                            mediaPreviewView.showMediaOfMessage(message, inView: self.view.window, withInitialFrame: frame, fromViewController: self)
+                            //let mediaPreviewView = MediaPreviewView()
+                            //omediaPreviewView.showMediaOfMessage(message, inView: self.view.window, withInitialFrame: frame, fromViewController: self)
                         }
 
                     }, collectionView: collectionView, indexPath: indexPath)
