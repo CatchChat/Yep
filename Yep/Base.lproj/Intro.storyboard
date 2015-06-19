@@ -174,6 +174,7 @@
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="Uzt-dE-3IR"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="77" id="YMA-HP-Jvq"/>
                                 </constraints>
                                 <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
@@ -618,6 +619,7 @@
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="LIQ-lH-fzY"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="77" id="OAq-al-0Fr"/>
                                 </constraints>
                                 <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
@@ -777,6 +779,6 @@
     <resources>
         <image name="button_camera_roll" width="40" height="40"/>
         <image name="button_capture" width="70" height="70"/>
-        <image name="default_avatar" width="160" height="160"/>
+        <image name="default_avatar" width="100" height="100"/>
     </resources>
 </document>
