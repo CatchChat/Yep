@@ -85,10 +85,18 @@ class LoginVerifyMobileViewController: UIViewController {
         if !haveAppropriateInput {
             if callMeInSeconds > 1 {
                 let callMeInSecondsString = NSLocalizedString("Call me", comment: "") + " (\(callMeInSeconds))"
-                callMeButton.setTitle(callMeInSecondsString, forState: .Normal)
+
+                UIView.performWithoutAnimation {
+                    self.callMeButton.setTitle(callMeInSecondsString, forState: .Normal)
+                    self.callMeButton.layoutIfNeeded()
+                }
 
             } else {
-                callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                UIView.performWithoutAnimation {
+                    self.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                    self.callMeButton.layoutIfNeeded()
+                }
+
                 callMeButton.enabled = true
             }
         }
@@ -102,10 +110,16 @@ class LoginVerifyMobileViewController: UIViewController {
         
         callMeTimer.invalidate()
 
-        callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
+        UIView.performWithoutAnimation {
+            self.callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
+            self.callMeButton.layoutIfNeeded()
+        }
 
         delay(5) {
-            self.callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
+            UIView.performWithoutAnimation {
+                self.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                self.callMeButton.layoutIfNeeded()
+            }
         }
 
         sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { (reason, errorMessage) in
@@ -115,7 +129,10 @@ class LoginVerifyMobileViewController: UIViewController {
                 dispatch_async(dispatch_get_main_queue()) {
                     YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
-                    self.callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
+                    UIView.performWithoutAnimation {
+                        self.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                        self.callMeButton.layoutIfNeeded()
+                    }
                 }
             }
 
