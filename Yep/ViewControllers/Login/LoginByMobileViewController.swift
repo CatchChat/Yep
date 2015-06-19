@@ -69,13 +69,11 @@ class LoginByMobileViewController: UIViewController {
 
             let width = 32 + (size.width + 22) + 20
 
-            if width > 100 {
-                UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveLinear, animations: { _ in
-                    self.areaCodeTextFieldWidthConstraint.constant = width
-                    self.view.layoutIfNeeded()
-                }, completion: { finished in
-                })
-            }
+            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+                self.areaCodeTextFieldWidthConstraint.constant = max(width, 100)
+                self.view.layoutIfNeeded()
+            }, completion: { finished in
+            })
         }
     }
 
@@ -164,7 +162,7 @@ extension LoginByMobileViewController: UITextFieldDelegate {
 
             let width = 32 + (size.width + 22) + 20
             
-            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveLinear, animations: { _ in
+            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
                 self.areaCodeTextFieldWidthConstraint.constant = max(width, 100)
                 self.view.layoutIfNeeded()
             }, completion: { finished in
@@ -176,7 +174,7 @@ extension LoginByMobileViewController: UITextFieldDelegate {
 
     func textFieldDidEndEditing(textField: UITextField) {
         if textField == areaCodeTextField {
-            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveLinear, animations: { _ in
+            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
                 self.areaCodeTextFieldWidthConstraint.constant = 60
                 self.view.layoutIfNeeded()
             }, completion: { finished in

@@ -69,13 +69,11 @@ class RegisterPickMobileViewController: UIViewController {
 
             let width = 32 + (size.width + 22) + 20
 
-            if width > 100 {
-                UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                    self.areaCodeTextFieldWidthConstraint.constant = width
-                    self.view.layoutIfNeeded()
-                }, completion: { finished in
-                })
-            }
+            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+                self.areaCodeTextFieldWidthConstraint.constant = max(width, 100)
+                self.view.layoutIfNeeded()
+            }, completion: { finished in
+            })
         }
     }
 
