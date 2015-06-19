@@ -14,6 +14,8 @@ class LoginByMobileViewController: UIViewController {
     @IBOutlet weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var areaCodeTextField: BorderTextField!
+    @IBOutlet weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var mobileNumberTextField: BorderTextField!
     @IBOutlet weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
     
@@ -60,6 +62,21 @@ class LoginByMobileViewController: UIViewController {
     func textFieldDidChange(textField: UITextField) {
 
         nextButton.enabled = !areaCodeTextField.text.isEmpty && !mobileNumberTextField.text.isEmpty
+
+        if textField == areaCodeTextField {
+            let text = textField.text
+            let size = text.sizeWithAttributes(textField.typingAttributes)
+
+            let width = 32 + (size.width + 22) + 20
+
+            if width > 100 {
+                UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveLinear, animations: { _ in
+                    self.areaCodeTextFieldWidthConstraint.constant = width
+                    self.view.layoutIfNeeded()
+                }, completion: { finished in
+                })
+            }
+        }
     }
 
     func next(sender: UIBarButtonItem) {
@@ -131,11 +148,39 @@ class LoginByMobileViewController: UIViewController {
 }
 
 extension LoginByMobileViewController: UITextFieldDelegate {
+
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if !textField.text.isEmpty {
             tryShowLoginVerifyMobile()
         }
         
         return true
+    }
+
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        if textField == areaCodeTextField {
+            let text = textField.text
+            let size = text.sizeWithAttributes(textField.defaultTextAttributes)
+
+            let width = 32 + (size.width + 22) + 20
+            
+            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveLinear, animations: { _ in
+                self.areaCodeTextFieldWidthConstraint.constant = max(width, 100)
+                self.view.layoutIfNeeded()
+            }, completion: { finished in
+            })
+        }
+
+        return true
+    }
+
+    func textFieldDidEndEditing(textField: UITextField) {
+        if textField == areaCodeTextField {
+            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveLinear, animations: { _ in
+                self.areaCodeTextFieldWidthConstraint.constant = 60
+                self.view.layoutIfNeeded()
+            }, completion: { finished in
+            })
+        }
     }
 }
