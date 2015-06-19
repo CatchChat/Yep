@@ -1336,6 +1336,7 @@ class ConversationViewController: BaseViewController {
                     }
 
                     let delegate = ConversationMessagePreviewNavigationControllerDelegate()
+                    delegate.snapshot = view.window!.snapshotViewAfterScreenUpdates(false)
                     delegate.frame = frame
                     delegate.transitionView = transitionView
 

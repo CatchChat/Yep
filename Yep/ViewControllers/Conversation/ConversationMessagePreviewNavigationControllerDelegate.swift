@@ -34,6 +34,8 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
     // MARK: UIViewControllerAnimatedTransitioning
 
+    var snapshot: UIView?
+    
     var frame = CGRectZero
     var transitionView: UIView? {
         didSet {
@@ -74,6 +76,10 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)
 
         let containerView = transitionContext.containerView()
+
+        if let snapshot = snapshot {
+            containerView.addSubview(snapshot)
+        }
 
         containerView.addSubview(toView!)
 
