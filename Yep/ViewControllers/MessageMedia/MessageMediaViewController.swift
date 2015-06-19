@@ -126,8 +126,9 @@ class MessageMediaViewController: UIViewController {
         mediaView.videoPlayerLayer.player.pause()
     }
 
-    @IBAction func swipeDown(sender: UISwipeGestureRecognizer) {
+    // MARK: Actions
 
+    func dismiss() {
         if let message = message {
             if message.mediaType == MessageMediaType.Video.rawValue {
                 mediaView.videoPlayerLayer.player.removeObserver(self, forKeyPath: "status")
@@ -135,6 +136,14 @@ class MessageMediaViewController: UIViewController {
         }
 
         navigationController?.popViewControllerAnimated(true)
+    }
+
+    @IBAction func swipeUp(sender: UISwipeGestureRecognizer) {
+        dismiss()
+    }
+
+    @IBAction func swipeDown(sender: UISwipeGestureRecognizer) {
+        dismiss()
     }
 
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {

@@ -77,8 +77,8 @@
                                     <outlet property="delegate" destination="la3-6z-2aH" id="zOV-zM-2KH"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gu7-gn-2ia">
-                                <rect key="frame" x="0.0" y="276" width="600" height="100"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gu7-gn-2ia">
+                                <rect key="frame" x="0.0" y="270" width="600" height="100"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe Up to Cancel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zew-F7-znc">
                                         <rect key="frame" x="235" y="62" width="130" height="18"/>
@@ -106,16 +106,16 @@
                                     <constraint firstItem="Zew-F7-znc" firstAttribute="top" secondItem="4p2-ZI-7q3" secondAttribute="bottom" constant="10" id="b9o-gU-cOq"/>
                                 </constraints>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="396" width="600" height="44"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="390" width="600" height="50"/>
                                 <animations/>
                                 <items/>
                             </toolbar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g11-Ob-rEy" userLabel="More Message Types View">
                                 <rect key="frame" x="0.0" y="440" width="600" height="300"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avI-im-eEZ" userLabel="Choose Photo Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="20" width="174" height="260"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avI-im-eEZ" userLabel="Choose Photo Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="20" width="173" height="260"/>
                                         <animations/>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -125,8 +125,8 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Choose photo"/>
                                         </userDefinedRuntimeAttributes>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HcA-7v-16m" userLabel="Take Photo Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
-                                        <rect key="frame" x="213" y="20" width="173" height="260"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HcA-7v-16m" userLabel="Take Photo Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
+                                        <rect key="frame" x="213" y="20" width="174" height="260"/>
                                         <animations/>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -295,6 +295,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Cb-zQ-dUZ" customClass="MediaControlView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="491" width="600" height="60"/>
@@ -319,6 +320,7 @@
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="FJ8-iv-bdr" appends="YES" id="oWn-4w-WLf"/>
+                            <outletCollection property="gestureRecognizers" destination="qJ2-72-cmu" appends="YES" id="Loa-aw-3LG"/>
                         </connections>
                     </view>
                     <connections>
@@ -330,6 +332,11 @@
                 <swipeGestureRecognizer direction="down" id="FJ8-iv-bdr">
                     <connections>
                         <action selector="swipeDown:" destination="f92-fs-zdh" id="a4i-uw-O1M"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="up" id="qJ2-72-cmu">
+                    <connections>
+                        <action selector="swipeUp:" destination="f92-fs-zdh" id="ZLE-ED-MfD"/>
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
