@@ -604,6 +604,10 @@ class ConversationViewController: BaseViewController {
     
     func markMessageAsReaded(message: Message) {
 
+        if message.readed {
+            return
+        }
+        
         if navigationController?.topViewController == self {
             
             dispatch_async(dispatch_get_main_queue()) {
@@ -1533,8 +1537,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 downloadAttachmentOfMessage(message)
                 
-//                markMessageAsReaded(message)
-                // No need mark as readed at here
+                markMessageAsReaded(message)
 
                 switch message.mediaType {
                 case MessageMediaType.Image.rawValue:
