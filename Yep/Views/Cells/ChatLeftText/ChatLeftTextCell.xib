@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="500" height="129"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_left_tail" translatesAutoresizingMaskIntoConstraints="NO" id="ppr-iG-zxj" userLabel="Bubble Tail Image View">
-                        <rect key="frame" x="57" y="40" width="13" height="14"/>
+                        <rect key="frame" x="57" y="58" width="13" height="14"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="13" id="TUy-IJ-8Vo"/>
@@ -22,47 +22,46 @@
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_body" translatesAutoresizingMaskIntoConstraints="NO" id="Yfx-Em-Job" userLabel="Bubble Body Image View">
-                        <rect key="frame" x="63" y="27" width="110" height="75"/>
+                        <rect key="frame" x="63" y="45" width="116" height="40"/>
                         <animations/>
                         <color key="tintColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7zi-6w-hpq" userLabel="Text Content Label" customClass="TTTAttributedLabel">
-                        <rect key="frame" x="75" y="38" width="86" height="53"/>
-                        <animations/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="86" id="P4e-TT-ZYl"/>
-                        </constraints>
-                        <string key="text">Text Content
-Hello World</string>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hYu-LI-zcX" userLabel="Avatar Image View">
-                        <rect key="frame" x="15" y="27" width="40" height="40"/>
+                        <rect key="frame" x="15" y="45" width="40" height="40"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="JV9-zT-1At"/>
                             <constraint firstAttribute="width" secondItem="hYu-LI-zcX" secondAttribute="height" multiplier="1:1" id="LI4-Sm-y72"/>
                         </constraints>
                     </imageView>
+                    <textView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Text Content" translatesAutoresizingMaskIntoConstraints="NO" id="o2v-vm-ItZ">
+                        <rect key="frame" x="75" y="48" width="92" height="34"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="92" id="Uf7-gG-GkH"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
+                    </textView>
                 </subviews>
                 <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <animations/>
             <constraints>
+                <constraint firstAttribute="centerY" secondItem="o2v-vm-ItZ" secondAttribute="centerY" id="BYZ-KA-Py1"/>
                 <constraint firstItem="hYu-LI-zcX" firstAttribute="centerY" secondItem="ppr-iG-zxj" secondAttribute="centerY" id="CqX-BA-AO1"/>
-                <constraint firstAttribute="centerY" secondItem="7zi-6w-hpq" secondAttribute="centerY" id="Dys-Uh-KBW"/>
-                <constraint firstItem="Yfx-Em-Job" firstAttribute="bottom" secondItem="7zi-6w-hpq" secondAttribute="bottom" constant="11" id="LKU-Sf-doh"/>
-                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7zi-6w-hpq" secondAttribute="trailing" constant="50" id="cMB-IC-4ER"/>
-                <constraint firstItem="Yfx-Em-Job" firstAttribute="trailing" secondItem="7zi-6w-hpq" secondAttribute="trailing" constant="12" id="cfS-ia-EAr"/>
+                <constraint firstItem="o2v-vm-ItZ" firstAttribute="top" secondItem="Yfx-Em-Job" secondAttribute="top" constant="3" id="MHY-GR-4fS"/>
+                <constraint firstItem="o2v-vm-ItZ" firstAttribute="bottom" secondItem="Yfx-Em-Job" secondAttribute="bottom" constant="-3" id="MIb-vK-cmz"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="o2v-vm-ItZ" secondAttribute="trailing" constant="50" id="Tpu-kA-CsQ"/>
+                <constraint firstItem="Yfx-Em-Job" firstAttribute="top" secondItem="hYu-LI-zcX" secondAttribute="top" id="cCW-R1-CFn"/>
                 <constraint firstItem="hYu-LI-zcX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="hM8-00-nUm"/>
-                <constraint firstItem="Yfx-Em-Job" firstAttribute="top" secondItem="7zi-6w-hpq" secondAttribute="top" constant="-11" id="jbo-J2-Eci"/>
-                <constraint firstItem="7zi-6w-hpq" firstAttribute="leading" secondItem="ppr-iG-zxj" secondAttribute="trailing" constant="5" id="mHv-gw-kJc"/>
-                <constraint firstItem="7zi-6w-hpq" firstAttribute="top" secondItem="hYu-LI-zcX" secondAttribute="top" constant="11" id="r3G-8a-a3O"/>
-                <constraint firstItem="Yfx-Em-Job" firstAttribute="leading" secondItem="7zi-6w-hpq" secondAttribute="leading" constant="-12" id="ror-T5-pvW"/>
-                <constraint firstItem="7zi-6w-hpq" firstAttribute="leading" secondItem="hYu-LI-zcX" secondAttribute="trailing" constant="20" id="vhs-aH-mKd"/>
+                <constraint firstItem="o2v-vm-ItZ" firstAttribute="leading" secondItem="Yfx-Em-Job" secondAttribute="leading" constant="12" id="nPH-jo-SPd"/>
+                <constraint firstItem="o2v-vm-ItZ" firstAttribute="trailing" secondItem="Yfx-Em-Job" secondAttribute="trailing" constant="-12" id="ohu-dH-zSM"/>
+                <constraint firstItem="o2v-vm-ItZ" firstAttribute="leading" secondItem="ppr-iG-zxj" secondAttribute="trailing" constant="5" id="uyS-e2-1DM"/>
+                <constraint firstItem="o2v-vm-ItZ" firstAttribute="leading" secondItem="hYu-LI-zcX" secondAttribute="trailing" constant="20" id="x4c-mB-0Ui"/>
             </constraints>
             <size key="customSize" width="350" height="129"/>
             <connections>
@@ -71,10 +70,10 @@ Hello World</string>
                 <outlet property="avatarImageViewWidthConstraint" destination="JV9-zT-1At" id="fe4-74-Gyw"/>
                 <outlet property="bubbleBodyImageView" destination="Yfx-Em-Job" id="bQk-7x-1RF"/>
                 <outlet property="bubbleTailImageView" destination="ppr-iG-zxj" id="kxh-jI-4L8"/>
-                <outlet property="textContentLabel" destination="7zi-6w-hpq" id="OKM-7J-J5k"/>
-                <outlet property="textContentLabelLeadingConstaint" destination="vhs-aH-mKd" id="YQf-Mz-Dr1"/>
-                <outlet property="textContentLabelTrailingConstraint" destination="cMB-IC-4ER" id="s52-26-mOq"/>
-                <outlet property="textContentLabelWidthConstraint" destination="P4e-TT-ZYl" id="46A-Lq-XMV"/>
+                <outlet property="textContentTextView" destination="o2v-vm-ItZ" id="lj4-7V-6TH"/>
+                <outlet property="textContentTextViewLeadingConstraint" destination="x4c-mB-0Ui" id="LPr-oY-JOg"/>
+                <outlet property="textContentTextViewTrailingConstraint" destination="Tpu-kA-CsQ" id="FYH-1w-mbJ"/>
+                <outlet property="textContentTextViewWidthConstraint" destination="Uf7-gG-GkH" id="BSX-B9-nIS"/>
             </connections>
             <point key="canvasLocation" x="338" y="346.5"/>
         </collectionViewCell>
