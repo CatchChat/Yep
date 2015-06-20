@@ -613,14 +613,14 @@ class ConversationViewController: BaseViewController {
                     realm.write {
                         message.readed = true
                     }
-                    
-                    
                 }
             }
         
             markAsReadMessage(message, failureHandler: nil) { success in
                 if success {
-                    println("Mark message \(message.messageID) as read")
+                    dispatch_async(dispatch_get_main_queue()) {
+                        println("Mark message \(message.messageID) as read")
+                    }
                 }
             }
         }
