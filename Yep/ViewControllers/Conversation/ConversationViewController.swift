@@ -737,7 +737,7 @@ class ConversationViewController: BaseViewController {
             height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
 
             if !key.isEmpty {
-                textContentLabelWidths[key] = ceil(rect.width) + 1 // + 1 for TTTAttributedLabel
+                textContentLabelWidths[key] = ceil(rect.width)
             }
 
         case MessageMediaType.Image.rawValue:
@@ -822,7 +822,7 @@ class ConversationViewController: BaseViewController {
 
         let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
 
-        let width = ceil(rect.width) + 1 // + 1 for TTTAttributedLabel
+        let width = ceil(rect.width)
 
         if !key.isEmpty {
             textContentLabelWidths[key] = width
@@ -1510,7 +1510,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         let message = messages[displayedMessagesRange.location + indexPath.item]
 
-        println("conversation \(message.textContent) messageID: \(message.messageID)")
+        //println("conversation \(message.textContent) messageID: \(message.messageID)")
 
         if message.mediaType == MessageMediaType.SectionDate.rawValue {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
