@@ -17,11 +17,6 @@ class ChatRightTextCell: ChatRightBaseCell {
     @IBOutlet weak var bubbleBodyImageView: UIImageView!
     @IBOutlet weak var bubbleTailImageView: UIImageView!
 
-//    @IBOutlet weak var textContentLabel: UILabel!
-//    @IBOutlet weak var textContentLabelTrailingConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var textContentLabelLeadingConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var textContentLabelWidthConstraint: NSLayoutConstraint!
-
     @IBOutlet weak var textContentTextView: UITextView!
     @IBOutlet weak var textContentTextViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textContentTextViewLeadingConstraint: NSLayoutConstraint!
@@ -36,11 +31,7 @@ class ChatRightTextCell: ChatRightBaseCell {
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
         avatarImageViewTrailingConstraint.constant = YepConfig.chatCellGapBetweenWallAndAvatar()
 
-//        println("textContentTextView.textContainerInset: \(textContentTextView.textContainerInset.top),\(textContentTextView.textContainerInset.left),\(textContentTextView.textContainerInset.bottom),\(textContentTextView.textContainerInset.right)")
-//        textContentTextView.textContainerInset = UIEdgeInsetsZero
         textContentTextView.textContainer.lineFragmentPadding = 0
-//        textContentTextView.contentOffset = CGPoint(x: 0, y: 3)
-//        textContentTextView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         textContentTextView.font = UIFont.chatTextFont()
 
         textContentTextView.backgroundColor = UIColor.clearColor()
