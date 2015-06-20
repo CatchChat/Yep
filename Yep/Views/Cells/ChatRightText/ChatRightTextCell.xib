@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="500" height="131"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_right_tail" translatesAutoresizingMaskIntoConstraints="NO" id="1JC-jy-KNh" userLabel="Bubble Tail Image View">
-                        <rect key="frame" x="430" y="41" width="13" height="14"/>
+                        <rect key="frame" x="430" y="59" width="13" height="14"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="14" id="GPy-Nl-hAU"/>
@@ -22,23 +22,11 @@
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_body" translatesAutoresizingMaskIntoConstraints="NO" id="73l-kE-1KG" userLabel="Bubble Body Image View">
-                        <rect key="frame" x="327" y="28" width="110" height="75"/>
+                        <rect key="frame" x="321" y="46" width="116" height="40"/>
                         <animations/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ek-jh-1iK" userLabel="Text Content Label" customClass="TTTAttributedLabel">
-                        <rect key="frame" x="339" y="39" width="86" height="53"/>
-                        <animations/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="86" id="mFu-rE-sns"/>
-                        </constraints>
-                        <string key="text">Text Content
-Hello World</string>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RKK-8d-9vO" userLabel="Avatar Image View">
-                        <rect key="frame" x="445" y="28" width="40" height="40"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RKK-8d-9vO" userLabel="Avatar Image View">
+                        <rect key="frame" x="445" y="46" width="40" height="40"/>
                         <animations/>
                         <color key="tintColor" red="0.80000001192092896" green="0.40000000596046448" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -46,12 +34,23 @@ Hello World</string>
                             <constraint firstAttribute="width" constant="40" id="hm6-ty-e5H"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_sending" translatesAutoresizingMaskIntoConstraints="NO" id="l93-41-FuF" userLabel="Dot Image View">
-                        <rect key="frame" x="316" y="63" width="6" height="6"/>
+                    <textView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Text Content" translatesAutoresizingMaskIntoConstraints="NO" id="em7-jr-W4a">
+                        <rect key="frame" x="333" y="49" width="92" height="34"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="92" id="waV-xd-g2R"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
+                    </textView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_sending" translatesAutoresizingMaskIntoConstraints="NO" id="tB7-GG-3Zd" userLabel="Dot Image View">
+                        <rect key="frame" x="310" y="63" width="6" height="6"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="width" secondItem="l93-41-FuF" secondAttribute="height" multiplier="1:1" id="1c1-JW-Hdk"/>
-                            <constraint firstAttribute="width" constant="6" id="5xl-b1-mjw"/>
+                            <constraint firstAttribute="width" secondItem="tB7-GG-3Zd" secondAttribute="height" multiplier="1:1" id="XM0-Py-y5P"/>
+                            <constraint firstAttribute="width" constant="6" id="ncl-qf-tmv"/>
                         </constraints>
                     </imageView>
                 </subviews>
@@ -60,19 +59,19 @@ Hello World</string>
             </view>
             <animations/>
             <constraints>
-                <constraint firstItem="73l-kE-1KG" firstAttribute="top" secondItem="6ek-jh-1iK" secondAttribute="top" constant="-11" id="Cd3-3v-PNz"/>
-                <constraint firstAttribute="centerY" secondItem="6ek-jh-1iK" secondAttribute="centerY" id="Cf2-L7-PcF"/>
-                <constraint firstItem="l93-41-FuF" firstAttribute="centerY" secondItem="73l-kE-1KG" secondAttribute="centerY" id="DqF-VO-3Mo"/>
-                <constraint firstItem="73l-kE-1KG" firstAttribute="leading" secondItem="6ek-jh-1iK" secondAttribute="leading" constant="-12" id="Eht-Ir-1FH"/>
-                <constraint firstItem="6ek-jh-1iK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="50" id="FIg-M8-BRB"/>
-                <constraint firstItem="6ek-jh-1iK" firstAttribute="top" secondItem="RKK-8d-9vO" secondAttribute="top" constant="11" id="RES-Wp-9mT"/>
-                <constraint firstItem="1JC-jy-KNh" firstAttribute="leading" secondItem="6ek-jh-1iK" secondAttribute="trailing" constant="5" id="UAh-ab-38y"/>
+                <constraint firstItem="em7-jr-W4a" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="50" id="ABk-EQ-Edt"/>
+                <constraint firstItem="RKK-8d-9vO" firstAttribute="leading" secondItem="em7-jr-W4a" secondAttribute="trailing" constant="20" id="Dsx-Jg-HtG"/>
+                <constraint firstItem="em7-jr-W4a" firstAttribute="top" secondItem="73l-kE-1KG" secondAttribute="top" constant="3" id="Nzn-Kc-TWM"/>
+                <constraint firstItem="em7-jr-W4a" firstAttribute="bottom" secondItem="73l-kE-1KG" secondAttribute="bottom" constant="-3" id="Pz2-Yd-kF9"/>
+                <constraint firstItem="73l-kE-1KG" firstAttribute="top" secondItem="RKK-8d-9vO" secondAttribute="top" id="QzP-5b-ovG"/>
+                <constraint firstItem="73l-kE-1KG" firstAttribute="leading" secondItem="tB7-GG-3Zd" secondAttribute="trailing" constant="5" id="UIT-W7-WO6"/>
                 <constraint firstItem="1JC-jy-KNh" firstAttribute="centerY" secondItem="RKK-8d-9vO" secondAttribute="centerY" id="Upo-MS-aQJ"/>
-                <constraint firstItem="73l-kE-1KG" firstAttribute="trailing" secondItem="6ek-jh-1iK" secondAttribute="trailing" constant="12" id="hnR-dp-A2m"/>
-                <constraint firstItem="RKK-8d-9vO" firstAttribute="leading" secondItem="6ek-jh-1iK" secondAttribute="trailing" constant="20" id="kwM-35-2Fj"/>
-                <constraint firstItem="73l-kE-1KG" firstAttribute="leading" secondItem="l93-41-FuF" secondAttribute="trailing" constant="5" id="lbA-MA-nvF"/>
+                <constraint firstItem="em7-jr-W4a" firstAttribute="leading" secondItem="73l-kE-1KG" secondAttribute="leading" constant="12" id="WkS-Oi-AjM"/>
+                <constraint firstAttribute="centerY" secondItem="em7-jr-W4a" secondAttribute="centerY" id="cTN-DN-cH9"/>
+                <constraint firstItem="tB7-GG-3Zd" firstAttribute="centerY" secondItem="73l-kE-1KG" secondAttribute="centerY" id="h7l-0p-SWm"/>
+                <constraint firstItem="1JC-jy-KNh" firstAttribute="leading" secondItem="em7-jr-W4a" secondAttribute="trailing" constant="5" id="iAD-hS-cmr"/>
+                <constraint firstItem="73l-kE-1KG" firstAttribute="trailing" secondItem="em7-jr-W4a" secondAttribute="trailing" constant="12" id="sFr-bX-lfC"/>
                 <constraint firstAttribute="trailing" secondItem="RKK-8d-9vO" secondAttribute="trailing" constant="15" id="vs0-4M-TaV"/>
-                <constraint firstItem="73l-kE-1KG" firstAttribute="bottom" secondItem="6ek-jh-1iK" secondAttribute="bottom" constant="11" id="zxe-wy-oro"/>
             </constraints>
             <size key="customSize" width="417" height="131"/>
             <connections>
@@ -81,14 +80,14 @@ Hello World</string>
                 <outlet property="avatarImageViewWidthConstraint" destination="hm6-ty-e5H" id="Lvg-NA-gZh"/>
                 <outlet property="bubbleBodyImageView" destination="73l-kE-1KG" id="CiV-dM-4JT"/>
                 <outlet property="bubbleTailImageView" destination="1JC-jy-KNh" id="MGo-KB-Kb3"/>
-                <outlet property="dotImageView" destination="l93-41-FuF" id="luU-kN-NDm"/>
-                <outlet property="gapBetweenDotImageViewAndBubbleConstraint" destination="lbA-MA-nvF" id="HtB-1P-GzV"/>
-                <outlet property="textContentLabel" destination="6ek-jh-1iK" id="fCu-O7-a1E"/>
-                <outlet property="textContentLabelLeadingConstraint" destination="FIg-M8-BRB" id="izf-ae-aFY"/>
-                <outlet property="textContentLabelTrailingConstraint" destination="kwM-35-2Fj" id="sm6-rp-3Sj"/>
-                <outlet property="textContentLabelWidthConstraint" destination="mFu-rE-sns" id="vNA-Lc-oZG"/>
+                <outlet property="dotImageView" destination="tB7-GG-3Zd" id="odg-hQ-nba"/>
+                <outlet property="gapBetweenDotImageViewAndBubbleConstraint" destination="UIT-W7-WO6" id="3P5-Dl-2GX"/>
+                <outlet property="textContentTextView" destination="em7-jr-W4a" id="Pch-yz-67H"/>
+                <outlet property="textContentTextViewLeadingConstraint" destination="ABk-EQ-Edt" id="ZFU-Y1-eXX"/>
+                <outlet property="textContentTextViewTrailingConstraint" destination="Dsx-Jg-HtG" id="YPC-jA-wZK"/>
+                <outlet property="textContentTextViewWidthConstraint" destination="waV-xd-g2R" id="HJZ-ZP-syy"/>
             </connections>
-            <point key="canvasLocation" x="339.5" y="326.5"/>
+            <point key="canvasLocation" x="339" y="326.5"/>
         </collectionViewCell>
     </objects>
     <resources>
