@@ -603,20 +603,24 @@ class ConversationViewController: BaseViewController {
     }
     
     func markMessageAsReaded(message: Message) {
-        
+
         if navigationController?.topViewController == self {
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                let realm = Realm()
+                
+                if let message = messageWithMessageID(message.messageID, inRealm: realm) {
+                    realm.write {
+                        message.readed = true
+                    }
+                    
+                    
+                }
+            }
         
             markAsReadMessage(message, failureHandler: nil) { success in
-                dispatch_async(dispatch_get_main_queue()) {
-                    let realm = Realm()
-                    
-                    if let message = messageWithMessageID(message.messageID, inRealm: realm) {
-                        realm.write {
-                            message.readed = true
-                        }
-                        
-                        println("\(message.messageID) mark as read")
-                    }
+                if success {
+                    println("Mark message \(message.messageID) as read")
                 }
             }
         }

@@ -1422,7 +1422,7 @@ func resendMessage(message: Message, #failureHandler: ((Reason, String?) -> Void
 
 func markAsReadMessage(message: Message ,#failureHandler: ((Reason, String?) -> Void)?, #completion: (Bool) -> Void) {
 
-    if message.readed || message.messageID.isEmpty {
+    if message.messageID.isEmpty {
         return
     }
     

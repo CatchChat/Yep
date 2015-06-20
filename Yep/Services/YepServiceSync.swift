@@ -880,6 +880,14 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
         // 开始填充消息
 
         if let message = message {
+            
+            if message.readed == true {
+                markAsReadMessage(message, failureHandler: nil) { success in
+                    if success {
+                        println("Mark message \(message.messageID) as read")
+                    }
+                }
+            }
 
             // 纪录消息的发送者
 
