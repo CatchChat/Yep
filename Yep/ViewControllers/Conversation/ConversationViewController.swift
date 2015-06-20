@@ -1533,7 +1533,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 downloadAttachmentOfMessage(message)
                 
-                markMessageAsReaded(message)
+//                markMessageAsReaded(message)
+                // No need mark as readed at here
 
                 switch message.mediaType {
                 case MessageMediaType.Image.rawValue:
