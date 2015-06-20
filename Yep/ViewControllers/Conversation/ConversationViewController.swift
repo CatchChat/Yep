@@ -477,6 +477,9 @@ class ConversationViewController: BaseViewController {
 
             case (.MoreMessages, .Default):
                 if !self.isKeyboardVisible {
+                    
+                    println("Adjust back collection View height")
+                    
                     self.adjustBackCollectionViewWithHeight(0, animationDuration: 0.3, animationCurveValue: 7)
 
                 } else {
@@ -641,6 +644,9 @@ class ConversationViewController: BaseViewController {
     }
     
     func hideKeyboardAndShowMoreMessageView() {
+        
+        println("Hide keyboard and shoe more message")
+        
         self.messageToolbar.messageTextView.resignFirstResponder()
         self.adjustCollectionViewWithViewHeight(self.moreMessageTypesViewHeightConstraintConstant, animationDuration: 0.3, animationCurveValue: 7, keyboard: false)
     }
@@ -1065,6 +1071,7 @@ class ConversationViewController: BaseViewController {
                     }
                     
                 }, completion: { finished in
+                    self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow = self.conversationCollectionView.contentOffset
                         success(true)
                 })
             } else {
