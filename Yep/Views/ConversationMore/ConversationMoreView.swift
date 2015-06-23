@@ -18,6 +18,7 @@ class ConversationMoreView: UIView {
 
     lazy var tableView: UITableView = {
         let view = UITableView()
+        view.backgroundColor = UIColor.redColor().colorWithAlphaComponent(0.5)
         return view
         }()
 
@@ -28,18 +29,37 @@ class ConversationMoreView: UIView {
     }
 
     func makeUI() {
+
         addSubview(containerView)
         containerView.setTranslatesAutoresizingMaskIntoConstraints(false)
 
+        containerView.addSubview(tableView)
+        tableView.setTranslatesAutoresizingMaskIntoConstraints(false)
+
         let viewsDictionary = [
             "containerView": containerView,
+            "tableView": tableView,
         ]
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[containerView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[containerView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        // layout for containerView
 
-        NSLayoutConstraint.activateConstraints(constraintsV)
-        NSLayoutConstraint.activateConstraints(constraintsH)
+        let containerViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[containerView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let containerViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[containerView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        NSLayoutConstraint.activateConstraints(containerViewConstraintsH)
+        NSLayoutConstraint.activateConstraints(containerViewConstraintsV)
+
+        // layour for tableView
+
+        let tableViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[tableView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        let tableViewBottomConstraint = NSLayoutConstraint(item: tableView, attribute: .Bottom, relatedBy: .Equal, toItem: containerView, attribute: .Bottom, multiplier: 1.0, constant: 0)
+
+        let tableViewHeightConstraint = NSLayoutConstraint(item: tableView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 300)
+
+        NSLayoutConstraint.activateConstraints(tableViewConstraintsH)
+        NSLayoutConstraint.activateConstraints([tableViewBottomConstraint, tableViewHeightConstraint])
     }
 
 }
+
