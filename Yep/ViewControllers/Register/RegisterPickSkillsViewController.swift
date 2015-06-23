@@ -19,6 +19,7 @@ class RegisterPickSkillsViewController: BaseViewController {
     var learningSkills = [Skill]()
 
     let skillSelectionCellIdentifier = "SkillSelectionCell"
+    let skillAddCellIdentifier = "SkillAddCell"
     let addSkillsReusableViewIdentifier = "AddSkillsReusableView"
 
     let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextLargeFont()]
@@ -51,6 +52,7 @@ class RegisterPickSkillsViewController: BaseViewController {
         skillsCollectionView.registerNib(UINib(nibName: addSkillsReusableViewIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: addSkillsReusableViewIdentifier)
         skillsCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
         skillsCollectionView.registerNib(UINib(nibName: skillSelectionCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillSelectionCellIdentifier)
+        skillsCollectionView.registerNib(UINib(nibName: skillAddCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillAddCellIdentifier)
 
         allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
             defaultFailureHandler(reason, errorMessage)
@@ -63,7 +65,9 @@ class RegisterPickSkillsViewController: BaseViewController {
     // MARK: Actions
 
     func updateSkillsCollectionView() {
-        skillsCollectionView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.skillsCollectionView.reloadData()
+        }
     }
 
     @IBAction func saveSkills(sender: AnyObject) {
@@ -252,11 +256,12 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
+
         case Section.Master.rawValue:
-            return masterSkills.count
+            return masterSkills.count + 1
 
         case Section.Learning.rawValue:
-            return learningSkills.count
+            return learningSkills.count + 1
 
         default:
             return 0
@@ -265,22 +270,56 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillSelectionCellIdentifier, forIndexPath: indexPath) as! SkillSelectionCell
-
         switch indexPath.section {
+
         case Section.Master.rawValue:
-            let skill = masterSkills[indexPath.item]
-            cell.skillLabel.text = skill.localName
+
+            if indexPath.item < masterSkills.count {
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillSelectionCellIdentifier, forIndexPath: indexPath) as! SkillSelectionCell
+
+                let skill = masterSkills[indexPath.item]
+
+                cell.skillLabel.text = skill.localName
+
+                return cell
+
+            } else {
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillAddCellIdentifier, forIndexPath: indexPath) as! SkillAddCell
+
+                cell.skillSetType = .Master
+
+                cell.addSkillsAction = { skillSetType in
+                    self.performSegueWithIdentifier("presentSelectSkills", sender: skillSetType.rawValue)
+                }
+
+                return cell
+            }
 
         case Section.Learning.rawValue:
-            let skill = learningSkills[indexPath.item]
-            cell.skillLabel.text = skill.localName
+            if indexPath.item < learningSkills.count {
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillSelectionCellIdentifier, forIndexPath: indexPath) as! SkillSelectionCell
+
+                let skill = learningSkills[indexPath.item]
+
+                cell.skillLabel.text = skill.localName
+
+                return cell
+
+            } else {
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillAddCellIdentifier, forIndexPath: indexPath) as! SkillAddCell
+
+                cell.skillSetType = .Learning
+
+                cell.addSkillsAction = { skillSetType in
+                    self.performSegueWithIdentifier("presentSelectSkills", sender: skillSetType.rawValue)
+                }
+
+                return cell
+            }
 
         default:
-            break
+            return UICollectionViewCell()
         }
-
-        return cell
     }
 
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
@@ -301,10 +340,6 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
                 break
             }
 
-            header.addSkillsAction = { skillSetType in
-                self.performSegueWithIdentifier("presentSelectSkills", sender: skillSetType.rawValue)
-            }
-
             return header
 
         } else {
@@ -316,6 +351,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
 
         switch section {
+            
         case Section.Master.rawValue:
             return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: sectionBottomEdgeInset, right: sectionRightEdgeInset)
 
@@ -332,13 +368,24 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
         var skillString = ""
         
         switch indexPath.section {
+
         case Section.Master.rawValue:
-            let skill = masterSkills[indexPath.item]
-            skillString = skill.localName
+            if indexPath.item < masterSkills.count {
+                let skill = masterSkills[indexPath.item]
+                skillString = skill.localName
+
+            } else {
+                return CGSize(width: SkillSelectionCell.height, height: SkillSelectionCell.height)
+            }
 
         case Section.Learning.rawValue:
-            let skill = learningSkills[indexPath.item]
-            skillString = skill.localName
+            if indexPath.item < learningSkills.count {
+                let skill = learningSkills[indexPath.item]
+                skillString = skill.localName
+
+            } else {
+                return CGSize(width: SkillSelectionCell.height, height: SkillSelectionCell.height)
+            }
 
         default:
             break
@@ -346,12 +393,34 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
         let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillSelectionCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
-        return CGSizeMake(rect.width + 24, SkillSelectionCell.height)
+        return CGSize(width: rect.width + 24, height: SkillSelectionCell.height)
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
         return CGSizeMake(collectionViewWidth - (sectionLeftEdgeInset + sectionRightEdgeInset), 70)
+    }
+
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        switch indexPath.section {
+
+        case Section.Master.rawValue:
+            if indexPath.item == masterSkills.count {
+                if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SkillAddCell {
+                    cell.addSkillsAction?(cell.skillSetType)
+                }
+            }
+
+        case Section.Learning.rawValue:
+            if indexPath.item == learningSkills.count {
+                if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SkillAddCell {
+                    cell.addSkillsAction?(cell.skillSetType)
+                }
+            }
+
+        default:
+            break
+        }
     }
 }
 

@@ -44,7 +44,9 @@ class SearchedUsersViewController: BaseViewController {
     // MARK: Actions
 
     func updateSearchedUsersTableView() {
-        searchedUsersTableView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.searchedUsersTableView.reloadData()
+        }
     }
 
     // MARK: Navigation

@@ -21,6 +21,9 @@ class RegisterSelectSkillsViewController: UIViewController {
     @IBOutlet weak var skillsCollectionView: UICollectionView!
     @IBOutlet weak var skillsCollectionViewBottomConstrain: NSLayoutConstraint!
 
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var backButton: UIButton!
+
     let annotationHeight: CGFloat = 150
     @IBOutlet weak var skillsCollectionViewEqualHeightToSkillCategoriesCollectionViewConstraint: NSLayoutConstraint!
 
@@ -74,6 +77,12 @@ class RegisterSelectSkillsViewController: UIViewController {
         skillCategoriesCollectionView.registerNib(UINib(nibName: skillCategoryCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCategoryCellIdentifier)
 
         skillsCollectionView.registerNib(UINib(nibName: skillSelectionCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillSelectionCellIdentifier)
+
+        cancelButton.setTitle(NSLocalizedString("Cancel", comment: ""), forState: .Normal)
+        backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
+
+        cancelButton.alpha = 1
+        backButton.alpha = 0
 
 
         let layout = self.skillCategoriesCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
@@ -130,9 +139,19 @@ class RegisterSelectSkillsViewController: UIViewController {
     // MARK: Actions
 
     func updateSkillsCollectionView() {
-        skillsCollectionView.collectionViewLayout.invalidateLayout()
-        skillsCollectionView.reloadData()
-        skillsCollectionView.layoutIfNeeded()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.skillsCollectionView.collectionViewLayout.invalidateLayout()
+            self.skillsCollectionView.reloadData()
+            self.skillsCollectionView.layoutIfNeeded()
+        }
+    }
+
+    @IBAction func cancel() {
+        dismiss()
+    }
+
+    @IBAction func back() {
+        currentSkillCategoryButton?.toggleSelectionState()
     }
 
     func dismiss() {
@@ -211,8 +230,20 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
             let skillCategory = skillCategories[indexPath.item]
 
+            let categoryImageNames = [
+                "Art": "icon_skill_art",
+                "Technology": "icon_skill_tech",
+                "Sport": "icon_skill_sport",
+                "Life Style": "icon_skill_life",
+            ]
+
             cell.categoryTitle = skillCategory.localName
-            //cell.categoryImage = 
+
+            if let categoryImageName = categoryImageNames[skillCategory.name] {
+                cell.categoryImage = UIImage(named: categoryImageName)
+            } else {
+                cell.categoryImage = UIImage(named: "icon_skill_art")
+            }
 
             let tintColor = skillCategoryTintColors[indexPath.item % skillCategoryTintColors.count]
             cell.skillCategoryButton.setBackgroundImage(UIImage(named: "button_skill_category")!.imageWithGradientTintColor(tintColor).resizableImageWithCapInsets(UIEdgeInsets(top: 30, left: 40, bottom: 30, right: 40)), forState: .Normal)
@@ -301,6 +332,9 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                         self.skillsCollectionView.alpha = 1
 
+                        self.cancelButton.alpha = 0
+                        self.backButton.alpha = 1
+
                     }, completion: { (finished) -> Void in
                     })
 
@@ -323,6 +357,9 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                             self.view.layoutIfNeeded()
 
                             collectionView.alpha = 1
+
+                            self.cancelButton.alpha = 1
+                            self.backButton.alpha = 0
 
                         }, completion: { (_) -> Void in
 
@@ -367,9 +404,10 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
     private func updateSkillSelectionCell(skillSelectionCell: SkillSelectionCell, withSkill skill: Skill) {
         if selectedSkillsSet.contains(skill) {
-            skillSelectionCell.tintColor = UIColor.darkGrayColor()
+            skillSelectionCell.skillSelected = true
+
         } else {
-            skillSelectionCell.tintColor = UIColor.yepTintColor()
+            skillSelectionCell.skillSelected = false
         }
     }
 
