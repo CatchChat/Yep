@@ -39,7 +39,15 @@ func cancel(cancelableTask: CancelableTask?) {
     cancelableTask?(cancel: true)
 }
 
+func unregisterThirdPartyPush() {
+    dispatch_async(dispatch_get_main_queue()) {
+        APService.setAlias(nil, callbackSelector: nil, object: nil)
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+    }
+}
+
 func cleanRealmAndCaches() {
+
     // clean Realm
 
     let realm = Realm()
