@@ -234,7 +234,12 @@ class ConversationViewController: BaseViewController {
         navigationItem.titleView = titleView
 
         if let withFriend = conversation?.withFriend {
-            
+
+            let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
+
+            navigationItem.rightBarButtonItem = moreBarButtonItem
+
+            /*
             let avatarSize: CGFloat = 30.0
             
             AvatarCache.sharedInstance.roundAvatarOfUser(withFriend, withRadius: avatarSize * 0.5, completion: { image in
@@ -249,6 +254,7 @@ class ConversationViewController: BaseViewController {
                     self.navigationItem.rightBarButtonItem = avatarBarButton
                 }
             })
+            */
         }
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedNewMessagesNotification:", name: YepNewMessagesReceivedNotification, object: nil)
@@ -900,9 +906,19 @@ class ConversationViewController: BaseViewController {
 
     // MARK: Actions
 
+    func moreAction() {
+        let moreView = ConversationMoreView()
+
+        moreView.frame = view.bounds
+
+        view.window?.addSubview(moreView)
+    }
+
+    /*
     func showProfile() {
         performSegueWithIdentifier("showProfile", sender: nil)
     }
+    */
     
     func updateMoreMessageConversationCollectionView() {
         let moreMessageViewHeight = moreMessageTypesViewHeightConstraintConstant + CGRectGetHeight(messageToolbar.bounds)
