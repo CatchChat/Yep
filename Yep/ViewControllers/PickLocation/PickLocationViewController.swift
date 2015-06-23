@@ -123,7 +123,9 @@ class PickLocationViewController: UIViewController {
     }
 
     func reloadTableView() {
-        tableView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.tableView.reloadData()
+        }
     }
 }
 

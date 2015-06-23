@@ -97,7 +97,9 @@ class SocialWorkDribbbleViewController: BaseViewController {
     // MARK: Actions
 
     func updateDribbbleCollectionView() {
-        dribbbleCollectionView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.dribbbleCollectionView.reloadData()
+        }
     }
 
     func share() {

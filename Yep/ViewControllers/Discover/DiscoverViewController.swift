@@ -97,8 +97,10 @@ class DiscoverViewController: BaseViewController {
     }
     
     func updateDiscoverTableView() {
-        //discoverTableView.reloadData()
-        discoverTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
+        dispatch_async(dispatch_get_main_queue()) {
+            //self.discoverTableView.reloadData()
+            self.discoverTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
+        }
     }
 
 

@@ -65,7 +65,9 @@ class RegisterPickSkillsViewController: BaseViewController {
     // MARK: Actions
 
     func updateSkillsCollectionView() {
-        skillsCollectionView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.skillsCollectionView.reloadData()
+        }
     }
 
     @IBAction func saveSkills(sender: AnyObject) {

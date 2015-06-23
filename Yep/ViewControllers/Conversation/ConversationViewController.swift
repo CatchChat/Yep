@@ -1083,7 +1083,9 @@ class ConversationViewController: BaseViewController {
     }
 
     func reloadConversationCollectionView() {
-        conversationCollectionView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.conversationCollectionView.reloadData()
+        }
     }
 
     func cleanTextInput() {

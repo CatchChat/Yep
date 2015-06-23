@@ -94,7 +94,9 @@ class SocialWorkInstagramViewController: BaseViewController {
     // MARK: Actions
 
     func updateInstagramCollectionView() {
-        instagramCollectionView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.instagramCollectionView.reloadData()
+        }
     }
 
     func share() {

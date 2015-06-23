@@ -53,7 +53,9 @@ class ContactsViewController: BaseViewController {
     // MARK: Actions
 
     func updateContactsTableView() {
-        contactsTableView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.contactsTableView.reloadData()
+        }
     }
 
     func syncFriendships() {

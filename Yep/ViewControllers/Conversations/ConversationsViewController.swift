@@ -84,8 +84,7 @@ class ConversationsViewController: UIViewController {
         super.viewWillAppear(animated)
         
         //Make sure unread message refreshed
-        conversationsTableView.reloadData()
-        
+        reloadConversationsTableView()
     }
 
     override func viewDidAppear(animated: Bool) {

@@ -125,7 +125,9 @@ class SocialWorkGithubViewController: BaseViewController {
     // MARK: Actions
 
     func updateGithubTableView() {
-        githubTableView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.githubTableView.reloadData()
+        }
     }
 
     func share() {

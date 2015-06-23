@@ -515,9 +515,11 @@ class ProfileViewController: UIViewController {
     }
 
     func updateProfileCollectionView() {
-        profileCollectionView.collectionViewLayout.invalidateLayout()
-        profileCollectionView.reloadData()
-        profileCollectionView.layoutIfNeeded()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.profileCollectionView.collectionViewLayout.invalidateLayout()
+            self.profileCollectionView.reloadData()
+            self.profileCollectionView.layoutIfNeeded()
+        }
     }
 
     func sayHi() {

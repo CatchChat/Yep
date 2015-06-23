@@ -139,9 +139,11 @@ class RegisterSelectSkillsViewController: UIViewController {
     // MARK: Actions
 
     func updateSkillsCollectionView() {
-        skillsCollectionView.collectionViewLayout.invalidateLayout()
-        skillsCollectionView.reloadData()
-        skillsCollectionView.layoutIfNeeded()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.skillsCollectionView.collectionViewLayout.invalidateLayout()
+            self.skillsCollectionView.reloadData()
+            self.skillsCollectionView.layoutIfNeeded()
+        }
     }
 
     @IBAction func cancel() {
