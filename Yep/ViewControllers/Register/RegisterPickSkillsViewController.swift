@@ -148,12 +148,12 @@ class RegisterPickSkillsViewController: BaseViewController {
             if let skillSetType = sender as? Int {
 
                 switch skillSetType {
-                case SkillAddCell.SkillSetType.Master.rawValue:
+                case SkillSetType.Master.rawValue:
                     vc.annotationText = NSLocalizedString("What are you good at?", comment: "")
                     vc.selectedSkillsSet = Set(self.masterSkills)
                     vc.failedSelectSkillMessage = NSLocalizedString("This skill already in another learning skills set!", comment: "")
 
-                case SkillAddCell.SkillSetType.Learning.rawValue:
+                case SkillSetType.Learning.rawValue:
                     vc.annotationText = NSLocalizedString("What are you learning?", comment: "")
                     vc.selectedSkillsSet = Set(self.learningSkills)
                     vc.failedSelectSkillMessage = NSLocalizedString("This skill already in another master skills set!", comment: "")
@@ -336,10 +336,6 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
             default:
                 break
-            }
-
-            header.addSkillsAction = { skillSetType in
-                self.performSegueWithIdentifier("presentSelectSkills", sender: skillSetType.rawValue)
             }
 
             return header

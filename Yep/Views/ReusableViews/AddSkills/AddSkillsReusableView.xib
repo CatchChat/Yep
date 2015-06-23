@@ -17,33 +17,16 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TWY-sr-X81" userLabel="Add Skills Button">
-                    <rect key="frame" x="139" y="19" width="44" height="44"/>
-                    <animations/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="44" id="L4S-hn-J1Q"/>
-                        <constraint firstAttribute="width" constant="44" id="Qii-1x-s7B"/>
-                    </constraints>
-                    <state key="normal" image="skill_add">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
             </subviews>
             <animations/>
             <constraints>
-                <constraint firstItem="TWY-sr-X81" firstAttribute="centerY" secondItem="zXh-oX-lPA" secondAttribute="centerY" id="2v5-S5-iKY"/>
-                <constraint firstItem="TWY-sr-X81" firstAttribute="leading" secondItem="zXh-oX-lPA" secondAttribute="trailing" id="QzM-8D-33Y"/>
                 <constraint firstItem="zXh-oX-lPA" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" constant="20" id="eii-nG-1pk"/>
                 <constraint firstAttribute="centerY" secondItem="zXh-oX-lPA" secondAttribute="centerY" id="hOl-bD-9z7"/>
             </constraints>
             <connections>
-                <outlet property="addSkillsButton" destination="TWY-sr-X81" id="xoJ-Re-HWz"/>
                 <outlet property="skillTypeLabel" destination="zXh-oX-lPA" id="qEO-HY-0G3"/>
             </connections>
             <point key="canvasLocation" x="318" y="411"/>
         </collectionReusableView>
     </objects>
-    <resources>
-        <image name="skill_add" width="30" height="30"/>
-    </resources>
 </document>

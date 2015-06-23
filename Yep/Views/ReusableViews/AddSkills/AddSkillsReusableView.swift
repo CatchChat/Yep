@@ -29,26 +29,6 @@ class AddSkillsReusableView: UICollectionReusableView {
             skillTypeLabel.text = "\(newValue)"
         }
     }
-    
-    var addSkillsAction: ((SkillSetType) -> ())?
-
 
     @IBOutlet weak var skillTypeLabel: UILabel!
-    @IBOutlet weak var addSkillsButton: UIButton!
-
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-
-        addSkillsButton.tintColor = UIColor.yepTintColor()
-
-        addSkillsButton.addTarget(self, action: "tryAddSkills", forControlEvents: .TouchUpInside)
-    }
-
-    func tryAddSkills() {
-        if let action = addSkillsAction {
-            action(skillSetType)
-        }
-    }
-    
 }
