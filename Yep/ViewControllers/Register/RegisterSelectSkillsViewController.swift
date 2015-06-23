@@ -228,8 +228,20 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
             let skillCategory = skillCategories[indexPath.item]
 
+            let categoryImageNames = [
+                "Art": "icon_skill_art",
+                "Technology": "icon_skill_tech",
+                "Sport": "icon_skill_sport",
+                "Life Style": "icon_skill_life",
+            ]
+
             cell.categoryTitle = skillCategory.localName
-            //cell.categoryImage = 
+
+            if let categoryImageName = categoryImageNames[skillCategory.name] {
+                cell.categoryImage = UIImage(named: categoryImageName)
+            } else {
+                cell.categoryImage = UIImage(named: "icon_skill_art")
+            }
 
             let tintColor = skillCategoryTintColors[indexPath.item % skillCategoryTintColors.count]
             cell.skillCategoryButton.setBackgroundImage(UIImage(named: "button_skill_category")!.imageWithGradientTintColor(tintColor).resizableImageWithCapInsets(UIEdgeInsets(top: 30, left: 40, bottom: 30, right: 40)), forState: .Normal)
