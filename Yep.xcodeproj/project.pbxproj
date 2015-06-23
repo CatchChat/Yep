@@ -89,6 +89,8 @@
 		5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159A1AC101C80008A209 /* ChatRightTextCell.swift */; };
 		5033159D1AC101C80008A209 /* ChatRightTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5033159B1AC101C80008A209 /* ChatRightTextCell.xib */; };
 		503315A01AC126100008A209 /* MessageToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159F1AC126100008A209 /* MessageToolbar.swift */; };
+		50392CD11B393FF60009D647 /* SkillAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50392CCF1B393FF60009D647 /* SkillAddCell.swift */; };
+		50392CD21B393FF60009D647 /* SkillAddCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50392CD01B393FF60009D647 /* SkillAddCell.xib */; };
 		5039594E1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5039594C1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift */; };
 		5039594F1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */; };
 		503A54ED1B328ADB002077BD /* NSLocale+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503A54EC1B328ADB002077BD /* NSLocale+Yep.swift */; };
@@ -305,6 +307,8 @@
 		5033159A1AC101C80008A209 /* ChatRightTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextCell.swift; path = Views/Cells/ChatRightText/ChatRightTextCell.swift; sourceTree = "<group>"; };
 		5033159B1AC101C80008A209 /* ChatRightTextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatRightTextCell.xib; path = Views/Cells/ChatRightText/ChatRightTextCell.xib; sourceTree = "<group>"; };
 		5033159F1AC126100008A209 /* MessageToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageToolbar.swift; path = Views/MessageToolbar/MessageToolbar.swift; sourceTree = "<group>"; };
+		50392CCF1B393FF60009D647 /* SkillAddCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillAddCell.swift; path = Views/Cells/SkillAdd/SkillAddCell.swift; sourceTree = "<group>"; };
+		50392CD01B393FF60009D647 /* SkillAddCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillAddCell.xib; path = Views/Cells/SkillAdd/SkillAddCell.xib; sourceTree = "<group>"; };
 		5039594C1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountGithubCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.swift; sourceTree = "<group>"; };
 		5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountGithubCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.xib; sourceTree = "<group>"; };
 		503A54EC1B328ADB002077BD /* NSLocale+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSLocale+Yep.swift"; path = "Extensions/NSLocale+Yep.swift"; sourceTree = "<group>"; };
@@ -780,6 +784,7 @@
 				50553F911ADB8BA600F80B59 /* ChatSectionDate */,
 				505EC8191ADF8155001D27E0 /* SkillCategory */,
 				505EC81E1ADFBE1F001D27E0 /* SkillSelection */,
+				50392CCE1B393FAE0009D647 /* SkillAdd */,
 				50EB8CC11AE89EDE001AC1EE /* ChatLeftVideo */,
 				50EB8CC61AE89F15001AC1EE /* ChatRightVideo */,
 				50894CF71AEA4A04000981AF /* SettingsUser */,
@@ -976,6 +981,15 @@
 				508D17431ACCDC9F0092D666 /* VoiceRecordButton.swift */,
 			);
 			name = MessageToolbar;
+			sourceTree = "<group>";
+		};
+		50392CCE1B393FAE0009D647 /* SkillAdd */ = {
+			isa = PBXGroup;
+			children = (
+				50392CCF1B393FF60009D647 /* SkillAddCell.swift */,
+				50392CD01B393FF60009D647 /* SkillAddCell.xib */,
+			);
+			name = SkillAdd;
 			sourceTree = "<group>";
 		};
 		503CAB441AC00CB900DFE830 /* Conversation */ = {
@@ -1557,6 +1571,7 @@
 				50894D081AEDFDA2000981AF /* EditProfileMoreInfoCell.xib in Resources */,
 				508D174D1ACCF49B0092D666 /* ChatRightAudioCell.xib in Resources */,
 				50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */,
+				50392CD21B393FF60009D647 /* SkillAddCell.xib in Resources */,
 				503315981AC1017E0008A209 /* ChatLeftTextCell.xib in Resources */,
 				50894D031AEA6433000981AF /* EditProfileLessInfoCell.xib in Resources */,
 				0AD7EA771AC3EEB000617758 /* PushConfig.plist in Resources */,
@@ -1754,6 +1769,7 @@
 				508B717D1B1FE9B6006BDDB3 /* ChatRightBaseCell.swift in Sources */,
 				50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */,
 				502AE5531AB93215005BD199 /* ProfileFooterCell.swift in Sources */,
+				50392CD11B393FF60009D647 /* SkillAddCell.swift in Sources */,
 				50EB8CCB1AEA1AC0001AC1EE /* MediaView.swift in Sources */,
 				506923121ADE025200D27574 /* Waver.swift in Sources */,
 				0A5D83991AC5D91E000045BF /* ContactsSearchTableViewController.swift in Sources */,
