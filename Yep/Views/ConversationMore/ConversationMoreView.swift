@@ -18,7 +18,10 @@ class ConversationMoreView: UIView {
 
     lazy var tableView: UITableView = {
         let view = UITableView()
-        view.backgroundColor = UIColor.redColor().colorWithAlphaComponent(0.5)
+        view.dataSource = self
+        view.delegate = self
+        view.rowHeight = 60
+        view.scrollEnabled = false
         return view
         }()
 
@@ -60,6 +63,22 @@ class ConversationMoreView: UIView {
         NSLayoutConstraint.activateConstraints(tableViewConstraintsH)
         NSLayoutConstraint.activateConstraints([tableViewBottomConstraint, tableViewHeightConstraint])
     }
+}
 
+// MARK: - UITableViewDataSource, UITableViewDelegate
+
+extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
 }
 
