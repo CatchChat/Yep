@@ -22,6 +22,7 @@ class RegisterSelectSkillsViewController: UIViewController {
     @IBOutlet weak var skillsCollectionViewBottomConstrain: NSLayoutConstraint!
 
     @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var backButton: UIButton!
 
     let annotationHeight: CGFloat = 150
     @IBOutlet weak var skillsCollectionViewEqualHeightToSkillCategoriesCollectionViewConstraint: NSLayoutConstraint!
@@ -78,6 +79,10 @@ class RegisterSelectSkillsViewController: UIViewController {
         skillsCollectionView.registerNib(UINib(nibName: skillSelectionCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillSelectionCellIdentifier)
 
         cancelButton.setTitle(NSLocalizedString("Cancel", comment: ""), forState: .Normal)
+        backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
+
+        cancelButton.alpha = 1
+        backButton.alpha = 0
 
 
         let layout = self.skillCategoriesCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
@@ -141,6 +146,10 @@ class RegisterSelectSkillsViewController: UIViewController {
 
     @IBAction func cancel() {
         dismiss()
+    }
+
+    @IBAction func back() {
+        currentSkillCategoryButton?.toggleSelectionState()
     }
 
     func dismiss() {
@@ -309,6 +318,9 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                         self.skillsCollectionView.alpha = 1
 
+                        self.cancelButton.alpha = 0
+                        self.backButton.alpha = 1
+
                     }, completion: { (finished) -> Void in
                     })
 
@@ -331,6 +343,9 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                             self.view.layoutIfNeeded()
 
                             collectionView.alpha = 1
+
+                            self.cancelButton.alpha = 1
+                            self.backButton.alpha = 0
 
                         }, completion: { (_) -> Void in
 
