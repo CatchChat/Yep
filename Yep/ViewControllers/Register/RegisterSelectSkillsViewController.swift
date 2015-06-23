@@ -367,9 +367,10 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
     private func updateSkillSelectionCell(skillSelectionCell: SkillSelectionCell, withSkill skill: Skill) {
         if selectedSkillsSet.contains(skill) {
-            skillSelectionCell.tintColor = UIColor.darkGrayColor()
+            skillSelectionCell.skillSelected = true
+
         } else {
-            skillSelectionCell.tintColor = UIColor.yepTintColor()
+            skillSelectionCell.skillSelected = false
         }
     }
 

@@ -16,6 +16,19 @@ class SkillSelectionCell: UICollectionViewCell {
 
     @IBOutlet weak var skillLabel: UILabel!
 
+    var skillSelected: Bool = false {
+        willSet {
+            if newValue {
+                backgroundImageView.image = UIImage(named: "skill_bubble_large_empty")
+                skillLabel.textColor = UIColor.yepTintColor()
+
+            } else {
+                backgroundImageView.image = UIImage(named: "skill_bubble_large")
+                skillLabel.textColor = UIColor.whiteColor()
+            }
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
