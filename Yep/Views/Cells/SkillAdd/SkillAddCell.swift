@@ -10,9 +10,12 @@ import UIKit
 
 class SkillAddCell: UICollectionViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    enum SkillSetType: Int {
+        case Master
+        case Learning
     }
 
+    var skillSetType: SkillSetType = .Master
+
+    var addSkillsAction: ((SkillSetType) -> ())?
 }

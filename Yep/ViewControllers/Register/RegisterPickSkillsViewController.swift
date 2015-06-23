@@ -148,12 +148,12 @@ class RegisterPickSkillsViewController: BaseViewController {
             if let skillSetType = sender as? Int {
 
                 switch skillSetType {
-                case SkillSetType.Master.rawValue:
+                case SkillAddCell.SkillSetType.Master.rawValue:
                     vc.annotationText = NSLocalizedString("What are you good at?", comment: "")
                     vc.selectedSkillsSet = Set(self.masterSkills)
                     vc.failedSelectSkillMessage = NSLocalizedString("This skill already in another learning skills set!", comment: "")
 
-                case SkillSetType.Learning.rawValue:
+                case SkillAddCell.SkillSetType.Learning.rawValue:
                     vc.annotationText = NSLocalizedString("What are you learning?", comment: "")
                     vc.selectedSkillsSet = Set(self.learningSkills)
                     vc.failedSelectSkillMessage = NSLocalizedString("This skill already in another master skills set!", comment: "")
@@ -283,6 +283,13 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
             } else {
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillAddCellIdentifier, forIndexPath: indexPath) as! SkillAddCell
+
+                cell.skillSetType = .Master
+
+                cell.addSkillsAction = { skillSetType in
+                    self.performSegueWithIdentifier("presentSelectSkills", sender: skillSetType.rawValue)
+                }
+
                 return cell
             }
 
@@ -298,6 +305,13 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
             } else {
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillAddCellIdentifier, forIndexPath: indexPath) as! SkillAddCell
+
+                cell.skillSetType = .Learning
+
+                cell.addSkillsAction = { skillSetType in
+                    self.performSegueWithIdentifier("presentSelectSkills", sender: skillSetType.rawValue)
+                }
+
                 return cell
             }
 
@@ -339,6 +353,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
 
         switch section {
+            
         case Section.Master.rawValue:
             return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: sectionBottomEdgeInset, right: sectionRightEdgeInset)
 
@@ -355,6 +370,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
         var skillString = ""
         
         switch indexPath.section {
+
         case Section.Master.rawValue:
             if indexPath.item < masterSkills.count {
                 let skill = masterSkills[indexPath.item]
@@ -385,6 +401,28 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
         return CGSizeMake(collectionViewWidth - (sectionLeftEdgeInset + sectionRightEdgeInset), 70)
+    }
+
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        switch indexPath.section {
+
+        case Section.Master.rawValue:
+            if indexPath.item == masterSkills.count {
+                if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SkillAddCell {
+                    cell.addSkillsAction?(cell.skillSetType)
+                }
+            }
+
+        case Section.Learning.rawValue:
+            if indexPath.item == learningSkills.count {
+                if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SkillAddCell {
+                    cell.addSkillsAction?(cell.skillSetType)
+                }
+            }
+
+        default:
+            break
+        }
     }
 }
 
