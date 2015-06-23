@@ -334,8 +334,16 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
                 // also save some infomation in YepUserDefaults
 
+                if let nickname = friendInfo["nickname"] as? String {
+                    YepUserDefaults.nickname.value = nickname
+                }
+
                 if let introduction = friendInfo["introduction"] as? String {
                     YepUserDefaults.introduction.value = introduction
+                }
+
+                if let avatarURLString = friendInfo["avatar_url"] as? String {
+                    YepUserDefaults.avatarURLString.value = avatarURLString
                 }
 
                 if let areaCode = friendInfo["phone_code"] as? String {
