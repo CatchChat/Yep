@@ -14,10 +14,46 @@ class ConversationMoreDetailCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         accessoryType = .DisclosureIndicator
+
+        layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+
+        textLabel?.textColor = UIColor.darkGrayColor()
     }
 
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class ConversationMoreCheckCell: UITableViewCell {
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+
+        textLabel?.textColor = UIColor.darkGrayColor()
+
+        makeUI()
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    lazy var checkedSwitch: UISwitch = {
+        let s = UISwitch()
+        return s
+        }()
+
+    func makeUI() {
+        contentView.addSubview(checkedSwitch)
+        checkedSwitch.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+        let checkedSwitchConstraintCenterY = NSLayoutConstraint(item: checkedSwitch, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1, constant: 0)
+        let checkedSwitchConstraintTrailing = NSLayoutConstraint(item: checkedSwitch, attribute: .Trailing, relatedBy: .Equal, toItem: contentView, attribute: .Trailing, multiplier: 1, constant: -20)
+
+        NSLayoutConstraint.activateConstraints([checkedSwitchConstraintCenterY, checkedSwitchConstraintTrailing])
     }
 }
 
@@ -37,6 +73,7 @@ class ConversationMoreView: UIView {
         view.scrollEnabled = false
 
         view.registerClass(ConversationMoreDetailCell.self, forCellReuseIdentifier: "ConversationMoreDetailCell")
+        view.registerClass(ConversationMoreCheckCell.self, forCellReuseIdentifier: "ConversationMoreCheckCell")
         return view
         }()
 
@@ -82,10 +119,6 @@ class ConversationMoreView: UIView {
     }
 }
 
-
-
-
-
 // MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
@@ -114,7 +147,15 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
             case .ShowProfile:
                 let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreDetailCell") as! ConversationMoreDetailCell
 
-                cell.textLabel!.text = NSLocalizedString("View profile", comment: "")
+                cell.textLabel?.text = NSLocalizedString("View profile", comment: "")
+
+                return cell
+
+            case .DoNotDisturb:
+
+                let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreCheckCell") as! ConversationMoreCheckCell
+
+                cell.textLabel?.text = NSLocalizedString("Do not disturb", comment: "")
 
                 return cell
 
@@ -127,6 +168,8 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
         if let row = Row(rawValue: indexPath.row) {
             switch row {
