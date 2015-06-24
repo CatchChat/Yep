@@ -228,7 +228,10 @@ class ConversationMoreView: UIView {
             makeUI()
 
             let tap = UITapGestureRecognizer(target: self, action: "hide")
-            //containerView.addGestureRecognizer(tap)
+            containerView.addGestureRecognizer(tap)
+
+            tap.cancelsTouchesInView = true
+            tap.delegate = self
         }
     }
 
@@ -265,6 +268,20 @@ class ConversationMoreView: UIView {
 
         NSLayoutConstraint.activateConstraints(tableViewConstraintsH)
         NSLayoutConstraint.activateConstraints([tableViewBottomConstraint, tableViewHeightConstraint])
+    }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension ConversationMoreView: UIGestureRecognizerDelegate {
+
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+
+        if touch.view != containerView {
+            return false
+        }
+
+        return true
     }
 }
 
