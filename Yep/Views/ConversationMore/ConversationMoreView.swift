@@ -133,6 +133,8 @@ class ConversationMoreView: UIView {
 
     var showProfileAction: (() -> Void)?
 
+    var toggleDoNotDisturbAction: (() -> Void)?
+
     var reportAction: (() -> Void)?
 
     var tableViewBottomConstraint: NSLayoutConstraint?
@@ -303,6 +305,9 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
 
             case .ShowProfile:
                 showProfileAction?()
+
+            case .DoNotDisturb:
+                toggleDoNotDisturbAction?()
 
             case .Report:
                 reportAction?()

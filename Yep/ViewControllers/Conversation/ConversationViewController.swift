@@ -914,12 +914,24 @@ class ConversationViewController: BaseViewController {
             //moreView.hide()
         }
 
+        moreView.toggleDoNotDisturbAction = {
+            self.toggleDoNotDisturb()
+        }
+
         moreView.reportAction = {
             self.report()
             moreView.hide()
         }
 
         moreView.showInView(view)
+    }
+
+    func toggleDoNotDisturb() {
+        if let userID = conversation.withFriend?.userID {
+            disableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: { success in
+                println("disableNotificationFromUserWithUserID \(success)")
+            })
+        }
     }
 
     func report() {
