@@ -148,6 +148,17 @@ class ConversationMoreView: UIView {
 
     var reportAction: (() -> Void)?
 
+    var blocked: Bool = true {
+        didSet {
+            if blocked != oldValue {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    var toggleBlockAction: (() -> Void)?
+
     var tableViewBottomConstraint: NSLayoutConstraint?
 
     func showInView(view: UIView) {
@@ -201,7 +212,7 @@ class ConversationMoreView: UIView {
             makeUI()
 
             let tap = UITapGestureRecognizer(target: self, action: "hide")
-            containerView.addGestureRecognizer(tap)
+            //containerView.addGestureRecognizer(tap)
         }
     }
 
@@ -307,8 +318,14 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
 
                 let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
 
-                cell.colorTitleLabel.text = NSLocalizedString("Block", comment: "")
-                cell.colorTitleLabelTextColor = UIColor.redColor()
+                if blocked {
+                    cell.colorTitleLabel.text = NSLocalizedString("Unblock", comment: "")
+                } else {
+                    cell.colorTitleLabel.text = NSLocalizedString("Block", comment: "")
+                }
+
+                cell.colorTitleLabelTextColor = blocked ? UIColor.redColor() : UIColor.yepTintColor()
+
                 cell.colorTitleLabelFontStyle = .Light
 
                 return cell
@@ -349,7 +366,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                 hide()
 
             case .Block:
-                break
+                toggleBlockAction?()
                 
             case .Cancel:
                 hide()

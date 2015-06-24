@@ -925,11 +925,19 @@ class ConversationViewController: BaseViewController {
                 if let doNotDisturb = userInfo["do_not_disturb"] as? Bool {
                     self.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
                 }
+
+                if let blocked = userInfo["blocked"] as? Bool {
+                    self.updateBlocked(blocked, forUserWithUserID: userID)
+                }
             })
         }
 
         moreView.toggleDoNotDisturbAction = { [unowned self] in
             self.toggleDoNotDisturb()
+        }
+
+        moreView.toggleBlockAction = { [unowned self] in
+            self.toggleBlock()
         }
 
         moreView.reportAction = { [unowned self] in
@@ -1027,6 +1035,41 @@ class ConversationViewController: BaseViewController {
         reportAlertController.addAction(cancelAction)
         
         self.presentViewController(reportAlertController, animated: true, completion: nil)
+    }
+
+    func updateBlocked(blocked: Bool, forUserWithUserID userID: String) {
+        let realm = Realm()
+
+        if let user = userWithUserID(userID, inRealm: realm) {
+            realm.write {
+                user.blocked = blocked
+            }
+
+            moreView.blocked = blocked
+        }
+    }
+
+    func toggleBlock() {
+
+        if let user = conversation.withFriend {
+
+            let userID = user.userID
+
+            if user.blocked {
+                unblockUserWithUserID(userID, failureHandler: nil, completion: { success in
+                    println("unblockUserWithUserID \(success)")
+
+                    self.updateBlocked(false, forUserWithUserID: userID)
+                })
+
+            } else {
+                blockUserWithUserID(userID, failureHandler: nil, completion: { success in
+                    println("blockUserWithUserID \(success)")
+
+                    self.updateBlocked(true, forUserWithUserID: userID)
+                })
+            }
+        }
     }
 
     /*
