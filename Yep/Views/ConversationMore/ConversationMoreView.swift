@@ -50,10 +50,46 @@ class ConversationMoreCheckCell: UITableViewCell {
         contentView.addSubview(checkedSwitch)
         checkedSwitch.setTranslatesAutoresizingMaskIntoConstraints(false)
 
-        let checkedSwitchConstraintCenterY = NSLayoutConstraint(item: checkedSwitch, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1, constant: 0)
-        let checkedSwitchConstraintTrailing = NSLayoutConstraint(item: checkedSwitch, attribute: .Trailing, relatedBy: .Equal, toItem: contentView, attribute: .Trailing, multiplier: 1, constant: -20)
+        let centerY = NSLayoutConstraint(item: checkedSwitch, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1, constant: 0)
+        let trailing = NSLayoutConstraint(item: checkedSwitch, attribute: .Trailing, relatedBy: .Equal, toItem: contentView, attribute: .Trailing, multiplier: 1, constant: -20)
 
-        NSLayoutConstraint.activateConstraints([checkedSwitchConstraintCenterY, checkedSwitchConstraintTrailing])
+        NSLayoutConstraint.activateConstraints([centerY, trailing])
+    }
+}
+
+class ConversationMoreColorTitleCell: UITableViewCell {
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+
+        makeUI()
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    lazy var colorTitleLabel: UILabel = {
+        let label = UILabel()
+        return label
+        }()
+
+    var colorTitleLabelTextColor: UIColor = UIColor.yepTintColor() {
+        didSet {
+            colorTitleLabel.textColor = colorTitleLabelTextColor
+        }
+    }
+
+    func makeUI() {
+        contentView.addSubview(colorTitleLabel)
+        colorTitleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+        let centerY = NSLayoutConstraint(item: colorTitleLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1, constant: 0)
+        let centerX = NSLayoutConstraint(item: colorTitleLabel, attribute: .CenterX, relatedBy: .Equal, toItem: contentView, attribute: .CenterX, multiplier: 1, constant: 0)
+
+        NSLayoutConstraint.activateConstraints([centerY, centerX])
     }
 }
 
@@ -74,6 +110,7 @@ class ConversationMoreView: UIView {
 
         view.registerClass(ConversationMoreDetailCell.self, forCellReuseIdentifier: "ConversationMoreDetailCell")
         view.registerClass(ConversationMoreCheckCell.self, forCellReuseIdentifier: "ConversationMoreCheckCell")
+        view.registerClass(ConversationMoreColorTitleCell.self, forCellReuseIdentifier: "ConversationMoreColorTitleCell")
         return view
         }()
 
@@ -156,6 +193,30 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                 let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreCheckCell") as! ConversationMoreCheckCell
 
                 cell.textLabel?.text = NSLocalizedString("Do not disturb", comment: "")
+
+                return cell
+
+            case .Report:
+                let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
+
+                cell.colorTitleLabel.text = NSLocalizedString("Report", comment: "")
+                cell.colorTitleLabelTextColor = UIColor.yepTintColor()
+
+                return cell
+
+            case .Block:
+                let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
+
+                cell.colorTitleLabel.text = NSLocalizedString("Block", comment: "")
+                cell.colorTitleLabelTextColor = UIColor.redColor()
+
+                return cell
+
+            case .Cancel:
+                let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
+
+                cell.colorTitleLabel.text = NSLocalizedString("Cancel", comment: "")
+                cell.colorTitleLabelTextColor = UIColor.yepTintColor()
 
                 return cell
 
