@@ -92,7 +92,9 @@ class ConversationViewController: BaseViewController {
 
         return titleView
         }()
-    
+
+    lazy var moreView = ConversationMoreView()
+
     lazy var pullToRefreshView = PullToRefreshView()
     
     @IBOutlet weak var conversationCollectionView: UICollectionView!
@@ -234,7 +236,12 @@ class ConversationViewController: BaseViewController {
         navigationItem.titleView = titleView
 
         if let withFriend = conversation?.withFriend {
-            
+
+            let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
+
+            navigationItem.rightBarButtonItem = moreBarButtonItem
+
+            /*
             let avatarSize: CGFloat = 30.0
             
             AvatarCache.sharedInstance.roundAvatarOfUser(withFriend, withRadius: avatarSize * 0.5, completion: { image in
@@ -249,6 +256,7 @@ class ConversationViewController: BaseViewController {
                     self.navigationItem.rightBarButtonItem = avatarBarButton
                 }
             })
+            */
         }
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedNewMessagesNotification:", name: YepNewMessagesReceivedNotification, object: nil)
@@ -900,9 +908,175 @@ class ConversationViewController: BaseViewController {
 
     // MARK: Actions
 
+    func moreAction() {
+
+        moreView.showProfileAction = { [unowned self] in
+            self.performSegueWithIdentifier("showProfile", sender: nil)
+        }
+
+        if let user = conversation.withFriend {
+            moreView.notificationEnabled = user.notificationEnabled
+
+            let userID = user.userID
+
+            userInfoOfUserWithUserID(userID, failureHandler: nil, completion: { userInfo in
+                println("userInfoOfUserWithUserID \(userInfo)")
+
+                if let doNotDisturb = userInfo["do_not_disturb"] as? Bool {
+                    self.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
+                }
+
+                if let blocked = userInfo["blocked"] as? Bool {
+                    self.updateBlocked(blocked, forUserWithUserID: userID)
+                }
+            })
+        }
+
+        moreView.toggleDoNotDisturbAction = { [unowned self] in
+            self.toggleDoNotDisturb()
+        }
+
+        moreView.toggleBlockAction = { [unowned self] in
+            self.toggleBlock()
+        }
+
+        moreView.reportAction = { [unowned self] in
+            self.report()
+        }
+
+        moreView.showInView(view)
+    }
+
+    func updateNotificationEnabled(enabled: Bool, forUserWithUserID userID: String) {
+        let realm = Realm()
+
+        if let user = userWithUserID(userID, inRealm: realm) {
+            realm.write {
+                user.notificationEnabled = enabled
+            }
+
+            moreView.notificationEnabled = enabled
+        }
+    }
+
+    func toggleDoNotDisturb() {
+
+        if let user = conversation.withFriend {
+
+            let userID = user.userID
+
+            if user.notificationEnabled {
+                disableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: { success in
+                    println("disableNotificationFromUserWithUserID \(success)")
+
+                    self.updateNotificationEnabled(false, forUserWithUserID: userID)
+                })
+
+            } else {
+                enableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: { success in
+                    println("enableNotificationFromUserWithUserID \(success)")
+
+                    self.updateNotificationEnabled(true, forUserWithUserID: userID)
+                })
+            }
+        }
+    }
+
+    func report() {
+        let reportWithReason: ReportReason -> Void = { [unowned self] reason in
+
+            if let user = self.conversation.withFriend {
+                let profileUser = ProfileUser.UserType(user)
+
+                reportProfileUser(profileUser, forReason: reason, failureHandler: { (reason, errorMessage) in
+                    defaultFailureHandler(reason, errorMessage)
+
+                    if let errorMessage = errorMessage {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepAlert.alertSorry(message: errorMessage, inViewController: self)
+                        }
+                    }
+
+                }, completion: { success in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Report recorded!", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+                    }
+                })
+            }
+        }
+
+        let reportAlertController = UIAlertController(title: NSLocalizedString("Report Reason", comment: ""), message: nil, preferredStyle: .ActionSheet)
+
+        let pornoReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Porno.description, style: .Default) { action -> Void in
+            reportWithReason(.Porno)
+        }
+        reportAlertController.addAction(pornoReasonAction)
+
+        let advertisingReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Advertising.description, style: .Default) { action -> Void in
+            reportWithReason(.Advertising)
+        }
+        reportAlertController.addAction(advertisingReasonAction)
+
+        let scamsReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Scams.description, style: .Default) { action -> Void in
+            reportWithReason(.Scams)
+        }
+        reportAlertController.addAction(scamsReasonAction)
+
+        let otherReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Other("").description, style: .Default) { action -> Void in
+            YepAlert.textInput(title: NSLocalizedString("Other Reason", comment: ""), placeholder: nil, oldText: nil, confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
+                reportWithReason(.Other(text))
+            }, cancelAction: nil)
+        }
+        reportAlertController.addAction(otherReasonAction)
+
+        let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        reportAlertController.addAction(cancelAction)
+        
+        self.presentViewController(reportAlertController, animated: true, completion: nil)
+    }
+
+    func updateBlocked(blocked: Bool, forUserWithUserID userID: String) {
+        let realm = Realm()
+
+        if let user = userWithUserID(userID, inRealm: realm) {
+            realm.write {
+                user.blocked = blocked
+            }
+
+            moreView.blocked = blocked
+        }
+    }
+
+    func toggleBlock() {
+
+        if let user = conversation.withFriend {
+
+            let userID = user.userID
+
+            if user.blocked {
+                unblockUserWithUserID(userID, failureHandler: nil, completion: { success in
+                    println("unblockUserWithUserID \(success)")
+
+                    self.updateBlocked(false, forUserWithUserID: userID)
+                })
+
+            } else {
+                blockUserWithUserID(userID, failureHandler: nil, completion: { success in
+                    println("blockUserWithUserID \(success)")
+
+                    self.updateBlocked(true, forUserWithUserID: userID)
+                })
+            }
+        }
+    }
+
+    /*
     func showProfile() {
         performSegueWithIdentifier("showProfile", sender: nil)
     }
+    */
     
     func updateMoreMessageConversationCollectionView() {
         let moreMessageViewHeight = moreMessageTypesViewHeightConstraintConstant + CGRectGetHeight(messageToolbar.bounds)

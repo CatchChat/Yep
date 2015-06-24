@@ -50,6 +50,7 @@
 		0AEB1CC61B0E742400178C9C /* Double+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB1CC51B0E742400178C9C /* Double+Yep.swift */; };
 		15606C18E1487982869C0A42 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD88F6095DB46DFAD41AB5DB /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50165C441AC2860900C7AEBE /* ConversationLayout.swift */; };
+		5019F6311B39BFE00000D993 /* ConversationMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5019F6301B39BFE00000D993 /* ConversationMoreView.swift */; };
 		502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */; };
 		502280F81B1C3F2800E984EE /* FriendsInContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502280F71B1C3F2800E984EE /* FriendsInContactsViewController.swift */; };
 		5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE251AB6856300B3EE96 /* ConversationsViewController.swift */; };
@@ -268,6 +269,7 @@
 		0AEB1CC51B0E742400178C9C /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
 		2268251A75FF6766DC31CCFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		50165C441AC2860900C7AEBE /* ConversationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationLayout.swift; path = ViewControllers/Conversation/ConversationLayout.swift; sourceTree = "<group>"; };
+		5019F6301B39BFE00000D993 /* ConversationMoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMoreView.swift; path = Views/ConversationMore/ConversationMoreView.swift; sourceTree = "<group>"; };
 		502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedUsersViewController.swift; path = ViewControllers/SearchedUsers/SearchedUsersViewController.swift; sourceTree = "<group>"; };
 		502280F71B1C3F2800E984EE /* FriendsInContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendsInContactsViewController.swift; path = ViewControllers/FriendsInContacts/FriendsInContactsViewController.swift; sourceTree = "<group>"; };
 		5023DE251AB6856300B3EE96 /* ConversationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationsViewController.swift; path = ViewControllers/Conversations/ConversationsViewController.swift; sourceTree = "<group>"; };
@@ -641,6 +643,14 @@
 			name = JPush;
 			sourceTree = "<group>";
 		};
+		5019F62F1B39BFCB0000D993 /* ConversationMore */ = {
+			isa = PBXGroup;
+			children = (
+				5019F6301B39BFE00000D993 /* ConversationMoreView.swift */,
+			);
+			name = ConversationMore;
+			sourceTree = "<group>";
+		};
 		502048251B0F1BB8002EBFC7 /* SearchedUsers */ = {
 			isa = PBXGroup;
 			children = (
@@ -758,6 +768,7 @@
 				0A1CAC741AFA526400826B45 /* SkillHomeSectionButton */,
 				0AC25F041B1100F3009E6E13 /* ScrollView */,
 				50E18BB81B180F8E0076C3C6 /* SayHi */,
+				5019F62F1B39BFCB0000D993 /* ConversationMore */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1724,6 +1735,7 @@
 				0A7A7D561AF5E00600A7F5F5 /* YepHelper.swift in Sources */,
 				502280F81B1C3F2800E984EE /* FriendsInContactsViewController.swift in Sources */,
 				508D17401ACCD2740092D666 /* YepButton.swift in Sources */,
+				5019F6311B39BFE00000D993 /* ConversationMoreView.swift in Sources */,
 				506BB7F51AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift in Sources */,
 				5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */,
 				5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */,

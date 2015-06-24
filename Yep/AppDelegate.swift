@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
-        setSchemaVersion(11, Realm.defaultPath, { migration, oldSchemaVersion in
+        setSchemaVersion(12, Realm.defaultPath, { migration, oldSchemaVersion in
             // We haven’t migrated anything yet, so oldSchemaVersion == 0
             if oldSchemaVersion < 1 {
                 // Nothing to do!
@@ -63,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
 
-            if oldSchemaVersion < 11 {
+            if oldSchemaVersion < 12 {
             }
         })
 

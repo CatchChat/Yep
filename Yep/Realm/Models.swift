@@ -85,6 +85,9 @@ class User: Object {
     dynamic var longitude: Double = 0
     dynamic var latitude: Double = 0
 
+    dynamic var notificationEnabled: Bool = true
+    dynamic var blocked: Bool = false
+
     let learningSkills = List<UserSkill>()
     let masterSkills = List<UserSkill>()
     let socialAccountProviders = List<UserSocialAccountProvider>()

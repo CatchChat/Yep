@@ -325,6 +325,21 @@ func deleteSkill(skill: Skill, fromSkillSet skillSet: SkillSet, #failureHandler:
 
 // MARK: User
 
+func userInfoOfUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/api/v1/users/\(userID)", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+// 自己的信息
 func userInfo(#failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
     let parse: JSONDictionary -> JSONDictionary? = { data in
         return data
@@ -417,6 +432,74 @@ func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: S
     }
 
     let resource = jsonResource(path: "/api/v1/auth/token_by_mobile", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+func disableNotificationFromUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+
+    let requestParameters = [
+        "user_id": userID
+    ]
+
+    let parse: JSONDictionary -> Bool? = { data in
+        return true
+    }
+
+    let resource = authJsonResource(path: "/api/v1/do_not_disturb_users", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+func enableNotificationFromUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+
+    let parse: JSONDictionary -> Bool? = { data in
+        return true
+    }
+
+    let resource = authJsonResource(path: "/api/v1/do_not_disturb_users/\(userID)", method: .DELETE, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+func blockUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+
+    let requestParameters = [
+        "user_id": userID
+    ]
+
+    let parse: JSONDictionary -> Bool? = { data in
+        return true
+    }
+
+    let resource = authJsonResource(path: "/api/v1/blocked_users", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+func unblockUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+
+    let parse: JSONDictionary -> Bool? = { data in
+        return true
+    }
+
+    let resource = authJsonResource(path: "/api/v1/blocked_users/\(userID)", method: .DELETE, requestParameters: [:], parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)
