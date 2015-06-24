@@ -135,6 +135,37 @@ class ConversationMoreView: UIView {
 
     var reportAction: (() -> Void)?
 
+    var tableViewBottomConstraint: NSLayoutConstraint?
+
+    func showInView(view: UIView) {
+
+        frame = view.bounds
+
+        view.addSubview(self)
+
+        layoutIfNeeded()
+
+        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+            self.tableViewBottomConstraint?.constant = 0
+
+            self.layoutIfNeeded()
+
+        }, completion: { finished in
+        })
+    }
+
+    func hide() {
+
+        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+            self.tableViewBottomConstraint?.constant = 300
+
+            self.layoutIfNeeded()
+
+        }, completion: { finished in
+            self.removeFromSuperview()
+        })
+    }
+
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
@@ -166,7 +197,9 @@ class ConversationMoreView: UIView {
 
         let tableViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[tableView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
 
-        let tableViewBottomConstraint = NSLayoutConstraint(item: tableView, attribute: .Bottom, relatedBy: .Equal, toItem: containerView, attribute: .Bottom, multiplier: 1.0, constant: 0)
+        let tableViewBottomConstraint = NSLayoutConstraint(item: tableView, attribute: .Bottom, relatedBy: .Equal, toItem: containerView, attribute: .Bottom, multiplier: 1.0, constant: 300)
+
+        self.tableViewBottomConstraint = tableViewBottomConstraint
 
         let tableViewHeightConstraint = NSLayoutConstraint(item: tableView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 300)
 
@@ -267,8 +300,8 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                 break
                 
             case .Cancel:
-                removeFromSuperview()
-
+                hide()
+                
             default:
                 break
             }

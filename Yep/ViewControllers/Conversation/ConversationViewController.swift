@@ -911,17 +911,15 @@ class ConversationViewController: BaseViewController {
 
         moreView.showProfileAction = {
             self.performSegueWithIdentifier("showProfile", sender: nil)
-            moreView.removeFromSuperview()
+            moreView.hide()
         }
 
         moreView.reportAction = {
             self.report()
-            moreView.removeFromSuperview()
+            moreView.hide()
         }
 
-        moreView.frame = view.bounds
-
-        view.window?.addSubview(moreView)
+        moreView.showInView(view)
     }
 
     func report() {
