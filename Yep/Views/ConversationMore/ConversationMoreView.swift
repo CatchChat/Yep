@@ -133,6 +133,15 @@ class ConversationMoreView: UIView {
 
     var showProfileAction: (() -> Void)?
 
+    var notificationEnabled: Bool = true {
+        didSet {
+            if notificationEnabled != oldValue {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
     var toggleDoNotDisturbAction: (() -> Void)?
 
     var reportAction: (() -> Void)?
@@ -256,6 +265,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
             switch row {
 
             case .ShowProfile:
+
                 let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreDetailCell") as! ConversationMoreDetailCell
 
                 cell.textLabel?.text = NSLocalizedString("View profile", comment: "")
@@ -267,11 +277,13 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                 let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreCheckCell") as! ConversationMoreCheckCell
 
                 cell.textLabel?.text = NSLocalizedString("Do not disturb", comment: "")
+                cell.checkedSwitch.on = !notificationEnabled
                 cell.checkedSwitch.addTarget(self, action: "toggleDoNotDisturb", forControlEvents: UIControlEvents.ValueChanged)
 
                 return cell
 
             case .Report:
+
                 let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
 
                 cell.colorTitleLabel.text = NSLocalizedString("Report", comment: "")
@@ -281,6 +293,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                 return cell
 
             case .Block:
+
                 let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
 
                 cell.colorTitleLabel.text = NSLocalizedString("Block", comment: "")
@@ -290,6 +303,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                 return cell
 
             case .Cancel:
+
                 let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
 
                 cell.colorTitleLabel.text = NSLocalizedString("Cancel", comment: "")
@@ -321,6 +335,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
 
             case .Report:
                 reportAction?()
+                hide()
 
             case .Block:
                 break

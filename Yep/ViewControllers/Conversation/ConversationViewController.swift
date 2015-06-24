@@ -92,7 +92,9 @@ class ConversationViewController: BaseViewController {
 
         return titleView
         }()
-    
+
+    lazy var moreView = ConversationMoreView()
+
     lazy var pullToRefreshView = PullToRefreshView()
     
     @IBOutlet weak var conversationCollectionView: UICollectionView!
@@ -907,36 +909,39 @@ class ConversationViewController: BaseViewController {
     // MARK: Actions
 
     func moreAction() {
-        let moreView = ConversationMoreView()
 
-        moreView.showProfileAction = {
+        moreView.showProfileAction = { [unowned self] in
             self.performSegueWithIdentifier("showProfile", sender: nil)
-            //moreView.hide()
         }
 
-        moreView.toggleDoNotDisturbAction = {
+        if let user = conversation.withFriend {
+            moreView.notificationEnabled = user.notificationEnabled
+        }
+
+        moreView.toggleDoNotDisturbAction = { [unowned self] in
             self.toggleDoNotDisturb()
         }
 
-        moreView.reportAction = {
+        moreView.reportAction = { [unowned self] in
             self.report()
-            moreView.hide()
         }
 
         moreView.showInView(view)
     }
 
-    func toggleDoNotDisturb() {
+    func toggleNotificationEnabledForUserWithUserID(userID: String) {
+        let realm = Realm()
 
-        func toggleNotificationEnabledForUserWithUserID(userID: String) {
-            let realm = Realm()
-
-            if let user = userWithUserID(userID, inRealm: realm) {
-                realm.write {
-                    user.notificationEnabled = !user.notificationEnabled
-                }
+        if let user = userWithUserID(userID, inRealm: realm) {
+            realm.write {
+                user.notificationEnabled = !user.notificationEnabled
             }
+
+            moreView.notificationEnabled = user.notificationEnabled
         }
+    }
+
+    func toggleDoNotDisturb() {
 
         if let user = conversation.withFriend {
 
@@ -946,14 +951,14 @@ class ConversationViewController: BaseViewController {
                 disableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: { success in
                     println("disableNotificationFromUserWithUserID \(success)")
 
-                    toggleNotificationEnabledForUserWithUserID(userID)
+                    self.toggleNotificationEnabledForUserWithUserID(userID)
                 })
 
             } else {
                 enableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: { success in
                     println("enableNotificationFromUserWithUserID \(success)")
 
-                    toggleNotificationEnabledForUserWithUserID(userID)
+                    self.toggleNotificationEnabledForUserWithUserID(userID)
                 })
             }
         }
