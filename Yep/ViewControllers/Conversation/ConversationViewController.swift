@@ -951,18 +951,6 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    func toggleNotificationEnabledForUserWithUserID(userID: String) {
-        let realm = Realm()
-
-        if let user = userWithUserID(userID, inRealm: realm) {
-            realm.write {
-                user.notificationEnabled = !user.notificationEnabled
-            }
-
-            moreView.notificationEnabled = user.notificationEnabled
-        }
-    }
-
     func toggleDoNotDisturb() {
 
         if let user = conversation.withFriend {
@@ -973,14 +961,14 @@ class ConversationViewController: BaseViewController {
                 disableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: { success in
                     println("disableNotificationFromUserWithUserID \(success)")
 
-                    self.toggleNotificationEnabledForUserWithUserID(userID)
+                    self.updateNotificationEnabled(false, forUserWithUserID: userID)
                 })
 
             } else {
                 enableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: { success in
                     println("enableNotificationFromUserWithUserID \(success)")
 
-                    self.toggleNotificationEnabledForUserWithUserID(userID)
+                    self.updateNotificationEnabled(true, forUserWithUserID: userID)
                 })
             }
         }
