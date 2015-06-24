@@ -110,6 +110,16 @@ class ConversationMoreColorTitleCell: UITableViewCell {
 
         NSLayoutConstraint.activateConstraints([centerY, centerX])
     }
+
+    func configureWithBlocked(blocked: Bool) {
+        if blocked {
+            colorTitleLabel.text = NSLocalizedString("Unblock", comment: "")
+        } else {
+            colorTitleLabel.text = NSLocalizedString("Block", comment: "")
+        }
+
+        colorTitleLabelTextColor = blocked ? UIColor.redColor() : UIColor.yepTintColor()
+    }
 }
 
 class ConversationMoreView: UIView {
@@ -152,7 +162,8 @@ class ConversationMoreView: UIView {
         didSet {
             if blocked != oldValue {
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.tableView.reloadData()
+                    let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: Row.Block.rawValue, inSection: 0)) as! ConversationMoreColorTitleCell
+                    cell.configureWithBlocked(self.blocked)
                 }
             }
         }
@@ -318,13 +329,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
 
                 let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
 
-                if blocked {
-                    cell.colorTitleLabel.text = NSLocalizedString("Unblock", comment: "")
-                } else {
-                    cell.colorTitleLabel.text = NSLocalizedString("Block", comment: "")
-                }
-
-                cell.colorTitleLabelTextColor = blocked ? UIColor.redColor() : UIColor.yepTintColor()
+                cell.configureWithBlocked(blocked)
 
                 cell.colorTitleLabelFontStyle = .Light
 
