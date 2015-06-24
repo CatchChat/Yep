@@ -133,6 +133,8 @@ class ConversationMoreView: UIView {
 
     var showProfileAction: (() -> Void)?
 
+    var reportAction: (() -> Void)?
+
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
@@ -257,6 +259,15 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
 
             case .ShowProfile:
                 showProfileAction?()
+
+            case .Report:
+                reportAction?()
+
+            case .Block:
+                break
+                
+            case .Cancel:
+                removeFromSuperview()
 
             default:
                 break
