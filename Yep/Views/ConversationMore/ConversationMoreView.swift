@@ -57,6 +57,10 @@ class ConversationMoreCheckCell: UITableViewCell {
 
         NSLayoutConstraint.activateConstraints([centerY, trailing])
     }
+
+    func updateWithNotificationEnabled(notificationEnabled: Bool) {
+        checkedSwitch.on = !notificationEnabled
+    }
 }
 
 class ConversationMoreColorTitleCell: UITableViewCell {
@@ -111,7 +115,7 @@ class ConversationMoreColorTitleCell: UITableViewCell {
         NSLayoutConstraint.activateConstraints([centerY, centerX])
     }
 
-    func configureWithBlocked(blocked: Bool) {
+    func updateWithBlocked(blocked: Bool) {
         if blocked {
             colorTitleLabel.text = NSLocalizedString("Unblock", comment: "")
         } else {
@@ -149,7 +153,8 @@ class ConversationMoreView: UIView {
         didSet {
             if notificationEnabled != oldValue {
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.tableView.reloadData()
+                    let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: Row.DoNotDisturb.rawValue, inSection: 0)) as! ConversationMoreCheckCell
+                    cell.updateWithNotificationEnabled(self.notificationEnabled)
                 }
             }
         }
@@ -163,7 +168,7 @@ class ConversationMoreView: UIView {
             if blocked != oldValue {
                 dispatch_async(dispatch_get_main_queue()) {
                     let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: Row.Block.rawValue, inSection: 0)) as! ConversationMoreColorTitleCell
-                    cell.configureWithBlocked(self.blocked)
+                    cell.updateWithBlocked(self.blocked)
                 }
             }
         }
@@ -310,7 +315,9 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                 let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreCheckCell") as! ConversationMoreCheckCell
 
                 cell.textLabel?.text = NSLocalizedString("Do not disturb", comment: "")
-                cell.checkedSwitch.on = !notificationEnabled
+
+                cell.updateWithNotificationEnabled(notificationEnabled)
+
                 cell.checkedSwitch.addTarget(self, action: "toggleDoNotDisturb", forControlEvents: UIControlEvents.ValueChanged)
 
                 return cell
@@ -329,7 +336,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
 
                 let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
 
-                cell.configureWithBlocked(blocked)
+                cell.updateWithBlocked(blocked)
 
                 cell.colorTitleLabelFontStyle = .Light
 
