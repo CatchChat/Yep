@@ -77,12 +77,29 @@ class ConversationMoreColorTitleCell: UITableViewCell {
         }()
 
     var colorTitleLabelTextColor: UIColor = UIColor.yepTintColor() {
-        didSet {
-            colorTitleLabel.textColor = colorTitleLabelTextColor
+        willSet {
+            colorTitleLabel.textColor = newValue
+        }
+    }
+
+    enum FontStyle {
+        case Light
+        case Regular
+    }
+
+    var colorTitleLabelFontStyle: FontStyle = .Light {
+        willSet {
+            switch newValue {
+            case .Light:
+                colorTitleLabel.font = UIFont(name: "Helvetica-Light", size: 18)!
+            case .Regular:
+                colorTitleLabel.font = UIFont(name: "Helvetica", size: 18)!
+            }
         }
     }
 
     func makeUI() {
+
         contentView.addSubview(colorTitleLabel)
         colorTitleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
 
@@ -201,6 +218,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
 
                 cell.colorTitleLabel.text = NSLocalizedString("Report", comment: "")
                 cell.colorTitleLabelTextColor = UIColor.yepTintColor()
+                cell.colorTitleLabelFontStyle = .Light
 
                 return cell
 
@@ -209,6 +227,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
 
                 cell.colorTitleLabel.text = NSLocalizedString("Block", comment: "")
                 cell.colorTitleLabelTextColor = UIColor.redColor()
+                cell.colorTitleLabelFontStyle = .Light
 
                 return cell
 
@@ -217,6 +236,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
 
                 cell.colorTitleLabel.text = NSLocalizedString("Cancel", comment: "")
                 cell.colorTitleLabelTextColor = UIColor.yepTintColor()
+                cell.colorTitleLabelFontStyle = .Regular
 
                 return cell
 
