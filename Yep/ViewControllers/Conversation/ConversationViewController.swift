@@ -911,7 +911,7 @@ class ConversationViewController: BaseViewController {
 
         moreView.showProfileAction = {
             self.performSegueWithIdentifier("showProfile", sender: nil)
-            moreView.hide()
+            //moreView.hide()
         }
 
         moreView.reportAction = {

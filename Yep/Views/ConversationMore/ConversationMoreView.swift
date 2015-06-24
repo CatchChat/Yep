@@ -114,7 +114,7 @@ class ConversationMoreView: UIView {
 
     lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
+        view.backgroundColor = UIColor.clearColor()
         return view
         }()
 
@@ -145,24 +145,35 @@ class ConversationMoreView: UIView {
 
         layoutIfNeeded()
 
-        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-            self.tableViewBottomConstraint?.constant = 0
-
-            self.layoutIfNeeded()
+        UIView.animateWithDuration(0.05, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+            self.containerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
 
         }, completion: { finished in
+            UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+                self.tableViewBottomConstraint?.constant = 0
+
+                self.layoutIfNeeded()
+
+            }, completion: { finished in
+            })
         })
     }
 
     func hide() {
 
-        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
             self.tableViewBottomConstraint?.constant = 300
 
             self.layoutIfNeeded()
 
         }, completion: { finished in
-            self.removeFromSuperview()
+
+            UIView.animateWithDuration(0.05, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+                self.containerView.backgroundColor = UIColor.clearColor()
+
+            }, completion: { finished in
+                self.removeFromSuperview()
+            })
         })
     }
 
@@ -301,7 +312,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                 
             case .Cancel:
                 hide()
-                
+
             default:
                 break
             }
