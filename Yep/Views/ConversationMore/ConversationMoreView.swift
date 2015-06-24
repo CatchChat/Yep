@@ -18,6 +18,7 @@ class ConversationMoreDetailCell: UITableViewCell {
         layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
 
         textLabel?.textColor = UIColor.darkGrayColor()
+        textLabel?.font = UIFont(name: "Helvetica-Light", size: 18)!
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -33,6 +34,7 @@ class ConversationMoreCheckCell: UITableViewCell {
         layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
 
         textLabel?.textColor = UIColor.darkGrayColor()
+        textLabel?.font = UIFont(name: "Helvetica-Light", size: 18)!
 
         makeUI()
     }
@@ -188,10 +190,19 @@ class ConversationMoreView: UIView {
         })
     }
 
+    var isFirstTimeBeenAddAsSubview = true
+
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
-        makeUI()
+        if isFirstTimeBeenAddAsSubview {
+            isFirstTimeBeenAddAsSubview = false
+
+            makeUI()
+
+            let tap = UITapGestureRecognizer(target: self, action: "hide")
+            containerView.addGestureRecognizer(tap)
+        }
     }
 
     func makeUI() {
