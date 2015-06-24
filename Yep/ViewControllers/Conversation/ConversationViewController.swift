@@ -916,6 +916,16 @@ class ConversationViewController: BaseViewController {
 
         if let user = conversation.withFriend {
             moreView.notificationEnabled = user.notificationEnabled
+
+            let userID = user.userID
+
+            userInfoOfUserWithUserID(userID, failureHandler: nil, completion: { userInfo in
+                println("userInfoOfUserWithUserID \(userInfo)")
+
+                if let doNotDisturb = userInfo["do_not_disturb"] as? Bool {
+                    self.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
+                }
+            })
         }
 
         moreView.toggleDoNotDisturbAction = { [unowned self] in
@@ -927,6 +937,18 @@ class ConversationViewController: BaseViewController {
         }
 
         moreView.showInView(view)
+    }
+
+    func updateNotificationEnabled(enabled: Bool, forUserWithUserID userID: String) {
+        let realm = Realm()
+
+        if let user = userWithUserID(userID, inRealm: realm) {
+            realm.write {
+                user.notificationEnabled = enabled
+            }
+
+            moreView.notificationEnabled = enabled
+        }
     }
 
     func toggleNotificationEnabledForUserWithUserID(userID: String) {
