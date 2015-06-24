@@ -909,6 +909,11 @@ class ConversationViewController: BaseViewController {
     func moreAction() {
         let moreView = ConversationMoreView()
 
+        moreView.showProfileAction = {
+            self.performSegueWithIdentifier("showProfile", sender: nil)
+            moreView.removeFromSuperview()
+        }
+
         moreView.frame = view.bounds
 
         view.window?.addSubview(moreView)

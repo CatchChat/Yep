@@ -8,6 +8,19 @@
 
 import UIKit
 
+class ConversationMoreDetailCell: UITableViewCell {
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        accessoryType = .DisclosureIndicator
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class ConversationMoreView: UIView {
 
     lazy var containerView: UIView = {
@@ -22,8 +35,12 @@ class ConversationMoreView: UIView {
         view.delegate = self
         view.rowHeight = 60
         view.scrollEnabled = false
+
+        view.registerClass(ConversationMoreDetailCell.self, forCellReuseIdentifier: "ConversationMoreDetailCell")
         return view
         }()
+
+    var showProfileAction: (() -> Void)?
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
@@ -65,9 +82,21 @@ class ConversationMoreView: UIView {
     }
 }
 
+
+
+
+
 // MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
+
+    enum Row: Int {
+        case ShowProfile = 0
+        case DoNotDisturb
+        case Report
+        case Block
+        case Cancel
+    }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -78,7 +107,37 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+
+        if let row = Row(rawValue: indexPath.row) {
+            switch row {
+
+            case .ShowProfile:
+                let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreDetailCell") as! ConversationMoreDetailCell
+
+                cell.textLabel!.text = NSLocalizedString("View profile", comment: "")
+
+                return cell
+
+            default:
+                break
+            }
+        }
+
         return UITableViewCell()
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        if let row = Row(rawValue: indexPath.row) {
+            switch row {
+
+            case .ShowProfile:
+                showProfileAction?()
+
+            default:
+                break
+            }
+        }
     }
 }
 
