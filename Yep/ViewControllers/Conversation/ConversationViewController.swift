@@ -927,10 +927,35 @@ class ConversationViewController: BaseViewController {
     }
 
     func toggleDoNotDisturb() {
-        if let userID = conversation.withFriend?.userID {
-            disableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: { success in
-                println("disableNotificationFromUserWithUserID \(success)")
-            })
+
+        func toggleNotificationEnabledForUserWithUserID(userID: String) {
+            let realm = Realm()
+
+            if let user = userWithUserID(userID, inRealm: realm) {
+                realm.write {
+                    user.notificationEnabled = !user.notificationEnabled
+                }
+            }
+        }
+
+        if let user = conversation.withFriend {
+
+            let userID = user.userID
+
+            if user.notificationEnabled {
+                disableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: { success in
+                    println("disableNotificationFromUserWithUserID \(success)")
+
+                    toggleNotificationEnabledForUserWithUserID(userID)
+                })
+
+            } else {
+                enableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: { success in
+                    println("enableNotificationFromUserWithUserID \(success)")
+
+                    toggleNotificationEnabledForUserWithUserID(userID)
+                })
+            }
         }
     }
 

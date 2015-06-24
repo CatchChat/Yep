@@ -221,6 +221,15 @@ class ConversationMoreView: UIView {
     }
 }
 
+// MARK: - Actions
+
+extension ConversationMoreView {
+
+    func toggleDoNotDisturb() {
+        toggleDoNotDisturbAction?()
+    }
+}
+
 // MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
@@ -258,6 +267,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                 let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreCheckCell") as! ConversationMoreCheckCell
 
                 cell.textLabel?.text = NSLocalizedString("Do not disturb", comment: "")
+                cell.checkedSwitch.addTarget(self, action: "toggleDoNotDisturb", forControlEvents: UIControlEvents.ValueChanged)
 
                 return cell
 
@@ -307,7 +317,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                 showProfileAction?()
 
             case .DoNotDisturb:
-                toggleDoNotDisturbAction?()
+                break
 
             case .Report:
                 reportAction?()
