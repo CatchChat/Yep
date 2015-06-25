@@ -893,6 +893,8 @@ class ConversationViewController: BaseViewController {
 
     func moreAction() {
 
+        messageToolbar.state = .Default
+
         moreView.showProfileAction = { [unowned self] in
             self.performSegueWithIdentifier("showProfile", sender: nil)
         }
