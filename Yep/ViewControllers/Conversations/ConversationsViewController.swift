@@ -151,8 +151,41 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
 
         if editingStyle == .Delete {
+
             let conversation = conversations[indexPath.row]
+
             if let realm = conversation.realm {
+
+                let messages = conversation.messages
+
+                // delete media files of message
+
+                for message in messages {
+
+                    switch message.mediaType {
+
+                    case MessageMediaType.Image.rawValue:
+                        NSFileManager.removeMessageImageFileWithName(message.localAttachmentName)
+
+                    case MessageMediaType.Video.rawValue:
+                        NSFileManager.removeMessageVideoFilesWithName(message.localAttachmentName, thumbnailName: message.localThumbnailName)
+
+                    case MessageMediaType.Audio.rawValue:
+                        NSFileManager.removeMessageAudioFileWithName(message.localAttachmentName)
+                        
+                    default:
+                        break // TODO: if have other message media need to delete
+                    }
+                }
+
+                // delete all messages in conversation
+
+                realm.write {
+                    realm.delete(messages)
+                }
+
+                // delete conversation, finally
+
                 realm.write {
                     realm.delete(conversation)
                 }

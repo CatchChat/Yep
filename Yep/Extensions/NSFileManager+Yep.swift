@@ -92,6 +92,17 @@ extension NSFileManager {
         return nil
     }
 
+    class func removeMessageImageFileWithName(name: String) {
+
+        if name.isEmpty {
+            return
+        }
+
+        if let messageImageURL = yepMessageImageURLWithName(name) {
+            NSFileManager.defaultManager().removeItemAtURL(messageImageURL, error: nil)
+        }
+    }
+
     // Audio
 
     class func yepMessageAudioURLWithName(name: String) -> NSURL? {
@@ -114,6 +125,17 @@ extension NSFileManager {
         return nil
     }
 
+    class func removeMessageAudioFileWithName(name: String) {
+
+        if name.isEmpty {
+            return
+        }
+
+        if let messageAudioURL = yepMessageAudioURLWithName(name) {
+            NSFileManager.defaultManager().removeItemAtURL(messageAudioURL, error: nil)
+        }
+    }
+
     // Video
 
     class func yepMessageVideoURLWithName(name: String) -> NSURL? {
@@ -134,6 +156,21 @@ extension NSFileManager {
         }
 
         return nil
+    }
+
+    class func removeMessageVideoFilesWithName(name: String, thumbnailName: String) {
+
+        if !name.isEmpty {
+            if let messageVideoURL = yepMessageVideoURLWithName(name) {
+                NSFileManager.defaultManager().removeItemAtURL(messageVideoURL, error: nil)
+            }
+        }
+
+        if !thumbnailName.isEmpty {
+            if let messageImageURL = yepMessageImageURLWithName(thumbnailName) {
+                NSFileManager.defaultManager().removeItemAtURL(messageImageURL, error: nil)
+            }
+        }
     }
 
     // MARK: Clean Caches
