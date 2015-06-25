@@ -1444,6 +1444,19 @@ func resendMessage(message: Message, #failureHandler: ((Reason, String?) -> Void
         recipientType = recipientType,
         messageMediaType = MessageMediaType(rawValue: message.mediaType) {
 
+            // before resend, recover MessageSendState
+
+            dispatch_async(dispatch_get_main_queue()) {
+
+                let realm = message.realm
+
+                realm?.write {
+                    message.sendState = MessageSendState.NotSend.rawValue
+                }
+
+                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+            }
+
             switch messageMediaType {
 
             case .Text:
