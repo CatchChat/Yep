@@ -1457,6 +1457,24 @@ func resendMessage(message: Message, #failureHandler: ((Reason, String?) -> Void
                 NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
             }
 
+            // also, if resend failed, we need set MessageSendState
+
+            let resendFailureHandler: (Reason, String?) -> Void = { (reason, errorMessage) in
+
+                failureHandler?(reason, errorMessage)
+
+                dispatch_async(dispatch_get_main_queue()) {
+
+                    let realm = message.realm
+
+                    realm?.write {
+                        message.sendState = MessageSendState.Failed.rawValue
+                    }
+
+                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                }
+            }
+
             switch messageMediaType {
 
             case .Text:
@@ -1467,22 +1485,22 @@ func resendMessage(message: Message, #failureHandler: ((Reason, String?) -> Void
                     return moreInfo
                 }
 
-                sendMessage(message, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
+                sendMessage(message, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
 
             case .Image:
                 let filePath = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName)?.path
 
-                sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
+                sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
 
-           case .Video:
+            case .Video:
                 let filePath = NSFileManager.yepMessageVideoURLWithName(message.localAttachmentName)?.path
 
-                sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
+                sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
 
             case .Audio:
                 let filePath = NSFileManager.yepMessageAudioURLWithName(message.localAttachmentName)?.path
 
-                sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
+                sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
 
             case .Location:
                 if let coordinate = message.coordinate {
@@ -1492,10 +1510,10 @@ func resendMessage(message: Message, #failureHandler: ((Reason, String?) -> Void
                         moreInfo["latitude"] = coordinate.latitude
                         return moreInfo
                     }
-
-                    sendMessage(message, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
+                    
+                    sendMessage(message, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
                 }
-
+                
             default:
                 break
             }
