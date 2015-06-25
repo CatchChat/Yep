@@ -156,41 +156,71 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
             if let realm = conversation.realm {
 
-                let messages = conversation.messages
+                let clearMessages: () -> Void = {
 
-                // delete media files of message
+                    let messages = conversation.messages
 
-                for message in messages {
+                    // delete media files of message
 
-                    switch message.mediaType {
+                    for message in messages {
 
-                    case MessageMediaType.Image.rawValue:
-                        NSFileManager.removeMessageImageFileWithName(message.localAttachmentName)
+                        switch message.mediaType {
 
-                    case MessageMediaType.Video.rawValue:
-                        NSFileManager.removeMessageVideoFilesWithName(message.localAttachmentName, thumbnailName: message.localThumbnailName)
+                        case MessageMediaType.Image.rawValue:
+                            NSFileManager.removeMessageImageFileWithName(message.localAttachmentName)
 
-                    case MessageMediaType.Audio.rawValue:
-                        NSFileManager.removeMessageAudioFileWithName(message.localAttachmentName)
-                        
-                    default:
-                        break // TODO: if have other message media need to delete
+                        case MessageMediaType.Video.rawValue:
+                            NSFileManager.removeMessageVideoFilesWithName(message.localAttachmentName, thumbnailName: message.localThumbnailName)
+
+                        case MessageMediaType.Audio.rawValue:
+                            NSFileManager.removeMessageAudioFileWithName(message.localAttachmentName)
+
+                        default:
+                            break // TODO: if have other message media need to delete
+                        }
+                    }
+                    
+                    // delete all messages in conversation
+                    
+                    realm.write {
+                        realm.delete(messages)
                     }
                 }
 
-                // delete all messages in conversation
+                let delete: () -> Void = {
 
-                realm.write {
-                    realm.delete(messages)
+                    clearMessages()
+
+                    // delete conversation, finally
+
+                    realm.write {
+                        realm.delete(conversation)
+                    }
                 }
 
-                // delete conversation, finally
+                // show ActionSheet before delete
 
-                realm.write {
-                    realm.delete(conversation)
+                let deleteAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+
+                let clearHistoryAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Clear history", comment: ""), style: .Default) { action -> Void in
+                    clearMessages()
+                    tableView.setEditing(false, animated: true)
                 }
+                deleteAlertController.addAction(clearHistoryAction)
 
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                let deleteAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .Destructive) { action -> Void in
+                    delete()
+
+                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                }
+                deleteAlertController.addAction(deleteAction)
+
+                let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
+                    tableView.setEditing(false, animated: true)
+                }
+                deleteAlertController.addAction(cancelAction)
+
+                self.presentViewController(deleteAlertController, animated: true, completion: nil)
             }
         }
     }
