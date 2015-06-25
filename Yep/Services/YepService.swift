@@ -1279,7 +1279,22 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
     afterCreatedMessage(message)
 
     // 下面开始真正的消息发送
-    sendMessage(message, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: failureHandler, completion: completion)
+    sendMessage(message, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: { (reason, errorMessage) in
+
+        failureHandler?(reason, errorMessage)
+
+        dispatch_async(dispatch_get_main_queue()) {
+
+            let realm = message.realm
+
+            realm?.write {
+                message.sendState = MessageSendState.Failed.rawValue
+            }
+
+            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+        }
+
+    }, completion: completion)
 }
 
 func sendMessage(message: Message, inFilePath filePath: String?, orFileData fileData: NSData?, #metaData: String?, #fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipientID: String, #recipientType: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
@@ -1296,26 +1311,15 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
             messageInfo = fillMoreInfo(messageInfo)
         }
 
+
+        let _failureHandler: (Reason, String?) -> Void = { (reason, errorMessage) in
+            failureHandler?(reason, errorMessage)
+        }
+
         switch mediaType {
 
         case .Text, .Location:
-            createMessageWithMessageInfo(messageInfo, failureHandler: { (reason, errorMessage) in
-                if let failureHandler = failureHandler {
-                    failureHandler(reason, errorMessage)
-                }
-
-                dispatch_async(dispatch_get_main_queue()) {
-
-                    let realm = message.realm
-
-                    realm?.write {
-                        message.sendState = MessageSendState.Failed.rawValue
-                    }
-
-                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
-                }
-
-            }, completion: { messageID in
+            createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in
 
                 dispatch_async(dispatch_get_main_queue()) {
                     let realm = message.realm
@@ -1332,8 +1336,10 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
 
         default:
 
-            s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in
-                uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mediaType.mineType(), s3UploadParams: s3UploadParams) { (result, error) in
+            s3PrivateUploadFile(inFilePath: filePath, orFileData: fileData, mimeType: mediaType.mineType(), failureHandler: failureHandler, completion: { (s3UploadParams, result, error) in
+
+//            s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in
+//                uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mediaType.mineType(), s3UploadParams: s3UploadParams) { (result, error) in
 
                     // TODO: attachments
                     switch mediaType {
@@ -1362,21 +1368,7 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
                     }
 
                     let doCreateMessage = {
-                        createMessageWithMessageInfo(messageInfo, failureHandler: { (reason, errorMessage) in
-                            if let failureHandler = failureHandler {
-                                failureHandler(reason, errorMessage)
-                            }
-
-                            dispatch_async(dispatch_get_main_queue()) {
-                                let realm = message.realm
-                                realm?.write {
-                                    message.sendState = MessageSendState.Failed.rawValue
-                                }
-
-                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
-                            }
-
-                        }, completion: { messageID in
+                        createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in
                             dispatch_async(dispatch_get_main_queue()) {
                                 let realm = message.realm
                                 realm?.write {
@@ -1402,8 +1394,9 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
                                 thumbnailData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
                         }
 
-                        s3PrivateUploadParams(failureHandler: nil) { thumbnailS3UploadParams in
-                            uploadFileToS3(inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType(), s3UploadParams: thumbnailS3UploadParams) { (result, error) in
+                        s3PrivateUploadFile(inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType(), failureHandler: failureHandler, completion: { (thumbnailS3UploadParams, result, error) in
+                        //s3PrivateUploadParams(failureHandler: nil) { thumbnailS3UploadParams in
+                        //    uploadFileToS3(inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType(), s3UploadParams: thumbnailS3UploadParams) { (result, error) in
 
                                 if let metaData = metaData {
                                     let attachments = [
@@ -1425,14 +1418,14 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
                                 }
                                 
                                 doCreateMessage()
-                            }
-                        }
+                          //  }
+                        })
                         
                     } else {
                         doCreateMessage()
                     }
-                }
-            }
+                //}
+            })
         }
     }
 }

@@ -336,7 +336,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
 
             var imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
 
-            uploadFileToS3(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", s3UploadParams: s3UploadParams, completion: { (success, error) in
+            uploadFileToS3(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", s3UploadParams: s3UploadParams, completion: { (s3UploadParams, success, error) in
                 println("upload avatar to s3 result: \(success), error: \(error)")
 
                 if (success) {
