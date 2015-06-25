@@ -19,12 +19,12 @@ class SkillSelectionCell: UICollectionViewCell {
     var skillSelected: Bool = false {
         willSet {
             if newValue {
-                backgroundImageView.image = UIImage(named: "skill_bubble_large_empty")
-                skillLabel.textColor = UIColor.yepTintColor()
-
-            } else {
                 backgroundImageView.image = UIImage(named: "skill_bubble_large")
                 skillLabel.textColor = UIColor.whiteColor()
+
+            } else {
+                backgroundImageView.image = UIImage(named: "skill_bubble_large_empty")
+                skillLabel.textColor = UIColor.yepTintColor()
             }
         }
     }
