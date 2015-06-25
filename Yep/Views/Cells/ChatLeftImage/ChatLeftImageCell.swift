@@ -77,6 +77,9 @@ class ChatLeftImageCell: UICollectionViewCell {
 
                             let aspectRatio = imageWidth / imageHeight
 
+                            let messageImagePreferredWidth = max(messageImagePreferredWidth, ceil(YepConfig.ChatCell.mediaMinHeight * aspectRatio))
+                            let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
+                            
                             if aspectRatio >= 1 {
                                 messageImageViewWidthConstrint.constant = messageImagePreferredWidth
 

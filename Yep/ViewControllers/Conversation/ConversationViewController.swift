@@ -753,9 +753,9 @@ class ConversationViewController: BaseViewController {
                                 let aspectRatio = imageWidth / imageHeight
 
                                 if aspectRatio >= 1 {
-                                    height = ceil(messageImagePreferredWidth / aspectRatio)
+                                    height = max(ceil(messageImagePreferredWidth / aspectRatio), YepConfig.ChatCell.mediaMinHeight)
                                 } else {
-                                    height = messageImagePreferredHeight
+                                    height = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
                                 }
 
                                 break

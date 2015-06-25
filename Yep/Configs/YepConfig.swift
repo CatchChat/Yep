@@ -110,6 +110,9 @@ class YepConfig {
 
     struct ChatCell {
         static let gapBetweenDotImageViewAndBubble: CGFloat = 5
+
+        static let mediaMinWidth: CGFloat = 60
+        static let mediaMinHeight: CGFloat = 30
     }
 
 }
