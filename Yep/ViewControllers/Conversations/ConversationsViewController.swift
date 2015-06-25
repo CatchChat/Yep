@@ -114,8 +114,10 @@ class ConversationsViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDataSource, UITableViewDelegat
 
 extension ConversationsViewController: UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return conversations.count
     }
@@ -137,6 +139,83 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
         if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
             performSegueWithIdentifier("showConversation", sender: cell.conversation)
+        }
+    }
+
+    // Edit (for Delete)
+
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        if editingStyle == .Delete {
+
+            let conversation = conversations[indexPath.row]
+
+            if let realm = conversation.realm {
+
+                let clearMessages: () -> Void = {
+
+                    let messages = conversation.messages
+
+                    // delete all media files of messages
+
+                    messages.map { deleteMediaFilesOfMessage($0) }
+
+                    // delete all messages in conversation
+                    
+                    realm.write {
+                        realm.delete(messages)
+                    }
+                }
+
+                let delete: () -> Void = {
+
+                    clearMessages()
+
+                    // delete conversation, finally
+
+                    realm.write {
+                        realm.delete(conversation)
+                    }
+                }
+
+                // show ActionSheet before delete
+
+                let deleteAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+
+                let clearHistoryAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Clear history", comment: ""), style: .Default) { action -> Void in
+
+                    clearMessages()
+
+                    tableView.setEditing(false, animated: true)
+
+                    // update cell
+                    
+                    if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+                        let conversation = self.conversations[indexPath.row]
+                        let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
+                        cell.configureWithConversation(conversation, avatarRadius: radius)
+                    }
+                }
+                deleteAlertController.addAction(clearHistoryAction)
+
+                let deleteAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .Destructive) { action -> Void in
+                    delete()
+
+                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                }
+                deleteAlertController.addAction(deleteAction)
+
+                let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
+                    tableView.setEditing(false, animated: true)
+                }
+                deleteAlertController.addAction(cancelAction)
+
+                self.presentViewController(deleteAlertController, animated: true, completion: nil)
+            }
         }
     }
 }

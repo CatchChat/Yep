@@ -326,6 +326,24 @@ func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
     return realm.objects(Message).filter(predicate).first
 }
 
+func deleteMediaFilesOfMessage(message: Message) {
+
+    switch message.mediaType {
+
+    case MessageMediaType.Image.rawValue:
+        NSFileManager.removeMessageImageFileWithName(message.localAttachmentName)
+
+    case MessageMediaType.Video.rawValue:
+        NSFileManager.removeMessageVideoFilesWithName(message.localAttachmentName, thumbnailName: message.localThumbnailName)
+
+    case MessageMediaType.Audio.rawValue:
+        NSFileManager.removeMessageAudioFileWithName(message.localAttachmentName)
+
+    default:
+        break // TODO: if have other message media need to delete
+    }
+}
+
 func avatarWithAvatarURLString(avatarURLString: String, inRealm realm: Realm) -> Avatar? {
     let predicate = NSPredicate(format: "avatarURLString = %@", avatarURLString)
     return realm.objects(Avatar).filter(predicate).first

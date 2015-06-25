@@ -48,7 +48,7 @@ class ChatRightBaseCell: UICollectionViewCell {
         }
     }
 
-    var message: Message? {
+    weak var message: Message? {
         didSet {
             tryUpdateMessageState()
         }
@@ -69,8 +69,12 @@ class ChatRightBaseCell: UICollectionViewCell {
     }
 
     func tryUpdateMessageState() {
-        if let message = message, messageSendState = MessageSendState(rawValue: message.sendState) {
-            self.messageSendState = messageSendState
+        if let message = message {
+            if !message.invalidated {
+                if let messageSendState = MessageSendState(rawValue: message.sendState) {
+                    self.messageSendState = messageSendState
+                }
+            }
         }
     }
 
