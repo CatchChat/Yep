@@ -114,8 +114,10 @@ class ConversationsViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDataSource, UITableViewDelegat
 
 extension ConversationsViewController: UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return conversations.count
     }
@@ -137,6 +139,26 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
         if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
             performSegueWithIdentifier("showConversation", sender: cell.conversation)
+        }
+    }
+
+    // Edit (for Delete)
+
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        if editingStyle == .Delete {
+            let conversation = conversations[indexPath.row]
+            if let realm = conversation.realm {
+                realm.write {
+                    realm.delete(conversation)
+                }
+
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            }
         }
     }
 }
