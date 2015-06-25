@@ -160,26 +160,10 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
                     let messages = conversation.messages
 
-                    // delete media files of message
+                    // delete all media files of messages
 
-                    for message in messages {
+                    messages.map { deleteMediaFilesOfMessage($0) }
 
-                        switch message.mediaType {
-
-                        case MessageMediaType.Image.rawValue:
-                            NSFileManager.removeMessageImageFileWithName(message.localAttachmentName)
-
-                        case MessageMediaType.Video.rawValue:
-                            NSFileManager.removeMessageVideoFilesWithName(message.localAttachmentName, thumbnailName: message.localThumbnailName)
-
-                        case MessageMediaType.Audio.rawValue:
-                            NSFileManager.removeMessageAudioFileWithName(message.localAttachmentName)
-
-                        default:
-                            break // TODO: if have other message media need to delete
-                        }
-                    }
-                    
                     // delete all messages in conversation
                     
                     realm.write {
