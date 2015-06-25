@@ -69,7 +69,7 @@ class EditProfileViewController: UIViewController {
             let avatarSize = YepConfig.editProfileAvatarSize()
 
             self.avatarImageView.alpha = 0
-            AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: avatarSize * 0.5) { image in
+            AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: avatarSize * 0.5) { [unowned self] image in
                 dispatch_async(dispatch_get_main_queue()) {
                     self.avatarImageView.image = image
 

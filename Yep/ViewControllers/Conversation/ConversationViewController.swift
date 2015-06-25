@@ -240,23 +240,6 @@ class ConversationViewController: BaseViewController {
             let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
 
             navigationItem.rightBarButtonItem = moreBarButtonItem
-
-            /*
-            let avatarSize: CGFloat = 30.0
-            
-            AvatarCache.sharedInstance.roundAvatarOfUser(withFriend, withRadius: avatarSize * 0.5, completion: { image in
-                dispatch_async(dispatch_get_main_queue()) {
-                    
-                    let button = UIButton(frame: CGRect(origin: CGPointZero, size: CGSize(width: avatarSize, height: avatarSize)))
-                    button.addTarget(self, action: "showProfile", forControlEvents: .TouchUpInside)
-                    button.setImage(image, forState: .Normal)
-
-                    let avatarBarButton = UIBarButtonItem(customView: button)
-
-                    self.navigationItem.rightBarButtonItem = avatarBarButton
-                }
-            })
-            */
         }
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedNewMessagesNotification:", name: YepNewMessagesReceivedNotification, object: nil)

@@ -40,7 +40,7 @@ class SocialWorkGithubViewController: BaseViewController {
 
                 infoView.hidden = false
 
-                AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(user.avatarURLString, withRadius: avatarImageView.bounds.width * 0.5) { image in
+                AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(user.avatarURLString, withRadius: avatarImageView.bounds.width * 0.5) { [unowned self] image in
                     self.avatarImageView.image = image
                 }
 

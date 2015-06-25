@@ -86,7 +86,7 @@ extension SearchedUsersViewController: UITableViewDataSource, UITableViewDelegat
         let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
 
         let avatarURLString = discoveredUser.avatarURLString
-        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { roundImage in
+        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { [unowned self] roundImage in
             dispatch_async(dispatch_get_main_queue()) {
                 cell.avatarImageView.image = roundImage
             }

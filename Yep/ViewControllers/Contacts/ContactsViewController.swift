@@ -101,7 +101,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
         let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
 
-        AvatarCache.sharedInstance.roundAvatarOfUser(friend, withRadius: radius) { roundImage in
+        AvatarCache.sharedInstance.roundAvatarOfUser(friend, withRadius: radius) { [unowned self] roundImage in
             dispatch_async(dispatch_get_main_queue()) {
                 cell.avatarImageView.image = roundImage
             }
