@@ -37,7 +37,7 @@ struct S3UploadParams {
     :returns: Bool  upload status
 */
 
-func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: NSData?, #mimeType: String, #s3UploadParams: S3UploadParams, #completion: (S3UploadParams, Bool, NSError?) -> ()) {
+func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: NSData?, #mimeType: String, #s3UploadParams: S3UploadParams, #failureHandler: ((Reason, String?) -> ())?, #completion: () -> Void) {
 
     let parameters = [
         "key": s3UploadParams.key,
@@ -75,11 +75,13 @@ func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: NSData?, 
                 let string = NSString(data: data, encoding: NSUTF8StringEncoding)
                 println("\(string)")
             }
-            completion(s3UploadParams, false, error)
+
+            failureHandler?(.Other(error), error.description)
 
         } else {
             println("Upload \(response) \(responseObject)")
-            completion(s3UploadParams, true, nil)
+
+            completion()
         }
     })
 
@@ -213,11 +215,11 @@ private func s3UploadParams(url: String ,#failureHandler: ((Reason, String?) -> 
 
 // API
 
-func s3PrivateUploadFile(inFilePath filePath: String?, orFileData fileData: NSData?, #mimeType: String,  #failureHandler: ((Reason, String?) -> ())?, #completion: (S3UploadParams, Bool, NSError?) -> ()) {
+func s3PrivateUploadFile(inFilePath filePath: String?, orFileData fileData: NSData?, #mimeType: String,  #failureHandler: ((Reason, String?) -> ())?, #completion: S3UploadParams -> ()) {
 
     s3PrivateUploadParams(failureHandler: failureHandler) { s3UploadParams in
-        uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mimeType, s3UploadParams: s3UploadParams) { (s3UploadParams, result, error) in
-            completion(s3UploadParams, result, error)
+        uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mimeType, s3UploadParams: s3UploadParams, failureHandler: failureHandler) {
+            completion(s3UploadParams)
         }
     }
 }

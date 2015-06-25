@@ -336,30 +336,28 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
 
             var imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
 
-            uploadFileToS3(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", s3UploadParams: s3UploadParams, completion: { (s3UploadParams, success, error) in
-                println("upload avatar to s3 result: \(success), error: \(error)")
+            uploadFileToS3(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", s3UploadParams: s3UploadParams, failureHandler: { (reason, errorMessage) in
+                defaultFailureHandler(reason, errorMessage)
 
-                if (success) {
-                    let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
+                YepHUD.hideActivityIndicator()
 
-                    updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: { (reason, errorMessage) in
-                        defaultFailureHandler(reason, errorMessage)
-                        
-                        YepHUD.hideActivityIndicator()
+            }, completion: {
+                let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
 
-                    }, completion: { success in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            YepUserDefaults.avatarURLString.value = newAvatarURLString
+                updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: { (reason, errorMessage) in
+                    defaultFailureHandler(reason, errorMessage)
 
-                            self.updateAvatar() {
-                                YepHUD.hideActivityIndicator()
-                            }
-                        }
-                    })
-
-                } else {
                     YepHUD.hideActivityIndicator()
-                }
+
+                }, completion: { success in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        YepUserDefaults.avatarURLString.value = newAvatarURLString
+
+                        self.updateAvatar() {
+                            YepHUD.hideActivityIndicator()
+                        }
+                    }
+                })
             })
         })
         

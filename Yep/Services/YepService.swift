@@ -1336,95 +1336,88 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
 
         default:
 
-            s3PrivateUploadFile(inFilePath: filePath, orFileData: fileData, mimeType: mediaType.mineType(), failureHandler: failureHandler, completion: { (s3UploadParams, result, error) in
+            s3PrivateUploadFile(inFilePath: filePath, orFileData: fileData, mimeType: mediaType.mineType(), failureHandler: failureHandler, completion: { s3UploadParams in
 
-//            s3PrivateUploadParams(failureHandler: nil) { s3UploadParams in
-//                uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mediaType.mineType(), s3UploadParams: s3UploadParams) { (result, error) in
+                switch mediaType {
 
-                    // TODO: attachments
-                    switch mediaType {
-                    case .Image:
-                        if let metaData = metaData {
-                            let attachments = ["image": [["file": s3UploadParams.key, "metadata": metaData]]]
-                            messageInfo["attachments"] = attachments
+                case .Image:
+                    if let metaData = metaData {
+                        let attachments = ["image": [["file": s3UploadParams.key, "metadata": metaData]]]
+                        messageInfo["attachments"] = attachments
 
-                        } else {
-                            let attachments = ["image": [["file": s3UploadParams.key]]]
-                            messageInfo["attachments"] = attachments
-                        }
-
-                    case .Audio:
-                        if let metaData = metaData {
-                            let attachments = ["audio": [["file": s3UploadParams.key, "metadata": metaData]]]
-                            messageInfo["attachments"] = attachments
-
-                        } else {
-                            let attachments = ["audio": [["file": s3UploadParams.key]]]
-                            messageInfo["attachments"] = attachments
-                        }
-
-                    default:
-                        break
-                    }
-
-                    let doCreateMessage = {
-                        createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in
-                            dispatch_async(dispatch_get_main_queue()) {
-                                let realm = message.realm
-                                realm?.write {
-                                    message.messageID = messageID
-                                    message.sendState = MessageSendState.Successed.rawValue
-                                }
-
-                                completion(success: true)
-
-                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
-                            }
-                        })
-                    }
-
-                    // 对于 Video 还要再传 thumbnail，……
-                    if mediaType == .Video {
-
-                        var thumbnailData: NSData?
-
-                        if
-                            let filePath = filePath,
-                            let image = thumbnailImageOfVideoInVideoURL(NSURL(fileURLWithPath: filePath)!) {
-                                thumbnailData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
-                        }
-
-                        s3PrivateUploadFile(inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType(), failureHandler: failureHandler, completion: { (thumbnailS3UploadParams, result, error) in
-                        //s3PrivateUploadParams(failureHandler: nil) { thumbnailS3UploadParams in
-                        //    uploadFileToS3(inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType(), s3UploadParams: thumbnailS3UploadParams) { (result, error) in
-
-                                if let metaData = metaData {
-                                    let attachments = [
-                                        "video": [
-                                            ["file": s3UploadParams.key, "metadata": metaData]
-                                        ],
-                                        "thumbnail": [["file": thumbnailS3UploadParams.key]]
-                                    ]
-                                    messageInfo["attachments"] = attachments
-                                    
-                                } else {
-                                    let attachments = [
-                                        "video": [
-                                            ["file": s3UploadParams.key]
-                                        ],
-                                        "thumbnail": [["file": thumbnailS3UploadParams.key]]
-                                    ]
-                                    messageInfo["attachments"] = attachments
-                                }
-                                
-                                doCreateMessage()
-                          //  }
-                        })
-                        
                     } else {
-                        doCreateMessage()
+                        let attachments = ["image": [["file": s3UploadParams.key]]]
+                        messageInfo["attachments"] = attachments
                     }
-                //}
+
+                case .Audio:
+                    if let metaData = metaData {
+                        let attachments = ["audio": [["file": s3UploadParams.key, "metadata": metaData]]]
+                        messageInfo["attachments"] = attachments
+
+                    } else {
+                        let attachments = ["audio": [["file": s3UploadParams.key]]]
+                        messageInfo["attachments"] = attachments
+                    }
+
+                default:
+                    break // TODO: more kind of attachments
+                }
+
+                let doCreateMessage = {
+                    createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let realm = message.realm
+                            realm?.write {
+                                message.messageID = messageID
+                                message.sendState = MessageSendState.Successed.rawValue
+                            }
+
+                            completion(success: true)
+
+                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                        }
+                    })
+                }
+
+                // 对于 Video 还要再传 thumbnail，……
+                if mediaType == .Video {
+
+                    var thumbnailData: NSData?
+
+                    if
+                        let filePath = filePath,
+                        let image = thumbnailImageOfVideoInVideoURL(NSURL(fileURLWithPath: filePath)!) {
+                            thumbnailData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
+                    }
+
+                    s3PrivateUploadFile(inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType(), failureHandler: failureHandler, completion: { thumbnailS3UploadParams in
+
+                        if let metaData = metaData {
+                            let attachments = [
+                                "video": [
+                                    ["file": s3UploadParams.key, "metadata": metaData]
+                                ],
+                                "thumbnail": [["file": thumbnailS3UploadParams.key]]
+                            ]
+                            messageInfo["attachments"] = attachments
+
+                        } else {
+                            let attachments = [
+                                "video": [
+                                    ["file": s3UploadParams.key]
+                                ],
+                                "thumbnail": [["file": thumbnailS3UploadParams.key]]
+                            ]
+                            messageInfo["attachments"] = attachments
+                        }
+
+                        doCreateMessage()
+                    })
+
+                } else {
+                    doCreateMessage()
+                }
             })
         }
     }

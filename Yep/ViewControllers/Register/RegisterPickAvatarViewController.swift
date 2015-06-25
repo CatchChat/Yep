@@ -223,40 +223,38 @@ class RegisterPickAvatarViewController: UIViewController {
 
             YepHUD.hideActivityIndicator()
 
-            }, completion: { s3UploadParams in
+        }, completion: { s3UploadParams in
 
-                self.avatar = self.avatar.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
+            self.avatar = self.avatar.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
 
-                var imageData = UIImageJPEGRepresentation(self.avatar, YepConfig.avatarCompressionQuality())
+            var imageData = UIImageJPEGRepresentation(self.avatar, YepConfig.avatarCompressionQuality())
 
-                uploadFileToS3(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", s3UploadParams: s3UploadParams, completion: { (s3UploadParams, success, error) in
-                    println("upload avatar to s3 success: \(success), error: \(error)")
+            uploadFileToS3(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", s3UploadParams: s3UploadParams, failureHandler: { (reason, errorMessage) in
+                defaultFailureHandler(reason, errorMessage)
 
-                    if (success) {
-                        let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
+                YepHUD.hideActivityIndicator()
 
-                        updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: { (reason, errorMessage) in
-                            defaultFailureHandler(reason, errorMessage)
+            }, completion: {
+                let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
 
-                            YepHUD.hideActivityIndicator()
+                updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: { (reason, errorMessage) in
+                    defaultFailureHandler(reason, errorMessage)
 
-                        }, completion: { success in
+                    YepHUD.hideActivityIndicator()
 
-                            YepHUD.hideActivityIndicator()
+                }, completion: { success in
 
-                            dispatch_async(dispatch_get_main_queue()) {
-                                YepUserDefaults.avatarURLString.value = newAvatarURLString
+                    YepHUD.hideActivityIndicator()
 
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    self.performSegueWithIdentifier("showRegisterPickSkills", sender: nil)
-                                }
-                            }
-                        })
-                        
-                    } else {
-                        YepHUD.hideActivityIndicator()
+                    dispatch_async(dispatch_get_main_queue()) {
+                        YepUserDefaults.avatarURLString.value = newAvatarURLString
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.performSegueWithIdentifier("showRegisterPickSkills", sender: nil)
+                        }
                     }
                 })
+            })
         })
     }
 
