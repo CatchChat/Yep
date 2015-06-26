@@ -37,6 +37,10 @@ class ChatRightTextCell: ChatRightBaseCell {
         textContentTextView.backgroundColor = UIColor.clearColor()
         textContentTextView.textColor = UIColor.whiteColor()
         textContentTextView.tintColor = UIColor.whiteColor()
+        textContentTextView.linkTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSUnderlineStyleAttributeName: NSNumber(integer: NSUnderlineStyle.StyleSingle.rawValue),
+        ]
 
         textContentTextViewTrailingConstraint.constant = YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
         textContentTextViewLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel()

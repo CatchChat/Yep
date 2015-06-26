@@ -33,6 +33,10 @@ class ChatLeftTextCell: UICollectionViewCell {
         textContentTextView.backgroundColor = UIColor.clearColor()
         textContentTextView.textColor = UIColor.blackColor()
         textContentTextView.tintColor = UIColor.blackColor()
+        textContentTextView.linkTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.yepTintColor(),
+            NSUnderlineStyleAttributeName: NSNumber(integer: NSUnderlineStyle.StyleSingle.rawValue),
+        ]
 
         textContentTextViewTrailingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel()
         textContentTextViewLeadingConstraint.constant = YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
