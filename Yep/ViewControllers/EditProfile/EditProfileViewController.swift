@@ -321,46 +321,42 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 // MARK: UIImagePicker
 
 extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
 
         YepHUD.showActivityIndicator()
 
-        s3PublicUploadParams(failureHandler: { (reason, errorMessage) in
+        let image = image.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
+        let imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
+
+        s3PublicUploadFile(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", failureHandler: { (reason, errorMessage) in
+            
             defaultFailureHandler(reason, errorMessage)
 
             YepHUD.hideActivityIndicator()
 
         }, completion: { s3UploadParams in
 
-            let image = image.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
+            let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
 
-            var imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
-
-            uploadFileToS3(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", s3UploadParams: s3UploadParams, failureHandler: { (reason, errorMessage) in
+            updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage)
 
                 YepHUD.hideActivityIndicator()
 
-            }, completion: {
-                let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
+            }, completion: { success in
 
-                updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: { (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage)
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    YepUserDefaults.avatarURLString.value = newAvatarURLString
 
-                    YepHUD.hideActivityIndicator()
-
-                }, completion: { success in
-                    dispatch_async(dispatch_get_main_queue()) {
-                        YepUserDefaults.avatarURLString.value = newAvatarURLString
-
-                        self.updateAvatar() {
-                            YepHUD.hideActivityIndicator()
-                        }
+                    self.updateAvatar() {
+                        YepHUD.hideActivityIndicator()
                     }
-                })
+                }
             })
         })
-        
+
         dismissViewControllerAnimated(true, completion: nil)
     }
 }

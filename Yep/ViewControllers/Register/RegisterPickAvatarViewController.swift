@@ -216,44 +216,38 @@ class RegisterPickAvatarViewController: UIViewController {
     }
 
     func uploadAvatarAndGotoPickSkills() {
+        
         YepHUD.showActivityIndicator()
 
-        s3PublicUploadParams(failureHandler: { (reason, errorMessage) in
+        avatar = self.avatar.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
+        let imageData = UIImageJPEGRepresentation(avatar, YepConfig.avatarCompressionQuality())
+
+        s3PublicUploadFile(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", failureHandler: { (reason, errorMessage) in
+
             defaultFailureHandler(reason, errorMessage)
 
             YepHUD.hideActivityIndicator()
 
         }, completion: { s3UploadParams in
 
-            self.avatar = self.avatar.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
+            let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
 
-            var imageData = UIImageJPEGRepresentation(self.avatar, YepConfig.avatarCompressionQuality())
+            updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: { (reason, errorMessage) in
 
-            uploadFileToS3(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", s3UploadParams: s3UploadParams, failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage)
 
                 YepHUD.hideActivityIndicator()
 
-            }, completion: {
-                let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
+            }, completion: { success in
 
-                updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: { (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage)
+                YepHUD.hideActivityIndicator()
 
-                    YepHUD.hideActivityIndicator()
+                dispatch_async(dispatch_get_main_queue()) {
 
-                }, completion: { success in
+                    YepUserDefaults.avatarURLString.value = newAvatarURLString
 
-                    YepHUD.hideActivityIndicator()
-
-                    dispatch_async(dispatch_get_main_queue()) {
-                        YepUserDefaults.avatarURLString.value = newAvatarURLString
-
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self.performSegueWithIdentifier("showRegisterPickSkills", sender: nil)
-                        }
-                    }
-                })
+                    self.performSegueWithIdentifier("showRegisterPickSkills", sender: nil)
+                }
             })
         })
     }

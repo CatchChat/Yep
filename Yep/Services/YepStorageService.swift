@@ -37,7 +37,7 @@ struct S3UploadParams {
     :returns: Bool  upload status
 */
 
-func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: NSData?, #mimeType: String, #s3UploadParams: S3UploadParams, #failureHandler: ((Reason, String?) -> ())?, #completion: () -> Void) {
+private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: NSData?, #mimeType: String, #s3UploadParams: S3UploadParams, #failureHandler: ((Reason, String?) -> ())?, #completion: () -> Void) {
 
     let parameters = [
         "key": s3UploadParams.key,
@@ -90,19 +90,19 @@ func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: NSData?, 
 
 // MARK: Upload
 
-extension NSMutableData {
-    
-    /// Append string to NSMutableData
-    ///
-    /// Rather than littering my code with calls to `dataUsingEncoding` to convert strings to NSData, and then add that data to the NSMutableData, this wraps it in a nice convenient little extension to NSMutableData. This converts using UTF-8.
-    ///
-    /// :param: string       The string to be added to the `NSMutableData`.
-    
-    func appendString(string: String) {
-        let data = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-        appendData(data!)
-    }
-}
+//extension NSMutableData {
+//    
+//    /// Append string to NSMutableData
+//    ///
+//    /// Rather than littering my code with calls to `dataUsingEncoding` to convert strings to NSData, and then add that data to the NSMutableData, this wraps it in a nice convenient little extension to NSMutableData. This converts using UTF-8.
+//    ///
+//    /// :param: string       The string to be added to the `NSMutableData`.
+//    
+//    func appendString(string: String) {
+//        let data = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+//        appendData(data!)
+//    }
+//}
 
 
 
@@ -110,9 +110,9 @@ extension NSMutableData {
 ///
 /// :returns:            The boundary string that consists of "Boundary-" followed by a UUID string.
 
-func generateBoundaryString() -> String {
-    return "Boundary-\(NSUUID().UUIDString)"
-}
+//func generateBoundaryString() -> String {
+//    return "Boundary-\(NSUUID().UUIDString)"
+//}
 
 /// Get S3 Private Message upload params
 ///
@@ -120,7 +120,7 @@ func generateBoundaryString() -> String {
 ///
 /// :S3UploadParams:     The Upload Params
 
-func s3PrivateUploadParams(#failureHandler: ((Reason, String?) -> ())?, #completion: (S3UploadParams) -> ()) {
+private func s3PrivateUploadParams(#failureHandler: ((Reason, String?) -> ())?, #completion: (S3UploadParams) -> Void) {
 
     s3UploadParams("/api/v1/attachments/s3_upload_form_fields", failureHandler: { (reason, error)  in
         if let failureHandler = failureHandler {
@@ -140,7 +140,7 @@ func s3PrivateUploadParams(#failureHandler: ((Reason, String?) -> ())?, #complet
 ///
 /// :S3UploadParams:     The Upload Params
 
-func s3PublicUploadParams(#failureHandler: ((Reason, String?) -> ())?, #completion: (S3UploadParams) -> ()) {
+private func s3PublicUploadParams(#failureHandler: ((Reason, String?) -> ())?, #completion: (S3UploadParams) -> Void) {
 
     s3UploadParams("/api/v1/attachments/s3_upload_public_form_fields", failureHandler: { (reason, error)  in
         if let failureHandler = failureHandler {
@@ -159,7 +159,7 @@ func s3PublicUploadParams(#failureHandler: ((Reason, String?) -> ())?, #completi
 ///
 /// :S3UploadParams:     The Upload Params
 
-private func s3UploadParams(url: String ,#failureHandler: ((Reason, String?) -> ())?, #completion: S3UploadParams -> Void) {
+private func s3UploadParams(url: String, #failureHandler: ((Reason, String?) -> ())?, #completion: S3UploadParams -> Void) {
     
     let parse: JSONDictionary -> S3UploadParams? = { data in
         //println("s3FormData: \(data)")
@@ -214,6 +214,15 @@ private func s3UploadParams(url: String ,#failureHandler: ((Reason, String?) -> 
 }
 
 // API
+
+func s3PublicUploadFile(inFilePath filePath: String?, orFileData fileData: NSData?, #mimeType: String,  #failureHandler: ((Reason, String?) -> ())?, #completion: S3UploadParams -> ()) {
+
+    s3PublicUploadParams(failureHandler: failureHandler) { s3UploadParams in
+        uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mimeType, s3UploadParams: s3UploadParams, failureHandler: failureHandler) {
+            completion(s3UploadParams)
+        }
+    }
+}
 
 func s3PrivateUploadFile(inFilePath filePath: String?, orFileData fileData: NSData?, #mimeType: String,  #failureHandler: ((Reason, String?) -> ())?, #completion: S3UploadParams -> ()) {
 
