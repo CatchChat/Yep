@@ -561,15 +561,36 @@ class ConversationViewController: BaseViewController {
 
         takePhotoButton.title = NSLocalizedString("Take photo", comment: "")
         takePhotoButton.tapAction = {
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
-                let imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
-                imagePicker.sourceType = .Camera
-                imagePicker.mediaTypes = [kUTTypeImage, kUTTypeMovie]
-                imagePicker.videoQuality = .TypeMedium
-                imagePicker.allowsEditing = false
 
-                self.presentViewController(imagePicker, animated: true, completion: nil)
+            let openCamera: () -> Void = { [unowned self] in
+                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+                    let imagePicker = UIImagePickerController()
+                    imagePicker.delegate = self
+                    imagePicker.sourceType = .Camera
+                    imagePicker.mediaTypes = [kUTTypeImage, kUTTypeMovie]
+                    imagePicker.videoQuality = .TypeMedium
+                    imagePicker.allowsEditing = false
+
+                    self.presentViewController(imagePicker, animated: true, completion: nil)
+                }
+            }
+
+            let alertCanNotOpenCamera: () -> Void = { [unowned self] in
+                YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not open your Camera!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+
+                    UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+
+                }, cancelAction: {
+                })
+            }
+
+            AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
+                if granted {
+                    openCamera()
+
+                } else {
+                    alertCanNotOpenCamera()
+                }
             }
         }
 
