@@ -169,7 +169,12 @@ class RegisterPickAvatarViewController: UIViewController {
 
             } else {
                 dispatch_async(dispatch_get_main_queue()) {
-                    YepAlert.alertSorry(message: NSLocalizedString("Yep doesn't have permission to use Camera, please change privacy settings", comment: ""), inViewController: self)
+                    YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not open your Camera!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+
+                        UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+
+                    }, cancelAction: {
+                    })
                 }
             }
         })
