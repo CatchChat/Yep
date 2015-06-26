@@ -17,7 +17,7 @@ class ChatRightTextCell: ChatRightBaseCell {
     @IBOutlet weak var bubbleBodyImageView: UIImageView!
     @IBOutlet weak var bubbleTailImageView: UIImageView!
 
-    @IBOutlet weak var textContentTextView: UITextView!
+    @IBOutlet weak var textContentTextView: ChatTextView!
     @IBOutlet weak var textContentTextViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textContentTextViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textContentTextViewWidthConstraint: NSLayoutConstraint!
