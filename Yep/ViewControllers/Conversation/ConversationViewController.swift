@@ -11,7 +11,7 @@ import RealmSwift
 import AVFoundation
 import MobileCoreServices
 import MapKit
-
+import Photos
 
 struct MessageNotification {
     static let MessageStateChanged = "MessageStateChangedNotification"
@@ -510,15 +510,52 @@ class ConversationViewController: BaseViewController {
 
         choosePhotoButton.title = NSLocalizedString("Choose photo", comment: "")
         choosePhotoButton.tapAction = {
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
-                let imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
-                imagePicker.sourceType = .PhotoLibrary
-                imagePicker.mediaTypes = [kUTTypeImage, kUTTypeMovie]
-                imagePicker.videoQuality = .TypeMedium
-                imagePicker.allowsEditing = false
 
-                self.presentViewController(imagePicker, animated: true, completion: nil)
+            let openCameraRoll: () -> Void = { [unowned self] in
+                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
+                    let imagePicker = UIImagePickerController()
+                    imagePicker.delegate = self
+                    imagePicker.sourceType = .PhotoLibrary
+                    imagePicker.mediaTypes = [kUTTypeImage, kUTTypeMovie]
+                    imagePicker.videoQuality = .TypeMedium
+                    imagePicker.allowsEditing = false
+
+                    self.presentViewController(imagePicker, animated: true, completion: nil)
+                }
+            }
+
+            let alertCanNotAccessCameraRoll: () -> Void = { [unowned self] in
+                YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Camera Roll!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+
+                    UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+
+                }, cancelAction: {
+                })
+            }
+
+            let status = PHPhotoLibrary.authorizationStatus()
+
+            switch status {
+
+            case .Authorized:
+                openCameraRoll()
+
+            case .NotDetermined:
+
+                PHPhotoLibrary.requestAuthorization { status in
+
+                    switch status {
+
+                    case .Authorized:
+                        openCameraRoll()
+
+                    default:
+                        alertCanNotAccessCameraRoll()
+                    }
+                }
+                
+            default:
+                alertCanNotAccessCameraRoll()
             }
         }
 
