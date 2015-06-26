@@ -533,29 +533,16 @@ class ConversationViewController: BaseViewController {
                 })
             }
 
-            let status = PHPhotoLibrary.authorizationStatus()
+            PHPhotoLibrary.requestAuthorization { status in
 
-            switch status {
+                switch status {
 
-            case .Authorized:
-                openCameraRoll()
+                case .Authorized:
+                    openCameraRoll()
 
-            case .NotDetermined:
-
-                PHPhotoLibrary.requestAuthorization { status in
-
-                    switch status {
-
-                    case .Authorized:
-                        openCameraRoll()
-
-                    default:
-                        alertCanNotAccessCameraRoll()
-                    }
+                default:
+                    alertCanNotAccessCameraRoll()
                 }
-                
-            default:
-                alertCanNotAccessCameraRoll()
             }
         }
 
