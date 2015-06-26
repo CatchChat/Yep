@@ -212,50 +212,37 @@ class RegisterPickAvatarViewController: UIViewController {
 
     @IBAction func tryOpenCameraRoll(sender: UIButton) {
 
-        let status = PHPhotoLibrary.authorizationStatus()
+        let openCameraRoll: () -> Void = { [unowned self] in
+            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
+                imagePicker.allowsEditing = false
 
-        switch status {
-
-        case .Authorized:
-            openCameraRoll()
-
-        case .NotDetermined:
-
-            PHPhotoLibrary.requestAuthorization { status in
-
-                switch status {
-
-                case .Authorized:
-                    self.openCameraRoll()
-
-                default:
-                    self.alertCanNotAccessCameraRoll()
-                }
+                self.presentViewController(imagePicker, animated: true, completion: nil)
             }
-
-        default:
-            alertCanNotAccessCameraRoll()
         }
-    }
 
-    func openCameraRoll() {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
-            imagePicker.allowsEditing = false
+        let alertCanNotAccessCameraRoll: () -> Void = { [unowned self] in
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Camera Roll!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
 
-            self.presentViewController(imagePicker, animated: true, completion: nil)
+                UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+
+            }, cancelAction: {
+            })
         }
-    }
 
-    func alertCanNotAccessCameraRoll() {
-        YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Camera Roll!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+        PHPhotoLibrary.requestAuthorization { status in
 
-            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+            switch status {
 
-        }, cancelAction: {
-        })
+            case .Authorized:
+                openCameraRoll()
+
+            default:
+                alertCanNotAccessCameraRoll()
+            }
+        }
     }
 
     func uploadAvatarAndGotoPickSkills() {
