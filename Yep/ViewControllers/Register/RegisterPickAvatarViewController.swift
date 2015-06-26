@@ -220,22 +220,18 @@ class RegisterPickAvatarViewController: UIViewController {
             openCameraRoll()
 
         case .NotDetermined:
-            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Yep need to access your Camera Roll to pick avatar.", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
 
-                PHPhotoLibrary.requestAuthorization { status in
+            PHPhotoLibrary.requestAuthorization { status in
 
-                    switch status {
+                switch status {
 
-                    case .Authorized:
-                        self.openCameraRoll()
+                case .Authorized:
+                    self.openCameraRoll()
 
-                    default:
-                        self.alertCanNotAccessCameraRoll()
-                    }
+                default:
+                    self.alertCanNotAccessCameraRoll()
                 }
-
-            }, cancelAction: {
-            })
+            }
 
         default:
             alertCanNotAccessCameraRoll()
