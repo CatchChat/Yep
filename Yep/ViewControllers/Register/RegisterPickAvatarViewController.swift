@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import Photos
 
 class RegisterPickAvatarViewController: UIViewController {
     
@@ -210,6 +211,38 @@ class RegisterPickAvatarViewController: UIViewController {
     }
 
     @IBAction func tryOpenCameraRoll(sender: UIButton) {
+
+        let status = PHPhotoLibrary.authorizationStatus()
+
+        switch status {
+
+        case .Authorized:
+            openCameraRoll()
+
+        case .NotDetermined:
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Yep need to access your Camera Roll to pick avatar.", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
+
+                PHPhotoLibrary.requestAuthorization { status in
+
+                    switch status {
+
+                    case .Authorized:
+                        self.openCameraRoll()
+
+                    default:
+                        self.alertCanNotAccessCameraRoll()
+                    }
+                }
+
+            }, cancelAction: {
+            })
+
+        default:
+            alertCanNotAccessCameraRoll()
+        }
+    }
+
+    func openCameraRoll() {
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
@@ -218,6 +251,15 @@ class RegisterPickAvatarViewController: UIViewController {
 
             self.presentViewController(imagePicker, animated: true, completion: nil)
         }
+    }
+
+    func alertCanNotAccessCameraRoll() {
+        YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Camera Roll!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+
+            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+
+        }, cancelAction: {
+        })
     }
 
     func uploadAvatarAndGotoPickSkills() {
