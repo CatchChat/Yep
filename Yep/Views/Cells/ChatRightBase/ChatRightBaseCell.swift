@@ -48,7 +48,7 @@ class ChatRightBaseCell: UICollectionViewCell {
         }
     }
 
-    weak var message: Message? {
+    var message: Message? {
         didSet {
             tryUpdateMessageState()
         }
