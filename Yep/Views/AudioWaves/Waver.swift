@@ -119,7 +119,7 @@ class Waver: UIView {
         
         if ++waveSampleCount % fps == 0{
             
-            waveSamples.append(newValue*5)
+            waveSamples.append(newValue)
             
             updateMeters()
         }
@@ -183,6 +183,18 @@ class Waver: UIView {
     func compressSamples() -> [Float]? {
         
         println("Begin compress")
+        
+        var tempSamples = [CGFloat]()
+        
+        let sampleMax = maxElement(waveSamples)
+        
+        let sampleMaxGrade = 1.0/sampleMax
+        
+        for sample in waveSamples {
+            tempSamples.append(sample*sampleMaxGrade)
+        }
+        
+        waveSamples = tempSamples
         
         var finalSamples = [Float]()
         
