@@ -9,7 +9,7 @@
 import UIKit
 
 class YepAlert {
-    class func alert(#title: String, message: String, dismissTitle: String, inViewController viewController: UIViewController, withDismissAction dismissAction: (() -> Void)?) {
+    class func alert(#title: String, message: String?, dismissTitle: String, inViewController viewController: UIViewController, withDismissAction dismissAction: (() -> Void)?) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 
         let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .Default) { action -> Void in
@@ -22,12 +22,12 @@ class YepAlert {
         viewController.presentViewController(alertController, animated: true, completion: nil)
     }
 
-    class func alertSorry(#message: String, inViewController viewController: UIViewController, withDismissAction dismissAction: () -> Void) {
-        alert(title: NSLocalizedString("Sorry", comment: ""), message: message, dismissTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: viewController, withDismissAction: dismissAction)
+    class func alertSorry(#message: String?, inViewController viewController: UIViewController, withDismissAction dismissAction: () -> Void) {
+        alert(title: NSLocalizedString("Sorry", comment: ""), message: message, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: viewController, withDismissAction: dismissAction)
     }
 
-    class func alertSorry(#message: String, inViewController viewController: UIViewController) {
-        alert(title: NSLocalizedString("Sorry", comment: ""), message: message, dismissTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: viewController, withDismissAction: nil)
+    class func alertSorry(#message: String?, inViewController viewController: UIViewController) {
+        alert(title: NSLocalizedString("Sorry", comment: ""), message: message, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: viewController, withDismissAction: nil)
     }
 
     class func textInput(#title: String, placeholder: String?, oldText: String?, dismissTitle: String, inViewController viewController: UIViewController, withFinishedAction finishedAction: ((text: String) -> Void)?) {

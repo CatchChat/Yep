@@ -293,7 +293,10 @@ class ConversationViewController: BaseViewController {
 
                 }, failureHandler: { (reason, errorMessage) -> () in
                     defaultFailureHandler(reason, errorMessage)
-                    // TODO: sendText 错误提醒
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                    }
 
                 }, completion: { success -> Void in
                     println("sendText to friend: \(success)")
@@ -309,7 +312,10 @@ class ConversationViewController: BaseViewController {
 
                 }, failureHandler: { (reason, errorMessage) -> () in
                     defaultFailureHandler(reason, errorMessage)
-                    // TODO: sendText 错误提醒
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                    }
 
                 }, completion: { success -> Void in
                     println("sendText to group: \(success)")
@@ -425,7 +431,10 @@ class ConversationViewController: BaseViewController {
 
                     }, failureHandler: { (reason, errorMessage) -> Void in
                         defaultFailureHandler(reason, errorMessage)
-                        // TODO: 音频发送失败
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                        }
                         
                     }, completion: { (success) -> Void in
                         println("send audio to friend: \(success)")
@@ -451,7 +460,10 @@ class ConversationViewController: BaseViewController {
 
                     }, failureHandler: { (reason, errorMessage) -> Void in
                         defaultFailureHandler(reason, errorMessage)
-                        // TODO: 音频发送失败
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                        }
 
                     }, completion: { (success) -> Void in
                         println("send audio to group: \(success)")
@@ -1662,7 +1674,10 @@ class ConversationViewController: BaseViewController {
 
                     }, failureHandler: { (reason, errorMessage) -> () in
                         defaultFailureHandler(reason, errorMessage)
-                        // TODO: sendLocation 错误提醒
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                        }
 
                     }, completion: { success -> Void in
                         println("sendLocation to friend: \(success)")
@@ -1678,7 +1693,10 @@ class ConversationViewController: BaseViewController {
 
                     }, failureHandler: { (reason, errorMessage) -> () in
                         defaultFailureHandler(reason, errorMessage)
-                        // TODO: sendLocation 错误提醒
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                        }
 
                     }, completion: { success -> Void in
                         println("sendLocation to group: \(success)")
@@ -1838,7 +1856,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 resendMessage(message, failureHandler: { (reason, errorMessage) in
                                     defaultFailureHandler(reason, errorMessage)
-                                    // TODO: resendImage 错误提醒
+
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to resend image!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
+                                    }
 
                                 }, completion: { success in
                                     println("resendImage: \(success)")
@@ -1874,7 +1895,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                     resendMessage(message, failureHandler: { (reason, errorMessage) in
                                         defaultFailureHandler(reason, errorMessage)
-                                        // TODO: resendAudio 错误提醒
+
+                                        dispatch_async(dispatch_get_main_queue()) {
+                                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
+                                        }
 
                                     }, completion: { success in
                                         println("resendAudio: \(success)")
@@ -1904,7 +1928,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 resendMessage(message, failureHandler: { (reason, errorMessage) in
                                     defaultFailureHandler(reason, errorMessage)
-                                    // TODO: resendVideo 错误提醒
+
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to resend video!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
+                                    }
 
                                 }, completion: { success in
                                     println("resendVideo: \(success)")
@@ -1937,7 +1964,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 resendMessage(message, failureHandler: { (reason, errorMessage) in
                                     defaultFailureHandler(reason, errorMessage)
-                                    // TODO: resendLocation 错误提醒
+
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to resend location!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
+                                    }
 
                                 }, completion: { success in
                                     println("resendLocation: \(success)")
@@ -1973,7 +2003,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 resendMessage(message, failureHandler: { (reason, errorMessage) in
                                     defaultFailureHandler(reason, errorMessage)
-                                    // TODO: resendText 错误提醒
+
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to resend text!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
+                                    }
 
                                 }, completion: { success in
                                     println("resendText: \(success)")
@@ -2249,7 +2282,10 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
             }, failureHandler: {(reason, errorMessage) -> () in
                 defaultFailureHandler(reason, errorMessage)
-                // TODO: sendImage 错误提醒
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                }
 
             }, completion: { success -> Void in
                 println("sendImage to friend: \(success)")
@@ -2277,7 +2313,10 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 
             }, failureHandler: {(reason, errorMessage) -> () in
                 defaultFailureHandler(reason, errorMessage)
-                // TODO: sendImage 错误提醒
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                }
                     
             }, completion: { success -> Void in
                 println("sendImage to group: \(success)")
@@ -2340,7 +2379,10 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         if let withFriend = conversation.withFriend {
             sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage)
-                // TODO: sendVideo 错误提醒
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                }
 
             }, completion: { success in
                 println("sendVideo to friend: \(success)")
@@ -2349,7 +2391,10 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         } else if let withGroup = conversation.withGroup {
             sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage)
-                // TODO: sendVideo 错误提醒
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                }
                 
             }, completion: { success in
                 println("sendVideo to group: \(success)")
