@@ -183,19 +183,15 @@ class Waver: UIView {
     func compressSamples() -> [Float]? {
         
         println("Begin compress")
-        
-        var tempSamples = [CGFloat]()
-        
+
         let sampleMax = maxElement(waveSamples)
-        
-        let sampleMaxGrade = 1.0/sampleMax
-        
-        for sample in waveSamples {
-            tempSamples.append(sample*sampleMaxGrade)
+
+        if sampleMax > 0 { // 防止除零错误
+            let sampleMaxGrade = 1.0 / sampleMax
+            waveSamples = waveSamples.map { $0 * sampleMaxGrade }
         }
-        
-        waveSamples = tempSamples
-        
+
+
         var finalSamples = [Float]()
         
         var samplesCount = waveSamples.count //获取总的 Sample 数量
