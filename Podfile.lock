@@ -36,7 +36,6 @@ PODS:
   - RealmSwift (0.92.4):
     - Realm (= 0.92.4)
   - SocketRocket (0.3.1-beta2)
-  - TTTAttributedLabel (1.13.3)
   - WebViewJavascriptBridge (4.1.4)
 
 DEPENDENCIES:
@@ -47,7 +46,6 @@ DEPENDENCIES:
   - MZFayeClient (from `../CatchLib-iOS/MZFayeClient/`)
   - pop
   - RealmSwift
-  - TTTAttributedLabel
   - WebViewJavascriptBridge
 
 EXTERNAL SOURCES:
@@ -65,7 +63,6 @@ SPEC CHECKSUMS:
   Realm: 4267bae2eb7cf4a1e06ef3dfa7fe96024b28074c
   RealmSwift: af48a8dea1a60b6e890be94148bece9432487b56
   SocketRocket: 7284ab9370a06c99aba92b2fe3a32aedd0f9a6fa
-  TTTAttributedLabel: 6f3174aef8e738f44dff97c2eb7d8184f6ab6277
   WebViewJavascriptBridge: f10ac16f2cd3adf2b941bd79477c55a8f6e01044
 
 COCOAPODS: 0.37.2
