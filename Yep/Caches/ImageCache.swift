@@ -67,7 +67,12 @@ class ImageCache {
                 // 下载
 
                 if imageURLString.isEmpty {
-                    completion(UIImage())
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion(UIImage())
+
+                        loadingProgress(1.0)
+                    }
 
                     return
                 }
