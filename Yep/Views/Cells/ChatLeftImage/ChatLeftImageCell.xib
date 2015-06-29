@@ -28,7 +28,7 @@
                             <constraint firstAttribute="width" constant="180" id="ywK-Cr-C5H"/>
                         </constraints>
                     </imageView>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sFT-ZV-Yxs" customClass="MessageLoadingProgressView" customModule="Yep" customModuleProvider="target">
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sFT-ZV-Yxs" customClass="MessageLoadingProgressView" customModule="Yep" customModuleProvider="target">
                         <rect key="frame" x="134" y="57" width="30" height="30"/>
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

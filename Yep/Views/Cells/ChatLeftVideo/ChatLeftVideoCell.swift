@@ -18,6 +18,8 @@ class ChatLeftVideoCell: UICollectionViewCell {
 
     @IBOutlet weak var playImageView: UIImageView!
     
+    @IBOutlet weak var loadingProgressView: MessageLoadingProgressView!
+    
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
     
@@ -35,6 +37,19 @@ class ChatLeftVideoCell: UICollectionViewCell {
 
     func tapMediaView() {
         mediaTapAction?()
+    }
+
+    func loadingWithProgress(progress: Double) {
+
+        println("loadingWithProgress \(progress)")
+
+        if progress == 1.0 {
+            self.loadingProgressView.hidden = true
+
+        } else {
+            self.loadingProgressView.progress = progress
+            self.loadingProgressView.hidden = false
+        }
     }
 
     func configureWithMessage(message: Message, messageImagePreferredWidth: CGFloat, messageImagePreferredHeight: CGFloat, messageImagePreferredAspectRatio: CGFloat, mediaTapAction: MediaTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
@@ -58,7 +73,11 @@ class ChatLeftVideoCell: UICollectionViewCell {
         if message.metaData.isEmpty {
             thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
 
-            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Left) { image in
+            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Left, loadingProgress: { [unowned self] progress in
+
+                self.loadingWithProgress(progress)
+
+            }, completion: { [unowned self] image in
                 dispatch_async(dispatch_get_main_queue()) {
                     if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
                         self.thumbnailImageView.image = image
@@ -69,7 +88,7 @@ class ChatLeftVideoCell: UICollectionViewCell {
                         })
                     }
                 }
-            }
+            })
 
         } else {
             if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
@@ -86,7 +105,11 @@ class ChatLeftVideoCell: UICollectionViewCell {
                             if aspectRatio >= 1 {
                                 thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
 
-                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Left) { image in
+                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Left, loadingProgress: { [unowned self] progress in
+
+                                    self.loadingWithProgress(progress)
+
+                                }, completion: { [unowned self] image in
                                     dispatch_async(dispatch_get_main_queue()) {
                                         if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
                                             self.thumbnailImageView.image = image
@@ -97,12 +120,16 @@ class ChatLeftVideoCell: UICollectionViewCell {
                                             })
                                         }
                                     }
-                                }
+                                })
 
                             } else {
                                 thumbnailImageViewWidthConstraint.constant = messageImagePreferredHeight * aspectRatio
 
-                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Left) { image in
+                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Left, loadingProgress: { [unowned self] progress in
+
+                                    self.loadingWithProgress(progress)
+                                    
+                                }, completion: { [unowned self] image in
                                     dispatch_async(dispatch_get_main_queue()) {
                                         if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
                                             self.thumbnailImageView.image = image
@@ -113,7 +140,7 @@ class ChatLeftVideoCell: UICollectionViewCell {
                                             })
                                         }
                                     }
-                                }
+                                })
                             }
                     }
                 }

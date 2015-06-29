@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15A204h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -15,6 +15,7 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NaY-sz-OCL" userLabel="Avatar Image View">
                         <rect key="frame" x="15" y="0.0" width="40" height="40"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="Hgr-UG-6Vl"/>
                             <constraint firstAttribute="width" secondItem="NaY-sz-OCL" secondAttribute="height" multiplier="1:1" id="zbU-UC-mfu"/>
@@ -22,22 +23,37 @@
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dJV-3p-NM6" userLabel="Thumbnail Image View">
                         <rect key="frame" x="60" y="0.0" width="126" height="121"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="126" id="g02-F3-bJ5"/>
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_playvideo" translatesAutoresizingMaskIntoConstraints="NO" id="kj2-PU-9Ld" userLabel="Play Image View">
                         <rect key="frame" x="108" y="46" width="30" height="30"/>
+                        <animations/>
                     </imageView>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S4T-37-s77" customClass="MessageLoadingProgressView" customModule="Yep" customModuleProvider="target">
+                        <rect key="frame" x="108" y="46" width="30" height="30"/>
+                        <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="S4T-37-s77" secondAttribute="height" multiplier="1:1" id="HFQ-Ig-2ug"/>
+                            <constraint firstAttribute="width" constant="30" id="cjs-dW-JjE"/>
+                        </constraints>
+                    </view>
                 </subviews>
+                <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
+            <animations/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="dJV-3p-NM6" secondAttribute="bottom" id="9st-fe-RF7"/>
                 <constraint firstItem="dJV-3p-NM6" firstAttribute="leading" secondItem="NaY-sz-OCL" secondAttribute="trailing" constant="5" id="BSL-oi-b0w"/>
                 <constraint firstItem="dJV-3p-NM6" firstAttribute="centerX" secondItem="kj2-PU-9Ld" secondAttribute="centerX" id="Kim-ke-x6p"/>
                 <constraint firstItem="dJV-3p-NM6" firstAttribute="top" secondItem="NaY-sz-OCL" secondAttribute="top" id="Ly2-sg-PTj"/>
                 <constraint firstItem="NaY-sz-OCL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="NOl-Za-dpz"/>
+                <constraint firstItem="kj2-PU-9Ld" firstAttribute="centerX" secondItem="S4T-37-s77" secondAttribute="centerX" id="PgW-HP-ap9"/>
+                <constraint firstItem="kj2-PU-9Ld" firstAttribute="centerY" secondItem="S4T-37-s77" secondAttribute="centerY" id="Vgp-ZW-Snb"/>
                 <constraint firstItem="dJV-3p-NM6" firstAttribute="centerY" secondItem="kj2-PU-9Ld" secondAttribute="centerY" id="wjC-hS-DLv"/>
                 <constraint firstItem="dJV-3p-NM6" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="xR1-Mb-S6q"/>
             </constraints>
@@ -45,6 +61,7 @@
             <connections>
                 <outlet property="avatarImageView" destination="NaY-sz-OCL" id="WlB-8B-uyk"/>
                 <outlet property="avatarImageViewWidthConstraint" destination="Hgr-UG-6Vl" id="06G-Cs-NA2"/>
+                <outlet property="loadingProgressView" destination="S4T-37-s77" id="Mp9-dx-PM7"/>
                 <outlet property="playImageView" destination="kj2-PU-9Ld" id="h0Y-vn-EUp"/>
                 <outlet property="thumbnailImageView" destination="dJV-3p-NM6" id="47m-Jp-5x1"/>
                 <outlet property="thumbnailImageViewWidthConstraint" destination="g02-F3-bJ5" id="K7o-Oc-80Z"/>
