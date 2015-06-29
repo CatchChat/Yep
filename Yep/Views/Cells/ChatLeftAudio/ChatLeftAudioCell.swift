@@ -93,7 +93,9 @@ class ChatLeftAudioCell: UICollectionViewCell {
         self.audioPlayedDuration = audioPlayedDuration
         
         YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { [unowned self] progress in
-            self.loadingWithProgress(progress)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.loadingWithProgress(progress)
+            }
         })
 
         if let sender = message.fromFriend {
