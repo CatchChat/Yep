@@ -15,13 +15,15 @@ class ImageCache {
 
     var cache = NSCache()
 
-    func imageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (UIImage) -> ()) {
+    func imageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, loadingProgress: Double -> Void, completion: (UIImage) -> ()) {
 
         let imageKey = "image-\(message.messageID)-\(message.localAttachmentName)-\(message.attachmentURLString)"
 
         // 先看看缓存
         if let image = cache.objectForKey(imageKey) as? UIImage {
             completion(image)
+
+            loadingProgress(1.0)
 
         } else {
 
@@ -52,7 +54,11 @@ class ImageCache {
 
                             self.cache.setObject(messageImage, forKey: imageKey)
                             
-                            completion(messageImage)
+                            dispatch_async(dispatch_get_main_queue()) {
+                                completion(messageImage)
+
+                                loadingProgress(1.0)
+                            }
 
                             return
                     }
@@ -61,47 +67,44 @@ class ImageCache {
                 // 下载
 
                 if imageURLString.isEmpty {
-                    completion(UIImage())
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion(UIImage())
+
+                        loadingProgress(1.0)
+                    }
 
                     return
                 }
 
-                if
-                    let url = NSURL(string: imageURLString),
-                    let data = NSData(contentsOfURL: url) {
-                        if let image = UIImage(data: data) {
+                if let message = messageWithMessageID(messageID, inRealm: Realm()) {
 
-                            let messageImageName = NSUUID().UUIDString
-
-                            let messageImageURL = NSFileManager.saveMessageImageData(data, withName: messageImageName)
-
-                            dispatch_async(dispatch_get_main_queue()) {
-
-                                let realm = Realm()
-
-                                if let message = messageWithMessageID(messageID, inRealm: realm) {
-                                    realm.beginWrite()
-
-                                    if message.mediaType == MessageMediaType.Image.rawValue {
-                                        message.localAttachmentName = messageImageName
-
-                                    } else if message.mediaType == MessageMediaType.Video.rawValue {
-                                        message.localThumbnailName = messageImageName
-                                    }
-                                    
-                                    realm.commitWrite()
-                                }
-                            }
-
-                            let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size)
-                            
-                            self.cache.setObject(messageImage, forKey: imageKey)
-                            
-                            completion(messageImage)
+                    YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { progress in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            loadingProgress(progress)
                         }
+
+                    }, imageFinished: { image in
+
+                        let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size)
+
+                        self.cache.setObject(messageImage, forKey: imageKey)
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            completion(messageImage)
+
+                            loadingProgress(1.0)
+                        }
+                    })
+
+                } else {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion(UIImage())
+
+                        loadingProgress(1.0)
+                    }
                 }
             }
-
         }
     }
 

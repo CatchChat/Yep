@@ -58,7 +58,9 @@ class ChatRightVideoCell: ChatRightBaseCell {
         if message.metaData.isEmpty {
             thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
 
-            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Right) { image in
+            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Right, loadingProgress: { [unowned self] progress in
+
+            }, completion: { [unowned self] image in
                 dispatch_async(dispatch_get_main_queue()) {
                     if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
                         self.thumbnailImageView.image = image
@@ -69,7 +71,7 @@ class ChatRightVideoCell: ChatRightBaseCell {
                         })
                     }
                 }
-            }
+            })
 
         } else {
             if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
@@ -86,7 +88,9 @@ class ChatRightVideoCell: ChatRightBaseCell {
                             if aspectRatio >= 1 {
                                 thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
 
-                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Right) { image in
+                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Right, loadingProgress: { [unowned self] progress in
+
+                                }, completion: { [unowned self] image in
                                     dispatch_async(dispatch_get_main_queue()) {
                                         if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
                                             self.thumbnailImageView.image = image
@@ -97,12 +101,14 @@ class ChatRightVideoCell: ChatRightBaseCell {
                                             })
                                         }
                                     }
-                                }
+                                })
 
                             } else {
                                 thumbnailImageViewWidthConstraint.constant = messageImagePreferredHeight * aspectRatio
 
-                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Right) { image in
+                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Right, loadingProgress: { [unowned self] progress in
+
+                                }, completion: { [unowned self] image in
                                     dispatch_async(dispatch_get_main_queue()) {
                                         if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
                                             self.thumbnailImageView.image = image
@@ -113,7 +119,7 @@ class ChatRightVideoCell: ChatRightBaseCell {
                                             })
                                         }
                                     }
-                                }
+                                })
                             }
                     }
                 }

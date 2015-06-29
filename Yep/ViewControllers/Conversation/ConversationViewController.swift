@@ -1766,8 +1766,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             if sender.friendState != UserFriendState.Me.rawValue { // from Friend
 
-                downloadAttachmentOfMessage(message)
-                
                 markMessageAsReaded(message)
 
                 switch message.mediaType {
@@ -1776,7 +1774,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [unowned self] in
 
-                        self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                        if message.downloadState == MessageDownloadState.Downloaded.rawValue {
+                            self.performSegueWithIdentifier("showMessageMedia", sender: message)
+
+                        } else {
+                            YepAlert.alertSorry(message: NSLocalizedString("Please wait while the image is not dready!", comment: ""), inViewController: self)
+                        }
 
                         //let frame = cell.convertRect(cell.messageImageView.frame, toView: self.view.window)
 
@@ -1805,7 +1808,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [unowned self] in
 
-                        self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                        if message.downloadState == MessageDownloadState.Downloaded.rawValue {
+                            self.performSegueWithIdentifier("showMessageMedia", sender: message)
+
+                        } else {
+                            YepAlert.alertSorry(message: NSLocalizedString("Please wait while the video is not dready!", comment: ""), inViewController: self)
+                        }
 
                         //let frame = cell.convertRect(cell.thumbnailImageView.frame, toView: self.view.window)
 
