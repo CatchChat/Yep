@@ -19,15 +19,28 @@ class MessageLoadingProgressView: UIView {
     override func drawRect(rect: CGRect) {
 
         let center = CGPoint(x: CGRectGetMidX(rect), y: CGRectGetMidY(rect))
-        let lineWidth: CGFloat = 6
+        let lineWidth: CGFloat = 4
         let radius = min(rect.width, rect.height) * 0.5 - lineWidth * 0.5
-        
-        let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: CGFloat(-M_PI_2), endAngle: CGFloat(M_PI * 2 * progress - M_PI_2), clockwise: true)
-        path.lineWidth = lineWidth
-        path.lineCapStyle = kCGLineCapRound
 
-        UIColor.yepTintColor().setStroke()
+        // base circle
 
-        path.stroke()
+        let baseCircle = UIBezierPath(arcCenter: center, radius: radius, startAngle: 0, endAngle: CGFloat(M_PI * 2), clockwise: true)
+        baseCircle.lineWidth = lineWidth
+        baseCircle.lineCapStyle = kCGLineCapRound
+
+        UIColor.lightGrayColor().setStroke()
+
+        baseCircle.stroke()
+
+        // progress arc
+
+        let progressArc = UIBezierPath(arcCenter: center, radius: radius, startAngle: CGFloat(-M_PI_2), endAngle: CGFloat(M_PI * 2 * progress - M_PI_2), clockwise: true)
+
+        progressArc.lineWidth = lineWidth
+        progressArc.lineCapStyle = kCGLineCapRound
+
+        UIColor.whiteColor().setStroke()
+
+        progressArc.stroke()
     }
 }
