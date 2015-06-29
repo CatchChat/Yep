@@ -64,9 +64,7 @@ class ChatLeftVideoCell: UICollectionViewCell {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { [unowned self] roundImage in
                 dispatch_async(dispatch_get_main_queue()) {
                     if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                        if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                            self.avatarImageView.image = roundImage
-                        }
+                        self.avatarImageView.image = roundImage
                     }
                 }
             }
