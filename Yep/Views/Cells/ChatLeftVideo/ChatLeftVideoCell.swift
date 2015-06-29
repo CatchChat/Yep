@@ -44,11 +44,13 @@ class ChatLeftVideoCell: UICollectionViewCell {
         println("loadingWithProgress \(progress)")
 
         if progress == 1.0 {
-            self.loadingProgressView.hidden = true
+            loadingProgressView.hidden = true
+            playImageView.hidden = false
 
         } else {
-            self.loadingProgressView.progress = progress
-            self.loadingProgressView.hidden = false
+            loadingProgressView.progress = progress
+            loadingProgressView.hidden = false
+            playImageView.hidden = true
         }
     }
 
