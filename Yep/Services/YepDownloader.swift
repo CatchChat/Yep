@@ -46,6 +46,10 @@ class YepDownloader: NSObject {
     var progressReporters = [ProgressReporter]()
 
     class func downloadAttachmentsOfMessage(message: Message, reportProgress: ProgressReporter.ReportAction?) {
+        downloadAttachmentsOfMessage(message, reportProgress: reportProgress, imageFinished: nil)
+    }
+
+    class func downloadAttachmentsOfMessage(message: Message, reportProgress: ProgressReporter.ReportAction?, imageFinished: (UIImage -> Void)?) {
 
         let messageID = message.messageID
         let mediaType = message.mediaType
@@ -68,6 +72,7 @@ class YepDownloader: NSObject {
                 let fileName = NSUUID().UUIDString
 
                 dispatch_async(dispatch_get_main_queue()) {
+
                     let realm = Realm()
 
                     if let message = messageWithMessageID(messageID, inRealm: realm) {
@@ -78,6 +83,10 @@ class YepDownloader: NSObject {
 
                             if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
                                 self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
+
+                                if let image = UIImage(data: data) {
+                                    imageFinished?(image)
+                                }
                             }
 
                         case MessageMediaType.Video.rawValue:
@@ -122,6 +131,10 @@ class YepDownloader: NSObject {
                             if let message = messageWithMessageID(messageID, inRealm: realm) {
                                 if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
                                     self.updateThumbnailOfMessage(message, withThumbnailFileName: fileName, inRealm: realm)
+
+                                    if let image = UIImage(data: data) {
+                                        imageFinished?(image)
+                                    }
                                 }
                             }
                         }

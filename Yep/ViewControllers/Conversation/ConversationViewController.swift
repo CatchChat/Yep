@@ -1768,10 +1768,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 //downloadAttachmentOfMessage(message)
 
-                YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { progress in
-                    println("download progress: \(progress)")
-                })
-                
+//                YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { progress in
+//                    println("download progress: \(progress)")
+//                })
+
                 markMessageAsReaded(message)
 
                 switch message.mediaType {
