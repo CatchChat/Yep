@@ -86,44 +86,7 @@ class ImageCache {
                         completion(UIImage())
                     }
                 }
-
-
-//                if
-//                    let url = NSURL(string: imageURLString),
-//                    let data = NSData(contentsOfURL: url) {
-//                        if let image = UIImage(data: data) {
-//
-//                            let messageImageName = NSUUID().UUIDString
-//
-//                            let messageImageURL = NSFileManager.saveMessageImageData(data, withName: messageImageName)
-//
-//                            dispatch_async(dispatch_get_main_queue()) {
-//
-//                                let realm = Realm()
-//
-//                                if let message = messageWithMessageID(messageID, inRealm: realm) {
-//                                    realm.beginWrite()
-//
-//                                    if message.mediaType == MessageMediaType.Image.rawValue {
-//                                        message.localAttachmentName = messageImageName
-//
-//                                    } else if message.mediaType == MessageMediaType.Video.rawValue {
-//                                        message.localThumbnailName = messageImageName
-//                                    }
-//                                    
-//                                    realm.commitWrite()
-//                                }
-//                            }
-//
-//                            let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size)
-//                            
-//                            self.cache.setObject(messageImage, forKey: imageKey)
-//                            
-//                            completion(messageImage)
-//                        }
-//                }
             }
-
         }
     }
 
