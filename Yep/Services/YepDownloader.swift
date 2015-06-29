@@ -45,6 +45,10 @@ class YepDownloader: NSObject {
 
     var progressReporters = [ProgressReporter]()
 
+    class func downloadAttachmentsOfMessage(message: Message, reportProgress: ProgressReporter.ReportAction?) {
+        downloadAttachmentsOfMessage(message, reportProgress: reportProgress, imageFinished: nil)
+    }
+
     class func downloadAttachmentsOfMessage(message: Message, reportProgress: ProgressReporter.ReportAction?, imageFinished: (UIImage -> Void)?) {
 
         let messageID = message.messageID
