@@ -15,13 +15,15 @@ class ImageCache {
 
     var cache = NSCache()
 
-    func imageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (UIImage) -> ()) {
+    func imageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, loadingProgress: Double -> Void, completion: (UIImage) -> ()) {
 
         let imageKey = "image-\(message.messageID)-\(message.localAttachmentName)-\(message.attachmentURLString)"
 
         // 先看看缓存
         if let image = cache.objectForKey(imageKey) as? UIImage {
             completion(image)
+
+            loadingProgress(1.0)
 
         } else {
 
@@ -54,6 +56,8 @@ class ImageCache {
                             
                             dispatch_async(dispatch_get_main_queue()) {
                                 completion(messageImage)
+
+                                loadingProgress(1.0)
                             }
 
                             return
@@ -70,7 +74,12 @@ class ImageCache {
 
                 if let message = messageWithMessageID(messageID, inRealm: Realm()) {
 
-                    YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: nil, imageFinished: { image in
+                    YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { progress in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            loadingProgress(progress)
+                        }
+
+                    }, imageFinished: { image in
 
                         let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size)
 
@@ -78,12 +87,16 @@ class ImageCache {
 
                         dispatch_async(dispatch_get_main_queue()) {
                             completion(messageImage)
+
+                            loadingProgress(1.0)
                         }
                     })
 
                 } else {
                     dispatch_async(dispatch_get_main_queue()) {
                         completion(UIImage())
+
+                        loadingProgress(1.0)
                     }
                 }
             }

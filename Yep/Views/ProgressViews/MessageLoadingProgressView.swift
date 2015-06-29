@@ -10,7 +10,11 @@ import UIKit
 
 class MessageLoadingProgressView: UIView {
 
-    var progress: Double = 0.7
+    var progress: Double = 0.0 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
 
     override func drawRect(rect: CGRect) {
 
@@ -22,7 +26,7 @@ class MessageLoadingProgressView: UIView {
         path.lineWidth = lineWidth
         path.lineCapStyle = kCGLineCapRound
 
-        UIColor.redColor().setStroke()
+        UIColor.yepTintColor().setStroke()
 
         path.stroke()
     }
