@@ -45,20 +45,16 @@ class ChatLeftVideoCell: UICollectionViewCell {
 
         if progress == 1.0 {
             loadingProgressView.hidden = true
-            playImageView.hidden = false
 
         } else {
             loadingProgressView.progress = progress
             loadingProgressView.hidden = false
-            playImageView.hidden = true
         }
     }
 
     func configureWithMessage(message: Message, messageImagePreferredWidth: CGFloat, messageImagePreferredHeight: CGFloat, messageImagePreferredAspectRatio: CGFloat, mediaTapAction: MediaTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
 
         self.mediaTapAction = mediaTapAction
-
-        playImageView.hidden = message.downloadState != MessageDownloadState.Downloaded.rawValue
 
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { [unowned self] roundImage in

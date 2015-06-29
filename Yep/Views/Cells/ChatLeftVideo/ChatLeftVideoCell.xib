@@ -28,7 +28,7 @@
                             <constraint firstAttribute="width" constant="126" id="g02-F3-bJ5"/>
                         </constraints>
                     </imageView>
-                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_playvideo" translatesAutoresizingMaskIntoConstraints="NO" id="kj2-PU-9Ld" userLabel="Play Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_playvideo" translatesAutoresizingMaskIntoConstraints="NO" id="kj2-PU-9Ld" userLabel="Play Image View">
                         <rect key="frame" x="108" y="46" width="30" height="30"/>
                         <animations/>
                     </imageView>
