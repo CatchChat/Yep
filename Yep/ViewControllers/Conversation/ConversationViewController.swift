@@ -986,7 +986,9 @@ class ConversationViewController: BaseViewController {
             self.report()
         }
 
-        moreView.showInView(view)
+        if let window = view.window {
+            moreView.showInView(window)
+        }
     }
 
     func updateNotificationEnabled(enabled: Bool, forUserWithUserID userID: String) {

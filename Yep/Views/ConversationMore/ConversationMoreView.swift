@@ -185,6 +185,8 @@ class ConversationMoreView: UIView {
 
         layoutIfNeeded()
 
+        containerView.alpha = 1
+
         UIView.animateWithDuration(0.05, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
             self.containerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
 
@@ -200,7 +202,6 @@ class ConversationMoreView: UIView {
     }
 
     func hide() {
-
         UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
             self.tableViewBottomConstraint?.constant = 300
 
@@ -215,6 +216,24 @@ class ConversationMoreView: UIView {
                 self.removeFromSuperview()
             })
         })
+    }
+
+    func hideAndDo(afterHideAction: (() -> Void)?) {
+
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveLinear, animations: { _ in
+            self.containerView.alpha = 0
+
+            self.tableViewBottomConstraint?.constant = 300
+
+            self.layoutIfNeeded()
+
+        }, completion: { finished in
+            self.removeFromSuperview()
+        })
+
+        delay(0.1) {
+            afterHideAction?()
+        }
     }
 
     var isFirstTimeBeenAddAsSubview = true
@@ -382,10 +401,13 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
         if let row = Row(rawValue: indexPath.row) {
+
             switch row {
 
             case .ShowProfile:
-                showProfileAction?()
+                hideAndDo { [unowned self] in
+                    self.showProfileAction?()
+                }
 
             case .DoNotDisturb:
                 break
