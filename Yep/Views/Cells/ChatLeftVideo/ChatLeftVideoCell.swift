@@ -41,7 +41,7 @@ class ChatLeftVideoCell: UICollectionViewCell {
 
     func loadingWithProgress(progress: Double) {
 
-        println("loadingWithProgress \(progress)")
+        println("video loadingWithProgress \(progress)")
 
         if progress == 1.0 {
             loadingProgressView.hidden = true

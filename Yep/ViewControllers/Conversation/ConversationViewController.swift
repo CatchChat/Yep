@@ -1795,9 +1795,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 case MessageMediaType.Audio.rawValue:
 
-                    YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { [unowned self] progress in
-                    })
-
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftAudioCellIdentifier, forIndexPath: indexPath) as! ChatLeftAudioCell
 
                     let audioPlayedDuration = audioPlayedDurationOfMessage(message)

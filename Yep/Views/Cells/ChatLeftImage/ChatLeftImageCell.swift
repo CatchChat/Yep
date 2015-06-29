@@ -39,14 +39,14 @@ class ChatLeftImageCell: UICollectionViewCell {
 
     func loadingWithProgress(progress: Double) {
 
-        println("loadingWithProgress \(progress)")
+        println("image loadingWithProgress \(progress)")
 
         if progress == 1.0 {
-            self.loadingProgressView.hidden = true
+            loadingProgressView.hidden = true
 
         } else {
-            self.loadingProgressView.progress = progress
-            self.loadingProgressView.hidden = false
+            loadingProgressView.progress = progress
+            loadingProgressView.hidden = false
         }
     }
 

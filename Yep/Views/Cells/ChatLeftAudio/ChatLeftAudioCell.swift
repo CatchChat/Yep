@@ -43,9 +43,24 @@ class ChatLeftAudioCell: UICollectionViewCell {
 
     @IBOutlet weak var playButton: UIButton!
     
+    @IBOutlet weak var loadingProgressView: MessageLoadingProgressView!
+    
     typealias AudioBubbleTapAction = (message: Message?) -> Void
     var audioBubbleTapAction: AudioBubbleTapAction?
 
+    func loadingWithProgress(progress: Double) {
+        
+        println("audio loadingWithProgress \(progress)")
+        
+        if progress == 1.0 {
+            loadingProgressView.hidden = true
+            
+        } else {
+            loadingProgressView.progress = progress
+            loadingProgressView.hidden = false
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -76,6 +91,10 @@ class ChatLeftAudioCell: UICollectionViewCell {
         self.audioBubbleTapAction = audioBubbleTapAction
 
         self.audioPlayedDuration = audioPlayedDuration
+        
+        YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { [unowned self] progress in
+            self.loadingWithProgress(progress)
+        })
 
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { [unowned self] roundImage in
