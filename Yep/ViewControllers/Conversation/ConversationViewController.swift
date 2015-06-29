@@ -1766,7 +1766,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             if sender.friendState != UserFriendState.Me.rawValue { // from Friend
 
-                downloadAttachmentOfMessage(message)
+                //downloadAttachmentOfMessage(message)
+
+                YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { progress in
+                    println("download progress: \(progress)")
+                })
                 
                 markMessageAsReaded(message)
 
