@@ -202,6 +202,7 @@ class ConversationMoreView: UIView {
     }
 
     func hide() {
+
         UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
             self.tableViewBottomConstraint?.constant = 300
 

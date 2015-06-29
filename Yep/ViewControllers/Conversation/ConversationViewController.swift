@@ -958,6 +958,7 @@ class ConversationViewController: BaseViewController {
 
         if let user = conversation.withFriend {
             moreView.notificationEnabled = user.notificationEnabled
+            moreView.blocked = user.blocked
 
             let userID = user.userID
 
