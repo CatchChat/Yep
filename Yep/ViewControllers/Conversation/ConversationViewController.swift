@@ -908,6 +908,27 @@ class ConversationViewController: BaseViewController {
         if !key.isEmpty {
             audioPlayedDurations[key] = audioPlayedDuration
         }
+
+        // recover audio cells' UI
+
+        if audioPlayedDuration == 0 {
+
+            if let sender = message.fromFriend, index = messages.indexOf(message) {
+
+                let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: 0)
+
+                if sender.friendState != UserFriendState.Me.rawValue { // from Friend
+                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
+                        cell.audioPlayedDuration = 0
+                    }
+
+                } else {
+                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
+                        cell.audioPlayedDuration = 0
+                    }
+                }
+            }
+        }
     }
 
     func updateAudioPlaybackProgress(timer: NSTimer) {
@@ -2219,6 +2240,7 @@ extension ConversationViewController: AVAudioPlayerDelegate {
 
         if let playingMessage = YepAudioService.sharedManager.playingMessage {
             setAudioPlayedDuration(0, ofMessage: playingMessage)
+            println("setAudioPlayedDuration to 0")
         }
     }
 
