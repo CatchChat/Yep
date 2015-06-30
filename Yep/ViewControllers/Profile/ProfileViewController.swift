@@ -191,10 +191,10 @@ class ProfileViewController: UIViewController {
                 }
 
                 if user.friendState == UserFriendState.Me.rawValue {
-                    YepUserDefaults.introduction.bindListener(Listener.Introduction) { [unowned self] introduction in
+                    YepUserDefaults.introduction.bindListener(Listener.Introduction) { [weak self] introduction in
                         if let introduction = introduction {
-                            self.introductionText = introduction
-                            self.updateProfileCollectionView()
+                            self?.introductionText = introduction
+                            self?.updateProfileCollectionView()
                         }
                     }
                 }
@@ -366,8 +366,8 @@ class ProfileViewController: UIViewController {
                 customNavigationItem.title = user.nickname
 
                 if user.friendState == UserFriendState.Me.rawValue {
-                    YepUserDefaults.nickname.bindListener(Listener.Nickname) { [unowned self] nickname in
-                        self.customNavigationItem.title = nickname
+                    YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] nickname in
+                        self?.customNavigationItem.title = nickname
                     }
                 }
             }
@@ -431,7 +431,7 @@ class ProfileViewController: UIViewController {
                 let vc = nvc.topViewController as! OAuthViewController
                 vc.socialAccount = SocialAccount(rawValue: providerName)
 
-                vc.afterOAuthAction = { [unowned self] socialAccount in
+                vc.afterOAuthAction = { [weak self] socialAccount in
                     // 更新自己的 provider enabled 状态
                     let providerName = socialAccount.rawValue
 
@@ -452,7 +452,7 @@ class ProfileViewController: UIViewController {
                             }
 
                             dispatch_async(dispatch_get_main_queue()) {
-                                self.updateProfileCollectionView()
+                                self?.updateProfileCollectionView()
                             }
 
                     }

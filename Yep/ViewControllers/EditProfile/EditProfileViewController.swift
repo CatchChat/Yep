@@ -69,14 +69,14 @@ class EditProfileViewController: UIViewController {
             let avatarSize = YepConfig.editProfileAvatarSize()
 
             self.avatarImageView.alpha = 0
-            AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: avatarSize * 0.5) { [unowned self] image in
+            AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: avatarSize * 0.5) { [weak self] image in
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.avatarImageView.image = image
+                    self?.avatarImageView.image = image
 
                     completion()
 
                     UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
-                        self.avatarImageView.alpha = 1
+                        self?.avatarImageView.alpha = 1
                     }, completion: { (finished) -> Void in
                     })
                 }
@@ -164,8 +164,8 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 cell.annotationLabel.text = NSLocalizedString("Nickname", comment: "")
 
-                YepUserDefaults.nickname.bindAndFireListener(Listener.Nickname) { [unowned self] nickname in
-                    cell.infoLabel.text = nickname
+                YepUserDefaults.nickname.bindAndFireListener(Listener.Nickname) { [weak cell] nickname in
+                    cell?.infoLabel.text = nickname
                 }
 
                 return cell
@@ -175,8 +175,8 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
 
-                YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [unowned self] introduction in
-                    cell.infoLabel.text = introduction
+                YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [weak cell] introduction in
+                    cell?.infoLabel.text = introduction
                 }
 
                 return cell

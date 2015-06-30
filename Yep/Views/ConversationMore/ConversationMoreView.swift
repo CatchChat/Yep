@@ -406,8 +406,8 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
             switch row {
 
             case .ShowProfile:
-                hideAndDo { [unowned self] in
-                    self.showProfileAction?()
+                hideAndDo { [weak self] in
+                    self?.showProfileAction?()
                 }
 
             case .DoNotDisturb:

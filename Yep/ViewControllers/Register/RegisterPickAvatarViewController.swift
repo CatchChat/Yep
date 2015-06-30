@@ -212,18 +212,18 @@ class RegisterPickAvatarViewController: UIViewController {
 
     @IBAction func tryOpenCameraRoll(sender: UIButton) {
 
-        let openCameraRoll: () -> Void = { [unowned self] in
+        let openCameraRoll: () -> Void = { [weak self] in
             if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
                 imagePicker.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
                 imagePicker.allowsEditing = false
 
-                self.presentViewController(imagePicker, animated: true, completion: nil)
+                self?.presentViewController(imagePicker, animated: true, completion: nil)
             }
         }
 
-        let alertCanNotAccessCameraRoll: () -> Void = { [unowned self] in
+        let alertCanNotAccessCameraRoll: () -> Void = { [weak self] in
             YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Camera Roll!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
 
                 UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)

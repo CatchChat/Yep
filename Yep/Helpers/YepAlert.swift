@@ -9,7 +9,7 @@
 import UIKit
 
 class YepAlert {
-    class func alert(#title: String, message: String?, dismissTitle: String, inViewController viewController: UIViewController, withDismissAction dismissAction: (() -> Void)?) {
+    class func alert(#title: String, message: String?, dismissTitle: String, inViewController viewController: UIViewController?, withDismissAction dismissAction: (() -> Void)?) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 
         let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .Default) { action -> Void in
@@ -19,18 +19,18 @@ class YepAlert {
         }
         alertController.addAction(action)
 
-        viewController.presentViewController(alertController, animated: true, completion: nil)
+        viewController?.presentViewController(alertController, animated: true, completion: nil)
     }
 
-    class func alertSorry(#message: String?, inViewController viewController: UIViewController, withDismissAction dismissAction: () -> Void) {
+    class func alertSorry(#message: String?, inViewController viewController: UIViewController?, withDismissAction dismissAction: () -> Void) {
         alert(title: NSLocalizedString("Sorry", comment: ""), message: message, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: viewController, withDismissAction: dismissAction)
     }
 
-    class func alertSorry(#message: String?, inViewController viewController: UIViewController) {
+    class func alertSorry(#message: String?, inViewController viewController: UIViewController?) {
         alert(title: NSLocalizedString("Sorry", comment: ""), message: message, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: viewController, withDismissAction: nil)
     }
 
-    class func textInput(#title: String, placeholder: String?, oldText: String?, dismissTitle: String, inViewController viewController: UIViewController, withFinishedAction finishedAction: ((text: String) -> Void)?) {
+    class func textInput(#title: String, placeholder: String?, oldText: String?, dismissTitle: String, inViewController viewController: UIViewController?, withFinishedAction finishedAction: ((text: String) -> Void)?) {
 
         let alertController = UIAlertController(title: title, message: nil, preferredStyle: .Alert)
 
@@ -48,10 +48,10 @@ class YepAlert {
         }
         alertController.addAction(action)
 
-        viewController.presentViewController(alertController, animated: true, completion: nil)
+        viewController?.presentViewController(alertController, animated: true, completion: nil)
     }
 
-    class func textInput(#title: String, placeholder: String?, oldText: String?, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController, withConfirmAction confirmAction: ((text: String) -> Void)?, cancelAction: (() -> Void)?) {
+    class func textInput(#title: String, placeholder: String?, oldText: String?, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController?, withConfirmAction confirmAction: ((text: String) -> Void)?, cancelAction: (() -> Void)?) {
 
         let alertController = UIAlertController(title: title, message: nil, preferredStyle: .Alert)
 
@@ -72,10 +72,10 @@ class YepAlert {
         }
         alertController.addAction(_confirmAction)
 
-        viewController.presentViewController(alertController, animated: true, completion: nil)
+        viewController?.presentViewController(alertController, animated: true, completion: nil)
     }
 
-    class func confirmOrCancel(#title: String, message: String, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController, withConfirmAction confirmAction: () -> Void, cancelAction: () -> Void) {
+    class func confirmOrCancel(#title: String, message: String, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController?, withConfirmAction confirmAction: () -> Void, cancelAction: () -> Void) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 
         let cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action -> Void in
@@ -88,7 +88,7 @@ class YepAlert {
         }
         alertController.addAction(confirmAction)
 
-        viewController.presentViewController(alertController, animated: true, completion: nil)
+        viewController?.presentViewController(alertController, animated: true, completion: nil)
     }
 
 }
