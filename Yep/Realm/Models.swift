@@ -9,6 +9,12 @@
 import RealmSwift
 
 
+extension Results {
+    subscript (safe index: Int) -> T? {
+        return (index >= 0 && index < count) ? self[index] : nil
+    }
+}
+
 // 总是在这个队列里使用 Realm
 let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)
 
@@ -419,21 +425,25 @@ func unReadMessagesOfConversation(conversation: Conversation, inRealm realm: Rea
 }
 
 func tryCreateSectionDateMessageInConversation(conversation: Conversation, beforeMessage message: Message, inRealm realm: Realm, success: (Message) -> Void) {
+
     let messages = messagesOfConversation(conversation, inRealm: realm)
+
     if messages.count > 1 {
-        let prevMessage = messages[messages.count - 2]
 
-        if message.createdUnixTime - prevMessage.createdUnixTime > 180 { // TODO: Time Section
+        if let prevMessage = messages[safe: (messages.count - 2)] {
 
-            // insert a new SectionDate Message
-            let newSectionDateMessage = Message()
-            newSectionDateMessage.conversation = conversation
-            newSectionDateMessage.mediaType = MessageMediaType.SectionDate.rawValue
-            newSectionDateMessage.createdUnixTime = message.createdUnixTime - 0.001 // 比新消息早一点点即可
-            newSectionDateMessage.arrivalUnixTime = message.arrivalUnixTime - 0.001 // 比新消息早一点点即可
-            newSectionDateMessage.messageID = "sectionDate-\(newSectionDateMessage.createdUnixTime)"
+            if message.createdUnixTime - prevMessage.createdUnixTime > 180 { // TODO: Time Section
 
-            success(newSectionDateMessage)
+                // insert a new SectionDate Message
+                let newSectionDateMessage = Message()
+                newSectionDateMessage.conversation = conversation
+                newSectionDateMessage.mediaType = MessageMediaType.SectionDate.rawValue
+                newSectionDateMessage.createdUnixTime = message.createdUnixTime - 0.001 // 比新消息早一点点即可
+                newSectionDateMessage.arrivalUnixTime = message.arrivalUnixTime - 0.001 // 比新消息早一点点即可
+                newSectionDateMessage.messageID = "sectionDate-\(newSectionDateMessage.createdUnixTime)"
+
+                success(newSectionDateMessage)
+            }
         }
     }
 }
