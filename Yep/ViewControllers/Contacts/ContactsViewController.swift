@@ -99,19 +99,20 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
 
-        let friend = friends[indexPath.row]
+        if let friend = friends[safe: indexPath.row] {
 
-        let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
+            let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
 
-        AvatarCache.sharedInstance.roundAvatarOfUser(friend, withRadius: radius) { [weak cell] roundImage in
-            dispatch_async(dispatch_get_main_queue()) {
-                cell?.avatarImageView.image = roundImage
+            AvatarCache.sharedInstance.roundAvatarOfUser(friend, withRadius: radius) { [weak cell] roundImage in
+                dispatch_async(dispatch_get_main_queue()) {
+                    cell?.avatarImageView.image = roundImage
+                }
             }
-        }
 
-        cell.nameLabel.text = friend.nickname
-        cell.joinedDateLabel.text = friend.introduction
-        cell.lastTimeSeenLabel.text = NSDate(timeIntervalSince1970: friend.createdUnixTime).timeAgo
+            cell.nameLabel.text = friend.nickname
+            cell.joinedDateLabel.text = friend.introduction
+            cell.lastTimeSeenLabel.text = NSDate(timeIntervalSince1970: friend.createdUnixTime).timeAgo
+        }
 
         return cell
     }
@@ -120,8 +121,8 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        // 去往 Profile
-        let friend = friends[indexPath.row]
-        performSegueWithIdentifier("showProfile", sender: friend)
+        if let friend = friends[safe: indexPath.row] {
+            performSegueWithIdentifier("showProfile", sender: friend)
+        }
    }
 }
