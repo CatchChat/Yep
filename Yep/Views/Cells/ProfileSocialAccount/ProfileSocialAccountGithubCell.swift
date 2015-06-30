@@ -13,9 +13,6 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
     var githubWork: GithubWork? {
         didSet {
             if let work = githubWork {
-                reposImageView.hidden = false
-                starsImageView.hidden = false
-                accessoryImageView.hidden = false
 
                 let user = work.user
                 reposCountLabel.text = "\(user.publicReposCount)"
@@ -25,6 +22,8 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
                     result + repo.stargazersCount
                 })
                 starsCountLabel.text = "\(starsCount)"
+
+                showDefail()
             }
         }
     }
@@ -55,6 +54,26 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
 
         iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
+
+        hideDetail()
+    }
+
+    func hideDetail() {
+        reposImageView.hidden = true
+        reposCountLabel.hidden = true
+        starsImageView.hidden = true
+        starsCountLabel.hidden = true
+
+        accessoryImageView.hidden = true
+    }
+
+    func showDefail() {
+        reposImageView.hidden = false
+        reposCountLabel.hidden = false
+        starsImageView.hidden = false
+        starsCountLabel.hidden = false
+
+        accessoryImageView.hidden = false
     }
 
     func configureWithProfileUser(profileUser: ProfileUser?, socialAccount: SocialAccount, githubWork: GithubWork?, completion: ((GithubWork) -> Void)?) {
@@ -79,12 +98,7 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
         }
         
         if !accountEnabled {
-            reposImageView.hidden = true
-            reposCountLabel.text = ""
-            starsImageView.hidden = true
-            starsCountLabel.text = ""
-
-            accessoryImageView.hidden = true
+            hideDetail()
 
         } else {
             if let githubWork = githubWork {
