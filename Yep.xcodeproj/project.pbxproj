@@ -49,6 +49,7 @@
 		0AEB1CC41B0E6A4B00178C9C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEB1CC31B0E6A4B00178C9C /* Crashlytics.framework */; };
 		0AEB1CC61B0E742400178C9C /* Double+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB1CC51B0E742400178C9C /* Double+Yep.swift */; };
 		15606C18E1487982869C0A42 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD88F6095DB46DFAD41AB5DB /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		501560D71B427FD6000933F0 /* Results+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501560D61B427FD6000933F0 /* Results+Yep.swift */; };
 		50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50165C441AC2860900C7AEBE /* ConversationLayout.swift */; };
 		5019F6311B39BFE00000D993 /* ConversationMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5019F6301B39BFE00000D993 /* ConversationMoreView.swift */; };
 		502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */; };
@@ -271,6 +272,7 @@
 		0AEB1CC31B0E6A4B00178C9C /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		0AEB1CC51B0E742400178C9C /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
 		2268251A75FF6766DC31CCFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		501560D61B427FD6000933F0 /* Results+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Results+Yep.swift"; path = "Extensions/Results+Yep.swift"; sourceTree = "<group>"; };
 		50165C441AC2860900C7AEBE /* ConversationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationLayout.swift; path = ViewControllers/Conversation/ConversationLayout.swift; sourceTree = "<group>"; };
 		5019F6301B39BFE00000D993 /* ConversationMoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMoreView.swift; path = Views/ConversationMore/ConversationMoreView.swift; sourceTree = "<group>"; };
 		502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedUsersViewController.swift; path = ViewControllers/SearchedUsers/SearchedUsersViewController.swift; sourceTree = "<group>"; };
@@ -751,6 +753,7 @@
 				508F8FE11B04B1F900461B0B /* UIDevice+Yep.swift */,
 				0AEB1CC51B0E742400178C9C /* Double+Yep.swift */,
 				503A54EC1B328ADB002077BD /* NSLocale+Yep.swift */,
+				501560D61B427FD6000933F0 /* Results+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -1713,6 +1716,7 @@
 				503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				508F8FC81B0161EF00461B0B /* ProfileSeparationLineCell.swift in Sources */,
+				501560D71B427FD6000933F0 /* Results+Yep.swift in Sources */,
 				0AEB1CC61B0E742400178C9C /* Double+Yep.swift in Sources */,
 				508D174C1ACCF49B0092D666 /* ChatRightAudioCell.swift in Sources */,
 				502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */,

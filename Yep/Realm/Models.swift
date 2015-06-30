@@ -9,12 +9,6 @@
 import RealmSwift
 
 
-extension Results {
-    subscript (safe index: Int) -> T? {
-        return (index >= 0 && index < count) ? self[index] : nil
-    }
-}
-
 // 总是在这个队列里使用 Realm
 let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)
 
@@ -446,14 +440,6 @@ func tryCreateSectionDateMessageInConversation(conversation: Conversation, befor
             }
         }
     }
-}
-
-func findMessageByMessageID(messageID: String, inRealm realm: Realm) -> Results<Message> {
-    
-    let predicate = NSPredicate(format: "messageID = %@", argumentArray: [messageID])
-    let messages = realm.objects(Message).filter(predicate).sorted("createdAt", ascending: true)
-    return messages
-    
 }
 
 func nameOfConversation(conversation: Conversation) -> String? {
