@@ -77,32 +77,36 @@ class YepDownloader: NSObject {
 
                     if let message = messageWithMessageID(messageID, inRealm: realm) {
 
-                        switch mediaType {
+                        if message.downloadState != MessageDownloadState.Downloaded.rawValue {
 
-                        case MessageMediaType.Image.rawValue:
+                            switch mediaType {
 
-                            if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
-                                self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
+                            case MessageMediaType.Image.rawValue:
 
-                                if let image = UIImage(data: data) {
-                                    imageFinished?(image)
+                                if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
+
+                                    self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
+
+                                    if let image = UIImage(data: data) {
+                                        imageFinished?(image)
+                                    }
                                 }
+
+                            case MessageMediaType.Video.rawValue:
+
+                                if let fileURL = NSFileManager.saveMessageVideoData(data, withName: fileName) {
+                                    self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
+                                }
+
+                            case MessageMediaType.Audio.rawValue:
+
+                                if let fileURL = NSFileManager.saveMessageAudioData(data, withName: fileName) {
+                                    self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
+                                }
+                                
+                            default:
+                                break
                             }
-
-                        case MessageMediaType.Video.rawValue:
-
-                            if let fileURL = NSFileManager.saveMessageVideoData(data, withName: fileName) {
-                                self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
-                            }
-
-                        case MessageMediaType.Audio.rawValue:
-
-                            if let fileURL = NSFileManager.saveMessageAudioData(data, withName: fileName) {
-                                self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
-                            }
-                            
-                        default:
-                            break
                         }
                     }
                 }
@@ -129,11 +133,16 @@ class YepDownloader: NSObject {
                             let realm = Realm()
 
                             if let message = messageWithMessageID(messageID, inRealm: realm) {
-                                if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
-                                    self.updateThumbnailOfMessage(message, withThumbnailFileName: fileName, inRealm: realm)
 
-                                    if let image = UIImage(data: data) {
-                                        imageFinished?(image)
+                                if message.localThumbnailName.isEmpty {
+
+                                    if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
+
+                                        self.updateThumbnailOfMessage(message, withThumbnailFileName: fileName, inRealm: realm)
+
+                                        if let image = UIImage(data: data) {
+                                            imageFinished?(image)
+                                        }
                                     }
                                 }
                             }
