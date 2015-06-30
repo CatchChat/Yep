@@ -40,8 +40,8 @@ class SocialWorkGithubViewController: BaseViewController {
 
                 infoView.hidden = false
 
-                AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(user.avatarURLString, withRadius: avatarImageView.bounds.width * 0.5) { [unowned self] image in
-                    self.avatarImageView.image = image
+                AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(user.avatarURLString, withRadius: avatarImageView.bounds.width * 0.5) { [weak self] image in
+                    self?.avatarImageView.image = image
                 }
 
                 followersCountLabel.text = "\(user.followersCount)"
