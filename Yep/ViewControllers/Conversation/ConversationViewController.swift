@@ -246,8 +246,8 @@ class ConversationViewController: BaseViewController {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout", name: EditProfileViewController.Notification.Logout, object: nil)
 
-        YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [unowned self] _ in
-            self.reloadConversationCollectionView()
+        YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
+            self?.reloadConversationCollectionView()
         }
 
 
@@ -277,17 +277,17 @@ class ConversationViewController: BaseViewController {
 
         lastTimeMessagesCount = messages.count
 
-        messageToolbar.textSendAction = { [unowned self] messageToolbar in
+        messageToolbar.textSendAction = { [weak self] messageToolbar in
             let text = messageToolbar.messageTextView.text!
 
-            self.cleanTextInput()
+            self?.cleanTextInput()
 
-            if let withFriend = self.conversation.withFriend {
+            if let withFriend = self?.conversation.withFriend {
 
-                sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
+                sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
+                        self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
                         })
                     }
 
@@ -298,15 +298,15 @@ class ConversationViewController: BaseViewController {
                         YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
                     }
 
-                }, completion: { success -> Void in
+                }, completion: { success in
                     println("sendText to friend: \(success)")
                 })
 
-            } else if let withGroup = self.conversation.withGroup {
-                sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [unowned self] message in
+            } else if let withGroup = self?.conversation.withGroup {
+                sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                        self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                         })
                     }
 
@@ -317,7 +317,7 @@ class ConversationViewController: BaseViewController {
                         YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
                     }
 
-                }, completion: { success -> Void in
+                }, completion: { success in
                     println("sendText to group: \(success)")
                 })
             }
@@ -340,50 +340,59 @@ class ConversationViewController: BaseViewController {
 
         // MARK: Audio Send
 
-        messageToolbar.voiceSendBeginAction = { [unowned self] messageToolbar in
-            self.view.addSubview(self.waverView)
-            self.swipeUpView.hidden = false
-            self.view.bringSubviewToFront(self.swipeUpView)
-            
-            let audioFileName = NSUUID().UUIDString
+        messageToolbar.voiceSendBeginAction = { [weak self] messageToolbar in
 
-            self.waverView.waver.resetWaveSamples()
-            self.samplesCount = 0
+            if let strongSelf = self {
 
-            if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
-                YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: self)
-            }
-            
-            if let withFriend = self.conversation.withFriend {
-                var typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Audio.rawValue]
+                strongSelf.view.addSubview(strongSelf.waverView)
+                strongSelf.swipeUpView.hidden = false
+                strongSelf.view.bringSubviewToFront(strongSelf.swipeUpView)
 
-                if FayeService.sharedManager.client.connected {
-                    FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
-                        println("Send recording \(result)")
-                    })
+                let audioFileName = NSUUID().UUIDString
+
+                strongSelf.waverView.waver.resetWaveSamples()
+                strongSelf.samplesCount = 0
+
+                if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
+                    YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: strongSelf)
+                }
+
+                if let withFriend = strongSelf.conversation.withFriend {
+
+                    let typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Audio.rawValue]
+
+                    if FayeService.sharedManager.client.connected {
+                        FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
+                            println("Send recording \(result)")
+                        })
+                    }
                 }
             }
         }
         
-        messageToolbar.voiceSendCancelAction = { [unowned self] messageToolbar in
-            self.swipeUpView.hidden = true
-            self.waverView.removeFromSuperview()
+        messageToolbar.voiceSendCancelAction = { [weak self] messageToolbar in
+            self?.swipeUpView.hidden = true
+            self?.waverView.removeFromSuperview()
+
             YepAudioService.sharedManager.endRecord()
         }
         
-        messageToolbar.voiceSendEndAction = { [unowned self] messageToolbar in
-            self.swipeUpView.hidden = true
-            self.waverView.removeFromSuperview()
+        messageToolbar.voiceSendEndAction = { [weak self] messageToolbar in
+            self?.swipeUpView.hidden = true
+            self?.waverView.removeFromSuperview()
+
             if YepAudioService.sharedManager.audioRecorder?.currentTime < 0.5 {
                 YepAudioService.sharedManager.endRecord()
                 return
             }
+
             YepAudioService.sharedManager.endRecord()
+
             // Prepare meta data
 
             var metaData: String? = nil
 
-            if let audioSamples = self.waverView.waver.compressSamples() {
+            if let audioSamples = self?.waverView.waver.compressSamples() {
 
                 var audioSamples = audioSamples
                 // 浮点数最多两位小数，使下面计算 metaData 时不至于太长
@@ -411,8 +420,8 @@ class ConversationViewController: BaseViewController {
             // Do send
 
             if let fileURL = YepAudioService.sharedManager.audioFileURL {
-                if let withFriend = self.conversation.withFriend {
-                    sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [unowned self] message in
+                if let withFriend = self?.conversation.withFriend {
+                    sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
 
                         dispatch_async(dispatch_get_main_queue()) {
                             if let realm = message.realm {
@@ -424,24 +433,24 @@ class ConversationViewController: BaseViewController {
                                 }
                                 realm.commitWrite()
 
-                                self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                                self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                                 })
                             }
                         }
 
-                    }, failureHandler: { (reason, errorMessage) -> Void in
+                    }, failureHandler: { reason, errorMessage in
                         defaultFailureHandler(reason, errorMessage)
 
                         dispatch_async(dispatch_get_main_queue()) {
                             YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
                         }
                         
-                    }, completion: { (success) -> Void in
+                    }, completion: { success in
                         println("send audio to friend: \(success)")
                     })
 
-                } else if let withGroup = self.conversation.withGroup {
-                    sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [unowned self] message in
+                } else if let withGroup = self?.conversation.withGroup {
+                    sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
 
                         dispatch_async(dispatch_get_main_queue()) {
                             if let realm = message.realm {
@@ -453,7 +462,7 @@ class ConversationViewController: BaseViewController {
                                 }
                                 realm.commitWrite()
 
-                                self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                                self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                                 })
                             }
                         }
@@ -465,7 +474,7 @@ class ConversationViewController: BaseViewController {
                             YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
                         }
 
-                    }, completion: { (success) -> Void in
+                    }, completion: { success in
                         println("send audio to group: \(success)")
                     })
                 }
@@ -474,56 +483,56 @@ class ConversationViewController: BaseViewController {
 
         // MARK: MessageToolbar State Transitions
 
-        messageToolbar.stateTransitionAction = { [unowned self] (messageToolbar, previousState, currentState) in
+        messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
 
-            switch (previousState, currentState) {
+            if let strongSelf = self {
 
-            case (.MoreMessages, .Default):
-                if !self.isKeyboardVisible {
-                    
-                    println("Adjust back collection View height")
-                    
-                    self.adjustBackCollectionViewWithHeight(0, animationDuration: 0.3, animationCurveValue: 7)
+                switch (previousState, currentState) {
+
+                case (.MoreMessages, .Default):
+                    if !strongSelf.isKeyboardVisible {
+
+                        println("Adjust back collection View height")
+
+                        strongSelf.adjustBackCollectionViewWithHeight(0, animationDuration: 0.3, animationCurveValue: 7)
+
+                    } else {
+                        strongSelf.hideKeyboardAndShowMoreMessageView()
+                    }
+
+                default:
+                    if currentState == .MoreMessages {
+                        strongSelf.hideKeyboardAndShowMoreMessageView()
+                    }
+                }
+
+                // 尝试保留草稿
+
+                let realm = Realm()
+
+                if let draft = strongSelf.conversation.draft {
+                    realm.write {
+                        draft.messageToolbarState = currentState.rawValue
+                        draft.text = messageToolbar.messageTextView.text
+                    }
 
                 } else {
-                    self.hideKeyboardAndShowMoreMessageView()
-                }
-
-            default:
-                if currentState == .MoreMessages {
-                    self.hideKeyboardAndShowMoreMessageView()
-                }
-            }
-
-
-            // 尝试保留草稿
-
-            let realm = Realm()
-
-            if let draft = self.conversation.draft {
-                realm.write {
+                    let draft = Draft()
                     draft.messageToolbarState = currentState.rawValue
-                    draft.text = messageToolbar.messageTextView.text
-                }
-
-            } else {
-                let draft = Draft()
-                draft.messageToolbarState = currentState.rawValue
-
-                realm.write {
-                    self.conversation.draft = draft
+                    
+                    realm.write {
+                        strongSelf.conversation.draft = draft
+                    }
                 }
             }
-
         }
-    
 
         // MARK: More Message Types
 
         choosePhotoButton.title = NSLocalizedString("Choose photo", comment: "")
-        choosePhotoButton.tapAction = {
+        choosePhotoButton.tapAction = { [weak self] in
 
-            let openCameraRoll: () -> Void = { [unowned self] in
+            let openCameraRoll: () -> Void = { [weak self] in
                 if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
                     let imagePicker = UIImagePickerController()
                     imagePicker.delegate = self
@@ -532,11 +541,11 @@ class ConversationViewController: BaseViewController {
                     imagePicker.videoQuality = .TypeMedium
                     imagePicker.allowsEditing = false
 
-                    self.presentViewController(imagePicker, animated: true, completion: nil)
+                    self?.presentViewController(imagePicker, animated: true, completion: nil)
                 }
             }
 
-            let alertCanNotAccessCameraRoll: () -> Void = { [unowned self] in
+            let alertCanNotAccessCameraRoll: () -> Void = { [weak self] in
                 YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Camera Roll!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
 
                     UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
@@ -559,9 +568,9 @@ class ConversationViewController: BaseViewController {
         }
 
         takePhotoButton.title = NSLocalizedString("Take photo", comment: "")
-        takePhotoButton.tapAction = {
+        takePhotoButton.tapAction = { [weak self] in
 
-            let openCamera: () -> Void = { [unowned self] in
+            let openCamera: () -> Void = { [weak self] in
                 if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
                     let imagePicker = UIImagePickerController()
                     imagePicker.delegate = self
@@ -570,11 +579,11 @@ class ConversationViewController: BaseViewController {
                     imagePicker.videoQuality = .TypeMedium
                     imagePicker.allowsEditing = false
 
-                    self.presentViewController(imagePicker, animated: true, completion: nil)
+                    self?.presentViewController(imagePicker, animated: true, completion: nil)
                 }
             }
 
-            let alertCanNotOpenCamera: () -> Void = { [unowned self] in
+            let alertCanNotOpenCamera: () -> Void = { [weak self] in
                 YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not open your Camera!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
 
                     UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
@@ -973,8 +982,8 @@ class ConversationViewController: BaseViewController {
 
         messageToolbar.state = .Default
 
-        moreView.showProfileAction = { [unowned self] in
-            self.performSegueWithIdentifier("showProfile", sender: nil)
+        moreView.showProfileAction = { [weak self] in
+            self?.performSegueWithIdentifier("showProfile", sender: nil)
         }
 
         if let user = conversation.withFriend {
@@ -996,16 +1005,16 @@ class ConversationViewController: BaseViewController {
             })
         }
 
-        moreView.toggleDoNotDisturbAction = { [unowned self] in
-            self.toggleDoNotDisturb()
+        moreView.toggleDoNotDisturbAction = { [weak self] in
+            self?.toggleDoNotDisturb()
         }
 
-        moreView.toggleBlockAction = { [unowned self] in
-            self.toggleBlock()
+        moreView.toggleBlockAction = { [weak self] in
+            self?.toggleBlock()
         }
 
-        moreView.reportAction = { [unowned self] in
-            self.report()
+        moreView.reportAction = { [weak self] in
+            self?.report()
         }
 
         if let window = view.window {
@@ -1049,12 +1058,12 @@ class ConversationViewController: BaseViewController {
     }
 
     func report() {
-        let reportWithReason: ReportReason -> Void = { [unowned self] reason in
+        let reportWithReason: ReportReason -> Void = { [weak self] reason in
 
-            if let user = self.conversation.withFriend {
+            if let user = self?.conversation.withFriend {
                 let profileUser = ProfileUser.UserType(user)
 
-                reportProfileUser(profileUser, forReason: reason, failureHandler: { (reason, errorMessage) in
+                reportProfileUser(profileUser, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
                     defaultFailureHandler(reason, errorMessage)
 
                     if let errorMessage = errorMessage {
@@ -1063,7 +1072,7 @@ class ConversationViewController: BaseViewController {
                         }
                     }
 
-                }, completion: { success in
+                }, completion: { [weak self] success in
                     dispatch_async(dispatch_get_main_queue()) {
                         YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Report recorded!", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
                     }
@@ -1685,14 +1694,14 @@ class ConversationViewController: BaseViewController {
             let nvc = segue.destinationViewController as! UINavigationController
             let vc = nvc.topViewController as! PickLocationViewController
 
-            vc.sendLocationAction = { [unowned self] coordinate in
+            vc.sendLocationAction = { [weak self] coordinate in
 
-                if let withFriend = self.conversation.withFriend {
+                if let withFriend = self?.conversation.withFriend {
 
                     sendLocationWithCoordinate(coordinate, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
 
                         dispatch_async(dispatch_get_main_queue()) {
-                            self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                            self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                             })
                         }
 
@@ -1707,11 +1716,11 @@ class ConversationViewController: BaseViewController {
                         println("sendLocation to friend: \(success)")
                     })
 
-                } else if let withGroup = self.conversation.withGroup {
+                } else if let withGroup = self?.conversation.withGroup {
 
                     sendLocationWithCoordinate(coordinate, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                         dispatch_async(dispatch_get_main_queue()) {
-                            self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                            self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                             })
                         }
 
@@ -1796,10 +1805,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Image.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftImageCellIdentifier, forIndexPath: indexPath) as! ChatLeftImageCell
 
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [unowned self] in
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
 
                         if message.downloadState == MessageDownloadState.Downloaded.rawValue {
-                            self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                            self?.performSegueWithIdentifier("showMessageMedia", sender: message)
 
                         } else {
                             YepAlert.alertSorry(message: NSLocalizedString("Please wait while the image is not dready!", comment: ""), inViewController: self)
@@ -1820,10 +1829,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     let audioPlayedDuration = audioPlayedDurationOfMessage(message)
 
-                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { [unowned self] in
+                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { [weak self] in
 
                         if message.downloadState == MessageDownloadState.Downloaded.rawValue {
-                            self.playMessageAudioWithMessage(message)
+                            self?.playMessageAudioWithMessage(message)
 
                         } else {
                             YepAlert.alertSorry(message: NSLocalizedString("Please wait while the audio is not dready!", comment: ""), inViewController: self)
@@ -1836,10 +1845,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Video.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftVideoCellIdentifier, forIndexPath: indexPath) as! ChatLeftVideoCell
 
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [unowned self] in
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
 
                         if message.downloadState == MessageDownloadState.Downloaded.rawValue {
-                            self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                            self?.performSegueWithIdentifier("showMessageMedia", sender: message)
 
                         } else {
                             YepAlert.alertSorry(message: NSLocalizedString("Please wait while the video is not dready!", comment: ""), inViewController: self)
@@ -1857,7 +1866,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Location.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftLocationCellIdentifier, forIndexPath: indexPath) as! ChatLeftLocationCell
 
-                    cell.configureWithMessage(message, mediaTapAction: { [unowned self] in
+                    cell.configureWithMessage(message, mediaTapAction: { [weak self] in
                         if let coordinate = message.coordinate {
                             let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
                             let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
@@ -1886,7 +1895,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Image.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
 
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [unowned self] in
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
 
                         if message.sendState == MessageSendState.Failed.rawValue {
 
@@ -1907,7 +1916,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             })
 
                         } else {
-                            self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                            self?.performSegueWithIdentifier("showMessageMedia", sender: message)
 
                             //let frame = cell.convertRect(cell.messageImageView.frame, toView: self.view.window)
 
@@ -1924,7 +1933,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     let audioPlayedDuration = audioPlayedDurationOfMessage(message)
 
-                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { [unowned self] in
+                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { [weak self] in
 
                         if message.sendState == MessageSendState.Failed.rawValue {
 
@@ -1947,7 +1956,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             return
                         }
 
-                        self.playMessageAudioWithMessage(message)
+                        self?.playMessageAudioWithMessage(message)
 
                     }, collectionView: collectionView, indexPath: indexPath)
 
@@ -1956,7 +1965,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Video.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightVideoCellIdentifier, forIndexPath: indexPath) as! ChatRightVideoCell
 
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [unowned self] in
+                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
 
                         if message.sendState == MessageSendState.Failed.rawValue {
 
@@ -1977,7 +1986,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             })
 
                         } else {
-                            self.performSegueWithIdentifier("showMessageMedia", sender: message)
+                            self?.performSegueWithIdentifier("showMessageMedia", sender: message)
 
                             //let frame = cell.convertRect(cell.thumbnailImageView.frame, toView: self.view.window)
 
@@ -1992,7 +2001,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 case MessageMediaType.Location.rawValue:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightLocationCellIdentifier, forIndexPath: indexPath) as! ChatRightLocationCell
 
-                    cell.configureWithMessage(message, mediaTapAction: { [unowned self] in
+                    cell.configureWithMessage(message, mediaTapAction: { [weak self] in
 
                         if message.sendState == MessageSendState.Failed.rawValue {
 
@@ -2031,7 +2040,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
 
-                    cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: { [unowned self] in
+                    cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: { [weak self] in
 
                         if message.sendState == MessageSendState.Failed.rawValue {
 
@@ -2147,50 +2156,54 @@ extension ConversationViewController: PullToRefreshViewDelegate {
     
     func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
 
-        delay(1) {
-            pulllToRefreshView.endRefreshingAndDoFurtherAction() { [unowned self] in
+        delay(0.7) {
+            pulllToRefreshView.endRefreshingAndDoFurtherAction() { [weak self] in
 
-                let lastDisplayedMessagesRange = self.displayedMessagesRange
+                if let strongSelf = self {
+                    let lastDisplayedMessagesRange = strongSelf.displayedMessagesRange
 
-                var newMessagesCount = self.messagesBunchCount
+                    var newMessagesCount = strongSelf.messagesBunchCount
 
-                if (self.displayedMessagesRange.location - newMessagesCount) < 0 {
-                    newMessagesCount = self.displayedMessagesRange.location - newMessagesCount
-                }
-
-                if newMessagesCount > 0 {
-                    self.displayedMessagesRange.location -= newMessagesCount
-                    self.displayedMessagesRange.length += newMessagesCount
-
-                    self.lastTimeMessagesCount = self.messages.count // 同样需要纪录它
-
-                    var indexPaths = [NSIndexPath]()
-                    for i in 0..<newMessagesCount {
-                        let indexPath = NSIndexPath(forItem: Int(i), inSection: 0)
-                        indexPaths.append(indexPath)
+                    if (strongSelf.displayedMessagesRange.location - newMessagesCount) < 0 {
+                        newMessagesCount = strongSelf.displayedMessagesRange.location - newMessagesCount
                     }
 
-                    let bottomOffset = self.conversationCollectionView.contentSize.height - self.conversationCollectionView.contentOffset.y
-                    
-                    CATransaction.begin()
-                    CATransaction.setDisableActions(true)
+                    if newMessagesCount > 0 {
+                        strongSelf.displayedMessagesRange.location -= newMessagesCount
+                        strongSelf.displayedMessagesRange.length += newMessagesCount
 
-                    self.conversationCollectionView.performBatchUpdates({ () -> Void in
-                        self.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+                        strongSelf.lastTimeMessagesCount = strongSelf.messages.count // 同样需要纪录它
 
-                    }, completion: { (finished) -> Void in
-                        var contentOffset = self.conversationCollectionView.contentOffset
-                        contentOffset.y = self.conversationCollectionView.contentSize.height - bottomOffset
+                        var indexPaths = [NSIndexPath]()
+                        for i in 0..<newMessagesCount {
+                            let indexPath = NSIndexPath(forItem: Int(i), inSection: 0)
+                            indexPaths.append(indexPath)
+                        }
 
-                        self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
+                        let bottomOffset = strongSelf.conversationCollectionView.contentSize.height - strongSelf.conversationCollectionView.contentOffset.y
+                        
+                        CATransaction.begin()
+                        CATransaction.setDisableActions(true)
 
-                        CATransaction.commit()
+                        strongSelf.conversationCollectionView.performBatchUpdates({ [weak self] in
+                            self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
 
-                        // 上面的 CATransaction 保证了 CollectionView 在插入后不闪动
-                        // 此时再做个 scroll 动画比较自然
-                        let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: 0)
-                        self.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: true)
-                    })
+                        }, completion: { [weak self] finished in
+                            if let strongSelf = self {
+                                var contentOffset = strongSelf.conversationCollectionView.contentOffset
+                                contentOffset.y = strongSelf.conversationCollectionView.contentSize.height - bottomOffset
+
+                                strongSelf.conversationCollectionView.setContentOffset(contentOffset, animated: false)
+
+                                CATransaction.commit()
+
+                                // 上面的 CATransaction 保证了 CollectionView 在插入后不闪动
+                                // 此时再做个 scroll 动画比较自然
+                                let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: 0)
+                                strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: true)
+                            }
+                        })
+                    }
                 }
             }
         }
@@ -2297,7 +2310,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         if let withFriend = conversation.withFriend {
 
-            sendImageInFilePath(nil, orFileData: imageData, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [unowned self] message in
+            sendImageInFilePath(nil, orFileData: imageData, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
 
                 dispatch_async(dispatch_get_main_queue()) {
 
@@ -2313,7 +2326,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
 
-                    self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                    self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                     })
                 }
 
@@ -2329,7 +2342,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             })
 
         } else if let withGroup = conversation.withGroup {
-            sendImageInFilePath(nil, orFileData: imageData, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [unowned self] message in
+            sendImageInFilePath(nil, orFileData: imageData, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
 
                 dispatch_async(dispatch_get_main_queue()) {
                     if let messageImageURL = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
@@ -2344,7 +2357,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
                     
-                    self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                    self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                     })
                 }
                 
@@ -2382,7 +2395,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         let messageVideoName = NSUUID().UUIDString
 
-        let afterCreatedMessageAction = { [unowned self] (message: Message) in
+        let afterCreatedMessageAction = { [weak self] (message: Message) in
             dispatch_async(dispatch_get_main_queue()) {
 
                 if let videoData = NSData(contentsOfURL: videoURL) {
@@ -2407,7 +2420,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
 
-                    self.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                    self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                     })
                 }
             }

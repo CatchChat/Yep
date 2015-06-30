@@ -92,17 +92,17 @@ class ChatLeftAudioCell: UICollectionViewCell {
 
         self.audioPlayedDuration = audioPlayedDuration
         
-        YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { [unowned self] progress in
+        YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { [weak self] progress in
             dispatch_async(dispatch_get_main_queue()) {
-                self.loadingWithProgress(progress)
+                self?.loadingWithProgress(progress)
             }
         })
 
         if let sender = message.fromFriend {
-            AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { [unowned self] roundImage in
+            AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { [weak self] roundImage in
                 dispatch_async(dispatch_get_main_queue()) {
                     if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                        self.avatarImageView.image = roundImage
+                        self?.avatarImageView.image = roundImage
                     }
                 }
             }

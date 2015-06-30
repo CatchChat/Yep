@@ -37,16 +37,16 @@ class SettingsUserCell: UITableViewCell {
         let avatarSize = YepConfig.Settings.userCellAvatarSize
         avatarImageViewWidthConstraint.constant = avatarSize
 
-        YepUserDefaults.avatarURLString.bindAndFireListener(Listener.Avatar) { [unowned self] _ in
-            self.updateAvatar()
+        YepUserDefaults.avatarURLString.bindAndFireListener(Listener.Avatar) { [weak self] _ in
+            self?.updateAvatar()
         }
 
-        YepUserDefaults.nickname.bindAndFireListener(Listener.Nickname) { [unowned self] nickname in
-            self.nameLabel.text = nickname
+        YepUserDefaults.nickname.bindAndFireListener(Listener.Nickname) { [weak self] nickname in
+            self?.nameLabel.text = nickname
         }
 
-        YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [unowned self] introduction in
-            self.introLabel.text = introduction
+        YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [weak self] introduction in
+            self?.introLabel.text = introduction
         }
 
         introLabel.font = YepConfig.Settings.introFont
@@ -62,12 +62,12 @@ class SettingsUserCell: UITableViewCell {
             let avatarSize = YepConfig.Settings.userCellAvatarSize
 
             avatarImageView.alpha = 0
-            AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: avatarSize * 0.5) { [unowned self] image in
+            AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: avatarSize * 0.5) { [weak self] image in
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.avatarImageView.image = image
+                    self?.avatarImageView.image = image
 
                     UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
-                        self.avatarImageView.alpha = 1
+                        self?.avatarImageView.alpha = 1
                     }, completion: { (finished) -> Void in
                     })
                 }

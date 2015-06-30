@@ -41,12 +41,12 @@ class ContactsViewController: BaseViewController {
         contactsTableView.rowHeight = 80
         contactsTableView.tableFooterView = UIView()
 
-        YepUserDefaults.nickname.bindListener(Listener.Nickname) { [unowned self] _ in
-            self.updateContactsTableView()
+        YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] _ in
+            self?.updateContactsTableView()
         }
 
-        YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [unowned self] _ in
-            self.updateContactsTableView()
+        YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
+            self?.updateContactsTableView()
         }
     }
 
@@ -90,20 +90,22 @@ class ContactsViewController: BaseViewController {
 }
 
 extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Int(friends.count)
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
 
         let friend = friends[indexPath.row]
 
         let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
 
-        AvatarCache.sharedInstance.roundAvatarOfUser(friend, withRadius: radius) { [unowned self] roundImage in
+        AvatarCache.sharedInstance.roundAvatarOfUser(friend, withRadius: radius) { [weak cell] roundImage in
             dispatch_async(dispatch_get_main_queue()) {
-                cell.avatarImageView.image = roundImage
+                cell?.avatarImageView.image = roundImage
             }
         }
 

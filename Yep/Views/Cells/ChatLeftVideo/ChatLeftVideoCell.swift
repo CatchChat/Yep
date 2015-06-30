@@ -57,10 +57,10 @@ class ChatLeftVideoCell: UICollectionViewCell {
         self.mediaTapAction = mediaTapAction
 
         if let sender = message.fromFriend {
-            AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { [unowned self] roundImage in
+            AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { [weak self] roundImage in
                 dispatch_async(dispatch_get_main_queue()) {
                     if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                        self.avatarImageView.image = roundImage
+                        self?.avatarImageView.image = roundImage
                     }
                 }
             }
@@ -71,17 +71,17 @@ class ChatLeftVideoCell: UICollectionViewCell {
         if message.metaData.isEmpty {
             thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
 
-            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Left, loadingProgress: { [unowned self] progress in
+            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Left, loadingProgress: { [weak self] progress in
 
-                self.loadingWithProgress(progress)
+                self?.loadingWithProgress(progress)
 
-            }, completion: { [unowned self] image in
+            }, completion: { [weak self] image in
                 dispatch_async(dispatch_get_main_queue()) {
                     if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                        self.thumbnailImageView.image = image
+                        self?.thumbnailImageView.image = image
 
                         UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                            self.thumbnailImageView.alpha = 1.0
+                            self?.thumbnailImageView.alpha = 1.0
                         }, completion: { (finished) -> Void in
                         })
                     }
@@ -103,17 +103,17 @@ class ChatLeftVideoCell: UICollectionViewCell {
                             if aspectRatio >= 1 {
                                 thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
 
-                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Left, loadingProgress: { [unowned self] progress in
+                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Left, loadingProgress: { [weak self] progress in
 
-                                    self.loadingWithProgress(progress)
+                                    self?.loadingWithProgress(progress)
 
-                                }, completion: { [unowned self] image in
+                                }, completion: { [weak self] image in
                                     dispatch_async(dispatch_get_main_queue()) {
                                         if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                                            self.thumbnailImageView.image = image
+                                            self?.thumbnailImageView.image = image
 
                                             UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                                                self.thumbnailImageView.alpha = 1.0
+                                                self?.thumbnailImageView.alpha = 1.0
                                             }, completion: { (finished) -> Void in
                                             })
                                         }
@@ -123,17 +123,17 @@ class ChatLeftVideoCell: UICollectionViewCell {
                             } else {
                                 thumbnailImageViewWidthConstraint.constant = messageImagePreferredHeight * aspectRatio
 
-                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Left, loadingProgress: { [unowned self] progress in
+                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Left, loadingProgress: { [weak self] progress in
 
-                                    self.loadingWithProgress(progress)
+                                    self?.loadingWithProgress(progress)
                                     
-                                }, completion: { [unowned self] image in
+                                }, completion: { [weak self] image in
                                     dispatch_async(dispatch_get_main_queue()) {
                                         if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                                            self.thumbnailImageView.image = image
+                                            self?.thumbnailImageView.image = image
 
                                             UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                                                self.thumbnailImageView.alpha = 1.0
+                                                self?.thumbnailImageView.alpha = 1.0
                                             }, completion: { (finished) -> Void in
                                             })
                                         }

@@ -65,9 +65,9 @@ class ProfileHeaderCell: UICollectionViewCell {
         updateAvatarWithAvatarURLString(user.avatarURLString)
 
         if user.friendState == UserFriendState.Me.rawValue {
-            YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [unowned self] avatarURLString in
+            YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] avatarURLString in
                 if let avatarURLString = avatarURLString {
-                    self.updateAvatarWithAvatarURLString(avatarURLString)
+                    self?.updateAvatarWithAvatarURLString(avatarURLString)
                 }
             }
 
@@ -94,19 +94,19 @@ class ProfileHeaderCell: UICollectionViewCell {
             avatarBlurImageView.alpha = 0
         }
 
-        AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!) { [unowned self] image in
+        AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!) { [weak self] image in
 
-            self.blurImage(image) { blurredImage in
+            self?.blurImage(image) { blurredImage in
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.avatarBlurImageView.image = blurredImage
+                    self?.avatarBlurImageView.image = blurredImage
                 }
             }
 
             dispatch_async(dispatch_get_main_queue()) {
-                self.avatarImageView.image = image
+                self?.avatarImageView.image = image
 
                 UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
-                    self.avatarImageView.alpha = 1
+                    self?.avatarImageView.alpha = 1
                 }, completion: { (finished) -> Void in
                 })
             }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15A178w" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15A204h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -623,7 +623,7 @@
         <!--Settings View Controller-->
         <scene sceneID="qZs-Er-4wk">
             <objects>
-                <viewController storyboardIdentifier="SettingsViewController" id="XUP-IX-8LL" customClass="SettingsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsViewController" hidesBottomBarWhenPushed="YES" id="XUP-IX-8LL" customClass="SettingsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jwF-rD-Sd7"/>
                         <viewControllerLayoutGuide type="bottom" id="MGN-9w-VIC"/>
@@ -1405,7 +1405,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="0bS-uM-LPI"/>
+        <segue reference="PTw-QB-dRp"/>
         <segue reference="6No-Lc-7X4"/>
-        <segue reference="btf-on-xQx"/>
     </inferredMetricsTieBreakers>
 </document>
