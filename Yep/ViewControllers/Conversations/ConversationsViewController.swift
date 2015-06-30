@@ -123,13 +123,15 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ConversationCell
 
-        let conversation = conversations[indexPath.row]
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ConversationCell
 
-        let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
+        if let conversation = conversations[safe: indexPath.row] {
 
-        cell.configureWithConversation(conversation, avatarRadius: radius)
+            let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
+
+            cell.configureWithConversation(conversation, avatarRadius: radius)
+        }
 
         return cell
     }
@@ -152,69 +154,71 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
         if editingStyle == .Delete {
 
-            let conversation = conversations[indexPath.row]
+            if let conversation = conversations[safe: indexPath.row] {
 
-            if let realm = conversation.realm {
+                if let realm = conversation.realm {
 
-                let clearMessages: () -> Void = {
+                    let clearMessages: () -> Void = {
 
-                    let messages = conversation.messages
+                        let messages = conversation.messages
 
-                    // delete all media files of messages
+                        // delete all media files of messages
 
-                    messages.map { deleteMediaFilesOfMessage($0) }
+                        messages.map { deleteMediaFilesOfMessage($0) }
 
-                    // delete all messages in conversation
-                    
-                    realm.write {
-                        realm.delete(messages)
+                        // delete all messages in conversation
+                        
+                        realm.write {
+                            realm.delete(messages)
+                        }
                     }
-                }
 
-                let delete: () -> Void = {
+                    let delete: () -> Void = {
 
-                    clearMessages()
+                        clearMessages()
 
-                    // delete conversation, finally
+                        // delete conversation, finally
 
-                    realm.write {
-                        realm.delete(conversation)
+                        realm.write {
+                            realm.delete(conversation)
+                        }
                     }
-                }
 
-                // show ActionSheet before delete
+                    // show ActionSheet before delete
 
-                let deleteAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+                    let deleteAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
 
-                let clearHistoryAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Clear history", comment: ""), style: .Default) { action -> Void in
+                    let clearHistoryAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Clear history", comment: ""), style: .Default) { action -> Void in
 
-                    clearMessages()
+                        clearMessages()
 
-                    tableView.setEditing(false, animated: true)
+                        tableView.setEditing(false, animated: true)
 
-                    // update cell
-                    
-                    if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-                        let conversation = self.conversations[indexPath.row]
-                        let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
-                        cell.configureWithConversation(conversation, avatarRadius: radius)
+                        // update cell
+                        
+                        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+                            if let conversation = self.conversations[safe: indexPath.row] {
+                                let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
+                                cell.configureWithConversation(conversation, avatarRadius: radius)
+                            }
+                        }
                     }
+                    deleteAlertController.addAction(clearHistoryAction)
+
+                    let deleteAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .Destructive) { action -> Void in
+                        delete()
+
+                        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    }
+                    deleteAlertController.addAction(deleteAction)
+
+                    let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
+                        tableView.setEditing(false, animated: true)
+                    }
+                    deleteAlertController.addAction(cancelAction)
+
+                    self.presentViewController(deleteAlertController, animated: true, completion: nil)
                 }
-                deleteAlertController.addAction(clearHistoryAction)
-
-                let deleteAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .Destructive) { action -> Void in
-                    delete()
-
-                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                }
-                deleteAlertController.addAction(deleteAction)
-
-                let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
-                    tableView.setEditing(false, animated: true)
-                }
-                deleteAlertController.addAction(cancelAction)
-
-                self.presentViewController(deleteAlertController, animated: true, completion: nil)
             }
         }
     }
