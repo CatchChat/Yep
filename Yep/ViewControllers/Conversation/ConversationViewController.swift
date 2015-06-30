@@ -1799,9 +1799,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     let audioPlayedDuration = audioPlayedDurationOfMessage(message)
 
-                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { [unowned self] message in
+                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { [unowned self] in
 
-                        self.playMessageAudioWithMessage(message)
+                        if message.downloadState == MessageDownloadState.Downloaded.rawValue {
+                            self.playMessageAudioWithMessage(message)
+
+                        } else {
+                            YepAlert.alertSorry(message: NSLocalizedString("Please wait while the audio is not dready!", comment: ""), inViewController: self)
+                        }
 
                     }, collectionView: collectionView, indexPath: indexPath)
                                         
@@ -1898,29 +1903,27 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     let audioPlayedDuration = audioPlayedDurationOfMessage(message)
 
-                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { [unowned self] message in
+                    cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { [unowned self] in
 
-                        if let message = message {
-                            if message.sendState == MessageSendState.Failed.rawValue {
+                        if message.sendState == MessageSendState.Failed.rawValue {
 
-                                YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend audio?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+                            YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend audio?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
 
-                                    resendMessage(message, failureHandler: { (reason, errorMessage) in
-                                        defaultFailureHandler(reason, errorMessage)
+                                resendMessage(message, failureHandler: { (reason, errorMessage) in
+                                    defaultFailureHandler(reason, errorMessage)
 
-                                        dispatch_async(dispatch_get_main_queue()) {
-                                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
-                                        }
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
+                                    }
 
-                                    }, completion: { success in
-                                        println("resendAudio: \(success)")
-                                    })
-
-                                }, cancelAction: {
+                                }, completion: { success in
+                                    println("resendAudio: \(success)")
                                 })
 
-                                return
-                            }
+                            }, cancelAction: {
+                            })
+
+                            return
                         }
 
                         self.playMessageAudioWithMessage(message)

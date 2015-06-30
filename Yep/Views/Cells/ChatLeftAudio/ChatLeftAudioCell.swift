@@ -45,7 +45,7 @@ class ChatLeftAudioCell: UICollectionViewCell {
     
     @IBOutlet weak var loadingProgressView: MessageLoadingProgressView!
     
-    typealias AudioBubbleTapAction = (message: Message?) -> Void
+    typealias AudioBubbleTapAction = () -> Void
     var audioBubbleTapAction: AudioBubbleTapAction?
 
     func loadingWithProgress(progress: Double) {
@@ -81,7 +81,7 @@ class ChatLeftAudioCell: UICollectionViewCell {
     }
 
     func tapMediaView() {
-        audioBubbleTapAction?(message: message)
+        audioBubbleTapAction?()
     }
     
     func configureWithMessage(message: Message, audioPlayedDuration: Double, audioBubbleTapAction: AudioBubbleTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {

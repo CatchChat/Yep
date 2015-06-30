@@ -40,7 +40,7 @@ class ChatRightAudioCell: ChatRightBaseCell {
 
     @IBOutlet weak var playButton: UIButton!
 
-    typealias AudioBubbleTapAction = (message: Message?) -> Void
+    typealias AudioBubbleTapAction = () -> Void
     var audioBubbleTapAction: AudioBubbleTapAction?
     
     override func awakeFromNib() {
@@ -62,7 +62,7 @@ class ChatRightAudioCell: ChatRightBaseCell {
     }
 
     func tapMediaView() {
-        audioBubbleTapAction?(message: message)
+        audioBubbleTapAction?()
     }
 
     func configureWithMessage(message: Message, audioPlayedDuration: Double, audioBubbleTapAction: AudioBubbleTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
