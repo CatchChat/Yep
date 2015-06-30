@@ -57,9 +57,9 @@ class ConversationCell: UITableViewCell {
 
                 self.nameLabel.text = conversationWithFriend.nickname
 
-                AvatarCache.sharedInstance.roundAvatarOfUser(conversationWithFriend, withRadius: radius) { [unowned self] roundImage in
+                AvatarCache.sharedInstance.roundAvatarOfUser(conversationWithFriend, withRadius: radius) { [weak self] roundImage in
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.avatarImageView.image = roundImage
+                        self?.avatarImageView.image = roundImage
                     }
                 }
 
@@ -101,9 +101,9 @@ class ConversationCell: UITableViewCell {
 
             if let latestMessage = messagesInConversation(conversation).last {
                 if let messageSender = latestMessage.fromFriend {
-                    AvatarCache.sharedInstance.roundAvatarOfUser(messageSender, withRadius: radius) { [unowned self] roundImage in
+                    AvatarCache.sharedInstance.roundAvatarOfUser(messageSender, withRadius: radius) { [weak self] roundImage in
                         dispatch_async(dispatch_get_main_queue()) {
-                            self.avatarImageView.image = roundImage
+                            self?.avatarImageView.image = roundImage
                         }
                     }
                 }
