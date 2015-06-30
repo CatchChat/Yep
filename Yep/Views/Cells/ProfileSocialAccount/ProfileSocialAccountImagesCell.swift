@@ -97,6 +97,8 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
         imageView1.clipsToBounds = true
         imageView2.clipsToBounds = true
         imageView3.clipsToBounds = true
+
+        accessoryImageView.hidden = true
     }
 
     func configureWithProfileUser(profileUser: ProfileUser?, socialAccount: SocialAccount, socialWork: SocialWork?, completion: ((SocialWork) -> Void)?) {
