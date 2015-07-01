@@ -145,18 +145,20 @@ class AvatarCache {
         }
     }
 
-    var avatarCompletions = [AvatarCompletion]()
+    private var avatarCompletions = [AvatarCompletion]()
 
-    func completeWithImage(image: UIImage, avatarURLString: String) {
+    private func completeWithImage(image: UIImage, avatarURLString: String) {
 
         for avatarCompletion in avatarCompletions.filter({ $0.avatarURLString == avatarURLString }) {
 
-            let avatar = image.roundImageOfRadius(avatarCompletion.radius)
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+                let avatar = image.roundImageOfRadius(avatarCompletion.radius)
 
-            cache.setObject(avatar, forKey: avatarCompletion.avatarKey)
+                self.cache.setObject(avatar, forKey: avatarCompletion.avatarKey)
 
-            dispatch_async(dispatch_get_main_queue()) {
-                avatarCompletion.completion(avatar)
+                dispatch_async(dispatch_get_main_queue()) {
+                    avatarCompletion.completion(avatar)
+                }
             }
         }
 
@@ -184,6 +186,7 @@ class AvatarCache {
                 completion(roundImage)
 
             } else {
+                // NOTICE: 默认在主线程添加
                 avatarCompletions.append(avatarCompletion)
 
                 if avatarCompletions.filter({ $0.avatarURLString == avatarURLString }).count > 1 {
@@ -199,7 +202,11 @@ class AvatarCache {
                                 avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
                                 avatarFilePath = avatarFileURL.path,
                                 image = UIImage(contentsOfFile: avatarFilePath) {
-                                    self.completeWithImage(image, avatarURLString: avatarURLString)
+
+                                    // 因此，要在主线程完成，防止对比 avatarCompletions 时数量不对
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        self.completeWithImage(image, avatarURLString: avatarURLString)
+                                    }
 
                                     return
                             }
@@ -243,10 +250,16 @@ class AvatarCache {
                                 }
                             }
 
-                            self.completeWithImage(image, avatarURLString: avatarURLString)
+                            // 因此，要在主线程完成，防止对比 avatarCompletions 时数量不对
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self.completeWithImage(image, avatarURLString: avatarURLString)
+                            }
 
                         } else {
-                            self.completeWithImage(self.defaultRoundAvatarOfRadius(radius), avatarURLString: avatarURLString)
+                            // 因此，要在主线程完成，防止对比 avatarCompletions 时数量不对
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self.completeWithImage(self.defaultRoundAvatarOfRadius(radius), avatarURLString: avatarURLString)
+                            }
                         }
                     }
                 }
