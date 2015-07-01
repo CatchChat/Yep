@@ -125,7 +125,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         skillHomeScrollView.addSubview(learningtTableView)
         skillHomeScrollView.pagingEnabled = true
         skillHomeScrollView.delegate = self
-        skillHomeScrollView.bounces = false
+        skillHomeScrollView.directionalLockEnabled = true
         
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures
