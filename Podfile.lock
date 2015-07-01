@@ -20,8 +20,8 @@ PODS:
   - AFNetworking/UIKit (2.5.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - APAddressBook/Core (0.1.8)
-  - APAddressBook/Swift (0.1.8):
+  - APAddressBook/Core (0.1.11)
+  - APAddressBook/Swift (0.1.11):
     - APAddressBook/Core
   - Base64 (1.0.1)
   - FXBlurView (1.6.3)
@@ -30,11 +30,11 @@ PODS:
     - Base64 (~> 1.0.1)
     - SocketRocket (~> 0.3.1-beta2)
   - pop (1.0.7)
-  - Realm (0.92.4):
-    - Realm/Headers (= 0.92.4)
-  - Realm/Headers (0.92.4)
-  - RealmSwift (0.92.4):
-    - Realm (= 0.92.4)
+  - Realm (0.93.2):
+    - Realm/Headers (= 0.93.2)
+  - Realm/Headers (0.93.2)
+  - RealmSwift (0.93.2):
+    - Realm (= 0.93.2)
   - SocketRocket (0.3.1-beta2)
   - WebViewJavascriptBridge (4.1.4)
 
@@ -54,14 +54,14 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
-  APAddressBook: cfff7589c5f9ee6ddbe23636b7723c2dbfa60a47
+  APAddressBook: 2c949367b190a993d2cce769a3b20bce8bcf000c
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
   FXBlurView: c6d23f3d35af2c6282296a2930f61c6e2c788d01
   Kingfisher: 962a21cdc2a7b0fa63be3b2c45ea6f180feda535
   MZFayeClient: 19df756a4c86c8f414668e6edc54fccfee54adbb
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
-  Realm: 4267bae2eb7cf4a1e06ef3dfa7fe96024b28074c
-  RealmSwift: af48a8dea1a60b6e890be94148bece9432487b56
+  Realm: 2fdd0ae74f730e190384e0338d8a0d3654df8220
+  RealmSwift: 231b064da9f98b1c4f325fe1f1cb8756aae2b8d6
   SocketRocket: 7284ab9370a06c99aba92b2fe3a32aedd0f9a6fa
   WebViewJavascriptBridge: f10ac16f2cd3adf2b941bd79477c55a8f6e01044
 
