@@ -42,6 +42,12 @@ class ProfileHeaderCell: UICollectionViewCell {
 //        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
 //    }
 
+    var blurredAvatarImage: UIImage? {
+        willSet {
+            avatarBlurImageView.image = newValue
+        }
+    }
+
     func configureWithDiscoveredUser(discoveredUser: DiscoveredUser) {
         updateAvatarWithAvatarURLString(discoveredUser.avatarURLString)
 
@@ -62,11 +68,13 @@ class ProfileHeaderCell: UICollectionViewCell {
     }
 
     func configureWithUser(user: User) {
+
         updateAvatarWithAvatarURLString(user.avatarURLString)
 
         if user.friendState == UserFriendState.Me.rawValue {
             YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] avatarURLString in
                 if let avatarURLString = avatarURLString {
+                    self?.blurredAvatarImage = nil // need reblur
                     self?.updateAvatarWithAvatarURLString(avatarURLString)
                 }
             }
@@ -81,14 +89,21 @@ class ProfileHeaderCell: UICollectionViewCell {
 
 
     func blurImage(image: UIImage, completion: UIImage -> Void) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            let blurredImage = image.blurredImageWithRadius(20, iterations: 20, tintColor: UIColor.blackColor())
 
-            completion(blurredImage)
+        if let blurredAvatarImage = blurredAvatarImage {
+            completion(blurredAvatarImage)
+
+        } else {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                let blurredImage = image.blurredImageWithRadius(20, iterations: 20, tintColor: UIColor.blackColor())
+
+                completion(blurredImage)
+            }
         }
     }
 
     func updateAvatarWithAvatarURLString(avatarURLString: String) {
+
         if avatarImageView.image == nil {
             avatarImageView.alpha = 0
             avatarBlurImageView.alpha = 0
@@ -98,7 +113,7 @@ class ProfileHeaderCell: UICollectionViewCell {
 
             self?.blurImage(image) { blurredImage in
                 dispatch_async(dispatch_get_main_queue()) {
-                    self?.avatarBlurImageView.image = blurredImage
+                    self?.blurredAvatarImage = blurredImage
                 }
             }
 
