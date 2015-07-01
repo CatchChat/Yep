@@ -204,30 +204,31 @@ class Waver: UIView {
         
         var effectiveSample = bubbleWidth/(waveSquareWidth+waveGap) < 1 ? 1 : bubbleWidth/(waveSquareWidth+waveGap) //计算这个长度里实际可以放多少个sample
         
+        println("Bubble Width is \(bubbleWidth) effectiveSample \(effectiveSample)")
+        
         effectiveSample = max(20, effectiveSample)
         
-        var sampleGap = Int(CGFloat(samplesCount)/effectiveSample) //计算按照实际可放的sample数量，原sample需要每几个合并一次
+        var sampleGap = CGFloat(samplesCount)/effectiveSample //计算按照实际可放的sample数量，原sample需要每几个合并一次
         
         var timePerSample = totalTime/(CGFloat(samplesCount)/effectiveSample) //计算合并后每个 sample 需要经过多少时间播放
         
-        println("samplesCount \(samplesCount) totalTime \(totalTime) bubbleWidth \(bubbleWidth) effectiveSample \(effectiveSample) sampleGap \(sampleGap) timePerSample \(timePerSample)")
+        println("😄 samplesCount \(samplesCount) totalTime \(totalTime) bubbleWidth \(bubbleWidth) effectiveSample \(effectiveSample) sampleGap \(sampleGap) timePerSample \(timePerSample)")
         
         //
         
-        var sampleCount = 1
+        var sampleCount: CGFloat = 0
         
         var lastSample: CGFloat = 0
         
-        for sample in waveSamples {
+        for (index, sample) in enumerate(waveSamples) {
             
             lastSample = max(sample, lastSample)
             
-            if sampleCount >= sampleGap {
-                sampleCount = 1
+            
+            if CGFloat(index + 1) >= sampleCount {
                 finalSamples.append(Float(lastSample))
                 lastSample = 0
-            }else {
-                sampleCount += 1
+                sampleCount += sampleGap
             }
             
         }
