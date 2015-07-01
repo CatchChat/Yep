@@ -48,7 +48,8 @@ class YepAudioService: NSObject {
 
     func beginRecordWithFileURL(fileURL: NSURL, audioRecorderDelegate: AVAudioRecorderDelegate) {
         
-        AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
+        AVAudioSession.sharedInstance().requestRecordPermission { granted in
+
             if granted {
 
                 self.prepareAudioRecorderWithFileURL(fileURL, audioRecorderDelegate: audioRecorderDelegate)
@@ -66,8 +67,20 @@ class YepAudioService: NSObject {
 
             } else {
                 println("Permission to record not granted")
+
+                if let
+                    appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate,
+                    viewController = appDelegate.window?.rootViewController {
+
+                        YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Microphone!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: viewController, withConfirmAction: {
+
+                            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+
+                        }, cancelAction: {
+                        })
+                }
             }
-        })
+        }
     }
     
     func endRecord() {
