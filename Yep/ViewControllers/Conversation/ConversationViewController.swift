@@ -646,49 +646,46 @@ class ConversationViewController: BaseViewController {
                 }
             }
         }
-        
-        // 防止未在此界面时被标记
-            
-        var messages = conversation.messages.filter({ message in
+
+        // 进来时就尽快标记已读
+
+        conversation.messages.filter({ message in
             if let fromFriend = message.fromFriend {
                 return (message.readed == false) && (fromFriend.friendState != UserFriendState.Me.rawValue)
             } else {
                 return false
             }
-        })
-
-        for message in messages {
-            markMessageAsReaded(message)
-        }
+        }).map({ self.markMessageAsReaded($0) })
     }
-    
-    func markMessageAsReaded(message: Message) {
+
+    private func markMessageAsReaded(message: Message) {
 
         if message.readed {
             return
         }
-        
+
+        // 防止未在此界面时被标记
+
         if navigationController?.topViewController == self {
-            
-            dispatch_async(dispatch_get_main_queue()) {
+
+            let messageID = message.messageID
+
+            dispatch_async(realmQueue) {
                 let realm = Realm()
                 
-                if let message = messageWithMessageID(message.messageID, inRealm: realm) {
+                if let message = messageWithMessageID(messageID, inRealm: realm) {
                     realm.write {
                         message.readed = true
                     }
-                }
-            }
-        
-            markAsReadMessage(message, failureHandler: nil) { success in
-                if success {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        println("Mark message \(message.messageID) as read")
+
+                    markAsReadMessage(message, failureHandler: nil) { success in
+                        if success {
+                            println("appear Mark message \(messageID) as read")
+                        }
                     }
                 }
             }
         }
-
     }
 
     override func viewDidDisappear(animated: Bool) {
