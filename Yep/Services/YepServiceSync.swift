@@ -800,7 +800,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
             if message.readed == true {
                 markAsReadMessage(message, failureHandler: nil) { success in
                     if success {
-                        println("Mark message \(message.messageID) as read")
+                        println("Mark message \(messageID) as read")
                     }
                 }
             }
