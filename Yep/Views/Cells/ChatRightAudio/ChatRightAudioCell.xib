@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15A204h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -15,6 +15,7 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="76j-Ht-EsY" userLabel="Avatar Image View">
                         <rect key="frame" x="261" y="33" width="40" height="40"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="76j-Ht-EsY" secondAttribute="height" multiplier="1:1" id="hTd-vS-wy8"/>
                             <constraint firstAttribute="width" constant="40" id="tKU-Zf-UDc"/>
@@ -23,11 +24,13 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="knU-A0-FO4" userLabel="Audio Container View">
                         <rect key="frame" x="106" y="33" width="150" height="40"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="right_tail_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="IUw-Mk-XlZ" userLabel="Bubble Image View">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="right_tail_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="IUw-Mk-XlZ" userLabel="Bubble Image View">
                                 <rect key="frame" x="0.0" y="0.0" width="150" height="40"/>
+                                <animations/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTQ-XN-AqX" userLabel="Play Button">
                                 <rect key="frame" x="6" y="5" width="30" height="30"/>
+                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="XTQ-XN-AqX" secondAttribute="height" id="0Xe-vj-6Vr"/>
                                     <constraint firstAttribute="width" constant="30" id="ReT-Bg-ERe"/>
@@ -37,8 +40,9 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ynj-aF-z4D" userLabel="Wave View" customClass="SampleView" customModule="Yep" customModuleProvider="target">
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ynj-aF-z4D" userLabel="Wave View" customClass="SampleView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="41" y="0.0" width="89" height="40"/>
+                                <animations/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="89" id="LKH-Qz-uop"/>
@@ -46,11 +50,13 @@
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2&quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alU-Q7-YxY" userLabel="Time Length Label">
                                 <rect key="frame" x="36" y="0.0" width="99" height="40"/>
+                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
+                        <animations/>
                         <constraints>
                             <constraint firstItem="XTQ-XN-AqX" firstAttribute="leading" secondItem="knU-A0-FO4" secondAttribute="leading" constant="6" id="2gQ-ob-cgb"/>
                             <constraint firstAttribute="trailing" secondItem="IUw-Mk-XlZ" secondAttribute="trailing" id="8dj-VI-b8r"/>
@@ -71,14 +77,17 @@
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_sending" translatesAutoresizingMaskIntoConstraints="NO" id="dkr-y8-xRJ" userLabel="Dot Image View">
                         <rect key="frame" x="95" y="50" width="6" height="6"/>
+                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="6" id="DRh-dD-dg1"/>
                             <constraint firstAttribute="width" secondItem="dkr-y8-xRJ" secondAttribute="height" multiplier="1:1" id="UQu-bF-nVc"/>
                         </constraints>
                     </imageView>
                 </subviews>
+                <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
+            <animations/>
             <constraints>
                 <constraint firstAttribute="centerY" secondItem="76j-Ht-EsY" secondAttribute="centerY" id="0xE-OG-2LQ"/>
                 <constraint firstItem="knU-A0-FO4" firstAttribute="leading" secondItem="dkr-y8-xRJ" secondAttribute="trailing" constant="5" id="8wX-cx-mwT"/>
