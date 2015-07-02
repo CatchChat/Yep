@@ -87,6 +87,10 @@ class EditNicknameAndBadgeViewController: UITableViewController {
             techBadgeView,
         ]
 
+        if let badgeName = YepUserDefaults.badge.value {
+            badgeViews.map { $0.enabled = ($0.badge.rawValue == badgeName) }
+        }
+
         let disableAllBadges: () -> Void = {
             badgeViews.map { $0.enabled = false }
         }
@@ -96,6 +100,8 @@ class EditNicknameAndBadgeViewController: UITableViewController {
                 disableAllBadges()
 
                 badgeView.enabled = true
+
+                YepUserDefaults.badge.value = badgeView.badge.rawValue
             }
         }
     }
