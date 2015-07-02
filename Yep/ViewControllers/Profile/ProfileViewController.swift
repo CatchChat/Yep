@@ -795,12 +795,14 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Header.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! ProfileHeaderCell
 
-            if let profileUser = profileUser {
-                switch profileUser {
-                case .DiscoveredUserType(let discoveredUser):
-                    cell.configureWithDiscoveredUser(discoveredUser)
-                case .UserType(let user):
-                    cell.configureWithUser(user)
+            if isViewLoaded() && view.window != nil {
+                if let profileUser = profileUser {
+                    switch profileUser {
+                    case .DiscoveredUserType(let discoveredUser):
+                        cell.configureWithDiscoveredUser(discoveredUser)
+                    case .UserType(let user):
+                        cell.configureWithUser(user)
+                    }
                 }
             }
 
