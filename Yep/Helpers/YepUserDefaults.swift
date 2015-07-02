@@ -90,6 +90,7 @@ class YepUserDefaults {
         defaults.removeObjectForKey(nicknameKey)
         defaults.removeObjectForKey(introductionKey)
         defaults.removeObjectForKey(avatarURLStringKey)
+        defaults.removeObjectForKey(badgeKey)
         defaults.removeObjectForKey(pusherIDKey)
 
         defaults.removeObjectForKey(areaCodeKey)
