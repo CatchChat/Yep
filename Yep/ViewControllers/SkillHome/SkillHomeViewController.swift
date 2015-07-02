@@ -43,10 +43,12 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         return tempTableView;
         
     }()
+
+    var skillID: String?
     
-    var skillName: String? {
+    var skillLocalName: String? {
         didSet {
-            self.title = skillName
+            self.title = skillLocalName
         }
     }
     
@@ -110,8 +112,8 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         learningtTableView.delegate = self
         learningtTableView.tag = SkillHomeState.Learning.hashValue
 
-        if let skillNameString = skillName {
-            discoverUserBySkillName(skillNameString)
+        if let skillLocalName = skillLocalName {
+            discoverUserBySkillName(skillLocalName)
         }
         
         self.headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
@@ -191,7 +193,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             NSFontAttributeName: UIFont.skillHomeTextLargeFont()
         ]
         
-        var titleAttr = NSMutableAttributedString(string: skillName!, attributes:textAttributes)
+        var titleAttr = NSMutableAttributedString(string: skillLocalName ?? "", attributes:textAttributes)
         
         titleLabel.attributedText = titleAttr
         
