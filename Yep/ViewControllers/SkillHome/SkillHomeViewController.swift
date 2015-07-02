@@ -84,9 +84,21 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     
     @IBOutlet weak var headerViewHeightLayoutConstraint: NSLayoutConstraint!
     
-    var discoveredMasterUsers = [DiscoveredUser]()
+    var discoveredMasterUsers = [DiscoveredUser]() {
+        didSet {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.masterTableView.reloadData()
+            }
+        }
+    }
     
-    var discoveredLearningUsers = [DiscoveredUser]()
+    var discoveredLearningUsers = [DiscoveredUser]() {
+        didSet {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.learningtTableView.reloadData()
+            }
+        }
+    }
     
 
     override func viewDidLoad() {
@@ -112,8 +124,8 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         learningtTableView.delegate = self
         learningtTableView.tag = SkillHomeState.Learning.hashValue
 
-        if let skillLocalName = skillLocalName {
-            discoverUserBySkillName(skillLocalName)
+        if let skillID = skillID {
+            discoverUserBySkillID(skillID)
         }
         
         self.headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
@@ -227,38 +239,21 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         }
     }
     
-    func discoverUserBySkillName(skillName: String) {
+    func discoverUserBySkillID(skillID: String) {
         
-        discoverUsers(masterSkills: [skillName], learningSkills: [], discoveredUserSortStyle: .LastSignIn, failureHandler: { (reason, errorMessage) in
-            
+        discoverUsers(masterSkillIDs: [skillID], learningSkillIDs: [], discoveredUserSortStyle: .LastSignIn, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage)
             
         }, completion: { discoveredUsers in
-                
             self.discoveredMasterUsers = discoveredUsers
-
-            dispatch_async(dispatch_get_main_queue()) {
-                self.masterTableView.reloadData()
-            }
         })
         
-        discoverUsers(masterSkills: [], learningSkills: [skillName], discoveredUserSortStyle: .LastSignIn, failureHandler: { (reason, errorMessage) in
-            
+        discoverUsers(masterSkillIDs: [], learningSkillIDs: [skillID], discoveredUserSortStyle: .LastSignIn, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage)
             
         }, completion: { discoveredUsers in
-                
             self.discoveredLearningUsers = discoveredUsers
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                self.learningtTableView.reloadData()
-            }
         })
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 

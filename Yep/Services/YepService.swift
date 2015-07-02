@@ -780,12 +780,11 @@ let parseDiscoveredUsers: JSONDictionary -> [DiscoveredUser]? = { data in
     return nil
 }
 
-
-func discoverUsers(#masterSkills: [String], #learningSkills: [String], #discoveredUserSortStyle: DiscoveredUserSortStyle, #failureHandler: ((Reason, String?) -> Void)?, #completion: [DiscoveredUser] -> Void) {
+func discoverUsers(#masterSkillIDs: [String], #learningSkillIDs: [String], #discoveredUserSortStyle: DiscoveredUserSortStyle, #failureHandler: ((Reason, String?) -> Void)?, #completion: [DiscoveredUser] -> Void) {
     
-    let requestParameters:[String: AnyObject] = [
-        "master_skills": masterSkills,
-        "learning_skills": learningSkills,
+    let requestParameters: [String: AnyObject] = [
+        "master_skills": masterSkillIDs,
+        "learning_skills": masterSkillIDs,
         "sort": discoveredUserSortStyle.rawValue
     ]
     

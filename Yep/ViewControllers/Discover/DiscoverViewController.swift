@@ -25,7 +25,7 @@ class DiscoverViewController: BaseViewController {
 
             activityIndicator.startAnimating()
 
-            discoverUsers(masterSkills: [], learningSkills: [], discoveredUserSortStyle: discoveredUserSortStyle, failureHandler: { (reason, errorMessage) in
+            discoverUsers(masterSkillIDs: [], learningSkillIDs: [], discoveredUserSortStyle: discoveredUserSortStyle, failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage)
 
                 dispatch_async(dispatch_get_main_queue()) {
