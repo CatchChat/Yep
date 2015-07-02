@@ -238,6 +238,9 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
             case InfoRow.Name.rawValue:
 
+                performSegueWithIdentifier("showEditNicknameAndBadge", sender: nil)
+
+                /*
                 YepAlert.textInput(title: NSLocalizedString("Change nickname", comment: ""), placeholder: YepUserDefaults.nickname.value, oldText: YepUserDefaults.nickname.value, confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { newNickname in
 
                     if let oldNickname = YepUserDefaults.nickname.value {
@@ -262,6 +265,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     })
 
                 }, cancelAction: nil)
+                */
 
             case InfoRow.Intro.rawValue:
 

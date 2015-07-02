@@ -125,7 +125,7 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Choose photo"/>
                                         </userDefinedRuntimeAttributes>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HcA-7v-16m" userLabel="Take Photo Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HcA-7v-16m" userLabel="Take Photo Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
                                         <rect key="frame" x="213" y="20" width="174" height="260"/>
                                         <animations/>
                                         <state key="normal">
@@ -1006,6 +1006,7 @@
                         <outlet property="avatarImageViewWidthConstraint" destination="fy0-3p-Tx4" id="u5u-Us-aIh"/>
                         <outlet property="editProfileTableView" destination="obf-ax-Bn7" id="wPW-Jg-rwD"/>
                         <outlet property="mobileLabel" destination="bhV-NM-wXG" id="rUc-6h-9GQ"/>
+                        <segue destination="Qvk-OD-4nT" kind="show" identifier="showEditNicknameAndBadge" id="5UK-4O-uHu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u2y-XJ-4gR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1016,6 +1017,25 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3586" y="717"/>
+        </scene>
+        <!--Edit Nickname And Badge View Controller-->
+        <scene sceneID="Yuw-PA-8ae">
+            <objects>
+                <viewController storyboardIdentifier="EditNicknameAndBadgeViewController" id="Qvk-OD-4nT" customClass="EditNicknameAndBadgeViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Qtg-cD-ChL"/>
+                        <viewControllerLayoutGuide type="bottom" id="UF2-dG-DVJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ORd-Vt-Ajx">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OgW-zN-m0d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4287" y="717"/>
         </scene>
         <!--Yep Tab Bar Controller-->
         <scene sceneID="vud-lc-IAG">
