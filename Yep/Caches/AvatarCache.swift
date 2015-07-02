@@ -12,7 +12,7 @@ import RealmSwift
 class AvatarCache {
     static let sharedInstance = AvatarCache()
 
-    var cache = NSCache()
+    let cache = NSCache()
 
 //    func roundImageNamed(name: String, ofRadius radius: CGFloat) -> UIImage {
 //        let roundImageKey = "round-\(name)-\(radius)"
