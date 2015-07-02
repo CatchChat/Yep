@@ -8,6 +8,15 @@
 
 import UIKit
 
-class EditNicknameAndBadgeViewController: UIViewController {
-    
+class EditNicknameAndBadgeViewController: UITableViewController {
+
+    @IBOutlet weak var nicknameTextField: UITextField!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        title = NSLocalizedString("Nickname", comment: "")
+
+        nicknameTextField.text = YepUserDefaults.nickname.value
+    }
 }
