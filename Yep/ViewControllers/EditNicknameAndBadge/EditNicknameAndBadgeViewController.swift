@@ -106,14 +106,7 @@ class EditNicknameAndBadgeViewController: UITableViewController {
                 // select animation
 
                 if self.badgeEnabledImageView.hidden {
-                    self.badgeEnabledImageView.center = badgeView.center
-                    self.badgeEnabledImageView.alpha = 0
-                    self.badgeEnabledImageView.hidden = false
-
-                    UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                        self.badgeEnabledImageView.alpha = 1
-                    }, completion: { finished in
-                    })
+                    self.badgeEnabledImageViewAppearInCenter(badgeView.center)
 
                 } else {
                     UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
@@ -143,6 +136,23 @@ class EditNicknameAndBadgeViewController: UITableViewController {
         }
     }
 
+    func badgeEnabledImageViewAppearInCenter(center: CGPoint) {
+
+        badgeEnabledImageView.center = center
+        badgeEnabledImageView.alpha = 0
+        badgeEnabledImageView.hidden = false
+
+        badgeEnabledImageView.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
+
+        UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
+            self.badgeEnabledImageView.alpha = 1
+            self.badgeEnabledImageView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+
+        }, completion: { finished in
+            self.badgeEnabledImageView.transform = CGAffineTransformIdentity
+        })
+    }
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -151,19 +161,7 @@ class EditNicknameAndBadgeViewController: UITableViewController {
         }
 
         if let enabledBadgeView = badgeViews.filter({ $0.enabled }).first {
-            badgeEnabledImageView.center = enabledBadgeView.center
-            badgeEnabledImageView.alpha = 0
-            badgeEnabledImageView.hidden = false
-
-            badgeEnabledImageView.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
-
-            UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
-                self.badgeEnabledImageView.alpha = 1
-                self.badgeEnabledImageView.transform = CGAffineTransformMakeScale(1.0, 1.0)
-
-            }, completion: { finished in
-                self.badgeEnabledImageView.transform = CGAffineTransformIdentity
-            })
+            badgeEnabledImageViewAppearInCenter(enabledBadgeView.center)
         }
     }
 }
