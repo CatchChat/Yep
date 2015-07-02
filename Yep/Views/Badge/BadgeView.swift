@@ -74,14 +74,16 @@ class BadgeView: UIView {
                 return Color.blue
             }
         }
+
+        var image: UIImage? {
+            return UIImage(named: "badge_" + self.rawValue)
+        }
     }
 
     //@IBInspectable
     var badge: Badge = .Heart {
         willSet {
-            if let badgeImage = UIImage(named: "badge_" + newValue.rawValue) {
-                badgeImageView.image = badgeImage
-            }
+            badgeImageView.image = newValue.image
         }
     }
 

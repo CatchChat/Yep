@@ -14,10 +14,14 @@ class EditProfileLessInfoCell: UITableViewCell {
 
     @IBOutlet weak var infoLabel: UILabel!
 
+    @IBOutlet weak var badgeImageView: UIImageView!
 
+    @IBOutlet weak var accessoryImageView: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        accessoryImageView.tintColor = UIColor.lightGrayColor()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

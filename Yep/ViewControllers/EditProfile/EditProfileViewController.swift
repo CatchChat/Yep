@@ -38,11 +38,13 @@ class EditProfileViewController: UIViewController {
     struct Listener {
         static let Nickname = "EditProfileLessInfoCell.Nickname"
         static let Introduction = "EditProfileLessInfoCell.Introduction"
+        static let Badge = "EditProfileLessInfoCell.Badge"
     }
 
     deinit {
         YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
         YepUserDefaults.introduction.removeListenerWithName(Listener.Introduction)
+        YepUserDefaults.badge.removeListenerWithName(Listener.Badge)
     }
 
     override func viewDidLoad() {
@@ -166,6 +168,17 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 YepUserDefaults.nickname.bindAndFireListener(Listener.Nickname) { [weak cell] nickname in
                     cell?.infoLabel.text = nickname
+                }
+
+                YepUserDefaults.badge.bindAndFireListener(Listener.Badge) { [weak cell] badgeName in
+
+                    if let badgeName = badgeName, badge = BadgeView.Badge(rawValue: badgeName) {
+                        cell?.badgeImageView.image = badge.image
+                        cell?.badgeImageView.tintColor = badge.color
+
+                    } else {
+                        cell?.badgeImageView.image = nil
+                    }
                 }
 
                 return cell
