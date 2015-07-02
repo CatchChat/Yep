@@ -126,24 +126,18 @@ class EditNicknameAndBadgeViewController: UITableViewController {
 
                 let newBadgeName = badgeView.badge.rawValue
 
-                //YepHUD.showActivityIndicator()
-
                 updateMyselfWithInfo(["badge": newBadgeName], failureHandler: { [weak self] (reason, errorMessage) in
                     defaultFailureHandler(reason, errorMessage)
 
-                    //YepHUD.hideActivityIndicator()
-
                     dispatch_async(dispatch_get_main_queue()) {
                         badgeView.enabled = false
-                        YepAlert.alertSorry(message: NSLocalizedString("Set badge failed!", comment: ""), inViewController: self)
+                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set badge failed!", comment: ""), inViewController: self)
                     }
 
                 }, completion: { success in
                     dispatch_async(dispatch_get_main_queue()) {
                         YepUserDefaults.badge.value = newBadgeName
                     }
-                        
-                    //YepHUD.hideActivityIndicator()
                 })
             }
         }
@@ -170,13 +164,6 @@ class EditNicknameAndBadgeViewController: UITableViewController {
             }, completion: { finished in
                 self.badgeEnabledImageView.transform = CGAffineTransformIdentity
             })
-//            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-//                self.badgeEnabledImageView.alpha = 1
-//                self.badgeEnabledImageView.transform = CGAffineTransformMakeScale(1.0, 1.0)
-//
-//            }, completion: { finished in
-//                self.badgeEnabledImageView.transform = CGAffineTransformIdentity
-//            })
         }
     }
 }
@@ -193,19 +180,17 @@ extension EditNicknameAndBadgeViewController: UITextFieldDelegate {
 
             if newNickname != YepUserDefaults.nickname.value {
 
-                YepHUD.showActivityIndicator()
-
                 updateMyselfWithInfo(["nickname": newNickname], failureHandler: { (reason, errorMessage) in
                     defaultFailureHandler(reason, errorMessage)
 
-                    YepHUD.hideActivityIndicator()
+                    dispatch_async(dispatch_get_main_queue()) {
+                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set nickname failed!", comment: ""), inViewController: self)
+                    }
 
                 }, completion: { success in
                     dispatch_async(dispatch_get_main_queue()) {
                         YepUserDefaults.nickname.value = newNickname
                     }
-
-                    YepHUD.hideActivityIndicator()
                 })
             }
         }

@@ -53,11 +53,6 @@ class BadgeView: UIView {
 
     var tapAction: ((BadgeView) -> Void)?
 
-//    lazy var backgroundView: UIView = {
-//        let view = UIView()
-//        return view
-//        }()
-
     lazy var badgeImageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
@@ -74,22 +69,9 @@ class BadgeView: UIView {
 
     func makeUI() {
 
-        //addSubview(backgroundView)
         addSubview(badgeImageView)
 
-        //backgroundView.setTranslatesAutoresizingMaskIntoConstraints(false)
         badgeImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
-
-//        let viewsDictionary = [
-//            "backgroundView": backgroundView,
-//            "badgeImageView": badgeImageView,
-//        ]
-//
-//        let backgroundViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[backgroundView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
-//        let backgroundViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[backgroundView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
-//
-//        NSLayoutConstraint.activateConstraints(backgroundViewConstraintsH)
-//        NSLayoutConstraint.activateConstraints(backgroundViewConstraintsV)
 
         let iconConstraintCenterX = NSLayoutConstraint(item: badgeImageView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0)
         let iconConstraintCenterY = NSLayoutConstraint(item: badgeImageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0)

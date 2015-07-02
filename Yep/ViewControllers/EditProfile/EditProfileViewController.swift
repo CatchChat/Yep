@@ -240,33 +240,6 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 performSegueWithIdentifier("showEditNicknameAndBadge", sender: nil)
 
-                /*
-                YepAlert.textInput(title: NSLocalizedString("Change nickname", comment: ""), placeholder: YepUserDefaults.nickname.value, oldText: YepUserDefaults.nickname.value, confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { newNickname in
-
-                    if let oldNickname = YepUserDefaults.nickname.value {
-                        if oldNickname == newNickname {
-                            return
-                        }
-                    }
-
-                    YepHUD.showActivityIndicator()
-
-                    updateMyselfWithInfo(["nickname": newNickname], failureHandler: { (reason, errorMessage) in
-                        defaultFailureHandler(reason, errorMessage)
-
-                        YepHUD.hideActivityIndicator()
-
-                    }, completion: { success in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            YepUserDefaults.nickname.value = newNickname
-                        }
-
-                        YepHUD.hideActivityIndicator()
-                    })
-
-                }, cancelAction: nil)
-                */
-
             case InfoRow.Intro.rawValue:
 
                 YepAlert.textInput(title: NSLocalizedString("New introduction", comment: ""), placeholder: nil, oldText: YepUserDefaults.introduction.value, confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { newIntroduction in
