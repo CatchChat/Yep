@@ -12,6 +12,11 @@ class EditNicknameAndBadgeViewController: UITableViewController {
 
     @IBOutlet weak var nicknameTextField: UITextField!
 
+    @IBOutlet weak var centerLeft1GapConstraint: NSLayoutConstraint!
+    @IBOutlet weak var centerRight1GapConstraint: NSLayoutConstraint!
+    @IBOutlet weak var left1Left2GapConstraint: NSLayoutConstraint!
+    @IBOutlet weak var right1Right2GapConstraint: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -19,6 +24,12 @@ class EditNicknameAndBadgeViewController: UITableViewController {
 
         nicknameTextField.text = YepUserDefaults.nickname.value
         nicknameTextField.delegate = self
+
+        let gap = UIDevice.matchWidthFrom(10, 25, 32)
+        centerLeft1GapConstraint.constant = gap
+        centerRight1GapConstraint.constant = gap
+        left1Left2GapConstraint.constant = gap
+        right1Right2GapConstraint.constant = gap
     }
 }
 
