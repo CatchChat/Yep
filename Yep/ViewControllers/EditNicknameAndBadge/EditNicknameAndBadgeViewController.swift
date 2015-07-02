@@ -66,6 +66,38 @@ class EditNicknameAndBadgeViewController: UITableViewController {
         gameBadgeView.badge = .Game
         ballBadgeView.badge = .Ball
         techBadgeView.badge = .Tech
+
+        let badgeViews = [
+            paletteBadgeView,
+            planeBadgeView,
+            heartBadgeView,
+            starBadgeView,
+            bubbleBadgeView,
+
+            androidBadgeView,
+            appleBadgeView,
+            petBadgeView,
+            wineBadgeView,
+            musicBadgeView,
+
+            steveBadgeView,
+            cameraBadgeView,
+            gameBadgeView,
+            ballBadgeView,
+            techBadgeView,
+        ]
+
+        let disableAllBadges: () -> Void = {
+            badgeViews.map { $0.enabled = false }
+        }
+
+        badgeViews.map {
+            $0.tapAction = { badgeView in
+                disableAllBadges()
+
+                badgeView.enabled = true
+            }
+        }
     }
 }
 

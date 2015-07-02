@@ -40,6 +40,15 @@ class BadgeView: UIView {
         }
     }
 
+    var enabled: Bool = false {
+        willSet {
+            backgroundView.backgroundColor = newValue ? UIColor.yepTintColor() : UIColor.clearColor()
+            badgeImageView.tintColor = newValue ? UIColor.whiteColor() : UIColor.yepTintColor()
+        }
+    }
+
+    var tapAction: ((BadgeView) -> Void)?
+
     lazy var backgroundView: UIView = {
         let view = UIView()
         return view
@@ -54,6 +63,9 @@ class BadgeView: UIView {
         super.didMoveToSuperview()
 
         makeUI()
+
+        let tap = UITapGestureRecognizer(target: self, action: "tap")
+        addGestureRecognizer(tap)
     }
 
     func makeUI() {
@@ -79,5 +91,9 @@ class BadgeView: UIView {
         let iconConstraintCenterY = NSLayoutConstraint(item: badgeImageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0)
 
         NSLayoutConstraint.activateConstraints([iconConstraintCenterX, iconConstraintCenterY])
+    }
+
+    func tap() {
+        tapAction?(self)
     }
 }
