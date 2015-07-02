@@ -200,7 +200,7 @@ class Waver: UIView {
         
         var totalTime:CGFloat = CGFloat(waveSamples.count/(60/fps)) // 计算音频的时长
         
-        var bubbleWidth = -0.05*(totalTime*totalTime) + 6.0*totalTime + 50.0 //计算这个时长下的Bubble宽度，Bubble 的宽度和时间的关系函数是一个一元二次函数
+        var bubbleWidth = -0.035*(totalTime*totalTime) + 4.3*totalTime + 50 //计算这个时长下的Bubble宽度，Bubble 的宽度和时间的关系函数是一个一元二次函数
         
         var effectiveSample = bubbleWidth/(waveSquareWidth+waveGap) < 1 ? 1 : bubbleWidth/(waveSquareWidth+waveGap) //计算这个长度里实际可以放多少个sample
         
