@@ -710,6 +710,7 @@ struct DiscoveredUser {
     let nickname: String
     let introduction: String?
     let avatarURLString: String
+    let badge: String?
 
     let createdUnixTime: NSTimeInterval
     let lastSignInUnixTime: NSTimeInterval
@@ -750,8 +751,9 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
             }
 
             let introduction = userInfo["introduction"] as? String
+            let badge = userInfo["badge"] as? String
 
-            let discoverUser = DiscoveredUser(id: id, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, createdUnixTime: createdUnixTime, lastSignInUnixTime: lastSignInUnixTime, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
+            let discoverUser = DiscoveredUser(id: id, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, badge: badge, createdUnixTime: createdUnixTime, lastSignInUnixTime: lastSignInUnixTime, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
 
             return discoverUser
     }

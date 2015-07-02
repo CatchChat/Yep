@@ -209,6 +209,10 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                     user.avatarURLString = avatarURLString
                 }
 
+                if let badge = friendInfo["badge"] as? String {
+                    user.badge = badge
+                }
+
                 // 更新技能
 
                 if let learningSkillsData = friendInfo["learning_skills"] as? [JSONDictionary] {
@@ -252,6 +256,10 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
                 if let avatarURLString = friendInfo["avatar_url"] as? String {
                     YepUserDefaults.avatarURLString.value = avatarURLString
+                }
+
+                if let badge = friendInfo["badge"] as? String {
+                    YepUserDefaults.badge.value = badge
                 }
 
                 if let areaCode = friendInfo["phone_code"] as? String {
@@ -353,6 +361,10 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
                             if let avatarURLString = friendInfo["avatar_url"] as? String {
                                 user.avatarURLString = avatarURLString
+                            }
+
+                            if let badge = friendInfo["badge"] as? String {
+                                user.badge = badge
                             }
 
                             if let friendshipID = friendshipInfo["id"] as? String {
@@ -544,6 +556,10 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                             owner.avatarURLString = avatarURLString
                         }
 
+                        if let badge = ownerInfo["badge"] as? String {
+                            owner.badge = badge
+                        }
+
                         // 更新技能
 
                         if let learningSkillsData = ownerInfo["learning_skills"] as? [JSONDictionary] {
@@ -654,6 +670,10 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 
                             if let avatarURLString = memberInfo["avatar_url"] as? String {
                                 member.avatarURLString = avatarURLString
+                            }
+
+                            if let badge = memberInfo["badge"] as? String {
+                                member.badge = badge
                             }
 
                             // 更新技能

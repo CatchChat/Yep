@@ -14,6 +14,7 @@ let userIDKey = "userID"
 let nicknameKey = "nickname"
 let introductionKey = "introduction"
 let avatarURLStringKey = "avatarURLString"
+let badgeKey = "badge"
 let pusherIDKey = "pusherID"
 
 let areaCodeKey = "areaCode"
@@ -89,6 +90,7 @@ class YepUserDefaults {
         defaults.removeObjectForKey(nicknameKey)
         defaults.removeObjectForKey(introductionKey)
         defaults.removeObjectForKey(avatarURLStringKey)
+        defaults.removeObjectForKey(badgeKey)
         defaults.removeObjectForKey(pusherIDKey)
 
         defaults.removeObjectForKey(areaCodeKey)
@@ -201,6 +203,26 @@ class YepUserDefaults {
         }
         }()
 
+    static var badge: Listenable<String?> = {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let badge = defaults.stringForKey(badgeKey)
+
+        return Listenable<String?>(badge) { badge in
+            defaults.setObject(badge, forKey: badgeKey)
+
+            let realm = Realm()
+
+            if let
+                badge = badge,
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID, inRealm: realm) {
+                    realm.beginWrite()
+                    me.badge = badge
+                    realm.commitWrite()
+            }
+        }
+        }()
+
     static var pusherID: Listenable<String?> = {
         let defaults = NSUserDefaults.standardUserDefaults()
         let pusherID = defaults.stringForKey(pusherIDKey)
@@ -240,7 +262,6 @@ class YepUserDefaults {
             defaults.setObject(mobile, forKey: mobileKey)
         }
         }()
-
 }
 
 

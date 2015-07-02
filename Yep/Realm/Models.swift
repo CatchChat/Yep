@@ -73,6 +73,7 @@ class User: Object {
     dynamic var introduction: String = ""
     dynamic var avatarURLString: String = ""
     dynamic var avatar: Avatar?
+    dynamic var badge: String = ""
 
     dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
     dynamic var lastSignInUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970

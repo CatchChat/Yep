@@ -98,6 +98,13 @@ extension SearchedUsersViewController: UITableViewDataSource, UITableViewDelegat
 
         cell.nameLabel.text = discoveredUser.nickname
 
+        if let badgeName = discoveredUser.badge, badge = BadgeView.Badge(rawValue: badgeName) {
+            cell.badgeImageView.image = badge.image
+            cell.badgeImageView.tintColor = badge.color
+        } else {
+            cell.badgeImageView.image = nil
+        }
+
         return cell
     }
 

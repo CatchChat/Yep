@@ -96,7 +96,6 @@ class ProfileHeaderCell: UICollectionViewCell {
         } else {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                 let blurredImage = image.blurredImageWithRadius(20, iterations: 20, tintColor: UIColor.blackColor())
-
                 completion(blurredImage)
             }
         }

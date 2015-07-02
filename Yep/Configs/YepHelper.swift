@@ -55,11 +55,16 @@ func cleanRealmAndCaches() {
         realm.deleteAll()
     }
 
-    // clean Message caches
+    // cleam all memory caches
+    
+    AvatarCache.sharedInstance.cache.removeAllObjects()
+    ImageCache.sharedInstance.cache.removeAllObjects()
+
+    // clean Message File caches
 
     NSFileManager.cleanMessageCaches()
 
-    // clean Avatar caches
+    // clean Avatar File caches
 
     NSFileManager.cleanAvatarCaches()
 

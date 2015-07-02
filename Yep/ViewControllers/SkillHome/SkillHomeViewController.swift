@@ -316,6 +316,13 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource{
         cell.lastTimeSeenLabel.text = "\(distance) km | \(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
         
         cell.nameLabel.text = discoveredUser.nickname
+
+        if let badgeName = discoveredUser.badge, badge = BadgeView.Badge(rawValue: badgeName) {
+            cell.badgeImageView.image = badge.image
+            cell.badgeImageView.tintColor = badge.color
+        } else {
+            cell.badgeImageView.image = nil
+        }
         
         return cell
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15A204h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -13,32 +13,59 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Annotation" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0FC-Jf-4Gf" userLabel="Annotation Label">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Annotation" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0FC-Jf-4Gf" userLabel="Annotation Label">
                         <rect key="frame" x="20" y="33" width="84" height="22"/>
+                        <animations/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Info" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fGP-fu-MyB" userLabel="Info Label">
-                        <rect key="frame" x="114" y="33" width="188" height="22"/>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory" translatesAutoresizingMaskIntoConstraints="NO" id="0NC-W7-akb" userLabel="Accessory Image View">
+                        <rect key="frame" x="289" y="34" width="11" height="20"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="11" id="ChB-JG-3DU"/>
+                            <constraint firstAttribute="height" constant="20" id="dxD-M9-cbe"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="badge_heart" translatesAutoresizingMaskIntoConstraints="NO" id="jP3-gP-mQQ" userLabel="Badge Image View">
+                        <rect key="frame" x="251" y="29" width="30" height="30"/>
+                        <animations/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Info" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fGP-fu-MyB" userLabel="Info Label">
+                        <rect key="frame" x="114" y="33" width="129" height="22"/>
+                        <animations/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <animations/>
                 <constraints>
                     <constraint firstAttribute="centerY" secondItem="fGP-fu-MyB" secondAttribute="centerY" id="082-8c-wbn"/>
                     <constraint firstItem="0FC-Jf-4Gf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Ktt-S1-9Cv"/>
                     <constraint firstItem="fGP-fu-MyB" firstAttribute="leading" secondItem="0FC-Jf-4Gf" secondAttribute="trailing" constant="10" id="UHV-0J-Zaw"/>
-                    <constraint firstAttribute="trailing" secondItem="fGP-fu-MyB" secondAttribute="trailing" constant="18" id="Une-Pw-pgT"/>
+                    <constraint firstItem="0NC-W7-akb" firstAttribute="leading" secondItem="jP3-gP-mQQ" secondAttribute="trailing" constant="8" id="cco-RU-D7u"/>
+                    <constraint firstItem="0NC-W7-akb" firstAttribute="leading" secondItem="fGP-fu-MyB" secondAttribute="trailing" constant="46" id="jwJ-Ba-pSI"/>
                     <constraint firstAttribute="centerY" secondItem="0FC-Jf-4Gf" secondAttribute="centerY" id="lV1-c6-cFn"/>
+                    <constraint firstAttribute="trailing" secondItem="0NC-W7-akb" secondAttribute="trailing" constant="20" id="pEZ-0p-HYS"/>
+                    <constraint firstItem="jP3-gP-mQQ" firstAttribute="centerY" secondItem="0NC-W7-akb" secondAttribute="centerY" id="q5E-hz-FOw"/>
+                    <constraint firstAttribute="centerY" secondItem="0NC-W7-akb" secondAttribute="centerY" id="wb5-wi-DJT"/>
                 </constraints>
             </tableViewCellContentView>
+            <animations/>
             <connections>
+                <outlet property="accessoryImageView" destination="0NC-W7-akb" id="l4y-nU-0t0"/>
                 <outlet property="annotationLabel" destination="0FC-Jf-4Gf" id="RHM-ZO-VeP"/>
+                <outlet property="badgeImageView" destination="jP3-gP-mQQ" id="fsi-H7-Me4"/>
                 <outlet property="infoLabel" destination="fGP-fu-MyB" id="PzP-fc-sc1"/>
+                <outlet property="infoLabelTrailingConstraint" destination="jwJ-Ba-pSI" id="1Lq-p3-BSJ"/>
             </connections>
             <point key="canvasLocation" x="444" y="394"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="badge_heart" width="30" height="30"/>
+        <image name="icon_accessory" width="11" height="20"/>
+    </resources>
 </document>

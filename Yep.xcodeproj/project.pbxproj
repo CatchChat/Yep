@@ -49,6 +49,8 @@
 		0AEB1CC41B0E6A4B00178C9C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEB1CC31B0E6A4B00178C9C /* Crashlytics.framework */; };
 		0AEB1CC61B0E742400178C9C /* Double+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB1CC51B0E742400178C9C /* Double+Yep.swift */; };
 		15606C18E1487982869C0A42 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD88F6095DB46DFAD41AB5DB /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		500A0B1C1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */; };
+		500A0B1F1B451A6F00D49358 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1E1B451A6F00D49358 /* BadgeView.swift */; };
 		501560D71B427FD6000933F0 /* Results+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501560D61B427FD6000933F0 /* Results+Yep.swift */; };
 		50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50165C441AC2860900C7AEBE /* ConversationLayout.swift */; };
 		5019F6311B39BFE00000D993 /* ConversationMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5019F6301B39BFE00000D993 /* ConversationMoreView.swift */; };
@@ -97,6 +99,7 @@
 		5039594F1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */; };
 		503A54ED1B328ADB002077BD /* NSLocale+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503A54EC1B328ADB002077BD /* NSLocale+Yep.swift */; };
 		503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503CAB421AC00CB100DFE830 /* ConversationViewController.swift */; };
+		504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504BDC141B4528A500DBD35D /* Badges.xcassets */; };
 		504CBA3D1B3D04B800663A90 /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504CBA3C1B3D04B800663A90 /* ChatTextView.swift */; };
 		504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F41241ACE2D1D00FBB19A /* SampleView.swift */; };
 		504F41571AD4D35400FBB19A /* ProfileLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F41561AD4D35400FBB19A /* ProfileLayout.swift */; };
@@ -272,6 +275,8 @@
 		0AEB1CC31B0E6A4B00178C9C /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		0AEB1CC51B0E742400178C9C /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
 		2268251A75FF6766DC31CCFB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditNicknameAndBadgeViewController.swift; path = ViewControllers/EditNicknameAndBadge/EditNicknameAndBadgeViewController.swift; sourceTree = "<group>"; };
+		500A0B1E1B451A6F00D49358 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgeView.swift; path = Views/Badge/BadgeView.swift; sourceTree = "<group>"; };
 		501560D61B427FD6000933F0 /* Results+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Results+Yep.swift"; path = "Extensions/Results+Yep.swift"; sourceTree = "<group>"; };
 		50165C441AC2860900C7AEBE /* ConversationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationLayout.swift; path = ViewControllers/Conversation/ConversationLayout.swift; sourceTree = "<group>"; };
 		5019F6301B39BFE00000D993 /* ConversationMoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMoreView.swift; path = Views/ConversationMore/ConversationMoreView.swift; sourceTree = "<group>"; };
@@ -320,6 +325,7 @@
 		5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountGithubCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.xib; sourceTree = "<group>"; };
 		503A54EC1B328ADB002077BD /* NSLocale+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSLocale+Yep.swift"; path = "Extensions/NSLocale+Yep.swift"; sourceTree = "<group>"; };
 		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
+		504BDC141B4528A500DBD35D /* Badges.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Badges.xcassets; sourceTree = "<group>"; };
 		504CBA3C1B3D04B800663A90 /* ChatTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatTextView.swift; path = Views/TextViews/ChatTextView.swift; sourceTree = "<group>"; };
 		504F41241ACE2D1D00FBB19A /* SampleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleView.swift; path = Views/AudioWaves/SampleView.swift; sourceTree = "<group>"; };
 		504F41561AD4D35400FBB19A /* ProfileLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileLayout.swift; path = ViewControllers/Profile/ProfileLayout.swift; sourceTree = "<group>"; };
@@ -554,6 +560,7 @@
 				0A8F54B41AB67D11004AD60E /* Main.storyboard */,
 				502AE5171AB70D72005BD199 /* Intro.storyboard */,
 				0A8F54B71AB67D11004AD60E /* Images.xcassets */,
+				504BDC141B4528A500DBD35D /* Badges.xcassets */,
 				0A8F54B91AB67D11004AD60E /* LaunchScreen.xib */,
 				0A8F54AE1AB67D11004AD60E /* Supporting Files */,
 			);
@@ -651,6 +658,22 @@
 			name = JPush;
 			sourceTree = "<group>";
 		};
+		500A0B1D1B450C2F00D49358 /* EditNicknameAndBadge */ = {
+			isa = PBXGroup;
+			children = (
+				500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */,
+			);
+			name = EditNicknameAndBadge;
+			sourceTree = "<group>";
+		};
+		500A0B201B451A7400D49358 /* Badge */ = {
+			isa = PBXGroup;
+			children = (
+				500A0B1E1B451A6F00D49358 /* BadgeView.swift */,
+			);
+			name = Badge;
+			sourceTree = "<group>";
+		};
 		5019F62F1B39BFCB0000D993 /* ConversationMore */ = {
 			isa = PBXGroup;
 			children = (
@@ -692,6 +715,7 @@
 				0A5D83951AC5D3CD000045BF /* TabBar */,
 				50894CF21AEA472B000981AF /* Settings */,
 				50894CFF1AEA5A7E000981AF /* EditProfile */,
+				500A0B1D1B450C2F00D49358 /* EditNicknameAndBadge */,
 				0A1CAC6C1AFA3D8C00826B45 /* SkillHome */,
 				507CF1691AFC84AA00E261B4 /* CustomNavigationBar */,
 				0A9018831B0120A800AE4B7F /* OAuth */,
@@ -780,6 +804,7 @@
 				0AC25F041B1100F3009E6E13 /* ScrollView */,
 				50E18BB81B180F8E0076C3C6 /* SayHi */,
 				5019F62F1B39BFCB0000D993 /* ConversationMore */,
+				500A0B201B451A7400D49358 /* Badge */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1606,6 +1631,7 @@
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 				50EB8CC51AE89F12001AC1EE /* ChatRightVideoCell.xib in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
+				504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */,
 				0A9018871B01321F00AE4B7F /* WebViewJavascriptBridge.js.txt in Resources */,
 				50894D081AEDFDA2000981AF /* EditProfileMoreInfoCell.xib in Resources */,
 				508D174D1ACCF49B0092D666 /* ChatRightAudioCell.xib in Resources */,
@@ -1709,6 +1735,7 @@
 				502AE5381AB866E3005BD199 /* LoginVerifyMobileViewController.swift in Sources */,
 				5056AD6E1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift in Sources */,
 				506923141ADE025F00D27574 /* YepRefreshView.swift in Sources */,
+				500A0B1F1B451A6F00D49358 /* BadgeView.swift in Sources */,
 				503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */,
 				50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */,
 				50E61CEB1AF1F69D00908A9D /* ConversationTitleView.swift in Sources */,
@@ -1716,6 +1743,7 @@
 				503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				508F8FC81B0161EF00461B0B /* ProfileSeparationLineCell.swift in Sources */,
+				500A0B1C1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift in Sources */,
 				501560D71B427FD6000933F0 /* Results+Yep.swift in Sources */,
 				0AEB1CC61B0E742400178C9C /* Double+Yep.swift in Sources */,
 				508D174C1ACCF49B0092D666 /* ChatRightAudioCell.swift in Sources */,

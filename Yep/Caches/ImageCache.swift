@@ -13,7 +13,7 @@ import MapKit
 class ImageCache {
     static let sharedInstance = ImageCache()
 
-    var cache = NSCache()
+    let cache = NSCache()
 
     func imageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, loadingProgress: Double -> Void, completion: (UIImage) -> ()) {
 

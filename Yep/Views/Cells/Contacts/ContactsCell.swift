@@ -12,6 +12,7 @@ class ContactsCell: UITableViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var badgeImageView: UIImageView!
     @IBOutlet weak var joinedDateLabel: UILabel!
     @IBOutlet weak var lastTimeSeenLabel: UILabel!
 
