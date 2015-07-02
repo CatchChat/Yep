@@ -17,6 +17,8 @@ class EditNicknameAndBadgeViewController: UITableViewController {
     @IBOutlet weak var left1Left2GapConstraint: NSLayoutConstraint!
     @IBOutlet weak var right1Right2GapConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var promptPickBadgeLabel: UILabel!
+    
     @IBOutlet weak var badgeEnabledImageView: UIImageView!
 
     @IBOutlet weak var paletteBadgeView: BadgeView!
@@ -53,6 +55,8 @@ class EditNicknameAndBadgeViewController: UITableViewController {
         left1Left2GapConstraint.constant = gap
         right1Right2GapConstraint.constant = gap
 
+        promptPickBadgeLabel.text = NSLocalizedString("Pick a badge", comment: "")
+        
         paletteBadgeView.badge = .Palette
         planeBadgeView.badge = .Plane
         heartBadgeView.badge = .Heart

@@ -1187,6 +1187,13 @@
                                                         <constraint firstAttribute="width" constant="50" id="D2F-ef-ueg"/>
                                                     </constraints>
                                                 </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick a badge" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ez2-AI-ikn">
+                                                    <rect key="frame" x="252" y="17" width="96" height="19"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="16"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <animations/>
                                             <constraints>
@@ -1208,6 +1215,7 @@
                                                 <constraint firstItem="xdf-d7-hOE" firstAttribute="centerX" secondItem="6V5-ZD-ySN" secondAttribute="centerX" id="YL4-y9-flK"/>
                                                 <constraint firstItem="mgs-nU-6GD" firstAttribute="leading" secondItem="Iz2-o9-17H" secondAttribute="trailing" constant="30" id="YpC-8p-aZq"/>
                                                 <constraint firstItem="hU0-li-PMo" firstAttribute="centerY" secondItem="6V5-ZD-ySN" secondAttribute="centerY" id="aLB-DF-dsZ"/>
+                                                <constraint firstAttribute="centerX" secondItem="ez2-AI-ikn" secondAttribute="centerX" id="bHN-OL-4wf"/>
                                                 <constraint firstItem="zpA-BY-1sO" firstAttribute="centerY" secondItem="AtA-Ag-AzS" secondAttribute="centerY" id="k9J-02-CyK"/>
                                                 <constraint firstItem="86U-zL-BF2" firstAttribute="centerX" secondItem="Ys0-N9-ZWV" secondAttribute="centerX" id="lej-eq-55f"/>
                                                 <constraint firstItem="SjH-ms-KaO" firstAttribute="centerX" secondItem="Iz2-o9-17H" secondAttribute="centerX" id="maA-EB-exO"/>
@@ -1220,6 +1228,7 @@
                                                 <constraint firstItem="xdf-d7-hOE" firstAttribute="top" secondItem="6V5-ZD-ySN" secondAttribute="bottom" constant="20" id="tMf-SP-BPd"/>
                                                 <constraint firstItem="hU0-li-PMo" firstAttribute="centerX" secondItem="mgs-nU-6GD" secondAttribute="centerX" id="vbh-rS-XRn"/>
                                                 <constraint firstItem="zpA-BY-1sO" firstAttribute="centerX" secondItem="Y9P-e7-eZ5" secondAttribute="centerX" id="yem-F2-dSE"/>
+                                                <constraint firstItem="0U9-LP-d6j" firstAttribute="top" secondItem="ez2-AI-ikn" secondAttribute="bottom" constant="12" id="z58-Kd-7Im"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
@@ -1249,6 +1258,7 @@
                         <outlet property="paletteBadgeView" destination="Iz2-o9-17H" id="Eac-Uh-eNb"/>
                         <outlet property="petBadgeView" destination="6V5-ZD-ySN" id="Rak-cV-T08"/>
                         <outlet property="planeBadgeView" destination="mgs-nU-6GD" id="VrZ-ph-vsb"/>
+                        <outlet property="promptPickBadgeLabel" destination="ez2-AI-ikn" id="g0d-gi-8OB"/>
                         <outlet property="right1Right2GapConstraint" destination="1lV-M6-3XH" id="HkA-a5-L4K"/>
                         <outlet property="starBadgeView" destination="AtA-Ag-AzS" id="Fzn-aB-o42"/>
                         <outlet property="steveBadgeView" destination="05f-r8-WNL" id="NlA-OR-Nnl"/>
