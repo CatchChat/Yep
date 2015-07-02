@@ -99,6 +99,7 @@
 		5039594F1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */; };
 		503A54ED1B328ADB002077BD /* NSLocale+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503A54EC1B328ADB002077BD /* NSLocale+Yep.swift */; };
 		503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503CAB421AC00CB100DFE830 /* ConversationViewController.swift */; };
+		504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504BDC141B4528A500DBD35D /* Badges.xcassets */; };
 		504CBA3D1B3D04B800663A90 /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504CBA3C1B3D04B800663A90 /* ChatTextView.swift */; };
 		504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F41241ACE2D1D00FBB19A /* SampleView.swift */; };
 		504F41571AD4D35400FBB19A /* ProfileLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F41561AD4D35400FBB19A /* ProfileLayout.swift */; };
@@ -324,6 +325,7 @@
 		5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountGithubCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.xib; sourceTree = "<group>"; };
 		503A54EC1B328ADB002077BD /* NSLocale+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSLocale+Yep.swift"; path = "Extensions/NSLocale+Yep.swift"; sourceTree = "<group>"; };
 		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
+		504BDC141B4528A500DBD35D /* Badges.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Badges.xcassets; sourceTree = "<group>"; };
 		504CBA3C1B3D04B800663A90 /* ChatTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatTextView.swift; path = Views/TextViews/ChatTextView.swift; sourceTree = "<group>"; };
 		504F41241ACE2D1D00FBB19A /* SampleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleView.swift; path = Views/AudioWaves/SampleView.swift; sourceTree = "<group>"; };
 		504F41561AD4D35400FBB19A /* ProfileLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileLayout.swift; path = ViewControllers/Profile/ProfileLayout.swift; sourceTree = "<group>"; };
@@ -560,6 +562,7 @@
 				0A8F54B71AB67D11004AD60E /* Images.xcassets */,
 				0A8F54B91AB67D11004AD60E /* LaunchScreen.xib */,
 				0A8F54AE1AB67D11004AD60E /* Supporting Files */,
+				504BDC141B4528A500DBD35D /* Badges.xcassets */,
 			);
 			path = Yep;
 			sourceTree = "<group>";
@@ -1628,6 +1631,7 @@
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 				50EB8CC51AE89F12001AC1EE /* ChatRightVideoCell.xib in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
+				504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */,
 				0A9018871B01321F00AE4B7F /* WebViewJavascriptBridge.js.txt in Resources */,
 				50894D081AEDFDA2000981AF /* EditProfileMoreInfoCell.xib in Resources */,
 				508D174D1ACCF49B0092D666 /* ChatRightAudioCell.xib in Resources */,

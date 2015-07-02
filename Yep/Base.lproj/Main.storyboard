@@ -1244,11 +1244,26 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="androidBadgeView" destination="SjH-ms-KaO" id="ObT-Tv-ydL"/>
+                        <outlet property="appleBadgeView" destination="hU0-li-PMo" id="gdg-ew-qzj"/>
+                        <outlet property="ballBadgeView" destination="86U-zL-BF2" id="rhc-o7-V2z"/>
+                        <outlet property="bubbleBadgeView" destination="zpA-BY-1sO" id="O7p-Iw-2JW"/>
+                        <outlet property="cameraBadgeView" destination="cXW-bq-1DS" id="Kca-RZ-Pnn"/>
                         <outlet property="centerLeft1GapConstraint" destination="EXp-MC-v7u" id="XWH-sk-WOf"/>
                         <outlet property="centerRight1GapConstraint" destination="VbX-Lr-9Dx" id="4pi-0J-Fmi"/>
+                        <outlet property="gameBadgeView" destination="xdf-d7-hOE" id="62f-cp-fai"/>
+                        <outlet property="heartBadgeView" destination="0U9-LP-d6j" id="L4r-eK-KFQ"/>
                         <outlet property="left1Left2GapConstraint" destination="YpC-8p-aZq" id="NDj-zG-wUl"/>
+                        <outlet property="musicBadgeView" destination="Y9P-e7-eZ5" id="uWH-T3-PsQ"/>
                         <outlet property="nicknameTextField" destination="QU0-LQ-GUp" id="Zid-x7-7C0"/>
+                        <outlet property="paletteBadgeView" destination="Iz2-o9-17H" id="Eac-Uh-eNb"/>
+                        <outlet property="petBadgeView" destination="6V5-ZD-ySN" id="Rak-cV-T08"/>
+                        <outlet property="planeBadgeView" destination="mgs-nU-6GD" id="VrZ-ph-vsb"/>
                         <outlet property="right1Right2GapConstraint" destination="1lV-M6-3XH" id="HkA-a5-L4K"/>
+                        <outlet property="starBadgeView" destination="AtA-Ag-AzS" id="Fzn-aB-o42"/>
+                        <outlet property="steveBadgeView" destination="05f-r8-WNL" id="NlA-OR-Nnl"/>
+                        <outlet property="techBadgeView" destination="xQ4-Pw-gO4" id="Kkc-6J-bIY"/>
+                        <outlet property="wineBadgeView" destination="Ys0-N9-ZWV" id="9IV-Vb-CQ0"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KVb-CY-yr0" userLabel="First Responder" sceneMemberID="firstResponder"/>

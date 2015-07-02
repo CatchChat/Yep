@@ -11,11 +11,31 @@ import UIKit
 //@IBDesignable
 class BadgeView: UIView {
 
+    enum Badge: String {
+        case Palette = "palette"
+        case Plane = "plane"
+        case Heart = "heart"
+        case Star = "star"
+        case Bubble = "bubble"
+
+        case Android = "android"
+        case Apple = "apple"
+        case Pet = "pet"
+        case Wine = "wine"
+        case Music = "music"
+
+        case Steve = "steve"
+        case Camera = "camera"
+        case Game = "game"
+        case Ball = "ball"
+        case Tech = "tech"
+    }
+
     //@IBInspectable
-    var badgeName: String = "tech" {
+    var badge: Badge = .Heart {
         willSet {
-            if let badgeImage = UIImage(named: "icon_skill_" + newValue) {
-                badge.image = badgeImage
+            if let badgeImage = UIImage(named: "badge_" + newValue.rawValue) {
+                badgeImageView.image = badgeImage
             }
         }
     }
@@ -25,7 +45,7 @@ class BadgeView: UIView {
         return view
         }()
 
-    lazy var badge: UIImageView = {
+    lazy var badgeImageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
         }()
@@ -39,14 +59,14 @@ class BadgeView: UIView {
     func makeUI() {
 
         addSubview(backgroundView)
-        addSubview(badge)
+        addSubview(badgeImageView)
 
         backgroundView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        badge.setTranslatesAutoresizingMaskIntoConstraints(false)
+        badgeImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
 
         let viewsDictionary = [
             "backgroundView": backgroundView,
-            "badge": badge,
+            "badgeImageView": badgeImageView,
         ]
 
         let backgroundViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[backgroundView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
@@ -55,8 +75,8 @@ class BadgeView: UIView {
         NSLayoutConstraint.activateConstraints(backgroundViewConstraintsH)
         NSLayoutConstraint.activateConstraints(backgroundViewConstraintsV)
 
-        let iconConstraintCenterX = NSLayoutConstraint(item: badge, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0)
-        let iconConstraintCenterY = NSLayoutConstraint(item: badge, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0)
+        let iconConstraintCenterX = NSLayoutConstraint(item: badgeImageView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0)
+        let iconConstraintCenterY = NSLayoutConstraint(item: badgeImageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0)
 
         NSLayoutConstraint.activateConstraints([iconConstraintCenterX, iconConstraintCenterY])
     }
