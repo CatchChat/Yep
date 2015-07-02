@@ -175,9 +175,11 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     if let badgeName = badgeName, badge = BadgeView.Badge(rawValue: badgeName) {
                         cell?.badgeImageView.image = badge.image
                         cell?.badgeImageView.tintColor = badge.color
+                        cell?.infoLabelTrailingConstraint.constant = EditProfileLessInfoCell.ConstraintConstant.normalInfoLabelTrailing
 
                     } else {
                         cell?.badgeImageView.image = nil
+                        cell?.infoLabelTrailingConstraint.constant = EditProfileLessInfoCell.ConstraintConstant.minInfoLabelTrailing
                     }
                 }
 
