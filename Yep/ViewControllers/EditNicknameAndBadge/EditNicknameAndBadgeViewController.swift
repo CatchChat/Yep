@@ -17,6 +17,8 @@ class EditNicknameAndBadgeViewController: UITableViewController {
     @IBOutlet weak var left1Left2GapConstraint: NSLayoutConstraint!
     @IBOutlet weak var right1Right2GapConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var badgeEnabledImageView: UIImageView!
+
     @IBOutlet weak var paletteBadgeView: BadgeView!
     @IBOutlet weak var planeBadgeView: BadgeView!
     @IBOutlet weak var heartBadgeView: BadgeView!
@@ -34,7 +36,9 @@ class EditNicknameAndBadgeViewController: UITableViewController {
     @IBOutlet weak var gameBadgeView: BadgeView!
     @IBOutlet weak var ballBadgeView: BadgeView!
     @IBOutlet weak var techBadgeView: BadgeView!
-    
+
+    var badgeViews = [BadgeView]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,6 +46,8 @@ class EditNicknameAndBadgeViewController: UITableViewController {
 
         nicknameTextField.text = YepUserDefaults.nickname.value
         nicknameTextField.delegate = self
+
+        badgeEnabledImageView.backgroundColor = UIColor.redColor()
 
         let gap = UIDevice.matchWidthFrom(10, 25, 32)
         centerLeft1GapConstraint.constant = gap
@@ -67,7 +73,7 @@ class EditNicknameAndBadgeViewController: UITableViewController {
         ballBadgeView.badge = .Ball
         techBadgeView.badge = .Tech
 
-        let badgeViews = [
+        badgeViews = [
             paletteBadgeView,
             planeBadgeView,
             heartBadgeView,
@@ -87,19 +93,32 @@ class EditNicknameAndBadgeViewController: UITableViewController {
             techBadgeView,
         ]
 
-        if let badgeName = YepUserDefaults.badge.value {
-            badgeViews.map { $0.enabled = ($0.badge.rawValue == badgeName) }
-        }
-
         let disableAllBadges: () -> Void = {
             badgeViews.map { $0.enabled = false }
         }
 
         badgeViews.map {
+
             $0.tapAction = { badgeView in
+
                 disableAllBadges()
 
                 badgeView.enabled = true
+
+                // select animation
+
+                if self.badgeEnabledImageView.hidden {
+                    self.badgeEnabledImageView.center = badgeView.center
+                    self.badgeEnabledImageView.hidden = false
+
+                } else {
+                    UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
+                        self.badgeEnabledImageView.center = badgeView.center
+                    }, completion: { finished in
+                    })
+                }
+
+                // try save online & local
 
                 let newBadgeName = badgeView.badge.rawValue
 
@@ -123,6 +142,26 @@ class EditNicknameAndBadgeViewController: UITableViewController {
                     YepHUD.hideActivityIndicator()
                 })
             }
+        }
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if let badgeName = YepUserDefaults.badge.value {
+            badgeViews.map { $0.enabled = ($0.badge.rawValue == badgeName) }
+        }
+
+        if let enabledBadgeView = badgeViews.filter({ $0.enabled }).first {
+            badgeEnabledImageView.center = enabledBadgeView.center
+            badgeEnabledImageView.alpha = 0
+            badgeEnabledImageView.hidden = false
+            badgeEnabledImageView.backgroundColor = UIColor.yepTintColor()
+
+            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+                self.badgeEnabledImageView.alpha = 1
+            }, completion: { finished in
+            })
         }
     }
 }
