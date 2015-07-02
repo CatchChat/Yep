@@ -84,6 +84,7 @@ class BadgeView: UIView {
     var badge: Badge = .Heart {
         willSet {
             badgeImageView.image = newValue.image
+            badgeImageView.tintColor = newValue.color
         }
     }
 
