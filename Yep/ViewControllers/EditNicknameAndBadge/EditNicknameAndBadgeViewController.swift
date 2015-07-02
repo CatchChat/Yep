@@ -18,5 +18,16 @@ class EditNicknameAndBadgeViewController: UITableViewController {
         title = NSLocalizedString("Nickname", comment: "")
 
         nicknameTextField.text = YepUserDefaults.nickname.value
+        nicknameTextField.delegate = self
+    }
+}
+
+extension EditNicknameAndBadgeViewController: UITextFieldDelegate {
+
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+
+        textField.resignFirstResponder()
+
+        return true
     }
 }
