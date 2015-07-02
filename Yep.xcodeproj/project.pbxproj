@@ -560,9 +560,9 @@
 				0A8F54B41AB67D11004AD60E /* Main.storyboard */,
 				502AE5171AB70D72005BD199 /* Intro.storyboard */,
 				0A8F54B71AB67D11004AD60E /* Images.xcassets */,
+				504BDC141B4528A500DBD35D /* Badges.xcassets */,
 				0A8F54B91AB67D11004AD60E /* LaunchScreen.xib */,
 				0A8F54AE1AB67D11004AD60E /* Supporting Files */,
-				504BDC141B4528A500DBD35D /* Badges.xcassets */,
 			);
 			path = Yep;
 			sourceTree = "<group>";

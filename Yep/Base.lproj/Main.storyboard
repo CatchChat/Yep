@@ -1031,7 +1031,7 @@
                         <sections>
                             <tableViewSection id="TBf-1w-J6s">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="hf0-DA-HE1">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="hf0-DA-HE1">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hf0-DA-HE1" id="M5n-HW-GKn">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -1058,7 +1058,7 @@
                             </tableViewSection>
                             <tableViewSection id="Osi-AX-ugj">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="250" id="rCs-Rg-jvK">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="250" id="rCs-Rg-jvK">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rCs-Rg-jvK" id="Q18-jR-H2H">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -1066,7 +1066,6 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iz2-o9-17H" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
                                                     <rect key="frame" x="115" y="48" width="50" height="50"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="FnR-av-JRq"/>
                                                         <constraint firstAttribute="width" constant="50" id="oxn-2a-F76"/>
@@ -1075,7 +1074,6 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mgs-nU-6GD" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
                                                     <rect key="frame" x="195" y="48" width="50" height="50"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="Oet-yJ-Jb8"/>
                                                         <constraint firstAttribute="width" constant="50" id="ciO-dF-UqB"/>
@@ -1084,7 +1082,6 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AtA-Ag-AzS" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
                                                     <rect key="frame" x="355" y="48" width="50" height="50"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="MfJ-cZ-Cim"/>
                                                         <constraint firstAttribute="height" constant="50" id="vJS-sa-3o3"/>
@@ -1093,7 +1090,6 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zpA-BY-1sO" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
                                                     <rect key="frame" x="435" y="48" width="50" height="50"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="GWn-RC-Ubu"/>
                                                         <constraint firstAttribute="width" constant="50" id="cEY-79-Od7"/>
@@ -1102,7 +1098,6 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SjH-ms-KaO" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
                                                     <rect key="frame" x="115" y="118" width="50" height="50"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="D7R-NN-m6r"/>
                                                         <constraint firstAttribute="height" constant="50" id="TV7-0q-F6Q"/>
@@ -1111,7 +1106,6 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hU0-li-PMo" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
                                                     <rect key="frame" x="195" y="118" width="50" height="50"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="MYJ-Ll-Ifo"/>
                                                         <constraint firstAttribute="width" constant="50" id="w3v-NQ-MIi"/>
@@ -1120,7 +1114,6 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6V5-ZD-ySN" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
                                                     <rect key="frame" x="275" y="118" width="50" height="50"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="WhU-Sh-Us1"/>
                                                         <constraint firstAttribute="width" constant="50" id="sGV-Jg-UhD"/>
@@ -1129,7 +1122,6 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ys0-N9-ZWV" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
                                                     <rect key="frame" x="355" y="118" width="50" height="50"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="8Yt-VY-BXY"/>
                                                         <constraint firstAttribute="width" constant="50" id="oQU-J6-roJ"/>
@@ -1138,7 +1130,6 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y9P-e7-eZ5" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
                                                     <rect key="frame" x="435" y="118" width="50" height="50"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="2FP-CS-XWR"/>
                                                         <constraint firstAttribute="height" constant="50" id="ZVZ-9X-89T"/>
@@ -1147,7 +1138,6 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="05f-r8-WNL" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
                                                     <rect key="frame" x="115" y="188" width="50" height="50"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="Urm-wJ-CJH"/>
                                                         <constraint firstAttribute="width" constant="50" id="e5J-eC-p0F"/>
@@ -1156,7 +1146,6 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cXW-bq-1DS" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
                                                     <rect key="frame" x="195" y="188" width="50" height="50"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="icA-hh-X6c"/>
                                                         <constraint firstAttribute="width" constant="50" id="s1H-6S-jvp"/>
@@ -1165,7 +1154,6 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xdf-d7-hOE" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
                                                     <rect key="frame" x="275" y="188" width="50" height="50"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="D3g-Ka-0yn"/>
                                                         <constraint firstAttribute="height" constant="50" id="aqu-56-fOp"/>
@@ -1174,7 +1162,6 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="86U-zL-BF2" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
                                                     <rect key="frame" x="355" y="188" width="50" height="50"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="PD9-iF-HCF"/>
                                                         <constraint firstAttribute="width" constant="50" id="Qom-LV-lki"/>
@@ -1183,7 +1170,6 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xQ4-Pw-gO4" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
                                                     <rect key="frame" x="435" y="188" width="50" height="50"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="xR7-ue-dMM"/>
                                                         <constraint firstAttribute="width" constant="50" id="xSR-GH-BOD"/>
@@ -1192,7 +1178,6 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0U9-LP-d6j" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
                                                     <rect key="frame" x="275" y="48" width="50" height="50"/>
                                                     <animations/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="5vQ-px-m0V"/>
                                                         <constraint firstAttribute="width" constant="50" id="D2F-ef-ueg"/>
