@@ -101,7 +101,27 @@ class EditNicknameAndBadgeViewController: UITableViewController {
 
                 badgeView.enabled = true
 
-                YepUserDefaults.badge.value = badgeView.badge.rawValue
+                let newBadgeName = badgeView.badge.rawValue
+
+                YepHUD.showActivityIndicator()
+
+                updateMyselfWithInfo(["badge": newBadgeName], failureHandler: { [weak self] (reason, errorMessage) in
+                    defaultFailureHandler(reason, errorMessage)
+
+                    YepHUD.hideActivityIndicator()
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        badgeView.enabled = false
+                        YepAlert.alertSorry(message: NSLocalizedString("Set badge failed!", comment: ""), inViewController: self)
+                    }
+
+                }, completion: { success in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        YepUserDefaults.badge.value = newBadgeName
+                    }
+                        
+                    YepHUD.hideActivityIndicator()
+                })
             }
         }
     }
