@@ -44,7 +44,7 @@ class BadgeView: UIView {
         willSet {
             //backgroundView.backgroundColor = newValue ? UIColor.yepTintColor() : UIColor.clearColor()
 
-            UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
                 self.badgeImageView.tintColor = newValue ? UIColor.whiteColor() : UIColor.yepTintColor()
             }, completion: { finished in
             })

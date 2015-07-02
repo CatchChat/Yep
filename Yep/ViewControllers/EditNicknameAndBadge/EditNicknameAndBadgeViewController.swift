@@ -126,12 +126,12 @@ class EditNicknameAndBadgeViewController: UITableViewController {
 
                 let newBadgeName = badgeView.badge.rawValue
 
-                YepHUD.showActivityIndicator()
+                //YepHUD.showActivityIndicator()
 
                 updateMyselfWithInfo(["badge": newBadgeName], failureHandler: { [weak self] (reason, errorMessage) in
                     defaultFailureHandler(reason, errorMessage)
 
-                    YepHUD.hideActivityIndicator()
+                    //YepHUD.hideActivityIndicator()
 
                     dispatch_async(dispatch_get_main_queue()) {
                         badgeView.enabled = false
@@ -143,7 +143,7 @@ class EditNicknameAndBadgeViewController: UITableViewController {
                         YepUserDefaults.badge.value = newBadgeName
                     }
                         
-                    YepHUD.hideActivityIndicator()
+                    //YepHUD.hideActivityIndicator()
                 })
             }
         }
@@ -161,10 +161,22 @@ class EditNicknameAndBadgeViewController: UITableViewController {
             badgeEnabledImageView.alpha = 0
             badgeEnabledImageView.hidden = false
 
-            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+            badgeEnabledImageView.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
+
+            UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
                 self.badgeEnabledImageView.alpha = 1
+                self.badgeEnabledImageView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+
             }, completion: { finished in
+                self.badgeEnabledImageView.transform = CGAffineTransformIdentity
             })
+//            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+//                self.badgeEnabledImageView.alpha = 1
+//                self.badgeEnabledImageView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+//
+//            }, completion: { finished in
+//                self.badgeEnabledImageView.transform = CGAffineTransformIdentity
+//            })
         }
     }
 }
