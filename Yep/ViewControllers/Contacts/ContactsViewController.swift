@@ -110,6 +110,14 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
             cell.nameLabel.text = friend.nickname
+
+            if let badge = BadgeView.Badge(rawValue: friend.badge) {
+                cell.badgeImageView.image = badge.image
+                cell.badgeImageView.tintColor = badge.color
+            } else {
+                cell.badgeImageView.image = nil
+            }
+
             cell.joinedDateLabel.text = friend.introduction
             cell.lastTimeSeenLabel.text = NSDate(timeIntervalSince1970: friend.createdUnixTime).timeAgo
         }
