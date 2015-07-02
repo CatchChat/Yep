@@ -78,7 +78,7 @@
                                     <outlet property="delegate" destination="la3-6z-2aH" id="zOV-zM-2KH"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gu7-gn-2ia">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gu7-gn-2ia">
                                 <rect key="frame" x="0.0" y="270" width="600" height="100"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe Up to Cancel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zew-F7-znc">
@@ -107,7 +107,7 @@
                                     <constraint firstItem="Zew-F7-znc" firstAttribute="top" secondItem="4p2-ZI-7q3" secondAttribute="bottom" constant="10" id="b9o-gU-cOq"/>
                                 </constraints>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="390" width="600" height="50"/>
                                 <animations/>
                                 <items/>
@@ -1063,7 +1063,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rCs-Rg-jvK" id="Q18-jR-H2H">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bd9-dd-MZA" userLabel="Badge Enabled Image View">
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="enabled_badge_background" translatesAutoresizingMaskIntoConstraints="NO" id="bd9-dd-MZA" userLabel="Badge Enabled Image View">
                                                     <rect key="frame" x="10" y="10" width="50" height="50"/>
                                                     <animations/>
                                                 </imageView>
@@ -1629,6 +1629,7 @@
     </scenes>
     <resources>
         <image name="default_avatar" width="100" height="100"/>
+        <image name="enabled_badge_background" width="50" height="50"/>
         <image name="icon_chat" width="30" height="30"/>
         <image name="icon_chat_active" width="30" height="30"/>
         <image name="icon_contact" width="30" height="30"/>

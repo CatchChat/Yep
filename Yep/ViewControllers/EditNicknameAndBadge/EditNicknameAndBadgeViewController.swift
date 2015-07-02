@@ -47,8 +47,6 @@ class EditNicknameAndBadgeViewController: UITableViewController {
         nicknameTextField.text = YepUserDefaults.nickname.value
         nicknameTextField.delegate = self
 
-        badgeEnabledImageView.backgroundColor = UIColor.redColor()
-
         let gap = UIDevice.matchWidthFrom(10, 25, 32)
         centerLeft1GapConstraint.constant = gap
         centerRight1GapConstraint.constant = gap
@@ -109,10 +107,16 @@ class EditNicknameAndBadgeViewController: UITableViewController {
 
                 if self.badgeEnabledImageView.hidden {
                     self.badgeEnabledImageView.center = badgeView.center
+                    self.badgeEnabledImageView.alpha = 0
                     self.badgeEnabledImageView.hidden = false
 
+                    UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+                        self.badgeEnabledImageView.alpha = 1
+                    }, completion: { finished in
+                    })
+
                 } else {
-                    UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
+                    UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
                         self.badgeEnabledImageView.center = badgeView.center
                     }, completion: { finished in
                     })
@@ -156,7 +160,6 @@ class EditNicknameAndBadgeViewController: UITableViewController {
             badgeEnabledImageView.center = enabledBadgeView.center
             badgeEnabledImageView.alpha = 0
             badgeEnabledImageView.hidden = false
-            badgeEnabledImageView.backgroundColor = UIColor.yepTintColor()
 
             UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
                 self.badgeEnabledImageView.alpha = 1
