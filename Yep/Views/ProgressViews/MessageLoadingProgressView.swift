@@ -22,6 +22,40 @@ class MessageLoadingProgressView: UIView {
         let lineWidth: CGFloat = 4
         let radius = min(rect.width, rect.height) * 0.5 - lineWidth * 0.5
 
+        let context = UIGraphicsGetCurrentContext()
+
+        // base circle
+
+        CGContextSaveGState(context)
+
+        CGContextBeginPath(context)
+
+        CGContextSetStrokeColorWithColor(context, UIColor.lightGrayColor().CGColor)
+        CGContextSetLineWidth(context, lineWidth)
+
+        CGContextAddArc(context, center.x, center.y, radius, 0, CGFloat(M_PI * 2), 0)
+
+        CGContextDrawPath(context, kCGPathStroke)
+
+        CGContextRestoreGState(context)
+
+        // progress arc
+
+        CGContextSaveGState(context)
+
+        CGContextBeginPath(context)
+
+        CGContextSetStrokeColorWithColor(context, UIColor.whiteColor().CGColor)
+        CGContextSetLineWidth(context, lineWidth)
+        CGContextSetLineCap(context, kCGLineCapRound)
+
+        CGContextAddArc(context, center.x, center.y, radius, CGFloat(-M_PI_2), CGFloat(M_PI * 2 * progress - M_PI_2), 0)
+
+        CGContextDrawPath(context, kCGPathStroke)
+
+        CGContextRestoreGState(context)
+
+        /*
         // base circle
 
         let baseCircle = UIBezierPath(arcCenter: center, radius: radius, startAngle: 0, endAngle: CGFloat(M_PI * 2), clockwise: true)
@@ -42,5 +76,6 @@ class MessageLoadingProgressView: UIView {
         UIColor.whiteColor().setStroke()
 
         progressArc.stroke()
+        */
     }
 }
