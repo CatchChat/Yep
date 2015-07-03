@@ -340,6 +340,11 @@ class ConversationViewController: BaseViewController {
 
         // MARK: Audio Send
 
+        let hideWaver: () -> Void = { [weak self] in
+            self?.swipeUpView.hidden = true
+            self?.waverView.removeFromSuperview()
+        }
+
         let sendAudioMessage: () -> Void = { [weak self] in
             // Prepare meta data
 
@@ -451,6 +456,9 @@ class ConversationViewController: BaseViewController {
                     YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: strongSelf)
 
                     YepAudioService.sharedManager.recordTimeoutAction = {
+
+                        hideWaver()
+
                         sendAudioMessage()
                     }
 
@@ -480,9 +488,8 @@ class ConversationViewController: BaseViewController {
         }
         
         messageToolbar.voiceSendEndAction = { [weak self] messageToolbar in
-            self?.swipeUpView.hidden = true
-            self?.waverView.removeFromSuperview()
 
+            hideWaver()
 
             let interruptAudioRecord: () -> Void = {
                 YepAudioService.sharedManager.endRecord()
