@@ -46,6 +46,25 @@ class YepAudioService: NSObject {
         }
     }
 
+    var recordTimeoutAction: (() -> Void)?
+
+    lazy var recordTimer: NSTimer = {
+        let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "checkRecordDuration:", userInfo: nil, repeats: true)
+        return timer
+        }()
+
+    func checkRecordDuration(timer: NSTimer) {
+        
+        if audioRecorder?.currentTime > 5 {
+
+            endRecord()
+
+            recordTimeoutAction?()
+
+            recordTimeoutAction = nil
+        }
+    }
+
     func beginRecordWithFileURL(fileURL: NSURL, audioRecorderDelegate: AVAudioRecorderDelegate) {
         
         AVAudioSession.sharedInstance().requestRecordPermission { granted in

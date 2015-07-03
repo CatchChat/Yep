@@ -340,54 +340,7 @@ class ConversationViewController: BaseViewController {
 
         // MARK: Audio Send
 
-        messageToolbar.voiceSendBeginAction = { [weak self] messageToolbar in
-
-            if let strongSelf = self {
-
-                strongSelf.view.addSubview(strongSelf.waverView)
-                strongSelf.swipeUpView.hidden = false
-                strongSelf.view.bringSubviewToFront(strongSelf.swipeUpView)
-
-                let audioFileName = NSUUID().UUIDString
-
-                strongSelf.waverView.waver.resetWaveSamples()
-                strongSelf.samplesCount = 0
-
-                if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
-                    YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: strongSelf)
-                }
-
-                if let withFriend = strongSelf.conversation.withFriend {
-
-                    let typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Audio.rawValue]
-
-                    if FayeService.sharedManager.client.connected {
-                        FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
-                            println("Send recording \(result)")
-                        })
-                    }
-                }
-            }
-        }
-        
-        messageToolbar.voiceSendCancelAction = { [weak self] messageToolbar in
-            self?.swipeUpView.hidden = true
-            self?.waverView.removeFromSuperview()
-
-            YepAudioService.sharedManager.endRecord()
-        }
-        
-        messageToolbar.voiceSendEndAction = { [weak self] messageToolbar in
-            self?.swipeUpView.hidden = true
-            self?.waverView.removeFromSuperview()
-
-            if YepAudioService.sharedManager.audioRecorder?.currentTime < 0.5 {
-                YepAudioService.sharedManager.endRecord()
-                return
-            }
-
-            YepAudioService.sharedManager.endRecord()
-
+        let sendAudioMessage: () -> Void = { [weak self] in
             // Prepare meta data
 
             var metaData: String? = nil
@@ -479,6 +432,68 @@ class ConversationViewController: BaseViewController {
                     })
                 }
             }
+        }
+
+        messageToolbar.voiceSendBeginAction = { [weak self] messageToolbar in
+
+            if let strongSelf = self {
+
+                strongSelf.view.addSubview(strongSelf.waverView)
+                strongSelf.swipeUpView.hidden = false
+                strongSelf.view.bringSubviewToFront(strongSelf.swipeUpView)
+
+                let audioFileName = NSUUID().UUIDString
+
+                strongSelf.waverView.waver.resetWaveSamples()
+                strongSelf.samplesCount = 0
+
+                if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
+                    YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: strongSelf)
+
+                    YepAudioService.sharedManager.recordTimeoutAction = {
+                        sendAudioMessage()
+                    }
+
+                    YepAudioService.sharedManager.recordTimer.fire()
+                }
+
+                if let withFriend = strongSelf.conversation.withFriend {
+
+                    let typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Audio.rawValue]
+
+                    if FayeService.sharedManager.client.connected {
+                        FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
+                            println("Send recording \(result)")
+                        })
+                    }
+                }
+            }
+        }
+        
+        messageToolbar.voiceSendCancelAction = { [weak self] messageToolbar in
+            self?.swipeUpView.hidden = true
+            self?.waverView.removeFromSuperview()
+
+            YepAudioService.sharedManager.endRecord()
+
+            YepAudioService.sharedManager.recordTimeoutAction = nil
+        }
+        
+        messageToolbar.voiceSendEndAction = { [weak self] messageToolbar in
+            self?.swipeUpView.hidden = true
+            self?.waverView.removeFromSuperview()
+
+            // 小于 0.5 秒不创建消息
+            if YepAudioService.sharedManager.audioRecorder?.currentTime < 0.5 {
+                YepAudioService.sharedManager.endRecord()
+                return
+            }
+
+            YepAudioService.sharedManager.endRecord()
+
+            YepAudioService.sharedManager.recordTimeoutAction = nil
+
+            sendAudioMessage()
         }
 
         // MARK: MessageToolbar State Transitions
