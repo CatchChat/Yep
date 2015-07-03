@@ -44,6 +44,7 @@ class SkillCategoryButton: UIButton {
     lazy var categoryImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .Center
+        imageView.tintColor = UIColor.whiteColor()
         return imageView
         }()
 

@@ -233,7 +233,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
             let categoryImageNames = [
                 "Art": "icon_skill_art",
                 "Technology": "icon_skill_tech",
-                "Sport": "icon_skill_sport",
+                "Sport": "icon_skill_ball",
                 "Life Style": "icon_skill_life",
             ]
 
