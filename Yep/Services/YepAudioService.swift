@@ -48,12 +48,18 @@ class YepAudioService: NSObject {
 
     var recordTimeoutAction: (() -> Void)?
 
-    lazy var recordTimer: NSTimer = {
-        let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "checkRecordDuration:", userInfo: nil, repeats: true)
-        return timer
-        }()
+    var checkRecordTimeoutTimer: NSTimer?
 
-    func checkRecordDuration(timer: NSTimer) {
+    func startCheckRecordTimeoutTimer() {
+
+        let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "checkRecordTimeout:", userInfo: nil, repeats: true)
+
+        checkRecordTimeoutTimer = timer
+
+        timer.fire()
+    }
+
+    func checkRecordTimeout(timer: NSTimer) {
         
         if audioRecorder?.currentTime > 5 {
 
@@ -108,6 +114,10 @@ class YepAudioService: NSObject {
                 audioRecorder.stop()
             }
         }
+
+        checkRecordTimeoutTimer?.invalidate()
+
+        checkRecordTimeoutTimer = nil
     }
     
     // MARK: Audio Player

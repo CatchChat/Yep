@@ -454,7 +454,7 @@ class ConversationViewController: BaseViewController {
                         sendAudioMessage()
                     }
 
-                    YepAudioService.sharedManager.recordTimer.fire()
+                    YepAudioService.sharedManager.startCheckRecordTimeoutTimer()
                 }
 
                 if let withFriend = strongSelf.conversation.withFriend {
