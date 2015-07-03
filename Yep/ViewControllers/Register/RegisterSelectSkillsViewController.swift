@@ -61,6 +61,10 @@ class RegisterSelectSkillsViewController: UIViewController {
         skillCategoriesCollectionView.backgroundColor = UIColor.clearColor()
         skillsCollectionView.backgroundColor = UIColor.clearColor()
 
+        let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+        skillCategoriesCollectionView.contentInset = contentInset
+        skillsCollectionView.contentInset = contentInset
+
         let effect = UIBlurEffect(style: UIBlurEffectStyle.Light)
         let effectView = UIVisualEffectView(effect: effect)
         effectView.frame = view.bounds
