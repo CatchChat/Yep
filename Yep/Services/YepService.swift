@@ -786,7 +786,7 @@ func discoverUsers(#masterSkillIDs: [String], #learningSkillIDs: [String], #disc
     
     let requestParameters: [String: AnyObject] = [
         "master_skills": masterSkillIDs,
-        "learning_skills": masterSkillIDs,
+        "learning_skills": learningSkillIDs,
         "sort": discoveredUserSortStyle.rawValue
     ]
     
