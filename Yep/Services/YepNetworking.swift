@@ -55,12 +55,10 @@ public enum Reason: Printable {
             return "CouldNotParseJSON"
         case .NoData:
             return "NoData"
-        case .NoSuccessStatusCode:
-            return "NoSuccessStatusCode"
-        case .Other:
-            return "Other"
-        default:
-            return ""
+        case .NoSuccessStatusCode(let statusCode):
+            return "NoSuccessStatusCode: \(statusCode)"
+        case .Other(let error):
+            return "Other, Error: \(error.description)"
         }
     }
 }
@@ -70,8 +68,6 @@ func defaultFailureHandler(reason: Reason, errorMessage: String?) {
     println("Reason: \(reason)")
     if let errorMessage = errorMessage {
         println("errorMessage: >>>\(errorMessage)<<<\n")
-    } else {
-        println()
     }
 }
 
@@ -159,19 +155,18 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                         let dataString = NSString(data: responseData, encoding: NSUTF8StringEncoding)
                         println(dataString)
                         
-                        println("\(resource)")
                         failure(Reason.CouldNotParseJSON, errorMessageInData(data))
+                        println("\(resource)\n")
                     }
 
                 } else {
-                    println("\(resource)")
                     failure(Reason.NoData, errorMessageInData(data))
+                    println("\(resource)\n")
                 }
 
             } else {
-                println("\(resource)")
-                println("\nstatusCode: \(httpResponse.statusCode)")
                 failure(Reason.NoSuccessStatusCode(statusCode: httpResponse.statusCode), errorMessageInData(data))
+                println("\(resource)\n")
 
                 // 对于 401: errorMessage: >>>HTTP Token: Access denied<<<
                 // 用户需要重新登录，所以
