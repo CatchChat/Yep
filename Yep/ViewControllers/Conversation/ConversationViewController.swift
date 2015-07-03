@@ -483,15 +483,19 @@ class ConversationViewController: BaseViewController {
             self?.swipeUpView.hidden = true
             self?.waverView.removeFromSuperview()
 
+
+            let interruptAudioRecord: () -> Void = {
+                YepAudioService.sharedManager.endRecord()
+                YepAudioService.sharedManager.recordTimeoutAction = nil
+            }
+
             // 小于 0.5 秒不创建消息
             if YepAudioService.sharedManager.audioRecorder?.currentTime < 0.5 {
-                YepAudioService.sharedManager.endRecord()
+                interruptAudioRecord()
                 return
             }
 
-            YepAudioService.sharedManager.endRecord()
-
-            YepAudioService.sharedManager.recordTimeoutAction = nil
+            interruptAudioRecord()
 
             sendAudioMessage()
         }
