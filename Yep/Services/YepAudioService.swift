@@ -61,7 +61,7 @@ class YepAudioService: NSObject {
 
     func checkRecordTimeout(timer: NSTimer) {
         
-        if audioRecorder?.currentTime > 5 {
+        if audioRecorder?.currentTime > YepConfig.AudioRecord.longestDuration {
 
             endRecord()
 

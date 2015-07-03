@@ -79,6 +79,11 @@ class YepConfig {
         return 100
     }
 
+    struct AudioRecord {
+        static let shortestDuration: NSTimeInterval = 0.5
+        static let longestDuration: NSTimeInterval = 60
+    }
+
     struct Profile {
         static let leftEdgeInset: CGFloat = UIDevice.matchWidthFrom(20, 38, 40)
         static let rightEdgeInset: CGFloat = leftEdgeInset
