@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import WebViewJavascriptBridge
 
 class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate {
 
@@ -16,9 +15,6 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
 
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-
-
-    var bridge: WebViewJavascriptBridge!
     
     var authenticated = false
     
@@ -37,47 +33,10 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
         let request = authURLRequestWithURL(socialAccount.authURL)
         
         webView.loadRequest(request)
+        
+        webView.delegate = self
 
         webViewDidStartLoad(webView)
-        
-        bridge = WebViewJavascriptBridge(forWebView: webView, webViewDelegate: self, handler: { data, responseCallback in
-
-            if let status = data as? [String: Bool], let success = status["success"] {
-
-                if success {
-
-                    self.dismissViewControllerAnimated(true, completion: nil)
-
-                    socialAccountWithProvider(self.socialAccount.description.lowercaseString, failureHandler: { (reason, errorMessage) -> Void in
-
-                        defaultFailureHandler(reason, errorMessage)
-
-                    }, completion: { provider in
-                        println(provider)
-
-                        if let afterOAuthAction = self.afterOAuthAction {
-                            afterOAuthAction(socialAccount: self.socialAccount)
-                        }
-
-                        // TODO: 解析 socialAccount Provider
-                    })
-
-                } else {
-                    self.webViewDidFinishLoad(self.webView)
-
-                    YepAlert.alertSorry(message: NSLocalizedString("OAuth Error", comment: ""), inViewController: self, withDismissAction: { () -> Void in
-                        self.dismissViewControllerAnimated(true, completion: nil)
-                    })
-                }
-
-            } else {
-                self.webViewDidFinishLoad(self.webView)
-
-                YepAlert.alertSorry(message: NSLocalizedString("WebView Bridge Error", comment: ""), inViewController: self, withDismissAction: { () -> Void in
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                })
-            }
-        })
     }
 
     // MARK: Actions
@@ -90,6 +49,13 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
 
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         let result = authenticated
+        
+        println(request.URL?.description)
+        
+        if let newURLString = request.URL?.description {
+            handleWithRequestURL(newURLString)
+
+        }
 
         if (!authenticated) {
             failedRequest = request
@@ -98,6 +64,36 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
 
         return result
     }
+    
+    func handleWithRequestURL(url: String) {
+
+      if url.contains("/auth/success") {
+        
+            self.dismissViewControllerAnimated(true, completion: nil)
+            
+            socialAccountWithProvider(self.socialAccount.description.lowercaseString, failureHandler: { (reason, errorMessage) -> Void in
+                
+                defaultFailureHandler(reason, errorMessage)
+                
+                }, completion: { provider in
+                    println(provider)
+                    
+                    if let afterOAuthAction = self.afterOAuthAction {
+                        afterOAuthAction(socialAccount: self.socialAccount)
+                    }
+                    
+                    // TODO: 解析 socialAccount Provider
+            })
+            
+        } else if url.contains("/auth/failure") {
+            self.webViewDidFinishLoad(self.webView)
+            
+            YepAlert.alertSorry(message: NSLocalizedString("OAuth Error", comment: ""), inViewController: self, withDismissAction: { () -> Void in
+                self.dismissViewControllerAnimated(true, completion: nil)
+            })
+        }
+    }
+    
 
     func webViewDidStartLoad(webView: UIWebView) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true

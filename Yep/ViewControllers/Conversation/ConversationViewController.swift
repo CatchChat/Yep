@@ -653,6 +653,8 @@ class ConversationViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
+
+        
         conversationCollectionViewHasBeenMovedToBottomOnce = true
 
         FayeService.sharedManager.delegate = self
@@ -682,6 +684,9 @@ class ConversationViewController: BaseViewController {
                 return false
             }
         }).map({ self.markMessageAsReaded($0) })
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.setNeedsStatusBarAppearanceUpdate()
     }
 
     private func markMessageAsReaded(message: Message) {

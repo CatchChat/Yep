@@ -5,7 +5,7 @@ use_frameworks!
 pod 'APAddressBook/Swift'
 pod 'FXBlurView'
 pod 'Kingfisher'
-pod 'WebViewJavascriptBridge'
+#pod 'WebViewJavascriptBridge'
 pod 'pop'
 pod 'AFNetworking'
 pod 'MZFayeClient', :path => '../CatchLib-iOS/MZFayeClient/'

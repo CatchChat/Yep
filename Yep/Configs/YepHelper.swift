@@ -11,6 +11,13 @@ import RealmSwift
 
 typealias CancelableTask = (cancel: Bool) -> Void
 
+extension String {
+    
+    func contains(find: String) -> Bool{
+        return self.rangeOfString(find) != nil
+    }
+}
+
 func delay(time: NSTimeInterval, work: dispatch_block_t) -> CancelableTask? {
 
     var finalTask: CancelableTask?

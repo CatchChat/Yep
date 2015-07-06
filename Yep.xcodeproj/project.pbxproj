@@ -27,7 +27,6 @@
 		0A90187E1B01152800AE4B7F /* ProfileSocialAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A90187C1B01152800AE4B7F /* ProfileSocialAccountCell.swift */; };
 		0A90187F1B01152800AE4B7F /* ProfileSocialAccountCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A90187D1B01152800AE4B7F /* ProfileSocialAccountCell.xib */; };
 		0A9018821B0120A500AE4B7F /* OAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9018811B0120A500AE4B7F /* OAuthViewController.swift */; };
-		0A9018871B01321F00AE4B7F /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0A9018861B01321F00AE4B7F /* WebViewJavascriptBridge.js.txt */; };
 		0A943A7B1B0F8EAE0022DD67 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A943A7A1B0F8EAE0022DD67 /* BaseViewController.swift */; };
 		0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A944C241AC8BB2F00037A06 /* YepStorageService.swift */; };
 		0AAFCFF91AC8CA5B00EB0EF8 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */; };
@@ -249,7 +248,6 @@
 		0A90187C1B01152800AE4B7F /* ProfileSocialAccountCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountCell.swift; sourceTree = "<group>"; };
 		0A90187D1B01152800AE4B7F /* ProfileSocialAccountCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountCell.xib; sourceTree = "<group>"; };
 		0A9018811B0120A500AE4B7F /* OAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OAuthViewController.swift; path = ViewControllers/OAuth/OAuthViewController.swift; sourceTree = "<group>"; };
-		0A9018861B01321F00AE4B7F /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		0A943A7A1B0F8EAE0022DD67 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseViewController.swift; path = ViewControllers/Base/BaseViewController.swift; sourceTree = "<group>"; };
 		0A944C241AC8BB2F00037A06 /* YepStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepStorageService.swift; path = Services/YepStorageService.swift; sourceTree = "<group>"; };
 		0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -570,7 +568,6 @@
 		0A8F54AE1AB67D11004AD60E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				0A9018881B01324100AE4B7F /* WebViewJSBridge */,
 				0AD7EA751AC3EE9B00617758 /* JPush */,
 				0A8F54AF1AB67D11004AD60E /* Info.plist */,
 			);
@@ -613,14 +610,6 @@
 				0A9018811B0120A500AE4B7F /* OAuthViewController.swift */,
 			);
 			name = OAuth;
-			sourceTree = "<group>";
-		};
-		0A9018881B01324100AE4B7F /* WebViewJSBridge */ = {
-			isa = PBXGroup;
-			children = (
-				0A9018861B01321F00AE4B7F /* WebViewJavascriptBridge.js.txt */,
-			);
-			name = WebViewJSBridge;
 			sourceTree = "<group>";
 		};
 		0A943A7C1B0F8EB10022DD67 /* Base */ = {
@@ -1632,7 +1621,6 @@
 				50EB8CC51AE89F12001AC1EE /* ChatRightVideoCell.xib in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
 				504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */,
-				0A9018871B01321F00AE4B7F /* WebViewJavascriptBridge.js.txt in Resources */,
 				50894D081AEDFDA2000981AF /* EditProfileMoreInfoCell.xib in Resources */,
 				508D174D1ACCF49B0092D666 /* ChatRightAudioCell.xib in Resources */,
 				50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */,
