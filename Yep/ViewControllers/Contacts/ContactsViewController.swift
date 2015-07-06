@@ -105,7 +105,9 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
             AvatarCache.sharedInstance.roundAvatarOfUser(friend, withRadius: radius) { [weak cell] roundImage in
                 dispatch_async(dispatch_get_main_queue()) {
-                    cell?.avatarImageView.image = roundImage
+                    if let _ = tableView.cellForRowAtIndexPath(indexPath) {
+                        cell?.avatarImageView.image = roundImage
+                    }
                 }
             }
 

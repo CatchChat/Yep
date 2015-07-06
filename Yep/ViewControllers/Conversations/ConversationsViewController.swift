@@ -130,7 +130,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
             let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
 
-            cell.configureWithConversation(conversation, avatarRadius: radius)
+            cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
         }
 
         return cell
@@ -199,7 +199,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                         if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
                             if let conversation = self.conversations[safe: indexPath.row] {
                                 let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
-                                cell.configureWithConversation(conversation, avatarRadius: radius)
+                                cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
                             }
                         }
                     }

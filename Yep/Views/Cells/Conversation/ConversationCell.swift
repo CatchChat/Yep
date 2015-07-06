@@ -45,7 +45,7 @@ class ConversationCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func configureWithConversation(conversation: Conversation, avatarRadius radius: CGFloat) {
+    func configureWithConversation(conversation: Conversation, avatarRadius radius: CGFloat, tableView: UITableView, indexPath: NSIndexPath) {
         
         self.conversation = conversation
 
@@ -59,7 +59,9 @@ class ConversationCell: UITableViewCell {
 
                 AvatarCache.sharedInstance.roundAvatarOfUser(conversationWithFriend, withRadius: radius) { [weak self] roundImage in
                     dispatch_async(dispatch_get_main_queue()) {
-                        self?.avatarImageView.image = roundImage
+                        if let _ = tableView.cellForRowAtIndexPath(indexPath) {
+                            self?.avatarImageView.image = roundImage
+                        }
                     }
                 }
 

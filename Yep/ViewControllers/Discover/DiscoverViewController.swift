@@ -144,7 +144,9 @@ extension DiscoverViewController: UITableViewDataSource, UITableViewDelegate {
         let avatarURLString = discoveredUser.avatarURLString
         AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { [weak cell] roundImage in
             dispatch_async(dispatch_get_main_queue()) {
-                cell?.avatarImageView.image = roundImage
+                if let _ = tableView.cellForRowAtIndexPath(indexPath) {
+                    cell?.avatarImageView.image = roundImage
+                }
             }
         }
 
