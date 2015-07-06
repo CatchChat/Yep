@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import TPKeyboardAvoiding
 
 class EditProfileViewController: UIViewController {
 
@@ -20,7 +21,7 @@ class EditProfileViewController: UIViewController {
 
     @IBOutlet weak var mobileLabel: UILabel!
 
-    @IBOutlet weak var editProfileTableView: UITableView!
+    @IBOutlet weak var editProfileTableView: TPKeyboardAvoidingTableView!
 
 
     let editProfileLessInfoCellIdentifier = "EditProfileLessInfoCell"
@@ -191,7 +192,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
 
                 YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [weak cell] introduction in
-                    cell?.infoLabel.text = introduction
+                    cell?.infoTextView.text = introduction
                 }
 
                 return cell
@@ -225,9 +226,9 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 let rect = introduction.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: introAttributes, context: nil)
 
-                let height = 20 + 22 + 20 + ceil(rect.height) + 20
+                let height = 20 + 22 + 10 + ceil(rect.height) + 8
                 
-                return height
+                return max(height, 120)
 
             default:
                 return 0
@@ -257,6 +258,8 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
             case InfoRow.Intro.rawValue:
 
+                break
+                /*
                 YepAlert.textInput(title: NSLocalizedString("New introduction", comment: ""), placeholder: nil, oldText: YepUserDefaults.introduction.value, confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { newIntroduction in
 
                     if let oldIntroduction = YepUserDefaults.introduction.value {
@@ -283,6 +286,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     })
 
                 }, cancelAction: nil)
+                */
 
             default:
                 break

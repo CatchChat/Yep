@@ -12,13 +12,13 @@ class EditProfileMoreInfoCell: UITableViewCell {
 
     @IBOutlet weak var annotationLabel: UILabel!
 
-    @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var infoTextView: UITextView!
 
     
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        infoLabel.font = YepConfig.EditProfile.introFont
+        infoTextView.font = YepConfig.EditProfile.introFont
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
