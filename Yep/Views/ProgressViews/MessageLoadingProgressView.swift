@@ -18,6 +18,10 @@ class MessageLoadingProgressView: UIView {
 
     override func drawRect(rect: CGRect) {
 
+        if progress <= 0 {
+            return
+        }
+
         let center = CGPoint(x: CGRectGetMidX(rect), y: CGRectGetMidY(rect))
         let lineWidth: CGFloat = 4
         let radius = min(rect.width, rect.height) * 0.5 - lineWidth * 0.5
