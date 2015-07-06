@@ -261,7 +261,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             }
 
         case Section.LogOut.rawValue:
-            return 80
+            return 60
 
         default:
             return 0
@@ -279,40 +279,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             switch indexPath.row {
 
             case InfoRow.Name.rawValue:
-
                 performSegueWithIdentifier("showEditNicknameAndBadge", sender: nil)
-
-            case InfoRow.Intro.rawValue:
-
-                break
-                /*
-                YepAlert.textInput(title: NSLocalizedString("New introduction", comment: ""), placeholder: nil, oldText: YepUserDefaults.introduction.value, confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { newIntroduction in
-
-                    if let oldIntroduction = YepUserDefaults.introduction.value {
-                        if oldIntroduction == newIntroduction {
-                            return
-                        }
-                    }
-
-                    YepHUD.showActivityIndicator()
-
-                    updateMyselfWithInfo(["introduction": newIntroduction], failureHandler: { (reason, errorMessage) in
-                        defaultFailureHandler(reason, errorMessage)
-
-                        YepHUD.hideActivityIndicator()
-
-                    }, completion: { success in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            YepUserDefaults.introduction.value = newIntroduction
-
-                            self.editProfileTableView.reloadData()
-                        }
-
-                        YepHUD.hideActivityIndicator()
-                    })
-
-                }, cancelAction: nil)
-                */
 
             default:
                 break

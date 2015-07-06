@@ -19,6 +19,8 @@ class EditProfileMoreInfoCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        selectionStyle = .None
+
         infoTextView.font = YepConfig.EditProfile.introFont
         infoTextView.textContainer.lineFragmentPadding = 0
         infoTextView.textContainerInset = UIEdgeInsetsZero
