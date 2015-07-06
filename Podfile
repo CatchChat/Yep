@@ -5,6 +5,7 @@ use_frameworks!
 pod 'APAddressBook/Swift'
 pod 'FXBlurView'
 pod 'Kingfisher'
+pod 'TPKeyboardAvoiding', '~> 1.2'
 #pod 'WebViewJavascriptBridge'
 pod 'pop'
 pod 'AFNetworking'

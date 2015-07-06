@@ -36,6 +36,7 @@ PODS:
   - RealmSwift (0.93.2):
     - Realm (= 0.93.2)
   - SocketRocket (0.3.1-beta2)
+  - TPKeyboardAvoiding (1.2.8)
 
 DEPENDENCIES:
   - AFNetworking
@@ -45,6 +46,7 @@ DEPENDENCIES:
   - MZFayeClient (from `../CatchLib-iOS/MZFayeClient/`)
   - pop
   - RealmSwift
+  - TPKeyboardAvoiding (~> 1.2)
 
 EXTERNAL SOURCES:
   MZFayeClient:
@@ -61,5 +63,6 @@ SPEC CHECKSUMS:
   Realm: 2fdd0ae74f730e190384e0338d8a0d3654df8220
   RealmSwift: 231b064da9f98b1c4f325fe1f1cb8756aae2b8d6
   SocketRocket: 7284ab9370a06c99aba92b2fe3a32aedd0f9a6fa
+  TPKeyboardAvoiding: f1ef0028fe9ba98ef2871cf55b4bbc39cae0267b
 
 COCOAPODS: 0.37.2
