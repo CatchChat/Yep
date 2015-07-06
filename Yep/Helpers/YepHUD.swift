@@ -94,9 +94,9 @@ class YepHUD: NSObject {
 
     class func hideActivityIndicator(completion: () -> Void) {
 
-        if self.sharedInstance.isShowing {
+        dispatch_async(dispatch_get_main_queue()) {
 
-            dispatch_async(dispatch_get_main_queue()) {
+            if self.sharedInstance.isShowing {
 
                 self.sharedInstance.activityIndicator.transform = CGAffineTransformIdentity
 
