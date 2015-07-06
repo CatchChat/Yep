@@ -51,8 +51,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
     var transitionContext: UIViewControllerContextTransitioning?
 
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
-//        return 3
-        return isPresentation ? 0.5 : 0.5
+        return isPresentation ? 0.35 : 0.35
     }
 
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
@@ -80,6 +79,11 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
         if let snapshot = snapshot {
             snapshot.alpha = 0
+
+            let transitionViewCover = UIView(frame: frame)
+            transitionViewCover.backgroundColor = UIColor.whiteColor()
+            snapshot.addSubview(transitionViewCover)
+
             containerView.addSubview(snapshot)
         }
 
