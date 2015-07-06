@@ -35,12 +35,12 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
     // MARK: UIViewControllerAnimatedTransitioning
 
     var snapshot: UIView?
-    
+
     var frame = CGRectZero
     var transitionView: UIView? {
         didSet {
             if let transitionView = transitionView {
-                transitionViewSnapshot = transitionView.snapshotViewAfterScreenUpdates(false)
+                transitionViewSnapshot = transitionView.snapshotViewAfterScreenUpdates(true)
             }
         }
     }
@@ -51,7 +51,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
     var transitionContext: UIViewControllerContextTransitioning?
 
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
-        return isPresentation ? 0.5 : 0.5
+        return isPresentation ? 0.35 : 0.35
     }
 
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
@@ -66,7 +66,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
     }
 
 
-    let largerOffset: CGFloat = 80
+    let largerOffset: CGFloat = 0//80
 
     func presentTransition(transitionContext: UIViewControllerContextTransitioning) {
         let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as? ConversationsViewController
@@ -78,8 +78,20 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
         let containerView = transitionContext.containerView()
 
         if let snapshot = snapshot {
+            snapshot.alpha = 0
+
+            let transitionViewCover = UIView(frame: frame)
+            transitionViewCover.backgroundColor = UIColor.whiteColor()
+            snapshot.addSubview(transitionViewCover)
+
             containerView.addSubview(snapshot)
         }
+
+//        let blackColorView = UIView()
+//        blackColorView.frame = containerView.bounds
+//        blackColorView.backgroundColor = UIColor.blackColor()
+//        blackColorView.alpha = 0
+//        containerView.addSubview(blackColorView)
 
         containerView.addSubview(toView!)
 
@@ -88,27 +100,37 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
         if let transitionViewSnapshot = transitionViewSnapshot {
 
-            animatingView.addSubview(transitionViewSnapshot)
-            transitionViewSnapshot.frame = frame
-
             animatingVC.view.backgroundColor = UIColor.clearColor()
             animatingVC.mediaView.alpha = 0
             animatingVC.mediaControlView.alpha = 0
 
+
+            transitionViewSnapshot.frame = frame
+            animatingView.addSubview(transitionViewSnapshot)
+
+            snapshot?.alpha = 1
+
+
             let fullDuration = transitionDuration(transitionContext)
+
+//            transitionView?.alpha = 0
+//            println("transitionView \(transitionView)")
 
             UIView.animateKeyframesWithDuration(fullDuration, delay: 0.0, options: .CalculationModeCubic, animations: { () -> Void in
 
-                UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: fullDuration, animations: { () -> Void in
+                UIView.addKeyframeWithRelativeStartTime(0.5, relativeDuration: 0.4, animations: { () -> Void in
                     animatingVC.view.backgroundColor = UIColor.blackColor()
                 })
 
-                UIView.addKeyframeWithRelativeStartTime(0.2, relativeDuration: 0.5, animations: { () -> Void in
+//                UIView.addKeyframeWithRelativeStartTime(0.3, relativeDuration: fullDuration - 0.3, animations: { () -> Void in
+//                    blackColorView.alpha = 1
+//                })
+
+                UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.3, animations: { () -> Void in
                     transitionViewSnapshot.center = animatingView.center
                 })
 
-
-                UIView.addKeyframeWithRelativeStartTime(0.7, relativeDuration: 0.2, animations: { () -> Void in
+                UIView.addKeyframeWithRelativeStartTime(0.4, relativeDuration: 0.5, animations: { () -> Void in
                     let targetWidth = animatingView.bounds.width + self.largerOffset
 
                     let dw = targetWidth - transitionViewSnapshot.bounds.width
@@ -122,19 +144,22 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
                 })
 
                 UIView.addKeyframeWithRelativeStartTime(0.9, relativeDuration: 0.0, animations: { () -> Void in
-                    let ratio = (animatingView.bounds.width + self.largerOffset) / animatingView.bounds.width
-                    animatingVC.mediaView.transform = CGAffineTransformMakeScale(ratio, ratio)
+//                    let ratio = (animatingView.bounds.width + self.largerOffset) / animatingView.bounds.width
+//                    animatingVC.mediaView.transform = CGAffineTransformMakeScale(ratio, ratio)
                     animatingVC.mediaView.alpha = 1
                     animatingVC.mediaControlView.alpha = 1
 
                     transitionViewSnapshot.alpha = 0
                 })
 
-                UIView.addKeyframeWithRelativeStartTime(0.9, relativeDuration: 0.1, animations: { () -> Void in
-                    animatingVC.mediaView.transform = CGAffineTransformMakeScale(1.0, 1.0)
-                })
+//                UIView.addKeyframeWithRelativeStartTime(0.9, relativeDuration: 0.1, animations: { () -> Void in
+//                    animatingVC.mediaView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+//                })
 
             }, completion: { (finished) -> Void in
+
+                animatingVC.view.backgroundColor = UIColor.blackColor()
+
                 transitionViewSnapshot.removeFromSuperview()
 
                 //self.snapshot?.removeFromSuperview()
@@ -170,17 +195,13 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
         if let transitionViewSnapshot = transitionViewSnapshot {
 
-            if let transitionView = self.transitionView {
-                transitionView.alpha = 0
-            }
+            self.transitionView?.alpha = 0
 
             UIView.animateKeyframesWithDuration(fullDuration, delay: 0.0, options: .CalculationModeCubic, animations: { () -> Void in
-                
-                
-                UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: fullDuration, animations: { () -> Void in
+
+                UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 1.0, animations: { () -> Void in
                     animatingVC.view.backgroundColor = UIColor.clearColor()
                 })
-
 
                 UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.2, animations: { () -> Void in
                     let ratio = (animatingView.bounds.width + self.largerOffset) / animatingView.bounds.width
@@ -201,10 +222,8 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
                 
             }, completion: { (finished) -> Void in
-                    
-                if let transitionView = self.transitionView {
-                    transitionView.alpha = 1
-                }
+
+                self.transitionView?.alpha = 1
 
                 transitionViewSnapshot.removeFromSuperview()
 
@@ -218,3 +237,4 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
         }
     }
 }
+
