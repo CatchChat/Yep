@@ -14,11 +14,15 @@ class EditProfileMoreInfoCell: UITableViewCell {
 
     @IBOutlet weak var infoTextView: UITextView!
 
-    
+    var infoTextViewDidEndEditingAction: (String -> Void)?
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
         infoTextView.font = YepConfig.EditProfile.introFont
+        infoTextView.textContainer.lineFragmentPadding = 0
+        infoTextView.textContainerInset = UIEdgeInsetsZero
+        infoTextView.delegate = self
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -27,4 +31,14 @@ class EditProfileMoreInfoCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+}
+
+extension EditProfileMoreInfoCell: UITextViewDelegate {
+
+    func textViewDidEndEditing(textView: UITextView) {
+        if textView == infoTextView {
+            let text = textView.text
+            infoTextViewDidEndEditingAction?(text)
+        }
+    }
 }

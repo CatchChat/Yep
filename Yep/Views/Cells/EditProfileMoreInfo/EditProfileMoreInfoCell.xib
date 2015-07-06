@@ -21,7 +21,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Love you love, hate you hate." translatesAutoresizingMaskIntoConstraints="NO" id="dit-c6-Xj3">
-                        <rect key="frame" x="20" y="52" width="292" height="50"/>
+                        <rect key="frame" x="20" y="52" width="280" height="38"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="15"/>
@@ -30,8 +30,8 @@
                 </subviews>
                 <animations/>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="dit-c6-Xj3" secondAttribute="bottom" constant="8" id="5n6-WK-NQu"/>
-                    <constraint firstAttribute="trailing" secondItem="dit-c6-Xj3" secondAttribute="trailing" constant="8" id="8rR-7T-dUP"/>
+                    <constraint firstAttribute="bottom" secondItem="dit-c6-Xj3" secondAttribute="bottom" constant="20" id="5n6-WK-NQu"/>
+                    <constraint firstAttribute="trailing" secondItem="dit-c6-Xj3" secondAttribute="trailing" constant="20" id="8rR-7T-dUP"/>
                     <constraint firstItem="dit-c6-Xj3" firstAttribute="top" secondItem="Ewh-I8-MJ9" secondAttribute="bottom" constant="10" id="Eue-Fu-0ld"/>
                     <constraint firstItem="Ewh-I8-MJ9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="JRJ-wM-kMZ"/>
                     <constraint firstItem="dit-c6-Xj3" firstAttribute="leading" secondItem="Ewh-I8-MJ9" secondAttribute="leading" id="Owr-3g-GYs"/>

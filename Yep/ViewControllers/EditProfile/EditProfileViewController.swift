@@ -195,6 +195,32 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     cell?.infoTextView.text = introduction
                 }
 
+                cell.infoTextViewDidEndEditingAction = { [weak self] newIntroduction in
+
+                    if let oldIntroduction = YepUserDefaults.introduction.value {
+                        if oldIntroduction == newIntroduction {
+                            return
+                        }
+                    }
+
+                    YepHUD.showActivityIndicator()
+
+                    updateMyselfWithInfo(["introduction": newIntroduction], failureHandler: { (reason, errorMessage) in
+                        defaultFailureHandler(reason, errorMessage)
+
+                        YepHUD.hideActivityIndicator()
+
+                    }, completion: { success in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepUserDefaults.introduction.value = newIntroduction
+
+                            self?.editProfileTableView.reloadData()
+                        }
+
+                        YepHUD.hideActivityIndicator()
+                    })
+                }
+
                 return cell
 
             default:
@@ -226,7 +252,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 let rect = introduction.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: introAttributes, context: nil)
 
-                let height = 20 + 22 + 10 + ceil(rect.height) + 8
+                let height = 20 + 22 + 10 + ceil(rect.height) + 20
                 
                 return max(height, 120)
 
