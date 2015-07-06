@@ -29,6 +29,13 @@ class SettingsViewController: BaseViewController {
 
     let introAttributes = [NSFontAttributeName: YepConfig.Settings.introFont]
 
+    struct Listener {
+        static let Introduction = "SettingsViewController.Introduction"
+    }
+
+    deinit {
+        YepUserDefaults.introduction.removeListenerWithName(Listener.Introduction)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +46,10 @@ class SettingsViewController: BaseViewController {
 
         settingsTableView.registerNib(UINib(nibName: settingsUserCellIdentifier, bundle: nil), forCellReuseIdentifier: settingsUserCellIdentifier)
         settingsTableView.registerNib(UINib(nibName: settingsMoreCellIdentifier, bundle: nil), forCellReuseIdentifier: settingsMoreCellIdentifier)
-        
+
+        YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [weak self] introduction in
+            self?.settingsTableView.reloadData()
+        }
     }
 
 }
