@@ -10,7 +10,15 @@ import UIKit
 
 class ChatTextView: UITextView {
 
-    override func canBecomeFirstResponder() -> Bool {
-        return false
+//    override func canBecomeFirstResponder() -> Bool {
+//        return false
+//    }
+
+    override func copy(sender: AnyObject?) {
+        UIPasteboard.generalPasteboard().string = text
+    }
+    
+    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
+        return action == Selector("copy:")
     }
 }

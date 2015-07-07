@@ -38,11 +38,38 @@ class ChatLeftTextCell: UICollectionViewCell {
             NSUnderlineStyleAttributeName: NSNumber(integer: NSUnderlineStyle.StyleSingle.rawValue),
         ]
 
+//        textContentTextView.editable = false
+//        if let gestureRecognizers = textContentTextView.gestureRecognizers as? [UIGestureRecognizer] {
+//            for recognizer in gestureRecognizers {
+//                if recognizer.isKindOfClass(UILongPressGestureRecognizer.self) {
+//                    recognizer.enabled = false
+//                }
+//            }
+//        }
+
+        let longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
+        textContentTextView.addGestureRecognizer(longPress)
+
         textContentTextViewTrailingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel()
         textContentTextViewLeadingConstraint.constant = YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
         
         bubbleBodyImageView.tintColor = UIColor.leftBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.leftBubbleTintColor()
+    }
+
+    func handleLongPress(longPress: UILongPressGestureRecognizer) {
+
+        if longPress.state == .Began {
+
+            if let view = longPress.view, superview = view.superview {
+
+                view.becomeFirstResponder()
+
+                let menu = UIMenuController.sharedMenuController()
+                menu.setTargetRect(view.frame, inView: superview)
+                menu.setMenuVisible(true, animated: true)
+            }
+        }
     }
 
     func configureWithMessage(message: Message, textContentLabelWidth: CGFloat, collectionView: UICollectionView, indexPath: NSIndexPath) {
