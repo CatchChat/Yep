@@ -42,6 +42,11 @@ class ChatRightTextCell: ChatRightBaseCell {
             NSUnderlineStyleAttributeName: NSNumber(integer: NSUnderlineStyle.StyleSingle.rawValue),
         ]
 
+        textContentTextView.deleteEnabled = true
+        textContentTextView.deleteAction = {
+            println("delete text message?")
+        }
+
         let longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
         textContentTextView.addGestureRecognizer(longPress)
         

@@ -14,11 +14,22 @@ class ChatTextView: UITextView {
 //        return false
 //    }
 
+    var deleteEnabled = false
+    var deleteAction: (() -> Void)?
+
     override func copy(sender: AnyObject?) {
         UIPasteboard.generalPasteboard().string = text
     }
+
+    override func delete(sender: AnyObject?) {
+        deleteAction?()
+    }
     
     override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
-        return action == Selector("copy:")
+        if deleteEnabled {
+            return action == Selector("copy:") || action == Selector("delete:")
+        } else {
+            return action == Selector("copy:")
+        }
     }
 }
