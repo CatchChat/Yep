@@ -1116,67 +1116,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         return CGSizeZero
     }
 
-
-//    func collectionView(collectionView: UICollectionView, shouldDeselectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-//        if indexPath.section == ProfileSection.Learning.rawValue || indexPath.section == ProfileSection.Master.rawValue {
-//            let cell = collectionView.cellForItemAtIndexPath(indexPath) as! SkillCell
-//            cell.tapped = false
-//        }
-//
-//        return true
-//    }
-//
-//    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-//
-//        if indexPath.section == ProfileSection.Learning.rawValue || indexPath.section == ProfileSection.Master.rawValue {
-//            let cell = collectionView.cellForItemAtIndexPath(indexPath) as! SkillCell
-//            cell.tapped = true
-//        }
-//
-//        return true
-//    }
-
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         if indexPath.section == ProfileSection.Learning.rawValue || indexPath.section == ProfileSection.Master.rawValue {
+            // do in SkillCell's tapAction
 
-            /*
-            var skillID: String = ""
-            var skillLocalName: String = ""
-            
-            if let profileUser = profileUser {
-
-                switch profileUser {
-
-                case .DiscoveredUserType(let discoveredUser):
-                    if indexPath.section == ProfileSection.Learning.rawValue {
-                        let skill = discoveredUser.learningSkills[indexPath.item]
-                        skillID = skill.id
-                        skillLocalName = skill.localName
-
-                    } else if indexPath.section == ProfileSection.Master.rawValue {
-                        let skill = discoveredUser.masterSkills[indexPath.item]
-                        skillID = skill.id
-                        skillLocalName = skill.localName
-                    }
-
-                case .UserType(let user):
-                    if indexPath.section == ProfileSection.Learning.rawValue {
-                        let userSkill = user.learningSkills[indexPath.item]
-                        skillID = userSkill.skillID
-                        skillLocalName = userSkill.localName
-
-                    } else if indexPath.section == ProfileSection.Master.rawValue {
-                        let userSkill = user.masterSkills[indexPath.item]
-                        skillID = userSkill.skillID
-                        skillLocalName = userSkill.localName
-                    }
-                }
-            }
-            
-            self.performSegueWithIdentifier("showSkillHome", sender: ["skillID": skillID, "skillLocalName": skillLocalName])
-            */
-            
         } else if indexPath.section == ProfileSection.SocialAccount.rawValue {
 
             if let profileUser = profileUser {
