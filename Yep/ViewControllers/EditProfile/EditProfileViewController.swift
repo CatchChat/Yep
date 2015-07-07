@@ -192,7 +192,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
 
                 YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [weak cell] introduction in
-                    cell?.infoTextView.text = introduction
+                    cell?.infoTextView.text = introduction ?? NSLocalizedString("Introduce yourself here.", comment: "")
                 }
 
                 cell.infoTextViewDidEndEditingAction = { [weak self] newIntroduction in
