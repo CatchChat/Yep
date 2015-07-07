@@ -79,6 +79,26 @@ enum ProfileUser {
     case DiscoveredUserType(DiscoveredUser)
     case UserType(User)
 
+    var isMe: Bool {
+
+        let userID: String
+
+        switch self {
+
+        case .DiscoveredUserType(let discoveredUser):
+            userID = discoveredUser.id
+
+        case .UserType(let user):
+            userID = user.userID
+        }
+
+        if let myUserID = YepUserDefaults.userID.value {
+            return (userID == myUserID)
+        }
+
+        return false
+    }
+
     func enabledSocialAccount(socialAccount: SocialAccount) -> Bool {
         var accountEnabled = false
 
@@ -279,12 +299,14 @@ class ProfileViewController: UIViewController {
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID, inRealm: Realm()) {
                     profileUser = ProfileUser.UserType(me)
-                    profileUserIsMe = true
 
                     masterSkills = skillsFromUserSkillList(me.masterSkills)
                     learningSkills = skillsFromUserSkillList(me.learningSkills)
             }
         }
+
+        profileUserIsMe = profileUser?.isMe ?? false
+
 
         if let profileLayout = profileCollectionView.collectionViewLayout as? ProfileLayout {
 
@@ -373,25 +395,6 @@ class ProfileViewController: UIViewController {
             }
         }
 
-        if let profileUser = profileUser {
-
-            let userID: String
-
-            switch profileUser {
-
-            case .DiscoveredUserType(let discoveredUser):
-                userID = discoveredUser.id
-
-            case .UserType(let user):
-                userID = user.userID
-            }
-
-            if let myUserID = YepUserDefaults.userID.value {
-                profileUserIsMe = (userID == myUserID)
-            } else {
-                profileUserIsMe = false
-            }
-        }
     }
     
     func showSettings() {
