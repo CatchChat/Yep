@@ -819,11 +819,18 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 switch profileUser {
                 case .DiscoveredUserType(let discoveredUser):
                     let skill = discoveredUser.masterSkills[indexPath.item]
-                    cell.skillLabel.text = skill.localName
+                    cell.skillID = skill.id
+                    cell.skillLocalName = skill.localName
+
                 case .UserType(let user):
                     let userSkill = user.masterSkills[indexPath.item]
-                    cell.skillLabel.text = userSkill.localName
+                    cell.skillID = userSkill.skillID
+                    cell.skillLocalName = userSkill.localName
                 }
+            }
+
+            cell.tapAction = { [weak self] skillID, skillLocalName in
+                self?.performSegueWithIdentifier("showSkillHome", sender: ["skillID": skillID, "skillLocalName": skillLocalName])
             }
 
             return cell
@@ -835,11 +842,17 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 switch profileUser {
                 case .DiscoveredUserType(let discoveredUser):
                     let skill = discoveredUser.learningSkills[indexPath.item]
-                    cell.skillLabel.text = skill.localName
+                    cell.skillID = skill.id
+                    cell.skillLocalName = skill.localName
                 case .UserType(let user):
                     let userSkill = user.learningSkills[indexPath.item]
-                    cell.skillLabel.text = userSkill.localName
+                    cell.skillID = userSkill.skillID
+                    cell.skillLocalName = userSkill.localName
                 }
+            }
+
+            cell.tapAction = { [weak self]  skillID, skillLocalName in
+                self?.performSegueWithIdentifier("showSkillHome", sender: ["skillID": skillID, "skillLocalName": skillLocalName])
             }
 
             return cell
@@ -1102,11 +1115,32 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         return CGSizeZero
     }
-    
+
+
+//    func collectionView(collectionView: UICollectionView, shouldDeselectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+//        if indexPath.section == ProfileSection.Learning.rawValue || indexPath.section == ProfileSection.Master.rawValue {
+//            let cell = collectionView.cellForItemAtIndexPath(indexPath) as! SkillCell
+//            cell.tapped = false
+//        }
+//
+//        return true
+//    }
+//
+//    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+//
+//        if indexPath.section == ProfileSection.Learning.rawValue || indexPath.section == ProfileSection.Master.rawValue {
+//            let cell = collectionView.cellForItemAtIndexPath(indexPath) as! SkillCell
+//            cell.tapped = true
+//        }
+//
+//        return true
+//    }
+
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         if indexPath.section == ProfileSection.Learning.rawValue || indexPath.section == ProfileSection.Master.rawValue {
 
+            /*
             var skillID: String = ""
             var skillLocalName: String = ""
             
@@ -1141,6 +1175,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             }
             
             self.performSegueWithIdentifier("showSkillHome", sender: ["skillID": skillID, "skillLocalName": skillLocalName])
+            */
             
         } else if indexPath.section == ProfileSection.SocialAccount.rawValue {
 
