@@ -171,7 +171,12 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
 
         if isFirstAppear {
             isFirstAppear = false
