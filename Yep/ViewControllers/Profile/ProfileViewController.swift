@@ -425,12 +425,16 @@ class ProfileViewController: UIViewController {
             vc.conversation = sender as! Conversation
             
         } else if segue.identifier == "showSkillHome" {
-            if let skillInfo = sender as? [String: String] {
+            if let skillInfo = sender as? [String: AnyObject] {
                 let vc = segue.destinationViewController as! SkillHomeViewController
                 vc.hidesBottomBarWhenPushed = true
 
-                vc.skillID = skillInfo["skillID"]
-                vc.skillLocalName = skillInfo["skillLocalName"]
+                if let preferedState = skillInfo["preferedState"] as? Int {
+                    vc.preferedState = SkillHomeState(rawValue: preferedState)
+                }
+
+                vc.skillID = skillInfo["skillID"] as? String
+                vc.skillLocalName = skillInfo["skillLocalName"] as? String
             }
 
         } else if segue.identifier == "presentOAuth" {
@@ -830,7 +834,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             }
 
             cell.tapAction = { [weak self] skillID, skillLocalName in
-                self?.performSegueWithIdentifier("showSkillHome", sender: ["skillID": skillID, "skillLocalName": skillLocalName])
+                self?.performSegueWithIdentifier("showSkillHome", sender: ["preferedState": SkillHomeState.Master.rawValue, "skillID": skillID, "skillLocalName": skillLocalName])
             }
 
             return cell
@@ -852,7 +856,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             }
 
             cell.tapAction = { [weak self]  skillID, skillLocalName in
-                self?.performSegueWithIdentifier("showSkillHome", sender: ["skillID": skillID, "skillLocalName": skillLocalName])
+                self?.performSegueWithIdentifier("showSkillHome", sender: ["preferedState": SkillHomeState.Learning.rawValue, "skillID": skillID, "skillLocalName": skillLocalName])
             }
 
             return cell

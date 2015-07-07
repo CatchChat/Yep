@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum SkillHomeState: Printable {
+enum SkillHomeState: Int, Printable {
     case Master
     case Learning
     
@@ -52,16 +52,11 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-    
     var isFirstAppear = true
-    
+
+    var preferedState: SkillHomeState?
     var state: SkillHomeState = .Master {
         willSet {
-            
             switch newValue {
             case .Master:
                 headerView.learningButton.setInActive()
@@ -174,19 +169,20 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         
     }
 
-    override func viewDidAppear(animated: Bool) {
-        
-        super.viewDidAppear(animated)
-        
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+
         if isFirstAppear {
             isFirstAppear = false
 
-            state = .Master
+            state = preferedState ?? .Master
         }
     }
-    
+
+
     func changeToMaster() {
-        
+
         state = .Master
     }
     
