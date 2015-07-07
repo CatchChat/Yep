@@ -42,6 +42,9 @@ class ChatRightTextCell: ChatRightBaseCell {
             NSUnderlineStyleAttributeName: NSNumber(integer: NSUnderlineStyle.StyleSingle.rawValue),
         ]
 
+        let longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
+        textContentTextView.addGestureRecognizer(longPress)
+        
         textContentTextViewTrailingConstraint.constant = YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
         textContentTextViewLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel()
 
@@ -51,6 +54,18 @@ class ChatRightTextCell: ChatRightBaseCell {
         bubbleBodyImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
         bubbleBodyImageView.addGestureRecognizer(tap)
+    }
+
+    func handleLongPress(longPress: UILongPressGestureRecognizer) {
+        if longPress.state == .Began {
+            if let view = longPress.view, superview = view.superview {
+                view.becomeFirstResponder()
+
+                let menu = UIMenuController.sharedMenuController()
+                menu.setTargetRect(view.frame, inView: superview)
+                menu.setMenuVisible(true, animated: true)
+            }
+        }
     }
 
     func tapMediaView() {

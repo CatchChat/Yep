@@ -58,11 +58,8 @@ class ChatLeftTextCell: UICollectionViewCell {
     }
 
     func handleLongPress(longPress: UILongPressGestureRecognizer) {
-
         if longPress.state == .Began {
-
             if let view = longPress.view, superview = view.superview {
-
                 view.becomeFirstResponder()
 
                 let menu = UIMenuController.sharedMenuController()
