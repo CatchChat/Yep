@@ -375,18 +375,21 @@ class ProfileViewController: UIViewController {
 
         if let profileUser = profileUser {
 
+            let userID: String
+
             switch profileUser {
 
             case .DiscoveredUserType(let discoveredUser):
-                profileUserIsMe = false
+                userID = discoveredUser.id
 
             case .UserType(let user):
-                if user.friendState == UserFriendState.Me.rawValue {
-                    profileUserIsMe = true
+                userID = user.userID
+            }
 
-                } else {
-                    profileUserIsMe = false
-                }
+            if let myUserID = YepUserDefaults.userID.value {
+                profileUserIsMe = (userID == myUserID)
+            } else {
+                profileUserIsMe = false
             }
         }
     }
