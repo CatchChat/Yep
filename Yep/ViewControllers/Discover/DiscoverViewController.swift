@@ -46,7 +46,8 @@ class DiscoverViewController: BaseViewController {
             updateDiscoverTableView()
         }
     }
-    
+
+    lazy var filterView = DiscoverFilterView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,9 +69,14 @@ class DiscoverViewController: BaseViewController {
     // MARK: Actions
 
     @IBAction func showFilters(sender: UIBarButtonItem) {
-        moreAction()
+        //moreAction()
+
+        if let window = view.window {
+            filterView.showInView(window)
+        }
     }
-    
+
+    /*
     func moreAction() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         
@@ -95,6 +101,7 @@ class DiscoverViewController: BaseViewController {
         
         self.presentViewController(alertController, animated: true, completion: nil)
     }
+    */
     
     func updateDiscoverTableView() {
         dispatch_async(dispatch_get_main_queue()) {
