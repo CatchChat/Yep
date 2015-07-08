@@ -62,6 +62,7 @@ class DiscoverFilterCell: UITableViewCell {
 
     lazy var checkLabel: UILabel = {
         let label = UILabel()
+        label.text = "✓"
         return label
         }()
 
@@ -131,6 +132,11 @@ class DiscoverFilterView: UIView {
         }()
 
 
+    var currentDiscoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     var filterAction: (DiscoveredUserSortStyle -> Void)?
 
     var tableViewBottomConstraint: NSLayoutConstraint?
@@ -306,6 +312,8 @@ extension DiscoverFilterView: UITableViewDataSource, UITableViewDelegate {
                 cell.colorTitleLabelTextColor = UIColor.yepTintColor()
                 cell.colorTitleLabelFontStyle = .Light
 
+                cell.checkLabel.hidden = !(currentDiscoveredUserSortStyle == .Distance)
+
                 return cell
 
             case .Time:
@@ -318,6 +326,8 @@ extension DiscoverFilterView: UITableViewDataSource, UITableViewDelegate {
                 cell.colorTitleLabelTextColor = UIColor.yepTintColor()
                 cell.colorTitleLabelFontStyle = .Light
 
+                cell.checkLabel.hidden = !(currentDiscoveredUserSortStyle == .LastSignIn)
+
                 return cell
 
             case .Default:
@@ -329,6 +339,8 @@ extension DiscoverFilterView: UITableViewDataSource, UITableViewDelegate {
                 cell.colorTitleLabel.text = DiscoveredUserSortStyle.Default.name
                 cell.colorTitleLabelTextColor = UIColor.yepTintColor()
                 cell.colorTitleLabelFontStyle = .Light
+
+                cell.checkLabel.hidden = !(currentDiscoveredUserSortStyle == .Default)
 
                 return cell
 

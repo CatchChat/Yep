@@ -71,6 +71,8 @@ class DiscoverViewController: BaseViewController {
     @IBAction func showFilters(sender: UIBarButtonItem) {
         //moreAction()
 
+        filterView.currentDiscoveredUserSortStyle = discoveredUserSortStyle
+        
         filterView.filterAction = { discoveredUserSortStyle in
             self.discoveredUserSortStyle = discoveredUserSortStyle
         }
