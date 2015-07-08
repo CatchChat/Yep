@@ -2119,6 +2119,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         if strongSelf.displayedMessagesRange.length >= 2 {
                                             strongSelf.displayedMessagesRange.length -= 2
                                             canDeleteTwoMessages = true
+
+                                        } else {
+                                            if strongSelf.displayedMessagesRange.location >= 1 {
+                                                strongSelf.displayedMessagesRange.location -= 1
+                                            }
+                                            strongSelf.displayedMessagesRange.length -= 1
                                         }
 
                                         realm.write {
