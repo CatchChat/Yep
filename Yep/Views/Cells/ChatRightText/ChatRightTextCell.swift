@@ -22,6 +22,7 @@ class ChatRightTextCell: ChatRightBaseCell {
     @IBOutlet weak var textContentTextViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textContentTextViewWidthConstraint: NSLayoutConstraint!
 
+    var deleteMessageAction: (() -> Void)?
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
 
@@ -43,8 +44,9 @@ class ChatRightTextCell: ChatRightBaseCell {
         ]
 
         textContentTextView.deleteEnabled = true
-        textContentTextView.deleteAction = {
+        textContentTextView.deleteAction = { [weak self] in
             println("delete text message?")
+            self?.deleteMessageAction?()
         }
 
         let longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")

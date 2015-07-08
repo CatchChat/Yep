@@ -2095,6 +2095,18 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
                         }, collectionView: collectionView, indexPath: indexPath)
 
+                        cell.deleteMessageAction = { [weak self] in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                if let strongSelf = self, realm = message.realm {
+                                    strongSelf.displayedMessagesRange.length -= 1
+                                    realm.write {
+                                        realm.delete(message)
+                                    }
+                                    strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([indexPath])
+                                }
+                            }
+                        }
+
                         return cell
                     }
                 }
