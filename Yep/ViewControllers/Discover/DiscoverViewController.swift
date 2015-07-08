@@ -69,7 +69,6 @@ class DiscoverViewController: BaseViewController {
     // MARK: Actions
 
     @IBAction func showFilters(sender: UIBarButtonItem) {
-        //moreAction()
 
         filterView.currentDiscoveredUserSortStyle = discoveredUserSortStyle
         
@@ -82,33 +81,6 @@ class DiscoverViewController: BaseViewController {
         }
     }
 
-    /*
-    func moreAction() {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        
-        let nearbyAction: UIAlertAction = UIAlertAction(title: DiscoveredUserSortStyle.Distance.name, style: .Default) { action -> Void in
-            self.discoveredUserSortStyle = .Distance
-        }
-        alertController.addAction(nearbyAction)
-        
-        let timeAction: UIAlertAction = UIAlertAction(title: DiscoveredUserSortStyle.LastSignIn.name, style: .Default) { action -> Void in
-            self.discoveredUserSortStyle = .LastSignIn
-        }
-        alertController.addAction(timeAction)
-        
-        let defaultAction: UIAlertAction = UIAlertAction(title: DiscoveredUserSortStyle.Default.name, style: .Default) { action -> Void in
-            self.discoveredUserSortStyle = .Default
-        }
-        alertController.addAction(defaultAction)
-
-        let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
-        }
-        alertController.addAction(cancelAction)
-        
-        self.presentViewController(alertController, animated: true, completion: nil)
-    }
-    */
-    
     func updateDiscoverTableView() {
         dispatch_async(dispatch_get_main_queue()) {
             //self.discoverTableView.reloadData()
