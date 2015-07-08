@@ -46,7 +46,8 @@ class DiscoverViewController: BaseViewController {
             updateDiscoverTableView()
         }
     }
-    
+
+    lazy var filterView = DiscoverFilterView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,34 +69,18 @@ class DiscoverViewController: BaseViewController {
     // MARK: Actions
 
     @IBAction func showFilters(sender: UIBarButtonItem) {
-        moreAction()
-    }
-    
-    func moreAction() {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        
-        let nearbyAction: UIAlertAction = UIAlertAction(title: DiscoveredUserSortStyle.Distance.name, style: .Default) { action -> Void in
-            self.discoveredUserSortStyle = .Distance
-        }
-        alertController.addAction(nearbyAction)
-        
-        let timeAction: UIAlertAction = UIAlertAction(title: DiscoveredUserSortStyle.LastSignIn.name, style: .Default) { action -> Void in
-            self.discoveredUserSortStyle = .LastSignIn
-        }
-        alertController.addAction(timeAction)
-        
-        let defaultAction: UIAlertAction = UIAlertAction(title: DiscoveredUserSortStyle.Default.name, style: .Default) { action -> Void in
-            self.discoveredUserSortStyle = .Default
-        }
-        alertController.addAction(defaultAction)
 
-        let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
-        }
-        alertController.addAction(cancelAction)
+        filterView.currentDiscoveredUserSortStyle = discoveredUserSortStyle
         
-        self.presentViewController(alertController, animated: true, completion: nil)
+        filterView.filterAction = { discoveredUserSortStyle in
+            self.discoveredUserSortStyle = discoveredUserSortStyle
+        }
+
+        if let window = view.window {
+            filterView.showInView(window)
+        }
     }
-    
+
     func updateDiscoverTableView() {
         dispatch_async(dispatch_get_main_queue()) {
             //self.discoverTableView.reloadData()
