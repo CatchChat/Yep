@@ -8,40 +8,109 @@
 
 import UIKit
 
+//class DiscoverFilterCell: UITableViewCell {
+//
+//    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+//        super.init(style: style, reuseIdentifier: reuseIdentifier)
+//
+//        //accessoryType = .DisclosureIndicator
+//
+//        layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+//
+//        textLabel?.textColor = UIColor.darkGrayColor()
+//        textLabel?.font = UIFont(name: "Helvetica-Light", size: 18)!
+//    }
+//
+//    required init(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+//
+//    lazy var checkLabel: UILabel = {
+//        let s = UILabel()
+//        return s
+//        }()
+//
+//    func makeUI() {
+//        contentView.addSubview(checkLabel)
+//        checkLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+//
+//        let centerY = NSLayoutConstraint(item: checkLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1, constant: 0)
+//        let trailing = NSLayoutConstraint(item: checkLabel, attribute: .Trailing, relatedBy: .Equal, toItem: contentView, attribute: .Trailing, multiplier: 1, constant: -20)
+//
+//        NSLayoutConstraint.activateConstraints([centerY, trailing])
+//    }
+//}
+
 class DiscoverFilterCell: UITableViewCell {
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        //accessoryType = .DisclosureIndicator
-
         layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
 
-        textLabel?.textColor = UIColor.darkGrayColor()
-        textLabel?.font = UIFont(name: "Helvetica-Light", size: 18)!
+        makeUI()
     }
 
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    lazy var checkLabel: UILabel = {
-        let s = UILabel()
-        return s
+    lazy var colorTitleLabel: UILabel = {
+        let label = UILabel()
+        return label
         }()
 
+    lazy var checkLabel: UILabel = {
+        let label = UILabel()
+        return label
+        }()
+
+    var colorTitleLabelTextColor: UIColor = UIColor.yepTintColor() {
+        willSet {
+            colorTitleLabel.textColor = newValue
+        }
+    }
+
+    enum FontStyle {
+        case Light
+        case Regular
+    }
+
+    var colorTitleLabelFontStyle: FontStyle = .Light {
+        willSet {
+            switch newValue {
+            case .Light:
+                colorTitleLabel.font = UIFont(name: "Helvetica-Light", size: 18)!
+            case .Regular:
+                colorTitleLabel.font = UIFont(name: "Helvetica", size: 18)!
+            }
+        }
+    }
+
     func makeUI() {
+
+        contentView.addSubview(colorTitleLabel)
         contentView.addSubview(checkLabel)
+        colorTitleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
         checkLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
 
-        let centerY = NSLayoutConstraint(item: checkLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1, constant: 0)
-        let trailing = NSLayoutConstraint(item: checkLabel, attribute: .Trailing, relatedBy: .Equal, toItem: contentView, attribute: .Trailing, multiplier: 1, constant: -20)
+        let centerY = NSLayoutConstraint(item: colorTitleLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1, constant: 0)
+        let centerX = NSLayoutConstraint(item: colorTitleLabel, attribute: .CenterX, relatedBy: .Equal, toItem: contentView, attribute: .CenterX, multiplier: 1, constant: 0)
 
-        NSLayoutConstraint.activateConstraints([centerY, trailing])
+        NSLayoutConstraint.activateConstraints([centerY, centerX])
+
+
+        let checkLabelCenterY = NSLayoutConstraint(item: checkLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1, constant: 0)
+        let checkLabelTrailing = NSLayoutConstraint(item: checkLabel, attribute: .Trailing, relatedBy: .Equal, toItem: contentView, attribute: .Trailing, multiplier: 1, constant: -20)
+
+        NSLayoutConstraint.activateConstraints([checkLabelCenterY, checkLabelTrailing])
     }
+
 }
 
 class DiscoverFilterView: UIView {
+
+    let totalHeight: CGFloat = 240
 
     lazy var containerView: UIView = {
         let view = UIView()
@@ -91,7 +160,7 @@ class DiscoverFilterView: UIView {
     func hide() {
 
         UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-            self.tableViewBottomConstraint?.constant = 300
+            self.tableViewBottomConstraint?.constant = self.totalHeight
 
             self.layoutIfNeeded()
 
@@ -111,7 +180,7 @@ class DiscoverFilterView: UIView {
         UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveLinear, animations: { _ in
             self.containerView.alpha = 0
 
-            self.tableViewBottomConstraint?.constant = 300
+            self.tableViewBottomConstraint?.constant = self.totalHeight
 
             self.layoutIfNeeded()
 
@@ -167,11 +236,11 @@ class DiscoverFilterView: UIView {
 
         let tableViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[tableView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
 
-        let tableViewBottomConstraint = NSLayoutConstraint(item: tableView, attribute: .Bottom, relatedBy: .Equal, toItem: containerView, attribute: .Bottom, multiplier: 1.0, constant: 300)
+        let tableViewBottomConstraint = NSLayoutConstraint(item: tableView, attribute: .Bottom, relatedBy: .Equal, toItem: containerView, attribute: .Bottom, multiplier: 1.0, constant: self.totalHeight)
 
         self.tableViewBottomConstraint = tableViewBottomConstraint
 
-        let tableViewHeightConstraint = NSLayoutConstraint(item: tableView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 300)
+        let tableViewHeightConstraint = NSLayoutConstraint(item: tableView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: self.totalHeight)
 
         NSLayoutConstraint.activateConstraints(tableViewConstraintsH)
         NSLayoutConstraint.activateConstraints([tableViewBottomConstraint, tableViewHeightConstraint])
@@ -229,7 +298,11 @@ extension DiscoverFilterView: UITableViewDataSource, UITableViewDelegate {
 
                 let cell = tableView.dequeueReusableCellWithIdentifier("DiscoverFilterCell") as! DiscoverFilterCell
 
-                cell.textLabel?.text = NSLocalizedString("Nearby", comment: "")
+                //cell.textLabel?.text = DiscoveredUserSortStyle.Distance.name
+
+                cell.colorTitleLabel.text = DiscoveredUserSortStyle.Distance.name
+                cell.colorTitleLabelTextColor = UIColor.yepTintColor()
+                cell.colorTitleLabelFontStyle = .Light
 
                 return cell
 
@@ -237,7 +310,11 @@ extension DiscoverFilterView: UITableViewDataSource, UITableViewDelegate {
 
                 let cell = tableView.dequeueReusableCellWithIdentifier("DiscoverFilterCell") as! DiscoverFilterCell
 
-                cell.textLabel?.text = NSLocalizedString("Time", comment: "")
+                //cell.textLabel?.text = DiscoveredUserSortStyle.LastSignIn.name
+
+                cell.colorTitleLabel.text = DiscoveredUserSortStyle.LastSignIn.name
+                cell.colorTitleLabelTextColor = UIColor.yepTintColor()
+                cell.colorTitleLabelFontStyle = .Light
 
                 return cell
 
@@ -245,7 +322,11 @@ extension DiscoverFilterView: UITableViewDataSource, UITableViewDelegate {
 
                 let cell = tableView.dequeueReusableCellWithIdentifier("DiscoverFilterCell") as! DiscoverFilterCell
 
-                cell.textLabel?.text = NSLocalizedString("Default", comment: "")
+                //cell.textLabel?.text = DiscoveredUserSortStyle.Default.name
+
+                cell.colorTitleLabel.text = DiscoveredUserSortStyle.Default.name
+                cell.colorTitleLabelTextColor = UIColor.yepTintColor()
+                cell.colorTitleLabelFontStyle = .Light
 
                 return cell
 
