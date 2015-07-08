@@ -46,8 +46,6 @@ class DiscoverFilterCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-
         makeUI()
     }
 
@@ -63,6 +61,7 @@ class DiscoverFilterCell: UITableViewCell {
     lazy var checkLabel: UILabel = {
         let label = UILabel()
         label.text = "✓"
+        label.textColor = UIColor.yepTintColor()
         return label
         }()
 
@@ -121,6 +120,7 @@ class DiscoverFilterView: UIView {
 
     lazy var tableView: UITableView = {
         let view = UITableView()
+
         view.dataSource = self
         view.delegate = self
         view.rowHeight = 60
