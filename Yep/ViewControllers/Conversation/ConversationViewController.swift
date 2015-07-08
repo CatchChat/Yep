@@ -2102,7 +2102,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     var sectionDateMessage: Message?
 
                                     if let currentMessageIndex = strongSelf.messages.indexOf(message) {
-                                        if let previousMessage = strongSelf.messages[safe: currentMessageIndex - 1] {
+
+                                        let previousMessageIndex = currentMessageIndex - 1
+
+                                        if let previousMessage = strongSelf.messages[safe: previousMessageIndex] {
+
                                             if previousMessage.mediaType == MessageMediaType.SectionDate.rawValue {
                                                 sectionDateMessage = previousMessage
                                             }
@@ -2110,15 +2114,24 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     }
 
                                     if let sectionDateMessage = sectionDateMessage {
-                                        strongSelf.displayedMessagesRange.length -= 2
+
+                                        var canDeleteTwoMessages = false // 考虑刚好的边界情况，例如消息为本束的最后一条，而 sectionDate 在上一束中
+                                        if strongSelf.displayedMessagesRange.length >= 2 {
+                                            strongSelf.displayedMessagesRange.length -= 2
+                                            canDeleteTwoMessages = true
+                                        }
 
                                         realm.write {
                                             realm.delete(sectionDateMessage)
                                             realm.delete(message)
                                         }
 
-                                        let previousIndexPath = NSIndexPath(forItem: indexPath.item - 1, inSection: indexPath.section)
-                                        strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([previousIndexPath, indexPath])
+                                        if canDeleteTwoMessages {
+                                            let previousIndexPath = NSIndexPath(forItem: indexPath.item - 1, inSection: indexPath.section)
+                                            strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([previousIndexPath, indexPath])
+                                        } else {
+                                            strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([indexPath])
+                                        }
 
                                     } else {
                                         strongSelf.displayedMessagesRange.length -= 1
