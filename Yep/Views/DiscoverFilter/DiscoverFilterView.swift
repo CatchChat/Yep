@@ -131,6 +131,8 @@ class DiscoverFilterView: UIView {
         }()
 
 
+    var filterAction: (DiscoveredUserSortStyle -> Void)?
+
     var tableViewBottomConstraint: NSLayoutConstraint?
 
     func showInView(view: UIView) {
@@ -357,14 +359,16 @@ extension DiscoverFilterView: UITableViewDataSource, UITableViewDelegate {
             switch row {
                 
             case .Nearby:
-                hideAndDo { [weak self] in
-                }
-                
+                filterAction?(.Distance)
+                hide()
+
             case .Time:
-                break
-                
+                filterAction?(.LastSignIn)
+                hide()
+
             case .Default:
-                break
+                filterAction?(.Default)
+                hide()
 
             case .Cancel:
                 hide()
