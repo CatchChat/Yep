@@ -2098,11 +2098,35 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         cell.deleteMessageAction = { [weak self] in
                             dispatch_async(dispatch_get_main_queue()) {
                                 if let strongSelf = self, realm = message.realm {
-                                    strongSelf.displayedMessagesRange.length -= 1
-                                    realm.write {
-                                        realm.delete(message)
+
+                                    var sectionDateMessage: Message?
+
+                                    if let currentMessageIndex = strongSelf.messages.indexOf(message) {
+                                        if let previousMessage = strongSelf.messages[safe: currentMessageIndex - 1] {
+                                            if previousMessage.mediaType == MessageMediaType.SectionDate.rawValue {
+                                                sectionDateMessage = previousMessage
+                                            }
+                                        }
                                     }
-                                    strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([indexPath])
+
+                                    if let sectionDateMessage = sectionDateMessage {
+                                        strongSelf.displayedMessagesRange.length -= 2
+
+                                        realm.write {
+                                            realm.delete(sectionDateMessage)
+                                            realm.delete(message)
+                                        }
+
+                                        let previousIndexPath = NSIndexPath(forItem: indexPath.item - 1, inSection: indexPath.section)
+                                        strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([previousIndexPath, indexPath])
+
+                                    } else {
+                                        strongSelf.displayedMessagesRange.length -= 1
+                                        realm.write {
+                                            realm.delete(message)
+                                        }
+                                        strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([indexPath])
+                                    }
                                 }
                             }
                         }
