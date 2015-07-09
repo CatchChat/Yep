@@ -553,6 +553,10 @@
                                     <outlet property="delegate" destination="vEE-XY-eq4" id="3Vs-cc-fvq"/>
                                 </connections>
                             </collectionView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pick_skills_dismiss_background" translatesAutoresizingMaskIntoConstraints="NO" id="VjQ-Cs-1dW">
+                                <rect key="frame" x="0.0" y="460" width="600" height="140"/>
+                                <animations/>
+                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VwP-wh-PsD">
                                 <rect key="frame" x="0.0" y="540" width="600" height="60"/>
                                 <subviews>
@@ -590,7 +594,7 @@
                                     </button>
                                 </subviews>
                                 <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="centerX" secondItem="AY6-Bh-fXh" secondAttribute="centerX" id="Trr-6g-2dt"/>
                                     <constraint firstAttribute="centerX" secondItem="Ssh-a5-EGH" secondAttribute="centerX" id="cON-1Z-JBr"/>
@@ -605,8 +609,11 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="EJ5-Hf-UMM" secondAttribute="trailing" id="1YD-5H-hOD"/>
                             <constraint firstItem="VwP-wh-PsD" firstAttribute="leading" secondItem="gsh-ws-D5N" secondAttribute="leading" id="3BG-Yz-Y7A"/>
+                            <constraint firstItem="VjQ-Cs-1dW" firstAttribute="bottom" secondItem="VwP-wh-PsD" secondAttribute="bottom" id="CsY-ra-r36"/>
                             <constraint firstItem="xur-C9-Tc1" firstAttribute="height" secondItem="EJ5-Hf-UMM" secondAttribute="height" id="D88-ER-CcS"/>
                             <constraint firstItem="bNl-1o-JmM" firstAttribute="top" secondItem="EJ5-Hf-UMM" secondAttribute="bottom" id="DLB-At-GP1"/>
+                            <constraint firstItem="VjQ-Cs-1dW" firstAttribute="trailing" secondItem="VwP-wh-PsD" secondAttribute="trailing" id="EKp-gV-TEI"/>
+                            <constraint firstItem="VjQ-Cs-1dW" firstAttribute="leading" secondItem="VwP-wh-PsD" secondAttribute="leading" id="KDZ-KE-SHN"/>
                             <constraint firstAttribute="trailing" secondItem="xur-C9-Tc1" secondAttribute="trailing" id="Sih-Gb-ELE"/>
                             <constraint firstItem="xur-C9-Tc1" firstAttribute="leading" secondItem="gsh-ws-D5N" secondAttribute="leading" id="Sxw-3r-cDH"/>
                             <constraint firstItem="bNl-1o-JmM" firstAttribute="top" secondItem="xur-C9-Tc1" secondAttribute="bottom" id="a1o-Ix-bA3"/>
@@ -835,5 +842,6 @@
         <image name="default_avatar" width="100" height="100"/>
         <image name="flat_arrow_down" width="14" height="5"/>
         <image name="flat_arrow_left" width="6" height="15"/>
+        <image name="pick_skills_dismiss_background" width="375" height="140"/>
     </resources>
 </document>
