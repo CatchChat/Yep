@@ -363,7 +363,7 @@ func updateMyselfWithInfo(info: JSONDictionary, #failureHandler: ((Reason, Strin
     // longitude
 
     let parse: JSONDictionary -> Bool? = { data in
-        println("updateMyself \(data)")
+        //println("updateMyself \(data)")
         return true
     }
     
