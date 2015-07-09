@@ -543,7 +543,7 @@
                                 </connections>
                             </collectionView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xur-C9-Tc1" userLabel="Skills Collection View">
-                                <rect key="frame" x="0.0" y="170" width="600" height="430"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewLayout key="collectionViewLayout" id="NKD-Qj-Ktb" customClass="RegisterPickSkillsLayout" customModule="Yep" customModuleProvider="target"/>
@@ -590,6 +590,7 @@
                                     </button>
                                 </subviews>
                                 <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="centerX" secondItem="AY6-Bh-fXh" secondAttribute="centerX" id="Trr-6g-2dt"/>
                                     <constraint firstAttribute="centerX" secondItem="Ssh-a5-EGH" secondAttribute="centerX" id="cON-1Z-JBr"/>
@@ -604,7 +605,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="EJ5-Hf-UMM" secondAttribute="trailing" id="1YD-5H-hOD"/>
                             <constraint firstItem="VwP-wh-PsD" firstAttribute="leading" secondItem="gsh-ws-D5N" secondAttribute="leading" id="3BG-Yz-Y7A"/>
-                            <constraint firstItem="xur-C9-Tc1" firstAttribute="height" secondItem="EJ5-Hf-UMM" secondAttribute="height" constant="-150" id="D88-ER-CcS"/>
+                            <constraint firstItem="xur-C9-Tc1" firstAttribute="height" secondItem="EJ5-Hf-UMM" secondAttribute="height" id="D88-ER-CcS"/>
                             <constraint firstItem="bNl-1o-JmM" firstAttribute="top" secondItem="EJ5-Hf-UMM" secondAttribute="bottom" id="DLB-At-GP1"/>
                             <constraint firstAttribute="trailing" secondItem="xur-C9-Tc1" secondAttribute="trailing" id="Sih-Gb-ELE"/>
                             <constraint firstItem="xur-C9-Tc1" firstAttribute="leading" secondItem="gsh-ws-D5N" secondAttribute="leading" id="Sxw-3r-cDH"/>

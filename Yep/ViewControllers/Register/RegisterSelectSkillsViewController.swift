@@ -24,7 +24,7 @@ class RegisterSelectSkillsViewController: UIViewController {
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var backButton: UIButton!
 
-    let annotationHeight: CGFloat = 150
+    let annotationHeight: CGFloat = 100
     @IBOutlet weak var skillsCollectionViewEqualHeightToSkillCategoriesCollectionViewConstraint: NSLayoutConstraint!
 
     let skillAnnotationHeaderIdentifier = "SkillAnnotationHeader"
@@ -61,9 +61,10 @@ class RegisterSelectSkillsViewController: UIViewController {
         skillCategoriesCollectionView.backgroundColor = UIColor.clearColor()
         skillsCollectionView.backgroundColor = UIColor.clearColor()
 
-        let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
-        skillCategoriesCollectionView.contentInset = contentInset
-        skillsCollectionView.contentInset = contentInset
+        let skillCategoriesCollectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+        skillCategoriesCollectionView.contentInset = skillCategoriesCollectionViewContentInset
+        let skillsCollectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+        skillsCollectionView.contentInset = skillsCollectionViewContentInset
 
         let effect = UIBlurEffect(style: UIBlurEffectStyle.Light)
         let effectView = UIVisualEffectView(effect: effect)
