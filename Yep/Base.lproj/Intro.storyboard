@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15A178w" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15A216g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -170,7 +170,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="86" placeholder=" " adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rD8-Pa-pw2" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="195" width="77" height="60"/>
+                                <rect key="frame" x="0.0" y="195" width="60" height="60"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="Uzt-dE-3IR"/>
@@ -189,7 +189,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BMl-2s-Pwj" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="77" y="195" width="523" height="60"/>
+                                <rect key="frame" x="60" y="195" width="540" height="60"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="5y7-kD-E2s"/>
@@ -475,7 +475,7 @@
         <!--Register Pick Skills View Controller-->
         <scene sceneID="vgc-NH-qgo">
             <objects>
-                <viewController storyboardIdentifier="RegisterPickSkillsViewController" automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="OBL-Og-6Ae" customClass="RegisterPickSkillsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterPickSkillsViewController" hidesBottomBarWhenPushed="YES" id="OBL-Og-6Ae" customClass="RegisterPickSkillsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="p8G-DH-wnn"/>
                         <viewControllerLayoutGuide type="bottom" id="iwK-9W-H4c"/>
@@ -485,7 +485,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Hi3-3R-BNx">
-                                <rect key="frame" x="0.0" y="100" width="600" height="500"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewLayout key="collectionViewLayout" id="Dgv-j3-PVw" customClass="RegisterPickSkillsLayout" customModule="Yep" customModuleProvider="target"/>
@@ -500,7 +500,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Hi3-3R-BNx" firstAttribute="leading" secondItem="Ybu-mU-M88" secondAttribute="leading" id="98V-H7-LjP"/>
-                            <constraint firstItem="Hi3-3R-BNx" firstAttribute="top" secondItem="Ybu-mU-M88" secondAttribute="top" constant="100" id="9DJ-h8-5RQ"/>
+                            <constraint firstItem="Hi3-3R-BNx" firstAttribute="top" secondItem="Ybu-mU-M88" secondAttribute="top" id="9DJ-h8-5RQ"/>
                             <constraint firstAttribute="bottom" secondItem="Hi3-3R-BNx" secondAttribute="bottom" id="MZ1-YZ-QyT"/>
                             <constraint firstAttribute="trailing" secondItem="Hi3-3R-BNx" secondAttribute="trailing" id="RoJ-Zy-4i2"/>
                         </constraints>
@@ -590,7 +590,6 @@
                                     </button>
                                 </subviews>
                                 <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="centerX" secondItem="AY6-Bh-fXh" secondAttribute="centerX" id="Trr-6g-2dt"/>
                                     <constraint firstAttribute="centerX" secondItem="Ssh-a5-EGH" secondAttribute="centerX" id="cON-1Z-JBr"/>
@@ -667,7 +666,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="86" placeholder=" " minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lCp-RT-8MI" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="195" width="77" height="60"/>
+                                <rect key="frame" x="0.0" y="195" width="60" height="60"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="LIQ-lH-fzY"/>
@@ -690,7 +689,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FGO-sg-N4b" customClass="BorderTextField" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="77" y="195" width="523" height="60"/>
+                                <rect key="frame" x="60" y="195" width="540" height="60"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="U4j-Tg-Ig3"/>
