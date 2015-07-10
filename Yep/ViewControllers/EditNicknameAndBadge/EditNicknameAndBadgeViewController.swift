@@ -180,20 +180,29 @@ extension EditNicknameAndBadgeViewController: UITextFieldDelegate {
 
             let newNickname = textField.text
 
-            if newNickname != YepUserDefaults.nickname.value {
-
-                updateMyselfWithInfo(["nickname": newNickname], failureHandler: { (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage)
-
+            if newNickname.isEmpty {
+                YepAlert.alertSorry(message: NSLocalizedString("You did not enter any nickname!", comment: ""), inViewController: self, withDismissAction: {
                     dispatch_async(dispatch_get_main_queue()) {
-                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set nickname failed!", comment: ""), inViewController: self)
-                    }
-
-                }, completion: { success in
-                    dispatch_async(dispatch_get_main_queue()) {
-                        YepUserDefaults.nickname.value = newNickname
+                        textField.text = YepUserDefaults.nickname.value
                     }
                 })
+
+            } else {
+                if newNickname != YepUserDefaults.nickname.value {
+
+                    updateMyselfWithInfo(["nickname": newNickname], failureHandler: { (reason, errorMessage) in
+                        defaultFailureHandler(reason, errorMessage)
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Update nickname failed!", comment: ""), inViewController: self)
+                        }
+
+                    }, completion: { success in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepUserDefaults.nickname.value = newNickname
+                        }
+                    })
+                }
             }
         }
 
