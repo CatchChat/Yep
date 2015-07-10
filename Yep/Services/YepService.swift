@@ -237,7 +237,7 @@ func skillsFromSkillsData(skillsData: [JSONDictionary]) -> [Skill] {
 func allSkillCategories(#failureHandler: ((Reason, String?) -> Void)?, #completion: [SkillCategory] -> Void) {
 
     let parse: JSONDictionary -> [SkillCategory]? = { data in
-        println("skillCategories \(data)")
+        //println("skillCategories \(data)")
 
         if let categoriesData = data["categories"] as? [JSONDictionary] {
 
