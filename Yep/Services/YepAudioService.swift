@@ -97,12 +97,7 @@ class YepAudioService: NSObject {
                     appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate,
                     viewController = appDelegate.window?.rootViewController {
 
-                        YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Microphone!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: viewController, withConfirmAction: {
-
-                            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
-
-                        }, cancelAction: {
-                        })
+                        viewController.alertCanNotAccessMicrophone()
                 }
             }
         }

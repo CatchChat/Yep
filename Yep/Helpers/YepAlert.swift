@@ -130,5 +130,17 @@ extension UIViewController {
             })
         }
     }
+
+    func alertCanNotAccessMicrophone() {
+
+        dispatch_async(dispatch_get_main_queue()) {
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Microphone!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+
+                UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+
+            }, cancelAction: {
+            })
+        }
+    }
 }
 
