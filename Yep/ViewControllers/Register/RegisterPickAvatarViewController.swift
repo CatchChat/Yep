@@ -169,14 +169,7 @@ class RegisterPickAvatarViewController: UIViewController {
                 self.openCamera()
 
             } else {
-                dispatch_async(dispatch_get_main_queue()) {
-                    YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not open your Camera!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
-
-                        UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
-
-                    }, cancelAction: {
-                    })
-                }
+                self.alertCanNotOpenCamera()
             }
         })
     }
@@ -223,15 +216,6 @@ class RegisterPickAvatarViewController: UIViewController {
             }
         }
 
-        let alertCanNotAccessCameraRoll: () -> Void = { [weak self] in
-            YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Camera Roll!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
-
-                UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
-
-            }, cancelAction: {
-            })
-        }
-
         PHPhotoLibrary.requestAuthorization { status in
 
             switch status {
@@ -240,7 +224,7 @@ class RegisterPickAvatarViewController: UIViewController {
                 openCameraRoll()
 
             default:
-                alertCanNotAccessCameraRoll()
+                self.alertCanNotAccessCameraRoll()
             }
         }
     }

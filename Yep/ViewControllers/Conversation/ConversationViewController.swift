@@ -571,15 +571,6 @@ class ConversationViewController: BaseViewController {
                 }
             }
 
-            let alertCanNotAccessCameraRoll: () -> Void = { [weak self] in
-                YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Camera Roll!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
-
-                    UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
-
-                }, cancelAction: {
-                })
-            }
-
             PHPhotoLibrary.requestAuthorization { status in
 
                 switch status {
@@ -588,7 +579,7 @@ class ConversationViewController: BaseViewController {
                     openCameraRoll()
 
                 default:
-                    alertCanNotAccessCameraRoll()
+                    self?.alertCanNotAccessCameraRoll()
                 }
             }
         }
@@ -609,21 +600,12 @@ class ConversationViewController: BaseViewController {
                 }
             }
 
-            let alertCanNotOpenCamera: () -> Void = { [weak self] in
-                YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not open your Camera!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
-
-                    UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
-
-                }, cancelAction: {
-                })
-            }
-
             AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
                 if granted {
                     openCamera()
 
                 } else {
-                    alertCanNotOpenCamera()
+                    self?.alertCanNotOpenCamera()
                 }
             }
         }
