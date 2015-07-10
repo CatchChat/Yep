@@ -44,12 +44,6 @@ func userSkillsFromSkills(skills: [Skill], inRealm realm: Realm) -> [UserSkill] 
         if userSkill == nil {
             let newUserSkill = UserSkill()
             newUserSkill.skillID = skillID
-            newUserSkill.name = skillID
-            newUserSkill.localName = skill.localName
-
-            if let coverURLString = skill.coverURLString {
-                newUserSkill.coverURLString = coverURLString
-            }
 
             realm.add(newUserSkill)
 
@@ -57,6 +51,16 @@ func userSkillsFromSkills(skills: [Skill], inRealm realm: Realm) -> [UserSkill] 
         }
 
         if let userSkill = userSkill {
+
+            // create or update detail
+
+            userSkill.name = skill.name
+            userSkill.localName = skill.localName
+
+            if let coverURLString = skill.coverURLString {
+                userSkill.coverURLString = coverURLString
+            }
+
             if let skillCategory = skill.category, skillCategoryID = skill.category?.id {
                 var userSkillCategory = userSkillCategoryWithSkillCategoryID(skillCategoryID, inRealm: realm)
 
@@ -107,12 +111,6 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm
                 if userSkill == nil {
                     let newUserSkill = UserSkill()
                     newUserSkill.skillID = skillID
-                    newUserSkill.name = skillID
-                    newUserSkill.localName = skillLocalName
-
-                    if let coverURLString = skillInfo["cover_url"] as? String {
-                        newUserSkill.coverURLString = coverURLString
-                    }
 
                     realm.add(newUserSkill)
 
@@ -120,6 +118,15 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm
                 }
 
                 if let userSkill = userSkill {
+
+                    // create or update detail
+                    
+                    userSkill.name = skillName
+                    userSkill.localName = skillLocalName
+
+                    if let coverURLString = skillInfo["cover_url"] as? String {
+                        userSkill.coverURLString = coverURLString
+                    }
 
                     if let
                         skillCategoryID = categoryData["id"] as? String,
@@ -161,7 +168,7 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
     }, completion: { friendInfo in
 
-        //println("my userInfo: \(friendInfo)")
+        println("my userInfo: \(friendInfo)")
 
         furtherAction()
 
