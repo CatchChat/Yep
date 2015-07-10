@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import Photos
 import TPKeyboardAvoiding
 
 class EditProfileViewController: UIViewController {
@@ -92,25 +93,70 @@ class EditProfileViewController: UIViewController {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
 
         let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { action -> Void in
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
-                let imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
-                imagePicker.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
-                imagePicker.allowsEditing = false
 
-                self.presentViewController(imagePicker, animated: true, completion: nil)
+            let openCameraRoll: () -> Void = { [weak self] in
+                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
+                    let imagePicker = UIImagePickerController()
+                    imagePicker.delegate = self
+                    imagePicker.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
+                    imagePicker.allowsEditing = false
+
+                    self?.presentViewController(imagePicker, animated: true, completion: nil)
+                }
+            }
+
+            let alertCanNotAccessCameraRoll: () -> Void = { [weak self] in
+                YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Camera Roll!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+
+                    UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+
+                }, cancelAction: {
+                })
+            }
+
+            PHPhotoLibrary.requestAuthorization { status in
+
+                switch status {
+
+                case .Authorized:
+                    openCameraRoll()
+
+                default:
+                    alertCanNotAccessCameraRoll()
+                }
             }
         }
         alertController.addAction(choosePhotoAction)
 
         let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { action -> Void in
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
-                let imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
-                imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
-                imagePicker.allowsEditing = false
 
-                self.presentViewController(imagePicker, animated: true, completion: nil)
+            let openCamera: () -> Void = { [weak self] in
+                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
+                    let imagePicker = UIImagePickerController()
+                    imagePicker.delegate = self
+                    imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
+                    imagePicker.allowsEditing = false
+
+                    self?.presentViewController(imagePicker, animated: true, completion: nil)
+                }
+            }
+
+            let alertCanNotOpenCamera: () -> Void = { [weak self] in
+                YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not open your Camera!\nBut you can change it in iOS' Settings.\n", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+
+                    UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+
+                }, cancelAction: {
+                })
+            }
+
+            AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
+                if granted {
+                    openCamera()
+
+                } else {
+                    alertCanNotOpenCamera()
+                }
             }
         }
         alertController.addAction(takePhotoAction)
