@@ -125,7 +125,7 @@ class YepDownloader: NSObject {
 
                 let downloadTask = sharedDownloader.session.downloadTaskWithURL(URL, completionHandler: { location, response, error in
 
-                    if let data = NSData(contentsOfURL: location) {
+                    if let location = location, data = NSData(contentsOfURL: location) {
 
                         let fileName = NSUUID().UUIDString
 
