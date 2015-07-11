@@ -11,7 +11,7 @@ import RealmSwift
 import AVFoundation
 import MobileCoreServices
 import MapKit
-import Photos
+import Proposer
 
 struct MessageNotification {
     static let MessageStateChanged = "MessageStateChangedNotification"
@@ -558,7 +558,7 @@ class ConversationViewController: BaseViewController {
         choosePhotoButton.title = NSLocalizedString("Choose photo", comment: "")
         choosePhotoButton.tapAction = { [weak self] in
 
-            let openCameraRoll: () -> Void = { [weak self] in
+            let openCameraRoll: ProposerAction = { [weak self] in
                 if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
                     let imagePicker = UIImagePickerController()
                     imagePicker.delegate = self
@@ -571,23 +571,15 @@ class ConversationViewController: BaseViewController {
                 }
             }
 
-            PHPhotoLibrary.requestAuthorization { status in
-
-                switch status {
-
-                case .Authorized:
-                    openCameraRoll()
-
-                default:
-                    self?.alertCanNotAccessCameraRoll()
-                }
-            }
+            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
+                self?.alertCanNotAccessCameraRoll()
+            })
         }
 
         takePhotoButton.title = NSLocalizedString("Take photo", comment: "")
         takePhotoButton.tapAction = { [weak self] in
 
-            let openCamera: () -> Void = { [weak self] in
+            let openCamera: ProposerAction = { [weak self] in
                 if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
                     let imagePicker = UIImagePickerController()
                     imagePicker.delegate = self
@@ -600,14 +592,9 @@ class ConversationViewController: BaseViewController {
                 }
             }
 
-            AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
-                if granted {
-                    openCamera()
-
-                } else {
-                    self?.alertCanNotOpenCamera()
-                }
-            }
+            proposeToAccess(.Camera, agreed: openCamera, rejected: {
+                self?.alertCanNotOpenCamera()
+            })
         }
 
         addLocationButton.title = NSLocalizedString("Share location", comment: "")

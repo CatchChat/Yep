@@ -8,6 +8,7 @@
 
 import UIKit
 import AddressBook
+import Proposer
 
 class AddFriendsViewController: UIViewController {
 
@@ -132,33 +133,16 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
             case More.Contacts.rawValue:
 
-                switch ABAddressBookGetAuthorizationStatus() {
+                let propose: Propose = {
+                    proposeToAccess(.Contacts, agreed: {
+                        self.performSegueWithIdentifier("showFriendsInContacts", sender: nil)
 
-                case .NotDetermined:
-                    YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Yep need to read your Contacts to continue this operation.\nIs that OK?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("No now", comment: ""), inViewController: self, withConfirmAction: {
-
-                        if let addressBook: ABAddressBook = ABAddressBookCreateWithOptions(nil, nil)?.takeRetainedValue() {
-                            ABAddressBookRequestAccessWithCompletion(addressBook, { granted, error in
-                                if granted {
-                                    dispatch_async(dispatch_get_main_queue()) {
-                                        self.performSegueWithIdentifier("showFriendsInContacts", sender: nil)
-                                    }
-                                }
-                            })
-                        }
-
-                    }, cancelAction: {
+                    }, rejected: {
+                        self.alertCanNotAccessContacts()
                     })
-
-                case .Authorized:
-                    performSegueWithIdentifier("showFriendsInContacts", sender: nil)
-
-                case .Denied:
-                    self.alertCanNotAccessContacts()
-
-                case .Restricted:
-                    YepAlert.alertSorry(message: NSLocalizedString("Yep can not read your Contacts!", comment: ""), inViewController: self)
                 }
+
+                showProposeMessageIfNeedForContactsAndTryPropose(propose)
 
             case More.FaceToFace.rawValue:
                 break

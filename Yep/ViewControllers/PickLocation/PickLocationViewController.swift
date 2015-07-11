@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import Proposer
 
 typealias SendLocationAction = (coordinate: CLLocationCoordinate2D) -> Void
 
@@ -61,6 +62,15 @@ class PickLocationViewController: UIViewController {
         if let location = YepLocationService.sharedManager.locationManager.location {
             let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 20000, 20000)
             mapView.setRegion(region, animated: false)
+
+        } else {
+            proposeToAccess(.Location(.WhenInUse), agreed: {
+
+                YepLocationService.turnOn()
+
+            }, rejected: {
+                self.alertCanNotAccessLocation()
+            })
         }
 
         let tap = UITapGestureRecognizer(target: self, action: "addAnnotation:")

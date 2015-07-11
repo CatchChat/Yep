@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import FXBlurView
+import Proposer
 
 class ProfileHeaderCell: UICollectionViewCell {
 
@@ -29,18 +30,6 @@ class ProfileHeaderCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
-//    func configureWithMyInfo() {
-//        YepUserDefaults.avatarURLString.bindAndFireListener("ProfileHeaderCell.Avatar") { avatarURLString in
-//            if let avatarURLString = avatarURLString {
-//                self.updateAvatarWithAvatarURLString(avatarURLString)
-//            }
-//        }
-//
-//        YepLocationService.sharedManager // TODO: 要迁走
-//
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
-//    }
 
     var blurredAvatarImage: UIImage? {
         willSet {
@@ -79,7 +68,13 @@ class ProfileHeaderCell: UICollectionViewCell {
                 }
             }
 
-            YepLocationService.sharedManager // TODO: 要迁走
+            proposeToAccess(.Location(.WhenInUse), agreed: {
+
+                YepLocationService.turnOn()
+
+            }, rejected: {
+                print("Yep can NOT get Location. :[\n")
+            })
 
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
         }

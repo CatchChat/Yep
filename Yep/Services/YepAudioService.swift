@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import AudioToolbox
+import Proposer
 
 class YepAudioService: NSObject {
     
@@ -72,35 +73,29 @@ class YepAudioService: NSObject {
     }
 
     func beginRecordWithFileURL(fileURL: NSURL, audioRecorderDelegate: AVAudioRecorderDelegate) {
-        
-        AVAudioSession.sharedInstance().requestRecordPermission { granted in
 
-            if granted {
+        proposeToAccess(.Microphone, agreed: {
 
-                self.prepareAudioRecorderWithFileURL(fileURL, audioRecorderDelegate: audioRecorderDelegate)
+            self.prepareAudioRecorderWithFileURL(fileURL, audioRecorderDelegate: audioRecorderDelegate)
 
-                if let audioRecorder = self.audioRecorder {
+            if let audioRecorder = self.audioRecorder {
 
-                    if (audioRecorder.recording){
-                        audioRecorder.stop()
+                if (audioRecorder.recording){
+                    audioRecorder.stop()
 
-                    } else {
-                        audioRecorder.record()
-                        println("Audio Record did begin")
-                    }
-                }
-
-            } else {
-                println("Permission to record not granted")
-
-                if let
-                    appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate,
-                    viewController = appDelegate.window?.rootViewController {
-
-                        viewController.alertCanNotAccessMicrophone()
+                } else {
+                    audioRecorder.record()
+                    println("Audio Record did begin")
                 }
             }
-        }
+
+        }, rejected: {
+            if let
+                appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate,
+                viewController = appDelegate.window?.rootViewController {
+                    viewController.alertCanNotAccessMicrophone()
+            }
+        })
     }
     
     func endRecord() {

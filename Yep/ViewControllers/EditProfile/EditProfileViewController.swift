@@ -8,8 +8,8 @@
 
 import UIKit
 import RealmSwift
-import Photos
 import TPKeyboardAvoiding
+import Proposer
 
 class EditProfileViewController: UIViewController {
 
@@ -94,7 +94,7 @@ class EditProfileViewController: UIViewController {
 
         let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { action -> Void in
 
-            let openCameraRoll: () -> Void = { [weak self] in
+            let openCameraRoll: ProposerAction = { [weak self] in
                 if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
                     let imagePicker = UIImagePickerController()
                     imagePicker.delegate = self
@@ -105,23 +105,15 @@ class EditProfileViewController: UIViewController {
                 }
             }
 
-            PHPhotoLibrary.requestAuthorization { status in
-
-                switch status {
-
-                case .Authorized:
-                    openCameraRoll()
-
-                default:
-                    self.alertCanNotAccessCameraRoll()
-                }
-            }
+            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
+                self.alertCanNotAccessCameraRoll()
+            })
         }
         alertController.addAction(choosePhotoAction)
 
         let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { action -> Void in
 
-            let openCamera: () -> Void = { [weak self] in
+            let openCamera: ProposerAction = { [weak self] in
                 if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
                     let imagePicker = UIImagePickerController()
                     imagePicker.delegate = self
@@ -132,14 +124,9 @@ class EditProfileViewController: UIViewController {
                 }
             }
 
-            AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
-                if granted {
-                    openCamera()
-
-                } else {
-                    self.alertCanNotOpenCamera()
-                }
-            }
+            proposeToAccess(.Camera, agreed: openCamera, rejected: {
+                self.alertCanNotOpenCamera()
+            })
         }
         alertController.addAction(takePhotoAction)
 

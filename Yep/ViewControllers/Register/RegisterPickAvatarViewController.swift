@@ -8,7 +8,7 @@
 
 import UIKit
 import AVFoundation
-import Photos
+import Proposer
 
 class RegisterPickAvatarViewController: UIViewController {
     
@@ -163,14 +163,11 @@ class RegisterPickAvatarViewController: UIViewController {
     }
 
     @IBAction func tryOpenCamera(sender: UIButton) {
+        proposeToAccess(.Camera, agreed: {
+            self.openCamera()
 
-        AVCaptureDevice.requestAccessForMediaType(mediaType, completionHandler: { (granted) -> Void in
-            if granted {
-                self.openCamera()
-
-            } else {
-                self.alertCanNotOpenCamera()
-            }
+        }, rejected: {
+            self.alertCanNotOpenCamera()
         })
     }
 
@@ -205,7 +202,7 @@ class RegisterPickAvatarViewController: UIViewController {
 
     @IBAction func tryOpenCameraRoll(sender: UIButton) {
 
-        let openCameraRoll: () -> Void = { [weak self] in
+        let openCameraRoll: ProposerAction = { [weak self] in
             if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
@@ -216,17 +213,9 @@ class RegisterPickAvatarViewController: UIViewController {
             }
         }
 
-        PHPhotoLibrary.requestAuthorization { status in
-
-            switch status {
-
-            case .Authorized:
-                openCameraRoll()
-
-            default:
-                self.alertCanNotAccessCameraRoll()
-            }
-        }
+        proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
+            self.alertCanNotAccessCameraRoll()
+        })
     }
 
     func uploadAvatarAndGotoPickSkills() {
