@@ -9,42 +9,40 @@
 import CoreLocation
 
 class YepLocationService: NSObject, CLLocationManagerDelegate {
+
+    class func turnOn() {
+        if (CLLocationManager.locationServicesEnabled()){
+            println("Update Location")
+            self.sharedManager.locationManager.startUpdatingLocation()
+        }
+    }
     
     static let sharedManager = YepLocationService()
     
-    var locationManager:CLLocationManager = CLLocationManager()
-    var currentLocation:CLLocation?
-    var address:String?
-    var geocoder = CLGeocoder()
-    
-    var userLocationUpdated = false
-    
-    override init() {
-        super.init()
+    lazy var locationManager: CLLocationManager = {
+        let locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.pausesLocationUpdatesAutomatically = true
         locationManager.headingFilter = kCLHeadingFilterNone
         locationManager.requestWhenInUseAuthorization()
-        println("Prepare Location")
-        if (CLLocationManager.locationServicesEnabled()){
-            println("Update Location")
-            locationManager.startUpdatingLocation()
-        }
-    }
-    
+        return locationManager
+        }()
+
+    var currentLocation: CLLocation?
+    var address: String?
+    let geocoder = CLGeocoder()
+    var userLocationUpdated = false
+
+
     func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!) {
         
         if !userLocationUpdated {
-            updateMyselfWithInfo(["latitude": newLocation.coordinate.latitude, "longitude": newLocation.coordinate.longitude], failureHandler: { (reason, errorMessage) in
-                
-                    defaultFailureHandler(reason, errorMessage)
-                
-                }, completion: { success in
-                    if success {
-                        self.userLocationUpdated = true
-                    }
+            updateMyselfWithInfo(["latitude": newLocation.coordinate.latitude, "longitude": newLocation.coordinate.longitude], failureHandler: nil, completion: { success in
+                if success {
+                    self.userLocationUpdated = true
+                }
             })
         }
         
