@@ -30,6 +30,7 @@ PODS:
     - Base64 (~> 1.0.1)
     - SocketRocket (~> 0.3.1-beta2)
   - pop (1.0.7)
+  - Proposer (0.6)
   - Realm (0.93.2):
     - Realm/Headers (= 0.93.2)
   - Realm/Headers (0.93.2)
@@ -45,6 +46,7 @@ DEPENDENCIES:
   - Kingfisher
   - MZFayeClient (from `../CatchLib-iOS/MZFayeClient/`)
   - pop
+  - Proposer
   - RealmSwift
   - TPKeyboardAvoiding (~> 1.2)
 
@@ -60,6 +62,7 @@ SPEC CHECKSUMS:
   Kingfisher: 962a21cdc2a7b0fa63be3b2c45ea6f180feda535
   MZFayeClient: 19df756a4c86c8f414668e6edc54fccfee54adbb
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
+  Proposer: 5ec9a3a015b9a2065c7d3aa838216db4a86527cc
   Realm: 2fdd0ae74f730e190384e0338d8a0d3654df8220
   RealmSwift: 231b064da9f98b1c4f325fe1f1cb8756aae2b8d6
   SocketRocket: 7284ab9370a06c99aba92b2fe3a32aedd0f9a6fa
