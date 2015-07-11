@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Proposer
 
 class YepAlert {
     class func alert(#title: String, message: String?, dismissTitle: String, inViewController viewController: UIViewController?, withDismissAction dismissAction: (() -> Void)?) {
@@ -140,6 +141,22 @@ extension UIViewController {
 
             }, cancelAction: {
             })
+        }
+    }
+
+    func showProposeMessageIfNeedForContactsAndTryPropose(propose: Propose) {
+
+        if PrivateResource.Contacts.isNotDeterminedAuthorization {
+
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Yep need to read your Contacts to continue this operation.\nIs that OK?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("No now", comment: ""), inViewController: self, withConfirmAction: {
+
+                propose()
+
+            }, cancelAction: {
+            })
+
+        } else {
+            propose()
         }
     }
 }
