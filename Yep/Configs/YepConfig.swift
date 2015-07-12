@@ -20,6 +20,7 @@ class YepConfig {
     
     class func clientType() -> Int {
         // TODO: clientType
+        
         #if DEBUG
             return 2
         #else
