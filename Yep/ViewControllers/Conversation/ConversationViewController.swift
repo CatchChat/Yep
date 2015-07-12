@@ -136,6 +136,8 @@ class ConversationViewController: BaseViewController {
         }()
 
     let messageImagePreferredAspectRatio: CGFloat = 4.0 / 3.0
+    
+    let imagePicker = UIImagePickerController()
 
     let chatSectionDateCellIdentifier = "ChatSectionDateCell"
     let chatStateCellIdentifier = "ChatStateCell"
@@ -560,14 +562,15 @@ class ConversationViewController: BaseViewController {
 
             let openCameraRoll: ProposerAction = { [weak self] in
                 if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
-                    let imagePicker = UIImagePickerController()
-                    imagePicker.delegate = self
-                    imagePicker.sourceType = .PhotoLibrary
-                    imagePicker.mediaTypes = [kUTTypeImage, kUTTypeMovie]
-                    imagePicker.videoQuality = .TypeMedium
-                    imagePicker.allowsEditing = false
-
-                    self?.presentViewController(imagePicker, animated: true, completion: nil)
+                    if let weakSelf = self {
+                        weakSelf.imagePicker.delegate = weakSelf
+                        weakSelf.imagePicker.sourceType = .PhotoLibrary
+                        weakSelf.imagePicker.mediaTypes = [kUTTypeImage, kUTTypeMovie]
+                        weakSelf.imagePicker.videoQuality = .TypeMedium
+                        weakSelf.imagePicker.allowsEditing = false
+                        
+                        weakSelf.presentViewController(weakSelf.imagePicker, animated: true, completion: nil)
+                    }
                 }
             }
 
@@ -581,14 +584,15 @@ class ConversationViewController: BaseViewController {
 
             let openCamera: ProposerAction = { [weak self] in
                 if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
-                    let imagePicker = UIImagePickerController()
-                    imagePicker.delegate = self
-                    imagePicker.sourceType = .Camera
-                    imagePicker.mediaTypes = [kUTTypeImage, kUTTypeMovie]
-                    imagePicker.videoQuality = .TypeMedium
-                    imagePicker.allowsEditing = false
+                    if let weakSelf = self {
+                        weakSelf.imagePicker.delegate = weakSelf
+                        weakSelf.imagePicker.sourceType = .Camera
+                        weakSelf.imagePicker.mediaTypes = [kUTTypeImage, kUTTypeMovie]
+                        weakSelf.imagePicker.videoQuality = .TypeMedium
+                        weakSelf.imagePicker.allowsEditing = false
 
-                    self?.presentViewController(imagePicker, animated: true, completion: nil)
+                        weakSelf.presentViewController(weakSelf.imagePicker, animated: true, completion: nil)
+                    }
                 }
             }
 

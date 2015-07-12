@@ -404,6 +404,8 @@ func sendVerifyCodeOfMobile(mobile: String, withAreaCode areaCode: String, useMe
 
 func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: LoginUser -> Void) {
 
+    println("User login type is \(YepConfig.clientType())")
+    
     let requestParameters: JSONDictionary = [
         "mobile": mobile,
         "phone_code": areaCode,
