@@ -39,7 +39,8 @@ extension EditProfileMoreInfoCell: UITextViewDelegate {
 
     func textViewDidEndEditing(textView: UITextView) {
         if textView == infoTextView {
-            let text = textView.text
+            let text = textView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            textView.text = text
             infoTextViewDidEndEditingAction?(text)
         }
     }
