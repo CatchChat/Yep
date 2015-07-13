@@ -1198,10 +1198,14 @@ class ConversationViewController: BaseViewController {
             return
         }
 
-        let newMessagesCount = Int(messages.count - _lastTimeMessagesCount)
-        
+        var newMessagesCount = Int(messages.count - _lastTimeMessagesCount)
+
+        if let messageIDs = messageIDs {
+            newMessagesCount = messageIDs.count
+        }
+
         let lastDisplayedMessagesRange = displayedMessagesRange
-        
+
         displayedMessagesRange.length += newMessagesCount
 
         if newMessagesCount > 0 {
