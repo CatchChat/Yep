@@ -149,7 +149,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
                     animatingVC.mediaView.alpha = 1
                     animatingVC.mediaControlView.alpha = 1
 
-                    transitionViewSnapshot.alpha = 0
+                    //transitionViewSnapshot.alpha = 0
                 })
 
 //                UIView.addKeyframeWithRelativeStartTime(0.9, relativeDuration: 0.1, animations: { () -> Void in
