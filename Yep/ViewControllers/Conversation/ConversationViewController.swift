@@ -137,7 +137,14 @@ class ConversationViewController: BaseViewController {
 
     let messageImagePreferredAspectRatio: CGFloat = 4.0 / 3.0
     
-    let imagePicker = UIImagePickerController()
+    lazy var imagePicker: UIImagePickerController = {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.mediaTypes = [kUTTypeImage, kUTTypeMovie]
+        imagePicker.videoQuality = .TypeMedium
+        imagePicker.allowsEditing = false
+        return imagePicker
+        }()
 
     let chatSectionDateCellIdentifier = "ChatSectionDateCell"
     let chatStateCellIdentifier = "ChatStateCell"
@@ -534,6 +541,9 @@ class ConversationViewController: BaseViewController {
                 default:
                     if currentState == .MoreMessages {
                         strongSelf.hideKeyboardAndShowMoreMessageView()
+
+                        // touch to create (if need) for faster appear
+                        strongSelf.imagePicker.hidesBarsOnTap = false
                     }
                 }
 
@@ -565,14 +575,9 @@ class ConversationViewController: BaseViewController {
 
             let openCameraRoll: ProposerAction = { [weak self] in
                 if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
-                    if let weakSelf = self {
-                        weakSelf.imagePicker.delegate = weakSelf
-                        weakSelf.imagePicker.sourceType = .PhotoLibrary
-                        weakSelf.imagePicker.mediaTypes = [kUTTypeImage, kUTTypeMovie]
-                        weakSelf.imagePicker.videoQuality = .TypeMedium
-                        weakSelf.imagePicker.allowsEditing = false
-                        
-                        weakSelf.presentViewController(weakSelf.imagePicker, animated: true, completion: nil)
+                    if let strongSelf = self {
+                        strongSelf.imagePicker.sourceType = .PhotoLibrary
+                        strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
                     }
                 }
             }
@@ -587,14 +592,9 @@ class ConversationViewController: BaseViewController {
 
             let openCamera: ProposerAction = { [weak self] in
                 if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
-                    if let weakSelf = self {
-                        weakSelf.imagePicker.delegate = weakSelf
-                        weakSelf.imagePicker.sourceType = .Camera
-                        weakSelf.imagePicker.mediaTypes = [kUTTypeImage, kUTTypeMovie]
-                        weakSelf.imagePicker.videoQuality = .TypeMedium
-                        weakSelf.imagePicker.allowsEditing = false
-
-                        weakSelf.presentViewController(weakSelf.imagePicker, animated: true, completion: nil)
+                    if let strongSelf = self {
+                        strongSelf.imagePicker.sourceType = .Camera
+                        strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
                     }
                 }
             }
