@@ -17,6 +17,12 @@ class MessageMediaViewController: UIViewController {
 
     @IBOutlet weak var mediaControlView: MediaControlView!
 
+    var hideStatusBar = false {
+        didSet {
+            setNeedsStatusBarAppearanceUpdate()
+        }
+    }
+
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
@@ -120,6 +126,14 @@ class MessageMediaViewController: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        delay(0.01) {
+            self.hideStatusBar = true
+        }
+    }
+
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
@@ -178,8 +192,12 @@ class MessageMediaViewController: UIViewController {
             playerItem.seekToTime(kCMTimeZero)
         }
     }
-    
+
+    override func preferredStatusBarUpdateAnimation() -> UIStatusBarAnimation {
+        return .Slide
+    }
+
     override func prefersStatusBarHidden() -> Bool {
-        return true
+        return hideStatusBar
     }
 }
