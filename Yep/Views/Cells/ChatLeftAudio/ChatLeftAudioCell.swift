@@ -50,7 +50,7 @@ class ChatLeftAudioCell: UICollectionViewCell {
 
     func loadingWithProgress(progress: Double) {
         
-        println("audio loadingWithProgress \(progress)")
+        //println("audio loadingWithProgress \(progress)")
         
         if progress == 1.0 {
             loadingProgressView.hidden = true
