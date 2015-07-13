@@ -554,13 +554,16 @@ class ConversationViewController: BaseViewController {
                 if let draft = strongSelf.conversation.draft {
                     realm.write {
                         draft.messageToolbarState = currentState.rawValue
-                        draft.text = messageToolbar.messageTextView.text
+
+                        if currentState == .BeginTextInput || currentState == .TextInputing {
+                            draft.text = messageToolbar.messageTextView.text
+                        }
                     }
 
                 } else {
                     let draft = Draft()
                     draft.messageToolbarState = currentState.rawValue
-                    
+
                     realm.write {
                         strongSelf.conversation.draft = draft
                     }
