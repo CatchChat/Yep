@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "F957B893D3C5E641248DF05092C80954FE9803E8",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "AD419F7F93A7DCDB6BCEF67C9BDF3271E84453B3" : 0,
+    "F957B893D3C5E641248DF05092C80954FE9803E8" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "C7AB340A-CC24-4E1A-9720-213C5CAC149C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "AD419F7F93A7DCDB6BCEF67C9BDF3271E84453B3" : "CatchLib-iOS",
+    "F957B893D3C5E641248DF05092C80954FE9803E8" : "Yep"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Yep",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 203,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Yep.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/CatchChat\/CatchLib-iOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "AD419F7F93A7DCDB6BCEF67C9BDF3271E84453B3"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/CatchChat\/Yep.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F957B893D3C5E641248DF05092C80954FE9803E8"
+    }
+  ]
+}

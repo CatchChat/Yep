@@ -22,8 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var isColdLaunch = true
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        
-        println("App is On \(DEBUG)")
 
         setSchemaVersion(13, Realm.defaultPath, { migration, oldSchemaVersion in
             // We haven’t migrated anything yet, so oldSchemaVersion == 0
@@ -70,10 +68,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
 
         Crashlytics.startWithAPIKey("3030ba006e21bcf8eb4a2127b6a7931ea6667486")
-
-        AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker, error: nil)
-//        AVAudioSession.sharedInstance().setActive(true, error: nil)
-
+        
+        AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker,error: nil)
+        
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         // 推送初始化
         APService.setupWithOption(launchOptions)

@@ -200,6 +200,7 @@ class ConversationViewController: BaseViewController {
             navigationController?.delegate = delegate
         }
     }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -481,6 +482,7 @@ class ConversationViewController: BaseViewController {
         }
         
         messageToolbar.voiceSendCancelAction = { [weak self] messageToolbar in
+            
             self?.swipeUpView.hidden = true
             self?.waverView.removeFromSuperview()
 
@@ -488,6 +490,7 @@ class ConversationViewController: BaseViewController {
 
             YepAudioService.sharedManager.recordTimeoutAction = nil
         }
+        
         
         messageToolbar.voiceSendEndAction = { [weak self] messageToolbar in
 
@@ -1957,6 +1960,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     })
 
                                 }, cancelAction: {
+                                    
                                 })
 
                                 return

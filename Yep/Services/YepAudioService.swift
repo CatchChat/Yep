@@ -14,6 +14,8 @@ import Proposer
 class YepAudioService: NSObject {
     
     static let sharedManager = YepAudioService()
+    
+    let queue = dispatch_queue_create("YepAudioService", DISPATCH_QUEUE_SERIAL)
 
     var audioFileURL: NSURL?
     var audioRecorder: AVAudioRecorder?
@@ -73,41 +75,56 @@ class YepAudioService: NSObject {
     }
 
     func beginRecordWithFileURL(fileURL: NSURL, audioRecorderDelegate: AVAudioRecorderDelegate) {
-
-        proposeToAccess(.Microphone, agreed: {
-
-            self.prepareAudioRecorderWithFileURL(fileURL, audioRecorderDelegate: audioRecorderDelegate)
-
-            if let audioRecorder = self.audioRecorder {
-
-                if (audioRecorder.recording){
-                    audioRecorder.stop()
-
-                } else {
-                    audioRecorder.record()
-                    println("Audio Record did begin")
+        
+//        dispatch_async(queue, { () -> Void in
+//            AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker,error: nil)
+//            AVAudioSession.sharedInstance().setActive(true, error: nil)
+            
+            proposeToAccess(.Microphone, agreed: {
+                
+                self.prepareAudioRecorderWithFileURL(fileURL, audioRecorderDelegate: audioRecorderDelegate)
+                
+                if let audioRecorder = self.audioRecorder {
+                    
+                    if (audioRecorder.recording){
+                        audioRecorder.stop()
+                        
+                    } else {
+                        audioRecorder.record()
+                        println("Audio Record did begin")
+                    }
                 }
-            }
+                
+                }, rejected: {
+                    if let
+                        appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate,
+                        viewController = appDelegate.window?.rootViewController {
+                            viewController.alertCanNotAccessMicrophone()
+                    }
+            })
+//        })
+        
 
-        }, rejected: {
-            if let
-                appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate,
-                viewController = appDelegate.window?.rootViewController {
-                    viewController.alertCanNotAccessMicrophone()
-            }
-        })
     }
     
     func endRecord() {
-        if let audioRecorder = audioRecorder {
-            if (audioRecorder.recording){
-                audioRecorder.stop()
+        
+
+            if let audioRecorder = self.audioRecorder {
+                if (audioRecorder.recording){
+                    audioRecorder.stop()
+                }
             }
-        }
+            dispatch_async(queue, { () -> Void in
+    //            AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker,error: nil)
+                AVAudioSession.sharedInstance().setActive(false, withOptions: AVAudioSessionSetActiveOptions.OptionNotifyOthersOnDeactivation, error: nil)
+            })
+            self.checkRecordTimeoutTimer?.invalidate()
+            
+            self.checkRecordTimeoutTimer = nil
 
-        checkRecordTimeoutTimer?.invalidate()
+        
 
-        checkRecordTimeoutTimer = nil
     }
     
     // MARK: Audio Player
