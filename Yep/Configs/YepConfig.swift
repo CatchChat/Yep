@@ -95,7 +95,7 @@ class YepConfig {
         static let userCellAvatarSize: CGFloat = 80
 
         static let introFont = UIFont(name: "Helvetica-Light", size: 12)!
-        static let introInset: CGFloat = 20 + userCellAvatarSize + 20 + 11 + 20
+        static let introInset: CGFloat = 20 + userCellAvatarSize + 20 + 10 + 11 + 20
     }
 
     struct EditProfile {
