@@ -25,10 +25,10 @@ PODS:
     - APAddressBook/Core
   - Base64 (1.0.1)
   - FXBlurView (1.6.3)
-  - Kingfisher (1.4.1)
-  - MZFayeClient (1.0.0):
+  - Kingfisher (1.4.2)
+  - MZFayeClient (1.0.1):
     - Base64 (~> 1.0.1)
-    - SocketRocket (~> 0.3.1-beta2)
+    - SocketRocket (~> 0.4)
   - pop (1.0.7)
   - Proposer (0.6)
   - Realm (0.93.2):
@@ -36,7 +36,7 @@ PODS:
   - Realm/Headers (0.93.2)
   - RealmSwift (0.93.2):
     - Realm (= 0.93.2)
-  - SocketRocket (0.3.1-beta2)
+  - SocketRocket (0.4)
   - TPKeyboardAvoiding (1.2.8)
 
 DEPENDENCIES:
@@ -59,13 +59,13 @@ SPEC CHECKSUMS:
   APAddressBook: 2c949367b190a993d2cce769a3b20bce8bcf000c
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
   FXBlurView: c6d23f3d35af2c6282296a2930f61c6e2c788d01
-  Kingfisher: 962a21cdc2a7b0fa63be3b2c45ea6f180feda535
-  MZFayeClient: 19df756a4c86c8f414668e6edc54fccfee54adbb
+  Kingfisher: 4446782a827abbe2e6048a1fa741924a10e6ad7c
+  MZFayeClient: 65e7ef67e61fbe7a7a8b196130541c9f06bcb5d8
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   Proposer: 5ec9a3a015b9a2065c7d3aa838216db4a86527cc
   Realm: 2fdd0ae74f730e190384e0338d8a0d3654df8220
   RealmSwift: 231b064da9f98b1c4f325fe1f1cb8756aae2b8d6
-  SocketRocket: 7284ab9370a06c99aba92b2fe3a32aedd0f9a6fa
+  SocketRocket: 01443933b7bc362621325f4607b80b4286a99707
   TPKeyboardAvoiding: f1ef0028fe9ba98ef2871cf55b4bbc39cae0267b
 
 COCOAPODS: 0.37.2
