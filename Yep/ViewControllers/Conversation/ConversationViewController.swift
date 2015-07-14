@@ -2137,6 +2137,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         }
                                         strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
                                     }
+
+                                    // 必须更新，插入时需要
+                                    strongSelf.lastTimeMessagesCount = strongSelf.messages.count
                                 }
                             }
                         }
