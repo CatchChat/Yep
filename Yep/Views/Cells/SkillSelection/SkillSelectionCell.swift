@@ -16,15 +16,30 @@ class SkillSelectionCell: UICollectionViewCell {
 
     @IBOutlet weak var skillLabel: UILabel!
 
-    var skillSelected: Bool = false {
-        willSet {
-            if newValue {
-                backgroundImageView.image = UIImage(named: "skill_bubble_large")
-                skillLabel.textColor = UIColor.whiteColor()
+    enum Selection {
+        case Unavailable
+        case Off
+        case On
+    }
 
-            } else {
+    var skillSelection: Selection = .Off {
+        willSet {
+            switch newValue {
+
+            case .Unavailable:
                 backgroundImageView.image = UIImage(named: "skill_bubble_large_empty")
                 skillLabel.textColor = UIColor.yepTintColor()
+                contentView.alpha = 0.2
+
+            case .Off:
+                backgroundImageView.image = UIImage(named: "skill_bubble_large_empty")
+                skillLabel.textColor = UIColor.yepTintColor()
+                contentView.alpha = 1
+
+            case .On:
+                backgroundImageView.image = UIImage(named: "skill_bubble_large")
+                skillLabel.textColor = UIColor.whiteColor()
+                contentView.alpha = 1
             }
         }
     }
