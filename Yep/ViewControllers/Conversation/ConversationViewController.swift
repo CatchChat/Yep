@@ -2242,7 +2242,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
     
     func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
 
-        delay(0.7) {
+        delay(0.5) {
             pulllToRefreshView.endRefreshingAndDoFurtherAction() { [weak self] in
 
                 if let strongSelf = self {

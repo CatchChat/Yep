@@ -184,6 +184,10 @@ class Waver: UIView {
         
         println("Begin compress")
 
+        if waveSamples.count < 1 {
+            return nil
+        }
+        
         let sampleMax = maxElement(waveSamples)
 
         if sampleMax > 0 { // 防止除零错误
