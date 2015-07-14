@@ -14,6 +14,7 @@ class RegisterSelectSkillsViewController: UIViewController {
     var annotationText: String = ""
     var selectSkillAction: ((skill: Skill, selected: Bool) -> Bool)?
     var selectedSkillsSet = Set<Skill>()
+    var anotherSelectedSkillsSet = Set<Skill>()
     var failedSelectSkillMessage: String = ""
 
     @IBOutlet weak var skillCategoriesCollectionView: UICollectionView!
@@ -410,10 +411,15 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
     private func updateSkillSelectionCell(skillSelectionCell: SkillSelectionCell, withSkill skill: Skill) {
         if selectedSkillsSet.contains(skill) {
-            skillSelectionCell.skillSelected = true
+            skillSelectionCell.skillSelection = .On
 
         } else {
-            skillSelectionCell.skillSelected = false
+            if anotherSelectedSkillsSet.contains(skill) {
+                skillSelectionCell.skillSelection = .Unavailable
+
+            } else {
+                skillSelectionCell.skillSelection = .Off
+            }
         }
     }
 
