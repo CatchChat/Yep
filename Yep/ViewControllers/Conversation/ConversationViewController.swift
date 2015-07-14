@@ -2097,6 +2097,13 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         }
                                     }
 
+                                    let currentIndexPath: NSIndexPath
+                                    if let index = strongSelf.messages.indexOf(message) {
+                                        currentIndexPath = NSIndexPath(forItem: index - strongSelf.displayedMessagesRange.location, inSection: indexPath.section)
+                                    } else {
+                                        currentIndexPath = indexPath
+                                    }
+
                                     if let sectionDateMessage = sectionDateMessage {
 
                                         var canDeleteTwoMessages = false // 考虑刚好的边界情况，例如消息为本束的最后一条，而 sectionDate 在上一束中
@@ -2117,10 +2124,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         }
 
                                         if canDeleteTwoMessages {
-                                            let previousIndexPath = NSIndexPath(forItem: indexPath.item - 1, inSection: indexPath.section)
-                                            strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([previousIndexPath, indexPath])
+                                            let previousIndexPath = NSIndexPath(forItem: currentIndexPath.item - 1, inSection: currentIndexPath.section)
+                                            strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([previousIndexPath, currentIndexPath])
                                         } else {
-                                            strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([indexPath])
+                                            strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
                                         }
 
                                     } else {
@@ -2128,7 +2135,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         realm.write {
                                             realm.delete(message)
                                         }
-                                        strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([indexPath])
+                                        strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
                                     }
                                 }
                             }
