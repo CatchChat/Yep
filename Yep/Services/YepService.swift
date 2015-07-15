@@ -699,6 +699,10 @@ enum DiscoveredUserSortStyle: String {
             return NSLocalizedString("Default", comment: "")
         }
     }
+
+    var nameWithArrow: String {
+        return name + " ▾"
+    }
 }
 
 struct DiscoveredUser {

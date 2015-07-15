@@ -21,7 +21,7 @@ class DiscoverViewController: BaseViewController {
 
     var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
         didSet {
-            filterButtonItem.title = discoveredUserSortStyle.name
+            filterButtonItem.title = discoveredUserSortStyle.nameWithArrow
 
             activityIndicator.startAnimating()
 
