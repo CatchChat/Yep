@@ -373,7 +373,8 @@ extension UIImage {
             maskImage = BubbleMaskImage.rightTail.renderAtSize(size)
         }
 
-        let bubbleImage = self.fixRotation().cropToAspectRatio(size.width / size.height).resizeToTargetSize(size).maskWithImage(maskImage)
+        // fixRotation 会消耗大量内存，改在发送前做
+        let bubbleImage = /*self.fixRotation().*/cropToAspectRatio(size.width / size.height).resizeToTargetSize(size).maskWithImage(maskImage)
 
         return bubbleImage
     }

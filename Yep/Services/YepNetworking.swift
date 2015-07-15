@@ -208,7 +208,7 @@ func errorMessageInData(data: NSData?) -> String? {
 public typealias JSONDictionary = [String: AnyObject]
 
 func decodeJSON(data: NSData) -> JSONDictionary? {
-    return NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.allZeros, error: nil) as? [String:AnyObject]
+    return NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.allZeros, error: nil) as? JSONDictionary
 }
 
 func encodeJSON(dict: JSONDictionary) -> NSData? {

@@ -2384,7 +2384,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             switch mediaType {
             case kUTTypeImage as! String:
                 if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-                    sendImage(image)
+                    sendImage(image.fixRotation())
                 }
             case kUTTypeMovie as! String:
                 if let videoURL = info[UIImagePickerControllerMediaURL] as? NSURL {
