@@ -2318,6 +2318,7 @@ extension ConversationViewController : AVAudioRecorderDelegate {
 // MARK: AVAudioPlayerDelegate
 
 extension ConversationViewController: AVAudioPlayerDelegate {
+
     func audioPlayerBeginInterruption(player: AVAudioPlayer!) {
         println("audioPlayerBeginInterruption")
 
@@ -2340,6 +2341,29 @@ extension ConversationViewController: AVAudioPlayerDelegate {
         if let playingMessage = YepAudioService.sharedManager.playingMessage {
             setAudioPlayedDuration(0, ofMessage: playingMessage)
             println("setAudioPlayedDuration to 0")
+        }
+
+        func nextAudioMessageFrom(message: Message) -> Message? {
+
+            if let index = messages.indexOf(message) {
+                for i in (index + 1)..<messages.count {
+                    if let message = messages[safe: i], friend = message.fromFriend {
+                        if friend.friendState != UserFriendState.Me.rawValue {
+                            if message.mediaType == MessageMediaType.Audio.rawValue {
+                                return message
+                            }
+                        }
+                    }
+                }
+            }
+
+            return nil
+        }
+
+        // 尝试播放下一个
+        if let playingMessage = YepAudioService.sharedManager.playingMessage {
+            let nextAudioMessage = nextAudioMessageFrom(playingMessage)
+            playMessageAudioWithMessage(nextAudioMessage)
         }
     }
 
