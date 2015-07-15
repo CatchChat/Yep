@@ -189,4 +189,13 @@ extension RegisterPickMobileViewController: UITextFieldDelegate {
             })
         }
     }
+
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if !areaCodeTextField.text.isEmpty && !mobileNumberTextField.text.isEmpty {
+            tryShowRegisterVerifyMobile()
+        }
+
+        return true
+    }
 }
+

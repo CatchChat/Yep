@@ -168,4 +168,13 @@ extension LoginByMobileViewController: UITextFieldDelegate {
             })
         }
     }
+
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if !areaCodeTextField.text.isEmpty && !mobileNumberTextField.text.isEmpty {
+            tryShowLoginVerifyMobile()
+        }
+
+        return true
+    }
 }
+
