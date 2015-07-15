@@ -2409,17 +2409,17 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         let thumbnailHeight: CGFloat
 
         if imageWidth > imageHeight {
-            thumbnailWidth = min(imageWidth, 100)
+            thumbnailWidth = min(imageWidth, YepConfig.MetaData.thumbnailMaxSize)
             thumbnailHeight = imageHeight * (thumbnailWidth / imageWidth)
         } else {
-            thumbnailHeight = min(imageHeight, 100)
+            thumbnailHeight = min(imageHeight, YepConfig.MetaData.thumbnailMaxSize)
             thumbnailWidth = imageWidth * (thumbnailHeight / imageHeight)
         }
 
         let audioMetaDataInfo: [String: AnyObject]
 
-        if let thumbnail = image.resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailWidth), withInterpolationQuality: kCGInterpolationLow) {
-            let blurredThumbnail = thumbnail.blurredImageWithRadius(5, iterations: 10, tintColor: UIColor.clearColor())
+        if let thumbnail = image.resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailHeight), withInterpolationQuality: kCGInterpolationLow) {
+            let blurredThumbnail = thumbnail.blurredImageWithRadius(5, iterations: 7, tintColor: UIColor.clearColor())
 
             let data = UIImageJPEGRepresentation(blurredThumbnail, 0.7)
 

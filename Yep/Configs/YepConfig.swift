@@ -125,6 +125,7 @@ class YepConfig {
         static let imageWidth = "image_width"
         static let imageHeight = "image_height"
         static let blurredThumbnailString = "blurred_thumbnail_string"
+        static let thumbnailMaxSize: CGFloat = 100
     }
 
 }
