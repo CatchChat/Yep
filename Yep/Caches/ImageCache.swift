@@ -26,6 +26,27 @@ class ImageCache {
             loadingProgress(1.0)
 
         } else {
+            // 若可以，先显示 blurredThumbnailImage
+
+            let thumbnailKey = "thumbnail" + imageKey
+
+            if let thumbnail = cache.objectForKey(thumbnailKey) as? UIImage {
+                completion(thumbnail)
+
+            } else {
+                if let blurredThumbnailImage = blurredThumbnailImageOfMessage(message) {
+                    let bubblebBlurredThumbnailImage = blurredThumbnailImage.bubbleImageWithTailDirection(tailDirection, size: size)
+
+                    self.cache.setObject(bubblebBlurredThumbnailImage, forKey: thumbnailKey)
+
+                    completion(bubblebBlurredThumbnailImage)
+
+                } else {
+                    // 或放个默认的图片
+                    let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")! : UIImage(named: "right_tail_image_bubble")!
+                    completion(defaultImage)
+                }
+            }
 
             var fileName = message.localAttachmentName
             if message.mediaType == MessageMediaType.Video.rawValue {
@@ -38,20 +59,6 @@ class ImageCache {
             }
 
             let messageID = message.messageID
-
-            // 若可以，先显示 blurredThumbnailImage
-            if let blurredThumbnailImage = blurredThumbnailImageOfMessage(message) {
-                let bubblebBlurredThumbnailImage = blurredThumbnailImage.bubbleImageWithTailDirection(tailDirection, size: size)
-
-                //self.cache.setObject(bubblebBlurredThumbnailImage, forKey: imageKey)
-
-                completion(bubblebBlurredThumbnailImage)
-
-            } else {
-                // 或放个默认的图片
-                let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")! : UIImage(named: "right_tail_image_bubble")!
-                completion(defaultImage)
-            }
 
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
 
