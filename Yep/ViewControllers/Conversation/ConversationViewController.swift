@@ -2402,9 +2402,38 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
     func sendImage(image: UIImage) {
         // Prepare meta data
 
-        var metaData: String? = nil
+        let imageWidth = image.size.width
+        let imageHeight = image.size.height
 
-        let audioMetaDataInfo = ["image_width": image.size.width, "image_height": image.size.height]
+        let thumbnailWidth: CGFloat
+        let thumbnailHeight: CGFloat
+
+        if imageWidth > imageHeight {
+            thumbnailWidth = min(imageWidth, 100)
+            thumbnailHeight = imageHeight * (thumbnailWidth / imageWidth)
+        } else {
+            thumbnailHeight = min(imageHeight, 100)
+            thumbnailWidth = imageWidth * (thumbnailHeight / imageHeight)
+        }
+
+        let audioMetaDataInfo: [String: AnyObject]
+
+        if let thumbnail = image.resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailWidth), withInterpolationQuality: kCGInterpolationLow) {
+            let blurredThumbnail = thumbnail.blurredImageWithRadius(5, iterations: 10, tintColor: UIColor.clearColor())
+
+            let data = UIImageJPEGRepresentation(blurredThumbnail, 0.7)
+
+            let string = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(0))
+
+            print("blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
+
+            audioMetaDataInfo = ["image_width": imageWidth, "image_height": imageHeight, "blurred_thumbnail_string": string]
+
+        } else {
+            audioMetaDataInfo = ["image_width": imageWidth, "image_height": imageHeight]
+        }
+
+        var metaData: String? = nil
 
         if let audioMetaData = NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: nil, error: nil) {
             let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
