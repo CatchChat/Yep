@@ -77,8 +77,8 @@ class ChatRightVideoCell: ChatRightBaseCell {
             if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                 if let metaDataDict = decodeJSON(data) {
                     if
-                        let imageWidth = metaDataDict["video_width"] as? CGFloat,
-                        let imageHeight = metaDataDict["video_height"] as? CGFloat {
+                        let imageWidth = metaDataDict[YepConfig.MetaData.videoWidth] as? CGFloat,
+                        let imageHeight = metaDataDict[YepConfig.MetaData.videoHeight] as? CGFloat {
 
                             let aspectRatio = imageWidth / imageHeight
 

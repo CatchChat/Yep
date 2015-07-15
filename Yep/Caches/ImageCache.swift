@@ -26,6 +26,37 @@ class ImageCache {
             loadingProgress(1.0)
 
         } else {
+            let messageID = message.messageID
+
+            // 若可以，先显示 blurredThumbnailImage
+
+            let thumbnailKey = "thumbnail" + imageKey
+
+            if let thumbnail = cache.objectForKey(thumbnailKey) as? UIImage {
+                completion(thumbnail)
+
+            } else {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+                    if let message = messageWithMessageID(messageID, inRealm: Realm()) {
+                        if let blurredThumbnailImage = blurredThumbnailImageOfMessage(message) {
+                            let bubblebBlurredThumbnailImage = blurredThumbnailImage.bubbleImageWithTailDirection(tailDirection, size: size)
+
+                            self.cache.setObject(bubblebBlurredThumbnailImage, forKey: thumbnailKey)
+
+                            dispatch_async(dispatch_get_main_queue()) {
+                                completion(bubblebBlurredThumbnailImage)
+                            }
+
+                        } else {
+                            // 或放个默认的图片
+                            let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")! : UIImage(named: "right_tail_image_bubble")!
+                            dispatch_async(dispatch_get_main_queue()) {
+                                completion(defaultImage)
+                            }
+                        }
+                    }
+                }
+            }
 
             var fileName = message.localAttachmentName
             if message.mediaType == MessageMediaType.Video.rawValue {
@@ -36,12 +67,6 @@ class ImageCache {
             if message.mediaType == MessageMediaType.Video.rawValue {
                 imageURLString = message.thumbnailURLString
             }
-
-            let messageID = message.messageID
-
-            // 先放个默认的图片
-            let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")! : UIImage(named: "right_tail_image_bubble")!
-            completion(defaultImage)
 
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
 

@@ -480,4 +480,20 @@ func lastSignDateOfConversation(conversation: Conversation) -> NSDate? {
     return nil
 }
 
+func blurredThumbnailImageOfMessage(message: Message) -> UIImage? {
+    if !message.metaData.isEmpty {
+        if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+            if let metaDataDict = decodeJSON(data) {
+                if let blurredThumbnailString = metaDataDict[YepConfig.MetaData.blurredThumbnailString] as? String {
+                    if let data = NSData(base64EncodedString: blurredThumbnailString, options: NSDataBase64DecodingOptions(0)) {
+                        return UIImage(data: data)
+                    }
+                }
+            }
+        }
+    }
+
+    return nil
+}
+
 

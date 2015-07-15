@@ -820,8 +820,8 @@ class ConversationViewController: BaseViewController {
                 if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                     if let metaDataDict = decodeJSON(data) {
                         if
-                            let imageWidth = metaDataDict["image_width"] as? CGFloat,
-                            let imageHeight = metaDataDict["image_height"] as? CGFloat {
+                            let imageWidth = metaDataDict[YepConfig.MetaData.imageWidth] as? CGFloat,
+                            let imageHeight = metaDataDict[YepConfig.MetaData.imageHeight] as? CGFloat {
 
                                 let aspectRatio = imageWidth / imageHeight
 
@@ -848,8 +848,8 @@ class ConversationViewController: BaseViewController {
                 if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                     if let metaDataDict = decodeJSON(data) {
                         if
-                            let imageWidth = metaDataDict["video_width"] as? CGFloat,
-                            let imageHeight = metaDataDict["video_height"] as? CGFloat {
+                            let imageWidth = metaDataDict[YepConfig.MetaData.videoWidth] as? CGFloat,
+                            let imageHeight = metaDataDict[YepConfig.MetaData.videoHeight] as? CGFloat {
 
                                 let aspectRatio = imageWidth / imageHeight
 
@@ -2384,7 +2384,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             switch mediaType {
             case kUTTypeImage as! String:
                 if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-                    sendImage(image)
+                    sendImage(image.fixRotation())
                 }
             case kUTTypeMovie as! String:
                 if let videoURL = info[UIImagePickerControllerMediaURL] as? NSURL {
@@ -2402,9 +2402,45 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
     func sendImage(image: UIImage) {
         // Prepare meta data
 
-        var metaData: String? = nil
+        let imageWidth = image.size.width
+        let imageHeight = image.size.height
 
-        let audioMetaDataInfo = ["image_width": image.size.width, "image_height": image.size.height]
+        let thumbnailWidth: CGFloat
+        let thumbnailHeight: CGFloat
+
+        if imageWidth > imageHeight {
+            thumbnailWidth = min(imageWidth, YepConfig.MetaData.thumbnailMaxSize)
+            thumbnailHeight = imageHeight * (thumbnailWidth / imageWidth)
+        } else {
+            thumbnailHeight = min(imageHeight, YepConfig.MetaData.thumbnailMaxSize)
+            thumbnailWidth = imageWidth * (thumbnailHeight / imageHeight)
+        }
+
+        let audioMetaDataInfo: [String: AnyObject]
+
+        if let thumbnail = image.resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailHeight), withInterpolationQuality: kCGInterpolationLow) {
+            let blurredThumbnail = thumbnail.blurredImageWithRadius(5, iterations: 7, tintColor: UIColor.clearColor())
+
+            let data = UIImageJPEGRepresentation(blurredThumbnail, 0.7)
+
+            let string = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(0))
+
+            print("blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
+
+            audioMetaDataInfo = [
+                YepConfig.MetaData.imageWidth: imageWidth,
+                YepConfig.MetaData.imageHeight: imageHeight,
+                YepConfig.MetaData.blurredThumbnailString: string,
+            ]
+
+        } else {
+            audioMetaDataInfo = [
+                YepConfig.MetaData.imageWidth: imageWidth,
+                YepConfig.MetaData.imageHeight: imageHeight
+            ]
+        }
+
+        var metaData: String? = nil
 
         if let audioMetaData = NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: nil, error: nil) {
             let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
@@ -2493,7 +2529,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         var thumbnailData: NSData?
 
         if let image = thumbnailImageOfVideoInVideoURL(videoURL) {
-            let videoMetaDataInfo = ["video_width": image.size.width, "video_height": image.size.height]
+            let videoMetaDataInfo = [YepConfig.MetaData.videoWidth: image.size.width, YepConfig.MetaData.videoHeight: image.size.height]
 
             if let videoMetaData = NSJSONSerialization.dataWithJSONObject(videoMetaDataInfo, options: nil, error: nil) {
                 let videoMetaDataString = NSString(data: videoMetaData, encoding: NSUTF8StringEncoding) as? String
