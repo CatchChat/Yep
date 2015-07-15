@@ -90,8 +90,8 @@ class ChatLeftImageCell: UICollectionViewCell {
             if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                 if let metaDataDict = decodeJSON(data) {
                     if
-                        let imageWidth = metaDataDict["image_width"] as? CGFloat,
-                        let imageHeight = metaDataDict["image_height"] as? CGFloat {
+                        let imageWidth = metaDataDict[YepConfig.MetaData.imageWidth] as? CGFloat,
+                        let imageHeight = metaDataDict[YepConfig.MetaData.imageHeight] as? CGFloat {
 
                             let aspectRatio = imageWidth / imageHeight
 

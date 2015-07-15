@@ -121,4 +121,11 @@ class YepConfig {
         static let mediaMinHeight: CGFloat = 30
     }
 
+    struct MetaData {
+        static let imageWidth = "image_width"
+        static let imageHeight = "image_height"
+        static let blurredThumbnailString = "blurred_thumbnail_string"
+    }
+
 }
+

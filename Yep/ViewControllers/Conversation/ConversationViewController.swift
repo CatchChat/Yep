@@ -820,8 +820,8 @@ class ConversationViewController: BaseViewController {
                 if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                     if let metaDataDict = decodeJSON(data) {
                         if
-                            let imageWidth = metaDataDict["image_width"] as? CGFloat,
-                            let imageHeight = metaDataDict["image_height"] as? CGFloat {
+                            let imageWidth = metaDataDict[YepConfig.MetaData.imageWidth] as? CGFloat,
+                            let imageHeight = metaDataDict[YepConfig.MetaData.imageHeight] as? CGFloat {
 
                                 let aspectRatio = imageWidth / imageHeight
 
@@ -2427,10 +2427,17 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
             print("blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
 
-            audioMetaDataInfo = ["image_width": imageWidth, "image_height": imageHeight, "blurred_thumbnail_string": string]
+            audioMetaDataInfo = [
+                YepConfig.MetaData.imageWidth: imageWidth,
+                YepConfig.MetaData.imageHeight: imageHeight,
+                YepConfig.MetaData.blurredThumbnailString: string,
+            ]
 
         } else {
-            audioMetaDataInfo = ["image_width": imageWidth, "image_height": imageHeight]
+            audioMetaDataInfo = [
+                YepConfig.MetaData.imageWidth: imageWidth,
+                YepConfig.MetaData.imageHeight: imageHeight
+            ]
         }
 
         var metaData: String? = nil
