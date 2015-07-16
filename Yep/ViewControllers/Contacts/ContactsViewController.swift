@@ -15,7 +15,7 @@ class ContactsViewController: BaseViewController {
 
     let cellIdentifier = "ContactsCell"
 
-    lazy var friends = normalUsers()
+    lazy var friends = normalFriends()
 
     struct Listener {
         static let Nickname = "ContactsViewController.Nickname"

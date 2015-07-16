@@ -78,6 +78,12 @@ class ConversationsViewController: UIViewController {
             self.haveUnreadMessages = countOfUnreadMessagesInRealm(realm) > 0
         }
 
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            for user in normalUsers() {
+                AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: YepConfig.chatCellAvatarSize() * 0.5, completion: { _ in
+                })
+            }
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
