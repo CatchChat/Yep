@@ -272,9 +272,15 @@ class Conversation: Object {
 
 // MARK: Helpers
 
-func normalUsers() -> Results<User> {
+func normalFriends() -> Results<User> {
     let realm = Realm()
     let predicate = NSPredicate(format: "friendState = %d", UserFriendState.Normal.rawValue)
+    return realm.objects(User).filter(predicate)
+}
+
+func normalUsers() -> Results<User> {
+    let realm = Realm()
+    let predicate = NSPredicate(format: "friendState = %d OR friendState = %d", UserFriendState.Normal.rawValue, UserFriendState.Me.rawValue)
     return realm.objects(User).filter(predicate)
 }
 

@@ -129,10 +129,12 @@ class ConversationViewController: BaseViewController {
         }()
 
     lazy var messageImagePreferredWidth: CGFloat = {
-        return ceil(self.collectionViewWidth * 0.6)
+        return YepConfig.ChatCell.mediaPreferredWidth
+        //return ceil(self.collectionViewWidth * 0.6)
         }()
     lazy var messageImagePreferredHeight: CGFloat = {
-        return ceil(self.collectionViewWidth * 0.65)
+        return YepConfig.ChatCell.mediaPreferredHeight
+        //return ceil(self.collectionViewWidth * 0.65)
         }()
 
     let messageImagePreferredAspectRatio: CGFloat = 4.0 / 3.0
