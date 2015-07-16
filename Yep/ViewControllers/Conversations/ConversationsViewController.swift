@@ -83,6 +83,86 @@ class ConversationsViewController: UIViewController {
                 AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: YepConfig.chatCellAvatarSize() * 0.5, completion: { _ in
                 })
             }
+
+            let realm = Realm()
+
+            for conversation in realm.objects(Conversation) {
+                let messages = messagesOfConversation(conversation, inRealm: realm)
+
+                let batch = min(10, messages.count)
+
+                let messageImagePreferredWidth = YepConfig.ChatCell.mediaPreferredWidth
+                let messageImagePreferredHeight = YepConfig.ChatCell.mediaPreferredHeight
+
+                for i in (messages.count - batch)..<messages.count {
+                    let message = messages[i]
+
+                    if let user = message.fromFriend {
+
+                        let tailDirection: MessageImageTailDirection = user.friendState != UserFriendState.Me.rawValue ? .Left : .Right
+
+                        switch message.mediaType {
+
+                        case MessageMediaType.Image.rawValue:
+
+                            if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                                if let metaDataDict = decodeJSON(data) {
+                                    if
+                                        let imageWidth = metaDataDict[YepConfig.MetaData.imageWidth] as? CGFloat,
+                                        let imageHeight = metaDataDict[YepConfig.MetaData.imageHeight] as? CGFloat {
+
+                                            let aspectRatio = imageWidth / imageHeight
+
+                                            let messageImagePreferredWidth = max(messageImagePreferredWidth, ceil(YepConfig.ChatCell.mediaMinHeight * aspectRatio))
+                                            let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
+
+                                            if aspectRatio >= 1 {
+                                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: tailDirection, loadingProgress: { _ in
+                                                }, completion: { _ in
+                                                })
+
+                                            } else {
+                                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: tailDirection, loadingProgress: { _ in
+                                                }, completion: { _ in
+                                                })
+                                            }
+                                    }
+                                }
+                            }
+
+                        case MessageMediaType.Video.rawValue:
+
+                            if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                                if let metaDataDict = decodeJSON(data) {
+                                    if
+                                        let imageWidth = metaDataDict[YepConfig.MetaData.videoWidth] as? CGFloat,
+                                        let imageHeight = metaDataDict[YepConfig.MetaData.videoHeight] as? CGFloat {
+
+                                            let aspectRatio = imageWidth / imageHeight
+
+                                            let messageImagePreferredWidth = max(messageImagePreferredWidth, ceil(YepConfig.ChatCell.mediaMinHeight * aspectRatio))
+                                            let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
+
+                                            if aspectRatio >= 1 {
+                                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: tailDirection, loadingProgress: { _ in
+                                                }, completion: { _ in
+                                                })
+
+                                            } else {
+                                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: tailDirection, loadingProgress: { _ in
+                                                }, completion: { _ in
+                                                })
+                                            }
+                                    }
+                                }
+                            }
+
+                        default:
+                            break
+                        }
+                    }
+                }
+            }
         }
     }
     
