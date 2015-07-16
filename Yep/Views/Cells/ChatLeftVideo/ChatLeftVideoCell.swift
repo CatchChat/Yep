@@ -41,16 +41,36 @@ class ChatLeftVideoCell: UICollectionViewCell {
         mediaTapAction?()
     }
 
-    func loadingWithProgress(progress: Double) {
+    var loadingProgress: Double = 0 {
+        willSet {
+            if newValue == 1.0 {
+                loadingProgressView.hidden = true
 
-        println("video loadingWithProgress \(progress)")
+            } else {
+                loadingProgressView.progress = newValue
+                loadingProgressView.hidden = false
+            }
+        }
+    }
 
-        if progress == 1.0 {
-            loadingProgressView.hidden = true
+    func loadingWithProgress(progress: Double, image: UIImage?) {
 
-        } else {
-            loadingProgressView.progress = progress
-            loadingProgressView.hidden = false
+        if progress >= loadingProgress {
+
+            loadingProgress = progress
+
+            if let image = image {
+
+                dispatch_async(dispatch_get_main_queue()) {
+
+                    self.thumbnailImageView.image = image
+
+                    UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                        self.thumbnailImageView.alpha = 1.0
+                    }, completion: { (finished) -> Void in
+                    })
+                }
+            }
         }
     }
 
@@ -68,24 +88,18 @@ class ChatLeftVideoCell: UICollectionViewCell {
             }
         }
 
+        loadingProgress = 0
+
         thumbnailImageView.alpha = 0.0
 
         if message.metaData.isEmpty {
             thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
 
-            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Left, loadingProgress: { [weak self] progress in
+            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Left, completion: { [weak self] progress, image in
 
-                self?.loadingWithProgress(progress)
-
-            }, completion: { [weak self] image in
                 dispatch_async(dispatch_get_main_queue()) {
                     if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                        self?.thumbnailImageView.image = image
-
-                        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                            self?.thumbnailImageView.alpha = 1.0
-                        }, completion: { (finished) -> Void in
-                        })
+                        self?.loadingWithProgress(progress, image: image)
                     }
                 }
             })
@@ -105,19 +119,11 @@ class ChatLeftVideoCell: UICollectionViewCell {
                             if aspectRatio >= 1 {
                                 thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
 
-                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Left, loadingProgress: { [weak self] progress in
+                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Left, completion: { [weak self] progress, image in
 
-                                    self?.loadingWithProgress(progress)
-
-                                }, completion: { [weak self] image in
                                     dispatch_async(dispatch_get_main_queue()) {
                                         if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                                            self?.thumbnailImageView.image = image
-
-                                            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                                                self?.thumbnailImageView.alpha = 1.0
-                                            }, completion: { (finished) -> Void in
-                                            })
+                                            self?.loadingWithProgress(progress, image: image)
                                         }
                                     }
                                 })
@@ -125,19 +131,11 @@ class ChatLeftVideoCell: UICollectionViewCell {
                             } else {
                                 thumbnailImageViewWidthConstraint.constant = messageImagePreferredHeight * aspectRatio
 
-                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Left, loadingProgress: { [weak self] progress in
+                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Left, completion: { [weak self] progress, image in
 
-                                    self?.loadingWithProgress(progress)
-                                    
-                                }, completion: { [weak self] image in
                                     dispatch_async(dispatch_get_main_queue()) {
                                         if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                                            self?.thumbnailImageView.image = image
-
-                                            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                                                self?.thumbnailImageView.alpha = 1.0
-                                            }, completion: { (finished) -> Void in
-                                            })
+                                            self?.loadingWithProgress(progress, image: image)
                                         }
                                     }
                                 })

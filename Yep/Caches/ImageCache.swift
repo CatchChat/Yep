@@ -15,15 +15,13 @@ class ImageCache {
 
     let cache = NSCache()
 
-    func imageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, loadingProgress: Double -> Void, completion: (UIImage) -> ()) {
+    func imageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (loadingProgress: Double, image: UIImage?) -> Void) {
 
         let imageKey = "image-\(message.messageID)-\(message.localAttachmentName)-\(message.attachmentURLString)"
 
         // 先看看缓存
         if let image = cache.objectForKey(imageKey) as? UIImage {
-            completion(image)
-
-            loadingProgress(1.0)
+            completion(loadingProgress: 1.0, image: image)
 
         } else {
             let messageID = message.messageID
@@ -33,25 +31,25 @@ class ImageCache {
             let thumbnailKey = "thumbnail" + imageKey
 
             if let thumbnail = cache.objectForKey(thumbnailKey) as? UIImage {
-                completion(thumbnail)
+                completion(loadingProgress: 0.5, image: thumbnail)
 
             } else {
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
                     if let message = messageWithMessageID(messageID, inRealm: Realm()) {
                         if let blurredThumbnailImage = blurredThumbnailImageOfMessage(message) {
-                            let bubblebBlurredThumbnailImage = blurredThumbnailImage.bubbleImageWithTailDirection(tailDirection, size: size)
+                            let bubbleBlurredThumbnailImage = blurredThumbnailImage.bubbleImageWithTailDirection(tailDirection, size: size)
 
-                            self.cache.setObject(bubblebBlurredThumbnailImage, forKey: thumbnailKey)
+                            self.cache.setObject(bubbleBlurredThumbnailImage, forKey: thumbnailKey)
 
                             dispatch_async(dispatch_get_main_queue()) {
-                                completion(bubblebBlurredThumbnailImage)
+                                completion(loadingProgress: 0.5, image: bubbleBlurredThumbnailImage)
                             }
 
                         } else {
                             // 或放个默认的图片
                             let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")! : UIImage(named: "right_tail_image_bubble")!
                             dispatch_async(dispatch_get_main_queue()) {
-                                completion(defaultImage)
+                                completion(loadingProgress: 0.5, image: defaultImage)
                             }
                         }
                     }
@@ -68,7 +66,7 @@ class ImageCache {
                 imageURLString = message.thumbnailURLString
             }
 
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
 
                 if !fileName.isEmpty {
                     if
@@ -80,9 +78,7 @@ class ImageCache {
                             self.cache.setObject(messageImage, forKey: imageKey)
                             
                             dispatch_async(dispatch_get_main_queue()) {
-                                completion(messageImage)
-
-                                loadingProgress(1.0)
+                                completion(loadingProgress: 1.0, image: messageImage)
                             }
 
                             return
@@ -92,11 +88,8 @@ class ImageCache {
                 // 下载
 
                 if imageURLString.isEmpty {
-
                     dispatch_async(dispatch_get_main_queue()) {
-                        completion(UIImage())
-
-                        loadingProgress(1.0)
+                        completion(loadingProgress: 1.0, image: nil)
                     }
 
                     return
@@ -106,7 +99,9 @@ class ImageCache {
 
                     YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { progress in
                         dispatch_async(dispatch_get_main_queue()) {
-                            loadingProgress(progress)
+                            if progress < 1.0 {
+                                completion(loadingProgress: progress, image: nil)
+                            }
                         }
 
                     }, imageFinished: { image in
@@ -116,17 +111,13 @@ class ImageCache {
                         self.cache.setObject(messageImage, forKey: imageKey)
 
                         dispatch_async(dispatch_get_main_queue()) {
-                            completion(messageImage)
-
-                            loadingProgress(1.0)
+                            completion(loadingProgress: 1.0, image: messageImage)
                         }
                     })
 
                 } else {
                     dispatch_async(dispatch_get_main_queue()) {
-                        completion(UIImage())
-
-                        loadingProgress(1.0)
+                        completion(loadingProgress: 1.0, image: nil)
                     }
                 }
             }
