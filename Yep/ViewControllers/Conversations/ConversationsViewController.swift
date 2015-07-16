@@ -78,23 +78,36 @@ class ConversationsViewController: UIViewController {
             self.haveUnreadMessages = countOfUnreadMessagesInRealm(realm) > 0
         }
 
+        // 预先生成头像和最近消息图片的缓存
+        cacheInAdvance()
+    }
+
+    func cacheInAdvance() {
+
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+
+            // 聊天界面的头像
+
             for user in normalUsers() {
                 AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: YepConfig.chatCellAvatarSize() * 0.5, completion: { _ in
                 })
             }
 
+            // 每个对话的最近 10 条消息（image or thumbnail）
+
             let realm = Realm()
 
             for conversation in realm.objects(Conversation) {
+
                 let messages = messagesOfConversation(conversation, inRealm: realm)
 
-                let batch = min(10, messages.count)
+                let latestBatch = min(10, messages.count)
 
                 let messageImagePreferredWidth = YepConfig.ChatCell.mediaPreferredWidth
                 let messageImagePreferredHeight = YepConfig.ChatCell.mediaPreferredHeight
 
-                for i in (messages.count - batch)..<messages.count {
+                for i in (messages.count - latestBatch)..<messages.count {
+
                     let message = messages[i]
 
                     if let user = message.fromFriend {
