@@ -100,11 +100,10 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm
     var userSkills = [UserSkill]()
 
     for skillInfo in skillsData {
-        if
-            let categoryData = skillInfo["category"] as? JSONDictionary,
-            let skillID = skillInfo["id"] as? String,
-            let skillName = skillInfo["name"] as? String,
-            let skillLocalName = skillInfo["name_string"] as? String {
+        if let
+            skillID = skillInfo["id"] as? String,
+            skillName = skillInfo["name"] as? String,
+            skillLocalName = skillInfo["name_string"] as? String {
 
                 var userSkill = userSkillWithSkillID(skillID, inRealm: realm)
 
@@ -129,6 +128,7 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm
                     }
 
                     if let
+                        categoryData = skillInfo["category"] as? JSONDictionary,
                         skillCategoryID = categoryData["id"] as? String,
                         skillCategoryName = categoryData["name"] as? String,
                         skillCategoryLocalName = categoryData["name_string"] as? String {
