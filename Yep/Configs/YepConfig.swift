@@ -119,6 +119,8 @@ class YepConfig {
 
         static let mediaMinWidth: CGFloat = 60
         static let mediaMinHeight: CGFloat = 30
+
+        static let centerXOffset: CGFloat = 4
     }
 
     struct MetaData {

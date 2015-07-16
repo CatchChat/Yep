@@ -56,6 +56,7 @@
                 <outlet property="avatarImageView" destination="m2x-3M-xx2" id="YKv-gh-cr8"/>
                 <outlet property="avatarImageViewWidthConstraint" destination="JD9-KR-rN4" id="NiB-3l-0jJ"/>
                 <outlet property="loadingProgressView" destination="sFT-ZV-Yxs" id="DEM-ij-EQj"/>
+                <outlet property="loadingProgressViewCenterXConstraint" destination="R59-th-hn1" id="SQb-S1-yUi"/>
                 <outlet property="messageImageView" destination="2Dg-WB-LbN" id="JaH-m0-woi"/>
                 <outlet property="messageImageViewWidthConstrint" destination="ywK-Cr-C5H" id="WVJ-Ub-r8n"/>
             </connections>

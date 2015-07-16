@@ -17,6 +17,7 @@ class ChatLeftVideoCell: UICollectionViewCell {
     @IBOutlet weak var thumbnailImageViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var playImageView: UIImageView!
+    @IBOutlet weak var playImageViewCenterXConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var loadingProgressView: MessageLoadingProgressView!
     
@@ -27,6 +28,7 @@ class ChatLeftVideoCell: UICollectionViewCell {
         super.awakeFromNib()
 
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
+        playImageViewCenterXConstraint.constant = YepConfig.ChatCell.centerXOffset
         
         thumbnailImageView.tintColor = UIColor.leftBubbleTintColor()
 

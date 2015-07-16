@@ -17,6 +17,7 @@ class ChatLeftImageCell: UICollectionViewCell {
     @IBOutlet weak var messageImageViewWidthConstrint: NSLayoutConstraint!
     
     @IBOutlet weak var loadingProgressView: MessageLoadingProgressView!
+    @IBOutlet weak var loadingProgressViewCenterXConstraint: NSLayoutConstraint!
 
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
@@ -25,6 +26,7 @@ class ChatLeftImageCell: UICollectionViewCell {
         super.awakeFromNib()
 
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
+        loadingProgressViewCenterXConstraint.constant = YepConfig.ChatCell.centerXOffset
 
         messageImageView.tintColor = UIColor.leftBubbleTintColor()
 

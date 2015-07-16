@@ -51,7 +51,7 @@
                 <constraint firstItem="Usu-mV-m39" firstAttribute="centerY" secondItem="t6J-8M-Prm" secondAttribute="centerY" id="Ubw-MU-fwT"/>
                 <constraint firstAttribute="bottom" secondItem="Usu-mV-m39" secondAttribute="bottom" id="V8A-BH-zoE"/>
                 <constraint firstItem="cv4-jk-ysG" firstAttribute="top" secondItem="Usu-mV-m39" secondAttribute="top" id="Wni-Je-PVy"/>
-                <constraint firstItem="4Zc-y0-R7I" firstAttribute="centerX" secondItem="Usu-mV-m39" secondAttribute="centerX" constant="-5" id="YuD-W1-VF7"/>
+                <constraint firstItem="Usu-mV-m39" firstAttribute="centerX" secondItem="4Zc-y0-R7I" secondAttribute="centerX" constant="5" id="YuD-W1-VF7"/>
                 <constraint firstItem="cv4-jk-ysG" firstAttribute="leading" secondItem="Usu-mV-m39" secondAttribute="trailing" constant="5" id="kHP-gM-bdJ"/>
                 <constraint firstItem="4Zc-y0-R7I" firstAttribute="centerY" secondItem="Usu-mV-m39" secondAttribute="centerY" id="mR7-Ve-yWj"/>
                 <constraint firstItem="Usu-mV-m39" firstAttribute="leading" secondItem="t6J-8M-Prm" secondAttribute="trailing" constant="5" id="nec-Oc-Qwb"/>
@@ -63,6 +63,7 @@
                 <outlet property="dotImageView" destination="t6J-8M-Prm" id="gDj-YZ-VfS"/>
                 <outlet property="gapBetweenDotImageViewAndBubbleConstraint" destination="nec-Oc-Qwb" id="rP3-RC-rbh"/>
                 <outlet property="playImageView" destination="4Zc-y0-R7I" id="yph-te-Ga1"/>
+                <outlet property="playImageViewCenterXConstraint" destination="YuD-W1-VF7" id="0UY-Qf-oko"/>
                 <outlet property="thumbnailImageView" destination="Usu-mV-m39" id="Vsi-Q8-Ywh"/>
                 <outlet property="thumbnailImageViewWidthConstraint" destination="nix-mc-fis" id="rPY-SZ-rG5"/>
             </connections>

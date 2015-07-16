@@ -28,7 +28,7 @@
                             <constraint firstAttribute="width" constant="126" id="g02-F3-bJ5"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_playvideo" translatesAutoresizingMaskIntoConstraints="NO" id="kj2-PU-9Ld" userLabel="Play Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="icon_playvideo" translatesAutoresizingMaskIntoConstraints="NO" id="kj2-PU-9Ld" userLabel="Play Image View">
                         <rect key="frame" x="113" y="46" width="30" height="30"/>
                         <animations/>
                     </imageView>
@@ -63,6 +63,7 @@
                 <outlet property="avatarImageViewWidthConstraint" destination="Hgr-UG-6Vl" id="06G-Cs-NA2"/>
                 <outlet property="loadingProgressView" destination="S4T-37-s77" id="Mp9-dx-PM7"/>
                 <outlet property="playImageView" destination="kj2-PU-9Ld" id="h0Y-vn-EUp"/>
+                <outlet property="playImageViewCenterXConstraint" destination="Kim-ke-x6p" id="Ebr-9K-4TC"/>
                 <outlet property="thumbnailImageView" destination="dJV-3p-NM6" id="47m-Jp-5x1"/>
                 <outlet property="thumbnailImageViewWidthConstraint" destination="g02-F3-bJ5" id="K7o-Oc-80Z"/>
             </connections>

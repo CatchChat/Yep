@@ -17,6 +17,7 @@ class ChatRightVideoCell: ChatRightBaseCell {
     @IBOutlet weak var thumbnailImageViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var playImageView: UIImageView!
+    @IBOutlet weak var playImageViewCenterXConstraint: NSLayoutConstraint!
 
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
@@ -25,6 +26,7 @@ class ChatRightVideoCell: ChatRightBaseCell {
         super.awakeFromNib()
 
         avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
+        playImageViewCenterXConstraint.constant = YepConfig.ChatCell.centerXOffset
 
         thumbnailImageView.tintColor = UIColor.rightBubbleTintColor()
 
