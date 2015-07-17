@@ -2427,7 +2427,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
             let string = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(0))
 
-            print("blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
+            print("image blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
 
             audioMetaDataInfo = [
                 YepConfig.MetaData.imageWidth: imageWidth,
@@ -2531,7 +2531,44 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         var thumbnailData: NSData?
 
         if let image = thumbnailImageOfVideoInVideoURL(videoURL) {
-            let videoMetaDataInfo = [YepConfig.MetaData.videoWidth: image.size.width, YepConfig.MetaData.videoHeight: image.size.height]
+
+            let imageWidth = image.size.width
+            let imageHeight = image.size.height
+
+            let thumbnailWidth: CGFloat
+            let thumbnailHeight: CGFloat
+
+            if imageWidth > imageHeight {
+                thumbnailWidth = min(imageWidth, YepConfig.MetaData.thumbnailMaxSize)
+                thumbnailHeight = imageHeight * (thumbnailWidth / imageWidth)
+            } else {
+                thumbnailHeight = min(imageHeight, YepConfig.MetaData.thumbnailMaxSize)
+                thumbnailWidth = imageWidth * (thumbnailHeight / imageHeight)
+            }
+
+            let videoMetaDataInfo: [String: AnyObject]
+
+            if let thumbnail = image.resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailHeight), withInterpolationQuality: kCGInterpolationLow) {
+                let blurredThumbnail = thumbnail.blurredImageWithRadius(5, iterations: 7, tintColor: UIColor.clearColor())
+
+                let data = UIImageJPEGRepresentation(blurredThumbnail, 0.7)
+
+                let string = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(0))
+
+                print("video blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
+
+                videoMetaDataInfo = [
+                    YepConfig.MetaData.videoWidth: imageWidth,
+                    YepConfig.MetaData.videoHeight: imageHeight,
+                    YepConfig.MetaData.blurredThumbnailString: string,
+                ]
+
+            } else {
+                videoMetaDataInfo = [
+                    YepConfig.MetaData.videoWidth: imageWidth,
+                    YepConfig.MetaData.videoHeight: imageHeight,
+                ]
+            }
 
             if let videoMetaData = NSJSONSerialization.dataWithJSONObject(videoMetaDataInfo, options: nil, error: nil) {
                 let videoMetaDataString = NSString(data: videoMetaData, encoding: NSUTF8StringEncoding) as? String
