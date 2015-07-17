@@ -2103,6 +2103,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         }
 
                                         realm.write {
+                                            if let mediaMetaData = sectionDateMessage.mediaMetaData {
+                                                realm.delete(mediaMetaData)
+                                            }
+                                            if let mediaMetaData = message.mediaMetaData {
+                                                realm.delete(mediaMetaData)
+                                            }
                                             realm.delete(sectionDateMessage)
                                             realm.delete(message)
                                         }
@@ -2117,6 +2123,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     } else {
                                         strongSelf.displayedMessagesRange.length -= 1
                                         realm.write {
+                                            if let mediaMetaData = message.mediaMetaData {
+                                                realm.delete(mediaMetaData)
+                                            }
                                             realm.delete(message)
                                         }
                                         strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
