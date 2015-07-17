@@ -55,7 +55,9 @@ class ChatLeftImageCell: UICollectionViewCell {
 
         if progress >= loadingProgress {
 
-            loadingProgress = progress
+            if progress <= 1.0 {
+                loadingProgress = progress
+            }
 
             if let image = image {
 
