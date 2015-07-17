@@ -124,6 +124,8 @@ class YepConfig {
         static let mediaMinHeight: CGFloat = 30
 
         static let centerXOffset: CGFloat = 4
+
+        static let imageAppearDuration: NSTimeInterval = 0.1
     }
 
     struct MetaData {

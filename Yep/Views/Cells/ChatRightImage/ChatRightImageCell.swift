@@ -50,7 +50,7 @@ class ChatRightImageCell: ChatRightBaseCell {
 
                     self.messageImageView.image = image
 
-                    UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                    UIView.animateWithDuration(YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
                         self.messageImageView.alpha = 1.0
                     }, completion: { (finished) -> Void in
                     })
