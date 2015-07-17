@@ -2435,9 +2435,9 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         var metaData: String? = nil
 
-        if let audioMetaData = NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: nil, error: nil) {
-            let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
-            metaData = audioMetaDataString
+        if let imageMetaData = NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: nil, error: nil) {
+            let imageMetaDataString = NSString(data: imageMetaData, encoding: NSUTF8StringEncoding) as? String
+            metaData = imageMetaDataString
         }
 
 
