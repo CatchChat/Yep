@@ -207,6 +207,14 @@ enum MessageSendState: Int, Printable {
     }
 }
 
+class MediaMetaData: Object {
+    dynamic var data: NSData = NSData()
+
+    var string: String? {
+        return NSString(data: data, encoding: NSUTF8StringEncoding) as? String
+    }
+}
+
 class Message: Object {
     dynamic var messageID: String = ""
 
@@ -219,11 +227,12 @@ class Message: Object {
     dynamic var coordinate: Coordinate?
 
     dynamic var attachmentURLString: String = ""
-    dynamic var metaData: String = ""
     dynamic var downloadState: Int = MessageDownloadState.NoDownload.rawValue
     dynamic var localAttachmentName: String = ""
     dynamic var thumbnailURLString: String = ""
     dynamic var localThumbnailName: String = ""
+
+    dynamic var mediaMetaData: MediaMetaData?
 
     dynamic var sendState: Int = MessageSendState.NotSend.rawValue
     dynamic var readed: Bool = false
@@ -388,6 +397,20 @@ func tryGetOrCreateMeInRealm(realm: Realm) -> User? {
     return nil
 }
 
+func mediaMetaDataFromString(metaDataString: String, inRealm realm: Realm) -> MediaMetaData? {
+
+    if let data = metaDataString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+        let mediaMetaData = MediaMetaData()
+        mediaMetaData.data = data
+
+        realm.add(mediaMetaData)
+
+        return mediaMetaData
+    }
+
+    return nil
+}
+
 func messagesInConversation(conversation: Conversation) -> Results<Message> {
 
     let predicate = NSPredicate(format: "conversation = %@", argumentArray: [conversation])
@@ -487,13 +510,12 @@ func lastSignDateOfConversation(conversation: Conversation) -> NSDate? {
 }
 
 func blurredThumbnailImageOfMessage(message: Message) -> UIImage? {
-    if !message.metaData.isEmpty {
-        if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-            if let metaDataDict = decodeJSON(data) {
-                if let blurredThumbnailString = metaDataDict[YepConfig.MetaData.blurredThumbnailString] as? String {
-                    if let data = NSData(base64EncodedString: blurredThumbnailString, options: NSDataBase64DecodingOptions(0)) {
-                        return UIImage(data: data)
-                    }
+
+    if let mediaMetaData = message.mediaMetaData {
+        if let metaDataInfo = decodeJSON(mediaMetaData.data) {
+            if let blurredThumbnailString = metaDataInfo[YepConfig.MetaData.blurredThumbnailString] as? String {
+                if let data = NSData(base64EncodedString: blurredThumbnailString, options: NSDataBase64DecodingOptions(0)) {
+                    return UIImage(data: data)
                 }
             }
         }
@@ -502,4 +524,48 @@ func blurredThumbnailImageOfMessage(message: Message) -> UIImage? {
     return nil
 }
 
+func audioMetaOfMessage(message: Message) -> (duration: Double, samples: [CGFloat])? {
+
+    if let mediaMetaData = message.mediaMetaData {
+        if let metaDataInfo = decodeJSON(mediaMetaData.data) {
+            if let
+                duration = metaDataInfo[YepConfig.MetaData.audioDuration] as? Double,
+                samples = metaDataInfo[YepConfig.MetaData.audioSamples] as? [CGFloat] {
+                    return (duration, samples)
+            }
+        }
+    }
+
+    return nil
+}
+
+func imageMetaOfMessage(message: Message) -> (width: CGFloat, height: CGFloat)? {
+
+    if let mediaMetaData = message.mediaMetaData {
+        if let metaDataInfo = decodeJSON(mediaMetaData.data) {
+            if let
+                width = metaDataInfo[YepConfig.MetaData.imageWidth] as? CGFloat,
+                height = metaDataInfo[YepConfig.MetaData.imageHeight] as? CGFloat {
+                    return (width, height)
+            }
+        }
+    }
+
+    return nil
+}
+
+func videoMetaOfMessage(message: Message) -> (width: CGFloat, height: CGFloat)? {
+
+    if let mediaMetaData = message.mediaMetaData {
+        if let metaDataInfo = decodeJSON(mediaMetaData.data) {
+            if let
+                width = metaDataInfo[YepConfig.MetaData.videoWidth] as? CGFloat,
+                height = metaDataInfo[YepConfig.MetaData.videoHeight] as? CGFloat {
+                    return (width, height)
+            }
+        }
+    }
+
+    return nil
+}
 

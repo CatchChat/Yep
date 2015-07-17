@@ -129,11 +129,17 @@ class YepConfig {
     }
 
     struct MetaData {
+        static let audioDuration = "audio_duration"
+        static let audioSamples = "audio_samples"
+
         static let imageWidth = "image_width"
         static let imageHeight = "image_height"
+
         static let videoWidth = "video_width"
         static let videoHeight = "video_height"
+
         static let blurredThumbnailString = "blurred_thumbnail_string"
+
         static let thumbnailMaxSize: CGFloat = 100
     }
 
