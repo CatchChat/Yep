@@ -973,8 +973,8 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
                                             }
                                         }
 
-                                        if let metaData = attachmentInfo["metadata"] as? String {
-                                            message.metaData = metaData
+                                        if let metaDataString = attachmentInfo["metadata"] as? String {
+                                            message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
                                         }
                                     }
                                     /*

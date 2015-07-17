@@ -378,7 +378,7 @@ class ConversationViewController: BaseViewController {
 
                     println("\nComporessed \(audioSamples)")
 
-                    let audioMetaDataInfo = ["audio_samples": audioSamples, "audio_duration": audioDuration]
+                    let audioMetaDataInfo = [YepConfig.MetaData.audioSamples: audioSamples, YepConfig.MetaData.audioDuration: audioDuration]
 
                     if let audioMetaData = NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: nil, error: nil) {
                         let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
@@ -398,8 +398,8 @@ class ConversationViewController: BaseViewController {
                                 realm.beginWrite()
                                 message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
                                 message.mediaType = MessageMediaType.Audio.rawValue
-                                if let metaData = metaData {
-                                    message.metaData = metaData
+                                if let metaDataString = metaData {
+                                    message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
                                 }
                                 realm.commitWrite()
 
@@ -427,8 +427,8 @@ class ConversationViewController: BaseViewController {
                                 realm.beginWrite()
                                 message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
                                 message.mediaType = MessageMediaType.Audio.rawValue
-                                if let metaData = metaData {
-                                    message.metaData = metaData
+                                if let metaDataString = metaData {
+                                    message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
                                 }
                                 realm.commitWrite()
 
@@ -818,56 +818,38 @@ class ConversationViewController: BaseViewController {
 
         case MessageMediaType.Image.rawValue:
 
-            if !message.metaData.isEmpty {
-                if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                    if let metaDataDict = decodeJSON(data) {
-                        if
-                            let imageWidth = metaDataDict[YepConfig.MetaData.imageWidth] as? CGFloat,
-                            let imageHeight = metaDataDict[YepConfig.MetaData.imageHeight] as? CGFloat {
+            if let (imageWidth, imageHeight) = imageMetaOfMessage(message) {
 
-                                let aspectRatio = imageWidth / imageHeight
+                let aspectRatio = imageWidth / imageHeight
 
-                                if aspectRatio >= 1 {
-                                    height = max(ceil(messageImagePreferredWidth / aspectRatio), YepConfig.ChatCell.mediaMinHeight)
-                                } else {
-                                    height = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
-                                }
-
-                                break
-                        }
-                    }
+                if aspectRatio >= 1 {
+                    height = max(ceil(messageImagePreferredWidth / aspectRatio), YepConfig.ChatCell.mediaMinHeight)
+                } else {
+                    height = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
                 }
-            }
 
-            height = ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)
+            } else {
+                height = ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)
+            }
 
         case MessageMediaType.Audio.rawValue:
             height = 40
 
         case MessageMediaType.Video.rawValue:
 
-            if !message.metaData.isEmpty {
-                if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                    if let metaDataDict = decodeJSON(data) {
-                        if
-                            let imageWidth = metaDataDict[YepConfig.MetaData.videoWidth] as? CGFloat,
-                            let imageHeight = metaDataDict[YepConfig.MetaData.videoHeight] as? CGFloat {
+            if let (videoWidth, videoHeight) = videoMetaOfMessage(message) {
 
-                                let aspectRatio = imageWidth / imageHeight
+                let aspectRatio = videoWidth / videoHeight
 
-                                if aspectRatio >= 1 {
-                                    height = max(ceil(messageImagePreferredWidth / aspectRatio), YepConfig.ChatCell.mediaMinHeight)
-                                } else {
-                                    height = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
-                                }
-
-                                break
-                        }
-                    }
+                if aspectRatio >= 1 {
+                    height = max(ceil(messageImagePreferredWidth / aspectRatio), YepConfig.ChatCell.mediaMinHeight)
+                } else {
+                    height = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
                 }
+
+            } else {
+                height = ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)
             }
-            
-            height = ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)
 
         case MessageMediaType.Location.rawValue:
             height = 108
@@ -2467,8 +2449,8 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                             realm.beginWrite()
                             message.localAttachmentName = messageImageName
                             message.mediaType = MessageMediaType.Image.rawValue
-                            if let metaData = metaData {
-                                message.metaData = metaData
+                            if let metaDataString = metaData {
+                                message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
                             }
                             realm.commitWrite()
                         }
@@ -2498,8 +2480,8 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                             realm.beginWrite()
                             message.localAttachmentName = messageImageName
                             message.mediaType = MessageMediaType.Image.rawValue
-                            if let metaData = metaData {
-                                message.metaData = metaData
+                            if let metaDataString = metaData {
+                                message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
                             }
                             realm.commitWrite()
                         }
@@ -2598,8 +2580,8 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                             message.localAttachmentName = messageVideoName
 
                             message.mediaType = MessageMediaType.Video.rawValue
-                            if let metaData = metaData {
-                                message.metaData = metaData
+                            if let metaDataString = metaData {
+                                message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
                             }
                             realm.commitWrite()
                         }
