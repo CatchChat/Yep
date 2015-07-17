@@ -99,11 +99,11 @@ class ImageCache {
 
                 if let message = messageWithMessageID(messageID, inRealm: Realm()) {
 
+                    let mediaType = message.mediaType
+
                     YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { progress in
                         dispatch_async(dispatch_get_main_queue()) {
-                            if progress < 1.0 {
-                                completion(loadingProgress: progress, image: nil)
-                            }
+                            completion(loadingProgress: progress, image: nil)
                         }
 
                     }, imageFinished: { image in
@@ -113,7 +113,12 @@ class ImageCache {
                         self.cache.setObject(messageImage, forKey: imageKey)
 
                         dispatch_async(dispatch_get_main_queue()) {
-                            completion(loadingProgress: 1.0, image: messageImage)
+                            if mediaType == MessageMediaType.Image.rawValue {
+                                completion(loadingProgress: 1.0, image: messageImage)
+
+                            } else { // 视频的封面图片，要保障设置到
+                                completion(loadingProgress: 1.5, image: messageImage)
+                            }
                         }
                     })
 
