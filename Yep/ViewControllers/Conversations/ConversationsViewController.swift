@@ -248,6 +248,16 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
                         messages.map { deleteMediaFilesOfMessage($0) }
 
+                        // delete all mediaMetaDatas
+
+                        for message in messages {
+                            if let mediaMetaData = message.mediaMetaData {
+                                realm.write {
+                                    realm.delete(mediaMetaData)
+                                }
+                            }
+                        }
+
                         // delete all messages in conversation
                         
                         realm.write {
