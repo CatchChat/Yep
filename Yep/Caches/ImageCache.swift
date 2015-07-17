@@ -26,12 +26,24 @@ class ImageCache {
         } else {
             let messageID = message.messageID
 
+            var fileName = message.localAttachmentName
+            if message.mediaType == MessageMediaType.Video.rawValue {
+                fileName = message.localThumbnailName
+            }
+
+            var imageURLString = message.attachmentURLString
+            if message.mediaType == MessageMediaType.Video.rawValue {
+                imageURLString = message.thumbnailURLString
+            }
+
+            let preloadingPropgress: Double = fileName.isEmpty ? 0.01 : 0.5
+
             // 若可以，先显示 blurredThumbnailImage
 
             let thumbnailKey = "thumbnail" + imageKey
 
             if let thumbnail = cache.objectForKey(thumbnailKey) as? UIImage {
-                completion(loadingProgress: 0.5, image: thumbnail)
+                completion(loadingProgress: preloadingPropgress, image: thumbnail)
 
             } else {
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
@@ -42,28 +54,18 @@ class ImageCache {
                             self.cache.setObject(bubbleBlurredThumbnailImage, forKey: thumbnailKey)
 
                             dispatch_async(dispatch_get_main_queue()) {
-                                completion(loadingProgress: 0.5, image: bubbleBlurredThumbnailImage)
+                                completion(loadingProgress: preloadingPropgress, image: bubbleBlurredThumbnailImage)
                             }
 
                         } else {
                             // 或放个默认的图片
                             let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")! : UIImage(named: "right_tail_image_bubble")!
                             dispatch_async(dispatch_get_main_queue()) {
-                                completion(loadingProgress: 0.5, image: defaultImage)
+                                completion(loadingProgress: preloadingPropgress, image: defaultImage)
                             }
                         }
                     }
                 }
-            }
-
-            var fileName = message.localAttachmentName
-            if message.mediaType == MessageMediaType.Video.rawValue {
-                fileName = message.localThumbnailName
-            }
-
-            var imageURLString = message.attachmentURLString
-            if message.mediaType == MessageMediaType.Video.rawValue {
-                imageURLString = message.thumbnailURLString
             }
 
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
