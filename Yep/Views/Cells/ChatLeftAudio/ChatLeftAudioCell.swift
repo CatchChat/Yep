@@ -115,33 +115,22 @@ class ChatLeftAudioCell: UICollectionViewCell {
         
         if let message = message {
 
-            if !message.metaData.isEmpty {
+            if let (audioDuration, audioSamples) = audioMetaOfMessage(message) {
+                sampleViewWidthConstraint.constant = CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
 
-                if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                    if let metaDataDict = decodeJSON(data) {
+                sampleViewWidthConstraint.constant = max(YepConfig.minMessageSampleViewWidth, sampleViewWidthConstraint.constant)
 
-                        if let audioSamples = metaDataDict["audio_samples"] as? [CGFloat] {
-                            sampleViewWidthConstraint.constant = CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
+                sampleView.samples = audioSamples
 
-                            sampleViewWidthConstraint.constant = max(YepConfig.minMessageSampleViewWidth, sampleViewWidthConstraint.constant)
+                audioDurationLabel.text = NSString(format: "%.1f\"", audioDuration) as String
 
-                            sampleView.samples = audioSamples
+                sampleView.progress = CGFloat(audioPlayedDuration / audioDuration)
 
-                            if let audioDuration = metaDataDict["audio_duration"] as? Double {
-                                audioDurationLabel.text = NSString(format: "%.1f\"", audioDuration) as String
+            } else {
+                sampleView.progress = 0
 
-                                sampleView.progress = CGFloat(audioPlayedDuration / audioDuration)
-
-                            } else {
-                                sampleView.progress = 0
-                            }
-                        }
-                    }
-
-                } else {
-                    sampleViewWidthConstraint.constant = 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
-                    audioDurationLabel.text = ""
-                }
+                sampleViewWidthConstraint.constant = 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
+                audioDurationLabel.text = ""
             }
 
             if let audioPlayer = YepAudioService.sharedManager.audioPlayer {

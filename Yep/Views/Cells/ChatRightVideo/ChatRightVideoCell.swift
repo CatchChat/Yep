@@ -38,6 +38,31 @@ class ChatRightVideoCell: ChatRightBaseCell {
     func tapMediaView() {
         mediaTapAction?()
     }
+
+    var loadingProgress: Double = 0
+
+    func loadingWithProgress(progress: Double, image: UIImage?) {
+
+        if progress >= loadingProgress {
+
+            if progress <= 1.0 {
+                loadingProgress = progress
+            }
+
+            if let image = image {
+
+                dispatch_async(dispatch_get_main_queue()) {
+
+                    self.thumbnailImageView.image = image
+
+                    UIView.animateWithDuration(YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
+                        self.thumbnailImageView.alpha = 1.0
+                    }, completion: { (finished) -> Void in
+                    })
+                }
+            }
+        }
+    }
     
     func configureWithMessage(message: Message, messageImagePreferredWidth: CGFloat, messageImagePreferredHeight: CGFloat, messageImagePreferredAspectRatio: CGFloat, mediaTapAction: MediaTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
 
@@ -57,75 +82,50 @@ class ChatRightVideoCell: ChatRightBaseCell {
 
         thumbnailImageView.alpha = 0.0
 
-        if message.metaData.isEmpty {
+        if let (videoWidth, videoHeight) = videoMetaOfMessage(message) {
+
+            let aspectRatio = videoWidth / videoHeight
+
+            let messageImagePreferredWidth = max(messageImagePreferredWidth, ceil(YepConfig.ChatCell.mediaMinHeight * aspectRatio))
+            let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
+
+            if aspectRatio >= 1 {
+                thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
+
+                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Right, completion: { [weak self] progress, image in
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
+                            self?.loadingWithProgress(progress, image: image)
+                        }
+                    }
+                })
+
+            } else {
+                thumbnailImageViewWidthConstraint.constant = messageImagePreferredHeight * aspectRatio
+
+                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Right, completion: { [weak self] progress, image in
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
+                            self?.loadingWithProgress(progress, image: image)
+                        }
+                    }
+                })
+            }
+
+        } else {
             thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
 
-            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Right, loadingProgress: { [weak self] progress in
+            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Right, completion: { [weak self] progress, image in
 
-            }, completion: { [weak self] image in
                 dispatch_async(dispatch_get_main_queue()) {
                     if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                        self?.thumbnailImageView.image = image
-
-                        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                            self?.thumbnailImageView.alpha = 1.0
-                        }, completion: { (finished) -> Void in
-                        })
+                        self?.loadingWithProgress(progress, image: image)
                     }
                 }
             })
-
-        } else {
-            if let data = message.metaData.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                if let metaDataDict = decodeJSON(data) {
-                    if
-                        let imageWidth = metaDataDict[YepConfig.MetaData.videoWidth] as? CGFloat,
-                        let imageHeight = metaDataDict[YepConfig.MetaData.videoHeight] as? CGFloat {
-
-                            let aspectRatio = imageWidth / imageHeight
-
-                            let messageImagePreferredWidth = max(messageImagePreferredWidth, ceil(YepConfig.ChatCell.mediaMinHeight * aspectRatio))
-                            let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
-                            
-                            if aspectRatio >= 1 {
-                                thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
-
-                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Right, loadingProgress: { [weak self] progress in
-
-                                }, completion: { [weak self] image in
-                                    dispatch_async(dispatch_get_main_queue()) {
-                                        if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                                            self?.thumbnailImageView.image = image
-
-                                            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                                                self?.thumbnailImageView.alpha = 1.0
-                                            }, completion: { (finished) -> Void in
-                                            })
-                                        }
-                                    }
-                                })
-
-                            } else {
-                                thumbnailImageViewWidthConstraint.constant = messageImagePreferredHeight * aspectRatio
-
-                                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Right, loadingProgress: { [weak self] progress in
-
-                                }, completion: { [weak self] image in
-                                    dispatch_async(dispatch_get_main_queue()) {
-                                        if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                                            self?.thumbnailImageView.image = image
-
-                                            UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                                                self?.thumbnailImageView.alpha = 1.0
-                                            }, completion: { (finished) -> Void in
-                                            })
-                                        }
-                                    }
-                                })
-                            }
-                    }
-                }
-            }
         }
+
     }
 }

@@ -124,14 +124,22 @@ class YepConfig {
         static let mediaMinHeight: CGFloat = 30
 
         static let centerXOffset: CGFloat = 4
+
+        static let imageAppearDuration: NSTimeInterval = 0.1
     }
 
     struct MetaData {
+        static let audioDuration = "audio_duration"
+        static let audioSamples = "audio_samples"
+
         static let imageWidth = "image_width"
         static let imageHeight = "image_height"
+
         static let videoWidth = "video_width"
         static let videoHeight = "video_height"
+
         static let blurredThumbnailString = "blurred_thumbnail_string"
+
         static let thumbnailMaxSize: CGFloat = 100
     }
 

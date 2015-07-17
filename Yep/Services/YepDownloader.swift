@@ -178,7 +178,7 @@ extension YepDownloader: NSURLSessionDownloadDelegate {
 
         reportProgress(1.0, ofDownloadTask: downloadTask)
 
-        println("didFinishDownloadingToURL")
+        println("didFinishDownloadingToURL \(downloadTask.originalRequest.URL)")
     }
 
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
@@ -187,7 +187,7 @@ extension YepDownloader: NSURLSessionDownloadDelegate {
 
         reportProgress(progress, ofDownloadTask: downloadTask)
 
-        println("downloadTask progress \(progress)")
+        //println("downloadTask progress \(progress)")
     }
 }
 
