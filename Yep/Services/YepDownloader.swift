@@ -54,7 +54,11 @@ class YepDownloader: NSObject {
         }
 
         var totalProgress: Double {
-            return tasks.map({ $0.progress.fractionCompleted }).reduce(0, combine: { $0 + $1 }) / Double(tasks.count)
+
+            let completedUnitCount = tasks.map({ $0.progress.completedUnitCount }).reduce(0, combine: +)
+            let totalUnitCount = tasks.map({ $0.progress.totalUnitCount }).reduce(0, combine: +)
+
+            return Double(completedUnitCount) / Double(totalUnitCount)
         }
     }
 
