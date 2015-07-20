@@ -35,32 +35,18 @@ class YepDownloader: NSObject {
     struct ProgressReporter {
 
         struct Task {
-            typealias FinishedAction = NSData -> Void
-
             let downloadTask: NSURLSessionDownloadTask
+
+            typealias FinishedAction = NSData -> Void
             let finishedAction: FinishedAction
+
             let progress = NSProgress()
-//
-//            init(downloadTask: NSURLSessionDownloadTask, finishedAction: FinishedAction, progress: NSProgress) {
-//                self.downloadTask = downloadTask
-//                self.finishedAction = finishedAction
-//                self.progress = progress
-//            }
         }
-
         let tasks: [Task]
-
-//        let downloadTasks: [NSURLSessionDownloadTask]
-//
-//
-//        let finishedActions: [FinishedAction]
-//
-//        var progress: [NSProgress]
 
         typealias ReportProgress = Double -> Void
         let reportProgress: ReportProgress?
     }
-
 
     var progressReporters = [ProgressReporter]()
 
@@ -83,8 +69,6 @@ class YepDownloader: NSObject {
         
         if !attachmentURLString.isEmpty, let URL = NSURL(string: attachmentURLString) {
 
-//            let downloadTasks: [NSURLSessionDownloadTask]
-
             let attachmentDownloadTask = sharedDownloader.session.downloadTaskWithURL(URL)
 
             var thumbnailDownloadTask: NSURLSessionDownloadTask?
@@ -93,12 +77,6 @@ class YepDownloader: NSObject {
                     thumbnailDownloadTask = sharedDownloader.session.downloadTaskWithURL(URL)
                 }
             }
-
-//            if let thumbnailDownloadTask = thumbnailDownloadTask {
-//                downloadTasks = [attachmentDownloadTask, thumbnailDownloadTask]
-//            } else {
-//                downloadTasks = [attachmentDownloadTask]
-//            }
 
             let attachmentFinishedAction: ProgressReporter.Task.FinishedAction = { data in
 
@@ -169,12 +147,6 @@ class YepDownloader: NSObject {
                 }
             }
 
-//            var progress = [NSProgress]()
-//            for _ in downloadTasks {
-//                progress.append(NSProgress())
-//            }
-
-
             var tasks: [ProgressReporter.Task] = []
             tasks.append(ProgressReporter.Task(downloadTask: attachmentDownloadTask, finishedAction: attachmentFinishedAction))
 
@@ -183,8 +155,6 @@ class YepDownloader: NSObject {
             }
 
             let progressReporter = ProgressReporter(tasks: tasks, reportProgress: reportProgress)
-
-//            let progressReporter = ProgressReporter(downloadTasks: downloadTasks, finishedActions: [attachmentFinishedAction, thumbnailFinishedAction], progress: progress, reportProgressAction: reportProgress)
 
             sharedDownloader.progressReporters.append(progressReporter)
 
