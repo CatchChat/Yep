@@ -24,7 +24,7 @@ class YepDownloader: NSObject {
             message.localAttachmentName = attachmentFileName
 
             if message.mediaType == MessageMediaType.Video.rawValue {
-                if !message.localAttachmentName.isEmpty && !message.localThumbnailName.isEmpty {
+                if !message.localThumbnailName.isEmpty {
                     message.downloadState = MessageDownloadState.Downloaded.rawValue
                 }
 
@@ -39,7 +39,7 @@ class YepDownloader: NSObject {
             message.localThumbnailName = thumbnailFileName
 
             if message.mediaType == MessageMediaType.Video.rawValue {
-                if !message.localAttachmentName.isEmpty && !message.localThumbnailName.isEmpty {
+                if !message.localAttachmentName.isEmpty {
                     message.downloadState = MessageDownloadState.Downloaded.rawValue
                 }
             }
@@ -110,35 +110,38 @@ class YepDownloader: NSObject {
 
                     if let message = messageWithMessageID(messageID, inRealm: realm) {
 
-                        let fileName = NSUUID().UUIDString
+                        if message.localAttachmentName.isEmpty {
 
-                        switch mediaType {
+                            let fileName = NSUUID().UUIDString
 
-                        case MessageMediaType.Image.rawValue:
+                            switch mediaType {
 
-                            if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
+                            case MessageMediaType.Image.rawValue:
 
-                                self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
+                                if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
 
-                                if let image = UIImage(data: data) {
-                                    imageFinished?(image)
+                                    self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
+
+                                    if let image = UIImage(data: data) {
+                                        imageFinished?(image)
+                                    }
                                 }
+
+                            case MessageMediaType.Video.rawValue:
+
+                                if let fileURL = NSFileManager.saveMessageVideoData(data, withName: fileName) {
+                                    self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
+                                }
+
+                            case MessageMediaType.Audio.rawValue:
+
+                                if let fileURL = NSFileManager.saveMessageAudioData(data, withName: fileName) {
+                                    self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
+                                }
+                                
+                            default:
+                                break
                             }
-
-                        case MessageMediaType.Video.rawValue:
-
-                            if let fileURL = NSFileManager.saveMessageVideoData(data, withName: fileName) {
-                                self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
-                            }
-
-                        case MessageMediaType.Audio.rawValue:
-
-                            if let fileURL = NSFileManager.saveMessageAudioData(data, withName: fileName) {
-                                self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
-                            }
-                            
-                        default:
-                            break
                         }
                     }
                 }
@@ -180,16 +183,19 @@ class YepDownloader: NSObject {
                     }
                 }
             }
+        }
 
-            var tasks: [ProgressReporter.Task] = []
+        var tasks: [ProgressReporter.Task] = []
 
-            if let attachmentDownloadTask = attachmentDownloadTask, attachmentFinishedAction = attachmentFinishedAction {
-                tasks.append(ProgressReporter.Task(downloadTask: attachmentDownloadTask, finishedAction: attachmentFinishedAction))
-            }
+        if let attachmentDownloadTask = attachmentDownloadTask, attachmentFinishedAction = attachmentFinishedAction {
+            tasks.append(ProgressReporter.Task(downloadTask: attachmentDownloadTask, finishedAction: attachmentFinishedAction))
+        }
 
-            if let thumbnailDownloadTask = thumbnailDownloadTask, thumbnailFinishedAction = thumbnailFinishedAction {
-                tasks.append(ProgressReporter.Task(downloadTask: thumbnailDownloadTask, finishedAction: thumbnailFinishedAction))
-            }
+        if let thumbnailDownloadTask = thumbnailDownloadTask, thumbnailFinishedAction = thumbnailFinishedAction {
+            tasks.append(ProgressReporter.Task(downloadTask: thumbnailDownloadTask, finishedAction: thumbnailFinishedAction))
+        }
+
+        if tasks.count > 0 {
 
             let progressReporter = ProgressReporter(tasks: tasks, reportProgress: reportProgress)
 
@@ -257,6 +263,7 @@ extension YepDownloader: NSURLSessionDownloadDelegate {
     }
 
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+
         reportProgressAssociatedWithDownloadTask(downloadTask, totalBytesWritten: totalBytesWritten, totalBytesExpectedToWrite: totalBytesExpectedToWrite)
     }
 }

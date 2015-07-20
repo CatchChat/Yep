@@ -227,10 +227,11 @@ class Message: Object {
     dynamic var coordinate: Coordinate?
 
     dynamic var attachmentURLString: String = ""
-    dynamic var downloadState: Int = MessageDownloadState.NoDownload.rawValue
     dynamic var localAttachmentName: String = ""
     dynamic var thumbnailURLString: String = ""
     dynamic var localThumbnailName: String = ""
+
+    dynamic var downloadState: Int = MessageDownloadState.NoDownload.rawValue
 
     dynamic var mediaMetaData: MediaMetaData?
 
