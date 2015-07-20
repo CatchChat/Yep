@@ -36,14 +36,13 @@ class YepDownloader: NSObject {
 
         let downloadTasks: [NSURLSessionDownloadTask]
 
-        typealias ReportAction = Double -> Void
-        let reportProgressAction: ReportAction?
-
         typealias FinishedAction = NSData -> Void
         let finishedActions: [FinishedAction]
 
-        //let progress: NSProgress = NSProgress(totalUnitCount: -1)
         var progress: [NSProgress]
+
+        typealias ReportAction = Double -> Void
+        let reportProgressAction: ReportAction?
     }
 
 
@@ -55,17 +54,16 @@ class YepDownloader: NSObject {
 
     class func downloadAttachmentsOfMessage(message: Message, reportProgress: ProgressReporter.ReportAction?, imageFinished: (UIImage -> Void)?) {
 
+        let downloadState = message.downloadState
+
+        if downloadState == MessageDownloadState.Downloaded.rawValue {
+            return
+        }
+
         let messageID = message.messageID
         let mediaType = message.mediaType
 
         let attachmentURLString = message.attachmentURLString
-        let downloadState = message.downloadState
-
-        if downloadState == MessageDownloadState.Downloaded.rawValue {
-            //reportProgress?(1.0)
-
-            return
-        }
         
         if !attachmentURLString.isEmpty, let URL = NSURL(string: attachmentURLString) {
 
@@ -156,57 +154,16 @@ class YepDownloader: NSObject {
             }
 
             var progress = [NSProgress]()
-
             for _ in downloadTasks {
                 progress.append(NSProgress())
             }
 
-            let progressReporter = ProgressReporter(downloadTasks: downloadTasks, reportProgressAction: reportProgress, finishedActions: [attachmentFinishedAction, thumbnailFinishedAction], progress: progress)
+            let progressReporter = ProgressReporter(downloadTasks: downloadTasks, finishedActions: [attachmentFinishedAction, thumbnailFinishedAction], progress: progress, reportProgressAction: reportProgress)
 
             sharedDownloader.progressReporters.append(progressReporter)
 
-            //downloadTask.resume()
             downloadTasks.map { $0.resume() }
         }
-
-        /*
-        if mediaType == MessageMediaType.Video.rawValue {
-
-            let thumbnailURLString = message.thumbnailURLString
-
-            if !thumbnailURLString.isEmpty && message.localThumbnailName.isEmpty, let URL = NSURL(string: thumbnailURLString) {
-
-                let downloadTask = sharedDownloader.session.downloadTaskWithURL(URL, completionHandler: { location, response, error in
-
-                    if let location = location, data = NSData(contentsOfURL: location) {
-
-                        let fileName = NSUUID().UUIDString
-
-                        dispatch_async(dispatch_get_main_queue()) {
-                            let realm = Realm()
-
-                            if let message = messageWithMessageID(messageID, inRealm: realm) {
-
-                                if message.localThumbnailName.isEmpty {
-
-                                    if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
-
-                                        self.updateThumbnailOfMessage(message, withThumbnailFileName: fileName, inRealm: realm)
-
-                                        if let image = UIImage(data: data) {
-                                            imageFinished?(image)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                })
-                
-                downloadTask.resume()
-            }
-        }
-        */
     }
 }
 
@@ -216,12 +173,7 @@ extension YepDownloader: NSURLSessionDelegate {
 
 extension YepDownloader: NSURLSessionDownloadDelegate {
 
-//    private func reportProgress(progress: Double, ofDownloadTask downloadTask: NSURLSessionDownloadTask) {
-//        //progressReporters.filter({ $0.downloadTask == downloadTask }).map({ $0.reportProgressAction?(progress) })
-//    }
-
     private func handleData(data: NSData, ofDownloadTask downloadTask: NSURLSessionDownloadTask) {
-        //progressReporters.filter({ $0.downloadTask == downloadTask }).map({ $0.finishedAction(data) })
 
         for progressReporter in progressReporters {
 
@@ -244,8 +196,6 @@ extension YepDownloader: NSURLSessionDownloadDelegate {
             handleData(data, ofDownloadTask: downloadTask)
         }
 
-        //reportProgress(1.0, ofDownloadTask: downloadTask)
-
         println("didFinishDownloadingToURL \(downloadTask.originalRequest.URL)")
     }
 
@@ -266,39 +216,8 @@ extension YepDownloader: NSURLSessionDownloadDelegate {
                     break
                 }
             }
-
-//            if progressReporter.downloadTasks.filter({ $0 == downloadTask }).count > 0 {
-//                progressReporter.progress[].completedUnitCount += bytesWritten
-//
-//                progressReporter.reportProgressAction?(progressReporter.progress.fractionCompleted)
-//
-//                println("progressReporter.progress.completedUnitCount: \(progressReporter.progress.completedUnitCount)")
-//            }
         }
-
-
-        //let progress: Double = Double(totalBytesWritten) / Double(totalBytesExpectedToWrite)
-
-        //reportProgress(progress, ofDownloadTask: downloadTask)
-
-        //println("downloadTask progress \(progress)")
     }
 
-//    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didResumeAtOffset fileOffset: Int64, expectedTotalBytes: Int64) {
-//
-//        println("fuck")
-//        
-//        for progressReporter in progressReporters {
-//            if progressReporter.downloadTasks.filter({ $0 == downloadTask }).count > 0 {
-//                if progressReporter.progress.totalUnitCount == -1 {
-//                    progressReporter.progress.totalUnitCount = expectedTotalBytes
-//                } else {
-//                    progressReporter.progress.totalUnitCount += expectedTotalBytes
-//                }
-//            }
-//
-//            println("progressReporter.progress.totalUnitCount: \(progressReporter.progress.totalUnitCount)")
-//        }
-//    }
 }
 
