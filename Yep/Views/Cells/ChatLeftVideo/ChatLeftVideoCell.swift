@@ -59,6 +59,8 @@ class ChatLeftVideoCell: UICollectionViewCell {
 
             if progress <= 1.0 {
                 loadingProgress = progress
+            } else if progress > 1.0 {
+                loadingProgress = 1.0
             }
 
             if let image = image {
