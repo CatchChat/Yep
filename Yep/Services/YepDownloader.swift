@@ -202,6 +202,9 @@ class YepDownloader: NSObject {
             sharedDownloader.progressReporters.append(progressReporter)
 
             tasks.map { $0.downloadTask.resume() }
+
+        } else {
+            print("Can NOT download attachments of message: \(mediaType), \(messageID)")
         }
     }
 }
