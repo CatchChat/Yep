@@ -22,13 +22,27 @@ class YepDownloader: NSObject {
     class func updateAttachmentOfMessage(message: Message, withAttachmentFileName attachmentFileName: String, inRealm realm: Realm) {
         realm.write {
             message.localAttachmentName = attachmentFileName
-            message.downloadState = MessageDownloadState.Downloaded.rawValue
+
+            if message.mediaType == MessageMediaType.Video.rawValue {
+                if !message.localAttachmentName.isEmpty && !message.localThumbnailName.isEmpty {
+                    message.downloadState = MessageDownloadState.Downloaded.rawValue
+                }
+
+            } else {
+                message.downloadState = MessageDownloadState.Downloaded.rawValue
+            }
         }
     }
 
     class func updateThumbnailOfMessage(message: Message, withThumbnailFileName thumbnailFileName: String, inRealm realm: Realm) {
         realm.write {
             message.localThumbnailName = thumbnailFileName
+
+            if message.mediaType == MessageMediaType.Video.rawValue {
+                if !message.localAttachmentName.isEmpty && !message.localThumbnailName.isEmpty {
+                    message.downloadState = MessageDownloadState.Downloaded.rawValue
+                }
+            }
         }
     }
 
@@ -79,13 +93,16 @@ class YepDownloader: NSObject {
         let messageID = message.messageID
         let mediaType = message.mediaType
 
+        var attachmentDownloadTask: NSURLSessionDownloadTask?
+        var attachmentFinishedAction: ProgressReporter.Task.FinishedAction?
+
         let attachmentURLString = message.attachmentURLString
         
-        if !attachmentURLString.isEmpty, let URL = NSURL(string: attachmentURLString) {
+        if !attachmentURLString.isEmpty && message.localAttachmentName.isEmpty, let URL = NSURL(string: attachmentURLString) {
 
-            let attachmentDownloadTask = sharedDownloader.session.downloadTaskWithURL(URL)
+            attachmentDownloadTask = sharedDownloader.session.downloadTaskWithURL(URL)
 
-            let attachmentFinishedAction: ProgressReporter.Task.FinishedAction = { data in
+            attachmentFinishedAction = { data in
 
                 dispatch_async(dispatch_get_main_queue()) {
 
@@ -93,68 +110,69 @@ class YepDownloader: NSObject {
 
                     if let message = messageWithMessageID(messageID, inRealm: realm) {
 
-                        if message.downloadState != MessageDownloadState.Downloaded.rawValue {
+                        let fileName = NSUUID().UUIDString
 
-                            let fileName = NSUUID().UUIDString
+                        switch mediaType {
 
-                            switch mediaType {
+                        case MessageMediaType.Image.rawValue:
 
-                            case MessageMediaType.Image.rawValue:
+                            if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
 
-                                if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
+                                self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
 
-                                    self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
-
-                                    if let image = UIImage(data: data) {
-                                        imageFinished?(image)
-                                    }
+                                if let image = UIImage(data: data) {
+                                    imageFinished?(image)
                                 }
-
-                            case MessageMediaType.Video.rawValue:
-
-                                if let fileURL = NSFileManager.saveMessageVideoData(data, withName: fileName) {
-                                    self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
-                                }
-
-                            case MessageMediaType.Audio.rawValue:
-
-                                if let fileURL = NSFileManager.saveMessageAudioData(data, withName: fileName) {
-                                    self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
-                                }
-                                
-                            default:
-                                break
                             }
+
+                        case MessageMediaType.Video.rawValue:
+
+                            if let fileURL = NSFileManager.saveMessageVideoData(data, withName: fileName) {
+                                self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
+                            }
+
+                        case MessageMediaType.Audio.rawValue:
+
+                            if let fileURL = NSFileManager.saveMessageAudioData(data, withName: fileName) {
+                                self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
+                            }
+                            
+                        default:
+                            break
                         }
                     }
                 }
             }
+        }
 
-            var thumbnailDownloadTask: NSURLSessionDownloadTask?
-            var thumbnailFinishedAction: ProgressReporter.Task.FinishedAction?
+        var thumbnailDownloadTask: NSURLSessionDownloadTask?
+        var thumbnailFinishedAction: ProgressReporter.Task.FinishedAction?
 
-            if mediaType == MessageMediaType.Video.rawValue {
-                if let URL = NSURL(string: message.thumbnailURLString) {
-                    thumbnailDownloadTask = sharedDownloader.session.downloadTaskWithURL(URL)
+        if mediaType == MessageMediaType.Video.rawValue {
 
-                    thumbnailFinishedAction = { data in
+            let thumbnailURLString = message.thumbnailURLString
 
-                        dispatch_async(dispatch_get_main_queue()) {
-                            let realm = Realm()
+            if !thumbnailURLString.isEmpty && message.localThumbnailName.isEmpty, let URL = NSURL(string: thumbnailURLString) {
 
-                            if let message = messageWithMessageID(messageID, inRealm: realm) {
+                thumbnailDownloadTask = sharedDownloader.session.downloadTaskWithURL(URL)
 
-                                if message.localThumbnailName.isEmpty {
+                thumbnailFinishedAction = { data in
 
-                                    let fileName = NSUUID().UUIDString
+                    dispatch_async(dispatch_get_main_queue()) {
+                        let realm = Realm()
 
-                                    if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
+                        if let message = messageWithMessageID(messageID, inRealm: realm) {
 
-                                        self.updateThumbnailOfMessage(message, withThumbnailFileName: fileName, inRealm: realm)
+                            if message.localThumbnailName.isEmpty {
 
-                                        if let image = UIImage(data: data) {
-                                            imageFinished?(image)
-                                        }
+                                let fileName = NSUUID().UUIDString
+
+                                if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
+
+                                    self.updateThumbnailOfMessage(message, withThumbnailFileName: fileName, inRealm: realm)
+
+                                    if let image = UIImage(data: data) {
+                                        imageFinished?(image)
                                     }
                                 }
                             }
@@ -164,7 +182,10 @@ class YepDownloader: NSObject {
             }
 
             var tasks: [ProgressReporter.Task] = []
-            tasks.append(ProgressReporter.Task(downloadTask: attachmentDownloadTask, finishedAction: attachmentFinishedAction))
+
+            if let attachmentDownloadTask = attachmentDownloadTask, attachmentFinishedAction = attachmentFinishedAction {
+                tasks.append(ProgressReporter.Task(downloadTask: attachmentDownloadTask, finishedAction: attachmentFinishedAction))
+            }
 
             if let thumbnailDownloadTask = thumbnailDownloadTask, thumbnailFinishedAction = thumbnailFinishedAction {
                 tasks.append(ProgressReporter.Task(downloadTask: thumbnailDownloadTask, finishedAction: thumbnailFinishedAction))
