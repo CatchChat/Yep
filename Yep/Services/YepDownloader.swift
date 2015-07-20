@@ -43,9 +43,15 @@ class YepDownloader: NSObject {
             let progress = NSProgress()
         }
         let tasks: [Task]
+        var finishedTasksCount = 0
 
         typealias ReportProgress = Double -> Void
         let reportProgress: ReportProgress?
+
+        init(tasks: [Task], reportProgress: ReportProgress?) {
+            self.tasks = tasks
+            self.reportProgress = reportProgress
+        }
 
         var totalProgress: Double {
             return tasks.map({ $0.progress.fractionCompleted }).reduce(0, combine: { $0 + $1 }) / Double(tasks.count)
@@ -185,6 +191,13 @@ extension YepDownloader: NSURLSessionDownloadDelegate {
 
                     let finishedAction = progressReporter.tasks[i].finishedAction
                     finishedAction(data)
+
+                    progressReporters[i].finishedTasksCount++
+
+                    // 若任务都已完成，移除此 progressReporter
+                    if progressReporters[i].finishedTasksCount == progressReporters[i].tasks.count {
+                        progressReporters.removeAtIndex(i)
+                    }
 
                     return
                 }
