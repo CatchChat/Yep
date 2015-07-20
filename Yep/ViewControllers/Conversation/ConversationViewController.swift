@@ -2372,18 +2372,43 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
 
         if let mediaType = info[UIImagePickerControllerMediaType] as? String {
-            println("mediaType \(mediaType)")
 
             switch mediaType {
+
             case kUTTypeImage as! String:
+
                 if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-                    sendImage(image.fixRotation())
+
+                    let imageWidth = image.size.width
+                    let imageHeight = image.size.height
+
+                    let fixedImageWidth: CGFloat
+                    let fixedImageHeight: CGFloat
+
+                    if imageWidth > imageHeight {
+                        fixedImageWidth = min(imageWidth, YepConfig.Media.imageWidth)
+                        fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
+                    } else {
+                        fixedImageHeight = min(imageHeight, YepConfig.Media.imageHeight)
+                        fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
+                    }
+
+                    let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
+
+                    // resize to smaller, not need fixRotation
+
+                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: kCGInterpolationMedium) {
+                        sendImage(fixedImage)
+                    }
                 }
+
             case kUTTypeMovie as! String:
+
                 if let videoURL = info[UIImagePickerControllerMediaURL] as? NSURL {
                     println("videoURL \(videoURL)")
                     sendVideoWithVideoURL(videoURL)
                 }
+
             default:
                 break
             }

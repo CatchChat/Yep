@@ -143,5 +143,10 @@ class YepConfig {
         static let thumbnailMaxSize: CGFloat = 100
     }
 
+    struct Media {
+        static let imageWidth: CGFloat = 1024
+        static let imageHeight: CGFloat = 1024
+    }
+
 }
 
