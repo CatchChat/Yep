@@ -208,13 +208,13 @@ extension YepDownloader: NSURLSessionDownloadDelegate {
 
     private func handleData(data: NSData, ofDownloadTask downloadTask: NSURLSessionDownloadTask) {
 
-        for progressReporter in progressReporters {
+        for i in 0..<progressReporters.count {
 
-            for i in 0..<progressReporter.tasks.count {
+            for j in 0..<progressReporters[i].tasks.count {
 
-                if downloadTask == progressReporter.tasks[i].downloadTask {
+                if downloadTask == progressReporters[i].tasks[j].downloadTask {
 
-                    let finishedAction = progressReporter.tasks[i].finishedAction
+                    let finishedAction = progressReporters[i].tasks[j].finishedAction
                     finishedAction(data)
 
                     progressReporters[i].finishedTasksCount++
@@ -223,7 +223,7 @@ extension YepDownloader: NSURLSessionDownloadDelegate {
                     if progressReporters[i].finishedTasksCount == progressReporters[i].tasks.count {
                         progressReporters.removeAtIndex(i)
                     }
-
+                    
                     return
                 }
             }
