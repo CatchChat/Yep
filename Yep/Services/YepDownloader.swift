@@ -22,54 +22,87 @@ class YepDownloader: NSObject {
     class func updateAttachmentOfMessage(message: Message, withAttachmentFileName attachmentFileName: String, inRealm realm: Realm) {
         realm.write {
             message.localAttachmentName = attachmentFileName
-            message.downloadState = MessageDownloadState.Downloaded.rawValue
+
+            if message.mediaType == MessageMediaType.Video.rawValue {
+                if !message.localThumbnailName.isEmpty {
+                    message.downloadState = MessageDownloadState.Downloaded.rawValue
+                }
+
+            } else {
+                message.downloadState = MessageDownloadState.Downloaded.rawValue
+            }
         }
     }
 
     class func updateThumbnailOfMessage(message: Message, withThumbnailFileName thumbnailFileName: String, inRealm realm: Realm) {
         realm.write {
             message.localThumbnailName = thumbnailFileName
+
+            if message.mediaType == MessageMediaType.Video.rawValue {
+                if !message.localAttachmentName.isEmpty {
+                    message.downloadState = MessageDownloadState.Downloaded.rawValue
+                }
+            }
         }
     }
 
     struct ProgressReporter {
 
-        let downloadTask: NSURLSessionDownloadTask
+        struct Task {
+            let downloadTask: NSURLSessionDownloadTask
 
-        typealias ReportAction = Double -> Void
+            typealias FinishedAction = NSData -> Void
+            let finishedAction: FinishedAction
 
-        let reportProgressAction: ReportAction?
+            let progress = NSProgress()
+        }
+        let tasks: [Task]
+        var finishedTasksCount = 0
 
-        let finishedAction: NSData -> Void
+        typealias ReportProgress = Double -> Void
+        let reportProgress: ReportProgress?
+
+        init(tasks: [Task], reportProgress: ReportProgress?) {
+            self.tasks = tasks
+            self.reportProgress = reportProgress
+        }
+
+        var totalProgress: Double {
+
+            let completedUnitCount = tasks.map({ $0.progress.completedUnitCount }).reduce(0, combine: +)
+            let totalUnitCount = tasks.map({ $0.progress.totalUnitCount }).reduce(0, combine: +)
+
+            return Double(completedUnitCount) / Double(totalUnitCount)
+        }
     }
 
     var progressReporters = [ProgressReporter]()
 
-    class func downloadAttachmentsOfMessage(message: Message, reportProgress: ProgressReporter.ReportAction?) {
+    class func downloadAttachmentsOfMessage(message: Message, reportProgress: ProgressReporter.ReportProgress?) {
         downloadAttachmentsOfMessage(message, reportProgress: reportProgress, imageFinished: nil)
     }
 
-    class func downloadAttachmentsOfMessage(message: Message, reportProgress: ProgressReporter.ReportAction?, imageFinished: (UIImage -> Void)?) {
+    class func downloadAttachmentsOfMessage(message: Message, reportProgress: ProgressReporter.ReportProgress?, imageFinished: (UIImage -> Void)?) {
+
+        let downloadState = message.downloadState
+
+        if downloadState == MessageDownloadState.Downloaded.rawValue {
+            return
+        }
 
         let messageID = message.messageID
         let mediaType = message.mediaType
 
+        var attachmentDownloadTask: NSURLSessionDownloadTask?
+        var attachmentFinishedAction: ProgressReporter.Task.FinishedAction?
+
         let attachmentURLString = message.attachmentURLString
-        let downloadState = message.downloadState
-
-        if downloadState == MessageDownloadState.Downloaded.rawValue {
-            reportProgress?(1.0)
-
-            return
-        }
         
-        if !attachmentURLString.isEmpty, let URL = NSURL(string: attachmentURLString) {
+        if !attachmentURLString.isEmpty && message.localAttachmentName.isEmpty, let URL = NSURL(string: attachmentURLString) {
 
-            let downloadTask = sharedDownloader.session.downloadTaskWithURL(URL)
+            attachmentDownloadTask = sharedDownloader.session.downloadTaskWithURL(URL)
 
-            let progressReporter = ProgressReporter(downloadTask: downloadTask, reportProgressAction: reportProgress) { data in
-
-                let fileName = NSUUID().UUIDString
+            attachmentFinishedAction = { data in
 
                 dispatch_async(dispatch_get_main_queue()) {
 
@@ -77,7 +110,9 @@ class YepDownloader: NSObject {
 
                     if let message = messageWithMessageID(messageID, inRealm: realm) {
 
-                        if message.downloadState != MessageDownloadState.Downloaded.rawValue {
+                        if message.localAttachmentName.isEmpty {
+
+                            let fileName = NSUUID().UUIDString
 
                             switch mediaType {
 
@@ -111,11 +146,10 @@ class YepDownloader: NSObject {
                     }
                 }
             }
-
-            sharedDownloader.progressReporters.append(progressReporter)
-
-            downloadTask.resume()
         }
+
+        var thumbnailDownloadTask: NSURLSessionDownloadTask?
+        var thumbnailFinishedAction: ProgressReporter.Task.FinishedAction?
 
         if mediaType == MessageMediaType.Video.rawValue {
 
@@ -123,35 +157,54 @@ class YepDownloader: NSObject {
 
             if !thumbnailURLString.isEmpty && message.localThumbnailName.isEmpty, let URL = NSURL(string: thumbnailURLString) {
 
-                let downloadTask = sharedDownloader.session.downloadTaskWithURL(URL, completionHandler: { location, response, error in
+                thumbnailDownloadTask = sharedDownloader.session.downloadTaskWithURL(URL)
 
-                    if let location = location, data = NSData(contentsOfURL: location) {
+                thumbnailFinishedAction = { data in
 
-                        let fileName = NSUUID().UUIDString
+                    dispatch_async(dispatch_get_main_queue()) {
+                        let realm = Realm()
 
-                        dispatch_async(dispatch_get_main_queue()) {
-                            let realm = Realm()
+                        if let message = messageWithMessageID(messageID, inRealm: realm) {
 
-                            if let message = messageWithMessageID(messageID, inRealm: realm) {
+                            if message.localThumbnailName.isEmpty {
 
-                                if message.localThumbnailName.isEmpty {
+                                let fileName = NSUUID().UUIDString
 
-                                    if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
+                                if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
 
-                                        self.updateThumbnailOfMessage(message, withThumbnailFileName: fileName, inRealm: realm)
+                                    self.updateThumbnailOfMessage(message, withThumbnailFileName: fileName, inRealm: realm)
 
-                                        if let image = UIImage(data: data) {
-                                            imageFinished?(image)
-                                        }
+                                    if let image = UIImage(data: data) {
+                                        imageFinished?(image)
                                     }
                                 }
                             }
                         }
                     }
-                })
-                
-                downloadTask.resume()
+                }
             }
+        }
+
+        var tasks: [ProgressReporter.Task] = []
+
+        if let attachmentDownloadTask = attachmentDownloadTask, attachmentFinishedAction = attachmentFinishedAction {
+            tasks.append(ProgressReporter.Task(downloadTask: attachmentDownloadTask, finishedAction: attachmentFinishedAction))
+        }
+
+        if let thumbnailDownloadTask = thumbnailDownloadTask, thumbnailFinishedAction = thumbnailFinishedAction {
+            tasks.append(ProgressReporter.Task(downloadTask: thumbnailDownloadTask, finishedAction: thumbnailFinishedAction))
+        }
+
+        if tasks.count > 0 {
+
+            let progressReporter = ProgressReporter(tasks: tasks, reportProgress: reportProgress)
+
+            sharedDownloader.progressReporters.append(progressReporter)
+
+            tasks.map { $0.downloadTask.resume() }
+
+        } else {
+            print("Can NOT download attachments of message: \(mediaType), \(messageID)")
         }
     }
 }
@@ -162,12 +215,47 @@ extension YepDownloader: NSURLSessionDelegate {
 
 extension YepDownloader: NSURLSessionDownloadDelegate {
 
-    private func reportProgress(progress: Double, ofDownloadTask downloadTask: NSURLSessionDownloadTask) {
-        progressReporters.filter({ $0.downloadTask == downloadTask }).map({ $0.reportProgressAction?(progress) })
+    private func handleData(data: NSData, ofDownloadTask downloadTask: NSURLSessionDownloadTask) {
+
+        for i in 0..<progressReporters.count {
+
+            for j in 0..<progressReporters[i].tasks.count {
+
+                if downloadTask == progressReporters[i].tasks[j].downloadTask {
+
+                    let finishedAction = progressReporters[i].tasks[j].finishedAction
+                    finishedAction(data)
+
+                    progressReporters[i].finishedTasksCount++
+
+                    // 若任务都已完成，移除此 progressReporter
+                    if progressReporters[i].finishedTasksCount == progressReporters[i].tasks.count {
+                        progressReporters.removeAtIndex(i)
+                    }
+                    
+                    return
+                }
+            }
+        }
     }
 
-    private func handleData(data: NSData, ofDownloadTask downloadTask: NSURLSessionDownloadTask) {
-        progressReporters.filter({ $0.downloadTask == downloadTask }).map({ $0.finishedAction(data) })
+    private func reportProgressAssociatedWithDownloadTask(downloadTask: NSURLSessionDownloadTask, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+
+        for progressReporter in progressReporters {
+
+            for i in 0..<progressReporter.tasks.count {
+
+                if downloadTask == progressReporter.tasks[i].downloadTask {
+
+                    progressReporter.tasks[i].progress.totalUnitCount = totalBytesExpectedToWrite
+                    progressReporter.tasks[i].progress.completedUnitCount = totalBytesWritten
+
+                    progressReporter.reportProgress?(progressReporter.totalProgress)
+
+                    return
+                }
+            }
+        }
     }
 
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
@@ -175,19 +263,11 @@ extension YepDownloader: NSURLSessionDownloadDelegate {
         if let data = NSData(contentsOfURL: location) {
             handleData(data, ofDownloadTask: downloadTask)
         }
-
-        reportProgress(1.0, ofDownloadTask: downloadTask)
-
-        println("didFinishDownloadingToURL \(downloadTask.originalRequest.URL)")
     }
 
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
 
-        let progress: Double = Double(totalBytesWritten) / Double(totalBytesExpectedToWrite)
-
-        reportProgress(progress, ofDownloadTask: downloadTask)
-
-        //println("downloadTask progress \(progress)")
+        reportProgressAssociatedWithDownloadTask(downloadTask, totalBytesWritten: totalBytesWritten, totalBytesExpectedToWrite: totalBytesExpectedToWrite)
     }
 }
 
