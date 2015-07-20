@@ -34,7 +34,7 @@ class MessageLoadingProgressView: UIView {
 
         CGContextBeginPath(context)
 
-        CGContextSetStrokeColorWithColor(context, UIColor.lightGrayColor().CGColor)
+        CGContextSetStrokeColorWithColor(context, UIColor.lightGrayColor().colorWithAlphaComponent(0.3).CGColor)
         CGContextSetLineWidth(context, lineWidth)
 
         CGContextAddArc(context, center.x, center.y, radius, 0, CGFloat(M_PI * 2), 0)
