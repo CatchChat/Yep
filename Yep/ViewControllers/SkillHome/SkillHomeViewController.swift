@@ -31,7 +31,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     
     var skillLocalName: String? {
         willSet {
-            self.title = newValue
+            title = newValue
         }
     }
     
@@ -106,7 +106,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             discoverUserBySkillID(skillID)
         }
         
-        self.headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
+        headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
         
         headerView.masterButton.addTarget(self, action: "changeToMaster", forControlEvents: UIControlEvents.TouchUpInside)
         headerView.learningButton.addTarget(self, action: "changeToLearning", forControlEvents: UIControlEvents.TouchUpInside)
@@ -120,10 +120,8 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         skillHomeScrollView.directionalLockEnabled = true
         
         if let gestures = navigationController?.view.gestureRecognizers {
-            for recognizer in gestures
-            {
-                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer)
-                {
+            for recognizer in gestures {
+                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
                     skillHomeScrollView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
                     println("Require UIScreenEdgePanGestureRecognizer to failed")
                     break
@@ -131,15 +129,10 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             }
         }
 
-        
         customTitleView()
-
-
-        // Do any additional setup after loading the view.
     }
     
     override func viewDidLayoutSubviews() {
-        
         super.viewDidLayoutSubviews()
         
         let height = YepConfig.getScreenRect().height - headerView.frame.height
@@ -149,7 +142,6 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         masterTableView.frame = CGRect(x: 0, y: 0, width: skillHomeScrollView.frame.size.width, height: height)
         
         learningtTableView.frame = CGRect(x: masterTableView.frame.size.width, y: 0, width: skillHomeScrollView.frame.size.width, height: height)
-        
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -168,61 +160,43 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         }
     }
 
+    // MARK: UI
+
+    func customTitleView() {
+
+        let titleLabel = UILabel()
+
+        let textAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont.skillHomeTextLargeFont()
+        ]
+
+        let titleAttr = NSMutableAttributedString(string: skillLocalName ?? "", attributes:textAttributes)
+
+        titleLabel.attributedText = titleAttr
+        titleLabel.textAlignment = NSTextAlignment.Center
+        titleLabel.backgroundColor = UIColor.yepTintColor()
+        titleLabel.sizeToFit()
+
+        titleLabel.bounds = CGRectInset(titleLabel.frame, -25.0, -4.0)
+
+        titleLabel.layer.cornerRadius = titleLabel.frame.size.height/2.0
+        titleLabel.layer.masksToBounds = true
+
+        navigationItem.titleView = titleLabel
+    }
+
+    // MARK: Actions
 
     func changeToMaster() {
-
         state = .Master
     }
     
     
     func changeToLearning() {
-        
         state = .Learning
     }
-    
-    func customTitleView() {
-        
-        var titleLabel = UILabel()
-        
-        let textAttributes = [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
-            NSFontAttributeName: UIFont.skillHomeTextLargeFont()
-        ]
-        
-        var titleAttr = NSMutableAttributedString(string: skillLocalName ?? "", attributes:textAttributes)
-        
-        titleLabel.attributedText = titleAttr
-        
-        titleLabel.textAlignment = NSTextAlignment.Center
-        
-        titleLabel.backgroundColor = UIColor.yepTintColor()
-        
-        titleLabel.sizeToFit()
-        
-        titleLabel.bounds = CGRectInset(titleLabel.frame, -25.0, -4.0)
-        
-        titleLabel.layer.cornerRadius = titleLabel.frame.size.height/2.0
-        
-        titleLabel.layer.masksToBounds = true
-        
-        self.navigationItem.titleView = titleLabel
-    }
-    
 
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        
-        println("Did end decelerating \(skillHomeScrollView.contentOffset.x)")
-        
-        if skillHomeScrollView.contentOffset.x + 10 >= skillHomeScrollView.contentSize.width / 2.0 {
-            
-            state = .Learning
-            
-        } else {
-            
-            state = .Master
-        }
-    }
-    
     func discoverUserBySkillID(skillID: String) {
         
         discoverUsers(masterSkillIDs: [skillID], learningSkillIDs: [], discoveredUserSortStyle: .LastSignIn, failureHandler: { (reason, errorMessage) in
@@ -239,14 +213,39 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             self.discoveredLearningUsers = discoveredUsers
         })
     }
-    
 
+    func getDiscoveredUserWithState(state: Int) -> [DiscoveredUser] {
+
+        if state == SkillHomeState.Master.hashValue {
+            return discoveredMasterUsers
+        } else {
+            return discoveredLearningUsers
+        }
+    }
+
+    // MARK: UIScrollViewDelegate
+
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        
+        println("Did end decelerating \(skillHomeScrollView.contentOffset.x)")
+        
+        if skillHomeScrollView.contentOffset.x + 10 >= skillHomeScrollView.contentSize.width / 2.0 {
+            
+            state = .Learning
+            
+        } else {
+            state = .Master
+        }
+    }
+    
     // MARK: - Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "showProfile" {
+
             if let indexPath = sender as? NSIndexPath {
+
                 let discoveredUser = getDiscoveredUserWithState(state.hashValue)[indexPath.row]
                 
                 let vc = segue.destinationViewController as! ProfileViewController
@@ -261,29 +260,20 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             }
         }
     }
-    
-    func getDiscoveredUserWithState(state: Int) -> [DiscoveredUser] {
-        if state == SkillHomeState.Master.hashValue {
-            return discoveredMasterUsers
-        }else{
-            return discoveredLearningUsers
-        }
-    }
-
 }
 
 extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+
         return getDiscoveredUserWithState(tableView.tag).count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
         
-        var discoveredUser = getDiscoveredUserWithState(tableView.tag)[indexPath.row]
+        let discoveredUser = getDiscoveredUserWithState(tableView.tag)[indexPath.row]
         
         let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
         
@@ -304,6 +294,7 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource{
         if let badgeName = discoveredUser.badge, badge = BadgeView.Badge(rawValue: badgeName) {
             cell.badgeImageView.image = badge.image
             cell.badgeImageView.tintColor = badge.color
+
         } else {
             cell.badgeImageView.image = nil
         }
