@@ -8,18 +8,9 @@
 
 import UIKit
 
-enum SkillHomeState: Int, Printable {
+enum SkillHomeState: Int {
     case Master
     case Learning
-    
-    var description: String {
-        switch self {
-        case .Master:
-            return "Master"
-        case .Learning:
-            return "Learning"
-        }
-    }
 }
 
 class SkillHomeViewController: CustomNavigationBarViewController {
@@ -27,28 +18,20 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     let cellIdentifier = "ContactsCell"
     
     lazy var masterTableView: YepChildScrollView = {
-        
-        var tempTableView = YepChildScrollView(frame: CGRectZero)
-
-        
+        let tempTableView = YepChildScrollView(frame: CGRectZero)
         return tempTableView;
-        
     }()
     
     lazy var learningtTableView: YepChildScrollView = {
-        
-        var tempTableView = YepChildScrollView(frame: CGRectZero)
-        
-        
+        let tempTableView = YepChildScrollView(frame: CGRectZero)
         return tempTableView;
-        
     }()
 
     var skillID: String?
     
     var skillLocalName: String? {
-        didSet {
-            self.title = skillLocalName
+        willSet {
+            self.title = newValue
         }
     }
     

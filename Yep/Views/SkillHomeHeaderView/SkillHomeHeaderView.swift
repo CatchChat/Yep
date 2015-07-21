@@ -11,23 +11,19 @@ import UIKit
 class SkillHomeHeaderView: UIView {
     
     lazy var headerImageView: UIImageView = {
-        
-        var tempImageView = UIImageView(frame: CGRectZero)
-        
+        let tempImageView = UIImageView(frame: CGRectZero)
         tempImageView.contentMode = UIViewContentMode.ScaleAspectFill
         tempImageView.clipsToBounds = true
-        
         return tempImageView;
-        
     }()
     
     lazy var masterButton: SkillHomeSectionButton = {
-        var button = createSkillHomeButtonWithText("Master", 100, YepConfig.skillHomeHeaderButtonHeight)
+        let button = createSkillHomeButtonWithText("Master", 100, YepConfig.skillHomeHeaderButtonHeight)
         return button
     }()
     
     lazy var learningButton: SkillHomeSectionButton = {
-        var button = createSkillHomeButtonWithText("Learning", 100, YepConfig.skillHomeHeaderButtonHeight)
+        let button = createSkillHomeButtonWithText("Learning", 100, YepConfig.skillHomeHeaderButtonHeight)
         return button
     }()
     
@@ -41,7 +37,6 @@ class SkillHomeHeaderView: UIView {
         setup()
     }
     
-    
     func setup() {
         headerImageView.image = UIImage(named: "Cover3")
         self.addSubview(headerImageView)
@@ -50,8 +45,7 @@ class SkillHomeHeaderView: UIView {
         self.backgroundColor = UIColor.lightGrayColor()
 
     }
-    
-    
+
     override func layoutSubviews() {
         masterButton.setActive()
         headerImageView.frame = self.bounds
@@ -63,14 +57,5 @@ class SkillHomeHeaderView: UIView {
         
         learningButton.updateHightLightBounce()
     }
-    
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
-    }
-    */
-    
 
 }
