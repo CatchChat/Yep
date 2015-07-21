@@ -85,7 +85,7 @@ class RegisterSelectSkillsViewController: UIViewController {
 
         skillsCollectionView.registerNib(UINib(nibName: skillSelectionCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillSelectionCellIdentifier)
 
-        cancelButton.setTitle(NSLocalizedString("Cancel", comment: ""), forState: .Normal)
+        cancelButton.setTitle(NSLocalizedString("Done", comment: ""), forState: .Normal)
         backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
 
         cancelButton.alpha = 1
