@@ -48,6 +48,13 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     }
 
     var afterUpdatedSkillCoverAction: (() -> Void)?
+
+    lazy var imagePicker: UIImagePickerController = {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = false
+        return imagePicker
+        }()
     
     var isFirstAppear = true
 
@@ -134,12 +141,10 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
                 let openCameraRoll: ProposerAction = { [weak self] in
                     if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
-                        let imagePicker = UIImagePickerController()
-                        imagePicker.delegate = self
-                        imagePicker.sourceType = .PhotoLibrary
-                        imagePicker.allowsEditing = false
-
-                        self?.presentViewController(imagePicker, animated: true, completion: nil)
+                        if let strongSelf = self {
+                            strongSelf.imagePicker.sourceType = .PhotoLibrary
+                            strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                        }
                     }
                 }
 
@@ -153,12 +158,10 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
                 let openCamera: ProposerAction = { [weak self] in
                     if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
-                        let imagePicker = UIImagePickerController()
-                        imagePicker.delegate = self
-                        imagePicker.sourceType = .Camera
-                        imagePicker.allowsEditing = false
-
-                        self?.presentViewController(imagePicker, animated: true, completion: nil)
+                        if let strongSelf = self {
+                            strongSelf.imagePicker.sourceType = .Camera
+                            strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                        }
                     }
                 }
 
@@ -174,8 +177,11 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             alertController.addAction(cancelAction)
             
             self?.presentViewController(alertController, animated: true, completion: nil)
+
+            // touch to create (if need) for faster appear
+            self?.imagePicker.hidesBarsOnTap = false
         }
-        
+
         automaticallyAdjustsScrollViewInsets = false
         
         skillHomeScrollView.addSubview(masterTableView)
