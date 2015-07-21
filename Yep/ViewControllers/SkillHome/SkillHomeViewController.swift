@@ -128,18 +128,52 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
         headerView.changeCoverAction = { [weak self] in
 
-            let openCameraRoll: ProposerAction = { [weak self] in
-                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
-                    let imagePicker = UIImagePickerController()
-                    imagePicker.sourceType = .PhotoLibrary
-                    imagePicker.delegate = self
-                    self?.presentViewController(imagePicker, animated: true, completion: nil)
-                }
-            }
+            let alertController = UIAlertController(title: NSLocalizedString("Change skill cover", comment: ""), message: nil, preferredStyle: .ActionSheet)
 
-            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
-                self?.alertCanNotAccessCameraRoll()
-            })
+            let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { action -> Void in
+
+                let openCameraRoll: ProposerAction = { [weak self] in
+                    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
+                        let imagePicker = UIImagePickerController()
+                        imagePicker.delegate = self
+                        imagePicker.sourceType = .PhotoLibrary
+                        imagePicker.allowsEditing = false
+
+                        self?.presentViewController(imagePicker, animated: true, completion: nil)
+                    }
+                }
+
+                proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
+                    self?.alertCanNotAccessCameraRoll()
+                })
+            }
+            alertController.addAction(choosePhotoAction)
+
+            let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { action -> Void in
+
+                let openCamera: ProposerAction = { [weak self] in
+                    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
+                        let imagePicker = UIImagePickerController()
+                        imagePicker.delegate = self
+                        imagePicker.sourceType = .Camera
+                        imagePicker.allowsEditing = false
+
+                        self?.presentViewController(imagePicker, animated: true, completion: nil)
+                    }
+                }
+
+                proposeToAccess(.Camera, agreed: openCamera, rejected: {
+                    self?.alertCanNotOpenCamera()
+                })
+            }
+            alertController.addAction(takePhotoAction)
+
+            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
+                self?.dismissViewControllerAnimated(true, completion: nil)
+            }
+            alertController.addAction(cancelAction)
+            
+            self?.presentViewController(alertController, animated: true, completion: nil)
         }
         
         automaticallyAdjustsScrollViewInsets = false

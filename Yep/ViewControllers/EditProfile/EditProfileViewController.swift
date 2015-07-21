@@ -98,7 +98,7 @@ class EditProfileViewController: UIViewController {
                 if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
                     let imagePicker = UIImagePickerController()
                     imagePicker.delegate = self
-                    imagePicker.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
+                    imagePicker.sourceType = .PhotoLibrary
                     imagePicker.allowsEditing = false
 
                     self?.presentViewController(imagePicker, animated: true, completion: nil)
@@ -117,7 +117,7 @@ class EditProfileViewController: UIViewController {
                 if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
                     let imagePicker = UIImagePickerController()
                     imagePicker.delegate = self
-                    imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
+                    imagePicker.sourceType = .Camera
                     imagePicker.allowsEditing = false
 
                     self?.presentViewController(imagePicker, animated: true, completion: nil)
