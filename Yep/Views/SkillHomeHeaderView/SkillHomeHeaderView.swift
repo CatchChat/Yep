@@ -7,8 +7,17 @@
 //
 
 import UIKit
+import Kingfisher
 
 class SkillHomeHeaderView: UIView {
+
+    var skillCoverURLString: String? {
+        willSet {
+            if let coverURLString = newValue, URL = NSURL(string: coverURLString) {
+                headerImageView.kf_setImageWithURL(URL, placeholderImage: UIImage(named: "Cover3"))
+            }
+        }
+    }
     
     lazy var headerImageView: UIImageView = {
         let tempImageView = UIImageView(frame: CGRectZero)
@@ -42,7 +51,6 @@ class SkillHomeHeaderView: UIView {
     }
     
     func setup() {
-        headerImageView.image = UIImage(named: "Cover3")
 
         addSubview(headerImageView)
         addSubview(masterButton)

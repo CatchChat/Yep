@@ -435,6 +435,7 @@ class ProfileViewController: UIViewController {
 
                 vc.skillID = skillInfo["skillID"] as? String
                 vc.skillLocalName = skillInfo["skillLocalName"] as? String
+                vc.skillCoverURLString = skillInfo["skillCoverURLString"] as? String
             }
 
         } else if segue.identifier == "presentOAuth" {
@@ -825,16 +826,18 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     let skill = discoveredUser.masterSkills[indexPath.item]
                     cell.skillID = skill.id
                     cell.skillLocalName = skill.localName
+                    cell.skillCoverURLString = skill.coverURLString
 
                 case .UserType(let user):
                     let userSkill = user.masterSkills[indexPath.item]
                     cell.skillID = userSkill.skillID
                     cell.skillLocalName = userSkill.localName
+                    cell.skillCoverURLString = userSkill.coverURLString
                 }
             }
 
-            cell.tapAction = { [weak self] skillID, skillLocalName in
-                self?.performSegueWithIdentifier("showSkillHome", sender: ["preferedState": SkillHomeState.Master.rawValue, "skillID": skillID, "skillLocalName": skillLocalName])
+            cell.tapAction = { [weak self] skillID, skillLocalName, skillCoverURLString in
+                self?.performSegueWithIdentifier("showSkillHome", sender: ["preferedState": SkillHomeState.Master.rawValue, "skillID": skillID, "skillLocalName": skillLocalName, "skillCoverURLString": skillCoverURLString])
             }
 
             return cell
@@ -848,15 +851,18 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     let skill = discoveredUser.learningSkills[indexPath.item]
                     cell.skillID = skill.id
                     cell.skillLocalName = skill.localName
+                    cell.skillCoverURLString = skill.coverURLString
+
                 case .UserType(let user):
                     let userSkill = user.learningSkills[indexPath.item]
                     cell.skillID = userSkill.skillID
                     cell.skillLocalName = userSkill.localName
+                    cell.skillCoverURLString = userSkill.coverURLString
                 }
             }
 
-            cell.tapAction = { [weak self]  skillID, skillLocalName in
-                self?.performSegueWithIdentifier("showSkillHome", sender: ["preferedState": SkillHomeState.Learning.rawValue, "skillID": skillID, "skillLocalName": skillLocalName])
+            cell.tapAction = { [weak self] skillID, skillLocalName, skillCoverURLString in
+                self?.performSegueWithIdentifier("showSkillHome", sender: ["preferedState": SkillHomeState.Learning.rawValue, "skillID": skillID, "skillLocalName": skillLocalName, "skillCoverURLString": skillCoverURLString])
             }
 
             return cell

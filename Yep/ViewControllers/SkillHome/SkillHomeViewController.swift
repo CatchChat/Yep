@@ -11,6 +11,7 @@ import Proposer
 import MobileCoreServices
 import RealmSwift
 
+
 enum SkillHomeState: Int {
     case Master
     case Learning
@@ -35,6 +36,14 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     var skillLocalName: String? {
         willSet {
             title = newValue
+        }
+    }
+
+    var skillCoverURLString: String? {
+        willSet {
+            if let coverURLString = newValue {
+                headerView?.skillCoverURLString = coverURLString
+            }
         }
     }
     
@@ -83,6 +92,8 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        headerView.skillCoverURLString = skillCoverURLString
 
         masterTableView.separatorColor = UIColor.yepCellSeparatorColor()
         masterTableView.separatorInset = YepConfig.ContactsCell.separatorInset
@@ -333,7 +344,8 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                                     YepAlert.alertSorry(message: NSLocalizedString("Update skill cover failed!", comment: ""), inViewController: self)
                                     
-                                }, completion: { success in
+                                }, completion: { [weak self] success in
+
                                     let realm = Realm()
 
                                     if let userSkill = userSkillWithSkillID(skillID, inRealm: realm) {
@@ -345,6 +357,8 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
                                         }
 
                                         println("userSkillB: \(userSkill), \(userSkill.coverURLString)")
+
+                                        self?.skillCoverURLString = skillCoverURLString
                                     }
                                 })
                             })
