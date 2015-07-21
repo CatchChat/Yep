@@ -312,6 +312,19 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
                     // resize to smaller, not need fixRotation
 
                     if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: kCGInterpolationMedium) {
+
+                        let data = UIImageJPEGRepresentation(fixedImage, 0.7)
+
+                        s3PublicUploadFile(inFilePath: nil, orFileData: data, mimeType: "image/jpeg", failureHandler: { [weak self] reason, errorMessage in
+                            defaultFailureHandler(reason, errorMessage)
+
+                            YepAlert.alertSorry(message: NSLocalizedString("Upload skill cover failed!", comment: ""), inViewController: self)
+
+                        }, completion: { s3UploadParams in
+                            let skillCoverURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
+
+                            println("skillCoverURLString: \(skillCoverURLString)")
+                        })
                     }
                 }
 
