@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Proposer
+import MobileCoreServices
 
 enum SkillHomeState: Int {
     case Master
@@ -52,7 +54,6 @@ class SkillHomeViewController: CustomNavigationBarViewController {
                 skillHomeScrollView.setContentOffset(CGPoint(x: masterTableView.frame.size.width, y: 0), animated: true)
    
             }
-            
         }
     }
     
@@ -110,6 +111,22 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         
         headerView.masterButton.addTarget(self, action: "changeToMaster", forControlEvents: UIControlEvents.TouchUpInside)
         headerView.learningButton.addTarget(self, action: "changeToLearning", forControlEvents: UIControlEvents.TouchUpInside)
+
+        headerView.changeCoverAction = { [weak self] in
+
+            let openCameraRoll: ProposerAction = { [weak self] in
+                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
+                    let imagePicker = UIImagePickerController()
+                    imagePicker.sourceType = .PhotoLibrary
+                    imagePicker.delegate = self
+                    self?.presentViewController(imagePicker, animated: true, completion: nil)
+                }
+            }
+
+            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
+                self?.alertCanNotAccessCameraRoll()
+            })
+        }
         
         automaticallyAdjustsScrollViewInsets = false
         
@@ -262,7 +279,54 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     }
 }
 
-extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource{
+// MARK: UIImagePicker
+
+extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+
+        if let mediaType = info[UIImagePickerControllerMediaType] as? String {
+
+            switch mediaType {
+
+            case kUTTypeImage as! String:
+
+                if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+
+                    let imageWidth = image.size.width
+                    let imageHeight = image.size.height
+
+                    let fixedImageWidth: CGFloat
+                    let fixedImageHeight: CGFloat
+
+                    if imageWidth > imageHeight {
+                        fixedImageWidth = min(imageWidth, YepConfig.Media.imageWidth)
+                        fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
+                    } else {
+                        fixedImageHeight = min(imageHeight, YepConfig.Media.imageHeight)
+                        fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
+                    }
+
+                    let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
+
+                    // resize to smaller, not need fixRotation
+
+                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: kCGInterpolationMedium) {
+                    }
+                }
+
+            default:
+                break
+            }
+        }
+        
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
+// MARK: UITableViewDelegate, UITableViewDataSource
+
+extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
