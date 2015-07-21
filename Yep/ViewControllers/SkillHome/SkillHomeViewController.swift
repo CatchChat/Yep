@@ -46,6 +46,8 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             }
         }
     }
+
+    var afterUpdatedSkillCoverAction: (() -> Void)?
     
     var isFirstAppear = true
 
@@ -359,6 +361,8 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
                                         println("userSkillB: \(userSkill), \(userSkill.coverURLString)")
 
                                         self?.skillCoverURLString = skillCoverURLString
+
+                                        self?.afterUpdatedSkillCoverAction?()
                                     }
                                 })
                             })

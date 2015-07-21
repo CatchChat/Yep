@@ -21,7 +21,7 @@ class SkillHomeHeaderView: UIView {
     
     lazy var headerImageView: UIImageView = {
         let tempImageView = UIImageView(frame: CGRectZero)
-        tempImageView.contentMode = UIViewContentMode.ScaleAspectFill
+        tempImageView.contentMode = .ScaleAspectFill
         tempImageView.clipsToBounds = true
         return tempImageView;
     }()

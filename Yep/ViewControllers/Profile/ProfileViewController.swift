@@ -436,6 +436,10 @@ class ProfileViewController: UIViewController {
                 vc.skillID = skillInfo["skillID"] as? String
                 vc.skillLocalName = skillInfo["skillLocalName"] as? String
                 vc.skillCoverURLString = skillInfo["skillCoverURLString"] as? String
+
+                vc.afterUpdatedSkillCoverAction = { [weak self] in
+                    self?.updateProfileCollectionView()
+                }
             }
 
         } else if segue.identifier == "presentOAuth" {
