@@ -7,12 +7,21 @@
 //
 
 import UIKit
+import Kingfisher
 
 class SkillHomeHeaderView: UIView {
+
+    var skillCoverURLString: String? {
+        willSet {
+            if let coverURLString = newValue, URL = NSURL(string: coverURLString) {
+                headerImageView.kf_setImageWithURL(URL, placeholderImage: UIImage(named: "Cover3"))
+            }
+        }
+    }
     
     lazy var headerImageView: UIImageView = {
         let tempImageView = UIImageView(frame: CGRectZero)
-        tempImageView.contentMode = UIViewContentMode.ScaleAspectFill
+        tempImageView.contentMode = .ScaleAspectFill
         tempImageView.clipsToBounds = true
         return tempImageView;
     }()
@@ -26,29 +35,45 @@ class SkillHomeHeaderView: UIView {
         let button = createSkillHomeButtonWithText("Learning", 100, YepConfig.skillHomeHeaderButtonHeight)
         return button
     }()
+
+    var changeCoverAction: (() -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+
         setup()
     }
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+
         setup()
     }
     
     func setup() {
-        headerImageView.image = UIImage(named: "Cover3")
-        self.addSubview(headerImageView)
-        self.addSubview(masterButton)
-        self.addSubview(learningButton)
-        self.backgroundColor = UIColor.lightGrayColor()
 
+        addSubview(headerImageView)
+        addSubview(masterButton)
+        addSubview(learningButton)
+
+        backgroundColor = UIColor.lightGrayColor()
+
+        headerImageView.userInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: "tap")
+        headerImageView.addGestureRecognizer(tap)
+    }
+
+    func tap() {
+        changeCoverAction?()
     }
 
     override func layoutSubviews() {
+        super.layoutSubviews()
+
         masterButton.setActive()
+
         headerImageView.frame = self.bounds
+
         masterButton.frame = CGRectMake(0, self.frame.height - YepConfig.skillHomeHeaderButtonHeight, self.frame.size.width/2.0, YepConfig.skillHomeHeaderButtonHeight)
         
         masterButton.updateHightLightBounce()

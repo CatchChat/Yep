@@ -10,7 +10,6 @@ import UIKit
 
 class CustomNavigationBarViewController: UIViewController {
 
-
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -28,7 +27,7 @@ class CustomNavigationBarViewController: UIViewController {
             ]
 
             navigationController.navigationBar.titleTextAttributes = textAttributes
-            navigationController.navigationBar.tintColor = UIColor.whiteColor()
+            //navigationController.navigationBar.tintColor = UIColor.whiteColor()
         }
     }
 

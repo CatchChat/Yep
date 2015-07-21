@@ -7,6 +7,10 @@
 //
 
 import UIKit
+import Proposer
+import MobileCoreServices
+import RealmSwift
+
 
 enum SkillHomeState: Int {
     case Master
@@ -31,9 +35,26 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     
     var skillLocalName: String? {
         willSet {
-            self.title = newValue
+            title = newValue
         }
     }
+
+    var skillCoverURLString: String? {
+        willSet {
+            if let coverURLString = newValue {
+                headerView?.skillCoverURLString = coverURLString
+            }
+        }
+    }
+
+    var afterUpdatedSkillCoverAction: (() -> Void)?
+
+    lazy var imagePicker: UIImagePickerController = {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = false
+        return imagePicker
+        }()
     
     var isFirstAppear = true
 
@@ -52,7 +73,6 @@ class SkillHomeViewController: CustomNavigationBarViewController {
                 skillHomeScrollView.setContentOffset(CGPoint(x: masterTableView.frame.size.width, y: 0), animated: true)
    
             }
-            
         }
     }
     
@@ -82,6 +102,8 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        headerView.skillCoverURLString = skillCoverURLString
+
         masterTableView.separatorColor = UIColor.yepCellSeparatorColor()
         masterTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
@@ -106,11 +128,60 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             discoverUserBySkillID(skillID)
         }
         
-        self.headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
+        headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
         
         headerView.masterButton.addTarget(self, action: "changeToMaster", forControlEvents: UIControlEvents.TouchUpInside)
         headerView.learningButton.addTarget(self, action: "changeToLearning", forControlEvents: UIControlEvents.TouchUpInside)
-        
+
+        headerView.changeCoverAction = { [weak self] in
+
+            let alertController = UIAlertController(title: NSLocalizedString("Change skill cover", comment: ""), message: nil, preferredStyle: .ActionSheet)
+
+            let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { action -> Void in
+
+                let openCameraRoll: ProposerAction = { [weak self] in
+                    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
+                        if let strongSelf = self {
+                            strongSelf.imagePicker.sourceType = .PhotoLibrary
+                            strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                        }
+                    }
+                }
+
+                proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
+                    self?.alertCanNotAccessCameraRoll()
+                })
+            }
+            alertController.addAction(choosePhotoAction)
+
+            let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { action -> Void in
+
+                let openCamera: ProposerAction = { [weak self] in
+                    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
+                        if let strongSelf = self {
+                            strongSelf.imagePicker.sourceType = .Camera
+                            strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                        }
+                    }
+                }
+
+                proposeToAccess(.Camera, agreed: openCamera, rejected: {
+                    self?.alertCanNotOpenCamera()
+                })
+            }
+            alertController.addAction(takePhotoAction)
+
+            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
+                self?.dismissViewControllerAnimated(true, completion: nil)
+            }
+            alertController.addAction(cancelAction)
+            
+            self?.presentViewController(alertController, animated: true, completion: nil)
+
+            // touch to create (if need) for faster appear
+            self?.imagePicker.hidesBarsOnTap = false
+        }
+
         automaticallyAdjustsScrollViewInsets = false
         
         skillHomeScrollView.addSubview(masterTableView)
@@ -120,10 +191,8 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         skillHomeScrollView.directionalLockEnabled = true
         
         if let gestures = navigationController?.view.gestureRecognizers {
-            for recognizer in gestures
-            {
-                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer)
-                {
+            for recognizer in gestures {
+                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
                     skillHomeScrollView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
                     println("Require UIScreenEdgePanGestureRecognizer to failed")
                     break
@@ -131,15 +200,10 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             }
         }
 
-        
         customTitleView()
-
-
-        // Do any additional setup after loading the view.
     }
     
     override func viewDidLayoutSubviews() {
-        
         super.viewDidLayoutSubviews()
         
         let height = YepConfig.getScreenRect().height - headerView.frame.height
@@ -149,7 +213,6 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         masterTableView.frame = CGRect(x: 0, y: 0, width: skillHomeScrollView.frame.size.width, height: height)
         
         learningtTableView.frame = CGRect(x: masterTableView.frame.size.width, y: 0, width: skillHomeScrollView.frame.size.width, height: height)
-        
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -168,61 +231,43 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         }
     }
 
+    // MARK: UI
+
+    func customTitleView() {
+
+        let titleLabel = UILabel()
+
+        let textAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont.skillHomeTextLargeFont()
+        ]
+
+        let titleAttr = NSMutableAttributedString(string: skillLocalName ?? "", attributes:textAttributes)
+
+        titleLabel.attributedText = titleAttr
+        titleLabel.textAlignment = NSTextAlignment.Center
+        titleLabel.backgroundColor = UIColor.yepTintColor()
+        titleLabel.sizeToFit()
+
+        titleLabel.bounds = CGRectInset(titleLabel.frame, -25.0, -4.0)
+
+        titleLabel.layer.cornerRadius = titleLabel.frame.size.height/2.0
+        titleLabel.layer.masksToBounds = true
+
+        navigationItem.titleView = titleLabel
+    }
+
+    // MARK: Actions
 
     func changeToMaster() {
-
         state = .Master
     }
     
     
     func changeToLearning() {
-        
         state = .Learning
     }
-    
-    func customTitleView() {
-        
-        var titleLabel = UILabel()
-        
-        let textAttributes = [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
-            NSFontAttributeName: UIFont.skillHomeTextLargeFont()
-        ]
-        
-        var titleAttr = NSMutableAttributedString(string: skillLocalName ?? "", attributes:textAttributes)
-        
-        titleLabel.attributedText = titleAttr
-        
-        titleLabel.textAlignment = NSTextAlignment.Center
-        
-        titleLabel.backgroundColor = UIColor.yepTintColor()
-        
-        titleLabel.sizeToFit()
-        
-        titleLabel.bounds = CGRectInset(titleLabel.frame, -25.0, -4.0)
-        
-        titleLabel.layer.cornerRadius = titleLabel.frame.size.height/2.0
-        
-        titleLabel.layer.masksToBounds = true
-        
-        self.navigationItem.titleView = titleLabel
-    }
-    
 
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        
-        println("Did end decelerating \(skillHomeScrollView.contentOffset.x)")
-        
-        if skillHomeScrollView.contentOffset.x + 10 >= skillHomeScrollView.contentSize.width / 2.0 {
-            
-            state = .Learning
-            
-        } else {
-            
-            state = .Master
-        }
-    }
-    
     func discoverUserBySkillID(skillID: String) {
         
         discoverUsers(masterSkillIDs: [skillID], learningSkillIDs: [], discoveredUserSortStyle: .LastSignIn, failureHandler: { (reason, errorMessage) in
@@ -239,14 +284,39 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             self.discoveredLearningUsers = discoveredUsers
         })
     }
-    
 
+    func getDiscoveredUserWithState(state: Int) -> [DiscoveredUser] {
+
+        if state == SkillHomeState.Master.hashValue {
+            return discoveredMasterUsers
+        } else {
+            return discoveredLearningUsers
+        }
+    }
+
+    // MARK: UIScrollViewDelegate
+
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        
+        println("Did end decelerating \(skillHomeScrollView.contentOffset.x)")
+        
+        if skillHomeScrollView.contentOffset.x + 10 >= skillHomeScrollView.contentSize.width / 2.0 {
+            
+            state = .Learning
+            
+        } else {
+            state = .Master
+        }
+    }
+    
     // MARK: - Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "showProfile" {
+
             if let indexPath = sender as? NSIndexPath {
+
                 let discoveredUser = getDiscoveredUserWithState(state.hashValue)[indexPath.row]
                 
                 let vc = segue.destinationViewController as! ProfileViewController
@@ -261,29 +331,112 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             }
         }
     }
-    
-    func getDiscoveredUserWithState(state: Int) -> [DiscoveredUser] {
-        if state == SkillHomeState.Master.hashValue {
-            return discoveredMasterUsers
-        }else{
-            return discoveredLearningUsers
-        }
-    }
-
 }
 
-extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource{
+// MARK: UIImagePicker
+
+extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+
+        if let mediaType = info[UIImagePickerControllerMediaType] as? String {
+
+            switch mediaType {
+
+            case kUTTypeImage as! String:
+
+                if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+
+                    let imageWidth = image.size.width
+                    let imageHeight = image.size.height
+
+                    let fixedImageWidth: CGFloat
+                    let fixedImageHeight: CGFloat
+
+                    if imageWidth > imageHeight {
+                        fixedImageWidth = min(imageWidth, YepConfig.Media.imageWidth)
+                        fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
+                    } else {
+                        fixedImageHeight = min(imageHeight, YepConfig.Media.imageHeight)
+                        fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
+                    }
+
+                    let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
+
+                    // resize to smaller, not need fixRotation
+
+                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: kCGInterpolationMedium) {
+
+                        let data = UIImageJPEGRepresentation(fixedImage, 0.7)
+
+                        if let skillID = skillID {
+
+                            YepHUD.showActivityIndicator()
+
+                            s3PublicUploadFile(inFilePath: nil, orFileData: data, mimeType: "image/jpeg", failureHandler: { [weak self] reason, errorMessage in
+
+                                YepHUD.hideActivityIndicator()
+
+                                defaultFailureHandler(reason, errorMessage)
+                                YepAlert.alertSorry(message: NSLocalizedString("Upload skill cover failed!", comment: ""), inViewController: self)
+
+                            }, completion: { s3UploadParams in
+
+                                let skillCoverURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
+
+                                updateCoverOfSkillWithSkillID(skillID, coverURLString: skillCoverURLString, failureHandler: { [weak self] reason, errorMessage in
+
+                                    YepHUD.hideActivityIndicator()
+
+                                    defaultFailureHandler(reason, errorMessage)
+                                    YepAlert.alertSorry(message: NSLocalizedString("Update skill cover failed!", comment: ""), inViewController: self)
+                                    
+                                }, completion: { [weak self] success in
+
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        let realm = Realm()
+
+                                        if let userSkill = userSkillWithSkillID(skillID, inRealm: realm) {
+
+                                            realm.write {
+                                                userSkill.coverURLString = skillCoverURLString
+                                            }
+
+                                            self?.skillCoverURLString = skillCoverURLString
+                                            self?.afterUpdatedSkillCoverAction?()
+                                        }
+                                    }
+
+                                    YepHUD.hideActivityIndicator()
+                                })
+                            })
+                        }
+                    }
+                }
+
+            default:
+                break
+            }
+        }
+        
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
+// MARK: UITableViewDelegate, UITableViewDataSource
+
+extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+
         return getDiscoveredUserWithState(tableView.tag).count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
         
-        var discoveredUser = getDiscoveredUserWithState(tableView.tag)[indexPath.row]
+        let discoveredUser = getDiscoveredUserWithState(tableView.tag)[indexPath.row]
         
         let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
         
@@ -304,6 +457,7 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource{
         if let badgeName = discoveredUser.badge, badge = BadgeView.Badge(rawValue: badgeName) {
             cell.badgeImageView.image = badge.image
             cell.badgeImageView.tintColor = badge.color
+
         } else {
             cell.badgeImageView.image = nil
         }

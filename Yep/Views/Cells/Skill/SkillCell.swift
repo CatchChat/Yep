@@ -37,8 +37,9 @@ class SkillCell: UICollectionViewCell {
             skillLabel.text = newValue
         }
     }
+    var skillCoverURLString: String?
 
-    var tapAction: ((skillID: String, skillLocalName: String) -> Void)?
+    var tapAction: ((skillID: String, skillLocalName: String, skillCoverURLString: String) -> Void)?
 
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         tapped = true
@@ -49,8 +50,8 @@ class SkillCell: UICollectionViewCell {
         delay(0.15) { [weak self] in
             self?.tapped = false
 
-            if let skillID = self?.skillID, skillLocalName = self?.skillLocalName {
-                self?.tapAction?(skillID: skillID, skillLocalName: skillLocalName)
+            if let skillID = self?.skillID, skillLocalName = self?.skillLocalName, skillCoverURLString = self?.skillCoverURLString {
+                self?.tapAction?(skillID: skillID, skillLocalName: skillLocalName, skillCoverURLString: skillCoverURLString)
             }
         }
     }
