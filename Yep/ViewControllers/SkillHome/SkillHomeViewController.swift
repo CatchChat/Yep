@@ -9,6 +9,7 @@
 import UIKit
 import Proposer
 import MobileCoreServices
+import RealmSwift
 
 enum SkillHomeState: Int {
     case Master
@@ -315,16 +316,39 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                         let data = UIImageJPEGRepresentation(fixedImage, 0.7)
 
-                        s3PublicUploadFile(inFilePath: nil, orFileData: data, mimeType: "image/jpeg", failureHandler: { [weak self] reason, errorMessage in
-                            defaultFailureHandler(reason, errorMessage)
+                        if let skillID = skillID {
 
-                            YepAlert.alertSorry(message: NSLocalizedString("Upload skill cover failed!", comment: ""), inViewController: self)
+                            s3PublicUploadFile(inFilePath: nil, orFileData: data, mimeType: "image/jpeg", failureHandler: { [weak self] reason, errorMessage in
+                                defaultFailureHandler(reason, errorMessage)
 
-                        }, completion: { s3UploadParams in
-                            let skillCoverURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
+                                YepAlert.alertSorry(message: NSLocalizedString("Upload skill cover failed!", comment: ""), inViewController: self)
 
-                            println("skillCoverURLString: \(skillCoverURLString)")
-                        })
+                            }, completion: { s3UploadParams in
+                                let skillCoverURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
+
+                                println("skillCoverURLString: \(skillCoverURLString)")
+
+                                updateCoverOfSkillWithSkillID(skillID, coverURLString: skillCoverURLString, failureHandler: { [weak self] reason, errorMessage in
+                                    defaultFailureHandler(reason, errorMessage)
+
+                                    YepAlert.alertSorry(message: NSLocalizedString("Update skill cover failed!", comment: ""), inViewController: self)
+                                    
+                                }, completion: { success in
+                                    let realm = Realm()
+
+                                    if let userSkill = userSkillWithSkillID(skillID, inRealm: realm) {
+
+                                        println("userSkillA: \(userSkill), \(userSkill.coverURLString)")
+
+                                        realm.write {
+                                            userSkill.coverURLString = skillCoverURLString
+                                        }
+
+                                        println("userSkillB: \(userSkill), \(userSkill.coverURLString)")
+                                    }
+                                })
+                            })
+                        }
                     }
                 }
 

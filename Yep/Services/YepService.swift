@@ -323,6 +323,25 @@ func deleteSkill(skill: Skill, fromSkillSet skillSet: SkillSet, #failureHandler:
     }
 }
 
+func updateCoverOfSkillWithSkillID(skillID: String, #coverURLString: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+
+    let requestParameters: JSONDictionary = [
+        "cover_url": coverURLString,
+    ]
+
+    let parse: JSONDictionary -> Bool? = { data in
+        return true
+    }
+
+    let resource = authJsonResource(path: "/api/v1/skills/\(skillID)", method: .PATCH, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
 // MARK: User
 
 func userInfoOfUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
@@ -1550,6 +1569,8 @@ func markAsReadMessage(message: Message ,#failureHandler: ((Reason, String?) -> 
         apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
     }
 }
+
+// MARK: Social Work
 
 func authURLRequestWithURL(url: NSURL) -> NSURLRequest {
     
