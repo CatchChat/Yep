@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Ruler
 
 class YepConfig {
     
@@ -86,7 +87,7 @@ class YepConfig {
     }
 
     struct Profile {
-        static let leftEdgeInset: CGFloat = UIDevice.matchWidthFrom(20, 38, 40)
+        static let leftEdgeInset: CGFloat = Ruler.match(.iPhoneWidths(20, 38, 40))
         static let rightEdgeInset: CGFloat = leftEdgeInset
         static let introductionLabelFont = UIFont(name: "Helvetica-Light", size: 14)!
     }
@@ -105,7 +106,7 @@ class YepConfig {
 
     struct SocialWorkGithub {
         struct Repo {
-            static let leftEdgeInset = UIDevice.matchWidthFrom(20, 38, 40)
+            static let leftEdgeInset = Ruler.match(.iPhoneWidths(20, 38, 40))
             static let rightEdgeInset = leftEdgeInset
         }
     }
@@ -117,8 +118,8 @@ class YepConfig {
     struct ChatCell {
         static let gapBetweenDotImageViewAndBubble: CGFloat = 5
 
-        static let mediaPreferredWidth: CGFloat = UIDevice.matchWidthFrom(192, 225, 250)
-        static let mediaPreferredHeight: CGFloat = UIDevice.matchWidthFrom(208, 244, 270)
+        static let mediaPreferredWidth: CGFloat = Ruler.match(.iPhoneWidths(192, 225, 250))
+        static let mediaPreferredHeight: CGFloat = Ruler.match(.iPhoneWidths(208, 244, 270))
 
         static let mediaMinWidth: CGFloat = 60
         static let mediaMinHeight: CGFloat = 30

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Ruler
 
 class EditNicknameAndBadgeViewController: UITableViewController {
 
@@ -49,7 +50,7 @@ class EditNicknameAndBadgeViewController: UITableViewController {
         nicknameTextField.text = YepUserDefaults.nickname.value
         nicknameTextField.delegate = self
 
-        let gap = UIDevice.matchWidthFrom(10, 25, 32)
+        let gap = Ruler.match(.iPhoneWidths(10, 25, 32))
         centerLeft1GapConstraint.constant = gap
         centerRight1GapConstraint.constant = gap
         left1Left2GapConstraint.constant = gap

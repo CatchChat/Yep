@@ -2,6 +2,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 use_frameworks!
 
+pod 'Ruler'
 pod 'Proposer'
 pod 'APAddressBook/Swift'
 pod 'FXBlurView'

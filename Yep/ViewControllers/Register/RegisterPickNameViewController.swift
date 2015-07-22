@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Ruler
 
 class RegisterPickNameViewController: UIViewController {
 
@@ -33,8 +34,8 @@ class RegisterPickNameViewController: UIViewController {
         nameTextField.delegate = self
         nameTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
-        pickNamePromptLabelTopConstraint.constant = UIDevice.matchFrom(30, 50, 60, 60)
-        nameTextFieldTopConstraint.constant = UIDevice.matchFrom(30, 40, 50, 50)
+        pickNamePromptLabelTopConstraint.constant = Ruler.match(.iPhoneHeights(30, 50, 60, 60))
+        nameTextFieldTopConstraint.constant = Ruler.match(.iPhoneHeights(30, 40, 50, 50))
     }
 
     override func viewWillAppear(animated: Bool) {

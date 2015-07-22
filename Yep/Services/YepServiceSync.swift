@@ -20,18 +20,18 @@ func skillsFromUserSkillList(userSkillList: List<UserSkill>) -> [Skill] {
         userSkills.append(userSkill)
     }
     
-    return userSkills.map({ userSkill -> Skill? in
+    return userSkills.map({ userSkill -> Skill in
+
+        var skillCategory: SkillCategory?
+
         if let category = userSkill.category {
-            let skillCategory = SkillCategory(id: category.skillCategoryID, name: category.name, localName: category.localName, skills: [])
-
-            let skill = Skill(category: skillCategory, id: userSkill.skillID, name: userSkill.name, localName: userSkill.localName, coverURLString: userSkill.coverURLString)
-
-            return skill
+            skillCategory = SkillCategory(id: category.skillCategoryID, name: category.name, localName: category.localName, skills: [])
         }
 
-        return nil
+        let skill = Skill(category: skillCategory, id: userSkill.skillID, name: userSkill.name, localName: userSkill.localName, coverURLString: userSkill.coverURLString)
 
-    }).filter({ $0 != nil }).map({ skill in skill! })
+        return skill
+    })
 }
 
 func userSkillsFromSkills(skills: [Skill], inRealm realm: Realm) -> [UserSkill] {
