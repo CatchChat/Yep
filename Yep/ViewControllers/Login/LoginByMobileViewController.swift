@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Ruler
 
 class LoginByMobileViewController: UIViewController {
 
@@ -41,8 +42,8 @@ class LoginByMobileViewController: UIViewController {
         mobileNumberTextField.delegate = self
         mobileNumberTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
-        pickMobileNumberPromptLabelTopConstraint.constant = UIDevice.matchFrom(30, 50, 60, 60)
-        mobileNumberTextFieldTopConstraint.constant = UIDevice.matchFrom(30, 40, 50, 50)
+        pickMobileNumberPromptLabelTopConstraint.constant = Ruler.match(.iPhoneHeights(30, 50, 60, 60))
+        mobileNumberTextFieldTopConstraint.constant = Ruler.match(.iPhoneHeights(30, 40, 50, 50))
     }
 
     override func viewWillAppear(animated: Bool) {

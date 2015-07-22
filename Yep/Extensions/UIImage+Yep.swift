@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import Ruler
 
 extension UIImage {
 
     func roundImageOfRadius(radius: CGFloat) -> UIImage {
-        let radius = floor(radius - UIDevice.matchWidthFrom(0.5, 0.5, 1.5))
+        let radius = floor(radius - Ruler.match(.iPhoneWidths(0.5, 0.5, 1.5)))
         return self.largestCenteredSquareImage().resizeToTargetSize(CGSize(width: radius * 2, height: radius * 2)).roundImage()
     }
 

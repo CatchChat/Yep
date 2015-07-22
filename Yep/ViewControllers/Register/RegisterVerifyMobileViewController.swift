@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Ruler
 
 class RegisterVerifyMobileViewController: UIViewController {
 
@@ -59,9 +60,9 @@ class RegisterVerifyMobileViewController: UIViewController {
         callMePromptLabel.text = NSLocalizedString("Didn't get it?", comment: "")
         callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
 
-        verifyMobileNumberPromptLabelTopConstraint.constant = UIDevice.matchFrom(30, 50, 60, 60)
-        verifyCodeTextFieldTopConstraint.constant = UIDevice.matchFrom(30, 40, 50, 50)
-        callMeButtonTopConstraint.constant = UIDevice.matchFrom(10, 20, 40, 40)
+        verifyMobileNumberPromptLabelTopConstraint.constant = Ruler.match(.iPhoneHeights(30, 50, 60, 60))
+        verifyCodeTextFieldTopConstraint.constant = Ruler.match(.iPhoneHeights(30, 40, 50, 50))
+        callMeButtonTopConstraint.constant = Ruler.match(.iPhoneHeights(10, 20, 40, 40))
     }
 
     override func viewWillAppear(animated: Bool) {
