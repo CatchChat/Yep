@@ -36,6 +36,7 @@ PODS:
   - Realm/Headers (0.93.2)
   - RealmSwift (0.93.2):
     - Realm (= 0.93.2)
+  - Ruler (0.5)
   - SocketRocket (0.4)
   - TPKeyboardAvoiding (1.2.8)
 
@@ -48,6 +49,7 @@ DEPENDENCIES:
   - pop
   - Proposer
   - RealmSwift
+  - Ruler
   - TPKeyboardAvoiding (~> 1.2)
 
 EXTERNAL SOURCES:
@@ -65,7 +67,8 @@ SPEC CHECKSUMS:
   Proposer: 6fa2c0dc88b5445aed16786c6717d3676586ff9b
   Realm: 2fdd0ae74f730e190384e0338d8a0d3654df8220
   RealmSwift: 231b064da9f98b1c4f325fe1f1cb8756aae2b8d6
+  Ruler: bf01a372f064c900c089c78abd75c2685a86ecba
   SocketRocket: 01443933b7bc362621325f4607b80b4286a99707
   TPKeyboardAvoiding: f1ef0028fe9ba98ef2871cf55b4bbc39cae0267b
 
-COCOAPODS: 0.37.2
+COCOAPODS: 0.38.0
