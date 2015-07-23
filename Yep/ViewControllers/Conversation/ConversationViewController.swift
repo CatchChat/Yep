@@ -668,6 +668,7 @@ class ConversationViewController: BaseViewController {
         self.setNeedsStatusBarAppearanceUpdate()
 
 
+        /*
         // test menu
 
         if true {
@@ -707,6 +708,7 @@ class ConversationViewController: BaseViewController {
 
             NSLayoutConstraint.activateConstraints([menuCenterY, menuCenterX])
         }
+        */
     }
 
     private func markMessageAsReaded(message: Message) {
@@ -2102,6 +2104,106 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
                         }, collectionView: collectionView, indexPath: indexPath)
 
+                        cell.longPressAction = { [weak self] cell in
+
+                             if let strongSelf = self {
+
+                                let copyItem = BubbleMenuView.Item(title: "Copy") {
+                                    print("copy\n")
+
+                                    UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
+                                }
+
+                                let deleteItem = BubbleMenuView.Item(title: "Delete") {
+                                    print("delete\n")
+
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        if let strongSelf = self, realm = message.realm {
+
+                                            var sectionDateMessage: Message?
+
+                                            if let currentMessageIndex = strongSelf.messages.indexOf(message) {
+
+                                                let previousMessageIndex = currentMessageIndex - 1
+
+                                                if let previousMessage = strongSelf.messages[safe: previousMessageIndex] {
+
+                                                    if previousMessage.mediaType == MessageMediaType.SectionDate.rawValue {
+                                                        sectionDateMessage = previousMessage
+                                                    }
+                                                }
+                                            }
+
+                                            let currentIndexPath: NSIndexPath
+                                            if let index = strongSelf.messages.indexOf(message) {
+                                                currentIndexPath = NSIndexPath(forItem: index - strongSelf.displayedMessagesRange.location, inSection: indexPath.section)
+                                            } else {
+                                                currentIndexPath = indexPath
+                                            }
+
+                                            if let sectionDateMessage = sectionDateMessage {
+
+                                                var canDeleteTwoMessages = false // 考虑刚好的边界情况，例如消息为本束的最后一条，而 sectionDate 在上一束中
+                                                if strongSelf.displayedMessagesRange.length >= 2 {
+                                                    strongSelf.displayedMessagesRange.length -= 2
+                                                    canDeleteTwoMessages = true
+
+                                                } else {
+                                                    if strongSelf.displayedMessagesRange.location >= 1 {
+                                                        strongSelf.displayedMessagesRange.location -= 1
+                                                    }
+                                                    strongSelf.displayedMessagesRange.length -= 1
+                                                }
+
+                                                realm.write {
+                                                    if let mediaMetaData = sectionDateMessage.mediaMetaData {
+                                                        realm.delete(mediaMetaData)
+                                                    }
+                                                    if let mediaMetaData = message.mediaMetaData {
+                                                        realm.delete(mediaMetaData)
+                                                    }
+                                                    realm.delete(sectionDateMessage)
+                                                    realm.delete(message)
+                                                }
+
+                                                if canDeleteTwoMessages {
+                                                    let previousIndexPath = NSIndexPath(forItem: currentIndexPath.item - 1, inSection: currentIndexPath.section)
+                                                    strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([previousIndexPath, currentIndexPath])
+                                                } else {
+                                                    strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
+                                                }
+
+                                            } else {
+                                                strongSelf.displayedMessagesRange.length -= 1
+                                                realm.write {
+                                                    if let mediaMetaData = message.mediaMetaData {
+                                                        realm.delete(mediaMetaData)
+                                                    }
+                                                    realm.delete(message)
+                                                }
+                                                strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
+                                            }
+                                            
+                                            // 必须更新，插入时需要
+                                            strongSelf.lastTimeMessagesCount = strongSelf.messages.count
+                                        }
+                                    }
+                                }
+
+                                let menu = BubbleMenuView(items: [copyItem, deleteItem])
+                                
+                                menu.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+                                strongSelf.view.addSubview(menu)
+
+                                let menuCenterY = NSLayoutConstraint(item: menu, attribute: .CenterY, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterY, multiplier: 1, constant: 0)
+                                let menuCenterX = NSLayoutConstraint(item: menu, attribute: .CenterX, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterX, multiplier: 1, constant: 0)
+
+                                NSLayoutConstraint.activateConstraints([menuCenterY, menuCenterX])
+                            }
+                        }
+
+                        /*
                         cell.deleteMessageAction = { [weak self] in
                             dispatch_async(dispatch_get_main_queue()) {
                                 if let strongSelf = self, realm = message.realm {
@@ -2175,6 +2277,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
                             }
                         }
+                        */
 
                         return cell
                     }

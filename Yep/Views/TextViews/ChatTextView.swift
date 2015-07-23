@@ -10,10 +10,11 @@ import UIKit
 
 class ChatTextView: UITextView {
 
-//    override func canBecomeFirstResponder() -> Bool {
-//        return false
-//    }
+    override func canBecomeFirstResponder() -> Bool {
+        return false
+    }
 
+    /*
     var deleteEnabled = false
     var deleteAction: (() -> Void)?
 
@@ -32,4 +33,5 @@ class ChatTextView: UITextView {
             return action == Selector("copy:")
         }
     }
+    */
 }
