@@ -1951,7 +1951,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 let textViewFrame = cell.convertRect(cell.textContentTextView.frame, toView: strongSelf.view)
 
-                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(textViewFrame) < 64 + 80 ? .Up : .Down
+                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(textViewFrame) < YepConfig.Conversation.menuDirectionUpThreshold ? .Up : .Down
 
                                 let menu = BubbleMenuView(arrowDirection: arrowDirection, items: [copyItem])
 
@@ -2232,7 +2232,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 let textViewFrame = cell.convertRect(cell.textContentTextView.frame, toView: strongSelf.view)
 
-                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(textViewFrame) < 64 + 80 ? .Up : .Down
+                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(textViewFrame) < YepConfig.Conversation.menuDirectionUpThreshold ? .Up : .Down
 
                                 let menu = BubbleMenuView(arrowDirection: arrowDirection, items: [copyItem, deleteItem])
 
