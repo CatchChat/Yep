@@ -49,6 +49,7 @@ class BubbleMenuView: UIView {
 
     let arrowHeight: CGFloat = 8
     let buttonGap: CGFloat = 12
+    let offsetY: CGFloat = 8
 
     func makeUI() {
 

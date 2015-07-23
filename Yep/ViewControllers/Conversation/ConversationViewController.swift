@@ -2108,15 +2108,15 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                              if let strongSelf = self {
 
-                                let copyItem = BubbleMenuView.Item(title: NSLocalizedString("Copy", comment: "")) { bubbleMenuView in
+                                let copyItem = BubbleMenuView.Item(title: NSLocalizedString("Copy", comment: "")) { menu in
                                     print("copy\n")
 
                                     UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
 
-                                    bubbleMenuView.hide()
+                                    menu.hide()
                                 }
 
-                                let deleteItem = BubbleMenuView.Item(title: NSLocalizedString("Delete", comment: "")) { bubbleMenuView in
+                                let deleteItem = BubbleMenuView.Item(title: NSLocalizedString("Delete", comment: "")) { menu in
                                     print("delete\n")
 
                                     dispatch_async(dispatch_get_main_queue()) {
@@ -2191,7 +2191,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         }
                                     }
 
-                                    bubbleMenuView.hide()
+                                    menu.hide()
                                 }
 
                                 let menu = BubbleMenuView(items: [copyItem, deleteItem])
@@ -2200,8 +2200,16 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 strongSelf.view.addSubview(menu)
 
-                                let menuCenterY = NSLayoutConstraint(item: menu, attribute: .CenterY, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterY, multiplier: 1, constant: 0)
-                                let menuCenterX = NSLayoutConstraint(item: menu, attribute: .CenterX, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterX, multiplier: 1, constant: 0)
+                                let textViewFrame = cell.convertRect(cell.textContentTextView.frame, toView: strongSelf.view)
+
+                                var centerYConstant = CGRectGetMidY(textViewFrame) - CGRectGetMidY(strongSelf.conversationCollectionView.frame)
+                                centerYConstant -= CGRectGetHeight(textViewFrame) - menu.offsetY
+
+                                let menuCenterY = NSLayoutConstraint(item: menu, attribute: .CenterY, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterY, multiplier: 1, constant: centerYConstant)
+
+                                let centerXConstant = CGRectGetMidX(textViewFrame) - CGRectGetMidX(strongSelf.conversationCollectionView.frame)
+
+                                let menuCenterX = NSLayoutConstraint(item: menu, attribute: .CenterX, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterX, multiplier: 1, constant: centerXConstant)
 
                                 NSLayoutConstraint.activateConstraints([menuCenterY, menuCenterX])
                             }
