@@ -109,6 +109,8 @@ class ConversationViewController: BaseViewController {
     @IBOutlet weak var takePhotoButton: MessageTypeButton!
     @IBOutlet weak var addLocationButton: MessageTypeButton!
 
+    var currentMenu: BubbleMenuView?
+
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
 
     var waverView: YepWaverView!
@@ -739,6 +741,12 @@ class ConversationViewController: BaseViewController {
                 }
             }
         }
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        currentMenu?.hide()
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -2106,7 +2114,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         cell.longPressAction = { [weak self] cell in
 
-                             if let strongSelf = self {
+                            self?.currentMenu?.hide()
+
+                            if let strongSelf = self {
 
                                 let copyItem = BubbleMenuView.Item(title: NSLocalizedString("Copy", comment: "")) { menu in
                                     print("copy\n")
@@ -2185,7 +2195,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                                 }
                                                 strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
                                             }
-                                            
+
                                             // 必须更新，插入时需要
                                             strongSelf.lastTimeMessagesCount = strongSelf.messages.count
                                         }
@@ -2199,7 +2209,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(textViewFrame) < 64 + 80 ? .Up : .Down
 
                                 let menu = BubbleMenuView(arrowDirection: arrowDirection, items: [copyItem, deleteItem])
-                                
+
+                                strongSelf.currentMenu = menu
+
                                 menu.setTranslatesAutoresizingMaskIntoConstraints(false)
 
                                 strongSelf.view.addSubview(menu)
@@ -2213,19 +2225,19 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 case .Up:
                                     vConstant += ceil(CGRectGetHeight(textViewFrame) * 0.5) - menu.offsetV
-
+                                    
                                     menuV = NSLayoutConstraint(item: menu, attribute: .Top, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterY, multiplier: 1, constant: vConstant)
-
+                                    
                                 case .Down:
                                     vConstant -= ceil(CGRectGetHeight(textViewFrame) * 0.5) - menu.offsetV
-
+                                    
                                     menuV = NSLayoutConstraint(item: menu, attribute: .Bottom, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterY, multiplier: 1, constant: vConstant)
                                 }
-
+                                
                                 let centerXConstant = CGRectGetMidX(textViewFrame) - CGRectGetMidX(strongSelf.conversationCollectionView.frame)
-
+                                
                                 let menuCenterX = NSLayoutConstraint(item: menu, attribute: .CenterX, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterX, multiplier: 1, constant: centerXConstant)
-
+                                
                                 NSLayoutConstraint.activateConstraints([menuV, menuCenterX])
                             }
                         }
@@ -2355,6 +2367,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         pullToRefreshView.scrollViewDidScroll(scrollView)
+
+        currentMenu?.hide()
     }
 
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
