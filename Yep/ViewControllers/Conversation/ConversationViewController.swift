@@ -1957,33 +1957,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 strongSelf.currentMenu = menu
 
-                                menu.setTranslatesAutoresizingMaskIntoConstraints(false)
-
-                                strongSelf.view.addSubview(menu)
-
-
-                                var vConstant = CGRectGetMidY(textViewFrame) - CGRectGetMidY(strongSelf.conversationCollectionView.frame)
-
-                                let menuV: NSLayoutConstraint
-
-                                switch arrowDirection {
-
-                                case .Up:
-                                    vConstant += ceil(CGRectGetHeight(textViewFrame) * 0.5) - menu.offsetV
-
-                                    menuV = NSLayoutConstraint(item: menu, attribute: .Top, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterY, multiplier: 1, constant: vConstant)
-                                    
-                                case .Down:
-                                    vConstant -= ceil(CGRectGetHeight(textViewFrame) * 0.5) - menu.offsetV
-                                    
-                                    menuV = NSLayoutConstraint(item: menu, attribute: .Bottom, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterY, multiplier: 1, constant: vConstant)
-                                }
-                                
-                                let centerXConstant = CGRectGetMidX(textViewFrame) - CGRectGetMidX(strongSelf.conversationCollectionView.frame)
-                                
-                                let menuCenterX = NSLayoutConstraint(item: menu, attribute: .CenterX, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterX, multiplier: 1, constant: centerXConstant)
-                                
-                                NSLayoutConstraint.activateConstraints([menuV, menuCenterX])
+                                menu.showInView(strongSelf.view, withTextViewFrame: textViewFrame)
                             }
                         }
 
@@ -2264,33 +2238,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 strongSelf.currentMenu = menu
 
-                                menu.setTranslatesAutoresizingMaskIntoConstraints(false)
-
-                                strongSelf.view.addSubview(menu)
-
-
-                                var vConstant = CGRectGetMidY(textViewFrame) - CGRectGetMidY(strongSelf.conversationCollectionView.frame)
-
-                                let menuV: NSLayoutConstraint
-
-                                switch arrowDirection {
-
-                                case .Up:
-                                    vConstant += ceil(CGRectGetHeight(textViewFrame) * 0.5) - menu.offsetV
-                                    
-                                    menuV = NSLayoutConstraint(item: menu, attribute: .Top, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterY, multiplier: 1, constant: vConstant)
-                                    
-                                case .Down:
-                                    vConstant -= ceil(CGRectGetHeight(textViewFrame) * 0.5) - menu.offsetV
-                                    
-                                    menuV = NSLayoutConstraint(item: menu, attribute: .Bottom, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterY, multiplier: 1, constant: vConstant)
-                                }
-                                
-                                let centerXConstant = CGRectGetMidX(textViewFrame) - CGRectGetMidX(strongSelf.conversationCollectionView.frame)
-                                
-                                let menuCenterX = NSLayoutConstraint(item: menu, attribute: .CenterX, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterX, multiplier: 1, constant: centerXConstant)
-                                
-                                NSLayoutConstraint.activateConstraints([menuV, menuCenterX])
+                                menu.showInView(strongSelf.view, withTextViewFrame: textViewFrame)
                             }
                         }
 

@@ -48,6 +48,35 @@ class BubbleMenuView: UIView {
         }
     }
 
+    func showInView(view: UIView, withTextViewFrame textViewFrame: CGRect) {
+
+        setTranslatesAutoresizingMaskIntoConstraints(false)
+        view.addSubview(self)
+
+        var vConstant = CGRectGetMidY(textViewFrame) - CGRectGetMidY(view.frame)
+
+        let menuV: NSLayoutConstraint
+
+        switch arrowDirection {
+
+        case .Up:
+            vConstant += ceil(CGRectGetHeight(textViewFrame) * 0.5) - offsetV
+
+            menuV = NSLayoutConstraint(item: self, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: vConstant)
+
+        case .Down:
+            vConstant -= ceil(CGRectGetHeight(textViewFrame) * 0.5) - offsetV
+
+            menuV = NSLayoutConstraint(item: self, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: vConstant)
+        }
+
+        let centerXConstant = CGRectGetMidX(textViewFrame) - CGRectGetMidX(view.frame)
+
+        let menuCenterX = NSLayoutConstraint(item: self, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: centerXConstant)
+
+        NSLayoutConstraint.activateConstraints([menuV, menuCenterX])
+    }
+
     func hide() {
         removeFromSuperview()
     }
