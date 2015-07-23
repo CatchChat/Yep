@@ -10,12 +10,19 @@ import UIKit
 
 class BubbleMenuView: UIView {
 
-    var titles: [String]
+    var items: [Item]
 
     var buttons = [UIButton]()
 
-    init(titles: [String]) {
-        self.titles = titles
+    struct Item {
+        let title: String
+        let action: () -> Void
+    }
+
+    init(items: [Item]) {
+
+        self.items = items
+
         super.init(frame: CGRectZero)
 
         makeUI()
@@ -25,22 +32,36 @@ class BubbleMenuView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: Actions
+
+    func tapButton(button: UIButton) {
+        if let index = find(buttons, button) {
+            let action = items[index].action
+            action()
+        }
+    }
+
+    // MARK: UI
+
     let arrowHeight: CGFloat = 8
     let buttonGap: CGFloat = 12
 
     func makeUI() {
 
-        //backgroundColor = UIColor.redColor()
         backgroundColor = UIColor.clearColor()
 
         var format = "H:|"
 
-        for (index, title) in enumerate(titles) {
+        for (index, item) in enumerate(items) {
 
             let button = UIButton()
-            //button.backgroundColor = UIColor.blueColor().colorWithAlphaComponent(0.5)
 
-            button.setTitle(title, forState: .Normal)
+            button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            button.setTitleColor(UIColor.lightGrayColor(), forState: .Highlighted)
+
+            button.setTitle(item.title, forState: .Normal)
+            button.addTarget(self, action: "tapButton:", forControlEvents: .TouchUpInside)
+
             button.setTranslatesAutoresizingMaskIntoConstraints(false)
 
             addSubview(button)
@@ -55,8 +76,6 @@ class BubbleMenuView: UIView {
         }
 
         format += "-|"
-
-        //let format = "H:|[label0][label1][label2]|"
 
         var views = [NSObject: AnyObject]()
 
@@ -77,11 +96,6 @@ class BubbleMenuView: UIView {
             NSLayoutConstraint.activateConstraints([firstButtonTop, firstButtonBottom])
         }
     }
-
-//    override func intrinsicContentSize() -> CGSize {
-//        return CGSize(width: 80 * titles.count, height: 80)
-//    }
-
 
     override func drawRect(rect: CGRect) {
 

@@ -671,7 +671,17 @@ class ConversationViewController: BaseViewController {
         // test menu
 
         if true {
-            let menu = BubbleMenuView(titles: ["Copy", "Delete"])
+
+            let copyItem = BubbleMenuView.Item(title: "Copy") {
+                print("copy\n")
+            }
+
+            let deleteItem = BubbleMenuView.Item(title: "Delete") {
+                print("delete\n")
+            }
+
+            let menu = BubbleMenuView(items: [copyItem, deleteItem])
+
             menu.setTranslatesAutoresizingMaskIntoConstraints(false)
             view.addSubview(menu)
 
@@ -682,7 +692,13 @@ class ConversationViewController: BaseViewController {
         }
 
         if true {
-            let menu = BubbleMenuView(titles: ["Copy"])
+
+            let copyItem = BubbleMenuView.Item(title: "Copy") {
+                print("copy\n")
+            }
+
+            let menu = BubbleMenuView(items: [copyItem])
+
             menu.setTranslatesAutoresizingMaskIntoConstraints(false)
             view.addSubview(menu)
 
