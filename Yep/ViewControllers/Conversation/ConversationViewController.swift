@@ -1935,6 +1935,58 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
 
+                        cell.longPressAction = { [weak self] cell in
+
+                            self?.currentMenu?.hide()
+
+                            if let strongSelf = self {
+
+                                let copyItem = BubbleMenuView.Item(title: NSLocalizedString("Copy", comment: "")) { menu in
+                                    print("copy\n")
+
+                                    UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
+
+                                    menu.hide()
+                                }
+
+                                let textViewFrame = cell.convertRect(cell.textContentTextView.frame, toView: strongSelf.view)
+
+                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(textViewFrame) < 64 + 80 ? .Up : .Down
+
+                                let menu = BubbleMenuView(arrowDirection: arrowDirection, items: [copyItem])
+
+                                strongSelf.currentMenu = menu
+
+                                menu.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+                                strongSelf.view.addSubview(menu)
+
+
+                                var vConstant = CGRectGetMidY(textViewFrame) - CGRectGetMidY(strongSelf.conversationCollectionView.frame)
+
+                                let menuV: NSLayoutConstraint
+
+                                switch arrowDirection {
+
+                                case .Up:
+                                    vConstant += ceil(CGRectGetHeight(textViewFrame) * 0.5) - menu.offsetV
+
+                                    menuV = NSLayoutConstraint(item: menu, attribute: .Top, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterY, multiplier: 1, constant: vConstant)
+                                    
+                                case .Down:
+                                    vConstant -= ceil(CGRectGetHeight(textViewFrame) * 0.5) - menu.offsetV
+                                    
+                                    menuV = NSLayoutConstraint(item: menu, attribute: .Bottom, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterY, multiplier: 1, constant: vConstant)
+                                }
+                                
+                                let centerXConstant = CGRectGetMidX(textViewFrame) - CGRectGetMidX(strongSelf.conversationCollectionView.frame)
+                                
+                                let menuCenterX = NSLayoutConstraint(item: menu, attribute: .CenterX, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterX, multiplier: 1, constant: centerXConstant)
+                                
+                                NSLayoutConstraint.activateConstraints([menuV, menuCenterX])
+                            }
+                        }
+
                         return cell
                     }
 
