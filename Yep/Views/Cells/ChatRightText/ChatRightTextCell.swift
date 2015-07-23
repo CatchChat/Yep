@@ -25,9 +25,7 @@ class ChatRightTextCell: ChatRightBaseCell {
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
 
-
     var longPressAction: (ChatRightTextCell -> Void)?
-    //var deleteMessageAction: (() -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -46,12 +44,6 @@ class ChatRightTextCell: ChatRightBaseCell {
             NSUnderlineStyleAttributeName: NSNumber(integer: NSUnderlineStyle.StyleSingle.rawValue),
         ]
 
-//        textContentTextView.deleteEnabled = true
-//        textContentTextView.deleteAction = { [weak self] in
-//            println("delete text message?")
-//            self?.deleteMessageAction?()
-//        }
-
         let longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
         textContentTextView.addGestureRecognizer(longPress)
         
@@ -68,14 +60,6 @@ class ChatRightTextCell: ChatRightBaseCell {
 
     func handleLongPress(longPress: UILongPressGestureRecognizer) {
         if longPress.state == .Began {
-//            if let view = longPress.view, superview = view.superview {
-//                view.becomeFirstResponder()
-//
-//                let menu = UIMenuController.sharedMenuController()
-//                menu.setTargetRect(view.frame, inView: superview)
-//                menu.setMenuVisible(true, animated: true)
-//            }
-
             longPressAction?(self)
         }
     }
