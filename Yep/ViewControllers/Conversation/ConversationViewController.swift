@@ -2108,13 +2108,15 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                              if let strongSelf = self {
 
-                                let copyItem = BubbleMenuView.Item(title: "Copy") {
+                                let copyItem = BubbleMenuView.Item(title: "Copy") { bubbleMenuView in
                                     print("copy\n")
 
                                     UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
+
+                                    bubbleMenuView.hide()
                                 }
 
-                                let deleteItem = BubbleMenuView.Item(title: "Delete") {
+                                let deleteItem = BubbleMenuView.Item(title: "Delete") { bubbleMenuView in
                                     print("delete\n")
 
                                     dispatch_async(dispatch_get_main_queue()) {
@@ -2188,6 +2190,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                             strongSelf.lastTimeMessagesCount = strongSelf.messages.count
                                         }
                                     }
+
+                                    bubbleMenuView.hide()
                                 }
 
                                 let menu = BubbleMenuView(items: [copyItem, deleteItem])

@@ -16,7 +16,7 @@ class BubbleMenuView: UIView {
 
     struct Item {
         let title: String
-        let action: () -> Void
+        let action: BubbleMenuView -> Void
     }
 
     init(items: [Item]) {
@@ -37,8 +37,12 @@ class BubbleMenuView: UIView {
     func tapButton(button: UIButton) {
         if let index = find(buttons, button) {
             let action = items[index].action
-            action()
+            action(self)
         }
+    }
+
+    func hide() {
+        removeFromSuperview()
     }
 
     // MARK: UI
