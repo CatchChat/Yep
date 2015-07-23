@@ -81,6 +81,10 @@ class YepConfig {
         return 100
     }
 
+    struct Conversation {
+        static let menuDirectionUpThreshold: CGFloat = 64 + 60
+    }
+
     struct AudioRecord {
         static let shortestDuration: NSTimeInterval = 0.5
         static let longestDuration: NSTimeInterval = 60

@@ -97,6 +97,7 @@
 		5039594F1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */; };
 		503A54ED1B328ADB002077BD /* NSLocale+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503A54EC1B328ADB002077BD /* NSLocale+Yep.swift */; };
 		503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503CAB421AC00CB100DFE830 /* ConversationViewController.swift */; };
+		5044BF061B5FA74800930ADC /* BubbleMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5044BF051B5FA74800930ADC /* BubbleMenuView.swift */; };
 		504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504BDC141B4528A500DBD35D /* Badges.xcassets */; };
 		504CBA3D1B3D04B800663A90 /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504CBA3C1B3D04B800663A90 /* ChatTextView.swift */; };
 		504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F41241ACE2D1D00FBB19A /* SampleView.swift */; };
@@ -321,6 +322,7 @@
 		5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountGithubCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.xib; sourceTree = "<group>"; };
 		503A54EC1B328ADB002077BD /* NSLocale+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSLocale+Yep.swift"; path = "Extensions/NSLocale+Yep.swift"; sourceTree = "<group>"; };
 		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
+		5044BF051B5FA74800930ADC /* BubbleMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BubbleMenuView.swift; path = Views/BubbleMenu/BubbleMenuView.swift; sourceTree = "<group>"; };
 		504BDC141B4528A500DBD35D /* Badges.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Badges.xcassets; sourceTree = "<group>"; };
 		504CBA3C1B3D04B800663A90 /* ChatTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatTextView.swift; path = Views/TextViews/ChatTextView.swift; sourceTree = "<group>"; };
 		504F41241ACE2D1D00FBB19A /* SampleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleView.swift; path = Views/AudioWaves/SampleView.swift; sourceTree = "<group>"; };
@@ -782,6 +784,7 @@
 				5019F62F1B39BFCB0000D993 /* ConversationMore */,
 				500A0B201B451A7400D49358 /* Badge */,
 				504F85AD1B4D21E400F909BE /* DiscoverFilter */,
+				5044BF071B5FA75000930ADC /* BubbleMenu */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1028,6 +1031,14 @@
 				0A0027D51B19CEC000AD4BE0 /* ConversationOperationQueue.swift */,
 			);
 			name = Conversation;
+			sourceTree = "<group>";
+		};
+		5044BF071B5FA75000930ADC /* BubbleMenu */ = {
+			isa = PBXGroup;
+			children = (
+				5044BF051B5FA74800930ADC /* BubbleMenuView.swift */,
+			);
+			name = BubbleMenu;
 			sourceTree = "<group>";
 		};
 		504CBA3B1B3D048900663A90 /* TextViews */ = {
@@ -1802,6 +1813,7 @@
 				5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */,
 				50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */,
 				5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */,
+				5044BF061B5FA74800930ADC /* BubbleMenuView.swift in Sources */,
 				5023DE561AB6CA1000B3EE96 /* AvatarCache.swift in Sources */,
 				5023DE371AB6979600B3EE96 /* ConversationCell.swift in Sources */,
 				502AE5351AB8649F005BD199 /* LoginByMobileViewController.swift in Sources */,

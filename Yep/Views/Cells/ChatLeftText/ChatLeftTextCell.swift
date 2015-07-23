@@ -22,6 +22,8 @@ class ChatLeftTextCell: UICollectionViewCell {
     @IBOutlet weak var textContentTextViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textContentTextViewWidthConstraint: NSLayoutConstraint!
 
+    var longPressAction: (ChatLeftTextCell -> Void)?
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -38,15 +40,6 @@ class ChatLeftTextCell: UICollectionViewCell {
             NSUnderlineStyleAttributeName: NSNumber(integer: NSUnderlineStyle.StyleSingle.rawValue),
         ]
 
-//        textContentTextView.editable = false
-//        if let gestureRecognizers = textContentTextView.gestureRecognizers as? [UIGestureRecognizer] {
-//            for recognizer in gestureRecognizers {
-//                if recognizer.isKindOfClass(UILongPressGestureRecognizer.self) {
-//                    recognizer.enabled = false
-//                }
-//            }
-//        }
-
         let longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
         textContentTextView.addGestureRecognizer(longPress)
 
@@ -59,13 +52,7 @@ class ChatLeftTextCell: UICollectionViewCell {
 
     func handleLongPress(longPress: UILongPressGestureRecognizer) {
         if longPress.state == .Began {
-            if let view = longPress.view, superview = view.superview {
-                view.becomeFirstResponder()
-
-                let menu = UIMenuController.sharedMenuController()
-                menu.setTargetRect(view.frame, inView: superview)
-                menu.setMenuVisible(true, animated: true)
-            }
+            longPressAction?(self)
         }
     }
 

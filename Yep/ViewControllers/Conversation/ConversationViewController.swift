@@ -109,6 +109,13 @@ class ConversationViewController: BaseViewController {
     @IBOutlet weak var takePhotoButton: MessageTypeButton!
     @IBOutlet weak var addLocationButton: MessageTypeButton!
 
+    var currentMenu: BubbleMenuView?
+
+    func removeOldMenu() {
+        currentMenu?.hide()
+        currentMenu = nil
+    }
+
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
 
     var waverView: YepWaverView!
@@ -525,6 +532,8 @@ class ConversationViewController: BaseViewController {
 
         messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
 
+            self?.removeOldMenu()
+
             if let strongSelf = self {
 
                 switch (previousState, currentState) {
@@ -634,8 +643,6 @@ class ConversationViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-
-        
         conversationCollectionViewHasBeenMovedToBottomOnce = true
 
         FayeService.sharedManager.delegate = self
@@ -668,6 +675,49 @@ class ConversationViewController: BaseViewController {
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.setNeedsStatusBarAppearanceUpdate()
+
+
+        /*
+        // test menu
+
+        if true {
+
+            let copyItem = BubbleMenuView.Item(title: "Copy") {
+                print("copy\n")
+            }
+
+            let deleteItem = BubbleMenuView.Item(title: "Delete") {
+                print("delete\n")
+            }
+
+            let menu = BubbleMenuView(items: [copyItem, deleteItem])
+
+            menu.setTranslatesAutoresizingMaskIntoConstraints(false)
+            view.addSubview(menu)
+
+            let menuCenterY = NSLayoutConstraint(item: menu, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0)
+            let menuCenterX = NSLayoutConstraint(item: menu, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
+
+            NSLayoutConstraint.activateConstraints([menuCenterY, menuCenterX])
+        }
+
+        if true {
+
+            let copyItem = BubbleMenuView.Item(title: "Copy") {
+                print("copy\n")
+            }
+
+            let menu = BubbleMenuView(items: [copyItem])
+
+            menu.setTranslatesAutoresizingMaskIntoConstraints(false)
+            view.addSubview(menu)
+
+            let menuCenterY = NSLayoutConstraint(item: menu, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: -100)
+            let menuCenterX = NSLayoutConstraint(item: menu, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
+
+            NSLayoutConstraint.activateConstraints([menuCenterY, menuCenterX])
+        }
+        */
     }
 
     private func markMessageAsReaded(message: Message) {
@@ -698,6 +748,12 @@ class ConversationViewController: BaseViewController {
                 }
             }
         }
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        removeOldMenu()
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -970,6 +1026,8 @@ class ConversationViewController: BaseViewController {
     // MARK: Actions
 
     func moreAction() {
+
+        removeOldMenu()
 
         messageToolbar.state = .Default
 
@@ -1802,6 +1860,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     markMessageAsReaded(message)
 
                     switch message.mediaType {
+
                     case MessageMediaType.Image.rawValue:
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftImageCellIdentifier, forIndexPath: indexPath) as! ChatLeftImageCell
 
@@ -1886,12 +1945,40 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
 
+                        cell.longPressAction = { [weak self] cell in
+
+                            self?.removeOldMenu()
+
+                            if let strongSelf = self {
+
+                                let copyItem = BubbleMenuView.Item(type: .Normal, title: NSLocalizedString("Copy", comment: "")) { menu in
+                                    print("copy\n")
+
+                                    UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
+
+                                    menu.hide()
+                                    self?.currentMenu = nil
+                                }
+
+                                let bubbleFrame = cell.convertRect(cell.bubbleBodyImageView.frame, toView: strongSelf.view)
+
+                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(bubbleFrame) < YepConfig.Conversation.menuDirectionUpThreshold ? .Up : .Down
+
+                                let menu = BubbleMenuView(arrowDirection: arrowDirection, items: [copyItem])
+
+                                strongSelf.currentMenu = menu
+
+                                menu.showInView(strongSelf.view, withBubbleFrame: bubbleFrame)
+                            }
+                        }
+
                         return cell
                     }
 
                 } else { // from Me
 
                     switch message.mediaType {
+
                     case MessageMediaType.Image.rawValue:
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
 
@@ -2063,77 +2150,109 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
                         }, collectionView: collectionView, indexPath: indexPath)
 
-                        cell.deleteMessageAction = { [weak self] in
-                            dispatch_async(dispatch_get_main_queue()) {
-                                if let strongSelf = self, realm = message.realm {
+                        cell.longPressAction = { [weak self] cell in
 
-                                    var sectionDateMessage: Message?
+                            self?.removeOldMenu()
 
-                                    if let currentMessageIndex = strongSelf.messages.indexOf(message) {
+                            if let strongSelf = self {
 
-                                        let previousMessageIndex = currentMessageIndex - 1
+                                let copyItem = BubbleMenuView.Item(type: .Normal, title: NSLocalizedString("Copy", comment: "")) { menu in
+                                    print("copy\n")
 
-                                        if let previousMessage = strongSelf.messages[safe: previousMessageIndex] {
+                                    UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
 
-                                            if previousMessage.mediaType == MessageMediaType.SectionDate.rawValue {
-                                                sectionDateMessage = previousMessage
-                                            }
-                                        }
-                                    }
-
-                                    let currentIndexPath: NSIndexPath
-                                    if let index = strongSelf.messages.indexOf(message) {
-                                        currentIndexPath = NSIndexPath(forItem: index - strongSelf.displayedMessagesRange.location, inSection: indexPath.section)
-                                    } else {
-                                        currentIndexPath = indexPath
-                                    }
-
-                                    if let sectionDateMessage = sectionDateMessage {
-
-                                        var canDeleteTwoMessages = false // 考虑刚好的边界情况，例如消息为本束的最后一条，而 sectionDate 在上一束中
-                                        if strongSelf.displayedMessagesRange.length >= 2 {
-                                            strongSelf.displayedMessagesRange.length -= 2
-                                            canDeleteTwoMessages = true
-
-                                        } else {
-                                            if strongSelf.displayedMessagesRange.location >= 1 {
-                                                strongSelf.displayedMessagesRange.location -= 1
-                                            }
-                                            strongSelf.displayedMessagesRange.length -= 1
-                                        }
-
-                                        realm.write {
-                                            if let mediaMetaData = sectionDateMessage.mediaMetaData {
-                                                realm.delete(mediaMetaData)
-                                            }
-                                            if let mediaMetaData = message.mediaMetaData {
-                                                realm.delete(mediaMetaData)
-                                            }
-                                            realm.delete(sectionDateMessage)
-                                            realm.delete(message)
-                                        }
-
-                                        if canDeleteTwoMessages {
-                                            let previousIndexPath = NSIndexPath(forItem: currentIndexPath.item - 1, inSection: currentIndexPath.section)
-                                            strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([previousIndexPath, currentIndexPath])
-                                        } else {
-                                            strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
-                                        }
-
-                                    } else {
-                                        strongSelf.displayedMessagesRange.length -= 1
-                                        realm.write {
-                                            if let mediaMetaData = message.mediaMetaData {
-                                                realm.delete(mediaMetaData)
-                                            }
-                                            realm.delete(message)
-                                        }
-                                        strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
-                                    }
-
-                                    // 必须更新，插入时需要
-                                    strongSelf.lastTimeMessagesCount = strongSelf.messages.count
+                                    menu.hide()
+                                    self?.currentMenu = nil
                                 }
+
+                                let deleteItem = BubbleMenuView.Item(type: .Danger, title: NSLocalizedString("Delete", comment: "")) { menu in
+                                    print("delete\n")
+
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        if let strongSelf = self, realm = message.realm {
+
+                                            var sectionDateMessage: Message?
+
+                                            if let currentMessageIndex = strongSelf.messages.indexOf(message) {
+
+                                                let previousMessageIndex = currentMessageIndex - 1
+
+                                                if let previousMessage = strongSelf.messages[safe: previousMessageIndex] {
+
+                                                    if previousMessage.mediaType == MessageMediaType.SectionDate.rawValue {
+                                                        sectionDateMessage = previousMessage
+                                                    }
+                                                }
+                                            }
+
+                                            let currentIndexPath: NSIndexPath
+                                            if let index = strongSelf.messages.indexOf(message) {
+                                                currentIndexPath = NSIndexPath(forItem: index - strongSelf.displayedMessagesRange.location, inSection: indexPath.section)
+                                            } else {
+                                                currentIndexPath = indexPath
+                                            }
+
+                                            if let sectionDateMessage = sectionDateMessage {
+
+                                                var canDeleteTwoMessages = false // 考虑刚好的边界情况，例如消息为本束的最后一条，而 sectionDate 在上一束中
+                                                if strongSelf.displayedMessagesRange.length >= 2 {
+                                                    strongSelf.displayedMessagesRange.length -= 2
+                                                    canDeleteTwoMessages = true
+
+                                                } else {
+                                                    if strongSelf.displayedMessagesRange.location >= 1 {
+                                                        strongSelf.displayedMessagesRange.location -= 1
+                                                    }
+                                                    strongSelf.displayedMessagesRange.length -= 1
+                                                }
+
+                                                realm.write {
+                                                    if let mediaMetaData = sectionDateMessage.mediaMetaData {
+                                                        realm.delete(mediaMetaData)
+                                                    }
+                                                    if let mediaMetaData = message.mediaMetaData {
+                                                        realm.delete(mediaMetaData)
+                                                    }
+                                                    realm.delete(sectionDateMessage)
+                                                    realm.delete(message)
+                                                }
+
+                                                if canDeleteTwoMessages {
+                                                    let previousIndexPath = NSIndexPath(forItem: currentIndexPath.item - 1, inSection: currentIndexPath.section)
+                                                    strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([previousIndexPath, currentIndexPath])
+                                                } else {
+                                                    strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
+                                                }
+
+                                            } else {
+                                                strongSelf.displayedMessagesRange.length -= 1
+                                                realm.write {
+                                                    if let mediaMetaData = message.mediaMetaData {
+                                                        realm.delete(mediaMetaData)
+                                                    }
+                                                    realm.delete(message)
+                                                }
+                                                strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
+                                            }
+
+                                            // 必须更新，插入时需要
+                                            strongSelf.lastTimeMessagesCount = strongSelf.messages.count
+                                        }
+                                    }
+
+                                    menu.hide()
+                                    self?.currentMenu = nil
+                                }
+
+                                let bubbleFrame = cell.convertRect(cell.bubbleBodyImageView.frame, toView: strongSelf.view)
+
+                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(bubbleFrame) < YepConfig.Conversation.menuDirectionUpThreshold ? .Up : .Down
+
+                                let menu = BubbleMenuView(arrowDirection: arrowDirection, items: [copyItem, deleteItem])
+
+                                strongSelf.currentMenu = menu
+
+                                menu.showInView(strongSelf.view, withBubbleFrame: bubbleFrame)
                             }
                         }
 
@@ -2186,6 +2305,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         pullToRefreshView.scrollViewDidScroll(scrollView)
+
+        removeOldMenu()
     }
 
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
