@@ -2194,24 +2194,39 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     menu.hide()
                                 }
 
-                                let menu = BubbleMenuView(items: [copyItem, deleteItem])
+                                let textViewFrame = cell.convertRect(cell.textContentTextView.frame, toView: strongSelf.view)
+
+                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(textViewFrame) < 64 + 80 ? .Up : .Down
+
+                                let menu = BubbleMenuView(arrowDirection: arrowDirection, items: [copyItem, deleteItem])
                                 
                                 menu.setTranslatesAutoresizingMaskIntoConstraints(false)
 
                                 strongSelf.view.addSubview(menu)
 
-                                let textViewFrame = cell.convertRect(cell.textContentTextView.frame, toView: strongSelf.view)
 
-                                var centerYConstant = CGRectGetMidY(textViewFrame) - CGRectGetMidY(strongSelf.conversationCollectionView.frame)
-                                centerYConstant -= CGRectGetHeight(textViewFrame) - menu.offsetY
+                                var vConstant = CGRectGetMidY(textViewFrame) - CGRectGetMidY(strongSelf.conversationCollectionView.frame)
 
-                                let menuCenterY = NSLayoutConstraint(item: menu, attribute: .CenterY, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterY, multiplier: 1, constant: centerYConstant)
+                                let menuV: NSLayoutConstraint
+
+                                switch arrowDirection {
+
+                                case .Up:
+                                    vConstant += ceil(CGRectGetHeight(textViewFrame) * 0.5) - menu.offsetV
+
+                                    menuV = NSLayoutConstraint(item: menu, attribute: .Top, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterY, multiplier: 1, constant: vConstant)
+
+                                case .Down:
+                                    vConstant -= ceil(CGRectGetHeight(textViewFrame) * 0.5) - menu.offsetV
+
+                                    menuV = NSLayoutConstraint(item: menu, attribute: .Bottom, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterY, multiplier: 1, constant: vConstant)
+                                }
 
                                 let centerXConstant = CGRectGetMidX(textViewFrame) - CGRectGetMidX(strongSelf.conversationCollectionView.frame)
 
                                 let menuCenterX = NSLayoutConstraint(item: menu, attribute: .CenterX, relatedBy: .Equal, toItem: strongSelf.view, attribute: .CenterX, multiplier: 1, constant: centerXConstant)
 
-                                NSLayoutConstraint.activateConstraints([menuCenterY, menuCenterX])
+                                NSLayoutConstraint.activateConstraints([menuV, menuCenterX])
                             }
                         }
 

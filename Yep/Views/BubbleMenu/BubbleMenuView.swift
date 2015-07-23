@@ -10,17 +10,24 @@ import UIKit
 
 class BubbleMenuView: UIView {
 
-    var items: [Item]
-
-    var buttons = [UIButton]()
+    enum ArrowDirection {
+        case Up
+        case Down
+    }
 
     struct Item {
         let title: String
         let action: BubbleMenuView -> Void
     }
 
-    init(items: [Item]) {
+    var arrowDirection: ArrowDirection
+    var items: [Item]
 
+    var buttons = [UIButton]()
+
+    init(arrowDirection: ArrowDirection, items: [Item]) {
+
+        self.arrowDirection = arrowDirection
         self.items = items
 
         super.init(frame: CGRectZero)
@@ -49,7 +56,7 @@ class BubbleMenuView: UIView {
 
     let arrowHeight: CGFloat = 8
     let buttonGap: CGFloat = 12
-    let offsetY: CGFloat = 8
+    let offsetV: CGFloat = 1
 
     func makeUI() {
 
@@ -96,9 +103,23 @@ class BubbleMenuView: UIView {
         if let firstButton = buttons.first {
 
             let firstButtonTop = NSLayoutConstraint(item: firstButton, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0)
-            let firstButtonBottom = NSLayoutConstraint(item: firstButton, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: -arrowHeight)
 
-            NSLayoutConstraint.activateConstraints([firstButtonTop, firstButtonBottom])
+            switch arrowDirection {
+
+            case .Up:
+
+                let firstButtonTop = NSLayoutConstraint(item: firstButton, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: arrowHeight)
+                let firstButtonBottom = NSLayoutConstraint(item: firstButton, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: 0)
+
+                NSLayoutConstraint.activateConstraints([firstButtonTop, firstButtonBottom])
+
+            case .Down:
+
+                let firstButtonTop = NSLayoutConstraint(item: firstButton, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0)
+                let firstButtonBottom = NSLayoutConstraint(item: firstButton, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: -arrowHeight)
+
+                NSLayoutConstraint.activateConstraints([firstButtonTop, firstButtonBottom])
+            }
         }
     }
 
@@ -109,22 +130,47 @@ class BubbleMenuView: UIView {
         // bubble
 
         var roundedRect = rect
-        roundedRect.size.height -= arrowHeight
+
+        switch arrowDirection {
+
+        case .Up:
+            roundedRect.origin.y += arrowHeight
+            roundedRect.size.height -= arrowHeight
+
+        case .Down:
+            roundedRect.size.height -= arrowHeight
+        }
+
         let bubblePath = UIBezierPath(roundedRect: roundedRect, cornerRadius: 5)
         bubblePath.fill()
 
 
         // arrow
 
-        let buttomX = CGRectGetMidX(rect)
-        let buttomY = CGRectGetMaxY(rect)
+        switch arrowDirection {
 
-        let arrowPath = UIBezierPath()
-        arrowPath.moveToPoint(CGPointMake(buttomX, buttomY))
-        arrowPath.addLineToPoint(CGPointMake(buttomX - (arrowHeight - 1), buttomY - arrowHeight))
-        arrowPath.addLineToPoint(CGPointMake(buttomX + (arrowHeight - 1), buttomY - arrowHeight))
-        arrowPath.closePath()
-        arrowPath.fill()
+        case .Up:
+            let topX = CGRectGetMidX(rect)
+            let topY = CGRectGetMinY(rect)
+
+            let arrowPath = UIBezierPath()
+            arrowPath.moveToPoint(CGPointMake(topX, topY))
+            arrowPath.addLineToPoint(CGPointMake(topX - (arrowHeight - 1), topY + arrowHeight))
+            arrowPath.addLineToPoint(CGPointMake(topX + (arrowHeight - 1), topY + arrowHeight))
+            arrowPath.closePath()
+            arrowPath.fill()
+
+        case .Down:
+            let buttomX = CGRectGetMidX(rect)
+            let buttomY = CGRectGetMaxY(rect)
+
+            let arrowPath = UIBezierPath()
+            arrowPath.moveToPoint(CGPointMake(buttomX, buttomY))
+            arrowPath.addLineToPoint(CGPointMake(buttomX - (arrowHeight - 1), buttomY - arrowHeight))
+            arrowPath.addLineToPoint(CGPointMake(buttomX + (arrowHeight - 1), buttomY - arrowHeight))
+            arrowPath.closePath()
+            arrowPath.fill()
+        }
 
 
         // lines
