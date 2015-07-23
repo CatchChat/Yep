@@ -56,31 +56,31 @@ class BubbleMenuView: UIView {
         }
     }
 
-    func showInView(view: UIView, withTextViewFrame textViewFrame: CGRect) {
+    func showInView(view: UIView, withBubbleFrame bubbleFrame: CGRect) {
 
         // position
 
         setTranslatesAutoresizingMaskIntoConstraints(false)
         view.addSubview(self)
 
-        var vConstant = CGRectGetMidY(textViewFrame) - CGRectGetMidY(view.frame)
+        var vConstant = CGRectGetMidY(bubbleFrame) - CGRectGetMidY(view.frame)
 
         let menuV: NSLayoutConstraint
 
         switch arrowDirection {
 
         case .Up:
-            vConstant += ceil(CGRectGetHeight(textViewFrame) * 0.5) - offsetV
+            vConstant += ceil(CGRectGetHeight(bubbleFrame) * 0.5) - offsetV
 
             menuV = NSLayoutConstraint(item: self, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: vConstant)
 
         case .Down:
-            vConstant -= ceil(CGRectGetHeight(textViewFrame) * 0.5) - offsetV
+            vConstant -= ceil(CGRectGetHeight(bubbleFrame) * 0.5) - offsetV
 
             menuV = NSLayoutConstraint(item: self, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: vConstant)
         }
 
-        let centerXConstant = CGRectGetMidX(textViewFrame) - CGRectGetMidX(view.frame)
+        let centerXConstant = CGRectGetMidX(bubbleFrame) - CGRectGetMidX(view.frame)
 
         let menuCenterX = NSLayoutConstraint(item: self, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: centerXConstant)
 
@@ -112,7 +112,7 @@ class BubbleMenuView: UIView {
 
     let arrowHeight: CGFloat = 8
     let buttonGap: CGFloat = 16
-    let offsetV: CGFloat = 1
+    let offsetV: CGFloat = -1
 
     func makeUI() {
 
@@ -133,7 +133,7 @@ class BubbleMenuView: UIView {
 
             case .Danger:
 
-                let dangerRed = UIColor(red: 1, green: 0.18, blue: 0.40, alpha: 1)
+                let dangerRed = UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1)
 
                 button.setTitleColor(dangerRed, forState: .Normal)
                 button.setTitleColor(dangerRed.colorWithAlphaComponent(0.3), forState: .Highlighted)

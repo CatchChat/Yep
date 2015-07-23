@@ -1960,15 +1960,15 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     self?.currentMenu = nil
                                 }
 
-                                let textViewFrame = cell.convertRect(cell.textContentTextView.frame, toView: strongSelf.view)
+                                let bubbleFrame = cell.convertRect(cell.bubbleBodyImageView.frame, toView: strongSelf.view)
 
-                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(textViewFrame) < YepConfig.Conversation.menuDirectionUpThreshold ? .Up : .Down
+                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(bubbleFrame) < YepConfig.Conversation.menuDirectionUpThreshold ? .Up : .Down
 
                                 let menu = BubbleMenuView(arrowDirection: arrowDirection, items: [copyItem])
 
                                 strongSelf.currentMenu = menu
 
-                                menu.showInView(strongSelf.view, withTextViewFrame: textViewFrame)
+                                menu.showInView(strongSelf.view, withBubbleFrame: bubbleFrame)
                             }
                         }
 
@@ -2244,15 +2244,15 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     self?.currentMenu = nil
                                 }
 
-                                let textViewFrame = cell.convertRect(cell.textContentTextView.frame, toView: strongSelf.view)
+                                let bubbleFrame = cell.convertRect(cell.bubbleBodyImageView.frame, toView: strongSelf.view)
 
-                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(textViewFrame) < YepConfig.Conversation.menuDirectionUpThreshold ? .Up : .Down
+                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(bubbleFrame) < YepConfig.Conversation.menuDirectionUpThreshold ? .Up : .Down
 
                                 let menu = BubbleMenuView(arrowDirection: arrowDirection, items: [copyItem, deleteItem])
 
                                 strongSelf.currentMenu = menu
 
-                                menu.showInView(strongSelf.view, withTextViewFrame: textViewFrame)
+                                menu.showInView(strongSelf.view, withBubbleFrame: bubbleFrame)
                             }
                         }
 
