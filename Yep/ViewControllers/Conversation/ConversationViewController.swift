@@ -1860,6 +1860,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     markMessageAsReaded(message)
 
                     switch message.mediaType {
+
                     case MessageMediaType.Image.rawValue:
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftImageCellIdentifier, forIndexPath: indexPath) as! ChatLeftImageCell
 
@@ -1950,7 +1951,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             if let strongSelf = self {
 
-                                let copyItem = BubbleMenuView.Item(title: NSLocalizedString("Copy", comment: "")) { menu in
+                                let copyItem = BubbleMenuView.Item(type: .Normal, title: NSLocalizedString("Copy", comment: "")) { menu in
                                     print("copy\n")
 
                                     UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
@@ -1977,6 +1978,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 } else { // from Me
 
                     switch message.mediaType {
+
                     case MessageMediaType.Image.rawValue:
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
 
@@ -2154,7 +2156,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             if let strongSelf = self {
 
-                                let copyItem = BubbleMenuView.Item(title: NSLocalizedString("Copy", comment: "")) { menu in
+                                let copyItem = BubbleMenuView.Item(type: .Normal, title: NSLocalizedString("Copy", comment: "")) { menu in
                                     print("copy\n")
 
                                     UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
@@ -2163,7 +2165,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     self?.currentMenu = nil
                                 }
 
-                                let deleteItem = BubbleMenuView.Item(title: NSLocalizedString("Delete", comment: "")) { menu in
+                                let deleteItem = BubbleMenuView.Item(type: .Danger, title: NSLocalizedString("Delete", comment: "")) { menu in
                                     print("delete\n")
 
                                     dispatch_async(dispatch_get_main_queue()) {

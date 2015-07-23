@@ -16,7 +16,15 @@ class BubbleMenuView: UIView {
     }
 
     struct Item {
+
+        enum Type {
+            case Normal
+            case Danger
+        }
+        let type: Type
+
         let title: String
+
         let action: BubbleMenuView -> Void
     }
 
@@ -104,7 +112,7 @@ class BubbleMenuView: UIView {
 
     let arrowHeight: CGFloat = 8
     let buttonGap: CGFloat = 16
-    let offsetV: CGFloat = 2
+    let offsetV: CGFloat = 1
 
     func makeUI() {
 
@@ -116,8 +124,20 @@ class BubbleMenuView: UIView {
 
             let button = UIButton()
 
-            button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-            button.setTitleColor(UIColor.lightGrayColor(), forState: .Highlighted)
+            switch item.type {
+
+            case .Normal:
+
+                button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+                button.setTitleColor(UIColor.lightGrayColor(), forState: .Highlighted)
+
+            case .Danger:
+
+                let dangerRed = UIColor(red: 1, green: 0.18, blue: 0.40, alpha: 1)
+
+                button.setTitleColor(dangerRed, forState: .Normal)
+                button.setTitleColor(dangerRed.colorWithAlphaComponent(0.3), forState: .Highlighted)
+            }
 
             button.setTitle(item.title, forState: .Normal)
             button.addTarget(self, action: "tapButton:", forControlEvents: .TouchUpInside)
@@ -173,7 +193,7 @@ class BubbleMenuView: UIView {
 
     override func drawRect(rect: CGRect) {
 
-        UIColor.blackColor().colorWithAlphaComponent(0.7).setFill()
+        UIColor.blackColor().colorWithAlphaComponent(0.6).setFill()
 
         // bubble
 
