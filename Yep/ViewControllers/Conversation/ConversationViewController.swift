@@ -634,8 +634,6 @@ class ConversationViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-
-        
         conversationCollectionViewHasBeenMovedToBottomOnce = true
 
         FayeService.sharedManager.delegate = self
@@ -668,6 +666,31 @@ class ConversationViewController: BaseViewController {
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.setNeedsStatusBarAppearanceUpdate()
+
+
+        // test menu
+
+        if true {
+            let menu = BubbleMenuView(titles: ["Copy", "Delete"])
+            menu.setTranslatesAutoresizingMaskIntoConstraints(false)
+            view.addSubview(menu)
+
+            let menuCenterY = NSLayoutConstraint(item: menu, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0)
+            let menuCenterX = NSLayoutConstraint(item: menu, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
+
+            NSLayoutConstraint.activateConstraints([menuCenterY, menuCenterX])
+        }
+
+        if true {
+            let menu = BubbleMenuView(titles: ["Copy"])
+            menu.setTranslatesAutoresizingMaskIntoConstraints(false)
+            view.addSubview(menu)
+
+            let menuCenterY = NSLayoutConstraint(item: menu, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: -100)
+            let menuCenterX = NSLayoutConstraint(item: menu, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
+
+            NSLayoutConstraint.activateConstraints([menuCenterY, menuCenterX])
+        }
     }
 
     private func markMessageAsReaded(message: Message) {
