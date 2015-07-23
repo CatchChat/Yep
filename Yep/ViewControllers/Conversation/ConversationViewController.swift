@@ -2108,7 +2108,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                              if let strongSelf = self {
 
-                                let copyItem = BubbleMenuView.Item(title: "Copy") { bubbleMenuView in
+                                let copyItem = BubbleMenuView.Item(title: NSLocalizedString("Copy", comment: "")) { bubbleMenuView in
                                     print("copy\n")
 
                                     UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
@@ -2116,7 +2116,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     bubbleMenuView.hide()
                                 }
 
-                                let deleteItem = BubbleMenuView.Item(title: "Delete") { bubbleMenuView in
+                                let deleteItem = BubbleMenuView.Item(title: NSLocalizedString("Delete", comment: "")) { bubbleMenuView in
                                     print("delete\n")
 
                                     dispatch_async(dispatch_get_main_queue()) {
