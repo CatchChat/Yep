@@ -111,6 +111,11 @@ class ConversationViewController: BaseViewController {
 
     var currentMenu: BubbleMenuView?
 
+    func removeOldMenu() {
+        currentMenu?.hide()
+        currentMenu = nil
+    }
+
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
 
     var waverView: YepWaverView!
@@ -527,6 +532,8 @@ class ConversationViewController: BaseViewController {
 
         messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
 
+            self?.removeOldMenu()
+
             if let strongSelf = self {
 
                 switch (previousState, currentState) {
@@ -746,7 +753,7 @@ class ConversationViewController: BaseViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
-        currentMenu?.hide()
+        removeOldMenu()
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -1019,6 +1026,8 @@ class ConversationViewController: BaseViewController {
     // MARK: Actions
 
     func moreAction() {
+
+        removeOldMenu()
 
         messageToolbar.state = .Default
 
@@ -1937,7 +1946,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         cell.longPressAction = { [weak self] cell in
 
-                            self?.currentMenu?.hide()
+                            self?.removeOldMenu()
 
                             if let strongSelf = self {
 
@@ -1947,6 +1956,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
 
                                     menu.hide()
+                                    self?.currentMenu = nil
                                 }
 
                                 let textViewFrame = cell.convertRect(cell.textContentTextView.frame, toView: strongSelf.view)
@@ -2140,7 +2150,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         cell.longPressAction = { [weak self] cell in
 
-                            self?.currentMenu?.hide()
+                            self?.removeOldMenu()
 
                             if let strongSelf = self {
 
@@ -2150,6 +2160,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
 
                                     menu.hide()
+                                    self?.currentMenu = nil
                                 }
 
                                 let deleteItem = BubbleMenuView.Item(title: NSLocalizedString("Delete", comment: "")) { menu in
@@ -2228,6 +2239,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     }
 
                                     menu.hide()
+                                    self?.currentMenu = nil
                                 }
 
                                 let textViewFrame = cell.convertRect(cell.textContentTextView.frame, toView: strongSelf.view)
@@ -2292,7 +2304,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     func scrollViewDidScroll(scrollView: UIScrollView) {
         pullToRefreshView.scrollViewDidScroll(scrollView)
 
-        currentMenu?.hide()
+        removeOldMenu()
     }
 
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
