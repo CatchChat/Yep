@@ -50,6 +50,8 @@ class BubbleMenuView: UIView {
 
     func showInView(view: UIView, withTextViewFrame textViewFrame: CGRect) {
 
+        // position
+
         setTranslatesAutoresizingMaskIntoConstraints(false)
         view.addSubview(self)
 
@@ -75,16 +77,33 @@ class BubbleMenuView: UIView {
         let menuCenterX = NSLayoutConstraint(item: self, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: centerXConstant)
 
         NSLayoutConstraint.activateConstraints([menuV, menuCenterX])
+
+
+        // animation
+
+        transform = CGAffineTransformMakeScale(0.0001, 0.0001)
+
+        UIView.animateWithDuration(0.25, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
+            self.transform = CGAffineTransformMakeScale(1.0, 1.0)
+        }, completion: { finished in
+            self.transform = CGAffineTransformIdentity
+        })
     }
 
     func hide() {
-        removeFromSuperview()
+
+        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+            self.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
+
+        }, completion: { finished in
+            self.removeFromSuperview()
+        })
     }
 
     // MARK: UI
 
     let arrowHeight: CGFloat = 8
-    let buttonGap: CGFloat = 12
+    let buttonGap: CGFloat = 16
     let offsetV: CGFloat = 2
 
     func makeUI() {
