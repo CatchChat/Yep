@@ -36,10 +36,19 @@ class SkillCell: UICollectionViewCell {
         let localName: String
         let coverURLString: String?
 
-        init(ID: String, localName: String, coverURLString: String?) {
+        enum Category: String {
+            case Art = "Art"
+            case Technology = "Technology"
+            case Sport = "Sport"
+            case LifeStyle = "Life Style"
+        }
+        let category: Category
+
+        init(ID: String, localName: String, coverURLString: String?, category: Category?) {
             self.ID = ID
             self.localName = localName
             self.coverURLString = coverURLString
+            self.category = category ?? .Art
         }
     }
 

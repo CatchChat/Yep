@@ -826,11 +826,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 switch profileUser {
                 case .DiscoveredUserType(let discoveredUser):
                     let skill = discoveredUser.masterSkills[indexPath.item]
-                    cell.skill = SkillCell.Skill(ID: skill.id, localName: skill.localName, coverURLString: skill.coverURLString)
+                    cell.skill = SkillCell.Skill(ID: skill.id, localName: skill.localName, coverURLString: skill.coverURLString, category: skill.skillCategory)
 
                 case .UserType(let user):
                     let userSkill = user.masterSkills[indexPath.item]
-                    cell.skill = SkillCell.Skill(ID: userSkill.skillID, localName: userSkill.localName, coverURLString: userSkill.coverURLString)
+                    cell.skill = SkillCell.Skill(ID: userSkill.skillID, localName: userSkill.localName, coverURLString: userSkill.coverURLString, category: userSkill.skillCategory)
                 }
             }
 
@@ -847,11 +847,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 switch profileUser {
                 case .DiscoveredUserType(let discoveredUser):
                     let skill = discoveredUser.learningSkills[indexPath.item]
-                    cell.skill = SkillCell.Skill(ID: skill.id, localName: skill.localName, coverURLString: skill.coverURLString)
+                    cell.skill = SkillCell.Skill(ID: skill.id, localName: skill.localName, coverURLString: skill.coverURLString, category: skill.skillCategory)
 
                 case .UserType(let user):
                     let userSkill = user.learningSkills[indexPath.item]
-                    cell.skill = SkillCell.Skill(ID: userSkill.skillID, localName: userSkill.localName, coverURLString: userSkill.coverURLString)
+                    cell.skill = SkillCell.Skill(ID: userSkill.skillID, localName: userSkill.localName, coverURLString: userSkill.coverURLString, category: userSkill.skillCategory)
                 }
             }
 

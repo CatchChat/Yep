@@ -157,6 +157,13 @@ struct Skill: Hashable {
 
     let category: SkillCategory?
 
+    var skillCategory: SkillCell.Skill.Category? {
+        if let category = category {
+            return SkillCell.Skill.Category(rawValue: category.name)
+        }
+        return nil
+    }
+
     let id: String
     let name: String
     let localName: String

@@ -48,6 +48,13 @@ class UserSkill: Object {
 
     dynamic var category: UserSkillCategory?
 
+    var skillCategory: SkillCell.Skill.Category? {
+        if let category = category {
+            return SkillCell.Skill.Category(rawValue: category.name)
+        }
+        return nil
+    }
+
     dynamic var skillID: String = ""
     dynamic var name: String = ""
     dynamic var localName: String = ""
