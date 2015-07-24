@@ -31,15 +31,47 @@ class SkillCell: UICollectionViewCell {
         }
     }
 
-    var skillID: String?
-    var skillLocalName: String? {
-        willSet {
-            skillLabel.text = newValue
+    class Skill: NSObject {
+        let ID: String
+        let localName: String
+        let coverURLString: String?
+
+        enum Category: String {
+            case Art = "Art"
+            case Technology = "Technology"
+            case Sport = "Sport"
+            case LifeStyle = "Life Style"
+
+            var gradientImage: UIImage? {
+                switch self {
+                case .Art:
+                    return UIImage(named: "gradient_art")
+                case .Technology:
+                    return UIImage(named: "gradient_tech")
+                case .Sport:
+                    return UIImage(named: "gradient_sport")
+                case .LifeStyle:
+                    return UIImage(named: "gradient_life")
+                }
+            }
+        }
+        let category: Category
+
+        init(ID: String, localName: String, coverURLString: String?, category: Category?) {
+            self.ID = ID
+            self.localName = localName
+            self.coverURLString = coverURLString
+            self.category = category ?? .Art
         }
     }
-    var skillCoverURLString: String?
 
-    var tapAction: ((skillID: String, skillLocalName: String, skillCoverURLString: String) -> Void)?
+    var skill: Skill? {
+        willSet {
+            skillLabel.text = newValue?.localName
+        }
+    }
+
+    var tapAction: ((skill: Skill) -> Void)?
 
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         tapped = true
@@ -48,10 +80,14 @@ class SkillCell: UICollectionViewCell {
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
 
         delay(0.15) { [weak self] in
-            self?.tapped = false
 
-            if let skillID = self?.skillID, skillLocalName = self?.skillLocalName, skillCoverURLString = self?.skillCoverURLString {
-                self?.tapAction?(skillID: skillID, skillLocalName: skillLocalName, skillCoverURLString: skillCoverURLString)
+            if let strongSelf = self {
+
+                strongSelf.tapped = false
+
+                if let skill = strongSelf.skill {
+                    strongSelf.tapAction?(skill: skill)
+                }
             }
         }
     }

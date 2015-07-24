@@ -433,9 +433,7 @@ class ProfileViewController: UIViewController {
                     vc.preferedState = SkillHomeState(rawValue: preferedState)
                 }
 
-                vc.skillID = skillInfo["skillID"] as? String
-                vc.skillLocalName = skillInfo["skillLocalName"] as? String
-                vc.skillCoverURLString = skillInfo["skillCoverURLString"] as? String
+                vc.skill = skillInfo["skill"] as? SkillCell.Skill
 
                 vc.afterUpdatedSkillCoverAction = { [weak self] in
                     self?.updateProfileCollectionView()
@@ -828,20 +826,16 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 switch profileUser {
                 case .DiscoveredUserType(let discoveredUser):
                     let skill = discoveredUser.masterSkills[indexPath.item]
-                    cell.skillID = skill.id
-                    cell.skillLocalName = skill.localName
-                    cell.skillCoverURLString = skill.coverURLString
+                    cell.skill = SkillCell.Skill(ID: skill.id, localName: skill.localName, coverURLString: skill.coverURLString, category: skill.skillCategory)
 
                 case .UserType(let user):
                     let userSkill = user.masterSkills[indexPath.item]
-                    cell.skillID = userSkill.skillID
-                    cell.skillLocalName = userSkill.localName
-                    cell.skillCoverURLString = userSkill.coverURLString
+                    cell.skill = SkillCell.Skill(ID: userSkill.skillID, localName: userSkill.localName, coverURLString: userSkill.coverURLString, category: userSkill.skillCategory)
                 }
             }
 
-            cell.tapAction = { [weak self] skillID, skillLocalName, skillCoverURLString in
-                self?.performSegueWithIdentifier("showSkillHome", sender: ["preferedState": SkillHomeState.Master.rawValue, "skillID": skillID, "skillLocalName": skillLocalName, "skillCoverURLString": skillCoverURLString])
+            cell.tapAction = { [weak self] skill in
+                self?.performSegueWithIdentifier("showSkillHome", sender: ["skill": skill, "preferedState": SkillHomeState.Master.rawValue])
             }
 
             return cell
@@ -853,20 +847,16 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 switch profileUser {
                 case .DiscoveredUserType(let discoveredUser):
                     let skill = discoveredUser.learningSkills[indexPath.item]
-                    cell.skillID = skill.id
-                    cell.skillLocalName = skill.localName
-                    cell.skillCoverURLString = skill.coverURLString
+                    cell.skill = SkillCell.Skill(ID: skill.id, localName: skill.localName, coverURLString: skill.coverURLString, category: skill.skillCategory)
 
                 case .UserType(let user):
                     let userSkill = user.learningSkills[indexPath.item]
-                    cell.skillID = userSkill.skillID
-                    cell.skillLocalName = userSkill.localName
-                    cell.skillCoverURLString = userSkill.coverURLString
+                    cell.skill = SkillCell.Skill(ID: userSkill.skillID, localName: userSkill.localName, coverURLString: userSkill.coverURLString, category: userSkill.skillCategory)
                 }
             }
 
-            cell.tapAction = { [weak self] skillID, skillLocalName, skillCoverURLString in
-                self?.performSegueWithIdentifier("showSkillHome", sender: ["preferedState": SkillHomeState.Learning.rawValue, "skillID": skillID, "skillLocalName": skillLocalName, "skillCoverURLString": skillCoverURLString])
+            cell.tapAction = { [weak self] skill in
+                self?.performSegueWithIdentifier("showSkillHome", sender: ["skill": skill, "preferedState": SkillHomeState.Learning.rawValue])
             }
 
             return cell
