@@ -31,11 +31,10 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         return tempTableView;
     }()
 
-    var skillID: String?
-    
-    var skillLocalName: String? {
+    var skill: SkillCell.Skill? {
         willSet {
-            title = newValue
+            title = newValue?.localName
+            skillCoverURLString = newValue?.coverURLString
         }
     }
 
@@ -124,7 +123,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         learningtTableView.delegate = self
         learningtTableView.tag = SkillHomeState.Learning.hashValue
 
-        if let skillID = skillID {
+        if let skillID = skill?.ID {
             discoverUserBySkillID(skillID)
         }
         
@@ -242,7 +241,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             NSFontAttributeName: UIFont.skillHomeTextLargeFont()
         ]
 
-        let titleAttr = NSMutableAttributedString(string: skillLocalName ?? "", attributes:textAttributes)
+        let titleAttr = NSMutableAttributedString(string: skill?.localName ?? "", attributes:textAttributes)
 
         titleLabel.attributedText = titleAttr
         titleLabel.textAlignment = NSTextAlignment.Center
@@ -369,7 +368,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                         let data = UIImageJPEGRepresentation(fixedImage, 0.7)
 
-                        if let skillID = skillID {
+                        if let skillID = skill?.ID {
 
                             YepHUD.showActivityIndicator()
 
