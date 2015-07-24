@@ -41,6 +41,19 @@ class SkillCell: UICollectionViewCell {
             case Technology = "Technology"
             case Sport = "Sport"
             case LifeStyle = "Life Style"
+
+            var gradientImage: UIImage? {
+                switch self {
+                case .Art:
+                    return UIImage(named: "gradient_art")
+                case .Technology:
+                    return UIImage(named: "gradient_tech")
+                case .Sport:
+                    return UIImage(named: "gradient_sport")
+                case .LifeStyle:
+                    return UIImage(named: "gradient_life")
+                }
+            }
         }
         let category: Category
 

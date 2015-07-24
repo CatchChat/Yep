@@ -99,6 +99,9 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if let skillCategory = skill?.category {
+            headerView.skillCategory = skillCategory
+        }
         headerView.skillCoverURLString = skillCoverURLString
 
         masterTableView.separatorColor = UIColor.yepCellSeparatorColor()

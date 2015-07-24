@@ -11,13 +11,14 @@ import Kingfisher
 
 class SkillHomeHeaderView: UIView {
 
+    var skillCategory: SkillCell.Skill.Category = .Art
     var skillCoverURLString: String? {
         willSet {
             if let coverURLString = newValue, URL = NSURL(string: coverURLString) {
-                headerImageView.kf_setImageWithURL(URL, placeholderImage: UIImage(named: "Cover3"))
+                headerImageView.kf_setImageWithURL(URL, placeholderImage: skillCategory.gradientImage)
 
             } else {
-                headerImageView.image = UIImage(named: "Cover3")
+                headerImageView.image = skillCategory.gradientImage
             }
         }
     }
