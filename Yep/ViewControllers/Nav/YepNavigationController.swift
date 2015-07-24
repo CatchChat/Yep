@@ -20,11 +20,6 @@ class YepNavigationController: UINavigationController, UIGestureRecognizerDelega
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
     }
@@ -32,8 +27,7 @@ class YepNavigationController: UINavigationController, UIGestureRecognizerDelega
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    
+
     override func pushViewController(viewController: UIViewController, animated: Bool) {
         if respondsToSelector("interactivePopGestureRecognizer") && animated {
             interactivePopGestureRecognizer.enabled = false
@@ -65,63 +59,13 @@ class YepNavigationController: UINavigationController, UIGestureRecognizerDelega
     }
     
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if gestureRecognizer == interactivePopGestureRecognizer
-        {
-            if self.viewControllers.count < 2 || self.visibleViewController == self.viewControllers[0] as! UIViewController
-            {
+        if gestureRecognizer == interactivePopGestureRecognizer {
+            if self.viewControllers.count < 2 || self.visibleViewController == self.viewControllers[0] as! UIViewController {
                 return false
             }
         }
         
         return true
     }
-
 }
 
-// http://stackoverflow.com/questions/20327165/popviewcontroller-strange-behaviour
-// 很难work，无法重载
-//// MARK: UINavigationBarDelegate
-//
-//extension UINavigationController {
-//
-////    func navigationBar(navigationBar: UINavigationBar, shouldPopItem item: UINavigationItem) -> Bool {
-////        return true
-////    }
-//}
-//
-//extension YepNavigationController: UINavigationBarDelegate {
-//
-//    //override
-//    func navigationBar(navigationBar: UINavigationBar, shouldPopItem item: UINavigationItem) -> Bool {
-//
-//        let forcePop: () -> Void = {
-//            self.dirtyAction = nil
-//            self.forcePopAction?()
-//            self.forcePopAction = nil
-//        }
-//
-//        if let dirtyAction = dirtyAction {
-//
-//            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Save before pop?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self.topViewController, withConfirmAction: {
-//
-//                dirtyAction()
-//
-//                forcePop()
-//
-//            }, cancelAction: {
-//                forcePop()
-//            })
-//            
-//            return false
-//        }
-//
-//        return true
-//        //return super.navigationBar(navigationBar, shouldPopItem: item)
-//    }
-//
-//    func navigationBar(navigationBar: UINavigationBar, didPopItem item: UINavigationItem) {
-////        self.forcePopAction?()
-////        self.forcePopAction = nil
-//        self.popViewControllerAnimated(true)
-//    }
-//}
