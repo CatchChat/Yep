@@ -15,6 +15,9 @@ class SkillHomeHeaderView: UIView {
         willSet {
             if let coverURLString = newValue, URL = NSURL(string: coverURLString) {
                 headerImageView.kf_setImageWithURL(URL, placeholderImage: UIImage(named: "Cover3"))
+
+            } else {
+                headerImageView.image = UIImage(named: "Cover3")
             }
         }
     }

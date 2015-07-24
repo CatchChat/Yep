@@ -40,9 +40,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
     var skillCoverURLString: String? {
         willSet {
-            if let coverURLString = newValue {
-                headerView?.skillCoverURLString = coverURLString
-            }
+            headerView?.skillCoverURLString = newValue
         }
     }
 
