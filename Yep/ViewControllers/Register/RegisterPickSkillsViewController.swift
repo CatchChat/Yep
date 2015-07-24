@@ -11,6 +11,17 @@ import UIKit
 class RegisterPickSkillsViewController: BaseViewController {
 
     var isRegister = true
+    var isDirty = false {
+        didSet {
+            if !isRegister {
+                let backBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
+                navigationItem.leftBarButtonItem = backBarButtonItem
+            }
+
+            navigationItem.rightBarButtonItem?.enabled = true
+        }
+    }
+
     var afterChangeSkillsAction: ((masterSkills: [Skill], learningSkills: [Skill]) -> Void)?
 
     @IBOutlet weak var skillsCollectionView: UICollectionView!
@@ -39,8 +50,9 @@ class RegisterPickSkillsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let doneBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "saveSkills:")
-        navigationItem.rightBarButtonItem = doneBarButton
+        let doneBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "saveSkills:")
+        navigationItem.rightBarButtonItem = doneBarButtonItem
+        navigationItem.rightBarButtonItem?.enabled = false
 
         if !isRegister {
             navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Change Skills", comment: ""))
@@ -70,7 +82,15 @@ class RegisterPickSkillsViewController: BaseViewController {
         }
     }
 
+    func cancel() {
+        navigationController?.popViewControllerAnimated(true)
+    }
+
     @IBAction func saveSkills(sender: AnyObject) {
+        doSaveSkills()
+    }
+
+    func doSaveSkills() {
 
         YepHUD.showActivityIndicator()
 
@@ -235,6 +255,10 @@ class RegisterPickSkillsViewController: BaseViewController {
                     }
 
                     self.updateSkillsCollectionView()
+
+                    if !self.isDirty {
+                        self.isDirty = success
+                    }
 
                     return success
                 }
