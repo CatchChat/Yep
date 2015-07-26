@@ -3,6 +3,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 def pods
+    pod 'KeyboardMan', :podspec => 'KeyboardMan.podspec'
 	pod 'Ruler'
 	pod 'Proposer'
 	pod 'APAddressBook/Swift'
