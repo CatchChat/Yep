@@ -45,7 +45,7 @@ DEPENDENCIES:
   - AFNetworking
   - APAddressBook/Swift
   - FXBlurView
-  - KeyboardMan (from `KeyboardMan.podspec`)
+  - KeyboardMan
   - Kingfisher
   - MZFayeClient (from `../CatchLib-iOS/MZFayeClient/`)
   - pop
@@ -55,22 +55,15 @@ DEPENDENCIES:
   - TPKeyboardAvoiding (~> 1.2)
 
 EXTERNAL SOURCES:
-  KeyboardMan:
-    :podspec: KeyboardMan.podspec
   MZFayeClient:
     :path: "../CatchLib-iOS/MZFayeClient/"
-
-CHECKOUT OPTIONS:
-  KeyboardMan:
-    :commit: 8a3a12d7616bb50164f53d18ebefeecdce04572a
-    :git: https://github.com/nixzhu/KeyboardMan.git
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   APAddressBook: 2c949367b190a993d2cce769a3b20bce8bcf000c
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
   FXBlurView: c6d23f3d35af2c6282296a2930f61c6e2c788d01
-  KeyboardMan: 3a3f92a626903bded98bea164c0bdfbdf3e0618b
+  KeyboardMan: 6d6768ff3063ada5fdc1166a71424453b1391a16
   Kingfisher: 4446782a827abbe2e6048a1fa741924a10e6ad7c
   MZFayeClient: 65e7ef67e61fbe7a7a8b196130541c9f06bcb5d8
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
