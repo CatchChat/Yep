@@ -525,9 +525,11 @@ class ConversationViewController: BaseViewController {
 
                 switch (previousState, currentState) {
 
-                case (.MoreMessages, .Default):
+                case (.MoreMessages, .Default): fallthrough
+                case (.MoreMessages, .VoiceRecord):
 
                     UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+
                         strongSelf.conversationCollectionView.contentOffset.y -= strongSelf.moreMessageTypesViewDefaultHeight
                         strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
 
@@ -538,11 +540,13 @@ class ConversationViewController: BaseViewController {
                     })
 
                 default:
+
                     if currentState == .MoreMessages {
 
                         if previousState != .BeginTextInput && previousState != .TextInputing {
 
                             UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+
                                 strongSelf.conversationCollectionView.contentOffset.y += strongSelf.moreMessageTypesViewDefaultHeight
                                 strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewDefaultHeight
 
@@ -556,6 +560,7 @@ class ConversationViewController: BaseViewController {
                         // touch to create (if need) for faster appear
                         strongSelf.imagePicker.hidesBarsOnTap = false
                     }
+
                 }
 
                 // 尝试保留草稿
