@@ -75,7 +75,7 @@ class ConversationViewController: BaseViewController {
     @IBOutlet weak var messageToolbarBottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var moreMessageTypesViewHeightConstraint: NSLayoutConstraint!
-    let moreMessageTypesViewHeightConstraintConstant: CGFloat = 110
+    let moreMessageTypesViewDefaultHeight: CGFloat = 110
 
     @IBOutlet weak var choosePhotoButton: MessageTypeButton!
     @IBOutlet weak var takePhotoButton: MessageTypeButton!
@@ -226,7 +226,7 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.bounces = true
 
         messageToolbarBottomConstraint.constant = 0
-        moreMessageTypesViewHeightConstraint.constant = moreMessageTypesViewHeightConstraintConstant
+        moreMessageTypesViewHeightConstraint.constant = moreMessageTypesViewDefaultHeight
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
 
@@ -238,7 +238,7 @@ class ConversationViewController: BaseViewController {
 
                     // 注意第一次要减去已经有的高度偏移
                     if appearPostIndex == 0 {
-                        strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement - strongSelf.moreMessageTypesViewHeightConstraintConstant
+                        strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement - strongSelf.moreMessageTypesViewDefaultHeight
                     } else {
                         strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement
                     }
@@ -265,10 +265,10 @@ class ConversationViewController: BaseViewController {
             if let strongSelf = self {
 
                 if strongSelf.messageToolbar.state == .MoreMessages {
-                    strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight - strongSelf.moreMessageTypesViewHeightConstraintConstant
-                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewHeightConstraintConstant
+                    strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight - strongSelf.moreMessageTypesViewDefaultHeight
+                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewDefaultHeight
 
-                    strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewHeightConstraintConstant
+                    strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
                     strongSelf.view.layoutIfNeeded()
 
                 } else {
@@ -528,7 +528,7 @@ class ConversationViewController: BaseViewController {
                 case (.MoreMessages, .Default):
 
                     UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                        strongSelf.conversationCollectionView.contentOffset.y -= strongSelf.moreMessageTypesViewHeightConstraintConstant
+                        strongSelf.conversationCollectionView.contentOffset.y -= strongSelf.moreMessageTypesViewDefaultHeight
                         strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
 
                         strongSelf.messageToolbarBottomConstraint.constant = 0
@@ -543,10 +543,10 @@ class ConversationViewController: BaseViewController {
                         if previousState != .BeginTextInput && previousState != .TextInputing {
 
                             UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                                strongSelf.conversationCollectionView.contentOffset.y += strongSelf.moreMessageTypesViewHeightConstraintConstant
-                                strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewHeightConstraintConstant
+                                strongSelf.conversationCollectionView.contentOffset.y += strongSelf.moreMessageTypesViewDefaultHeight
+                                strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewDefaultHeight
 
-                                strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewHeightConstraintConstant
+                                strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
                                 strongSelf.view.layoutIfNeeded()
 
                             }, completion: { finished in
