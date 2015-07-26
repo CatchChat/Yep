@@ -25,7 +25,7 @@ PODS:
     - APAddressBook/Core
   - Base64 (1.0.1)
   - FXBlurView (1.6.3)
-  - KeyboardMan (0.5)
+  - KeyboardMan (0.2)
   - Kingfisher (1.4.2)
   - MZFayeClient (1.0.1):
     - Base64 (~> 1.0.1)
@@ -62,7 +62,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   KeyboardMan:
-    :commit: 15298f13ecbd48056a7c04251f28d6f9a7ee760a
+    :commit: 8a3a12d7616bb50164f53d18ebefeecdce04572a
     :git: https://github.com/nixzhu/KeyboardMan.git
 
 SPEC CHECKSUMS:
@@ -70,7 +70,7 @@ SPEC CHECKSUMS:
   APAddressBook: 2c949367b190a993d2cce769a3b20bce8bcf000c
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
   FXBlurView: c6d23f3d35af2c6282296a2930f61c6e2c788d01
-  KeyboardMan: 86dc6f7040431a8b0d2401415b9a133b9cce8c64
+  KeyboardMan: 3a3f92a626903bded98bea164c0bdfbdf3e0618b
   Kingfisher: 4446782a827abbe2e6048a1fa741924a10e6ad7c
   MZFayeClient: 65e7ef67e61fbe7a7a8b196130541c9f06bcb5d8
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923

@@ -20,8 +20,6 @@ struct MessageNotification {
 
 class ConversationViewController: BaseViewController {
 
-    @IBOutlet weak var swipeUpView: UIView!
-
     var conversation: Conversation!
 
     var realm: Realm!
@@ -52,11 +50,9 @@ class ConversationViewController: BaseViewController {
     var messagePreviewTransitionManager: ConversationMessagePreviewTransitionManager?
     var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
 
-
     var conversationCollectionViewHasBeenMovedToBottomOnce = false
 
     var checkTypingStatusTimer: NSTimer?
-
     var typingResetDelay: Float = 0
 
     // KeyboardMan 帮助我们做键盘动画
@@ -84,6 +80,8 @@ class ConversationViewController: BaseViewController {
     @IBOutlet weak var choosePhotoButton: MessageTypeButton!
     @IBOutlet weak var takePhotoButton: MessageTypeButton!
     @IBOutlet weak var addLocationButton: MessageTypeButton!
+
+    @IBOutlet weak var swipeUpView: UIView!
 
     var currentMenu: BubbleMenuView?
 
@@ -230,7 +228,7 @@ class ConversationViewController: BaseViewController {
         messageToolbarBottomConstraint.constant = 0
         moreMessageTypesViewHeightConstraint.constant = moreMessageTypesViewHeightConstraintConstant
 
-        keyboardMan.animateWhenKeyboardAppear = { [weak self] keyboardHeight, keyboardHeightIncrement in
+        keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
 
             print("appear \(keyboardHeight), \(keyboardHeightIncrement)\n")
 
@@ -238,8 +236,8 @@ class ConversationViewController: BaseViewController {
 
                 if strongSelf.messageToolbarBottomConstraint.constant > 0 {
 
-                    // 注意第一次要减去
-                    if keyboardHeightIncrement > strongSelf.moreMessageTypesViewHeightConstraintConstant {
+                    // 注意第一次要减去已经有的高度偏移
+                    if appearPostIndex == 0 {
                         strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement - strongSelf.moreMessageTypesViewHeightConstraintConstant
                     } else {
                         strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement
