@@ -12,14 +12,13 @@ import AVFoundation
 import MobileCoreServices
 import MapKit
 import Proposer
+import KeyboardMan
 
 struct MessageNotification {
     static let MessageStateChanged = "MessageStateChangedNotification"
 }
 
 class ConversationViewController: BaseViewController {
-
-    @IBOutlet weak var swipeUpView: UIView!
 
     var conversation: Conversation!
 
@@ -32,9 +31,6 @@ class ConversationViewController: BaseViewController {
     let messagesBunchCount = 50 // TODO: 分段载入的“一束”消息的数量
     var displayedMessagesRange = NSRange()
     
-    var realmChangeToken: NotificationToken?
-
-
     // 上一次更新 UI 时的消息数
     var lastTimeMessagesCount: Int = 0
 
@@ -54,42 +50,18 @@ class ConversationViewController: BaseViewController {
     var messagePreviewTransitionManager: ConversationMessagePreviewTransitionManager?
     var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
 
-
     var conversationCollectionViewHasBeenMovedToBottomOnce = false
 
-    // Keyboard 动画相关
-    var conversationCollectionViewContentOffsetBeforeKeyboardWillShow = CGPointZero
-    var conversationCollectionViewContentOffsetBeforeKeyboardWillHide = CGPointZero
-    var isKeyboardVisible = false
-    var keyboardHeight: CGFloat = 0
-
     var checkTypingStatusTimer: NSTimer?
-    
     var typingResetDelay: Float = 0
-    
-    var keyboardShowTimes = 0 {
-        willSet {
-//            println("set keyboardShowTimes \(newValue)")
-            
-            if newValue == 0 {
-                if !self.isKeyboardVisible {
-                    self.isKeyboardVisible = true
-                }
-            }
-        }
-    }
+
+    // KeyboardMan 帮助我们做键盘动画
+    let keyboardMan = KeyboardMan()
 
     lazy var titleView: ConversationTitleView = {
         let titleView = ConversationTitleView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 150, height: 44)))
-
-        let name = nameOfConversation(self.conversation)
-
-        titleView.nameLabel.text = name
-
+        titleView.nameLabel.text = nameOfConversation(self.conversation)
         self.updateStateInfoOfTitleView(titleView)
-
-        self.navigationItem.title = name
-
         return titleView
         }()
 
@@ -103,11 +75,13 @@ class ConversationViewController: BaseViewController {
     @IBOutlet weak var messageToolbarBottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var moreMessageTypesViewHeightConstraint: NSLayoutConstraint!
-    let moreMessageTypesViewHeightConstraintConstant: CGFloat = 110
+    let moreMessageTypesViewDefaultHeight: CGFloat = 110
 
     @IBOutlet weak var choosePhotoButton: MessageTypeButton!
     @IBOutlet weak var takePhotoButton: MessageTypeButton!
     @IBOutlet weak var addLocationButton: MessageTypeButton!
+
+    @IBOutlet weak var swipeUpView: UIView!
 
     var currentMenu: BubbleMenuView?
 
@@ -137,11 +111,9 @@ class ConversationViewController: BaseViewController {
 
     lazy var messageImagePreferredWidth: CGFloat = {
         return YepConfig.ChatCell.mediaPreferredWidth
-        //return ceil(self.collectionViewWidth * 0.6)
         }()
     lazy var messageImagePreferredHeight: CGFloat = {
         return YepConfig.ChatCell.mediaPreferredHeight
-        //return ceil(self.collectionViewWidth * 0.65)
         }()
 
     let messageImagePreferredAspectRatio: CGFloat = 4.0 / 3.0
@@ -168,41 +140,11 @@ class ConversationViewController: BaseViewController {
     let chatLeftLocationCellIdentifier =  "ChatLeftLocationCell"
     let chatRightLocationCellIdentifier =  "ChatRightLocationCell"
     
-
-    // 使 messageToolbar 随着键盘出现或消失而移动
-    var updateUIWithKeyboardChange = false {
-        willSet {
-            keyboardChangeObserver = newValue ? NSNotificationCenter.defaultCenter() : nil
-        }
-    }
-    var keyboardChangeObserver: NSNotificationCenter? {
-        didSet {
-            oldValue?.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-            oldValue?.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
-            oldValue?.removeObserver(self, name: UIKeyboardDidHideNotification, object: nil)
-
-            keyboardChangeObserver?.addObserver(self, selector: "handleKeyboardWillShowNotification:", name: UIKeyboardWillShowNotification, object: nil)
-            keyboardChangeObserver?.addObserver(self, selector: "handleKeyboardWillHideNotification:", name: UIKeyboardWillHideNotification, object: nil)
-            keyboardChangeObserver?.addObserver(self, selector: "handleKeyboardDidHideNotification:", name: UIKeyboardDidHideNotification, object: nil)
-        }
-    }
-    
-    func delay(delay:Double, closure:()->()) {
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(delay * Double(NSEC_PER_SEC))
-            ),
-            dispatch_get_main_queue(), closure)
-    }
-
     struct Listener {
         static let Avatar = "ConversationViewController"
     }
 
     deinit {
-        updateUIWithKeyboardChange = false
-
         NSNotificationCenter.defaultCenter().removeObserver(self)
 
         YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
@@ -216,11 +158,12 @@ class ConversationViewController: BaseViewController {
             navigationController?.delegate = delegate
         }
     }
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        realm = Realm()
+
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
@@ -231,20 +174,12 @@ class ConversationViewController: BaseViewController {
                 }
             }
         }
-        
-        var layout = ConversationLayout()
-        layout.minimumLineSpacing = 5
-        conversationCollectionView.setCollectionViewLayout(layout, animated: false)
-        
-        self.swipeUpView.hidden = true
-        realm = Realm()
-        
-        realmChangeToken = realm.addNotificationBlock { (notification, realm) -> Void in
-            if notification.rawValue == "RLMRealmDidChangeNotification"{
-            }
-        }
 
         navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
+        
+        let layout = ConversationLayout()
+        layout.minimumLineSpacing = 5
+        conversationCollectionView.setCollectionViewLayout(layout, animated: false)
 
         if messages.count >= messagesBunchCount {
             displayedMessagesRange = NSRange(location: Int(messages.count) - messagesBunchCount, length: messagesBunchCount)
@@ -252,12 +187,12 @@ class ConversationViewController: BaseViewController {
             displayedMessagesRange = NSRange(location: 0, length: Int(messages.count))
         }
 
+        lastTimeMessagesCount = messages.count
+
         navigationItem.titleView = titleView
 
         if let withFriend = conversation?.withFriend {
-
             let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
-
             navigationItem.rightBarButtonItem = moreBarButtonItem
         }
 
@@ -269,6 +204,7 @@ class ConversationViewController: BaseViewController {
             self?.reloadConversationCollectionView()
         }
 
+        swipeUpView.hidden = true
 
         makePullToRefreshView()
 
@@ -290,13 +226,63 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.bounces = true
 
         messageToolbarBottomConstraint.constant = 0
-        moreMessageTypesViewHeightConstraint.constant = moreMessageTypesViewHeightConstraintConstant
+        moreMessageTypesViewHeightConstraint.constant = moreMessageTypesViewDefaultHeight
 
-        updateUIWithKeyboardChange = true
+        keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
 
-        lastTimeMessagesCount = messages.count
+            print("appear \(keyboardHeight), \(keyboardHeightIncrement)\n")
+
+            if let strongSelf = self {
+
+                if strongSelf.messageToolbarBottomConstraint.constant > 0 {
+
+                    // 注意第一次要减去已经有的高度偏移
+                    if appearPostIndex == 0 {
+                        strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement - strongSelf.moreMessageTypesViewDefaultHeight
+                    } else {
+                        strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement
+                    }
+
+                    strongSelf.conversationCollectionView.contentInset.bottom = keyboardHeight + strongSelf.messageToolbar.frame.height
+
+                    strongSelf.messageToolbarBottomConstraint.constant = keyboardHeight
+                    strongSelf.view.layoutIfNeeded()
+
+                } else {
+                    strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement
+                    strongSelf.conversationCollectionView.contentInset.bottom = keyboardHeight + strongSelf.messageToolbar.frame.height
+
+                    strongSelf.messageToolbarBottomConstraint.constant = keyboardHeight
+                    strongSelf.view.layoutIfNeeded()
+                }
+            }
+        }
+
+        keyboardMan.animateWhenKeyboardDisappear = { [weak self] keyboardHeight in
+
+            print("disappear \(keyboardHeight)\n")
+
+            if let strongSelf = self {
+
+                if strongSelf.messageToolbar.state == .MoreMessages {
+                    strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight - strongSelf.moreMessageTypesViewDefaultHeight
+                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewDefaultHeight
+
+                    strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
+                    strongSelf.view.layoutIfNeeded()
+
+                } else {
+                    strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight
+                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
+
+                    strongSelf.messageToolbarBottomConstraint.constant = 0
+                    strongSelf.view.layoutIfNeeded()
+                }
+            }
+        }
 
         messageToolbar.textSendAction = { [weak self] messageToolbar in
+
             let text = messageToolbar.messageTextView.text!
 
             self?.cleanTextInput()
@@ -342,10 +328,12 @@ class ConversationViewController: BaseViewController {
             }
         }
         
-        self.waverView = YepWaverView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height))
+        waverView = YepWaverView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height))
 
-        self.waverView.waver.waverCallback = { waver in
+        waverView.waver.waverCallback = { waver in
+
             if let audioRecorder = YepAudioService.sharedManager.audioRecorder {
+
                 if (audioRecorder.recording) {
                     //println("Update waver")
                     audioRecorder.updateMeters()
@@ -506,8 +494,7 @@ class ConversationViewController: BaseViewController {
 
             YepAudioService.sharedManager.recordTimeoutAction = nil
         }
-        
-        
+
         messageToolbar.voiceSendEndAction = { [weak self] messageToolbar in
 
             hideWaver()
@@ -538,24 +525,42 @@ class ConversationViewController: BaseViewController {
 
                 switch (previousState, currentState) {
 
-                case (.MoreMessages, .Default):
-                    if !strongSelf.isKeyboardVisible {
+                case (.MoreMessages, .Default): fallthrough
+                case (.MoreMessages, .VoiceRecord):
 
-                        println("Adjust back collection View height")
+                    UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
 
-                        strongSelf.adjustBackCollectionViewWithHeight(0, animationDuration: 0.3, animationCurveValue: 7)
+                        strongSelf.conversationCollectionView.contentOffset.y -= strongSelf.moreMessageTypesViewDefaultHeight
+                        strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
 
-                    } else {
-                        strongSelf.hideKeyboardAndShowMoreMessageView()
-                    }
+                        strongSelf.messageToolbarBottomConstraint.constant = 0
+                        strongSelf.view.layoutIfNeeded()
+
+                    }, completion: { finished in
+                    })
 
                 default:
+
                     if currentState == .MoreMessages {
-                        strongSelf.hideKeyboardAndShowMoreMessageView()
+
+                        if previousState != .BeginTextInput && previousState != .TextInputing {
+
+                            UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+
+                                strongSelf.conversationCollectionView.contentOffset.y += strongSelf.moreMessageTypesViewDefaultHeight
+                                strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewDefaultHeight
+
+                                strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
+                                strongSelf.view.layoutIfNeeded()
+
+                            }, completion: { finished in
+                            })
+                        }
 
                         // touch to create (if need) for faster appear
                         strongSelf.imagePicker.hidesBarsOnTap = false
                     }
+
                 }
 
                 // 尝试保留草稿
@@ -675,49 +680,6 @@ class ConversationViewController: BaseViewController {
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.setNeedsStatusBarAppearanceUpdate()
-
-
-        /*
-        // test menu
-
-        if true {
-
-            let copyItem = BubbleMenuView.Item(title: "Copy") {
-                print("copy\n")
-            }
-
-            let deleteItem = BubbleMenuView.Item(title: "Delete") {
-                print("delete\n")
-            }
-
-            let menu = BubbleMenuView(items: [copyItem, deleteItem])
-
-            menu.setTranslatesAutoresizingMaskIntoConstraints(false)
-            view.addSubview(menu)
-
-            let menuCenterY = NSLayoutConstraint(item: menu, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0)
-            let menuCenterX = NSLayoutConstraint(item: menu, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
-
-            NSLayoutConstraint.activateConstraints([menuCenterY, menuCenterX])
-        }
-
-        if true {
-
-            let copyItem = BubbleMenuView.Item(title: "Copy") {
-                print("copy\n")
-            }
-
-            let menu = BubbleMenuView(items: [copyItem])
-
-            menu.setTranslatesAutoresizingMaskIntoConstraints(false)
-            view.addSubview(menu)
-
-            let menuCenterY = NSLayoutConstraint(item: menu, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: -100)
-            let menuCenterX = NSLayoutConstraint(item: menu, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
-
-            NSLayoutConstraint.activateConstraints([menuCenterY, menuCenterX])
-        }
-        */
     }
 
     private func markMessageAsReaded(message: Message) {
@@ -764,15 +726,6 @@ class ConversationViewController: BaseViewController {
 
         self.waverView.removeFromSuperview()
     }
-    
-    func hideKeyboardAndShowMoreMessageView() {
-        
-        println("Hide keyboard and shoe more message")
-        
-        self.messageToolbar.messageTextView.resignFirstResponder()
-        self.adjustCollectionViewWithViewHeight(self.moreMessageTypesViewHeightConstraintConstant, animationDuration: 0.3, animationCurveValue: 7, keyboard: false)
-    }
-
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -791,26 +744,6 @@ class ConversationViewController: BaseViewController {
         }
         
         self.waverView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height)
-    }
-    
-    func tryScrollToBottom() {
-        
-        if displayedMessagesRange.length > 0 {
-            
-            let messageToolBarTop = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
-            let invisibleHeight = messageToolBarTop + 64.0
-            let visibleHeight = conversationCollectionView.frame.height - invisibleHeight
-
-            let canScroll = visibleHeight <= conversationCollectionView.contentSize.height
-
-            if canScroll {
-                conversationCollectionView.contentOffset.y = conversationCollectionView.contentSize.height - conversationCollectionView.frame.size.height + messageToolBarTop
-
-                conversationCollectionView.contentInset.bottom = messageToolBarTop
-
-                conversationCollectionViewContentOffsetBeforeKeyboardWillShow = conversationCollectionView.contentOffset
-            }
-        }
     }
 
     // MARK: UI
@@ -1025,6 +958,23 @@ class ConversationViewController: BaseViewController {
 
     // MARK: Actions
 
+    func tryScrollToBottom() {
+
+        if displayedMessagesRange.length > 0 {
+
+            let messageToolBarTop = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
+            let invisibleHeight = messageToolBarTop + 64.0
+            let visibleHeight = conversationCollectionView.frame.height - invisibleHeight
+
+            let canScroll = visibleHeight <= conversationCollectionView.contentSize.height
+
+            if canScroll {
+                conversationCollectionView.contentOffset.y = conversationCollectionView.contentSize.height - conversationCollectionView.frame.size.height + messageToolBarTop
+                conversationCollectionView.contentInset.bottom = messageToolBarTop
+            }
+        }
+    }
+
     func moreAction() {
 
         removeOldMenu()
@@ -1107,6 +1057,7 @@ class ConversationViewController: BaseViewController {
     }
 
     func report() {
+
         let reportWithReason: ReportReason -> Void = { [weak self] reason in
 
             if let user = self?.conversation.withFriend {
@@ -1196,17 +1147,6 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    /*
-    func showProfile() {
-        performSegueWithIdentifier("showProfile", sender: nil)
-    }
-    */
-    
-    func updateMoreMessageConversationCollectionView() {
-        let moreMessageViewHeight = moreMessageTypesViewHeightConstraintConstant + CGRectGetHeight(messageToolbar.bounds)
-
-    }
-    
     func handleReceivedNewMessagesNotification(notification: NSNotification) {
 
         var messageIDs: [String]?
@@ -1372,12 +1312,13 @@ class ConversationViewController: BaseViewController {
                     }
                     
                 }, completion: { finished in
-                    self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow = self.conversationCollectionView.contentOffset
-                        success(true)
+                    success(true)
                 })
+
             } else {
                 success(true)
             }
+
         } else {
             success(true)
         }
@@ -1452,132 +1393,10 @@ class ConversationViewController: BaseViewController {
         displayedMessagesRange.length = 0
     }
 
-    // MARK: Keyboard
-
-    func handleKeyboardWillShowNotification(notification: NSNotification) {
-        keyboardShowTimes += 1
-        
-//        println("Set offset before is \(conversationCollectionView.contentOffset)")
-
-        if let userInfo = notification.userInfo {
-
-            let animationDuration: NSTimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
-            let animationCurveValue = (userInfo[UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).unsignedLongValue
-            let keyboardEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-            let keyboardHeight = keyboardEndFrame.height
-
-            self.keyboardHeight = keyboardHeight
-            
-            adjustCollectionViewWithViewHeight(keyboardHeight, animationDuration: animationDuration, animationCurveValue: animationCurveValue, keyboard: true)
-
-        }
-    }
-    
-    func adjustCollectionViewWithViewHeight(newHeight: CGFloat, animationDuration: NSTimeInterval, animationCurveValue: UInt, keyboard: Bool) {
-        
-        conversationCollectionViewContentOffsetBeforeKeyboardWillHide = CGPointZero
-        if (conversationCollectionViewContentOffsetBeforeKeyboardWillShow == CGPointZero) {
-            conversationCollectionViewContentOffsetBeforeKeyboardWillShow = conversationCollectionView.contentOffset
-        }
-        
-        UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { [unowned self] in
-            
-            self.messageToolbarBottomConstraint.constant = newHeight
-            
-            let invisibleHeight = newHeight + CGRectGetHeight(self.messageToolbar.bounds) + 64
-            
-            //let totleMessagesHeight = self.conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + 64.0
-            
-            let visibleHeight = self.conversationCollectionView.frame.size.height - invisibleHeight
-            
-            //                println("Content size is \(self.conversationCollectionView.contentSize.height) visableMessageFieldHeight \(visableMessageFieldHeight) totleMessagesHeight \(totleMessagesHeight) toolbar \(CGRectGetHeight(self.messageToolbar.bounds) ) keyboardHeight \(keyboardHeight) Navitation 64.0")
-            
-            let invisibleContentSizeHeight = self.conversationCollectionView.contentSize.height - visibleHeight
-            println("invisibleContentSizeHeight is \(invisibleContentSizeHeight)")
-            
-            //Only scroll the invisable field if invisable < keyboardAndToolBarHeight
-            if (invisibleContentSizeHeight < invisibleHeight) {
-                
-                //Only scroll if need
-                if (invisibleContentSizeHeight > 0) {
-                    let contentOffset = CGPointMake(self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow.x, self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow.y + invisibleContentSizeHeight)
-                    println("Set offset 1 is \(contentOffset)")
-                    
-                    self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
-                }
-                
-            } else {
-                
-                var contentOffset = self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow
-                contentOffset.y += newHeight
-                
-                println("Set offset 2 is \(contentOffset)")
-                
-                self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
-            }
-            
-            self.conversationCollectionView.contentInset.bottom = CGRectGetHeight(self.messageToolbar.bounds)  + newHeight
-            
-            self.view.layoutIfNeeded()
-            
-        }, completion: { [unowned self] finished in
-            if keyboard {
-                self.keyboardShowTimes -= 1
-            }
-        })
-    }
-
-    func handleKeyboardWillHideNotification(notification: NSNotification) {
-
-        if let userInfo = notification.userInfo {
-            let animationDuration: NSTimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
-            let animationCurveValue = (userInfo[UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).unsignedLongValue
-            let keyboardEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-            let keyboardHeight = keyboardEndFrame.height
-            adjustBackCollectionViewWithHeight(keyboardHeight, animationDuration: animationDuration, animationCurveValue: animationCurveValue)
-
-        }
-    }
-    
-    func adjustBackCollectionViewWithHeight(newHeight: CGFloat, animationDuration: NSTimeInterval, animationCurveValue: UInt) {
-        
-        self.conversationCollectionViewContentOffsetBeforeKeyboardWillShow = CGPointZero
-
-        if (conversationCollectionViewContentOffsetBeforeKeyboardWillHide == CGPointZero) {
-            conversationCollectionViewContentOffsetBeforeKeyboardWillHide = conversationCollectionView.contentOffset
-        }
-
-        UIView.animateWithDuration(animationDuration, delay: 0, options: UIViewAnimationOptions(animationCurveValue << 16), animations: { [unowned self] in
-            
-            var contentOffset = self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide
-
-            self.messageToolbarBottomConstraint.constant = 0
-
-            if self.messageToolbar.state != .MoreMessages {
-                contentOffset.y -= newHeight
-
-            } else {
-                contentOffset.y -= (newHeight - self.moreMessageTypesViewHeightConstraintConstant)
-            }
-            
-            //println("\(self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide.y) \(contentOffset.y) \(self.conversationCollectionViewContentOffsetBeforeKeyboardWillHide.y-contentOffset.y)")
-            self.conversationCollectionView.setContentOffset(contentOffset, animated: false)
-            self.conversationCollectionView.contentInset.bottom = CGRectGetHeight(self.messageToolbar.bounds)
-
-            self.view.layoutIfNeeded()
-
-        }, completion: { _ in
-        })
-    }
-
-    func handleKeyboardDidHideNotification(notification: NSNotification) {
-        isKeyboardVisible = false
-    }
-
-
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
         if segue.identifier == "showProfile" {
 
             let vc = segue.destinationViewController as! ProfileViewController
@@ -1587,7 +1406,6 @@ class ConversationViewController: BaseViewController {
                     vc.profileUser = ProfileUser.UserType(withFriend)
                 }
                 vc.isFromConversation = true
-                
                 vc.setBackButtonWithTitle()
             }
 
@@ -1654,13 +1472,7 @@ class ConversationViewController: BaseViewController {
                     }
 
                     let delegate = ConversationMessagePreviewNavigationControllerDelegate()
-
-//                    transitionView?.alpha = 0
-//                    delegate.snapshot = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(true)
-//                    transitionView?.alpha = 1
-
                     delegate.snapshot = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(false)
-
                     delegate.frame = frame
                     delegate.transitionView = transitionView
 
@@ -1796,14 +1608,14 @@ class ConversationViewController: BaseViewController {
             }
         }
     }
-
-
 }
 
 // MARK: UIGestureRecognizerDelegate
 
 extension ConversationViewController: UIGestureRecognizerDelegate {
+
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+
         if let isAnimated = navigationController?.transitionCoordinator()?.isAnimated() {
             return !isAnimated
         }
@@ -1836,9 +1648,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
 
-            //println("conversation \(message.textContent) messageID: \(message.messageID)")
-
             if message.mediaType == MessageMediaType.SectionDate.rawValue {
+
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
 
                 let createdAt = NSDate(timeIntervalSince1970: message.createdUnixTime)
@@ -1851,7 +1662,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 return cell
             }
-            
 
             if let sender = message.fromFriend {
 
@@ -1862,6 +1672,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     switch message.mediaType {
 
                     case MessageMediaType.Image.rawValue:
+
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftImageCellIdentifier, forIndexPath: indexPath) as! ChatLeftImageCell
 
                         cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
@@ -1872,11 +1683,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             } else {
                                 YepAlert.alertSorry(message: NSLocalizedString("Please wait while the image is not dready!", comment: ""), inViewController: self)
                             }
-
-                            //let frame = cell.convertRect(cell.messageImageView.frame, toView: self.view.window)
-
-                            //let mediaPreviewView = MediaPreviewView()
-                            //mediaPreviewView.showMediaOfMessage(message, inView: self.view.window, withInitialFrame: frame, fromViewController: self)
 
                         }, collectionView: collectionView, indexPath: indexPath)
                         
@@ -1902,6 +1708,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         return cell
 
                     case MessageMediaType.Video.rawValue:
+
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftVideoCellIdentifier, forIndexPath: indexPath) as! ChatLeftVideoCell
 
                         cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
@@ -1913,16 +1720,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 YepAlert.alertSorry(message: NSLocalizedString("Please wait while the video is not dready!", comment: ""), inViewController: self)
                             }
 
-                            //let frame = cell.convertRect(cell.thumbnailImageView.frame, toView: self.view.window)
-
-                            //let mediaPreviewView = MediaPreviewView()
-                            //mediaPreviewView.showMediaOfMessage(message, inView: self.view.window, withInitialFrame: frame, fromViewController: self)
-
                         }, collectionView: collectionView, indexPath: indexPath)
 
                         return cell
 
                     case MessageMediaType.Location.rawValue:
+
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftLocationCellIdentifier, forIndexPath: indexPath) as! ChatLeftLocationCell
 
                         cell.configureWithMessage(message, mediaTapAction: { [weak self] in
@@ -1941,6 +1744,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         return cell
 
                     default:
+
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
 
                         cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
@@ -1980,6 +1784,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     switch message.mediaType {
 
                     case MessageMediaType.Image.rawValue:
+
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
 
                         cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
@@ -2004,11 +1809,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             } else {
                                 self?.performSegueWithIdentifier("showMessageMedia", sender: message)
-
-                                //let frame = cell.convertRect(cell.messageImageView.frame, toView: self.view.window)
-
-                                //let mediaPreviewView = MediaPreviewView()
-                                //mediaPreviewView.showMediaOfMessage(message, inView: self.view.window, withInitialFrame: frame, fromViewController: self)
                             }
 
                         }, collectionView: collectionView, indexPath: indexPath)
@@ -2016,6 +1816,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         return cell
 
                     case MessageMediaType.Audio.rawValue:
+
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightAudioCellIdentifier, forIndexPath: indexPath) as! ChatRightAudioCell
 
                         let audioPlayedDuration = audioPlayedDurationOfMessage(message)
@@ -2038,7 +1839,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     })
 
                                 }, cancelAction: {
-                                    
                                 })
 
                                 return
@@ -2051,6 +1851,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         return cell
 
                     case MessageMediaType.Video.rawValue:
+
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightVideoCellIdentifier, forIndexPath: indexPath) as! ChatRightVideoCell
 
                         cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
@@ -2075,11 +1876,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             } else {
                                 self?.performSegueWithIdentifier("showMessageMedia", sender: message)
-
-                                //let frame = cell.convertRect(cell.thumbnailImageView.frame, toView: self.view.window)
-
-                                //let mediaPreviewView = MediaPreviewView()
-                                //omediaPreviewView.showMediaOfMessage(message, inView: self.view.window, withInitialFrame: frame, fromViewController: self)
                             }
 
                         }, collectionView: collectionView, indexPath: indexPath)
@@ -2087,6 +1883,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         return cell
 
                     case MessageMediaType.Location.rawValue:
+
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightLocationCellIdentifier, forIndexPath: indexPath) as! ChatRightLocationCell
 
                         cell.configureWithMessage(message, mediaTapAction: { [weak self] in
@@ -2126,6 +1923,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         return cell
 
                     default:
+
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
 
                         cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: { [weak self] in
@@ -2259,7 +2057,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         return cell
                     }
                 }
-
             }
         }
 
@@ -2300,20 +2097,22 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         }
     }
 
-    
     // MARK: UIScrollViewDelegate
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
+
         pullToRefreshView.scrollViewDidScroll(scrollView)
 
         removeOldMenu()
     }
 
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+
         pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
     }
     
     func checkTypingStatus() {
+
         typingResetDelay = typingResetDelay - 0.5
 
         if typingResetDelay < 0 {
@@ -2327,6 +2126,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 extension ConversationViewController: FayeServiceDelegate {
 
     func fayeRecievedInstantStateType(instantStateType: FayeService.InstantStateType, userID: String) {
+
         if let withFriend = conversation.withFriend {
 
             if userID == withFriend.userID {
@@ -2335,7 +2135,7 @@ extension ConversationViewController: FayeServiceDelegate {
 
                 let content = "\(nickname)" + NSLocalizedString(" is ", comment: "正在") + "\(instantStateType)"
 
-                self.titleView.stateInfoLabel.text = "\(content)..."
+                titleView.stateInfoLabel.text = "\(content)..."
 
                 switch instantStateType {
 
@@ -2357,6 +2157,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
     func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
 
         delay(0.5) {
+
             pulllToRefreshView.endRefreshingAndDoFurtherAction() { [weak self] in
 
                 if let strongSelf = self {
@@ -2420,8 +2221,6 @@ extension ConversationViewController : AVAudioRecorderDelegate {
 
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
         println("finished recording \(flag)")
-
-        // ios8 and later
     }
 
     func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder!, error: NSError!) {
@@ -2434,6 +2233,7 @@ extension ConversationViewController : AVAudioRecorderDelegate {
 extension ConversationViewController: AVAudioPlayerDelegate {
 
     func audioPlayerBeginInterruption(player: AVAudioPlayer!) {
+
         println("audioPlayerBeginInterruption")
 
         if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
@@ -2442,10 +2242,12 @@ extension ConversationViewController: AVAudioPlayerDelegate {
     }
 
     func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer!, error: NSError!) {
+
         println("audioPlayerDecodeErrorDidOccur")
     }
 
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully flag: Bool) {
+
         println("audioPlayerDidFinishPlaying \(flag)")
 
         if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
@@ -2482,6 +2284,7 @@ extension ConversationViewController: AVAudioPlayerDelegate {
     }
 
     func audioPlayerEndInterruption(player: AVAudioPlayer!) {
+
         println("audioPlayerEndInterruption")
     }
 }
@@ -2539,6 +2342,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
     }
 
     func sendImage(image: UIImage) {
+
         // Prepare meta data
 
         let imageWidth = image.size.width
@@ -2586,7 +2390,6 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             metaData = imageMetaDataString
         }
 
-
         // Do send
 
         let imageData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
@@ -2627,6 +2430,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             })
 
         } else if let withGroup = conversation.withGroup {
+
             sendImageInFilePath(nil, orFileData: imageData, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
 
                 dispatch_async(dispatch_get_main_queue()) {
@@ -2718,6 +2522,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         let messageVideoName = NSUUID().UUIDString
 
         let afterCreatedMessageAction = { [weak self] (message: Message) in
+
             dispatch_async(dispatch_get_main_queue()) {
 
                 if let videoData = NSData(contentsOfURL: videoURL) {
@@ -2749,6 +2554,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         }
 
         if let withFriend = conversation.withFriend {
+
             sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage)
 
@@ -2761,6 +2567,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             })
 
         } else if let withGroup = conversation.withGroup {
+
             sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage)
 
@@ -2774,9 +2581,4 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         }
     }
 }
-
-
-
-
-
 
