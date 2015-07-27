@@ -116,7 +116,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 //            transitionView?.alpha = 0
 //            println("transitionView \(transitionView)")
 
-            UIView.animateKeyframesWithDuration(fullDuration, delay: 0.0, options: .CalculationModeCubic, animations: { () -> Void in
+            UIView.animateKeyframesWithDuration(fullDuration, delay: 0.0, options: .CalculationModeLinear, animations: { () -> Void in
 
                 UIView.addKeyframeWithRelativeStartTime(0.5, relativeDuration: 0.4, animations: { () -> Void in
                     animatingVC.view.backgroundColor = UIColor.blackColor()
@@ -126,9 +126,9 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 //                    blackColorView.alpha = 1
 //                })
 
-                UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.3, animations: { () -> Void in
-                    transitionViewSnapshot.center = animatingView.center
-                })
+//                UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.3, animations: { () -> Void in
+//                    transitionViewSnapshot.center = animatingView.center
+//                })
 
                 UIView.addKeyframeWithRelativeStartTime(0.4, relativeDuration: 0.5, animations: { () -> Void in
                     let targetWidth = animatingView.bounds.width + self.largerOffset
@@ -141,6 +141,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
                     let frame = CGRectInset(transitionViewSnapshot.frame, -dw * 0.5, -dh * 0.5)
 
                     transitionViewSnapshot.frame = frame
+                    transitionViewSnapshot.center = animatingView.center
                 })
 
                 UIView.addKeyframeWithRelativeStartTime(0.9, relativeDuration: 0.0, animations: { () -> Void in
@@ -197,7 +198,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
             self.transitionView?.alpha = 0
 
-            UIView.animateKeyframesWithDuration(fullDuration, delay: 0.0, options: .CalculationModeCubic, animations: { () -> Void in
+            UIView.animateKeyframesWithDuration(fullDuration, delay: 0.0, options: .CalculationModeLinear, animations: { () -> Void in
 
                 UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 1.0, animations: { () -> Void in
                     animatingVC.view.backgroundColor = UIColor.clearColor()
