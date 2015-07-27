@@ -62,6 +62,12 @@ class MessageMediaViewController: UIViewController {
                 mediaControlView.playState = .Playing
 
                 if
+                    let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localThumbnailName),
+                    let image = UIImage(contentsOfFile: imageFileURL.path!) {
+                        mediaView.image = image
+                }
+
+                if
                     let videoFileURL = NSFileManager.yepMessageVideoURLWithName(message.localAttachmentName),
                     let asset = AVURLAsset(URL: videoFileURL, options: [:]),
                     let playerItem = AVPlayerItem(asset: asset) {
@@ -103,8 +109,7 @@ class MessageMediaViewController: UIViewController {
                         mediaView.videoPlayerLayer.player.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(0), context: nil)
 
                         //mediaView.videoPlayerLayer.player.play()
-                        mediaView.imageView.removeFromSuperview()
-
+                        //mediaView.imageView.removeFromSuperview()
 
                         mediaControlView.shareAction = {
                             let activityViewController = UIActivityViewController(activityItems: [videoFileURL], applicationActivities: nil)
