@@ -316,7 +316,7 @@ class ProfileViewController: UIViewController {
                 
                 if let coverCell = self.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
 
-                    let beginChangePercentage: CGFloat = 1 - 64 / self.collectionViewWidth * profileAvatarAspectRatio
+                    let beginChangePercentage: CGFloat = 1 - topBarsHeight / self.collectionViewWidth * profileAvatarAspectRatio
                     let normalizedProgressForChange: CGFloat = (progress - beginChangePercentage) / (1 - beginChangePercentage)
 
                     coverCell.avatarBlurImageView.alpha = progress < beginChangePercentage ? 0 : normalizedProgressForChange
@@ -343,7 +343,7 @@ class ProfileViewController: UIViewController {
         automaticallyAdjustsScrollViewInsets = false
         
         
-        customNavigationBar = UINavigationBar(frame: CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 64.0))
+        customNavigationBar = UINavigationBar(frame: CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), topBarsHeight))
         customNavigationBar.alpha = 0
         customNavigationBar.setItems([customNavigationItem], animated: false)
         view.addSubview(customNavigationBar)

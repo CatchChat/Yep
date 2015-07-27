@@ -38,7 +38,7 @@ class ProfileLayout: UICollectionViewFlowLayout {
 
         } else {
             let coverHeight = CGRectGetWidth(collectionView!.bounds) * profileAvatarAspectRatio
-            let coverHideHeight = coverHeight - 64
+            let coverHideHeight = coverHeight - topBarsHeight
 
             if contentOffset.y > coverHideHeight {
 

@@ -963,7 +963,7 @@ class ConversationViewController: BaseViewController {
         if displayedMessagesRange.length > 0 {
 
             let messageToolBarTop = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
-            let invisibleHeight = messageToolBarTop + 64.0
+            let invisibleHeight = messageToolBarTop + topBarsHeight
             let visibleHeight = conversationCollectionView.frame.height - invisibleHeight
 
             let canScroll = visibleHeight <= conversationCollectionView.contentSize.height
@@ -1258,7 +1258,7 @@ class ConversationViewController: BaseViewController {
             
             let keyboardAndToolBarHeight = adjustHeight
             
-            let navicationBarAndKeyboardAndToolBarHeight = keyboardAndToolBarHeight + 64.0
+            let navicationBarAndKeyboardAndToolBarHeight = keyboardAndToolBarHeight + topBarsHeight
             
             let totleMessagesHeight = conversationCollectionView.contentSize.height + navicationBarAndKeyboardAndToolBarHeight + newMessagesTotalHeight
             
