@@ -1175,6 +1175,7 @@ class ConversationViewController: BaseViewController {
     }
 
     func adjustConversationCollectionViewWithMessageIDs(messageIDs: [String]?, adjustHeight: CGFloat, scrollToBottom: Bool, success: (Bool) -> Void) {
+
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
 
@@ -1251,7 +1252,6 @@ class ConversationViewController: BaseViewController {
         if newMessagesCount > 0 {
             
             var newMessagesTotalHeight: CGFloat = 0
-            
             for i in _lastTimeMessagesCount..<messages.count {
                 if let message = messages[safe: i] {
                     let height = heightOfMessage(message) + 5 // TODO: +5 cell line space
@@ -1261,60 +1261,38 @@ class ConversationViewController: BaseViewController {
             
             let keyboardAndToolBarHeight = adjustHeight
             
-            let navicationBarAndKeyboardAndToolBarHeight = keyboardAndToolBarHeight + topBarsHeight
+            let blockedHeight = topBarsHeight + keyboardAndToolBarHeight
             
-            let totleMessagesHeight = conversationCollectionView.contentSize.height + navicationBarAndKeyboardAndToolBarHeight + newMessagesTotalHeight
-            
-            let visableMessageFieldHeight = conversationCollectionView.frame.size.height - navicationBarAndKeyboardAndToolBarHeight
-            
-            let totalMessagesContentHeight = conversationCollectionView.contentSize.height + keyboardAndToolBarHeight + newMessagesTotalHeight
-            
-//            println("Size is \(conversationCollectionView.contentSize.height) \(newMessagesTotalHeight) visableMessageFieldHeight \(visableMessageFieldHeight)")
-            
-            //Calculate the space can be used
-            let useableSpace = visableMessageFieldHeight - conversationCollectionView.contentSize.height
-            
-            conversationCollectionView.contentSize = CGSizeMake(conversationCollectionView.contentSize.width, self.conversationCollectionView.contentSize.height + newMessagesTotalHeight)
-            
-//            println("Size is after \(conversationCollectionView.contentSize.height)")
-            
-            if (totleMessagesHeight > conversationCollectionView.frame.size.height) {
-//                println("New Message scroll")
-                
-                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [unowned self] in
-                    
-                    if (useableSpace > 0) {
-                        let contentToScroll = newMessagesTotalHeight - useableSpace
-//                        println("contentToScroll \(contentToScroll)")
-                        self.conversationCollectionView.contentOffset.y += contentToScroll
-                    } else {
-                        
-                        var newContentSize = self.conversationCollectionView.collectionViewLayout.collectionViewContentSize()
-                        self.conversationCollectionView.contentSize = newContentSize
-                        
-                        if scrollToBottom {
-                            
-                            var newContentOffsetY = newContentSize.height - self.conversationCollectionView.frame.size.height + keyboardAndToolBarHeight
-                            
-                            var oldContentOffsetY = self.conversationCollectionView.contentOffset.y
-                            
-//                            println("New contenct offset \(self.conversationCollectionView.contentSize.height - newContentSize.height) \(newContentOffsetY) \(oldContentOffsetY) \(newContentOffsetY - oldContentOffsetY)")
-                            
-                            self.conversationCollectionView.contentOffset.y = newContentOffsetY
-                            
-//                            println("Content Size is \(self.conversationCollectionView.contentSize.height) \(self.conversationCollectionView.contentOffset.y)")
-                            
-                            
-                        }else {
-                            
-//                            println("Content Size is \(self.conversationCollectionView.contentSize.height) \(self.conversationCollectionView.contentOffset.y)")
-                            
-                            self.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
+            let visibleHeight = conversationCollectionView.frame.height - blockedHeight
+
+            // cal the height can be used
+            let useableHeight = visibleHeight - conversationCollectionView.contentSize.height
+
+            let totalHeight = conversationCollectionView.contentSize.height + blockedHeight + newMessagesTotalHeight
+
+            if totalHeight > conversationCollectionView.frame.height {
+
+                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [weak self] in
+
+                    if let strongSelf = self {
+
+                        if (useableHeight > 0) {
+                            let contentToScroll = newMessagesTotalHeight - useableHeight
+                            strongSelf.conversationCollectionView.contentOffset.y += contentToScroll
+
+                        } else {
+                            if scrollToBottom {
+                                let newContentSize = strongSelf.conversationCollectionView.collectionViewLayout.collectionViewContentSize()
+                                let newContentOffsetY = newContentSize.height - strongSelf.conversationCollectionView.frame.height + keyboardAndToolBarHeight
+                                strongSelf.conversationCollectionView.contentOffset.y = newContentOffsetY
+
+                            } else {
+                                strongSelf.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
+                            }
                         }
-                        
                     }
-                    
-                }, completion: { finished in
+
+                }, completion: { _ in
                     success(true)
                 })
 
