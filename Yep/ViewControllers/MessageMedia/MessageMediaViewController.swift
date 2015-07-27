@@ -160,6 +160,10 @@ class MessageMediaViewController: UIViewController {
         dismiss()
     }
 
+    @IBAction func tap(sender: UITapGestureRecognizer) {
+        dismiss()
+    }
+
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
         if let player = object as? AVPlayer {
 

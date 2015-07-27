@@ -322,6 +322,7 @@
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="FJ8-iv-bdr" appends="YES" id="oWn-4w-WLf"/>
                             <outletCollection property="gestureRecognizers" destination="qJ2-72-cmu" appends="YES" id="Loa-aw-3LG"/>
+                            <outletCollection property="gestureRecognizers" destination="ATG-2E-yos" appends="YES" id="jYq-5K-6Kf"/>
                         </connections>
                     </view>
                     <connections>
@@ -340,6 +341,11 @@
                         <action selector="swipeUp:" destination="f92-fs-zdh" id="ZLE-ED-MfD"/>
                     </connections>
                 </swipeGestureRecognizer>
+                <tapGestureRecognizer id="ATG-2E-yos">
+                    <connections>
+                        <action selector="tap:" destination="f92-fs-zdh" id="On8-7x-da7"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-783" y="2715"/>
         </scene>
