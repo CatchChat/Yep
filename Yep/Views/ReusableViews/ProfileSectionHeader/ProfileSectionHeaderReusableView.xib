@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15A226f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -10,22 +10,40 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Master || Learning" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jUu-2Q-uyR">
-                    <rect key="frame" x="20" y="13" width="280" height="24"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Master || Learning" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jUu-2Q-uyR">
+                    <rect key="frame" x="20" y="13" width="261" height="24"/>
+                    <animations/>
                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory" translatesAutoresizingMaskIntoConstraints="NO" id="DNY-KD-DJd" userLabel="Accessory Image View">
+                    <rect key="frame" x="289" y="15" width="11" height="20"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="11" id="MNa-46-aw9"/>
+                        <constraint firstAttribute="height" constant="20" id="u40-oa-JnY"/>
+                    </constraints>
+                </imageView>
             </subviews>
+            <animations/>
             <constraints>
                 <constraint firstAttribute="centerY" secondItem="jUu-2Q-uyR" secondAttribute="centerY" constant="0.5" id="1ZI-gC-gcl"/>
+                <constraint firstAttribute="centerY" secondItem="DNY-KD-DJd" secondAttribute="centerY" id="XzL-th-Da3"/>
                 <constraint firstItem="jUu-2Q-uyR" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" constant="20" id="dY5-Yz-hAH"/>
-                <constraint firstAttribute="trailing" secondItem="jUu-2Q-uyR" secondAttribute="trailing" constant="20" id="hHy-Oz-K9a"/>
+                <constraint firstItem="DNY-KD-DJd" firstAttribute="leading" secondItem="jUu-2Q-uyR" secondAttribute="trailing" constant="8" id="kOc-6p-yB6"/>
+                <constraint firstAttribute="trailing" secondItem="DNY-KD-DJd" secondAttribute="trailing" constant="20" id="qgV-Rr-J24"/>
             </constraints>
             <connections>
+                <outlet property="accessoryImageView" destination="DNY-KD-DJd" id="4Rj-fk-1Wm"/>
+                <outlet property="accessoryImageViewTrailingConstraint" destination="qgV-Rr-J24" id="ZCK-a8-VKG"/>
                 <outlet property="titleLabel" destination="jUu-2Q-uyR" id="BZ3-xM-iK1"/>
+                <outlet property="titleLabelLeadingConstraint" destination="dY5-Yz-hAH" id="8Gz-1v-f96"/>
             </connections>
             <point key="canvasLocation" x="311" y="424"/>
         </collectionReusableView>
     </objects>
+    <resources>
+        <image name="icon_accessory" width="11" height="20"/>
+    </resources>
 </document>
