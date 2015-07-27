@@ -12,10 +12,12 @@ class ProfileLayout: UICollectionViewFlowLayout {
 
     var scrollUpAction: ((progress: CGFloat) -> Void)?
 
+    let topBarsHeight: CGFloat = 64
 
     let leftEdgeInset: CGFloat = YepConfig.Profile.leftEdgeInset
 
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
+
         let layoutAttributes = super.layoutAttributesForElementsInRect(rect) as! [UICollectionViewLayoutAttributes]
         let contentInset = collectionView!.contentInset
         let contentOffset = collectionView!.contentOffset

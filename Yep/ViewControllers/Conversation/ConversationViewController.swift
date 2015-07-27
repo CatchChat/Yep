@@ -83,6 +83,9 @@ class ConversationViewController: BaseViewController {
 
     @IBOutlet weak var swipeUpView: UIView!
 
+    lazy var menuDirectionUpThreshold: CGFloat = {
+        return self.topBarsHeight + 60
+        }()
     var currentMenu: BubbleMenuView?
 
     func removeOldMenu() {
@@ -1766,7 +1769,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 let bubbleFrame = cell.convertRect(cell.bubbleBodyImageView.frame, toView: strongSelf.view)
 
-                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(bubbleFrame) < YepConfig.Conversation.menuDirectionUpThreshold ? .Up : .Down
+                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(bubbleFrame) < strongSelf.menuDirectionUpThreshold ? .Up : .Down
 
                                 let menu = BubbleMenuView(arrowDirection: arrowDirection, items: [copyItem])
 
@@ -2044,7 +2047,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 let bubbleFrame = cell.convertRect(cell.bubbleBodyImageView.frame, toView: strongSelf.view)
 
-                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(bubbleFrame) < YepConfig.Conversation.menuDirectionUpThreshold ? .Up : .Down
+                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(bubbleFrame) < strongSelf.menuDirectionUpThreshold ? .Up : .Down
 
                                 let menu = BubbleMenuView(arrowDirection: arrowDirection, items: [copyItem, deleteItem])
 

@@ -316,7 +316,7 @@ class ProfileViewController: UIViewController {
                 
                 if let coverCell = self.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
 
-                    let beginChangePercentage: CGFloat = 1 - topBarsHeight / self.collectionViewWidth * profileAvatarAspectRatio
+                    let beginChangePercentage: CGFloat = 1 - self.topBarsHeight / self.collectionViewWidth * profileAvatarAspectRatio
                     let normalizedProgressForChange: CGFloat = (progress - beginChangePercentage) / (1 - beginChangePercentage)
 
                     coverCell.avatarBlurImageView.alpha = progress < beginChangePercentage ? 0 : normalizedProgressForChange
