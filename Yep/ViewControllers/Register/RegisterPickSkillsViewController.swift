@@ -206,7 +206,10 @@ class RegisterPickSkillsViewController: BaseViewController {
                             }
                             
                         } else {
-                            for (index, masterSkill) in enumerate(self.masterSkills) {
+                            for index in 0..<self.masterSkills.count {
+
+                                let masterSkill = self.masterSkills[index]
+
                                 if masterSkill == skill {
                                     self.masterSkills.removeAtIndex(index)
 
@@ -233,7 +236,10 @@ class RegisterPickSkillsViewController: BaseViewController {
                             }
 
                         } else {
-                            for (index, learningSkill) in enumerate(self.learningSkills) {
+                            for index in 0..<self.learningSkills.count {
+
+                                let learningSkill = self.learningSkills[index]
+
                                 if learningSkill == skill {
                                     self.learningSkills.removeAtIndex(index)
 
