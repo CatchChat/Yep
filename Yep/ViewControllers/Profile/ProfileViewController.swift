@@ -365,10 +365,8 @@ class ProfileViewController: UIViewController {
         
         //Make sure when pan edge screen collectionview not scroll
         if let gestures = navigationController?.view.gestureRecognizers {
-            for recognizer in gestures
-            {
-                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer)
-                {
+            for recognizer in gestures {
+                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
                     profileCollectionView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
                     println("Require UIScreenEdgePanGestureRecognizer to failed")
                     break
