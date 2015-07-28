@@ -15,10 +15,17 @@ class YepAudioService: NSObject {
     
     static let sharedManager = YepAudioService()
     
+    var shouldIgnoreStart = false
+    
     let queue = dispatch_queue_create("YepAudioService", DISPATCH_QUEUE_SERIAL)
 
     var audioFileURL: NSURL?
-    var audioRecorder: AVAudioRecorder?
+    
+    var audioRecorder: AVAudioRecorder? {
+        didSet {
+            
+        }
+    }
     
     var audioPlayer: AVAudioPlayer?
 
@@ -44,6 +51,7 @@ class YepAudioService: NSObject {
                 audioRecorder.delegate = audioRecorderDelegate
 
                 audioRecorder.meteringEnabled = true
+                
                 audioRecorder.prepareToRecord() // creates/overwrites the file at soundFileURL
             }
         }
@@ -87,10 +95,14 @@ class YepAudioService: NSObject {
                 if let audioRecorder = self.audioRecorder {
                     
                     if (audioRecorder.recording){
+                        
                         audioRecorder.stop()
                         
                     } else {
-                        audioRecorder.record()
+                        
+                        if !self.shouldIgnoreStart {
+                            audioRecorder.record()
+                        }
                         println("Audio Record did begin")
                     }
                 }
@@ -119,6 +131,7 @@ class YepAudioService: NSObject {
     //            AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker,error: nil)
                 AVAudioSession.sharedInstance().setActive(false, withOptions: AVAudioSessionSetActiveOptions.OptionNotifyOthersOnDeactivation, error: nil)
             })
+        
             self.checkRecordTimeoutTimer?.invalidate()
             
             self.checkRecordTimeoutTimer = nil

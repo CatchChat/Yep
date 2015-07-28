@@ -82,7 +82,7 @@ class YepConfig {
     }
 
     struct AudioRecord {
-        static let shortestDuration: NSTimeInterval = 0.5
+        static let shortestDuration: NSTimeInterval = 1.0
         static let longestDuration: NSTimeInterval = 60
     }
 

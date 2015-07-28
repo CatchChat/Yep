@@ -156,6 +156,7 @@ class MessageToolbar: UIToolbar {
         }
 
         button.yepTouchesMoved = {
+            
         }
 
         button.yepTouchesEnded = {

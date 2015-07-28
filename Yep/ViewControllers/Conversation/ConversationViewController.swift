@@ -451,6 +451,8 @@ class ConversationViewController: BaseViewController {
 
         messageToolbar.voiceSendBeginAction = { [weak self] messageToolbar in
 
+            YepAudioService.sharedManager.shouldIgnoreStart = false
+            
             if let strongSelf = self {
 
                 strongSelf.view.addSubview(strongSelf.waverView)
@@ -463,6 +465,7 @@ class ConversationViewController: BaseViewController {
                 strongSelf.samplesCount = 0
 
                 if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
+                    
                     YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: strongSelf)
 
                     YepAudioService.sharedManager.recordTimeoutAction = {
@@ -500,6 +503,8 @@ class ConversationViewController: BaseViewController {
 
         messageToolbar.voiceSendEndAction = { [weak self] messageToolbar in
 
+            YepAudioService.sharedManager.shouldIgnoreStart = true
+            
             hideWaver()
 
             let interruptAudioRecord: () -> Void = {
@@ -509,6 +514,7 @@ class ConversationViewController: BaseViewController {
 
             // 小于 0.5 秒不创建消息
             if YepAudioService.sharedManager.audioRecorder?.currentTime < YepConfig.AudioRecord.shortestDuration {
+                
                 interruptAudioRecord()
                 return
             }
