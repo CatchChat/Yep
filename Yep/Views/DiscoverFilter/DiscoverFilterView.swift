@@ -119,35 +119,36 @@ class DiscoverFilterView: UIView {
 
         containerView.alpha = 1
 
-        UIView.animateWithDuration(0.05, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { _ in
             self.containerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
 
-        }, completion: { finished in
-            UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                self.tableViewBottomConstraint?.constant = 0
+        }, completion: { _ in
+        })
 
-                self.layoutIfNeeded()
+        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { _ in
+            self.tableViewBottomConstraint?.constant = 0
 
-                }, completion: { finished in
-            })
+            self.layoutIfNeeded()
+
+        }, completion: { _ in
         })
     }
 
     func hide() {
 
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { _ in
             self.tableViewBottomConstraint?.constant = self.totalHeight
 
             self.layoutIfNeeded()
 
-        }, completion: { finished in
+        }, completion: { _ in
+        })
 
-            UIView.animateWithDuration(0.05, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                self.containerView.backgroundColor = UIColor.clearColor()
+        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { _ in
+            self.containerView.backgroundColor = UIColor.clearColor()
 
-            }, completion: { finished in
-                self.removeFromSuperview()
-            })
+        }, completion: { _ in
+            self.removeFromSuperview()
         })
     }
 

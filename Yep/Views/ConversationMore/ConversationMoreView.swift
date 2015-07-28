@@ -128,6 +128,8 @@ class ConversationMoreColorTitleCell: UITableViewCell {
 
 class ConversationMoreView: UIView {
 
+    let totalHeight: CGFloat = 240
+
     lazy var containerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.clearColor()
@@ -187,35 +189,36 @@ class ConversationMoreView: UIView {
 
         containerView.alpha = 1
 
-        UIView.animateWithDuration(0.05, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { _ in
             self.containerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
 
-        }, completion: { finished in
-            UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                self.tableViewBottomConstraint?.constant = 0
+        }, completion: { _ in
+        })
 
-                self.layoutIfNeeded()
+        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { _ in
+            self.tableViewBottomConstraint?.constant = 0
 
-            }, completion: { finished in
-            })
+            self.layoutIfNeeded()
+
+        }, completion: { _ in
         })
     }
 
     func hide() {
 
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-            self.tableViewBottomConstraint?.constant = 300
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { _ in
+            self.tableViewBottomConstraint?.constant = self.totalHeight
 
             self.layoutIfNeeded()
 
-        }, completion: { finished in
+        }, completion: { _ in
+        })
 
-            UIView.animateWithDuration(0.05, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                self.containerView.backgroundColor = UIColor.clearColor()
+        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { _ in
+            self.containerView.backgroundColor = UIColor.clearColor()
 
-            }, completion: { finished in
-                self.removeFromSuperview()
-            })
+        }, completion: { _ in
+            self.removeFromSuperview()
         })
     }
 
@@ -224,7 +227,7 @@ class ConversationMoreView: UIView {
         UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveLinear, animations: { _ in
             self.containerView.alpha = 0
 
-            self.tableViewBottomConstraint?.constant = 300
+            self.tableViewBottomConstraint?.constant = self.totalHeight
 
             self.layoutIfNeeded()
 
@@ -276,15 +279,15 @@ class ConversationMoreView: UIView {
         NSLayoutConstraint.activateConstraints(containerViewConstraintsH)
         NSLayoutConstraint.activateConstraints(containerViewConstraintsV)
 
-        // layour for tableView
+        // layout for tableView
 
         let tableViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[tableView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
 
-        let tableViewBottomConstraint = NSLayoutConstraint(item: tableView, attribute: .Bottom, relatedBy: .Equal, toItem: containerView, attribute: .Bottom, multiplier: 1.0, constant: 300)
+        let tableViewBottomConstraint = NSLayoutConstraint(item: tableView, attribute: .Bottom, relatedBy: .Equal, toItem: containerView, attribute: .Bottom, multiplier: 1.0, constant: self.totalHeight)
 
         self.tableViewBottomConstraint = tableViewBottomConstraint
 
-        let tableViewHeightConstraint = NSLayoutConstraint(item: tableView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 300)
+        let tableViewHeightConstraint = NSLayoutConstraint(item: tableView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: self.totalHeight)
 
         NSLayoutConstraint.activateConstraints(tableViewConstraintsH)
         NSLayoutConstraint.activateConstraints([tableViewBottomConstraint, tableViewHeightConstraint])
