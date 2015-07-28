@@ -132,6 +132,7 @@ class ImageCache {
     }
 
     func mapImageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (UIImage) -> ()) {
+
         let imageKey = "mapImage-\(message.coordinate)"
 
         // 先看看缓存
@@ -141,6 +142,37 @@ class ImageCache {
         } else {
 
             if let coordinate = message.coordinate {
+
+                // 先放个默认的图片
+
+                let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")! : UIImage(named: "right_tail_image_bubble")!
+                completion(defaultImage)
+
+                // 再看看是否已有地图图片文件
+
+                let fileName = message.localAttachmentName
+
+                if !fileName.isEmpty {
+                    if
+                        let imageFileURL = NSFileManager.yepMessageImageURLWithName(fileName),
+                        let image = UIImage(contentsOfFile: imageFileURL.path!) {
+
+                            let mapImage = image.bubbleImageWithTailDirection(tailDirection, size: size)
+
+                            self.cache.setObject(mapImage, forKey: imageKey)
+
+                            dispatch_async(dispatch_get_main_queue()) {
+                                completion(mapImage)
+                            }
+
+                            return
+                    }
+                }
+
+                // 没有地图图片文件，只能生成了
+
+                let messageID = message.messageID
+
                 let options = MKMapSnapshotOptions()
                 options.scale = UIScreen.mainScreen().scale
                 options.size = size
@@ -150,10 +182,6 @@ class ImageCache {
 
                 let mapSnapshotter = MKMapSnapshotter(options: options)
 
-                // 先放个默认的图片
-                let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")! : UIImage(named: "right_tail_image_bubble")!
-                completion(defaultImage)
-                
                 mapSnapshotter.startWithCompletionHandler { (snapshot, error) -> Void in
                     if error == nil {
 
@@ -175,9 +203,29 @@ class ImageCache {
 
                         let mapImage = finalImage.bubbleImageWithTailDirection(tailDirection, size: size)
 
+                        // save it
+
+                        if let data = UIImageJPEGRepresentation(mapImage, 1.0) {
+
+                            let fileName = NSUUID().UUIDString
+
+                            if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    let realm = Realm()
+                                    if let message = messageWithMessageID(messageID, inRealm: realm) {
+                                        realm.write {
+                                            message.localAttachmentName = fileName
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         self.cache.setObject(mapImage, forKey: imageKey)
 
-                        completion(mapImage)
+                        dispatch_async(dispatch_get_main_queue()) {
+                            completion(mapImage)
+                        }
                     }
                 }
             }
