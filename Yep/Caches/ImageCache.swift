@@ -171,8 +171,6 @@ class ImageCache {
 
                 // 没有地图图片文件，只能生成了
 
-                let messageID = message.messageID
-
                 let options = MKMapSnapshotOptions()
                 options.scale = UIScreen.mainScreen().scale
                 options.size = size
@@ -201,18 +199,15 @@ class ImageCache {
 
                         UIGraphicsEndImageContext()
 
-                        let mapImage = finalImage.bubbleImageWithTailDirection(tailDirection, size: size)
-
                         // save it
 
-                        if let data = UIImageJPEGRepresentation(mapImage, 1.0) {
+                        if let data = UIImageJPEGRepresentation(finalImage, 1.0) {
 
                             let fileName = NSUUID().UUIDString
 
                             if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
                                 dispatch_async(dispatch_get_main_queue()) {
-                                    let realm = Realm()
-                                    if let message = messageWithMessageID(messageID, inRealm: realm) {
+                                    if let realm = message.realm {
                                         realm.write {
                                             message.localAttachmentName = fileName
                                         }
@@ -220,6 +215,8 @@ class ImageCache {
                                 }
                             }
                         }
+
+                        let mapImage = finalImage.bubbleImageWithTailDirection(tailDirection, size: size)
 
                         self.cache.setObject(mapImage, forKey: imageKey)
 
