@@ -297,7 +297,7 @@ func normalFriends() -> Results<User> {
 
 func normalUsers() -> Results<User> {
     let realm = Realm()
-    let predicate = NSPredicate(format: "friendState = %d OR friendState = %d", UserFriendState.Normal.rawValue, UserFriendState.Me.rawValue)
+    let predicate = NSPredicate(format: "friendState != %d", UserFriendState.Blocked.rawValue)
     return realm.objects(User).filter(predicate)
 }
 
