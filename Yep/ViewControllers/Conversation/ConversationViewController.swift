@@ -290,6 +290,10 @@ class ConversationViewController: BaseViewController {
 
             self?.cleanTextInput()
 
+            if text.isEmpty {
+                return
+            }
+
             if let withFriend = self?.conversation.withFriend {
 
                 sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
