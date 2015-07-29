@@ -203,7 +203,7 @@ class MessageMediaViewController: UIViewController {
     }
 
     override func preferredStatusBarUpdateAnimation() -> UIStatusBarAnimation {
-        return .Slide
+        return .Fade
     }
 
     override func prefersStatusBarHidden() -> Bool {
