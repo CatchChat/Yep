@@ -1526,6 +1526,7 @@ class ConversationViewController: BaseViewController {
                     let delegate = ConversationMessagePreviewNavigationControllerDelegate()
                     delegate.snapshot = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(false)
                     delegate.frame = frame
+                    delegate.thumbnailImage = message.thumbnailImage
                     delegate.transitionView = transitionView
 
                     navigationControllerDelegate = delegate

@@ -71,7 +71,7 @@ extension NSFileManager {
     }
 
     // Image
-    
+
     class func yepMessageImageURLWithName(name: String) -> NSURL? {
 
         if let messageCachesURL = yepMessageCachesURL() {
