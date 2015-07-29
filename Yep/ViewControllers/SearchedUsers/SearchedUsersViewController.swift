@@ -25,7 +25,7 @@ class SearchedUsersViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Searched Users", comment: "")
+        title = NSLocalizedString("Search", comment: "") + " \"\(mobile)\""
 
         searchedUsersTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         searchedUsersTableView.rowHeight = 80
