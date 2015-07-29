@@ -286,7 +286,7 @@ class ConversationViewController: BaseViewController {
 
         messageToolbar.textSendAction = { [weak self] messageToolbar in
 
-            let text = messageToolbar.messageTextView.text!
+            let text = messageToolbar.messageTextView.text!.trimming(.WhitespaceAndNewline)
 
             self?.cleanTextInput()
 
@@ -311,6 +311,7 @@ class ConversationViewController: BaseViewController {
                 })
 
             } else if let withGroup = self?.conversation.withGroup {
+
                 sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
 
                     dispatch_async(dispatch_get_main_queue()) {

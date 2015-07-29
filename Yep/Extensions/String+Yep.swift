@@ -16,9 +16,22 @@ extension String {
         
         if let date = dateFormatter.dateFromString(self) {
             return date
-        }else {
+        } else {
             return nil
         }
+    }
 
+    enum TrimmingType {
+        case Whitespace
+        case WhitespaceAndNewline
+    }
+
+    func trimming(trimmingType: TrimmingType) -> String {
+        switch trimmingType {
+        case .Whitespace:
+            return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        case .WhitespaceAndNewline:
+            return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        }
     }
 }
