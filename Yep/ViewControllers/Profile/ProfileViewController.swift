@@ -993,6 +993,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                     self.navigationController?.pushViewController(pickSkillsController, animated: true)
                 }
+
+            } else {
+                header.accessoryImageView.hidden = true
             }
 
             return header
