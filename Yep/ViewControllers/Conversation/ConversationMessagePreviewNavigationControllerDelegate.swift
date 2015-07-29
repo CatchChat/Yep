@@ -182,6 +182,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
                 animatingVC.view.backgroundColor = UIColor.blackColor()
 
                 transitionViewSnapshot.removeFromSuperview()
+                thumbnailImageView.removeFromSuperview()
 
                 //self.snapshot?.removeFromSuperview()
 
@@ -253,6 +254,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
                 self.transitionView?.alpha = 1
 
                 transitionViewSnapshot.removeFromSuperview()
+                thumbnailImageView.removeFromSuperview()
 
                 self.snapshot?.removeFromSuperview()
 
