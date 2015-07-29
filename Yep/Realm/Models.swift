@@ -238,6 +238,22 @@ class Message: Object {
     dynamic var thumbnailURLString: String = ""
     dynamic var localThumbnailName: String = ""
 
+    var thumbnailImage: UIImage? {
+        switch mediaType {
+        case MessageMediaType.Image.rawValue:
+            if let imageFileURL = NSFileManager.yepMessageImageURLWithName(localAttachmentName) {
+                return UIImage(contentsOfFile: imageFileURL.path!)
+            }
+        case MessageMediaType.Video.rawValue:
+            if let imageFileURL = NSFileManager.yepMessageImageURLWithName(localThumbnailName) {
+                return UIImage(contentsOfFile: imageFileURL.path!)
+            }
+        default:
+            return nil
+        }
+        return nil
+    }
+
     dynamic var downloadState: Int = MessageDownloadState.NoDownload.rawValue
 
     dynamic var mediaMetaData: MediaMetaData?
