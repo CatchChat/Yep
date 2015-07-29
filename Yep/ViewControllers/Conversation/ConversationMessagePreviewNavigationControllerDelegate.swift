@@ -91,7 +91,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
         let containerView = transitionContext.containerView()
 
         if let snapshot = snapshot {
-            snapshot.alpha = 0
+            snapshot.alpha = 1
 
             let transitionViewCover = UIView(frame: frame)
             transitionViewCover.backgroundColor = UIColor.whiteColor()
@@ -124,8 +124,6 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
             thumbnailImageView.frame = frame
             animatingView.addSubview(thumbnailImageView)
 
-            snapshot?.alpha = 1
-
 
             let fullDuration = transitionDuration(transitionContext)
 
@@ -134,7 +132,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
             UIView.animateKeyframesWithDuration(fullDuration, delay: 0.0, options: .CalculationModeLinear, animations: { () -> Void in
 
-                UIView.addKeyframeWithRelativeStartTime(0.5, relativeDuration: 0.4, animations: { () -> Void in
+                UIView.addKeyframeWithRelativeStartTime(0.7, relativeDuration: 0.3, animations: { () -> Void in
                     animatingVC.view.backgroundColor = UIColor.blackColor()
                 })
 
@@ -162,7 +160,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
                     thumbnailImageView.frame = frame
                     thumbnailImageView.center = animatingView.center
 
-                    transitionViewSnapshot.alpha = 0
+//                    transitionViewSnapshot.alpha = 0.5
                     thumbnailImageView.alpha = 1
                 })
 
@@ -206,6 +204,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
         containerView.addSubview(toView!)
 
         if let snapshot = snapshot {
+            snapshot.alpha = 1
             containerView.addSubview(snapshot)
         }
 
@@ -240,7 +239,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
                     animatingVC.mediaView.alpha = 0
                 })
 
-                UIView.addKeyframeWithRelativeStartTime(0.2, relativeDuration: 0.6, animations: { () -> Void in
+                UIView.addKeyframeWithRelativeStartTime(0.2, relativeDuration: 0.8, animations: { () -> Void in
                     transitionViewSnapshot.frame = self.frame
                     thumbnailImageView.frame = self.frame
 
