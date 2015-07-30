@@ -208,20 +208,21 @@ class RegisterPickSkillsViewController: BaseViewController {
                         } else {
                             for index in 0..<self.masterSkills.count {
 
-                                let masterSkill = self.masterSkills[index]
+                                if let masterSkill = self.masterSkills[safe: index] {
 
-                                if masterSkill == skill {
-                                    self.masterSkills.removeAtIndex(index)
+                                    if masterSkill == skill {
+                                        self.masterSkills.removeAtIndex(index)
 
-                                    if !self.isRegister {
-                                        deleteSkill(skill, fromSkillSet: .Master, failureHandler: nil, completion: { success in
-                                            println("deleteSkill \(skill.localName) from Master: \(success)")
-                                        })
+                                        if !self.isRegister {
+                                            deleteSkill(skill, fromSkillSet: .Master, failureHandler: nil, completion: { success in
+                                                println("deleteSkill \(skill.localName) from Master: \(success)")
+                                            })
+                                        }
+
+                                        success = true
+
+                                        break
                                     }
-
-                                    success = true
-
-                                    break
                                 }
                             }
                         }
@@ -238,20 +239,21 @@ class RegisterPickSkillsViewController: BaseViewController {
                         } else {
                             for index in 0..<self.learningSkills.count {
 
-                                let learningSkill = self.learningSkills[index]
+                                if let learningSkill = self.learningSkills[safe: index] {
 
-                                if learningSkill == skill {
-                                    self.learningSkills.removeAtIndex(index)
+                                    if learningSkill == skill {
+                                        self.learningSkills.removeAtIndex(index)
 
-                                    if !self.isRegister {
-                                        deleteSkill(skill, fromSkillSet: .Learning, failureHandler: nil, completion: { success in
-                                            println("deleteSkill \(skill.localName) from Learning: \(success)")
-                                        })
+                                        if !self.isRegister {
+                                            deleteSkill(skill, fromSkillSet: .Learning, failureHandler: nil, completion: { success in
+                                                println("deleteSkill \(skill.localName) from Learning: \(success)")
+                                            })
+                                        }
+
+                                        success = true
+
+                                        break
                                     }
-
-                                    success = true
-
-                                    break
                                 }
                             }
                         }
