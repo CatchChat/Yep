@@ -179,7 +179,9 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             self?.presentViewController(alertController, animated: true, completion: nil)
 
             // touch to create (if need) for faster appear
-            self?.imagePicker.hidesBarsOnTap = false
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+                self?.imagePicker.hidesBarsOnTap = false
+            }
         }
 
         automaticallyAdjustsScrollViewInsets = false
