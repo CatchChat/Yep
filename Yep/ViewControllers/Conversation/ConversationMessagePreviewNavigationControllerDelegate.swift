@@ -64,7 +64,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
 //        return 2
-        return isPresentation ? 0.35 : 0.35
+        return isPresentation ? 0.3 : 0.3
     }
 
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
@@ -218,21 +218,24 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
         if let transitionViewSnapshot = transitionViewSnapshot, thumbnailImageView = thumbnailImageView {
 
+            animatingView.addSubview(transitionViewSnapshot)
+            animatingView.addSubview(thumbnailImageView)
+
             self.transitionView?.alpha = 0
 
             UIView.animateKeyframesWithDuration(fullDuration, delay: 0.0, options: .CalculationModeLinear, animations: { () -> Void in
 
-                UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 1.0, animations: { () -> Void in
+                UIView.addKeyframeWithRelativeStartTime(0.7, relativeDuration: 0.3, animations: { () -> Void in
                     animatingVC.view.backgroundColor = UIColor.clearColor()
                 })
 
-                UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.2, animations: { () -> Void in
+                UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.1, animations: { () -> Void in
                     let ratio = (animatingView.bounds.width + self.largerOffset) / animatingView.bounds.width
                     animatingVC.mediaView.transform = CGAffineTransformMakeScale(ratio, ratio)
                     animatingVC.mediaControlView.alpha = 0
                 })
 
-                UIView.addKeyframeWithRelativeStartTime(0.2, relativeDuration: 0.0, animations: { () -> Void in
+                UIView.addKeyframeWithRelativeStartTime(0.1, relativeDuration: 0.01, animations: { () -> Void in
                     animatingView.addSubview(transitionViewSnapshot)
 //                    transitionViewSnapshot.center = animatingView.center
                     transitionViewSnapshot.alpha = 0
@@ -240,7 +243,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
                     animatingVC.mediaView.alpha = 0
                 })
 
-                UIView.addKeyframeWithRelativeStartTime(0.2, relativeDuration: 0.8, animations: { () -> Void in
+                UIView.addKeyframeWithRelativeStartTime(0.11, relativeDuration: 0.89, animations: { () -> Void in
                     transitionViewSnapshot.frame = self.frame
                     thumbnailImageView.frame = self.frame
 
@@ -248,7 +251,6 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
                     thumbnailImageView.alpha = 0
                 })
 
-                
             }, completion: { (finished) -> Void in
 
                 self.transitionView?.alpha = 1
