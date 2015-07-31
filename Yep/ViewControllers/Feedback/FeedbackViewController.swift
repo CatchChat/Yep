@@ -14,6 +14,7 @@ class FeedbackViewController: UIViewController {
     @IBOutlet weak var promptLabel: UILabel! {
         didSet {
             promptLabel.text = NSLocalizedString("We read every feedback", comment: "")
+            promptLabel.textColor = UIColor.darkGrayColor()
         }
     }
 
@@ -21,6 +22,7 @@ class FeedbackViewController: UIViewController {
         didSet {
             feedbackTextView.text = ""
             feedbackTextView.delegate = self
+            feedbackTextView.textContainerInset = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 12)
         }
     }
 
