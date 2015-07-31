@@ -47,7 +47,7 @@ func saveTokenAndUserInfoOfLoginUser(loginUser: LoginUser) {
     YepUserDefaults.v1AccessToken.value = loginUser.accessToken
 }
 
-// MARK: Register
+// MARK: - Register
 
 func validateMobile(mobile: String, withAreaCode areaCode: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: ((Bool, String)) -> Void) {
     let requestParameters = [
@@ -143,7 +143,7 @@ func verifyMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: St
     }
 }
 
-// MARK: Skills
+// MARK: - Skills
 
 struct SkillCategory {
     let id: String
@@ -349,7 +349,7 @@ func updateCoverOfSkillWithSkillID(skillID: String, #coverURLString: String, #fa
     }
 }
 
-// MARK: User
+// MARK: - User
 
 func userInfoOfUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
     let parse: JSONDictionary -> JSONDictionary? = { data in
@@ -536,7 +536,7 @@ func unblockUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -
     }
 }
 
-// MARK: Contacts
+// MARK: - Contacts
 
 func searchUsersByMobile(mobile: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: [JSONDictionary] -> Void) {
     
@@ -674,7 +674,7 @@ func reportProfileUser(profileUser: ProfileUser, forReason reason: ReportReason,
     }
 }
 
-// MARK: Friendships
+// MARK: - Friendships
 
 private func headFriendships(#completion: JSONDictionary -> Void) {
     let requestParameters = [
@@ -896,7 +896,7 @@ func friendships(#completion: [JSONDictionary] -> Void) {
     }
 }
 
-// MARK: Groups
+// MARK: - Groups
 
 func headGroups(#failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
     let requestParameters = [
@@ -983,7 +983,7 @@ func groups(#completion: [JSONDictionary] -> Void) {
     })
 }
 
-// MARK: Messages
+// MARK: - Messages
 
 func headUnreadMessages(#completion: JSONDictionary -> Void) {
     let requestParameters = [
@@ -1577,7 +1577,7 @@ func markAsReadMessage(message: Message ,#failureHandler: ((Reason, String?) -> 
     }
 }
 
-// MARK: Social Work
+// MARK: - Social Work
 
 func authURLRequestWithURL(url: NSURL) -> NSURLRequest {
     
@@ -1821,3 +1821,32 @@ enum SocialWork {
     case Dribbble(DribbbleWork)
     case Instagram(InstagramWork)
 }
+
+
+// MARK: - Feedback
+
+struct Feedback {
+    let content: String
+    let deviceInfo: String
+}
+
+func sendFeedback(feedback: Feedback, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+
+    let requestParameters = [
+        "content": feedback.content,
+        "device_info": feedback.deviceInfo,
+    ]
+
+    let parse: JSONDictionary -> Bool? = { data in
+        return true
+    }
+
+    let resource = authJsonResource(path: "/api/v1/feedbacks", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+

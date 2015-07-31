@@ -3,6 +3,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 def pods
+    pod 'DeviceGuru'
     pod 'KeyboardMan'
 	pod 'Ruler'
 	pod 'Proposer'

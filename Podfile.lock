@@ -24,8 +24,9 @@ PODS:
   - APAddressBook/Swift (0.1.11):
     - APAddressBook/Core
   - Base64 (1.0.1)
+  - DeviceGuru (1.2.0)
   - FXBlurView (1.6.3)
-  - KeyboardMan (0.2.2)
+  - KeyboardMan (0.2.3)
   - Kingfisher (1.4.2)
   - MZFayeClient (1.0.1):
     - Base64 (~> 1.0.1)
@@ -44,6 +45,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking
   - APAddressBook/Swift
+  - DeviceGuru
   - FXBlurView
   - KeyboardMan
   - Kingfisher
@@ -62,8 +64,9 @@ SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   APAddressBook: 2c949367b190a993d2cce769a3b20bce8bcf000c
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
+  DeviceGuru: 34cf5b30fd99e7e3a4cee4c77c03bc94a4362be4
   FXBlurView: c6d23f3d35af2c6282296a2930f61c6e2c788d01
-  KeyboardMan: 0889daa20343047439dfba8588a34b5c3aee0747
+  KeyboardMan: d1d86c52345cdc53ca5f3958e824943a336fc743
   Kingfisher: 4446782a827abbe2e6048a1fa741924a10e6ad7c
   MZFayeClient: 65e7ef67e61fbe7a7a8b196130541c9f06bcb5d8
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923

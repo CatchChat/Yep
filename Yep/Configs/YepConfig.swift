@@ -149,5 +149,9 @@ class YepConfig {
         static let imageHeight: CGFloat = 1024
     }
 
+    struct Feedback {
+        static let bottomMargin: CGFloat = 20
+    }
+
 }
 

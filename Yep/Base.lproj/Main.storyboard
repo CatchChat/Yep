@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15A226f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15A235d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -572,6 +572,7 @@
                     <connections>
                         <outlet property="settingsTableView" destination="jKA-8q-sXn" id="DgR-gO-x2w"/>
                         <segue destination="TTy-VD-aor" kind="show" identifier="showEditProfile" id="Qhj-kS-Fq2"/>
+                        <segue destination="9Uj-sb-Emt" kind="show" identifier="showFeedback" id="YkG-GA-Ri8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zuA-bP-KGx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -934,7 +935,56 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="3586" y="717"/>
+            <point key="canvasLocation" x="3570" y="337"/>
+        </scene>
+        <!--Feedback View Controller-->
+        <scene sceneID="qi4-ey-7am">
+            <objects>
+                <viewController storyboardIdentifier="FeedbackViewController" id="9Uj-sb-Emt" customClass="FeedbackViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tAx-eH-RSU"/>
+                        <viewControllerLayoutGuide type="bottom" id="68N-x3-ggS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="idv-mc-SYJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We read every feedback" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdt-Vd-sD9">
+                                <rect key="frame" x="208" y="104" width="185" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="fVo-Zl-gHQ">
+                                <rect key="frame" x="0.0" y="165" width="600" height="121"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="fVo-Zl-gHQ" firstAttribute="leading" secondItem="idv-mc-SYJ" secondAttribute="leading" id="Fvc-ia-KdU"/>
+                            <constraint firstAttribute="centerX" secondItem="pdt-Vd-sD9" secondAttribute="centerX" id="PXC-QQ-Amd"/>
+                            <constraint firstItem="pdt-Vd-sD9" firstAttribute="top" secondItem="tAx-eH-RSU" secondAttribute="bottom" constant="40" id="bgk-WE-FrJ"/>
+                            <constraint firstItem="fVo-Zl-gHQ" firstAttribute="top" secondItem="pdt-Vd-sD9" secondAttribute="bottom" constant="40" id="gRO-0d-kgw"/>
+                            <constraint firstItem="68N-x3-ggS" firstAttribute="top" secondItem="fVo-Zl-gHQ" secondAttribute="bottom" constant="265" id="qxh-bZ-MT0"/>
+                            <constraint firstAttribute="trailing" secondItem="fVo-Zl-gHQ" secondAttribute="trailing" id="xso-tK-MIK"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="feedbackTextView" destination="fVo-Zl-gHQ" id="dlg-9M-1bJ"/>
+                        <outlet property="feedbackTextViewBottomConstraint" destination="qxh-bZ-MT0" id="Dqa-iO-rmp"/>
+                        <outlet property="promptLabel" destination="pdt-Vd-sD9" id="yFy-1G-lze"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MUL-up-ag5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3569" y="1059"/>
         </scene>
         <!--Edit Nickname And Badge View Controller-->
         <scene sceneID="eed-5B-jyz">
@@ -1185,7 +1235,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KVb-CY-yr0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4343" y="717"/>
+            <point key="canvasLocation" x="4343" y="337"/>
         </scene>
         <!--Yep Tab Bar Controller-->
         <scene sceneID="vud-lc-IAG">
