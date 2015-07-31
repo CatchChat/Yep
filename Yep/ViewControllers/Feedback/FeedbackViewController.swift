@@ -20,11 +20,19 @@ class FeedbackViewController: UIViewController {
     @IBOutlet weak var feedbackTextView: UITextView! {
         didSet {
             feedbackTextView.text = ""
+            feedbackTextView.delegate = self
         }
     }
+
     @IBOutlet weak var feedbackTextViewBottomConstraint: NSLayoutConstraint! {
         didSet {
             feedbackTextViewBottomConstraint.constant = YepConfig.Feedback.bottomMargin
+        }
+    }
+
+    var isDirty = false {
+        willSet {
+            navigationItem.rightBarButtonItem?.enabled = newValue
         }
     }
 
@@ -34,6 +42,10 @@ class FeedbackViewController: UIViewController {
         super.viewDidLoad()
 
         title = NSLocalizedString("Feedback", comment: "")
+
+        let doneBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "sendFeedback")
+        navigationItem.rightBarButtonItem = doneBarButtonItem
+        navigationItem.rightBarButtonItem?.enabled = false
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
             self?.feedbackTextViewBottomConstraint.constant = keyboardHeight + YepConfig.Feedback.bottomMargin
@@ -59,6 +71,15 @@ class FeedbackViewController: UIViewController {
 
     func tap() {
         feedbackTextView.resignFirstResponder()
+    }
+}
+
+// MARK: - UITextViewDelegate
+
+extension FeedbackViewController: UITextViewDelegate {
+
+    func textViewDidChange(textView: UITextView) {
+        isDirty = !textView.text.isEmpty
     }
 }
 
