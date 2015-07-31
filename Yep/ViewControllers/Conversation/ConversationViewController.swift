@@ -572,9 +572,10 @@ class ConversationViewController: BaseViewController {
                         }
 
                         // touch to create (if need) for faster appear
-                        strongSelf.imagePicker.hidesBarsOnTap = false
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+                            strongSelf.imagePicker.hidesBarsOnTap = false
+                        }
                     }
-
                 }
 
                 // 尝试保留草稿
