@@ -7,12 +7,48 @@
 //
 
 import UIKit
+import KeyboardMan
 
 class FeedbackViewController: UIViewController {
 
+    @IBOutlet weak var promptLabel: UILabel! {
+        didSet {
+            promptLabel.text = NSLocalizedString("We read every feedback", comment: "")
+        }
+    }
+
+    @IBOutlet weak var feedbackTextView: UITextView! {
+        didSet {
+            feedbackTextView.text = ""
+        }
+    }
+    @IBOutlet weak var feedbackTextViewBottomConstraint: NSLayoutConstraint! {
+        didSet {
+            feedbackTextViewBottomConstraint.constant = YepConfig.Feedback.bottomMargin
+        }
+    }
+
+    let keyboardMan = KeyboardMan()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("Feedback", comment: "")
+
+        keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
+            self?.feedbackTextViewBottomConstraint.constant = keyboardHeight + YepConfig.Feedback.bottomMargin
+            self?.view.layoutIfNeeded()
+        }
+
+        keyboardMan.animateWhenKeyboardDisappear = { [weak self] keyboardHeight in
+            self?.feedbackTextViewBottomConstraint.constant = YepConfig.Feedback.bottomMargin
+            self?.view.layoutIfNeeded()
+        }
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        feedbackTextView.becomeFirstResponder()
     }
 }
