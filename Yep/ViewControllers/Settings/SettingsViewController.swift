@@ -21,10 +21,19 @@ class SettingsViewController: BaseViewController {
         }
     }
 
-    let moreAnnotations: [String] = [
-        NSLocalizedString("Notifications", comment: ""),
-        NSLocalizedString("Feedback", comment: ""),
-        NSLocalizedString("About", comment: ""),
+    let moreAnnotations: [[String: String]] = [
+        [
+            "name": NSLocalizedString("Notifications", comment: ""),
+            //"segue": "showNotifications",
+        ],
+        [
+            "name": NSLocalizedString("Feedback", comment: ""),
+            "segue": "showFeedback",
+        ],
+        [
+            "name": NSLocalizedString("About", comment: ""),
+            //"segue": "showAbout",
+        ],
     ]
 
     let introAttributes = [NSFontAttributeName: YepConfig.Settings.introFont]
@@ -85,7 +94,8 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
         case Section.More.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(settingsMoreCellIdentifier) as! SettingsMoreCell
-            cell.annotationLabel.text = moreAnnotations[indexPath.row]
+            let annotation = moreAnnotations[indexPath.row]
+            cell.annotationLabel.text = annotation["name"]
             return cell
 
         default:
@@ -122,6 +132,13 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
         case Section.User.rawValue:
             performSegueWithIdentifier("showEditProfile", sender: nil)
+
+        case Section.More.rawValue:
+            let annotation = moreAnnotations[indexPath.row]
+
+            if let segue = annotation["segue"] {
+                performSegueWithIdentifier(segue, sender: nil)
+            }
 
         default:
             break
