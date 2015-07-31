@@ -44,6 +44,9 @@ class FeedbackViewController: UIViewController {
             self?.feedbackTextViewBottomConstraint.constant = YepConfig.Feedback.bottomMargin
             self?.view.layoutIfNeeded()
         }
+
+        let tap = UITapGestureRecognizer(target: self, action: "tap")
+        view.addGestureRecognizer(tap)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -51,4 +54,11 @@ class FeedbackViewController: UIViewController {
 
         feedbackTextView.becomeFirstResponder()
     }
+
+    // MARK: Actions
+
+    func tap() {
+        feedbackTextView.resignFirstResponder()
+    }
 }
+
