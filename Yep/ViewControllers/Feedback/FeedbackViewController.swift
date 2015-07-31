@@ -8,6 +8,7 @@
 
 import UIKit
 import KeyboardMan
+import DeviceGuru
 
 class FeedbackViewController: UIViewController {
 
@@ -79,7 +80,8 @@ class FeedbackViewController: UIViewController {
 
         feedbackTextView.resignFirstResponder()
 
-        let feedback = Feedback(content: feedbackTextView.text, deviceInfo: "nix")
+        let deviceInfo = (hardwareDescription() ?? "nixDevice") + ", " + NSProcessInfo().operatingSystemVersionString
+        let feedback = Feedback(content: feedbackTextView.text, deviceInfo: deviceInfo)
 
         sendFeedback(feedback, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason, errorMessage)
