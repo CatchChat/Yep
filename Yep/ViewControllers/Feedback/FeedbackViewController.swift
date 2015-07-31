@@ -90,7 +90,7 @@ class FeedbackViewController: UIViewController {
 
         }, completion: { [weak self] _ in
 
-            YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Your feedback has been recorded!", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: {
+            YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Thanks! Your feedback has been recorded!", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: {
 
                 dispatch_async(dispatch_get_main_queue()) {
                     self?.navigationController?.popViewControllerAnimated(true)
