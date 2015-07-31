@@ -43,7 +43,7 @@ class FeedbackViewController: UIViewController {
 
         title = NSLocalizedString("Feedback", comment: "")
 
-        let doneBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "sendFeedback")
+        let doneBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "done")
         navigationItem.rightBarButtonItem = doneBarButtonItem
         navigationItem.rightBarButtonItem?.enabled = false
 
@@ -71,6 +71,28 @@ class FeedbackViewController: UIViewController {
 
     func tap() {
         feedbackTextView.resignFirstResponder()
+    }
+
+    func done() {
+
+        feedbackTextView.resignFirstResponder()
+
+        let feedback = Feedback(content: feedbackTextView.text, deviceInfo: "nix")
+
+        sendFeedback(feedback, failureHandler: { [weak self] reason, errorMessage in
+            defaultFailureHandler(reason, errorMessage)
+
+            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Network error!", comment: ""), inViewController: self)
+
+        }, completion: { [weak self] _ in
+
+            YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Your feedback has been recorded!", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: {
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    self?.navigationController?.popViewControllerAnimated(true)
+                }
+            })
+        })
     }
 }
 
