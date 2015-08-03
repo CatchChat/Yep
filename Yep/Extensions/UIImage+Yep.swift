@@ -458,11 +458,11 @@ extension UIImage {
 
 extension UIImage {
 
-    func decodedImage() -> UIImage? {
+    func decodedImage() -> UIImage {
         return decodedImage(scale: scale)
     }
 
-    func decodedImage(#scale: CGFloat) -> UIImage? {
+    func decodedImage(#scale: CGFloat) -> UIImage {
         let imageRef = CGImage
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let bitmapInfo = CGBitmapInfo(CGImageAlphaInfo.PremultipliedLast.rawValue)
@@ -473,11 +473,10 @@ extension UIImage {
             CGContextDrawImage(context, rect, imageRef)
             let decompressedImageRef = CGBitmapContextCreateImage(context)
 
-            return UIImage(CGImage: decompressedImageRef, scale: scale, orientation: imageOrientation)
-
-        } else {
-            return nil
+            return UIImage(CGImage: decompressedImageRef, scale: scale, orientation: imageOrientation) ?? self
         }
+
+        return self
     }
 }
 

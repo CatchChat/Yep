@@ -49,7 +49,7 @@ class ImageCache {
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
                     if let message = messageWithMessageID(messageID, inRealm: Realm()) {
                         if let blurredThumbnailImage = blurredThumbnailImageOfMessage(message) {
-                            let bubbleBlurredThumbnailImage = blurredThumbnailImage.bubbleImageWithTailDirection(tailDirection, size: size)
+                            let bubbleBlurredThumbnailImage = blurredThumbnailImage.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
 
                             self.cache.setObject(bubbleBlurredThumbnailImage, forKey: thumbnailKey)
 
@@ -75,7 +75,7 @@ class ImageCache {
                         let imageFileURL = NSFileManager.yepMessageImageURLWithName(fileName),
                         let image = UIImage(contentsOfFile: imageFileURL.path!) {
 
-                            let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size)
+                            let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
 
                             self.cache.setObject(messageImage, forKey: imageKey)
                             
@@ -108,7 +108,7 @@ class ImageCache {
 
                     }, imageFinished: { image in
 
-                        let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size)
+                        let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
 
                         self.cache.setObject(messageImage, forKey: imageKey)
 
@@ -148,80 +148,85 @@ class ImageCache {
                 let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")! : UIImage(named: "right_tail_image_bubble")!
                 completion(defaultImage)
 
-                // 再看看是否已有地图图片文件
 
                 let fileName = message.localAttachmentName
 
-                if !fileName.isEmpty {
-                    if
-                        let imageFileURL = NSFileManager.yepMessageImageURLWithName(fileName),
-                        let image = UIImage(contentsOfFile: imageFileURL.path!) {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
 
-                            let mapImage = image.bubbleImageWithTailDirection(tailDirection, size: size)
+                    // 再看看是否已有地图图片文件
+
+                    if !fileName.isEmpty {
+                        if
+                            let imageFileURL = NSFileManager.yepMessageImageURLWithName(fileName),
+                            let image = UIImage(contentsOfFile: imageFileURL.path!) {
+
+                                let mapImage = image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
+
+                                self.cache.setObject(mapImage, forKey: imageKey)
+
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    completion(mapImage)
+                                }
+
+                                return
+                        }
+                    }
+
+                    // 没有地图图片文件，只能生成了
+
+                    let options = MKMapSnapshotOptions()
+                    options.scale = UIScreen.mainScreen().scale
+                    options.size = size
+
+                    let locationCoordinate = CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude)
+                    options.region = MKCoordinateRegionMakeWithDistance(locationCoordinate, 500, 500)
+
+                    let mapSnapshotter = MKMapSnapshotter(options: options)
+
+                    mapSnapshotter.startWithCompletionHandler { (snapshot, error) -> Void in
+                        if error == nil {
+
+                            let image = snapshot.image
+
+                            UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale)
+
+                            let pinImage = UIImage(named: "icon_current_location")!
+
+                            image.drawAtPoint(CGPointZero)
+
+                            let pinCenter = snapshot.pointForCoordinate(locationCoordinate)
+                            let pinOrigin = CGPoint(x: pinCenter.x - pinImage.size.width * 0.5, y: pinCenter.y - pinImage.size.height * 0.5)
+                            pinImage.drawAtPoint(pinOrigin)
+
+                            let finalImage = UIGraphicsGetImageFromCurrentImageContext()
+
+                            UIGraphicsEndImageContext()
+
+                            // save it
+
+                            if let data = UIImageJPEGRepresentation(finalImage, 1.0) {
+
+                                let fileName = NSUUID().UUIDString
+
+                                if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
+
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        if let realm = message.realm {
+                                            realm.write {
+                                                message.localAttachmentName = fileName
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            let mapImage = finalImage.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
 
                             self.cache.setObject(mapImage, forKey: imageKey)
 
                             dispatch_async(dispatch_get_main_queue()) {
                                 completion(mapImage)
                             }
-
-                            return
-                    }
-                }
-
-                // 没有地图图片文件，只能生成了
-
-                let options = MKMapSnapshotOptions()
-                options.scale = UIScreen.mainScreen().scale
-                options.size = size
-
-                let locationCoordinate = CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude)
-                options.region = MKCoordinateRegionMakeWithDistance(locationCoordinate, 500, 500)
-
-                let mapSnapshotter = MKMapSnapshotter(options: options)
-
-                mapSnapshotter.startWithCompletionHandler { (snapshot, error) -> Void in
-                    if error == nil {
-
-                        let image = snapshot.image
-
-                        UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale)
-
-                        let pinImage = UIImage(named: "icon_current_location")!
-
-                        image.drawAtPoint(CGPointZero)
-
-                        let pinCenter = snapshot.pointForCoordinate(locationCoordinate)
-                        let pinOrigin = CGPoint(x: pinCenter.x - pinImage.size.width * 0.5, y: pinCenter.y - pinImage.size.height * 0.5)
-                        pinImage.drawAtPoint(pinOrigin)
-
-                        let finalImage = UIGraphicsGetImageFromCurrentImageContext()
-
-                        UIGraphicsEndImageContext()
-
-                        // save it
-
-                        if let data = UIImageJPEGRepresentation(finalImage, 1.0) {
-
-                            let fileName = NSUUID().UUIDString
-
-                            if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    if let realm = message.realm {
-                                        realm.write {
-                                            message.localAttachmentName = fileName
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        let mapImage = finalImage.bubbleImageWithTailDirection(tailDirection, size: size)
-
-                        self.cache.setObject(mapImage, forKey: imageKey)
-
-                        dispatch_async(dispatch_get_main_queue()) {
-                            completion(mapImage)
                         }
                     }
                 }
