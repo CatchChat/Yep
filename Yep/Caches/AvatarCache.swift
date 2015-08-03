@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 
 class AvatarCache {
+
     static let sharedInstance = AvatarCache()
 
     let cache = NSCache()
@@ -43,7 +44,7 @@ class AvatarCache {
         } else {
             let image = UIImage(named: "default_avatar")! // NOTICE: we need default_avatar indeed
 
-            let roundImage = image.roundImageOfRadius(radius)
+            let roundImage = image.roundImageOfRadius(radius).decodedImage()
 
             cache.setObject(roundImage, forKey: facelessRouncImageKey)
             
@@ -90,6 +91,8 @@ class AvatarCache {
                 let avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
                 let image = UIImage(contentsOfFile: avatarFileURL.path!) {
 
+                    let image = image.decodedImage()
+
                     self.cache.setObject(image, forKey: normalImageKey)
 
                     completion(image)
@@ -98,6 +101,8 @@ class AvatarCache {
                 // 没办法，下载吧
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                     if let data = NSData(contentsOfURL: url), image = UIImage(data: data) {
+
+                        let image = image.decodedImage()
 
                         // TODO 裁减 image
 
@@ -203,6 +208,8 @@ class AvatarCache {
                                 avatarFilePath = avatarFileURL.path,
                                 image = UIImage(contentsOfFile: avatarFilePath) {
 
+                                    let image = image.decodedImage()
+
                                     // 因此，要在主线程完成，防止对比 avatarCompletions 时数量不对
                                     dispatch_async(dispatch_get_main_queue()) {
                                         self.completeWithImage(image, avatarURLString: avatarURLString)
@@ -214,6 +221,8 @@ class AvatarCache {
 
                         // 没办法，下载吧
                         if let data = NSData(contentsOfURL: url), image = UIImage(data: data) {
+
+                            let image = image.decodedImage()
 
                             // TODO 裁减 image
 
@@ -316,6 +325,8 @@ class AvatarCache {
                                 avatarFilePath = avatarFileURL.path,
                                 image = UIImage(contentsOfFile: avatarFilePath) {
 
+                                    let image = image.decodedImage()
+
                                     // 因此，要在主线程完成，防止对比 avatarCompletions 时数量不对
                                     dispatch_async(dispatch_get_main_queue()) {
                                         self.completeWithImage(image, avatarURLString: avatarURLString)
@@ -339,6 +350,8 @@ class AvatarCache {
 
                         // 没办法，下载吧
                         if let data = NSData(contentsOfURL: url), image = UIImage(data: data) {
+
+                            let image = image.decodedImage()
 
                             // TODO: 裁减 image
 
