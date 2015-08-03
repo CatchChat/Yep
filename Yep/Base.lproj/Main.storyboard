@@ -78,7 +78,7 @@
                                     <outlet property="delegate" destination="la3-6z-2aH" id="zOV-zM-2KH"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gu7-gn-2ia">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gu7-gn-2ia">
                                 <rect key="frame" x="0.0" y="270" width="600" height="100"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe Up to Cancel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zew-F7-znc">
@@ -107,7 +107,7 @@
                                     <constraint firstItem="Zew-F7-znc" firstAttribute="top" secondItem="4p2-ZI-7q3" secondAttribute="bottom" constant="10" id="b9o-gU-cOq"/>
                                 </constraints>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="390" width="600" height="50"/>
                                 <animations/>
                                 <items/>
@@ -989,9 +989,55 @@
                     <view key="view" contentMode="scaleToFill" id="8pt-WZ-r3x">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IrX-gK-Zkg">
+                                <rect key="frame" x="0.0" y="144" width="600" height="44"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="ivj-KQ-byM"/>
+                                </constraints>
+                                <state key="normal" title="From 22:00">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flj-e3-cbm">
+                                <rect key="frame" x="0.0" y="188" width="600" height="44"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="3Q2-xg-uQM"/>
+                                </constraints>
+                                <state key="normal" title="To 07:30">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hap-y9-JVX">
+                                <rect key="frame" x="0.0" y="389" width="600" height="162"/>
+                                <animations/>
+                                <connections>
+                                    <outlet property="dataSource" destination="GqQ-V0-aYk" id="ruH-BN-Hig"/>
+                                    <outlet property="delegate" destination="GqQ-V0-aYk" id="q8d-JI-MhG"/>
+                                </connections>
+                            </pickerView>
+                        </subviews>
                         <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="IrX-gK-Zkg" secondAttribute="trailing" id="Eu6-cC-f8c"/>
+                            <constraint firstItem="hap-y9-JVX" firstAttribute="leading" secondItem="8pt-WZ-r3x" secondAttribute="leading" id="H1P-CR-vrP"/>
+                            <constraint firstItem="IrX-gK-Zkg" firstAttribute="top" secondItem="rC8-St-DYO" secondAttribute="bottom" constant="80" id="Mqo-lL-5aG"/>
+                            <constraint firstItem="flj-e3-cbm" firstAttribute="leading" secondItem="8pt-WZ-r3x" secondAttribute="leading" id="VCi-T4-shX"/>
+                            <constraint firstAttribute="trailing" secondItem="flj-e3-cbm" secondAttribute="trailing" id="Wwd-Wo-Bc8"/>
+                            <constraint firstItem="TtO-xz-ZUF" firstAttribute="top" secondItem="hap-y9-JVX" secondAttribute="bottom" id="cV1-rE-H2X"/>
+                            <constraint firstItem="IrX-gK-Zkg" firstAttribute="leading" secondItem="8pt-WZ-r3x" secondAttribute="leading" id="gdX-E4-wBo"/>
+                            <constraint firstItem="flj-e3-cbm" firstAttribute="top" secondItem="IrX-gK-Zkg" secondAttribute="bottom" id="j6J-yX-8NW"/>
+                            <constraint firstAttribute="trailing" secondItem="hap-y9-JVX" secondAttribute="trailing" id="jyH-So-G0X"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="fromButton" destination="IrX-gK-Zkg" id="K04-dm-B9C"/>
+                        <outlet property="pickerView" destination="hap-y9-JVX" id="oSZ-gc-qrs"/>
+                        <outlet property="toButton" destination="flj-e3-cbm" id="tDC-Om-nCE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bRS-Uc-jLI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
