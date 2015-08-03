@@ -11,9 +11,11 @@ import RealmSwift
 import MapKit
 
 class ImageCache {
+
     static let sharedInstance = ImageCache()
 
     let cache = NSCache()
+    let cacheQueue = dispatch_queue_create("ImageCacheQueue", DISPATCH_QUEUE_CONCURRENT)
 
     func imageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (loadingProgress: Double, image: UIImage?) -> Void) {
 
@@ -46,7 +48,8 @@ class ImageCache {
                 completion(loadingProgress: preloadingPropgress, image: thumbnail)
 
             } else {
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+                dispatch_async(self.cacheQueue) {
+
                     if let message = messageWithMessageID(messageID, inRealm: Realm()) {
                         if let blurredThumbnailImage = blurredThumbnailImageOfMessage(message) {
                             let bubbleBlurredThumbnailImage = blurredThumbnailImage.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
@@ -60,6 +63,7 @@ class ImageCache {
                         } else {
                             // 或放个默认的图片
                             let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")! : UIImage(named: "right_tail_image_bubble")!
+
                             dispatch_async(dispatch_get_main_queue()) {
                                 completion(loadingProgress: preloadingPropgress, image: defaultImage)
                             }
@@ -68,7 +72,7 @@ class ImageCache {
                 }
             }
 
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+            dispatch_async(self.cacheQueue) {
 
                 if !fileName.isEmpty {
                     if
@@ -151,7 +155,7 @@ class ImageCache {
 
                 let fileName = message.localAttachmentName
 
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+                dispatch_async(self.cacheQueue) {
 
                     // 再看看是否已有地图图片文件
 
