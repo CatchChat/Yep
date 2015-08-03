@@ -453,3 +453,30 @@ extension UIImage {
         return resizeToSize(size, withTransform: transformForOrientationWithSize(size), drawTransposed: drawTransposed, interpolationQuality: interpolationQuality)
     }
 }
+
+// MARK: - Decode
+
+extension UIImage {
+
+    func decodedImage() -> UIImage {
+        return decodedImage(scale: scale)
+    }
+
+    func decodedImage(#scale: CGFloat) -> UIImage {
+        let imageRef = CGImage
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let bitmapInfo = CGBitmapInfo(CGImageAlphaInfo.PremultipliedLast.rawValue)
+        let context = CGBitmapContextCreate(nil, CGImageGetWidth(imageRef), CGImageGetHeight(imageRef), 8, 0, colorSpace, bitmapInfo)
+
+        if let context = context {
+            let rect = CGRectMake(0, 0, CGFloat(CGImageGetWidth(imageRef)), CGFloat(CGImageGetHeight(imageRef)))
+            CGContextDrawImage(context, rect, imageRef)
+            let decompressedImageRef = CGBitmapContextCreateImage(context)
+
+            return UIImage(CGImage: decompressedImageRef, scale: scale, orientation: imageOrientation) ?? self
+        }
+
+        return self
+    }
+}
+
