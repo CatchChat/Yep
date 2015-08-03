@@ -183,6 +183,7 @@
 		50A640E61B6F41E00050E4A3 /* DoNotDisturbSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A640E41B6F41E00050E4A3 /* DoNotDisturbSwitchCell.xib */; };
 		50A640E91B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A640E71B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.swift */; };
 		50A640EA1B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A640E81B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib */; };
+		50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */; };
 		50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */; };
 		50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */; };
 		50A9D4511ACD383E000B2599 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */; };
@@ -417,6 +418,7 @@
 		50A640E41B6F41E00050E4A3 /* DoNotDisturbSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DoNotDisturbSwitchCell.xib; path = Views/Cells/DoNotDisturb/DoNotDisturbSwitchCell.xib; sourceTree = "<group>"; };
 		50A640E71B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoNotDisturbPeriodCell.swift; path = Views/Cells/DoNotDisturb/DoNotDisturbPeriodCell.swift; sourceTree = "<group>"; };
 		50A640E81B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DoNotDisturbPeriodCell.xib; path = Views/Cells/DoNotDisturb/DoNotDisturbPeriodCell.xib; sourceTree = "<group>"; };
+		50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoNotDisturbPeriodViewController.swift; path = ViewControllers/DoNotDisturbPeriod/DoNotDisturbPeriodViewController.swift; sourceTree = "<group>"; };
 		50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Yep.swift"; path = "Extensions/NSFileManager+Yep.swift"; sourceTree = "<group>"; };
 		50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = NSDateTimeAgo.bundle; path = Extensions/NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Extensions/NSDate+Extension.swift"; sourceTree = "<group>"; };
@@ -716,6 +718,7 @@
 				50894CFF1AEA5A7E000981AF /* EditProfile */,
 				500A0B1D1B450C2F00D49358 /* EditNicknameAndBadge */,
 				50A640E11B6F38D60050E4A3 /* Notifications */,
+				50A640ED1B6F4E480050E4A3 /* DoNotDisturbPeriod */,
 				50B38FCD1B6B37F90064C132 /* Feedback */,
 				0A1CAC6C1AFA3D8C00826B45 /* SkillHome */,
 				507CF1691AFC84AA00E261B4 /* CustomNavigationBar */,
@@ -1379,6 +1382,14 @@
 			name = DoNotDisturb;
 			sourceTree = "<group>";
 		};
+		50A640ED1B6F4E480050E4A3 /* DoNotDisturbPeriod */ = {
+			isa = PBXGroup;
+			children = (
+				50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */,
+			);
+			name = DoNotDisturbPeriod;
+			sourceTree = "<group>";
+		};
 		50A9D4581ACD3943000B2599 /* AudioWaves */ = {
 			isa = PBXGroup;
 			children = (
@@ -1853,6 +1864,7 @@
 				5064F6591B0B14420089FAD4 /* AddFriendMoreCell.swift in Sources */,
 				5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */,
 				504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */,
+				50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */,
 				502AE5291AB81076005BD199 /* YepService.swift in Sources */,
 				50C090A41ADE46D500CC6389 /* RegisterSelectSkillsViewController.swift in Sources */,
 				503A54ED1B328ADB002077BD /* NSLocale+Yep.swift in Sources */,

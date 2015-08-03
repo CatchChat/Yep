@@ -104,5 +104,13 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
             return 0
         }
     }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        if indexPath.row == DoNotDisturbPeriodRow.Period.rawValue {
+            performSegueWithIdentifier("showDoNotDisturbPeriod", sender: nil)
+        }
+    }
 }
 
