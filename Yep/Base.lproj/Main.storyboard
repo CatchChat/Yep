@@ -949,9 +949,29 @@
                     <view key="view" contentMode="scaleToFill" id="dR2-fw-xZn">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="Wph-To-rdc">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <animations/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="i7X-gi-DRa" id="lWu-Rs-drq"/>
+                                    <outlet property="delegate" destination="i7X-gi-DRa" id="b1t-Qd-axe"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="Wph-To-rdc" secondAttribute="bottom" id="7vk-Jl-Rmz"/>
+                            <constraint firstAttribute="trailing" secondItem="Wph-To-rdc" secondAttribute="trailing" id="F52-ZG-yOb"/>
+                            <constraint firstItem="Wph-To-rdc" firstAttribute="top" secondItem="dR2-fw-xZn" secondAttribute="top" id="g53-nD-5E5"/>
+                            <constraint firstItem="Wph-To-rdc" firstAttribute="leading" secondItem="dR2-fw-xZn" secondAttribute="leading" id="yPQ-xP-IEO"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="Wph-To-rdc" id="oPg-I0-1HJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uH9-BS-amc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
