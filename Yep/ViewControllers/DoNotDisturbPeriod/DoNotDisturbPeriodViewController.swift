@@ -47,7 +47,9 @@ class DoNotDisturbPeriodViewController: UIViewController {
 
     var isDirty = false {
         didSet {
-            dirtyAction?(doNotDisturbPeriod)
+            updateDoNotDisturb(success: {
+                dirtyAction?(doNotDisturbPeriod)
+            })
         }
     }
     var dirtyAction: (DoNotDisturbPeriod -> Void)?
@@ -63,8 +65,9 @@ class DoNotDisturbPeriodViewController: UIViewController {
         updateToButton()
     }
 
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
+    // MARK: - Actions
+
+    func updateDoNotDisturb(#success: () -> Void) {
 
         let info: JSONDictionary = [
             "mute_started_at_string": doNotDisturbPeriod.fromString,
@@ -78,9 +81,11 @@ class DoNotDisturbPeriodViewController: UIViewController {
                 YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set Do Not Disturb failed!", comment: ""), inViewController: self)
             }
 
-        }, completion: { success in
+        }, completion: { _ in
 
             dispatch_async(dispatch_get_main_queue()) {
+
+                success()
 
                 let realm = Realm()
 
@@ -114,8 +119,6 @@ class DoNotDisturbPeriodViewController: UIViewController {
             }
         })
     }
-
-    // MARK: - Actions
 
     func updateFromButton() {
         fromButton.setTitle(NSLocalizedString("From", comment: "") + " " + doNotDisturbPeriod.fromString, forState: .Normal)

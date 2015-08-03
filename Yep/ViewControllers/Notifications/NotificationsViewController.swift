@@ -57,9 +57,12 @@ class NotificationsViewController: UIViewController {
             me = userWithUserID(myUserID, inRealm: realm) {
 
                 if let userDoNotDisturb = me.doNotDisturb {
+
                     doNotDisturbPeriod.isOn = userDoNotDisturb.isOn
+
                     doNotDisturbPeriod.fromHour = userDoNotDisturb.fromHour
                     doNotDisturbPeriod.fromMinute = userDoNotDisturb.fromMinute
+
                     doNotDisturbPeriod.toHour = userDoNotDisturb.toHour
                     doNotDisturbPeriod.toMinute = userDoNotDisturb.toMinute
                 }
