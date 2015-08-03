@@ -178,6 +178,7 @@
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
 		5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */; };
+		50A640E01B6F38CF0050E4A3 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A640DF1B6F38CF0050E4A3 /* NotificationsViewController.swift */; };
 		50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */; };
 		50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */; };
 		50A9D4511ACD383E000B2599 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */; };
@@ -407,6 +408,7 @@
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
 		5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraPreviewView.swift; path = Views/CameraPreview/CameraPreviewView.swift; sourceTree = "<group>"; };
+		50A640DF1B6F38CF0050E4A3 /* NotificationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationsViewController.swift; path = ViewControllers/Notifications/NotificationsViewController.swift; sourceTree = "<group>"; };
 		50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Yep.swift"; path = "Extensions/NSFileManager+Yep.swift"; sourceTree = "<group>"; };
 		50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = NSDateTimeAgo.bundle; path = Extensions/NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Extensions/NSDate+Extension.swift"; sourceTree = "<group>"; };
@@ -705,6 +707,7 @@
 				50894CF21AEA472B000981AF /* Settings */,
 				50894CFF1AEA5A7E000981AF /* EditProfile */,
 				500A0B1D1B450C2F00D49358 /* EditNicknameAndBadge */,
+				50A640E11B6F38D60050E4A3 /* Notifications */,
 				50B38FCD1B6B37F90064C132 /* Feedback */,
 				0A1CAC6C1AFA3D8C00826B45 /* SkillHome */,
 				507CF1691AFC84AA00E261B4 /* CustomNavigationBar */,
@@ -1348,6 +1351,14 @@
 			name = CameraPreview;
 			sourceTree = "<group>";
 		};
+		50A640E11B6F38D60050E4A3 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				50A640DF1B6F38CF0050E4A3 /* NotificationsViewController.swift */,
+			);
+			name = Notifications;
+			sourceTree = "<group>";
+		};
 		50A9D4581ACD3943000B2599 /* AudioWaves */ = {
 			isa = PBXGroup;
 			children = (
@@ -1736,6 +1747,7 @@
 				508F8FDE1B049ACF00461B0B /* InstagramMediaCell.swift in Sources */,
 				502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */,
 				502AE54E1AB93175005BD199 /* ProfileHeaderCell.swift in Sources */,
+				50A640E01B6F38CF0050E4A3 /* NotificationsViewController.swift in Sources */,
 				50553F8F1ADB8BA200F80B59 /* ChatSectionDateCell.swift in Sources */,
 				502AE5381AB866E3005BD199 /* LoginVerifyMobileViewController.swift in Sources */,
 				5056AD6E1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift in Sources */,

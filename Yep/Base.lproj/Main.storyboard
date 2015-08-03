@@ -573,6 +573,7 @@
                         <outlet property="settingsTableView" destination="jKA-8q-sXn" id="DgR-gO-x2w"/>
                         <segue destination="TTy-VD-aor" kind="show" identifier="showEditProfile" id="Qhj-kS-Fq2"/>
                         <segue destination="9Uj-sb-Emt" kind="show" identifier="showFeedback" id="YkG-GA-Ri8"/>
+                        <segue destination="i7X-gi-DRa" kind="show" identifier="showNotifications" id="PxD-iZ-Pfy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zuA-bP-KGx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -935,7 +936,26 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="3570" y="337"/>
+            <point key="canvasLocation" x="3560" y="-137"/>
+        </scene>
+        <!--Notifications View Controller-->
+        <scene sceneID="s6K-xp-3el">
+            <objects>
+                <viewController storyboardIdentifier="NotificationsViewController" id="i7X-gi-DRa" customClass="NotificationsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="p1O-z0-XoS"/>
+                        <viewControllerLayoutGuide type="bottom" id="NdM-kG-8Sw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dR2-fw-xZn">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uH9-BS-amc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3731" y="575"/>
         </scene>
         <!--Feedback View Controller-->
         <scene sceneID="qi4-ey-7am">
@@ -960,7 +980,7 @@
                                 <rect key="frame" x="0.0" y="165" width="600" height="121"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -984,7 +1004,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MUL-up-ag5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3569" y="1059"/>
+            <point key="canvasLocation" x="3931" y="1279"/>
         </scene>
         <!--Edit Nickname And Badge View Controller-->
         <scene sceneID="eed-5B-jyz">
@@ -1235,7 +1255,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KVb-CY-yr0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4343" y="337"/>
+            <point key="canvasLocation" x="4291" y="-137"/>
         </scene>
         <!--Yep Tab Bar Controller-->
         <scene sceneID="vud-lc-IAG">
