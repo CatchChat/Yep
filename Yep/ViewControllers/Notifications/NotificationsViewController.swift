@@ -30,7 +30,13 @@ class NotificationsViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
-    var doNotDisturbPeriod = DoNotDisturbPeriod()
+    var doNotDisturbPeriod = DoNotDisturbPeriod() {
+        didSet {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.tableView.reloadData()
+            }
+        }
+    }
 
     let DoNotDisturbSwitchCellID = "DoNotDisturbSwitchCell"
     let DoNotDisturbPeriodCellID = "DoNotDisturbPeriodCell"
@@ -66,7 +72,12 @@ class NotificationsViewController: UIViewController {
 
         if segue.identifier == "showDoNotDisturbPeriod" {
             let vc = segue.destinationViewController as! DoNotDisturbPeriodViewController
+
             vc.doNotDisturbPeriod = doNotDisturbPeriod
+
+            vc.dirtyAction = { [weak self] doNotDisturbPeriod in
+                self?.doNotDisturbPeriod = doNotDisturbPeriod
+            }
         }
     }
 

@@ -45,7 +45,12 @@ class DoNotDisturbPeriodViewController: UIViewController {
         }
     }
 
-    var isDirty = false
+    var isDirty = false {
+        didSet {
+            dirtyAction?(doNotDisturbPeriod)
+        }
+    }
+    var dirtyAction: (DoNotDisturbPeriod -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
