@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class DoNotDisturbPeriodViewController: UIViewController {
 
@@ -43,6 +44,8 @@ class DoNotDisturbPeriodViewController: UIViewController {
             }
         }
     }
+
+    var isDirty = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +58,57 @@ class DoNotDisturbPeriodViewController: UIViewController {
         updateToButton()
     }
 
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        let info: JSONDictionary = [
+            "mute_started_at_string": doNotDisturbPeriod.fromString,
+            "mute_ended_at_string": doNotDisturbPeriod.toString,
+        ]
+
+        updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage)
+
+            dispatch_async(dispatch_get_main_queue()) {
+                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set Do Not Disturb failed!", comment: ""), inViewController: self)
+            }
+
+        }, completion: { success in
+
+            dispatch_async(dispatch_get_main_queue()) {
+
+                let realm = Realm()
+
+                if let
+                    myUserID = YepUserDefaults.userID.value,
+                    me = userWithUserID(myUserID, inRealm: realm) {
+
+                        var userDoNotDisturb = me.doNotDisturb
+
+                        if userDoNotDisturb == nil {
+                            let _userDoNotDisturb = UserDoNotDisturb()
+                            _userDoNotDisturb.isOn = true
+
+                            realm.write {
+                                me.doNotDisturb = _userDoNotDisturb
+                            }
+
+                            userDoNotDisturb = _userDoNotDisturb
+                        }
+
+                        if let userDoNotDisturb = me.doNotDisturb {
+                            realm.write {
+                                userDoNotDisturb.fromHour = self.doNotDisturbPeriod.fromHour
+                                userDoNotDisturb.fromMinute = self.doNotDisturbPeriod.fromMinute
+
+                                userDoNotDisturb.toHour = self.doNotDisturbPeriod.toHour
+                                userDoNotDisturb.toMinute = self.doNotDisturbPeriod.toMinute
+                            }
+                        }
+                }
+            }
+        })
+    }
 
     // MARK: - Actions
 
@@ -126,6 +180,8 @@ extension DoNotDisturbPeriodViewController: UIPickerViewDataSource, UIPickerView
 
             updateToButton()
         }
+
+        isDirty = true
     }
 }
 
