@@ -18,10 +18,10 @@ struct DoNotDisturbPeriod {
     var toMinute: Int = 30
 
     var fromString: String {
-        return "\(fromHour):\(fromMinute)"
+        return String(format: "%02d:%02d", fromHour, fromMinute)
     }
     var toString: String {
-        return "\(toHour):\(toMinute)"
+        return String(format: "%02d:%02d", toHour, toMinute)
     }
 }
 
