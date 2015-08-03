@@ -168,7 +168,10 @@ class NotificationsViewController: UIViewController {
 
                     }, completion: { success in
 
-                        dispatch_async(dispatch_get_main_queue()) {
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                            // clean UI
+                            self?.doNotDisturbPeriod = DoNotDisturbPeriod()
 
                             let realm = Realm()
 
