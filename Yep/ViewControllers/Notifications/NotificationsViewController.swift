@@ -42,6 +42,32 @@ class NotificationsViewController: UIViewController {
 
         tableView.registerNib(UINib(nibName: DoNotDisturbSwitchCellID, bundle: nil), forCellReuseIdentifier: DoNotDisturbSwitchCellID)
         tableView.registerNib(UINib(nibName: DoNotDisturbPeriodCellID, bundle: nil), forCellReuseIdentifier: DoNotDisturbPeriodCellID)
+
+
+        let realm = Realm()
+
+        if let
+            myUserID = YepUserDefaults.userID.value,
+            me = userWithUserID(myUserID, inRealm: realm) {
+
+                if let userDoNotDisturb = me.doNotDisturb {
+                    doNotDisturbPeriod.isOn = userDoNotDisturb.isOn
+                    doNotDisturbPeriod.fromHour = userDoNotDisturb.fromHour
+                    doNotDisturbPeriod.fromMinute = userDoNotDisturb.fromMinute
+                    doNotDisturbPeriod.toHour = userDoNotDisturb.toHour
+                    doNotDisturbPeriod.toMinute = userDoNotDisturb.toMinute
+                }
+        }
+    }
+
+    // MARK: Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        if segue.identifier == "showDoNotDisturbPeriod" {
+            let vc = segue.destinationViewController as! DoNotDisturbPeriodViewController
+            vc.doNotDisturbPeriod = doNotDisturbPeriod
+        }
     }
 
     // MARK: Actions
