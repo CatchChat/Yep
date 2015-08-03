@@ -31,7 +31,6 @@ class DoNotDisturbPeriodViewController: UIViewController {
 
                 pickerView.selectRow(doNotDisturbPeriod.fromHour, inComponent: 0, animated: true)
                 pickerView.selectRow(doNotDisturbPeriod.fromMinute, inComponent: 1, animated: true)
-                
 
             case .To:
                 fromButton.backgroundColor = UIColor.whiteColor()
@@ -49,10 +48,21 @@ class DoNotDisturbPeriodViewController: UIViewController {
         title = NSLocalizedString("Mute", comment: "")
 
         activeTime = .From
+
+        updateFromButton()
+        updateToButton()
     }
 
 
     // MARK: - Actions
+
+    func updateFromButton() {
+        fromButton.setTitle(NSLocalizedString("From", comment: "") + " " + doNotDisturbPeriod.fromString, forState: .Normal)
+    }
+
+    func updateToButton() {
+        toButton.setTitle(NSLocalizedString("To", comment: "") + " " + doNotDisturbPeriod.toString, forState: .Normal)
+    }
 
     @IBAction func activeFrom() {
         activeTime = .From
@@ -89,5 +99,29 @@ extension DoNotDisturbPeriodViewController: UIPickerViewDataSource, UIPickerView
         return "\(row)"
     }
 
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
 
+        switch activeTime {
+
+        case .From:
+
+            if component == 0 {
+                doNotDisturbPeriod.fromHour = row
+            } else if component == 1 {
+                doNotDisturbPeriod.fromMinute = row
+            }
+
+            updateFromButton()
+
+        case .To:
+            if component == 0 {
+                doNotDisturbPeriod.toHour = row
+            } else if component == 1 {
+                doNotDisturbPeriod.toMinute = row
+            }
+
+            updateToButton()
+        }
+    }
 }
+
