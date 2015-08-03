@@ -80,6 +80,13 @@ class UserDoNotDisturb: Object {
     dynamic var fromMinute: Int = 0
     dynamic var toHour: Int = 7
     dynamic var toMinute: Int = 30
+
+    var fromString: String {
+        return String(format: "%02d:%02d", fromHour, fromMinute)
+    }
+    var toString: String {
+        return String(format: "%02d:%02d", toHour, toMinute)
+    }
 }
 
 class User: Object {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 struct DoNotDisturbPeriod {
     var isOn: Bool = false
@@ -41,6 +42,64 @@ class NotificationsViewController: UIViewController {
 
         tableView.registerNib(UINib(nibName: DoNotDisturbSwitchCellID, bundle: nil), forCellReuseIdentifier: DoNotDisturbSwitchCellID)
         tableView.registerNib(UINib(nibName: DoNotDisturbPeriodCellID, bundle: nil), forCellReuseIdentifier: DoNotDisturbPeriodCellID)
+    }
+
+    // MARK: Actions
+
+    func enableDoNotDisturb(#failed: () -> Void) {
+
+        let realm = Realm()
+
+        if let
+            myUserID = YepUserDefaults.userID.value,
+            me = userWithUserID(myUserID, inRealm: realm) {
+
+                var userDoNotDisturb = me.doNotDisturb
+
+                if userDoNotDisturb == nil {
+                    let _userDoNotDisturb = UserDoNotDisturb()
+
+                    realm.write {
+                        me.doNotDisturb = _userDoNotDisturb
+                    }
+
+                    userDoNotDisturb = _userDoNotDisturb
+                }
+
+                if let userDoNotDisturb = me.doNotDisturb {
+
+                    let info: JSONDictionary = [
+                        "mute_started_at_string": userDoNotDisturb.fromString,
+                        "mute_ended_at_string": userDoNotDisturb.toString,
+                    ]
+
+                    updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
+                        defaultFailureHandler(reason, errorMessage)
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set Do Not Disturb failed!", comment: ""), inViewController: self)
+                        }
+
+                        failed()
+
+                    }, completion: { success in
+
+                        dispatch_async(dispatch_get_main_queue()) {
+
+                            let realm = Realm()
+
+                            if let
+                                myUserID = YepUserDefaults.userID.value,
+                                me = userWithUserID(myUserID, inRealm: realm) {
+
+                                    realm.write {
+                                        me.doNotDisturb?.isOn = true
+                                    }
+                            }
+                        }
+                    })
+                }
+        }
     }
 }
 
@@ -80,6 +139,15 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
                     self?.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                 } else {
                     self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                }
+
+                if isOn {
+                    self?.enableDoNotDisturb(failed: {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self?.doNotDisturbPeriod.isOn = false
+                            self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                        }
+                    })
                 }
             }
 
