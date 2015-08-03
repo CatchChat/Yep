@@ -21,12 +21,14 @@ class NotificationsViewController: UIViewController {
 
     var doNotDisturbPeriod = DoNotDisturbPeriod()
 
+    let DoNotDisturbSwitchCellID = "DoNotDisturbSwitchCell"
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("Notifications", comment: "")
 
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.registerNib(UINib(nibName: DoNotDisturbSwitchCellID, bundle: nil), forCellReuseIdentifier: DoNotDisturbSwitchCellID)
     }
 }
 
@@ -44,8 +46,9 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell
-        cell.textLabel?.text = NSLocalizedString("Do Not Disturb", comment: "")
+        let cell = tableView.dequeueReusableCellWithIdentifier(DoNotDisturbSwitchCellID) as! DoNotDisturbSwitchCell
+        cell.promptLabel.text = NSLocalizedString("Do Not Disturb", comment: "")
+        cell.toggleSwitch.on = doNotDisturbPeriod.isOn
 
         return cell
     }
