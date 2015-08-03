@@ -74,6 +74,14 @@ class UserSocialAccountProvider: Object {
     dynamic var enabled: Bool = false
 }
 
+class UserDoNotDisturb: Object {
+    dynamic var isOn: Bool = false
+    dynamic var fromHour: Int = 22
+    dynamic var fromMinute: Int = 0
+    dynamic var toHour: Int = 7
+    dynamic var toMinute: Int = 30
+}
+
 class User: Object {
     dynamic var userID: String = ""
     dynamic var nickname: String = ""
@@ -95,6 +103,8 @@ class User: Object {
 
     dynamic var notificationEnabled: Bool = true
     dynamic var blocked: Bool = false
+
+    dynamic var doNotDisturb: UserDoNotDisturb?
 
     let learningSkills = List<UserSkill>()
     let masterSkills = List<UserSkill>()
