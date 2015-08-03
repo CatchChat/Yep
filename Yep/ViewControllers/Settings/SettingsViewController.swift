@@ -24,7 +24,7 @@ class SettingsViewController: BaseViewController {
     let moreAnnotations: [[String: String]] = [
         [
             "name": NSLocalizedString("Notifications", comment: ""),
-            //"segue": "showNotifications",
+            "segue": "showNotifications",
         ],
         [
             "name": NSLocalizedString("Feedback", comment: ""),

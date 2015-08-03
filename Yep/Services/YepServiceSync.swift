@@ -251,6 +251,62 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                 realm.commitWrite()
 
 
+                // 更新 DoNotDisturb
+
+                if let
+                    fromString = friendInfo["mute_started_at_string"] as? String,
+                    toString = friendInfo["mute_ended_at_string"] as? String {
+
+                        if !fromString.isEmpty && !toString.isEmpty {
+
+                            var userDoNotDisturb = user.doNotDisturb
+
+                            if userDoNotDisturb == nil {
+                                let _userDoNotDisturb = UserDoNotDisturb()
+                                _userDoNotDisturb.isOn = true
+
+                                realm.write {
+                                    user.doNotDisturb = _userDoNotDisturb
+                                }
+
+                                userDoNotDisturb = _userDoNotDisturb
+                            }
+                            
+                            if let userDoNotDisturb = userDoNotDisturb {
+                                realm.write {
+
+                                    let fromParts = fromString.componentsSeparatedByString(":")
+
+                                    if let fromHourString = fromParts[safe: 0], fromHour = fromHourString.toInt() {
+                                        userDoNotDisturb.fromHour = fromHour
+                                    }
+
+                                    if let fromMinuteString = fromParts[safe: 1], fromMinute = fromMinuteString.toInt() {
+                                        userDoNotDisturb.fromMinute = fromMinute
+                                    }
+
+                                    let toParts = toString.componentsSeparatedByString(":")
+
+                                    if let toHourString = toParts[safe: 0], toHour = toHourString.toInt() {
+                                        userDoNotDisturb.toHour = toHour
+                                    }
+
+                                    if let toMinuteString = toParts[safe: 1], toMinute = toMinuteString.toInt() {
+                                        userDoNotDisturb.toMinute = toMinute
+                                    }
+
+                                    //println("userDoNotDisturb: \(userDoNotDisturb.isOn), from \(userDoNotDisturb.fromHour):\(userDoNotDisturb.fromMinute), to \(userDoNotDisturb.toHour):\(userDoNotDisturb.toMinute)")
+                                }
+                            }
+
+                        } else {
+                            if let userDoNotDisturb = user.doNotDisturb {
+                                realm.delete(userDoNotDisturb)
+                            }
+                        }
+                }
+
+
                 // also save some infomation in YepUserDefaults
 
                 if let nickname = friendInfo["nickname"] as? String {
