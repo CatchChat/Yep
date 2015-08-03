@@ -8,16 +8,26 @@
 
 import UIKit
 
+struct DoNotDisturbPeriod {
+    var isOn: Bool = false
+
+    var fromHour: Int = 22
+    var fromMinute: Int = 0
+
+    var toHour: Int = 7
+    var toMinute: Int = 30
+
+    var fromString: String {
+        return "\(fromHour):\(fromMinute)"
+    }
+    var toString: String {
+        return "\(toHour):\(toMinute)"
+    }
+}
+
 class NotificationsViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-
-
-    struct DoNotDisturbPeriod {
-        var isOn: Bool = false
-        var from: String = "22:00"
-        var to: String = "07:00"
-    }
 
     var doNotDisturbPeriod = DoNotDisturbPeriod()
 
@@ -80,8 +90,8 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
             cell.fromPromptLabel.text = NSLocalizedString("From", comment: "")
             cell.toPromptLabel.text = NSLocalizedString("To", comment: "")
 
-            cell.fromLabel.text = doNotDisturbPeriod.from
-            cell.toLabel.text = doNotDisturbPeriod.to
+            cell.fromLabel.text = doNotDisturbPeriod.fromString
+            cell.toLabel.text = doNotDisturbPeriod.toString
 
             return cell
 

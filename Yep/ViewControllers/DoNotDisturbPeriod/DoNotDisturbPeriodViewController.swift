@@ -10,20 +10,56 @@ import UIKit
 
 class DoNotDisturbPeriodViewController: UIViewController {
 
+    var doNotDisturbPeriod = DoNotDisturbPeriod()
+
     @IBOutlet weak var fromButton: UIButton!
-
     @IBOutlet weak var toButton: UIButton!
-
     @IBOutlet weak var pickerView: UIPickerView!
 
+    enum ActiveTime {
+        case From
+        case To
+    }
+
+    var activeTime: ActiveTime = .From {
+        willSet {
+            switch newValue {
+
+            case .From:
+                fromButton.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.5)
+                toButton.backgroundColor = UIColor.whiteColor()
+
+                pickerView.selectRow(doNotDisturbPeriod.fromHour, inComponent: 0, animated: true)
+                pickerView.selectRow(doNotDisturbPeriod.fromMinute, inComponent: 1, animated: true)
+                
+
+            case .To:
+                fromButton.backgroundColor = UIColor.whiteColor()
+                toButton.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.5)
+
+                pickerView.selectRow(doNotDisturbPeriod.toHour, inComponent: 0, animated: true)
+                pickerView.selectRow(doNotDisturbPeriod.toMinute, inComponent: 1, animated: true)
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("Mute", comment: "")
 
-        fromButton.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.5)
-        toButton.backgroundColor = UIColor.whiteColor()
+        activeTime = .From
+    }
+
+
+    // MARK: - Actions
+
+    @IBAction func activeFrom() {
+        activeTime = .From
+    }
+
+    @IBAction func activeTo() {
+        activeTime = .To
     }
 }
 
@@ -50,7 +86,7 @@ extension DoNotDisturbPeriodViewController: UIPickerViewDataSource, UIPickerView
     }
 
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
-        return "\(row + 1)"
+        return "\(row)"
     }
 
 
