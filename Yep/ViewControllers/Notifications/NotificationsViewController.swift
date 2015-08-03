@@ -48,8 +48,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
-//        return doNotDisturbPeriod.isOn ? 2 : 1
+        return doNotDisturbPeriod.isOn ? 2 : 1
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -60,6 +59,19 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
             let cell = tableView.dequeueReusableCellWithIdentifier(DoNotDisturbSwitchCellID) as! DoNotDisturbSwitchCell
             cell.promptLabel.text = NSLocalizedString("Do Not Disturb", comment: "")
             cell.toggleSwitch.on = doNotDisturbPeriod.isOn
+
+            cell.toggleAction = { [weak self] isOn in
+
+                self?.doNotDisturbPeriod.isOn = isOn
+
+                let indexPath = NSIndexPath(forRow: DoNotDisturbPeriodRow.Period.rawValue, inSection: 0)
+
+                if isOn {
+                    self?.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                } else {
+                    self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                }
+            }
 
             return cell
 
