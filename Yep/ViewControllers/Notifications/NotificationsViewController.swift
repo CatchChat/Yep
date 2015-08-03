@@ -77,7 +77,7 @@ class NotificationsViewController: UIViewController {
                         defaultFailureHandler(reason, errorMessage)
 
                         dispatch_async(dispatch_get_main_queue()) {
-                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set Do Not Disturb failed!", comment: ""), inViewController: self)
+                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Enable Do Not Disturb failed!", comment: ""), inViewController: self)
                         }
 
                         failed()
@@ -94,6 +94,52 @@ class NotificationsViewController: UIViewController {
 
                                     realm.write {
                                         me.doNotDisturb?.isOn = true
+                                    }
+                            }
+                        }
+                    })
+                }
+        }
+    }
+
+    func disableDoNotDisturb(#failed: () -> Void) {
+
+        let realm = Realm()
+
+        if let
+            myUserID = YepUserDefaults.userID.value,
+            me = userWithUserID(myUserID, inRealm: realm) {
+
+                if let userDoNotDisturb = me.doNotDisturb {
+
+                    let info: JSONDictionary = [
+                        "mute_started_at_string": "",
+                        "mute_ended_at_string": "",
+                    ]
+
+                    updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
+                        defaultFailureHandler(reason, errorMessage)
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Disable Do Not Disturb failed!", comment: ""), inViewController: self)
+                        }
+
+                        failed()
+
+                    }, completion: { success in
+
+                        dispatch_async(dispatch_get_main_queue()) {
+
+                            let realm = Realm()
+
+                            if let
+                                myUserID = YepUserDefaults.userID.value,
+                                me = userWithUserID(myUserID, inRealm: realm) {
+
+                                    if let userDoNotDisturb = me.doNotDisturb {
+                                        realm.write {
+                                            realm.delete(userDoNotDisturb)
+                                        }
                                     }
                             }
                         }
@@ -137,15 +183,21 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
 
                 if isOn {
                     self?.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                } else {
-                    self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                }
 
-                if isOn {
                     self?.enableDoNotDisturb(failed: {
                         dispatch_async(dispatch_get_main_queue()) {
                             self?.doNotDisturbPeriod.isOn = false
                             self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                        }
+                    })
+
+                } else {
+                    self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+
+                    self?.disableDoNotDisturb(failed: {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self?.doNotDisturbPeriod.isOn = true
+                            self?.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                         }
                     })
                 }
