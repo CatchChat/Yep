@@ -21,6 +21,8 @@ class DoNotDisturbPeriodViewController: UIViewController {
         case To
     }
 
+    let max = Int(INT16_MAX)
+
     var activeTime: ActiveTime = .From {
         willSet {
             switch newValue {
@@ -29,15 +31,15 @@ class DoNotDisturbPeriodViewController: UIViewController {
                 fromButton.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.5)
                 toButton.backgroundColor = UIColor.whiteColor()
 
-                pickerView.selectRow(doNotDisturbPeriod.fromHour, inComponent: 0, animated: true)
-                pickerView.selectRow(doNotDisturbPeriod.fromMinute, inComponent: 1, animated: true)
+                pickerView.selectRow(max / (2 * 24) * 24 + doNotDisturbPeriod.fromHour, inComponent: 0, animated: true)
+                pickerView.selectRow(max / (2 * 60) * 60 + doNotDisturbPeriod.fromMinute, inComponent: 1, animated: true)
 
             case .To:
                 fromButton.backgroundColor = UIColor.whiteColor()
                 toButton.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.5)
 
-                pickerView.selectRow(doNotDisturbPeriod.toHour, inComponent: 0, animated: true)
-                pickerView.selectRow(doNotDisturbPeriod.toMinute, inComponent: 1, animated: true)
+                pickerView.selectRow(max / (2 * 24) * 24 + doNotDisturbPeriod.toHour, inComponent: 0, animated: true)
+                pickerView.selectRow(max / (2 * 60) * 60 + doNotDisturbPeriod.toMinute, inComponent: 1, animated: true)
             }
         }
     }
@@ -82,13 +84,7 @@ extension DoNotDisturbPeriodViewController: UIPickerViewDataSource, UIPickerView
     }
 
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if component == 0 {
-            return 24
-        } else if component == 1 {
-            return 60
-        }
-
-        return 0
+        return max
     }
 
     func pickerView(pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
@@ -96,7 +92,15 @@ extension DoNotDisturbPeriodViewController: UIPickerViewDataSource, UIPickerView
     }
 
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
-        return "\(row)"
+
+        if component == 0 {
+            return "\(row % 24)"
+
+        } else if component == 1 {
+            return "\(row % 60)"
+        }
+
+        return ""
     }
 
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -106,18 +110,18 @@ extension DoNotDisturbPeriodViewController: UIPickerViewDataSource, UIPickerView
         case .From:
 
             if component == 0 {
-                doNotDisturbPeriod.fromHour = row
+                doNotDisturbPeriod.fromHour = row % 24
             } else if component == 1 {
-                doNotDisturbPeriod.fromMinute = row
+                doNotDisturbPeriod.fromMinute = row % 60
             }
 
             updateFromButton()
 
         case .To:
             if component == 0 {
-                doNotDisturbPeriod.toHour = row
+                doNotDisturbPeriod.toHour = row % 24
             } else if component == 1 {
-                doNotDisturbPeriod.toMinute = row
+                doNotDisturbPeriod.toMinute = row % 60
             }
 
             updateToButton()
