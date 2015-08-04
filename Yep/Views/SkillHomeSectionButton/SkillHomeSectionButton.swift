@@ -20,8 +20,6 @@ class SkillHomeSectionButton: UIButton {
         let setting: () -> Void = {
             self.highLight.frame =  CGRectMake(0, self.frame.size.height - skillHeomSectionButtonLineHeight, self.frame.size.width, skillHeomSectionButtonLineHeight)
             self.highLight.backgroundColor = UIColor.yepTintColor().CGColor
-
-            println("highLight.frame: \(self.highLight.frame)")
         }
 
         if animated {

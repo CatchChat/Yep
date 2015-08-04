@@ -67,7 +67,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             case .Learning:
                 headerView.masterButton.setInActive(animated: !isFirstAppear)
                 headerView.learningButton.setActive(animated: !isFirstAppear)
-                skillHomeScrollView.setContentOffset(CGPoint(x: masterTableView.frame.size.width, y: 0), animated: true)
+                skillHomeScrollView.setContentOffset(CGPoint(x: UIScreen.mainScreen().bounds.width, y: 0), animated: true)
    
             }
         }
@@ -204,23 +204,19 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
         customTitleView()
 
+        let height = YepConfig.getScreenRect().height - headerView.frame.height
+
+        skillHomeScrollView.contentSize = CGSize(width: YepConfig.getScreenRect().width * 2, height: height)
+
+        masterTableView.frame = CGRect(x: 0, y: 0, width: YepConfig.getScreenRect().width, height: height)
+
+        learningtTableView.frame = CGRect(x: masterTableView.frame.size.width, y: 0, width: YepConfig.getScreenRect().width, height: height)
+
         if isFirstAppear {
             state = preferedState ?? .Master
 
             isFirstAppear = false
         }
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        let height = YepConfig.getScreenRect().height - headerView.frame.height
-        
-        skillHomeScrollView.contentSize = CGSize(width: skillHomeScrollView.frame.size.width*2, height: height)
-        
-        masterTableView.frame = CGRect(x: 0, y: 0, width: skillHomeScrollView.frame.size.width, height: height)
-        
-        learningtTableView.frame = CGRect(x: masterTableView.frame.size.width, y: 0, width: skillHomeScrollView.frame.size.width, height: height)
     }
 
     override func viewWillAppear(animated: Bool) {
