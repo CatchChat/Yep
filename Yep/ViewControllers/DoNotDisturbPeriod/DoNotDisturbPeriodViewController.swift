@@ -70,8 +70,8 @@ class DoNotDisturbPeriodViewController: UIViewController {
     func updateDoNotDisturb(#success: () -> Void) {
 
         let info: JSONDictionary = [
-            "mute_started_at_string": doNotDisturbPeriod.fromString,
-            "mute_ended_at_string": doNotDisturbPeriod.toString,
+            "mute_started_at_string": doNotDisturbPeriod.serverFromString,
+            "mute_ended_at_string": doNotDisturbPeriod.serverToString,
         ]
 
         updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
@@ -121,11 +121,11 @@ class DoNotDisturbPeriodViewController: UIViewController {
     }
 
     func updateFromButton() {
-        fromButton.setTitle(NSLocalizedString("From", comment: "") + " " + doNotDisturbPeriod.fromString, forState: .Normal)
+        fromButton.setTitle(NSLocalizedString("From", comment: "") + " " + doNotDisturbPeriod.localFromString, forState: .Normal)
     }
 
     func updateToButton() {
-        toButton.setTitle(NSLocalizedString("To", comment: "") + " " + doNotDisturbPeriod.toString, forState: .Normal)
+        toButton.setTitle(NSLocalizedString("To", comment: "") + " " + doNotDisturbPeriod.localToString, forState: .Normal)
     }
 
     @IBAction func activeFrom() {

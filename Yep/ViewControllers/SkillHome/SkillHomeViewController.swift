@@ -60,14 +60,14 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         willSet {
             switch newValue {
             case .Master:
-                headerView.learningButton.setInActive()
-                headerView.masterButton.setActive()
+                headerView.learningButton.setInActive(animated: !isFirstAppear)
+                headerView.masterButton.setActive(animated: !isFirstAppear)
                 skillHomeScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
                 
             case .Learning:
-                headerView.masterButton.setInActive()
-                headerView.learningButton.setActive()
-                skillHomeScrollView.setContentOffset(CGPoint(x: masterTableView.frame.size.width, y: 0), animated: true)
+                headerView.masterButton.setInActive(animated: !isFirstAppear)
+                headerView.learningButton.setActive(animated: !isFirstAppear)
+                skillHomeScrollView.setContentOffset(CGPoint(x: UIScreen.mainScreen().bounds.width, y: 0), animated: true)
    
             }
         }
@@ -203,34 +203,26 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         }
 
         customTitleView()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
+
         let height = YepConfig.getScreenRect().height - headerView.frame.height
-        
-        skillHomeScrollView.contentSize = CGSize(width: skillHomeScrollView.frame.size.width*2, height: height)
-        
-        masterTableView.frame = CGRect(x: 0, y: 0, width: skillHomeScrollView.frame.size.width, height: height)
-        
-        learningtTableView.frame = CGRect(x: masterTableView.frame.size.width, y: 0, width: skillHomeScrollView.frame.size.width, height: height)
+
+        skillHomeScrollView.contentSize = CGSize(width: YepConfig.getScreenRect().width * 2, height: height)
+
+        masterTableView.frame = CGRect(x: 0, y: 0, width: YepConfig.getScreenRect().width, height: height)
+
+        learningtTableView.frame = CGRect(x: masterTableView.frame.size.width, y: 0, width: YepConfig.getScreenRect().width, height: height)
+
+        if isFirstAppear {
+            state = preferedState ?? .Master
+
+            isFirstAppear = false
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if isFirstAppear {
-            isFirstAppear = false
-
-            state = preferedState ?? .Master
-        }
     }
 
     // MARK: UI

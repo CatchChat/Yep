@@ -74,8 +74,6 @@ class SkillHomeHeaderView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        masterButton.setActive()
-
         headerImageView.frame = self.bounds
 
         masterButton.frame = CGRectMake(0, self.frame.height - YepConfig.skillHomeHeaderButtonHeight, self.frame.size.width/2.0, YepConfig.skillHomeHeaderButtonHeight)

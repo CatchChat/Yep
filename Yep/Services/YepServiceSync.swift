@@ -273,26 +273,42 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                             }
                             
                             if let userDoNotDisturb = userDoNotDisturb {
+
+                                let convert: (Int, Int) -> (Int, Int) = { serverHour, serverMinute in
+
+                                    let localHour: Int
+                                    let localMinute: Int
+
+                                    if serverMinute + userDoNotDisturb.minuteOffset > 60 {
+                                        localHour = (serverHour + userDoNotDisturb.hourOffset + 1) % 24
+                                        localMinute = (serverMinute + userDoNotDisturb.minuteOffset - 60) % 60
+
+                                    } else {
+                                        localHour = (serverHour + userDoNotDisturb.hourOffset) % 24
+                                        localMinute = (serverMinute + userDoNotDisturb.minuteOffset) % 60
+                                    }
+
+                                    return (localHour, localMinute)
+                                }
+
                                 realm.write {
 
                                     let fromParts = fromString.componentsSeparatedByString(":")
 
-                                    if let fromHourString = fromParts[safe: 0], fromHour = fromHourString.toInt() {
-                                        userDoNotDisturb.fromHour = fromHour
-                                    }
+                                    if let
+                                        fromHourString = fromParts[safe: 0], fromHour = fromHourString.toInt(),
+                                        fromMinuteString = fromParts[safe: 1], fromMinute = fromMinuteString.toInt() {
 
-                                    if let fromMinuteString = fromParts[safe: 1], fromMinute = fromMinuteString.toInt() {
-                                        userDoNotDisturb.fromMinute = fromMinute
+                                            (userDoNotDisturb.fromHour, userDoNotDisturb.fromMinute) = convert(fromHour, fromMinute)
                                     }
 
                                     let toParts = toString.componentsSeparatedByString(":")
 
-                                    if let toHourString = toParts[safe: 0], toHour = toHourString.toInt() {
-                                        userDoNotDisturb.toHour = toHour
-                                    }
+                                    if let
+                                        toHourString = toParts[safe: 0], toHour = toHourString.toInt(),
+                                        toMinuteString = toParts[safe: 1], toMinute = toMinuteString.toInt() {
 
-                                    if let toMinuteString = toParts[safe: 1], toMinute = toMinuteString.toInt() {
-                                        userDoNotDisturb.toMinute = toMinute
+                                            (userDoNotDisturb.toHour, userDoNotDisturb.toMinute) = convert(toHour, toMinute)
                                     }
 
                                     //println("userDoNotDisturb: \(userDoNotDisturb.isOn), from \(userDoNotDisturb.fromHour):\(userDoNotDisturb.fromMinute), to \(userDoNotDisturb.toHour):\(userDoNotDisturb.toMinute)")

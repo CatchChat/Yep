@@ -5,16 +5,16 @@ use_frameworks!
 def pods
     pod 'DeviceGuru'
     pod 'KeyboardMan'
-	pod 'Ruler'
-	pod 'Proposer'
-	pod 'APAddressBook/Swift'
-	pod 'FXBlurView'
-	pod 'Kingfisher'
-	pod 'TPKeyboardAvoiding', '~> 1.2'
-	pod 'pop'
-	pod 'AFNetworking'
-	pod 'MZFayeClient', :path => '../CatchLib-iOS/MZFayeClient/'
-	pod 'RealmSwift'
+    pod 'Ruler'
+    pod 'Proposer'
+    pod 'APAddressBook/Swift'
+    pod 'FXBlurView'
+    pod 'Kingfisher'
+    pod 'TPKeyboardAvoiding', '~> 1.2'
+    pod 'pop'
+    pod 'AFNetworking'
+    pod 'MZFayeClient', :path => '../CatchLib-iOS/MZFayeClient/'
+    pod 'RealmSwift'
 end
 
 target 'Yep' do

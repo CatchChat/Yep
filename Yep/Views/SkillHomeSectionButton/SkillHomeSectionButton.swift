@@ -15,24 +15,46 @@ class SkillHomeSectionButton: UIButton {
     
     let highLight = CALayer()
     
-    func setActive() {
-        
-        UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: nil, animations: {
+    func setActive(#animated: Bool) {
+
+        let setting: () -> Void = {
             self.highLight.frame =  CGRectMake(0, self.frame.size.height - skillHeomSectionButtonLineHeight, self.frame.size.width, skillHeomSectionButtonLineHeight)
             self.highLight.backgroundColor = UIColor.yepTintColor().CGColor
-        }, completion: nil)
+        }
+
+        if animated {
+            UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: nil, animations: {
+
+                setting()
+
+            }, completion: nil)
+
+        } else {
+            setting()
+        }
     }
     
-    func setInActive() {
+    func setInActive(#animated: Bool) {
 
-        UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: nil, animations: {
+        let setting: () -> Void = {
             self.highLight.frame =  CGRectMake(0, self.frame.size.height - skillHeomSectionButtonLineHeight, self.frame.size.width, skillHeomSectionButtonLineHeight)
             self.highLight.backgroundColor = UIColor.yepDisabledColor().CGColor
-        }, completion: nil)
+        }
+
+        if animated {
+            UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: nil, animations: {
+
+                setting()
+
+            }, completion: nil)
+
+        } else {
+            setting()
+        }
     }
     
     func updateHightLightBounce() {
-        highLight.frame =  CGRectMake(0, self.frame.size.height - skillHeomSectionButtonLineHeight, self.frame.size.width, 0)
+        highLight.frame =  CGRectMake(0, self.frame.size.height - skillHeomSectionButtonLineHeight, self.frame.size.width, skillHeomSectionButtonLineHeight)
     }
     
 }
