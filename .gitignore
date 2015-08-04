@@ -32,3 +32,4 @@ Pods/
 # Carthage/Checkouts
 
 Carthage/Build
+xcshareddata
