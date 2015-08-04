@@ -60,13 +60,13 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         willSet {
             switch newValue {
             case .Master:
-                headerView.learningButton.setInActive()
-                headerView.masterButton.setActive()
+                headerView.learningButton.setInActive(animated: !isFirstAppear)
+                headerView.masterButton.setActive(animated: !isFirstAppear)
                 skillHomeScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
                 
             case .Learning:
-                headerView.masterButton.setInActive()
-                headerView.learningButton.setActive()
+                headerView.masterButton.setInActive(animated: !isFirstAppear)
+                headerView.learningButton.setActive(animated: !isFirstAppear)
                 skillHomeScrollView.setContentOffset(CGPoint(x: masterTableView.frame.size.width, y: 0), animated: true)
    
             }
@@ -203,6 +203,12 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         }
 
         customTitleView()
+
+        if isFirstAppear {
+            state = preferedState ?? .Master
+
+            isFirstAppear = false
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -221,16 +227,6 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         super.viewWillAppear(animated)
 
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if isFirstAppear {
-            isFirstAppear = false
-
-            state = preferedState ?? .Master
-        }
     }
 
     // MARK: UI
