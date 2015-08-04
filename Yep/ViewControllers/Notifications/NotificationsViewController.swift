@@ -18,10 +18,46 @@ struct DoNotDisturbPeriod {
     var toHour: Int = 7
     var toMinute: Int = 30
 
-    var fromString: String {
+    var hourOffset: Int {
+        let localTimeZone = NSTimeZone.localTimeZone()
+        let totalSecondsOffset = localTimeZone.secondsFromGMT
+
+        let hourOffset = totalSecondsOffset / (60 * 60)
+
+        return hourOffset
+    }
+
+    var minuteOffset: Int {
+        let localTimeZone = NSTimeZone.localTimeZone()
+        let totalSecondsOffset = localTimeZone.secondsFromGMT
+
+        let hourOffset = totalSecondsOffset / (60 * 60)
+        let minuteOffset = (totalSecondsOffset - hourOffset * (60 * 60)) / 60
+
+        return minuteOffset
+    }
+
+    func serverStringWithHour(hour: Int, minute: Int) -> String {
+        if minute - minuteOffset > 0 {
+            return String(format: "%02d:%02d", (hour - hourOffset) % 24, (minute - minuteOffset) % 60)
+        } else {
+            return String(format: "%02d:%02d", (hour - hourOffset - 1) % 24, ((minute + 60) - minuteOffset) % 60)
+        }
+    }
+
+    var serverFromString: String {
+        return serverStringWithHour(fromHour, minute: fromMinute)
+    }
+
+    var serverToString: String {
+        return serverStringWithHour(toHour, minute: toMinute)
+    }
+
+    var localFromString: String {
         return String(format: "%02d:%02d", fromHour, fromMinute)
     }
-    var toString: String {
+
+    var localToString: String {
         return String(format: "%02d:%02d", toHour, toMinute)
     }
 }
@@ -253,8 +289,8 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
             cell.fromPromptLabel.text = NSLocalizedString("From", comment: "")
             cell.toPromptLabel.text = NSLocalizedString("To", comment: "")
 
-            cell.fromLabel.text = doNotDisturbPeriod.fromString
-            cell.toLabel.text = doNotDisturbPeriod.toString
+            cell.fromLabel.text = doNotDisturbPeriod.localFromString
+            cell.toLabel.text = doNotDisturbPeriod.localToString
 
             return cell
 
