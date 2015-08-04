@@ -277,22 +277,34 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
                                     let fromParts = fromString.componentsSeparatedByString(":")
 
-                                    if let fromHourString = fromParts[safe: 0], fromHour = fromHourString.toInt() {
-                                        userDoNotDisturb.fromHour = fromHour
-                                    }
+                                    if let
+                                        fromHourString = fromParts[safe: 0], fromHour = fromHourString.toInt(),
+                                        fromMinuteString = fromParts[safe: 1], fromMinute = fromMinuteString.toInt() {
 
-                                    if let fromMinuteString = fromParts[safe: 1], fromMinute = fromMinuteString.toInt() {
-                                        userDoNotDisturb.fromMinute = fromMinute
+                                            if fromMinute + userDoNotDisturb.minuteOffset > 60 {
+                                                userDoNotDisturb.fromHour = (fromHour + userDoNotDisturb.hourOffset + 1) % 24
+                                                userDoNotDisturb.fromMinute = (fromMinute + userDoNotDisturb.minuteOffset - 60) % 60
+
+                                            } else {
+                                                userDoNotDisturb.fromHour = (fromHour + userDoNotDisturb.hourOffset) % 24
+                                                userDoNotDisturb.fromMinute = (fromMinute + userDoNotDisturb.minuteOffset) % 60
+                                            }
                                     }
 
                                     let toParts = toString.componentsSeparatedByString(":")
 
-                                    if let toHourString = toParts[safe: 0], toHour = toHourString.toInt() {
-                                        userDoNotDisturb.toHour = toHour
-                                    }
+                                    if let
+                                        toHourString = toParts[safe: 0], toHour = toHourString.toInt(),
+                                        toMinuteString = toParts[safe: 1], toMinute = toMinuteString.toInt() {
 
-                                    if let toMinuteString = toParts[safe: 1], toMinute = toMinuteString.toInt() {
-                                        userDoNotDisturb.toMinute = toMinute
+                                            if toMinute + userDoNotDisturb.minuteOffset > 60 {
+                                                userDoNotDisturb.toHour = (toHour + userDoNotDisturb.hourOffset + 1) % 24
+                                                userDoNotDisturb.toMinute = (toMinute + userDoNotDisturb.minuteOffset - 60) % 60
+
+                                            } else {
+                                                userDoNotDisturb.toHour = (toHour + userDoNotDisturb.hourOffset) % 24
+                                                userDoNotDisturb.toMinute = (toMinute + userDoNotDisturb.minuteOffset) % 60
+                                            }
                                     }
 
                                     //println("userDoNotDisturb: \(userDoNotDisturb.isOn), from \(userDoNotDisturb.fromHour):\(userDoNotDisturb.fromMinute), to \(userDoNotDisturb.toHour):\(userDoNotDisturb.toMinute)")
