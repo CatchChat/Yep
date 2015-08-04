@@ -109,8 +109,8 @@ class NotificationsViewController: UIViewController {
                 if let userDoNotDisturb = me.doNotDisturb {
 
                     let info: JSONDictionary = [
-                        "mute_started_at_string": userDoNotDisturb.fromString,
-                        "mute_ended_at_string": userDoNotDisturb.toString,
+                        "mute_started_at_string": userDoNotDisturb.serverFromString,
+                        "mute_ended_at_string": userDoNotDisturb.serverToString,
                     ]
 
                     updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
