@@ -273,6 +273,24 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                             }
                             
                             if let userDoNotDisturb = userDoNotDisturb {
+
+                                let convert: (Int, Int) -> (Int, Int) = { serverHour, serverMinute in
+
+                                    let localHour: Int
+                                    let localMinute: Int
+
+                                    if serverMinute + userDoNotDisturb.minuteOffset > 60 {
+                                        localHour = (serverHour + userDoNotDisturb.hourOffset + 1) % 24
+                                        localMinute = (serverMinute + userDoNotDisturb.minuteOffset - 60) % 60
+
+                                    } else {
+                                        localHour = (serverHour + userDoNotDisturb.hourOffset) % 24
+                                        localMinute = (serverMinute + userDoNotDisturb.minuteOffset) % 60
+                                    }
+
+                                    return (localHour, localMinute)
+                                }
+
                                 realm.write {
 
                                     let fromParts = fromString.componentsSeparatedByString(":")
@@ -281,14 +299,7 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                                         fromHourString = fromParts[safe: 0], fromHour = fromHourString.toInt(),
                                         fromMinuteString = fromParts[safe: 1], fromMinute = fromMinuteString.toInt() {
 
-                                            if fromMinute + userDoNotDisturb.minuteOffset > 60 {
-                                                userDoNotDisturb.fromHour = (fromHour + userDoNotDisturb.hourOffset + 1) % 24
-                                                userDoNotDisturb.fromMinute = (fromMinute + userDoNotDisturb.minuteOffset - 60) % 60
-
-                                            } else {
-                                                userDoNotDisturb.fromHour = (fromHour + userDoNotDisturb.hourOffset) % 24
-                                                userDoNotDisturb.fromMinute = (fromMinute + userDoNotDisturb.minuteOffset) % 60
-                                            }
+                                            (userDoNotDisturb.fromHour, userDoNotDisturb.fromMinute) = convert(fromHour, fromMinute)
                                     }
 
                                     let toParts = toString.componentsSeparatedByString(":")
@@ -297,14 +308,7 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                                         toHourString = toParts[safe: 0], toHour = toHourString.toInt(),
                                         toMinuteString = toParts[safe: 1], toMinute = toMinuteString.toInt() {
 
-                                            if toMinute + userDoNotDisturb.minuteOffset > 60 {
-                                                userDoNotDisturb.toHour = (toHour + userDoNotDisturb.hourOffset + 1) % 24
-                                                userDoNotDisturb.toMinute = (toMinute + userDoNotDisturb.minuteOffset - 60) % 60
-
-                                            } else {
-                                                userDoNotDisturb.toHour = (toHour + userDoNotDisturb.hourOffset) % 24
-                                                userDoNotDisturb.toMinute = (toMinute + userDoNotDisturb.minuteOffset) % 60
-                                            }
+                                            (userDoNotDisturb.toHour, userDoNotDisturb.toMinute) = convert(toHour, toMinute)
                                     }
 
                                     //println("userDoNotDisturb: \(userDoNotDisturb.isOn), from \(userDoNotDisturb.fromHour):\(userDoNotDisturb.fromMinute), to \(userDoNotDisturb.toHour):\(userDoNotDisturb.toMinute)")
