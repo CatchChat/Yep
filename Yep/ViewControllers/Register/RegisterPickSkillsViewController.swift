@@ -197,6 +197,7 @@ class RegisterPickSkillsViewController: BaseViewController {
                     if let strongSelf = self {
 
                         switch skillSetType {
+
                         case SkillSetType.Master.rawValue:
                             if selected {
 
@@ -208,25 +209,44 @@ class RegisterPickSkillsViewController: BaseViewController {
                                 }
                                 
                             } else {
-                                for index in 0..<strongSelf.masterSkills.count {
 
-                                    if let masterSkill = strongSelf.masterSkills[safe: index] {
+                                let skillsToDelete = strongSelf.masterSkills.filter({ $0.id == skill.id })
 
-                                        if masterSkill == skill {
-                                            strongSelf.masterSkills.removeAtIndex(index)
+                                if skillsToDelete.count > 0 {
 
-                                            if !strongSelf.isRegister {
-                                                deleteSkill(skill, fromSkillSet: .Master, failureHandler: nil, completion: { success in
-                                                    println("deleteSkill \(skill.localName) from Master: \(success)")
-                                                })
-                                            }
+                                    for skill in skillsToDelete {
 
-                                            success = true
-
-                                            break
+                                        if !strongSelf.isRegister {
+                                            deleteSkill(skill, fromSkillSet: .Master, failureHandler: nil, completion: { success in
+                                                println("deleteSkill \(skill.localName) from Master: \(success)")
+                                            })
                                         }
                                     }
+
+                                    strongSelf.masterSkills = strongSelf.masterSkills.filter({ $0.id != skill.id })
+                                    
+                                    success = true
                                 }
+
+//                                for index in 0..<strongSelf.masterSkills.count {
+//
+//                                    if let masterSkill = strongSelf.masterSkills[safe: index] {
+//
+//                                        if masterSkill == skill {
+//                                            strongSelf.masterSkills.removeAtIndex(index)
+//
+//                                            if !strongSelf.isRegister {
+//                                                deleteSkill(skill, fromSkillSet: .Master, failureHandler: nil, completion: { success in
+//                                                    //println("deleteSkill \(skill.localName) from Master: \(success)")
+//                                                })
+//                                            }
+//
+//                                            success = true
+//
+//                                            break
+//                                        }
+//                                    }
+//                                }
                             }
 
                         case SkillSetType.Learning.rawValue:
@@ -239,25 +259,45 @@ class RegisterPickSkillsViewController: BaseViewController {
                                 }
 
                             } else {
-                                for index in 0..<strongSelf.learningSkills.count {
 
-                                    if let learningSkill = strongSelf.learningSkills[safe: index] {
+                                let skillsToDelete = strongSelf.learningSkills.filter({ $0.id == skill.id })
 
-                                        if learningSkill == skill {
-                                            strongSelf.learningSkills.removeAtIndex(index)
+                                if skillsToDelete.count > 0 {
 
-                                            if !strongSelf.isRegister {
-                                                deleteSkill(skill, fromSkillSet: .Learning, failureHandler: nil, completion: { success in
-                                                    println("deleteSkill \(skill.localName) from Learning: \(success)")
-                                                })
-                                            }
+                                    for skill in skillsToDelete {
 
-                                            success = true
-
-                                            break
+                                        if !strongSelf.isRegister {
+                                            deleteSkill(skill, fromSkillSet: .Learning, failureHandler: nil, completion: { success in
+                                                println("deleteSkill \(skill.localName) from Learning: \(success)")
+                                            })
                                         }
                                     }
+
+                                    strongSelf.learningSkills = strongSelf.learningSkills.filter({ $0.id != skill.id })
+
+                                    success = true
                                 }
+
+//                                for index in 0..<strongSelf.learningSkills.count {
+//
+//                                    if let learningSkill = strongSelf.learningSkills[safe: index] {
+//
+//                                        if learningSkill == skill {
+//                                            strongSelf.learningSkills.removeAtIndex(index)
+//
+//
+//                                            if !strongSelf.isRegister {
+//                                                deleteSkill(skill, fromSkillSet: .Learning, failureHandler: nil, completion: { success in
+//                                                    //println("deleteSkill \(skill.localName) from Learning: \(success)")
+//                                                })
+//                                            }
+//
+//                                            success = true
+//
+//                                            break
+//                                        }
+//                                    }
+//                                }
                             }
 
                         default:
