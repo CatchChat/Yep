@@ -410,6 +410,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
     }
 
     private func updateSkillSelectionCell(skillSelectionCell: SkillSelectionCell, withSkill skill: Skill) {
+
         if selectedSkillsSet.contains(skill) {
             skillSelectionCell.skillSelection = .On
 
@@ -458,9 +459,11 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+
         if collectionView == skillsCollectionView {
 
             if skillCategoryIndex < skillCategories.count {
+
                 let skills = skillCategories[skillCategoryIndex].skills
 
                 let skill = skills[indexPath.item]

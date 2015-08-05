@@ -161,7 +161,9 @@ class RegisterPickSkillsViewController: BaseViewController {
     // MARK: Navigaition
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
         if segue.identifier == "presentSelectSkills" {
+
             let vc = segue.destinationViewController as! RegisterSelectSkillsViewController
 
             vc.modalPresentationStyle = UIModalPresentationStyle.Custom
@@ -170,13 +172,16 @@ class RegisterPickSkillsViewController: BaseViewController {
             if let skillSetType = sender as? Int {
 
                 switch skillSetType {
+
                 case SkillSetType.Master.rawValue:
+
                     vc.annotationText = NSLocalizedString("What are you good at?", comment: "")
                     vc.selectedSkillsSet = Set(masterSkills)
                     vc.anotherSelectedSkillsSet = Set(learningSkills)
                     vc.failedSelectSkillMessage = NSLocalizedString("This skill already in another learning skills set!", comment: "")
 
                 case SkillSetType.Learning.rawValue:
+
                     vc.annotationText = NSLocalizedString("What are you learning?", comment: "")
                     vc.selectedSkillsSet = Set(learningSkills)
                     vc.anotherSelectedSkillsSet = Set(masterSkills)
@@ -190,82 +195,84 @@ class RegisterPickSkillsViewController: BaseViewController {
                     vc.skillCategories = skillCategories
                 }
 
-                vc.selectSkillAction = { (skill, selected) in
+                vc.selectSkillAction = { [weak self] skill, selected in
 
                     var success = false
 
-                    switch skillSetType {
-                    case SkillSetType.Master.rawValue:
-                        if selected {
+                    if let strongSelf = self {
 
-                            if self.learningSkills.filter({ $0.id == skill.id }).count == 0 {
+                        switch skillSetType {
 
-                                self.masterSkills.append(skill)
+                        case SkillSetType.Master.rawValue:
+                            if selected {
 
-                                success = true
-                            }
-                            
-                        } else {
-                            for index in 0..<self.masterSkills.count {
+                                if strongSelf.learningSkills.filter({ $0.id == skill.id }).count == 0 {
 
-                                if let masterSkill = self.masterSkills[safe: index] {
+                                    strongSelf.masterSkills.append(skill)
 
-                                    if masterSkill == skill {
-                                        self.masterSkills.removeAtIndex(index)
+                                    success = true
+                                }
+                                
+                            } else {
 
-                                        if !self.isRegister {
+                                let skillsToDelete = strongSelf.masterSkills.filter({ $0.id == skill.id })
+
+                                if skillsToDelete.count > 0 {
+
+                                    for skill in skillsToDelete {
+
+                                        if !strongSelf.isRegister {
                                             deleteSkill(skill, fromSkillSet: .Master, failureHandler: nil, completion: { success in
                                                 println("deleteSkill \(skill.localName) from Master: \(success)")
                                             })
                                         }
-
-                                        success = true
-
-                                        break
                                     }
+
+                                    strongSelf.masterSkills = strongSelf.masterSkills.filter({ $0.id != skill.id })
+                                    
+                                    success = true
                                 }
                             }
-                        }
 
-                    case SkillSetType.Learning.rawValue:
-                        if selected {
-                            if self.masterSkills.filter({ $0.id == skill.id }).count == 0 {
+                        case SkillSetType.Learning.rawValue:
+                            if selected {
+                                if strongSelf.masterSkills.filter({ $0.id == skill.id }).count == 0 {
 
-                                self.learningSkills.append(skill)
+                                    strongSelf.learningSkills.append(skill)
 
-                                success = true
-                            }
+                                    success = true
+                                }
 
-                        } else {
-                            for index in 0..<self.learningSkills.count {
+                            } else {
 
-                                if let learningSkill = self.learningSkills[safe: index] {
+                                let skillsToDelete = strongSelf.learningSkills.filter({ $0.id == skill.id })
 
-                                    if learningSkill == skill {
-                                        self.learningSkills.removeAtIndex(index)
+                                if skillsToDelete.count > 0 {
 
-                                        if !self.isRegister {
+                                    for skill in skillsToDelete {
+
+                                        if !strongSelf.isRegister {
                                             deleteSkill(skill, fromSkillSet: .Learning, failureHandler: nil, completion: { success in
                                                 println("deleteSkill \(skill.localName) from Learning: \(success)")
                                             })
                                         }
-
-                                        success = true
-
-                                        break
                                     }
+
+                                    strongSelf.learningSkills = strongSelf.learningSkills.filter({ $0.id != skill.id })
+
+                                    success = true
                                 }
                             }
+
+                        default:
+                            break
                         }
 
-                    default:
-                        break
-                    }
+                        strongSelf.updateSkillsCollectionView()
 
-                    self.updateSkillsCollectionView()
-
-                    if !self.isDirty {
-                        self.isDirty = success
+                        if !strongSelf.isDirty {
+                            strongSelf.isDirty = success
+                        }
                     }
 
                     return success

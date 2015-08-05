@@ -317,7 +317,6 @@ func addSkill(skill: Skill, toSkillSet skillSet: SkillSet, #failureHandler: ((Re
 func deleteSkill(skill: Skill, fromSkillSet skillSet: SkillSet, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
 
     let parse: JSONDictionary -> Bool? = { data in
-        println("deleteSkill \(data)")
         return true
     }
 
