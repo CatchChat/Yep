@@ -10,53 +10,42 @@ import UIKit
 
 class VoiceRecordButton: UIView {
     
-    var yepTouchBegin : (() -> ())?
+    var touchesBegin : (() -> ())?
     
-    var yepTouchesEnded : (() -> ())?
+    var touchesEnded : (() -> ())?
     
-    var yepTouchesCancelled : (() -> ())?
+    var touchesCancelled : (() -> ())?
     
-    var yepTouchesMoved : (() -> ())?
+    var touchesMoved : (() -> ())?
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         super.touchesBegan(touches, withEvent: event)
         
-        if let yepTouchBegin = yepTouchBegin {
-            yepTouchBegin()
-        }
+        touchesBegin?()
     }
     
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         super.touchesEnded(touches, withEvent: event)
         
-        if let yepTouchesEnded = yepTouchesEnded {
-            yepTouchesEnded()
-        }
+        touchesEnded?()
     }
     
     override func touchesCancelled(touches: Set<NSObject>!, withEvent event: UIEvent!) {
         super.touchesCancelled(touches, withEvent: event)
         
-        if let yepTouchesCancelled = yepTouchesCancelled {
-            yepTouchesCancelled()
-        }
+        touchesCancelled?()
     }
     
     override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
         super.touchesMoved(touches, withEvent: event)
         
-        if let yepTouchesMoved = yepTouchesMoved {
-            yepTouchesMoved()
-        }
+        touchesMoved?()
     }
     
-
-
     override func didMoveToSuperview() {
-        
         super.didMoveToSuperview()
-        makeUI()
 
+        makeUI()
     }
 
     private func makeUI() {
