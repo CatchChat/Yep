@@ -151,20 +151,22 @@ class MessageToolbar: UIToolbar {
         button.layer.borderColor = UIColor.messageToolBarHighlightColor().CGColor
         button.tintColor = UIColor.messageToolBarHighlightColor()
 
-        button.yepTouchBegin = {
-            self.trySendVoiceMessageBegin()
+        button.touchesBegin = { [weak self] in
+            self?.trySendVoiceMessageBegin()
         }
 
-        button.yepTouchesMoved = {
-            
+        button.touchesEnded = { [weak self] in
+            self?.trySendVoiceMessageEnd()
         }
 
-        button.yepTouchesEnded = {
-            self.trySendVoiceMessageEnd()
+        button.touchesCancelled = { [weak self] in
+            self?.trySendVoiceMessageCancel()
         }
 
-        button.yepTouchesCancelled = { 
-            self.trySendVoiceMessageCancel()
+        button.touchesMoved = { [weak self] topOffset in
+            if topOffset > 40 {
+                self?.trySendVoiceMessageCancel()
+            }
         }
 
         return button
