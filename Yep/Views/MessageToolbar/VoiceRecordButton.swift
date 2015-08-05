@@ -10,14 +10,14 @@ import UIKit
 
 class VoiceRecordButton: UIView {
     
-    var touchesBegin : (() -> ())?
+    var touchesBegin: (() -> Void)?
     
-    var touchesEnded : (() -> ())?
+    var touchesEnded: (() -> Void)?
     
-    var touchesCancelled : (() -> ())?
-    
-    var touchesMoved : (() -> ())?
-    
+    var touchesCancelled: (() -> Void)?
+
+    var touchesMoved: ((topOffset: CGFloat) -> Void)?
+
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         super.touchesBegan(touches, withEvent: event)
         
@@ -39,7 +39,13 @@ class VoiceRecordButton: UIView {
     override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
         super.touchesMoved(touches, withEvent: event)
         
-        touchesMoved?()
+        if let touch = touches.first as? UITouch {
+            let location = touch.locationInView(touch.view)
+
+            if location.y < 0 {
+                touchesMoved?(topOffset: abs(location.y))
+            }
+        }
     }
     
     override func didMoveToSuperview() {
