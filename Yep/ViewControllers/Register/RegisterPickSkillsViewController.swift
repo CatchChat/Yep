@@ -161,7 +161,9 @@ class RegisterPickSkillsViewController: BaseViewController {
     // MARK: Navigaition
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
         if segue.identifier == "presentSelectSkills" {
+
             let vc = segue.destinationViewController as! RegisterSelectSkillsViewController
 
             vc.modalPresentationStyle = UIModalPresentationStyle.Custom
@@ -170,13 +172,16 @@ class RegisterPickSkillsViewController: BaseViewController {
             if let skillSetType = sender as? Int {
 
                 switch skillSetType {
+
                 case SkillSetType.Master.rawValue:
+
                     vc.annotationText = NSLocalizedString("What are you good at?", comment: "")
                     vc.selectedSkillsSet = Set(masterSkills)
                     vc.anotherSelectedSkillsSet = Set(learningSkills)
                     vc.failedSelectSkillMessage = NSLocalizedString("This skill already in another learning skills set!", comment: "")
 
                 case SkillSetType.Learning.rawValue:
+
                     vc.annotationText = NSLocalizedString("What are you learning?", comment: "")
                     vc.selectedSkillsSet = Set(learningSkills)
                     vc.anotherSelectedSkillsSet = Set(masterSkills)
