@@ -337,33 +337,24 @@ class MessageToolbar: UIToolbar {
     }
 
     func trySendVoiceMessageBegin() {
-        if let textSendAction = voiceSendBeginAction {
-            voiceRecordButton.backgroundColor = UIColor.lightGrayColor()
-            textSendAction(messageToolBar: self)
-        }
+        voiceRecordButton.backgroundColor = UIColor.lightGrayColor()
+        voiceSendBeginAction?(messageToolBar: self)
     }
     
     func trySendVoiceMessageEnd() {
-        if let textSendAction = voiceSendEndAction {
-            voiceRecordButton.backgroundColor = UIColor.whiteColor()
-            textSendAction(messageToolBar: self)
-        }
+        voiceRecordButton.backgroundColor = UIColor.whiteColor()
+        voiceSendEndAction?(messageToolBar: self)
     }
     
     func trySendVoiceMessageCancel() {
-        if let textSendAction = voiceSendCancelAction {
-            println("Cancel")
-            voiceRecordButton.backgroundColor = UIColor.whiteColor()
-            textSendAction(messageToolBar: self)
-        }
+        voiceRecordButton.backgroundColor = UIColor.whiteColor()
+        voiceSendCancelAction?(messageToolBar: self)
     }
     
     // Update status
     
     func notifyTyping() {
-        if let notifyTypingAction = notifyTypingAction {
-            notifyTypingAction()
-        }
+        notifyTypingAction?()
     }
 }
 
