@@ -190,7 +190,7 @@ class RegisterPickSkillsViewController: BaseViewController {
                     vc.skillCategories = skillCategories
                 }
 
-                vc.selectSkillAction = { [weak self] (skill, selected) in
+                vc.selectSkillAction = { [weak self] skill, selected in
 
                     var success = false
 
@@ -227,26 +227,6 @@ class RegisterPickSkillsViewController: BaseViewController {
                                     
                                     success = true
                                 }
-
-//                                for index in 0..<strongSelf.masterSkills.count {
-//
-//                                    if let masterSkill = strongSelf.masterSkills[safe: index] {
-//
-//                                        if masterSkill == skill {
-//                                            strongSelf.masterSkills.removeAtIndex(index)
-//
-//                                            if !strongSelf.isRegister {
-//                                                deleteSkill(skill, fromSkillSet: .Master, failureHandler: nil, completion: { success in
-//                                                    //println("deleteSkill \(skill.localName) from Master: \(success)")
-//                                                })
-//                                            }
-//
-//                                            success = true
-//
-//                                            break
-//                                        }
-//                                    }
-//                                }
                             }
 
                         case SkillSetType.Learning.rawValue:
@@ -277,27 +257,6 @@ class RegisterPickSkillsViewController: BaseViewController {
 
                                     success = true
                                 }
-
-//                                for index in 0..<strongSelf.learningSkills.count {
-//
-//                                    if let learningSkill = strongSelf.learningSkills[safe: index] {
-//
-//                                        if learningSkill == skill {
-//                                            strongSelf.learningSkills.removeAtIndex(index)
-//
-//
-//                                            if !strongSelf.isRegister {
-//                                                deleteSkill(skill, fromSkillSet: .Learning, failureHandler: nil, completion: { success in
-//                                                    //println("deleteSkill \(skill.localName) from Learning: \(success)")
-//                                                })
-//                                            }
-//
-//                                            success = true
-//
-//                                            break
-//                                        }
-//                                    }
-//                                }
                             }
 
                         default:
