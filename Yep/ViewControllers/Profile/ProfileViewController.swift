@@ -410,65 +410,9 @@ class ProfileViewController: UIViewController {
 
                     // 对非好友来说，必要
 
-                    let realm = Realm()
+                    updateUserWithUserID(userID, useUserInfo: userInfo)
 
-                    if let user = userWithUserID(userID, inRealm: realm) {
-
-                        realm.write {
-
-                            // 更新用户信息
-
-                            if let lastSignInUnixTime = userInfo["last_sign_in_at"] as? NSTimeInterval {
-                                user.lastSignInUnixTime = lastSignInUnixTime
-                            }
-
-                            if let nickname = userInfo["nickname"] as? String {
-                                user.nickname = nickname
-                            }
-
-                            if let introduction = userInfo["introduction"] as? String {
-                                user.introduction = introduction
-                            }
-
-                            if let avatarURLString = userInfo["avatar_url"] as? String {
-                                user.avatarURLString = avatarURLString
-                            }
-
-                            if let badge = userInfo["badge"] as? String {
-                                user.badge = badge
-                            }
-
-                            // 更新技能
-
-                            if let learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary] {
-                                user.learningSkills.removeAll()
-                                let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: realm)
-                                user.learningSkills.extend(userSkills)
-                            }
-
-                            if let masterSkillsData = userInfo["master_skills"] as? [JSONDictionary] {
-                                user.masterSkills.removeAll()
-                                let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
-                                user.masterSkills.extend(userSkills)
-                            }
-
-                            // 更新 Social Account Provider
-
-                            user.socialAccountProviders.removeAll()
-                            
-                            if let providersInfo = userInfo["providers"] as? [String: Bool] {
-                                for (name, enabled) in providersInfo {
-                                    let provider = UserSocialAccountProvider()
-                                    provider.name = name
-                                    provider.enabled = enabled
-                                    
-                                    user.socialAccountProviders.append(provider)
-                                }
-                            }
-
-                            self?.updateProfileCollectionView()
-                        }
-                    }
+                    self?.updateProfileCollectionView()
                 })
             }
         }
