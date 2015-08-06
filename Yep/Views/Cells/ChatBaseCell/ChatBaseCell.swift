@@ -14,6 +14,7 @@ class ChatBaseCell: UICollectionViewCell {
     @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
     var user: User?
+    var tapAvatarAction: ((user: User) -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,5 +28,9 @@ class ChatBaseCell: UICollectionViewCell {
 
     func tapAvatar() {
         println("tapAvatar")
+
+        if let user = user {
+            tapAvatarAction?(user: user)
+        }
     }
 }

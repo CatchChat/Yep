@@ -1454,13 +1454,19 @@ class ConversationViewController: BaseViewController {
 
             let vc = segue.destinationViewController as! ProfileViewController
 
-            if let withFriend = conversation?.withFriend {
-                if withFriend.userID != YepUserDefaults.userID.value {
-                    vc.profileUser = ProfileUser.UserType(withFriend)
+            if let user = sender as? User {
+                vc.profileUser = ProfileUser.UserType(user)
+
+            } else {
+                if let withFriend = conversation?.withFriend {
+                    if withFriend.userID != YepUserDefaults.userID.value {
+                        vc.profileUser = ProfileUser.UserType(withFriend)
+                    }
                 }
-                vc.isFromConversation = true
-                vc.setBackButtonWithTitle()
             }
+
+            vc.isFromConversation = true
+            vc.setBackButtonWithTitle()
 
         } else if segue.identifier == "showMessageMedia" {
 
@@ -1739,6 +1745,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
 
                         }, collectionView: collectionView, indexPath: indexPath)
+
+                        cell.tapAvatarAction = { [weak self] user in
+                            self?.performSegueWithIdentifier("showProfile", sender: user)
+                        }
                         
                         return cell
 
@@ -1758,7 +1768,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
 
                         }, collectionView: collectionView, indexPath: indexPath)
-                                            
+
+                        cell.tapAvatarAction = { [weak self] user in
+                            self?.performSegueWithIdentifier("showProfile", sender: user)
+                        }
+
                         return cell
 
                     case MessageMediaType.Video.rawValue:
@@ -1775,6 +1789,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
 
                         }, collectionView: collectionView, indexPath: indexPath)
+
+                        cell.tapAvatarAction = { [weak self] user in
+                            self?.performSegueWithIdentifier("showProfile", sender: user)
+                        }
 
                         return cell
 
@@ -1794,6 +1812,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
 
                         }, collectionView: collectionView, indexPath: indexPath)
+
+                        cell.tapAvatarAction = { [weak self] user in
+                            self?.performSegueWithIdentifier("showProfile", sender: user)
+                        }
 
                         return cell
 
@@ -1828,6 +1850,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 menu.showInView(strongSelf.view, withBubbleFrame: bubbleFrame)
                             }
+                        }
+
+                        cell.tapAvatarAction = { [weak self] user in
+                            self?.performSegueWithIdentifier("showProfile", sender: user)
                         }
 
                         return cell
@@ -1866,6 +1892,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
 
                         }, collectionView: collectionView, indexPath: indexPath)
+
+                        cell.tapAvatarAction = { [weak self] user in
+                            self?.performSegueWithIdentifier("showProfile", sender: user)
+                        }
                         
                         return cell
 
@@ -1902,6 +1932,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         }, collectionView: collectionView, indexPath: indexPath)
 
+                        cell.tapAvatarAction = { [weak self] user in
+                            self?.performSegueWithIdentifier("showProfile", sender: user)
+                        }
+
                         return cell
 
                     case MessageMediaType.Video.rawValue:
@@ -1933,6 +1967,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
 
                         }, collectionView: collectionView, indexPath: indexPath)
+
+                        cell.tapAvatarAction = { [weak self] user in
+                            self?.performSegueWithIdentifier("showProfile", sender: user)
+                        }
 
                         return cell
 
@@ -1973,6 +2011,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
 
                         }, collectionView: collectionView, indexPath: indexPath)
+
+                        cell.tapAvatarAction = { [weak self] user in
+                            self?.performSegueWithIdentifier("showProfile", sender: user)
+                        }
 
                         return cell
 
@@ -2106,6 +2148,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 menu.showInView(strongSelf.view, withBubbleFrame: bubbleFrame)
                             }
+                        }
+
+                        cell.tapAvatarAction = { [weak self] user in
+                            self?.performSegueWithIdentifier("showProfile", sender: user)
                         }
 
                         return cell
