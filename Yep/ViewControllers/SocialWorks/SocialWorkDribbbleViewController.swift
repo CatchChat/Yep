@@ -52,7 +52,6 @@ class SocialWorkDribbbleViewController: BaseViewController {
             title = "Dribbble"
         }
 
-        shareButton.enabled = false
         navigationItem.rightBarButtonItem = shareButton
         
 
@@ -103,7 +102,13 @@ class SocialWorkDribbbleViewController: BaseViewController {
     }
 
     func share() {
-        // TODO: share
+
+        if let dribbbleWork = dribbbleWork, profileURL = NSURL(string: dribbbleWork.userURLString) {
+
+            let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: nil)
+
+            presentViewController(activityViewController, animated: true, completion: nil)
+        }
     }
 
 }

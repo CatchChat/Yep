@@ -1698,8 +1698,9 @@ struct DribbbleWork {
         let likesCount: Int
         let commentsCount: Int
     }
-
     let shots: [Shot]
+
+    let userURLString: String
 }
 
 func dribbbleWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: DribbbleWork -> Void) {
@@ -1708,33 +1709,36 @@ func dribbbleWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, Str
 
         println("dribbbleData:\(data)")
 
-        if let shotsData = data["shots"] as? [JSONDictionary] {
+        if let
+            shotsData = data["shots"] as? [JSONDictionary],
+            userInfo = data["user"] as? JSONDictionary,
+            userURLString = userInfo["html_url"] as? String {
 
-            var shots = Array<DribbbleWork.Shot>()
+                var shots = Array<DribbbleWork.Shot>()
 
-            for shotInfo in shotsData {
-                if let
-                    title = shotInfo["title"] as? String,
-                    description = shotInfo["description"] as? String,
-                    htmlURLString = shotInfo["html_url"] as? String,
-                    imagesInfo = shotInfo["images"] as? JSONDictionary,
-                    likesCount = shotInfo["likes_count"] as? Int,
-                    commentsCount = shotInfo["comments_count"] as? Int {
-                        if let
-                            normal = imagesInfo["normal"] as? String,
-                            teaser = imagesInfo["teaser"] as? String {
-                                let hidpi = imagesInfo["hidpi"] as? String
+                for shotInfo in shotsData {
+                    if let
+                        title = shotInfo["title"] as? String,
+                        description = shotInfo["description"] as? String,
+                        htmlURLString = shotInfo["html_url"] as? String,
+                        imagesInfo = shotInfo["images"] as? JSONDictionary,
+                        likesCount = shotInfo["likes_count"] as? Int,
+                        commentsCount = shotInfo["comments_count"] as? Int {
+                            if let
+                                normal = imagesInfo["normal"] as? String,
+                                teaser = imagesInfo["teaser"] as? String {
+                                    let hidpi = imagesInfo["hidpi"] as? String
 
-                                let images = DribbbleWork.Shot.Images(hidpi: hidpi, normal: normal, teaser: teaser)
+                                    let images = DribbbleWork.Shot.Images(hidpi: hidpi, normal: normal, teaser: teaser)
 
-                                let shot = DribbbleWork.Shot(title: title, description: description, htmlURLString: htmlURLString, images: images, likesCount: likesCount, commentsCount: commentsCount)
+                                    let shot = DribbbleWork.Shot(title: title, description: description, htmlURLString: htmlURLString, images: images, likesCount: likesCount, commentsCount: commentsCount)
 
-                                shots.append(shot)
-                        }
+                                    shots.append(shot)
+                            }
+                    }
                 }
-            }
 
-            return DribbbleWork(shots: shots)
+                return DribbbleWork(shots: shots, userURLString: userURLString)
         }
 
         return nil
