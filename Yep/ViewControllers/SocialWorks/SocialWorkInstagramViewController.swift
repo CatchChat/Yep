@@ -33,6 +33,10 @@ class SocialWorkInstagramViewController: BaseViewController {
     var instagramMedias = Array<InstagramWork.Media>() {
         didSet {
             updateInstagramCollectionView()
+
+            if let firstMedia = instagramMedias.first {
+                shareButton.enabled = true
+            }
         }
     }
 
@@ -100,7 +104,18 @@ class SocialWorkInstagramViewController: BaseViewController {
     }
 
     func share() {
-        // TODO: share
+
+        if let firstMedia = instagramMedias.first {
+
+            let profileURLString = "https://instagram.com/" + firstMedia.username
+
+            if let profileURL = NSURL(string: profileURLString) {
+
+                let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: nil)
+
+                presentViewController(activityViewController, animated: true, completion: nil)
+            }
+        }
     }
 
 }
