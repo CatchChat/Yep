@@ -11,9 +11,6 @@ import MapKit
 
 class ChatRightLocationCell: ChatRightBaseCell {
 
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
-
     @IBOutlet weak var mapImageView: UIImageView!
 
     typealias MediaTapAction = () -> Void
@@ -21,8 +18,6 @@ class ChatRightLocationCell: ChatRightBaseCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
-        avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
 
         mapImageView.tintColor = UIColor.rightBubbleTintColor()
 
@@ -38,6 +33,7 @@ class ChatRightLocationCell: ChatRightBaseCell {
     func configureWithMessage(message: Message, mediaTapAction: MediaTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
 
         self.message = message
+        self.user = message.fromFriend
 
         self.mediaTapAction = mediaTapAction
 

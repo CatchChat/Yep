@@ -1706,7 +1706,10 @@ func dribbbleWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, Str
 
     let parse: JSONDictionary -> DribbbleWork? = { data in
 
+        println("dribbbleData:\(data)")
+
         if let shotsData = data["shots"] as? [JSONDictionary] {
+
             var shots = Array<DribbbleWork.Shot>()
 
             for shotInfo in shotsData {
@@ -1774,6 +1777,7 @@ func instagramWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, St
         //println("instagramData:\(data)")
 
         if let mediaData = data["media"] as? [JSONDictionary] {
+
             var medias = Array<InstagramWork.Media>()
 
             for mediaInfo in mediaData {

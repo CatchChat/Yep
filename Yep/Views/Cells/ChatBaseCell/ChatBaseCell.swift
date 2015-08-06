@@ -11,6 +11,7 @@ import UIKit
 class ChatBaseCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
     var user: User?
 
@@ -20,6 +21,8 @@ class ChatBaseCell: UICollectionViewCell {
         avatarImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapAvatar")
         avatarImageView.addGestureRecognizer(tap)
+
+        avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
     }
 
     func tapAvatar() {

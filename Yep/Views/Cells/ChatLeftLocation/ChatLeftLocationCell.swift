@@ -8,10 +8,7 @@
 
 import UIKit
 
-class ChatLeftLocationCell: UICollectionViewCell {
-
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
+class ChatLeftLocationCell: ChatBaseCell {
 
     @IBOutlet weak var mapImageView: UIImageView!
     
@@ -21,8 +18,6 @@ class ChatLeftLocationCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
-        
         mapImageView.tintColor = UIColor.leftBubbleTintColor()
 
         mapImageView.userInteractionEnabled = true
@@ -35,6 +30,8 @@ class ChatLeftLocationCell: UICollectionViewCell {
     }
     
     func configureWithMessage(message: Message, mediaTapAction: MediaTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
+
+        self.user = message.fromFriend
 
         self.mediaTapAction = mediaTapAction
 

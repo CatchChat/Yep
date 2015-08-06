@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChatLeftAudioCell: UICollectionViewCell {
+class ChatLeftAudioCell: ChatBaseCell {
 
     var message: Message?
 
@@ -30,9 +30,6 @@ class ChatLeftAudioCell: UICollectionViewCell {
         }
     }
 
-
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var bubbleImageView: UIImageView!
     
@@ -64,8 +61,6 @@ class ChatLeftAudioCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
-        
         bubbleImageView.tintColor = UIColor.leftBubbleTintColor()
 
         sampleView.sampleColor = UIColor.leftWaveColor()
@@ -87,6 +82,7 @@ class ChatLeftAudioCell: UICollectionViewCell {
     func configureWithMessage(message: Message, audioPlayedDuration: Double, audioBubbleTapAction: AudioBubbleTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
 
         self.message = message
+        self.user = message.fromFriend
 
         self.audioBubbleTapAction = audioBubbleTapAction
 

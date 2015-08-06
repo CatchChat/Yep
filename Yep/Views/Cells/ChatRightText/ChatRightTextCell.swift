@@ -10,9 +10,7 @@ import UIKit
 
 class ChatRightTextCell: ChatRightBaseCell {
 
-    @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarImageViewTrailingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var bubbleBodyImageView: UIImageView!
     @IBOutlet weak var bubbleTailImageView: UIImageView!
@@ -30,7 +28,6 @@ class ChatRightTextCell: ChatRightBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
         avatarImageViewTrailingConstraint.constant = YepConfig.chatCellGapBetweenWallAndAvatar()
 
         textContentTextView.textContainer.lineFragmentPadding = 0
@@ -71,6 +68,7 @@ class ChatRightTextCell: ChatRightBaseCell {
     func configureWithMessage(message: Message, textContentLabelWidth: CGFloat, mediaTapAction: MediaTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
 
         self.message = message
+        self.user = message.fromFriend
 
         self.mediaTapAction = mediaTapAction
 

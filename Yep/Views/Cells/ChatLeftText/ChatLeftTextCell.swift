@@ -8,11 +8,9 @@
 
 import UIKit
 
-class ChatLeftTextCell: UICollectionViewCell {
+class ChatLeftTextCell: ChatBaseCell {
 
-    @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarImageViewLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var bubbleBodyImageView: UIImageView!
     @IBOutlet weak var bubbleTailImageView: UIImageView!
@@ -28,7 +26,6 @@ class ChatLeftTextCell: UICollectionViewCell {
         super.awakeFromNib()
 
         avatarImageViewLeadingConstraint.constant = YepConfig.chatCellGapBetweenWallAndAvatar()
-        avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
 
         textContentTextView.textContainer.lineFragmentPadding = 0
         textContentTextView.font = UIFont.chatTextFont()
@@ -57,6 +54,9 @@ class ChatLeftTextCell: UICollectionViewCell {
     }
 
     func configureWithMessage(message: Message, textContentLabelWidth: CGFloat, collectionView: UICollectionView, indexPath: NSIndexPath) {
+
+        self.user = message.fromFriend
+        
         textContentTextView.text = message.textContent
 
         textContentTextViewWidthConstraint.constant = max(YepConfig.minMessageTextLabelWidth, textContentLabelWidth)

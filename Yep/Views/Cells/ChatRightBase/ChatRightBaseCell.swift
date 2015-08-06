@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChatRightBaseCell: UICollectionViewCell {
+class ChatRightBaseCell: ChatBaseCell {
     
     @IBOutlet weak var dotImageView: UIImageView!
     @IBOutlet weak var gapBetweenDotImageViewAndBubbleConstraint: NSLayoutConstraint!

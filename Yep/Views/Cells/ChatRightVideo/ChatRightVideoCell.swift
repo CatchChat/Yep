@@ -10,9 +10,6 @@ import UIKit
 
 class ChatRightVideoCell: ChatRightBaseCell {
 
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
-
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var thumbnailImageViewWidthConstraint: NSLayoutConstraint!
 
@@ -25,7 +22,6 @@ class ChatRightVideoCell: ChatRightBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        avatarImageViewWidthConstraint.constant = YepConfig.chatCellAvatarSize()
         playImageViewCenterXConstraint.constant = YepConfig.ChatCell.centerXOffset
 
         thumbnailImageView.tintColor = UIColor.rightBubbleTintColor()
@@ -67,7 +63,8 @@ class ChatRightVideoCell: ChatRightBaseCell {
     func configureWithMessage(message: Message, messageImagePreferredWidth: CGFloat, messageImagePreferredHeight: CGFloat, messageImagePreferredAspectRatio: CGFloat, mediaTapAction: MediaTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
 
         self.message = message
-        
+        self.user = message.fromFriend
+
         self.mediaTapAction = mediaTapAction
         
         if let sender = message.fromFriend {
