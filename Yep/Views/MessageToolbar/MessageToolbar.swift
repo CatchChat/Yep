@@ -155,18 +155,20 @@ class MessageToolbar: UIToolbar {
             self?.trySendVoiceMessageBegin()
         }
 
-        button.touchesEnded = { [weak self] in
-            self?.trySendVoiceMessageEnd()
+        button.touchesEnded = { [weak self] needAbort in
+            if needAbort {
+                self?.trySendVoiceMessageCancel()
+            } else {
+                self?.trySendVoiceMessageEnd()
+            }
         }
 
         button.touchesCancelled = { [weak self] in
             self?.trySendVoiceMessageCancel()
         }
 
-        button.touchesMoved = { [weak self] topOffset in
-            if topOffset > 40 {
-                self?.trySendVoiceMessageCancel()
-            }
+        button.checkAbort = { [weak self] topOffset in
+            return topOffset > 40
         }
 
         return button

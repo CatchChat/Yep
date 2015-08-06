@@ -12,14 +12,18 @@ class VoiceRecordButton: UIView {
     
     var touchesBegin: (() -> Void)?
     
-    var touchesEnded: (() -> Void)?
+    var touchesEnded: ((needAbort: Bool) -> Void)?
     
     var touchesCancelled: (() -> Void)?
 
-    var touchesMoved: ((topOffset: CGFloat) -> Void)?
+    var checkAbort: ((topOffset: CGFloat) -> Bool)?
+
+    var abort = false
 
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         super.touchesBegan(touches, withEvent: event)
+
+        abort = false
         
         touchesBegin?()
     }
@@ -27,7 +31,7 @@ class VoiceRecordButton: UIView {
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         super.touchesEnded(touches, withEvent: event)
         
-        touchesEnded?()
+        touchesEnded?(needAbort: abort)
     }
     
     override func touchesCancelled(touches: Set<NSObject>!, withEvent event: UIEvent!) {
@@ -43,7 +47,7 @@ class VoiceRecordButton: UIView {
             let location = touch.locationInView(touch.view)
 
             if location.y < 0 {
-                touchesMoved?(topOffset: abs(location.y))
+                abort = checkAbort?(topOffset: abs(location.y)) ?? false
             }
         }
     }
