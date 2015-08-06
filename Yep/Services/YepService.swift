@@ -1761,6 +1761,8 @@ struct InstagramWork {
         let images: Images
         let likesCount: Int
         let commentsCount: Int
+
+        let username: String
     }
 
     let medias: [Media]
@@ -1779,7 +1781,8 @@ func instagramWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, St
                     linkURLString = mediaInfo["link"] as? String,
                     imagesInfo = mediaInfo["images"] as? JSONDictionary,
                     likesInfo = mediaInfo["likes"] as? JSONDictionary,
-                    commentsInfo = mediaInfo["comments"] as? JSONDictionary {
+                    commentsInfo = mediaInfo["comments"] as? JSONDictionary,
+                    userInfo = mediaInfo["user"] as? JSONDictionary {
                         if let
                             lowResolutionInfo = imagesInfo["low_resolution"] as? JSONDictionary,
                             standardResolutionInfo = imagesInfo["standard_resolution"] as? JSONDictionary,
@@ -1790,11 +1793,13 @@ func instagramWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, St
                             thumbnail = thumbnailInfo["url"] as? String,
 
                             likesCount = likesInfo["count"] as? Int,
-                            commentsCount = commentsInfo["count"] as? Int {
+                            commentsCount = commentsInfo["count"] as? Int,
+
+                            username = userInfo["username"] as? String {
 
                                 let images = InstagramWork.Media.Images(lowResolution: lowResolution, standardResolution: standardResolution, thumbnail: thumbnail)
 
-                                let media = InstagramWork.Media(linkURLString: linkURLString, images: images, likesCount: likesCount, commentsCount: commentsCount)
+                                let media = InstagramWork.Media(linkURLString: linkURLString, images: images, likesCount: likesCount, commentsCount: commentsCount, username: username)
 
                                 medias.append(media)
                         }
