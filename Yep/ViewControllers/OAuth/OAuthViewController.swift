@@ -75,14 +75,12 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
                 
                 defaultFailureHandler(reason, errorMessage)
                 
-                }, completion: { provider in
-                    println(provider)
-                    
-                    if let afterOAuthAction = self.afterOAuthAction {
-                        afterOAuthAction(socialAccount: self.socialAccount)
-                    }
-                    
-                    // TODO: 解析 socialAccount Provider
+            }, completion: { provider in
+                println(provider)
+                
+                if let afterOAuthAction = self.afterOAuthAction {
+                    afterOAuthAction(socialAccount: self.socialAccount)
+                }
             })
             
         } else if url.contains("/auth/failure") {
