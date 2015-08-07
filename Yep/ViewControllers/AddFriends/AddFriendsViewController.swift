@@ -29,13 +29,6 @@ class AddFriendsViewController: UIViewController {
         addFriendsTableView.registerNib(UINib(nibName: addFriendMoreCellIdentifier, bundle: nil), forCellReuseIdentifier: addFriendMoreCellIdentifier)
     }
 
-    // MARK: Actions
-    
-    @IBAction func done(sender: UIBarButtonItem) {
-        dismissViewControllerAnimated(true, completion: nil)
-        // TODO: done add friend
-    }
-
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

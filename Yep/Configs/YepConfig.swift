@@ -116,6 +116,9 @@ class YepConfig {
     }
 
     struct ChatCell {
+
+        static let lineSpacing: CGFloat = 5
+        
         static let gapBetweenDotImageViewAndBubble: CGFloat = 5
 
         static let mediaPreferredWidth: CGFloat = Ruler.match(.iPhoneWidths(192, 225, 250))

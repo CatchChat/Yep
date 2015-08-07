@@ -862,6 +862,74 @@ func syncMessagesReadStatus() {
     })
 }
 
+func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSONDictionary, inRealm realm: Realm) {
+
+    if let message = messageWithMessageID(messageID, inRealm: realm) {
+
+        realm.beginWrite()
+
+        if let textContent = messageInfo["text_content"] as? String {
+            message.textContent = textContent
+        }
+
+        if let
+            longitude = messageInfo["longitude"] as? Double,
+            latitude = messageInfo["latitude"] as? Double {
+
+                let newCoordinate = Coordinate()
+                newCoordinate.longitude = longitude
+                newCoordinate.latitude = latitude
+
+                message.coordinate = newCoordinate
+        }
+
+        if let attachments = messageInfo["attachments"] as? [JSONDictionary] {
+
+            for attachmentInfo in attachments {
+
+                // S3: normal file
+                if let
+                    normalFileInfo = attachmentInfo["file"] as? JSONDictionary,
+                    fileURLString = normalFileInfo["url"] as? String,
+                    kind = attachmentInfo["kind"] as? String {
+                        if kind == "thumbnail" {
+                            message.thumbnailURLString = fileURLString
+                        } else {
+                            message.attachmentURLString = fileURLString
+                        }
+                }
+
+                if let metaDataString = attachmentInfo["metadata"] as? String {
+                    message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
+                }
+            }
+
+            if let mediaType = messageInfo["media_type"] as? String {
+
+                switch mediaType {
+                case MessageMediaType.Text.description:
+                    message.mediaType = MessageMediaType.Text.rawValue
+                case MessageMediaType.Image.description:
+                    message.mediaType = MessageMediaType.Image.rawValue
+                case MessageMediaType.Video.description:
+                    message.mediaType = MessageMediaType.Video.rawValue
+                case MessageMediaType.Audio.description:
+                    message.mediaType = MessageMediaType.Audio.rawValue
+                case MessageMediaType.Sticker.description:
+                    message.mediaType = MessageMediaType.Sticker.rawValue
+                case MessageMediaType.Location.description:
+                    message.mediaType = MessageMediaType.Location.rawValue
+                default:
+                    break
+                }
+                // TODO: 若有更多的 Media Type
+            }
+        }
+
+        realm.commitWrite()
+    }
+}
+
 func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)? ) {
 
     func deleteMessage(message: Message, inRealm realm: Realm) {
@@ -871,7 +939,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
     }
 
     if let messageID = messageInfo["id"] as? String {
-        
+
         var message = messageWithMessageID(messageID, inRealm: realm)
 
         if message == nil {
@@ -895,7 +963,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
         // 开始填充消息
 
         if let message = message {
-            
+
             if message.readed == true {
                 markAsReadMessage(message, failureHandler: nil) { success in
                     if success {
@@ -1013,80 +1081,11 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
                                 sectionDateMessageID = sectionDateMessage.messageID
                             }
 
+                            realm.commitWrite()
+
                             // 纪录消息的 detail 信息
 
-                            if let textContent = messageInfo["text_content"] as? String {
-                                message.textContent = textContent
-                            }
-
-                            if
-                                let longitude = messageInfo["longitude"] as? Double,
-                                let latitude = messageInfo["latitude"] as? Double {
-
-                                    let newCoordinate = Coordinate()
-                                    newCoordinate.longitude = longitude
-                                    newCoordinate.latitude = latitude
-
-                                    message.coordinate = newCoordinate
-                            }
-
-                            if let attachments = messageInfo["attachments"] as? [JSONDictionary] {
-                                for attachmentInfo in attachments {
-
-                                    // S3: normal file
-                                    if let normalFileInfo = attachmentInfo["file"] as? JSONDictionary {
-                                        if let fileURLString = normalFileInfo["url"] as? String {
-                                            if let kind = attachmentInfo["kind"] as? String {
-                                                if kind == "thumbnail" {
-                                                    message.thumbnailURLString = fileURLString
-                                                } else {
-                                                    message.attachmentURLString = fileURLString
-                                                }
-                                            }
-                                        }
-
-                                        if let metaDataString = attachmentInfo["metadata"] as? String {
-                                            message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
-                                        }
-                                    }
-                                    /*
-                                    else if let fallbackFileInfo = attachmentInfo["fallback_file"] as? JSONDictionary {
-                                        if let fileURLString = fallbackFileInfo["url"] as? String {
-                                            if let kind = attachmentInfo["kind"] as? String {
-                                                if kind == "thumbnail" {
-                                                    message.thumbnailURLString = fileURLString
-                                                } else {
-                                                    message.attachmentURLString = fileURLString
-                                                }
-                                            }
-                                        }
-                                    }
-                                    */
-                                }
-
-                                if let mediaType = messageInfo["media_type"] as? String {
-
-                                    switch mediaType {
-                                    case MessageMediaType.Text.description:
-                                        message.mediaType = MessageMediaType.Text.rawValue
-                                    case MessageMediaType.Image.description:
-                                        message.mediaType = MessageMediaType.Image.rawValue
-                                    case MessageMediaType.Video.description:
-                                        message.mediaType = MessageMediaType.Video.rawValue
-                                    case MessageMediaType.Audio.description:
-                                        message.mediaType = MessageMediaType.Audio.rawValue
-                                    case MessageMediaType.Sticker.description:
-                                        message.mediaType = MessageMediaType.Sticker.rawValue
-                                    case MessageMediaType.Location.description:
-                                        message.mediaType = MessageMediaType.Location.rawValue
-                                    default:
-                                        break
-                                    }
-                                    // TODO: 若有更多的 Media Type
-                                }
-                            }
-
-                            realm.commitWrite()
+                            recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
 
 
                             // Do furtherAction after sync

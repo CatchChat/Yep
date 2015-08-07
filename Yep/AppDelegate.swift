@@ -190,11 +190,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let v1AccessToken = YepUserDefaults.v1AccessToken.value {
             
             if let type = userInfo["type"] as? String {
-                if type == "message" {
+
+                switch type {
+
+                case "message":
                     syncUnreadMessages() {
                         completionHandler(UIBackgroundFetchResult.NewData)
                         APService.handleRemoteNotification(userInfo)
                     }
+
+                case "official_message":
+                    officialMessages { messagesCount in
+                        println("new officialMessages count: \(messagesCount)")
+
+                        completionHandler(UIBackgroundFetchResult.NewData)
+                        APService.handleRemoteNotification(userInfo)
+                    }
+
+                default:
+                    break
                 }
             }
         }
@@ -241,7 +255,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
-        // TODO: 刷新 UI，特别是对于首次登陆来说
+
+        officialMessages { messagesCount in
+            println("new officialMessages count: \(messagesCount)")
+        }
     }
 
     func startFaye() {

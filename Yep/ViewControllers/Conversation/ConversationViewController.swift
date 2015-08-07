@@ -181,7 +181,7 @@ class ConversationViewController: BaseViewController {
         navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
         
         let layout = ConversationLayout()
-        layout.minimumLineSpacing = 5
+        layout.minimumLineSpacing = YepConfig.ChatCell.lineSpacing
         conversationCollectionView.setCollectionViewLayout(layout, animated: false)
 
         if messages.count >= messagesBunchCount {
@@ -1270,7 +1270,7 @@ class ConversationViewController: BaseViewController {
             var newMessagesTotalHeight: CGFloat = 0
             for i in _lastTimeMessagesCount..<messages.count {
                 if let message = messages[safe: i] {
-                    let height = heightOfMessage(message) + 5 // TODO: +5 cell line space
+                    let height = heightOfMessage(message) + YepConfig.ChatCell.lineSpacing
                     newMessagesTotalHeight += height
                 }
             }
