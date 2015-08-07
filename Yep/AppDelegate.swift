@@ -238,14 +238,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: object)
                         }
                     }
-
-                    officialMessages { data in
-                        println("officialMessages: \(data)")
-                    }
                 }
             }
         }
-        // TODO: 刷新 UI，特别是对于首次登陆来说
+
+        officialMessages { messagesCount in
+            println("new officialMessages count: \(messagesCount)")
+        }
     }
 
     func startFaye() {
