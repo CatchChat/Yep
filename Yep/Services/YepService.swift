@@ -984,6 +984,100 @@ func groups(#completion: [JSONDictionary] -> Void) {
 
 // MARK: - Messages
 
+func officialMessages(#completion: Int -> Void) {
+
+    let parse: JSONDictionary -> Int? = { data in
+
+        var messagesCount: Int = 0
+
+        if let senderInfo = data["sender"] as? JSONDictionary, senderID = senderInfo["id"] as? String {
+
+            let realm = Realm()
+
+            var sender = userWithUserID(senderID, inRealm: realm)
+
+            if sender == nil {
+                let newUser = User()
+
+                newUser.userID = senderID
+
+                newUser.friendState = UserFriendState.Yep.rawValue
+
+                realm.write {
+                    realm.add(newUser)
+                }
+
+                // 确保有 Conversation
+
+                let newConversation = Conversation()
+
+                newConversation.type = ConversationType.OneToOne.rawValue
+                newConversation.withFriend = newUser
+
+                realm.write {
+                    realm.add(newConversation)
+                }
+
+                sender = newUser
+            }
+
+            updateUserWithUserID(senderID, useUserInfo: senderInfo)
+
+
+            if let messagesData = data["official_messages"] as? [JSONDictionary] {
+
+                for messageInfo in messagesData {
+
+                    if let messageID = messageInfo["id"] as? String {
+
+                        var message = messageWithMessageID(messageID, inRealm: realm)
+
+                        if message == nil {
+                            let newMessage = Message()
+                            newMessage.messageID = messageID
+
+                            if let updatedUnixTime = messageInfo["updated_at"] as? NSTimeInterval {
+                                newMessage.createdUnixTime = updatedUnixTime
+                            }
+
+                            realm.write {
+                                realm.add(newMessage)
+                            }
+                            
+                            message = newMessage
+                        }
+
+                        if let message = message {
+                            realm.write {
+                                message.fromFriend = sender
+                            }
+
+                            if let conversation = sender?.conversation {
+                                realm.write {
+                                    message.conversation = conversation
+
+                                }
+
+                                // 纪录消息的 detail 信息
+
+                                recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
+
+                                messagesCount++
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return messagesCount
+    }
+
+    let resource = authJsonResource(path: "/api/v1/official_messages", method: .GET, requestParameters: [:], parse: parse)
+
+    apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+}
+
 func headUnreadMessages(#completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": 1,
