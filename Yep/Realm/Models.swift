@@ -22,6 +22,7 @@ enum UserFriendState: Int {
     case Normal         = 2   // 正常状态的朋友
     case Blocked        = 3   // 被屏蔽
     case Me             = 4   // 自己
+    case Yep            = 5   // Yep官方账号
 }
 
 class Avatar: Object {
