@@ -984,9 +984,11 @@ func groups(#completion: [JSONDictionary] -> Void) {
 
 // MARK: - Messages
 
-func officialMessages(#completion: JSONDictionary -> Void) {
+func officialMessages(#completion: Int -> Void) {
 
-    let parse: JSONDictionary -> JSONDictionary? = { data in
+    let parse: JSONDictionary -> Int? = { data in
+
+        var messagesCount: Int = 0
 
         if let senderInfo = data["sender"] as? JSONDictionary, senderID = senderInfo["id"] as? String {
 
@@ -1059,6 +1061,8 @@ func officialMessages(#completion: JSONDictionary -> Void) {
                                 // 纪录消息的 detail 信息
 
                                 recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
+
+                                messagesCount++
                             }
                         }
                     }
@@ -1066,9 +1070,7 @@ func officialMessages(#completion: JSONDictionary -> Void) {
             }
         }
 
-
-
-        return data
+        return messagesCount
     }
 
     let resource = authJsonResource(path: "/api/v1/official_messages", method: .GET, requestParameters: [:], parse: parse)
