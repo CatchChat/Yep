@@ -83,6 +83,16 @@ class SocialWorkGithubViewController: BaseViewController {
         githubTableView.registerNib(UINib(nibName: githubRepoCellIdentifier, bundle: nil), forCellReuseIdentifier: githubRepoCellIdentifier)
 
         githubTableView.rowHeight = 100
+        
+        if let gestures = navigationController?.view.gestureRecognizers {
+            for recognizer in gestures {
+                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
+                    githubTableView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                    println("Require UIScreenEdgePanGestureRecognizer to failed")
+                    break
+                }
+            }
+        }
 
 
         // 获取 Github Work，如果必要的话

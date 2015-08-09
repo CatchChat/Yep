@@ -59,6 +59,16 @@ class SettingsViewController: BaseViewController {
         YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [weak self] introduction in
             self?.settingsTableView.reloadData()
         }
+        
+        if let gestures = navigationController?.view.gestureRecognizers {
+            for recognizer in gestures {
+                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
+                    settingsTableView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                    println("Require UIScreenEdgePanGestureRecognizer to failed")
+                    break
+                }
+            }
+        }
     }
 
 }

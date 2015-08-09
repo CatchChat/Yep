@@ -59,6 +59,15 @@ class SocialWorkInstagramViewController: BaseViewController {
 
         instagramCollectionView.registerNib(UINib(nibName: instagramMediaCellIdentifier, bundle: nil), forCellWithReuseIdentifier: instagramMediaCellIdentifier)
 
+        if let gestures = navigationController?.view.gestureRecognizers {
+            for recognizer in gestures {
+                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
+                    instagramCollectionView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                    println("Require UIScreenEdgePanGestureRecognizer to failed")
+                    break
+                }
+            }
+        }
 
         // 获取 Instagram Work，如果必要的话
 

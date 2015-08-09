@@ -32,6 +32,8 @@ enum SocialAccount: String, Printable {
         
     }
     
+
+    
     var tintColor: UIColor {
         
         switch self {
@@ -133,6 +135,8 @@ enum ProfileUser {
 
 class ProfileViewController: UIViewController {
 
+    var statusBarShouldLight = false
+    
     var isFromConversation = false
 
     var profileUser: ProfileUser?
@@ -288,6 +292,14 @@ class ProfileViewController: UIViewController {
         YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
         YepUserDefaults.introduction.removeListenerWithName(Listener.Introduction)
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        statusBarShouldLight = true
+        
+        self.setNeedsStatusBarAppearanceUpdate()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -430,11 +442,18 @@ class ProfileViewController: UIViewController {
     
         customNavigationBar.alpha = 1.0
         
+        statusBarShouldLight = false
+        
         self.setNeedsStatusBarAppearanceUpdate()
     }
 
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+        if statusBarShouldLight {
+            return UIStatusBarStyle.LightContent
+        } else {
+            return UIStatusBarStyle.Default
+        }
+        
     }
 
     // MARK: Navigation

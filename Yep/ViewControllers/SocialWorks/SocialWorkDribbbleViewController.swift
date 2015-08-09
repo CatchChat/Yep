@@ -57,6 +57,15 @@ class SocialWorkDribbbleViewController: BaseViewController {
 
         dribbbleCollectionView.registerNib(UINib(nibName: dribbbleShotCellIdentifier, bundle: nil), forCellWithReuseIdentifier: dribbbleShotCellIdentifier)
 
+        if let gestures = navigationController?.view.gestureRecognizers {
+            for recognizer in gestures {
+                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
+                    dribbbleCollectionView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                    println("Require UIScreenEdgePanGestureRecognizer to failed")
+                    break
+                }
+            }
+        }
 
         // 获取 Dribbble Work，如果必要的话
 
