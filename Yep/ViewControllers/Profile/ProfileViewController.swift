@@ -137,6 +137,8 @@ class ProfileViewController: UIViewController {
 
     var statusBarShouldLight = false
     
+    var noNeedToChangeStatusBar = false
+    
     var isFromConversation = false
 
     var profileUser: ProfileUser?
@@ -444,6 +446,10 @@ class ProfileViewController: UIViewController {
         
         statusBarShouldLight = false
         
+        if noNeedToChangeStatusBar {
+            statusBarShouldLight = true
+        }
+        
         self.setNeedsStatusBarAppearanceUpdate()
     }
 
@@ -460,11 +466,19 @@ class ProfileViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
+        
+        if segue.identifier == "showSkillHome" {
+            noNeedToChangeStatusBar = true
+        } else {
+            noNeedToChangeStatusBar = false
+        }
+        
         if segue.identifier == "showConversation" {
             let vc = segue.destinationViewController as! ConversationViewController
             vc.conversation = sender as! Conversation
             
         } else if segue.identifier == "showSkillHome" {
+            
             if let skillInfo = sender as? [String: AnyObject] {
                 let vc = segue.destinationViewController as! SkillHomeViewController
                 vc.hidesBottomBarWhenPushed = true

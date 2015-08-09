@@ -56,6 +56,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     var isFirstAppear = true
 
     var preferedState: SkillHomeState?
+    
     var state: SkillHomeState = .Master {
         willSet {
             switch newValue {
@@ -79,6 +80,8 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     
     @IBOutlet weak var headerViewHeightLayoutConstraint: NSLayoutConstraint!
     
+    var statusBarShouldLight = true
+    
     var discoveredMasterUsers = [DiscoveredUser]() {
         didSet {
             dispatch_async(dispatch_get_main_queue()) {
@@ -95,6 +98,22 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         }
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        statusBarShouldLight = true
+        
+        self.setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        if statusBarShouldLight {
+            return UIStatusBarStyle.LightContent
+        } else {
+            return UIStatusBarStyle.Default
+        }
+        
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -223,6 +242,10 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         super.viewWillAppear(animated)
 
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        statusBarShouldLight = true
+        
+        self.setNeedsStatusBarAppearanceUpdate()
     }
 
     // MARK: UI
