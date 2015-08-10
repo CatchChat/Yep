@@ -1391,10 +1391,9 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
     if let
         longitude = messageInfo["longitude"] as? Double,
         latitude = messageInfo["latitude"] as? Double {
+
             let coordinate = Coordinate()
-            // 必须保证在合法范围
-            coordinate.longitude = abs(longitude) > 180 ? 0 : longitude
-            coordinate.latitude = abs(latitude) > 90 ? 0 : latitude
+            coordinate.configureWithLatitude(latitude, longitude: longitude)
 
             message.coordinate = coordinate
     }

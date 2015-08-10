@@ -877,10 +877,8 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
             latitude = messageInfo["latitude"] as? Double {
 
                 let coordinate = Coordinate()
-                // 必须保证在合法范围
-                coordinate.longitude = abs(longitude) > 180 ? 0 : longitude
-                coordinate.latitude = abs(latitude) > 90 ? 0 : latitude
-
+                coordinate.configureWithLatitude(latitude, longitude: longitude)
+                
                 message.coordinate = coordinate
         }
 
