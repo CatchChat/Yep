@@ -13,6 +13,7 @@ import RealmSwift
 class EditSkillsViewController: BaseViewController {
 
     var skillSetType: SkillHomeState?
+    var afterChangedSkillsAction: (() -> Void)?
 
     var realm: Realm!
     var me: User?
@@ -110,6 +111,8 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
                 }
 
                 self?.skillsTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+
+                self?.afterChangedSkillsAction?()
 
                 // TODO: server
             }

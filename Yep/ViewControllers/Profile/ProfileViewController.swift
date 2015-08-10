@@ -503,6 +503,10 @@ class ProfileViewController: UIViewController {
                 if let skillSetType = skillInfo["skillSetType"] as? Int {
                     vc.skillSetType = SkillHomeState(rawValue: skillSetType)
                 }
+
+                vc.afterChangedSkillsAction = { [weak self] in
+                    self?.updateProfileCollectionView()
+                }
             }
 
         } else if segue.identifier == "presentOAuth" {
