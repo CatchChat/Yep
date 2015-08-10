@@ -114,11 +114,11 @@ class MessageToolbar: UIToolbar {
 
     var toggleMoreMessagesAction: ((messageToolBar: MessageToolbar) -> Void)?
 
-    var voiceSendBeginAction: ((messageToolBar: MessageToolbar) -> Void)?
+    var voiceRecordBeginAction: ((messageToolBar: MessageToolbar) -> Void)?
     
-    var voiceSendEndAction: ((messageToolBar: MessageToolbar) -> Void)?
+    var voiceRecordEndAction: ((messageToolBar: MessageToolbar) -> Void)?
     
-    var voiceSendCancelAction: ((messageToolBar: MessageToolbar) -> Void)?
+    var voiceRecordCancelAction: ((messageToolBar: MessageToolbar) -> Void)?
 
     var voiceRecordingUpdateUIAction: ((topOffset: CGFloat) -> Void)?
     
@@ -154,19 +154,19 @@ class MessageToolbar: UIToolbar {
         button.tintColor = UIColor.messageToolBarHighlightColor()
 
         button.touchesBegin = { [weak self] in
-            self?.trySendVoiceMessageBegin()
+            self?.tryVoiceRecordBegin()
         }
 
         button.touchesEnded = { [weak self] needAbort in
             if needAbort {
-                self?.trySendVoiceMessageCancel()
+                self?.tryVoiceRecordCancel()
             } else {
-                self?.trySendVoiceMessageEnd()
+                self?.tryVoiceRecordEnd()
             }
         }
 
         button.touchesCancelled = { [weak self] in
-            self?.trySendVoiceMessageCancel()
+            self?.tryVoiceRecordCancel()
         }
 
         button.checkAbort = { [weak self] topOffset in
@@ -342,19 +342,19 @@ class MessageToolbar: UIToolbar {
         }
     }
 
-    func trySendVoiceMessageBegin() {
+    func tryVoiceRecordBegin() {
         voiceRecordButton.backgroundColor = UIColor.lightGrayColor()
-        voiceSendBeginAction?(messageToolBar: self)
+        voiceRecordBeginAction?(messageToolBar: self)
     }
     
-    func trySendVoiceMessageEnd() {
+    func tryVoiceRecordEnd() {
         voiceRecordButton.backgroundColor = UIColor.whiteColor()
-        voiceSendEndAction?(messageToolBar: self)
+        voiceRecordEndAction?(messageToolBar: self)
     }
     
-    func trySendVoiceMessageCancel() {
+    func tryVoiceRecordCancel() {
         voiceRecordButton.backgroundColor = UIColor.whiteColor()
-        voiceSendCancelAction?(messageToolBar: self)
+        voiceRecordCancelAction?(messageToolBar: self)
     }
     
     // Update status

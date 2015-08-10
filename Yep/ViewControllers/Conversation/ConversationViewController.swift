@@ -456,7 +456,7 @@ class ConversationViewController: BaseViewController {
             }
         }
 
-        messageToolbar.voiceSendBeginAction = { [weak self] messageToolbar in
+        messageToolbar.voiceRecordBeginAction = { [weak self] messageToolbar in
 
             YepAudioService.sharedManager.shouldIgnoreStart = false
             
@@ -500,7 +500,7 @@ class ConversationViewController: BaseViewController {
             }
         }
         
-        messageToolbar.voiceSendEndAction = { [weak self] messageToolbar in
+        messageToolbar.voiceRecordEndAction = { [weak self] messageToolbar in
 
             YepAudioService.sharedManager.shouldIgnoreStart = true
             
@@ -523,7 +523,7 @@ class ConversationViewController: BaseViewController {
             sendAudioMessage()
         }
 
-        messageToolbar.voiceSendCancelAction = { [weak self] messageToolbar in
+        messageToolbar.voiceRecordCancelAction = { [weak self] messageToolbar in
             
             self?.swipeUpView.hidden = true
             self?.waverView.removeFromSuperview()
