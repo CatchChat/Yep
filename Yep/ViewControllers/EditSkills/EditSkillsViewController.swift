@@ -37,6 +37,9 @@ class EditSkillsViewController: BaseViewController {
         skillsTableView.separatorInset = separatorInset
 
         skillsTableView.registerNib(UINib(nibName: editSkillCellID, bundle: nil), forCellReuseIdentifier: editSkillCellID)
+
+
+        addSkillsView.title = NSLocalizedString("Add Skills", comment: "")
     }
 }
 
