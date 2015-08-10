@@ -11,7 +11,12 @@ import Ruler
 
 class EditSkillCell: UITableViewCell {
 
-    var removeSkillAction: (() -> Void)?
+    var userSkill: UserSkill? {
+        didSet {
+            skillLabel.text = userSkill?.localName
+        }
+    }
+    var removeSkillAction: (UserSkill -> Void)?
 
     @IBOutlet weak var skillLabel: UILabel!
     @IBOutlet weak var skillLabelLeadingConstraint: NSLayoutConstraint!
@@ -38,7 +43,9 @@ class EditSkillCell: UITableViewCell {
     // MARK: Actions
 
     func tryRemoveSkill() {
-        removeSkillAction?()
+        if let userSkill = userSkill {
+            removeSkillAction?(userSkill)
+        }
     }
     
 }

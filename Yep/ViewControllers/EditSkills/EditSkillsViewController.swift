@@ -90,21 +90,11 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
 
-        cell.skillLabel.text = userSkill?.localName
+        cell.userSkill = userSkill
 
-        cell.removeSkillAction = { [weak self] in
+        cell.removeSkillAction = { [weak self] userSkill in
 
             if let me = self?.me, skillSet = self?.skillSet {
-
-                let userSkill: UserSkill
-
-                switch skillSet {
-                case .Master:
-                    userSkill = me.masterSkills[indexPath.row]
-
-                case .Learning:
-                    userSkill = me.learningSkills[indexPath.row]
-                }
 
                 // delete from Server
 
@@ -114,13 +104,25 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
                     println("deleteSkill \(skillLocalName) from \(skillSet): \(success)")
                 })
 
+                // 不能直接捕捉 indexPath，不然删除一个后，再删除后面的 Skill 时 indexPath 就不对了
+                var rowToDelete: Int?
+                switch skillSet {
+                case .Master:
+                    rowToDelete = me.masterSkills.indexOf(userSkill)
+                case .Learning:
+                    rowToDelete = me.learningSkills.indexOf(userSkill)
+                }
+
                 // delete from local
 
                 self?.realm.write {
                     self?.realm.delete(userSkill)
                 }
 
-                self?.skillsTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                if let rowToDelete = rowToDelete {
+                    let indexPathToDelete = NSIndexPath(forRow: rowToDelete, inSection: 0)
+                    self?.skillsTableView.deleteRowsAtIndexPaths([indexPathToDelete], withRowAnimation: .Automatic)
+                }
 
                 // update Profile's UI
 
