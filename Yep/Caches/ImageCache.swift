@@ -155,6 +155,9 @@ class ImageCache {
 
                 let fileName = message.localAttachmentName
 
+                let latitude = coordinate.latitude
+                let longitude = coordinate.longitude
+
                 dispatch_async(self.cacheQueue) {
 
                     // 再看看是否已有地图图片文件
@@ -182,7 +185,7 @@ class ImageCache {
                     options.scale = UIScreen.mainScreen().scale
                     options.size = size
 
-                    let locationCoordinate = CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude)
+                    let locationCoordinate = CLLocationCoordinate2DMake(latitude, longitude)
                     options.region = MKCoordinateRegionMakeWithDistance(locationCoordinate, 500, 500)
 
                     let mapSnapshotter = MKMapSnapshotter(options: options)
@@ -215,6 +218,7 @@ class ImageCache {
                                 if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
 
                                     dispatch_async(dispatch_get_main_queue()) {
+                                        
                                         if let realm = message.realm {
                                             realm.write {
                                                 message.localAttachmentName = fileName
