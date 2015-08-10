@@ -1651,9 +1651,16 @@ func markAsReadMessage(message: Message ,#failureHandler: ((Reason, String?) -> 
     if message.messageID.isEmpty {
         return
     }
+
+    // 来自官方账号的消息不用 mark as read
+    if let user = message.fromFriend {
+        if user.friendState == UserFriendState.Yep.rawValue {
+            return
+        }
+    }
     
     let state = UIApplication.sharedApplication().applicationState
-    if state == UIApplicationState.Background || state == UIApplicationState.Inactive {
+    if state != .Active {
         return
     }
 
