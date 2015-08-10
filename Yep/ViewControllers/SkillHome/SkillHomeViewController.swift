@@ -79,6 +79,8 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     @IBOutlet weak var headerView: SkillHomeHeaderView!
     
     @IBOutlet weak var headerViewHeightLayoutConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var statusBarShouldLight = true
     
@@ -286,19 +288,35 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     }
 
     func discoverUserBySkillID(skillID: String) {
+
+        activityIndicator.startAnimating()
         
-        discoverUsers(masterSkillIDs: [skillID], learningSkillIDs: [], discoveredUserSortStyle: .LastSignIn, failureHandler: { (reason, errorMessage) in
+        discoverUsers(masterSkillIDs: [skillID], learningSkillIDs: [], discoveredUserSortStyle: .LastSignIn, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage)
+
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.activityIndicator.stopAnimating()
+            }
             
-        }, completion: { discoveredUsers in
-            self.discoveredMasterUsers = discoveredUsers
+        }, completion: { [weak self] discoveredUsers in
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.discoveredMasterUsers = discoveredUsers
+                self?.activityIndicator.stopAnimating()
+            }
         })
         
-        discoverUsers(masterSkillIDs: [], learningSkillIDs: [skillID], discoveredUserSortStyle: .LastSignIn, failureHandler: { (reason, errorMessage) in
+        discoverUsers(masterSkillIDs: [], learningSkillIDs: [skillID], discoveredUserSortStyle: .LastSignIn, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage)
+
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.activityIndicator.stopAnimating()
+            }
             
-        }, completion: { discoveredUsers in
-            self.discoveredLearningUsers = discoveredUsers
+        }, completion: { [weak self] discoveredUsers in
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.discoveredLearningUsers = discoveredUsers
+                self?.activityIndicator.stopAnimating()
+            }
         })
     }
 

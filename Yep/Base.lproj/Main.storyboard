@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="15A235d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -126,7 +126,7 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Choose photo"/>
                                         </userDefinedRuntimeAttributes>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HcA-7v-16m" userLabel="Take Photo Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HcA-7v-16m" userLabel="Take Photo Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
                                         <rect key="frame" x="213" y="20" width="174" height="260"/>
                                         <animations/>
                                         <state key="normal">
@@ -611,6 +611,9 @@
                                     <constraint firstAttribute="height" constant="80" id="xjD-5X-wSy"/>
                                 </constraints>
                             </imageView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Y6t-fN-Z4c">
+                                <rect key="frame" x="290" y="280" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -618,6 +621,7 @@
                             <constraint firstItem="Qu8-bN-78f" firstAttribute="top" secondItem="cmT-Gk-qyV" secondAttribute="bottom" id="2yo-3H-MMt"/>
                             <constraint firstItem="IIx-oj-clN" firstAttribute="top" secondItem="Qu8-bN-78f" secondAttribute="bottom" id="7BO-hR-582"/>
                             <constraint firstItem="cmT-Gk-qyV" firstAttribute="leading" secondItem="EQO-b7-KgY" secondAttribute="leading" id="9To-eb-Bk6"/>
+                            <constraint firstAttribute="centerX" secondItem="Y6t-fN-Z4c" secondAttribute="centerX" id="Nzv-iZ-hOt"/>
                             <constraint firstAttribute="trailing" secondItem="cmT-Gk-qyV" secondAttribute="trailing" id="XdR-Xa-qcN"/>
                             <constraint firstAttribute="trailing" secondItem="nqy-s8-NRi" secondAttribute="trailing" id="ZAL-7z-1Wu"/>
                             <constraint firstItem="nqy-s8-NRi" firstAttribute="top" secondItem="EQO-b7-KgY" secondAttribute="top" id="d5F-4m-aF6"/>
@@ -627,6 +631,7 @@
                             <constraint firstItem="Qu8-bN-78f" firstAttribute="bottom" secondItem="cmT-Gk-qyV" secondAttribute="bottom" id="hfd-P8-W1D"/>
                             <constraint firstItem="IIx-oj-clN" firstAttribute="top" secondItem="Qu8-bN-78f" secondAttribute="bottom" id="jVI-TZ-cD2"/>
                             <constraint firstAttribute="bottom" secondItem="Qu8-bN-78f" secondAttribute="bottom" id="oIq-g3-DaC"/>
+                            <constraint firstItem="Qu8-bN-78f" firstAttribute="top" secondItem="Y6t-fN-Z4c" secondAttribute="top" constant="-120" id="uQR-tY-moQ"/>
                             <constraint firstItem="cmT-Gk-qyV" firstAttribute="top" secondItem="EQO-b7-KgY" secondAttribute="top" id="xdi-it-jhR"/>
                         </constraints>
                         <variation key="default">
@@ -638,6 +643,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="Y6t-fN-Z4c" id="ZKT-id-rMF"/>
                         <outlet property="headerView" destination="cmT-Gk-qyV" id="f7f-b5-C3d"/>
                         <outlet property="headerViewHeightLayoutConstraint" destination="zQ8-r2-xvU" id="X8C-Td-b6p"/>
                         <outlet property="skillHomeScrollView" destination="Qu8-bN-78f" id="cIm-yb-8GU"/>
@@ -1737,8 +1743,8 @@
         <image name="top_shadow" width="375" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="6No-Lc-7X4"/>
         <segue reference="0bS-uM-LPI"/>
-        <segue reference="hTj-2y-9h4"/>
+        <segue reference="6No-Lc-7X4"/>
+        <segue reference="Snz-CT-4aa"/>
     </inferredMetricsTieBreakers>
 </document>
