@@ -8,10 +8,12 @@
 
 import UIKit
 import Ruler
+import RealmSwift
 
 class EditSkillsViewController: BaseViewController {
 
     var skillSetType: SkillHomeState?
+    var me: User?
 
     @IBOutlet weak var skillsTableView: UITableView!
 
@@ -42,7 +44,14 @@ class EditSkillsViewController: BaseViewController {
 
         addSkillsView.title = NSLocalizedString("Add Skills", comment: "")
 
-        println(skillSetType?.rawValue)
+
+        let realm = Realm()
+
+        if let
+            myUserID = YepUserDefaults.userID.value,
+            me = userWithUserID(myUserID, inRealm: realm) {
+                self.me = me
+        }
     }
 }
 
@@ -51,14 +60,34 @@ class EditSkillsViewController: BaseViewController {
 extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 15
+
+        if let me = me, skillSetType = skillSetType {
+            switch skillSetType {
+            case .Master:
+                return me.masterSkills.count
+            case .Learning:
+                return me.learningSkills.count
+            }
+        }
+
+        return 0
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCellWithIdentifier(editSkillCellID) as! EditSkillCell
 
-        cell.skillLabel.text = "Skill"
+        var userSkill: UserSkill?
+        if let me = me, skillSetType = skillSetType {
+            switch skillSetType {
+            case .Master:
+                userSkill = me.masterSkills[indexPath.row]
+            case .Learning:
+                userSkill = me.learningSkills[indexPath.row]
+            }
+        }
+
+        cell.skillLabel.text = userSkill?.localName
 
         return cell
     }
