@@ -209,7 +209,6 @@ class ConversationViewController: BaseViewController {
         }
 
         swipeUpView.hidden = true
-        swipeUpPromptLabel.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
 
 
         makePullToRefreshView()
@@ -464,6 +463,8 @@ class ConversationViewController: BaseViewController {
             if let strongSelf = self {
 
                 strongSelf.view.addSubview(strongSelf.waverView)
+
+                strongSelf.swipeUpPromptLabel.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
                 strongSelf.swipeUpView.hidden = false
                 strongSelf.view.bringSubviewToFront(strongSelf.swipeUpView)
 

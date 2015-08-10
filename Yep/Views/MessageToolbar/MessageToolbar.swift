@@ -170,7 +170,7 @@ class MessageToolbar: UIToolbar {
         }
 
         button.checkAbort = { [weak self] topOffset in
-            self?.voiceSendMayCancelAction?(topOffset: topOffset)
+            self?.voiceRecordingUpdateUIAction?(topOffset: topOffset)
 
             return topOffset > 40
         }
