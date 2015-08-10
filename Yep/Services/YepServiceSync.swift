@@ -876,11 +876,12 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
             longitude = messageInfo["longitude"] as? Double,
             latitude = messageInfo["latitude"] as? Double {
 
-                let newCoordinate = Coordinate()
-                newCoordinate.longitude = longitude
-                newCoordinate.latitude = latitude
+                let coordinate = Coordinate()
+                // 必须保证在合法范围
+                coordinate.longitude = abs(longitude) > 180 ? 0 : longitude
+                coordinate.latitude = abs(latitude) > 90 ? 0 : latitude
 
-                message.coordinate = newCoordinate
+                message.coordinate = coordinate
         }
 
         if let attachments = messageInfo["attachments"] as? [JSONDictionary] {

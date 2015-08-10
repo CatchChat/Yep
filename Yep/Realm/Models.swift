@@ -192,8 +192,8 @@ class Group: Object {
 // MARK: Message
 
 class Coordinate: Object {
-    dynamic var latitude: Double = 0
-    dynamic var longitude: Double = 0
+    dynamic var latitude: Double = 0    // 合法范围 (-90, 90)
+    dynamic var longitude: Double = 0   // 合法范围 (-180, 180)
 }
 
 enum MessageDownloadState: Int {
