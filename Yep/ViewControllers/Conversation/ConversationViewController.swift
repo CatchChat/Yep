@@ -82,7 +82,8 @@ class ConversationViewController: BaseViewController {
     @IBOutlet weak var addLocationButton: MessageTypeButton!
 
     @IBOutlet weak var swipeUpView: UIView!
-
+    @IBOutlet weak var swipeUpPromptLabel: UILabel!
+    
     lazy var menuDirectionUpThreshold: CGFloat = {
         return self.topBarsHeight + 60
         }()
@@ -208,6 +209,8 @@ class ConversationViewController: BaseViewController {
         }
 
         swipeUpView.hidden = true
+        swipeUpPromptLabel.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
+
 
         makePullToRefreshView()
 
@@ -496,16 +499,6 @@ class ConversationViewController: BaseViewController {
             }
         }
         
-        messageToolbar.voiceSendCancelAction = { [weak self] messageToolbar in
-            
-            self?.swipeUpView.hidden = true
-            self?.waverView.removeFromSuperview()
-
-            YepAudioService.sharedManager.endRecord()
-
-            YepAudioService.sharedManager.recordTimeoutAction = nil
-        }
-
         messageToolbar.voiceSendEndAction = { [weak self] messageToolbar in
 
             YepAudioService.sharedManager.shouldIgnoreStart = true
@@ -527,6 +520,29 @@ class ConversationViewController: BaseViewController {
             interruptAudioRecord()
 
             sendAudioMessage()
+        }
+
+        messageToolbar.voiceSendCancelAction = { [weak self] messageToolbar in
+            
+            self?.swipeUpView.hidden = true
+            self?.waverView.removeFromSuperview()
+
+            YepAudioService.sharedManager.endRecord()
+
+            YepAudioService.sharedManager.recordTimeoutAction = nil
+        }
+
+        messageToolbar.voiceRecordingUpdateUIAction = { [weak self] topOffset in
+
+            let text: String
+
+            if topOffset > 40 {
+                text = NSLocalizedString("Release to Cancel", comment: "")
+            } else {
+                text = NSLocalizedString("Swipe Up to Cancel", comment: "")
+            }
+
+            self?.swipeUpPromptLabel.text = text
         }
 
         // MARK: MessageToolbar State Transitions

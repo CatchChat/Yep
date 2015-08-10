@@ -193,6 +193,7 @@
                         <outlet property="messageToolbar" destination="Q0w-sM-iIR" id="vmQ-s1-SlQ"/>
                         <outlet property="messageToolbarBottomConstraint" destination="Sf8-1u-t01" id="f02-ze-rKh"/>
                         <outlet property="moreMessageTypesViewHeightConstraint" destination="faf-Xw-b0H" id="wNA-e7-3wx"/>
+                        <outlet property="swipeUpPromptLabel" destination="Zew-F7-znc" id="4qL-BA-cWR"/>
                         <outlet property="swipeUpView" destination="Gu7-gn-2ia" id="C4f-tg-leq"/>
                         <outlet property="takePhotoButton" destination="HcA-7v-16m" id="yfB-gA-lxG"/>
                         <segue destination="f92-fs-zdh" kind="presentation" identifier="presentMessageMedia" id="esY-9F-IrH"/>

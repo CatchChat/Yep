@@ -119,6 +119,8 @@ class MessageToolbar: UIToolbar {
     var voiceSendEndAction: ((messageToolBar: MessageToolbar) -> Void)?
     
     var voiceSendCancelAction: ((messageToolBar: MessageToolbar) -> Void)?
+
+    var voiceRecordingUpdateUIAction: ((topOffset: CGFloat) -> Void)?
     
     lazy var micButton: UIButton = {
         let button = UIButton()
@@ -168,6 +170,8 @@ class MessageToolbar: UIToolbar {
         }
 
         button.checkAbort = { [weak self] topOffset in
+            self?.voiceSendMayCancelAction?(topOffset: topOffset)
+
             return topOffset > 40
         }
 
