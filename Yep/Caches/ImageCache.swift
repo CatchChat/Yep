@@ -156,8 +156,8 @@ class ImageCache {
 
                 let fileName = message.localAttachmentName
 
-                let latitude = coordinate.latitude
-                let longitude = coordinate.longitude
+                let latitude: CLLocationDegrees = abs(coordinate.latitude) > 90 ? 0 : coordinate.latitude
+                let longitude:CLLocationDegrees = abs(coordinate.longitude) > 180 ? 0 : coordinate.longitude
 
                 dispatch_async(self.cacheQueue) {
 
@@ -187,6 +187,7 @@ class ImageCache {
                     options.size = size
 
                     let locationCoordinate = CLLocationCoordinate2DMake(latitude, longitude)
+                    // 注意上面已保证 latitude: (-90, 90), longitude: (-180, 180)，不然 setRegion 会崩溃
                     options.region = MKCoordinateRegionMakeWithDistance(locationCoordinate, 500, 500)
 
                     let mapSnapshotter = MKMapSnapshotter(options: options)
