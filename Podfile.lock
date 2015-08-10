@@ -58,7 +58,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   MZFayeClient:
-    :path: ../CatchLib-iOS/MZFayeClient/
+    :path: "../CatchLib-iOS/MZFayeClient/"
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
