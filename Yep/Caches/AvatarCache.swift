@@ -14,7 +14,8 @@ class AvatarCache {
     static let sharedInstance = AvatarCache()
 
     let cache = NSCache()
-    let cacheQueue = dispatch_queue_create("AvatarCacheQueue", DISPATCH_QUEUE_CONCURRENT)
+    //let cacheQueue = dispatch_queue_create("AvatarCacheQueue", DISPATCH_QUEUE_CONCURRENT)
+    let cacheQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
 
 //    func roundImageNamed(name: String, ofRadius radius: CGFloat) -> UIImage {
 //        let roundImageKey = "round-\(name)-\(radius)"
