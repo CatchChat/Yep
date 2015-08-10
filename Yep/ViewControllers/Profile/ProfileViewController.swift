@@ -155,7 +155,7 @@ class ProfileViewController: UIViewController {
                     sayHiView.hidden = true
 
                 } else {
-                    sayHiView.sayHiAction = {
+                    sayHiView.tapAction = {
                         self.sayHi()
                     }
 
@@ -175,7 +175,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var topShadowImageView: UIImageView!
     @IBOutlet weak var profileCollectionView: UICollectionView!
 
-    @IBOutlet weak var sayHiView: SayHiView!
+    @IBOutlet weak var sayHiView: BottomButtonView!
 
     var customNavigationBar: UINavigationBar!
 

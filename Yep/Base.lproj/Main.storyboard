@@ -485,7 +485,7 @@
                                     <outlet property="delegate" destination="AyC-pt-NR2" id="j2k-7a-66r"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sfC-fv-gcr" userLabel="Say Hi View" customClass="SayHiView" customModule="Yep" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sfC-fv-gcr" userLabel="Say Hi View" customClass="BottomButtonView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="550" width="600" height="50"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
