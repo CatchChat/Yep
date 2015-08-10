@@ -1525,9 +1525,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="aSS-Di-NEb">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="aSS-Di-NEb">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="ICA-Fn-Rb3" id="D89-9M-ukR"/>
                                     <outlet property="delegate" destination="ICA-Fn-Rb3" id="lnI-QW-BOm"/>
@@ -1547,10 +1547,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="fRW-MD-TyJ" firstAttribute="leading" secondItem="NwL-G1-Svh" secondAttribute="leading" id="6wF-xo-r8S"/>
-                            <constraint firstItem="m99-Xb-VWt" firstAttribute="top" secondItem="fRW-MD-TyJ" secondAttribute="bottom" id="HWJ-2h-bFf"/>
                             <constraint firstItem="aSS-Di-NEb" firstAttribute="top" secondItem="NwL-G1-Svh" secondAttribute="top" id="HhR-N9-Rga"/>
                             <constraint firstItem="aSS-Di-NEb" firstAttribute="leading" secondItem="NwL-G1-Svh" secondAttribute="leading" id="K0Q-Yb-DAK"/>
                             <constraint firstAttribute="trailing" secondItem="fRW-MD-TyJ" secondAttribute="trailing" id="Ks2-xR-27B"/>
+                            <constraint firstAttribute="bottom" secondItem="fRW-MD-TyJ" secondAttribute="bottom" id="YYM-32-oCJ"/>
                             <constraint firstAttribute="bottom" secondItem="aSS-Di-NEb" secondAttribute="bottom" id="ftc-Hg-aNq"/>
                             <constraint firstAttribute="trailing" secondItem="aSS-Di-NEb" secondAttribute="trailing" id="sxZ-hZ-dcC"/>
                         </constraints>

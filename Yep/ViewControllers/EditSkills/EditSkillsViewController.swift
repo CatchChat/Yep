@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Ruler
 
 class EditSkillsViewController: BaseViewController {
 
@@ -15,6 +16,8 @@ class EditSkillsViewController: BaseViewController {
 
     @IBOutlet weak var addSkillsView: BottomButtonView!
 
+
+    let editSkillCellID = "EditSkillCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +29,14 @@ class EditSkillsViewController: BaseViewController {
         var contentInset = skillsTableView.contentInset
         contentInset.bottom = addSkillsView.frame.height
         skillsTableView.contentInset = contentInset
+
+        skillsTableView.rowHeight = 60
+
+        var separatorInset = skillsTableView.separatorInset
+        separatorInset.left = Ruler.match(.iPhoneWidths(15, 20, 25))
+        skillsTableView.separatorInset = separatorInset
+
+        skillsTableView.registerNib(UINib(nibName: editSkillCellID, bundle: nil), forCellReuseIdentifier: editSkillCellID)
     }
 }
 
@@ -39,9 +50,9 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let cell = UITableViewCell()
+        let cell = tableView.dequeueReusableCellWithIdentifier(editSkillCellID) as! EditSkillCell
 
-        cell.textLabel?.text = "Hello"
+        cell.skillLabel.text = "Skill"
 
         return cell
     }
