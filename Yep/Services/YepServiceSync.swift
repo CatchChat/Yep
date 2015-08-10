@@ -877,7 +877,7 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
             latitude = messageInfo["latitude"] as? Double {
 
                 let coordinate = Coordinate()
-                coordinate.configureWithLatitude(latitude, longitude: longitude)
+                coordinate.safeConfigureWithLatitude(latitude, longitude: longitude)
                 
                 message.coordinate = coordinate
         }

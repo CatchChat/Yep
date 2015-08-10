@@ -1393,7 +1393,7 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
         latitude = messageInfo["latitude"] as? Double {
 
             let coordinate = Coordinate()
-            coordinate.configureWithLatitude(latitude, longitude: longitude)
+            coordinate.safeConfigureWithLatitude(latitude, longitude: longitude)
 
             message.coordinate = coordinate
     }

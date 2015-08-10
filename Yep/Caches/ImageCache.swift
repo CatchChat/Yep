@@ -157,8 +157,8 @@ class ImageCache {
                 let fileName = message.localAttachmentName
 
                 // 再保证一次，防止旧消息导致错误
-                let latitude: CLLocationDegrees = abs(coordinate.latitude) > 90 ? 0 : coordinate.latitude
-                let longitude: CLLocationDegrees = abs(coordinate.longitude) > 180 ? 0 : coordinate.longitude 
+                let latitude: CLLocationDegrees = coordinate.safeLatitude
+                let longitude: CLLocationDegrees = coordinate.safeLongitude
 
                 dispatch_async(self.cacheQueue) {
 

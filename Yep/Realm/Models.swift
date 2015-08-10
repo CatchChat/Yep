@@ -195,7 +195,16 @@ class Coordinate: Object {
     dynamic var latitude: Double = 0    // 合法范围 (-90, 90)
     dynamic var longitude: Double = 0   // 合法范围 (-180, 180)
 
-    func configureWithLatitude(latitude: Double, longitude: Double) {
+    // NOTICE: always use safe version property
+    
+    var safeLatitude: Double {
+        return abs(latitude) > 90 ? 0 : latitude
+    }
+    var safeLongitude: Double {
+        return abs(longitude) > 180 ? 0 : longitude
+    }
+
+    func safeConfigureWithLatitude(latitude: Double, longitude: Double) {
         self.latitude = abs(latitude) > 90 ? 0 : latitude
         self.longitude = abs(longitude) > 180 ? 0 : longitude
     }
