@@ -293,13 +293,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k4j-Ub-3bn" customClass="MediaView" customModule="Yep" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k4j-Ub-3bn" customClass="MediaView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Cb-zQ-dUZ" customClass="MediaControlView" customModule="Yep" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Cb-zQ-dUZ" customClass="MediaControlView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="491" width="600" height="60"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -763,7 +763,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="g8U-pG-JhU">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="sds-Gw-1Sf" id="TjN-Oa-tEx"/>
                                     <outlet property="delegate" destination="sds-Gw-1Sf" id="XFJ-wF-OcC"/>
@@ -961,7 +961,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="Wph-To-rdc">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="i7X-gi-DRa" id="lWu-Rs-drq"/>
                                     <outlet property="delegate" destination="i7X-gi-DRa" id="b1t-Qd-axe"/>
@@ -1073,7 +1073,7 @@
                                 <rect key="frame" x="208" y="104" width="185" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="fVo-Zl-gHQ">
@@ -1516,7 +1516,7 @@
         <!--Edit Skills View Controller-->
         <scene sceneID="7wR-Xl-TQJ">
             <objects>
-                <viewController storyboardIdentifier="EditSkillsViewController" id="ICA-Fn-Rb3" customClass="EditSkillsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EditSkillsViewController" hidesBottomBarWhenPushed="YES" id="ICA-Fn-Rb3" customClass="EditSkillsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sdM-ou-deE"/>
                         <viewControllerLayoutGuide type="bottom" id="m99-Xb-VWt"/>
@@ -1524,8 +1524,41 @@
                     <view key="view" contentMode="scaleToFill" id="NwL-G1-Svh">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="aSS-Di-NEb">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="ICA-Fn-Rb3" id="D89-9M-ukR"/>
+                                    <outlet property="delegate" destination="ICA-Fn-Rb3" id="lnI-QW-BOm"/>
+                                </connections>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRW-MD-TyJ" customClass="BottomButtonView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="550" width="600" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="zmq-07-9Xv"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="title" value="Add Skills"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fRW-MD-TyJ" firstAttribute="leading" secondItem="NwL-G1-Svh" secondAttribute="leading" id="6wF-xo-r8S"/>
+                            <constraint firstItem="m99-Xb-VWt" firstAttribute="top" secondItem="fRW-MD-TyJ" secondAttribute="bottom" id="HWJ-2h-bFf"/>
+                            <constraint firstItem="aSS-Di-NEb" firstAttribute="top" secondItem="NwL-G1-Svh" secondAttribute="top" id="HhR-N9-Rga"/>
+                            <constraint firstItem="aSS-Di-NEb" firstAttribute="leading" secondItem="NwL-G1-Svh" secondAttribute="leading" id="K0Q-Yb-DAK"/>
+                            <constraint firstAttribute="trailing" secondItem="fRW-MD-TyJ" secondAttribute="trailing" id="Ks2-xR-27B"/>
+                            <constraint firstAttribute="bottom" secondItem="aSS-Di-NEb" secondAttribute="bottom" id="ftc-Hg-aNq"/>
+                            <constraint firstAttribute="trailing" secondItem="aSS-Di-NEb" secondAttribute="trailing" id="sxZ-hZ-dcC"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="addSkillsView" destination="fRW-MD-TyJ" id="bcQ-C1-7s7"/>
+                        <outlet property="skillsTableView" destination="aSS-Di-NEb" id="QZt-Sf-d5e"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J1d-tB-xXN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
