@@ -11,6 +11,7 @@ import Ruler
 
 class EditSkillCell: UITableViewCell {
 
+    var removeSkillAction: (() -> Void)?
 
     @IBOutlet weak var skillLabel: UILabel!
     @IBOutlet weak var skillLabelLeadingConstraint: NSLayoutConstraint!
@@ -24,12 +25,20 @@ class EditSkillCell: UITableViewCell {
 
         skillLabelLeadingConstraint.constant = Ruler.match(.iPhoneWidths(15, 20, 25))
         removeButtonTrailingConstraint.constant = Ruler.match(.iPhoneWidths(15, 20, 25))
+
+        removeButton.addTarget(self, action: "tryRemoveSkill", forControlEvents: .TouchUpInside)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+
+    // MARK: Actions
+
+    func tryRemoveSkill() {
+        removeSkillAction?()
     }
     
 }

@@ -13,6 +13,8 @@ import RealmSwift
 class EditSkillsViewController: BaseViewController {
 
     var skillSetType: SkillHomeState?
+
+    var realm: Realm!
     var me: User?
 
     @IBOutlet weak var skillsTableView: UITableView!
@@ -45,7 +47,7 @@ class EditSkillsViewController: BaseViewController {
         addSkillsView.title = NSLocalizedString("Add Skills", comment: "")
 
 
-        let realm = Realm()
+        realm = Realm()
 
         if let
             myUserID = YepUserDefaults.userID.value,
@@ -88,6 +90,30 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         cell.skillLabel.text = userSkill?.localName
+
+        cell.removeSkillAction = { [weak self] in
+
+            if let me = self?.me, skillSetType = self?.skillSetType {
+
+                let userSkill: UserSkill
+
+                switch skillSetType {
+                case .Master:
+                    userSkill = me.masterSkills[indexPath.row]
+
+                case .Learning:
+                    userSkill = me.learningSkills[indexPath.row]
+                }
+
+                self?.realm.write {
+                    self?.realm.delete(userSkill)
+                }
+
+                self?.skillsTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+
+                // TODO: server
+            }
+        }
 
         return cell
     }
