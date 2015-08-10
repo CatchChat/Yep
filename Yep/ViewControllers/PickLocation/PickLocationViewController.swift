@@ -303,14 +303,28 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
         case Section.Placemarks.rawValue:
             cell.iconImageView.hidden = true
             let placemark = placemarks[indexPath.row]
-            cell.locationLabel.text = placemark.subLocality + " " + placemark.thoroughfare
+
+            var text = ""
+            if let subLocality = placemark.subLocality {
+                text += subLocality
+            }
+            if let thoroughfare = placemark.thoroughfare {
+                text += " " + thoroughfare
+            }
+            cell.locationLabel.text = text
+
             cell.checkImageView.hidden = true
 
         case Section.SearchedLocation.rawValue:
             cell.iconImageView.hidden = false
             cell.iconImageView.image = UIImage(named: "icon_pin")
-            let placemark = self.searchedMapItems[indexPath.row].placemark
-            cell.locationLabel.text = placemark.name
+
+            if let placemark = self.searchedMapItems[indexPath.row].placemark {
+                cell.locationLabel.text = placemark.name ?? ""
+            } else {
+                cell.locationLabel.text = ""
+            }
+
             cell.checkImageView.hidden = true
 
         default:
