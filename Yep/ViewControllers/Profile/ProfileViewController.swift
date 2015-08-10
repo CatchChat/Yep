@@ -500,8 +500,8 @@ class ProfileViewController: UIViewController {
 
                 let vc = segue.destinationViewController as! EditSkillsViewController
 
-                if let skillSetType = skillInfo["skillSetType"] as? Int {
-                    vc.skillSetType = SkillHomeState(rawValue: skillSetType)
+                if let skillSet = skillInfo["skillSet"] as? Int {
+                    vc.skillSet = SkillSet(rawValue: skillSet)
                 }
 
                 vc.afterChangedSkillsAction = { [weak self] in
@@ -1047,21 +1047,21 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                 header.tapAction = { [weak self] in
 
-                    let skillSetType: SkillHomeState
+                    let skillSet: SkillSet
 
                     switch indexPath.section {
 
                     case ProfileSection.Master.rawValue:
-                        skillSetType = .Master
+                        skillSet = .Master
 
                     case ProfileSection.Learning.rawValue:
-                        skillSetType = .Learning
+                        skillSet = .Learning
 
                     default:
-                        skillSetType = .Master
+                        skillSet = .Master
                     }
 
-                    self?.performSegueWithIdentifier("showEditSkills", sender: ["skillSetType": skillSetType.rawValue])
+                    self?.performSegueWithIdentifier("showEditSkills", sender: ["skillSet": skillSet.rawValue])
                 }
 
                 /*

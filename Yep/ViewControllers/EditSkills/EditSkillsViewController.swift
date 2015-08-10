@@ -12,7 +12,7 @@ import RealmSwift
 
 class EditSkillsViewController: BaseViewController {
 
-    var skillSetType: SkillHomeState?
+    var skillSet: SkillSet?
     var afterChangedSkillsAction: (() -> Void)?
 
     var realm: Realm!
@@ -64,8 +64,8 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        if let me = me, skillSetType = skillSetType {
-            switch skillSetType {
+        if let me = me, skillSet = skillSet {
+            switch skillSet {
             case .Master:
                 return me.masterSkills.count
             case .Learning:
@@ -81,8 +81,8 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier(editSkillCellID) as! EditSkillCell
 
         var userSkill: UserSkill?
-        if let me = me, skillSetType = skillSetType {
-            switch skillSetType {
+        if let me = me, skillSet = skillSet {
+            switch skillSet {
             case .Master:
                 userSkill = me.masterSkills[indexPath.row]
             case .Learning:
@@ -94,11 +94,11 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.removeSkillAction = { [weak self] in
 
-            if let me = self?.me, skillSetType = self?.skillSetType {
+            if let me = self?.me, skillSet = self?.skillSet {
 
                 let userSkill: UserSkill
 
-                switch skillSetType {
+                switch skillSet {
                 case .Master:
                     userSkill = me.masterSkills[indexPath.row]
 
@@ -106,15 +106,25 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
                     userSkill = me.learningSkills[indexPath.row]
                 }
 
+                // delete from Server
+
+                let skillLocalName = userSkill.localName
+
+                deleteSkillWithID(userSkill.skillID, fromSkillSet: skillSet, failureHandler: nil, completion: { success in
+                    println("deleteSkill \(skillLocalName) from \(skillSet): \(success)")
+                })
+
+                // delete from local
+
                 self?.realm.write {
                     self?.realm.delete(userSkill)
                 }
 
                 self?.skillsTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
 
-                self?.afterChangedSkillsAction?()
+                // update Profile's UI
 
-                // TODO: server
+                self?.afterChangedSkillsAction?()
             }
         }
 
