@@ -11,6 +11,7 @@ import Ruler
 
 class EditSkillsViewController: BaseViewController {
 
+    var skillSetType: SkillHomeState?
 
     @IBOutlet weak var skillsTableView: UITableView!
 
@@ -40,6 +41,8 @@ class EditSkillsViewController: BaseViewController {
 
 
         addSkillsView.title = NSLocalizedString("Add Skills", comment: "")
+
+        println(skillSetType?.rawValue)
     }
 }
 

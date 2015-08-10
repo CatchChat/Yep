@@ -494,6 +494,17 @@ class ProfileViewController: UIViewController {
                 }
             }
 
+        } else if segue.identifier == "showEditSkills" {
+
+            if let skillInfo = sender as? [String: AnyObject] {
+
+                let vc = segue.destinationViewController as! EditSkillsViewController
+
+                if let skillSetType = skillInfo["skillSetType"] as? Int {
+                    vc.skillSetType = SkillHomeState(rawValue: skillSetType)
+                }
+            }
+
         } else if segue.identifier == "presentOAuth" {
             if let providerName = sender as? String {
                 let nvc = segue.destinationViewController as! UINavigationController
@@ -1031,7 +1042,22 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             if profileUserIsMe {
 
                 header.tapAction = { [weak self] in
-                    self?.performSegueWithIdentifier("showEditSkills", sender: nil)
+
+                    let skillSetType: SkillHomeState
+
+                    switch indexPath.section {
+
+                    case ProfileSection.Master.rawValue:
+                        skillSetType = .Master
+
+                    case ProfileSection.Learning.rawValue:
+                        skillSetType = .Learning
+
+                    default:
+                        skillSetType = .Master
+                    }
+
+                    self?.performSegueWithIdentifier("showEditSkills", sender: ["skillSetType": skillSetType.rawValue])
                 }
 
                 /*
