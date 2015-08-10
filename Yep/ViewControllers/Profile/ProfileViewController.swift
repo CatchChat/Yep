@@ -1030,6 +1030,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             if profileUserIsMe {
 
+                header.tapAction = { [weak self] in
+                    self?.performSegueWithIdentifier("showEditSkills", sender: nil)
+                }
+
+                /*
                 header.tapAction = {
                     let storyboard = UIStoryboard(name: "Intro", bundle: nil)
                     let pickSkillsController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickSkillsViewController") as! RegisterPickSkillsViewController
@@ -1048,7 +1053,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     }
 
                     self.navigationController?.pushViewController(pickSkillsController, animated: true)
-                }
+                }*/
 
             } else {
                 header.accessoryImageView.hidden = true

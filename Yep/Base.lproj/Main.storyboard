@@ -533,6 +533,7 @@
                         <segue destination="RBe-Uc-vg0" kind="show" identifier="showSocialWorkGithub" id="IFH-d8-nL4"/>
                         <segue destination="ohm-zv-zHQ" kind="show" identifier="showSocialWorkDribbble" id="u47-XX-oIL"/>
                         <segue destination="L64-Fk-OjC" kind="show" identifier="showSocialWorkInstagram" id="mac-FF-c8T"/>
+                        <segue destination="ICA-Fn-Rb3" kind="show" identifier="showEditSkills" id="gSM-qG-2nt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -579,7 +580,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zuA-bP-KGx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2805" y="717"/>
+            <point key="canvasLocation" x="2865" y="373"/>
         </scene>
         <!--Skill Home View Controller-->
         <scene sceneID="kj4-Yg-Eog">
@@ -943,7 +944,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="3560" y="-137"/>
+            <point key="canvasLocation" x="3584" y="-519"/>
         </scene>
         <!--Notifications View Controller-->
         <scene sceneID="s6K-xp-3el">
@@ -983,7 +984,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uH9-BS-amc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3731" y="575"/>
+            <point key="canvasLocation" x="3761" y="169"/>
         </scene>
         <!--Do Not Disturb Period View Controller-->
         <scene sceneID="RM6-fB-WmB">
@@ -997,7 +998,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IrX-gK-Zkg">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IrX-gK-Zkg">
                                 <rect key="frame" x="0.0" y="144" width="600" height="44"/>
                                 <animations/>
                                 <constraints>
@@ -1010,7 +1011,7 @@
                                     <action selector="activeFrom" destination="GqQ-V0-aYk" eventType="touchUpInside" id="yIG-DH-kZc"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flj-e3-cbm">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flj-e3-cbm">
                                 <rect key="frame" x="0.0" y="188" width="600" height="44"/>
                                 <animations/>
                                 <constraints>
@@ -1023,7 +1024,7 @@
                                     <action selector="activeTo" destination="GqQ-V0-aYk" eventType="touchUpInside" id="90e-4a-0ZA"/>
                                 </connections>
                             </button>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hap-y9-JVX">
+                            <pickerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hap-y9-JVX">
                                 <rect key="frame" x="0.0" y="389" width="600" height="162"/>
                                 <animations/>
                                 <connections>
@@ -1054,7 +1055,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bRS-Uc-jLI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4403" y="575"/>
+            <point key="canvasLocation" x="4457" y="169"/>
         </scene>
         <!--Feedback View Controller-->
         <scene sceneID="qi4-ey-7am">
@@ -1068,14 +1069,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We read every feedback" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdt-Vd-sD9">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="We read every feedback" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdt-Vd-sD9">
                                 <rect key="frame" x="208" y="104" width="185" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="fVo-Zl-gHQ">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="fVo-Zl-gHQ">
                                 <rect key="frame" x="0.0" y="165" width="600" height="121"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1103,7 +1104,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MUL-up-ag5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3931" y="1279"/>
+            <point key="canvasLocation" x="4219" y="845"/>
         </scene>
         <!--Edit Nickname And Badge View Controller-->
         <scene sceneID="eed-5B-jyz">
@@ -1354,7 +1355,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KVb-CY-yr0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4291" y="-137"/>
+            <point key="canvasLocation" x="4277" y="-519"/>
         </scene>
         <!--Yep Tab Bar Controller-->
         <scene sceneID="vud-lc-IAG">
@@ -1511,6 +1512,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E13-pa-e8B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2041" y="1999"/>
+        </scene>
+        <!--Edit Skills View Controller-->
+        <scene sceneID="7wR-Xl-TQJ">
+            <objects>
+                <viewController storyboardIdentifier="EditSkillsViewController" id="ICA-Fn-Rb3" customClass="EditSkillsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sdM-ou-deE"/>
+                        <viewControllerLayoutGuide type="bottom" id="m99-Xb-VWt"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="NwL-G1-Svh">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J1d-tB-xXN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2857" y="1071"/>
         </scene>
         <!--Social Work Github View Controller-->
         <scene sceneID="uMz-q7-gEc">
@@ -1744,8 +1763,8 @@
         <image name="top_shadow" width="375" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0bS-uM-LPI"/>
-        <segue reference="6No-Lc-7X4"/>
+        <segue reference="o3b-2D-AMq"/>
         <segue reference="Snz-CT-4aa"/>
+        <segue reference="6No-Lc-7X4"/>
     </inferredMetricsTieBreakers>
 </document>

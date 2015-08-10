@@ -219,6 +219,7 @@
 		50F2B9781B2EDF3D00F840CC /* BorderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */; };
 		50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */; };
 		50FA9A441B661698009BF2A0 /* UIViewController+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */; };
+		845E1A661B788EF3001E0789 /* EditSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845E1A651B788EF3001E0789 /* EditSkillsViewController.swift */; };
 		84C959891B731FD20017D3ED /* ChatBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C959881B731FD20017D3ED /* ChatBaseCell.swift */; };
 		B00500D7E943DDD27CF9C562 /* Pods_Yep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3146F0F60F2A38BC6E0FA66 /* Pods_Yep.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -455,6 +456,7 @@
 		50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BorderTextField.swift; path = Views/TextFields/BorderTextField.swift; sourceTree = "<group>"; };
 		50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTitleLabel.swift; path = Views/Labels/NavigationTitleLabel.swift; sourceTree = "<group>"; };
 		50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Yep.swift"; path = "Extensions/UIViewController+Yep.swift"; sourceTree = "<group>"; };
+		845E1A651B788EF3001E0789 /* EditSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSkillsViewController.swift; path = ViewControllers/EditSkills/EditSkillsViewController.swift; sourceTree = "<group>"; };
 		84C959881B731FD20017D3ED /* ChatBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatBaseCell.swift; path = Views/Cells/ChatBaseCell/ChatBaseCell.swift; sourceTree = "<group>"; };
 		88C96122C478C4D134F634F6 /* Pods-Yep.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yep.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Yep/Pods-Yep.debug.xcconfig"; sourceTree = "<group>"; };
 		C3146F0F60F2A38BC6E0FA66 /* Pods_Yep.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Yep.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -712,6 +714,7 @@
 				502280F91B1C3F2F00E984EE /* FriendsInContacts */,
 				5023DE2E1AB685F100B3EE96 /* Discover */,
 				5023DE311AB6861900B3EE96 /* Profile */,
+				845E1A671B788EFC001E0789 /* EditSkills */,
 				502AE51C1AB70DE5005BD199 /* Welcome */,
 				502AE51F1AB712D6005BD199 /* Register */,
 				502AE5361AB864A3005BD199 /* Login */,
@@ -1555,6 +1558,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		845E1A671B788EFC001E0789 /* EditSkills */ = {
+			isa = PBXGroup;
+			children = (
+				845E1A651B788EF3001E0789 /* EditSkillsViewController.swift */,
+			);
+			name = EditSkills;
+			sourceTree = "<group>";
+		};
 		84C9598A1B7320060017D3ED /* ChatBase */ = {
 			isa = PBXGroup;
 			children = (
@@ -1900,6 +1911,7 @@
 				505A48401B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift in Sources */,
 				502AE52B1AB819AF005BD199 /* YepConfig.swift in Sources */,
 				50B38FB71B69CD960064C132 /* Array+Yep.swift in Sources */,
+				845E1A661B788EF3001E0789 /* EditSkillsViewController.swift in Sources */,
 				504F85AC1B4D21DD00F909BE /* DiscoverFilterView.swift in Sources */,
 				0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */,
 				5064F6501B0AE2E60089FAD4 /* AddFriendsViewController.swift in Sources */,
