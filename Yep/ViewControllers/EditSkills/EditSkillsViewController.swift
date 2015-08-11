@@ -37,7 +37,7 @@ class EditSkillsViewController: BaseViewController {
 
         animatedOnNavigationBar = false
 
-        title = NSLocalizedString("Edit Skills", comment: "")
+        title = skillSet?.name
 
 
         // get all skill categories
@@ -86,24 +86,16 @@ class EditSkillsViewController: BaseViewController {
                 strongSelf.masterSkills = skillsFromUserSkillList(me.masterSkills)
                 strongSelf.learningSkills = skillsFromUserSkillList(me.learningSkills)
 
+                vc.annotationText = skillSet.annotationText
+                vc.failedSelectSkillMessage = skillSet.failedSelectSkillMessage
+
                 switch skillSet {
-
                 case .Master:
-
-                    vc.annotationText = NSLocalizedString("What are you good at?", comment: "")
                     vc.selectedSkillsSet = Set(strongSelf.masterSkills)
                     vc.anotherSelectedSkillsSet = Set(strongSelf.learningSkills)
-                    vc.failedSelectSkillMessage = NSLocalizedString("This skill already in another learning skills set!", comment: "")
-
                 case .Learning:
-
-                    vc.annotationText = NSLocalizedString("What are you learning?", comment: "")
                     vc.selectedSkillsSet = Set(strongSelf.learningSkills)
                     vc.anotherSelectedSkillsSet = Set(strongSelf.masterSkills)
-                    vc.failedSelectSkillMessage = NSLocalizedString("This skill already in another master skills set!", comment: "")
-
-                default:
-                    break
                 }
 
                 if let skillCategories = self?.skillCategories {

@@ -8,25 +8,11 @@
 
 import UIKit
 
-enum SkillSetType: Int, Printable {
-    case Master
-    case Learning
-
-    var description: String {
-        switch self {
-        case .Master:
-            return NSLocalizedString("Master", comment: "")
-        case .Learning:
-            return NSLocalizedString("Learning", comment: "")
-        }
-    }
-}
-
 class AddSkillsReusableView: UICollectionReusableView {
     
-    var skillSetType: SkillSetType = .Master {
+    var skillSet: SkillSet = .Master {
         willSet {
-            skillTypeLabel.text = "\(newValue)"
+            skillTypeLabel.text = "\(newValue.name)"
         }
     }
 

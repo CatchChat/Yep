@@ -10,7 +10,7 @@ import UIKit
 
 class SkillAddCell: UICollectionViewCell {
 
-    var skillSetType: SkillSetType = .Master
+    var skillSet: SkillSet = .Master
 
-    var addSkillsAction: ((SkillSetType) -> ())?
+    var addSkillsAction: (SkillSet -> ())?
 }
