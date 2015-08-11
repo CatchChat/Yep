@@ -169,26 +169,18 @@ class RegisterPickSkillsViewController: BaseViewController {
             vc.modalPresentationStyle = UIModalPresentationStyle.Custom
             vc.transitioningDelegate = selectSkillsTransitionManager
 
-            if let skillSetType = sender as? Int {
+            if let skillSetRawValue = sender as? Int, skillSet = SkillSet(rawValue: skillSetRawValue) {
 
-                switch skillSetType {
+                vc.annotationText = skillSet.annotationText
+                vc.failedSelectSkillMessage = skillSet.failedSelectSkillMessage
 
-                case SkillSetType.Master.rawValue:
-
-                    vc.annotationText = NSLocalizedString("What are you good at?", comment: "")
+                switch skillSet {
+                case .Master:
                     vc.selectedSkillsSet = Set(masterSkills)
                     vc.anotherSelectedSkillsSet = Set(learningSkills)
-                    vc.failedSelectSkillMessage = NSLocalizedString("This skill already in another learning skills set!", comment: "")
-
-                case SkillSetType.Learning.rawValue:
-
-                    vc.annotationText = NSLocalizedString("What are you learning?", comment: "")
+                case .Learning:
                     vc.selectedSkillsSet = Set(learningSkills)
                     vc.anotherSelectedSkillsSet = Set(masterSkills)
-                    vc.failedSelectSkillMessage = NSLocalizedString("This skill already in another master skills set!", comment: "")
-
-                default:
-                    break
                 }
 
                 if let skillCategories = skillCategories {
@@ -201,9 +193,10 @@ class RegisterPickSkillsViewController: BaseViewController {
 
                     if let strongSelf = self {
 
-                        switch skillSetType {
+                        switch skillSet {
 
-                        case SkillSetType.Master.rawValue:
+                        case .Master:
+
                             if selected {
 
                                 if strongSelf.learningSkills.filter({ $0.id == skill.id }).count == 0 {
@@ -234,7 +227,8 @@ class RegisterPickSkillsViewController: BaseViewController {
                                 }
                             }
 
-                        case SkillSetType.Learning.rawValue:
+                        case .Learning:
+
                             if selected {
                                 if strongSelf.masterSkills.filter({ $0.id == skill.id }).count == 0 {
 
@@ -327,12 +321,12 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
             } else {
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillAddCellIdentifier, forIndexPath: indexPath) as! SkillAddCell
 
-                cell.skillSetType = .Master
+                cell.skillSet = .Master
 
-                cell.addSkillsAction = { [weak self] skillSetType in
+                cell.addSkillsAction = { [weak self] skillSet in
 
                     if let skillCategories = self?.skillCategories {
-                        self?.performSegueWithIdentifier("presentSelectSkills", sender: skillSetType.rawValue)
+                        self?.performSegueWithIdentifier("presentSelectSkills", sender: skillSet.rawValue)
 
                     } else {
                         allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
@@ -360,12 +354,12 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
             } else {
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillAddCellIdentifier, forIndexPath: indexPath) as! SkillAddCell
 
-                cell.skillSetType = .Learning
+                cell.skillSet = .Learning
 
-                cell.addSkillsAction = { [weak self] skillSetType in
+                cell.addSkillsAction = { [weak self] skillSet in
 
                     if let skillCategories = self?.skillCategories {
-                        self?.performSegueWithIdentifier("presentSelectSkills", sender: skillSetType.rawValue)
+                        self?.performSegueWithIdentifier("presentSelectSkills", sender: skillSet.rawValue)
 
                     } else {
                         allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
@@ -394,10 +388,10 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
             switch indexPath.section {
 
             case Section.Master.rawValue:
-                header.skillSetType = .Master
+                header.skillSet = .Master
 
             case Section.Learning.rawValue:
-                header.skillSetType = .Learning
+                header.skillSet = .Learning
 
             default:
                 break
@@ -470,14 +464,14 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
         case Section.Master.rawValue:
             if indexPath.item == masterSkills.count {
                 if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SkillAddCell {
-                    cell.addSkillsAction?(cell.skillSetType)
+                    cell.addSkillsAction?(cell.skillSet)
                 }
             }
 
         case Section.Learning.rawValue:
             if indexPath.item == learningSkills.count {
                 if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SkillAddCell {
-                    cell.addSkillsAction?(cell.skillSetType)
+                    cell.addSkillsAction?(cell.skillSet)
                 }
             }
 

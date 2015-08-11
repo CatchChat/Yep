@@ -483,8 +483,8 @@ class ProfileViewController: UIViewController {
                 let vc = segue.destinationViewController as! SkillHomeViewController
                 vc.hidesBottomBarWhenPushed = true
 
-                if let preferedState = skillInfo["preferedState"] as? Int {
-                    vc.preferedState = SkillHomeState(rawValue: preferedState)
+                if let preferedSkillSet = skillInfo["preferedSkillSet"] as? Int {
+                    vc.preferedSkillSet = SkillSet(rawValue: preferedSkillSet)
                 }
 
                 vc.skill = skillInfo["skill"] as? SkillCell.Skill
@@ -904,7 +904,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             }
 
             cell.tapAction = { [weak self] skill in
-                self?.performSegueWithIdentifier("showSkillHome", sender: ["skill": skill, "preferedState": SkillHomeState.Master.rawValue])
+                self?.performSegueWithIdentifier("showSkillHome", sender: ["skill": skill, "preferedSkillSet": SkillSet.Master.rawValue])
             }
 
             return cell
@@ -925,7 +925,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             }
 
             cell.tapAction = { [weak self] skill in
-                self?.performSegueWithIdentifier("showSkillHome", sender: ["skill": skill, "preferedState": SkillHomeState.Learning.rawValue])
+                self?.performSegueWithIdentifier("showSkillHome", sender: ["skill": skill, "preferedSkillSet": SkillSet.Learning.rawValue])
             }
 
             return cell

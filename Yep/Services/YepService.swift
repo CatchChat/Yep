@@ -301,6 +301,24 @@ enum SkillSet: Int, Printable {
             return NSLocalizedString("Learning", comment: "")
         }
     }
+
+    var annotationText: String {
+        switch self {
+        case .Master:
+            return NSLocalizedString("What are you good at?", comment: "")
+        case .Learning:
+            return NSLocalizedString("What are you learning?", comment: "")
+        }
+    }
+    var failedSelectSkillMessage: String {
+        switch self {
+        case .Master:
+            return NSLocalizedString("This skill already in another learning skills set!", comment: "")
+        case .Learning:
+            return NSLocalizedString("This skill already in another master skills set!", comment: "")
+        }
+    }
+
 }
 
 func addSkill(skill: Skill, toSkillSet skillSet: SkillSet, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
