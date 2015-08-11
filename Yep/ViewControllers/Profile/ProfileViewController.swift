@@ -155,7 +155,7 @@ class ProfileViewController: UIViewController {
                     sayHiView.hidden = true
 
                 } else {
-                    sayHiView.sayHiAction = {
+                    sayHiView.tapAction = {
                         self.sayHi()
                     }
 
@@ -175,7 +175,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var topShadowImageView: UIImageView!
     @IBOutlet weak var profileCollectionView: UICollectionView!
 
-    @IBOutlet weak var sayHiView: SayHiView!
+    @IBOutlet weak var sayHiView: BottomButtonView!
 
     var customNavigationBar: UINavigationBar!
 
@@ -490,6 +490,21 @@ class ProfileViewController: UIViewController {
                 vc.skill = skillInfo["skill"] as? SkillCell.Skill
 
                 vc.afterUpdatedSkillCoverAction = { [weak self] in
+                    self?.updateProfileCollectionView()
+                }
+            }
+
+        } else if segue.identifier == "showEditSkills" {
+
+            if let skillInfo = sender as? [String: AnyObject] {
+
+                let vc = segue.destinationViewController as! EditSkillsViewController
+
+                if let skillSet = skillInfo["skillSet"] as? Int {
+                    vc.skillSet = SkillSet(rawValue: skillSet)
+                }
+
+                vc.afterChangedSkillsAction = { [weak self] in
                     self?.updateProfileCollectionView()
                 }
             }
@@ -1030,6 +1045,26 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             if profileUserIsMe {
 
+                header.tapAction = { [weak self] in
+
+                    let skillSet: SkillSet
+
+                    switch indexPath.section {
+
+                    case ProfileSection.Master.rawValue:
+                        skillSet = .Master
+
+                    case ProfileSection.Learning.rawValue:
+                        skillSet = .Learning
+
+                    default:
+                        skillSet = .Master
+                    }
+
+                    self?.performSegueWithIdentifier("showEditSkills", sender: ["skillSet": skillSet.rawValue])
+                }
+
+                /*
                 header.tapAction = {
                     let storyboard = UIStoryboard(name: "Intro", bundle: nil)
                     let pickSkillsController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickSkillsViewController") as! RegisterPickSkillsViewController
@@ -1048,7 +1083,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     }
 
                     self.navigationController?.pushViewController(pickSkillsController, animated: true)
-                }
+                }*/
 
             } else {
                 header.accessoryImageView.hidden = true
