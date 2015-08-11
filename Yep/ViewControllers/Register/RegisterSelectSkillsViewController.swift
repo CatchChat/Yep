@@ -17,6 +17,8 @@ class RegisterSelectSkillsViewController: UIViewController {
     var anotherSelectedSkillsSet = Set<Skill>()
     var failedSelectSkillMessage: String = ""
 
+    var syncSkillsFromServerAction: (() -> Void)?
+
     @IBOutlet weak var skillCategoriesCollectionView: UICollectionView!
 
     @IBOutlet weak var skillsCollectionView: UICollectionView!
@@ -162,6 +164,7 @@ class RegisterSelectSkillsViewController: UIViewController {
     }
 
     func dismiss() {
+        syncSkillsFromServerAction?()
         presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
 }
