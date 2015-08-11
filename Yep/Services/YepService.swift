@@ -292,6 +292,15 @@ enum SkillSet: Int, Printable {
             return "learning_skills"
         }
     }
+
+    var name: String {
+        switch self {
+        case .Master:
+            return NSLocalizedString("Master", comment: "")
+        case .Learning:
+            return NSLocalizedString("Learning", comment: "")
+        }
+    }
 }
 
 func addSkill(skill: Skill, toSkillSet skillSet: SkillSet, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {

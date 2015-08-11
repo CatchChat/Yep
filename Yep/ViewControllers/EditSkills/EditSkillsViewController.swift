@@ -37,7 +37,7 @@ class EditSkillsViewController: BaseViewController {
 
         animatedOnNavigationBar = false
 
-        title = NSLocalizedString("Edit Skills", comment: "")
+        title = skillSet?.name
 
 
         // get all skill categories
