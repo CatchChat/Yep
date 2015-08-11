@@ -171,21 +171,16 @@ class RegisterPickSkillsViewController: BaseViewController {
 
             if let skillSetRawValue = sender as? Int, skillSet = SkillSet(rawValue: skillSetRawValue) {
 
+                vc.annotationText = skillSet.annotationText
+                vc.failedSelectSkillMessage = skillSet.failedSelectSkillMessage
+
                 switch skillSet {
-
                 case .Master:
-
-                    vc.annotationText = NSLocalizedString("What are you good at?", comment: "")
                     vc.selectedSkillsSet = Set(masterSkills)
                     vc.anotherSelectedSkillsSet = Set(learningSkills)
-                    vc.failedSelectSkillMessage = NSLocalizedString("This skill already in another learning skills set!", comment: "")
-
                 case .Learning:
-
-                    vc.annotationText = NSLocalizedString("What are you learning?", comment: "")
                     vc.selectedSkillsSet = Set(learningSkills)
                     vc.anotherSelectedSkillsSet = Set(masterSkills)
-                    vc.failedSelectSkillMessage = NSLocalizedString("This skill already in another master skills set!", comment: "")
                 }
 
                 if let skillCategories = skillCategories {
