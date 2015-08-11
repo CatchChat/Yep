@@ -275,7 +275,7 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
                 let skillLocalName = userSkill.localName
 
                 deleteSkillWithID(userSkill.skillID, fromSkillSet: skillSet, failureHandler: nil, completion: { success in
-                    println("deleteSkill \(skillLocalName) from \(skillSet): \(success)")
+                    println("deleteSkill \(skillLocalName) from \(skillSet.name): \(success)")
                 })
 
                 // 不能直接捕捉 indexPath，不然删除一个后，再删除后面的 Skill 时 indexPath 就不对了
