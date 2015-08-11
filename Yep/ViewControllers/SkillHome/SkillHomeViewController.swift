@@ -12,11 +12,6 @@ import MobileCoreServices
 import RealmSwift
 
 
-enum SkillHomeState: Int {
-    case Master
-    case Learning
-}
-
 class SkillHomeViewController: CustomNavigationBarViewController {
     
     let cellIdentifier = "ContactsCell"
@@ -55,9 +50,9 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     
     var isFirstAppear = true
 
-    var preferedState: SkillHomeState?
+    var preferedSkillSet: SkillSet?
     
-    var state: SkillHomeState = .Master {
+    var skillSet: SkillSet = .Master {
         willSet {
             switch newValue {
             case .Master:
@@ -133,7 +128,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         masterTableView.tableFooterView = UIView()
         masterTableView.dataSource = self
         masterTableView.delegate = self
-        masterTableView.tag = SkillHomeState.Master.hashValue
+        masterTableView.tag = SkillSet.Master.rawValue
 
         learningtTableView.separatorColor = UIColor.yepCellSeparatorColor()
         learningtTableView.separatorInset = YepConfig.ContactsCell.separatorInset
@@ -143,7 +138,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         learningtTableView.tableFooterView = UIView()
         learningtTableView.dataSource = self
         learningtTableView.delegate = self
-        learningtTableView.tag = SkillHomeState.Learning.hashValue
+        learningtTableView.tag = SkillSet.Learning.rawValue
 
         if let skillID = skill?.ID {
             discoverUserBySkillID(skillID)
@@ -234,7 +229,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         learningtTableView.frame = CGRect(x: masterTableView.frame.size.width, y: 0, width: YepConfig.getScreenRect().width, height: height)
 
         if isFirstAppear {
-            state = preferedState ?? .Master
+            skillSet = preferedSkillSet ?? .Master
 
             isFirstAppear = false
         }
@@ -279,12 +274,12 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     // MARK: Actions
 
     func changeToMaster() {
-        state = .Master
+        skillSet = .Master
     }
     
     
     func changeToLearning() {
-        state = .Learning
+        skillSet = .Learning
     }
 
     func discoverUserBySkillID(skillID: String) {
@@ -322,7 +317,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
     func getDiscoveredUserWithState(state: Int) -> [DiscoveredUser] {
 
-        if state == SkillHomeState.Master.hashValue {
+        if state == SkillSet.Master.rawValue {
             return discoveredMasterUsers
         } else {
             return discoveredLearningUsers
@@ -337,10 +332,10 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         
         if skillHomeScrollView.contentOffset.x + 10 >= skillHomeScrollView.contentSize.width / 2.0 {
             
-            state = .Learning
+            skillSet = .Learning
             
         } else {
-            state = .Master
+            skillSet = .Master
         }
     }
     
@@ -352,7 +347,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
             if let indexPath = sender as? NSIndexPath {
 
-                let discoveredUser = getDiscoveredUserWithState(state.hashValue)[indexPath.row]
+                let discoveredUser = getDiscoveredUserWithState(skillSet.rawValue)[indexPath.row]
                 
                 let vc = segue.destinationViewController as! ProfileViewController
 
