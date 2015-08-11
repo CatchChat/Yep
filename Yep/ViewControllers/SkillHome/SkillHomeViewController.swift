@@ -315,12 +315,18 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         })
     }
 
-    func getDiscoveredUserWithState(state: Int) -> [DiscoveredUser] {
+    func discoveredUsersWithSkillSet(skillSet: SkillSet?) -> [DiscoveredUser] {
 
-        if state == SkillSet.Master.rawValue {
-            return discoveredMasterUsers
+        if let skillSet = skillSet {
+            switch skillSet {
+            case .Master:
+                return discoveredMasterUsers
+            case .Learning:
+                return discoveredLearningUsers
+            }
+
         } else {
-            return discoveredLearningUsers
+            return []
         }
     }
 
@@ -347,7 +353,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
             if let indexPath = sender as? NSIndexPath {
 
-                let discoveredUser = getDiscoveredUserWithState(skillSet.rawValue)[indexPath.row]
+                let discoveredUser = discoveredUsersWithSkillSet(skillSet)[indexPath.row]
                 
                 let vc = segue.destinationViewController as! ProfileViewController
 
@@ -459,14 +465,14 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        return getDiscoveredUserWithState(tableView.tag).count
+        return discoveredUsersWithSkillSet(SkillSet(rawValue: tableView.tag)).count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
         
-        let discoveredUser = getDiscoveredUserWithState(tableView.tag)[indexPath.row]
+        let discoveredUser = discoveredUsersWithSkillSet(SkillSet(rawValue: tableView.tag))[indexPath.row]
         
         let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
         
