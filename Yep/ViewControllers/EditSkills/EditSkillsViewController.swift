@@ -39,6 +39,19 @@ class EditSkillsViewController: BaseViewController {
 
         title = NSLocalizedString("Edit Skills", comment: "")
 
+
+        // get all skill categories
+
+        allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
+            defaultFailureHandler(reason, errorMessage)
+
+        }, completion: { skillCategories -> Void in
+            self.skillCategories = skillCategories
+        })
+
+
+        // table view
+
         var contentInset = skillsTableView.contentInset
         contentInset.bottom = addSkillsView.frame.height
         skillsTableView.contentInset = contentInset
@@ -52,15 +65,16 @@ class EditSkillsViewController: BaseViewController {
         skillsTableView.registerNib(UINib(nibName: editSkillCellID, bundle: nil), forCellReuseIdentifier: editSkillCellID)
 
 
+        // add skills view
+
         addSkillsView.title = NSLocalizedString("Add Skills", comment: "")
 
-        allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
-            defaultFailureHandler(reason, errorMessage)
-
-        }, completion: { skillCategories -> Void in
-            self.skillCategories = skillCategories
-        })
         addSkillsView.tapAction = { [weak self] in
+
+            if self?.skillCategories == nil {
+                return
+            }
+
             let storyboard = UIStoryboard(name: "Intro", bundle: nil)
             let vc = storyboard.instantiateViewControllerWithIdentifier("RegisterSelectSkillsViewController") as! RegisterSelectSkillsViewController
 
@@ -194,6 +208,8 @@ class EditSkillsViewController: BaseViewController {
             self?.navigationController?.presentViewController(vc, animated: true, completion: nil)
         }
 
+
+        // prepare realm & me
 
         realm = Realm()
 
