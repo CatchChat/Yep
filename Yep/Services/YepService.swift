@@ -280,11 +280,11 @@ func allSkillCategories(#failureHandler: ((Reason, String?) -> Void)?, #completi
     }
 }
 
-enum SkillSet: Int, Printable {
+enum SkillSet: Int {
     case Master
     case Learning
 
-    var description: String {
+    var serverPath: String {
         switch self {
         case Master:
             return "master_skills"
@@ -328,11 +328,11 @@ func addSkill(skill: Skill, toSkillSet skillSet: SkillSet, #failureHandler: ((Re
     ]
 
     let parse: JSONDictionary -> Bool? = { data in
-        println("addSkill \(data)")
+        println("addSkill \(skill.name)")
         return true
     }
 
-    let resource = authJsonResource(path: "/api/v1/\(skillSet)", method: .POST, requestParameters: requestParameters, parse: parse)
+    let resource = authJsonResource(path: "/api/v1/\(skillSet.serverPath)", method: .POST, requestParameters: requestParameters, parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)
@@ -347,7 +347,7 @@ func deleteSkillWithID(skillID: String, fromSkillSet skillSet: SkillSet, #failur
         return true
     }
 
-    let resource = authJsonResource(path: "/api/v1/\(skillSet)/\(skillID)", method: .DELETE, requestParameters: [:], parse: parse)
+    let resource = authJsonResource(path: "/api/v1/\(skillSet.serverPath)/\(skillID)", method: .DELETE, requestParameters: [:], parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)
