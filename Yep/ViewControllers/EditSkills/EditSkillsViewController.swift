@@ -126,6 +126,8 @@ class EditSkillsViewController: BaseViewController {
 
                                     strongSelf.masterSkills.append(skill)
 
+                                    addSkill(skill, toSkillSet: .Master, failureHandler: nil, completion: { _ in })
+
                                     success = true
                                 }
 
@@ -162,6 +164,8 @@ class EditSkillsViewController: BaseViewController {
                                 if strongSelf.masterSkills.filter({ $0.id == skill.id }).count == 0 {
 
                                     strongSelf.learningSkills.append(skill)
+
+                                    addSkill(skill, toSkillSet: .Learning, failureHandler: nil, completion: { _ in })
 
                                     success = true
                                 }
@@ -202,6 +206,15 @@ class EditSkillsViewController: BaseViewController {
                     }
                     
                     return success
+                }
+            }
+
+            vc.syncSkillsFromServerAction = { [weak self] in
+                syncMyInfoAndDoFurtherAction {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self?.updateSkillsTableView()
+                        self?.afterChangedSkillsAction?()
+                    }
                 }
             }
 

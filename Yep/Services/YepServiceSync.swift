@@ -170,8 +170,6 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
         //println("my userInfo: \(friendInfo)")
 
-        furtherAction()
-
         if let myUserID = YepUserDefaults.userID.value {
 
             let realm = Realm()
@@ -350,6 +348,8 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                 }
             }
         }
+
+        furtherAction()
     })
 }
 
