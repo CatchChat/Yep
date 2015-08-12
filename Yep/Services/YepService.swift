@@ -1022,7 +1022,15 @@ func officialMessages(#completion: Int -> Void) {
 
         var messagesCount: Int = 0
 
-        if let senderInfo = data["sender"] as? JSONDictionary, senderID = senderInfo["id"] as? String {
+        if let messagesData = data["official_messages"] as? [JSONDictionary], senderInfo = data["sender"] as? JSONDictionary, senderID = senderInfo["id"] as? String {
+
+            // 没有消息的话，人就不要加入了
+
+            if messagesData.isEmpty {
+                return 0
+            }
+
+            // Yep Team & Conversation
 
             let realm = Realm()
 
@@ -1055,47 +1063,45 @@ func officialMessages(#completion: Int -> Void) {
 
             updateUserWithUserID(senderID, useUserInfo: senderInfo)
 
+            // 存储消息列表
 
-            if let messagesData = data["official_messages"] as? [JSONDictionary] {
+            for messageInfo in messagesData {
 
-                for messageInfo in messagesData {
+                if let messageID = messageInfo["id"] as? String {
 
-                    if let messageID = messageInfo["id"] as? String {
+                    var message = messageWithMessageID(messageID, inRealm: realm)
 
-                        var message = messageWithMessageID(messageID, inRealm: realm)
+                    if message == nil {
+                        let newMessage = Message()
+                        newMessage.messageID = messageID
 
-                        if message == nil {
-                            let newMessage = Message()
-                            newMessage.messageID = messageID
-
-                            if let updatedUnixTime = messageInfo["updated_at"] as? NSTimeInterval {
-                                newMessage.createdUnixTime = updatedUnixTime
-                            }
-
-                            realm.write {
-                                realm.add(newMessage)
-                            }
-                            
-                            message = newMessage
+                        if let updatedUnixTime = messageInfo["updated_at"] as? NSTimeInterval {
+                            newMessage.createdUnixTime = updatedUnixTime
                         }
 
-                        if let message = message {
+                        realm.write {
+                            realm.add(newMessage)
+                        }
+                        
+                        message = newMessage
+                    }
+
+                    if let message = message {
+                        realm.write {
+                            message.fromFriend = sender
+                        }
+
+                        if let conversation = sender?.conversation {
                             realm.write {
-                                message.fromFriend = sender
+                                message.conversation = conversation
+
                             }
 
-                            if let conversation = sender?.conversation {
-                                realm.write {
-                                    message.conversation = conversation
+                            // 纪录消息的 detail 信息
 
-                                }
+                            recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
 
-                                // 纪录消息的 detail 信息
-
-                                recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
-
-                                messagesCount++
-                            }
+                            messagesCount++
                         }
                     }
                 }
