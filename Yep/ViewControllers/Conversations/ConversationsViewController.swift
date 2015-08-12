@@ -74,8 +74,9 @@ class ConversationsViewController: UIViewController {
         conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         conversationsTableView.rowHeight = 80
         conversationsTableView.tableFooterView = UIView()
-        unreadMessagesToken = realm.addNotificationBlock { notification, realm in
-            self.haveUnreadMessages = countOfUnreadMessagesInRealm(realm) > 0
+
+        unreadMessagesToken = realm.addNotificationBlock { [weak self] notification, realm in
+            self?.haveUnreadMessages = countOfUnreadMessagesInRealm(realm) > 0
         }
 
         // 预先生成头像和最近消息图片的缓存

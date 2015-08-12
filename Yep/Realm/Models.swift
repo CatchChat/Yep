@@ -411,7 +411,7 @@ func groupWithGroupID(groupID: String, inRealm realm: Realm) -> Group? {
 }
 
 func countOfUnreadMessagesInRealm(realm: Realm) -> Int {
-    let predicate = NSPredicate(format: "readed = false AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
+    let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
     return realm.objects(Message).filter(predicate).count
 }
 
