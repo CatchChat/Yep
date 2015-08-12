@@ -83,6 +83,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         })
 
+        cacheInAdvance()
+
+
         delay(0.5, {
             Crashlytics.startWithAPIKey("3030ba006e21bcf8eb4a2127b6a7931ea6667486")
             APService.setupWithOption(launchOptions)
@@ -119,8 +122,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if let token = YepUserDefaults.v1AccessToken.value {
             sync()
-
-            cacheInAdvance()
 
             startFaye()
         }
@@ -273,7 +274,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func cacheInAdvance() {
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
 
             // 主界面的头像
 
