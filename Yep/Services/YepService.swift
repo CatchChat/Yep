@@ -1030,7 +1030,7 @@ func officialMessages(#completion: Int -> Void) {
                 return 0
             }
 
-            // Yep Team & Conversation
+            // Yep Team
 
             let realm = Realm()
 
@@ -1047,18 +1047,24 @@ func officialMessages(#completion: Int -> Void) {
                     realm.add(newUser)
                 }
 
-                // 确保有 Conversation
-
-                let newConversation = Conversation()
-
-                newConversation.type = ConversationType.OneToOne.rawValue
-                newConversation.withFriend = newUser
-
-                realm.write {
-                    realm.add(newConversation)
-                }
-
                 sender = newUser
+            }
+
+            // 确保有 Conversation
+
+            if let sender = sender {
+
+                if sender.conversation == nil {
+
+                    let newConversation = Conversation()
+
+                    newConversation.type = ConversationType.OneToOne.rawValue
+                    newConversation.withFriend = sender
+
+                    realm.write {
+                        realm.add(newConversation)
+                    }
+                }
             }
 
             updateUserWithUserID(senderID, useUserInfo: senderInfo)
