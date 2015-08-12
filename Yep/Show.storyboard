@@ -18,17 +18,26 @@
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zwm-fM-O1u">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Acs-5Z-0vE" id="4Rx-1k-RAw"/>
+                                </connections>
                             </scrollView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="9Z8-B0-cVp">
+                                <rect key="frame" x="280.5" y="553" width="39" height="37"/>
+                            </pageControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="0sA-kf-Eg9" firstAttribute="top" secondItem="9Z8-B0-cVp" secondAttribute="bottom" constant="10" id="1Im-nM-SDx"/>
                             <constraint firstAttribute="trailing" secondItem="Zwm-fM-O1u" secondAttribute="trailing" id="BIF-Nd-eN7"/>
                             <constraint firstItem="Zwm-fM-O1u" firstAttribute="leading" secondItem="CUt-X0-WDO" secondAttribute="leading" id="BaF-jS-bGU"/>
                             <constraint firstAttribute="bottom" secondItem="Zwm-fM-O1u" secondAttribute="bottom" id="Q82-ie-kQU"/>
+                            <constraint firstAttribute="centerX" secondItem="9Z8-B0-cVp" secondAttribute="centerX" id="cn5-yn-PUN"/>
                             <constraint firstItem="Zwm-fM-O1u" firstAttribute="top" secondItem="CUt-X0-WDO" secondAttribute="top" id="oS0-jj-Eyf"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="pageControl" destination="9Z8-B0-cVp" id="D8a-Vi-bnF"/>
                         <outlet property="scrollView" destination="Zwm-fM-O1u" id="AzC-i3-j5q"/>
                     </connections>
                 </viewController>

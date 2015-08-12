@@ -12,6 +12,7 @@ class ShowViewController: UIViewController {
 
     @IBOutlet weak var scrollView: UIScrollView!
 
+    @IBOutlet weak var pageControl: UIPageControl!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,11 +26,11 @@ class ShowViewController: UIViewController {
         let stepB = step("Yep Intro")
         let stepC = step("Yep Intro")
 
-        stepA.view.backgroundColor = UIColor.redColor()
-        stepB.view.backgroundColor = UIColor.blueColor()
-        stepC.view.backgroundColor = UIColor.greenColor()
-
         let steps = [stepA, stepB, stepC]
+
+        pageControl.numberOfPages = steps.count
+        pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
+        pageControl.currentPageIndicatorTintColor = UIColor.yepTintColor()
 
         let viewsDictionary = [
             "view": view,
@@ -62,3 +63,18 @@ class ShowViewController: UIViewController {
         return step
     }
 }
+
+// MARK: - UIScrollViewDelegate
+
+extension ShowViewController: UIScrollViewDelegate {
+
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+
+        let pageWidth = CGRectGetWidth(scrollView.bounds)
+        let pageFraction = scrollView.contentOffset.x / pageWidth
+
+        pageControl.currentPage = Int(round(pageFraction))
+    }
+}
+
+
