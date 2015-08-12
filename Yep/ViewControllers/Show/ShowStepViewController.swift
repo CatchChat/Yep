@@ -10,12 +10,26 @@ import UIKit
 
 class ShowStepViewController: UIViewController {
 
+    var showName: String?
+
     @IBOutlet weak var webView: UIWebView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        webView.hidden = true
+        loadHTML()
     }
 
+    private func loadHTML() {
+
+        if let htmlName = showName {
+            if let
+                htmlPath = NSBundle.mainBundle().pathForResource(htmlName, ofType: "html", inDirectory: "ShowResources"),
+                string = String(contentsOfFile: htmlPath, encoding: NSUTF8StringEncoding, error: nil),
+                baseURL = NSURL(fileURLWithPath: htmlPath) {
+
+                    webView.loadHTMLString(string, baseURL: baseURL)
+            }
+        }
+    }
 }

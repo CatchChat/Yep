@@ -21,9 +21,9 @@ class ShowViewController: UIViewController {
 
     func makeUI() {
 
-        let stepA = step("A")
-        let stepB = step("B")
-        let stepC = step("C")
+        let stepA = step("Yep Intro")
+        let stepB = step("Yep Intro")
+        let stepC = step("Yep Intro")
 
         stepA.view.backgroundColor = UIColor.redColor()
         stepB.view.backgroundColor = UIColor.blueColor()
@@ -50,6 +50,8 @@ class ShowViewController: UIViewController {
     private func step(name: String) -> ShowStepViewController {
 
         let step = storyboard!.instantiateViewControllerWithIdentifier("ShowStepViewController") as! ShowStepViewController
+
+        step.showName = name
 
         step.view.setTranslatesAutoresizingMaskIntoConstraints(false)
         scrollView.addSubview(step.view)
