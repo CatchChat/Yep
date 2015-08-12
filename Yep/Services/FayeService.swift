@@ -68,13 +68,14 @@ class FayeService: NSObject, MZFayeClientDelegate {
                 let personalChannel = personalChannelWithUserID(userID)
 
                 println("Will Subscribe \(personalChannel)")
+
                 client.setExtension(extensionData, forChannel: personalChannel)
                 client.setExtension(extensionData, forChannel: "handshake")
                 client.setExtension(extensionData, forChannel: "connect")
-                let realm = Realm()
-                
+
+
                 client.subscribeToChannel(personalChannel, usingBlock: { data in
-//                    println("subscribeToChannel: \(data)")
+                    //println("subscribeToChannel: \(data)")
                     if let
                         messageInfo = data as? JSONDictionary,
                         messageType = messageInfo["message_type"] as? String {
@@ -108,7 +109,9 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                         messageID = messageDataInfo["id"] as? String {
                                             
                                             println("Mark Message \(messageID) As Read")
-                                            
+
+                                            let realm = Realm()
+
                                             if let message = messageWithMessageID(messageID, inRealm: realm) {
                                                 realm.write {
                                                     message.sendState = MessageSendState.Read.rawValue
