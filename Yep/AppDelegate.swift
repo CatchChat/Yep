@@ -88,6 +88,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         delay(0.5, {
             Crashlytics.startWithAPIKey("3030ba006e21bcf8eb4a2127b6a7931ea6667486")
+
+            // 推送初始化
             APService.setupWithOption(launchOptions)
         })
 
@@ -95,8 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker,error: nil)
         
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
-        // 推送初始化
-        
+
 
         // 全局的外观自定义
         customAppearce()
