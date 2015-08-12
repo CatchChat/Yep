@@ -80,10 +80,11 @@ class Listenable<T> {
 
 class YepUserDefaults {
 
+    static let defaults = NSUserDefaults(suiteName: YepConfig.appGroupID)!
+
     // MARK: ReLogin
 
     class func cleanAllUserDefaults() {
-        let defaults = NSUserDefaults.standardUserDefaults()
 
         defaults.removeObjectForKey(v1AccessTokenKey)
         defaults.removeObjectForKey(userIDKey)
@@ -117,7 +118,6 @@ class YepUserDefaults {
     }
 
     static var v1AccessToken: Listenable<String?> = {
-        let defaults = NSUserDefaults.standardUserDefaults()
         let v1AccessToken = defaults.stringForKey(v1AccessTokenKey)
 
         return Listenable<String?>(v1AccessToken) { v1AccessToken in
@@ -134,7 +134,6 @@ class YepUserDefaults {
         }()
 
     static var userID: Listenable<String?> = {
-        let defaults = NSUserDefaults.standardUserDefaults()
         let userID = defaults.stringForKey(userIDKey)
 
         return Listenable<String?>(userID) { userID in
@@ -143,7 +142,6 @@ class YepUserDefaults {
         }()
 
     static var nickname: Listenable<String?> = {
-        let defaults = NSUserDefaults.standardUserDefaults()
         let nickname = defaults.stringForKey(nicknameKey)
 
         return Listenable<String?>(nickname) { nickname in
@@ -163,7 +161,6 @@ class YepUserDefaults {
         }()
 
     static var introduction: Listenable<String?> = {
-        let defaults = NSUserDefaults.standardUserDefaults()
         let introduction = defaults.stringForKey(introductionKey)
 
         return Listenable<String?>(introduction) { introduction in
@@ -183,7 +180,6 @@ class YepUserDefaults {
         }()
 
     static var avatarURLString: Listenable<String?> = {
-        let defaults = NSUserDefaults.standardUserDefaults()
         let avatarURLString = defaults.stringForKey(avatarURLStringKey)
 
         return Listenable<String?>(avatarURLString) { avatarURLString in
@@ -204,7 +200,6 @@ class YepUserDefaults {
         }()
 
     static var badge: Listenable<String?> = {
-        let defaults = NSUserDefaults.standardUserDefaults()
         let badge = defaults.stringForKey(badgeKey)
 
         return Listenable<String?>(badge) { badge in
@@ -224,7 +219,6 @@ class YepUserDefaults {
         }()
 
     static var pusherID: Listenable<String?> = {
-        let defaults = NSUserDefaults.standardUserDefaults()
         let pusherID = defaults.stringForKey(pusherIDKey)
 
         return Listenable<String?>(pusherID) { pusherID in
@@ -246,7 +240,6 @@ class YepUserDefaults {
         }()
 
     static var areaCode: Listenable<String?> = {
-        let defaults = NSUserDefaults.standardUserDefaults()
         let areaCode = defaults.stringForKey(areaCodeKey)
 
         return Listenable<String?>(areaCode) { areaCode in
@@ -255,7 +248,6 @@ class YepUserDefaults {
         }()
 
     static var mobile: Listenable<String?> = {
-        let defaults = NSUserDefaults.standardUserDefaults()
         let mobile = defaults.stringForKey(mobileKey)
 
         return Listenable<String?>(mobile) { mobile in

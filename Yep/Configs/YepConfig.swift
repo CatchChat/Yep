@@ -10,6 +10,8 @@ import UIKit
 import Ruler
 
 class YepConfig {
+
+    static let appGroupID: String = "group.Catch-Inc.Yep"
     
     static let minMessageTextLabelWidth: CGFloat = 20.0
     
