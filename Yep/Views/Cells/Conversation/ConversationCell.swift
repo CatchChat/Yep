@@ -24,6 +24,7 @@ class ConversationCell: UITableViewCell {
     }
 
     @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var redDotImageView: UIImageView!
     @IBOutlet weak var unreadCountLabel: UILabel!
@@ -37,6 +38,7 @@ class ConversationCell: UITableViewCell {
         // Initialization code
 
         avatarImageView.contentMode = .ScaleAspectFill
+        avatarImageViewWidthConstraint.constant = YepConfig.ConversationCell.avatarSize
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

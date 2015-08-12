@@ -120,6 +120,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let token = YepUserDefaults.v1AccessToken.value {
             sync()
 
+            cacheInAdvance()
+
             startFaye()
         }
         
@@ -267,6 +269,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func startFaye() {
         FayeService.sharedManager.startConnect()
+    }
+
+    func cacheInAdvance() {
+
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+
+            // 主界面的头像
+
+            let realm = Realm()
+            let conversations = realm.objects(Conversation)
+
+            for conversation in conversations {
+                if let latestMessage = conversation.messages.last, user = latestMessage.fromFriend {
+                    AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: YepConfig.ConversationCell.avatarSize * 0.5, completion: { _ in
+                    })
+                }
+            }
+        }
     }
 
     func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {

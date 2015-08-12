@@ -115,6 +115,10 @@ class YepConfig {
         static let separatorInset = UIEdgeInsets(top: 0, left: 90, bottom: 0, right: 0) 
     }
 
+    struct ConversationCell {
+        static let avatarSize: CGFloat = 60
+    }
+
     struct ChatCell {
 
         static let lineSpacing: CGFloat = 5

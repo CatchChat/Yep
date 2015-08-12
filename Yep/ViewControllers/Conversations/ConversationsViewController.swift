@@ -210,7 +210,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
         if let conversation = conversations[safe: indexPath.row] {
 
-            let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
+            let radius = YepConfig.ConversationCell.avatarSize * 0.5
 
             cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
         }
