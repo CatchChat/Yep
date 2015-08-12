@@ -10,26 +10,53 @@ import UIKit
 
 class ShowViewController: UIViewController {
 
+    @IBOutlet weak var scrollView: UIScrollView!
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        makeUI()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func makeUI() {
+
+        let stepA = step("A")
+        let stepB = step("B")
+        let stepC = step("C")
+
+        stepA.view.backgroundColor = UIColor.redColor()
+        stepB.view.backgroundColor = UIColor.blueColor()
+        stepC.view.backgroundColor = UIColor.greenColor()
+
+        let steps = [stepA, stepB, stepC]
+
+        let viewsDictionary = [
+            "view": view,
+            "stepA": stepA.view,
+            "stepB": stepB.view,
+            "stepC": stepC.view,
+        ]
+
+        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[stepA(==view)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        view.addConstraints(vConstraints)
+
+        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[stepA(==view)][stepB(==view)][stepC(==view)]|", options: .AlignAllBottom | .AlignAllTop, metrics: nil, views: viewsDictionary)
+
+        view.addConstraints(hConstraints)
     }
-    
 
-    /*
-    // MARK: - Navigation
+    private func step(name: String) -> ShowStepViewController {
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        let step = storyboard!.instantiateViewControllerWithIdentifier("ShowStepViewController") as! ShowStepViewController
+
+        step.view.setTranslatesAutoresizingMaskIntoConstraints(false)
+        scrollView.addSubview(step.view)
+
+        addChildViewController(step)
+        step.didMoveToParentViewController(self)
+
+        return step
     }
-    */
-
 }

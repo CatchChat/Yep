@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zwm-fM-O1u">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zwm-fM-O1u">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </scrollView>
                         </subviews>
@@ -28,6 +28,9 @@
                             <constraint firstItem="Zwm-fM-O1u" firstAttribute="top" secondItem="CUt-X0-WDO" secondAttribute="top" id="oS0-jj-Eyf"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="scrollView" destination="Zwm-fM-O1u" id="AzC-i3-j5q"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rlh-Fl-iXX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -45,7 +48,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UeT-Lm-zPv">
+                            <webView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UeT-Lm-zPv">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
@@ -58,6 +61,9 @@
                             <constraint firstItem="UeT-Lm-zPv" firstAttribute="top" secondItem="wdD-Wr-EhK" secondAttribute="top" id="g0j-DW-LRc"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="webView" destination="UeT-Lm-zPv" id="PRH-Zg-l2L"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CaN-5t-F2i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
