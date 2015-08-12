@@ -61,16 +61,25 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hdu-W7-igc">
+                                <rect key="frame" x="512" y="550" width="68" height="30"/>
+                                <state key="normal" title="Start, Yep">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="UeT-Lm-zPv" firstAttribute="leading" secondItem="wdD-Wr-EhK" secondAttribute="leading" id="6uK-nL-zD4"/>
                             <constraint firstAttribute="bottom" secondItem="UeT-Lm-zPv" secondAttribute="bottom" id="9OM-D6-fQE"/>
+                            <constraint firstItem="ue7-Md-6gH" firstAttribute="top" secondItem="hdu-W7-igc" secondAttribute="bottom" constant="20" id="Ckr-tN-l5J"/>
+                            <constraint firstAttribute="trailing" secondItem="hdu-W7-igc" secondAttribute="trailing" constant="20" id="PSm-0v-2Xx"/>
                             <constraint firstAttribute="trailing" secondItem="UeT-Lm-zPv" secondAttribute="trailing" id="RVK-Q3-3Pd"/>
                             <constraint firstItem="UeT-Lm-zPv" firstAttribute="top" secondItem="wdD-Wr-EhK" secondAttribute="top" id="g0j-DW-LRc"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="finishButton" destination="hdu-W7-igc" id="rzW-zR-b2B"/>
                         <outlet property="webView" destination="UeT-Lm-zPv" id="PRH-Zg-l2L"/>
                     </connections>
                 </viewController>

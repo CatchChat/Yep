@@ -24,7 +24,15 @@ class ShowViewController: UIViewController {
 
         let stepA = step("Yep Intro")
         let stepB = step("Yep Intro")
-        let stepC = step("Yep Intro")
+        let stepC = step("Yep Intro", finishAction: {
+            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                if let _ = YepUserDefaults.v1AccessToken.value {
+                    appDelegate.startMainStory()
+                } else {
+                    appDelegate.startIntroStory()
+                }
+            }
+        })
 
         let steps = [stepA, stepB, stepC]
 
@@ -48,11 +56,12 @@ class ShowViewController: UIViewController {
         view.addConstraints(hConstraints)
     }
 
-    private func step(name: String) -> ShowStepViewController {
+    private func step(name: String, finishAction: ShowStepViewController.FinishAction? = nil) -> ShowStepViewController {
 
         let step = storyboard!.instantiateViewControllerWithIdentifier("ShowStepViewController") as! ShowStepViewController
 
         step.showName = name
+        step.finishAction = finishAction
 
         step.view.setTranslatesAutoresizingMaskIntoConstraints(false)
         scrollView.addSubview(step.view)

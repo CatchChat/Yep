@@ -118,7 +118,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         if !isLogined {
-            startIntroStory()
+            //startIntroStory()
+
+            startShowStory()
         }
 
 //        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
@@ -245,6 +247,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: Public
+
+    func startShowStory() {
+        let storyboard = UIStoryboard(name: "Show", bundle: nil)
+        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("ShowViewController") as! ShowViewController
+        window?.rootViewController = rootViewController
+    }
 
     func startIntroStory() {
         let storyboard = UIStoryboard(name: "Intro", bundle: nil)
