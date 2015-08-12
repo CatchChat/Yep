@@ -23,6 +23,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
+        // 默认将 Realm 放在 App Group 里
+
+        let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.Catch-Inc.Yep")!
+        let realmPath = directory.path!.stringByAppendingPathComponent("db.realm")
+        Realm.defaultPath = realmPath
+
+        // Realm 版本迁移
+
         setSchemaVersion(15, Realm.defaultPath, { migration, oldSchemaVersion in
             // We haven’t migrated anything yet, so oldSchemaVersion == 0
             if oldSchemaVersion < 1 {
