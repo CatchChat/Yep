@@ -110,12 +110,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 全局的外观自定义
         customAppearce()
 
-        let isLogined: Bool
-        if let v1AccessToken = YepUserDefaults.v1AccessToken.value {
-            isLogined = true
-        } else {
-            isLogined = false
-        }
+        let isLogined = YepUserDefaults.isLogined
 
         if !isLogined {
             //startIntroStory()
@@ -131,7 +126,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickAvatarViewController") as! RegisterPickAvatarViewController
 //        window?.rootViewController = UINavigationController(rootViewController: rootViewController)
 
-        if let token = YepUserDefaults.v1AccessToken.value {
+        if isLogined {
             sync()
 
             startFaye()
@@ -162,13 +157,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if !isColdLaunch {
             isColdLaunch = false
 
-            if let token = YepUserDefaults.v1AccessToken.value {
+            if YepUserDefaults.isLogined {
                 syncUnreadMessages() {
                 }
             }
         }
 
-        if let token = YepUserDefaults.v1AccessToken.value {
+        if YepUserDefaults.isLogined {
             syncMessagesReadStatus()
         }
     }
@@ -205,7 +200,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         println("didReceiveRemoteNotification: \(userInfo)")
 
-        if let v1AccessToken = YepUserDefaults.v1AccessToken.value {
+        if YepUserDefaults.isLogined {
             
             if let type = userInfo["type"] as? String {
 

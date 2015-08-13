@@ -26,7 +26,7 @@ class ShowViewController: UIViewController {
         let stepB = step("Yep Intro")
         let stepC = step("Yep Intro", finishAction: {
             if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-                if let _ = YepUserDefaults.v1AccessToken.value {
+                if YepUserDefaults.isLogined {
                     appDelegate.startMainStory()
                 } else {
                     appDelegate.startIntroStory()

@@ -82,6 +82,15 @@ class YepUserDefaults {
 
     static let defaults = NSUserDefaults(suiteName: YepConfig.appGroupID)!
 
+    static var isLogined: Bool {
+
+        if let _ = YepUserDefaults.v1AccessToken.value {
+            return true
+        } else {
+            return false
+        }
+    }
+
     // MARK: ReLogin
 
     class func cleanAllUserDefaults() {
