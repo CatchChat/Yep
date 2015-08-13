@@ -23,8 +23,18 @@
                                 </connections>
                             </scrollView>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="9Z8-B0-cVp">
-                                <rect key="frame" x="280.5" y="553" width="39" height="37"/>
+                                <rect key="frame" x="280" y="553" width="39" height="37"/>
                             </pageControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1Z-F1-RQr">
+                                <rect key="frame" x="264.5" y="554.5" width="71" height="33"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Start Yep">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="finish:" destination="Acs-5Z-0vE" eventType="touchUpInside" id="ajM-bI-yg8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -32,11 +42,14 @@
                             <constraint firstAttribute="trailing" secondItem="Zwm-fM-O1u" secondAttribute="trailing" id="BIF-Nd-eN7"/>
                             <constraint firstItem="Zwm-fM-O1u" firstAttribute="leading" secondItem="CUt-X0-WDO" secondAttribute="leading" id="BaF-jS-bGU"/>
                             <constraint firstAttribute="bottom" secondItem="Zwm-fM-O1u" secondAttribute="bottom" id="Q82-ie-kQU"/>
+                            <constraint firstItem="c1Z-F1-RQr" firstAttribute="centerY" secondItem="9Z8-B0-cVp" secondAttribute="centerY" id="Zne-k6-dzX"/>
                             <constraint firstAttribute="centerX" secondItem="9Z8-B0-cVp" secondAttribute="centerX" id="cn5-yn-PUN"/>
+                            <constraint firstItem="c1Z-F1-RQr" firstAttribute="centerX" secondItem="9Z8-B0-cVp" secondAttribute="centerX" id="lZq-gR-t1p"/>
                             <constraint firstItem="Zwm-fM-O1u" firstAttribute="top" secondItem="CUt-X0-WDO" secondAttribute="top" id="oS0-jj-Eyf"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="finishButton" destination="c1Z-F1-RQr" id="yI2-US-Iaz"/>
                         <outlet property="pageControl" destination="9Z8-B0-cVp" id="D8a-Vi-bnF"/>
                         <outlet property="scrollView" destination="Zwm-fM-O1u" id="AzC-i3-j5q"/>
                     </connections>
@@ -61,25 +74,16 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hdu-W7-igc">
-                                <rect key="frame" x="512" y="550" width="68" height="30"/>
-                                <state key="normal" title="Start, Yep">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="UeT-Lm-zPv" firstAttribute="leading" secondItem="wdD-Wr-EhK" secondAttribute="leading" id="6uK-nL-zD4"/>
                             <constraint firstAttribute="bottom" secondItem="UeT-Lm-zPv" secondAttribute="bottom" id="9OM-D6-fQE"/>
-                            <constraint firstItem="ue7-Md-6gH" firstAttribute="top" secondItem="hdu-W7-igc" secondAttribute="bottom" constant="20" id="Ckr-tN-l5J"/>
-                            <constraint firstAttribute="trailing" secondItem="hdu-W7-igc" secondAttribute="trailing" constant="20" id="PSm-0v-2Xx"/>
                             <constraint firstAttribute="trailing" secondItem="UeT-Lm-zPv" secondAttribute="trailing" id="RVK-Q3-3Pd"/>
                             <constraint firstItem="UeT-Lm-zPv" firstAttribute="top" secondItem="wdD-Wr-EhK" secondAttribute="top" id="g0j-DW-LRc"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="finishButton" destination="hdu-W7-igc" id="rzW-zR-b2B"/>
                         <outlet property="webView" destination="UeT-Lm-zPv" id="PRH-Zg-l2L"/>
                     </connections>
                 </viewController>

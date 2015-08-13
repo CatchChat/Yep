@@ -12,26 +12,12 @@ class ShowStepViewController: UIViewController {
 
     var showName: String?
 
-    typealias FinishAction = () -> Void
-    var finishAction: FinishAction?
-
     @IBOutlet weak var webView: UIWebView!
-    @IBOutlet weak var finishButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         loadHTML()
-
-        if let _ = finishAction {
-            finishButton.setTitle(NSLocalizedString("Start, Yep", comment: ""), forState: .Normal)
-            finishButton.hidden = false
-            finishButton.addTarget(self, action: "finish", forControlEvents: .TouchUpInside)
-        }
-    }
-
-    func finish() {
-        finishAction?()
     }
 
     private func loadHTML() {

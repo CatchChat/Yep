@@ -14,6 +14,10 @@ class ShowViewController: UIViewController {
 
     @IBOutlet weak var pageControl: UIPageControl!
 
+    @IBOutlet weak var finishButton: UIButton!
+
+    var steps = [ShowStepViewController]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,21 +28,16 @@ class ShowViewController: UIViewController {
 
         let stepA = step("Yep Intro")
         let stepB = step("Yep Intro")
-        let stepC = step("Yep Intro", finishAction: {
-            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-                if YepUserDefaults.isLogined {
-                    appDelegate.startMainStory()
-                } else {
-                    appDelegate.startIntroStory()
-                }
-            }
-        })
+        let stepC = step("Yep Intro")
 
-        let steps = [stepA, stepB, stepC]
+        steps = [stepA, stepB, stepC]
 
         pageControl.numberOfPages = steps.count
         pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
         pageControl.currentPageIndicatorTintColor = UIColor.yepTintColor()
+
+        finishButton.alpha = 0
+        finishButton.setTitle(NSLocalizedString("Start Yep", comment: ""), forState: .Normal)
 
         let viewsDictionary = [
             "view": view,
@@ -56,12 +55,11 @@ class ShowViewController: UIViewController {
         view.addConstraints(hConstraints)
     }
 
-    private func step(name: String, finishAction: ShowStepViewController.FinishAction? = nil) -> ShowStepViewController {
+    private func step(name: String) -> ShowStepViewController {
 
         let step = storyboard!.instantiateViewControllerWithIdentifier("ShowStepViewController") as! ShowStepViewController
 
         step.showName = name
-        step.finishAction = finishAction
 
         step.view.setTranslatesAutoresizingMaskIntoConstraints(false)
         scrollView.addSubview(step.view)
@@ -71,6 +69,20 @@ class ShowViewController: UIViewController {
 
         return step
     }
+
+    // MARK: Actions
+
+    @IBAction func finish(sender: UIButton) {
+
+        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            if YepUserDefaults.isLogined {
+                appDelegate.startMainStory()
+            } else {
+                appDelegate.startIntroStory()
+            }
+        }
+    }
+    
 }
 
 // MARK: - UIScrollViewDelegate
@@ -82,7 +94,18 @@ extension ShowViewController: UIScrollViewDelegate {
         let pageWidth = CGRectGetWidth(scrollView.bounds)
         let pageFraction = scrollView.contentOffset.x / pageWidth
 
-        pageControl.currentPage = Int(round(pageFraction))
+        let page = Int(round(pageFraction))
+
+        let isLastStep = (page == (steps.count - 1))
+
+        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+            self.finishButton.alpha = isLastStep ? 1 : 0
+            self.pageControl.alpha = isLastStep ? 0 : 1
+
+        }, completion: { _ in
+        })
+
+        pageControl.currentPage = page
     }
 }
 
