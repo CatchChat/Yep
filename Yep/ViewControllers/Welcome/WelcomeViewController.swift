@@ -21,8 +21,6 @@ class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-
         logoLabel.text = NSLocalizedString("Yep", comment: "")
         sloganLabel.text = NSLocalizedString("Grow together", comment: "")
 
@@ -30,6 +28,12 @@ class WelcomeViewController: UIViewController {
         loginButton.setTitle(NSLocalizedString("Login", comment: ""), forState: .Normal)
 
         companyLabel.text = NSLocalizedString("Catch Inc.", comment: "")
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
 
     // MARK: Actions

@@ -29,10 +29,7 @@ enum SocialAccount: String, Printable {
         case .Instagram:
             return "Instagram"
         }
-        
     }
-    
-
     
     var tintColor: UIColor {
         
