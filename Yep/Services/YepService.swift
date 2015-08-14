@@ -705,6 +705,42 @@ func reportProfileUser(profileUser: ProfileUser, forReason reason: ReportReason,
     }
 }
 
+// MARK: - Friend Requests
+
+struct FriendRequest {
+    enum State: String {
+        case Pending    = "pending"
+        case Accepted   = "accepted"
+        case Rejected   = "rejected"
+        case Blocked    = "blocked"
+    }
+}
+
+func sendFriendRequestToUser(user: User, #failureHandler: ((Reason, String?) -> Void)?, #completion: FriendRequest.State -> Void) {
+
+    let requestParameters = [
+        "friend_id": user.userID,
+    ]
+
+    let parse: JSONDictionary -> FriendRequest.State? = { data in
+        //println("sendFriendRequestToUser: \(data)")
+
+        if let state = data["state"] as? String {
+            return FriendRequest.State(rawValue: state)
+        }
+
+        return nil
+    }
+
+    let resource = authJsonResource(path: "/api/v1/friend_requests", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
 // MARK: - Friendships
 
 private func headFriendships(#completion: JSONDictionary -> Void) {

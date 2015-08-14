@@ -662,23 +662,47 @@ class ConversationViewController: BaseViewController {
 
         // test FriendRequestView
 
-        let friendRequestView = FriendRequestView()
+        if let user = conversation.withFriend {
 
-        friendRequestView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        view.addSubview(friendRequestView)
+            let friendRequestView = FriendRequestView()
 
-        let friendRequestViewLeading = NSLayoutConstraint(item: friendRequestView, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1, constant: 0)
-        let friendRequestViewTrailing = NSLayoutConstraint(item: friendRequestView, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1, constant: 0)
-        let friendRequestViewTop = NSLayoutConstraint(item: friendRequestView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 64)
-        let friendRequestViewHeight = NSLayoutConstraint(item: friendRequestView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: FriendRequestView.height)
+            friendRequestView.setTranslatesAutoresizingMaskIntoConstraints(false)
+            view.addSubview(friendRequestView)
 
-        NSLayoutConstraint.activateConstraints([friendRequestViewLeading, friendRequestViewTrailing, friendRequestViewTop, friendRequestViewHeight])
+            let friendRequestViewLeading = NSLayoutConstraint(item: friendRequestView, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1, constant: 0)
+            let friendRequestViewTrailing = NSLayoutConstraint(item: friendRequestView, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1, constant: 0)
+            let friendRequestViewTop = NSLayoutConstraint(item: friendRequestView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 64)
+            let friendRequestViewHeight = NSLayoutConstraint(item: friendRequestView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: FriendRequestView.height)
 
-        conversationCollectionView.contentInset.top += FriendRequestView.height
+            NSLayoutConstraint.activateConstraints([friendRequestViewLeading, friendRequestViewTrailing, friendRequestViewTop, friendRequestViewHeight])
 
-        friendRequestView.user = conversation.withFriend
-        friendRequestView.action = {
-            println("try Send Friend Request")
+            conversationCollectionView.contentInset.top += FriendRequestView.height
+
+            friendRequestView.user = user
+
+            let userID = user.userID
+
+            friendRequestView.action = { [weak self] friendRequestView in
+                println("try Send Friend Request")
+
+                sendFriendRequestToUser(user, failureHandler: { reason, errorMessage in
+                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Send Friend Request failed!", comment: ""), inViewController: self)
+
+                }, completion: { friendRequestState in
+                    println("friendRequestState: \(friendRequestState.rawValue)")
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        let realm = Realm()
+                        if let user = userWithUserID(userID, inRealm: realm) {
+                            realm.write {
+                                user.friendState = UserFriendState.IssuedRequest.rawValue
+                            }
+
+                            friendRequestView.actionButton.enabled = false
+                        }
+                    }
+                })
+            }
         }
     }
     
