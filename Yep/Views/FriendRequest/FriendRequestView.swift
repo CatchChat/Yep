@@ -17,17 +17,24 @@ class FriendRequestView: UIView {
 
     lazy var nicknameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Love"
+        label.text = "NIX"
         return label
         }()
 
     lazy var stateLabel: UILabel = {
         let label = UILabel()
+        label.text = "is not your friend, yet"
         return label
         }()
 
     lazy var actionButton: UIButton = {
         let button = UIButton()
+        button.setTitle(NSLocalizedString("Add", comment: ""), forState: .Normal)
+        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        button.backgroundColor = UIColor.yepTintColor()
+        button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        button.setTitleColor(UIColor.grayColor(), forState: .Highlighted)
+        button.layer.cornerRadius = 5
         return button
         }()
 
@@ -77,6 +84,20 @@ class FriendRequestView: UIView {
         let nicknameLabelLeft = NSLayoutConstraint(item: nicknameLabel, attribute: .Left, relatedBy: .Equal, toItem: avatarImageView, attribute: .Right, multiplier: 1, constant: 15)
 
         NSLayoutConstraint.activateConstraints([nicknameLabelTop, nicknameLabelLeft])
+
+        // stateLabel
+
+        let stateLabelBottom = NSLayoutConstraint(item: stateLabel, attribute: .Bottom, relatedBy: .Equal, toItem: avatarImageView, attribute: .Bottom, multiplier: 1, constant: 0)
+        let stateLabelLeft = NSLayoutConstraint(item: stateLabel, attribute: .Left, relatedBy: .Equal, toItem: nicknameLabel, attribute: .Left, multiplier: 1, constant: 0)
+
+        NSLayoutConstraint.activateConstraints([stateLabelBottom, stateLabelLeft])
+
+        // actionButton
+
+        let actionButtonTrailing = NSLayoutConstraint(item: actionButton, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1, constant: -YepConfig.chatCellGapBetweenWallAndAvatar())
+        let actionButtonCenterY = NSLayoutConstraint(item: actionButton, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0)
+
+        NSLayoutConstraint.activateConstraints([actionButtonTrailing, actionButtonCenterY])
     }
 }
 
