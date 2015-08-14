@@ -677,6 +677,9 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.contentInset.top += FriendRequestView.height
 
         friendRequestView.user = conversation.withFriend
+        friendRequestView.action = {
+            println("try Send Friend Request")
+        }
     }
     
     func tryRecoverMessageToolBar() {

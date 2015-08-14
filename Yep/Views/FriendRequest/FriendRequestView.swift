@@ -22,6 +22,8 @@ class FriendRequestView: UIView {
         }
     }
 
+    var action: (() -> Void)?
+
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
@@ -51,8 +53,17 @@ class FriendRequestView: UIView {
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         button.setTitleColor(UIColor.grayColor(), forState: .Highlighted)
         button.layer.cornerRadius = 5
+        button.addTarget(self, action: "tryAction", forControlEvents: .TouchUpInside)
         return button
         }()
+
+    // MARK: Actions
+
+    func tryAction() {
+        action?()
+    }
+
+    // MARK: UI
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
