@@ -664,6 +664,11 @@ class ConversationViewController: BaseViewController {
 
         if let user = conversation.withFriend {
 
+            // 若是陌生人才显示 FriendRequestView
+            if user.friendState != UserFriendState.Stranger.rawValue {
+                return
+            }
+
             let friendRequestView = FriendRequestView()
 
             friendRequestView.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -699,6 +704,7 @@ class ConversationViewController: BaseViewController {
                             }
 
                             friendRequestView.actionButton.enabled = false
+                            friendRequestView.stateLabel.text = NSLocalizedString("waiting to be accepted.", comment: "")
                         }
                     }
                 })
