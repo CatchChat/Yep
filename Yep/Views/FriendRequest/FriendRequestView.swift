@@ -18,6 +18,8 @@ class FriendRequestView: UIView {
                 AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: YepConfig.chatCellAvatarSize() * 0.5, completion: { [weak self] avatar in
                     self?.avatarImageView.image = avatar
                 })
+
+                nicknameLabel.text = user.nickname
             }
         }
     }
@@ -40,7 +42,7 @@ class FriendRequestView: UIView {
     lazy var stateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFontOfSize(14)
-        label.text = "is not your friend, yet"
+        label.text = NSLocalizedString("is not your friend", comment: "") 
         label.textColor = UIColor.grayColor().colorWithAlphaComponent(0.9)
         return label
         }()
