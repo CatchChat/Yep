@@ -10,6 +10,8 @@ import UIKit
 
 class FriendRequestView: UIView {
 
+    static let height: CGFloat = 70
+
     var user: User? {
         willSet {
             if let user = newValue {
