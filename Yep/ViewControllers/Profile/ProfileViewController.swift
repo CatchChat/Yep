@@ -143,9 +143,9 @@ class ProfileViewController: UIViewController {
         didSet {
             if !profileUserIsMe {
 
-                let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
+                //let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
 
-                customNavigationItem.rightBarButtonItem = moreBarButtonItem
+                //customNavigationItem.rightBarButtonItem = moreBarButtonItem
 
 
                 if isFromConversation {
@@ -706,6 +706,7 @@ class ProfileViewController: UIViewController {
         }
     }
 
+    /*
     func moreAction() {
 
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
@@ -783,6 +784,7 @@ class ProfileViewController: UIViewController {
 
         self.presentViewController(alertController, animated: true, completion: nil)
     }
+    */
 
 }
 
