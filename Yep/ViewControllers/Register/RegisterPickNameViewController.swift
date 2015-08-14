@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class RegisterPickNameViewController: UIViewController {
+class RegisterPickNameViewController: BaseViewController {
 
     @IBOutlet weak var pickNamePromptLabel: UILabel!
     @IBOutlet weak var pickNamePromptLabelTopConstraint: NSLayoutConstraint!
@@ -24,6 +24,8 @@ class RegisterPickNameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        animatedOnNavigationBar = false
 
         navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Sign up", comment: ""))
 

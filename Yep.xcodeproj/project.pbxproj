@@ -219,9 +219,13 @@
 		50F2B9781B2EDF3D00F840CC /* BorderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */; };
 		50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */; };
 		50FA9A441B661698009BF2A0 /* UIViewController+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */; };
+		840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */; };
+		840CD23E1B7B84AA000D2680 /* ShowResources in Resources */ = {isa = PBXBuildFile; fileRef = 840CD23D1B7B84AA000D2680 /* ShowResources */; };
 		845E1A661B788EF3001E0789 /* EditSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845E1A651B788EF3001E0789 /* EditSkillsViewController.swift */; };
 		848806B01B789A2D000C5424 /* EditSkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848806AE1B789A2D000C5424 /* EditSkillCell.swift */; };
 		848806B11B789A2D000C5424 /* EditSkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 848806AF1B789A2D000C5424 /* EditSkillCell.xib */; };
+		848806B41B7B4E2E000C5424 /* Show.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 848806B31B7B4E2E000C5424 /* Show.storyboard */; };
+		848806B61B7B4F53000C5424 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848806B51B7B4F53000C5424 /* ShowViewController.swift */; };
 		84C959891B731FD20017D3ED /* ChatBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C959881B731FD20017D3ED /* ChatBaseCell.swift */; };
 		B00500D7E943DDD27CF9C562 /* Pods_Yep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3146F0F60F2A38BC6E0FA66 /* Pods_Yep.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -458,10 +462,14 @@
 		50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BorderTextField.swift; path = Views/TextFields/BorderTextField.swift; sourceTree = "<group>"; };
 		50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTitleLabel.swift; path = Views/Labels/NavigationTitleLabel.swift; sourceTree = "<group>"; };
 		50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Yep.swift"; path = "Extensions/UIViewController+Yep.swift"; sourceTree = "<group>"; };
+		840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepViewController.swift; path = ViewControllers/Show/ShowStepViewController.swift; sourceTree = "<group>"; };
+		840CD23D1B7B84AA000D2680 /* ShowResources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ShowResources; sourceTree = "<group>"; };
 		845E1A651B788EF3001E0789 /* EditSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSkillsViewController.swift; path = ViewControllers/EditSkills/EditSkillsViewController.swift; sourceTree = "<group>"; };
 		848806AE1B789A2D000C5424 /* EditSkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSkillCell.swift; path = Views/Cells/EditSkill/EditSkillCell.swift; sourceTree = "<group>"; };
 		848806AF1B789A2D000C5424 /* EditSkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditSkillCell.xib; path = Views/Cells/EditSkill/EditSkillCell.xib; sourceTree = "<group>"; };
 		848806B21B7B0230000C5424 /* Yep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Yep.entitlements; sourceTree = "<group>"; };
+		848806B31B7B4E2E000C5424 /* Show.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Show.storyboard; sourceTree = "<group>"; };
+		848806B51B7B4F53000C5424 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowViewController.swift; path = ViewControllers/Show/ShowViewController.swift; sourceTree = "<group>"; };
 		84C959881B731FD20017D3ED /* ChatBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatBaseCell.swift; path = Views/Cells/ChatBaseCell/ChatBaseCell.swift; sourceTree = "<group>"; };
 		88C96122C478C4D134F634F6 /* Pods-Yep.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yep.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Yep/Pods-Yep.debug.xcconfig"; sourceTree = "<group>"; };
 		C3146F0F60F2A38BC6E0FA66 /* Pods_Yep.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Yep.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -564,6 +572,7 @@
 		0A8F54AD1AB67D11004AD60E /* Yep */ = {
 			isa = PBXGroup;
 			children = (
+				840CD23D1B7B84AA000D2680 /* ShowResources */,
 				848806B21B7B0230000C5424 /* Yep.entitlements */,
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
 				0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */,
@@ -575,8 +584,9 @@
 				5023DE341AB688F900B3EE96 /* Extensions */,
 				5023DE391AB6979C00B3EE96 /* Views */,
 				5023DE271AB6856600B3EE96 /* ViewControllers */,
-				0A8F54B41AB67D11004AD60E /* Main.storyboard */,
+				848806B31B7B4E2E000C5424 /* Show.storyboard */,
 				502AE5171AB70D72005BD199 /* Intro.storyboard */,
+				0A8F54B41AB67D11004AD60E /* Main.storyboard */,
 				0A8F54B71AB67D11004AD60E /* Images.xcassets */,
 				504BDC141B4528A500DBD35D /* Badges.xcassets */,
 				0A8F54B91AB67D11004AD60E /* LaunchScreen.xib */,
@@ -737,6 +747,7 @@
 				508F8FCD1B01C80500461B0B /* SocialWorks */,
 				0A943A7C1B0F8EB10022DD67 /* Base */,
 				0AB8F79B1B15D1DF00F4AF09 /* Nav */,
+				848806B71B7B4F58000C5424 /* Show */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1582,6 +1593,15 @@
 			name = EditSkill;
 			sourceTree = "<group>";
 		};
+		848806B71B7B4F58000C5424 /* Show */ = {
+			isa = PBXGroup;
+			children = (
+				848806B51B7B4F53000C5424 /* ShowViewController.swift */,
+				840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */,
+			);
+			name = Show;
+			sourceTree = "<group>";
+		};
 		84C9598A1B7320060017D3ED /* ChatBase */ = {
 			isa = PBXGroup;
 			children = (
@@ -1705,6 +1725,7 @@
 				508D17481ACCF4710092D666 /* ChatLeftAudioCell.xib in Resources */,
 				0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */,
 				5033159D1AC101C80008A209 /* ChatRightTextCell.xib in Resources */,
+				840CD23E1B7B84AA000D2680 /* ShowResources in Resources */,
 				50894CFB1AEA54BA000981AF /* SettingsMoreCell.xib in Resources */,
 				505EC8181ADF8151001D27E0 /* SkillCategoryCell.xib in Resources */,
 				505EC81D1ADFBE1B001D27E0 /* SkillSelectionCell.xib in Resources */,
@@ -1731,6 +1752,7 @@
 				50392CD21B393FF60009D647 /* SkillAddCell.xib in Resources */,
 				503315981AC1017E0008A209 /* ChatLeftTextCell.xib in Resources */,
 				50894D031AEA6433000981AF /* EditProfileLessInfoCell.xib in Resources */,
+				848806B41B7B4E2E000C5424 /* Show.storyboard in Resources */,
 				0AD7EA771AC3EEB000617758 /* PushConfig.plist in Resources */,
 				5064F65A1B0B14420089FAD4 /* AddFriendMoreCell.xib in Resources */,
 			);
@@ -1906,6 +1928,7 @@
 				505EC8131ADE607D001D27E0 /* SkillCategoryButton.swift in Sources */,
 				0AC25F031B1100F0009E6E13 /* YepScrollView.swift in Sources */,
 				5064F6591B0B14420089FAD4 /* AddFriendMoreCell.swift in Sources */,
+				848806B61B7B4F53000C5424 /* ShowViewController.swift in Sources */,
 				5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */,
 				504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */,
 				50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */,
@@ -1955,6 +1978,7 @@
 				50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */,
 				5053AD5A1AF83B4200B3CBFA /* ChatLeftLocationCell.swift in Sources */,
 				50A640E91B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.swift in Sources */,
+				840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */,
 				508F8FD01B01D04400461B0B /* GithubRepoCell.swift in Sources */,
 				50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */,
 				504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */,
