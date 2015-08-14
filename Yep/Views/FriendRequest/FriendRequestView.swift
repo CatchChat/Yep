@@ -10,6 +10,16 @@ import UIKit
 
 class FriendRequestView: UIView {
 
+    var user: User? {
+        willSet {
+            if let user = newValue {
+                AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: YepConfig.chatCellAvatarSize() * 0.5, completion: { [weak self] avatar in
+                    self?.avatarImageView.image = avatar
+                })
+            }
+        }
+    }
+
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
@@ -34,7 +44,7 @@ class FriendRequestView: UIView {
     lazy var actionButton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("Add", comment: ""), forState: .Normal)
-        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
         button.backgroundColor = UIColor.yepTintColor()
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         button.setTitleColor(UIColor.grayColor(), forState: .Highlighted)
@@ -45,11 +55,9 @@ class FriendRequestView: UIView {
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
-        makeUI()
-
         backgroundColor = UIColor.clearColor()
-        
-        avatarImageView.backgroundColor = UIColor.redColor()
+
+        makeUI()
     }
 
     class ContainerView: UIView {
