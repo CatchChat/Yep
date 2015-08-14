@@ -17,13 +17,17 @@ class FriendRequestView: UIView {
 
     lazy var nicknameLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFontOfSize(16)
         label.text = "NIX"
+        label.textColor = UIColor.blackColor().colorWithAlphaComponent(0.9)
         return label
         }()
 
     lazy var stateLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFontOfSize(14)
         label.text = "is not your friend, yet"
+        label.textColor = UIColor.grayColor().colorWithAlphaComponent(0.9)
         return label
         }()
 
