@@ -43,36 +43,86 @@ class FriendRequestView: UIView {
 
         makeUI()
 
-        backgroundColor = UIColor.whiteColor()
+        backgroundColor = UIColor.clearColor()
         
         avatarImageView.backgroundColor = UIColor.redColor()
     }
 
+    class ContainerView: UIView {
+
+        override func didMoveToSuperview() {
+            super.didMoveToSuperview()
+
+            backgroundColor = UIColor.clearColor()
+        }
+
+        override func drawRect(rect: CGRect) {
+            super.drawRect(rect)
+
+            let context = UIGraphicsGetCurrentContext()
+
+            let y = CGRectGetHeight(rect)
+            CGContextMoveToPoint(context, 0, y)
+            CGContextAddLineToPoint(context, CGRectGetWidth(rect), y)
+
+            let bottomLineWidth: CGFloat = 1 / UIScreen.mainScreen().scale
+            CGContextSetLineWidth(context, bottomLineWidth)
+
+            UIColor.lightGrayColor().setStroke()
+            
+            CGContextStrokePath(context)
+        }
+    }
+
     func makeUI() {
 
+        let blurEffect = UIBlurEffect(style: .ExtraLight)
+        let visualEffectView = UIVisualEffectView(effect: blurEffect)
+
+        visualEffectView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        addSubview(visualEffectView)
+
+        let containerView = ContainerView()
+        containerView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        addSubview(containerView)
+
         avatarImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        addSubview(avatarImageView)
+        containerView.addSubview(avatarImageView)
 
         nicknameLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        addSubview(nicknameLabel)
+        containerView.addSubview(nicknameLabel)
 
         stateLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        addSubview(stateLabel)
+        containerView.addSubview(stateLabel)
 
         actionButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        addSubview(actionButton)
+        containerView.addSubview(actionButton)
 
         let viewsDictionary = [
-            "avatarImageView": avatarImageView,
-            "nicknameLabel": nicknameLabel,
-            "stateLabel": stateLabel,
-            "actionButton": actionButton,
+            "visualEffectView": visualEffectView,
+            "containerView": containerView,
         ]
+
+        // visualEffectView
+
+        let visualEffectViewConstraintH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[visualEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let visualEffectViewConstraintV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[visualEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        NSLayoutConstraint.activateConstraints(visualEffectViewConstraintH)
+        NSLayoutConstraint.activateConstraints(visualEffectViewConstraintV)
+
+        // containerView
+
+        let containerViewConstraintH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[containerView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let containerViewConstraintV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[containerView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        NSLayoutConstraint.activateConstraints(containerViewConstraintH)
+        NSLayoutConstraint.activateConstraints(containerViewConstraintV)
 
         // avatarImageView
 
-        let avatarImageViewCenterY = NSLayoutConstraint(item: avatarImageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0)
-        let avatarImageViewLeading = NSLayoutConstraint(item: avatarImageView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1, constant: YepConfig.chatCellGapBetweenWallAndAvatar())
+        let avatarImageViewCenterY = NSLayoutConstraint(item: avatarImageView, attribute: .CenterY, relatedBy: .Equal, toItem: containerView, attribute: .CenterY, multiplier: 1, constant: 0)
+        let avatarImageViewLeading = NSLayoutConstraint(item: avatarImageView, attribute: .Leading, relatedBy: .Equal, toItem: containerView, attribute: .Leading, multiplier: 1, constant: YepConfig.chatCellGapBetweenWallAndAvatar())
         let avatarImageViewWidth = NSLayoutConstraint(item: avatarImageView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: YepConfig.chatCellAvatarSize())
         let avatarImageViewHeight = NSLayoutConstraint(item: avatarImageView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: YepConfig.chatCellAvatarSize())
 
@@ -94,27 +144,10 @@ class FriendRequestView: UIView {
 
         // actionButton
 
-        let actionButtonTrailing = NSLayoutConstraint(item: actionButton, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1, constant: -YepConfig.chatCellGapBetweenWallAndAvatar())
-        let actionButtonCenterY = NSLayoutConstraint(item: actionButton, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0)
+        let actionButtonTrailing = NSLayoutConstraint(item: actionButton, attribute: .Trailing, relatedBy: .Equal, toItem: containerView, attribute: .Trailing, multiplier: 1, constant: -YepConfig.chatCellGapBetweenWallAndAvatar())
+        let actionButtonCenterY = NSLayoutConstraint(item: actionButton, attribute: .CenterY, relatedBy: .Equal, toItem: containerView, attribute: .CenterY, multiplier: 1, constant: 0)
 
         NSLayoutConstraint.activateConstraints([actionButtonTrailing, actionButtonCenterY])
-    }
-
-    override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
-
-        let context = UIGraphicsGetCurrentContext()
-
-        let y = CGRectGetHeight(rect)
-        CGContextMoveToPoint(context, 0, y)
-        CGContextAddLineToPoint(context, CGRectGetWidth(rect), y)
-
-        let bottomLineWidth: CGFloat = 1 / UIScreen.mainScreen().scale
-        CGContextSetLineWidth(context, bottomLineWidth)
-
-        UIColor.lightGrayColor().setStroke()
-
-        CGContextStrokePath(context)
     }
 }
 
