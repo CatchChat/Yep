@@ -219,6 +219,7 @@
 		50F2B9781B2EDF3D00F840CC /* BorderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */; };
 		50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */; };
 		50FA9A441B661698009BF2A0 /* UIViewController+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */; };
+		8409137D1B7DB173001C89D6 /* FriendRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409137C1B7DB173001C89D6 /* FriendRequestView.swift */; };
 		840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */; };
 		840CD23E1B7B84AA000D2680 /* ShowResources in Resources */ = {isa = PBXBuildFile; fileRef = 840CD23D1B7B84AA000D2680 /* ShowResources */; };
 		845E1A661B788EF3001E0789 /* EditSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845E1A651B788EF3001E0789 /* EditSkillsViewController.swift */; };
@@ -462,6 +463,7 @@
 		50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BorderTextField.swift; path = Views/TextFields/BorderTextField.swift; sourceTree = "<group>"; };
 		50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTitleLabel.swift; path = Views/Labels/NavigationTitleLabel.swift; sourceTree = "<group>"; };
 		50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Yep.swift"; path = "Extensions/UIViewController+Yep.swift"; sourceTree = "<group>"; };
+		8409137C1B7DB173001C89D6 /* FriendRequestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendRequestView.swift; path = Views/FriendRequest/FriendRequestView.swift; sourceTree = "<group>"; };
 		840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepViewController.swift; path = ViewControllers/Show/ShowStepViewController.swift; sourceTree = "<group>"; };
 		840CD23D1B7B84AA000D2680 /* ShowResources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ShowResources; sourceTree = "<group>"; };
 		845E1A651B788EF3001E0789 /* EditSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSkillsViewController.swift; path = ViewControllers/EditSkills/EditSkillsViewController.swift; sourceTree = "<group>"; };
@@ -830,6 +832,7 @@
 				500A0B201B451A7400D49358 /* Badge */,
 				504F85AD1B4D21E400F909BE /* DiscoverFilter */,
 				5044BF071B5FA75000930ADC /* BubbleMenu */,
+				8409137E1B7DB178001C89D6 /* FriendRequest */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1576,6 +1579,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		8409137E1B7DB178001C89D6 /* FriendRequest */ = {
+			isa = PBXGroup;
+			children = (
+				8409137C1B7DB173001C89D6 /* FriendRequestView.swift */,
+			);
+			name = FriendRequest;
+			sourceTree = "<group>";
+		};
 		845E1A671B788EFC001E0789 /* EditSkills */ = {
 			isa = PBXGroup;
 			children = (
@@ -1879,6 +1890,7 @@
 				848806B01B789A2D000C5424 /* EditSkillCell.swift in Sources */,
 				5053AD551AF83B0F00B3CBFA /* ChatRightLocationCell.swift in Sources */,
 				50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */,
+				8409137D1B7DB173001C89D6 /* FriendRequestView.swift in Sources */,
 				50A640E51B6F41E00050E4A3 /* DoNotDisturbSwitchCell.swift in Sources */,
 				50FA9A441B661698009BF2A0 /* UIViewController+Yep.swift in Sources */,
 				0AC25F061B1105D5009E6E13 /* YepChildScrollView.swift in Sources */,
