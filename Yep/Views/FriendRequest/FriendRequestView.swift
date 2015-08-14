@@ -43,7 +43,7 @@ class FriendRequestView: UIView {
 
         makeUI()
 
-        backgroundColor = UIColor.lightGrayColor()
+        backgroundColor = UIColor.whiteColor()
         
         avatarImageView.backgroundColor = UIColor.redColor()
     }
@@ -98,6 +98,23 @@ class FriendRequestView: UIView {
         let actionButtonCenterY = NSLayoutConstraint(item: actionButton, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0)
 
         NSLayoutConstraint.activateConstraints([actionButtonTrailing, actionButtonCenterY])
+    }
+
+    override func drawRect(rect: CGRect) {
+        super.drawRect(rect)
+
+        let context = UIGraphicsGetCurrentContext()
+
+        let y = CGRectGetHeight(rect)
+        CGContextMoveToPoint(context, 0, y)
+        CGContextAddLineToPoint(context, CGRectGetWidth(rect), y)
+
+        let bottomLineWidth: CGFloat = 1 / UIScreen.mainScreen().scale
+        CGContextSetLineWidth(context, bottomLineWidth)
+
+        UIColor.lightGrayColor().setStroke()
+
+        CGContextStrokePath(context)
     }
 }
 
