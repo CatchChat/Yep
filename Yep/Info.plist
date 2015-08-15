@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>64</string>
+	<string>66</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
