@@ -709,6 +709,7 @@ func reportProfileUser(profileUser: ProfileUser, forReason reason: ReportReason,
 
 struct FriendRequest {
     enum State: String {
+        case None       = "none"
         case Pending    = "pending"
         case Accepted   = "accepted"
         case Rejected   = "rejected"
@@ -733,6 +734,45 @@ func sendFriendRequestToUser(user: User, #failureHandler: ((Reason, String?) -> 
     }
 
     let resource = authJsonResource(path: "/api/v1/friend_requests", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+func stateOfFriendRequestWithUser(user: User, #failureHandler: ((Reason, String?) -> Void)?, #completion: (received: FriendRequest.State, sent: FriendRequest.State) -> Void) {
+
+    let requestParameters = [
+        "user_id": user.userID,
+    ]
+
+    let parse: JSONDictionary -> (FriendRequest.State, FriendRequest.State)? = { data in
+        println("stateOfFriendRequestWithUser: \(data)")
+
+        var receivedFriendRequestState = FriendRequest.State.None
+        var sentFriendRequestState = FriendRequest.State.None
+
+        if let
+            receivedInfo = data["received"] as? JSONDictionary,
+            state = data["state"] as? String {
+                if let state = FriendRequest.State(rawValue: state) {
+                    receivedFriendRequestState = state
+                }
+        }
+        if let
+            receivedInfo = data["sent"] as? JSONDictionary,
+            state = data["state"] as? String {
+                if let state = FriendRequest.State(rawValue: state) {
+                    sentFriendRequestState = state
+                }
+        }
+
+        return (receivedFriendRequestState, sentFriendRequestState)
+    }
+
+    let resource = authJsonResource(path: "/api/v1/friend_requests/with_user/\(user.userID)", method: .GET, requestParameters: requestParameters, parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)
