@@ -10,7 +10,7 @@ import UIKit
 
 class FriendRequestView: UIView {
 
-    static let height: CGFloat = 70
+    static let height: CGFloat = 80
 
     enum State {
         case Add(prompt: String)
@@ -51,7 +51,9 @@ class FriendRequestView: UIView {
         }
     }
 
-    var action: (FriendRequestView -> Void)?
+    var addAction: (FriendRequestView -> Void)?
+    var acceptAction: (FriendRequestView -> Void)?
+    var rejectAction: (FriendRequestView -> Void)?
 
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -69,28 +71,59 @@ class FriendRequestView: UIView {
     lazy var stateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFontOfSize(14)
-        //label.text = state.prompt
+        label.numberOfLines = 0
         label.textColor = UIColor.grayColor().colorWithAlphaComponent(0.9)
         return label
         }()
 
-    lazy var actionButton: UIButton = {
+    func baseButton() -> UIButton {
         let button = UIButton()
-        button.setTitle(NSLocalizedString("Add", comment: ""), forState: .Normal)
+        button.setContentHuggingPriority(300, forAxis: UILayoutConstraintAxis.Horizontal)
+        //button.setContentCompressionResistancePriority(300, forAxis: UILayoutConstraintAxis.Horizontal)
         button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
-        button.backgroundColor = UIColor.yepTintColor()
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         button.setTitleColor(UIColor.grayColor(), forState: .Highlighted)
         button.setTitleColor(UIColor.lightGrayColor(), forState: .Disabled)
         button.layer.cornerRadius = 5
-        button.addTarget(self, action: "tryAction", forControlEvents: .TouchUpInside)
+        return button
+    }
+
+    lazy var addButton: UIButton = {
+        let button = self.baseButton()
+        button.setTitle(NSLocalizedString("Add", comment: ""), forState: .Normal)
+        button.backgroundColor = UIColor.yepTintColor()
+        button.addTarget(self, action: "tryAddAction", forControlEvents: .TouchUpInside)
+        return button
+        }()
+
+    lazy var acceptButton: UIButton = {
+        let button = self.baseButton()
+        button.setTitle(NSLocalizedString("Accept", comment: ""), forState: .Normal)
+        button.backgroundColor = UIColor.yepTintColor()
+        button.addTarget(self, action: "tryAcceptAction", forControlEvents: .TouchUpInside)
+        return button
+        }()
+
+    lazy var rejectButton: UIButton = {
+        let button = self.baseButton()
+        button.setTitle(NSLocalizedString("Reject", comment: ""), forState: .Normal)
+        button.backgroundColor = UIColor.redColor()
+        button.addTarget(self, action: "tryRejectAction", forControlEvents: .TouchUpInside)
         return button
         }()
 
     // MARK: Actions
 
-    func tryAction() {
-        action?(self)
+    func tryAddAction() {
+        addAction?(self)
+    }
+
+    func tryAcceptAction() {
+        acceptAction?(self)
+    }
+
+    func tryRejectAction() {
+        rejectAction?(self)
     }
 
     // MARK: UI
@@ -150,8 +183,6 @@ class FriendRequestView: UIView {
         stateLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
         containerView.addSubview(stateLabel)
 
-        actionButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        containerView.addSubview(actionButton)
 
         let viewsDictionary = [
             "visualEffectView": visualEffectView,
@@ -192,17 +223,62 @@ class FriendRequestView: UIView {
 
         // stateLabel
 
-        let stateLabelBottom = NSLayoutConstraint(item: stateLabel, attribute: .Bottom, relatedBy: .Equal, toItem: avatarImageView, attribute: .Bottom, multiplier: 1, constant: 0)
+        let stateLabelTop = NSLayoutConstraint(item: stateLabel, attribute: .Top, relatedBy: .Equal, toItem: nicknameLabel, attribute: .Bottom, multiplier: 1, constant: 0)
+        let stateLabelBottom = NSLayoutConstraint(item: stateLabel, attribute: .Bottom, relatedBy: .Equal, toItem: containerView, attribute: .Bottom, multiplier: 1, constant: -4)
         let stateLabelLeft = NSLayoutConstraint(item: stateLabel, attribute: .Left, relatedBy: .Equal, toItem: nicknameLabel, attribute: .Left, multiplier: 1, constant: 0)
 
-        NSLayoutConstraint.activateConstraints([stateLabelBottom, stateLabelLeft])
+        NSLayoutConstraint.activateConstraints([stateLabelTop, stateLabelBottom, stateLabelLeft])
 
-        // actionButton
+        switch state {
 
-        let actionButtonTrailing = NSLayoutConstraint(item: actionButton, attribute: .Trailing, relatedBy: .Equal, toItem: containerView, attribute: .Trailing, multiplier: 1, constant: -YepConfig.chatCellGapBetweenWallAndAvatar())
-        let actionButtonCenterY = NSLayoutConstraint(item: actionButton, attribute: .CenterY, relatedBy: .Equal, toItem: containerView, attribute: .CenterY, multiplier: 1, constant: 0)
+        case .Add:
 
-        NSLayoutConstraint.activateConstraints([actionButtonTrailing, actionButtonCenterY])
+            // addButton
+
+            addButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+            containerView.addSubview(addButton)
+
+            let addButtonTrailing = NSLayoutConstraint(item: addButton, attribute: .Trailing, relatedBy: .Equal, toItem: containerView, attribute: .Trailing, multiplier: 1, constant: -YepConfig.chatCellGapBetweenWallAndAvatar())
+            let addButtonCenterY = NSLayoutConstraint(item: addButton, attribute: .CenterY, relatedBy: .Equal, toItem: containerView, attribute: .CenterY, multiplier: 1, constant: 0)
+
+            NSLayoutConstraint.activateConstraints([addButtonTrailing, addButtonCenterY])
+
+            // labels' right
+
+            let nicknameLabelRight = NSLayoutConstraint(item: nicknameLabel, attribute: .Right, relatedBy: .Equal, toItem: addButton, attribute: .Left, multiplier: 1, constant: -8)
+            let stateLabelRight = NSLayoutConstraint(item: stateLabel, attribute: .Right, relatedBy: .Equal, toItem: addButton, attribute: .Left, multiplier: 1, constant: -8)
+
+            NSLayoutConstraint.activateConstraints([nicknameLabelRight, stateLabelRight])
+
+        case .Consider:
+
+            // acceptButton
+
+            acceptButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+            containerView.addSubview(acceptButton)
+
+            let acceptButtonTrailing = NSLayoutConstraint(item: acceptButton, attribute: .Trailing, relatedBy: .Equal, toItem: containerView, attribute: .Trailing, multiplier: 1, constant: -YepConfig.chatCellGapBetweenWallAndAvatar())
+            let acceptButtonCenterY = NSLayoutConstraint(item: acceptButton, attribute: .CenterY, relatedBy: .Equal, toItem: containerView, attribute: .CenterY, multiplier: 1, constant: 0)
+
+            NSLayoutConstraint.activateConstraints([acceptButtonTrailing, acceptButtonCenterY])
+
+            // rejectButton
+
+            rejectButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+            containerView.addSubview(rejectButton)
+
+            let rejectButtonRight = NSLayoutConstraint(item: rejectButton, attribute: .Right, relatedBy: .Equal, toItem: acceptButton, attribute: .Left, multiplier: 1, constant: -8)
+            let rejectButtonCenterY = NSLayoutConstraint(item: rejectButton, attribute: .CenterY, relatedBy: .Equal, toItem: containerView, attribute: .CenterY, multiplier: 1, constant: 0)
+
+            NSLayoutConstraint.activateConstraints([rejectButtonRight, rejectButtonCenterY])
+
+            // labels' right
+
+            let nicknameLabelRight = NSLayoutConstraint(item: nicknameLabel, attribute: .Right, relatedBy: .Equal, toItem: rejectButton, attribute: .Left, multiplier: 1, constant: -8)
+            let stateLabelRight = NSLayoutConstraint(item: stateLabel, attribute: .Right, relatedBy: .Equal, toItem: rejectButton, attribute: .Left, multiplier: 1, constant: -8)
+
+            NSLayoutConstraint.activateConstraints([nicknameLabelRight, stateLabelRight])
+        }
     }
 }
 

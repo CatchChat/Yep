@@ -680,7 +680,7 @@ class ConversationViewController: BaseViewController {
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
                     if receivedFriendRequestState == .Pending {
-                        self?.makeFriendRequestViewWithUser(user, state: .Consider(prompt: NSLocalizedString("try add you friend.", comment: "")))
+                        self?.makeFriendRequestViewWithUser(user, state: .Consider(prompt: NSLocalizedString("try add you as friend.", comment: "")))
 
                     } else {
                         if sentFriendRequestState == .None {
@@ -859,7 +859,7 @@ class ConversationViewController: BaseViewController {
 
         let userID = user.userID
 
-        friendRequestView.action = { [weak self] friendRequestView in
+        friendRequestView.addAction = { [weak self] friendRequestView in
             println("try Send Friend Request")
 
             sendFriendRequestToUser(user, failureHandler: { reason, errorMessage in
@@ -875,7 +875,7 @@ class ConversationViewController: BaseViewController {
                             user.friendState = UserFriendState.IssuedRequest.rawValue
                         }
 
-                        friendRequestView.actionButton.enabled = false
+                        friendRequestView.addButton.enabled = false
                         friendRequestView.stateLabel.text = NSLocalizedString("waiting to be accepted.", comment: "")
                     }
                 }

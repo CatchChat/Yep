@@ -756,14 +756,15 @@ func stateOfFriendRequestWithUser(user: User, #failureHandler: ((Reason, String?
 
         if let
             receivedInfo = data["received"] as? JSONDictionary,
-            state = data["state"] as? String {
+            state = receivedInfo["state"] as? String {
                 if let state = FriendRequest.State(rawValue: state) {
                     receivedFriendRequestState = state
                 }
         }
+
         if let
-            receivedInfo = data["sent"] as? JSONDictionary,
-            state = data["state"] as? String {
+            sendInfo = data["sent"] as? JSONDictionary,
+            state = sendInfo["state"] as? String {
                 if let state = FriendRequest.State(rawValue: state) {
                     sentFriendRequestState = state
                 }
