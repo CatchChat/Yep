@@ -669,46 +669,18 @@ class ConversationViewController: BaseViewController {
                 return
             }
 
-            let friendRequestView = FriendRequestView()
+            stateOfFriendRequestWithUser(user, failureHandler: { reason, errorMessage in
+                defaultFailureHandler(reason, errorMessage)
 
-            friendRequestView.setTranslatesAutoresizingMaskIntoConstraints(false)
-            view.addSubview(friendRequestView)
+            }, completion: { receivedFriendRequestState, sentFriendRequestState in
 
-            let friendRequestViewLeading = NSLayoutConstraint(item: friendRequestView, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1, constant: 0)
-            let friendRequestViewTrailing = NSLayoutConstraint(item: friendRequestView, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1, constant: 0)
-            let friendRequestViewTop = NSLayoutConstraint(item: friendRequestView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 64)
-            let friendRequestViewHeight = NSLayoutConstraint(item: friendRequestView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: FriendRequestView.height)
+                println("receivedFriendRequestState: \(receivedFriendRequestState.rawValue)")
+                println("sentFriendRequestState: \(sentFriendRequestState.rawValue)")
 
-            NSLayoutConstraint.activateConstraints([friendRequestViewLeading, friendRequestViewTrailing, friendRequestViewTop, friendRequestViewHeight])
-
-            conversationCollectionView.contentInset.top += FriendRequestView.height
-
-            friendRequestView.user = user
-
-            let userID = user.userID
-
-            friendRequestView.action = { [weak self] friendRequestView in
-                println("try Send Friend Request")
-
-                sendFriendRequestToUser(user, failureHandler: { reason, errorMessage in
-                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Send Friend Request failed!", comment: ""), inViewController: self)
-
-                }, completion: { friendRequestState in
-                    println("friendRequestState: \(friendRequestState.rawValue)")
-
-                    dispatch_async(dispatch_get_main_queue()) {
-                        let realm = Realm()
-                        if let user = userWithUserID(userID, inRealm: realm) {
-                            realm.write {
-                                user.friendState = UserFriendState.IssuedRequest.rawValue
-                            }
-
-                            friendRequestView.actionButton.enabled = false
-                            friendRequestView.stateLabel.text = NSLocalizedString("waiting to be accepted.", comment: "")
-                        }
-                    }
-                })
-            }
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.makeFriendRequestViewWithUser(user)
+                }
+            })
         }
     }
     
@@ -850,6 +822,57 @@ class ConversationViewController: BaseViewController {
 
         NSLayoutConstraint.activateConstraints(constraintsV)
         NSLayoutConstraint.activateConstraints(constraintsH)
+    }
+
+    func makeFriendRequestViewWithUser(user: User) {
+
+        let friendRequestView = FriendRequestView()
+
+        friendRequestView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        view.addSubview(friendRequestView)
+
+        let friendRequestViewLeading = NSLayoutConstraint(item: friendRequestView, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1, constant: 0)
+        let friendRequestViewTrailing = NSLayoutConstraint(item: friendRequestView, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1, constant: 0)
+        let friendRequestViewTop = NSLayoutConstraint(item: friendRequestView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 64 - FriendRequestView.height)
+        let friendRequestViewHeight = NSLayoutConstraint(item: friendRequestView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: FriendRequestView.height)
+
+        NSLayoutConstraint.activateConstraints([friendRequestViewLeading, friendRequestViewTrailing, friendRequestViewTop, friendRequestViewHeight])
+
+        view.layoutIfNeeded()
+        UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+            self.conversationCollectionView.contentInset.top += FriendRequestView.height
+
+            friendRequestViewTop.constant += FriendRequestView.height
+            self.view.layoutIfNeeded()
+
+        }, completion: { _ in })
+
+        friendRequestView.user = user
+
+        let userID = user.userID
+
+        friendRequestView.action = { [weak self] friendRequestView in
+            println("try Send Friend Request")
+
+            sendFriendRequestToUser(user, failureHandler: { reason, errorMessage in
+                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Send Friend Request failed!", comment: ""), inViewController: self)
+
+            }, completion: { friendRequestState in
+                println("friendRequestState: \(friendRequestState.rawValue)")
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    let realm = Realm()
+                    if let user = userWithUserID(userID, inRealm: realm) {
+                        realm.write {
+                            user.friendState = UserFriendState.IssuedRequest.rawValue
+                        }
+
+                        friendRequestView.actionButton.enabled = false
+                        friendRequestView.stateLabel.text = NSLocalizedString("waiting to be accepted.", comment: "")
+                    }
+                }
+            })
+        }
     }
 
     // MARK: Private
