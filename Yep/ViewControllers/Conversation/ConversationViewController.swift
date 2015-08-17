@@ -859,6 +859,20 @@ class ConversationViewController: BaseViewController {
 
         let userID = user.userID
 
+        let hideFriendRequestView: () -> Void = {
+            dispatch_async(dispatch_get_main_queue()) {
+                UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [weak self] in
+                    self?.conversationCollectionView.contentInset.top = 64
+
+                    friendRequestViewTop.constant -= FriendRequestView.height
+                    self?.view.layoutIfNeeded()
+
+                }, completion: { _ in
+                    friendRequestView.removeFromSuperview()
+                })
+            }
+        }
+
         friendRequestView.addAction = { [weak self] friendRequestView in
             println("try Send Friend Request")
 
@@ -875,11 +889,23 @@ class ConversationViewController: BaseViewController {
                             user.friendState = UserFriendState.IssuedRequest.rawValue
                         }
 
-                        friendRequestView.addButton.enabled = false
-                        friendRequestView.stateLabel.text = NSLocalizedString("waiting to be accepted.", comment: "")
                     }
                 }
+
+                hideFriendRequestView()
             })
+        }
+
+        friendRequestView.acceptAction = { [weak self] friendRequestView in
+            println("friendRequestView.acceptAction")
+            // TODO: acceptAction
+            hideFriendRequestView()
+        }
+
+        friendRequestView.rejectAction = { [weak self] friendRequestView in
+            println("friendRequestView.rejectAction")
+            // TODO: rejectAction
+            hideFriendRequestView()
         }
     }
 
