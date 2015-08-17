@@ -14,14 +14,23 @@ class FriendRequestView: UIView {
 
     enum State {
         case Add(prompt: String)
-        case Consider(prompt: String)
+        case Consider(prompt: String, friendRequestID: String)
 
         var prompt: String {
             switch self {
             case .Add(let prompt):
                 return prompt
-            case .Consider(let prompt):
+            case .Consider(let prompt, let _):
                 return prompt
+            }
+        }
+
+        var friendRequestID: String? {
+            switch self {
+            case .Consider(let _, let friendRequestID):
+                return friendRequestID
+            default:
+                return nil
             }
         }
     }

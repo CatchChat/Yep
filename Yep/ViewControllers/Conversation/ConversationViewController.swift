@@ -672,15 +672,16 @@ class ConversationViewController: BaseViewController {
             stateOfFriendRequestWithUser(user, failureHandler: { reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage)
 
-            }, completion: { receivedFriendRequestState, sentFriendRequestState in
+            }, completion: { receivedFriendRequestState, receivedFriendRequestID, sentFriendRequestState in
 
                 println("receivedFriendRequestState: \(receivedFriendRequestState.rawValue)")
+                println("receivedFriendRequestID: \(receivedFriendRequestID)")
                 println("sentFriendRequestState: \(sentFriendRequestState.rawValue)")
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
                     if receivedFriendRequestState == .Pending {
-                        self?.makeFriendRequestViewWithUser(user, state: .Consider(prompt: NSLocalizedString("try add you as friend.", comment: "")))
+                        self?.makeFriendRequestViewWithUser(user, state: .Consider(prompt: NSLocalizedString("try add you as friend.", comment: ""), friendRequestID: receivedFriendRequestID))
 
                     } else {
                         if sentFriendRequestState == .None {
@@ -888,7 +889,6 @@ class ConversationViewController: BaseViewController {
                         realm.write {
                             user.friendState = UserFriendState.IssuedRequest.rawValue
                         }
-
                     }
                 }
 
@@ -898,8 +898,30 @@ class ConversationViewController: BaseViewController {
 
         friendRequestView.acceptAction = { [weak self] friendRequestView in
             println("friendRequestView.acceptAction")
-            // TODO: acceptAction
-            hideFriendRequestView()
+
+            if let friendRequestID = friendRequestView.state.friendRequestID {
+
+                acceptFriendRequestWithID(friendRequestID, failureHandler: { reason, errorMessage in
+                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Accept Friend Request failed!", comment: ""), inViewController: self)
+
+                }, completion: { success in
+                    println("acceptFriendRequestWithID: \(friendRequestID), \(success)")
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        let realm = Realm()
+                        if let user = userWithUserID(userID, inRealm: realm) {
+                            realm.write {
+                                user.friendState = UserFriendState.Normal.rawValue
+                            }
+                        }
+                    }
+                    
+                    hideFriendRequestView()
+                })
+
+            } else {
+                println("NOT friendRequestID for acceptFriendRequestWithID")
+            }
         }
 
         friendRequestView.rejectAction = { [weak self] friendRequestView in
