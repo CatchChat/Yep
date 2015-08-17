@@ -678,7 +678,15 @@ class ConversationViewController: BaseViewController {
                 println("sentFriendRequestState: \(sentFriendRequestState.rawValue)")
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    self?.makeFriendRequestViewWithUser(user)
+
+                    if receivedFriendRequestState == .Pending {
+                        self?.makeFriendRequestViewWithUser(user, state: .Consider(prompt: NSLocalizedString("try add you friend.", comment: "")))
+
+                    } else {
+                        if sentFriendRequestState == .None {
+                            self?.makeFriendRequestViewWithUser(user, state: .Add(prompt: NSLocalizedString("is not your friend.", comment: "")))
+                        }
+                    }
                 }
             })
         }
@@ -824,9 +832,9 @@ class ConversationViewController: BaseViewController {
         NSLayoutConstraint.activateConstraints(constraintsH)
     }
 
-    func makeFriendRequestViewWithUser(user: User) {
+    func makeFriendRequestViewWithUser(user: User, state: FriendRequestView.State) {
 
-        let friendRequestView = FriendRequestView()
+        let friendRequestView = FriendRequestView(state: state)
 
         friendRequestView.setTranslatesAutoresizingMaskIntoConstraints(false)
         view.addSubview(friendRequestView)

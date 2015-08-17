@@ -12,6 +12,33 @@ class FriendRequestView: UIView {
 
     static let height: CGFloat = 70
 
+    enum State {
+        case Add(prompt: String)
+        case Consider(prompt: String)
+
+        var prompt: String {
+            switch self {
+            case .Add(let prompt):
+                return prompt
+            case .Consider(let prompt):
+                return prompt
+            }
+        }
+    }
+    let state: State
+
+    init(state: State) {
+        self.state = state
+
+        super.init(frame: CGRectZero)
+
+        self.stateLabel.text = state.prompt
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     var user: User? {
         willSet {
             if let user = newValue {
@@ -42,7 +69,7 @@ class FriendRequestView: UIView {
     lazy var stateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFontOfSize(14)
-        label.text = NSLocalizedString("is not your friend", comment: "") 
+        //label.text = state.prompt
         label.textColor = UIColor.grayColor().colorWithAlphaComponent(0.9)
         return label
         }()
