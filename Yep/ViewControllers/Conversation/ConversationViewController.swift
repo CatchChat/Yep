@@ -685,7 +685,9 @@ class ConversationViewController: BaseViewController {
 
                     } else {
                         if sentFriendRequestState == .None {
-                            self?.makeFriendRequestViewWithUser(user, state: .Add(prompt: NSLocalizedString("is not your friend.", comment: "")))
+                            if receivedFriendRequestState != .Rejected && receivedFriendRequestState != .Blocked {
+                                self?.makeFriendRequestViewWithUser(user, state: .Add(prompt: NSLocalizedString("is not your friend.", comment: "")))
+                            }
                         }
                     }
                 }
