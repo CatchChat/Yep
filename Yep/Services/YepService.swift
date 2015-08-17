@@ -815,6 +815,35 @@ func acceptFriendRequestWithID(friendRequestID: String, #failureHandler: ((Reaso
     }
 }
 
+func rejectFriendRequestWithID(friendRequestID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+
+    let requestParameters = [
+        "id": friendRequestID,
+    ]
+
+    let parse: JSONDictionary -> Bool? = { data in
+        println("rejectFriendRequestWithID: \(data)")
+
+        if let state = data["state"] as? String {
+            if let state = FriendRequest.State(rawValue: state) {
+                if state == .Rejected {
+                    return true
+                }
+            }
+        }
+
+        return false
+    }
+
+    let resource = authJsonResource(path: "/api/v1/friend_requests/received/\(friendRequestID)/reject", method: .PATCH, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
 // MARK: - Friendships
 
 private func headFriendships(#completion: JSONDictionary -> Void) {

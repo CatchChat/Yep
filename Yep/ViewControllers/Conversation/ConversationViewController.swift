@@ -926,8 +926,21 @@ class ConversationViewController: BaseViewController {
 
         friendRequestView.rejectAction = { [weak self] friendRequestView in
             println("friendRequestView.rejectAction")
-            // TODO: rejectAction
-            hideFriendRequestView()
+
+            if let friendRequestID = friendRequestView.state.friendRequestID {
+
+                rejectFriendRequestWithID(friendRequestID, failureHandler: { reason, errorMessage in
+                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Reject Friend Request failed!", comment: ""), inViewController: self)
+
+                }, completion: { success in
+                    println("rejectFriendRequestWithID: \(friendRequestID), \(success)")
+
+                    hideFriendRequestView()
+                })
+
+            } else {
+                println("NOT friendRequestID for rejectFriendRequestWithID")
+            }
         }
     }
 
