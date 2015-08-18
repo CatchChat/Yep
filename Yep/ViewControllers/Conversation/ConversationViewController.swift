@@ -954,20 +954,27 @@ class ConversationViewController: BaseViewController {
         friendRequestView.rejectAction = { [weak self] friendRequestView in
             println("friendRequestView.rejectAction")
 
-            if let friendRequestID = friendRequestView.state.friendRequestID {
+            let confirmAction: () -> Void = {
 
-                rejectFriendRequestWithID(friendRequestID, failureHandler: { reason, errorMessage in
-                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Reject Friend Request failed!", comment: ""), inViewController: self)
+                if let friendRequestID = friendRequestView.state.friendRequestID {
 
-                }, completion: { success in
-                    println("rejectFriendRequestWithID: \(friendRequestID), \(success)")
+                    rejectFriendRequestWithID(friendRequestID, failureHandler: { reason, errorMessage in
+                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Reject Friend Request failed!", comment: ""), inViewController: self)
 
-                    hideFriendRequestView()
-                })
+                    }, completion: { success in
+                        println("rejectFriendRequestWithID: \(friendRequestID), \(success)")
 
-            } else {
-                println("NOT friendRequestID for rejectFriendRequestWithID")
+                        hideFriendRequestView()
+                    })
+
+                } else {
+                    println("NOT friendRequestID for rejectFriendRequestWithID")
+                }
             }
+
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Do you want to reject this friend request?", comment: "")
+                , confirmTitle: NSLocalizedString("Reject", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction:confirmAction, cancelAction: {
+            })
         }
     }
 
