@@ -660,16 +660,14 @@ class ConversationViewController: BaseViewController {
             self.performSegueWithIdentifier("presentPickLocation", sender: nil)
         }
 
-        // test FriendRequestView
+        // try show FriendRequestView
 
         if let user = conversation.withFriend {
 
-            /*
-            // 若是陌生人才显示 FriendRequestView
-            if user.friendState != UserFriendState.Stranger.rawValue {
+            // 若是陌生人或还未收到回应才显示 FriendRequestView
+            if user.friendState != UserFriendState.Stranger.rawValue && user.friendState != UserFriendState.IssuedRequest.rawValue {
                 return
             }
-            */
 
             let userID = user.userID
             let userNickname = user.nickname
