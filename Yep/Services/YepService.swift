@@ -766,12 +766,20 @@ func stateOfFriendRequestWithUser(user: User, #failureHandler: ((Reason, String?
                 receivedFriendRequestID = ID
         }
 
+        if let block = data["current_user_blocked_by_specified_user"] as? Bool {
+            receivedFriendRequestState = .Blocked
+        }
+
         if let
             sendInfo = data["sent"] as? JSONDictionary,
             state = sendInfo["state"] as? String {
                 if let state = FriendRequest.State(rawValue: state) {
                     sentFriendRequestState = state
                 }
+        }
+
+        if let block = data["current_user_blocked_by_specified_user"] as? Bool {
+            sentFriendRequestState = .Blocked
         }
 
         return (receivedFriendRequestState, receivedFriendRequestID, sentFriendRequestState)

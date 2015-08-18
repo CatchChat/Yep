@@ -671,6 +671,8 @@ class ConversationViewController: BaseViewController {
             }
             */
 
+            let userNickname = user.nickname
+
             stateOfFriendRequestWithUser(user, failureHandler: { reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage)
 
@@ -694,6 +696,9 @@ class ConversationViewController: BaseViewController {
                         } else {
                             if sentFriendRequestState == .Rejected {
                                 self?.makeFriendRequestViewWithUser(user, state: .Add(prompt: NSLocalizedString("reject your last friend request.", comment: "")))
+
+                            } else if sentFriendRequestState == .Blocked {
+                                YepAlert.alertSorry(message: String(format: NSLocalizedString("You have been blocked by %@!", comment: ""), "\(userNickname)"), inViewController: self)
                             }
                         }
                     }
