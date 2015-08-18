@@ -664,10 +664,12 @@ class ConversationViewController: BaseViewController {
 
         if let user = conversation.withFriend {
 
+            /*
             // 若是陌生人才显示 FriendRequestView
             if user.friendState != UserFriendState.Stranger.rawValue {
                 return
             }
+            */
 
             stateOfFriendRequestWithUser(user, failureHandler: { reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage)
@@ -687,6 +689,11 @@ class ConversationViewController: BaseViewController {
                         if sentFriendRequestState == .None {
                             if receivedFriendRequestState != .Rejected && receivedFriendRequestState != .Blocked {
                                 self?.makeFriendRequestViewWithUser(user, state: .Add(prompt: NSLocalizedString("is not your friend.", comment: "")))
+                            }
+
+                        } else {
+                            if sentFriendRequestState == .Rejected {
+                                self?.makeFriendRequestViewWithUser(user, state: .Add(prompt: NSLocalizedString("reject your last friend request.", comment: "")))
                             }
                         }
                     }
