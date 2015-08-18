@@ -286,6 +286,8 @@ class ConversationViewController: BaseViewController {
             }
         }
 
+        // MARK: Send Text
+
         messageToolbar.textSendAction = { [weak self] messageToolbar in
 
             let text = messageToolbar.messageTextView.text!.trimming(.WhitespaceAndNewline)
@@ -314,6 +316,11 @@ class ConversationViewController: BaseViewController {
 
                 }, completion: { success in
                     println("sendText to friend: \(success)")
+
+                    // 发送过消息后才提示加好友
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.tryShowFriendRequestView()
+                    }
                 })
 
             } else if let withGroup = self?.conversation.withGroup {
@@ -355,7 +362,7 @@ class ConversationViewController: BaseViewController {
             }
         }
 
-        // MARK: Audio Send
+        // MARK: Send Audio
 
         let hideWaver: () -> Void = { [weak self] in
             self?.swipeUpView.hidden = true
@@ -801,6 +808,181 @@ class ConversationViewController: BaseViewController {
         NSLayoutConstraint.activateConstraints(constraintsH)
     }
 
+    func tryShowFriendRequestView() {
+
+        if let user = conversation.withFriend {
+
+            // 若是陌生人或还未收到回应才显示 FriendRequestView
+            if user.friendState != UserFriendState.Stranger.rawValue && user.friendState != UserFriendState.IssuedRequest.rawValue {
+                return
+            }
+
+            let userID = user.userID
+            let userNickname = user.nickname
+
+            stateOfFriendRequestWithUser(user, failureHandler: { reason, errorMessage in
+                defaultFailureHandler(reason, errorMessage)
+
+            }, completion: { receivedFriendRequestState, receivedFriendRequestID, sentFriendRequestState in
+
+                println("receivedFriendRequestState: \(receivedFriendRequestState.rawValue)")
+                println("receivedFriendRequestID: \(receivedFriendRequestID)")
+                println("sentFriendRequestState: \(sentFriendRequestState.rawValue)")
+
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                    if receivedFriendRequestState == .Pending {
+                        self?.makeFriendRequestViewWithUser(user, state: .Consider(prompt: NSLocalizedString("try add you as friend.", comment: ""), friendRequestID: receivedFriendRequestID))
+
+                    } else if receivedFriendRequestState == .Blocked {
+                        YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: String(format: NSLocalizedString("You have blocked %@! Do you want to unblock him or her?", comment: ""), "\(userNickname)")
+                            , confirmTitle: NSLocalizedString("Unblock", comment: ""), cancelTitle: NSLocalizedString("No now", comment: ""), inViewController: self, withConfirmAction: {
+
+                            unblockUserWithUserID(userID, failureHandler: nil, completion: { success in
+                                println("unblockUserWithUserID \(success)")
+
+                                self?.updateBlocked(false, forUserWithUserID: userID, needUpdateUI: false)
+                            })
+
+                        }, cancelAction: {
+                        })
+
+                    } else {
+                        if sentFriendRequestState == .None {
+                            if receivedFriendRequestState != .Rejected && receivedFriendRequestState != .Blocked {
+                                self?.makeFriendRequestViewWithUser(user, state: .Add(prompt: NSLocalizedString("is not your friend.", comment: "")))
+                            }
+
+                        } else if sentFriendRequestState == .Rejected {
+                            self?.makeFriendRequestViewWithUser(user, state: .Add(prompt: NSLocalizedString("reject your last friend request.", comment: "")))
+
+                        } else if sentFriendRequestState == .Blocked {
+                            YepAlert.alertSorry(message: String(format: NSLocalizedString("You have been blocked by %@!", comment: ""), "\(userNickname)"), inViewController: self)
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    func makeFriendRequestViewWithUser(user: User, state: FriendRequestView.State) {
+
+        let friendRequestView = FriendRequestView(state: state)
+
+        friendRequestView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        view.addSubview(friendRequestView)
+
+        let friendRequestViewLeading = NSLayoutConstraint(item: friendRequestView, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1, constant: 0)
+        let friendRequestViewTrailing = NSLayoutConstraint(item: friendRequestView, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1, constant: 0)
+        let friendRequestViewTop = NSLayoutConstraint(item: friendRequestView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 64 - FriendRequestView.height)
+        let friendRequestViewHeight = NSLayoutConstraint(item: friendRequestView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: FriendRequestView.height)
+
+        NSLayoutConstraint.activateConstraints([friendRequestViewLeading, friendRequestViewTrailing, friendRequestViewTop, friendRequestViewHeight])
+
+        view.layoutIfNeeded()
+        UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+            self.conversationCollectionView.contentInset.top += FriendRequestView.height
+
+            friendRequestViewTop.constant += FriendRequestView.height
+            self.view.layoutIfNeeded()
+
+        }, completion: { _ in })
+
+        friendRequestView.user = user
+
+        let userID = user.userID
+
+        let hideFriendRequestView: () -> Void = {
+            dispatch_async(dispatch_get_main_queue()) {
+                UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [weak self] in
+                    self?.conversationCollectionView.contentInset.top = 64
+
+                    friendRequestViewTop.constant -= FriendRequestView.height
+                    self?.view.layoutIfNeeded()
+
+                }, completion: { _ in
+                    friendRequestView.removeFromSuperview()
+                })
+            }
+        }
+
+        friendRequestView.addAction = { [weak self] friendRequestView in
+            println("try Send Friend Request")
+
+            sendFriendRequestToUser(user, failureHandler: { reason, errorMessage in
+                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Send Friend Request failed!", comment: ""), inViewController: self)
+
+            }, completion: { friendRequestState in
+                println("friendRequestState: \(friendRequestState.rawValue)")
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    let realm = Realm()
+                    if let user = userWithUserID(userID, inRealm: realm) {
+                        realm.write {
+                            user.friendState = UserFriendState.IssuedRequest.rawValue
+                        }
+                    }
+                }
+
+                hideFriendRequestView()
+            })
+        }
+
+        friendRequestView.acceptAction = { [weak self] friendRequestView in
+            println("friendRequestView.acceptAction")
+
+            if let friendRequestID = friendRequestView.state.friendRequestID {
+
+                acceptFriendRequestWithID(friendRequestID, failureHandler: { reason, errorMessage in
+                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Accept Friend Request failed!", comment: ""), inViewController: self)
+
+                }, completion: { success in
+                    println("acceptFriendRequestWithID: \(friendRequestID), \(success)")
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        let realm = Realm()
+                        if let user = userWithUserID(userID, inRealm: realm) {
+                            realm.write {
+                                user.friendState = UserFriendState.Normal.rawValue
+                            }
+                        }
+                    }
+                    
+                    hideFriendRequestView()
+                })
+
+            } else {
+                println("NOT friendRequestID for acceptFriendRequestWithID")
+            }
+        }
+
+        friendRequestView.rejectAction = { [weak self] friendRequestView in
+            println("friendRequestView.rejectAction")
+
+            let confirmAction: () -> Void = {
+
+                if let friendRequestID = friendRequestView.state.friendRequestID {
+
+                    rejectFriendRequestWithID(friendRequestID, failureHandler: { reason, errorMessage in
+                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Reject Friend Request failed!", comment: ""), inViewController: self)
+
+                    }, completion: { success in
+                        println("rejectFriendRequestWithID: \(friendRequestID), \(success)")
+
+                        hideFriendRequestView()
+                    })
+
+                } else {
+                    println("NOT friendRequestID for rejectFriendRequestWithID")
+                }
+            }
+
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Do you want to reject this friend request?", comment: "")
+                , confirmTitle: NSLocalizedString("Reject", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction:confirmAction, cancelAction: {
+            })
+        }
+    }
+
     // MARK: Private
 
     private func setConversaitonCollectionViewContentInsetBottom(bottom: CGFloat) {
@@ -1148,7 +1330,7 @@ class ConversationViewController: BaseViewController {
         self.presentViewController(reportAlertController, animated: true, completion: nil)
     }
 
-    func updateBlocked(blocked: Bool, forUserWithUserID userID: String) {
+    func updateBlocked(blocked: Bool, forUserWithUserID userID: String, needUpdateUI: Bool = true) {
         let realm = Realm()
 
         if let user = userWithUserID(userID, inRealm: realm) {
@@ -1156,7 +1338,9 @@ class ConversationViewController: BaseViewController {
                 user.blocked = blocked
             }
 
-            moreView.blocked = blocked
+            if needUpdateUI {
+                moreView.blocked = blocked
+            }
         }
     }
 

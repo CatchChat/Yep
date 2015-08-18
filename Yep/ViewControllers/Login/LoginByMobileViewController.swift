@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class LoginByMobileViewController: UIViewController {
+class LoginByMobileViewController: BaseViewController {
 
     @IBOutlet weak var pickMobileNumberPromptLabel: UILabel!
     @IBOutlet weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
@@ -27,6 +27,8 @@ class LoginByMobileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        animatedOnNavigationBar = false
 
         navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Login", comment: ""))
    
