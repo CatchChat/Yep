@@ -233,7 +233,7 @@ class FriendRequestView: UIView {
         // stateLabel
 
         let stateLabelTop = NSLayoutConstraint(item: stateLabel, attribute: .Top, relatedBy: .Equal, toItem: nicknameLabel, attribute: .Bottom, multiplier: 1, constant: 0)
-        let stateLabelBottom = NSLayoutConstraint(item: stateLabel, attribute: .Bottom, relatedBy: .Equal, toItem: containerView, attribute: .Bottom, multiplier: 1, constant: -4)
+        let stateLabelBottom = NSLayoutConstraint(item: stateLabel, attribute: .Bottom, relatedBy: .LessThanOrEqual, toItem: containerView, attribute: .Bottom, multiplier: 1, constant: -4)
         let stateLabelLeft = NSLayoutConstraint(item: stateLabel, attribute: .Left, relatedBy: .Equal, toItem: nicknameLabel, attribute: .Left, multiplier: 1, constant: 0)
 
         NSLayoutConstraint.activateConstraints([stateLabelTop, stateLabelBottom, stateLabelLeft])
