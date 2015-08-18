@@ -286,6 +286,8 @@ class ConversationViewController: BaseViewController {
             }
         }
 
+        // MARK: Send Text
+
         messageToolbar.textSendAction = { [weak self] messageToolbar in
 
             let text = messageToolbar.messageTextView.text!.trimming(.WhitespaceAndNewline)
@@ -314,6 +316,11 @@ class ConversationViewController: BaseViewController {
 
                 }, completion: { success in
                     println("sendText to friend: \(success)")
+
+                    // 发送过消息后才提示加好友
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.tryShowFriendRequestView()
+                    }
                 })
 
             } else if let withGroup = self?.conversation.withGroup {
@@ -355,7 +362,7 @@ class ConversationViewController: BaseViewController {
             }
         }
 
-        // MARK: Audio Send
+        // MARK: Send Audio
 
         let hideWaver: () -> Void = { [weak self] in
             self?.swipeUpView.hidden = true
@@ -659,8 +666,6 @@ class ConversationViewController: BaseViewController {
         addLocationButton.tapAction = {
             self.performSegueWithIdentifier("presentPickLocation", sender: nil)
         }
-
-        tryShowFriendRequestView()
     }
     
     func tryRecoverMessageToolBar() {
