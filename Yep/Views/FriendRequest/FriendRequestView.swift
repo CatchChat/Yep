@@ -226,7 +226,7 @@ class FriendRequestView: UIView {
         // nicknameLabel
 
         let nicknameLabelTop = NSLayoutConstraint(item: nicknameLabel, attribute: .Top, relatedBy: .Equal, toItem: avatarImageView, attribute: .Top, multiplier: 1, constant: 0)
-        let nicknameLabelLeft = NSLayoutConstraint(item: nicknameLabel, attribute: .Left, relatedBy: .Equal, toItem: avatarImageView, attribute: .Right, multiplier: 1, constant: 15)
+        let nicknameLabelLeft = NSLayoutConstraint(item: nicknameLabel, attribute: .Left, relatedBy: .Equal, toItem: avatarImageView, attribute: .Right, multiplier: 1, constant: 8)
 
         NSLayoutConstraint.activateConstraints([nicknameLabelTop, nicknameLabelLeft])
 
