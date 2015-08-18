@@ -766,8 +766,10 @@ func stateOfFriendRequestWithUser(user: User, #failureHandler: ((Reason, String?
                 receivedFriendRequestID = ID
         }
 
-        if let block = data["current_user_blocked_by_specified_user"] as? Bool {
-            receivedFriendRequestState = .Blocked
+        if let blocked = data["current_user_blocked_by_specified_user"] as? Bool {
+            if blocked {
+                receivedFriendRequestState = .Blocked
+            }
         }
 
         if let
@@ -778,8 +780,10 @@ func stateOfFriendRequestWithUser(user: User, #failureHandler: ((Reason, String?
                 }
         }
 
-        if let block = data["current_user_blocked_by_specified_user"] as? Bool {
-            sentFriendRequestState = .Blocked
+        if let blocked = data["current_user_blocked_by_specified_user"] as? Bool {
+            if blocked {
+                sentFriendRequestState = .Blocked
+            }
         }
 
         return (receivedFriendRequestState, receivedFriendRequestID, sentFriendRequestState)

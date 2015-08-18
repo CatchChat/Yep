@@ -671,6 +671,7 @@ class ConversationViewController: BaseViewController {
             }
             */
 
+            let userID = user.userID
             let userNickname = user.nickname
 
             stateOfFriendRequestWithUser(user, failureHandler: { reason, errorMessage in
@@ -687,19 +688,30 @@ class ConversationViewController: BaseViewController {
                     if receivedFriendRequestState == .Pending {
                         self?.makeFriendRequestViewWithUser(user, state: .Consider(prompt: NSLocalizedString("try add you as friend.", comment: ""), friendRequestID: receivedFriendRequestID))
 
+                    } else if receivedFriendRequestState == .Blocked {
+                        YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: String(format: NSLocalizedString("You have blocked %@! Do you want to unblock him or her?", comment: ""), "\(userNickname)")
+                            , confirmTitle: NSLocalizedString("Unblock", comment: ""), cancelTitle: NSLocalizedString("No now", comment: ""), inViewController: self, withConfirmAction: {
+
+                            unblockUserWithUserID(userID, failureHandler: nil, completion: { success in
+                                println("unblockUserWithUserID \(success)")
+
+                                self?.updateBlocked(false, forUserWithUserID: userID, needUpdateUI: false)
+                            })
+
+                        }, cancelAction: {
+                        })
+
                     } else {
                         if sentFriendRequestState == .None {
                             if receivedFriendRequestState != .Rejected && receivedFriendRequestState != .Blocked {
                                 self?.makeFriendRequestViewWithUser(user, state: .Add(prompt: NSLocalizedString("is not your friend.", comment: "")))
                             }
 
-                        } else {
-                            if sentFriendRequestState == .Rejected {
-                                self?.makeFriendRequestViewWithUser(user, state: .Add(prompt: NSLocalizedString("reject your last friend request.", comment: "")))
+                        } else if sentFriendRequestState == .Rejected {
+                            self?.makeFriendRequestViewWithUser(user, state: .Add(prompt: NSLocalizedString("reject your last friend request.", comment: "")))
 
-                            } else if sentFriendRequestState == .Blocked {
-                                YepAlert.alertSorry(message: String(format: NSLocalizedString("You have been blocked by %@!", comment: ""), "\(userNickname)"), inViewController: self)
-                            }
+                        } else if sentFriendRequestState == .Blocked {
+                            YepAlert.alertSorry(message: String(format: NSLocalizedString("You have been blocked by %@!", comment: ""), "\(userNickname)"), inViewController: self)
                         }
                     }
                 }
@@ -1305,7 +1317,7 @@ class ConversationViewController: BaseViewController {
         self.presentViewController(reportAlertController, animated: true, completion: nil)
     }
 
-    func updateBlocked(blocked: Bool, forUserWithUserID userID: String) {
+    func updateBlocked(blocked: Bool, forUserWithUserID userID: String, needUpdateUI: Bool = true) {
         let realm = Realm()
 
         if let user = userWithUserID(userID, inRealm: realm) {
@@ -1313,7 +1325,9 @@ class ConversationViewController: BaseViewController {
                 user.blocked = blocked
             }
 
-            moreView.blocked = blocked
+            if needUpdateUI {
+                moreView.blocked = blocked
+            }
         }
     }
 
