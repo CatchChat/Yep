@@ -13,6 +13,8 @@ class ContactsViewController: BaseViewController {
 
     @IBOutlet weak var contactsTableView: UITableView!
 
+    var searchController: UISearchController!
+
     let cellIdentifier = "ContactsCell"
 
     lazy var friends = normalFriends()
@@ -33,6 +35,17 @@ class ContactsViewController: BaseViewController {
         super.viewDidLoad()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "syncFriendships", name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
+
+
+        searchController = UISearchController(searchResultsController: nil)
+
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+
+        searchController.searchBar.delegate = self
+        searchController.searchBar.sizeToFit()
+
+        contactsTableView.tableHeaderView = searchController.searchBar
 
         contactsTableView.separatorColor = UIColor.yepCellSeparatorColor()
         contactsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
@@ -89,6 +102,8 @@ class ContactsViewController: BaseViewController {
     }
 }
 
+// MARK: - UITableViewDataSource, UITableViewDelegate
+
 extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -136,3 +151,19 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         }
    }
 }
+
+// MARK: - UISearchResultsUpdating 
+
+extension ContactsViewController: UISearchResultsUpdating {
+
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+
+    }
+}
+
+// MARK: - UISearchBarDelegate
+
+extension ContactsViewController: UISearchBarDelegate {
+    
+}
+
