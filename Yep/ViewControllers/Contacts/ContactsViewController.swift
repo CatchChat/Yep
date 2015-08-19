@@ -111,15 +111,17 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         return searchController.active ? Int(filteredFriends.count) : Int(friends.count)
     }
 
+    private func friendAtIndexPath(indexPath: NSIndexPath) -> User? {
+        let index = indexPath.row
+        let friend = searchController.active ? filteredFriends[safe: index] : friends[safe: index]
+        return friend
+    }
+
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
 
-
-        let index = indexPath.row
-        let friend = searchController.active ? filteredFriends[safe: index] : friends[safe: index]
-
-        if let friend = friend {
+        if let friend = friendAtIndexPath(indexPath) {
 
             let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
 
@@ -151,10 +153,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        let index = indexPath.row
-        let friend = searchController.active ? filteredFriends[safe: index] : friends[safe: index]
-
-        if let friend = friend {
+        if let friend = friendAtIndexPath(indexPath) {
 
             if searchController.active {
                 dismissViewControllerAnimated(true) { [weak self] in
