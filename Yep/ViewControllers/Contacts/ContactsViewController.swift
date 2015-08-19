@@ -18,6 +18,7 @@ class ContactsViewController: BaseViewController {
     let cellIdentifier = "ContactsCell"
 
     lazy var friends = normalFriends()
+    var filteredFriends: Results<User>!
 
     struct Listener {
         static let Nickname = "ContactsViewController.Nickname"
@@ -107,14 +108,18 @@ class ContactsViewController: BaseViewController {
 extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Int(friends.count)
+        return searchController.active ? Int(filteredFriends.count) : Int(friends.count)
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
 
-        if let friend = friends[safe: indexPath.row] {
+
+        let index = indexPath.row
+        let friend = searchController.active ? filteredFriends[safe: index] : friends[safe: index]
+
+        if let friend = friend {
 
             let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
 
@@ -146,7 +151,10 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        if let friend = friends[safe: indexPath.row] {
+        let index = indexPath.row
+        let friend = searchController.active ? filteredFriends[safe: index] : friends[safe: index]
+
+        if let friend = friend {
             performSegueWithIdentifier("showProfile", sender: friend)
         }
    }
@@ -158,12 +166,21 @@ extension ContactsViewController: UISearchResultsUpdating {
 
     func updateSearchResultsForSearchController(searchController: UISearchController) {
 
+        let searchText = searchController.searchBar.text
+        let predicate = NSPredicate(format: "nickname CONTAINS %@", searchText)
+        filteredFriends = friends.filter(predicate)
+
+        updateContactsTableView()
     }
 }
 
 // MARK: - UISearchBarDelegate
 
 extension ContactsViewController: UISearchBarDelegate {
-    
+
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+
+        updateSearchResultsForSearchController(searchController)
+    }
 }
 
