@@ -602,7 +602,7 @@
                                     <constraint firstAttribute="height" constant="160" id="zQ8-r2-xvU"/>
                                 </constraints>
                             </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qu8-bN-78f" customClass="YepScrollView" customModule="Yep" customModuleProvider="target">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qu8-bN-78f">
                                 <rect key="frame" x="0.0" y="160" width="600" height="440"/>
                                 <animations/>
                             </scrollView>

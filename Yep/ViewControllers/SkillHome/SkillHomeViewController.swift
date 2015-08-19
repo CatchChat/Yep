@@ -11,6 +11,7 @@ import Proposer
 import MobileCoreServices
 import RealmSwift
 
+let ScrollViewTag = 100
 
 class SkillHomeViewController: CustomNavigationBarViewController {
     
@@ -69,7 +70,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         }
     }
     
-    @IBOutlet weak var skillHomeScrollView: YepScrollView!
+    @IBOutlet weak var skillHomeScrollView: UIScrollView!
     
     @IBOutlet weak var headerView: SkillHomeHeaderView!
     
@@ -99,8 +100,21 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         super.viewDidAppear(animated)
         
         statusBarShouldLight = true
+
         
         self.setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        
+        let height = YepConfig.getScreenRect().height - headerView.frame.height
+        
+        masterTableView.frame = CGRect(x: 0, y: 0, width: YepConfig.getScreenRect().width, height: height)
+        
+        learningtTableView.frame = CGRect(x: masterTableView.frame.size.width, y: 0, width: YepConfig.getScreenRect().width, height: height)
+        skillHomeScrollView.contentSize = CGSize(width: YepConfig.getScreenRect().width * 2, height: height)
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -147,6 +161,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
         
         headerView.masterButton.addTarget(self, action: "changeToMaster", forControlEvents: UIControlEvents.TouchUpInside)
+        
         headerView.learningButton.addTarget(self, action: "changeToLearning", forControlEvents: UIControlEvents.TouchUpInside)
 
         headerView.changeCoverAction = { [weak self] in
@@ -202,11 +217,16 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
         automaticallyAdjustsScrollViewInsets = false
         
+
+        
         skillHomeScrollView.addSubview(masterTableView)
         skillHomeScrollView.addSubview(learningtTableView)
         skillHomeScrollView.pagingEnabled = true
         skillHomeScrollView.delegate = self
         skillHomeScrollView.directionalLockEnabled = true
+        skillHomeScrollView.alwaysBounceVertical = false
+        skillHomeScrollView.alwaysBounceHorizontal = true
+        skillHomeScrollView.tag = ScrollViewTag
         
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
@@ -219,14 +239,6 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         }
 
         customTitleView()
-
-        let height = YepConfig.getScreenRect().height - headerView.frame.height
-
-        skillHomeScrollView.contentSize = CGSize(width: YepConfig.getScreenRect().width * 2, height: height)
-
-        masterTableView.frame = CGRect(x: 0, y: 0, width: YepConfig.getScreenRect().width, height: height)
-
-        learningtTableView.frame = CGRect(x: masterTableView.frame.size.width, y: 0, width: YepConfig.getScreenRect().width, height: height)
 
         if isFirstAppear {
             skillSet = preferedSkillSet ?? .Master
@@ -244,6 +256,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         
         self.setNeedsStatusBarAppearanceUpdate()
     }
+    
 
     // MARK: UI
 
@@ -334,6 +347,10 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         
+        if scrollView.tag != ScrollViewTag {
+            return
+        }
+        
         println("Did end decelerating \(skillHomeScrollView.contentOffset.x)")
         
         if skillHomeScrollView.contentOffset.x + 10 >= skillHomeScrollView.contentSize.width / 2.0 {
@@ -377,7 +394,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 // MARK: UIImagePicker
 
 extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
 
         if let mediaType = info[UIImagePickerControllerMediaType] as? String {
