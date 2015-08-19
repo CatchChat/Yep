@@ -22,7 +22,7 @@ class ContactsViewController: BaseViewController {
     let cellIdentifier = "ContactsCell"
 
     lazy var friends = normalFriends()
-    var filteredFriends: Results<User>!
+    var filteredFriends: Results<User>?
 
     struct Listener {
         static let Nickname = "ContactsViewController.Nickname"
@@ -120,12 +120,12 @@ class ContactsViewController: BaseViewController {
 extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchControllerIsActive ? Int(filteredFriends.count) : Int(friends.count)
+        return searchControllerIsActive ? (filteredFriends?.count ?? 0) : friends.count
     }
 
     private func friendAtIndexPath(indexPath: NSIndexPath) -> User? {
         let index = indexPath.row
-        let friend = searchControllerIsActive ? filteredFriends[safe: index] : friends[safe: index]
+        let friend = searchControllerIsActive ? filteredFriends?[safe: index] : friends[safe: index]
         return friend
     }
 

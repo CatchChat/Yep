@@ -10,7 +10,7 @@ import UIKit
 
 class SearchedUsersViewController: BaseViewController {
 
-    var mobile = "18602354812"
+    var searchText = "NIX"
 
     @IBOutlet weak var searchedUsersTableView: UITableView!
 
@@ -25,13 +25,13 @@ class SearchedUsersViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Search", comment: "") + " \"\(mobile)\""
+        title = NSLocalizedString("Search", comment: "") + " \"\(searchText)\""
 
         searchedUsersTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         searchedUsersTableView.rowHeight = 80
 
 
-        searchUsersByQ(mobile, failureHandler: { (reason, errorMessage) in
+        searchUsersByQ(searchText, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage)
 
         }, completion: { users in

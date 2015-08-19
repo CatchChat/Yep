@@ -33,9 +33,9 @@ class AddFriendsViewController: UIViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showSearchedUsers" {
-            if let mobile = sender as? String {
+            if let searchText = sender as? String {
                 let vc = segue.destinationViewController as! SearchedUsersViewController
-                vc.mobile = mobile
+                vc.searchText = searchText.trimming(.WhitespaceAndNewline)
             }
         }
     }
