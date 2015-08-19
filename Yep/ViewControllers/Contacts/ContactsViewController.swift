@@ -15,6 +15,9 @@ class ContactsViewController: BaseViewController {
     @IBOutlet weak var contactsTableView: UITableView!
 
     var searchController: UISearchController?
+    var searchControllerIsActive: Bool {
+        return searchController?.active ?? false
+    }
 
     let cellIdentifier = "ContactsCell"
 
@@ -115,12 +118,12 @@ class ContactsViewController: BaseViewController {
 extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (searchController?.active ?? false) ? Int(filteredFriends.count) : Int(friends.count)
+        return searchControllerIsActive ? Int(filteredFriends.count) : Int(friends.count)
     }
 
     private func friendAtIndexPath(indexPath: NSIndexPath) -> User? {
         let index = indexPath.row
-        let friend = (searchController?.active ?? false) ? filteredFriends[safe: index] : friends[safe: index]
+        let friend = searchControllerIsActive ? filteredFriends[safe: index] : friends[safe: index]
         return friend
     }
 
@@ -162,7 +165,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
         if let friend = friendAtIndexPath(indexPath) {
 
-            if searchController?.active ?? false {
+            if searchControllerIsActive {
                 dismissViewControllerAnimated(true) { [weak self] in
                     self?.searchController?.searchBar.text = ""
                 }
