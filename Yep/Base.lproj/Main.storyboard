@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -126,7 +126,7 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="title" value="Choose photo"/>
                                         </userDefinedRuntimeAttributes>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HcA-7v-16m" userLabel="Take Photo Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HcA-7v-16m" userLabel="Take Photo Button" customClass="MessageTypeButton" customModule="Yep" customModuleProvider="target">
                                         <rect key="frame" x="213" y="20" width="174" height="260"/>
                                         <animations/>
                                         <state key="normal">
@@ -823,14 +823,20 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Syj-dZ-pAz">
-                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="Djr-es-XZ6">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Djr-es-XZ6">
                             <connections>
                                 <action selector="cancel:" destination="pm1-5Q-SW5" id="UyX-Ky-fjg"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="onepassword-navbar" id="b3h-Go-klX">
+                            <connections>
+                                <action selector="fillPassword:" destination="pm1-5Q-SW5" id="6Ru-UD-wEZ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="E58-MH-2nz" id="ulq-yp-00E"/>
+                        <outlet property="onePasswordButton" destination="b3h-Go-klX" id="Qit-XF-jiV"/>
                         <outlet property="webView" destination="9oB-pd-Kh9" id="td2-Id-mqD"/>
                     </connections>
                 </viewController>
@@ -1791,6 +1797,7 @@
         <image name="icon_more_take_photo" width="70" height="50"/>
         <image name="icon_profile_phone" width="16" height="24"/>
         <image name="icon_settings" width="30" height="30"/>
+        <image name="onepassword-navbar" width="23" height="23"/>
         <image name="profile_avatar_frame" width="112" height="112"/>
         <image name="swipe_up" width="21" height="6"/>
         <image name="top_shadow" width="375" height="80"/>
