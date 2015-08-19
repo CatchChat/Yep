@@ -50,6 +50,8 @@ class ContactsViewController: BaseViewController {
             searchController.searchResultsUpdater = self
             searchController.dimsBackgroundDuringPresentation = false
 
+            searchController.searchBar.barTintColor = UIColor.whiteColor()
+            searchController.searchBar.searchBarStyle = .Minimal
             searchController.searchBar.delegate = self
             searchController.searchBar.sizeToFit()
 
