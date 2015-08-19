@@ -338,10 +338,15 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         
         if skillHomeScrollView.contentOffset.x + 10 >= skillHomeScrollView.contentSize.width / 2.0 {
             
-            skillSet = .Learning
+            if skillSet != .Learning {
+                skillSet = .Learning
+            }
             
         } else {
-            skillSet = .Master
+            if skillSet != .Master {
+                skillSet = .Master
+            }
+           
         }
     }
     
