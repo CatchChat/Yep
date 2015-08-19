@@ -7,12 +7,15 @@
 //
 
 import UIKit
+import OnePasswordExtension
 
 class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate {
 
     var socialAccount: SocialAccount!
     var afterOAuthAction: ((socialAccount: SocialAccount) -> Void)?
 
+    @IBOutlet weak var onePasswordButton: UIBarButtonItem!
+    
     @IBOutlet weak var webView: UIWebView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
@@ -37,8 +40,19 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
         webView.delegate = self
 
         webViewDidStartLoad(webView)
+        
+        if !OnePasswordExtension.sharedExtension().isAppExtensionAvailable() {
+            self.navigationItem.rightBarButtonItem = nil
+        } else {
+            println("User dosent have one password")
+        }
     }
 
+    @IBAction func fillPassword(sender: AnyObject) {
+        OnePasswordExtension.sharedExtension().fillLoginIntoWebView(webView, forViewController: self, sender: sender) { (finish, error) -> Void in
+            
+        }
+    }
     // MARK: Actions
 
     @IBAction func cancel(sender: UIBarButtonItem) {

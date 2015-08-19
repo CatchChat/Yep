@@ -4,6 +4,7 @@ use_frameworks!
 
 def pods
     pod 'DeviceGuru'
+    pod '1PasswordExtension'
     pod 'KeyboardMan'
     pod 'Ruler'
     pod 'Proposer'

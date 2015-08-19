@@ -1,4 +1,5 @@
 PODS:
+  - 1PasswordExtension (1.2)
   - AFNetworking (2.5.4):
     - AFNetworking/NSURLConnection (= 2.5.4)
     - AFNetworking/NSURLSession (= 2.5.4)
@@ -43,6 +44,7 @@ PODS:
   - TPKeyboardAvoiding (1.2.9)
 
 DEPENDENCIES:
+  - 1PasswordExtension
   - AFNetworking
   - APAddressBook/Swift
   - DeviceGuru
@@ -58,9 +60,10 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   MZFayeClient:
-    :path: ../CatchLib-iOS/MZFayeClient/
+    :path: "../CatchLib-iOS/MZFayeClient/"
 
 SPEC CHECKSUMS:
+  1PasswordExtension: fcf300204bda5b5c78936dbb937a7d661f1ca796
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   APAddressBook: 2c949367b190a993d2cce769a3b20bce8bcf000c
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
