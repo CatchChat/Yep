@@ -165,11 +165,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
         if let friend = friendAtIndexPath(indexPath) {
 
-            if searchControllerIsActive {
-                dismissViewControllerAnimated(true) { [weak self] in
-                    self?.searchController?.searchBar.text = ""
-                }
-            }
+            searchController?.active = false
 
             performSegueWithIdentifier("showProfile", sender: friend)
         }
