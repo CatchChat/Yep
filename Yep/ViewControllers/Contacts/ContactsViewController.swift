@@ -8,12 +8,13 @@
 
 import UIKit
 import RealmSwift
+import Ruler
 
 class ContactsViewController: BaseViewController {
 
     @IBOutlet weak var contactsTableView: UITableView!
 
-    var searchController: UISearchController!
+    var searchController: UISearchController?
 
     let cellIdentifier = "ContactsCell"
 
@@ -37,16 +38,22 @@ class ContactsViewController: BaseViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "syncFriendships", name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
 
+        // 超过一定人数才显示搜索框
 
-        searchController = UISearchController(searchResultsController: nil)
+        if friends.count > Int(Ruler.match(.iPhoneHeights(6, 8, 10, 12))) {
 
-        searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
+            let searchController = UISearchController(searchResultsController: nil)
 
-        searchController.searchBar.delegate = self
-        searchController.searchBar.sizeToFit()
+            searchController.searchResultsUpdater = self
+            searchController.dimsBackgroundDuringPresentation = false
 
-        contactsTableView.tableHeaderView = searchController.searchBar
+            searchController.searchBar.delegate = self
+            searchController.searchBar.sizeToFit()
+
+            contactsTableView.tableHeaderView = searchController.searchBar
+
+            self.searchController = searchController
+        }
 
         contactsTableView.separatorColor = UIColor.yepCellSeparatorColor()
         contactsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
@@ -108,12 +115,12 @@ class ContactsViewController: BaseViewController {
 extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchController.active ? Int(filteredFriends.count) : Int(friends.count)
+        return (searchController?.active ?? false) ? Int(filteredFriends.count) : Int(friends.count)
     }
 
     private func friendAtIndexPath(indexPath: NSIndexPath) -> User? {
         let index = indexPath.row
-        let friend = searchController.active ? filteredFriends[safe: index] : friends[safe: index]
+        let friend = (searchController?.active ?? false) ? filteredFriends[safe: index] : friends[safe: index]
         return friend
     }
 
@@ -155,9 +162,9 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
         if let friend = friendAtIndexPath(indexPath) {
 
-            if searchController.active {
+            if searchController?.active ?? false {
                 dismissViewControllerAnimated(true) { [weak self] in
-                    self?.searchController.searchBar.text = ""
+                    self?.searchController?.searchBar.text = ""
                 }
             }
 
@@ -186,7 +193,9 @@ extension ContactsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
-        updateSearchResultsForSearchController(searchController)
+        if let searchController = searchController {
+            updateSearchResultsForSearchController(searchController)
+        }
     }
 }
 
