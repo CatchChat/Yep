@@ -14,7 +14,7 @@ def pods
     pod 'pop'
     pod 'AFNetworking'
     pod 'MZFayeClient', :path => '../CatchLib-iOS/MZFayeClient/'
-    pod 'RealmSwift'
+    pod 'RealmSwift', 0.94
 end
 
 target 'Yep' do

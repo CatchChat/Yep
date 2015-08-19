@@ -26,8 +26,8 @@ PODS:
   - Base64 (1.0.1)
   - DeviceGuru (1.2.0)
   - FXBlurView (1.6.3)
-  - KeyboardMan (0.3.1)
-  - Kingfisher (1.4.2)
+  - KeyboardMan (0.4)
+  - Kingfisher (1.4.5)
   - MZFayeClient (1.0.1):
     - Base64 (~> 1.0.1)
     - SocketRocket (~> 0.4)
@@ -52,13 +52,13 @@ DEPENDENCIES:
   - MZFayeClient (from `../CatchLib-iOS/MZFayeClient/`)
   - pop
   - Proposer
-  - RealmSwift
+  - RealmSwift (= 0.94)
   - Ruler
   - TPKeyboardAvoiding (~> 1.2)
 
 EXTERNAL SOURCES:
   MZFayeClient:
-    :path: "../CatchLib-iOS/MZFayeClient/"
+    :path: ../CatchLib-iOS/MZFayeClient/
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
@@ -66,8 +66,8 @@ SPEC CHECKSUMS:
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
   DeviceGuru: 34cf5b30fd99e7e3a4cee4c77c03bc94a4362be4
   FXBlurView: c6d23f3d35af2c6282296a2930f61c6e2c788d01
-  KeyboardMan: 8e94e1b17d3c4f07b449227ecc7c89c09c09c154
-  Kingfisher: 4446782a827abbe2e6048a1fa741924a10e6ad7c
+  KeyboardMan: 1a3fc736d9abe8a29030d865eb6759987b0cfaf3
+  Kingfisher: 22fa7d41c83b214c19fbb82a77a9db52300b3719
   MZFayeClient: 65e7ef67e61fbe7a7a8b196130541c9f06bcb5d8
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   Proposer: 6fa2c0dc88b5445aed16786c6717d3676586ff9b
