@@ -33,6 +33,24 @@ class ShowViewController: UIViewController {
         makeUI()
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        scrollView.alpha = 0
+        pageControl.alpha = 0
+        finishButton.alpha = 0
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        UIView.animateWithDuration(2, delay: 0.5, options: .CurveEaseInOut, animations: { [weak self] in
+            self?.scrollView.alpha = 1
+            self?.pageControl.alpha = 1
+            self?.finishButton.alpha = 1
+        }, completion: { _ in })
+    }
+
     func makeUI() {
 
         let stepA = stepGenius()
