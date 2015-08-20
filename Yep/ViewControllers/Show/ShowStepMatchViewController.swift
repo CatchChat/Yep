@@ -18,6 +18,9 @@ class ShowStepMatchViewController: ShowStepViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        titleLabel.text = NSLocalizedString("Match", comment: "")
+        subTitleLabel.text = NSLocalizedString("Match friends with your skills", comment: "")
     }
 
     override func viewDidAppear(animated: Bool) {

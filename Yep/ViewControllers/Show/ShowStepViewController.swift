@@ -10,6 +10,9 @@ import UIKit
 
 class ShowStepViewController: UIViewController {
 
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var subTitleLabel: UILabel!
+
     func repeatAnimate(view: UIView, alongWithPath path: UIBezierPath, duration: CFTimeInterval, autoreverses: Bool = false) {
 
         let animation = CAKeyframeAnimation(keyPath: "position")
