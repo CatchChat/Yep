@@ -23,23 +23,45 @@ class ShowStepMatchViewController: ShowStepViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        animateKeyboard()
+        animate(camera, offset: 10, duration: 4)
+        animate(pen, offset: 5, duration: 5)
+        animate(book, offset: 10, duration: 3)
+        animate(controller, offset: 15, duration: 2)
+        animate(keyboard, offset: 20, duration: 4)
     }
 
-    private func animateKeyboard() {
+    private func animate(view: UIView, offset: UInt32, duration: CFTimeInterval) {
 
-        let keyboardPath = UIBezierPath()
+        let path = UIBezierPath()
 
-        let offset: UInt32 = 20
-        let beginPoint = CGPoint(x: keyboard.center.x - CGFloat(arc4random() % offset), y: keyboard.center.y + CGFloat(arc4random() % offset) * 0.5 * (arc4random() % 2 == 0 ? -1 : 1))
-        let endPoint = CGPoint(x: keyboard.center.x + CGFloat(arc4random() % offset), y: keyboard.center.y + CGFloat(arc4random() % offset) * 0.5 * (arc4random() % 2 == 0 ? -1 : 1))
-        keyboardPath.moveToPoint(beginPoint)
-        keyboardPath.addLineToPoint(endPoint)
+        func flip() -> CGFloat {
+            return arc4random() % 2 == 0 ? -1 : 1
+        }
 
-        repeatAnimate(keyboard, alongWithPath: keyboardPath, duration: 4, autoreverses: true)
+        let beginPoint = CGPoint(x: view.center.x + CGFloat(arc4random() % offset) * flip(), y: view.center.y + CGFloat(arc4random() % offset) * 0.5 * flip())
+        let endPoint = CGPoint(x: view.center.x + CGFloat(arc4random() % offset) * flip(), y: view.center.y + CGFloat(arc4random() % offset) * 0.5 * flip())
+        path.moveToPoint(beginPoint)
+        path.addLineToPoint(endPoint)
 
-        repeatRotate(keyboard, fromValue: -0.1, toValue: 0.1, duration: 3)
-   }
+        repeatAnimate(view, alongWithPath: path, duration: duration, autoreverses: true)
+
+        repeatRotate(view, fromValue: -0.1, toValue: 0.1, duration: duration)
+    }
+
+//    private func animateKeyboard() {
+//
+//        let path = UIBezierPath()
+//
+//        let offset: UInt32 = 20
+//        let beginPoint = CGPoint(x: keyboard.center.x - CGFloat(arc4random() % offset), y: keyboard.center.y + CGFloat(arc4random() % offset) * 0.5 * flip())
+//        let endPoint = CGPoint(x: keyboard.center.x + CGFloat(arc4random() % offset), y: keyboard.center.y + CGFloat(arc4random() % offset) * 0.5 * flip())
+//        path.moveToPoint(beginPoint)
+//        path.addLineToPoint(endPoint)
+//
+//        repeatAnimate(keyboard, alongWithPath: path, duration: 4, autoreverses: true)
+//
+//        repeatRotate(keyboard, fromValue: -0.1, toValue: 0.1, duration: 3)
+//   }
 
     private func repeatRotate(view: UIView, fromValue: AnyObject, toValue: AnyObject, duration: CFTimeInterval) {
         let rotate = CABasicAnimation(keyPath: "transform.rotation.z")
