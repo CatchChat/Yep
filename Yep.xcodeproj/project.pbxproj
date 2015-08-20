@@ -224,6 +224,7 @@
 		840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */; };
 		84385C441B8592120071130D /* ShowStepGeniusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84385C431B8592120071130D /* ShowStepGeniusViewController.swift */; };
 		84385C461B8594E80071130D /* Show.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84385C451B8594E80071130D /* Show.xcassets */; };
+		84385C481B85AC890071130D /* ShowStepMatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84385C471B85AC890071130D /* ShowStepMatchViewController.swift */; };
 		845E1A661B788EF3001E0789 /* EditSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845E1A651B788EF3001E0789 /* EditSkillsViewController.swift */; };
 		848806B01B789A2D000C5424 /* EditSkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848806AE1B789A2D000C5424 /* EditSkillCell.swift */; };
 		848806B11B789A2D000C5424 /* EditSkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 848806AF1B789A2D000C5424 /* EditSkillCell.xib */; };
@@ -470,6 +471,7 @@
 		840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepViewController.swift; path = ViewControllers/Show/ShowStepViewController.swift; sourceTree = "<group>"; };
 		84385C431B8592120071130D /* ShowStepGeniusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepGeniusViewController.swift; path = ViewControllers/Show/ShowStepGeniusViewController.swift; sourceTree = "<group>"; };
 		84385C451B8594E80071130D /* Show.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Show.xcassets; sourceTree = "<group>"; };
+		84385C471B85AC890071130D /* ShowStepMatchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepMatchViewController.swift; path = ViewControllers/Show/ShowStepMatchViewController.swift; sourceTree = "<group>"; };
 		845E1A651B788EF3001E0789 /* EditSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSkillsViewController.swift; path = ViewControllers/EditSkills/EditSkillsViewController.swift; sourceTree = "<group>"; };
 		848806AE1B789A2D000C5424 /* EditSkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSkillCell.swift; path = Views/Cells/EditSkill/EditSkillCell.swift; sourceTree = "<group>"; };
 		848806AF1B789A2D000C5424 /* EditSkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditSkillCell.xib; path = Views/Cells/EditSkill/EditSkillCell.xib; sourceTree = "<group>"; };
@@ -1615,6 +1617,7 @@
 				848806B51B7B4F53000C5424 /* ShowViewController.swift */,
 				840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */,
 				84385C431B8592120071130D /* ShowStepGeniusViewController.swift */,
+				84385C471B85AC890071130D /* ShowStepMatchViewController.swift */,
 			);
 			name = Show;
 			sourceTree = "<group>";
@@ -2002,6 +2005,7 @@
 				508F8FD01B01D04400461B0B /* GithubRepoCell.swift in Sources */,
 				50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */,
 				504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */,
+				84385C481B85AC890071130D /* ShowStepMatchViewController.swift in Sources */,
 				0A0027D61B19CEC000AD4BE0 /* ConversationOperationQueue.swift in Sources */,
 				50894D0C1AEE0177000981AF /* EditProfileColoredTitleCell.swift in Sources */,
 				5053AD501AF82A1700B3CBFA /* PickLocationCell.swift in Sources */,

@@ -180,7 +180,7 @@
                             <constraint firstAttribute="trailing" secondItem="yae-Kb-Xsy" secondAttribute="trailing" id="2gq-UQ-Jp0"/>
                             <constraint firstItem="CRx-Wq-vkJ" firstAttribute="top" secondItem="yae-Kb-Xsy" secondAttribute="bottom" id="DE9-zf-NZn"/>
                             <constraint firstItem="yae-Kb-Xsy" firstAttribute="leading" secondItem="NHu-gy-LWF" secondAttribute="leading" id="Is2-ev-yco"/>
-                            <constraint firstItem="ExN-8a-QFy" firstAttribute="centerX" secondItem="CRx-Wq-vkJ" secondAttribute="centerX" constant="-0.5" id="aad-5q-Dm0"/>
+                            <constraint firstItem="ExN-8a-QFy" firstAttribute="centerX" secondItem="CRx-Wq-vkJ" secondAttribute="centerX" id="aad-5q-Dm0"/>
                             <constraint firstItem="ExN-8a-QFy" firstAttribute="top" secondItem="CRx-Wq-vkJ" secondAttribute="bottom" constant="20" id="dZM-Gn-DZC"/>
                             <constraint firstItem="yae-Kb-Xsy" firstAttribute="top" secondItem="NHu-gy-LWF" secondAttribute="top" id="eDe-9N-qez"/>
                             <constraint firstItem="VdK-Vy-bdO" firstAttribute="top" secondItem="ExN-8a-QFy" secondAttribute="bottom" constant="120" id="jab-Tg-Seu"/>
@@ -206,6 +206,53 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h2f-lA-c09" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1001.5" y="1045.5"/>
+        </scene>
+        <!--Show Step Match View Controller-->
+        <scene sceneID="s8K-Id-ctX">
+            <objects>
+                <viewController storyboardIdentifier="ShowStepMatchViewController" id="PZT-AV-qxC" customClass="ShowStepMatchViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lvT-kf-VeV"/>
+                        <viewControllerLayoutGuide type="bottom" id="N4t-8c-Qpf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="A5d-Ub-c3X">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S0s-Hg-4ic">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="433"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Match" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q2B-Nx-QNF">
+                                <rect key="frame" x="132" y="433" width="110.5" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Match friends with your skills" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7AO-eC-NT3">
+                                <rect key="frame" x="76" y="501" width="222.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="7AO-eC-NT3" secondAttribute="centerX" id="22w-hc-bxC"/>
+                            <constraint firstItem="q2B-Nx-QNF" firstAttribute="top" secondItem="S0s-Hg-4ic" secondAttribute="bottom" id="CpJ-49-yvf"/>
+                            <constraint firstAttribute="trailing" secondItem="S0s-Hg-4ic" secondAttribute="trailing" id="YrO-Ye-bbD"/>
+                            <constraint firstItem="7AO-eC-NT3" firstAttribute="top" secondItem="q2B-Nx-QNF" secondAttribute="bottom" constant="20" id="cWP-43-MPi"/>
+                            <constraint firstItem="N4t-8c-Qpf" firstAttribute="top" secondItem="7AO-eC-NT3" secondAttribute="bottom" constant="145" id="hME-M1-48V"/>
+                            <constraint firstItem="S0s-Hg-4ic" firstAttribute="leading" secondItem="A5d-Ub-c3X" secondAttribute="leading" id="oS3-bO-zcO"/>
+                            <constraint firstItem="q2B-Nx-QNF" firstAttribute="centerX" secondItem="7AO-eC-NT3" secondAttribute="centerX" id="osz-av-kEO"/>
+                            <constraint firstItem="S0s-Hg-4ic" firstAttribute="top" secondItem="A5d-Ub-c3X" secondAttribute="top" id="wlB-Sb-ze5"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eRf-2b-6t8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1507.5" y="1045.5"/>
         </scene>
     </scenes>
     <resources>
