@@ -222,7 +222,6 @@
 		6ADDB4501B848C600012877A /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6ADDB44F1B848C600012877A /* 1Password.xcassets */; };
 		8409137D1B7DB173001C89D6 /* FriendRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409137C1B7DB173001C89D6 /* FriendRequestView.swift */; };
 		840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */; };
-		840CD23E1B7B84AA000D2680 /* ShowResources in Resources */ = {isa = PBXBuildFile; fileRef = 840CD23D1B7B84AA000D2680 /* ShowResources */; };
 		845E1A661B788EF3001E0789 /* EditSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845E1A651B788EF3001E0789 /* EditSkillsViewController.swift */; };
 		848806B01B789A2D000C5424 /* EditSkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848806AE1B789A2D000C5424 /* EditSkillCell.swift */; };
 		848806B11B789A2D000C5424 /* EditSkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 848806AF1B789A2D000C5424 /* EditSkillCell.xib */; };
@@ -467,7 +466,6 @@
 		6ADDB44F1B848C600012877A /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = 1Password.xcassets; sourceTree = "<group>"; };
 		8409137C1B7DB173001C89D6 /* FriendRequestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendRequestView.swift; path = Views/FriendRequest/FriendRequestView.swift; sourceTree = "<group>"; };
 		840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepViewController.swift; path = ViewControllers/Show/ShowStepViewController.swift; sourceTree = "<group>"; };
-		840CD23D1B7B84AA000D2680 /* ShowResources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ShowResources; sourceTree = "<group>"; };
 		845E1A651B788EF3001E0789 /* EditSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSkillsViewController.swift; path = ViewControllers/EditSkills/EditSkillsViewController.swift; sourceTree = "<group>"; };
 		848806AE1B789A2D000C5424 /* EditSkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSkillCell.swift; path = Views/Cells/EditSkill/EditSkillCell.swift; sourceTree = "<group>"; };
 		848806AF1B789A2D000C5424 /* EditSkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditSkillCell.xib; path = Views/Cells/EditSkill/EditSkillCell.xib; sourceTree = "<group>"; };
@@ -576,7 +574,6 @@
 		0A8F54AD1AB67D11004AD60E /* Yep */ = {
 			isa = PBXGroup;
 			children = (
-				840CD23D1B7B84AA000D2680 /* ShowResources */,
 				848806B21B7B0230000C5424 /* Yep.entitlements */,
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
 				0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */,
@@ -1740,7 +1737,6 @@
 				508D17481ACCF4710092D666 /* ChatLeftAudioCell.xib in Resources */,
 				0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */,
 				5033159D1AC101C80008A209 /* ChatRightTextCell.xib in Resources */,
-				840CD23E1B7B84AA000D2680 /* ShowResources in Resources */,
 				50894CFB1AEA54BA000981AF /* SettingsMoreCell.xib in Resources */,
 				505EC8181ADF8151001D27E0 /* SkillCategoryCell.xib in Resources */,
 				505EC81D1ADFBE1B001D27E0 /* SkillSelectionCell.xib in Resources */,

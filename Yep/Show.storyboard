@@ -69,23 +69,8 @@
                     <view key="view" contentMode="scaleToFill" id="wdD-Wr-EhK">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <webView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UeT-Lm-zPv">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </webView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="UeT-Lm-zPv" firstAttribute="leading" secondItem="wdD-Wr-EhK" secondAttribute="leading" id="6uK-nL-zD4"/>
-                            <constraint firstAttribute="bottom" secondItem="UeT-Lm-zPv" secondAttribute="bottom" id="9OM-D6-fQE"/>
-                            <constraint firstAttribute="trailing" secondItem="UeT-Lm-zPv" secondAttribute="trailing" id="RVK-Q3-3Pd"/>
-                            <constraint firstItem="UeT-Lm-zPv" firstAttribute="top" secondItem="wdD-Wr-EhK" secondAttribute="top" id="g0j-DW-LRc"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="webView" destination="UeT-Lm-zPv" id="PRH-Zg-l2L"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CaN-5t-F2i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
