@@ -14,9 +14,9 @@ class ShowViewController: UIViewController {
 
     @IBOutlet weak var pageControl: UIPageControl!
 
-    @IBOutlet weak var finishButton: UIButton!
+    @IBOutlet weak var finishButton: BorderButton!
 
-    var steps = [ShowStepViewController]()
+    var steps = [UIViewController]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,7 @@ class ShowViewController: UIViewController {
 
     func makeUI() {
 
-        let stepA = step("Yep Intro")
+        let stepA = stepGenius()
         let stepB = step("Yep Intro")
         let stepC = step("Yep Intro")
 
@@ -36,8 +36,8 @@ class ShowViewController: UIViewController {
         pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
         pageControl.currentPageIndicatorTintColor = UIColor.yepTintColor()
 
-        finishButton.alpha = 0
-        finishButton.setTitle(NSLocalizedString("Start Yep", comment: ""), forState: .Normal)
+        //finishButton.alpha = 0
+        finishButton.setTitle(NSLocalizedString("Get Started", comment: ""), forState: .Normal)
 
         let viewsDictionary = [
             "view": view,
@@ -53,6 +53,18 @@ class ShowViewController: UIViewController {
         let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[stepA(==view)][stepB(==view)][stepC(==view)]|", options: .AlignAllBottom | .AlignAllTop, metrics: nil, views: viewsDictionary)
 
         view.addConstraints(hConstraints)
+    }
+
+    private func stepGenius() -> ShowStepGeniusViewController {
+        let step = storyboard!.instantiateViewControllerWithIdentifier("ShowStepGeniusViewController") as! ShowStepGeniusViewController
+
+        step.view.setTranslatesAutoresizingMaskIntoConstraints(false)
+        scrollView.addSubview(step.view)
+
+        addChildViewController(step)
+        step.didMoveToParentViewController(self)
+
+        return step
     }
 
     private func step(name: String) -> ShowStepViewController {
@@ -96,14 +108,14 @@ extension ShowViewController: UIScrollViewDelegate {
 
         let page = Int(round(pageFraction))
 
-        let isLastStep = (page == (steps.count - 1))
-
-        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-            self.finishButton.alpha = isLastStep ? 1 : 0
-            self.pageControl.alpha = isLastStep ? 0 : 1
-
-        }, completion: { _ in
-        })
+//        let isLastStep = (page == (steps.count - 1))
+//
+//        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+//            self.finishButton.alpha = isLastStep ? 1 : 0
+//            self.pageControl.alpha = isLastStep ? 0 : 1
+//
+//        }, completion: { _ in
+//        })
 
         pageControl.currentPage = page
     }

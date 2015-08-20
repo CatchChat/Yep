@@ -23,11 +23,12 @@
                                 </connections>
                             </scrollView>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="9Z8-B0-cVp">
-                                <rect key="frame" x="280" y="553" width="39" height="37"/>
+                                <rect key="frame" x="280" y="502.5" width="39" height="37"/>
                             </pageControl>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1Z-F1-RQr">
-                                <rect key="frame" x="264.5" y="554.5" width="71" height="33"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1Z-F1-RQr" customClass="BorderButton" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="254.5" y="547" width="91" height="33"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="6" maxX="10" maxY="6"/>
                                 <state key="normal" title="Start Yep">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -38,14 +39,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="0sA-kf-Eg9" firstAttribute="top" secondItem="9Z8-B0-cVp" secondAttribute="bottom" constant="10" id="1Im-nM-SDx"/>
+                            <constraint firstItem="0sA-kf-Eg9" firstAttribute="top" secondItem="c1Z-F1-RQr" secondAttribute="bottom" constant="20" id="0iC-ay-rTE"/>
                             <constraint firstAttribute="trailing" secondItem="Zwm-fM-O1u" secondAttribute="trailing" id="BIF-Nd-eN7"/>
                             <constraint firstItem="Zwm-fM-O1u" firstAttribute="leading" secondItem="CUt-X0-WDO" secondAttribute="leading" id="BaF-jS-bGU"/>
+                            <constraint firstItem="c1Z-F1-RQr" firstAttribute="top" secondItem="9Z8-B0-cVp" secondAttribute="bottom" constant="7.5" id="E75-Mv-TaD"/>
                             <constraint firstAttribute="bottom" secondItem="Zwm-fM-O1u" secondAttribute="bottom" id="Q82-ie-kQU"/>
-                            <constraint firstItem="c1Z-F1-RQr" firstAttribute="centerY" secondItem="9Z8-B0-cVp" secondAttribute="centerY" id="Zne-k6-dzX"/>
-                            <constraint firstAttribute="centerX" secondItem="9Z8-B0-cVp" secondAttribute="centerX" id="cn5-yn-PUN"/>
                             <constraint firstItem="c1Z-F1-RQr" firstAttribute="centerX" secondItem="9Z8-B0-cVp" secondAttribute="centerX" id="lZq-gR-t1p"/>
                             <constraint firstItem="Zwm-fM-O1u" firstAttribute="top" secondItem="CUt-X0-WDO" secondAttribute="top" id="oS0-jj-Eyf"/>
+                            <constraint firstAttribute="centerX" secondItem="c1Z-F1-RQr" secondAttribute="centerX" id="r2N-tD-Kra"/>
                         </constraints>
                     </view>
                     <connections>
@@ -76,5 +77,64 @@
             </objects>
             <point key="canvasLocation" x="348" y="1046"/>
         </scene>
+        <!--Show Step Genius View Controller-->
+        <scene sceneID="PLw-aM-8MV">
+            <objects>
+                <viewController storyboardIdentifier="ShowStepGeniusViewController" id="uOd-IQ-cPI" customClass="ShowStepGeniusViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wL1-aj-Ess"/>
+                        <viewControllerLayoutGuide type="bottom" id="VdK-Vy-bdO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="NHu-gy-LWF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yae-Kb-Xsy" userLabel="Container View">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="445"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Head" translatesAutoresizingMaskIntoConstraints="NO" id="c4w-rY-ACr">
+                                        <rect key="frame" x="121" y="138" width="133" height="169"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="c4w-rY-ACr" secondAttribute="centerX" id="LVa-FB-W14"/>
+                                    <constraint firstAttribute="centerY" secondItem="c4w-rY-ACr" secondAttribute="centerY" id="ixz-UK-zam"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Genius" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CRx-Wq-vkJ">
+                                <rect key="frame" x="126" y="453" width="122.5" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <color key="textColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discover them around you" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ExN-8a-QFy">
+                                <rect key="frame" x="86" y="526" width="202" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.40000000596046448" green="0.40000000596046448" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="yae-Kb-Xsy" secondAttribute="trailing" id="2gq-UQ-Jp0"/>
+                            <constraint firstItem="CRx-Wq-vkJ" firstAttribute="top" secondItem="yae-Kb-Xsy" secondAttribute="bottom" constant="8" id="DE9-zf-NZn"/>
+                            <constraint firstItem="yae-Kb-Xsy" firstAttribute="leading" secondItem="NHu-gy-LWF" secondAttribute="leading" id="Is2-ev-yco"/>
+                            <constraint firstItem="ExN-8a-QFy" firstAttribute="centerX" secondItem="CRx-Wq-vkJ" secondAttribute="centerX" constant="-0.5" id="aad-5q-Dm0"/>
+                            <constraint firstItem="ExN-8a-QFy" firstAttribute="top" secondItem="CRx-Wq-vkJ" secondAttribute="bottom" constant="25.5" id="dZM-Gn-DZC"/>
+                            <constraint firstItem="yae-Kb-Xsy" firstAttribute="top" secondItem="NHu-gy-LWF" secondAttribute="top" id="eDe-9N-qez"/>
+                            <constraint firstItem="VdK-Vy-bdO" firstAttribute="top" secondItem="ExN-8a-QFy" secondAttribute="bottom" constant="120" id="jab-Tg-Seu"/>
+                            <constraint firstAttribute="centerX" secondItem="ExN-8a-QFy" secondAttribute="centerX" id="sIw-oB-Go0"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h2f-lA-c09" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1001.5" y="1045.5"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="Head" width="133" height="169"/>
+    </resources>
 </document>
