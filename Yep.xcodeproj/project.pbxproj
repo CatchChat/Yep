@@ -225,6 +225,7 @@
 		84385C441B8592120071130D /* ShowStepGeniusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84385C431B8592120071130D /* ShowStepGeniusViewController.swift */; };
 		84385C461B8594E80071130D /* Show.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84385C451B8594E80071130D /* Show.xcassets */; };
 		84385C481B85AC890071130D /* ShowStepMatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84385C471B85AC890071130D /* ShowStepMatchViewController.swift */; };
+		84385C4A1B85BE200071130D /* ShowStepMeetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84385C491B85BE200071130D /* ShowStepMeetViewController.swift */; };
 		845E1A661B788EF3001E0789 /* EditSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845E1A651B788EF3001E0789 /* EditSkillsViewController.swift */; };
 		848806B01B789A2D000C5424 /* EditSkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848806AE1B789A2D000C5424 /* EditSkillCell.swift */; };
 		848806B11B789A2D000C5424 /* EditSkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 848806AF1B789A2D000C5424 /* EditSkillCell.xib */; };
@@ -472,6 +473,7 @@
 		84385C431B8592120071130D /* ShowStepGeniusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepGeniusViewController.swift; path = ViewControllers/Show/ShowStepGeniusViewController.swift; sourceTree = "<group>"; };
 		84385C451B8594E80071130D /* Show.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Show.xcassets; sourceTree = "<group>"; };
 		84385C471B85AC890071130D /* ShowStepMatchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepMatchViewController.swift; path = ViewControllers/Show/ShowStepMatchViewController.swift; sourceTree = "<group>"; };
+		84385C491B85BE200071130D /* ShowStepMeetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepMeetViewController.swift; path = ViewControllers/Show/ShowStepMeetViewController.swift; sourceTree = "<group>"; };
 		845E1A651B788EF3001E0789 /* EditSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSkillsViewController.swift; path = ViewControllers/EditSkills/EditSkillsViewController.swift; sourceTree = "<group>"; };
 		848806AE1B789A2D000C5424 /* EditSkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSkillCell.swift; path = Views/Cells/EditSkill/EditSkillCell.swift; sourceTree = "<group>"; };
 		848806AF1B789A2D000C5424 /* EditSkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditSkillCell.xib; path = Views/Cells/EditSkill/EditSkillCell.xib; sourceTree = "<group>"; };
@@ -1618,6 +1620,7 @@
 				840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */,
 				84385C431B8592120071130D /* ShowStepGeniusViewController.swift */,
 				84385C471B85AC890071130D /* ShowStepMatchViewController.swift */,
+				84385C491B85BE200071130D /* ShowStepMeetViewController.swift */,
 			);
 			name = Show;
 			sourceTree = "<group>";
@@ -1922,6 +1925,7 @@
 				0A1CAC6E1AFA42D400826B45 /* SkillHomeViewController.swift in Sources */,
 				502AE5401AB88862005BD199 /* SkillRankCell.swift in Sources */,
 				50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */,
+				84385C4A1B85BE200071130D /* ShowStepMeetViewController.swift in Sources */,
 				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
 				0A1CAC701AFA481600826B45 /* SkillHomeHeaderView.swift in Sources */,
 				0AB8F79A1B15D1DC00F4AF09 /* YepNavigationController.swift in Sources */,
