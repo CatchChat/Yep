@@ -24,6 +24,7 @@ class ShowViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        finishButton.tintColor = UIColor.yepTintColor()
         pageControlBottomConstraint.constant = Ruler.match(.iPhoneHeights(0, 10, 20, 30))
         finishButtonBottomConstraint.constant = Ruler.match(.iPhoneHeights(20, 30, 40, 50))
 
