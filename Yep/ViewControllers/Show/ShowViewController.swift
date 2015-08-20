@@ -28,7 +28,7 @@ class ShowViewController: UIViewController {
 
         let stepA = stepGenius()
         let stepB = stepMatch()
-        let stepC = step("Yep Intro")
+        let stepC = stepMatch()
 
         steps = [stepA, stepB, stepC]
 
@@ -69,21 +69,6 @@ class ShowViewController: UIViewController {
 
     private func stepMatch() -> ShowStepMatchViewController {
         let step = storyboard!.instantiateViewControllerWithIdentifier("ShowStepMatchViewController") as! ShowStepMatchViewController
-
-        step.view.setTranslatesAutoresizingMaskIntoConstraints(false)
-        scrollView.addSubview(step.view)
-
-        addChildViewController(step)
-        step.didMoveToParentViewController(self)
-
-        return step
-    }
-
-    private func step(name: String) -> ShowStepViewController {
-
-        let step = storyboard!.instantiateViewControllerWithIdentifier("ShowStepViewController") as! ShowStepViewController
-
-        step.showName = name
 
         step.view.setTranslatesAutoresizingMaskIntoConstraints(false)
         scrollView.addSubview(step.view)

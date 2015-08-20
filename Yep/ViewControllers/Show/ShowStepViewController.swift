@@ -10,9 +10,19 @@ import UIKit
 
 class ShowStepViewController: UIViewController {
 
-    var showName: String?
+    func repeatAnimate(view: UIView, alongWithPath path: UIBezierPath, duration: CFTimeInterval, autoreverses: Bool = false) {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+        let animation = CAKeyframeAnimation(keyPath: "position")
+
+        animation.calculationMode = kCAAnimationPaced
+        animation.fillMode = kCAFillModeForwards
+        animation.duration = duration
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        animation.repeatCount = Float.infinity
+        animation.autoreverses = autoreverses
+
+        animation.path = path.CGPath
+
+        view.layer.addAnimation(animation, forKey: "Animation")
     }
 }

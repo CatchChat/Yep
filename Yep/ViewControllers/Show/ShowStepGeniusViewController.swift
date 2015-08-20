@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ShowStepGeniusViewController: UIViewController {
+class ShowStepGeniusViewController: ShowStepViewController {
 
     @IBOutlet weak var rightPurpleDot: UIImageView!
     @IBOutlet weak var leftGreenDot: UIImageView!
@@ -45,22 +45,6 @@ class ShowStepGeniusViewController: UIViewController {
 
         let dotsLinkPath = UIBezierPath(arcCenter: dotsLink.center, radius: 5, startAngle: 0, endAngle: 2, clockwise: false)
         repeatAnimate(dotsLink, alongWithPath: dotsLinkPath, duration: 7, autoreverses: true)
-    }
-
-    func repeatAnimate(view: UIView, alongWithPath path: UIBezierPath, duration: CFTimeInterval, autoreverses: Bool = false) {
-
-        let animation = CAKeyframeAnimation(keyPath: "position")
-
-        animation.calculationMode = kCAAnimationPaced
-        animation.fillMode = kCAFillModeForwards
-        animation.duration = duration
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-        animation.repeatCount = Float.infinity
-        animation.autoreverses = autoreverses
-
-        animation.path = path.CGPath
-
-        view.layer.addAnimation(animation, forKey: "Animation")
     }
 }
 

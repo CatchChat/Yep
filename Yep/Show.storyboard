@@ -59,24 +59,6 @@
             </objects>
             <point key="canvasLocation" x="348" y="330"/>
         </scene>
-        <!--Show Step View Controller-->
-        <scene sceneID="Se2-zL-QXr">
-            <objects>
-                <viewController storyboardIdentifier="ShowStepViewController" id="7gO-WP-Qin" customClass="ShowStepViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="BQ6-y1-4TP"/>
-                        <viewControllerLayoutGuide type="bottom" id="ue7-Md-6gH"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="wdD-Wr-EhK">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="CaN-5t-F2i" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="348" y="1046"/>
-        </scene>
         <!--Show Step Genius View Controller-->
         <scene sceneID="PLw-aM-8MV">
             <objects>
@@ -278,6 +260,13 @@
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="book" destination="L7f-XP-WgV" id="sYX-Lr-8fR"/>
+                        <outlet property="camera" destination="Sij-Kk-TC5" id="nok-ua-LNu"/>
+                        <outlet property="controller" destination="6nM-wS-8be" id="xhA-Os-Qio"/>
+                        <outlet property="keyboard" destination="Cja-9u-yQO" id="dST-wH-vPB"/>
+                        <outlet property="pen" destination="ofE-QC-oZA" id="s36-xU-FzA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eRf-2b-6t8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
