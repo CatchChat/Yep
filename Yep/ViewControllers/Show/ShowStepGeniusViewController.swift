@@ -10,7 +10,14 @@ import UIKit
 
 class ShowStepGeniusViewController: UIViewController {
 
-    @IBOutlet weak var dot1: UIImageView!
+    @IBOutlet weak var rightPurpleDot: UIImageView!
+    @IBOutlet weak var leftGreenDot: UIImageView!
+    @IBOutlet weak var leftBlueDot: UIImageView!
+    @IBOutlet weak var leftRedDot: UIImageView!
+    @IBOutlet weak var leftPurpleDot: UIImageView!
+    @IBOutlet weak var topRedDot: UIImageView!
+    @IBOutlet weak var rightBlueDot: UIImageView!
+    @IBOutlet weak var centerBlueDot: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,10 +26,17 @@ class ShowStepGeniusViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        animateView(dot1, alongWithPath: UIBezierPath(ovalInRect: dot1.frame), duration: 4)
+        repeatAnimate(rightPurpleDot, alongWithPath: UIBezierPath(ovalInRect: CGRectInset(rightPurpleDot.frame, 2, 2)), duration: 4)
+        repeatAnimate(leftGreenDot, alongWithPath: UIBezierPath(ovalInRect: CGRectInset(leftGreenDot.frame, 5, 5)), duration: 2.5)
+        repeatAnimate(leftBlueDot, alongWithPath: UIBezierPath(ovalInRect: CGRectInset(leftBlueDot.frame, 3, 3)), duration: 4)
+        repeatAnimate(leftRedDot, alongWithPath: UIBezierPath(ovalInRect: CGRectInset(leftRedDot.frame, 3, 3)), duration: 1.5)
+        repeatAnimate(leftPurpleDot, alongWithPath: UIBezierPath(ovalInRect: CGRectInset(leftPurpleDot.frame, 1, 1)), duration: 6)
+        repeatAnimate(topRedDot, alongWithPath: UIBezierPath(ovalInRect: CGRectInset(topRedDot.frame, 1, 1)), duration: 2)
+        repeatAnimate(rightBlueDot, alongWithPath: UIBezierPath(ovalInRect: CGRectInset(rightBlueDot.frame, 1, 1)), duration: 3)
+        repeatAnimate(centerBlueDot, alongWithPath: UIBezierPath(ovalInRect: CGRectInset(centerBlueDot.frame, 1, 1)), duration: 3)
     }
 
-    func animateView(view: UIView, alongWithPath path: UIBezierPath, duration: CFTimeInterval) {
+    func repeatAnimate(view: UIView, alongWithPath path: UIBezierPath, duration: CFTimeInterval) {
 
         let animation = CAKeyframeAnimation(keyPath: "position")
 

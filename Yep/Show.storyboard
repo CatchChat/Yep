@@ -92,19 +92,54 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yae-Kb-Xsy" userLabel="Container View">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="445"/>
                                 <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval1" translatesAutoresizingMaskIntoConstraints="NO" id="CFd-r7-acV">
+                                        <rect key="frame" x="147" y="143" width="20" height="20"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval6" translatesAutoresizingMaskIntoConstraints="NO" id="A4j-pF-pbY">
+                                        <rect key="frame" x="242" y="212" width="21" height="21"/>
+                                    </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Head" translatesAutoresizingMaskIntoConstraints="NO" id="c4w-rY-ACr">
                                         <rect key="frame" x="121" y="138" width="133" height="169"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval" translatesAutoresizingMaskIntoConstraints="NO" id="V9h-uS-Fid">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval11" translatesAutoresizingMaskIntoConstraints="NO" id="V9h-uS-Fid">
                                         <rect key="frame" x="229" y="226" width="18" height="18"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval5" translatesAutoresizingMaskIntoConstraints="NO" id="CYG-IO-Sle">
+                                        <rect key="frame" x="103" y="166" width="38" height="38"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval10" translatesAutoresizingMaskIntoConstraints="NO" id="OWU-VH-TXx">
+                                        <rect key="frame" x="99" y="175" width="11" height="11"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval2" translatesAutoresizingMaskIntoConstraints="NO" id="Jrw-DG-yhp">
+                                        <rect key="frame" x="67" y="194" width="15" height="15"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval9" translatesAutoresizingMaskIntoConstraints="NO" id="ls7-GP-Y6a">
+                                        <rect key="frame" x="200" y="234" width="11" height="11"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval6" translatesAutoresizingMaskIntoConstraints="NO" id="ZmV-nY-itP">
+                                        <rect key="frame" x="83" y="218" width="21" height="21"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="c4w-rY-ACr" firstAttribute="centerY" secondItem="A4j-pF-pbY" secondAttribute="centerY" id="7Y7-Ae-xr5"/>
                                     <constraint firstItem="V9h-uS-Fid" firstAttribute="centerY" secondItem="c4w-rY-ACr" secondAttribute="centerY" constant="12.5" id="9o3-40-2gU"/>
+                                    <constraint firstItem="c4w-rY-ACr" firstAttribute="centerX" secondItem="ZmV-nY-itP" secondAttribute="centerX" constant="94" id="DOa-m3-ahb"/>
+                                    <constraint firstItem="CYG-IO-Sle" firstAttribute="centerX" secondItem="c4w-rY-ACr" secondAttribute="centerX" constant="-65.5" id="Dwp-wT-FxI"/>
+                                    <constraint firstItem="CYG-IO-Sle" firstAttribute="centerY" secondItem="OWU-VH-TXx" secondAttribute="centerY" constant="4.5" id="Eck-A8-Mzh"/>
                                     <constraint firstAttribute="centerX" secondItem="c4w-rY-ACr" secondAttribute="centerX" id="LVa-FB-W14"/>
+                                    <constraint firstItem="ls7-GP-Y6a" firstAttribute="centerX" secondItem="c4w-rY-ACr" secondAttribute="centerX" constant="18" id="VnU-nQ-C8b"/>
+                                    <constraint firstItem="c4w-rY-ACr" firstAttribute="centerX" secondItem="A4j-pF-pbY" secondAttribute="centerX" constant="-65" id="X3d-Xh-2dA"/>
+                                    <constraint firstItem="Jrw-DG-yhp" firstAttribute="centerY" secondItem="c4w-rY-ACr" secondAttribute="centerY" constant="-21" id="YPn-mI-qZw"/>
+                                    <constraint firstItem="CFd-r7-acV" firstAttribute="centerX" secondItem="c4w-rY-ACr" secondAttribute="centerX" constant="-30.5" id="dg2-c0-xdU"/>
+                                    <constraint firstItem="CYG-IO-Sle" firstAttribute="centerX" secondItem="OWU-VH-TXx" secondAttribute="centerX" constant="17.5" id="eI0-dC-BH5"/>
+                                    <constraint firstItem="Jrw-DG-yhp" firstAttribute="centerX" secondItem="c4w-rY-ACr" secondAttribute="centerX" constant="-113" id="gEI-R2-OFG"/>
+                                    <constraint firstItem="ls7-GP-Y6a" firstAttribute="centerY" secondItem="c4w-rY-ACr" secondAttribute="centerY" constant="17" id="i2y-Pa-dyT"/>
+                                    <constraint firstItem="c4w-rY-ACr" firstAttribute="centerY" secondItem="ZmV-nY-itP" secondAttribute="centerY" constant="-6" id="iZe-ZN-Hnm"/>
                                     <constraint firstAttribute="centerY" secondItem="c4w-rY-ACr" secondAttribute="centerY" id="ixz-UK-zam"/>
+                                    <constraint firstItem="CYG-IO-Sle" firstAttribute="centerY" secondItem="c4w-rY-ACr" secondAttribute="centerY" constant="-37.5" id="nHQ-kd-7Xu"/>
                                     <constraint firstItem="V9h-uS-Fid" firstAttribute="centerX" secondItem="c4w-rY-ACr" secondAttribute="centerX" constant="50.5" id="s6g-nC-T0h"/>
+                                    <constraint firstItem="CFd-r7-acV" firstAttribute="centerY" secondItem="c4w-rY-ACr" secondAttribute="centerY" constant="-69.5" id="wlh-u4-gqO"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Genius" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CRx-Wq-vkJ">
@@ -134,7 +169,14 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="dot1" destination="V9h-uS-Fid" id="otv-3C-y4i"/>
+                        <outlet property="centerBlueDot" destination="ls7-GP-Y6a" id="y2M-uk-O5o"/>
+                        <outlet property="leftBlueDot" destination="ZmV-nY-itP" id="Opu-UK-GgH"/>
+                        <outlet property="leftGreenDot" destination="CYG-IO-Sle" id="7IC-kk-WJd"/>
+                        <outlet property="leftPurpleDot" destination="OWU-VH-TXx" id="U7S-bu-itE"/>
+                        <outlet property="leftRedDot" destination="Jrw-DG-yhp" id="WX5-m2-62v"/>
+                        <outlet property="rightBlueDot" destination="A4j-pF-pbY" id="AIj-EC-XKL"/>
+                        <outlet property="rightPurpleDot" destination="V9h-uS-Fid" id="O6H-7V-DgA"/>
+                        <outlet property="topRedDot" destination="CFd-r7-acV" id="yI4-Qx-0yz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h2f-lA-c09" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -144,6 +186,12 @@
     </scenes>
     <resources>
         <image name="Head" width="133" height="169"/>
-        <image name="Oval" width="18" height="18"/>
+        <image name="Oval1" width="20" height="20"/>
+        <image name="Oval10" width="11" height="11"/>
+        <image name="Oval11" width="18" height="18"/>
+        <image name="Oval2" width="15" height="15"/>
+        <image name="Oval5" width="38" height="38"/>
+        <image name="Oval6" width="21" height="21"/>
+        <image name="Oval9" width="11" height="11"/>
     </resources>
 </document>
