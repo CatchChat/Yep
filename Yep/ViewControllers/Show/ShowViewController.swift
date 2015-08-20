@@ -57,11 +57,11 @@ class ShowViewController: UIViewController {
 
         let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[stepA(==view)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
 
-        view.addConstraints(vConstraints)
+        NSLayoutConstraint.activateConstraints(vConstraints)
 
         let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[stepA(==view)][stepB(==view)][stepC(==view)]|", options: .AlignAllBottom | .AlignAllTop, metrics: nil, views: viewsDictionary)
 
-        view.addConstraints(hConstraints)
+        NSLayoutConstraint.activateConstraints(hConstraints)
     }
 
     private func stepGenius() -> ShowStepGeniusViewController {
@@ -130,7 +130,7 @@ extension ShowViewController: UIScrollViewDelegate {
 //
 //        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
 //            self.finishButton.alpha = isLastStep ? 1 : 0
-//            self.pageControl.alpha = isLastStep ? 0 : 1
+//            //self.pageControl.alpha = isLastStep ? 0 : 1
 //
 //        }, completion: { _ in
 //        })
