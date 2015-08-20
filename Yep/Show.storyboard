@@ -219,22 +219,51 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S0s-Hg-4ic">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="433"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Match" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q2B-Nx-QNF">
-                                <rect key="frame" x="132" y="433" width="110.5" height="48"/>
+                                <rect key="frame" x="132" y="458.5" width="110.5" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Match friends with your skills" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7AO-eC-NT3">
-                                <rect key="frame" x="76" y="501" width="222.5" height="20.5"/>
+                                <rect key="frame" x="76" y="526.5" width="222.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S0s-Hg-4ic">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="458.5"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Camera" translatesAutoresizingMaskIntoConstraints="NO" id="Sij-Kk-TC5">
+                                        <rect key="frame" x="82" y="150.5" width="71" height="45"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pen" translatesAutoresizingMaskIntoConstraints="NO" id="ofE-QC-oZA">
+                                        <rect key="frame" x="184" y="140.5" width="7" height="66"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Controller" translatesAutoresizingMaskIntoConstraints="NO" id="6nM-wS-8be">
+                                        <rect key="frame" x="103" y="208.5" width="71" height="42"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Keyboard" translatesAutoresizingMaskIntoConstraints="NO" id="Cja-9u-yQO">
+                                        <rect key="frame" x="102.5" y="260.5" width="170" height="65"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Book" translatesAutoresizingMaskIntoConstraints="NO" id="L7f-XP-WgV">
+                                        <rect key="frame" x="213" y="139.5" width="71" height="100"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="ofE-QC-oZA" firstAttribute="top" secondItem="L7f-XP-WgV" secondAttribute="top" constant="1" id="2mS-5n-sO7"/>
+                                    <constraint firstItem="6nM-wS-8be" firstAttribute="top" secondItem="ofE-QC-oZA" secondAttribute="bottom" constant="2" id="BOO-XZ-a1U"/>
+                                    <constraint firstAttribute="centerX" secondItem="Cja-9u-yQO" secondAttribute="centerX" id="CKg-yP-R1x"/>
+                                    <constraint firstAttribute="centerY" secondItem="6nM-wS-8be" secondAttribute="centerY" id="ClQ-7s-NTI"/>
+                                    <constraint firstAttribute="centerX" secondItem="ofE-QC-oZA" secondAttribute="centerX" id="E7C-B0-VlE"/>
+                                    <constraint firstItem="Cja-9u-yQO" firstAttribute="top" secondItem="6nM-wS-8be" secondAttribute="bottom" constant="10" id="G3w-3V-dhR"/>
+                                    <constraint firstItem="Sij-Kk-TC5" firstAttribute="centerX" secondItem="6nM-wS-8be" secondAttribute="centerX" constant="-21" id="Gzg-nv-yys"/>
+                                    <constraint firstItem="L7f-XP-WgV" firstAttribute="leading" secondItem="ofE-QC-oZA" secondAttribute="trailing" constant="22" id="RU1-YT-eBi"/>
+                                    <constraint firstItem="ofE-QC-oZA" firstAttribute="leading" secondItem="6nM-wS-8be" secondAttribute="trailing" constant="10" id="dlZ-TP-nle"/>
+                                    <constraint firstItem="6nM-wS-8be" firstAttribute="top" secondItem="Sij-Kk-TC5" secondAttribute="bottom" constant="13" id="oEz-gU-G4q"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -242,7 +271,7 @@
                             <constraint firstItem="q2B-Nx-QNF" firstAttribute="top" secondItem="S0s-Hg-4ic" secondAttribute="bottom" id="CpJ-49-yvf"/>
                             <constraint firstAttribute="trailing" secondItem="S0s-Hg-4ic" secondAttribute="trailing" id="YrO-Ye-bbD"/>
                             <constraint firstItem="7AO-eC-NT3" firstAttribute="top" secondItem="q2B-Nx-QNF" secondAttribute="bottom" constant="20" id="cWP-43-MPi"/>
-                            <constraint firstItem="N4t-8c-Qpf" firstAttribute="top" secondItem="7AO-eC-NT3" secondAttribute="bottom" constant="145" id="hME-M1-48V"/>
+                            <constraint firstItem="N4t-8c-Qpf" firstAttribute="top" secondItem="7AO-eC-NT3" secondAttribute="bottom" constant="120" id="hME-M1-48V"/>
                             <constraint firstItem="S0s-Hg-4ic" firstAttribute="leading" secondItem="A5d-Ub-c3X" secondAttribute="leading" id="oS3-bO-zcO"/>
                             <constraint firstItem="q2B-Nx-QNF" firstAttribute="centerX" secondItem="7AO-eC-NT3" secondAttribute="centerX" id="osz-av-kEO"/>
                             <constraint firstItem="S0s-Hg-4ic" firstAttribute="top" secondItem="A5d-Ub-c3X" secondAttribute="top" id="wlB-Sb-ze5"/>
@@ -256,7 +285,11 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Book" width="71" height="100"/>
+        <image name="Camera" width="71" height="45"/>
+        <image name="Controller" width="71" height="42"/>
         <image name="Head" width="133" height="169"/>
+        <image name="Keyboard" width="170" height="65"/>
         <image name="Oval1" width="20" height="20"/>
         <image name="Oval10" width="11" height="11"/>
         <image name="Oval11" width="18" height="18"/>
@@ -268,5 +301,6 @@
         <image name="Oval8" width="11" height="11"/>
         <image name="Oval9" width="11" height="11"/>
         <image name="Oval_big" width="73" height="58"/>
+        <image name="Pen" width="7" height="66"/>
     </resources>
 </document>
