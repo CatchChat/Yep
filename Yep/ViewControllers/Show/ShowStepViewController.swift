@@ -68,13 +68,17 @@ class ShowStepViewController: UIViewController {
     }
 
     private func repeatRotate(view: UIView, fromValue: AnyObject, toValue: AnyObject, duration: CFTimeInterval) {
+
         let rotate = CABasicAnimation(keyPath: "transform.rotation.z")
+
         rotate.fromValue = fromValue
         rotate.toValue = toValue
         rotate.duration = duration
         rotate.repeatCount = Float.infinity
         rotate.autoreverses = true
         rotate.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+
+        view.layer.allowsEdgeAntialiasing = true
 
         view.layer.addAnimation(rotate, forKey: "Rotate")
     }
