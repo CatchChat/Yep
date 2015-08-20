@@ -20,8 +20,8 @@ class ShowStepViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        titleLabelBottomConstraint.constant = Ruler.match(.iPhoneHeights(20, 30, 40, 50))
-        subTitleLabelBottomConstraint.constant = Ruler.match(.iPhoneHeights(120, 130, 140, 150))
+        titleLabelBottomConstraint.constant = Ruler.match(.iPhoneHeights(20, 30, 30, 30))
+        subTitleLabelBottomConstraint.constant = Ruler.match(.iPhoneHeights(120, 140, 160, 180))
     }
 
     func repeatAnimate(view: UIView, alongWithPath path: UIBezierPath, duration: CFTimeInterval, autoreverses: Bool = false) {
