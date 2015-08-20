@@ -22,6 +22,8 @@ class ShowStepGeniusViewController: UIViewController {
     @IBOutlet weak var rightYellowDot: UIImageView!
     @IBOutlet weak var rightGreenDot: UIImageView!
 
+    @IBOutlet weak var dotsLink: UIImageView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -40,9 +42,12 @@ class ShowStepGeniusViewController: UIViewController {
         repeatAnimate(centerOrangeDot, alongWithPath: UIBezierPath(ovalInRect: CGRectInset(centerOrangeDot.frame, 1, 1)), duration: 3)
         repeatAnimate(rightYellowDot, alongWithPath: UIBezierPath(ovalInRect: CGRectInset(rightYellowDot.frame, 1, 1)), duration: 3)
         repeatAnimate(rightGreenDot, alongWithPath: UIBezierPath(ovalInRect: CGRectInset(rightGreenDot.frame, 1, 1)), duration: 3)
+
+        let dotsLinkPath = UIBezierPath(arcCenter: dotsLink.center, radius: 5, startAngle: 0, endAngle: 2, clockwise: false)
+        repeatAnimate(dotsLink, alongWithPath: dotsLinkPath, duration: 7, autoreverses: true)
     }
 
-    func repeatAnimate(view: UIView, alongWithPath path: UIBezierPath, duration: CFTimeInterval) {
+    func repeatAnimate(view: UIView, alongWithPath path: UIBezierPath, duration: CFTimeInterval, autoreverses: Bool = false) {
 
         let animation = CAKeyframeAnimation(keyPath: "position")
 
@@ -51,6 +56,7 @@ class ShowStepGeniusViewController: UIViewController {
         animation.duration = duration
         animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
         animation.repeatCount = Float.infinity
+        animation.autoreverses = autoreverses
 
         animation.path = path.CGPath
 

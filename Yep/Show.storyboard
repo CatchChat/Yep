@@ -89,6 +89,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Genius" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CRx-Wq-vkJ">
+                                <rect key="frame" x="126" y="453" width="122.5" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <color key="textColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discover them around you" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ExN-8a-QFy">
+                                <rect key="frame" x="86" y="526" width="202" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.40000000596046448" green="0.40000000596046448" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yae-Kb-Xsy" userLabel="Container View">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="445"/>
                                 <subviews>
@@ -128,6 +140,9 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval7" translatesAutoresizingMaskIntoConstraints="NO" id="bcz-Kn-Kbr">
                                         <rect key="frame" x="169" y="188" width="21" height="21"/>
                                     </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Oval_big" translatesAutoresizingMaskIntoConstraints="NO" id="bBq-yc-eUP">
+                                        <rect key="frame" x="184" y="156" width="73" height="58"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -157,18 +172,6 @@
                                     <constraint firstItem="CFd-r7-acV" firstAttribute="centerY" secondItem="c4w-rY-ACr" secondAttribute="centerY" constant="-69.5" id="wlh-u4-gqO"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Genius" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CRx-Wq-vkJ">
-                                <rect key="frame" x="126" y="453" width="122.5" height="48"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
-                                <color key="textColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discover them around you" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ExN-8a-QFy">
-                                <rect key="frame" x="86" y="526" width="202" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.40000000596046448" green="0.40000000596046448" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -186,6 +189,7 @@
                     <connections>
                         <outlet property="centerBlueDot" destination="ls7-GP-Y6a" id="y2M-uk-O5o"/>
                         <outlet property="centerOrangeDot" destination="bcz-Kn-Kbr" id="iUf-A3-ZI5"/>
+                        <outlet property="dotsLink" destination="bBq-yc-eUP" id="f6g-KF-RnV"/>
                         <outlet property="leftBlueDot" destination="ZmV-nY-itP" id="Opu-UK-GgH"/>
                         <outlet property="leftGreenDot" destination="CYG-IO-Sle" id="7IC-kk-WJd"/>
                         <outlet property="leftPurpleDot" destination="OWU-VH-TXx" id="U7S-bu-itE"/>
@@ -214,5 +218,6 @@
         <image name="Oval7" width="21" height="21"/>
         <image name="Oval8" width="11" height="11"/>
         <image name="Oval9" width="11" height="11"/>
+        <image name="Oval_big" width="73" height="58"/>
     </resources>
 </document>
