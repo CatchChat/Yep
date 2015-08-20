@@ -48,21 +48,6 @@ class ShowStepMatchViewController: ShowStepViewController {
         repeatRotate(view, fromValue: -0.1, toValue: 0.1, duration: duration)
     }
 
-//    private func animateKeyboard() {
-//
-//        let path = UIBezierPath()
-//
-//        let offset: UInt32 = 20
-//        let beginPoint = CGPoint(x: keyboard.center.x - CGFloat(arc4random() % offset), y: keyboard.center.y + CGFloat(arc4random() % offset) * 0.5 * flip())
-//        let endPoint = CGPoint(x: keyboard.center.x + CGFloat(arc4random() % offset), y: keyboard.center.y + CGFloat(arc4random() % offset) * 0.5 * flip())
-//        path.moveToPoint(beginPoint)
-//        path.addLineToPoint(endPoint)
-//
-//        repeatAnimate(keyboard, alongWithPath: path, duration: 4, autoreverses: true)
-//
-//        repeatRotate(keyboard, fromValue: -0.1, toValue: 0.1, duration: 3)
-//   }
-
     private func repeatRotate(view: UIView, fromValue: AnyObject, toValue: AnyObject, duration: CFTimeInterval) {
         let rotate = CABasicAnimation(keyPath: "transform.rotation.z")
         rotate.fromValue = fromValue

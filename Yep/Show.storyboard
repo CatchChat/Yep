@@ -217,7 +217,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="458.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Camera" translatesAutoresizingMaskIntoConstraints="NO" id="Sij-Kk-TC5">
-                                        <rect key="frame" x="82" y="150.5" width="71" height="45"/>
+                                        <rect key="frame" x="103" y="150.5" width="71" height="45"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pen" translatesAutoresizingMaskIntoConstraints="NO" id="ofE-QC-oZA">
                                         <rect key="frame" x="184" y="140.5" width="7" height="66"/>
@@ -229,7 +229,7 @@
                                         <rect key="frame" x="102.5" y="260.5" width="170" height="65"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Book" translatesAutoresizingMaskIntoConstraints="NO" id="L7f-XP-WgV">
-                                        <rect key="frame" x="213" y="139.5" width="71" height="100"/>
+                                        <rect key="frame" x="201" y="139.5" width="71" height="100"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -240,8 +240,8 @@
                                     <constraint firstAttribute="centerY" secondItem="6nM-wS-8be" secondAttribute="centerY" id="ClQ-7s-NTI"/>
                                     <constraint firstAttribute="centerX" secondItem="ofE-QC-oZA" secondAttribute="centerX" id="E7C-B0-VlE"/>
                                     <constraint firstItem="Cja-9u-yQO" firstAttribute="top" secondItem="6nM-wS-8be" secondAttribute="bottom" constant="10" id="G3w-3V-dhR"/>
-                                    <constraint firstItem="Sij-Kk-TC5" firstAttribute="centerX" secondItem="6nM-wS-8be" secondAttribute="centerX" constant="-21" id="Gzg-nv-yys"/>
-                                    <constraint firstItem="L7f-XP-WgV" firstAttribute="leading" secondItem="ofE-QC-oZA" secondAttribute="trailing" constant="22" id="RU1-YT-eBi"/>
+                                    <constraint firstItem="Sij-Kk-TC5" firstAttribute="centerX" secondItem="6nM-wS-8be" secondAttribute="centerX" id="Gzg-nv-yys"/>
+                                    <constraint firstItem="L7f-XP-WgV" firstAttribute="leading" secondItem="ofE-QC-oZA" secondAttribute="trailing" constant="10" id="RU1-YT-eBi"/>
                                     <constraint firstItem="ofE-QC-oZA" firstAttribute="leading" secondItem="6nM-wS-8be" secondAttribute="trailing" constant="10" id="dlZ-TP-nle"/>
                                     <constraint firstItem="6nM-wS-8be" firstAttribute="top" secondItem="Sij-Kk-TC5" secondAttribute="bottom" constant="13" id="oEz-gU-G4q"/>
                                 </constraints>
