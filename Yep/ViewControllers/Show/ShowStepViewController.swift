@@ -7,11 +7,22 @@
 //
 
 import UIKit
+import Ruler
 
 class ShowStepViewController: UIViewController {
 
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var titleLabelBottomConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var subTitleLabel: UILabel!
+    @IBOutlet weak var subTitleLabelBottomConstraint: NSLayoutConstraint!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        titleLabelBottomConstraint.constant = Ruler.match(.iPhoneHeights(20, 30, 40, 50))
+        subTitleLabelBottomConstraint.constant = Ruler.match(.iPhoneHeights(120, 130, 140, 150))
+    }
 
     func repeatAnimate(view: UIView, alongWithPath path: UIBezierPath, duration: CFTimeInterval, autoreverses: Bool = false) {
 

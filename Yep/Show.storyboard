@@ -184,7 +184,9 @@
                         <outlet property="rightPurpleDot" destination="V9h-uS-Fid" id="O6H-7V-DgA"/>
                         <outlet property="rightYellowDot" destination="rKu-h8-ZaZ" id="Ljv-oL-47N"/>
                         <outlet property="subTitleLabel" destination="ExN-8a-QFy" id="fgK-mI-6Fs"/>
+                        <outlet property="subTitleLabelBottomConstraint" destination="jab-Tg-Seu" id="oeC-Ya-dOF"/>
                         <outlet property="titleLabel" destination="CRx-Wq-vkJ" id="2cz-DF-gAd"/>
+                        <outlet property="titleLabelBottomConstraint" destination="dZM-Gn-DZC" id="a0A-kc-uTF"/>
                         <outlet property="topRedDot" destination="CFd-r7-acV" id="yI4-Qx-0yz"/>
                     </connections>
                 </viewController>
@@ -270,7 +272,9 @@
                         <outlet property="keyboard" destination="Cja-9u-yQO" id="dST-wH-vPB"/>
                         <outlet property="pen" destination="ofE-QC-oZA" id="s36-xU-FzA"/>
                         <outlet property="subTitleLabel" destination="7AO-eC-NT3" id="8uY-Yx-5EI"/>
+                        <outlet property="subTitleLabelBottomConstraint" destination="hME-M1-48V" id="OJq-VE-FYp"/>
                         <outlet property="titleLabel" destination="q2B-Nx-QNF" id="W0r-Zv-ugi"/>
+                        <outlet property="titleLabelBottomConstraint" destination="cWP-43-MPi" id="xjV-8g-S4y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eRf-2b-6t8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -362,7 +366,9 @@
                         <outlet property="greenTriangle" destination="UYU-1W-xtm" id="1y4-eg-Q6a"/>
                         <outlet property="purpleTriangle" destination="zan-ma-LCx" id="VFH-7m-uzh"/>
                         <outlet property="subTitleLabel" destination="c5Q-3A-GBz" id="cKe-FW-Fkv"/>
+                        <outlet property="subTitleLabelBottomConstraint" destination="YhB-qy-76a" id="aqC-I7-9vv"/>
                         <outlet property="titleLabel" destination="EbL-hX-MJo" id="OWc-PW-t8I"/>
+                        <outlet property="titleLabelBottomConstraint" destination="VU7-mR-uPU" id="G1j-iR-Q8D"/>
                         <outlet property="yellowTriangle" destination="Bnh-Ag-r6W" id="zPp-AW-6RP"/>
                     </connections>
                 </viewController>
