@@ -18,6 +18,9 @@ class ShowStepGeniusViewController: UIViewController {
     @IBOutlet weak var topRedDot: UIImageView!
     @IBOutlet weak var rightBlueDot: UIImageView!
     @IBOutlet weak var centerBlueDot: UIImageView!
+    @IBOutlet weak var centerOrangeDot: UIImageView!
+    @IBOutlet weak var rightYellowDot: UIImageView!
+    @IBOutlet weak var rightGreenDot: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +37,9 @@ class ShowStepGeniusViewController: UIViewController {
         repeatAnimate(topRedDot, alongWithPath: UIBezierPath(ovalInRect: CGRectInset(topRedDot.frame, 1, 1)), duration: 2)
         repeatAnimate(rightBlueDot, alongWithPath: UIBezierPath(ovalInRect: CGRectInset(rightBlueDot.frame, 1, 1)), duration: 3)
         repeatAnimate(centerBlueDot, alongWithPath: UIBezierPath(ovalInRect: CGRectInset(centerBlueDot.frame, 1, 1)), duration: 3)
+        repeatAnimate(centerOrangeDot, alongWithPath: UIBezierPath(ovalInRect: CGRectInset(centerOrangeDot.frame, 1, 1)), duration: 3)
+        repeatAnimate(rightYellowDot, alongWithPath: UIBezierPath(ovalInRect: CGRectInset(rightYellowDot.frame, 1, 1)), duration: 3)
+        repeatAnimate(rightGreenDot, alongWithPath: UIBezierPath(ovalInRect: CGRectInset(rightGreenDot.frame, 1, 1)), duration: 3)
     }
 
     func repeatAnimate(view: UIView, alongWithPath path: UIBezierPath, duration: CFTimeInterval) {

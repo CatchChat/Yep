@@ -98,6 +98,9 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval6" translatesAutoresizingMaskIntoConstraints="NO" id="A4j-pF-pbY">
                                         <rect key="frame" x="242" y="212" width="21" height="21"/>
                                     </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval4" translatesAutoresizingMaskIntoConstraints="NO" id="12E-Gf-ntu">
+                                        <rect key="frame" x="239" y="161" width="15" height="15"/>
+                                    </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Head" translatesAutoresizingMaskIntoConstraints="NO" id="c4w-rY-ACr">
                                         <rect key="frame" x="121" y="138" width="133" height="169"/>
                                     </imageView>
@@ -113,11 +116,17 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval2" translatesAutoresizingMaskIntoConstraints="NO" id="Jrw-DG-yhp">
                                         <rect key="frame" x="67" y="194" width="15" height="15"/>
                                     </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval6" translatesAutoresizingMaskIntoConstraints="NO" id="ZmV-nY-itP">
+                                        <rect key="frame" x="83" y="218" width="21" height="21"/>
+                                    </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval9" translatesAutoresizingMaskIntoConstraints="NO" id="ls7-GP-Y6a">
                                         <rect key="frame" x="200" y="234" width="11" height="11"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval6" translatesAutoresizingMaskIntoConstraints="NO" id="ZmV-nY-itP">
-                                        <rect key="frame" x="83" y="218" width="21" height="21"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval8" translatesAutoresizingMaskIntoConstraints="NO" id="rKu-h8-ZaZ">
+                                        <rect key="frame" x="281" y="188" width="11" height="11"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval7" translatesAutoresizingMaskIntoConstraints="NO" id="bcz-Kn-Kbr">
+                                        <rect key="frame" x="169" y="188" width="21" height="21"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -127,9 +136,12 @@
                                     <constraint firstItem="c4w-rY-ACr" firstAttribute="centerX" secondItem="ZmV-nY-itP" secondAttribute="centerX" constant="94" id="DOa-m3-ahb"/>
                                     <constraint firstItem="CYG-IO-Sle" firstAttribute="centerX" secondItem="c4w-rY-ACr" secondAttribute="centerX" constant="-65.5" id="Dwp-wT-FxI"/>
                                     <constraint firstItem="CYG-IO-Sle" firstAttribute="centerY" secondItem="OWU-VH-TXx" secondAttribute="centerY" constant="4.5" id="Eck-A8-Mzh"/>
+                                    <constraint firstItem="c4w-rY-ACr" firstAttribute="centerY" secondItem="rKu-h8-ZaZ" secondAttribute="centerY" constant="29" id="HpC-aM-ach"/>
                                     <constraint firstAttribute="centerX" secondItem="c4w-rY-ACr" secondAttribute="centerX" id="LVa-FB-W14"/>
+                                    <constraint firstItem="12E-Gf-ntu" firstAttribute="centerX" secondItem="c4w-rY-ACr" secondAttribute="centerX" constant="59" id="SUu-Ls-AjO"/>
                                     <constraint firstItem="ls7-GP-Y6a" firstAttribute="centerX" secondItem="c4w-rY-ACr" secondAttribute="centerX" constant="18" id="VnU-nQ-C8b"/>
                                     <constraint firstItem="c4w-rY-ACr" firstAttribute="centerX" secondItem="A4j-pF-pbY" secondAttribute="centerX" constant="-65" id="X3d-Xh-2dA"/>
+                                    <constraint firstItem="c4w-rY-ACr" firstAttribute="centerX" secondItem="rKu-h8-ZaZ" secondAttribute="centerX" constant="-99" id="YEu-Tx-Gm8"/>
                                     <constraint firstItem="Jrw-DG-yhp" firstAttribute="centerY" secondItem="c4w-rY-ACr" secondAttribute="centerY" constant="-21" id="YPn-mI-qZw"/>
                                     <constraint firstItem="CFd-r7-acV" firstAttribute="centerX" secondItem="c4w-rY-ACr" secondAttribute="centerX" constant="-30.5" id="dg2-c0-xdU"/>
                                     <constraint firstItem="CYG-IO-Sle" firstAttribute="centerX" secondItem="OWU-VH-TXx" secondAttribute="centerX" constant="17.5" id="eI0-dC-BH5"/>
@@ -137,8 +149,11 @@
                                     <constraint firstItem="ls7-GP-Y6a" firstAttribute="centerY" secondItem="c4w-rY-ACr" secondAttribute="centerY" constant="17" id="i2y-Pa-dyT"/>
                                     <constraint firstItem="c4w-rY-ACr" firstAttribute="centerY" secondItem="ZmV-nY-itP" secondAttribute="centerY" constant="-6" id="iZe-ZN-Hnm"/>
                                     <constraint firstAttribute="centerY" secondItem="c4w-rY-ACr" secondAttribute="centerY" id="ixz-UK-zam"/>
+                                    <constraint firstItem="12E-Gf-ntu" firstAttribute="centerY" secondItem="c4w-rY-ACr" secondAttribute="centerY" constant="-54" id="lDU-e2-bUU"/>
                                     <constraint firstItem="CYG-IO-Sle" firstAttribute="centerY" secondItem="c4w-rY-ACr" secondAttribute="centerY" constant="-37.5" id="nHQ-kd-7Xu"/>
+                                    <constraint firstItem="bcz-Kn-Kbr" firstAttribute="centerX" secondItem="c4w-rY-ACr" secondAttribute="centerX" constant="-8" id="ojI-b7-OIz"/>
                                     <constraint firstItem="V9h-uS-Fid" firstAttribute="centerX" secondItem="c4w-rY-ACr" secondAttribute="centerX" constant="50.5" id="s6g-nC-T0h"/>
+                                    <constraint firstItem="bcz-Kn-Kbr" firstAttribute="centerY" secondItem="c4w-rY-ACr" secondAttribute="centerY" constant="-24" id="uFD-ih-Or5"/>
                                     <constraint firstItem="CFd-r7-acV" firstAttribute="centerY" secondItem="c4w-rY-ACr" secondAttribute="centerY" constant="-69.5" id="wlh-u4-gqO"/>
                                 </constraints>
                             </view>
@@ -170,12 +185,15 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="centerBlueDot" destination="ls7-GP-Y6a" id="y2M-uk-O5o"/>
+                        <outlet property="centerOrangeDot" destination="bcz-Kn-Kbr" id="iUf-A3-ZI5"/>
                         <outlet property="leftBlueDot" destination="ZmV-nY-itP" id="Opu-UK-GgH"/>
                         <outlet property="leftGreenDot" destination="CYG-IO-Sle" id="7IC-kk-WJd"/>
                         <outlet property="leftPurpleDot" destination="OWU-VH-TXx" id="U7S-bu-itE"/>
                         <outlet property="leftRedDot" destination="Jrw-DG-yhp" id="WX5-m2-62v"/>
                         <outlet property="rightBlueDot" destination="A4j-pF-pbY" id="AIj-EC-XKL"/>
+                        <outlet property="rightGreenDot" destination="12E-Gf-ntu" id="Jch-AX-qka"/>
                         <outlet property="rightPurpleDot" destination="V9h-uS-Fid" id="O6H-7V-DgA"/>
+                        <outlet property="rightYellowDot" destination="rKu-h8-ZaZ" id="Ljv-oL-47N"/>
                         <outlet property="topRedDot" destination="CFd-r7-acV" id="yI4-Qx-0yz"/>
                     </connections>
                 </viewController>
@@ -190,8 +208,11 @@
         <image name="Oval10" width="11" height="11"/>
         <image name="Oval11" width="18" height="18"/>
         <image name="Oval2" width="15" height="15"/>
+        <image name="Oval4" width="15" height="15"/>
         <image name="Oval5" width="38" height="38"/>
         <image name="Oval6" width="21" height="21"/>
+        <image name="Oval7" width="21" height="21"/>
+        <image name="Oval8" width="11" height="11"/>
         <image name="Oval9" width="11" height="11"/>
     </resources>
 </document>
