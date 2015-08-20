@@ -7,19 +7,25 @@
 //
 
 import UIKit
+import Ruler
 
 class ShowViewController: UIViewController {
 
     @IBOutlet weak var scrollView: UIScrollView!
 
     @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet weak var pageControlBottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var finishButton: BorderButton!
+    @IBOutlet weak var finishButtonBottomConstraint: NSLayoutConstraint!
 
     var steps = [UIViewController]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        pageControlBottomConstraint.constant = Ruler.match(.iPhoneHeights(0, 10, 20, 30))
+        finishButtonBottomConstraint.constant = Ruler.match(.iPhoneHeights(20, 30, 40, 50))
 
         makeUI()
     }

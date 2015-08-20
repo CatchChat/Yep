@@ -52,7 +52,9 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="finishButton" destination="c1Z-F1-RQr" id="yI2-US-Iaz"/>
+                        <outlet property="finishButtonBottomConstraint" destination="0iC-ay-rTE" id="5Gc-6m-pFu"/>
                         <outlet property="pageControl" destination="9Z8-B0-cVp" id="D8a-Vi-bnF"/>
+                        <outlet property="pageControlBottomConstraint" destination="E75-Mv-TaD" id="hHb-S6-7yh"/>
                         <outlet property="scrollView" destination="Zwm-fM-O1u" id="AzC-i3-j5q"/>
                     </connections>
                 </viewController>
