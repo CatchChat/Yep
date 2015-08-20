@@ -299,10 +299,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="458"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Frame" translatesAutoresizingMaskIntoConstraints="NO" id="1lR-a5-JrZ">
-                                        <rect key="frame" x="104" y="117" width="165" height="204"/>
+                                        <rect key="frame" x="105" y="119" width="165" height="204"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fill 1" translatesAutoresizingMaskIntoConstraints="NO" id="tj4-tr-cL0">
                                         <rect key="frame" x="110" y="162.5" width="77" height="153"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fill 2" translatesAutoresizingMaskIntoConstraints="NO" id="jPP-SX-vd3">
+                                        <rect key="frame" x="111" y="162.5" width="153" height="77"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fill 6" translatesAutoresizingMaskIntoConstraints="NO" id="vTA-cW-Ynf">
                                         <rect key="frame" x="149" y="239.5" width="77" height="77"/>
@@ -313,14 +316,11 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fill 5" translatesAutoresizingMaskIntoConstraints="NO" id="cgB-mZ-QOD">
                                         <rect key="frame" x="225" y="162.5" width="39" height="115"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fill 7" translatesAutoresizingMaskIntoConstraints="NO" id="Bnh-Ag-r6W">
-                                        <rect key="frame" x="194" y="189.5" width="57" height="84"/>
-                                    </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fill 8" translatesAutoresizingMaskIntoConstraints="NO" id="UYU-1W-xtm">
                                         <rect key="frame" x="178" y="254.5" width="100" height="80"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fill 2" translatesAutoresizingMaskIntoConstraints="NO" id="jPP-SX-vd3">
-                                        <rect key="frame" x="111" y="162.5" width="153" height="77"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fill 7" translatesAutoresizingMaskIntoConstraints="NO" id="Bnh-Ag-r6W">
+                                        <rect key="frame" x="194" y="190" width="57" height="84"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -328,10 +328,10 @@
                                     <constraint firstItem="Bnh-Ag-r6W" firstAttribute="centerX" secondItem="jPP-SX-vd3" secondAttribute="centerX" constant="35" id="1lJ-38-oTL"/>
                                     <constraint firstItem="tj4-tr-cL0" firstAttribute="top" secondItem="jPP-SX-vd3" secondAttribute="bottom" constant="-76.5" id="8KR-5U-R19"/>
                                     <constraint firstItem="jPP-SX-vd3" firstAttribute="centerX" secondItem="vTA-cW-Ynf" secondAttribute="centerX" id="F2p-Dr-uyU"/>
-                                    <constraint firstItem="jPP-SX-vd3" firstAttribute="centerY" secondItem="1lR-a5-JrZ" secondAttribute="centerY" constant="-18" id="G7s-qX-kHI"/>
+                                    <constraint firstItem="jPP-SX-vd3" firstAttribute="centerY" secondItem="1lR-a5-JrZ" secondAttribute="centerY" constant="-20" id="G7s-qX-kHI"/>
                                     <constraint firstItem="tj4-tr-cL0" firstAttribute="centerX" secondItem="zan-ma-LCx" secondAttribute="centerX" constant="1.5" id="Ln2-Ao-hge"/>
                                     <constraint firstItem="cgB-mZ-QOD" firstAttribute="centerY" secondItem="jPP-SX-vd3" secondAttribute="centerY" constant="19" id="MS3-Ek-ptO"/>
-                                    <constraint firstItem="jPP-SX-vd3" firstAttribute="centerX" secondItem="1lR-a5-JrZ" secondAttribute="centerX" constant="1" id="NMz-VY-tfU"/>
+                                    <constraint firstItem="jPP-SX-vd3" firstAttribute="centerX" secondItem="1lR-a5-JrZ" secondAttribute="centerX" id="NMz-VY-tfU"/>
                                     <constraint firstAttribute="centerY" secondItem="tj4-tr-cL0" secondAttribute="centerY" constant="-10" id="RXz-ph-ATF"/>
                                     <constraint firstItem="vTA-cW-Ynf" firstAttribute="top" secondItem="jPP-SX-vd3" secondAttribute="bottom" id="UtO-SY-3re"/>
                                     <constraint firstItem="jPP-SX-vd3" firstAttribute="leading" secondItem="tj4-tr-cL0" secondAttribute="trailing" constant="-76" id="Zxj-um-P8g"/>
