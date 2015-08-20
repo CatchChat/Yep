@@ -17,9 +17,15 @@ class ShowStepViewController: UIViewController {
         animation.calculationMode = kCAAnimationPaced
         animation.fillMode = kCAFillModeForwards
         animation.duration = duration
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
         animation.repeatCount = Float.infinity
         animation.autoreverses = autoreverses
+
+        if autoreverses {
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+
+        } else {
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        }
 
         animation.path = path.CGPath
 
