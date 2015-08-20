@@ -95,11 +95,16 @@
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Head" translatesAutoresizingMaskIntoConstraints="NO" id="c4w-rY-ACr">
                                         <rect key="frame" x="121" y="138" width="133" height="169"/>
                                     </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval" translatesAutoresizingMaskIntoConstraints="NO" id="V9h-uS-Fid">
+                                        <rect key="frame" x="229" y="226" width="18" height="18"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="V9h-uS-Fid" firstAttribute="centerY" secondItem="c4w-rY-ACr" secondAttribute="centerY" constant="12.5" id="9o3-40-2gU"/>
                                     <constraint firstAttribute="centerX" secondItem="c4w-rY-ACr" secondAttribute="centerX" id="LVa-FB-W14"/>
                                     <constraint firstAttribute="centerY" secondItem="c4w-rY-ACr" secondAttribute="centerY" id="ixz-UK-zam"/>
+                                    <constraint firstItem="V9h-uS-Fid" firstAttribute="centerX" secondItem="c4w-rY-ACr" secondAttribute="centerX" constant="50.5" id="s6g-nC-T0h"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Genius" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CRx-Wq-vkJ">
@@ -128,6 +133,9 @@
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="dot1" destination="V9h-uS-Fid" id="otv-3C-y4i"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h2f-lA-c09" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -136,5 +144,6 @@
     </scenes>
     <resources>
         <image name="Head" width="133" height="169"/>
+        <image name="Oval" width="18" height="18"/>
     </resources>
 </document>
