@@ -89,6 +89,8 @@ class ConversationViewController: BaseViewController {
         }()
     var currentMenu: BubbleMenuView?
 
+    var isTryingShowFriendRequestView = false
+
     func removeOldMenu() {
         currentMenu?.hide()
         currentMenu = nil
@@ -318,7 +320,12 @@ class ConversationViewController: BaseViewController {
 
                     // 发送过消息后才提示加好友
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        self?.tryShowFriendRequestView()
+                        if let strongSelf = self {
+                            if !strongSelf.isTryingShowFriendRequestView {
+                                strongSelf.isTryingShowFriendRequestView = true
+                                strongSelf.tryShowFriendRequestView()
+                            }
+                        }
                     }
                 })
 
@@ -892,8 +899,9 @@ class ConversationViewController: BaseViewController {
         let userID = user.userID
 
         let hideFriendRequestView: () -> Void = {
-            dispatch_async(dispatch_get_main_queue()) {
-                UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [weak self] in
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
                     self?.conversationCollectionView.contentInset.top = 64
 
                     friendRequestViewTop.constant -= FriendRequestView.height
@@ -901,6 +909,10 @@ class ConversationViewController: BaseViewController {
 
                 }, completion: { _ in
                     friendRequestView.removeFromSuperview()
+
+                    if let strongSelf = self {
+                        strongSelf.isTryingShowFriendRequestView = false
+                    }
                 })
             }
         }
