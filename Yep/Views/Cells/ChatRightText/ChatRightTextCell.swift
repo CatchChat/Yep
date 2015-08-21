@@ -18,7 +18,7 @@ class ChatRightTextCell: ChatRightBaseCell {
     @IBOutlet weak var textContentTextView: ChatTextView!
     @IBOutlet weak var textContentTextViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textContentTextViewLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var textContentTextViewWidthConstraint: NSLayoutConstraint!
+    //@IBOutlet weak var textContentTextViewWidthConstraint: NSLayoutConstraint!
 
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
@@ -45,7 +45,7 @@ class ChatRightTextCell: ChatRightBaseCell {
         textContentTextView.addGestureRecognizer(longPress)
         
         textContentTextViewTrailingConstraint.constant = YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
-        textContentTextViewLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel()
+        textContentTextViewLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel() - YepConfig.ChatCell.magicWidth
 
         bubbleBodyImageView.tintColor = UIColor.rightBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.rightBubbleTintColor()
@@ -75,7 +75,7 @@ class ChatRightTextCell: ChatRightBaseCell {
         textContentTextView.text = message.textContent
         //textContentTextView.attributedText = NSAttributedString(string: message.textContent, attributes: textAttributes)
 
-        textContentTextViewWidthConstraint.constant = max(YepConfig.minMessageTextLabelWidth, textContentLabelWidth)
+        //textContentTextViewWidthConstraint.constant = max(YepConfig.minMessageTextLabelWidth, textContentLabelWidth)
         textContentTextView.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left
 
         if let sender = message.fromFriend {

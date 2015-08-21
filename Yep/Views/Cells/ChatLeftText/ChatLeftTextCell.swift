@@ -18,7 +18,7 @@ class ChatLeftTextCell: ChatBaseCell {
     @IBOutlet weak var textContentTextView: ChatTextView!
     @IBOutlet weak var textContentTextViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textContentTextViewLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var textContentTextViewWidthConstraint: NSLayoutConstraint!
+    //@IBOutlet weak var textContentTextViewWidthConstraint: NSLayoutConstraint!
 
     var longPressAction: (ChatLeftTextCell -> Void)?
 
@@ -40,7 +40,7 @@ class ChatLeftTextCell: ChatBaseCell {
         let longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
         textContentTextView.addGestureRecognizer(longPress)
 
-        textContentTextViewTrailingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel()
+        textContentTextViewTrailingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel() - YepConfig.ChatCell.magicWidth
         textContentTextViewLeadingConstraint.constant = YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
         
         bubbleBodyImageView.tintColor = UIColor.leftBubbleTintColor()
@@ -60,7 +60,7 @@ class ChatLeftTextCell: ChatBaseCell {
         textContentTextView.text = message.textContent
         //textContentTextView.attributedText = NSAttributedString(string: message.textContent, attributes: textAttributes)
 
-        textContentTextViewWidthConstraint.constant = max(YepConfig.minMessageTextLabelWidth, textContentLabelWidth)
+        //textContentTextViewWidthConstraint.constant = max(YepConfig.minMessageTextLabelWidth, textContentLabelWidth)
         textContentTextView.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left
 
         if let sender = message.fromFriend {

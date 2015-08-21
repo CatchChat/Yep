@@ -123,6 +123,8 @@ class YepConfig {
 
     struct ChatCell {
 
+        static let magicWidth: CGFloat = 4
+
         static let lineSpacing: CGFloat = 5
         
         static let gapBetweenDotImageViewAndBubble: CGFloat = 5

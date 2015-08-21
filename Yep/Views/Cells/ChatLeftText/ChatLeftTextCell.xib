@@ -38,9 +38,6 @@
                         <rect key="frame" x="75" y="3" width="92" height="123"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="92" id="Uf7-gG-GkH"/>
-                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
@@ -74,7 +71,6 @@
                 <outlet property="textContentTextView" destination="o2v-vm-ItZ" id="lj4-7V-6TH"/>
                 <outlet property="textContentTextViewLeadingConstraint" destination="x4c-mB-0Ui" id="LPr-oY-JOg"/>
                 <outlet property="textContentTextViewTrailingConstraint" destination="Tpu-kA-CsQ" id="FYH-1w-mbJ"/>
-                <outlet property="textContentTextViewWidthConstraint" destination="Uf7-gG-GkH" id="BSX-B9-nIS"/>
             </connections>
             <point key="canvasLocation" x="338" y="346.5"/>
         </collectionViewCell>
