@@ -129,8 +129,9 @@ class EditNicknameAndBadgeViewController: UITableViewController {
 
                     dispatch_async(dispatch_get_main_queue()) {
                         badgeView.enabled = false
-                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set badge failed!", comment: ""), inViewController: self)
                     }
+
+                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set badge failed!", comment: ""), inViewController: self)
 
                 }, completion: { success in
                     dispatch_async(dispatch_get_main_queue()) {
@@ -191,12 +192,10 @@ extension EditNicknameAndBadgeViewController: UITextFieldDelegate {
             } else {
                 if newNickname != YepUserDefaults.nickname.value {
 
-                    updateMyselfWithInfo(["nickname": newNickname], failureHandler: { (reason, errorMessage) in
+                    updateMyselfWithInfo(["nickname": newNickname], failureHandler: { [weak self] reason, errorMessage in
                         defaultFailureHandler(reason, errorMessage)
 
-                        dispatch_async(dispatch_get_main_queue()) {
-                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Update nickname failed!", comment: ""), inViewController: self)
-                        }
+                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Update nickname failed!", comment: ""), inViewController: self)
 
                     }, completion: { success in
                         dispatch_async(dispatch_get_main_queue()) {

@@ -110,10 +110,8 @@ class RegisterPickMobileViewController: UIViewController {
                     YepHUD.hideActivityIndicator()
 
                     if let errorMessage = errorMessage {
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
-                                mobileNumberTextField.becomeFirstResponder()
-                            })
+                        YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
+                            mobileNumberTextField.becomeFirstResponder()
                         })
                     }
 

@@ -123,16 +123,17 @@ class LoginVerifyMobileViewController: UIViewController {
             }
         }
 
-        sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { (reason, errorMessage) in
+        sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason, errorMessage)
 
             if let errorMessage = errorMessage {
-                dispatch_async(dispatch_get_main_queue()) {
-                    YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
+                YepAlert.alertSorry(message: errorMessage, inViewController: self)
+
+                dispatch_async(dispatch_get_main_queue()) {
                     UIView.performWithoutAnimation {
-                        self.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
-                        self.callMeButton.layoutIfNeeded()
+                        self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                        self?.callMeButton.layoutIfNeeded()
                     }
                 }
             }
@@ -158,18 +159,20 @@ class LoginVerifyMobileViewController: UIViewController {
 
         YepHUD.showActivityIndicator()
 
-        loginByMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
+        loginByMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage)
 
             YepHUD.hideActivityIndicator()
 
             if let errorMessage = errorMessage {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.nextButton.enabled = false
+                dispatch_async(dispatch_get_main_queue()) {
+                    self?.nextButton.enabled = false
+                }
 
-                    YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
-                        verifyCodeTextField.becomeFirstResponder()
-                    })
+                YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self?.verifyCodeTextField.becomeFirstResponder()
+                    }
                 })
             }
 

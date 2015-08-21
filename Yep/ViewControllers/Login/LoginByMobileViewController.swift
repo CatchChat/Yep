@@ -97,33 +97,31 @@ class LoginByMobileViewController: BaseViewController {
 
         YepHUD.showActivityIndicator()
         
-        sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .SMS, failureHandler: { (reason, errorMessage) in
+        sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .SMS, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason, errorMessage)
 
             YepHUD.hideActivityIndicator()
 
             if let errorMessage = errorMessage {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
-                        mobileNumberTextField.becomeFirstResponder()
-                    })
+                YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self?.mobileNumberTextField.becomeFirstResponder()
+                    }
                 })
             }
-            
-        }, completion: { success in
+
+        }, completion: { [weak self] success in
 
             YepHUD.hideActivityIndicator()
 
             if success {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.showLoginVerifyMobile()
-                })
+                dispatch_async(dispatch_get_main_queue()) {
+                    self?.showLoginVerifyMobile()
+                }
 
             } else {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    YepAlert.alertSorry(message: NSLocalizedString("Failed to send verification code", comment: ""), inViewController: self, withDismissAction: { () -> Void in
-                        mobileNumberTextField.becomeFirstResponder()
-                    })
+                YepAlert.alertSorry(message: NSLocalizedString("Failed to send verification code", comment: ""), inViewController: self, withDismissAction: { () -> Void in
+                    mobileNumberTextField.becomeFirstResponder()
                 })
             }
         })
