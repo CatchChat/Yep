@@ -59,13 +59,12 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             case .Master:
                 headerView.learningButton.setInActive(animated: !isFirstAppear)
                 headerView.masterButton.setActive(animated: !isFirstAppear)
-                skillHomeScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+                skillHomeScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: !isFirstAppear)
                 
             case .Learning:
                 headerView.masterButton.setInActive(animated: !isFirstAppear)
                 headerView.learningButton.setActive(animated: !isFirstAppear)
-                skillHomeScrollView.setContentOffset(CGPoint(x: UIScreen.mainScreen().bounds.width, y: 0), animated: true)
-   
+                skillHomeScrollView.setContentOffset(CGPoint(x: UIScreen.mainScreen().bounds.width, y: 0), animated: !isFirstAppear)
             }
         }
     }
@@ -115,6 +114,12 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         
         learningtTableView.frame = CGRect(x: masterTableView.frame.size.width, y: 0, width: YepConfig.getScreenRect().width, height: height)
         skillHomeScrollView.contentSize = CGSize(width: YepConfig.getScreenRect().width * 2, height: height)
+
+        if isFirstAppear {
+            skillSet = preferedSkillSet ?? .Master
+
+            isFirstAppear = false
+        }
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -239,12 +244,6 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         }
 
         customTitleView()
-
-        if isFirstAppear {
-            skillSet = preferedSkillSet ?? .Master
-
-            isFirstAppear = false
-        }
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -256,7 +255,6 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         
         self.setNeedsStatusBarAppearanceUpdate()
     }
-    
 
     // MARK: UI
 
