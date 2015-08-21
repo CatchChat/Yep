@@ -13,7 +13,7 @@ def pods
     pod 'Kingfisher'
     pod 'TPKeyboardAvoiding', '~> 1.2'
     pod 'pop'
-    pod 'AFNetworking'
+    pod 'AFNetworking', '~> 2.5.4'
     pod 'MZFayeClient', :path => '../CatchLib-iOS/MZFayeClient/'
     pod 'RealmSwift', 0.94
 end

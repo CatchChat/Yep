@@ -68,8 +68,8 @@ private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: N
     var progress: NSProgress?
     
     let uploadTask = manager.uploadTaskWithStreamedRequest(request, progress: &progress, completionHandler: { (response, responseObject, error) in
-
-        if let error = error as? NSError {
+        
+        if error != nil {
             println("Error \(error.description) \(response) \(responseObject)")
             if let data = responseObject as? NSData {
                 let string = NSString(data: data, encoding: NSUTF8StringEncoding)
