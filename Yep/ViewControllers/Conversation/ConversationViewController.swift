@@ -103,7 +103,6 @@ class ConversationViewController: BaseViewController {
     let sectionInsetTop: CGFloat = 10
     let sectionInsetBottom: CGFloat = 10
 
-    let messageTextAttributes = [NSFontAttributeName: UIFont.chatTextFont()]
     lazy var messageTextLabelMaxWidth: CGFloat = {
         let maxWidth = self.collectionViewWidth - (YepConfig.chatCellGapBetweenWallAndAvatar() + YepConfig.chatCellAvatarSize() + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() + YepConfig.chatTextGapBetweenWallAndContentLabel())
         return maxWidth
@@ -1011,7 +1010,7 @@ class ConversationViewController: BaseViewController {
         switch message.mediaType {
 
         case MessageMediaType.Text.rawValue:
-            let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
+            let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
             height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
 
@@ -1081,7 +1080,7 @@ class ConversationViewController: BaseViewController {
             }
         }
 
-        let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: messageTextAttributes, context: nil)
+        let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
         let width = ceil(rect.width)
 

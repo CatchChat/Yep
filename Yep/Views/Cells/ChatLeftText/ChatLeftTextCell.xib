@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15A204h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="500" height="129"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_left_tail" translatesAutoresizingMaskIntoConstraints="NO" id="ppr-iG-zxj" userLabel="Bubble Tail Image View">
-                        <rect key="frame" x="57" y="58" width="13" height="14"/>
+                        <rect key="frame" x="57" y="13" width="13" height="14"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="13" id="TUy-IJ-8Vo"/>
@@ -22,12 +22,12 @@
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_body" translatesAutoresizingMaskIntoConstraints="NO" id="Yfx-Em-Job" userLabel="Bubble Body Image View">
-                        <rect key="frame" x="63" y="45" width="116" height="40"/>
+                        <rect key="frame" x="63" y="0.0" width="116" height="129"/>
                         <animations/>
                         <color key="tintColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hYu-LI-zcX" userLabel="Avatar Image View">
-                        <rect key="frame" x="15" y="45" width="40" height="40"/>
+                        <rect key="frame" x="15" y="0.0" width="40" height="40"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="JV9-zT-1At"/>
@@ -35,7 +35,7 @@
                         </constraints>
                     </imageView>
                     <textView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Text Content" translatesAutoresizingMaskIntoConstraints="NO" id="o2v-vm-ItZ" customClass="ChatTextView" customModule="Yep" customModuleProvider="target">
-                        <rect key="frame" x="75" y="48" width="92" height="34"/>
+                        <rect key="frame" x="75" y="3" width="92" height="123"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -51,11 +51,12 @@
             </view>
             <animations/>
             <constraints>
-                <constraint firstAttribute="centerY" secondItem="o2v-vm-ItZ" secondAttribute="centerY" id="BYZ-KA-Py1"/>
+                <constraint firstAttribute="bottom" secondItem="o2v-vm-ItZ" secondAttribute="bottom" constant="3" id="4HG-w9-FvJ"/>
                 <constraint firstItem="hYu-LI-zcX" firstAttribute="centerY" secondItem="ppr-iG-zxj" secondAttribute="centerY" id="CqX-BA-AO1"/>
                 <constraint firstItem="o2v-vm-ItZ" firstAttribute="top" secondItem="Yfx-Em-Job" secondAttribute="top" constant="3" id="MHY-GR-4fS"/>
                 <constraint firstItem="o2v-vm-ItZ" firstAttribute="bottom" secondItem="Yfx-Em-Job" secondAttribute="bottom" constant="-3" id="MIb-vK-cmz"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="o2v-vm-ItZ" secondAttribute="trailing" constant="50" id="Tpu-kA-CsQ"/>
+                <constraint firstItem="o2v-vm-ItZ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="3" id="aOB-ao-yJA"/>
                 <constraint firstItem="Yfx-Em-Job" firstAttribute="top" secondItem="hYu-LI-zcX" secondAttribute="top" id="cCW-R1-CFn"/>
                 <constraint firstItem="hYu-LI-zcX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="hM8-00-nUm"/>
                 <constraint firstItem="o2v-vm-ItZ" firstAttribute="leading" secondItem="Yfx-Em-Job" secondAttribute="leading" constant="12" id="nPH-jo-SPd"/>

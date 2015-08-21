@@ -136,6 +136,15 @@ class YepConfig {
         static let centerXOffset: CGFloat = 4
 
         static let imageAppearDuration: NSTimeInterval = 0.1
+
+        static let textAttributes:[String: NSObject] = [
+            NSFontAttributeName: UIFont.chatTextFont(),
+        ]
+//        static let textAttributes: [String: NSObject] = [
+//            NSFontAttributeName: UIFont.chatTextFont(),
+//            NSKernAttributeName: 0.5,
+//            NSParagraphStyleAttributeName: NSParagraphStyle.chatTextParagraphStyle(),
+//        ]
     }
 
     struct MetaData {

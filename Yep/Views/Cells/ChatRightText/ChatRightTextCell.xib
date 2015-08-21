@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15A204h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="500" height="131"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_right_tail" translatesAutoresizingMaskIntoConstraints="NO" id="1JC-jy-KNh" userLabel="Bubble Tail Image View">
-                        <rect key="frame" x="430" y="59" width="13" height="14"/>
+                        <rect key="frame" x="430" y="13" width="13" height="14"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="14" id="GPy-Nl-hAU"/>
@@ -22,11 +22,11 @@
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_body" translatesAutoresizingMaskIntoConstraints="NO" id="73l-kE-1KG" userLabel="Bubble Body Image View">
-                        <rect key="frame" x="321" y="46" width="116" height="40"/>
+                        <rect key="frame" x="321" y="0.0" width="116" height="131"/>
                         <animations/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RKK-8d-9vO" userLabel="Avatar Image View">
-                        <rect key="frame" x="445" y="46" width="40" height="40"/>
+                        <rect key="frame" x="445" y="0.0" width="40" height="40"/>
                         <animations/>
                         <color key="tintColor" red="0.80000001192092896" green="0.40000000596046448" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -35,7 +35,7 @@
                         </constraints>
                     </imageView>
                     <textView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Text Content" translatesAutoresizingMaskIntoConstraints="NO" id="em7-jr-W4a" customClass="ChatTextView" customModule="Yep" customModuleProvider="target">
-                        <rect key="frame" x="333" y="49" width="92" height="34"/>
+                        <rect key="frame" x="333" y="3" width="92" height="125"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -46,7 +46,7 @@
                         <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
                     </textView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_sending" translatesAutoresizingMaskIntoConstraints="NO" id="tB7-GG-3Zd" userLabel="Dot Image View">
-                        <rect key="frame" x="310" y="63" width="6" height="6"/>
+                        <rect key="frame" x="310" y="62.5" width="6" height="6"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="tB7-GG-3Zd" secondAttribute="height" multiplier="1:1" id="XM0-Py-y5P"/>
@@ -67,10 +67,11 @@
                 <constraint firstItem="73l-kE-1KG" firstAttribute="leading" secondItem="tB7-GG-3Zd" secondAttribute="trailing" constant="5" id="UIT-W7-WO6"/>
                 <constraint firstItem="1JC-jy-KNh" firstAttribute="centerY" secondItem="RKK-8d-9vO" secondAttribute="centerY" id="Upo-MS-aQJ"/>
                 <constraint firstItem="em7-jr-W4a" firstAttribute="leading" secondItem="73l-kE-1KG" secondAttribute="leading" constant="12" id="WkS-Oi-AjM"/>
-                <constraint firstAttribute="centerY" secondItem="em7-jr-W4a" secondAttribute="centerY" id="cTN-DN-cH9"/>
+                <constraint firstAttribute="bottom" secondItem="em7-jr-W4a" secondAttribute="bottom" constant="3" id="dXH-j4-Dn8"/>
                 <constraint firstItem="tB7-GG-3Zd" firstAttribute="centerY" secondItem="73l-kE-1KG" secondAttribute="centerY" id="h7l-0p-SWm"/>
                 <constraint firstItem="1JC-jy-KNh" firstAttribute="leading" secondItem="em7-jr-W4a" secondAttribute="trailing" constant="5" id="iAD-hS-cmr"/>
                 <constraint firstItem="73l-kE-1KG" firstAttribute="trailing" secondItem="em7-jr-W4a" secondAttribute="trailing" constant="12" id="sFr-bX-lfC"/>
+                <constraint firstItem="em7-jr-W4a" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="3" id="vdd-9g-iCq"/>
                 <constraint firstAttribute="trailing" secondItem="RKK-8d-9vO" secondAttribute="trailing" constant="15" id="vs0-4M-TaV"/>
             </constraints>
             <size key="customSize" width="417" height="131"/>

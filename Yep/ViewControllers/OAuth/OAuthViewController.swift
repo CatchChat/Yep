@@ -49,7 +49,7 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
     }
 
     @IBAction func fillPassword(sender: AnyObject) {
-        OnePasswordExtension.sharedExtension().fillLoginIntoWebView(webView, forViewController: self, sender: sender) { (finish, error) -> Void in
+        OnePasswordExtension.sharedExtension().fillItemIntoWebView(webView, forViewController: self, sender: sender, showOnlyLogins: false) { (finish, error) -> Void in
             
         }
     }
