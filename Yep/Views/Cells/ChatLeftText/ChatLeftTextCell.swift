@@ -58,6 +58,7 @@ class ChatLeftTextCell: ChatBaseCell {
         self.user = message.fromFriend
         
         textContentTextView.text = message.textContent
+        //textContentTextView.attributedText = NSAttributedString(string: message.textContent, attributes: textAttributes)
 
         textContentTextViewWidthConstraint.constant = max(YepConfig.minMessageTextLabelWidth, textContentLabelWidth)
         textContentTextView.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left
