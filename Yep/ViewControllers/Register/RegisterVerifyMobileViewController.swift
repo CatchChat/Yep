@@ -127,12 +127,12 @@ class RegisterVerifyMobileViewController: UIViewController {
             defaultFailureHandler(reason, errorMessage)
 
             if let errorMessage = errorMessage {
-                dispatch_async(dispatch_get_main_queue()) {
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
                     UIView.performWithoutAnimation {
-                        self.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
-                        self.callMeButton.layoutIfNeeded()
+                        self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                        self?.callMeButton.layoutIfNeeded()
                     }
                 }
             }
@@ -158,19 +158,19 @@ class RegisterVerifyMobileViewController: UIViewController {
 
         YepHUD.showActivityIndicator()
 
-        verifyMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
+        verifyMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage)
 
             YepHUD.hideActivityIndicator()
 
             if let errorMessage = errorMessage {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.nextButton.enabled = false
+                dispatch_async(dispatch_get_main_queue()) {
+                    self?.nextButton.enabled = false
 
                     YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
                         verifyCodeTextField.becomeFirstResponder()
                     })
-                })
+                }
             }
 
         }, completion: { loginUser in
