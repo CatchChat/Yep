@@ -10,17 +10,22 @@ import UIKit
 import Proposer
 
 class YepAlert {
+
     class func alert(#title: String, message: String?, dismissTitle: String, inViewController viewController: UIViewController?, withDismissAction dismissAction: (() -> Void)?) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 
-        let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .Default) { action -> Void in
-            if let dismissAction = dismissAction {
-                dismissAction()
+        dispatch_async(dispatch_get_main_queue()) {
+
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+
+            let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .Default) { action -> Void in
+                if let dismissAction = dismissAction {
+                    dismissAction()
+                }
             }
-        }
-        alertController.addAction(action)
+            alertController.addAction(action)
 
-        viewController?.presentViewController(alertController, animated: true, completion: nil)
+            viewController?.presentViewController(alertController, animated: true, completion: nil)
+        }
     }
 
     class func alertSorry(#message: String?, inViewController viewController: UIViewController?, withDismissAction dismissAction: () -> Void) {
@@ -33,63 +38,73 @@ class YepAlert {
 
     class func textInput(#title: String, placeholder: String?, oldText: String?, dismissTitle: String, inViewController viewController: UIViewController?, withFinishedAction finishedAction: ((text: String) -> Void)?) {
 
-        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .Alert)
+        dispatch_async(dispatch_get_main_queue()) {
 
-        alertController.addTextFieldWithConfigurationHandler { (textField) -> Void in
-            textField.placeholder = placeholder
-            textField.text = oldText
-        }
+            let alertController = UIAlertController(title: title, message: nil, preferredStyle: .Alert)
 
-        let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .Default) { action -> Void in
-            if let finishedAction = finishedAction {
-                if let textField = alertController.textFields?.first as? UITextField {
-                    finishedAction(text: textField.text)
+            alertController.addTextFieldWithConfigurationHandler { (textField) -> Void in
+                textField.placeholder = placeholder
+                textField.text = oldText
+            }
+
+            let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .Default) { action -> Void in
+                if let finishedAction = finishedAction {
+                    if let textField = alertController.textFields?.first as? UITextField {
+                        finishedAction(text: textField.text)
+                    }
                 }
             }
-        }
-        alertController.addAction(action)
+            alertController.addAction(action)
 
-        viewController?.presentViewController(alertController, animated: true, completion: nil)
+            viewController?.presentViewController(alertController, animated: true, completion: nil)
+        }
     }
 
     class func textInput(#title: String, placeholder: String?, oldText: String?, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController?, withConfirmAction confirmAction: ((text: String) -> Void)?, cancelAction: (() -> Void)?) {
 
-        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .Alert)
+        dispatch_async(dispatch_get_main_queue()) {
 
-        alertController.addTextFieldWithConfigurationHandler { (textField) -> Void in
-            textField.placeholder = placeholder
-            textField.text = oldText
-        }
+            let alertController = UIAlertController(title: title, message: nil, preferredStyle: .Alert)
 
-        let _cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action -> Void in
-            cancelAction?()
-        }
-        alertController.addAction(_cancelAction)
-
-        let _confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action -> Void in
-            if let textField = alertController.textFields?.first as? UITextField {
-                confirmAction?(text: textField.text)
+            alertController.addTextFieldWithConfigurationHandler { (textField) -> Void in
+                textField.placeholder = placeholder
+                textField.text = oldText
             }
-        }
-        alertController.addAction(_confirmAction)
 
-        viewController?.presentViewController(alertController, animated: true, completion: nil)
+            let _cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action -> Void in
+                cancelAction?()
+            }
+            alertController.addAction(_cancelAction)
+
+            let _confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action -> Void in
+                if let textField = alertController.textFields?.first as? UITextField {
+                    confirmAction?(text: textField.text)
+                }
+            }
+            alertController.addAction(_confirmAction)
+
+            viewController?.presentViewController(alertController, animated: true, completion: nil)
+        }
     }
 
     class func confirmOrCancel(#title: String, message: String, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController?, withConfirmAction confirmAction: () -> Void, cancelAction: () -> Void) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 
-        let cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action -> Void in
-            cancelAction()
+        dispatch_async(dispatch_get_main_queue()) {
+
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+
+            let cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action -> Void in
+                cancelAction()
+            }
+            alertController.addAction(cancelAction)
+
+            let confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action -> Void in
+                confirmAction()
+            }
+            alertController.addAction(confirmAction)
+
+            viewController?.presentViewController(alertController, animated: true, completion: nil)
         }
-        alertController.addAction(cancelAction)
-
-        let confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action -> Void in
-            confirmAction()
-        }
-        alertController.addAction(confirmAction)
-
-        viewController?.presentViewController(alertController, animated: true, completion: nil)
     }
 
 }
@@ -161,12 +176,15 @@ extension UIViewController {
 
         if PrivateResource.Contacts.isNotDeterminedAuthorization {
 
-            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Yep need to read your Contacts to continue this operation.\nIs that OK?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("No now", comment: ""), inViewController: self, withConfirmAction: {
+            dispatch_async(dispatch_get_main_queue()) {
 
-                propose()
+                YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Yep need to read your Contacts to continue this operation.\nIs that OK?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("No now", comment: ""), inViewController: self, withConfirmAction: {
 
-            }, cancelAction: {
-            })
+                    propose()
+
+                }, cancelAction: {
+                })
+            }
 
         } else {
             propose()

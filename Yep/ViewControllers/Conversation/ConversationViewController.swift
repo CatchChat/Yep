@@ -920,7 +920,7 @@ class ConversationViewController: BaseViewController {
         friendRequestView.addAction = { [weak self] friendRequestView in
             println("try Send Friend Request")
 
-            sendFriendRequestToUser(user, failureHandler: { reason, errorMessage in
+            sendFriendRequestToUser(user, failureHandler: { [weak self] reason, errorMessage in
                 YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Send Friend Request failed!", comment: ""), inViewController: self)
 
             }, completion: { friendRequestState in
@@ -944,7 +944,7 @@ class ConversationViewController: BaseViewController {
 
             if let friendRequestID = friendRequestView.state.friendRequestID {
 
-                acceptFriendRequestWithID(friendRequestID, failureHandler: { reason, errorMessage in
+                acceptFriendRequestWithID(friendRequestID, failureHandler: { [weak self] reason, errorMessage in
                     YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Accept Friend Request failed!", comment: ""), inViewController: self)
 
                 }, completion: { success in
