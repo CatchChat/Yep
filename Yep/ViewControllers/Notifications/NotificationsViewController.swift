@@ -234,61 +234,75 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return doNotDisturbPeriod.isOn ? 2 : 1
+
+        switch section {
+        case 0:
+            return doNotDisturbPeriod.isOn ? 2 : 1
+        case 1:
+            return 1
+        default:
+            return 0
+        }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        switch indexPath.row {
+        switch indexPath.section {
+        case 0:
+            switch indexPath.row {
 
-        case DoNotDisturbPeriodRow.Switch.rawValue:
-            let cell = tableView.dequeueReusableCellWithIdentifier(DoNotDisturbSwitchCellID) as! DoNotDisturbSwitchCell
-            cell.promptLabel.text = NSLocalizedString("Do Not Disturb", comment: "")
-            cell.toggleSwitch.on = doNotDisturbPeriod.isOn
+            case DoNotDisturbPeriodRow.Switch.rawValue:
+                let cell = tableView.dequeueReusableCellWithIdentifier(DoNotDisturbSwitchCellID) as! DoNotDisturbSwitchCell
+                cell.promptLabel.text = NSLocalizedString("Do Not Disturb", comment: "")
+                cell.toggleSwitch.on = doNotDisturbPeriod.isOn
 
-            cell.toggleAction = { [weak self] isOn in
+                cell.toggleAction = { [weak self] isOn in
 
-                self?.doNotDisturbPeriod.isOn = isOn
+                    self?.doNotDisturbPeriod.isOn = isOn
 
-                let indexPath = NSIndexPath(forRow: DoNotDisturbPeriodRow.Period.rawValue, inSection: 0)
+                    let indexPath = NSIndexPath(forRow: DoNotDisturbPeriodRow.Period.rawValue, inSection: 0)
 
-                if isOn {
-                    self?.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    if isOn {
+                        self?.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
 
-                    self?.enableDoNotDisturb(failed: {
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self?.doNotDisturbPeriod.isOn = false
-                            self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                        }
-                    })
+                        self?.enableDoNotDisturb(failed: {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self?.doNotDisturbPeriod.isOn = false
+                                self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                            }
+                        })
 
-                } else {
-                    self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    } else {
+                        self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
 
-                    self?.disableDoNotDisturb(failed: {
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self?.doNotDisturbPeriod.isOn = true
-                            self?.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                        }
-                    })
+                        self?.disableDoNotDisturb(failed: {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self?.doNotDisturbPeriod.isOn = true
+                                self?.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                            }
+                        })
+                    }
                 }
+
+                return cell
+
+            case DoNotDisturbPeriodRow.Period.rawValue:
+                let cell = tableView.dequeueReusableCellWithIdentifier(DoNotDisturbPeriodCellID) as! DoNotDisturbPeriodCell
+                cell.fromPromptLabel.text = NSLocalizedString("From", comment: "")
+                cell.toPromptLabel.text = NSLocalizedString("To", comment: "")
+
+                cell.fromLabel.text = doNotDisturbPeriod.localFromString
+                cell.toLabel.text = doNotDisturbPeriod.localToString
+
+                return cell
+
+            default:
+                return UITableViewCell()
             }
-
-            return cell
-
-        case DoNotDisturbPeriodRow.Period.rawValue:
-            let cell = tableView.dequeueReusableCellWithIdentifier(DoNotDisturbPeriodCellID) as! DoNotDisturbPeriodCell
-            cell.fromPromptLabel.text = NSLocalizedString("From", comment: "")
-            cell.toPromptLabel.text = NSLocalizedString("To", comment: "")
-
-            cell.fromLabel.text = doNotDisturbPeriod.localFromString
-            cell.toLabel.text = doNotDisturbPeriod.localToString
-
-            return cell
 
         default:
             return UITableViewCell()
@@ -297,14 +311,21 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 
-        switch indexPath.row {
+        switch indexPath.section {
+        case 0:
+            switch indexPath.row {
 
-        case DoNotDisturbPeriodRow.Switch.rawValue:
+            case DoNotDisturbPeriodRow.Switch.rawValue:
+                return 44
+
+            case DoNotDisturbPeriodRow.Period.rawValue:
+                return 60
+
+            default:
+                return 0
+            }
+        case 1:
             return 44
-
-        case DoNotDisturbPeriodRow.Period.rawValue:
-            return 60
-
         default:
             return 0
         }
@@ -313,8 +334,15 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        if indexPath.row == DoNotDisturbPeriodRow.Period.rawValue {
-            performSegueWithIdentifier("showDoNotDisturbPeriod", sender: nil)
+        switch indexPath.section {
+        case 0:
+            if indexPath.row == DoNotDisturbPeriodRow.Period.rawValue {
+                performSegueWithIdentifier("showDoNotDisturbPeriod", sender: nil)
+            }
+        case 1:
+            performSegueWithIdentifier("showBlackList", sender: nil)
+        default:
+            break
         }
     }
 }

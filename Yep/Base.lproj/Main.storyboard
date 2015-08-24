@@ -992,6 +992,7 @@
                     <connections>
                         <outlet property="tableView" destination="Wph-To-rdc" id="oPg-I0-1HJ"/>
                         <segue destination="GqQ-V0-aYk" kind="show" identifier="showDoNotDisturbPeriod" id="Xrr-Gr-kjR"/>
+                        <segue destination="QJb-lH-Xzw" kind="show" identifier="showBlackList" id="7b5-cg-kVp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uH9-BS-amc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1067,7 +1068,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bRS-Uc-jLI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4457" y="169"/>
+            <point key="canvasLocation" x="5041" y="-23"/>
+        </scene>
+        <!--Black List View Controller-->
+        <scene sceneID="Nh4-iA-RXh">
+            <objects>
+                <viewController id="QJb-lH-Xzw" customClass="BlackListViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tq8-dJ-AcZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="fNF-7l-2SE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="uhW-4e-43Y">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kuH-Py-OGH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4613" y="641"/>
         </scene>
         <!--Feedback View Controller-->
         <scene sceneID="qi4-ey-7am">
@@ -1116,7 +1135,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MUL-up-ag5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4219" y="845"/>
+            <point key="canvasLocation" x="3663" y="855"/>
         </scene>
         <!--Edit Nickname And Badge View Controller-->
         <scene sceneID="eed-5B-jyz">
