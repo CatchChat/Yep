@@ -89,6 +89,8 @@ class NotificationsViewController: UIViewController {
 
         tableView.registerNib(UINib(nibName: settingsMoreCellID, bundle: nil), forCellReuseIdentifier: settingsMoreCellID)
 
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+
         let realm = Realm()
 
         if let
@@ -312,7 +314,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
         case 1:
 
             let cell = tableView.dequeueReusableCellWithIdentifier(settingsMoreCellID) as! SettingsMoreCell
-            cell.annotationLabel.text = NSLocalizedString("Blocked users", comment: "")
+            cell.annotationLabel.text = NSLocalizedString("Blocked Users", comment: "")
             return cell
 
         default:
