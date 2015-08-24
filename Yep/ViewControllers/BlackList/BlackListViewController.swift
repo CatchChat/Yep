@@ -10,26 +10,37 @@ import UIKit
 
 class BlackListViewController: UIViewController {
 
+    @IBOutlet weak var blockedUsersTableView: UITableView!
+
+    let cellIdentifier = "ContactsCell"
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        title = NSLocalizedString("Blocked Users", comment: "")
+
+        blockedUsersTableView.separatorColor = UIColor.yepCellSeparatorColor()
+        blockedUsersTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+
+        blockedUsersTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        blockedUsersTableView.rowHeight = 80
+        blockedUsersTableView.tableFooterView = UIView()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
+
+extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 15
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+        return cell
+    }
+}
+

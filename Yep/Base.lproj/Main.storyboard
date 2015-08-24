@@ -1081,8 +1081,27 @@
                     <view key="view" contentMode="scaleToFill" id="uhW-4e-43Y">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="aIs-4q-Red">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="QJb-lH-Xzw" id="Nzf-TH-j6n"/>
+                                    <outlet property="delegate" destination="QJb-lH-Xzw" id="rSW-gF-kl0"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="aIs-4q-Red" firstAttribute="top" secondItem="uhW-4e-43Y" secondAttribute="top" id="Xlv-pk-gRa"/>
+                            <constraint firstItem="aIs-4q-Red" firstAttribute="leading" secondItem="uhW-4e-43Y" secondAttribute="leading" id="YvF-GI-Hal"/>
+                            <constraint firstAttribute="bottom" secondItem="aIs-4q-Red" secondAttribute="bottom" id="aIW-Wd-JCK"/>
+                            <constraint firstAttribute="trailing" secondItem="aIs-4q-Red" secondAttribute="trailing" id="dpf-gN-45W"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="blockedUsersTableView" destination="aIs-4q-Red" id="oDK-Df-Trp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kuH-Py-OGH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
