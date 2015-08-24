@@ -13,6 +13,7 @@ class SearchedUsersViewController: BaseViewController {
     var searchText = "NIX"
 
     @IBOutlet weak var searchedUsersTableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     var searchedUsers = [DiscoveredUser]() {
         didSet {
@@ -31,12 +32,19 @@ class SearchedUsersViewController: BaseViewController {
         searchedUsersTableView.rowHeight = 80
 
 
-        searchUsersByQ(searchText, failureHandler: { (reason, errorMessage) in
+        activityIndicator.startAnimating()
+
+        searchUsersByQ(searchText, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason, errorMessage)
 
-        }, completion: { users in
             dispatch_async(dispatch_get_main_queue()) {
-                self.searchedUsers = users
+                self?.activityIndicator.stopAnimating()
+            }
+
+        }, completion: { [weak self] users in
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.activityIndicator.stopAnimating()
+                self?.searchedUsers = users
             }
         })
     }
