@@ -77,6 +77,8 @@ class NotificationsViewController: UIViewController {
     let DoNotDisturbSwitchCellID = "DoNotDisturbSwitchCell"
     let DoNotDisturbPeriodCellID = "DoNotDisturbPeriodCell"
 
+    let settingsMoreCellID = "SettingsMoreCell"
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -85,6 +87,7 @@ class NotificationsViewController: UIViewController {
         tableView.registerNib(UINib(nibName: DoNotDisturbSwitchCellID, bundle: nil), forCellReuseIdentifier: DoNotDisturbSwitchCellID)
         tableView.registerNib(UINib(nibName: DoNotDisturbPeriodCellID, bundle: nil), forCellReuseIdentifier: DoNotDisturbPeriodCellID)
 
+        tableView.registerNib(UINib(nibName: settingsMoreCellID, bundle: nil), forCellReuseIdentifier: settingsMoreCellID)
 
         let realm = Realm()
 
@@ -252,7 +255,9 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         switch indexPath.section {
+
         case 0:
+
             switch indexPath.row {
 
             case DoNotDisturbPeriodRow.Switch.rawValue:
@@ -301,12 +306,20 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
                 return cell
 
             default:
-                return UITableViewCell()
+                break
             }
 
+        case 1:
+
+            let cell = tableView.dequeueReusableCellWithIdentifier(settingsMoreCellID) as! SettingsMoreCell
+            cell.annotationLabel.text = NSLocalizedString("Blocked users", comment: "")
+            return cell
+
         default:
-            return UITableViewCell()
+            break
         }
+
+        return UITableViewCell()
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -322,13 +335,15 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
                 return 60
 
             default:
-                return 0
+                break
             }
         case 1:
-            return 44
+            return 60
         default:
-            return 0
+            break
         }
+
+        return 0
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
