@@ -992,6 +992,7 @@
                     <connections>
                         <outlet property="tableView" destination="Wph-To-rdc" id="oPg-I0-1HJ"/>
                         <segue destination="GqQ-V0-aYk" kind="show" identifier="showDoNotDisturbPeriod" id="Xrr-Gr-kjR"/>
+                        <segue destination="QJb-lH-Xzw" kind="show" identifier="showBlackList" id="7b5-cg-kVp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uH9-BS-amc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1067,7 +1068,50 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bRS-Uc-jLI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4457" y="169"/>
+            <point key="canvasLocation" x="5041" y="-23"/>
+        </scene>
+        <!--Black List View Controller-->
+        <scene sceneID="Nh4-iA-RXh">
+            <objects>
+                <viewController id="QJb-lH-Xzw" customClass="BlackListViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tq8-dJ-AcZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="fNF-7l-2SE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="uhW-4e-43Y">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="aIs-4q-Red">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="QJb-lH-Xzw" id="Nzf-TH-j6n"/>
+                                    <outlet property="delegate" destination="QJb-lH-Xzw" id="rSW-gF-kl0"/>
+                                </connections>
+                            </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="mMi-L2-D7z">
+                                <rect key="frame" x="290" y="184" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="aIs-4q-Red" firstAttribute="top" secondItem="uhW-4e-43Y" secondAttribute="top" id="Xlv-pk-gRa"/>
+                            <constraint firstItem="aIs-4q-Red" firstAttribute="leading" secondItem="uhW-4e-43Y" secondAttribute="leading" id="YvF-GI-Hal"/>
+                            <constraint firstAttribute="bottom" secondItem="aIs-4q-Red" secondAttribute="bottom" id="aIW-Wd-JCK"/>
+                            <constraint firstAttribute="trailing" secondItem="aIs-4q-Red" secondAttribute="trailing" id="dpf-gN-45W"/>
+                            <constraint firstAttribute="centerX" secondItem="mMi-L2-D7z" secondAttribute="centerX" id="h4j-4t-hmX"/>
+                            <constraint firstItem="mMi-L2-D7z" firstAttribute="top" secondItem="tq8-dJ-AcZ" secondAttribute="bottom" constant="120" id="jKZ-VD-7qo"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="mMi-L2-D7z" id="BFT-IV-ych"/>
+                        <outlet property="blockedUsersTableView" destination="aIs-4q-Red" id="oDK-Df-Trp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kuH-Py-OGH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4613" y="641"/>
         </scene>
         <!--Feedback View Controller-->
         <scene sceneID="qi4-ey-7am">
@@ -1116,7 +1160,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MUL-up-ag5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4219" y="845"/>
+            <point key="canvasLocation" x="3663" y="855"/>
         </scene>
         <!--Edit Nickname And Badge View Controller-->
         <scene sceneID="eed-5B-jyz">
