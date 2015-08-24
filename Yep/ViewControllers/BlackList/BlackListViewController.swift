@@ -14,6 +14,12 @@ class BlackListViewController: UIViewController {
 
     let cellIdentifier = "ContactsCell"
 
+    var blockedUsers = [DiscoveredUser]() {
+        didSet {
+            blockedUsersTableView.reloadData()
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,6 +31,13 @@ class BlackListViewController: UIViewController {
         blockedUsersTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         blockedUsersTableView.rowHeight = 80
         blockedUsersTableView.tableFooterView = UIView()
+
+
+        blockedUsersByMe(failureHandler: nil, completion: { blockedUsers in
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.blockedUsers = blockedUsers
+            }
+        })
     }
 }
 
@@ -35,11 +48,16 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 15
+        return blockedUsers.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+
+        let discoveredUser = blockedUsers[indexPath.row]
+
+        cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
+
         return cell
     }
 }

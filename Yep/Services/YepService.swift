@@ -533,6 +533,38 @@ func enableNotificationFromUserWithUserID(userID: String, #failureHandler: ((Rea
     }
 }
 
+func blockedUsersByMe(#failureHandler: ((Reason, String?) -> Void)?, #completion: [DiscoveredUser] -> Void) {
+
+    let parse: JSONDictionary -> [DiscoveredUser]? = { data in
+
+        println("blockedUsers: \(data)")
+
+        if let blockedUsersData = data["blocked_users"] as? [JSONDictionary] {
+
+            var blockedUsers = [DiscoveredUser]()
+
+            for blockedUserInfo in blockedUsersData {
+                if let blockedUser = parseDiscoveredUser(blockedUserInfo) {
+                    blockedUsers.append(blockedUser)
+                }
+            }
+
+            return blockedUsers
+
+        } else {
+            return nil
+        }
+    }
+
+    let resource = authJsonResource(path: "/api/v1/blocked_users", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
 func blockUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
 
     let requestParameters = [
@@ -936,7 +968,7 @@ struct DiscoveredUser {
 
     let longitude: Double
     let latitude: Double
-    let distance: Double
+    let distance: Double?
 
     let masterSkills: [Skill]
     let learningSkills: [Skill]
@@ -953,7 +985,7 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
         lastSignInUnixTime = userInfo["last_sign_in_at"] as? NSTimeInterval,
         longitude = userInfo["longitude"] as? Double,
         latitude = userInfo["latitude"] as? Double,
-        distance = userInfo["distance"] as? Double,
+        //distance = userInfo["distance"] as? Double,
         masterSkillsData = userInfo["master_skills"] as? [JSONDictionary],
         learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary],
         socialAccountProvidersInfo = userInfo["providers"] as? [String: Bool] {
@@ -971,6 +1003,8 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
 
             let introduction = userInfo["introduction"] as? String
             let badge = userInfo["badge"] as? String
+
+            let distance = userInfo["distance"] as? Double
 
             let discoverUser = DiscoveredUser(id: id, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, badge: badge, createdUnixTime: createdUnixTime, lastSignInUnixTime: lastSignInUnixTime, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
 
