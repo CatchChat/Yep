@@ -17,7 +17,18 @@ class SearchedUsersViewController: BaseViewController {
 
     var searchedUsers = [DiscoveredUser]() {
         didSet {
-            updateSearchedUsersTableView()
+            if searchedUsers.count > 0 {
+                updateSearchedUsersTableView()
+
+            } else {
+                let label = UILabel(frame: CGRect(x: 0, y: 0, width: searchedUsersTableView.bounds.width, height: 240))
+
+                label.textAlignment = .Center
+                label.text = NSLocalizedString("No search results.", comment: "")
+                label.textColor = UIColor.lightGrayColor()
+
+                searchedUsersTableView.tableFooterView = label
+            }
         }
     }
 
