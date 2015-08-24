@@ -823,11 +823,17 @@ class ConversationViewController: BaseViewController {
             stateOfFriendRequestWithUser(user, failureHandler: { reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage)
 
-            }, completion: { receivedFriendRequestState, receivedFriendRequestID, sentFriendRequestState in
+            }, completion: { isFriend, receivedFriendRequestState, receivedFriendRequestID, sentFriendRequestState in
 
+                println("isFriend: \(isFriend)")
                 println("receivedFriendRequestState: \(receivedFriendRequestState.rawValue)")
                 println("receivedFriendRequestID: \(receivedFriendRequestID)")
                 println("sentFriendRequestState: \(sentFriendRequestState.rawValue)")
+
+                // 已是好友下面就不用处理了
+                if isFriend {
+                    return
+                }
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
 

@@ -220,6 +220,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         APService.handleRemoteNotification(userInfo)
                     }
 
+                case "friend_request":
+                    if let subType = userInfo["subtype"] as? String {
+                        if subType == "accepted" {
+                            syncFriendshipsAndDoFurtherAction {
+                                completionHandler(UIBackgroundFetchResult.NewData)
+                                APService.handleRemoteNotification(userInfo)
+                            }
+                        }
+                    }
+
                 default:
                     break
                 }

@@ -57,7 +57,7 @@ class FriendsInContactsViewController: BaseViewController {
         friendsTableView.rowHeight = 80
         friendsTableView.tableFooterView = UIView()
 
-        addressBook.loadContacts{ (contacts: [AnyObject]!, error: NSError!) in
+        addressBook.loadContacts{ [weak self] (contacts: [AnyObject]!, error: NSError!) in
             if let contacts = contacts as? [APContact] {
 
                 var uploadContacts = [UploadContact]()
@@ -76,20 +76,22 @@ class FriendsInContactsViewController: BaseViewController {
 
                 //println(uploadContacts)
 
-                self.activityIndicator.startAnimating()
+                dispatch_async(dispatch_get_main_queue()) {
+                    self?.activityIndicator.startAnimating()
+                }
 
-                friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
+                friendsInContacts(uploadContacts, failureHandler: { [weak self] (reason, errorMessage) in
                     defaultFailureHandler(reason, errorMessage)
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.activityIndicator.stopAnimating()
+                        self?.activityIndicator.stopAnimating()
                     }
 
-                }, completion: { discoveredUsers in
+                }, completion: { [weak self] discoveredUsers in
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.discoveredUsers = discoveredUsers
+                        self?.discoveredUsers = discoveredUsers
 
-                        self.activityIndicator.stopAnimating()
+                        self?.activityIndicator.stopAnimating()
                     }
                 })
 
