@@ -1090,6 +1090,9 @@
                                     <outlet property="delegate" destination="QJb-lH-Xzw" id="rSW-gF-kl0"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="mMi-L2-D7z">
+                                <rect key="frame" x="290" y="184" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1097,9 +1100,12 @@
                             <constraint firstItem="aIs-4q-Red" firstAttribute="leading" secondItem="uhW-4e-43Y" secondAttribute="leading" id="YvF-GI-Hal"/>
                             <constraint firstAttribute="bottom" secondItem="aIs-4q-Red" secondAttribute="bottom" id="aIW-Wd-JCK"/>
                             <constraint firstAttribute="trailing" secondItem="aIs-4q-Red" secondAttribute="trailing" id="dpf-gN-45W"/>
+                            <constraint firstAttribute="centerX" secondItem="mMi-L2-D7z" secondAttribute="centerX" id="h4j-4t-hmX"/>
+                            <constraint firstItem="mMi-L2-D7z" firstAttribute="top" secondItem="tq8-dJ-AcZ" secondAttribute="bottom" constant="120" id="jKZ-VD-7qo"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="mMi-L2-D7z" id="BFT-IV-ych"/>
                         <outlet property="blockedUsersTableView" destination="aIs-4q-Red" id="oDK-Df-Trp"/>
                     </connections>
                 </viewController>
