@@ -76,6 +76,8 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
 
+        cell.selectionStyle = .None
+
         let discoveredUser = blockedUsers[indexPath.row]
 
         cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
