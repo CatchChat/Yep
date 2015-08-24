@@ -139,25 +139,11 @@ extension FriendsInContactsViewController: UITableViewDataSource, UITableViewDel
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
 
         let discoveredUser = discoveredUsers[indexPath.row]
 
-        let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
-
-        let avatarURLString = discoveredUser.avatarURLString
-        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { [weak cell] roundImage in
-            dispatch_async(dispatch_get_main_queue()) {
-                cell?.avatarImageView.image = roundImage
-            }
-        }
-
-        cell.joinedDateLabel.text = discoveredUser.introduction
-
-        let distance = discoveredUser.distance.format(".1")
-        cell.lastTimeSeenLabel.text = "\(distance) km | \(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
-
-        cell.nameLabel.text = discoveredUser.nickname
+        cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
 
         return cell
     }

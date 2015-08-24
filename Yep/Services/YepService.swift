@@ -533,6 +533,134 @@ func enableNotificationFromUserWithUserID(userID: String, #failureHandler: ((Rea
     }
 }
 
+private func headBlockedUsers(#failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
+    let requestParameters = [
+        "page": 1,
+        "per_page": 100,
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/api/v1/blocked_users", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+}
+
+private func moreBlockedUsers(inPage page: Int, withPerPage perPage: Int, #failureHandler: ((Reason, String?) -> Void)?, #completion: JSONDictionary -> Void) {
+    let requestParameters = [
+        "page": page,
+        "per_page": perPage,
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/api/v1/blocked_users", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+func blockedUsersByMe(#failureHandler: ((Reason, String?) -> Void)?, #completion: [DiscoveredUser] -> Void) {
+
+    let parse: [JSONDictionary] -> [DiscoveredUser] = { blockedUsersData in
+
+        var blockedUsers = [DiscoveredUser]()
+
+        for blockedUserInfo in blockedUsersData {
+            if let blockedUser = parseDiscoveredUser(blockedUserInfo) {
+                blockedUsers.append(blockedUser)
+            }
+        }
+
+        return blockedUsers
+    }
+
+    headBlockedUsers(failureHandler: failureHandler, completion: { result in
+        if
+            let count = result["count"] as? Int,
+            let currentPage = result["current_page"] as? Int,
+            let perPage = result["per_page"] as? Int {
+                if count <= currentPage * perPage {
+                    if let blockedUsers = result["blocked_users"] as? [JSONDictionary] {
+                        completion(parse(blockedUsers))
+                    } else {
+                        completion([])
+                    }
+
+                } else {
+                    var blockedUsers = [JSONDictionary]()
+
+                    if let page1BlockedUsers = result["blocked_users"] as? [JSONDictionary] {
+                        blockedUsers += page1BlockedUsers
+                    }
+
+                    // We have more blockedUsers
+
+                    let downloadGroup = dispatch_group_create()
+
+                    for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
+                        dispatch_group_enter(downloadGroup)
+
+                        moreBlockedUsers(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
+                            failureHandler?(reason, errorMessage)
+
+                            dispatch_group_leave(downloadGroup)
+
+                        }, completion: { result in
+                            if let currentPageBlockedUsers = result["blocked_users"] as? [JSONDictionary] {
+                                blockedUsers += currentPageBlockedUsers
+                            }
+                            dispatch_group_leave(downloadGroup)
+                        })
+                    }
+
+                    dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
+                        completion(parse(blockedUsers))
+                    }
+                }
+        }
+    })
+}
+
+//func blockedUsersByMe(#failureHandler: ((Reason, String?) -> Void)?, #completion: [DiscoveredUser] -> Void) {
+//
+//    let parse: JSONDictionary -> [DiscoveredUser]? = { data in
+//
+//        println("blockedUsers: \(data)")
+//
+//        if let blockedUsersData = data["blocked_users"] as? [JSONDictionary] {
+//
+//            var blockedUsers = [DiscoveredUser]()
+//
+//            for blockedUserInfo in blockedUsersData {
+//                if let blockedUser = parseDiscoveredUser(blockedUserInfo) {
+//                    blockedUsers.append(blockedUser)
+//                }
+//            }
+//
+//            return blockedUsers
+//
+//        } else {
+//            return nil
+//        }
+//    }
+//
+//    let resource = authJsonResource(path: "/api/v1/blocked_users", method: .GET, requestParameters: [:], parse: parse)
+//
+//    if let failureHandler = failureHandler {
+//        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+//    } else {
+//        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+//    }
+//}
+
 func blockUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
 
     let requestParameters = [
@@ -918,7 +1046,7 @@ enum DiscoveredUserSortStyle: String {
     }
 }
 
-struct DiscoveredUser {
+struct DiscoveredUser: Equatable {
 
     struct SocialAccountProvider {
         let name: String
@@ -936,12 +1064,16 @@ struct DiscoveredUser {
 
     let longitude: Double
     let latitude: Double
-    let distance: Double
+    let distance: Double?
 
     let masterSkills: [Skill]
     let learningSkills: [Skill]
 
     let socialAccountProviders: [SocialAccountProvider]
+}
+
+func ==(lhs: DiscoveredUser, rhs: DiscoveredUser) -> Bool {
+    return lhs.id == rhs.id
 }
 
 let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
@@ -953,7 +1085,7 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
         lastSignInUnixTime = userInfo["last_sign_in_at"] as? NSTimeInterval,
         longitude = userInfo["longitude"] as? Double,
         latitude = userInfo["latitude"] as? Double,
-        distance = userInfo["distance"] as? Double,
+        //distance = userInfo["distance"] as? Double,
         masterSkillsData = userInfo["master_skills"] as? [JSONDictionary],
         learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary],
         socialAccountProvidersInfo = userInfo["providers"] as? [String: Bool] {
@@ -971,6 +1103,8 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
 
             let introduction = userInfo["introduction"] as? String
             let badge = userInfo["badge"] as? String
+
+            let distance = userInfo["distance"] as? Double
 
             let discoverUser = DiscoveredUser(id: id, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, badge: badge, createdUnixTime: createdUnixTime, lastSignInUnixTime: lastSignInUnixTime, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
 

@@ -13,10 +13,22 @@ class SearchedUsersViewController: BaseViewController {
     var searchText = "NIX"
 
     @IBOutlet weak var searchedUsersTableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     var searchedUsers = [DiscoveredUser]() {
         didSet {
-            updateSearchedUsersTableView()
+            if searchedUsers.count > 0 {
+                updateSearchedUsersTableView()
+
+            } else {
+                let label = UILabel(frame: CGRect(x: 0, y: 0, width: searchedUsersTableView.bounds.width, height: 240))
+
+                label.textAlignment = .Center
+                label.text = NSLocalizedString("No search results.", comment: "")
+                label.textColor = UIColor.lightGrayColor()
+
+                searchedUsersTableView.tableFooterView = label
+            }
         }
     }
 
@@ -31,12 +43,19 @@ class SearchedUsersViewController: BaseViewController {
         searchedUsersTableView.rowHeight = 80
 
 
-        searchUsersByQ(searchText, failureHandler: { (reason, errorMessage) in
+        activityIndicator.startAnimating()
+
+        searchUsersByQ(searchText, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason, errorMessage)
 
-        }, completion: { users in
             dispatch_async(dispatch_get_main_queue()) {
-                self.searchedUsers = users
+                self?.activityIndicator.stopAnimating()
+            }
+
+        }, completion: { [weak self] users in
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.activityIndicator.stopAnimating()
+                self?.searchedUsers = users
             }
         })
     }
@@ -79,31 +98,11 @@ extension SearchedUsersViewController: UITableViewDataSource, UITableViewDelegat
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
 
         let discoveredUser = searchedUsers[indexPath.row]
 
-        let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
-
-        let avatarURLString = discoveredUser.avatarURLString
-        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { [weak cell] roundImage in
-            dispatch_async(dispatch_get_main_queue()) {
-                cell?.avatarImageView.image = roundImage
-            }
-        }
-
-        cell.joinedDateLabel.text = discoveredUser.introduction
-        let distance = discoveredUser.distance.format(".1")
-        cell.lastTimeSeenLabel.text = "\(distance)km | \(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
-
-        cell.nameLabel.text = discoveredUser.nickname
-
-        if let badgeName = discoveredUser.badge, badge = BadgeView.Badge(rawValue: badgeName) {
-            cell.badgeImageView.image = badge.image
-            cell.badgeImageView.tintColor = badge.color
-        } else {
-            cell.badgeImageView.image = nil
-        }
+        cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
 
         return cell
     }

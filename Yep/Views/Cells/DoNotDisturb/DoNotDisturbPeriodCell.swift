@@ -18,11 +18,13 @@ class DoNotDisturbPeriodCell: UITableViewCell {
 
     @IBOutlet weak var toLabel: UILabel!
 
+    @IBOutlet weak var accessoryImageView: UIImageView!
 
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        accessoryImageView.tintColor = UIColor.lightGrayColor()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

@@ -95,6 +95,7 @@
 		5039594F1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */; };
 		503A54ED1B328ADB002077BD /* NSLocale+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503A54EC1B328ADB002077BD /* NSLocale+Yep.swift */; };
 		503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503CAB421AC00CB100DFE830 /* ConversationViewController.swift */; };
+		503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503ED2391B8ADCE70072187D /* BlackListViewController.swift */; };
 		5044BF061B5FA74800930ADC /* BubbleMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5044BF051B5FA74800930ADC /* BubbleMenuView.swift */; };
 		504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504BDC141B4528A500DBD35D /* Badges.xcassets */; };
 		504CBA3D1B3D04B800663A90 /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504CBA3C1B3D04B800663A90 /* ChatTextView.swift */; };
@@ -343,6 +344,7 @@
 		5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountGithubCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.xib; sourceTree = "<group>"; };
 		503A54EC1B328ADB002077BD /* NSLocale+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSLocale+Yep.swift"; path = "Extensions/NSLocale+Yep.swift"; sourceTree = "<group>"; };
 		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
+		503ED2391B8ADCE70072187D /* BlackListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlackListViewController.swift; path = ViewControllers/BlackList/BlackListViewController.swift; sourceTree = "<group>"; };
 		5044BF051B5FA74800930ADC /* BubbleMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BubbleMenuView.swift; path = Views/BubbleMenu/BubbleMenuView.swift; sourceTree = "<group>"; };
 		504BDC141B4528A500DBD35D /* Badges.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Badges.xcassets; sourceTree = "<group>"; };
 		504CBA3C1B3D04B800663A90 /* ChatTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatTextView.swift; path = Views/TextViews/ChatTextView.swift; sourceTree = "<group>"; };
@@ -750,6 +752,7 @@
 				500A0B1D1B450C2F00D49358 /* EditNicknameAndBadge */,
 				50A640E11B6F38D60050E4A3 /* Notifications */,
 				50A640ED1B6F4E480050E4A3 /* DoNotDisturbPeriod */,
+				503ED23B1B8ADCED0072187D /* BlackList */,
 				50B38FCD1B6B37F90064C132 /* Feedback */,
 				0A1CAC6C1AFA3D8C00826B45 /* SkillHome */,
 				507CF1691AFC84AA00E261B4 /* CustomNavigationBar */,
@@ -1091,6 +1094,14 @@
 				0A0027D51B19CEC000AD4BE0 /* ConversationOperationQueue.swift */,
 			);
 			name = Conversation;
+			sourceTree = "<group>";
+		};
+		503ED23B1B8ADCED0072187D /* BlackList */ = {
+			isa = PBXGroup;
+			children = (
+				503ED2391B8ADCE70072187D /* BlackListViewController.swift */,
+			);
+			name = BlackList;
 			sourceTree = "<group>";
 		};
 		5044BF071B5FA75000930ADC /* BubbleMenu */ = {
@@ -1894,6 +1905,7 @@
 				50894D021AEA6433000981AF /* EditProfileLessInfoCell.swift in Sources */,
 				50894CFA1AEA54BA000981AF /* SettingsMoreCell.swift in Sources */,
 				508F8FCC1B01C7FC00461B0B /* SocialWorkGithubViewController.swift in Sources */,
+				503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */,
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
 				50894D071AEDFDA2000981AF /* EditProfileMoreInfoCell.swift in Sources */,
 				0A1CAC731AFA526200826B45 /* SkillHomeSectionButton.swift in Sources */,
