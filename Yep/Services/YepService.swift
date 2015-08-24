@@ -742,18 +742,23 @@ func sendFriendRequestToUser(user: User, #failureHandler: ((Reason, String?) -> 
     }
 }
 
-func stateOfFriendRequestWithUser(user: User, #failureHandler: ((Reason, String?) -> Void)?, #completion: (receivedFriendRequestSate: FriendRequest.State, receivedFriendRequestID: String, sentFriendRequestState: FriendRequest.State) -> Void) {
+func stateOfFriendRequestWithUser(user: User, #failureHandler: ((Reason, String?) -> Void)?, #completion: (isFriend: Bool,receivedFriendRequestSate: FriendRequest.State, receivedFriendRequestID: String, sentFriendRequestState: FriendRequest.State) -> Void) {
 
     let requestParameters = [
         "user_id": user.userID,
     ]
 
-    let parse: JSONDictionary -> (FriendRequest.State, String, FriendRequest.State)? = { data in
+    let parse: JSONDictionary -> (Bool, FriendRequest.State, String, FriendRequest.State)? = { data in
         println("stateOfFriendRequestWithUser: \(data)")
 
+        var isFriend = false
         var receivedFriendRequestState = FriendRequest.State.None
         var receivedFriendRequestID = ""
         var sentFriendRequestState = FriendRequest.State.None
+
+        if let friend = data["friend"] as? Bool {
+            isFriend = friend
+        }
 
         if let
             receivedInfo = data["received"] as? JSONDictionary,
@@ -786,7 +791,7 @@ func stateOfFriendRequestWithUser(user: User, #failureHandler: ((Reason, String?
             }
         }
 
-        return (receivedFriendRequestState, receivedFriendRequestID, sentFriendRequestState)
+        return (isFriend, receivedFriendRequestState, receivedFriendRequestID, sentFriendRequestState)
     }
 
     let resource = authJsonResource(path: "/api/v1/friend_requests/with_user/\(user.userID)", method: .GET, requestParameters: requestParameters, parse: parse)
