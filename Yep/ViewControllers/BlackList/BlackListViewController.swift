@@ -16,7 +16,19 @@ class BlackListViewController: UIViewController {
 
     let cellIdentifier = "ContactsCell"
 
-    var blockedUsers = [DiscoveredUser]()
+    var blockedUsers = [DiscoveredUser]() {
+        willSet {
+            if newValue.count == 0 {
+                let label = UILabel(frame: CGRect(x: 0, y: 0, width: blockedUsersTableView.bounds.width, height: 240))
+
+                label.textAlignment = .Center
+                label.text = NSLocalizedString("No blocked users.", comment: "")
+                label.textColor = UIColor.lightGrayColor()
+
+                blockedUsersTableView.tableFooterView = label
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
