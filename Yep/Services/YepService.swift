@@ -950,7 +950,7 @@ enum DiscoveredUserSortStyle: String {
     }
 }
 
-struct DiscoveredUser {
+struct DiscoveredUser: Equatable {
 
     struct SocialAccountProvider {
         let name: String
@@ -974,6 +974,10 @@ struct DiscoveredUser {
     let learningSkills: [Skill]
 
     let socialAccountProviders: [SocialAccountProvider]
+}
+
+func ==(lhs: DiscoveredUser, rhs: DiscoveredUser) -> Bool {
+    return lhs.id == rhs.id
 }
 
 let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
