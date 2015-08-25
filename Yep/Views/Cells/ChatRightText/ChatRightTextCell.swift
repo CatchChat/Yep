@@ -67,9 +67,9 @@ class ChatRightTextCell: ChatRightBaseCell {
 
     func handleLongPress(longPress: UILongPressGestureRecognizer) {
         if longPress.state == .Began {
-            //longPressAction?(self)
 
             if let view = longPress.view, superview = view.superview {
+
                 view.becomeFirstResponder()
 
                 let menu = UIMenuController.sharedMenuController()
@@ -78,7 +78,6 @@ class ChatRightTextCell: ChatRightBaseCell {
                 menu.menuItems = [copyItem, deleteItem]
                 menu.setTargetRect(view.frame, inView: superview)
                 menu.setMenuVisible(true, animated: true)
-                println("show menu")
             }
         }
     }

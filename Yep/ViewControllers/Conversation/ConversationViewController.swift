@@ -84,17 +84,7 @@ class ConversationViewController: BaseViewController {
     @IBOutlet weak var swipeUpView: UIView!
     @IBOutlet weak var swipeUpPromptLabel: UILabel!
     
-    lazy var menuDirectionUpThreshold: CGFloat = {
-        return self.topBarsHeight + 60
-        }()
-    var currentMenu: BubbleMenuView?
-
     var isTryingShowFriendRequestView = false
-
-    func removeOldMenu() {
-        currentMenu?.hide()
-        currentMenu = nil
-    }
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
 
@@ -557,8 +547,6 @@ class ConversationViewController: BaseViewController {
 
         messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
 
-            self?.removeOldMenu()
-
             if let strongSelf = self {
 
                 switch (previousState, currentState) {
@@ -749,12 +737,6 @@ class ConversationViewController: BaseViewController {
                 }
             }
         }
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        removeOldMenu()
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -1201,8 +1183,6 @@ class ConversationViewController: BaseViewController {
     }
 
     func moreAction() {
-
-        removeOldMenu()
 
         messageToolbar.state = .Default
 
@@ -1973,33 +1953,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
 
-//                        cell.longPressAction = { [weak self] cell in
-//
-//                            self?.removeOldMenu()
-//
-//                            if let strongSelf = self {
-//
-//                                let copyItem = BubbleMenuView.Item(type: .Normal, title: NSLocalizedString("Copy", comment: "")) { menu in
-//                                    print("copy\n")
-//
-//                                    UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
-//
-//                                    menu.hide()
-//                                    self?.currentMenu = nil
-//                                }
-//
-//                                let bubbleFrame = cell.convertRect(cell.bubbleBodyImageView.frame, toView: strongSelf.view)
-//
-//                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(bubbleFrame) < strongSelf.menuDirectionUpThreshold ? .Up : .Down
-//
-//                                let menu = BubbleMenuView(arrowDirection: arrowDirection, items: [copyItem])
-//
-//                                strongSelf.currentMenu = menu
-//
-//                                menu.showInView(strongSelf.view, withBubbleFrame: bubbleFrame)
-//                            }
-//                        }
-
                         cell.tapAvatarAction = { [weak self] user in
                             self?.performSegueWithIdentifier("showProfile", sender: user)
                         }
@@ -2255,113 +2208,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
                             }
                         }
-                        /*
-                        cell.longPressAction = { [weak self] cell in
-
-                            self?.removeOldMenu()
-
-                            if let strongSelf = self {
-
-                                let copyItem = BubbleMenuView.Item(type: .Normal, title: NSLocalizedString("Copy", comment: "")) { menu in
-                                    print("copy\n")
-
-                                    UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
-
-                                    menu.hide()
-                                    self?.currentMenu = nil
-                                }
-
-                                let deleteItem = BubbleMenuView.Item(type: .Danger, title: NSLocalizedString("Delete", comment: "")) { menu in
-                                    print("delete\n")
-
-                                    dispatch_async(dispatch_get_main_queue()) {
-                                        if let strongSelf = self, realm = message.realm {
-
-                                            var sectionDateMessage: Message?
-
-                                            if let currentMessageIndex = strongSelf.messages.indexOf(message) {
-
-                                                let previousMessageIndex = currentMessageIndex - 1
-
-                                                if let previousMessage = strongSelf.messages[safe: previousMessageIndex] {
-
-                                                    if previousMessage.mediaType == MessageMediaType.SectionDate.rawValue {
-                                                        sectionDateMessage = previousMessage
-                                                    }
-                                                }
-                                            }
-
-                                            let currentIndexPath: NSIndexPath
-                                            if let index = strongSelf.messages.indexOf(message) {
-                                                currentIndexPath = NSIndexPath(forItem: index - strongSelf.displayedMessagesRange.location, inSection: indexPath.section)
-                                            } else {
-                                                currentIndexPath = indexPath
-                                            }
-
-                                            if let sectionDateMessage = sectionDateMessage {
-
-                                                var canDeleteTwoMessages = false // 考虑刚好的边界情况，例如消息为本束的最后一条，而 sectionDate 在上一束中
-                                                if strongSelf.displayedMessagesRange.length >= 2 {
-                                                    strongSelf.displayedMessagesRange.length -= 2
-                                                    canDeleteTwoMessages = true
-
-                                                } else {
-                                                    if strongSelf.displayedMessagesRange.location >= 1 {
-                                                        strongSelf.displayedMessagesRange.location -= 1
-                                                    }
-                                                    strongSelf.displayedMessagesRange.length -= 1
-                                                }
-
-                                                realm.write {
-                                                    if let mediaMetaData = sectionDateMessage.mediaMetaData {
-                                                        realm.delete(mediaMetaData)
-                                                    }
-                                                    if let mediaMetaData = message.mediaMetaData {
-                                                        realm.delete(mediaMetaData)
-                                                    }
-                                                    realm.delete(sectionDateMessage)
-                                                    realm.delete(message)
-                                                }
-
-                                                if canDeleteTwoMessages {
-                                                    let previousIndexPath = NSIndexPath(forItem: currentIndexPath.item - 1, inSection: currentIndexPath.section)
-                                                    strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([previousIndexPath, currentIndexPath])
-                                                } else {
-                                                    strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
-                                                }
-
-                                            } else {
-                                                strongSelf.displayedMessagesRange.length -= 1
-                                                realm.write {
-                                                    if let mediaMetaData = message.mediaMetaData {
-                                                        realm.delete(mediaMetaData)
-                                                    }
-                                                    realm.delete(message)
-                                                }
-                                                strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
-                                            }
-
-                                            // 必须更新，插入时需要
-                                            strongSelf.lastTimeMessagesCount = strongSelf.messages.count
-                                        }
-                                    }
-
-                                    menu.hide()
-                                    self?.currentMenu = nil
-                                }
-
-                                let bubbleFrame = cell.convertRect(cell.bubbleBodyImageView.frame, toView: strongSelf.view)
-
-                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(bubbleFrame) < strongSelf.menuDirectionUpThreshold ? .Up : .Down
-
-                                let menu = BubbleMenuView(arrowDirection: arrowDirection, items: [copyItem, deleteItem])
-
-                                strongSelf.currentMenu = menu
-
-                                menu.showInView(strongSelf.view, withBubbleFrame: bubbleFrame)
-                            }
-                        }
-                        */
 
                         cell.tapAvatarAction = { [weak self] user in
                             self?.performSegueWithIdentifier("showProfile", sender: user)
@@ -2415,8 +2261,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     func scrollViewDidScroll(scrollView: UIScrollView) {
 
         pullToRefreshView.scrollViewDidScroll(scrollView)
-
-        removeOldMenu()
     }
 
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {

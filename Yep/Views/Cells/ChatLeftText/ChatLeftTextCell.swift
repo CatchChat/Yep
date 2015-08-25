@@ -21,8 +21,6 @@ class ChatLeftTextCell: ChatBaseCell {
     @IBOutlet weak var textContentTextViewLeadingConstraint: NSLayoutConstraint!
     //@IBOutlet weak var textContentTextViewWidthConstraint: NSLayoutConstraint!
 
-    var longPressAction: (ChatLeftTextCell -> Void)?
-
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -55,9 +53,9 @@ class ChatLeftTextCell: ChatBaseCell {
 
     func handleLongPress(longPress: UILongPressGestureRecognizer) {
         if longPress.state == .Began {
-            //longPressAction?(self)
 
             if let view = longPress.view, superview = view.superview {
+
                 view.becomeFirstResponder()
 
                 let menu = UIMenuController.sharedMenuController()
@@ -65,7 +63,6 @@ class ChatLeftTextCell: ChatBaseCell {
                 menu.menuItems = [copyItem]
                 menu.setTargetRect(view.frame, inView: superview)
                 menu.setMenuVisible(true, animated: true)
-                println("show menu")
             }
         }
     }
