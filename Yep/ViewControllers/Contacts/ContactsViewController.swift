@@ -10,6 +10,13 @@ import UIKit
 import RealmSwift
 import Ruler
 
+//class SearchController: UISearchController {
+//
+//    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+//        return .Default
+//    }
+//}
+
 class ContactsViewController: BaseViewController {
 
     @IBOutlet weak var contactsTableView: UITableView!
@@ -45,15 +52,26 @@ class ContactsViewController: BaseViewController {
 
         if friends.count > Int(Ruler.match(.iPhoneHeights(6, 8, 10, 12))) {
 
+            // statusBar 取消透明，不然显示 searchBar 时，tableView 上滑会“漏出”
+            //extendedLayoutIncludesOpaqueBars = true
+
+            //definesPresentationContext = true
+//            edgesForExtendedLayout = .All
+//            extendedLayoutIncludesOpaqueBars = true
+
             let searchController = UISearchController(searchResultsController: nil)
+//            searchController.delegate = self
 
             searchController.searchResultsUpdater = self
             searchController.dimsBackgroundDuringPresentation = false
 
+            searchController.searchBar.backgroundColor = UIColor.whiteColor()
             searchController.searchBar.barTintColor = UIColor.whiteColor()
             searchController.searchBar.searchBarStyle = .Minimal
-            searchController.searchBar.delegate = self
+            //searchController.searchBar.translucent = false
             searchController.searchBar.sizeToFit()
+
+            searchController.searchBar.delegate = self
 
             contactsTableView.tableHeaderView = searchController.searchBar
 
@@ -199,4 +217,14 @@ extension ContactsViewController: UISearchBarDelegate {
         }
     }
 }
+
+//extension ContactsViewController: UISearchControllerDelegate {
+//    func willPresentSearchController(searchController: UISearchController) {
+//        navigationController?.navigationBar.translucent = true
+//    }
+//
+//    func willDismissSearchController(searchController: UISearchController) {
+//        navigationController?.navigationBar.translucent = false
+//    }
+//}
 
