@@ -41,13 +41,21 @@ class ProfileHeaderCell: UICollectionViewCell {
         didSet {
             if let location = location {
 
+                // 优化，减少反向查询
+                if let oldLocation = oldValue {
+                    let distance = location.distanceFromLocation(oldLocation)
+                    if distance < 100 {
+                        return
+                    }
+                }
+
                 locationLabel.text = ""
 
                 CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
 
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
                         if (error != nil) {
-                            println("reverse geodcode fail: \(error.localizedDescription)")
+                            println("\(location) reverse geodcode fail: \(error.localizedDescription)")
                         }
 
                         if let placemarks = placemarks as? [CLPlacemark] {
@@ -63,6 +71,10 @@ class ProfileHeaderCell: UICollectionViewCell {
 
     func configureWithDiscoveredUser(discoveredUser: DiscoveredUser) {
         updateAvatarWithAvatarURLString(discoveredUser.avatarURLString)
+
+        println("discoveredUser.lo")
+        println(discoveredUser.latitude)
+        println(discoveredUser.longitude)
 
         location = CLLocation(latitude: discoveredUser.latitude, longitude: discoveredUser.longitude)
     }
@@ -89,6 +101,10 @@ class ProfileHeaderCell: UICollectionViewCell {
 
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
         }
+
+        println("use.lo")
+        println(user.latitude)
+        println(user.longitude)
 
         location = CLLocation(latitude: user.latitude, longitude: user.longitude)
     }
