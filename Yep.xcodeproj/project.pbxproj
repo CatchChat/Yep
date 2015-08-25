@@ -96,7 +96,7 @@
 		503A54ED1B328ADB002077BD /* NSLocale+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503A54EC1B328ADB002077BD /* NSLocale+Yep.swift */; };
 		503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503CAB421AC00CB100DFE830 /* ConversationViewController.swift */; };
 		503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503ED2391B8ADCE70072187D /* BlackListViewController.swift */; };
-		5044BF061B5FA74800930ADC /* BubbleMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5044BF051B5FA74800930ADC /* BubbleMenuView.swift */; };
+		503ED23D1B8C12100072187D /* ChatTextContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503ED23C1B8C12100072187D /* ChatTextContainerView.swift */; };
 		504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504BDC141B4528A500DBD35D /* Badges.xcassets */; };
 		504CBA3D1B3D04B800663A90 /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504CBA3C1B3D04B800663A90 /* ChatTextView.swift */; };
 		504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F41241ACE2D1D00FBB19A /* SampleView.swift */; };
@@ -345,7 +345,7 @@
 		503A54EC1B328ADB002077BD /* NSLocale+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSLocale+Yep.swift"; path = "Extensions/NSLocale+Yep.swift"; sourceTree = "<group>"; };
 		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
 		503ED2391B8ADCE70072187D /* BlackListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlackListViewController.swift; path = ViewControllers/BlackList/BlackListViewController.swift; sourceTree = "<group>"; };
-		5044BF051B5FA74800930ADC /* BubbleMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BubbleMenuView.swift; path = Views/BubbleMenu/BubbleMenuView.swift; sourceTree = "<group>"; };
+		503ED23C1B8C12100072187D /* ChatTextContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatTextContainerView.swift; path = Views/ChatTextContainer/ChatTextContainerView.swift; sourceTree = "<group>"; };
 		504BDC141B4528A500DBD35D /* Badges.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Badges.xcassets; sourceTree = "<group>"; };
 		504CBA3C1B3D04B800663A90 /* ChatTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatTextView.swift; path = Views/TextViews/ChatTextView.swift; sourceTree = "<group>"; };
 		504F41241ACE2D1D00FBB19A /* SampleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleView.swift; path = Views/AudioWaves/SampleView.swift; sourceTree = "<group>"; };
@@ -826,6 +826,7 @@
 				504CBA3B1B3D048900663A90 /* TextViews */,
 				50F2B9791B2EEAE300F840CC /* Labels */,
 				50A9D4581ACD3943000B2599 /* AudioWaves */,
+				503ED23E1B8C13280072187D /* ChatTextContainer */,
 				5023DE3A1AB697A700B3EE96 /* Cells */,
 				502AE5221AB71C82005BD199 /* Buttons */,
 				502AE52F1AB8387D005BD199 /* TextFields */,
@@ -843,7 +844,6 @@
 				5019F62F1B39BFCB0000D993 /* ConversationMore */,
 				500A0B201B451A7400D49358 /* Badge */,
 				504F85AD1B4D21E400F909BE /* DiscoverFilter */,
-				5044BF071B5FA75000930ADC /* BubbleMenu */,
 				8409137E1B7DB178001C89D6 /* FriendRequest */,
 			);
 			name = Views;
@@ -1104,12 +1104,12 @@
 			name = BlackList;
 			sourceTree = "<group>";
 		};
-		5044BF071B5FA75000930ADC /* BubbleMenu */ = {
+		503ED23E1B8C13280072187D /* ChatTextContainer */ = {
 			isa = PBXGroup;
 			children = (
-				5044BF051B5FA74800930ADC /* BubbleMenuView.swift */,
+				503ED23C1B8C12100072187D /* ChatTextContainerView.swift */,
 			);
-			name = BubbleMenu;
+			name = ChatTextContainer;
 			sourceTree = "<group>";
 		};
 		504CBA3B1B3D048900663A90 /* TextViews */ = {
@@ -1925,6 +1925,7 @@
 				508C2AA41AD661B3002B8097 /* UserStateCell.swift in Sources */,
 				0A5D83941AC5D3C8000045BF /* YepTabBarController.swift in Sources */,
 				50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */,
+				503ED23D1B8C12100072187D /* ChatTextContainerView.swift in Sources */,
 				50F2B9781B2EDF3D00F840CC /* BorderTextField.swift in Sources */,
 				50CDBE461ACA9F2200459CE0 /* ImageCache.swift in Sources */,
 				505EC81C1ADFBE1B001D27E0 /* SkillSelectionCell.swift in Sources */,
@@ -1984,7 +1985,6 @@
 				50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */,
 				5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */,
 				50E1D7291B870D7500D90A82 /* NSParagraphStyle+Yep.swift in Sources */,
-				5044BF061B5FA74800930ADC /* BubbleMenuView.swift in Sources */,
 				5023DE561AB6CA1000B3EE96 /* AvatarCache.swift in Sources */,
 				5023DE371AB6979600B3EE96 /* ConversationCell.swift in Sources */,
 				502AE5351AB8649F005BD199 /* LoginByMobileViewController.swift in Sources */,

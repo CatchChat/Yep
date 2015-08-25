@@ -34,32 +34,44 @@
                             <constraint firstAttribute="width" secondItem="hYu-LI-zcX" secondAttribute="height" multiplier="1:1" id="LI4-Sm-y72"/>
                         </constraints>
                     </imageView>
-                    <textView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Text Content" translatesAutoresizingMaskIntoConstraints="NO" id="o2v-vm-ItZ" customClass="ChatTextView" customModule="Yep" customModuleProvider="target">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ieh-wh-12u" customClass="ChatTextContainerView" customModule="Yep" customModuleProvider="target">
                         <rect key="frame" x="75" y="3" width="92" height="123"/>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                        <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
-                    </textView>
+                        <subviews>
+                            <textView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Text Content" translatesAutoresizingMaskIntoConstraints="NO" id="o2v-vm-ItZ" customClass="ChatTextView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="92" height="123"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="o2v-vm-ItZ" secondAttribute="trailing" id="751-18-ycS"/>
+                            <constraint firstItem="o2v-vm-ItZ" firstAttribute="leading" secondItem="Ieh-wh-12u" secondAttribute="leading" id="LvO-5D-arq"/>
+                            <constraint firstItem="o2v-vm-ItZ" firstAttribute="top" secondItem="Ieh-wh-12u" secondAttribute="top" id="NiX-G4-RiT"/>
+                            <constraint firstAttribute="bottom" secondItem="o2v-vm-ItZ" secondAttribute="bottom" id="RvB-S3-Pgd"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <animations/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="o2v-vm-ItZ" secondAttribute="bottom" constant="3" id="4HG-w9-FvJ"/>
                 <constraint firstItem="hYu-LI-zcX" firstAttribute="centerY" secondItem="ppr-iG-zxj" secondAttribute="centerY" id="CqX-BA-AO1"/>
-                <constraint firstItem="o2v-vm-ItZ" firstAttribute="top" secondItem="Yfx-Em-Job" secondAttribute="top" constant="3" id="MHY-GR-4fS"/>
-                <constraint firstItem="o2v-vm-ItZ" firstAttribute="bottom" secondItem="Yfx-Em-Job" secondAttribute="bottom" constant="-3" id="MIb-vK-cmz"/>
-                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="o2v-vm-ItZ" secondAttribute="trailing" constant="50" id="Tpu-kA-CsQ"/>
-                <constraint firstItem="o2v-vm-ItZ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="3" id="aOB-ao-yJA"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ieh-wh-12u" secondAttribute="trailing" constant="40" id="R7d-pr-61M"/>
+                <constraint firstItem="Ieh-wh-12u" firstAttribute="leading" secondItem="hYu-LI-zcX" secondAttribute="trailing" constant="20" id="SFJ-md-0X6"/>
                 <constraint firstItem="Yfx-Em-Job" firstAttribute="top" secondItem="hYu-LI-zcX" secondAttribute="top" id="cCW-R1-CFn"/>
+                <constraint firstItem="Ieh-wh-12u" firstAttribute="top" secondItem="Yfx-Em-Job" secondAttribute="top" constant="3" id="cHR-67-SWw"/>
+                <constraint firstItem="Ieh-wh-12u" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="3" id="ezx-XB-nhW"/>
+                <constraint firstItem="Ieh-wh-12u" firstAttribute="leading" secondItem="Yfx-Em-Job" secondAttribute="leading" constant="12" id="gj0-ap-nOp"/>
                 <constraint firstItem="hYu-LI-zcX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="hM8-00-nUm"/>
-                <constraint firstItem="o2v-vm-ItZ" firstAttribute="leading" secondItem="Yfx-Em-Job" secondAttribute="leading" constant="12" id="nPH-jo-SPd"/>
-                <constraint firstItem="o2v-vm-ItZ" firstAttribute="trailing" secondItem="Yfx-Em-Job" secondAttribute="trailing" constant="-12" id="ohu-dH-zSM"/>
-                <constraint firstItem="o2v-vm-ItZ" firstAttribute="leading" secondItem="ppr-iG-zxj" secondAttribute="trailing" constant="5" id="uyS-e2-1DM"/>
-                <constraint firstItem="o2v-vm-ItZ" firstAttribute="leading" secondItem="hYu-LI-zcX" secondAttribute="trailing" constant="20" id="x4c-mB-0Ui"/>
+                <constraint firstItem="Ieh-wh-12u" firstAttribute="bottom" secondItem="Yfx-Em-Job" secondAttribute="bottom" constant="-3" id="lAw-xK-S4p"/>
+                <constraint firstItem="Ieh-wh-12u" firstAttribute="trailing" secondItem="Yfx-Em-Job" secondAttribute="trailing" constant="-12" id="uOJ-OF-AyG"/>
+                <constraint firstItem="Yfx-Em-Job" firstAttribute="leading" secondItem="ppr-iG-zxj" secondAttribute="trailing" constant="-7" id="vNs-HM-uGF"/>
+                <constraint firstAttribute="bottom" secondItem="Ieh-wh-12u" secondAttribute="bottom" constant="3" id="z32-pR-mtC"/>
             </constraints>
             <size key="customSize" width="350" height="129"/>
             <connections>
@@ -68,9 +80,10 @@
                 <outlet property="avatarImageViewWidthConstraint" destination="JV9-zT-1At" id="fe4-74-Gyw"/>
                 <outlet property="bubbleBodyImageView" destination="Yfx-Em-Job" id="bQk-7x-1RF"/>
                 <outlet property="bubbleTailImageView" destination="ppr-iG-zxj" id="kxh-jI-4L8"/>
+                <outlet property="textContainerView" destination="Ieh-wh-12u" id="VVJ-yk-Twz"/>
                 <outlet property="textContentTextView" destination="o2v-vm-ItZ" id="lj4-7V-6TH"/>
-                <outlet property="textContentTextViewLeadingConstraint" destination="x4c-mB-0Ui" id="LPr-oY-JOg"/>
-                <outlet property="textContentTextViewTrailingConstraint" destination="Tpu-kA-CsQ" id="FYH-1w-mbJ"/>
+                <outlet property="textContentTextViewLeadingConstraint" destination="SFJ-md-0X6" id="Icw-33-Beu"/>
+                <outlet property="textContentTextViewTrailingConstraint" destination="R7d-pr-61M" id="GFh-QJ-Fg8"/>
             </connections>
             <point key="canvasLocation" x="338" y="346.5"/>
         </collectionViewCell>
