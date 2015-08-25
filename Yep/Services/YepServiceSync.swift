@@ -194,68 +194,10 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
             }
 
             if let user = me {
-                realm.beginWrite()
 
                 // 更新用户信息
 
-                if let lastSignInUnixTime = friendInfo["last_sign_in_at"] as? NSTimeInterval {
-                    user.lastSignInUnixTime = lastSignInUnixTime
-                }
-
-                if let nickname = friendInfo["nickname"] as? String {
-                    user.nickname = nickname
-                }
-
-                if let introduction = friendInfo["introduction"] as? String {
-                    user.introduction = introduction
-                }
-
-                if let avatarURLString = friendInfo["avatar_url"] as? String {
-                    user.avatarURLString = avatarURLString
-                }
-
-                if let longitude = friendInfo["longitude"] as? Double {
-                    user.longitude = longitude
-                }
-
-                if let latitude = friendInfo["latitude"] as? Double {
-                    user.latitude = latitude
-                }
-
-                if let badge = friendInfo["badge"] as? String {
-                    user.badge = badge
-                }
-
-                // 更新技能
-
-                if let learningSkillsData = friendInfo["learning_skills"] as? [JSONDictionary] {
-                    user.learningSkills.removeAll()
-                    let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: realm)
-                    user.learningSkills.extend(userSkills)
-                }
-
-                if let masterSkillsData = friendInfo["master_skills"] as? [JSONDictionary] {
-                    user.masterSkills.removeAll()
-                    let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
-                    user.masterSkills.extend(userSkills)
-                }
-
-                // 更新 Social Account Provider
-
-                user.socialAccountProviders.removeAll()
-
-                if let providersInfo = friendInfo["providers"] as? [String: Bool] {
-                    for (name, enabled) in providersInfo {
-                        let provider = UserSocialAccountProvider()
-                        provider.name = name
-                        provider.enabled = enabled
-
-                        user.socialAccountProviders.append(provider)
-                    }
-                }
-
-                realm.commitWrite()
-
+                updateUserWithUserID(user.userID, useUserInfo: friendInfo)
 
                 // 更新 DoNotDisturb
 
@@ -430,82 +372,27 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                         }
 
                         if let user = user {
-                            realm.beginWrite()
 
                             // 更新用户信息
 
-                            if let lastSignInUnixTime = friendInfo["last_sign_in_at"] as? NSTimeInterval {
-                                user.lastSignInUnixTime = lastSignInUnixTime
-                            }
+                            updateUserWithUserID(user.userID, useUserInfo: friendInfo)
 
-                            if let nickname = friendInfo["nickname"] as? String {
-                                user.nickname = nickname
-                            }
+                            realm.write {
 
-                            if let introduction = friendInfo["introduction"] as? String {
-                                user.introduction = introduction
-                            }
+                                if let friendshipID = friendshipInfo["id"] as? String {
+                                    user.friendshipID = friendshipID
+                                }
 
-                            if let avatarURLString = friendInfo["avatar_url"] as? String {
-                                user.avatarURLString = avatarURLString
-                            }
+                                user.friendState = UserFriendState.Normal.rawValue
 
-                            if let longitude = friendInfo["longitude"] as? Double {
-                                user.longitude = longitude
-                            }
-
-                            if let latitude = friendInfo["latitude"] as? Double {
-                                user.latitude = latitude
-                            }
-
-                            if let badge = friendInfo["badge"] as? String {
-                                user.badge = badge
-                            }
-
-                            if let friendshipID = friendshipInfo["id"] as? String {
-                                user.friendshipID = friendshipID
-                            }
-
-                            user.friendState = UserFriendState.Normal.rawValue
-
-                            if let isBestfriend = friendInfo["favored"] as? Bool {
-                                user.isBestfriend = isBestfriend
-                            }
-                            
-                            if let bestfriendIndex = friendInfo["favored_position"] as? Int {
-                                user.bestfriendIndex = bestfriendIndex
-                            }
-
-
-                            // 更新技能
-
-                            if let learningSkillsData = friendInfo["learning_skills"] as? [JSONDictionary] {
-                                user.learningSkills.removeAll()
-                                let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: realm)
-                                user.learningSkills.extend(userSkills)
-                            }
-
-                            if let masterSkillsData = friendInfo["master_skills"] as? [JSONDictionary] {
-                                user.masterSkills.removeAll()
-                                let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
-                                user.masterSkills.extend(userSkills)
-                            }
-
-                            // 更新 Social Account Provider
-
-                            user.socialAccountProviders.removeAll()
-
-                            if let providersInfo = friendInfo["providers"] as? [String: Bool] {
-                                for (name, enabled) in providersInfo {
-                                    let provider = UserSocialAccountProvider()
-                                    provider.name = name
-                                    provider.enabled = enabled
-
-                                    user.socialAccountProviders.append(provider)
+                                if let isBestfriend = friendInfo["favored"] as? Bool {
+                                    user.isBestfriend = isBestfriend
+                                }
+                                
+                                if let bestfriendIndex = friendInfo["favored_position"] as? Int {
+                                    user.bestfriendIndex = bestfriendIndex
                                 }
                             }
-
-                            realm.commitWrite()
                         }
                     }
                 }
@@ -631,69 +518,14 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                     }
                     
                     if let owner = owner {
-                        realm.beginWrite()
 
                         // 更新个人信息
 
-                        if let lastSignInUnixTime = ownerInfo["last_sign_in_at"] as? NSTimeInterval {
-                            owner.lastSignInUnixTime = lastSignInUnixTime
+                        updateUserWithUserID(owner.userID, useUserInfo: ownerInfo)
+
+                        realm.write {
+                            group.owner = owner
                         }
-
-                        if let nickname = ownerInfo["nickname"] as? String {
-                            owner.nickname = nickname
-                        }
-
-                        if let introduction = ownerInfo["introduction"] as? String {
-                            owner.introduction = introduction
-                        }
-
-                        if let avatarURLString = ownerInfo["avatar_url"] as? String {
-                            owner.avatarURLString = avatarURLString
-                        }
-
-                        if let longitude = ownerInfo["longitude"] as? Double {
-                            owner.longitude = longitude
-                        }
-
-                        if let latitude = ownerInfo["latitude"] as? Double {
-                            owner.latitude = latitude
-                        }
-
-                        if let badge = ownerInfo["badge"] as? String {
-                            owner.badge = badge
-                        }
-
-                        // 更新技能
-
-                        if let learningSkillsData = ownerInfo["learning_skills"] as? [JSONDictionary] {
-                            owner.learningSkills.removeAll()
-                            let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: realm)
-                            owner.learningSkills.extend(userSkills)
-                        }
-
-                        if let masterSkillsData = ownerInfo["master_skills"] as? [JSONDictionary] {
-                            owner.masterSkills.removeAll()
-                            let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
-                            owner.masterSkills.extend(userSkills)
-                        }
-
-                        // 更新 Social Account Provider
-
-                        owner.socialAccountProviders.removeAll()
-
-                        if let providersInfo = ownerInfo["providers"] as? [String: Bool] {
-                            for (name, enabled) in providersInfo {
-                                let provider = UserSocialAccountProvider()
-                                provider.name = name
-                                provider.enabled = enabled
-
-                                owner.socialAccountProviders.append(provider)
-                            }
-                        }
-
-                        group.owner = owner
-
-                        realm.commitWrite()
                     }
                 }
             }
@@ -722,7 +554,9 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                 // 加上本地没有的 member
 
                 for memberInfo in remoteMembers {
+
                     if let memberID = memberInfo["id"] as? String {
+
                         var member = userWithUserID(memberID, inRealm: realm)
 
                         if member == nil {
@@ -755,75 +589,17 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 
                         if let member = member {
 
-                            realm.beginWrite()
-
                             // 更新个人信息
 
-                            if let lastSignInUnixTime = memberInfo["last_sign_in_at"] as? NSTimeInterval {
-                                member.lastSignInUnixTime = lastSignInUnixTime
-                            }
-
-                            if let nickname = memberInfo["nickname"] as? String {
-                                member.nickname = nickname
-                            }
-
-                            if let introduction = memberInfo["introduction"] as? String {
-                                member.introduction = introduction
-                            }
-
-                            if let avatarURLString = memberInfo["avatar_url"] as? String {
-                                member.avatarURLString = avatarURLString
-                            }
-
-                            if let longitude = memberInfo["longitude"] as? Double {
-                                member.longitude = longitude
-                            }
-
-                            if let latitude = memberInfo["latitude"] as? Double {
-                                member.latitude = latitude
-                            }
-
-                            if let badge = memberInfo["badge"] as? String {
-                                member.badge = badge
-                            }
-
-                            // 更新技能
-
-                            if let learningSkillsData = memberInfo["learning_skills"] as? [JSONDictionary] {
-                                member.learningSkills.removeAll()
-                                let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: realm)
-                                member.learningSkills.extend(userSkills)
-                            }
-
-                            if let masterSkillsData = memberInfo["master_skills"] as? [JSONDictionary] {
-                                member.masterSkills.removeAll()
-                                let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
-                                member.masterSkills.extend(userSkills)
-                            }
-
-                            // 更新 Social Account Provider
-
-                            member.socialAccountProviders.removeAll()
-
-                            if let providersInfo = memberInfo["providers"] as? [String: Bool] {
-                                for (name, enabled) in providersInfo {
-                                    let provider = UserSocialAccountProvider()
-                                    provider.name = name
-                                    provider.enabled = enabled
-
-                                    member.socialAccountProviders.append(provider)
-                                }
-                            }
-
-                            realm.commitWrite()
+                            updateUserWithUserID(member.userID, useUserInfo: memberInfo)
                         }
                     }
                 }
 
-                realm.beginWrite()
-                group.members.removeAll()
-                group.members.extend(localMembers)
-                realm.commitWrite()
+                realm.write {
+                    group.members.removeAll()
+                    group.members.extend(localMembers)
+                }
             }
         }
     }
@@ -1024,20 +800,8 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
                     }
 
                     if let sender = sender {
-                        realm.beginWrite()
 
-                        if let nickname = senderInfo["nickname"] as? String {
-                            sender.nickname = nickname
-                        }
-
-                        if let avatarURLString = senderInfo["avatar_url"] as? String {
-                            sender.avatarURLString = avatarURLString
-                        }
-
-                        message.fromFriend = sender
-
-                        realm.commitWrite()
-
+                        updateUserWithUserID(sender.userID, useUserInfo: senderInfo)
 
                         // 查询消息来自的 Group，为空就表示来自 User
 
@@ -1099,6 +863,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
                         }
 
                         // 在保证有 Conversation 的情况下继续，不然消息没有必要保留
+
                         if let conversation = conversation {
                             realm.beginWrite()
 
@@ -1118,10 +883,8 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
 
                             recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
 
-
                             // Do furtherAction after sync
 
-                            //println("syncMessageWithMessageInfo do furtherAction")
                             if let sectionDateMessageID = sectionDateMessageID{
                                 furtherAction?(messageIDs: [sectionDateMessageID, messageID])
                             } else {
