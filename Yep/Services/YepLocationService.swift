@@ -47,20 +47,24 @@ class YepLocationService: NSObject, CLLocationManagerDelegate {
         }
         
         geocoder.reverseGeocodeLocation(newLocation, completionHandler: { (placemarks, error) in
-            
-            if (error != nil) {println("reverse geodcode fail: \(error.localizedDescription)")}
-            
-            if let pm = placemarks as? [CLPlacemark] {
-                if pm.count > 0 {
-                    
-                    var placemark = pm.first
-                    
-                    self.address = placemark?.locality
-                    
-                    NSNotificationCenter.defaultCenter().postNotificationName("YepLocationUpdated", object: self.address)
+
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                if (error != nil) {
+                    println("self reverse geocode fail: \(error.localizedDescription)")
+
+                } else {
+                    if let placemarks = placemarks as? [CLPlacemark] {
+
+                        if let firstPlacemark = placemarks.first {
+                            
+                            self?.address = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
+                            
+                            NSNotificationCenter.defaultCenter().postNotificationName("YepLocationUpdated", object: nil)
+                        }
+                    }
                 }
             }
-            
         })
     }
 }

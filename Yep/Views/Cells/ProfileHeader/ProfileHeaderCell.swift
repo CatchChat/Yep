@@ -72,10 +72,6 @@ class ProfileHeaderCell: UICollectionViewCell {
     func configureWithDiscoveredUser(discoveredUser: DiscoveredUser) {
         updateAvatarWithAvatarURLString(discoveredUser.avatarURLString)
 
-        println("discoveredUser.lo")
-        println(discoveredUser.latitude)
-        println(discoveredUser.longitude)
-
         location = CLLocation(latitude: discoveredUser.latitude, longitude: discoveredUser.longitude)
     }
 
@@ -101,10 +97,6 @@ class ProfileHeaderCell: UICollectionViewCell {
 
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
         }
-
-        println("use.lo")
-        println(user.latitude)
-        println(user.longitude)
 
         location = CLLocation(latitude: user.latitude, longitude: user.longitude)
     }
@@ -148,12 +140,10 @@ class ProfileHeaderCell: UICollectionViewCell {
             }
         }
     }
+
+    // MARK: Notifications
     
     func updateAddress() {
-        
-//        println("Location YepLocationUpdated")
-        
-        self.locationLabel.text = YepLocationService.sharedManager.address
+        locationLabel.text = YepLocationService.sharedManager.address
     }
-    
 }
