@@ -10,13 +10,6 @@ import UIKit
 import RealmSwift
 import Ruler
 
-//class SearchController: UISearchController {
-//
-//    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-//        return .Default
-//    }
-//}
-
 class ContactsViewController: BaseViewController {
 
     @IBOutlet weak var contactsTableView: UITableView!
@@ -54,14 +47,7 @@ class ContactsViewController: BaseViewController {
 
         // 超过一定人数才显示搜索框
 
-        if friends.count > Int(Ruler.match(.iPhoneHeights(6, 1, 10, 12))) {
-
-            // statusBar 取消透明，不然显示 searchBar 时，tableView 上滑会“漏出”
-            //extendedLayoutIncludesOpaqueBars = true
-
-            //definesPresentationContext = true
-//            edgesForExtendedLayout = .All
-//            extendedLayoutIncludesOpaqueBars = true
+        if friends.count > Int(Ruler.match(.iPhoneHeights(6, 8, 10, 12))) {
 
             let searchController = UISearchController(searchResultsController: nil)
             searchController.delegate = self
@@ -72,7 +58,6 @@ class ContactsViewController: BaseViewController {
             searchController.searchBar.backgroundColor = UIColor.whiteColor()
             searchController.searchBar.barTintColor = UIColor.whiteColor()
             searchController.searchBar.searchBarStyle = .Minimal
-            //searchController.searchBar.translucent = false
             searchController.searchBar.sizeToFit()
 
             searchController.searchBar.delegate = self
