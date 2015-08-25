@@ -648,6 +648,10 @@ class ProfileViewController: UIViewController {
 
                     user.latitude = discoveredUser.latitude
 
+                    if let badge = discoveredUser.badge {
+                        user.badge = badge
+                    }
+
                     // 更新技能
 
                     user.learningSkills.removeAll()
