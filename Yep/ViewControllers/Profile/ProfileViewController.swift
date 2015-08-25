@@ -644,6 +644,10 @@ class ProfileViewController: UIViewController {
                     
                     user.avatarURLString = discoveredUser.avatarURLString
 
+                    user.longitude = discoveredUser.longitude
+
+                    user.latitude = discoveredUser.latitude
+
                     // 更新技能
 
                     user.learningSkills.removeAll()

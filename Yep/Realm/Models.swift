@@ -689,6 +689,14 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) 
                 user.avatarURLString = avatarURLString
             }
 
+            if let longitude = userInfo["longitude"] as? Double {
+                user.longitude = longitude
+            }
+
+            if let latitude = userInfo["latitude"] as? Double {
+                user.latitude = latitude
+            }
+
             if let badge = userInfo["badge"] as? String {
                 user.badge = badge
             }

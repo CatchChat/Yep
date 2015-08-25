@@ -214,6 +214,14 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                     user.avatarURLString = avatarURLString
                 }
 
+                if let longitude = friendInfo["longitude"] as? Double {
+                    user.longitude = longitude
+                }
+
+                if let latitude = friendInfo["latitude"] as? Double {
+                    user.latitude = latitude
+                }
+
                 if let badge = friendInfo["badge"] as? String {
                     user.badge = badge
                 }
@@ -442,6 +450,14 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                                 user.avatarURLString = avatarURLString
                             }
 
+                            if let longitude = friendInfo["longitude"] as? Double {
+                                user.longitude = longitude
+                            }
+
+                            if let latitude = friendInfo["latitude"] as? Double {
+                                user.latitude = latitude
+                            }
+
                             if let badge = friendInfo["badge"] as? String {
                                 user.badge = badge
                             }
@@ -635,6 +651,14 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                             owner.avatarURLString = avatarURLString
                         }
 
+                        if let longitude = ownerInfo["longitude"] as? Double {
+                            owner.longitude = longitude
+                        }
+
+                        if let latitude = ownerInfo["latitude"] as? Double {
+                            owner.latitude = latitude
+                        }
+
                         if let badge = ownerInfo["badge"] as? String {
                             owner.badge = badge
                         }
@@ -749,6 +773,14 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 
                             if let avatarURLString = memberInfo["avatar_url"] as? String {
                                 member.avatarURLString = avatarURLString
+                            }
+
+                            if let longitude = memberInfo["longitude"] as? Double {
+                                member.longitude = longitude
+                            }
+
+                            if let latitude = memberInfo["latitude"] as? Double {
+                                member.latitude = latitude
                             }
 
                             if let badge = memberInfo["badge"] as? String {
