@@ -8,6 +8,7 @@
 
 import UIKit
 import Ruler
+import CoreLocation
 
 class YepConfig {
 
@@ -171,6 +172,10 @@ class YepConfig {
 
     struct Feedback {
         static let bottomMargin: CGFloat = 20
+    }
+
+    struct Location {
+        static let distanceThreshold: CLLocationDistance = 100
     }
 
 }

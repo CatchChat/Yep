@@ -44,7 +44,7 @@ class ProfileHeaderCell: UICollectionViewCell {
                 // 优化，减少反向查询
                 if let oldLocation = oldValue {
                     let distance = location.distanceFromLocation(oldLocation)
-                    if distance < 100 {
+                    if distance < YepConfig.Location.distanceThreshold {
                         return
                     }
                 }
