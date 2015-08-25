@@ -15,6 +15,7 @@ class ChatLeftTextCell: ChatBaseCell {
     @IBOutlet weak var bubbleBodyImageView: UIImageView!
     @IBOutlet weak var bubbleTailImageView: UIImageView!
 
+    @IBOutlet weak var textContainerView: ChatTextContainerView!
     @IBOutlet weak var textContentTextView: ChatTextView!
     @IBOutlet weak var textContentTextViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textContentTextViewLeadingConstraint: NSLayoutConstraint!
@@ -38,7 +39,12 @@ class ChatLeftTextCell: ChatBaseCell {
         ]
 
         let longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
-        textContentTextView.addGestureRecognizer(longPress)
+        textContainerView.addGestureRecognizer(longPress)
+        longPress.delegate = self
+
+        textContainerView.copyTextAction = { [weak self] in
+            UIPasteboard.generalPasteboard().string = self?.textContentTextView.text
+        }
 
         textContentTextViewTrailingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel() - YepConfig.ChatCell.magicWidth
         textContentTextViewLeadingConstraint.constant = YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
@@ -49,7 +55,17 @@ class ChatLeftTextCell: ChatBaseCell {
 
     func handleLongPress(longPress: UILongPressGestureRecognizer) {
         if longPress.state == .Began {
-            longPressAction?(self)
+            //longPressAction?(self)
+
+            if let view = longPress.view, superview = view.superview {
+                view.becomeFirstResponder()
+                let menu = UIMenuController.sharedMenuController()
+                let loveItem = UIMenuItem(title: NSLocalizedString("Copy", comment: ""), action:"copyText")
+                menu.menuItems = [loveItem]
+                menu.setTargetRect(view.frame, inView: superview)
+                menu.setMenuVisible(true, animated: true)
+                println("show menu")
+            }
         }
     }
 
@@ -72,6 +88,13 @@ class ChatLeftTextCell: ChatBaseCell {
                 }
             }
         }
+    }
+}
+
+extension ChatLeftTextCell: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
 

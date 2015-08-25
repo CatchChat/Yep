@@ -1973,32 +1973,32 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
 
-                        cell.longPressAction = { [weak self] cell in
-
-                            self?.removeOldMenu()
-
-                            if let strongSelf = self {
-
-                                let copyItem = BubbleMenuView.Item(type: .Normal, title: NSLocalizedString("Copy", comment: "")) { menu in
-                                    print("copy\n")
-
-                                    UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
-
-                                    menu.hide()
-                                    self?.currentMenu = nil
-                                }
-
-                                let bubbleFrame = cell.convertRect(cell.bubbleBodyImageView.frame, toView: strongSelf.view)
-
-                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(bubbleFrame) < strongSelf.menuDirectionUpThreshold ? .Up : .Down
-
-                                let menu = BubbleMenuView(arrowDirection: arrowDirection, items: [copyItem])
-
-                                strongSelf.currentMenu = menu
-
-                                menu.showInView(strongSelf.view, withBubbleFrame: bubbleFrame)
-                            }
-                        }
+//                        cell.longPressAction = { [weak self] cell in
+//
+//                            self?.removeOldMenu()
+//
+//                            if let strongSelf = self {
+//
+//                                let copyItem = BubbleMenuView.Item(type: .Normal, title: NSLocalizedString("Copy", comment: "")) { menu in
+//                                    print("copy\n")
+//
+//                                    UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
+//
+//                                    menu.hide()
+//                                    self?.currentMenu = nil
+//                                }
+//
+//                                let bubbleFrame = cell.convertRect(cell.bubbleBodyImageView.frame, toView: strongSelf.view)
+//
+//                                let arrowDirection: BubbleMenuView.ArrowDirection = CGRectGetMidY(bubbleFrame) < strongSelf.menuDirectionUpThreshold ? .Up : .Down
+//
+//                                let menu = BubbleMenuView(arrowDirection: arrowDirection, items: [copyItem])
+//
+//                                strongSelf.currentMenu = menu
+//
+//                                menu.showInView(strongSelf.view, withBubbleFrame: bubbleFrame)
+//                            }
+//                        }
 
                         cell.tapAvatarAction = { [weak self] user in
                             self?.performSegueWithIdentifier("showProfile", sender: user)
