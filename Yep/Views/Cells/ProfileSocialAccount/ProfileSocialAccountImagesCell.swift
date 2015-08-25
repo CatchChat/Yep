@@ -18,52 +18,37 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                 accessoryImageView.hidden = false
 
                 switch work {
+
                 case .Dribbble(let dribbbleWork):
+
                     let shots = dribbbleWork.shots
 
-                    if shots.count > 0 {
-                        let shot = shots[0]
+                    if let shot = shots[safe: 0] {
                         imageView1.kf_setImageWithURL(NSURL(string: shot.images.teaser)!)
-                    } else {
-                        imageView1.image = nil
                     }
 
-                    if shots.count > 1 {
-                        let shot = shots[1]
+                    if let shot = shots[safe: 1] {
                         imageView2.kf_setImageWithURL(NSURL(string: shot.images.teaser)!)
-                    } else {
-                        imageView2.image = nil
                     }
 
-                    if shots.count > 2 {
-                        let shot = shots[2]
+                    if let shot = shots[safe: 2] {
                         imageView3.kf_setImageWithURL(NSURL(string: shot.images.teaser)!)
-                    } else {
-                        imageView3.image = nil
                     }
 
                 case .Instagram(let instagramWork):
+
                     let medias = instagramWork.medias
 
-                    if medias.count > 0 {
-                        let media = medias[0]
+                    if let media = medias[safe: 0] {
                         imageView1.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!)
-                    } else {
-                        imageView1.image = nil
                     }
 
-                    if medias.count > 1 {
-                        let media = medias[1]
+                    if let media = medias[safe: 1] {
                         imageView2.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!)
-                    } else {
-                        imageView2.image = nil
                     }
 
-                    if medias.count > 2 {
-                        let media = medias[2]
+                    if let media = medias[safe: 2] {
                         imageView3.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!)
-                    } else {
-                        imageView3.image = nil
                     }
                 }
             }
@@ -122,11 +107,11 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
             }
         }
 
-        if !accountEnabled {
-            imageView1.image = nil
-            imageView2.image = nil
-            imageView3.image = nil
+        imageView1.image = nil
+        imageView2.image = nil
+        imageView3.image = nil
 
+        if !accountEnabled {
             accessoryImageView.hidden = true
 
         } else {
