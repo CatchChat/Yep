@@ -34,14 +34,6 @@
                             <constraint firstAttribute="width" constant="40" id="hm6-ty-e5H"/>
                         </constraints>
                     </imageView>
-                    <textView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Text Content" translatesAutoresizingMaskIntoConstraints="NO" id="em7-jr-W4a" customClass="ChatTextView" customModule="Yep" customModuleProvider="target">
-                        <rect key="frame" x="333" y="3" width="92" height="125"/>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                        <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
-                    </textView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_sending" translatesAutoresizingMaskIntoConstraints="NO" id="tB7-GG-3Zd" userLabel="Dot Image View">
                         <rect key="frame" x="310" y="62.5" width="6" height="6"/>
                         <animations/>
@@ -50,25 +42,45 @@
                             <constraint firstAttribute="width" constant="6" id="ncl-qf-tmv"/>
                         </constraints>
                     </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6da-H4-jC2" customClass="ChatTextContainerView" customModule="Yep" customModuleProvider="target">
+                        <rect key="frame" x="333" y="3" width="92" height="125"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Text Content" translatesAutoresizingMaskIntoConstraints="NO" id="em7-jr-W4a" customClass="ChatTextView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="92" height="125"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="em7-jr-W4a" firstAttribute="top" secondItem="6da-H4-jC2" secondAttribute="top" id="Ipq-Cf-Cqw"/>
+                            <constraint firstItem="em7-jr-W4a" firstAttribute="leading" secondItem="6da-H4-jC2" secondAttribute="leading" id="K1B-jz-hNU"/>
+                            <constraint firstAttribute="trailing" secondItem="em7-jr-W4a" secondAttribute="trailing" id="ZAC-Ol-sRC"/>
+                            <constraint firstAttribute="bottom" secondItem="em7-jr-W4a" secondAttribute="bottom" id="pzv-BH-Rot"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <animations/>
             <constraints>
-                <constraint firstItem="em7-jr-W4a" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="50" id="ABk-EQ-Edt"/>
-                <constraint firstItem="RKK-8d-9vO" firstAttribute="leading" secondItem="em7-jr-W4a" secondAttribute="trailing" constant="20" id="Dsx-Jg-HtG"/>
-                <constraint firstItem="em7-jr-W4a" firstAttribute="top" secondItem="73l-kE-1KG" secondAttribute="top" constant="3" id="Nzn-Kc-TWM"/>
-                <constraint firstItem="em7-jr-W4a" firstAttribute="bottom" secondItem="73l-kE-1KG" secondAttribute="bottom" constant="-3" id="Pz2-Yd-kF9"/>
+                <constraint firstAttribute="bottom" secondItem="6da-H4-jC2" secondAttribute="bottom" constant="3" id="0MI-n7-CQK"/>
+                <constraint firstItem="6da-H4-jC2" firstAttribute="bottom" secondItem="73l-kE-1KG" secondAttribute="bottom" constant="-3" id="8U8-ia-5w1"/>
+                <constraint firstItem="RKK-8d-9vO" firstAttribute="leading" secondItem="6da-H4-jC2" secondAttribute="trailing" constant="20" id="ET9-4m-yXe"/>
+                <constraint firstItem="1JC-jy-KNh" firstAttribute="leading" secondItem="73l-kE-1KG" secondAttribute="trailing" constant="-7" id="Ewb-Xc-fpj"/>
+                <constraint firstItem="6da-H4-jC2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="40" id="IFK-hl-cQK"/>
+                <constraint firstItem="6da-H4-jC2" firstAttribute="leading" secondItem="73l-kE-1KG" secondAttribute="leading" constant="12" id="OBi-9l-myf"/>
                 <constraint firstItem="73l-kE-1KG" firstAttribute="top" secondItem="RKK-8d-9vO" secondAttribute="top" id="QzP-5b-ovG"/>
                 <constraint firstItem="73l-kE-1KG" firstAttribute="leading" secondItem="tB7-GG-3Zd" secondAttribute="trailing" constant="5" id="UIT-W7-WO6"/>
                 <constraint firstItem="1JC-jy-KNh" firstAttribute="centerY" secondItem="RKK-8d-9vO" secondAttribute="centerY" id="Upo-MS-aQJ"/>
-                <constraint firstItem="em7-jr-W4a" firstAttribute="leading" secondItem="73l-kE-1KG" secondAttribute="leading" constant="12" id="WkS-Oi-AjM"/>
-                <constraint firstAttribute="bottom" secondItem="em7-jr-W4a" secondAttribute="bottom" constant="3" id="dXH-j4-Dn8"/>
+                <constraint firstItem="6da-H4-jC2" firstAttribute="trailing" secondItem="73l-kE-1KG" secondAttribute="trailing" constant="-12" id="dMB-tv-isj"/>
+                <constraint firstItem="6da-H4-jC2" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="3" id="gu0-N0-n98"/>
                 <constraint firstItem="tB7-GG-3Zd" firstAttribute="centerY" secondItem="73l-kE-1KG" secondAttribute="centerY" id="h7l-0p-SWm"/>
-                <constraint firstItem="1JC-jy-KNh" firstAttribute="leading" secondItem="em7-jr-W4a" secondAttribute="trailing" constant="5" id="iAD-hS-cmr"/>
-                <constraint firstItem="73l-kE-1KG" firstAttribute="trailing" secondItem="em7-jr-W4a" secondAttribute="trailing" constant="12" id="sFr-bX-lfC"/>
-                <constraint firstItem="em7-jr-W4a" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="3" id="vdd-9g-iCq"/>
+                <constraint firstItem="6da-H4-jC2" firstAttribute="top" secondItem="73l-kE-1KG" secondAttribute="top" constant="3" id="p2y-Oi-B1W"/>
                 <constraint firstAttribute="trailing" secondItem="RKK-8d-9vO" secondAttribute="trailing" constant="15" id="vs0-4M-TaV"/>
             </constraints>
             <size key="customSize" width="417" height="131"/>
@@ -80,9 +92,10 @@
                 <outlet property="bubbleTailImageView" destination="1JC-jy-KNh" id="MGo-KB-Kb3"/>
                 <outlet property="dotImageView" destination="tB7-GG-3Zd" id="odg-hQ-nba"/>
                 <outlet property="gapBetweenDotImageViewAndBubbleConstraint" destination="UIT-W7-WO6" id="3P5-Dl-2GX"/>
+                <outlet property="textContainerView" destination="6da-H4-jC2" id="jNs-2X-eia"/>
                 <outlet property="textContentTextView" destination="em7-jr-W4a" id="Pch-yz-67H"/>
-                <outlet property="textContentTextViewLeadingConstraint" destination="ABk-EQ-Edt" id="ZFU-Y1-eXX"/>
-                <outlet property="textContentTextViewTrailingConstraint" destination="Dsx-Jg-HtG" id="YPC-jA-wZK"/>
+                <outlet property="textContentTextViewLeadingConstraint" destination="IFK-hl-cQK" id="2gq-ft-jvH"/>
+                <outlet property="textContentTextViewTrailingConstraint" destination="ET9-4m-yXe" id="aCa-1k-pBI"/>
             </connections>
             <point key="canvasLocation" x="339" y="326.5"/>
         </collectionViewCell>
