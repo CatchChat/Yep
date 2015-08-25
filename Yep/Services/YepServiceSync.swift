@@ -803,6 +803,10 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
 
                         updateUserWithUserID(sender.userID, useUserInfo: senderInfo)
 
+                        realm.write {
+                            message.fromFriend = sender
+                        }
+
                         // 查询消息来自的 Group，为空就表示来自 User
 
                         var sendFromGroup: Group? = nil
