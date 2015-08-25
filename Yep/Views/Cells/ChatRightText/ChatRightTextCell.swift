@@ -114,6 +114,12 @@ class ChatRightTextCell: ChatRightBaseCell {
 extension ChatRightTextCell: UIGestureRecognizerDelegate {
 
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+
+        return true
+    }
+
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOfGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+
         return true
     }
 }
