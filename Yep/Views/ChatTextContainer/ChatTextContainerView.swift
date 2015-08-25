@@ -17,15 +17,23 @@ class ChatTextContainerView: UIView {
     override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
         if action == "copyText" {
             return true
-        } else {
-            return false
-        }       
+        } else if action == "deleteTextMessage" {
+            return true
+        }
+
+        return false
     }
 
     var copyTextAction: (() -> Void)?
+    var deleteTextMessageAction: (() -> Void)?
 
     func copyText() {
         println("copyText")
         copyTextAction?()
+    }
+
+    func deleteTextMessage() {
+        println("deleteTextMessage")
+        deleteTextMessageAction?()
     }
 }

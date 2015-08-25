@@ -59,9 +59,10 @@ class ChatLeftTextCell: ChatBaseCell {
 
             if let view = longPress.view, superview = view.superview {
                 view.becomeFirstResponder()
+
                 let menu = UIMenuController.sharedMenuController()
-                let loveItem = UIMenuItem(title: NSLocalizedString("Copy", comment: ""), action:"copyText")
-                menu.menuItems = [loveItem]
+                let copyItem = UIMenuItem(title: NSLocalizedString("Copy", comment: ""), action:"copyText")
+                menu.menuItems = [copyItem]
                 menu.setTargetRect(view.frame, inView: superview)
                 menu.setMenuVisible(true, animated: true)
                 println("show menu")

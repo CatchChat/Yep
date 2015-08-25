@@ -15,6 +15,7 @@ class ChatRightTextCell: ChatRightBaseCell {
     @IBOutlet weak var bubbleBodyImageView: UIImageView!
     @IBOutlet weak var bubbleTailImageView: UIImageView!
 
+    @IBOutlet weak var textContainerView: ChatTextContainerView!
     @IBOutlet weak var textContentTextView: ChatTextView!
     @IBOutlet weak var textContentTextViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var textContentTextViewLeadingConstraint: NSLayoutConstraint!
@@ -23,7 +24,7 @@ class ChatRightTextCell: ChatRightBaseCell {
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
 
-    var longPressAction: (ChatRightTextCell -> Void)?
+    var longPressAction: (() -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -42,7 +43,16 @@ class ChatRightTextCell: ChatRightBaseCell {
         ]
 
         let longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
-        textContentTextView.addGestureRecognizer(longPress)
+        textContainerView.addGestureRecognizer(longPress)
+        longPress.delegate = self
+
+        textContainerView.copyTextAction = { [weak self] in
+            UIPasteboard.generalPasteboard().string = self?.textContentTextView.text
+        }
+
+        textContainerView.deleteTextMessageAction = { [weak self] in
+            self?.longPressAction?()
+        }
         
         textContentTextViewTrailingConstraint.constant = YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
         textContentTextViewLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel() - YepConfig.ChatCell.magicWidth
@@ -57,7 +67,19 @@ class ChatRightTextCell: ChatRightBaseCell {
 
     func handleLongPress(longPress: UILongPressGestureRecognizer) {
         if longPress.state == .Began {
-            longPressAction?(self)
+            //longPressAction?(self)
+
+            if let view = longPress.view, superview = view.superview {
+                view.becomeFirstResponder()
+
+                let menu = UIMenuController.sharedMenuController()
+                let copyItem = UIMenuItem(title: NSLocalizedString("Copy", comment: ""), action:"copyText")
+                let deleteItem = UIMenuItem(title: NSLocalizedString("Delete", comment: ""), action:"deleteTextMessage")
+                menu.menuItems = [copyItem, deleteItem]
+                menu.setTargetRect(view.frame, inView: superview)
+                menu.setMenuVisible(true, animated: true)
+                println("show menu")
+            }
         }
     }
 
@@ -89,3 +111,11 @@ class ChatRightTextCell: ChatRightBaseCell {
         }
     }
 }
+
+extension ChatRightTextCell: UIGestureRecognizerDelegate {
+
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}
+
