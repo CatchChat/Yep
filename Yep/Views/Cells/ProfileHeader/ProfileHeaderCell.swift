@@ -37,23 +37,34 @@ class ProfileHeaderCell: UICollectionViewCell {
         }
     }
 
+    var location: CLLocation? {
+        didSet {
+            if let location = location {
+
+                locationLabel.text = ""
+
+                CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
+
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        if (error != nil) {
+                            println("reverse geodcode fail: \(error.localizedDescription)")
+                        }
+
+                        if let placemarks = placemarks as? [CLPlacemark] {
+                            if let firstPlacemark = placemarks.first {
+                                self?.locationLabel.text = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
+                            }
+                        }
+                    }
+                })
+            }
+        }
+    }
+
     func configureWithDiscoveredUser(discoveredUser: DiscoveredUser) {
         updateAvatarWithAvatarURLString(discoveredUser.avatarURLString)
 
-        let location = CLLocation(latitude: discoveredUser.latitude, longitude: discoveredUser.longitude)
-
-        CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
-
-            if (error != nil) {
-                println("reverse geodcode fail: \(error.localizedDescription)")
-            }
-
-            if let placemarks = placemarks as? [CLPlacemark] {
-                if let firstPlacemark = placemarks.first {
-                    self.locationLabel.text = firstPlacemark.locality
-                }
-            }
-        })
+        location = CLLocation(latitude: discoveredUser.latitude, longitude: discoveredUser.longitude)
     }
 
     func configureWithUser(user: User) {
@@ -79,7 +90,7 @@ class ProfileHeaderCell: UICollectionViewCell {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
         }
 
-        // TODO: User Location
+        location = CLLocation(latitude: user.latitude, longitude: user.longitude)
     }
 
 
