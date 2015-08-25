@@ -21,6 +21,8 @@ class ContactsViewController: BaseViewController {
 
     @IBOutlet weak var contactsTableView: UITableView!
 
+    @IBOutlet weak var coverUnderStatusBarView: UIView!
+    
     var searchController: UISearchController?
     var searchControllerIsActive: Bool {
         return searchController?.active ?? false
@@ -48,9 +50,11 @@ class ContactsViewController: BaseViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "syncFriendships", name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
 
+        coverUnderStatusBarView.hidden = true
+
         // 超过一定人数才显示搜索框
 
-        if friends.count > Int(Ruler.match(.iPhoneHeights(6, 8, 10, 12))) {
+        if friends.count > Int(Ruler.match(.iPhoneHeights(6, 1, 10, 12))) {
 
             // statusBar 取消透明，不然显示 searchBar 时，tableView 上滑会“漏出”
             //extendedLayoutIncludesOpaqueBars = true
@@ -60,7 +64,7 @@ class ContactsViewController: BaseViewController {
 //            extendedLayoutIncludesOpaqueBars = true
 
             let searchController = UISearchController(searchResultsController: nil)
-//            searchController.delegate = self
+            searchController.delegate = self
 
             searchController.searchResultsUpdater = self
             searchController.dimsBackgroundDuringPresentation = false
@@ -218,13 +222,14 @@ extension ContactsViewController: UISearchBarDelegate {
     }
 }
 
-//extension ContactsViewController: UISearchControllerDelegate {
-//    func willPresentSearchController(searchController: UISearchController) {
-//        navigationController?.navigationBar.translucent = true
-//    }
-//
-//    func willDismissSearchController(searchController: UISearchController) {
-//        navigationController?.navigationBar.translucent = false
-//    }
-//}
+extension ContactsViewController: UISearchControllerDelegate {
+
+    func willPresentSearchController(searchController: UISearchController) {
+        coverUnderStatusBarView.hidden = false
+    }
+
+    func willDismissSearchController(searchController: UISearchController) {
+        coverUnderStatusBarView.hidden = true
+    }
+}
 
