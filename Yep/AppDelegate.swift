@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(YepConfig.appGroupID)!
         let realmPath = directory.path!.stringByAppendingPathComponent("db.realm")
 
-        return Realm.Configuration(path: realmPath, schemaVersion: 15, migrationBlock: { migration, oldSchemaVersion in
+        return Realm.Configuration(path: realmPath, schemaVersion: 16, migrationBlock: { migration, oldSchemaVersion in
 
             if oldSchemaVersion < 9 {
                 migration.enumerate(Message.className()) { oldObject, newObject in
@@ -77,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
 
-            if oldSchemaVersion < 15 {
+            if oldSchemaVersion < 16 {
             }
         })
     }
