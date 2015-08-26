@@ -1523,6 +1523,8 @@ class ConversationViewController: BaseViewController {
     func updateStateInfoOfTitleView(titleView: ConversationTitleView) {
         if let timeAgo = lastSignDateOfConversation(self.conversation)?.timeAgo {
             titleView.stateInfoLabel.text = NSLocalizedString("Last seen ", comment: "") + timeAgo.lowercaseString
+        } else if let friend = conversation.withFriend {
+            titleView.stateInfoLabel.text = NSLocalizedString("Last seen ", comment: "") + NSDate(timeIntervalSince1970: friend.lastSignInUnixTime).timeAgo.lowercaseString
         } else {
             titleView.stateInfoLabel.text = NSLocalizedString("Begin chat just now", comment: "")
         }
