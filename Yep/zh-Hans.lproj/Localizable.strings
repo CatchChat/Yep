@@ -1,0 +1,524 @@
+/* 
+  Localizable.strings
+  Yep
+
+  Created by nixzhu on 15/8/26.
+  Copyright (c) 2015年 Catch Inc. All rights reserved.
+*/
+
+/* 正在 */
+" is " = "正在";
+
+/* No comment provided by engineer. */
+"[Audio]" = "[音频]";
+
+/* No comment provided by engineer. */
+"[Image]" = "[图片]";
+
+/* No comment provided by engineer. */
+"[Location]" = "[地点]";
+
+/* No comment provided by engineer. */
+"[Video]" = "[视频]";
+
+/* No comment provided by engineer. */
+"About" = "关于";
+
+/* No comment provided by engineer. */
+"Accept" = "接受";
+
+/* No comment provided by engineer. */
+"Accept Friend Request failed!" = "接受好友请求失败！";
+
+/* No comment provided by engineer. */
+"Action" = "操作";
+
+/* No comment provided by engineer. */
+"Add" = "添加";
+
+/* No comment provided by engineer. */
+"Add Friends" = "添加好友";
+
+/* No comment provided by engineer. */
+"Add Skills" = "添加技能";
+
+/* No comment provided by engineer. */
+"Advertising" = "广告";
+
+/* No comment provided by engineer. */
+"Available Friends" = "已有好友";
+
+/* No comment provided by engineer. */
+"Avatar" = "头像";
+
+/* No comment provided by engineer. */
+"Back" = "返回";
+
+/* No comment provided by engineer. */
+"Begin chat just now" = "刚刚开始聊天";
+
+/* No comment provided by engineer. */
+"Block" = "屏蔽";
+
+/* No comment provided by engineer. */
+"Blocked Users" = "被屏蔽的用户";
+
+/* No comment provided by engineer. */
+"Build world together" = "共建世界";
+
+/* No comment provided by engineer. */
+"Call me" = "呼叫我";
+
+/* No comment provided by engineer. */
+"Calling" = "正在呼叫";
+
+/* No comment provided by engineer. */
+"Cancel" = "取消";
+
+/* No comment provided by engineer. */
+"Catch Inc." = "Catch Inc.";
+
+/* No comment provided by engineer. */
+"Change it now" = "现在就改";
+
+/* No comment provided by engineer. */
+"Change skill cover" = "修改技能封面";
+
+/* No comment provided by engineer. */
+"Change Skills" = "修改技能";
+
+"Chats" = "聊天";
+
+/* No comment provided by engineer. */
+"Choose Photo" = "选择照片";
+
+/* No comment provided by engineer. */
+"Choose photo" = "选择照片";
+
+/* No comment provided by engineer. */
+"Clear history" = "清除历史纪录";
+
+"Contacts" = "联系人";
+
+/* No comment provided by engineer. */
+"Copy" = "复制";
+
+/* No comment provided by engineer. */
+"Default" = "默认";
+
+/* No comment provided by engineer. */
+"Delete" = "删除";
+
+/* No comment provided by engineer. */
+"Didn't get it?" = "没有收到？";
+
+/* No comment provided by engineer. */
+"Disable Do Not Disturb failed!" = "关闭“免打扰”失败！";
+
+"Discover" = "发现";
+
+/* No comment provided by engineer. */
+"Discover them around you" = "在周围发现他们";
+
+/* No comment provided by engineer. */
+"Dismiss" = "了解";
+
+/* No comment provided by engineer. */
+"Do not disturb" = "免打扰";
+
+/* No comment provided by engineer. */
+"Do Not Disturb" = "免打扰";
+
+/* No comment provided by engineer. */
+"Do you want to logout?" = "您要退出登录吗？";
+
+/* No comment provided by engineer. */
+"Do you want to reject this friend request?" = "您要拒绝此好友请求吗？";
+
+/* No comment provided by engineer. */
+"Done" = "完成";
+
+/* No comment provided by engineer. */
+"Edit Profile" = "编辑个人简介";
+
+/* No comment provided by engineer. */
+"Enable Do Not Disturb failed!" = "开启“免打扰”失败";
+
+/* No comment provided by engineer. */
+"Face to Face" = "面对面";
+
+/* No comment provided by engineer. */
+"Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet." = "重发音频失败！\n情确保您的iPhone已连接到互联网。";
+
+/* No comment provided by engineer. */
+"Failed to resend image!\nPlease make sure your iPhone is connected to the Internet." = "重发图片失败！\n情确保您的iPhone已连接到互联网。";
+
+/* No comment provided by engineer. */
+"Failed to resend location!\nPlease make sure your iPhone is connected to the Internet." = "重发位置失败！\n情确保您的iPhone已连接到互联网。";
+
+/* No comment provided by engineer. */
+"Failed to resend text!\nPlease make sure your iPhone is connected to the Internet." = "重发文字失败！\n情确保您的iPhone已连接到互联网。";
+
+/* No comment provided by engineer. */
+"Failed to resend video!\nPlease make sure your iPhone is connected to the Internet." = "重发视频失败！\n情确保您的iPhone已连接到互联网。";
+
+/* No comment provided by engineer. */
+"Failed to send audio!\nTry tap on message to resend." = "发送音频失败！\n轻按消息气泡可以重发。";
+
+/* No comment provided by engineer. */
+"Failed to send image!\nTry tap on message to resend." = "发送图片失败！\n轻按消息气泡可以重发。";
+
+/* No comment provided by engineer. */
+"Failed to send location!\nTry tap on message to resend." = "发送位置失败！\n轻按消息气泡可以重发。";
+
+/* No comment provided by engineer. */
+"Failed to send text!\nTry tap on message to resend." = "发送文字失败！\n轻按消息气泡可以重发。";
+
+/* No comment provided by engineer. */
+"Failed to send verification code!" = "发送验证短信失败！";
+
+/* No comment provided by engineer. */
+"Failed to send video!\nTry tap on message to resend." = "发送视频失败！\n轻按消息气泡可以重发。";
+
+/* No comment provided by engineer. */
+"Feedback" = "反馈";
+
+/* No comment provided by engineer. */
+"Friends in Contacts" = "通讯录好友";
+
+/* No comment provided by engineer. */
+"From" = "从";
+
+/* No comment provided by engineer. */
+"Genius" = "天才";
+
+/* No comment provided by engineer. */
+"Get Started" = "即刻开始";
+
+/* No comment provided by engineer. */
+"Grow together" = "一起成长";
+
+/* No comment provided by engineer. */
+"Hold for Voice" = "长按录制声音";
+
+/* No comment provided by engineer. */
+"Input verification code send to" = "输入收到的短信验证码";
+
+/* No comment provided by engineer. */
+"Introduce yourself here." = "此处是自我介绍";
+
+/* No comment provided by engineer. */
+"Introduction" = "自我介绍";
+
+/* No comment provided by engineer. */
+"is not your friend." = "不是您的好友";
+
+/* No comment provided by engineer. */
+"Last seen " = "上次见是";
+
+/* No comment provided by engineer. */
+"Learning" = "正在学习";
+
+/* No comment provided by engineer. */
+"Log out" = "退出登录";
+
+/* No comment provided by engineer. */
+"Login" = "登录";
+
+/* No comment provided by engineer. */
+"Master" = "已精通";
+
+/* No comment provided by engineer. */
+"Match" = "匹配";
+
+/* No comment provided by engineer. */
+"Match friends with your skills" = "用技能匹配好友";
+
+/* No comment provided by engineer. */
+"Meet" = "见面";
+
+/* No comment provided by engineer. */
+"Mute" = "静音";
+
+/* No comment provided by engineer. */
+"My Current Location" = "我当然的位置";
+
+/* No comment provided by engineer. */
+"Nearby" = "附近";
+
+/* No comment provided by engineer. */
+"Netword Error: Faild to get blocked users!" = "网络错误：无法获取被屏蔽的用户！";
+
+/* No comment provided by engineer. */
+"Network error!" = "网络错误";
+
+/* No comment provided by engineer. */
+"Next" = "下一项";
+
+/* No comment provided by engineer. */
+"Nickname" = "昵称";
+
+/* No comment provided by engineer. */
+"No blocked users." = "没有被屏蔽的用户";
+
+/* No comment provided by engineer. */
+"No Introduction yet." = "还未写自我介绍。";
+
+/* No comment provided by engineer. */
+"No messages yet." = "暂无消息。";
+
+/* No comment provided by engineer. */
+"No more new friends." = "没有新加入的朋友";
+
+/* No comment provided by engineer. */
+"No now" = "暂不";
+
+/* No comment provided by engineer. */
+"No search results." = "搜索无结果";
+
+/* No comment provided by engineer. */
+"None" = "无";
+
+/* No comment provided by engineer. */
+"Notice" = "注意";
+
+/* No comment provided by engineer. */
+"Notifications & Privacy" = "通知与隐私";
+
+/* No comment provided by engineer. */
+"OAuth" = "OAuth";
+
+/* No comment provided by engineer. */
+"OAuth Error" = "OAuth Error";
+
+/* No comment provided by engineer. */
+"OK" = "OK";
+
+/* No comment provided by engineer. */
+"Other" = "其它";
+
+/* No comment provided by engineer. */
+"Other Reason" = "其它原因";
+
+/* No comment provided by engineer. */
+"Pick a badge" = "选一个徽章";
+
+/* No comment provided by engineer. */
+"Pick some skills" = "选择一些技能";
+
+/* No comment provided by engineer. */
+"Picked Location" = "选择的位置";
+
+/* No comment provided by engineer. */
+"Please wait while the audio is not dready!" = "正在准备音频，请稍等！";
+
+/* No comment provided by engineer. */
+"Please wait while the image is not dready!" = "正在准备图片，请稍等！";
+
+/* No comment provided by engineer. */
+"Please wait while the video is not dready!" = "正在准备视频，请稍等！";
+
+/* No comment provided by engineer. */
+"Popular in " = "流行于";
+
+/* No comment provided by engineer. */
+"Porno" = "色情";
+
+/* No comment provided by engineer. */
+"Preview" = "查看";
+
+"Profile" = "个人主页";
+
+/* No comment provided by engineer. */
+"recording" = "正在录音";
+
+/* No comment provided by engineer. */
+"Reject" = "拒绝";
+
+/* No comment provided by engineer. */
+"Reject Friend Request failed!" = "拒绝好友请求失败！";
+
+/* No comment provided by engineer. */
+"reject your last friend request." = "拒绝了您之前的好友请求。";
+
+/* No comment provided by engineer. */
+"Release to Cancel" = "松手即可取消";
+
+/* No comment provided by engineer. */
+"Relogin" = "重新登录";
+
+/* No comment provided by engineer. */
+"Report" = "举报";
+
+/* No comment provided by engineer. */
+"Report Reason" = "举报原因";
+
+/* No comment provided by engineer. */
+"Report recorded!" = "举报已纪录！";
+
+/* No comment provided by engineer. */
+"Resend" = "重发";
+
+/* No comment provided by engineer. */
+"Resend audio?" = "重发音频？";
+
+/* No comment provided by engineer. */
+"Resend image?" = "重发图片？";
+
+/* No comment provided by engineer. */
+"Resend location?" = "重发位置？";
+
+/* No comment provided by engineer. */
+"Resend text?" = "重发文字？";
+
+/* No comment provided by engineer. */
+"Resend video?" = "重发视频？";
+
+/* No comment provided by engineer. */
+"Say Hi" = "打个招呼";
+
+/* No comment provided by engineer. */
+"Scams" = "诈骗";
+
+/* No comment provided by engineer. */
+"Search" = "搜索";
+
+"Search Friend" = "搜索好友";
+
+"Search User" = "搜索用户";
+
+/* No comment provided by engineer. */
+"Send" = "发送";
+
+/* No comment provided by engineer. */
+"Send Friend Request failed!" = "发送好友请求失败！";
+
+/* No comment provided by engineer. */
+"Set an avatar" = "设置头像";
+
+/* No comment provided by engineer. */
+"Set badge failed!" = "设置徽章失败！";
+
+/* No comment provided by engineer. */
+"Set Do Not Disturb failed!" = "设置“免打扰”失败";
+
+/* No comment provided by engineer. */
+"Settings" = "设置";
+
+/* No comment provided by engineer. */
+"Share location" = "分享位置";
+
+/* No comment provided by engineer. */
+"Sign up" = "注册";
+
+/* No comment provided by engineer. */
+"Sign Up" = "注册";
+
+/* No comment provided by engineer. */
+"Sorry" = "抱歉";
+
+/* No comment provided by engineer. */
+"Success" = "成功";
+
+/* No comment provided by engineer. */
+"Swipe Up to Cancel" = "上滑取消录音";
+
+/* No comment provided by engineer. */
+"Take Photo" = "拍照";
+
+/* No comment provided by engineer. */
+"Take photo" = "拍照";
+
+/* No comment provided by engineer. */
+"Thanks! Your feedback has been recorded!" = "多谢！Yep已记录好您的反馈。";
+
+/* No comment provided by engineer. */
+"This skill already in another learning skills set!" = "此技能已在“正在学习”里！";
+
+/* No comment provided by engineer. */
+"This skill already in another master skills set!" = "此技能已在“已精通”里！";
+
+/* No comment provided by engineer. */
+"Time" = "时间";
+
+/* No comment provided by engineer. */
+"To" = "至";
+
+/* No comment provided by engineer. */
+"try add you as friend." = "想添加您为好友。";
+
+/* No comment provided by engineer. */
+"typing" = "正在打字";
+
+/* No comment provided by engineer. */
+"Unblock" = "解除屏蔽";
+
+/* No comment provided by engineer. */
+"Update nickname failed!" = "更新昵称失败！";
+
+/* No comment provided by engineer. */
+"Update skill cover failed!" = "更新技能封面失败！";
+
+/* No comment provided by engineer. */
+"Upload skill cover failed!" = "上传技能封面失败！";
+
+/* No comment provided by engineer. */
+"User authentication error, you need to login again!" = "用户验证错误，您需要重新登录！";
+
+/* No comment provided by engineer. */
+"View profile" = "查看个人简介";
+
+/* No comment provided by engineer. */
+"Wait too long, the operation may not be completed." = "等待较久，操作可能未完成！";
+
+/* No comment provided by engineer. */
+"We read every feedback" = "我们会细心阅读每一份反馈";
+
+/* No comment provided by engineer. */
+"What are you good at?" = "您擅长哪些技能？";
+
+/* No comment provided by engineer. */
+"What are you learning?" = "您正在学习哪些技能？";
+
+/* No comment provided by engineer. */
+"What's your name?" = "您的名字？";
+
+/* No comment provided by engineer. */
+"What's your number?" = "您的手机号码？";
+
+/* No comment provided by engineer. */
+"Yep" = "Yep";
+
+/* No comment provided by engineer. */
+"Yep can not access your Camera Roll!\nBut you can change it in iOS Settings." = "Yep不能访问您的相册！\n但您可以在iOS设置里修改设定。";
+
+/* No comment provided by engineer. */
+"Yep can not access your Microphone!\nBut you can change it in iOS Settings." = "Yep不能访问您的麦克风！\n但您可以在iOS设置里修改设定。";
+
+/* No comment provided by engineer. */
+"Yep can not get your Location!\nBut you can change it in iOS Settings." = "Yep不能获取您的位置！\n但您可以在iOS设置里修改设定。";
+
+/* No comment provided by engineer. */
+"Yep can not open your Camera!\nBut you can change it in iOS Settings." = "Yep不能打开您的相机！\n但您可以在iOS设置里修改设定。";
+
+/* No comment provided by engineer. */
+"Yep can not read your Contacts!\nBut you can change it in iOS Settings." = "Yep不能读取您的通讯录！\n但您可以在iOS设置里修改设定。";
+
+/* No comment provided by engineer. */
+"Yep need to read your Contacts to continue this operation.\nIs that OK?" = "Yep需要读取您的通讯录来继续此次操作。\n您同意吗？";
+
+/* No comment provided by engineer. */
+"Yes" = "是的";
+
+/* No comment provided by engineer. */
+"You did not enter any nickname!" = "您没有输入昵称！";
+
+/* No comment provided by engineer. */
+"You don't have any skills!\nWould you like to pick some?" = "您还未设置任何技能。\n您想现在就选择一些吗？";
+
+/* No comment provided by engineer. */
+"You have been blocked by %@!" = "您被“%@”屏蔽了！";
+
+/* No comment provided by engineer. */
+"You have blocked %@! Do you want to unblock him or her?" = "您已屏蔽“%@”！您要解除对他或她的屏蔽吗？";
+
