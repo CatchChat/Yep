@@ -503,6 +503,19 @@ func mediaMetaDataFromString(metaDataString: String, inRealm realm: Realm) -> Me
     return nil
 }
 
+func messagesInConversationFromFriend(conversation: Conversation) -> Results<Message> {
+    
+    let predicate = NSPredicate(format: "conversation = %@ AND fromFriend.friendState != %d", argumentArray: [conversation, UserFriendState.Me.rawValue])
+    
+    if let realm = conversation.realm {
+        return realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
+        
+    } else {
+        let realm = Realm()
+        return realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
+    }
+}
+
 func messagesInConversation(conversation: Conversation) -> Results<Message> {
 
     let predicate = NSPredicate(format: "conversation = %@", argumentArray: [conversation])
@@ -590,7 +603,7 @@ func lastChatDateOfConversation(conversation: Conversation) -> NSDate? {
 }
 
 func lastSignDateOfConversation(conversation: Conversation) -> NSDate? {
-    let messages = messagesInConversation(conversation)
+    let messages = messagesInConversationFromFriend(conversation)
 
     if let
         lastMessage = messages.last,
