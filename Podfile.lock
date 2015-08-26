@@ -34,11 +34,11 @@ PODS:
     - SocketRocket (~> 0.4)
   - pop (1.0.7)
   - Proposer (0.6.2)
-  - Realm (0.94.0):
-    - Realm/Headers (= 0.94.0)
-  - Realm/Headers (0.94.0)
-  - RealmSwift (0.94.0):
-    - Realm (= 0.94.0)
+  - Realm (0.95.0):
+    - Realm/Headers (= 0.95.0)
+  - Realm/Headers (0.95.0)
+  - RealmSwift (0.95.0):
+    - Realm (= 0.95.0)
   - Ruler (0.5)
   - SocketRocket (0.4)
   - TPKeyboardAvoiding (1.2.9)
@@ -54,13 +54,13 @@ DEPENDENCIES:
   - MZFayeClient (from `../CatchLib-iOS/MZFayeClient/`)
   - pop
   - Proposer
-  - RealmSwift (= 0.94)
+  - RealmSwift (= 0.95)
   - Ruler
   - TPKeyboardAvoiding (~> 1.2)
 
 EXTERNAL SOURCES:
   MZFayeClient:
-    :path: "../CatchLib-iOS/MZFayeClient/"
+    :path: ../CatchLib-iOS/MZFayeClient/
 
 SPEC CHECKSUMS:
   1PasswordExtension: d2392e44526be30ae7d23f305e96e411ede9b9d1
@@ -74,8 +74,8 @@ SPEC CHECKSUMS:
   MZFayeClient: 65e7ef67e61fbe7a7a8b196130541c9f06bcb5d8
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   Proposer: 6fa2c0dc88b5445aed16786c6717d3676586ff9b
-  Realm: a046149653e0ca220b65b5783da907aa5b74d86c
-  RealmSwift: 5efbbf1a5c179a7237e4d428594e41619fa167ba
+  Realm: bbb171b96728ea136ed5cd354dca2a3d6529923c
+  RealmSwift: 35eeb642bf0b43dedfe363451ba3288d0e72ebb9
   Ruler: bf01a372f064c900c089c78abd75c2685a86ecba
   SocketRocket: 01443933b7bc362621325f4607b80b4286a99707
   TPKeyboardAvoiding: ff1ee4e5a5a0c119b965552af8f183868ea20207
