@@ -1100,27 +1100,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     self?.performSegueWithIdentifier("showEditSkills", sender: ["skillSet": skillSet.rawValue])
                 }
 
-                /*
-                header.tapAction = {
-                    let storyboard = UIStoryboard(name: "Intro", bundle: nil)
-                    let pickSkillsController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickSkillsViewController") as! RegisterPickSkillsViewController
-
-                    pickSkillsController.isRegister = false
-                    pickSkillsController.masterSkills = self.masterSkills
-                    pickSkillsController.learningSkills = self.learningSkills
-
-                    pickSkillsController.afterChangeSkillsAction = { masterSkills, learningSkills in
-                        self.masterSkills = masterSkills
-                        self.learningSkills = learningSkills
-
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self.updateProfileCollectionView()
-                        }
-                    }
-
-                    self.navigationController?.pushViewController(pickSkillsController, animated: true)
-                }*/
-
             } else {
                 header.accessoryImageView.hidden = true
             }
@@ -1297,7 +1276,7 @@ extension ProfileViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if scrollView.contentOffset.y < -300 {
-            YepAlert.alert(title: "Hello", message: "My name is NIX. How are you?", dismissTitle: "I'm fine.", inViewController: self, withDismissAction: nil)
+            YepAlert.alert(title: "Hello", message: "Hi, my name is NIX.\nHow are you?", dismissTitle: "I'm fine.", inViewController: self, withDismissAction: nil)
         }
     }
 }
