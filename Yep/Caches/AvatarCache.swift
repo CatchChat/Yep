@@ -167,6 +167,27 @@ class AvatarCache {
                 dispatch_async(dispatch_get_main_queue()) {
                     avatarCompletion.completion(avatar)
                 }
+
+                let realm = Realm()
+
+                if let avatarObject = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
+                    switch avatarCompletion.radius {
+                    case YepConfig.ConversationCell.avatarSize * 0.5:
+                        if avatarObject.roundMini.length == 0 {
+                            realm.write {
+                                avatarObject.roundMini = UIImageJPEGRepresentation(avatar, 0.9)
+                            }
+                        }
+                    case YepConfig.chatCellAvatarSize() * 0.5:
+                        if avatarObject.roundNano.length == 0 {
+                            realm.write {
+                                avatarObject.roundNano = UIImageJPEGRepresentation(avatar, 0.9)
+                            }
+                        }
+                    default:
+                        break
+                    }
+                }
             }
         }
 
@@ -313,6 +334,30 @@ class AvatarCache {
                     // 不用做事，等着具有同样 avatarURLString 的 avatarCompletion 帮忙完成
 
                 } else {
+
+                    // 再看看是否已有裁剪后的圆图
+
+                    if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()) {
+
+                        switch radius {
+                        case YepConfig.ConversationCell.avatarSize * 0.5:
+                            if avatar.roundMini.length > 0 {
+                                if let image = UIImage(data: avatar.roundMini) {
+                                    completeWithImage(image, avatarURLString: avatarURLString)
+                                    return
+                                }
+                            }
+                        case YepConfig.chatCellAvatarSize() * 0.5:
+                            if avatar.roundNano.length > 0 {
+                                if let image = UIImage(data: avatar.roundNano) {
+                                    completeWithImage(image, avatarURLString: avatarURLString)
+                                    return
+                                }
+                            }
+                        default:
+                            break
+                        }
+                    }
 
                     let oldAvatarURLString = user.avatar?.avatarURLString
 
