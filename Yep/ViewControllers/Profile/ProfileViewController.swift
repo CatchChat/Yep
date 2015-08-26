@@ -291,13 +291,13 @@ class ProfileViewController: UIViewController {
         YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
         YepUserDefaults.introduction.removeListenerWithName(Listener.Introduction)
     }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        statusBarShouldLight = true
-        
-        self.setNeedsStatusBarAppearanceUpdate()
+
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        if statusBarShouldLight {
+            return UIStatusBarStyle.LightContent
+        } else {
+            return UIStatusBarStyle.Default
+        }
     }
 
     override func viewDidLoad() {
@@ -426,159 +426,70 @@ class ProfileViewController: UIViewController {
                     self?.updateProfileCollectionView()
                 })
             }
+
+            // 提示没有 Skills
+
+            if profileUserIsMe {
+                if masterSkills.isEmpty && learningSkills.isEmpty {
+                    YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("No now", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
+                        self?.pickSkills()
+                    }, cancelAction: {})
+                }
+            }
         }
     }
-    
-    func showSettings() {
-        self.performSegueWithIdentifier("showSettings", sender: self)
-    }
-    
+
     override func viewWillAppear(animated: Bool) {
-        
+
         super.viewWillAppear(animated)
-        
+
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-    
+
         customNavigationBar.alpha = 1.0
-        
+
         statusBarShouldLight = false
-        
+
         if noNeedToChangeStatusBar {
             statusBarShouldLight = true
         }
-        
+
         self.setNeedsStatusBarAppearanceUpdate()
     }
 
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        if statusBarShouldLight {
-            return UIStatusBarStyle.LightContent
-        } else {
-            return UIStatusBarStyle.Default
-        }
-        
-    }
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
 
-    // MARK: Navigation
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
-        
-        if segue.identifier == "showSkillHome" {
-            noNeedToChangeStatusBar = true
-        } else {
-            noNeedToChangeStatusBar = false
-        }
-        
-        if segue.identifier == "showConversation" {
-            let vc = segue.destinationViewController as! ConversationViewController
-            vc.conversation = sender as! Conversation
-            
-        } else if segue.identifier == "showSkillHome" {
-            
-            if let skillInfo = sender as? [String: AnyObject] {
-                let vc = segue.destinationViewController as! SkillHomeViewController
-                vc.hidesBottomBarWhenPushed = true
+        statusBarShouldLight = true
 
-                if let preferedSkillSet = skillInfo["preferedSkillSet"] as? Int {
-                    vc.preferedSkillSet = SkillSet(rawValue: preferedSkillSet)
-                }
-
-                vc.skill = skillInfo["skill"] as? SkillCell.Skill
-
-                vc.afterUpdatedSkillCoverAction = { [weak self] in
-                    self?.updateProfileCollectionView()
-                }
-            }
-
-        } else if segue.identifier == "showEditSkills" {
-
-            if let skillInfo = sender as? [String: AnyObject] {
-
-                let vc = segue.destinationViewController as! EditSkillsViewController
-
-                if let skillSet = skillInfo["skillSet"] as? Int {
-                    vc.skillSet = SkillSet(rawValue: skillSet)
-                }
-
-                vc.afterChangedSkillsAction = { [weak self] in
-                    self?.updateProfileCollectionView()
-                }
-            }
-
-        } else if segue.identifier == "presentOAuth" {
-            if let providerName = sender as? String {
-                let nvc = segue.destinationViewController as! UINavigationController
-                let vc = nvc.topViewController as! OAuthViewController
-                vc.socialAccount = SocialAccount(rawValue: providerName)
-
-                vc.afterOAuthAction = { [weak self] socialAccount in
-                    // 更新自己的 provider enabled 状态
-                    let providerName = socialAccount.rawValue
-
-                    let realm = Realm()
-
-                    if let
-                        myUserID = YepUserDefaults.userID.value,
-                        me = userWithUserID(myUserID, inRealm: realm) {
-
-                            for socialAccountProvider in me.socialAccountProviders {
-                                if socialAccountProvider.name == providerName {
-                                    realm.write {
-                                        socialAccountProvider.enabled = true
-                                    }
-
-                                    break
-                                }
-                            }
-
-                            dispatch_async(dispatch_get_main_queue()) {
-                                self?.updateProfileCollectionView()
-                            }
-
-                    }
-                }
-            }
-
-        } else if segue.identifier == "showSocialWorkGithub" {
-            if let providerName = sender as? String {
-                let vc = segue.destinationViewController as! SocialWorkGithubViewController
-                vc.socialAccount = SocialAccount(rawValue: providerName)
-                vc.profileUser = profileUser
-                vc.githubWork = githubWork
-
-                vc.afterGetGithubWork = { githubWork in
-                    self.githubWork = githubWork
-                }
-            }
-
-        } else if segue.identifier == "showSocialWorkDribbble" {
-            if let providerName = sender as? String {
-                let vc = segue.destinationViewController as! SocialWorkDribbbleViewController
-                vc.socialAccount = SocialAccount(rawValue: providerName)
-                vc.profileUser = profileUser
-                vc.dribbbleWork = dribbbleWork
-
-                vc.afterGetDribbbleWork = { dribbbleWork in
-                    self.dribbbleWork = dribbbleWork
-                }
-            }
-
-        } else if segue.identifier == "showSocialWorkInstagram" {
-            if let providerName = sender as? String {
-                let vc = segue.destinationViewController as! SocialWorkInstagramViewController
-                vc.socialAccount = SocialAccount(rawValue: providerName)
-                vc.profileUser = profileUser
-                vc.instagramWork = instagramWork
-
-                vc.afterGetInstagramWork = { instagramWork in
-                    self.instagramWork = instagramWork
-                }
-            }
-        }
+        self.setNeedsStatusBarAppearanceUpdate()
     }
 
     // MARK: Actions
+
+    func pickSkills() {
+
+        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
+        let pickSkillsController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickSkillsViewController") as! RegisterPickSkillsViewController
+
+        pickSkillsController.isRegister = false
+        pickSkillsController.masterSkills = self.masterSkills
+        pickSkillsController.learningSkills = self.learningSkills
+
+        pickSkillsController.afterChangeSkillsAction = { masterSkills, learningSkills in
+            self.masterSkills = masterSkills
+            self.learningSkills = learningSkills
+
+            dispatch_async(dispatch_get_main_queue()) {
+                self.updateProfileCollectionView()
+            }
+        }
+
+        self.navigationController?.pushViewController(pickSkillsController, animated: true)
+    }
+
+    func showSettings() {
+        self.performSegueWithIdentifier("showSettings", sender: self)
+    }
 
     func setBackButtonWithTitle() {
         let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBack")
@@ -794,6 +705,124 @@ class ProfileViewController: UIViewController {
     }
     */
 
+    // MARK: Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        
+        if segue.identifier == "showSkillHome" {
+            noNeedToChangeStatusBar = true
+        } else {
+            noNeedToChangeStatusBar = false
+        }
+        
+        if segue.identifier == "showConversation" {
+            let vc = segue.destinationViewController as! ConversationViewController
+            vc.conversation = sender as! Conversation
+            
+        } else if segue.identifier == "showSkillHome" {
+            
+            if let skillInfo = sender as? [String: AnyObject] {
+                let vc = segue.destinationViewController as! SkillHomeViewController
+                vc.hidesBottomBarWhenPushed = true
+
+                if let preferedSkillSet = skillInfo["preferedSkillSet"] as? Int {
+                    vc.preferedSkillSet = SkillSet(rawValue: preferedSkillSet)
+                }
+
+                vc.skill = skillInfo["skill"] as? SkillCell.Skill
+
+                vc.afterUpdatedSkillCoverAction = { [weak self] in
+                    self?.updateProfileCollectionView()
+                }
+            }
+
+        } else if segue.identifier == "showEditSkills" {
+
+            if let skillInfo = sender as? [String: AnyObject] {
+
+                let vc = segue.destinationViewController as! EditSkillsViewController
+
+                if let skillSet = skillInfo["skillSet"] as? Int {
+                    vc.skillSet = SkillSet(rawValue: skillSet)
+                }
+
+                vc.afterChangedSkillsAction = { [weak self] in
+                    self?.updateProfileCollectionView()
+                }
+            }
+
+        } else if segue.identifier == "presentOAuth" {
+            if let providerName = sender as? String {
+                let nvc = segue.destinationViewController as! UINavigationController
+                let vc = nvc.topViewController as! OAuthViewController
+                vc.socialAccount = SocialAccount(rawValue: providerName)
+
+                vc.afterOAuthAction = { [weak self] socialAccount in
+                    // 更新自己的 provider enabled 状态
+                    let providerName = socialAccount.rawValue
+
+                    let realm = Realm()
+
+                    if let
+                        myUserID = YepUserDefaults.userID.value,
+                        me = userWithUserID(myUserID, inRealm: realm) {
+
+                            for socialAccountProvider in me.socialAccountProviders {
+                                if socialAccountProvider.name == providerName {
+                                    realm.write {
+                                        socialAccountProvider.enabled = true
+                                    }
+
+                                    break
+                                }
+                            }
+
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self?.updateProfileCollectionView()
+                            }
+
+                    }
+                }
+            }
+
+        } else if segue.identifier == "showSocialWorkGithub" {
+            if let providerName = sender as? String {
+                let vc = segue.destinationViewController as! SocialWorkGithubViewController
+                vc.socialAccount = SocialAccount(rawValue: providerName)
+                vc.profileUser = profileUser
+                vc.githubWork = githubWork
+
+                vc.afterGetGithubWork = { githubWork in
+                    self.githubWork = githubWork
+                }
+            }
+
+        } else if segue.identifier == "showSocialWorkDribbble" {
+            if let providerName = sender as? String {
+                let vc = segue.destinationViewController as! SocialWorkDribbbleViewController
+                vc.socialAccount = SocialAccount(rawValue: providerName)
+                vc.profileUser = profileUser
+                vc.dribbbleWork = dribbbleWork
+
+                vc.afterGetDribbbleWork = { dribbbleWork in
+                    self.dribbbleWork = dribbbleWork
+                }
+            }
+
+        } else if segue.identifier == "showSocialWorkInstagram" {
+            if let providerName = sender as? String {
+                let vc = segue.destinationViewController as! SocialWorkInstagramViewController
+                vc.socialAccount = SocialAccount(rawValue: providerName)
+                vc.profileUser = profileUser
+                vc.instagramWork = instagramWork
+
+                vc.afterGetInstagramWork = { instagramWork in
+                    self.instagramWork = instagramWork
+                }
+            }
+        }
+    }
 }
 
 // MARK: UICollectionView

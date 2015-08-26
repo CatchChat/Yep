@@ -190,7 +190,6 @@ class ConversationsViewController: UIViewController {
     // MARK: Actions
 
     func reloadConversationsTableView() {
-//        println("reloadConversationsTableView")
         dispatch_async(dispatch_get_main_queue()) {
             self.conversationsTableView.reloadData()
         }
@@ -200,7 +199,7 @@ class ConversationsViewController: UIViewController {
 // MARK: - UITableViewDataSource, UITableViewDelegat
 
 extension ConversationsViewController: UITableViewDataSource, UITableViewDelegate {
-    
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return conversations.count
     }
