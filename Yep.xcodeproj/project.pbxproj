@@ -45,6 +45,7 @@
 		0AEB1CC21B0E69B500178C9C /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEB1CC11B0E69B500178C9C /* Fabric.framework */; };
 		0AEB1CC41B0E6A4B00178C9C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEB1CC31B0E6A4B00178C9C /* Crashlytics.framework */; };
 		0AEB1CC61B0E742400178C9C /* Double+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB1CC51B0E742400178C9C /* Double+Yep.swift */; };
+		5008A1931B8DB8B500E94274 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5008A1951B8DB8B500E94274 /* Localizable.strings */; };
 		500A0B1C1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */; };
 		500A0B1F1B451A6F00D49358 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1E1B451A6F00D49358 /* BadgeView.swift */; };
 		501560D71B427FD6000933F0 /* Results+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501560D61B427FD6000933F0 /* Results+Yep.swift */; };
@@ -294,6 +295,8 @@
 		0AEB1CC31B0E6A4B00178C9C /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		0AEB1CC51B0E742400178C9C /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
 		4EEAF88E6C6D61E595249DF5 /* Pods-Yep.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yep.release.xcconfig"; path = "Pods/Target Support Files/Pods-Yep/Pods-Yep.release.xcconfig"; sourceTree = "<group>"; };
+		5008A1941B8DB8B500E94274 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5008A1961B8DB8E100E94274 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditNicknameAndBadgeViewController.swift; path = ViewControllers/EditNicknameAndBadge/EditNicknameAndBadgeViewController.swift; sourceTree = "<group>"; };
 		500A0B1E1B451A6F00D49358 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgeView.swift; path = Views/Badge/BadgeView.swift; sourceTree = "<group>"; };
 		501560D61B427FD6000933F0 /* Results+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Results+Yep.swift"; path = "Extensions/Results+Yep.swift"; sourceTree = "<group>"; };
@@ -604,6 +607,7 @@
 				84385C451B8594E80071130D /* Show.xcassets */,
 				0A8F54B91AB67D11004AD60E /* LaunchScreen.xib */,
 				0A8F54AE1AB67D11004AD60E /* Supporting Files */,
+				5008A1951B8DB8B500E94274 /* Localizable.strings */,
 			);
 			path = Yep;
 			sourceTree = "<group>";
@@ -1721,6 +1725,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 0A8F54A21AB67D11004AD60E;
 			productRefGroup = 0A8F54AC1AB67D11004AD60E /* Products */;
@@ -1755,6 +1760,7 @@
 				0A90187F1B01152800AE4B7F /* ProfileSocialAccountCell.xib in Resources */,
 				5064F6551B0B0E160089FAD4 /* AddFriendSearchCell.xib in Resources */,
 				508F8FC91B0161EF00461B0B /* ProfileSeparationLineCell.xib in Resources */,
+				5008A1931B8DB8B500E94274 /* Localizable.strings in Resources */,
 				50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */,
 				6ADDB4501B848C600012877A /* 1Password.xcassets in Resources */,
 				508D17481ACCF4710092D666 /* ChatLeftAudioCell.xib in Resources */,
@@ -2063,6 +2069,15 @@
 				0A8F54BA1AB67D11004AD60E /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		5008A1951B8DB8B500E94274 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5008A1941B8DB8B500E94274 /* en */,
+				5008A1961B8DB8E100E94274 /* zh-Hans */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		502AE5171AB70D72005BD199 /* Intro.storyboard */ = {

@@ -52,6 +52,8 @@ class DiscoverViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = NSLocalizedString("Discover", comment: "")
+
         view.backgroundColor = UIColor.whiteColor()
 
         discoverTableView.separatorColor = UIColor.yepCellSeparatorColor()

@@ -22,6 +22,20 @@ class YepTabBarController: UITabBarController {
 //                item.title = nil
 //            }
 //        }
-    }
 
+        if let items = tabBar.items as? [UITabBarItem] {
+
+            let titles = [
+                NSLocalizedString("Chats", comment: ""),
+                NSLocalizedString("Contacts", comment: ""),
+                NSLocalizedString("Discover", comment: ""),
+                NSLocalizedString("Profile", comment: ""),
+            ]
+
+            for i in 0..<items.count {
+                let item = items[i]
+                item.title = titles[i]
+            }
+        }
+    }
 }

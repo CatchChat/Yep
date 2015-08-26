@@ -41,6 +41,8 @@ class ContactsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = NSLocalizedString("Contacts", comment: "")
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "syncFriendships", name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
 
         coverUnderStatusBarView.hidden = true
@@ -58,6 +60,7 @@ class ContactsViewController: BaseViewController {
             searchController.searchBar.backgroundColor = UIColor.whiteColor()
             searchController.searchBar.barTintColor = UIColor.whiteColor()
             searchController.searchBar.searchBarStyle = .Minimal
+            searchController.searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
             searchController.searchBar.sizeToFit()
 
             searchController.searchBar.delegate = self

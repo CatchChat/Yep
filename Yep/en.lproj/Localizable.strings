@@ -1,0 +1,524 @@
+/* 
+  Localizable.strings
+  Yep
+
+  Created by nixzhu on 15/8/26.
+  Copyright (c) 2015年 Catch Inc. All rights reserved.
+*/
+
+/* 正在 */
+" is " = " is ";
+
+/* No comment provided by engineer. */
+"[Audio]" = "[Audio]";
+
+/* No comment provided by engineer. */
+"[Image]" = "[Image]";
+
+/* No comment provided by engineer. */
+"[Location]" = "[Location]";
+
+/* No comment provided by engineer. */
+"[Video]" = "[Video]";
+
+/* No comment provided by engineer. */
+"About" = "About";
+
+/* No comment provided by engineer. */
+"Accept" = "Accept";
+
+/* No comment provided by engineer. */
+"Accept Friend Request failed!" = "Accept Friend Request failed!";
+
+/* No comment provided by engineer. */
+"Action" = "Action";
+
+/* No comment provided by engineer. */
+"Add" = "Add";
+
+/* No comment provided by engineer. */
+"Add Friends" = "Add Friends";
+
+/* No comment provided by engineer. */
+"Add Skills" = "Add Skills";
+
+/* No comment provided by engineer. */
+"Advertising" = "Advertising";
+
+/* No comment provided by engineer. */
+"Available Friends" = "Available Friends";
+
+/* No comment provided by engineer. */
+"Avatar" = "Avatar";
+
+/* No comment provided by engineer. */
+"Back" = "Back";
+
+/* No comment provided by engineer. */
+"Begin chat just now" = "Begin chat just now";
+
+/* No comment provided by engineer. */
+"Block" = "Block";
+
+/* No comment provided by engineer. */
+"Blocked Users" = "Blocked Users";
+
+/* No comment provided by engineer. */
+"Build world together" = "Build world together";
+
+/* No comment provided by engineer. */
+"Call me" = "Call me";
+
+/* No comment provided by engineer. */
+"Calling" = "Calling";
+
+/* No comment provided by engineer. */
+"Cancel" = "Cancel";
+
+/* No comment provided by engineer. */
+"Catch Inc." = "Catch Inc.";
+
+/* No comment provided by engineer. */
+"Change it now" = "Change it now";
+
+/* No comment provided by engineer. */
+"Change skill cover" = "Change skill cover";
+
+/* No comment provided by engineer. */
+"Change Skills" = "Change Skills";
+
+"Chats" = "Chats";
+
+/* No comment provided by engineer. */
+"Choose Photo" = "Choose Photo";
+
+/* No comment provided by engineer. */
+"Choose photo" = "Choose photo";
+
+/* No comment provided by engineer. */
+"Clear history" = "Clear history";
+
+"Contacts" = "Contacts";
+
+/* No comment provided by engineer. */
+"Copy" = "Copy";
+
+/* No comment provided by engineer. */
+"Default" = "Default";
+
+/* No comment provided by engineer. */
+"Delete" = "Delete";
+
+/* No comment provided by engineer. */
+"Didn't get it?" = "Didn't get it?";
+
+/* No comment provided by engineer. */
+"Disable Do Not Disturb failed!" = "Disable Do Not Disturb failed!";
+
+"Discover" = "Discover";
+
+/* No comment provided by engineer. */
+"Discover them around you" = "Discover them around you";
+
+/* No comment provided by engineer. */
+"Dismiss" = "Dismiss";
+
+/* No comment provided by engineer. */
+"Do not disturb" = "Do not disturb";
+
+/* No comment provided by engineer. */
+"Do Not Disturb" = "Do Not Disturb";
+
+/* No comment provided by engineer. */
+"Do you want to logout?" = "Do you want to logout?";
+
+/* No comment provided by engineer. */
+"Do you want to reject this friend request?" = "Do you want to reject this friend request?";
+
+/* No comment provided by engineer. */
+"Done" = "Done";
+
+/* No comment provided by engineer. */
+"Edit Profile" = "Edit Profile";
+
+/* No comment provided by engineer. */
+"Enable Do Not Disturb failed!" = "Enable Do Not Disturb failed!";
+
+/* No comment provided by engineer. */
+"Face to Face" = "Face to Face";
+
+/* No comment provided by engineer. */
+"Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet." = "Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet.";
+
+/* No comment provided by engineer. */
+"Failed to resend image!\nPlease make sure your iPhone is connected to the Internet." = "Failed to resend image!\nPlease make sure your iPhone is connected to the Internet.";
+
+/* No comment provided by engineer. */
+"Failed to resend location!\nPlease make sure your iPhone is connected to the Internet." = "Failed to resend location!\nPlease make sure your iPhone is connected to the Internet.";
+
+/* No comment provided by engineer. */
+"Failed to resend text!\nPlease make sure your iPhone is connected to the Internet." = "Failed to resend text!\nPlease make sure your iPhone is connected to the Internet.";
+
+/* No comment provided by engineer. */
+"Failed to resend video!\nPlease make sure your iPhone is connected to the Internet." = "Failed to resend video!\nPlease make sure your iPhone is connected to the Internet.";
+
+/* No comment provided by engineer. */
+"Failed to send audio!\nTry tap on message to resend." = "Failed to send audio!\nTry tap on message to resend.";
+
+/* No comment provided by engineer. */
+"Failed to send image!\nTry tap on message to resend." = "Failed to send image!\nTry tap on message to resend.";
+
+/* No comment provided by engineer. */
+"Failed to send location!\nTry tap on message to resend." = "Failed to send location!\nTry tap on message to resend.";
+
+/* No comment provided by engineer. */
+"Failed to send text!\nTry tap on message to resend." = "Failed to send text!\nTry tap on message to resend.";
+
+/* No comment provided by engineer. */
+"Failed to send verification code!" = "Failed to send verification code!";
+
+/* No comment provided by engineer. */
+"Failed to send video!\nTry tap on message to resend." = "Failed to send video!\nTry tap on message to resend.";
+
+/* No comment provided by engineer. */
+"Feedback" = "Feedback";
+
+/* No comment provided by engineer. */
+"Friends in Contacts" = "Friends in Contacts";
+
+/* No comment provided by engineer. */
+"From" = "From";
+
+/* No comment provided by engineer. */
+"Genius" = "Genius";
+
+/* No comment provided by engineer. */
+"Get Started" = "Get Started";
+
+/* No comment provided by engineer. */
+"Grow together" = "Grow together";
+
+/* No comment provided by engineer. */
+"Hold for Voice" = "Hold for Voice";
+
+/* No comment provided by engineer. */
+"Input verification code send to" = "Input verification code send to";
+
+/* No comment provided by engineer. */
+"Introduce yourself here." = "Introduce yourself here.";
+
+/* No comment provided by engineer. */
+"Introduction" = "Introduction";
+
+/* No comment provided by engineer. */
+"is not your friend." = "is not your friend.";
+
+/* No comment provided by engineer. */
+"Last seen " = "Last seen ";
+
+/* No comment provided by engineer. */
+"Learning" = "Learning";
+
+/* No comment provided by engineer. */
+"Log out" = "Log out";
+
+/* No comment provided by engineer. */
+"Login" = "Login";
+
+/* No comment provided by engineer. */
+"Master" = "Master";
+
+/* No comment provided by engineer. */
+"Match" = "Match";
+
+/* No comment provided by engineer. */
+"Match friends with your skills" = "Match friends with your skills";
+
+/* No comment provided by engineer. */
+"Meet" = "Meet";
+
+/* No comment provided by engineer. */
+"Mute" = "Mute";
+
+/* No comment provided by engineer. */
+"My Current Location" = "My Current Location";
+
+/* No comment provided by engineer. */
+"Nearby" = "Nearby";
+
+/* No comment provided by engineer. */
+"Netword Error: Faild to get blocked users!" = "Netword Error: Faild to get blocked users!";
+
+/* No comment provided by engineer. */
+"Network error!" = "Network error!";
+
+/* No comment provided by engineer. */
+"Next" = "Next";
+
+/* No comment provided by engineer. */
+"Nickname" = "Nickname";
+
+/* No comment provided by engineer. */
+"No blocked users." = "No blocked users.";
+
+/* No comment provided by engineer. */
+"No Introduction yet." = "No Introduction yet.";
+
+/* No comment provided by engineer. */
+"No messages yet." = "No messages yet.";
+
+/* No comment provided by engineer. */
+"No more new friends." = "No more new friends.";
+
+/* No comment provided by engineer. */
+"No now" = "No now";
+
+/* No comment provided by engineer. */
+"No search results." = "No search results.";
+
+/* No comment provided by engineer. */
+"None" = "None";
+
+/* No comment provided by engineer. */
+"Notice" = "Notice";
+
+/* No comment provided by engineer. */
+"Notifications & Privacy" = "Notifications & Privacy";
+
+/* No comment provided by engineer. */
+"OAuth" = "OAuth";
+
+/* No comment provided by engineer. */
+"OAuth Error" = "OAuth Error";
+
+/* No comment provided by engineer. */
+"OK" = "OK";
+
+/* No comment provided by engineer. */
+"Other" = "Other";
+
+/* No comment provided by engineer. */
+"Other Reason" = "Other Reason";
+
+/* No comment provided by engineer. */
+"Pick a badge" = "Pick a badge";
+
+/* No comment provided by engineer. */
+"Pick some skills" = "Pick some skills";
+
+/* No comment provided by engineer. */
+"Picked Location" = "Picked Location";
+
+/* No comment provided by engineer. */
+"Please wait while the audio is not dready!" = "Please wait while the audio is not dready!";
+
+/* No comment provided by engineer. */
+"Please wait while the image is not dready!" = "Please wait while the image is not dready!";
+
+/* No comment provided by engineer. */
+"Please wait while the video is not dready!" = "Please wait while the video is not dready!";
+
+/* No comment provided by engineer. */
+"Popular in " = "Popular in ";
+
+/* No comment provided by engineer. */
+"Porno" = "Porno";
+
+/* No comment provided by engineer. */
+"Preview" = "Preview";
+
+"Profile" = "Profile";
+
+/* No comment provided by engineer. */
+"recording" = "recording";
+
+/* No comment provided by engineer. */
+"Reject" = "Reject";
+
+/* No comment provided by engineer. */
+"Reject Friend Request failed!" = "Reject Friend Request failed!";
+
+/* No comment provided by engineer. */
+"reject your last friend request." = "reject your last friend request.";
+
+/* No comment provided by engineer. */
+"Release to Cancel" = "Release to Cancel";
+
+/* No comment provided by engineer. */
+"Relogin" = "Relogin";
+
+/* No comment provided by engineer. */
+"Report" = "Report";
+
+/* No comment provided by engineer. */
+"Report Reason" = "Report Reason";
+
+/* No comment provided by engineer. */
+"Report recorded!" = "Report recorded!";
+
+/* No comment provided by engineer. */
+"Resend" = "Resend";
+
+/* No comment provided by engineer. */
+"Resend audio?" = "Resend audio?";
+
+/* No comment provided by engineer. */
+"Resend image?" = "Resend image?";
+
+/* No comment provided by engineer. */
+"Resend location?" = "Resend location?";
+
+/* No comment provided by engineer. */
+"Resend text?" = "Resend text?";
+
+/* No comment provided by engineer. */
+"Resend video?" = "Resend video?";
+
+/* No comment provided by engineer. */
+"Say Hi" = "Say Hi";
+
+/* No comment provided by engineer. */
+"Scams" = "Scams";
+
+/* No comment provided by engineer. */
+"Search" = "Search";
+
+"Search Friend" = "Search Friend";
+
+"Search User" = "Search User";
+
+/* No comment provided by engineer. */
+"Send" = "Send";
+
+/* No comment provided by engineer. */
+"Send Friend Request failed!" = "Send Friend Request failed!";
+
+/* No comment provided by engineer. */
+"Set an avatar" = "Set an avatar";
+
+/* No comment provided by engineer. */
+"Set badge failed!" = "Set badge failed!";
+
+/* No comment provided by engineer. */
+"Set Do Not Disturb failed!" = "Set Do Not Disturb failed!";
+
+/* No comment provided by engineer. */
+"Settings" = "Settings";
+
+/* No comment provided by engineer. */
+"Share location" = "Share location";
+
+/* No comment provided by engineer. */
+"Sign up" = "Sign up";
+
+/* No comment provided by engineer. */
+"Sign Up" = "Sign Up";
+
+/* No comment provided by engineer. */
+"Sorry" = "Sorry";
+
+/* No comment provided by engineer. */
+"Success" = "Success";
+
+/* No comment provided by engineer. */
+"Swipe Up to Cancel" = "Swipe Up to Cancel";
+
+/* No comment provided by engineer. */
+"Take Photo" = "Take Photo";
+
+/* No comment provided by engineer. */
+"Take photo" = "Take photo";
+
+/* No comment provided by engineer. */
+"Thanks! Your feedback has been recorded!" = "Thanks! Your feedback has been recorded!";
+
+/* No comment provided by engineer. */
+"This skill already in another learning skills set!" = "This skill already in another learning skills set!";
+
+/* No comment provided by engineer. */
+"This skill already in another master skills set!" = "This skill already in another master skills set!";
+
+/* No comment provided by engineer. */
+"Time" = "Time";
+
+/* No comment provided by engineer. */
+"To" = "To";
+
+/* No comment provided by engineer. */
+"try add you as friend." = "try add you as friend.";
+
+/* No comment provided by engineer. */
+"typing" = "typing";
+
+/* No comment provided by engineer. */
+"Unblock" = "Unblock";
+
+/* No comment provided by engineer. */
+"Update nickname failed!" = "Update nickname failed!";
+
+/* No comment provided by engineer. */
+"Update skill cover failed!" = "Update skill cover failed!";
+
+/* No comment provided by engineer. */
+"Upload skill cover failed!" = "Upload skill cover failed!";
+
+/* No comment provided by engineer. */
+"User authentication error, you need to login again!" = "User authentication error, you need to login again!";
+
+/* No comment provided by engineer. */
+"View profile" = "View profile";
+
+/* No comment provided by engineer. */
+"Wait too long, the operation may not be completed." = "Wait too long, the operation may not be completed.";
+
+/* No comment provided by engineer. */
+"We read every feedback" = "We read every feedback";
+
+/* No comment provided by engineer. */
+"What are you good at?" = "What are you good at?";
+
+/* No comment provided by engineer. */
+"What are you learning?" = "What are you learning?";
+
+/* No comment provided by engineer. */
+"What's your name?" = "What's your name?";
+
+/* No comment provided by engineer. */
+"What's your number?" = "What's your number?";
+
+/* No comment provided by engineer. */
+"Yep" = "Yep";
+
+/* No comment provided by engineer. */
+"Yep can not access your Camera Roll!\nBut you can change it in iOS Settings." = "Yep can not access your Camera Roll!\nBut you can change it in iOS Settings.";
+
+/* No comment provided by engineer. */
+"Yep can not access your Microphone!\nBut you can change it in iOS Settings." = "Yep can not access your Microphone!\nBut you can change it in iOS Settings.";
+
+/* No comment provided by engineer. */
+"Yep can not get your Location!\nBut you can change it in iOS Settings." = "Yep can not get your Location!\nBut you can change it in iOS Settings.";
+
+/* No comment provided by engineer. */
+"Yep can not open your Camera!\nBut you can change it in iOS Settings." = "Yep can not open your Camera!\nBut you can change it in iOS Settings.";
+
+/* No comment provided by engineer. */
+"Yep can not read your Contacts!\nBut you can change it in iOS Settings." = "Yep can not read your Contacts!\nBut you can change it in iOS Settings.";
+
+/* No comment provided by engineer. */
+"Yep need to read your Contacts to continue this operation.\nIs that OK?" = "Yep need to read your Contacts to continue this operation.\nIs that OK?";
+
+/* No comment provided by engineer. */
+"Yes" = "Yes";
+
+/* No comment provided by engineer. */
+"You did not enter any nickname!" = "You did not enter any nickname!";
+
+/* No comment provided by engineer. */
+"You don't have any skills!\nWould you like to pick some?" = "You don't have any skills!\nWould you like to pick some?";
+
+/* No comment provided by engineer. */
+"You have been blocked by %@!" = "You have been blocked by %@!";
+
+/* No comment provided by engineer. */
+"You have blocked %@! Do you want to unblock him or her?" = "You have blocked %@! Do you want to unblock him or her?";
+
