@@ -222,8 +222,36 @@ class AvatarCache {
                     // 不用做事，等着具有同样 avatarURLString 的 avatarCompletion 帮忙完成
 
                 } else {
-                    // 再看看是否已下载
+
+                    // 再看看是否已有裁剪后的圆图
+
+                    if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()) {
+
+                        switch radius {
+                        case YepConfig.ConversationCell.avatarSize * 0.5:
+                            if avatar.roundMini.length > 0 {
+                                if let image = UIImage(data: avatar.roundMini) {
+                                    completeWithImage(image, avatarURLString: avatarURLString)
+                                    return
+                                }
+                            }
+                        case YepConfig.chatCellAvatarSize() * 0.5:
+                            if avatar.roundNano.length > 0 {
+                                if let image = UIImage(data: avatar.roundNano) {
+                                    completeWithImage(image, avatarURLString: avatarURLString)
+                                    return
+                                }
+                            }
+                        default:
+                            break
+                        }
+                    }
+                    
+                    // 只能原图出场
+
                     dispatch_async(self.cacheQueue) {
+
+                        // 再看看是否已下载
 
                         if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()) {
 
@@ -358,6 +386,8 @@ class AvatarCache {
                             break
                         }
                     }
+
+                    // 只能原图出场
 
                     let oldAvatarURLString = user.avatar?.avatarURLString
 
