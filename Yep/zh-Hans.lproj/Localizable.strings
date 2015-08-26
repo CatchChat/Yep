@@ -198,6 +198,8 @@
 /* No comment provided by engineer. */
 "Grow together" = "一起成长";
 
+"Meet with genius" = "Meet with genius";
+
 /* No comment provided by engineer. */
 "Hold for Voice" = "长按录制声音";
 
@@ -226,7 +228,7 @@
 "Login" = "登录";
 
 /* No comment provided by engineer. */
-"Master" = "已精通";
+"Master" = "擅长";
 
 /* No comment provided by engineer. */
 "Match" = "匹配";
