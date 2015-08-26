@@ -21,23 +21,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var isColdLaunch = true
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    private func realmConfig() -> Realm.Configuration {
 
         // 默认将 Realm 放在 App Group 里
 
         let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(YepConfig.appGroupID)!
         let realmPath = directory.path!.stringByAppendingPathComponent("db.realm")
-        Realm.defaultPath = realmPath
 
-        // Realm 版本迁移
-
-        setSchemaVersion(15, Realm.defaultPath, { migration, oldSchemaVersion in
-            // We haven’t migrated anything yet, so oldSchemaVersion == 0
-            if oldSchemaVersion < 1 {
-                // Nothing to do!
-                // Realm will automatically detect new properties and removed properties
-                // And will update the schema on disk automatically
-            }
+        return Realm.Configuration(path: realmPath, schemaVersion: 15, migrationBlock: { migration, oldSchemaVersion in
 
             if oldSchemaVersion < 9 {
                 migration.enumerate(Message.className()) { oldObject, newObject in
@@ -88,11 +79,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             if oldSchemaVersion < 15 {
             }
-
         })
+    }
+
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+
+        Realm.Configuration.defaultConfiguration = realmConfig()
 
         cacheInAdvance()
-
 
         delay(0.5, {
             Crashlytics.startWithAPIKey("3030ba006e21bcf8eb4a2127b6a7931ea6667486")
@@ -100,7 +94,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // 推送初始化
             APService.setupWithOption(launchOptions)
         })
-
         
         AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker,error: nil)
         
