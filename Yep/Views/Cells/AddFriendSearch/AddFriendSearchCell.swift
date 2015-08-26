@@ -14,7 +14,8 @@ class AddFriendSearchCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        searchTextField.placeholder = NSLocalizedString("Search User", comment: "")
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
