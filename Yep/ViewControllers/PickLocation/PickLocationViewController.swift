@@ -122,6 +122,7 @@ class PickLocationViewController: UIViewController {
             }
 
             if let placemarks = placemarks as? [CLPlacemark] {
+                
                 completion(placemarks)
 
             } else {
@@ -305,12 +306,19 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             let placemark = placemarks[indexPath.row]
 
             var text = ""
+            
             if let subLocality = placemark.subLocality {
                 text += subLocality
             }
+            
             if let thoroughfare = placemark.thoroughfare {
                 text += " " + thoroughfare
             }
+            
+            if let subThoroughfare = placemark.subThoroughfare {
+                text += " " + subThoroughfare
+            }
+            
             cell.locationLabel.text = text
 
             cell.checkImageView.hidden = true
