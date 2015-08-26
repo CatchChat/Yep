@@ -29,6 +29,9 @@ class Avatar: Object {
     dynamic var avatarURLString: String = ""
     dynamic var avatarFileName: String = ""
 
+    dynamic var roundMini: NSData = NSData() // 60
+    dynamic var roundNano: NSData = NSData() // 40
+
     var user: User? {
         let users = linkingObjects(User.self, forProperty: "avatar")
         return users.first
