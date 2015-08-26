@@ -87,6 +87,8 @@
 /* No comment provided by engineer. */
 "Change Skills" = "修改技能";
 
+"Chats" = "聊天";
+
 /* No comment provided by engineer. */
 "Choose Photo" = "选择照片";
 
@@ -96,7 +98,7 @@
 /* No comment provided by engineer. */
 "Clear history" = "清除历史纪录";
 
-"Contacts" ＝ "联系人"
+"Contacts" = "联系人";
 
 /* No comment provided by engineer. */
 "Copy" = "复制";
@@ -113,7 +115,7 @@
 /* No comment provided by engineer. */
 "Disable Do Not Disturb failed!" = "关闭“免打扰”失败！";
 
-"Discover" = "发现"
+"Discover" = "发现";
 
 /* No comment provided by engineer. */
 "Discover them around you" = "在周围发现他们";
@@ -324,6 +326,8 @@
 
 /* No comment provided by engineer. */
 "Preview" = "查看";
+
+"Profile" = "个人主页";
 
 /* No comment provided by engineer. */
 "recording" = "正在录音";

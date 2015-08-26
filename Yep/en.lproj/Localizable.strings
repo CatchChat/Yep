@@ -87,6 +87,8 @@
 /* No comment provided by engineer. */
 "Change Skills" = "Change Skills";
 
+"Chats" = "Chats";
+
 /* No comment provided by engineer. */
 "Choose Photo" = "Choose Photo";
 
@@ -96,7 +98,7 @@
 /* No comment provided by engineer. */
 "Clear history" = "Clear history";
 
-"Contacts" ＝ "Contacts"
+"Contacts" = "Contacts";
 
 /* No comment provided by engineer. */
 "Copy" = "Copy";
@@ -113,7 +115,7 @@
 /* No comment provided by engineer. */
 "Disable Do Not Disturb failed!" = "Disable Do Not Disturb failed!";
 
-"Discover" = "Discover"
+"Discover" = "Discover";
 
 /* No comment provided by engineer. */
 "Discover them around you" = "Discover them around you";
@@ -324,6 +326,8 @@
 
 /* No comment provided by engineer. */
 "Preview" = "Preview";
+
+"Profile" = "Profile";
 
 /* No comment provided by engineer. */
 "recording" = "recording";
