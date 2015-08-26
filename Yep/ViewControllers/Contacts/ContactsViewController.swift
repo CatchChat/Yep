@@ -60,6 +60,7 @@ class ContactsViewController: BaseViewController {
             searchController.searchBar.backgroundColor = UIColor.whiteColor()
             searchController.searchBar.barTintColor = UIColor.whiteColor()
             searchController.searchBar.searchBarStyle = .Minimal
+            searchController.searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
             searchController.searchBar.sizeToFit()
 
             searchController.searchBar.delegate = self
