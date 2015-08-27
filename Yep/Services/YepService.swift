@@ -2298,7 +2298,15 @@ func sendFeedback(feedback: Feedback, #failureHandler: ((Reason, String?) -> Voi
 
 // MARK: Places
 
-func foursquarePlacesNearby(location: CLLocation, #failureHandler: ((Reason, String?) -> Void)?, #completion: ((Bool, String)) -> Void) {
+struct FoursquareVenue {
+    let name: String
+
+    let latitude: CLLocationDegrees
+    let longitude: CLLocationDegrees
+}
+
+func foursquareVenuesNearby(location: CLLocation, #failureHandler: ((Reason, String?) -> Void)?, #completion: [FoursquareVenue] -> Void) {
+
     let requestParameters = [
         "client_id": "NFMF2UV2X5BCADG2T5FE3BIORDPEDJA5JZVDWF0XXAZUX2AS",
         "client_secret": "UOGE0SCBWHV2JFXD5AFAIHOVTUSBQ3ERH4ALHU3WU3BSR4CN",
@@ -2306,19 +2314,30 @@ func foursquarePlacesNearby(location: CLLocation, #failureHandler: ((Reason, Str
         "ll": "\(location.coordinate.latitude),\(location.coordinate.longitude)"
     ]
 
-    let parse: JSONDictionary -> (Bool, String)? = { data in
+    let parse: JSONDictionary -> [FoursquareVenue]? = { data in
         println("foursquarePlacesNearby: \(data)")
-        if let available = data["available"] as? Bool {
-            if available {
-                return (available, "")
-            } else {
-                if let message = data["message"] as? String {
-                    return (available, message)
+
+        if let
+            response = data["response"] as? JSONDictionary,
+            venuesData = response["venues"] as? [JSONDictionary] {
+
+                var venues = [FoursquareVenue]()
+
+                for venueInfo in venuesData {
+                    if let
+                        name = venueInfo["name"] as? String,
+                        locationInfo = venueInfo["location"] as? JSONDictionary,
+                        latitude = locationInfo["lat"] as? CLLocationDegrees,
+                        longitude = locationInfo["lng"] as? CLLocationDegrees {
+                            let venue = FoursquareVenue(name: name, latitude: latitude, longitude: longitude)
+                            venues.append(venue)
+                    }
                 }
-            }
+
+                return venues
         }
 
-        return (false, "")
+        return []
     }
 
     let resource = jsonResource(path: "/v2/venues/search", method: .GET, requestParameters: requestParameters, parse: parse)
