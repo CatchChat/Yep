@@ -155,7 +155,7 @@ extension PickLocationViewController: MKMapViewDelegate {
         }
 
         placemarksAroundLocation(userLocation.location) { placemarks in
-            self.placemarks = placemarks
+            self.placemarks = placemarks.filter({ $0.name != nil })
         }
     }
 
@@ -233,7 +233,7 @@ extension PickLocationViewController: UISearchBarDelegate {
             if error == nil {
                 if let mapItems = response.mapItems as? [MKMapItem] {
 
-                    self.searchedMapItems = mapItems
+                    self.searchedMapItems = mapItems.filter({ $0.placemark.name != nil })
 
                     self.mapView.removeAnnotations(self.searchedLocationPins)
 
@@ -305,10 +305,11 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             cell.iconImageView.hidden = true
             let placemark = placemarks[indexPath.row]
 
-            var text = ""
-            
+            var text = placemark.name ?? ""
+
+            /*
             if let subLocality = placemark.subLocality {
-                text += subLocality
+                text += " " + subLocality
             }
             
             if let thoroughfare = placemark.thoroughfare {
@@ -318,6 +319,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             if let subThoroughfare = placemark.subThoroughfare {
                 text += " " + subThoroughfare
             }
+            */
             
             cell.locationLabel.text = text
 
