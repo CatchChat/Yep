@@ -270,6 +270,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="cancelButton" destination="bgy-iS-1dN" id="5mY-8w-Ylk"/>
                         <outlet property="mapView" destination="N6L-U8-EFf" id="xfc-We-pFG"/>
                         <outlet property="searchBar" destination="yA1-aK-rWX" id="F1H-sd-VHF"/>
                         <outlet property="searchBarTopToSuperBottomConstraint" destination="eMX-4T-aMh" id="lYI-M0-98Y"/>

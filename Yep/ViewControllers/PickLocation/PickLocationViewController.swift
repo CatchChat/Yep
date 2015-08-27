@@ -16,6 +16,7 @@ class PickLocationViewController: UIViewController {
 
     var sendLocationAction: SendLocationAction?
 
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
     @IBOutlet weak var sendButton: UIBarButtonItem!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -64,6 +65,9 @@ class PickLocationViewController: UIViewController {
         super.viewDidLoad()
 
         title = NSLocalizedString("Pick Location", comment: "")
+
+        cancelButton.title = NSLocalizedString("Cancel", comment: "")
+        sendButton.title = NSLocalizedString("Send", comment: "")
 
         tableView.registerNib(UINib(nibName: pickLocationCellIdentifier, bundle: nil), forCellReuseIdentifier: pickLocationCellIdentifier)
         tableView.rowHeight = 50
