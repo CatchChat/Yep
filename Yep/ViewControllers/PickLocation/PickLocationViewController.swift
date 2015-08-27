@@ -69,6 +69,8 @@ class PickLocationViewController: UIViewController {
         cancelButton.title = NSLocalizedString("Cancel", comment: "")
         sendButton.title = NSLocalizedString("Send", comment: "")
 
+        searchBar.placeholder = NSLocalizedString("Search", comment: "")
+
         tableView.registerNib(UINib(nibName: pickLocationCellIdentifier, bundle: nil), forCellReuseIdentifier: pickLocationCellIdentifier)
         tableView.rowHeight = 50
 
