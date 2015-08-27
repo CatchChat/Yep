@@ -47,6 +47,11 @@ class PickLocationViewController: UIViewController {
 
     var foursquareVenues = [FoursquareVenue]() {
         didSet {
+            for venue in foursquareVenues {
+                let pin = UserPickedLocationPin(title: "Pin", subtitle: "Foursquare Venue", coordinate: venue.coordinate)
+                mapView.addAnnotation(pin)
+            }
+
             reloadTableView()
         }
     }
