@@ -24,6 +24,13 @@ class RegisterPickNameViewController: BaseViewController {
         return button
         }()
 
+    var isDirty = false {
+        willSet {
+            nextButton.enabled = newValue
+            promptTermsLabel.alpha = newValue ? 1.0 : 0.5
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -50,6 +57,7 @@ class RegisterPickNameViewController: BaseViewController {
 
         promptTermsLabel.attributedText = attributedText
         promptTermsLabel.textAlignment = .Center
+        promptTermsLabel.alpha = 0.5
 
         promptTermsLabel.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapTerms")
@@ -81,7 +89,7 @@ class RegisterPickNameViewController: BaseViewController {
     }
 
     func textFieldDidChange(textField: UITextField) {
-        nextButton.enabled = !textField.text.isEmpty
+        isDirty = !textField.text.isEmpty
     }
 
     func next(sender: UIBarButtonItem) {
@@ -106,3 +114,4 @@ extension RegisterPickNameViewController: UITextFieldDelegate {
         return true
     }
 }
+
