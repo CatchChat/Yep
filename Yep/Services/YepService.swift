@@ -77,7 +77,6 @@ func validateMobile(mobile: String, withAreaCode areaCode: String, #failureHandl
     } else {
         apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
     }
-
 }
 
 func registerMobile(mobile: String, withAreaCode areaCode: String, #nickname: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
@@ -2289,6 +2288,42 @@ func sendFeedback(feedback: Feedback, #failureHandler: ((Reason, String?) -> Voi
     }
 
     let resource = authJsonResource(path: "/api/v1/feedbacks", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+// MARK: Places
+
+func foursquarePlacesNearby(location: CLLocation, #failureHandler: ((Reason, String?) -> Void)?, #completion: ((Bool, String)) -> Void) {
+    let requestParameters = [
+        "client_id": "NFMF2UV2X5BCADG2T5FE3BIORDPEDJA5JZVDWF0XXAZUX2AS",
+        "client_secret": "UOGE0SCBWHV2JFXD5AFAIHOVTUSBQ3ERH4ALHU3WU3BSR4CN",
+        "v": "20150827",
+        "ll": "\(location.coordinate.latitude),\(location.coordinate.longitude)"
+    ]
+
+    let parse: JSONDictionary -> (Bool, String)? = { data in
+        println("foursquarePlacesNearby: \(data)")
+        if let available = data["available"] as? Bool {
+            if available {
+                return (available, "")
+            } else {
+                if let message = data["message"] as? String {
+                    return (available, message)
+                }
+            }
+        }
+
+        return (false, "")
+    }
+
+    let resource = jsonResource(path: "/v2/venues/search", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    let baseURL = NSURL(string: "https://api.foursquare.com")!
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)

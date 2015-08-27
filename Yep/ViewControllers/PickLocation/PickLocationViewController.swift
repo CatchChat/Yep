@@ -154,11 +154,15 @@ extension PickLocationViewController: MKMapViewDelegate {
             let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 2000, 2000)
             mapView.setRegion(region, animated: true)
 
-            searchPlacesByName("Coffee", needAppend: true)
+//            searchPlacesByName("Coffee", needAppend: true)
+//
+//            delay(1) { [weak self] in
+//                self?.searchPlacesByName("Bookstore", needAppend: true)
+//            }
 
-            delay(1) { [weak self] in
-                self?.searchPlacesByName("Bookstore", needAppend: true)
-            }
+            foursquarePlacesNearby(location, failureHandler: nil, completion: { _ in
+                
+            })
         }
 
         placemarksAroundLocation(userLocation.location) { placemarks in
