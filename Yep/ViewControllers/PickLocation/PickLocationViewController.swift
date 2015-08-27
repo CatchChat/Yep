@@ -152,6 +152,8 @@ extension PickLocationViewController: MKMapViewDelegate {
             let location = userLocation.location
             let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 2000, 2000)
             mapView.setRegion(region, animated: true)
+
+            searchPlacesByName("Coffee")
         }
 
         placemarksAroundLocation(userLocation.location) { placemarks in
@@ -220,10 +222,17 @@ extension PickLocationViewController: UISearchBarDelegate {
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        let text = searchBar.text
+        let name = searchBar.text
+
+        searchPlacesByName(name)
+
+        shrinkSearchLocationView()
+    }
+
+    private func searchPlacesByName(name: String) {
 
         let request = MKLocalSearchRequest()
-        request.naturalLanguageQuery = text
+        request.naturalLanguageQuery = name
 
         request.region = MKCoordinateRegionMakeWithDistance(mapView.userLocation.location.coordinate, 200000, 200000)
 
@@ -245,13 +254,11 @@ extension PickLocationViewController: UISearchBarDelegate {
 
                         searchedLocationPins.append(pin)
                     }
-
+                    
                     self.searchedLocationPins = searchedLocationPins
                 }
             }
         }
-
-        shrinkSearchLocationView()
     }
 }
 
@@ -306,7 +313,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             let placemark = placemarks[indexPath.row]
 
             let text = placemark.name ?? "🐌"
-            
+
             cell.locationLabel.text = text
 
             cell.checkImageView.hidden = true
