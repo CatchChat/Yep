@@ -2311,10 +2311,14 @@ struct FoursquareVenue {
 
 func foursquareVenuesNearby(location: CLLocation, #failureHandler: ((Reason, String?) -> Void)?, #completion: [FoursquareVenue] -> Void) {
 
+    let dateFormatter = NSDateFormatter()
+    dateFormatter.dateFormat = "yyyyMMdd"
+    let dateString = dateFormatter.stringFromDate(NSDate())
+
     let requestParameters = [
         "client_id": "NFMF2UV2X5BCADG2T5FE3BIORDPEDJA5JZVDWF0XXAZUX2AS",
         "client_secret": "UOGE0SCBWHV2JFXD5AFAIHOVTUSBQ3ERH4ALHU3WU3BSR4CN",
-        "v": "20150827",
+        "v": dateString,
         "ll": "\(location.coordinate.latitude),\(location.coordinate.longitude)"
     ]
 
