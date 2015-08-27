@@ -305,21 +305,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             cell.iconImageView.hidden = true
             let placemark = placemarks[indexPath.row]
 
-            var text = placemark.name ?? ""
-
-            /*
-            if let subLocality = placemark.subLocality {
-                text += " " + subLocality
-            }
-            
-            if let thoroughfare = placemark.thoroughfare {
-                text += " " + thoroughfare
-            }
-            
-            if let subThoroughfare = placemark.subThoroughfare {
-                text += " " + subThoroughfare
-            }
-            */
+            let text = placemark.name ?? "🐌"
             
             cell.locationLabel.text = text
 
