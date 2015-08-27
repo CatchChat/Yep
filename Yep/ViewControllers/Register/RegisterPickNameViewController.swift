@@ -14,6 +14,8 @@ class RegisterPickNameViewController: BaseViewController {
     @IBOutlet weak var pickNamePromptLabel: UILabel!
     @IBOutlet weak var pickNamePromptLabelTopConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var promptTermsLabel: UILabel!
+
     @IBOutlet weak var nameTextField: BorderTextField!
     @IBOutlet weak var nameTextFieldTopConstraint: NSLayoutConstraint!
     
@@ -33,6 +35,22 @@ class RegisterPickNameViewController: BaseViewController {
 
         pickNamePromptLabel.text = NSLocalizedString("What's your name?", comment: "")
 
+        let text = NSLocalizedString("By tap Next you agree to our terms.", comment: "")
+        let textAttributes: [NSObject: AnyObject] = [
+            NSFontAttributeName: UIFont.systemFontOfSize(14),
+            NSForegroundColorAttributeName: UIColor.grayColor(),
+        ]
+        var attributedText = NSMutableAttributedString(string: text, attributes: textAttributes)
+        let termsAttributes: [NSObject: AnyObject] = [
+            NSForegroundColorAttributeName: UIColor.yepTintColor(),
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
+        ]
+        let tapRange = (text as NSString).rangeOfString(NSLocalizedString("terms", comment: ""))
+        attributedText.addAttributes(termsAttributes, range: tapRange)
+
+        promptTermsLabel.attributedText = attributedText
+        promptTermsLabel.textAlignment = .Center
+
         nameTextField.delegate = self
         nameTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
@@ -49,7 +67,7 @@ class RegisterPickNameViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        nameTextField.becomeFirstResponder()
+        //nameTextField.becomeFirstResponder()
     }
 
     // MARK: Actions

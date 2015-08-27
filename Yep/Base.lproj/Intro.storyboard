@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -113,7 +113,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What's your name?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pw6-yh-kid">
-                                <rect key="frame" x="223" y="124" width="154" height="21"/>
+                                <rect key="frame" x="223" y="124" width="153.5" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
                                 <nil key="highlightedColor"/>
@@ -128,14 +128,34 @@
                                 <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eh0-A8-PR5">
+                                <rect key="frame" x="0.0" y="145" width="600" height="50"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By tap Next you agree to our terms." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5A-MY-QLR">
+                                        <rect key="frame" x="163" y="14" width="274" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="h5A-MY-QLR" secondAttribute="centerY" id="twk-Oz-6CQ"/>
+                                    <constraint firstAttribute="centerX" secondItem="h5A-MY-QLR" secondAttribute="centerX" id="xeW-Fb-QfO"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="XiO-W9-kya" firstAttribute="top" secondItem="Eh0-A8-PR5" secondAttribute="bottom" id="4Dl-ma-kfS"/>
+                            <constraint firstItem="Eh0-A8-PR5" firstAttribute="leading" secondItem="eKx-gr-CiN" secondAttribute="leading" id="DQV-J8-RhO"/>
                             <constraint firstItem="XiO-W9-kya" firstAttribute="top" secondItem="Pw6-yh-kid" secondAttribute="bottom" constant="50" id="Dcj-Qh-qTh"/>
                             <constraint firstItem="Pw6-yh-kid" firstAttribute="top" secondItem="858-DQ-gir" secondAttribute="bottom" constant="60" id="RJx-dt-P2H"/>
                             <constraint firstAttribute="centerX" secondItem="Pw6-yh-kid" secondAttribute="centerX" id="TDv-6e-cOk"/>
+                            <constraint firstItem="Eh0-A8-PR5" firstAttribute="top" secondItem="Pw6-yh-kid" secondAttribute="bottom" id="VTI-fd-CTR"/>
                             <constraint firstItem="XiO-W9-kya" firstAttribute="leading" secondItem="eKx-gr-CiN" secondAttribute="leading" id="WDa-TI-Mow"/>
+                            <constraint firstAttribute="trailing" secondItem="Eh0-A8-PR5" secondAttribute="trailing" id="kmV-h8-4Cj"/>
                             <constraint firstAttribute="trailing" secondItem="XiO-W9-kya" secondAttribute="trailing" id="uHk-Aw-inf"/>
                         </constraints>
                     </view>
@@ -144,6 +164,7 @@
                         <outlet property="nameTextFieldTopConstraint" destination="Dcj-Qh-qTh" id="fl7-xd-prE"/>
                         <outlet property="pickNamePromptLabel" destination="Pw6-yh-kid" id="Qcq-Q7-euR"/>
                         <outlet property="pickNamePromptLabelTopConstraint" destination="RJx-dt-P2H" id="MbW-vC-xD0"/>
+                        <outlet property="promptTermsLabel" destination="h5A-MY-QLR" id="y3O-ph-nRC"/>
                         <segue destination="047-MJ-GYQ" kind="show" identifier="showRegisterPickMobile" id="Geb-Ph-Xb5"/>
                     </connections>
                 </viewController>
