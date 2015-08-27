@@ -402,7 +402,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
         }
 
         if let pickedLocationCoordinate = pickedLocationCoordinate {
-            let region = MKCoordinateRegionMakeWithDistance(pickedLocationCoordinate, 1000, 1000)
+            let region = MKCoordinateRegionMakeWithDistance(pickedLocationCoordinate, 200, 200)
             mapView.setRegion(region, animated: true)
         }
 
