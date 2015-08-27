@@ -63,6 +63,8 @@ class PickLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = NSLocalizedString("Pick Location", comment: "")
+
         tableView.registerNib(UINib(nibName: pickLocationCellIdentifier, bundle: nil), forCellReuseIdentifier: pickLocationCellIdentifier)
         tableView.rowHeight = 50
 
