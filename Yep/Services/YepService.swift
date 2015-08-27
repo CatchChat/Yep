@@ -77,7 +77,6 @@ func validateMobile(mobile: String, withAreaCode areaCode: String, #failureHandl
     } else {
         apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
     }
-
 }
 
 func registerMobile(mobile: String, withAreaCode areaCode: String, #nickname: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
@@ -2289,6 +2288,69 @@ func sendFeedback(feedback: Feedback, #failureHandler: ((Reason, String?) -> Voi
     }
 
     let resource = authJsonResource(path: "/api/v1/feedbacks", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
+// MARK: Places
+
+struct FoursquareVenue {
+    let name: String
+
+    let latitude: CLLocationDegrees
+    let longitude: CLLocationDegrees
+
+    var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+}
+
+func foursquareVenuesNearby(location: CLLocation, #failureHandler: ((Reason, String?) -> Void)?, #completion: [FoursquareVenue] -> Void) {
+
+    let dateFormatter = NSDateFormatter()
+    dateFormatter.dateFormat = "yyyyMMdd"
+    let dateString = dateFormatter.stringFromDate(NSDate())
+
+    let requestParameters = [
+        "client_id": "NFMF2UV2X5BCADG2T5FE3BIORDPEDJA5JZVDWF0XXAZUX2AS",
+        "client_secret": "UOGE0SCBWHV2JFXD5AFAIHOVTUSBQ3ERH4ALHU3WU3BSR4CN",
+        "v": dateString,
+        "ll": "\(location.coordinate.latitude),\(location.coordinate.longitude)"
+    ]
+
+    let parse: JSONDictionary -> [FoursquareVenue]? = { data in
+        //println("foursquarePlacesNearby: \(data)")
+
+        if let
+            response = data["response"] as? JSONDictionary,
+            venuesData = response["venues"] as? [JSONDictionary] {
+
+                var venues = [FoursquareVenue]()
+
+                for venueInfo in venuesData {
+                    if let
+                        name = venueInfo["name"] as? String,
+                        locationInfo = venueInfo["location"] as? JSONDictionary,
+                        latitude = locationInfo["lat"] as? CLLocationDegrees,
+                        longitude = locationInfo["lng"] as? CLLocationDegrees {
+                            let venue = FoursquareVenue(name: name, latitude: latitude, longitude: longitude)
+                            venues.append(venue)
+                    }
+                }
+
+                return venues
+        }
+
+        return []
+    }
+
+    let resource = jsonResource(path: "/v2/venues/search", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    let baseURL = NSURL(string: "https://api.foursquare.com")!
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL, resource, failureHandler, completion)

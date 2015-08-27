@@ -38,8 +38,20 @@ class PickLocationViewController: UIViewController {
     var searchedLocationPins = [UserPickedLocationPin]()
 
     lazy var geocoder = CLGeocoder()
+
     var placemarks = [CLPlacemark]() {
         didSet {
+            reloadTableView()
+        }
+    }
+
+    var foursquareVenues = [FoursquareVenue]() {
+        didSet {
+            for venue in foursquareVenues {
+                let pin = UserPickedLocationPin(title: "Pin", subtitle: "Foursquare Venue", coordinate: venue.coordinate)
+                mapView.addAnnotation(pin)
+            }
+
             reloadTableView()
         }
     }
@@ -152,10 +164,14 @@ extension PickLocationViewController: MKMapViewDelegate {
             let location = userLocation.location
             let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 2000, 2000)
             mapView.setRegion(region, animated: true)
+
+            foursquareVenuesNearby(location, failureHandler: nil, completion: { [weak self] venues in
+                self?.foursquareVenues = venues
+            })
         }
 
         placemarksAroundLocation(userLocation.location) { placemarks in
-            self.placemarks = placemarks
+            self.placemarks = placemarks.filter({ $0.name != nil })
         }
     }
 
@@ -220,38 +236,54 @@ extension PickLocationViewController: UISearchBarDelegate {
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        let text = searchBar.text
+        let name = searchBar.text
+
+        searchPlacesByName(name)
+
+        shrinkSearchLocationView()
+    }
+
+    private func searchPlacesByName(name: String, needAppend: Bool = false) {
 
         let request = MKLocalSearchRequest()
-        request.naturalLanguageQuery = text
+        request.naturalLanguageQuery = name
 
         request.region = MKCoordinateRegionMakeWithDistance(mapView.userLocation.location.coordinate, 200000, 200000)
 
         let search = MKLocalSearch(request: request)
 
-        search.startWithCompletionHandler { response, error in
+        search.startWithCompletionHandler { [weak self] response, error in
             if error == nil {
                 if let mapItems = response.mapItems as? [MKMapItem] {
 
-                    self.searchedMapItems = mapItems
+                    let searchedMapItems = mapItems.filter({ $0.placemark.name != nil })
 
-                    self.mapView.removeAnnotations(self.searchedLocationPins)
+                    if needAppend {
+                        self?.searchedMapItems += searchedMapItems
+
+                    } else {
+                        self?.searchedMapItems = searchedMapItems
+
+                        self?.mapView.removeAnnotations(self?.searchedLocationPins)
+                    }
 
                     var searchedLocationPins = [UserPickedLocationPin]()
 
-                    for item in mapItems {
+                    for item in searchedMapItems {
                         let pin = UserPickedLocationPin(title: "Pin", subtitle: "User Searched Location", coordinate: item.placemark.location.coordinate)
-                        self.mapView.addAnnotation(pin)
+                        self?.mapView.addAnnotation(pin)
 
                         searchedLocationPins.append(pin)
                     }
 
-                    self.searchedLocationPins = searchedLocationPins
+                    if needAppend {
+                        self?.searchedLocationPins += searchedLocationPins
+                    } else {
+                        self?.searchedLocationPins = searchedLocationPins
+                    }
                 }
             }
         }
-
-        shrinkSearchLocationView()
     }
 }
 
@@ -262,10 +294,11 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
         case UserPickedLocation
         case Placemarks
         case SearchedLocation
+        case FoursquareVenue
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 4
+        return 5
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -278,7 +311,9 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
         case Section.Placemarks.rawValue:
             return placemarks.count
         case Section.SearchedLocation.rawValue:
-            return self.searchedMapItems.count
+            return searchedMapItems.count
+        case Section.FoursquareVenue.rawValue:
+            return foursquareVenues.count
         default:
             return 0
         }
@@ -305,20 +340,8 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             cell.iconImageView.hidden = true
             let placemark = placemarks[indexPath.row]
 
-            var text = ""
-            
-            if let subLocality = placemark.subLocality {
-                text += subLocality
-            }
-            
-            if let thoroughfare = placemark.thoroughfare {
-                text += " " + thoroughfare
-            }
-            
-            if let subThoroughfare = placemark.subThoroughfare {
-                text += " " + subThoroughfare
-            }
-            
+            let text = placemark.name ?? "🐌"
+
             cell.locationLabel.text = text
 
             cell.checkImageView.hidden = true
@@ -327,11 +350,20 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             cell.iconImageView.hidden = false
             cell.iconImageView.image = UIImage(named: "icon_pin")
 
-            if let placemark = self.searchedMapItems[indexPath.row].placemark {
+            if let placemark = searchedMapItems[indexPath.row].placemark {
                 cell.locationLabel.text = placemark.name ?? ""
             } else {
                 cell.locationLabel.text = ""
             }
+
+            cell.checkImageView.hidden = true
+
+        case Section.FoursquareVenue.rawValue:
+            cell.iconImageView.hidden = false
+            cell.iconImageView.image = UIImage(named: "icon_pin")
+
+            let foursquareVenue = foursquareVenues[indexPath.row]
+            cell.locationLabel.text = foursquareVenue.name
 
             cell.checkImageView.hidden = true
 
@@ -386,12 +418,16 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             let placemark = self.searchedMapItems[indexPath.row].placemark
             pickedLocationCoordinate = placemark.location.coordinate
 
+        case Section.FoursquareVenue.rawValue:
+            let foursquareVenue = foursquareVenues[indexPath.row]
+            pickedLocationCoordinate = foursquareVenue.coordinate
+
         default:
             break
         }
 
         if let pickedLocationCoordinate = pickedLocationCoordinate {
-            let region = MKCoordinateRegionMakeWithDistance(pickedLocationCoordinate, 1000, 1000)
+            let region = MKCoordinateRegionMakeWithDistance(pickedLocationCoordinate, 200, 200)
             mapView.setRegion(region, animated: true)
         }
 

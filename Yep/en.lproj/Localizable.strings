@@ -66,6 +66,8 @@
 /* No comment provided by engineer. */
 "Build world together" = "Build world together";
 
+"By tap Next you agree to our terms." = "By tap Next you agree to our terms.";
+
 /* No comment provided by engineer. */
 "Call me" = "Call me";
 
@@ -443,6 +445,8 @@
 
 /* No comment provided by engineer. */
 "To" = "To";
+
+"terms" = "terms";
 
 /* No comment provided by engineer. */
 "try add you as friend." = "try add you as friend.";
