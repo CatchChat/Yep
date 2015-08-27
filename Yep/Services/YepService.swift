@@ -2303,6 +2303,10 @@ struct FoursquareVenue {
 
     let latitude: CLLocationDegrees
     let longitude: CLLocationDegrees
+
+    var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
 }
 
 func foursquareVenuesNearby(location: CLLocation, #failureHandler: ((Reason, String?) -> Void)?, #completion: [FoursquareVenue] -> Void) {
@@ -2315,7 +2319,7 @@ func foursquareVenuesNearby(location: CLLocation, #failureHandler: ((Reason, Str
     ]
 
     let parse: JSONDictionary -> [FoursquareVenue]? = { data in
-        println("foursquarePlacesNearby: \(data)")
+        //println("foursquarePlacesNearby: \(data)")
 
         if let
             response = data["response"] as? JSONDictionary,
