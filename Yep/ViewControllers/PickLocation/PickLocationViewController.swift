@@ -38,6 +38,7 @@ class PickLocationViewController: UIViewController {
     var searchedLocationPins = [UserPickedLocationPin]()
 
     lazy var geocoder = CLGeocoder()
+
     var placemarks = [CLPlacemark]() {
         didSet {
             reloadTableView()
@@ -153,7 +154,11 @@ extension PickLocationViewController: MKMapViewDelegate {
             let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 2000, 2000)
             mapView.setRegion(region, animated: true)
 
-            searchPlacesByName("Coffee")
+            searchPlacesByName("Coffee", needAppend: true)
+
+            delay(1) { [weak self] in
+                self?.searchPlacesByName("Bookstore", needAppend: true)
+            }
         }
 
         placemarksAroundLocation(userLocation.location) { placemarks in
@@ -229,7 +234,7 @@ extension PickLocationViewController: UISearchBarDelegate {
         shrinkSearchLocationView()
     }
 
-    private func searchPlacesByName(name: String) {
+    private func searchPlacesByName(name: String, needAppend: Bool = false) {
 
         let request = MKLocalSearchRequest()
         request.naturalLanguageQuery = name
@@ -238,24 +243,35 @@ extension PickLocationViewController: UISearchBarDelegate {
 
         let search = MKLocalSearch(request: request)
 
-        search.startWithCompletionHandler { response, error in
+        search.startWithCompletionHandler { [weak self] response, error in
             if error == nil {
                 if let mapItems = response.mapItems as? [MKMapItem] {
 
-                    self.searchedMapItems = mapItems.filter({ $0.placemark.name != nil })
+                    let searchedMapItems = mapItems.filter({ $0.placemark.name != nil })
 
-                    self.mapView.removeAnnotations(self.searchedLocationPins)
+                    if needAppend {
+                        self?.searchedMapItems += searchedMapItems
+
+                    } else {
+                        self?.searchedMapItems = searchedMapItems
+
+                        self?.mapView.removeAnnotations(self?.searchedLocationPins)
+                    }
 
                     var searchedLocationPins = [UserPickedLocationPin]()
 
-                    for item in mapItems {
+                    for item in searchedMapItems {
                         let pin = UserPickedLocationPin(title: "Pin", subtitle: "User Searched Location", coordinate: item.placemark.location.coordinate)
-                        self.mapView.addAnnotation(pin)
+                        self?.mapView.addAnnotation(pin)
 
                         searchedLocationPins.append(pin)
                     }
-                    
-                    self.searchedLocationPins = searchedLocationPins
+
+                    if needAppend {
+                        self?.searchedLocationPins += searchedLocationPins
+                    } else {
+                        self?.searchedLocationPins = searchedLocationPins
+                    }
                 }
             }
         }
