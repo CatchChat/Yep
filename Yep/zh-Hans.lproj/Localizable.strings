@@ -66,6 +66,8 @@
 /* No comment provided by engineer. */
 "Build world together" = "共建世界";
 
+"By tap Next you agree to our terms." = "点击下一步表示您同意我们的条款。";
+
 /* No comment provided by engineer. */
 "Call me" = "呼叫我";
 
@@ -253,7 +255,7 @@
 "Network error!" = "网络错误";
 
 /* No comment provided by engineer. */
-"Next" = "下一项";
+"Next" = "下一步";
 
 /* No comment provided by engineer. */
 "Nickname" = "昵称";
@@ -443,6 +445,8 @@
 
 /* No comment provided by engineer. */
 "To" = "至";
+
+"terms" = "条款";
 
 /* No comment provided by engineer. */
 "try add you as friend." = "想添加您为好友。";
