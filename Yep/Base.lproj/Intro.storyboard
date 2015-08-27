@@ -528,7 +528,7 @@
                     </view>
                     <connections>
                         <outlet property="skillsCollectionView" destination="Hi3-3R-BNx" id="3tf-cy-8EF"/>
-                        <segue destination="vEE-XY-eq4" kind="modal" identifier="presentSelectSkills" id="akJ-Zs-aMG"/>
+                        <segue destination="vEE-XY-eq4" kind="presentation" identifier="presentSelectSkills" id="akJ-Zs-aMG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zsq-iH-xb1" userLabel="First Responder" sceneMemberID="firstResponder"/>
