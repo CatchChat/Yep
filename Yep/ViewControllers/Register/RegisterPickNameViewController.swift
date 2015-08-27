@@ -51,6 +51,10 @@ class RegisterPickNameViewController: BaseViewController {
         promptTermsLabel.attributedText = attributedText
         promptTermsLabel.textAlignment = .Center
 
+        promptTermsLabel.userInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: "tapTerms")
+        promptTermsLabel.addGestureRecognizer(tap)
+
         nameTextField.delegate = self
         nameTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
@@ -71,6 +75,10 @@ class RegisterPickNameViewController: BaseViewController {
     }
 
     // MARK: Actions
+
+    func tapTerms() {
+        UIApplication.sharedApplication().openURL(NSURL(string: "http://soyep.com/privacy")!)
+    }
 
     func textFieldDidChange(textField: UITextField) {
         nextButton.enabled = !textField.text.isEmpty
