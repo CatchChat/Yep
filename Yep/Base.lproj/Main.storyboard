@@ -1129,7 +1129,7 @@
         <!--About View Controller-->
         <scene sceneID="Gw3-Lm-DcO">
             <objects>
-                <viewController storyboardIdentifier="AboutViewController" id="yT8-GW-lJF" customClass="AboutViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AboutViewController" automaticallyAdjustsScrollViewInsets="NO" id="yT8-GW-lJF" customClass="AboutViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="DCG-xs-MCn"/>
                         <viewControllerLayoutGuide type="bottom" id="QW3-jP-Sgu"/>
@@ -1138,7 +1138,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="hbq-fC-4RN">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="hbq-fC-4RN">
                                 <rect key="frame" x="0.0" y="269.5" width="600" height="300"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>

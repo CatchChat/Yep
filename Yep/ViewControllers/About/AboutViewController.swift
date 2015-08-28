@@ -19,17 +19,27 @@ class AboutViewController: UIViewController {
 
     @IBOutlet weak var copyrightLabel: UILabel!
 
+    let aboutCellID = "AboutCell"
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("About", comment: "")
+
+        aboutTableView.registerNib(UINib(nibName: aboutCellID, bundle: nil), forCellReuseIdentifier: aboutCellID)
+
+        let rowHeight: CGFloat = 60
+        aboutTableView.rowHeight = rowHeight
+
+        aboutTableViewHeightConstraint.constant = rowHeight * 3
     }
 }
 
 extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCellWithIdentifier(aboutCellID) as! AboutCell
+        return cell
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
