@@ -83,17 +83,23 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
 
       if url.contains("/auth/success") {
         
-            self.dismissViewControllerAnimated(true, completion: nil)
-            
-            socialAccountWithProvider(self.socialAccount.description.lowercaseString, failureHandler: { (reason, errorMessage) -> Void in
+        socialAccountWithProvider(self.socialAccount.description.lowercaseString, failureHandler: { (reason, errorMessage) -> Void in
                 
                 defaultFailureHandler(reason, errorMessage)
-                
+
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.dismissViewControllerAnimated(true, completion: nil)
+                }
+
             }, completion: { [weak self] provider in
                 println(provider)
 
-                if let strongSelf = self {
-                    strongSelf.afterOAuthAction?(socialAccount: strongSelf.socialAccount)
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    if let strongSelf = self {
+                        strongSelf.afterOAuthAction?(socialAccount: strongSelf.socialAccount)
+
+                        strongSelf.dismissViewControllerAnimated(true, completion: nil)
+                    }
                 }
             })
             

@@ -764,26 +764,38 @@ class ProfileViewController: UIViewController {
                     // 更新自己的 provider enabled 状态
                     let providerName = socialAccount.rawValue
 
-                    let realm = Realm()
+                    dispatch_async(dispatch_get_main_queue()) {
+                        let realm = Realm()
 
-                    if let
-                        myUserID = YepUserDefaults.userID.value,
-                        me = userWithUserID(myUserID, inRealm: realm) {
+                        if let
+                            myUserID = YepUserDefaults.userID.value,
+                            me = userWithUserID(myUserID, inRealm: realm) {
 
-                            for socialAccountProvider in me.socialAccountProviders {
-                                if socialAccountProvider.name == providerName {
-                                    realm.write {
-                                        socialAccountProvider.enabled = true
+                                var haveSocialAccountProvider = false
+                                for socialAccountProvider in me.socialAccountProviders {
+                                    if socialAccountProvider.name == providerName {
+                                        realm.write {
+                                            socialAccountProvider.enabled = true
+                                        }
+
+                                        haveSocialAccountProvider = true
+                                        break
                                     }
-
-                                    break
                                 }
-                            }
 
-                            dispatch_async(dispatch_get_main_queue()) {
+                                // 如果之前没有，这就新建一个
+                                if !haveSocialAccountProvider {
+                                    let provider = UserSocialAccountProvider()
+                                    provider.name = providerName
+                                    provider.enabled = true
+
+                                    realm.write {
+                                        me.socialAccountProviders.append(provider)
+                                    }
+                                }
+
                                 self?.updateProfileCollectionView()
-                            }
-
+                        }
                     }
                 }
             }
