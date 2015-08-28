@@ -36,7 +36,6 @@ class PickLocationViewController: UIViewController {
             reloadTableView()
         }
     }
-    //var searchedLocationPins = [LocationPin]()
 
     lazy var geocoder = CLGeocoder()
 
@@ -48,13 +47,6 @@ class PickLocationViewController: UIViewController {
 
     var foursquareVenues = [FoursquareVenue]() {
         didSet {
-            /*
-            for venue in foursquareVenues {
-                let pin = LocationPin(title: "Pin", subtitle: "Foursquare Venue", coordinate: venue.coordinate)
-                mapView.addAnnotation(pin)
-            }
-            */
-
             reloadTableView()
         }
     }
@@ -93,21 +85,6 @@ class PickLocationViewController: UIViewController {
     }
 
     var pickedLocationIndexPath: NSIndexPath?
-//    var pickedLocationCoordinate: CLLocationCoordinate2D? {
-//        willSet {
-//            if let coordinate = newValue {
-//                updateLocationPinWithCoordinate(coordinate)
-//            }
-//        }
-//    }
-//
-//    var selectedLocationCoordinate: CLLocationCoordinate2D? {
-//        willSet {
-//            if let coordinate = newValue {
-//                updateLocationPinWithCoordinate(coordinate)
-//            }
-//        }
-//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -180,11 +157,8 @@ class PickLocationViewController: UIViewController {
         let point = sender.locationInView(mapView)
         let coordinate = mapView.convertPoint(point, toCoordinateFromView: mapView)
 
-        //updateLocationPinWithCoordinate(coordinate)
-
         location = .Picked(coordinate: coordinate)
 
-        //pickedLocationCoordinate = coordinate
         pickedLocationIndexPath = NSIndexPath(forRow: 0, inSection: Section.UserPickedLocation.rawValue)
     }
 
@@ -327,25 +301,7 @@ extension PickLocationViewController: UISearchBarDelegate {
 
                     } else {
                         self?.searchedMapItems = searchedMapItems
-
-                        //self?.mapView.removeAnnotations(self?.searchedLocationPins)
                     }
-
-                    /*
-                    var searchedLocationPins = [LocationPin]()
-
-                    for item in searchedMapItems {
-                        let pin = LocationPin(title: "Pin", subtitle: "User Searched Location", coordinate: item.placemark.location.coordinate)
-                        self?.mapView.addAnnotation(pin)
-
-                        searchedLocationPins.append(pin)
-                    }
-
-                    if needAppend {
-                        self?.searchedLocationPins += searchedLocationPins
-                    } else {
-                        self?.searchedLocationPins = searchedLocationPins
-                    }*/
                 }
             }
         }
@@ -378,7 +334,6 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
                 }
             }
             return 0
-            //return (pickedLocationCoordinate == nil ? 0 : 1)
         case Section.Placemarks.rawValue:
             return placemarks.count
         case Section.SearchedLocation.rawValue:
@@ -503,7 +458,6 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             let region = MKCoordinateRegionMakeWithDistance(locationPin.coordinate, 200, 200)
             mapView.setRegion(region, animated: true)
         }
-
     }
 }
 
