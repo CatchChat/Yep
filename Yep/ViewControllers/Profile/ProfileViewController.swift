@@ -92,7 +92,7 @@ enum ProfileUser {
         }
 
         if let myUserID = YepUserDefaults.userID.value {
-            return (userID == myUserID)
+            return userID == myUserID
         }
 
         return false
@@ -432,10 +432,16 @@ class ProfileViewController: UIViewController {
             // 提示没有 Skills
 
             if profileUserIsMe {
-                if masterSkills.isEmpty && learningSkills.isEmpty {
-                    YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("No now", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
-                        self?.pickSkills()
-                    }, cancelAction: {})
+                if let
+                    myUserID = YepUserDefaults.userID.value,
+                    me = userWithUserID(myUserID, inRealm: Realm()) {
+
+                        if me.masterSkills.count == 0 && me.learningSkills.count == 0 {
+
+                            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("No now", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
+                                self?.pickSkills()
+                            }, cancelAction: {})
+                        }
                 }
             }
         }
