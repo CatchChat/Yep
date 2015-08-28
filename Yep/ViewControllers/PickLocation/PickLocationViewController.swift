@@ -25,7 +25,7 @@ class PickLocationViewController: UIViewController {
 
     var isFirstShowUserLocation = true
 
-    var userPickedLocationPin: UserPickedLocationPin? {
+    var locationPin: LocationPin? {
         didSet {
             reloadTableView()
         }
@@ -36,7 +36,7 @@ class PickLocationViewController: UIViewController {
             reloadTableView()
         }
     }
-    //var searchedLocationPins = [UserPickedLocationPin]()
+    //var searchedLocationPins = [LocationPin]()
 
     lazy var geocoder = CLGeocoder()
 
@@ -50,7 +50,7 @@ class PickLocationViewController: UIViewController {
         didSet {
             /*
             for venue in foursquareVenues {
-                let pin = UserPickedLocationPin(title: "Pin", subtitle: "Foursquare Venue", coordinate: venue.coordinate)
+                let pin = LocationPin(title: "Pin", subtitle: "Foursquare Venue", coordinate: venue.coordinate)
                 mapView.addAnnotation(pin)
             }
             */
@@ -64,7 +64,7 @@ class PickLocationViewController: UIViewController {
     var pickedLocationCoordinate: CLLocationCoordinate2D? {
         willSet {
             if let coordinate = newValue {
-                updateUserPickedLocationPinWithCoordinate(coordinate)
+                updateLocationPinWithCoordinate(coordinate)
             }
         }
     }
@@ -72,7 +72,7 @@ class PickLocationViewController: UIViewController {
     var selectedLocationCoordinate: CLLocationCoordinate2D? {
         willSet {
             if let coordinate = newValue {
-                updateUserPickedLocationPinWithCoordinate(coordinate)
+                updateLocationPinWithCoordinate(coordinate)
             }
         }
     }
@@ -133,14 +133,14 @@ class PickLocationViewController: UIViewController {
         })
     }
 
-    private func updateUserPickedLocationPinWithCoordinate(coordinate: CLLocationCoordinate2D) {
+    private func updateLocationPinWithCoordinate(coordinate: CLLocationCoordinate2D) {
 
-        mapView.removeAnnotation(userPickedLocationPin)
+        mapView.removeAnnotation(locationPin)
 
-        let pin = UserPickedLocationPin(title: "Pin", subtitle: "User Picked Location", coordinate: coordinate)
+        let pin = LocationPin(title: "Pin", subtitle: "User Picked Location", coordinate: coordinate)
         mapView.addAnnotation(pin)
 
-        userPickedLocationPin = pin
+        locationPin = pin
     }
 
     func addAnnotation(sender: UITapGestureRecognizer) {
@@ -148,7 +148,7 @@ class PickLocationViewController: UIViewController {
         let point = sender.locationInView(mapView)
         let coordinate = mapView.convertPoint(point, toCoordinateFromView: mapView)
 
-        //updateUserPickedLocationPinWithCoordinate(coordinate)
+        //updateLocationPinWithCoordinate(coordinate)
 
         pickedLocationCoordinate = coordinate
         pickedLocationIndexPath = NSIndexPath(forRow: 0, inSection: Section.UserPickedLocation.rawValue)
@@ -207,9 +207,9 @@ extension PickLocationViewController: MKMapViewDelegate {
 
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
 
-        if let annotation = annotation as? UserPickedLocationPin {
+        if let annotation = annotation as? LocationPin {
 
-            let identifier = "UserPickedLocationPinView"
+            let identifier = "LocationPinView"
 
             if let annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier) {
                 annotationView.annotation = annotation
@@ -298,10 +298,10 @@ extension PickLocationViewController: UISearchBarDelegate {
                     }
 
                     /*
-                    var searchedLocationPins = [UserPickedLocationPin]()
+                    var searchedLocationPins = [LocationPin]()
 
                     for item in searchedMapItems {
-                        let pin = UserPickedLocationPin(title: "Pin", subtitle: "User Searched Location", coordinate: item.placemark.location.coordinate)
+                        let pin = LocationPin(title: "Pin", subtitle: "User Searched Location", coordinate: item.placemark.location.coordinate)
                         self?.mapView.addAnnotation(pin)
 
                         searchedLocationPins.append(pin)
@@ -439,7 +439,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             }
 
         case Section.UserPickedLocation.rawValue:
-            pickedLocationCoordinate = userPickedLocationPin?.coordinate
+            pickedLocationCoordinate = locationPin?.coordinate
 
         case Section.Placemarks.rawValue:
             let placemark = placemarks[indexPath.row]
@@ -457,8 +457,8 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             break
         }
 
-        if let userPickedLocationPin = userPickedLocationPin {
-            let region = MKCoordinateRegionMakeWithDistance(userPickedLocationPin.coordinate, 200, 200)
+        if let locationPin = locationPin {
+            let region = MKCoordinateRegionMakeWithDistance(locationPin.coordinate, 200, 200)
             mapView.setRegion(region, animated: true)
         }
 
