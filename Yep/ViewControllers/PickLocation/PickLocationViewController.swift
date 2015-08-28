@@ -60,22 +60,54 @@ class PickLocationViewController: UIViewController {
     }
 
     let pickLocationCellIdentifier = "PickLocationCell"
-    var pickedLocationIndexPath: NSIndexPath?
-    var pickedLocationCoordinate: CLLocationCoordinate2D? {
+
+    enum Location {
+        case Picked(coordinate: CLLocationCoordinate2D)
+        case Selected(coordinate: CLLocationCoordinate2D)
+
+        var coordinate: CLLocationCoordinate2D {
+            switch self {
+            case .Picked(let coordinate):
+                return coordinate
+            case .Selected(let coordinate):
+                return coordinate
+            }
+        }
+
+        var isPicked: Bool {
+            switch self {
+            case .Picked(let _):
+                return true
+            default:
+                return false
+            }
+        }
+    }
+
+    var location: Location? {
         willSet {
-            if let coordinate = newValue {
+            if let coordinate = newValue?.coordinate {
                 updateLocationPinWithCoordinate(coordinate)
             }
         }
     }
 
-    var selectedLocationCoordinate: CLLocationCoordinate2D? {
-        willSet {
-            if let coordinate = newValue {
-                updateLocationPinWithCoordinate(coordinate)
-            }
-        }
-    }
+    var pickedLocationIndexPath: NSIndexPath?
+//    var pickedLocationCoordinate: CLLocationCoordinate2D? {
+//        willSet {
+//            if let coordinate = newValue {
+//                updateLocationPinWithCoordinate(coordinate)
+//            }
+//        }
+//    }
+//
+//    var selectedLocationCoordinate: CLLocationCoordinate2D? {
+//        willSet {
+//            if let coordinate = newValue {
+//                updateLocationPinWithCoordinate(coordinate)
+//            }
+//        }
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -124,7 +156,7 @@ class PickLocationViewController: UIViewController {
         dismissViewControllerAnimated(true, completion: { () -> Void in
             if let sendLocationAction = self.sendLocationAction {
 
-                if let coordinate = self.pickedLocationCoordinate {
+                if let coordinate = self.location?.coordinate {
                     sendLocationAction(coordinate: coordinate)
                 } else {
                     sendLocationAction(coordinate: self.mapView.userLocation.location.coordinate)
@@ -150,7 +182,9 @@ class PickLocationViewController: UIViewController {
 
         //updateLocationPinWithCoordinate(coordinate)
 
-        pickedLocationCoordinate = coordinate
+        location = .Picked(coordinate: coordinate)
+
+        //pickedLocationCoordinate = coordinate
         pickedLocationIndexPath = NSIndexPath(forRow: 0, inSection: Section.UserPickedLocation.rawValue)
     }
 
@@ -338,7 +372,13 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
         case Section.CurrentLocation.rawValue:
             return 1
         case Section.UserPickedLocation.rawValue:
-            return (pickedLocationCoordinate == nil ? 0 : 1)
+            if let isPicked = location?.isPicked {
+                if isPicked {
+                    return 1
+                }
+            }
+            return 0
+            //return (pickedLocationCoordinate == nil ? 0 : 1)
         case Section.Placemarks.rawValue:
             return placemarks.count
         case Section.SearchedLocation.rawValue:
@@ -434,24 +474,26 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
         switch indexPath.section {
 
         case Section.CurrentLocation.rawValue:
-            if let location = mapView.userLocation.location {
-                selectedLocationCoordinate = location.coordinate
+            if let _location = mapView.userLocation.location {
+                location = .Selected(coordinate: _location.coordinate)
             }
 
         case Section.UserPickedLocation.rawValue:
-            pickedLocationCoordinate = locationPin?.coordinate
+            if let coordinate = locationPin?.coordinate {
+                location = .Picked(coordinate: coordinate)
+            }
 
         case Section.Placemarks.rawValue:
             let placemark = placemarks[indexPath.row]
-            selectedLocationCoordinate = placemark.location.coordinate
+            location = .Selected(coordinate: placemark.location.coordinate)
 
         case Section.SearchedLocation.rawValue:
             let placemark = self.searchedMapItems[indexPath.row].placemark
-            selectedLocationCoordinate = placemark.location.coordinate
+            location = .Selected(coordinate: placemark.location.coordinate)
 
         case Section.FoursquareVenue.rawValue:
             let foursquareVenue = foursquareVenues[indexPath.row]
-            selectedLocationCoordinate = foursquareVenue.coordinate
+            location = .Selected(coordinate: foursquareVenue.coordinate)
 
         default:
             break
