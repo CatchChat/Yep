@@ -36,7 +36,7 @@ class PickLocationViewController: UIViewController {
             reloadTableView()
         }
     }
-    var searchedLocationPins = [UserPickedLocationPin]()
+    //var searchedLocationPins = [UserPickedLocationPin]()
 
     lazy var geocoder = CLGeocoder()
 
@@ -48,10 +48,12 @@ class PickLocationViewController: UIViewController {
 
     var foursquareVenues = [FoursquareVenue]() {
         didSet {
+            /*
             for venue in foursquareVenues {
                 let pin = UserPickedLocationPin(title: "Pin", subtitle: "Foursquare Venue", coordinate: venue.coordinate)
                 mapView.addAnnotation(pin)
             }
+            */
 
             reloadTableView()
         }
@@ -272,9 +274,10 @@ extension PickLocationViewController: UISearchBarDelegate {
                     } else {
                         self?.searchedMapItems = searchedMapItems
 
-                        self?.mapView.removeAnnotations(self?.searchedLocationPins)
+                        //self?.mapView.removeAnnotations(self?.searchedLocationPins)
                     }
 
+                    /*
                     var searchedLocationPins = [UserPickedLocationPin]()
 
                     for item in searchedMapItems {
@@ -288,7 +291,7 @@ extension PickLocationViewController: UISearchBarDelegate {
                         self?.searchedLocationPins += searchedLocationPins
                     } else {
                         self?.searchedLocationPins = searchedLocationPins
-                    }
+                    }*/
                 }
             }
         }
