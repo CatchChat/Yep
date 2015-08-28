@@ -588,6 +588,7 @@
                         <segue destination="TTy-VD-aor" kind="show" identifier="showEditProfile" id="Qhj-kS-Fq2"/>
                         <segue destination="9Uj-sb-Emt" kind="show" identifier="showFeedback" id="YkG-GA-Ri8"/>
                         <segue destination="i7X-gi-DRa" kind="show" identifier="showNotifications" id="PxD-iZ-Pfy"/>
+                        <segue destination="yT8-GW-lJF" kind="show" identifier="showAbout" id="bXj-qa-QIM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zuA-bP-KGx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -968,7 +969,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="3584" y="-519"/>
+            <point key="canvasLocation" x="4251" y="-959"/>
         </scene>
         <!--Notifications View Controller-->
         <scene sceneID="s6K-xp-3el">
@@ -1009,7 +1010,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uH9-BS-amc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3761" y="169"/>
+            <point key="canvasLocation" x="4372" y="-287"/>
         </scene>
         <!--Do Not Disturb Period View Controller-->
         <scene sceneID="RM6-fB-WmB">
@@ -1080,7 +1081,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bRS-Uc-jLI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5041" y="-23"/>
+            <point key="canvasLocation" x="5352" y="-494"/>
         </scene>
         <!--Black List View Controller-->
         <scene sceneID="Nh4-iA-RXh">
@@ -1123,7 +1124,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kuH-Py-OGH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4613" y="641"/>
+            <point key="canvasLocation" x="5347" y="169"/>
+        </scene>
+        <!--About View Controller-->
+        <scene sceneID="Gw3-Lm-DcO">
+            <objects>
+                <viewController storyboardIdentifier="AboutViewController" id="yT8-GW-lJF" customClass="AboutViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="DCG-xs-MCn"/>
+                        <viewControllerLayoutGuide type="bottom" id="QW3-jP-Sgu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5CH-ve-TLB">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EcK-x9-RRQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3727" y="797"/>
         </scene>
         <!--Feedback View Controller-->
         <scene sceneID="qi4-ey-7am">
@@ -1172,7 +1191,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MUL-up-ag5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3663" y="855"/>
+            <point key="canvasLocation" x="4372" y="373"/>
         </scene>
         <!--Edit Nickname And Badge View Controller-->
         <scene sceneID="eed-5B-jyz">
@@ -1423,7 +1442,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KVb-CY-yr0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4277" y="-519"/>
+            <point key="canvasLocation" x="4976" y="-1156"/>
         </scene>
         <!--Yep Tab Bar Controller-->
         <scene sceneID="vud-lc-IAG">
