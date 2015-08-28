@@ -10,8 +10,14 @@ import UIKit
 
 class AboutViewController: UIViewController {
 
+    @IBOutlet weak var appLogoImageView: UIImageView!
+    @IBOutlet weak var appNameLabel: UILabel!
+    @IBOutlet weak var appVersionLabel: UILabel!
+    
     @IBOutlet weak var aboutTableView: UITableView!
     @IBOutlet weak var aboutTableViewHeightConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var copyrightLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
