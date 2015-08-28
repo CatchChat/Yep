@@ -21,6 +21,14 @@ class AboutViewController: UIViewController {
 
     let aboutCellID = "AboutCell"
 
+    let rowHeight: CGFloat = 60
+
+    let aboutAnnotations: [String] = [
+        NSLocalizedString("Pods help Yep", comment: ""),
+        NSLocalizedString("Rate Yep on App Store", comment: ""),
+        NSLocalizedString("Terms of Service", comment: ""),
+    ]
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -28,21 +36,38 @@ class AboutViewController: UIViewController {
 
         aboutTableView.registerNib(UINib(nibName: aboutCellID, bundle: nil), forCellReuseIdentifier: aboutCellID)
 
-        let rowHeight: CGFloat = 60
-        aboutTableView.rowHeight = rowHeight
-
-        aboutTableViewHeightConstraint.constant = rowHeight * 3
+        aboutTableViewHeightConstraint.constant = rowHeight * CGFloat(aboutAnnotations.count) + 1
     }
 }
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(aboutCellID) as! AboutCell
-        return cell
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return aboutAnnotations.count + 1
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+
+        switch indexPath.row {
+        case 0:
+            return UITableViewCell()
+        default:
+            let cell = tableView.dequeueReusableCellWithIdentifier(aboutCellID) as! AboutCell
+            let annotation = aboutAnnotations[indexPath.row - 1]
+            cell.annotationLabel.text = annotation
+            return cell
+        }
+    }
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        switch indexPath.row {
+        case 0:
+            return 1
+        default:
+            return rowHeight
+        }
     }
 }
+
