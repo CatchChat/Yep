@@ -31,6 +31,8 @@ class YepConfig {
             return 0
         #endif
     }
+
+    static let termsURLString = "http://soyep.com/privacy"
     
     class func getScreenRect() -> CGRect {
         return UIScreen.mainScreen().bounds

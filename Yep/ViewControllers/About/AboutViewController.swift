@@ -69,5 +69,16 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
             return rowHeight
         }
     }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        switch indexPath.row {
+        case 3:
+            UIApplication.sharedApplication().openURL(NSURL(string: YepConfig.termsURLString)!)
+        default:
+            break
+        }
+    }
 }
 

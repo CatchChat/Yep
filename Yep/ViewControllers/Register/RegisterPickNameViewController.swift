@@ -85,7 +85,7 @@ class RegisterPickNameViewController: BaseViewController {
     // MARK: Actions
 
     func tapTerms() {
-        UIApplication.sharedApplication().openURL(NSURL(string: "http://soyep.com/privacy")!)
+        UIApplication.sharedApplication().openURL(NSURL(string: YepConfig.termsURLString)!)
     }
 
     func textFieldDidChange(textField: UITextField) {
