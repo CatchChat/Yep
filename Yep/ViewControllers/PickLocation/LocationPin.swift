@@ -8,7 +8,7 @@
 
 import MapKit
 
-class UserPickedLocationPin: NSObject, MKAnnotation {
+class LocationPin: NSObject, MKAnnotation {
     let title: String
     let subtitle: String
     let coordinate: CLLocationCoordinate2D

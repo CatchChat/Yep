@@ -25,7 +25,7 @@ class PickLocationViewController: UIViewController {
 
     var isFirstShowUserLocation = true
 
-    var userPickedLocationPin: UserPickedLocationPin? {
+    var locationPin: LocationPin? {
         didSet {
             reloadTableView()
         }
@@ -36,7 +36,6 @@ class PickLocationViewController: UIViewController {
             reloadTableView()
         }
     }
-    var searchedLocationPins = [UserPickedLocationPin]()
 
     lazy var geocoder = CLGeocoder()
 
@@ -48,18 +47,44 @@ class PickLocationViewController: UIViewController {
 
     var foursquareVenues = [FoursquareVenue]() {
         didSet {
-            for venue in foursquareVenues {
-                let pin = UserPickedLocationPin(title: "Pin", subtitle: "Foursquare Venue", coordinate: venue.coordinate)
-                mapView.addAnnotation(pin)
-            }
-
             reloadTableView()
         }
     }
 
     let pickLocationCellIdentifier = "PickLocationCell"
-    var pickedLocationIndexPath: NSIndexPath?
-    var pickedLocationCoordinate: CLLocationCoordinate2D?
+
+    enum Location {
+        case Picked(coordinate: CLLocationCoordinate2D)
+        case Selected(coordinate: CLLocationCoordinate2D)
+
+        var coordinate: CLLocationCoordinate2D {
+            switch self {
+            case .Picked(let coordinate):
+                return coordinate
+            case .Selected(let coordinate):
+                return coordinate
+            }
+        }
+
+        var isPicked: Bool {
+            switch self {
+            case .Picked(let _):
+                return true
+            default:
+                return false
+            }
+        }
+    }
+
+    var location: Location? {
+        willSet {
+            if let coordinate = newValue?.coordinate {
+                updateLocationPinWithCoordinate(coordinate)
+            }
+        }
+    }
+
+    var selectedLocationIndexPath: NSIndexPath?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,7 +133,7 @@ class PickLocationViewController: UIViewController {
         dismissViewControllerAnimated(true, completion: { () -> Void in
             if let sendLocationAction = self.sendLocationAction {
 
-                if let coordinate = self.pickedLocationCoordinate {
+                if let coordinate = self.location?.coordinate {
                     sendLocationAction(coordinate: coordinate)
                 } else {
                     sendLocationAction(coordinate: self.mapView.userLocation.location.coordinate)
@@ -117,19 +142,24 @@ class PickLocationViewController: UIViewController {
         })
     }
 
-    func addAnnotation(sender: UITapGestureRecognizer) {
+    private func updateLocationPinWithCoordinate(coordinate: CLLocationCoordinate2D) {
 
-        mapView.removeAnnotation(userPickedLocationPin)
+        mapView.removeAnnotation(locationPin)
+
+        let pin = LocationPin(title: "Pin", subtitle: "User Picked Location", coordinate: coordinate)
+        mapView.addAnnotation(pin)
+
+        locationPin = pin
+    }
+
+    func addAnnotation(sender: UITapGestureRecognizer) {
 
         let point = sender.locationInView(mapView)
         let coordinate = mapView.convertPoint(point, toCoordinateFromView: mapView)
 
-        let pin = UserPickedLocationPin(title: "Pin", subtitle: "User Picked Location", coordinate: coordinate)
-        mapView.addAnnotation(pin)
+        location = .Picked(coordinate: coordinate)
 
-        pickedLocationCoordinate = pin.coordinate
-        pickedLocationIndexPath = NSIndexPath(forRow: 0, inSection: Section.UserPickedLocation.rawValue)
-        userPickedLocationPin = pin
+        selectedLocationIndexPath = NSIndexPath(forRow: 0, inSection: Section.UserPickedLocation.rawValue)
     }
 
     func placemarksAroundLocation(location: CLLocation, completion: [CLPlacemark] -> Void) {
@@ -185,9 +215,9 @@ extension PickLocationViewController: MKMapViewDelegate {
 
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
 
-        if let annotation = annotation as? UserPickedLocationPin {
+        if let annotation = annotation as? LocationPin {
 
-            let identifier = "UserPickedLocationPinView"
+            let identifier = "LocationPinView"
 
             if let annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier) {
                 annotationView.annotation = annotation
@@ -271,23 +301,6 @@ extension PickLocationViewController: UISearchBarDelegate {
 
                     } else {
                         self?.searchedMapItems = searchedMapItems
-
-                        self?.mapView.removeAnnotations(self?.searchedLocationPins)
-                    }
-
-                    var searchedLocationPins = [UserPickedLocationPin]()
-
-                    for item in searchedMapItems {
-                        let pin = UserPickedLocationPin(title: "Pin", subtitle: "User Searched Location", coordinate: item.placemark.location.coordinate)
-                        self?.mapView.addAnnotation(pin)
-
-                        searchedLocationPins.append(pin)
-                    }
-
-                    if needAppend {
-                        self?.searchedLocationPins += searchedLocationPins
-                    } else {
-                        self?.searchedLocationPins = searchedLocationPins
                     }
                 }
             }
@@ -315,7 +328,12 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
         case Section.CurrentLocation.rawValue:
             return 1
         case Section.UserPickedLocation.rawValue:
-            return (userPickedLocationPin == nil ? 0 : 1)
+            if let isPicked = location?.isPicked {
+                if isPicked {
+                    return 1
+                }
+            }
+            return 0
         case Section.Placemarks.rawValue:
             return placemarks.count
         case Section.SearchedLocation.rawValue:
@@ -379,7 +397,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             break
         }
 
-        if let pickLocationIndexPath = pickedLocationIndexPath {
+        if let pickLocationIndexPath = selectedLocationIndexPath {
             cell.checkImageView.hidden = !(pickLocationIndexPath == indexPath)
         }
 
@@ -390,8 +408,8 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        if let pickedLocationIndexPath = pickedLocationIndexPath {
-            if let cell = tableView.cellForRowAtIndexPath(pickedLocationIndexPath) as? PickLocationCell {
+        if let selectedLocationIndexPath = selectedLocationIndexPath {
+            if let cell = tableView.cellForRowAtIndexPath(selectedLocationIndexPath) as? PickLocationCell {
                 cell.checkImageView.hidden = true
             }
 
@@ -405,40 +423,41 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             cell.checkImageView.hidden = false
         }
 
-        pickedLocationIndexPath = indexPath
+        selectedLocationIndexPath = indexPath
 
 
         switch indexPath.section {
 
         case Section.CurrentLocation.rawValue:
-            if let location = mapView.userLocation.location {
-                pickedLocationCoordinate = location.coordinate
+            if let _location = mapView.userLocation.location {
+                location = .Selected(coordinate: _location.coordinate)
             }
 
         case Section.UserPickedLocation.rawValue:
-            pickedLocationCoordinate = userPickedLocationPin?.coordinate
+            if let coordinate = locationPin?.coordinate {
+                location = .Picked(coordinate: coordinate)
+            }
 
         case Section.Placemarks.rawValue:
             let placemark = placemarks[indexPath.row]
-            pickedLocationCoordinate = placemark.location.coordinate
+            location = .Selected(coordinate: placemark.location.coordinate)
 
         case Section.SearchedLocation.rawValue:
             let placemark = self.searchedMapItems[indexPath.row].placemark
-            pickedLocationCoordinate = placemark.location.coordinate
+            location = .Selected(coordinate: placemark.location.coordinate)
 
         case Section.FoursquareVenue.rawValue:
             let foursquareVenue = foursquareVenues[indexPath.row]
-            pickedLocationCoordinate = foursquareVenue.coordinate
+            location = .Selected(coordinate: foursquareVenue.coordinate)
 
         default:
             break
         }
 
-        if let pickedLocationCoordinate = pickedLocationCoordinate {
-            let region = MKCoordinateRegionMakeWithDistance(pickedLocationCoordinate, 200, 200)
+        if let locationPin = locationPin {
+            let region = MKCoordinateRegionMakeWithDistance(locationPin.coordinate, 200, 200)
             mapView.setRegion(region, animated: true)
         }
-
     }
 }
 

@@ -106,7 +106,7 @@
 		504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504F41591AD5028200FBB19A /* SkillCell.xib */; };
 		504F85AC1B4D21DD00F909BE /* DiscoverFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F85AB1B4D21DD00F909BE /* DiscoverFilterView.swift */; };
 		5053AD4A1AF772C500B3CBFA /* PickLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD491AF772C500B3CBFA /* PickLocationViewController.swift */; };
-		5053AD4D1AF79EEA00B3CBFA /* UserPickedLocationPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD4C1AF79EEA00B3CBFA /* UserPickedLocationPin.swift */; };
+		5053AD4D1AF79EEA00B3CBFA /* LocationPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD4C1AF79EEA00B3CBFA /* LocationPin.swift */; };
 		5053AD501AF82A1700B3CBFA /* PickLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD4E1AF82A1700B3CBFA /* PickLocationCell.swift */; };
 		5053AD511AF82A1700B3CBFA /* PickLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5053AD4F1AF82A1700B3CBFA /* PickLocationCell.xib */; };
 		5053AD551AF83B0F00B3CBFA /* ChatRightLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD531AF83B0F00B3CBFA /* ChatRightLocationCell.swift */; };
@@ -357,7 +357,7 @@
 		504F41591AD5028200FBB19A /* SkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillCell.xib; path = Views/Cells/Skill/SkillCell.xib; sourceTree = "<group>"; };
 		504F85AB1B4D21DD00F909BE /* DiscoverFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverFilterView.swift; path = Views/DiscoverFilter/DiscoverFilterView.swift; sourceTree = "<group>"; };
 		5053AD491AF772C500B3CBFA /* PickLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickLocationViewController.swift; path = ViewControllers/PickLocation/PickLocationViewController.swift; sourceTree = "<group>"; };
-		5053AD4C1AF79EEA00B3CBFA /* UserPickedLocationPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserPickedLocationPin.swift; path = ViewControllers/PickLocation/UserPickedLocationPin.swift; sourceTree = "<group>"; };
+		5053AD4C1AF79EEA00B3CBFA /* LocationPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationPin.swift; path = ViewControllers/PickLocation/LocationPin.swift; sourceTree = "<group>"; };
 		5053AD4E1AF82A1700B3CBFA /* PickLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickLocationCell.swift; path = Views/Cells/PickLocation/PickLocationCell.swift; sourceTree = "<group>"; };
 		5053AD4F1AF82A1700B3CBFA /* PickLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PickLocationCell.xib; path = Views/Cells/PickLocation/PickLocationCell.xib; sourceTree = "<group>"; };
 		5053AD531AF83B0F00B3CBFA /* ChatRightLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightLocationCell.swift; path = Views/Cells/ChatRightLocation/ChatRightLocationCell.swift; sourceTree = "<group>"; };
@@ -1145,7 +1145,7 @@
 			isa = PBXGroup;
 			children = (
 				5053AD491AF772C500B3CBFA /* PickLocationViewController.swift */,
-				5053AD4C1AF79EEA00B3CBFA /* UserPickedLocationPin.swift */,
+				5053AD4C1AF79EEA00B3CBFA /* LocationPin.swift */,
 			);
 			name = PickLocation;
 			sourceTree = "<group>";
@@ -1950,7 +1950,7 @@
 				0AB8F79A1B15D1DC00F4AF09 /* YepNavigationController.swift in Sources */,
 				502AE53A1AB871C1005BD199 /* YepAlert.swift in Sources */,
 				5039594E1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift in Sources */,
-				5053AD4D1AF79EEA00B3CBFA /* UserPickedLocationPin.swift in Sources */,
+				5053AD4D1AF79EEA00B3CBFA /* LocationPin.swift in Sources */,
 				50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */,
 				502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */,
 				508F8FD71B01EDB400461B0B /* DribbbleShotCell.swift in Sources */,

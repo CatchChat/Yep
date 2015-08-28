@@ -92,7 +92,7 @@ enum ProfileUser {
         }
 
         if let myUserID = YepUserDefaults.userID.value {
-            return (userID == myUserID)
+            return userID == myUserID
         }
 
         return false
@@ -432,10 +432,16 @@ class ProfileViewController: UIViewController {
             // 提示没有 Skills
 
             if profileUserIsMe {
-                if masterSkills.isEmpty && learningSkills.isEmpty {
-                    YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("No now", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
-                        self?.pickSkills()
-                    }, cancelAction: {})
+                if let
+                    myUserID = YepUserDefaults.userID.value,
+                    me = userWithUserID(myUserID, inRealm: Realm()) {
+
+                        if me.masterSkills.count == 0 && me.learningSkills.count == 0 {
+
+                            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("No now", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
+                                self?.pickSkills()
+                            }, cancelAction: {})
+                        }
                 }
             }
         }
@@ -764,26 +770,38 @@ class ProfileViewController: UIViewController {
                     // 更新自己的 provider enabled 状态
                     let providerName = socialAccount.rawValue
 
-                    let realm = Realm()
+                    dispatch_async(dispatch_get_main_queue()) {
+                        let realm = Realm()
 
-                    if let
-                        myUserID = YepUserDefaults.userID.value,
-                        me = userWithUserID(myUserID, inRealm: realm) {
+                        if let
+                            myUserID = YepUserDefaults.userID.value,
+                            me = userWithUserID(myUserID, inRealm: realm) {
 
-                            for socialAccountProvider in me.socialAccountProviders {
-                                if socialAccountProvider.name == providerName {
-                                    realm.write {
-                                        socialAccountProvider.enabled = true
+                                var haveSocialAccountProvider = false
+                                for socialAccountProvider in me.socialAccountProviders {
+                                    if socialAccountProvider.name == providerName {
+                                        realm.write {
+                                            socialAccountProvider.enabled = true
+                                        }
+
+                                        haveSocialAccountProvider = true
+                                        break
                                     }
-
-                                    break
                                 }
-                            }
 
-                            dispatch_async(dispatch_get_main_queue()) {
+                                // 如果之前没有，这就新建一个
+                                if !haveSocialAccountProvider {
+                                    let provider = UserSocialAccountProvider()
+                                    provider.name = providerName
+                                    provider.enabled = true
+
+                                    realm.write {
+                                        me.socialAccountProviders.append(provider)
+                                    }
+                                }
+
                                 self?.updateProfileCollectionView()
-                            }
-
+                        }
                     }
                 }
             }
