@@ -124,33 +124,33 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
     }
 
     // MARK: NSURLConnectionDelegate
-
-    func connection(connection: NSURLConnection, willSendRequestForAuthenticationChallenge challenge: NSURLAuthenticationChallenge) {
-        if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
-            
-            let authURL = socialAccount.authURL
-            
-            if challenge.protectionSpace.host == authURL.host {
-                println("trusting connection to host \(challenge.protectionSpace.host)")
-                
-                var credential = NSURLCredential(trust: challenge.protectionSpace.serverTrust)
-                
-                challenge.sender.useCredential(credential, forAuthenticationChallenge: challenge)
-            }
-        }
-        
-        challenge.sender.continueWithoutCredentialForAuthenticationChallenge(challenge)
-    }
+//
+//    func connection(connection: NSURLConnection, willSendRequestForAuthenticationChallenge challenge: NSURLAuthenticationChallenge) {
+//        if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
+//            
+//            let authURL = socialAccount.authURL
+//            
+//            if challenge.protectionSpace.host == authURL.host {
+//                println("trusting connection to host \(challenge.protectionSpace.host)")
+//                
+//                var credential = NSURLCredential(trust: challenge.protectionSpace.serverTrust)
+//                
+//                challenge.sender.useCredential(credential, forAuthenticationChallenge: challenge)
+//            }
+//        }
+//        
+//        challenge.sender.continueWithoutCredentialForAuthenticationChallenge(challenge)
+//    }
 
     // MARK: NSURLConnectionDataDelegate
 
-    func connection(connection: NSURLConnection, didReceiveResponse response: NSURLResponse) {
-        println("Did recieve response")
-
-        authenticated = true
-        
-        connection.cancel()
-
-        webView.loadRequest(failedRequest)
-    }
+//    func connection(connection: NSURLConnection, didReceiveResponse response: NSURLResponse) {
+//        println("Did recieve response")
+//
+//        authenticated = true
+//        
+//        connection.cancel()
+//
+//        webView.loadRequest(failedRequest)
+//    }
 }
