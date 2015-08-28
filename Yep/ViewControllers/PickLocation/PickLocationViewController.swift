@@ -69,6 +69,14 @@ class PickLocationViewController: UIViewController {
         }
     }
 
+    var selectedLocationCoordinate: CLLocationCoordinate2D? {
+        willSet {
+            if let coordinate = newValue {
+                updateUserPickedLocationPinWithCoordinate(coordinate)
+            }
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -330,7 +338,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
         case Section.CurrentLocation.rawValue:
             return 1
         case Section.UserPickedLocation.rawValue:
-            return (userPickedLocationPin == nil ? 0 : 1)
+            return (pickedLocationCoordinate == nil ? 0 : 1)
         case Section.Placemarks.rawValue:
             return placemarks.count
         case Section.SearchedLocation.rawValue:
@@ -427,7 +435,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         case Section.CurrentLocation.rawValue:
             if let location = mapView.userLocation.location {
-                pickedLocationCoordinate = location.coordinate
+                selectedLocationCoordinate = location.coordinate
             }
 
         case Section.UserPickedLocation.rawValue:
@@ -435,22 +443,22 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         case Section.Placemarks.rawValue:
             let placemark = placemarks[indexPath.row]
-            pickedLocationCoordinate = placemark.location.coordinate
+            selectedLocationCoordinate = placemark.location.coordinate
 
         case Section.SearchedLocation.rawValue:
             let placemark = self.searchedMapItems[indexPath.row].placemark
-            pickedLocationCoordinate = placemark.location.coordinate
+            selectedLocationCoordinate = placemark.location.coordinate
 
         case Section.FoursquareVenue.rawValue:
             let foursquareVenue = foursquareVenues[indexPath.row]
-            pickedLocationCoordinate = foursquareVenue.coordinate
+            selectedLocationCoordinate = foursquareVenue.coordinate
 
         default:
             break
         }
 
-        if let pickedLocationCoordinate = pickedLocationCoordinate {
-            let region = MKCoordinateRegionMakeWithDistance(pickedLocationCoordinate, 200, 200)
+        if let userPickedLocationPin = userPickedLocationPin {
+            let region = MKCoordinateRegionMakeWithDistance(userPickedLocationPin.coordinate, 200, 200)
             mapView.setRegion(region, animated: true)
         }
 
