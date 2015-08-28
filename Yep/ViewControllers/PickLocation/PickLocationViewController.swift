@@ -84,7 +84,7 @@ class PickLocationViewController: UIViewController {
         }
     }
 
-    var pickedLocationIndexPath: NSIndexPath?
+    var selectedLocationIndexPath: NSIndexPath?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -159,7 +159,7 @@ class PickLocationViewController: UIViewController {
 
         location = .Picked(coordinate: coordinate)
 
-        pickedLocationIndexPath = NSIndexPath(forRow: 0, inSection: Section.UserPickedLocation.rawValue)
+        selectedLocationIndexPath = NSIndexPath(forRow: 0, inSection: Section.UserPickedLocation.rawValue)
     }
 
     func placemarksAroundLocation(location: CLLocation, completion: [CLPlacemark] -> Void) {
@@ -397,7 +397,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             break
         }
 
-        if let pickLocationIndexPath = pickedLocationIndexPath {
+        if let pickLocationIndexPath = selectedLocationIndexPath {
             cell.checkImageView.hidden = !(pickLocationIndexPath == indexPath)
         }
 
@@ -408,8 +408,8 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        if let pickedLocationIndexPath = pickedLocationIndexPath {
-            if let cell = tableView.cellForRowAtIndexPath(pickedLocationIndexPath) as? PickLocationCell {
+        if let selectedLocationIndexPath = selectedLocationIndexPath {
+            if let cell = tableView.cellForRowAtIndexPath(selectedLocationIndexPath) as? PickLocationCell {
                 cell.checkImageView.hidden = true
             }
 
@@ -423,7 +423,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             cell.checkImageView.hidden = false
         }
 
-        pickedLocationIndexPath = indexPath
+        selectedLocationIndexPath = indexPath
 
 
         switch indexPath.section {
