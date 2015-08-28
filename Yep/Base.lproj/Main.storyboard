@@ -1137,8 +1137,30 @@
                     <view key="view" contentMode="scaleToFill" id="5CH-ve-TLB">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="hbq-fC-4RN">
+                                <rect key="frame" x="0.0" y="300" width="600" height="300"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="1g0-7d-AGp"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="yT8-GW-lJF" id="zm4-Cr-7u2"/>
+                                    <outlet property="delegate" destination="yT8-GW-lJF" id="eIs-Oy-bjo"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="hbq-fC-4RN" secondAttribute="trailing" id="RKl-Ah-1tH"/>
+                            <constraint firstItem="hbq-fC-4RN" firstAttribute="leading" secondItem="5CH-ve-TLB" secondAttribute="leading" id="Xdv-Nz-HvO"/>
+                            <constraint firstAttribute="bottom" secondItem="hbq-fC-4RN" secondAttribute="bottom" id="rpL-Is-h7g"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="aboutTableView" destination="hbq-fC-4RN" id="BwQ-6X-3Hn"/>
+                        <outlet property="aboutTableViewHeightConstraint" destination="1g0-7d-AGp" id="7Wy-0P-2Ra"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EcK-x9-RRQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
