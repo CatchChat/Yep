@@ -61,7 +61,13 @@ class PickLocationViewController: UIViewController {
 
     let pickLocationCellIdentifier = "PickLocationCell"
     var pickedLocationIndexPath: NSIndexPath?
-    var pickedLocationCoordinate: CLLocationCoordinate2D?
+    var pickedLocationCoordinate: CLLocationCoordinate2D? {
+        willSet {
+            if let coordinate = newValue {
+                updateUserPickedLocationPinWithCoordinate(coordinate)
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,19 +125,25 @@ class PickLocationViewController: UIViewController {
         })
     }
 
-    func addAnnotation(sender: UITapGestureRecognizer) {
+    private func updateUserPickedLocationPinWithCoordinate(coordinate: CLLocationCoordinate2D) {
 
         mapView.removeAnnotation(userPickedLocationPin)
-
-        let point = sender.locationInView(mapView)
-        let coordinate = mapView.convertPoint(point, toCoordinateFromView: mapView)
 
         let pin = UserPickedLocationPin(title: "Pin", subtitle: "User Picked Location", coordinate: coordinate)
         mapView.addAnnotation(pin)
 
-        pickedLocationCoordinate = pin.coordinate
-        pickedLocationIndexPath = NSIndexPath(forRow: 0, inSection: Section.UserPickedLocation.rawValue)
         userPickedLocationPin = pin
+    }
+
+    func addAnnotation(sender: UITapGestureRecognizer) {
+
+        let point = sender.locationInView(mapView)
+        let coordinate = mapView.convertPoint(point, toCoordinateFromView: mapView)
+
+        //updateUserPickedLocationPinWithCoordinate(coordinate)
+
+        pickedLocationCoordinate = coordinate
+        pickedLocationIndexPath = NSIndexPath(forRow: 0, inSection: Section.UserPickedLocation.rawValue)
     }
 
     func placemarksAroundLocation(location: CLLocation, completion: [CLPlacemark] -> Void) {
