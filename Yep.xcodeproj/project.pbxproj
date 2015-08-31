@@ -143,6 +143,7 @@
 		507CF1681AFC84A500E261B4 /* CustomNavigationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */; };
 		507F65F71B2EBC2700A35FDC /* MediaPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */; };
 		5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */; };
+		5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */; };
 		50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF01AEA4726000981AF /* SettingsViewController.swift */; };
 		50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF31AEA4A01000981AF /* SettingsUserCell.swift */; };
 		50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894CF41AEA4A01000981AF /* SettingsUserCell.xib */; };
@@ -398,6 +399,7 @@
 		507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomNavigationBarViewController.swift; path = ViewControllers/CustomNavigationBar/CustomNavigationBarViewController.swift; sourceTree = "<group>"; };
 		507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaPreviewView.swift; path = Views/Media/MediaPreviewView.swift; sourceTree = "<group>"; };
 		5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PodsHelpYepViewController.swift; path = ViewControllers/PodsHelpYep/PodsHelpYepViewController.swift; sourceTree = "<group>"; };
+		5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSBundle+Yep.swift"; path = "Extensions/NSBundle+Yep.swift"; sourceTree = "<group>"; };
 		50894CF01AEA4726000981AF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = ViewControllers/Settings/SettingsViewController.swift; sourceTree = "<group>"; };
 		50894CF31AEA4A01000981AF /* SettingsUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsUserCell.swift; path = Views/Cells/SettingsUser/SettingsUserCell.swift; sourceTree = "<group>"; };
 		50894CF41AEA4A01000981AF /* SettingsUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsUserCell.xib; path = Views/Cells/SettingsUser/SettingsUserCell.xib; sourceTree = "<group>"; };
@@ -829,6 +831,7 @@
 				50B38FB61B69CD960064C132 /* Array+Yep.swift */,
 				50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */,
 				50E1D7281B870D7500D90A82 /* NSParagraphStyle+Yep.swift */,
+				5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -1988,6 +1991,7 @@
 				0AB8F79A1B15D1DC00F4AF09 /* YepNavigationController.swift in Sources */,
 				502AE53A1AB871C1005BD199 /* YepAlert.swift in Sources */,
 				5039594E1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift in Sources */,
+				5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */,
 				5053AD4D1AF79EEA00B3CBFA /* LocationPin.swift in Sources */,
 				50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */,
 				50E3488E1B905C0100A8E699 /* AboutViewController.swift in Sources */,

@@ -34,6 +34,12 @@ class AboutViewController: UIViewController {
 
         title = NSLocalizedString("About", comment: "")
 
+        if let
+            releaseVersionNumber = NSBundle.releaseVersionNumber,
+            buildVersionNumber = NSBundle.buildVersionNumber {
+                appVersionLabel.text = NSLocalizedString("Version", comment: "") + " " + releaseVersionNumber + " (\(buildVersionNumber))"
+        }
+
         aboutTableView.registerNib(UINib(nibName: aboutCellID, bundle: nil), forCellReuseIdentifier: aboutCellID)
 
         aboutTableViewHeightConstraint.constant = rowHeight * CGFloat(aboutAnnotations.count) + 1
