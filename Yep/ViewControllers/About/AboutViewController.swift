@@ -74,6 +74,8 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
         switch indexPath.row {
+        case 1:
+            performSegueWithIdentifier("showPods", sender: nil)
         case 3:
             UIApplication.sharedApplication().openURL(NSURL(string: YepConfig.termsURLString)!)
         default:
