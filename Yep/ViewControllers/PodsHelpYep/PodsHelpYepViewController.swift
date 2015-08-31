@@ -100,6 +100,18 @@ class PodsHelpYepViewController: UITableViewController {
         return cell
     }
 
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        let pod = pods[indexPath.row]
+
+        if let
+            URLString = pod["URLString"],
+            URL = NSURL(string: URLString) {
+                UIApplication.sharedApplication().openURL(URL)
+        }
+    }
+
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
