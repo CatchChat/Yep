@@ -1139,7 +1139,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="hbq-fC-4RN">
-                                <rect key="frame" x="0.0" y="269.5" width="600" height="300"/>
+                                <rect key="frame" x="0.0" y="269" width="600" height="300"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="1g0-7d-AGp"/>
@@ -1149,23 +1149,23 @@
                                     <outlet property="delegate" destination="yT8-GW-lJF" id="eIs-Oy-bjo"/>
                                 </connections>
                             </tableView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fans" translatesAutoresizingMaskIntoConstraints="NO" id="T5N-QV-ray">
-                                <rect key="frame" x="270" y="104" width="60" height="60"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="yep_icon_solo" translatesAutoresizingMaskIntoConstraints="NO" id="T5N-QV-ray">
+                                <rect key="frame" x="240" y="84" width="120" height="120"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yep" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0gW-5K-DQz">
-                                <rect key="frame" x="276" y="183" width="49" height="36"/>
+                                <rect key="frame" x="276" y="223" width="49" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 1.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="102-IE-TP0">
-                                <rect key="frame" x="264.5" y="227" width="71.5" height="17"/>
+                                <rect key="frame" x="264" y="267" width="71.5" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.60000002384185791" green="0.60000002384185791" blue="0.60000002384185791" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2015 Catch Inc." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nN-bl-dxT">
-                                <rect key="frame" x="224.5" y="577.5" width="151" height="14.5"/>
+                                <rect key="frame" x="224" y="577" width="151" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                                 <color key="textColor" red="0.60000002384185791" green="0.60000002384185791" blue="0.60000002384185791" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1183,7 +1183,7 @@
                             <constraint firstItem="102-IE-TP0" firstAttribute="centerX" secondItem="0gW-5K-DQz" secondAttribute="centerX" id="dQM-16-Tbr"/>
                             <constraint firstItem="102-IE-TP0" firstAttribute="top" secondItem="0gW-5K-DQz" secondAttribute="bottom" constant="8" id="lhD-dg-lV6"/>
                             <constraint firstItem="0gW-5K-DQz" firstAttribute="centerX" secondItem="T5N-QV-ray" secondAttribute="centerX" constant="0.5" id="qMh-eN-3p6"/>
-                            <constraint firstItem="T5N-QV-ray" firstAttribute="top" secondItem="DCG-xs-MCn" secondAttribute="bottom" constant="40" id="roz-HZ-YcO"/>
+                            <constraint firstItem="T5N-QV-ray" firstAttribute="top" secondItem="DCG-xs-MCn" secondAttribute="bottom" constant="20" id="roz-HZ-YcO"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1955,7 +1955,6 @@
     <resources>
         <image name="default_avatar" width="100" height="100"/>
         <image name="enabled_badge_background" width="50" height="50"/>
-        <image name="fans" width="60" height="60"/>
         <image name="icon_chat" width="30" height="30"/>
         <image name="icon_chat_active" width="30" height="30"/>
         <image name="icon_contact" width="30" height="30"/>
@@ -1973,6 +1972,7 @@
         <image name="profile_avatar_frame" width="112" height="112"/>
         <image name="swipe_up" width="21" height="6"/>
         <image name="top_shadow" width="375" height="80"/>
+        <image name="yep_icon_solo" width="120" height="120"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Pxr-1p-x84"/>
