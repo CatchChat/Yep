@@ -91,6 +91,8 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         switch indexPath.row {
         case 1:
             performSegueWithIdentifier("showPodsHelpYep", sender: nil)
+        case 2:
+            UIApplication.sharedApplication().openURL(NSURL(string: YepConfig.appURLString)!)
         case 3:
             UIApplication.sharedApplication().openURL(NSURL(string: YepConfig.termsURLString)!)
         default:
