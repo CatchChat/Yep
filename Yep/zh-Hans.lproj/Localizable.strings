@@ -16,7 +16,7 @@
 "[Image]" = "[图片]";
 
 /* No comment provided by engineer. */
-"[Location]" = "[地点]";
+"[Location]" = "[位置]";
 
 /* No comment provided by engineer. */
 "[Video]" = "[视频]";
@@ -532,9 +532,6 @@
 
 /* No comment provided by engineer. */
 "You have blocked %@! Do you want to unblock him or her?" = "您已屏蔽“%@”！您要解除对他或她的屏蔽吗？";
-
-/* No comment provided by engineer. */
-"About" = "关于";
 
 /* No comment provided by engineer. */
 "Pods help Yep" = "Yep 使用的第三方 Pods";
