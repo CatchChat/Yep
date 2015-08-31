@@ -32,7 +32,7 @@ class SettingsViewController: BaseViewController {
         ],
         [
             "name": NSLocalizedString("About", comment: ""),
-            //"segue": "showAbout",
+            "segue": "showAbout",
         ],
     ]
 

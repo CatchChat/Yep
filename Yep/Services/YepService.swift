@@ -2141,7 +2141,7 @@ func dribbbleWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, Str
 
     let parse: JSONDictionary -> DribbbleWork? = { data in
 
-        println("dribbbleData:\(data)")
+        //println("dribbbleData:\(data)")
 
         if let
             shotsData = data["shots"] as? [JSONDictionary],

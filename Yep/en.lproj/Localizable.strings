@@ -240,6 +240,9 @@
 "Meet" = "Meet";
 
 /* No comment provided by engineer. */
+"Meet with genius" = "Meet with genius";
+
+/* No comment provided by engineer. */
 "Mute" = "Mute";
 
 /* No comment provided by engineer. */
@@ -528,3 +531,14 @@
 /* No comment provided by engineer. */
 "You have blocked %@! Do you want to unblock him or her?" = "You have blocked %@! Do you want to unblock him or her?";
 
+/* No comment provided by engineer. */
+"Pods help Yep" = "Pods help Yep";
+
+/* No comment provided by engineer. */
+"Rate Yep on App Store" = "Rate Yep on App Store";
+
+/* No comment provided by engineer. */
+"Terms of Service" = "Terms of Service";
+
+/* No comment provided by engineer. */
+"Version" = "Version";

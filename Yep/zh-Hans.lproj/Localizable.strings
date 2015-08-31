@@ -16,7 +16,7 @@
 "[Image]" = "[图片]";
 
 /* No comment provided by engineer. */
-"[Location]" = "[地点]";
+"[Location]" = "[位置]";
 
 /* No comment provided by engineer. */
 "[Video]" = "[视频]";
@@ -141,7 +141,7 @@
 "Done" = "完成";
 
 /* No comment provided by engineer. */
-"Edit Profile" = "编辑个人简介";
+"Edit Profile" = "编辑个人主页";
 
 /* No comment provided by engineer. */
 "Enable Do Not Disturb failed!" = "开启“免打扰”失败";
@@ -240,6 +240,9 @@
 
 /* No comment provided by engineer. */
 "Meet" = "见面";
+
+/* No comment provided by engineer. */
+"Meet with genius" = "与天才相遇";
 
 /* No comment provided by engineer. */
 "Mute" = "静音";
@@ -474,7 +477,7 @@
 "User authentication error, you need to login again!" = "用户验证错误，您需要重新登录！";
 
 /* No comment provided by engineer. */
-"View profile" = "查看个人简介";
+"View profile" = "查看个人主页";
 
 /* No comment provided by engineer. */
 "Wait too long, the operation may not be completed." = "等待较久，操作可能未完成！";
@@ -530,3 +533,14 @@
 /* No comment provided by engineer. */
 "You have blocked %@! Do you want to unblock him or her?" = "您已屏蔽“%@”！您要解除对他或她的屏蔽吗？";
 
+/* No comment provided by engineer. */
+"Pods help Yep" = "Yep 使用的第三方 Pods";
+
+/* No comment provided by engineer. */
+"Rate Yep on App Store" = "在 App Store 上对 Yep 评分";
+
+/* No comment provided by engineer. */
+"Terms of Service" = "服务条款";
+
+/* No comment provided by engineer. */
+"Version" = "版本";
