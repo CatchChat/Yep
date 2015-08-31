@@ -34,6 +34,8 @@ class AboutViewController: UIViewController {
 
         title = NSLocalizedString("About", comment: "")
 
+        appNameLabel.textColor = UIColor.yepTintColor()
+
         if let
             releaseVersionNumber = NSBundle.releaseVersionNumber,
             buildVersionNumber = NSBundle.buildVersionNumber {
