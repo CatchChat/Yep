@@ -142,6 +142,7 @@
 		5076FC5A1AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5076FC591AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift */; };
 		507CF1681AFC84A500E261B4 /* CustomNavigationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */; };
 		507F65F71B2EBC2700A35FDC /* MediaPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */; };
+		5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */; };
 		50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF01AEA4726000981AF /* SettingsViewController.swift */; };
 		50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF31AEA4A01000981AF /* SettingsUserCell.swift */; };
 		50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894CF41AEA4A01000981AF /* SettingsUserCell.xib */; };
@@ -396,6 +397,7 @@
 		5076FC591AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMessagePreviewTransitionManager.swift; path = ViewControllers/Conversation/ConversationMessagePreviewTransitionManager.swift; sourceTree = "<group>"; };
 		507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomNavigationBarViewController.swift; path = ViewControllers/CustomNavigationBar/CustomNavigationBarViewController.swift; sourceTree = "<group>"; };
 		507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaPreviewView.swift; path = Views/Media/MediaPreviewView.swift; sourceTree = "<group>"; };
+		5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PodsHelpYepViewController.swift; path = ViewControllers/PodsHelpYep/PodsHelpYepViewController.swift; sourceTree = "<group>"; };
 		50894CF01AEA4726000981AF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = ViewControllers/Settings/SettingsViewController.swift; sourceTree = "<group>"; };
 		50894CF31AEA4A01000981AF /* SettingsUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsUserCell.swift; path = Views/Cells/SettingsUser/SettingsUserCell.swift; sourceTree = "<group>"; };
 		50894CF41AEA4A01000981AF /* SettingsUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsUserCell.xib; path = Views/Cells/SettingsUser/SettingsUserCell.xib; sourceTree = "<group>"; };
@@ -765,6 +767,7 @@
 				503ED23B1B8ADCED0072187D /* BlackList */,
 				50B38FCD1B6B37F90064C132 /* Feedback */,
 				50E3488F1B905C0700A8E699 /* About */,
+				5080EB1D1B93F440006F3C2D /* PodsHelpYep */,
 				0A1CAC6C1AFA3D8C00826B45 /* SkillHome */,
 				507CF1691AFC84AA00E261B4 /* CustomNavigationBar */,
 				0A9018831B0120A800AE4B7F /* OAuth */,
@@ -1253,6 +1256,14 @@
 				507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */,
 			);
 			name = CustomNavigationBar;
+			sourceTree = "<group>";
+		};
+		5080EB1D1B93F440006F3C2D /* PodsHelpYep */ = {
+			isa = PBXGroup;
+			children = (
+				5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */,
+			);
+			name = PodsHelpYep;
 			sourceTree = "<group>";
 		};
 		50894CF21AEA472B000981AF /* Settings */ = {
@@ -1940,6 +1951,7 @@
 				503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */,
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
 				50894D071AEDFDA2000981AF /* EditProfileMoreInfoCell.swift in Sources */,
+				5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */,
 				0A1CAC731AFA526200826B45 /* SkillHomeSectionButton.swift in Sources */,
 				50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */,
 				507F65F71B2EBC2700A35FDC /* MediaPreviewView.swift in Sources */,
