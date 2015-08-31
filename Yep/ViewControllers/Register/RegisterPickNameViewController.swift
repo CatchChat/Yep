@@ -79,7 +79,7 @@ class RegisterPickNameViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        //nameTextField.becomeFirstResponder()
+        nameTextField.becomeFirstResponder()
     }
 
     // MARK: Actions
