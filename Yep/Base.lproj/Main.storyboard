@@ -1190,7 +1190,9 @@
                         <outlet property="aboutTableView" destination="hbq-fC-4RN" id="BwQ-6X-3Hn"/>
                         <outlet property="aboutTableViewHeightConstraint" destination="1g0-7d-AGp" id="7Wy-0P-2Ra"/>
                         <outlet property="appLogoImageView" destination="T5N-QV-ray" id="5BX-2b-jw4"/>
+                        <outlet property="appLogoImageViewTopConstraint" destination="roz-HZ-YcO" id="kgd-Lk-w4i"/>
                         <outlet property="appNameLabel" destination="0gW-5K-DQz" id="iZM-sK-7OL"/>
+                        <outlet property="appNameLabelTopConstraint" destination="2g3-6y-yQw" id="8Uv-Kb-2vo"/>
                         <outlet property="appVersionLabel" destination="102-IE-TP0" id="Qxw-FK-TPo"/>
                         <outlet property="copyrightLabel" destination="6nN-bl-dxT" id="9hz-OF-aXn"/>
                         <segue destination="NFd-fk-w2x" kind="show" identifier="showPodsHelpYep" id="uf8-rh-PVc"/>

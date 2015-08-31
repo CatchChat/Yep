@@ -7,11 +7,15 @@
 //
 
 import UIKit
+import Ruler
 
 class AboutViewController: UIViewController {
 
     @IBOutlet weak var appLogoImageView: UIImageView!
+    @IBOutlet weak var appLogoImageViewTopConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var appNameLabel: UILabel!
+    @IBOutlet weak var appNameLabelTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var appVersionLabel: UILabel!
     
     @IBOutlet weak var aboutTableView: UITableView!
@@ -21,7 +25,7 @@ class AboutViewController: UIViewController {
 
     let aboutCellID = "AboutCell"
 
-    let rowHeight: CGFloat = 60
+    let rowHeight: CGFloat = Ruler.match(.iPhoneHeights(50, 60, 60, 60))
 
     let aboutAnnotations: [String] = [
         NSLocalizedString("Pods help Yep", comment: ""),
@@ -33,6 +37,9 @@ class AboutViewController: UIViewController {
         super.viewDidLoad()
 
         title = NSLocalizedString("About", comment: "")
+
+        appLogoImageViewTopConstraint.constant = Ruler.match(.iPhoneHeights(0, 20, 40, 60))
+        appNameLabelTopConstraint.constant = Ruler.match(.iPhoneHeights(10, 20, 20, 20))
 
         appNameLabel.textColor = UIColor.yepTintColor()
 
