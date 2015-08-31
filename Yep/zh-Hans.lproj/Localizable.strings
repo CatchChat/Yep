@@ -530,3 +530,17 @@
 /* No comment provided by engineer. */
 "You have blocked %@! Do you want to unblock him or her?" = "您已屏蔽“%@”！您要解除对他或她的屏蔽吗？";
 
+/* No comment provided by engineer. */
+"About" = "关于";
+
+/* No comment provided by engineer. */
+"Pods help Yep" = "Yep 使用的第三方库";
+
+/* No comment provided by engineer. */
+"Rate Yep on App Store" = "在 App Store 上对 Yep 评分";
+
+/* No comment provided by engineer. */
+"Terms of Service" = "服务条款";
+
+/* No comment provided by engineer. */
+"Version" = "版本";
