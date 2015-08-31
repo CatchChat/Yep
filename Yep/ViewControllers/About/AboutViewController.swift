@@ -59,6 +59,12 @@ class AboutViewController: UIViewController {
 
 extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
 
+    enum Row: Int {
+        case Pods = 1
+        case Rate
+        case Terms
+    }
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return aboutAnnotations.count + 1
     }
@@ -89,11 +95,11 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
         switch indexPath.row {
-        case 1:
+        case Row.Pods.rawValue:
             performSegueWithIdentifier("showPodsHelpYep", sender: nil)
-        case 2:
+        case Row.Rate.rawValue:
             UIApplication.sharedApplication().openURL(NSURL(string: YepConfig.appURLString)!)
-        case 3:
+        case Row.Terms.rawValue:
             UIApplication.sharedApplication().openURL(NSURL(string: YepConfig.termsURLString)!)
         default:
             break
