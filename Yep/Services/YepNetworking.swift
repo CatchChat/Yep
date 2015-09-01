@@ -99,7 +99,7 @@ var yepNetworkActivityCount = 0 {
     }
 }
 
-#if HEEPSSELFSIGNED
+#if STAGING
 class SessionDelegate: NSObject, NSURLSessionDelegate {
 
     func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void) {
@@ -112,7 +112,7 @@ let _sessionDelegate = SessionDelegate()
 #endif
 
 public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>, failure: (Reason, String?) -> Void, completion: A -> Void) {
-#if HEEPSSELFSIGNED
+#if STAGING
     let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
     let session = NSURLSession(configuration: sessionConfig, delegate: _sessionDelegate, delegateQueue: nil)
 #else
