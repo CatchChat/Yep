@@ -12,8 +12,10 @@ class YepTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.backgroundColor = UIColor.whiteColor()
+
+        delegate = self
+
+        view.backgroundColor = UIColor.whiteColor()
 
         // 将 UITabBarItem 的 image 下移一些，也不显示 title 了
 //        if let items = tabBar.items as? [UITabBarItem] {
@@ -39,3 +41,20 @@ class YepTabBarController: UITabBarController {
         }
     }
 }
+
+extension YepTabBarController: UITabBarControllerDelegate {
+
+    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+
+        if selectedIndex == 1 {
+            if let nvc = viewController as? UINavigationController, vc = nvc.topViewController as? ContactsViewController {
+                syncFriendshipsAndDoFurtherAction {
+                    dispatch_async(dispatch_get_main_queue()) { [weak vc] in
+                        vc?.updateContactsTableView()
+                    }
+                }
+            }
+        }
+    }
+}
+
