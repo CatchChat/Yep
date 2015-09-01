@@ -266,7 +266,7 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.userSkill = userSkill
 
-        cell.removeSkillAction = { [weak self] userSkill in
+        cell.removeSkillAction = { [weak self] cell, userSkill in
 
             if let me = self?.me, skillSet = self?.skillSet {
 
@@ -291,6 +291,9 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 self?.realm.write {
                     self?.realm.delete(userSkill)
+
+                    // 防止连续点击时 Realm 出错
+                    cell.userSkill = nil
                 }
 
                 if let rowToDelete = rowToDelete {

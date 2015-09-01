@@ -16,7 +16,7 @@ class EditSkillCell: UITableViewCell {
             skillLabel.text = userSkill?.localName
         }
     }
-    var removeSkillAction: (UserSkill -> Void)?
+    var removeSkillAction: ((EditSkillCell, UserSkill) -> Void)?
 
     @IBOutlet weak var skillLabel: UILabel!
     @IBOutlet weak var skillLabelLeadingConstraint: NSLayoutConstraint!
@@ -44,7 +44,7 @@ class EditSkillCell: UITableViewCell {
 
     func tryRemoveSkill() {
         if let userSkill = userSkill {
-            removeSkillAction?(userSkill)
+            removeSkillAction?(self, userSkill)
         }
     }
     
