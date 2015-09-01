@@ -124,7 +124,7 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
     }
 
     // MARK: NSURLConnectionDelegate
-//
+
 //    func connection(connection: NSURLConnection, willSendRequestForAuthenticationChallenge challenge: NSURLAuthenticationChallenge) {
 //        if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
 //            
@@ -142,7 +142,7 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
 //        challenge.sender.continueWithoutCredentialForAuthenticationChallenge(challenge)
 //    }
 
-    // MARK: NSURLConnectionDataDelegate
+//     MARK: NSURLConnectionDataDelegate
 
 //    func connection(connection: NSURLConnection, didReceiveResponse response: NSURLResponse) {
 //        println("Did recieve response")
