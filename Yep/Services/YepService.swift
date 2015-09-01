@@ -1535,7 +1535,7 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, #failureHandler: 
 
 
     if
-        FayeService.sharedManager.client.connected,
+        FayeService.sharedManager.client.connected && false, // 暂时不用 Faye 发送消息
         let recipientType = messageInfo["recipient_type"] as? String,
         let recipientID = messageInfo["recipient_id"] as? String {
 
