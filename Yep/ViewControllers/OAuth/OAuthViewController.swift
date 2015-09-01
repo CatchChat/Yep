@@ -9,7 +9,7 @@
 import UIKit
 import OnePasswordExtension
 
-class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate {
+class OAuthViewController: BaseViewController {
 
     var socialAccount: SocialAccount!
     var afterOAuthAction: ((socialAccount: SocialAccount) -> Void)?
@@ -25,8 +25,7 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+
         self.view.backgroundColor = UIColor.whiteColor()
         
         animatedOnNavigationBar = false
@@ -43,23 +42,26 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
         
         if !OnePasswordExtension.sharedExtension().isAppExtensionAvailable() {
             self.navigationItem.rightBarButtonItem = nil
-        } else {
-            println("User dosent have one password")
+            println("NOT 1Password")
         }
     }
+
+    // MARK: Actions
 
     @IBAction func fillPassword(sender: AnyObject) {
         OnePasswordExtension.sharedExtension().fillItemIntoWebView(webView, forViewController: self, sender: sender, showOnlyLogins: false) { (finish, error) -> Void in
             
         }
     }
-    // MARK: Actions
 
     @IBAction func cancel(sender: UIBarButtonItem) {
         dismissViewControllerAnimated(true, completion: nil)
     }
+}
 
-    // MARK: UIWebViewDelegate
+// MARK: UIWebViewDelegate
+
+extension OAuthViewController: UIWebViewDelegate {
 
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         let result = authenticated
@@ -79,11 +81,11 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
         return result
     }
     
-    func handleWithRequestURL(url: String) {
+    private func handleWithRequestURL(url: String) {
 
       if url.contains("/auth/success") {
         
-        socialAccountWithProvider(self.socialAccount.description.lowercaseString, failureHandler: { (reason, errorMessage) -> Void in
+            socialAccountWithProvider(self.socialAccount.description.lowercaseString, failureHandler: { reason, errorMessage in
                 
                 defaultFailureHandler(reason, errorMessage)
 
@@ -91,7 +93,7 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
                     self?.dismissViewControllerAnimated(true, completion: nil)
                 }
 
-            }, completion: { [weak self] provider in
+            }, completion: { provider in
                 println(provider)
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
@@ -104,14 +106,13 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
             })
             
         } else if url.contains("/auth/failure") {
-            self.webViewDidFinishLoad(self.webView)
+            webViewDidFinishLoad(webView)
             
             YepAlert.alertSorry(message: NSLocalizedString("OAuth Error", comment: ""), inViewController: self, withDismissAction: { () -> Void in
                 self.dismissViewControllerAnimated(true, completion: nil)
             })
         }
     }
-    
 
     func webViewDidStartLoad(webView: UIWebView) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
@@ -122,35 +123,45 @@ class OAuthViewController: BaseViewController, UIWebViewDelegate, NSURLConnectio
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         activityIndicator.stopAnimating()
     }
-
-    // MARK: NSURLConnectionDelegate
-
-//    func connection(connection: NSURLConnection, willSendRequestForAuthenticationChallenge challenge: NSURLAuthenticationChallenge) {
-//        if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
-//            
-//            let authURL = socialAccount.authURL
-//            
-//            if challenge.protectionSpace.host == authURL.host {
-//                println("trusting connection to host \(challenge.protectionSpace.host)")
-//                
-//                var credential = NSURLCredential(trust: challenge.protectionSpace.serverTrust)
-//                
-//                challenge.sender.useCredential(credential, forAuthenticationChallenge: challenge)
-//            }
-//        }
-//        
-//        challenge.sender.continueWithoutCredentialForAuthenticationChallenge(challenge)
-//    }
-
-//     MARK: NSURLConnectionDataDelegate
-
-//    func connection(connection: NSURLConnection, didReceiveResponse response: NSURLResponse) {
-//        println("Did recieve response")
-//
-//        authenticated = true
-//        
-//        connection.cancel()
-//
-//        webView.loadRequest(failedRequest)
-//    }
 }
+
+// MARK: NSURLConnectionDelegate
+
+extension OAuthViewController: NSURLConnectionDelegate {
+
+    func connection(connection: NSURLConnection, willSendRequestForAuthenticationChallenge challenge: NSURLAuthenticationChallenge) {
+
+        if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
+
+            let authURL = socialAccount.authURL
+            
+            if challenge.protectionSpace.host == authURL.host {
+
+                println("OAuthViewController trusting connection to host \(challenge.protectionSpace.host)")
+                
+                let credential = NSURLCredential(trust: challenge.protectionSpace.serverTrust)
+                
+                challenge.sender.useCredential(credential, forAuthenticationChallenge: challenge)
+            }
+        }
+        
+        challenge.sender.continueWithoutCredentialForAuthenticationChallenge(challenge)
+    }
+}
+
+// MARK: NSURLConnectionDataDelegate
+
+extension OAuthViewController: NSURLConnectionDataDelegate {
+
+    func connection(connection: NSURLConnection, didReceiveResponse response: NSURLResponse) {
+
+        println("OAuthViewController didReceiveResponse")
+
+        authenticated = true
+        
+        connection.cancel()
+
+        webView.loadRequest(failedRequest)
+    }
+}
+
