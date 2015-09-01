@@ -10,8 +10,13 @@ import Foundation
 import RealmSwift
 import CoreLocation
 
+#if DEBUG
+let baseURL = NSURL(string: "https://park-staging.catchchatchina.com")!
+let fayeBaseURL = NSURL(string: "wss://faye-staging.catchchatchina.com/faye")!
+#else
 let baseURL = NSURL(string: "https://park.catchchatchina.com")!
 let fayeBaseURL = NSURL(string: "wss://faye.catchchatchina.com/faye")!
+#endif
 
 // Models
 
