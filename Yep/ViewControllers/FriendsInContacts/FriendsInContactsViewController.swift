@@ -57,8 +57,12 @@ class FriendsInContactsViewController: BaseViewController {
         friendsTableView.rowHeight = 80
         friendsTableView.tableFooterView = UIView()
 
-        addressBook.loadContacts{ [weak self] (contacts: [AnyObject]!, error: NSError!) in
-            if let contacts = contacts as? [APContact] {
+        addressBook.loadContacts { [weak self] (contacts: [AnyObject]!, error: NSError!) in
+
+            if (error != nil) {
+                YepAlert.alertSorry(message: error.localizedDescription, inViewController: self)
+
+            } else if let contacts = contacts as? [APContact] {
 
                 var uploadContacts = [UploadContact]()
 
@@ -76,27 +80,24 @@ class FriendsInContactsViewController: BaseViewController {
 
                 //println(uploadContacts)
 
-                dispatch_async(dispatch_get_main_queue()) {
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     self?.activityIndicator.startAnimating()
                 }
 
-                friendsInContacts(uploadContacts, failureHandler: { [weak self] (reason, errorMessage) in
+                friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
                     defaultFailureHandler(reason, errorMessage)
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
                         self?.activityIndicator.stopAnimating()
                     }
 
-                }, completion: { [weak self] discoveredUsers in
-                    dispatch_async(dispatch_get_main_queue()) {
+                }, completion: { discoveredUsers in
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
                         self?.discoveredUsers = discoveredUsers
 
                         self?.activityIndicator.stopAnimating()
                     }
                 })
-
-            } else if (error != nil) {
-                YepAlert.alertSorry(message: error.localizedDescription, inViewController: self)
             }
         }
     }
