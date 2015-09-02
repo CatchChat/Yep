@@ -187,6 +187,7 @@
 		50A640E91B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A640E71B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.swift */; };
 		50A640EA1B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A640E81B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib */; };
 		50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */; };
+		50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */; };
 		50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */; };
 		50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */; };
 		50A9D4511ACD383E000B2599 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */; };
@@ -443,6 +444,7 @@
 		50A640E71B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoNotDisturbPeriodCell.swift; path = Views/Cells/DoNotDisturb/DoNotDisturbPeriodCell.swift; sourceTree = "<group>"; };
 		50A640E81B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DoNotDisturbPeriodCell.xib; path = Views/Cells/DoNotDisturb/DoNotDisturbPeriodCell.xib; sourceTree = "<group>"; };
 		50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoNotDisturbPeriodViewController.swift; path = ViewControllers/DoNotDisturbPeriod/DoNotDisturbPeriodViewController.swift; sourceTree = "<group>"; };
+		50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSTimeZone+Yep.swift"; path = "Extensions/NSTimeZone+Yep.swift"; sourceTree = "<group>"; };
 		50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Yep.swift"; path = "Extensions/NSFileManager+Yep.swift"; sourceTree = "<group>"; };
 		50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = NSDateTimeAgo.bundle; path = Extensions/NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Extensions/NSDate+Extension.swift"; sourceTree = "<group>"; };
@@ -832,6 +834,7 @@
 				50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */,
 				50E1D7281B870D7500D90A82 /* NSParagraphStyle+Yep.swift */,
 				5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */,
+				50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -2070,6 +2073,7 @@
 				840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */,
 				508F8FD01B01D04400461B0B /* GithubRepoCell.swift in Sources */,
 				50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */,
+				50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */,
 				504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */,
 				84385C481B85AC890071130D /* ShowStepMatchViewController.swift in Sources */,
 				0A0027D61B19CEC000AD4BE0 /* ConversationOperationQueue.swift in Sources */,

@@ -34,7 +34,7 @@ class RegisterPickMobileViewController: UIViewController {
 
         pickMobileNumberPromptLabel.text = NSLocalizedString("What's your number?", comment: "")
 
-        areaCodeTextField.text = NSLocale.areaCode
+        areaCodeTextField.text = NSTimeZone.areaCode
 
         areaCodeTextField.delegate = self
         areaCodeTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
