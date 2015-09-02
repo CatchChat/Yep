@@ -254,17 +254,6 @@ extension NSTimeZone {
             "IL": "972",
         ]
 
-        /*
-        println(NSLocale.ISOCountryCodes())
-
-        println(NSTimeZone.localTimeZone().localizedName(.Standard, locale: NSLocale.systemLocale())!)
-        println(NSTimeZone.localTimeZone().localizedName(.ShortStandard, locale: NSLocale.systemLocale())!)
-        println(NSTimeZone.localTimeZone().localizedName(.DaylightSaving,locale: NSLocale.systemLocale())!)
-        println(NSTimeZone.localTimeZone().localizedName(.ShortDaylightSaving, locale: NSLocale.systemLocale())!)
-        println(NSTimeZone.localTimeZone().localizedName(.Generic, locale: NSLocale.systemLocale())!)
-        println(NSTimeZone.localTimeZone().localizedName(.ShortGeneric, locale: NSLocale.systemLocale())!)
-        */
-
         NSTimeZone.resetSystemTimeZone()
 
         let timeZone = NSTimeZone.systemTimeZone()
