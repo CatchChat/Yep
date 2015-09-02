@@ -227,14 +227,14 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                                     let localHour: Int
                                     let localMinute: Int
 
-                                    if serverMinute + userDoNotDisturb.minuteOffset > 60 {
+                                    if serverMinute + userDoNotDisturb.minuteOffset >= 60 {
                                         localHour = (serverHour + userDoNotDisturb.hourOffset + 1) % 24
-                                        localMinute = (serverMinute + userDoNotDisturb.minuteOffset - 60) % 60
 
                                     } else {
                                         localHour = (serverHour + userDoNotDisturb.hourOffset) % 24
-                                        localMinute = (serverMinute + userDoNotDisturb.minuteOffset) % 60
                                     }
+
+                                    localMinute = (serverMinute + userDoNotDisturb.minuteOffset) % 60
 
                                     return (localHour, localMinute)
                                 }

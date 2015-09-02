@@ -38,10 +38,10 @@ struct DoNotDisturbPeriod {
     }
 
     func serverStringWithHour(hour: Int, minute: Int) -> String {
-        if minute - minuteOffset > 0 {
-            return String(format: "%02d:%02d", (hour - hourOffset) % 24, (minute - minuteOffset) % 60)
+        if minute - minuteOffset >= 0 {
+            return String(format: "%02d:%02d", (hour - hourOffset + 24) % 24, (minute - minuteOffset) % 60)
         } else {
-            return String(format: "%02d:%02d", (hour - hourOffset - 1) % 24, ((minute + 60) - minuteOffset) % 60)
+            return String(format: "%02d:%02d", (hour - hourOffset - 1 + 24) % 24, ((minute + 60) - minuteOffset) % 60)
         }
     }
 
