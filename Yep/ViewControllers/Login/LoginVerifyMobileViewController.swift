@@ -37,8 +37,12 @@ class LoginVerifyMobileViewController: UIViewController {
         return timer
         }()
     var haveAppropriateInput = false {
-        didSet {
-            nextButton.enabled = haveAppropriateInput
+        willSet {
+            nextButton.enabled = newValue
+
+            if newValue {
+                login()
+            }
         }
     }
     var callMeInSeconds = YepConfig.callMeInSeconds()
