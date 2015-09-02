@@ -68,12 +68,13 @@ class FriendsInContactsViewController: BaseViewController {
 
                 for contact in contacts {
 
-                    let name = contact.compositeName
+                    if let name = contact.compositeName {
 
-                    if let phones = contact.phones as? [String] {
-                        for phone in phones {
-                            let uploadContact: UploadContact = ["name": name, "number": phone]
-                            uploadContacts.append(uploadContact)
+                        if let phones = contact.phones as? [String] {
+                            for phone in phones {
+                                let uploadContact: UploadContact = ["name": name, "number": phone]
+                                uploadContacts.append(uploadContact)
+                            }
                         }
                     }
                 }
