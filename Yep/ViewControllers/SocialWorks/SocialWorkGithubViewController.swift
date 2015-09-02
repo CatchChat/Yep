@@ -74,7 +74,7 @@ class SocialWorkGithubViewController: BaseViewController {
             navigationItem.titleView = accountImageView
 
         } else {
-            title = "Github"
+            title = "GitHub"
         }
 
         shareButton.enabled = false
@@ -115,8 +115,10 @@ class SocialWorkGithubViewController: BaseViewController {
 
             if let userID = userID {
 
-                githubWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
+                githubWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) -> Void in
                     defaultFailureHandler(reason, errorMessage)
+
+                    YepAlert.alertSorry(message: NSLocalizedString("Yep can't reach GitHub.\nWe blame GFW!", comment: ""), inViewController: self)
 
                 }, completion: { githubWork in
                     println("githubWork: \(githubWork)")

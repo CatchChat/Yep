@@ -544,3 +544,9 @@
 
 /* No comment provided by engineer. */
 "Version" = "版本";
+
+/* No comment provided by engineer. */
+"Network is not good!" = "网络不太好！";
+
+/* No comment provided by engineer. */
+"Yep can't reach GitHub.\nWe blame GFW!" = "Yep无法访问GitHub。\n一定是GFW从中做梗！";

@@ -88,8 +88,10 @@ class SocialWorkInstagramViewController: BaseViewController {
 
             if let userID = userID {
 
-                instagramWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
+                instagramWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) -> Void in
                     defaultFailureHandler(reason, errorMessage)
+
+                    YepAlert.alertSorry(message: NSLocalizedString("Network is not good!", comment: ""), inViewController: self)
 
                 }, completion: { instagramWork in
                     println("instagramWork: \(instagramWork.medias.count)")

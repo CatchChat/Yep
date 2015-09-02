@@ -542,3 +542,9 @@
 
 /* No comment provided by engineer. */
 "Version" = "Version";
+
+/* No comment provided by engineer. */
+"Network is not good!" = "Network is not good!";
+
+/* No comment provided by engineer. */
+"Yep can't reach GitHub.\nWe blame GFW!" = "Yep can't reach GitHub.\nWe blame GFW!";
