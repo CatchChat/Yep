@@ -68,8 +68,13 @@ class Listenable<T> {
         for listener in listenerSet {
             if listener.name == name {
                 listenerSet.remove(listener)
+                break
             }
         }
+    }
+
+    func removeAllListeners() {
+        listenerSet.removeAll(keepCapacity: false)
     }
 
     init(_ v: T, setterAction action: SetterAction) {
@@ -95,6 +100,16 @@ class YepUserDefaults {
 
     class func cleanAllUserDefaults() {
 
+        v1AccessToken.removeAllListeners()
+        userID.removeAllListeners()
+        nickname.removeAllListeners()
+        introduction.removeAllListeners()
+        avatarURLString.removeAllListeners()
+        badge.removeAllListeners()
+        pusherID.removeAllListeners()
+        areaCode.removeAllListeners()
+        mobile.removeAllListeners()
+
         defaults.removeObjectForKey(v1AccessTokenKey)
         defaults.removeObjectForKey(userIDKey)
         defaults.removeObjectForKey(nicknameKey)
@@ -102,7 +117,6 @@ class YepUserDefaults {
         defaults.removeObjectForKey(avatarURLStringKey)
         defaults.removeObjectForKey(badgeKey)
         defaults.removeObjectForKey(pusherIDKey)
-
         defaults.removeObjectForKey(areaCodeKey)
         defaults.removeObjectForKey(mobileKey)
     }

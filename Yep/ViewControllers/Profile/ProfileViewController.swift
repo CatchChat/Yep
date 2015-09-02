@@ -290,6 +290,8 @@ class ProfileViewController: UIViewController {
 
         YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
         YepUserDefaults.introduction.removeListenerWithName(Listener.Introduction)
+
+        println("deinit ProfileViewController")
     }
 
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -304,6 +306,8 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
 
         title = NSLocalizedString("Profile", comment: "")
+
+        println("init ProfileViewController \(self)")
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout", name: EditProfileViewController.Notification.Logout, object: nil)
 

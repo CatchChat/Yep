@@ -53,6 +53,8 @@ class EditProfileViewController: UIViewController {
         YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
         YepUserDefaults.introduction.removeListenerWithName(Listener.Introduction)
         YepUserDefaults.badge.removeListenerWithName(Listener.Badge)
+
+        println("deinit EditProfileViewController")
     }
 
     override func viewDidLoad() {
