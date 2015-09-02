@@ -21,6 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var isColdLaunch = true
 
+    struct Notification {
+        static let applicationDidBecomeActive = "applicationDidBecomeActive"
+    }
+
     private func realmConfig() -> Realm.Configuration {
 
         // 默认将 Realm 放在 App Group 里
@@ -159,6 +163,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if YepUserDefaults.isLogined {
             syncMessagesReadStatus()
         }
+
+        NSNotificationCenter.defaultCenter().postNotificationName(Notification.applicationDidBecomeActive, object: nil)
     }
 
     func applicationWillTerminate(application: UIApplication) {

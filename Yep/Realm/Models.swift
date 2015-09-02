@@ -359,6 +359,24 @@ enum ConversationType: Int {
 }
 
 class Conversation: Object {
+
+    var fakeID: String? {
+        switch type {
+        case ConversationType.OneToOne.rawValue:
+            if let withFriend = withFriend {
+                return withFriend.userID
+            }
+        case ConversationType.Group.rawValue:
+            if let withGroup = withGroup {
+                return withGroup.groupID
+            }
+        default:
+            break
+        }
+
+        return nil
+    }
+
     dynamic var type: Int = ConversationType.OneToOne.rawValue
     dynamic var updatedUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
 

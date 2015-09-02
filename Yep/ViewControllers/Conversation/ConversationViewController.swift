@@ -34,6 +34,9 @@ class ConversationViewController: BaseViewController {
     // 上一次更新 UI 时的消息数
     var lastTimeMessagesCount: Int = 0
 
+    // 位于后台时收到的消息
+    var inActiveNewMessageIDSet = Set<String>()
+
     lazy var sectionDateFormatter: NSDateFormatter =  {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .ShortStyle
@@ -194,6 +197,8 @@ class ConversationViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedNewMessagesNotification:", name: YepNewMessagesReceivedNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout", name: EditProfileViewController.Notification.Logout, object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "tryInsertInActiveNewMessages:", name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
             self?.reloadConversationCollectionView()
@@ -1358,12 +1363,62 @@ class ConversationViewController: BaseViewController {
 
         var messageIDs: [String]?
 
-        if let messagesInfo = notification.object as? [String: [String]], let _messageIDs = messagesInfo["messageIDs"] {
-            messageIDs = _messageIDs
+        if let messagesInfo = notification.object as? [String: [String]], let allMessageIDs = messagesInfo["messageIDs"] {
+
+            // 按照 conversation 过滤消息，匹配的才能考虑插入
+
+            if let conversation = conversation, conversationID = conversation.fakeID, realm = conversation.realm {
+
+                var filteredMessageIDs = [String]()
+
+                for messageID in allMessageIDs {
+                    if let message = messageWithMessageID(messageID, inRealm: realm) {
+                        if let messageInConversation = message.conversation, messageInConversationID = messageInConversation.fakeID {
+                            if messageInConversationID == conversationID {
+                                filteredMessageIDs.append(messageID)
+                            }
+                        }
+                    }
+                }
+
+                messageIDs = filteredMessageIDs
+            }
         }
 
-        updateConversationCollectionViewWithMessageIDs(messageIDs, scrollToBottom: false, success: { _ in
-        })
+        // 在前台时才能做插入
+
+        if UIApplication.sharedApplication().applicationState == .Active {
+            updateConversationCollectionViewWithMessageIDs(messageIDs, scrollToBottom: false, success: { _ in
+            })
+
+        } else {
+
+            // 不然就先记下来
+
+            if let messageIDs = messageIDs {
+                for messageID in messageIDs {
+                    inActiveNewMessageIDSet.insert(messageID)
+                    println("inActiveNewMessageIDSet insert: \(messageID)")
+                }
+            }
+        }
+    }
+
+    // App 进入前台时，根据通知插入处于后台状态时收到的消息
+
+    func tryInsertInActiveNewMessages(notification: NSNotification) {
+
+        if UIApplication.sharedApplication().applicationState == .Active {
+
+            if inActiveNewMessageIDSet.count > 0 {
+                updateConversationCollectionViewWithMessageIDs(Array(inActiveNewMessageIDSet), scrollToBottom: false, success: { _ in
+                })
+
+                inActiveNewMessageIDSet = []
+
+                println("insert inActiveNewMessageIDSet to CollectionView")
+            }
+        }
     }
 
     func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, scrollToBottom: Bool, success: (Bool) -> Void) {
@@ -1439,6 +1494,8 @@ class ConversationViewController: BaseViewController {
 
                 conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
 
+                println("insert messages A")
+
             } else {
                 println("self message")
 
@@ -1450,6 +1507,8 @@ class ConversationViewController: BaseViewController {
                 }
 
                 conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
+                println("insert messages B")
             }
         }
 
