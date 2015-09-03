@@ -34,7 +34,9 @@ class YepConfig {
 
     static let termsURLString = "http://soyep.com/privacy"
     static let appURLString = "itms-apps://itunes.apple.com/app/id" + "983891256"
-    
+
+    static let forcedHideActivityIndicatorTimeInterval: NSTimeInterval = 30
+
     class func getScreenRect() -> CGRect {
         return UIScreen.mainScreen().bounds
     }

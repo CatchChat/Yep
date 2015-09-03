@@ -68,7 +68,7 @@ class EditProfileViewController: UIViewController {
         updateAvatar() {
         }
 
-        mobileLabel.text = YepUserDefaults.mobile.value
+        mobileLabel.text = YepUserDefaults.fullPhoneNumber
 
         editProfileTableView.registerNib(UINib(nibName: editProfileLessInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileLessInfoCellIdentifier)
         editProfileTableView.registerNib(UINib(nibName: editProfileMoreInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileMoreInfoCellIdentifier)
