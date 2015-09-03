@@ -50,7 +50,7 @@ class BlackListViewController: UIViewController {
                 self?.activityIndicator.stopAnimating()
             }
 
-            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Netword Error: Faild to get blocked users!", comment: ""), inViewController: self)
+            YepAlert.alertSorry(message: NSLocalizedString("Netword Error: Faild to get blocked users!", comment: ""), inViewController: self)
 
         }, completion: { blockedUsers in
             dispatch_async(dispatch_get_main_queue()) { [weak self] in

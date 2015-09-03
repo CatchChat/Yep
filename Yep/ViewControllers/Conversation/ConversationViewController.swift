@@ -306,7 +306,7 @@ class ConversationViewController: BaseViewController {
                 }, failureHandler: { [weak self] reason, errorMessage in
                     defaultFailureHandler(reason, errorMessage)
 
-                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                    YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
                 }, completion: { success in
                     println("sendText to friend: \(success)")
@@ -335,7 +335,7 @@ class ConversationViewController: BaseViewController {
                     defaultFailureHandler(reason, errorMessage)
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                        YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
                     }
 
                 }, completion: { success in
@@ -422,7 +422,7 @@ class ConversationViewController: BaseViewController {
                     }, failureHandler: { [weak self] reason, errorMessage in
                         defaultFailureHandler(reason, errorMessage)
 
-                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                        YepAlert.alertSorry(message: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
                     }, completion: { success in
                         println("send audio to friend: \(success)")
@@ -449,7 +449,7 @@ class ConversationViewController: BaseViewController {
                     }, failureHandler: { [weak self] reason, errorMessage in
                         defaultFailureHandler(reason, errorMessage)
 
-                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                        YepAlert.alertSorry(message: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
                     }, completion: { success in
                         println("send audio to group: \(success)")
@@ -908,7 +908,7 @@ class ConversationViewController: BaseViewController {
             println("try Send Friend Request")
 
             sendFriendRequestToUser(user, failureHandler: { [weak self] reason, errorMessage in
-                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Send Friend Request failed!", comment: ""), inViewController: self)
+                YepAlert.alertSorry(message: NSLocalizedString("Send Friend Request failed!", comment: ""), inViewController: self)
 
             }, completion: { friendRequestState in
                 println("friendRequestState: \(friendRequestState.rawValue)")
@@ -932,7 +932,7 @@ class ConversationViewController: BaseViewController {
             if let friendRequestID = friendRequestView.state.friendRequestID {
 
                 acceptFriendRequestWithID(friendRequestID, failureHandler: { [weak self] reason, errorMessage in
-                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Accept Friend Request failed!", comment: ""), inViewController: self)
+                    YepAlert.alertSorry(message: NSLocalizedString("Accept Friend Request failed!", comment: ""), inViewController: self)
 
                 }, completion: { success in
                     println("acceptFriendRequestWithID: \(friendRequestID), \(success)")
@@ -962,7 +962,7 @@ class ConversationViewController: BaseViewController {
                 if let friendRequestID = friendRequestView.state.friendRequestID {
 
                     rejectFriendRequestWithID(friendRequestID, failureHandler: { [weak self] reason, errorMessage in
-                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Reject Friend Request failed!", comment: ""), inViewController: self)
+                        YepAlert.alertSorry(message: NSLocalizedString("Reject Friend Request failed!", comment: ""), inViewController: self)
 
                     }, completion: { success in
                         println("rejectFriendRequestWithID: \(friendRequestID), \(success)")
@@ -1835,7 +1835,7 @@ class ConversationViewController: BaseViewController {
                     }, failureHandler: { [weak self] reason, errorMessage in
                         defaultFailureHandler(reason, errorMessage)
 
-                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                        YepAlert.alertSorry(message: NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
                     }, completion: { success -> Void in
                         println("sendLocation to friend: \(success)")
@@ -1852,7 +1852,7 @@ class ConversationViewController: BaseViewController {
                     }, failureHandler: { [weak self] reason, errorMessage in
                         defaultFailureHandler(reason, errorMessage)
 
-                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                        YepAlert.alertSorry(message: NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
                     }, completion: { success -> Void in
                         println("sendLocation to group: \(success)")
@@ -2042,7 +2042,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason, errorMessage)
 
-                                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to resend image!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
+                                        YepAlert.alertSorry(message: NSLocalizedString("Failed to resend image!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
 
                                     }, completion: { success in
                                         println("resendImage: \(success)")
@@ -2078,7 +2078,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason, errorMessage)
 
-                                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
+                                        YepAlert.alertSorry(message: NSLocalizedString("Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
 
                                     }, completion: { success in
                                         println("resendAudio: \(success)")
@@ -2113,7 +2113,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason, errorMessage)
 
-                                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to resend video!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
+                                        YepAlert.alertSorry(message: NSLocalizedString("Failed to resend video!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
 
                                     }, completion: { success in
                                         println("resendVideo: \(success)")
@@ -2147,7 +2147,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason, errorMessage)
 
-                                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to resend location!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
+                                        YepAlert.alertSorry(message: NSLocalizedString("Failed to resend location!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
 
                                     }, completion: { success in
                                         println("resendLocation: \(success)")
@@ -2189,7 +2189,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason, errorMessage)
 
-                                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to resend text!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
+                                        YepAlert.alertSorry(message: NSLocalizedString("Failed to resend text!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
 
                                     }, completion: { success in
                                         println("resendText: \(success)")
@@ -2643,7 +2643,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             }, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage)
 
-                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                YepAlert.alertSorry(message: NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
             }, completion: { success -> Void in
                 println("sendImage to friend: \(success)")
@@ -2673,7 +2673,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             }, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage)
 
-                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                YepAlert.alertSorry(message: NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
             }, completion: { success in
                 println("sendImage to group: \(success)")
@@ -2776,7 +2776,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage)
 
-                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                YepAlert.alertSorry(message: NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
             }, completion: { success in
                 println("sendVideo to friend: \(success)")
@@ -2787,7 +2787,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage)
 
-                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                YepAlert.alertSorry(message: NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
             }, completion: { success in
                 println("sendVideo to group: \(success)")

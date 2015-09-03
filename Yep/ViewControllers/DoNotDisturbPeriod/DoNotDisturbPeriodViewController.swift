@@ -77,7 +77,7 @@ class DoNotDisturbPeriodViewController: UIViewController {
         updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage)
 
-            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set Do Not Disturb failed!", comment: ""), inViewController: self)
+            YepAlert.alertSorry(message: NSLocalizedString("Set Do Not Disturb failed!", comment: ""), inViewController: self)
 
         }, completion: { _ in
 
