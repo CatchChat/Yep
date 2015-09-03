@@ -58,6 +58,7 @@ class LoginVerifyMobileViewController: UIViewController {
         verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code send to", comment: "")
         phoneNumberLabel.text = "+" + areaCode + " " + mobile
 
+        verifyCodeTextField.placeholder = nil
         verifyCodeTextField.delegate = self
         verifyCodeTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
