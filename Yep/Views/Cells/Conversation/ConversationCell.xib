@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -43,14 +43,18 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unread_red_dot" translatesAutoresizingMaskIntoConstraints="NO" id="EBI-KB-5zQ" userLabel="Red Dot">
                         <rect key="frame" x="52" y="9" width="17.5" height="19"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMI-cX-ITU" userLabel="Unread Count Label">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMI-cX-ITU" userLabel="Unread Count Label">
                         <rect key="frame" x="57" y="10" width="7.5" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="8" id="FkV-7K-FxX"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="e3N-7V-FD4" firstAttribute="top" secondItem="EBI-KB-5zQ" secondAttribute="top" constant="1" id="2SQ-T1-hp8"/>
                     <constraint firstItem="kjj-pV-aMN" firstAttribute="leading" secondItem="e3N-7V-FD4" secondAttribute="trailing" constant="15" id="4dI-OE-G1N"/>
                     <constraint firstAttribute="centerY" secondItem="e3N-7V-FD4" secondAttribute="centerY" id="68L-vu-KnG"/>
                     <constraint firstItem="e3N-7V-FD4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="2" id="C6e-Zm-787"/>
@@ -64,7 +68,6 @@
                     <constraint firstItem="0ku-jC-UO9" firstAttribute="top" secondItem="kjj-pV-aMN" secondAttribute="bottom" constant="5" id="eDW-xc-nVc"/>
                     <constraint firstItem="e3N-7V-FD4" firstAttribute="trailing" secondItem="iMI-cX-ITU" secondAttribute="trailing" constant="5" id="w3d-v9-Oot"/>
                     <constraint firstItem="kjj-pV-aMN" firstAttribute="bottom" secondItem="Xjd-IV-gXl" secondAttribute="bottom" constant="3" id="xLh-Pw-tXg"/>
-                    <constraint firstItem="e3N-7V-FD4" firstAttribute="top" secondItem="iMI-cX-ITU" secondAttribute="top" id="y3o-AE-eWY"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
