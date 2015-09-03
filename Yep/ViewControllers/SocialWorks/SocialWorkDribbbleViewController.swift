@@ -86,8 +86,10 @@ class SocialWorkDribbbleViewController: BaseViewController {
 
             if let userID = userID {
 
-                dribbbleWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
+                dribbbleWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) -> Void in
                     defaultFailureHandler(reason, errorMessage)
+
+                    YepAlert.alertSorry(message: NSLocalizedString("Network is not good!", comment: ""), inViewController: self)
 
                 }, completion: { dribbbleWork in
                     println("dribbbleWork: \(dribbbleWork.shots.count)")
