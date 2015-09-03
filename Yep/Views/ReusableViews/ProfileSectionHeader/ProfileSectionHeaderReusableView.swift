@@ -21,7 +21,7 @@ class ProfileSectionHeaderReusableView: UICollectionReusableView {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        accessoryImageView.tintColor = UIColor.darkGrayColor()
+        accessoryImageView.tintColor = UIColor.lightGrayColor()
 
         titleLabelLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.leftEdgeInset
