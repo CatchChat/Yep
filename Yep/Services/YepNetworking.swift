@@ -263,9 +263,9 @@ public func jsonResource<A>(#token: String?, #path: String, #method: Method, #re
     if let
         languageCode = locale.objectForKey(NSLocaleLanguageCode) as? String,
         countryCode = locale.objectForKey(NSLocaleCountryCode) as? String {
-            headers["Accept-Language"] = languageCode + "_" + countryCode
+            headers["Accept-Language"] = languageCode + "-" + countryCode
 
-        println("Accept-Language: " + headers["Accept-Language"]!)
+        //println("Accept-Language: " + headers["Accept-Language"]!)
     }
 
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
