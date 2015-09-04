@@ -127,6 +127,7 @@ class RegisterPickAvatarViewController: UIViewController {
         takePicturePromptLabel.textColor = UIColor.blackColor()
         takePicturePromptLabel.text = NSLocalizedString("Set an avatar", comment: "")
 
+        openCameraButton.setTitle(NSLocalizedString("Open Camera", comment: ""), forState: .Normal)
         openCameraButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         openCameraButton.backgroundColor = UIColor.yepTintColor()
         

@@ -74,14 +74,31 @@ class MediaControlView: UIView {
         let button = UIButton()
         button.setImage(UIImage(named: "icon_more"), forState: .Normal)
         button.tintColor = UIColor.whiteColor()
-        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
         button.addTarget(self, action: "share", forControlEvents: UIControlEvents.TouchUpInside)
         return button
         }()
 
+    /*
+    lazy var gradientLayer: CAGradientLayer = {
+        let layer = CAGradientLayer()
+        let startColor: UIColor = UIColor.clearColor()
+        let endColor: UIColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
+        let colors = [startColor.CGColor, endColor.CGColor]
+        layer.colors = colors
+        layer.locations = [0.0, 1.0]
+
+        return layer
+        }()
+    */
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
+
+        backgroundColor = UIColor.clearColor()
+
+        //layer.addSublayer(gradientLayer)
+        //gradientLayer.frame = bounds
 
         makeUI()
     }
@@ -111,8 +128,6 @@ class MediaControlView: UIView {
         let playButtonConstraintCenterX = NSLayoutConstraint(item: playButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0)
 
         NSLayoutConstraint.activateConstraints([playButtonConstraintCenterX])
-        
-        backgroundColor = UIColor(white: 0.0, alpha: 0.3)
     }
 
     // MARK: Actions
@@ -139,4 +154,24 @@ class MediaControlView: UIView {
         }
     }
 
+    override func drawRect(rect: CGRect) {
+
+        let startColor: UIColor = UIColor.clearColor()
+        let endColor: UIColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
+
+        let context = UIGraphicsGetCurrentContext()
+        let colors = [startColor.CGColor, endColor.CGColor]
+
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+
+        let colorLocations:[CGFloat] = [0.0, 1.0]
+
+        let gradient = CGGradientCreateWithColors(colorSpace, colors, colorLocations)
+
+        let startPoint = CGPointZero
+        let endPoint = CGPoint(x:0, y: rect.height)
+
+        CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0)
+    }
 }
+
