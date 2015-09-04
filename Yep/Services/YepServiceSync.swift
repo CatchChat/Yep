@@ -753,7 +753,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
             let newMessage = Message()
             newMessage.messageID = messageID
 
-            if let updatedUnixTime = messageInfo["updated_at"] as? NSTimeInterval {
+            if let updatedUnixTime = messageInfo["created_at"] as? NSTimeInterval {
                 newMessage.createdUnixTime = updatedUnixTime
             }
 

@@ -1445,34 +1445,26 @@ class ConversationViewController: BaseViewController {
 
         var newMessagesCount = Int(messages.count - _lastTimeMessagesCount)
 
+        /*
         if let messageIDs = messageIDs {
             newMessagesCount = messageIDs.count
         }
+        */
 
         let lastDisplayedMessagesRange = displayedMessagesRange
 
         displayedMessagesRange.length += newMessagesCount
 
+        // 异常：两种计数不相等，治标：reload，避免插入
+        if let messageIDs = messageIDs {
+            if newMessagesCount != messageIDs.count {
+                reloadConversationCollectionView()
+                println("newMessagesCount != messageIDs.count")
+                return
+            }
+        }
+
         if newMessagesCount > 0 {
-
-            /*
-            //var indexPaths = [NSIndexPath]()
-            // TODO: 下面插入逻辑的假设有问题，对方的新消息并不会一直排在最后一个
-            for i in 0..<newMessagesCount {
-                let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: 0)
-                indexPaths.append(indexPath)
-            }
-
-            conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-
-            // 先治标
-            if _lastTimeMessagesCount > 0 {
-                let oldLastMessageIndexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length - 1, inSection: 0)
-                conversationCollectionView.reloadItemsAtIndexPaths([oldLastMessageIndexPath])
-            }
-            */
-
-            // 我们来治本
 
             if let messageIDs = messageIDs {
 
@@ -1498,6 +1490,8 @@ class ConversationViewController: BaseViewController {
 
             } else {
                 println("self message")
+
+                // 这里做了一个假设：本地刚创建的消息比所有的已有的消息都要新，这在创建消息里做保证（服务器可能传回创建在“未来”的消息）
 
                 var indexPaths = [NSIndexPath]()
 

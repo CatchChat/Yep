@@ -37,6 +37,12 @@ class YepConfig {
 
     static let forcedHideActivityIndicatorTimeInterval: NSTimeInterval = 30
 
+    struct Message {
+        // 注意：确保 localNewerTimeInterval > sectionOlderTimeInterval
+        static let localNewerTimeInterval: NSTimeInterval = 0.001
+        static let sectionOlderTimeInterval: NSTimeInterval = 0.0005
+    }
+
     class func getScreenRect() -> CGRect {
         return UIScreen.mainScreen().bounds
     }
