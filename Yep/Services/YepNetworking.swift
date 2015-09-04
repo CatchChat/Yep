@@ -259,5 +259,15 @@ public func jsonResource<A>(#token: String?, #path: String, #method: Method, #re
         headers["Authorization"] = "Token token=\"\(token)\""
     }
 
+    let locale = NSLocale.autoupdatingCurrentLocale()
+    if let
+        languageCode = locale.objectForKey(NSLocaleLanguageCode) as? String,
+        countryCode = locale.objectForKey(NSLocaleCountryCode) as? String {
+            headers["Accept-Language"] = languageCode + "_" + countryCode
+
+        println("Accept-Language: " + headers["Accept-Language"]!)
+    }
+
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
 }
+
