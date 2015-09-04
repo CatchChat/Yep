@@ -166,6 +166,7 @@
 		508D17481ACCF4710092D666 /* ChatLeftAudioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508D17461ACCF4710092D666 /* ChatLeftAudioCell.xib */; };
 		508D174C1ACCF49B0092D666 /* ChatRightAudioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508D174A1ACCF49B0092D666 /* ChatRightAudioCell.swift */; };
 		508D174D1ACCF49B0092D666 /* ChatRightAudioCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508D174B1ACCF49B0092D666 /* ChatRightAudioCell.xib */; };
+		508DF62B1B9985F300B194A4 /* YepLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508DF62A1B9985F300B194A4 /* YepLog.swift */; };
 		508F8FC81B0161EF00461B0B /* ProfileSeparationLineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FC61B0161EF00461B0B /* ProfileSeparationLineCell.swift */; };
 		508F8FC91B0161EF00461B0B /* ProfileSeparationLineCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508F8FC71B0161EF00461B0B /* ProfileSeparationLineCell.xib */; };
 		508F8FCC1B01C7FC00461B0B /* SocialWorkGithubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FCB1B01C7FC00461B0B /* SocialWorkGithubViewController.swift */; };
@@ -422,6 +423,7 @@
 		508D17461ACCF4710092D666 /* ChatLeftAudioCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftAudioCell.xib; path = Views/Cells/ChatLeftAudio/ChatLeftAudioCell.xib; sourceTree = "<group>"; };
 		508D174A1ACCF49B0092D666 /* ChatRightAudioCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightAudioCell.swift; path = Views/Cells/ChatRightAudio/ChatRightAudioCell.swift; sourceTree = "<group>"; };
 		508D174B1ACCF49B0092D666 /* ChatRightAudioCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatRightAudioCell.xib; path = Views/Cells/ChatRightAudio/ChatRightAudioCell.xib; sourceTree = "<group>"; };
+		508DF62A1B9985F300B194A4 /* YepLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepLog.swift; path = Helpers/YepLog.swift; sourceTree = "<group>"; };
 		508F8FC61B0161EF00461B0B /* ProfileSeparationLineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSeparationLineCell.swift; path = Views/Cells/ProfileSeparationLine/ProfileSeparationLineCell.swift; sourceTree = "<group>"; };
 		508F8FC71B0161EF00461B0B /* ProfileSeparationLineCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSeparationLineCell.xib; path = Views/Cells/ProfileSeparationLine/ProfileSeparationLineCell.xib; sourceTree = "<group>"; };
 		508F8FCB1B01C7FC00461B0B /* SocialWorkGithubViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkGithubViewController.swift; path = ViewControllers/SocialWorks/SocialWorkGithubViewController.swift; sourceTree = "<group>"; };
@@ -1016,6 +1018,7 @@
 				502AE53C1AB87C0D005BD199 /* YepUserDefaults.swift */,
 				50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */,
 				50894D0F1AEE3C25000981AF /* YepHUD.swift */,
+				508DF62A1B9985F300B194A4 /* YepLog.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -1997,6 +2000,7 @@
 				50E3488E1B905C0100A8E699 /* AboutViewController.swift in Sources */,
 				502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */,
 				508F8FD71B01EDB400461B0B /* DribbbleShotCell.swift in Sources */,
+				508DF62B1B9985F300B194A4 /* YepLog.swift in Sources */,
 				0A7A7D561AF5E00600A7F5F5 /* YepHelper.swift in Sources */,
 				502280F81B1C3F2800E984EE /* FriendsInContactsViewController.swift in Sources */,
 				50E348921B9063A700A8E699 /* AboutCell.swift in Sources */,
@@ -2291,6 +2295,7 @@
 				);
 				INFOPLIST_FILE = YepTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING_";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
 			};
