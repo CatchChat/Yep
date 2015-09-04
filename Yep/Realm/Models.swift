@@ -588,8 +588,8 @@ func tryCreateSectionDateMessageInConversation(conversation: Conversation, befor
                 let newSectionDateMessage = Message()
                 newSectionDateMessage.conversation = conversation
                 newSectionDateMessage.mediaType = MessageMediaType.SectionDate.rawValue
-                newSectionDateMessage.createdUnixTime = message.createdUnixTime - 0.001 // 比新消息早一点点即可
-                newSectionDateMessage.arrivalUnixTime = message.arrivalUnixTime - 0.001 // 比新消息早一点点即可
+                newSectionDateMessage.createdUnixTime = message.createdUnixTime - YepConfig.Message.sectionOlderTimeInterval // 比新消息早一点点即可
+                newSectionDateMessage.arrivalUnixTime = message.arrivalUnixTime - YepConfig.Message.sectionOlderTimeInterval // 比新消息早一点点即可
                 newSectionDateMessage.messageID = "sectionDate-\(newSectionDateMessage.createdUnixTime)"
 
                 success(newSectionDateMessage)

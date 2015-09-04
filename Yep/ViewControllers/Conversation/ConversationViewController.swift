@@ -1491,6 +1491,8 @@ class ConversationViewController: BaseViewController {
             } else {
                 println("self message")
 
+                // 这里做了一个假设：本地刚创建的消息比所有的已有的消息都要新，这在创建消息里做保证（服务器可能传回创建在“未来”的消息）
+
                 var indexPaths = [NSIndexPath]()
 
                 for i in 0..<newMessagesCount {
