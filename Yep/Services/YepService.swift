@@ -1643,7 +1643,14 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
     realm.beginWrite()
 
     let message = Message()
-    //message.messageID = messageID
+
+    // 确保本地刚创建的消息比任何已有的消息都要新
+    if let latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: true).last {
+        if message.createdUnixTime < latestMessage.createdUnixTime {
+            message.createdUnixTime = latestMessage.createdUnixTime + 0.001
+            println("adjust message.createdUnixTime")
+        }
+    }
 
     message.mediaType = mediaType.rawValue
 
