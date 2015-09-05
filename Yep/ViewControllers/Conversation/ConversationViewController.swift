@@ -2464,6 +2464,8 @@ extension ConversationViewController: AVAudioPlayerDelegate {
 
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully flag: Bool) {
 
+        UIDevice.currentDevice().proximityMonitoringEnabled = false
+
         println("audioPlayerDidFinishPlaying \(flag)")
 
         if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
