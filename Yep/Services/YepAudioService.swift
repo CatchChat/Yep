@@ -157,6 +157,8 @@ class YepAudioService: NSObject {
             AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, error: nil)
         }
 
+        UIDevice.currentDevice().proximityMonitoringEnabled = true
+
         let fileName = message.localAttachmentName
 
         if !fileName.isEmpty {
@@ -198,11 +200,10 @@ class YepAudioService: NSObject {
         super.init()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "proximityStateChanged", name: UIDeviceProximityStateDidChangeNotification, object: UIDevice.currentDevice())
-
-        UIDevice.currentDevice().proximityMonitoringEnabled = true
     }
 
     func proximityStateChanged() {
+
         if UIDevice.currentDevice().proximityState {
             AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, error: nil)
         } else {
