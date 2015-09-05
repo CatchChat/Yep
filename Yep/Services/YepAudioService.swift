@@ -84,6 +84,8 @@ class YepAudioService: NSObject {
 
     func beginRecordWithFileURL(fileURL: NSURL, audioRecorderDelegate: AVAudioRecorderDelegate) {
 
+        AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryRecord, error: nil)
+
 //        dispatch_async(queue, { () -> Void in
 //            AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker,error: nil)
 //            AVAudioSession.sharedInstance().setActive(true, error: nil)
@@ -150,6 +152,10 @@ class YepAudioService: NSObject {
         }
     }
     func playAudioWithMessage(message: Message, beginFromTime time: NSTimeInterval, delegate: AVAudioPlayerDelegate, success: () -> Void) {
+
+        if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
+            AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, error: nil)
+        }
 
         let fileName = message.localAttachmentName
 
