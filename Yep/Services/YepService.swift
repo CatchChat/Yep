@@ -1807,7 +1807,7 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
 
         default:
 
-            s3PrivateUploadFile(inFilePath: filePath, orFileData: fileData, mimeType: mediaType.mineType(), failureHandler: failureHandler, completion: { s3UploadParams in
+            s3PrivateUploadFile(inFilePath: filePath, orFileData: fileData, mimeType: mediaType.mineType, failureHandler: failureHandler, completion: { s3UploadParams in
 
                 switch mediaType {
 
@@ -1862,7 +1862,7 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
                             thumbnailData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
                     }
 
-                    s3PrivateUploadFile(inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType(), failureHandler: failureHandler, completion: { thumbnailS3UploadParams in
+                    s3PrivateUploadFile(inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType, failureHandler: failureHandler, completion: { thumbnailS3UploadParams in
 
                         if let metaData = metaData {
                             let attachments = [
