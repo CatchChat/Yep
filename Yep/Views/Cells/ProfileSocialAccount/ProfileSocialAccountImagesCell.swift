@@ -86,6 +86,14 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
         accessoryImageView.hidden = true
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        imageView1.image = nil
+        imageView2.image = nil
+        imageView3.image = nil
+    }
+
     func configureWithProfileUser(profileUser: ProfileUser?, socialAccount: SocialAccount, socialWork: SocialWork?, completion: ((SocialWork) -> Void)?) {
 
         iconImageView.image = UIImage(named: socialAccount.iconName)
@@ -106,10 +114,6 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                 nameLabel.textColor = socialAccount.tintColor
             }
         }
-
-        imageView1.image = nil
-        imageView2.image = nil
-        imageView3.image = nil
 
         if !accountEnabled {
             accessoryImageView.hidden = true
