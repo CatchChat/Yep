@@ -142,8 +142,8 @@ class EditProfileViewController: UIViewController {
         self.presentViewController(alertController, animated: true, completion: nil)
 
         // touch to create (if need) for faster appear
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-            self.imagePicker.hidesBarsOnTap = false
+        delay(0.2) { [weak self] in
+            self?.imagePicker.hidesBarsOnTap = false
         }
     }
 
@@ -343,7 +343,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
         let image = image.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
         let imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
 
-        s3PublicUploadFile(inFilePath: nil, orFileData: imageData, mimeType: "image/jpeg", failureHandler: { (reason, errorMessage) in
+        s3PublicUploadFile(inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
             
             defaultFailureHandler(reason, errorMessage)
 

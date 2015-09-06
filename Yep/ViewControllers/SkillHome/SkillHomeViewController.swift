@@ -215,7 +215,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             self?.presentViewController(alertController, animated: true, completion: nil)
 
             // touch to create (if need) for faster appear
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+            delay(0.2) {
                 self?.imagePicker.hidesBarsOnTap = false
             }
         }
@@ -429,7 +429,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                             YepHUD.showActivityIndicator()
 
-                            s3PublicUploadFile(inFilePath: nil, orFileData: data, mimeType: "image/jpeg", failureHandler: { [weak self] reason, errorMessage in
+                            s3PublicUploadFile(inFilePath: nil, orFileData: data, mimeType: MessageMediaType.Image.mineType, failureHandler: { [weak self] reason, errorMessage in
 
                                 YepHUD.hideActivityIndicator()
 

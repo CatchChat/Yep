@@ -249,7 +249,7 @@ enum MessageMediaType: Int, Printable {
         }
     }
 
-    func mineType() -> String {
+    var mineType: String {
         switch self {
         case .Image:
             return "image/jpeg"

@@ -24,15 +24,15 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                     let shots = dribbbleWork.shots
 
                     if let shot = shots[safe: 0] {
-                        imageView1.kf_setImageWithURL(NSURL(string: shot.images.teaser)!)
+                        imageView1.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil)
                     }
 
                     if let shot = shots[safe: 1] {
-                        imageView2.kf_setImageWithURL(NSURL(string: shot.images.teaser)!)
+                        imageView2.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil)
                     }
 
                     if let shot = shots[safe: 2] {
-                        imageView3.kf_setImageWithURL(NSURL(string: shot.images.teaser)!)
+                        imageView3.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil)
                     }
 
                 case .Instagram(let instagramWork):
@@ -40,15 +40,15 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                     let medias = instagramWork.medias
 
                     if let media = medias[safe: 0] {
-                        imageView1.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!)
+                        imageView1.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil)
                     }
 
                     if let media = medias[safe: 1] {
-                        imageView2.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!)
+                        imageView2.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil)
                     }
 
                     if let media = medias[safe: 2] {
-                        imageView3.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!)
+                        imageView3.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil)
                     }
                 }
             }
@@ -86,6 +86,14 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
         accessoryImageView.hidden = true
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        imageView1.image = nil
+        imageView2.image = nil
+        imageView3.image = nil
+    }
+
     func configureWithProfileUser(profileUser: ProfileUser?, socialAccount: SocialAccount, socialWork: SocialWork?, completion: ((SocialWork) -> Void)?) {
 
         iconImageView.image = UIImage(named: socialAccount.iconName)
@@ -106,10 +114,6 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                 nameLabel.textColor = socialAccount.tintColor
             }
         }
-
-        imageView1.image = nil
-        imageView2.image = nil
-        imageView3.image = nil
 
         if !accountEnabled {
             accessoryImageView.hidden = true
