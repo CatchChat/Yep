@@ -2012,6 +2012,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             if let sender = message.fromFriend {
 
+                if let cell = cell as? ChatBaseCell {
+                    cell.tapAvatarAction = { [weak self] user in
+                        self?.performSegueWithIdentifier("showProfile", sender: user)
+                    }
+                }
+
                 if sender.friendState != UserFriendState.Me.rawValue { // from Friend
 
                     markMessageAsReaded(message)
@@ -2032,10 +2038,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
 
                             }, collectionView: collectionView, indexPath: indexPath)
-
-                            cell.tapAvatarAction = { [weak self] user in
-                                self?.performSegueWithIdentifier("showProfile", sender: user)
-                            }
                         }
 
                     case MessageMediaType.Audio.rawValue:
@@ -2054,10 +2056,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
 
                             }, collectionView: collectionView, indexPath: indexPath)
-
-                            cell.tapAvatarAction = { [weak self] user in
-                                self?.performSegueWithIdentifier("showProfile", sender: user)
-                            }
                         }
 
                     case MessageMediaType.Video.rawValue:
@@ -2074,12 +2072,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
 
                             }, collectionView: collectionView, indexPath: indexPath)
-
-                            cell.tapAvatarAction = { [weak self] user in
-                                self?.performSegueWithIdentifier("showProfile", sender: user)
-                            }
                         }
-
 
                     case MessageMediaType.Location.rawValue:
 
@@ -2097,10 +2090,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
 
                             }, collectionView: collectionView, indexPath: indexPath)
-
-                            cell.tapAvatarAction = { [weak self] user in
-                                self?.performSegueWithIdentifier("showProfile", sender: user)
-                            }
                         }
 
                     default:
@@ -2108,10 +2097,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         if let cell = cell as? ChatLeftTextCell {
 
                             cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
-
-                            cell.tapAvatarAction = { [weak self] user in
-                                self?.performSegueWithIdentifier("showProfile", sender: user)
-                            }
                         }
                     }
 
@@ -2146,10 +2131,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
 
                             }, collectionView: collectionView, indexPath: indexPath)
-
-                            cell.tapAvatarAction = { [weak self] user in
-                                self?.performSegueWithIdentifier("showProfile", sender: user)
-                            }
                         }
 
                     case MessageMediaType.Audio.rawValue:
@@ -2182,10 +2163,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 self?.playMessageAudioWithMessage(message)
 
                             }, collectionView: collectionView, indexPath: indexPath)
-
-                            cell.tapAvatarAction = { [weak self] user in
-                                self?.performSegueWithIdentifier("showProfile", sender: user)
-                            }
                         }
 
                     case MessageMediaType.Video.rawValue:
@@ -2215,10 +2192,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
 
                             }, collectionView: collectionView, indexPath: indexPath)
-
-                            cell.tapAvatarAction = { [weak self] user in
-                                self?.performSegueWithIdentifier("showProfile", sender: user)
-                            }
                         }
 
                     case MessageMediaType.Location.rawValue:
@@ -2256,10 +2229,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
 
                             }, collectionView: collectionView, indexPath: indexPath)
-
-                            cell.tapAvatarAction = { [weak self] user in
-                                self?.performSegueWithIdentifier("showProfile", sender: user)
-                            }
                         }
 
                     default:
@@ -2358,10 +2327,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         strongSelf.lastTimeMessagesCount = strongSelf.messages.count
                                     }
                                 }
-                            }
-
-                            cell.tapAvatarAction = { [weak self] user in
-                                self?.performSegueWithIdentifier("showProfile", sender: user)
                             }
                         }
                     }
