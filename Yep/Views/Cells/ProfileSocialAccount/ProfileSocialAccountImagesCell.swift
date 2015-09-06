@@ -24,15 +24,15 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                     let shots = dribbbleWork.shots
 
                     if let shot = shots[safe: 0] {
-                        imageView1.kf_setImageWithURL(NSURL(string: shot.images.teaser)!)
+                        imageView1.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil)
                     }
 
                     if let shot = shots[safe: 1] {
-                        imageView2.kf_setImageWithURL(NSURL(string: shot.images.teaser)!)
+                        imageView2.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil)
                     }
 
                     if let shot = shots[safe: 2] {
-                        imageView3.kf_setImageWithURL(NSURL(string: shot.images.teaser)!)
+                        imageView3.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil)
                     }
 
                 case .Instagram(let instagramWork):
@@ -40,15 +40,15 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                     let medias = instagramWork.medias
 
                     if let media = medias[safe: 0] {
-                        imageView1.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!)
+                        imageView1.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil)
                     }
 
                     if let media = medias[safe: 1] {
-                        imageView2.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!)
+                        imageView2.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil)
                     }
 
                     if let media = medias[safe: 2] {
-                        imageView3.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!)
+                        imageView3.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil)
                     }
                 }
             }
