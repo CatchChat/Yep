@@ -201,7 +201,8 @@ class RegisterVerifyMobileViewController: UIViewController {
 }
 
 extension RegisterVerifyMobileViewController: UITextFieldDelegate {
-    
+
+    /*
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if haveAppropriateInput {
             verifyRegisterMobile()
@@ -209,5 +210,6 @@ extension RegisterVerifyMobileViewController: UITextFieldDelegate {
 
         return true
     }
+    */
 }
 
