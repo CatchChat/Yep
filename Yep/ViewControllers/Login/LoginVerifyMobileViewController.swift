@@ -202,7 +202,7 @@ class LoginVerifyMobileViewController: UIViewController {
 extension LoginVerifyMobileViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if !textField.text.isEmpty {
+        if haveAppropriateInput {
             login()
         }
         
