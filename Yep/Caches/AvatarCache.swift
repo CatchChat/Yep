@@ -198,9 +198,8 @@ class AvatarCache {
 
     func roundAvatarWithAvatarURLString(avatarURLString: String, withRadius radius: CGFloat, completion: (UIImage) -> ()) {
 
-        completion(defaultRoundAvatarOfRadius(radius))
-
         if avatarURLString.isEmpty {
+            completion(defaultRoundAvatarOfRadius(radius))
             return
         }
 
@@ -243,6 +242,7 @@ class AvatarCache {
                                 }
                             }
                         default:
+                            completion(defaultRoundAvatarOfRadius(radius))
                             break
                         }
                     }
@@ -334,13 +334,12 @@ class AvatarCache {
 
     func roundAvatarOfUser(user: User, withRadius radius: CGFloat, completion: (UIImage) -> ()) {
 
-        completion(defaultRoundAvatarOfRadius(radius))
-
         // 为下面切换线程准备，Realm 不能跨线程访问
         let avatarURLString = user.avatarURLString
         let userID = user.userID
 
         if avatarURLString.isEmpty {
+            completion(defaultRoundAvatarOfRadius(radius))
             return
         }
 
@@ -383,6 +382,7 @@ class AvatarCache {
                                 }
                             }
                         default:
+                            completion(defaultRoundAvatarOfRadius(radius))
                             break
                         }
                     }
