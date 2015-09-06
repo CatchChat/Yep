@@ -55,6 +55,8 @@ class RegisterVerifyMobileViewController: UIViewController {
 
         navigationItem.rightBarButtonItem = nextButton
 
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "activeAgain:", name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
+
         verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code send to", comment: "")
         phoneNumberLabel.text = "+" + areaCode + " " + mobile
 
@@ -86,6 +88,10 @@ class RegisterVerifyMobileViewController: UIViewController {
     }
 
     // MARK: Actions
+
+    func activeAgain(notification: NSNotification) {
+        verifyCodeTextField.becomeFirstResponder()
+    }
 
     func tryCallMe(timer: NSTimer) {
         if !haveAppropriateInput {
