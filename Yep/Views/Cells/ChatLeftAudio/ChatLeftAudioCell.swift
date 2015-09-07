@@ -123,13 +123,11 @@ class ChatLeftAudioCell: ChatBaseCell {
         if let message = message {
 
             if let (audioDuration, audioSamples) = audioMetaOfMessage(message) {
-//                sampleViewWidthConstraint.constant = CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
 
-//                sampleViewWidthConstraint.constant = max(YepConfig.minMessageSampleViewWidth, sampleViewWidthConstraint.constant)
-
-                let width = 60 + CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
+                var simpleViewWidth = CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
+                simpleViewWidth = max(YepConfig.minMessageSampleViewWidth, simpleViewWidth)
+                let width = 60 + simpleViewWidth
                 audioContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + 5, y: 0, width: width, height: bounds.height)
-
 
                 sampleView.samples = audioSamples
 
