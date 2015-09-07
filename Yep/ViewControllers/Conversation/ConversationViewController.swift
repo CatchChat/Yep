@@ -712,6 +712,10 @@ class ConversationViewController: BaseViewController {
                 }
             }
 
+            // 在这里才尝试恢复 messageToolbar 的状态，因为依赖 stateTransitionAction
+
+            tryRecoverMessageToolBar()
+
             // MARK: More Message Types
 
             choosePhotoButton.title = NSLocalizedString("Choose photo", comment: "")
@@ -802,9 +806,6 @@ class ConversationViewController: BaseViewController {
 
             // 先调整一下初次的 contentInset
             setConversaitonCollectionViewOriginalContentInset()
-
-            // 尝试恢复 messageToolbar 的状态
-            tryRecoverMessageToolBar()
 
             // 尽量滚到底部
             tryScrollToBottom()
