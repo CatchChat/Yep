@@ -107,6 +107,8 @@ class ChatRightTextCell: ChatRightBaseCell {
             textContentTextViewLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel() - YepConfig.ChatCell.magicWidth
         }
 
+        contentView.layoutIfNeeded()
+
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { [weak self] roundImage in
                 dispatch_async(dispatch_get_main_queue()) {

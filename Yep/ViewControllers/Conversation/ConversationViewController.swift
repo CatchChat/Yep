@@ -61,6 +61,8 @@ class ConversationViewController: BaseViewController {
     // KeyboardMan 帮助我们做键盘动画
     let keyboardMan = KeyboardMan()
 
+    var isFirstAppear = true
+
     lazy var titleView: ConversationTitleView = {
         let titleView = ConversationTitleView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 150, height: 44)))
         titleView.nameLabel.text = nameOfConversation(self.conversation)
@@ -70,7 +72,53 @@ class ConversationViewController: BaseViewController {
 
     lazy var moreView = ConversationMoreView()
 
-    lazy var pullToRefreshView = PullToRefreshView()
+    lazy var pullToRefreshView: PullToRefreshView = {
+
+        let pullToRefreshView = PullToRefreshView()
+        pullToRefreshView.delegate = self
+
+        self.conversationCollectionView.insertSubview(pullToRefreshView, atIndex: 0)
+
+        pullToRefreshView.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+        let viewsDictionary = [
+            "pullToRefreshView": pullToRefreshView,
+            "view": self.view,
+        ]
+
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(-200)-[pullToRefreshView(200)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        // 非常奇怪，若直接用 "H:|[pullToRefreshView]|" 得到的实际宽度为 0
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[pullToRefreshView(==view)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        NSLayoutConstraint.activateConstraints(constraintsV)
+        NSLayoutConstraint.activateConstraints(constraintsH)
+
+        return pullToRefreshView
+        }()
+
+    lazy var waverView: YepWaverView = {
+        let view = YepWaverView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height))
+
+        view.waver.waverCallback = { waver in
+
+            if let audioRecorder = YepAudioService.sharedManager.audioRecorder {
+
+                if (audioRecorder.recording) {
+                    //println("Update waver")
+                    audioRecorder.updateMeters()
+
+                    let normalizedValue = pow(10, audioRecorder.averagePowerForChannel(0)/40)
+
+                    waver.level = CGFloat(normalizedValue)
+                }
+            }
+        }
+
+        return view
+        }()
+    var samplesCount = 0
+    let samplingInterval = 6
     
     @IBOutlet weak var conversationCollectionView: UICollectionView!
 
@@ -90,10 +138,6 @@ class ConversationViewController: BaseViewController {
     var isTryingShowFriendRequestView = false
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-
-    var waverView: YepWaverView!
-    var samplesCount = 0
-    let samplingInterval = 6
 
     let sectionInsetTop: CGFloat = 10
     let sectionInsetBottom: CGFloat = 10
@@ -206,9 +250,6 @@ class ConversationViewController: BaseViewController {
 
         swipeUpView.hidden = true
 
-
-        makePullToRefreshView()
-
         conversationCollectionView.alwaysBounceVertical = true
 
         conversationCollectionView.registerNib(UINib(nibName: chatStateCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatStateCellIdentifier)
@@ -281,384 +322,6 @@ class ConversationViewController: BaseViewController {
                 }
             }
         }
-
-        // MARK: Send Text
-
-        messageToolbar.textSendAction = { [weak self] messageToolbar in
-
-            let text = messageToolbar.messageTextView.text!.trimming(.WhitespaceAndNewline)
-
-            self?.cleanTextInput()
-
-            if text.isEmpty {
-                return
-            }
-
-            if let withFriend = self?.conversation.withFriend {
-
-                sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
-
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
-                        })
-                    }
-
-                }, failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage)
-
-                    YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
-
-                }, completion: { success in
-                    println("sendText to friend: \(success)")
-
-                    // 发送过消息后才提示加好友
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        if let strongSelf = self {
-                            if !strongSelf.isTryingShowFriendRequestView {
-                                strongSelf.isTryingShowFriendRequestView = true
-                                strongSelf.tryShowFriendRequestView()
-                            }
-                        }
-                    }
-                })
-
-            } else if let withGroup = self?.conversation.withGroup {
-
-                sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
-
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
-                        })
-                    }
-
-                }, failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage)
-
-                    dispatch_async(dispatch_get_main_queue()) {
-                        YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
-                    }
-
-                }, completion: { success in
-                    println("sendText to group: \(success)")
-                })
-            }
-        }
-        
-        waverView = YepWaverView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height))
-
-        waverView.waver.waverCallback = { waver in
-
-            if let audioRecorder = YepAudioService.sharedManager.audioRecorder {
-
-                if (audioRecorder.recording) {
-                    //println("Update waver")
-                    audioRecorder.updateMeters()
-                    
-                    let normalizedValue = pow(10, audioRecorder.averagePowerForChannel(0)/40)
-                    
-                    waver.level = CGFloat(normalizedValue)
-                }
-            }
-        }
-
-        // MARK: Send Audio
-
-        let hideWaver: () -> Void = { [weak self] in
-            self?.swipeUpView.hidden = true
-            self?.waverView.removeFromSuperview()
-        }
-
-        let sendAudioMessage: () -> Void = { [weak self] in
-            // Prepare meta data
-
-            var metaData: String? = nil
-
-            if let audioSamples = self?.waverView.waver.compressSamples() {
-
-                var audioSamples = audioSamples
-                // 浮点数最多两位小数，使下面计算 metaData 时不至于太长
-                for i in 0..<audioSamples.count {
-                    var sample = audioSamples[i]
-                    sample = round(sample * 100.0) / 100.0
-                    audioSamples[i] = sample
-                }
-
-                if let fileURL = YepAudioService.sharedManager.audioFileURL {
-                    let audioAsset = AVURLAsset(URL: fileURL, options: nil)
-                    let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
-
-                    println("\nComporessed \(audioSamples)")
-
-                    let audioMetaDataInfo = [YepConfig.MetaData.audioSamples: audioSamples, YepConfig.MetaData.audioDuration: audioDuration]
-
-                    if let audioMetaData = NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: nil, error: nil) {
-                        let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
-                        metaData = audioMetaDataString
-                    }
-                }
-            }
-
-            // Do send
-
-            if let fileURL = YepAudioService.sharedManager.audioFileURL {
-                if let withFriend = self?.conversation.withFriend {
-                    sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
-
-                        dispatch_async(dispatch_get_main_queue()) {
-                            if let realm = message.realm {
-                                realm.beginWrite()
-                                message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
-                                message.mediaType = MessageMediaType.Audio.rawValue
-                                if let metaDataString = metaData {
-                                    message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
-                                }
-                                realm.commitWrite()
-
-                                self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
-                                })
-                            }
-                        }
-
-                    }, failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason, errorMessage)
-
-                        YepAlert.alertSorry(message: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
-
-                    }, completion: { success in
-                        println("send audio to friend: \(success)")
-                    })
-
-                } else if let withGroup = self?.conversation.withGroup {
-                    sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
-
-                        dispatch_async(dispatch_get_main_queue()) {
-                            if let realm = message.realm {
-                                realm.beginWrite()
-                                message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
-                                message.mediaType = MessageMediaType.Audio.rawValue
-                                if let metaDataString = metaData {
-                                    message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
-                                }
-                                realm.commitWrite()
-
-                                self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
-                                })
-                            }
-                        }
-
-                    }, failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason, errorMessage)
-
-                        YepAlert.alertSorry(message: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
-
-                    }, completion: { success in
-                        println("send audio to group: \(success)")
-                    })
-                }
-            }
-        }
-
-        messageToolbar.voiceRecordBeginAction = { [weak self] messageToolbar in
-
-            YepAudioService.sharedManager.shouldIgnoreStart = false
-            
-            if let strongSelf = self {
-
-                strongSelf.view.addSubview(strongSelf.waverView)
-
-                strongSelf.swipeUpPromptLabel.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
-                strongSelf.swipeUpView.hidden = false
-                strongSelf.view.bringSubviewToFront(strongSelf.swipeUpView)
-
-                let audioFileName = NSUUID().UUIDString
-
-                strongSelf.waverView.waver.resetWaveSamples()
-                strongSelf.samplesCount = 0
-
-                if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
-                    
-                    YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: strongSelf)
-
-                    YepAudioService.sharedManager.recordTimeoutAction = {
-
-                        hideWaver()
-
-                        sendAudioMessage()
-                    }
-
-                    YepAudioService.sharedManager.startCheckRecordTimeoutTimer()
-                }
-
-                if let withFriend = strongSelf.conversation.withFriend {
-
-                    let typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Audio.rawValue]
-
-                    if FayeService.sharedManager.client.connected {
-                        FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
-                            println("Send recording \(result)")
-                        })
-                    }
-                }
-            }
-        }
-        
-        messageToolbar.voiceRecordEndAction = { [weak self] messageToolbar in
-
-            YepAudioService.sharedManager.shouldIgnoreStart = true
-            
-            hideWaver()
-
-            let interruptAudioRecord: () -> Void = {
-                YepAudioService.sharedManager.endRecord()
-                YepAudioService.sharedManager.recordTimeoutAction = nil
-            }
-
-            // 小于 0.5 秒不创建消息
-            if YepAudioService.sharedManager.audioRecorder?.currentTime < YepConfig.AudioRecord.shortestDuration {
-                
-                interruptAudioRecord()
-                return
-            }
-
-            interruptAudioRecord()
-
-            sendAudioMessage()
-        }
-
-        messageToolbar.voiceRecordCancelAction = { [weak self] messageToolbar in
-            
-            self?.swipeUpView.hidden = true
-            self?.waverView.removeFromSuperview()
-
-            YepAudioService.sharedManager.endRecord()
-
-            YepAudioService.sharedManager.recordTimeoutAction = nil
-        }
-
-        messageToolbar.voiceRecordingUpdateUIAction = { [weak self] topOffset in
-
-            let text: String
-
-            if topOffset > 40 {
-                text = NSLocalizedString("Release to Cancel", comment: "")
-            } else {
-                text = NSLocalizedString("Swipe Up to Cancel", comment: "")
-            }
-
-            self?.swipeUpPromptLabel.text = text
-        }
-
-        // MARK: MessageToolbar State Transitions
-
-        messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
-
-            if let strongSelf = self {
-
-                switch (previousState, currentState) {
-
-                case (.MoreMessages, .Default): fallthrough
-                case (.MoreMessages, .VoiceRecord):
-
-                    UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-
-                        strongSelf.conversationCollectionView.contentOffset.y -= strongSelf.moreMessageTypesViewDefaultHeight
-                        strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
-
-                        strongSelf.messageToolbarBottomConstraint.constant = 0
-                        strongSelf.view.layoutIfNeeded()
-
-                    }, completion: { finished in
-                    })
-
-                default:
-
-                    if currentState == .MoreMessages {
-
-                        if previousState != .BeginTextInput && previousState != .TextInputing {
-
-                            UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-
-                                strongSelf.conversationCollectionView.contentOffset.y += strongSelf.moreMessageTypesViewDefaultHeight
-                                strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewDefaultHeight
-
-                                strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
-                                strongSelf.view.layoutIfNeeded()
-
-                            }, completion: { finished in
-                            })
-                        }
-
-                        // touch to create (if need) for faster appear
-                        delay(0.2) {
-                            self?.imagePicker.hidesBarsOnTap = false
-                        }
-                    }
-                }
-
-                // 尝试保留草稿
-
-                let realm = Realm()
-
-                if let draft = strongSelf.conversation.draft {
-                    realm.write {
-                        draft.messageToolbarState = currentState.rawValue
-
-                        if currentState == .BeginTextInput || currentState == .TextInputing {
-                            draft.text = messageToolbar.messageTextView.text
-                        }
-                    }
-
-                } else {
-                    let draft = Draft()
-                    draft.messageToolbarState = currentState.rawValue
-
-                    realm.write {
-                        strongSelf.conversation.draft = draft
-                    }
-                }
-            }
-        }
-
-        // MARK: More Message Types
-
-        choosePhotoButton.title = NSLocalizedString("Choose photo", comment: "")
-        choosePhotoButton.tapAction = { [weak self] in
-
-            let openCameraRoll: ProposerAction = { [weak self] in
-                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
-                    if let strongSelf = self {
-                        strongSelf.imagePicker.sourceType = .PhotoLibrary
-                        strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
-                    }
-                }
-            }
-
-            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
-                self?.alertCanNotAccessCameraRoll()
-            })
-        }
-
-        takePhotoButton.title = NSLocalizedString("Take photo", comment: "")
-        takePhotoButton.tapAction = { [weak self] in
-
-            let openCamera: ProposerAction = { [weak self] in
-                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
-                    if let strongSelf = self {
-                        strongSelf.imagePicker.sourceType = .Camera
-                        strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
-                    }
-                }
-            }
-
-            proposeToAccess(.Camera, agreed: openCamera, rejected: {
-                self?.alertCanNotOpenCamera()
-            })
-        }
-
-        addLocationButton.title = NSLocalizedString("Share location", comment: "")
-        addLocationButton.tapAction = {
-            self.performSegueWithIdentifier("presentPickLocation", sender: nil)
-        }
     }
     
     func tryRecoverMessageToolBar() {
@@ -680,25 +343,12 @@ class ConversationViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        setNeedsStatusBarAppearanceUpdate()
+
         conversationCollectionViewHasBeenMovedToBottomOnce = true
 
         FayeService.sharedManager.delegate = self
-
-        checkTypingStatusTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("checkTypingStatus"), userInfo: nil, repeats: true)
-        
-        messageToolbar.notifyTypingAction = {
-
-            if let withFriend = self.conversation.withFriend {
-
-                let typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Text.rawValue]
-
-                if FayeService.sharedManager.client.connected {
-                    FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
-                        println("Send typing \(result)")
-                    })
-                }
-            }
-        }
 
         // 进来时就尽快标记已读
 
@@ -709,9 +359,400 @@ class ConversationViewController: BaseViewController {
                 return false
             }
         }).map({ self.markMessageAsReaded($0) })
-        
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-        self.setNeedsStatusBarAppearanceUpdate()
+
+        // 尽量晚的设置一些属性和闭包
+
+        if isFirstAppear {
+
+            isFirstAppear = false
+
+            // MARK: Notify Typing
+
+            checkTypingStatusTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("checkTypingStatus"), userInfo: nil, repeats: true)
+
+            messageToolbar.notifyTypingAction = {
+
+                if let withFriend = self.conversation.withFriend {
+
+                    let typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Text.rawValue]
+
+                    if FayeService.sharedManager.client.connected {
+                        FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
+                            println("Send typing \(result)")
+                        })
+                    }
+                }
+            }
+
+            // MARK: Send Text
+
+            messageToolbar.textSendAction = { [weak self] messageToolbar in
+
+                let text = messageToolbar.messageTextView.text!.trimming(.WhitespaceAndNewline)
+
+                self?.cleanTextInput()
+
+                if text.isEmpty {
+                    return
+                }
+
+                if let withFriend = self?.conversation.withFriend {
+
+                    sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
+                            })
+                        }
+
+                    }, failureHandler: { [weak self] reason, errorMessage in
+                        defaultFailureHandler(reason, errorMessage)
+
+                        YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
+
+                    }, completion: { success in
+                        println("sendText to friend: \(success)")
+
+                        // 发送过消息后才提示加好友
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                            if let strongSelf = self {
+                                if !strongSelf.isTryingShowFriendRequestView {
+                                    strongSelf.isTryingShowFriendRequestView = true
+                                    strongSelf.tryShowFriendRequestView()
+                                }
+                            }
+                        }
+                    })
+
+                } else if let withGroup = self?.conversation.withGroup {
+
+                    sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                            })
+                        }
+
+                    }, failureHandler: { [weak self] reason, errorMessage in
+                        defaultFailureHandler(reason, errorMessage)
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                        }
+
+                    }, completion: { success in
+                        println("sendText to group: \(success)")
+                    })
+                }
+            }
+
+            // MARK: Send Audio
+
+            let hideWaver: () -> Void = { [weak self] in
+                self?.swipeUpView.hidden = true
+                self?.waverView.removeFromSuperview()
+            }
+
+            let sendAudioMessage: () -> Void = { [weak self] in
+                // Prepare meta data
+
+                var metaData: String? = nil
+
+                if let audioSamples = self?.waverView.waver.compressSamples() {
+
+                    var audioSamples = audioSamples
+                    // 浮点数最多两位小数，使下面计算 metaData 时不至于太长
+                    for i in 0..<audioSamples.count {
+                        var sample = audioSamples[i]
+                        sample = round(sample * 100.0) / 100.0
+                        audioSamples[i] = sample
+                    }
+
+                    if let fileURL = YepAudioService.sharedManager.audioFileURL {
+                        let audioAsset = AVURLAsset(URL: fileURL, options: nil)
+                        let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
+
+                        println("\nComporessed \(audioSamples)")
+
+                        let audioMetaDataInfo = [YepConfig.MetaData.audioSamples: audioSamples, YepConfig.MetaData.audioDuration: audioDuration]
+
+                        if let audioMetaData = NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: nil, error: nil) {
+                            let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
+                            metaData = audioMetaDataString
+                        }
+                    }
+                }
+
+                // Do send
+
+                if let fileURL = YepAudioService.sharedManager.audioFileURL {
+                    if let withFriend = self?.conversation.withFriend {
+                        sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
+
+                            dispatch_async(dispatch_get_main_queue()) {
+                                if let realm = message.realm {
+                                    realm.beginWrite()
+                                    message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
+                                    message.mediaType = MessageMediaType.Audio.rawValue
+                                    if let metaDataString = metaData {
+                                        message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
+                                    }
+                                    realm.commitWrite()
+
+                                    self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                                    })
+                                }
+                            }
+
+                        }, failureHandler: { [weak self] reason, errorMessage in
+                            defaultFailureHandler(reason, errorMessage)
+
+                            YepAlert.alertSorry(message: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
+
+                        }, completion: { success in
+                            println("send audio to friend: \(success)")
+                        })
+
+                    } else if let withGroup = self?.conversation.withGroup {
+                        sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
+
+                            dispatch_async(dispatch_get_main_queue()) {
+                                if let realm = message.realm {
+                                    realm.beginWrite()
+                                    message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
+                                    message.mediaType = MessageMediaType.Audio.rawValue
+                                    if let metaDataString = metaData {
+                                        message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
+                                    }
+                                    realm.commitWrite()
+
+                                    self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                                    })
+                                }
+                            }
+
+                        }, failureHandler: { [weak self] reason, errorMessage in
+                            defaultFailureHandler(reason, errorMessage)
+
+                            YepAlert.alertSorry(message: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
+
+                        }, completion: { success in
+                            println("send audio to group: \(success)")
+                        })
+                    }
+                }
+            }
+
+            // MARK: Voice Record
+
+            messageToolbar.voiceRecordBeginAction = { [weak self] messageToolbar in
+
+                YepAudioService.sharedManager.shouldIgnoreStart = false
+                
+                if let strongSelf = self {
+
+                    strongSelf.view.addSubview(strongSelf.waverView)
+
+                    strongSelf.swipeUpPromptLabel.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
+                    strongSelf.swipeUpView.hidden = false
+                    strongSelf.view.bringSubviewToFront(strongSelf.swipeUpView)
+
+                    let audioFileName = NSUUID().UUIDString
+
+                    strongSelf.waverView.waver.resetWaveSamples()
+                    strongSelf.samplesCount = 0
+
+                    if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
+                        
+                        YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: strongSelf)
+
+                        YepAudioService.sharedManager.recordTimeoutAction = {
+
+                            hideWaver()
+
+                            sendAudioMessage()
+                        }
+
+                        YepAudioService.sharedManager.startCheckRecordTimeoutTimer()
+                    }
+
+                    if let withFriend = strongSelf.conversation.withFriend {
+
+                        let typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Audio.rawValue]
+
+                        if FayeService.sharedManager.client.connected {
+                            FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
+                                println("Send recording \(result)")
+                            })
+                        }
+                    }
+                }
+            }
+            
+            messageToolbar.voiceRecordEndAction = { [weak self] messageToolbar in
+
+                YepAudioService.sharedManager.shouldIgnoreStart = true
+                
+                hideWaver()
+
+                let interruptAudioRecord: () -> Void = {
+                    YepAudioService.sharedManager.endRecord()
+                    YepAudioService.sharedManager.recordTimeoutAction = nil
+                }
+
+                // 小于 0.5 秒不创建消息
+                if YepAudioService.sharedManager.audioRecorder?.currentTime < YepConfig.AudioRecord.shortestDuration {
+                    
+                    interruptAudioRecord()
+                    return
+                }
+
+                interruptAudioRecord()
+
+                sendAudioMessage()
+            }
+
+            messageToolbar.voiceRecordCancelAction = { [weak self] messageToolbar in
+                
+                self?.swipeUpView.hidden = true
+                self?.waverView.removeFromSuperview()
+
+                YepAudioService.sharedManager.endRecord()
+
+                YepAudioService.sharedManager.recordTimeoutAction = nil
+            }
+
+            messageToolbar.voiceRecordingUpdateUIAction = { [weak self] topOffset in
+
+                let text: String
+
+                if topOffset > 40 {
+                    text = NSLocalizedString("Release to Cancel", comment: "")
+                } else {
+                    text = NSLocalizedString("Swipe Up to Cancel", comment: "")
+                }
+
+                self?.swipeUpPromptLabel.text = text
+            }
+
+            // MARK: MessageToolbar State Transitions
+
+            messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
+
+                if let strongSelf = self {
+
+                    switch (previousState, currentState) {
+
+                    case (.MoreMessages, .Default): fallthrough
+                    case (.MoreMessages, .VoiceRecord):
+
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                            UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+
+                                strongSelf.conversationCollectionView.contentOffset.y -= strongSelf.moreMessageTypesViewDefaultHeight
+                                strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
+
+                                strongSelf.messageToolbarBottomConstraint.constant = 0
+                                strongSelf.view.layoutIfNeeded()
+
+                            }, completion: { finished in
+                            })
+                        }
+
+                    default:
+
+                        if currentState == .MoreMessages {
+
+                            if previousState != .BeginTextInput && previousState != .TextInputing {
+
+                                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                                    UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+
+                                        strongSelf.conversationCollectionView.contentOffset.y += strongSelf.moreMessageTypesViewDefaultHeight
+                                        strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewDefaultHeight
+
+                                        strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
+                                        strongSelf.view.layoutIfNeeded()
+
+                                    }, completion: { finished in
+                                    })
+                                }
+                            }
+
+                            // touch to create (if need) for faster appear
+                            delay(0.2) {
+                                self?.imagePicker.hidesBarsOnTap = false
+                            }
+                        }
+                    }
+
+                    // 尝试保留草稿
+
+                    let realm = Realm()
+
+                    if let draft = strongSelf.conversation.draft {
+                        realm.write {
+                            draft.messageToolbarState = currentState.rawValue
+
+                            if currentState == .BeginTextInput || currentState == .TextInputing {
+                                draft.text = messageToolbar.messageTextView.text
+                            }
+                        }
+
+                    } else {
+                        let draft = Draft()
+                        draft.messageToolbarState = currentState.rawValue
+
+                        realm.write {
+                            strongSelf.conversation.draft = draft
+                        }
+                    }
+                }
+            }
+
+            // MARK: More Message Types
+
+            choosePhotoButton.title = NSLocalizedString("Choose photo", comment: "")
+            choosePhotoButton.tapAction = { [weak self] in
+
+                let openCameraRoll: ProposerAction = { [weak self] in
+                    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
+                        if let strongSelf = self {
+                            strongSelf.imagePicker.sourceType = .PhotoLibrary
+                            strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                        }
+                    }
+                }
+
+                proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
+                    self?.alertCanNotAccessCameraRoll()
+                })
+            }
+
+            takePhotoButton.title = NSLocalizedString("Take photo", comment: "")
+            takePhotoButton.tapAction = { [weak self] in
+
+                let openCamera: ProposerAction = { [weak self] in
+                    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+                        if let strongSelf = self {
+                            strongSelf.imagePicker.sourceType = .Camera
+                            strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                        }
+                    }
+                }
+
+                proposeToAccess(.Camera, agreed: openCamera, rejected: {
+                    self?.alertCanNotOpenCamera()
+                })
+            }
+
+            addLocationButton.title = NSLocalizedString("Share location", comment: "")
+            addLocationButton.tapAction = { [weak self] in
+                self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
+            }
+        }
     }
 
     private func markMessageAsReaded(message: Message) {
@@ -768,32 +809,9 @@ class ConversationViewController: BaseViewController {
             // 尽量滚到底部
             tryScrollToBottom()
         }
-        
-        self.waverView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height)
     }
 
     // MARK: UI
-
-    private func makePullToRefreshView() {
-        pullToRefreshView.delegate = self
-
-        conversationCollectionView.insertSubview(pullToRefreshView, atIndex: 0)
-
-        pullToRefreshView.setTranslatesAutoresizingMaskIntoConstraints(false)
-
-        let viewsDictionary = [
-            "pullToRefreshView": pullToRefreshView,
-            "view": view,
-        ]
-
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(-200)-[pullToRefreshView(200)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
-
-        // 非常奇怪，若直接用 "H:|[pullToRefreshView]|" 得到的实际宽度为 0
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[pullToRefreshView(==view)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
-
-        NSLayoutConstraint.activateConstraints(constraintsV)
-        NSLayoutConstraint.activateConstraints(constraintsH)
-    }
 
     func tryShowFriendRequestView() {
 
@@ -1169,6 +1187,15 @@ class ConversationViewController: BaseViewController {
     }
 
     // MARK: Actions
+
+    func checkTypingStatus() {
+
+        typingResetDelay = typingResetDelay - 0.5
+
+        if typingResetDelay < 0 {
+            self.updateStateInfoOfTitleView(titleView)
+        }
+    }
 
     func tryScrollToBottom() {
 
@@ -2373,15 +2400,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
     }
-    
-    func checkTypingStatus() {
 
-        typingResetDelay = typingResetDelay - 0.5
-
-        if typingResetDelay < 0 {
-            self.updateStateInfoOfTitleView(titleView)
-        }
-    }
 }
 
 // MARK: FayeServiceDelegate
