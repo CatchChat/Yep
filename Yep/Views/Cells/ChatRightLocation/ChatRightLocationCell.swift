@@ -26,7 +26,7 @@ class ChatRightLocationCell: ChatRightBaseCell {
 
         mapImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - 5 - 192, y: 0, width: 192, height: 108)
 
-        dotImageView.center = CGPoint(x: CGRectGetMinX(mapImageView.frame) - 5, y: CGRectGetMidY(mapImageView.frame))
+        dotImageView.center = CGPoint(x: CGRectGetMinX(mapImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(mapImageView.frame))
     }
 
     override func awakeFromNib() {

@@ -105,8 +105,7 @@ class ChatRightAudioCell: ChatRightBaseCell {
                 simpleViewWidth = max(YepConfig.minMessageSampleViewWidth, simpleViewWidth)
                 let width = 60 + simpleViewWidth
                 audioContainerView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - 5 - width, y: 0, width: width, height: bounds.height)
-                dotImageView.center = CGPoint(x: CGRectGetMinX(audioContainerView.frame) - 5, y: CGRectGetMidY(audioContainerView.frame))
-
+                dotImageView.center = CGPoint(x: CGRectGetMinX(audioContainerView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(audioContainerView.frame))
 
                 sampleView.samples = audioSamples
 
@@ -119,8 +118,7 @@ class ChatRightAudioCell: ChatRightBaseCell {
 
                 let width = 60 + 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
                 audioContainerView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - 5 - width, y: 0, width: width, height: bounds.height)
-
-                dotImageView.center = CGPoint(x: CGRectGetMinX(audioContainerView.frame) - 5, y: CGRectGetMidY(audioContainerView.frame))
+                dotImageView.center = CGPoint(x: CGRectGetMinX(audioContainerView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(audioContainerView.frame))
 
                 println(dotImageView.frame)
 

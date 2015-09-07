@@ -109,7 +109,7 @@ class ChatRightTextCell: ChatRightBaseCell {
         textContainerView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() - textContentLabelWidth, y: 3, width: textContentLabelWidth, height: bounds.height - 3 * 2)
         bubbleBodyImageView.frame = CGRectInset(textContainerView.frame, -12, -3)
         bubbleTailImageView.center = CGPoint(x: CGRectGetMaxX(bubbleBodyImageView.frame), y: CGRectGetMidY(avatarImageView.frame))
-        dotImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyImageView.frame) - 5, y: CGRectGetMidY(bubbleBodyImageView.frame))
+        dotImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(bubbleBodyImageView.frame))
 
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { [weak self] roundImage in
