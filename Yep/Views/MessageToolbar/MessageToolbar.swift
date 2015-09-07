@@ -101,7 +101,8 @@ class MessageToolbar: UIToolbar {
         didSet {
             switch state {
             case .BeginTextInput, .TextInputing:
-                messageTextView.becomeFirstResponder()
+                // 由用户手动触发键盘弹出，回复时要注意
+                break
             default:
                 messageTextView.resignFirstResponder()
             }
