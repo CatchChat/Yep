@@ -96,7 +96,7 @@ class ChatRightVideoCell: ChatRightBaseCell {
             if aspectRatio >= 1 {
 
                 let width = messageImagePreferredWidth
-                thumbnailImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - 5 - width, y: 0, width: width, height: bounds.height)
+                thumbnailImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: bounds.height)
                 playImageView.center = CGPoint(x: CGRectGetMidX(thumbnailImageView.frame) - 3, y: CGRectGetMidY(thumbnailImageView.frame))
                 dotImageView.center = CGPoint(x: CGRectGetMinX(thumbnailImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(thumbnailImageView.frame))
 
@@ -111,7 +111,7 @@ class ChatRightVideoCell: ChatRightBaseCell {
 
             } else {
                 let width = messageImagePreferredHeight * aspectRatio
-                thumbnailImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - 5 - width, y: 0, width: width, height: bounds.height)
+                thumbnailImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: bounds.height)
                 playImageView.center = CGPoint(x: CGRectGetMidX(thumbnailImageView.frame) - 3, y: CGRectGetMidY(thumbnailImageView.frame))
                 dotImageView.center = CGPoint(x: CGRectGetMinX(thumbnailImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(thumbnailImageView.frame))
 
@@ -127,7 +127,7 @@ class ChatRightVideoCell: ChatRightBaseCell {
 
         } else {
             let width = messageImagePreferredWidth
-            thumbnailImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - 5 - width, y: 0, width: width, height: bounds.height)
+            thumbnailImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: bounds.height)
             playImageView.center = CGPoint(x: CGRectGetMidX(thumbnailImageView.frame) - 3, y: CGRectGetMidY(thumbnailImageView.frame))
             dotImageView.center = CGPoint(x: CGRectGetMinX(thumbnailImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(thumbnailImageView.frame))
 

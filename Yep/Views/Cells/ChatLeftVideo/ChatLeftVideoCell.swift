@@ -109,7 +109,7 @@ class ChatLeftVideoCell: ChatBaseCell {
             if aspectRatio >= 1 {
 
                 let width = messageImagePreferredWidth
-                thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + 5, y: 0, width: width, height: bounds.height)
+                thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: bounds.height)
                 playImageView.center = CGPoint(x: CGRectGetMidX(thumbnailImageView.frame) + 3, y: CGRectGetMidY(thumbnailImageView.frame))
                 loadingProgressView.center = playImageView.center
 
@@ -124,7 +124,7 @@ class ChatLeftVideoCell: ChatBaseCell {
 
             } else {
                 let width = messageImagePreferredHeight * aspectRatio
-                thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + 5, y: 0, width: width, height: bounds.height)
+                thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: bounds.height)
                 playImageView.center = CGPoint(x: CGRectGetMidX(thumbnailImageView.frame) + 3, y: CGRectGetMidY(thumbnailImageView.frame))
                 loadingProgressView.center = playImageView.center
 
@@ -140,7 +140,7 @@ class ChatLeftVideoCell: ChatBaseCell {
 
         } else {
             let width = messageImagePreferredWidth
-            thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + 5, y: 0, width: width, height: bounds.height)
+            thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: bounds.height)
             playImageView.center = CGPoint(x: CGRectGetMidX(thumbnailImageView.frame) + 3, y: CGRectGetMidY(thumbnailImageView.frame))
             loadingProgressView.center = playImageView.center
 

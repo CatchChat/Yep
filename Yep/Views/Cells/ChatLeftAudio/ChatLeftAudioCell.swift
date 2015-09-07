@@ -127,7 +127,7 @@ class ChatLeftAudioCell: ChatBaseCell {
                 var simpleViewWidth = CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
                 simpleViewWidth = max(YepConfig.minMessageSampleViewWidth, simpleViewWidth)
                 let width = 60 + simpleViewWidth
-                audioContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + 5, y: 0, width: width, height: bounds.height)
+                audioContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: bounds.height)
 
                 sampleView.samples = audioSamples
 
@@ -139,7 +139,7 @@ class ChatLeftAudioCell: ChatBaseCell {
                 sampleView.progress = 0
 
                 let width = 60 + 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
-                audioContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + 5, y: 0, width: width, height: bounds.height)
+                audioContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: bounds.height)
 
                 audioDurationLabel.text = ""
             }
