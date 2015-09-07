@@ -29,6 +29,8 @@ class ChatRightAudioCell: ChatRightBaseCell {
     }
 
 
+    @IBOutlet weak var audioContainerView: UIView!
+    
     @IBOutlet weak var bubbleImageView: UIImageView!
 
     @IBOutlet weak var sampleView: SampleView!
@@ -40,9 +42,23 @@ class ChatRightAudioCell: ChatRightBaseCell {
 
     typealias AudioBubbleTapAction = () -> Void
     var audioBubbleTapAction: AudioBubbleTapAction?
-    
+
+    func makeUI() {
+
+        let fullWidth = UIScreen.mainScreen().bounds.width
+
+        let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
+
+        avatarImageView.center = CGPoint(x: fullWidth - halfAvatarSize - YepConfig.chatCellGapBetweenWallAndAvatar(), y: halfAvatarSize)
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        backgroundColor = UIColor.redColor()
+
+        makeUI()
+
 
         bubbleImageView.tintColor = UIColor.rightBubbleTintColor()
 
@@ -92,6 +108,17 @@ class ChatRightAudioCell: ChatRightBaseCell {
 
 //                sampleViewWidthConstraint.constant = max(YepConfig.minMessageSampleViewWidth, sampleViewWidthConstraint.constant)
 
+                let width = 60 + CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
+
+                audioContainerView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - 5 - width, y: 0, width: width, height: bounds.height)
+
+                dotImageView.center = CGPoint(x: CGRectGetMinX(audioContainerView.frame) - 5, y: CGRectGetMidY(audioContainerView.frame))
+
+                println(dotImageView.frame)
+
+
+
+
                 sampleView.samples = audioSamples
 
                 audioDurationLabel.text = NSString(format: "%.1f\"", audioDuration) as String
@@ -102,6 +129,15 @@ class ChatRightAudioCell: ChatRightBaseCell {
                 sampleView.progress = 0
 
 //                sampleViewWidthConstraint.constant = 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
+
+                let width = 60 + 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
+
+                audioContainerView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - 5 - width, y: 0, width: width, height: bounds.height)
+
+                dotImageView.center = CGPoint(x: CGRectGetMinX(audioContainerView.frame) - 5, y: CGRectGetMidY(audioContainerView.frame))
+
+                println(dotImageView.frame)
+
                 audioDurationLabel.text = ""
             }
 

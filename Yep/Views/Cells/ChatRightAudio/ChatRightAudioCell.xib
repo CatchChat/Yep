@@ -23,12 +23,12 @@
                         <subviews>
                             <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="right_tail_bubble" id="IUw-Mk-XlZ" userLabel="Bubble Image View">
                                 <rect key="frame" x="0.0" y="0.0" width="150" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="XTQ-XN-AqX" userLabel="Play Button">
                                 <rect key="frame" x="6" y="5" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
                                 <animations/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" image="icon_play">
@@ -37,13 +37,13 @@
                             </button>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" id="ynj-aF-z4D" userLabel="Wave View" customClass="SampleView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="41" y="0.0" width="89" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2&quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="alU-Q7-YxY" userLabel="Time Length Label">
                                 <rect key="frame" x="36" y="0.0" width="99" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -64,6 +64,7 @@
             <animations/>
             <size key="customSize" width="316" height="105"/>
             <connections>
+                <outlet property="audioContainerView" destination="knU-A0-FO4" id="Gfe-yh-kkC"/>
                 <outlet property="audioDurationLabel" destination="alU-Q7-YxY" id="2dD-Pg-BJw"/>
                 <outlet property="avatarImageView" destination="76j-Ht-EsY" id="uPV-sw-dlg"/>
                 <outlet property="bubbleImageView" destination="IUw-Mk-XlZ" id="eH5-bH-lrf"/>
