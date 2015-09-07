@@ -70,7 +70,30 @@ class ConversationViewController: BaseViewController {
 
     lazy var moreView = ConversationMoreView()
 
-    lazy var pullToRefreshView = PullToRefreshView()
+    lazy var pullToRefreshView: PullToRefreshView = {
+
+        let pullToRefreshView = PullToRefreshView()
+        pullToRefreshView.delegate = self
+
+        self.conversationCollectionView.insertSubview(pullToRefreshView, atIndex: 0)
+
+        pullToRefreshView.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+        let viewsDictionary = [
+            "pullToRefreshView": pullToRefreshView,
+            "view": self.view,
+        ]
+
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(-200)-[pullToRefreshView(200)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        // 非常奇怪，若直接用 "H:|[pullToRefreshView]|" 得到的实际宽度为 0
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[pullToRefreshView(==view)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+
+        NSLayoutConstraint.activateConstraints(constraintsV)
+        NSLayoutConstraint.activateConstraints(constraintsH)
+
+        return pullToRefreshView
+        }()
 
     lazy var waverView: YepWaverView = {
         let view = YepWaverView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height))
@@ -224,9 +247,6 @@ class ConversationViewController: BaseViewController {
         }
 
         swipeUpView.hidden = true
-
-
-        makePullToRefreshView()
 
         conversationCollectionView.alwaysBounceVertical = true
 
@@ -773,27 +793,6 @@ class ConversationViewController: BaseViewController {
     }
 
     // MARK: UI
-
-    private func makePullToRefreshView() {
-        pullToRefreshView.delegate = self
-
-        conversationCollectionView.insertSubview(pullToRefreshView, atIndex: 0)
-
-        pullToRefreshView.setTranslatesAutoresizingMaskIntoConstraints(false)
-
-        let viewsDictionary = [
-            "pullToRefreshView": pullToRefreshView,
-            "view": view,
-        ]
-
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(-200)-[pullToRefreshView(200)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
-
-        // 非常奇怪，若直接用 "H:|[pullToRefreshView]|" 得到的实际宽度为 0
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[pullToRefreshView(==view)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
-
-        NSLayoutConstraint.activateConstraints(constraintsV)
-        NSLayoutConstraint.activateConstraints(constraintsH)
-    }
 
     func tryShowFriendRequestView() {
 
