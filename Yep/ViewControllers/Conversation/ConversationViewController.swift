@@ -71,6 +71,29 @@ class ConversationViewController: BaseViewController {
     lazy var moreView = ConversationMoreView()
 
     lazy var pullToRefreshView = PullToRefreshView()
+
+    lazy var waverView: YepWaverView = {
+        let view = YepWaverView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height))
+
+        view.waver.waverCallback = { waver in
+
+            if let audioRecorder = YepAudioService.sharedManager.audioRecorder {
+
+                if (audioRecorder.recording) {
+                    //println("Update waver")
+                    audioRecorder.updateMeters()
+
+                    let normalizedValue = pow(10, audioRecorder.averagePowerForChannel(0)/40)
+
+                    waver.level = CGFloat(normalizedValue)
+                }
+            }
+        }
+
+        return view
+        }()
+    var samplesCount = 0
+    let samplingInterval = 6
     
     @IBOutlet weak var conversationCollectionView: UICollectionView!
 
@@ -90,10 +113,6 @@ class ConversationViewController: BaseViewController {
     var isTryingShowFriendRequestView = false
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-
-    var waverView: YepWaverView!
-    var samplesCount = 0
-    let samplingInterval = 6
 
     let sectionInsetTop: CGFloat = 10
     let sectionInsetBottom: CGFloat = 10
@@ -344,23 +363,6 @@ class ConversationViewController: BaseViewController {
             }
         }
         
-        waverView = YepWaverView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height))
-
-        waverView.waver.waverCallback = { waver in
-
-            if let audioRecorder = YepAudioService.sharedManager.audioRecorder {
-
-                if (audioRecorder.recording) {
-                    //println("Update waver")
-                    audioRecorder.updateMeters()
-                    
-                    let normalizedValue = pow(10, audioRecorder.averagePowerForChannel(0)/40)
-                    
-                    waver.level = CGFloat(normalizedValue)
-                }
-            }
-        }
-
         // MARK: Send Audio
 
         let hideWaver: () -> Void = { [weak self] in
@@ -768,8 +770,6 @@ class ConversationViewController: BaseViewController {
             // 尽量滚到底部
             tryScrollToBottom()
         }
-        
-        self.waverView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height)
     }
 
     // MARK: UI
