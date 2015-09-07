@@ -646,16 +646,19 @@ class ConversationViewController: BaseViewController {
                     case (.MoreMessages, .Default): fallthrough
                     case (.MoreMessages, .VoiceRecord):
 
-                        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
-                            strongSelf.conversationCollectionView.contentOffset.y -= strongSelf.moreMessageTypesViewDefaultHeight
-                            strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
+                            UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
 
-                            strongSelf.messageToolbarBottomConstraint.constant = 0
-                            strongSelf.view.layoutIfNeeded()
+                                strongSelf.conversationCollectionView.contentOffset.y -= strongSelf.moreMessageTypesViewDefaultHeight
+                                strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
 
-                        }, completion: { finished in
-                        })
+                                strongSelf.messageToolbarBottomConstraint.constant = 0
+                                strongSelf.view.layoutIfNeeded()
+
+                            }, completion: { finished in
+                            })
+                        }
 
                     default:
 
@@ -663,16 +666,19 @@ class ConversationViewController: BaseViewController {
 
                             if previousState != .BeginTextInput && previousState != .TextInputing {
 
-                                UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+                                dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
-                                    strongSelf.conversationCollectionView.contentOffset.y += strongSelf.moreMessageTypesViewDefaultHeight
-                                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewDefaultHeight
+                                    UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
 
-                                    strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
-                                    strongSelf.view.layoutIfNeeded()
+                                        strongSelf.conversationCollectionView.contentOffset.y += strongSelf.moreMessageTypesViewDefaultHeight
+                                        strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewDefaultHeight
 
-                                }, completion: { finished in
-                                })
+                                        strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
+                                        strongSelf.view.layoutIfNeeded()
+
+                                    }, completion: { finished in
+                                    })
+                                }
                             }
 
                             // touch to create (if need) for faster appear
