@@ -20,9 +20,22 @@ class ChatLeftVideoCell: ChatBaseCell {
     
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
+
+    func makeUI() {
+
+        let fullWidth = UIScreen.mainScreen().bounds.width
+
+        let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
+
+        avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize)
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        backgroundColor = UIColor.yellowColor()
+
+        makeUI()
 
 //        playImageViewCenterXConstraint.constant = YepConfig.ChatCell.centerXOffset
 
@@ -102,6 +115,17 @@ class ChatLeftVideoCell: ChatBaseCell {
             if aspectRatio >= 1 {
 //                thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
 
+                let width = messageImagePreferredWidth
+
+                thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + 5, y: 0, width: width, height: bounds.height)
+
+                playImageView.center = CGPoint(x: CGRectGetMidX(thumbnailImageView.frame) + 3, y: CGRectGetMidY(thumbnailImageView.frame))
+
+                println("playImageView.frame: \(playImageView.frame)")
+
+                loadingProgressView.center = playImageView.center
+
+
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Left, completion: { [weak self] progress, image in
 
                     dispatch_async(dispatch_get_main_queue()) {
@@ -113,6 +137,17 @@ class ChatLeftVideoCell: ChatBaseCell {
 
             } else {
 //                thumbnailImageViewWidthConstraint.constant = messageImagePreferredHeight * aspectRatio
+
+                let width = messageImagePreferredHeight * aspectRatio
+
+                thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + 5, y: 0, width: width, height: bounds.height)
+
+                playImageView.center = CGPoint(x: CGRectGetMidX(thumbnailImageView.frame) + 3, y: CGRectGetMidY(thumbnailImageView.frame))
+
+                println("playImageView.frame: \(playImageView.frame)")
+
+                loadingProgressView.center = playImageView.center
+
 
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Left, completion: { [weak self] progress, image in
 
@@ -126,6 +161,17 @@ class ChatLeftVideoCell: ChatBaseCell {
 
         } else {
 //            thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
+
+            let width = messageImagePreferredWidth
+
+            thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + 5, y: 0, width: width, height: bounds.height)
+
+            playImageView.center = CGPoint(x: CGRectGetMidX(thumbnailImageView.frame) + 3, y: CGRectGetMidY(thumbnailImageView.frame))
+
+            println("playImageView.frame: \(playImageView.frame)")
+
+            loadingProgressView.center = playImageView.center
+
 
             ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Left, completion: { [weak self] progress, image in
 
