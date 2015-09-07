@@ -12,8 +12,6 @@ class ChatRightImageCell: ChatRightBaseCell {
 
     @IBOutlet weak var messageImageView: UIImageView!
 
-//    @IBOutlet weak var messageImageViewWidthConstrint: NSLayoutConstraint!
-
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
 
@@ -28,8 +26,6 @@ class ChatRightImageCell: ChatRightBaseCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
-        backgroundColor = UIColor.yellowColor()
 
         makeUI()
 
@@ -98,16 +94,9 @@ class ChatRightImageCell: ChatRightBaseCell {
             let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
 
             if aspectRatio >= 1 {
-//                messageImageViewWidthConstrint.constant = messageImagePreferredWidth
-
                 let width = messageImagePreferredWidth
-
                 messageImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - 5 - width, y: 0, width: width, height: bounds.height)
-
                 dotImageView.center = CGPoint(x: CGRectGetMinX(messageImageView.frame) - 5, y: CGRectGetMidY(messageImageView.frame))
-
-                println(dotImageView.frame)
-
 
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Right, completion: { [weak self] progress, image in
 
@@ -119,14 +108,9 @@ class ChatRightImageCell: ChatRightBaseCell {
                 })
 
             } else {
-//                messageImageViewWidthConstrint.constant = messageImagePreferredHeight * aspectRatio
-
                 let width = messageImagePreferredHeight * aspectRatio
                 messageImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - 5 - width, y: 0, width: width, height: bounds.height)
-
                 dotImageView.center = CGPoint(x: CGRectGetMinX(messageImageView.frame) - 5, y: CGRectGetMidY(messageImageView.frame))
-
-                println(dotImageView.frame)
 
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Right, completion: { [weak self] progress, image in
 
@@ -139,15 +123,9 @@ class ChatRightImageCell: ChatRightBaseCell {
             }
 
         } else {
-//            messageImageViewWidthConstrint.constant = messageImagePreferredWidth
-
             let width = messageImagePreferredWidth
-
             messageImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - 5 - width, y: 0, width: width, height: bounds.height)
-
             dotImageView.center = CGPoint(x: CGRectGetMinX(messageImageView.frame) - 5, y: CGRectGetMidY(messageImageView.frame))
-
-            println(dotImageView.frame)
 
             ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Right, completion: { [weak self] progress, image in
 
@@ -159,5 +137,5 @@ class ChatRightImageCell: ChatRightBaseCell {
             })
         }
     }
-
 }
+

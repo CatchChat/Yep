@@ -26,17 +26,11 @@ class ChatRightLocationCell: ChatRightBaseCell {
 
         mapImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - 5 - 192, y: 0, width: 192, height: 108)
 
-        //mapImageView.center = CGPoint(x: CGRectGetMinX(avatarImageView.frame) - 5 - 192/2, y: 108/2)
-
-        println("mapImageView.frame: \(mapImageView.frame)")
-
         dotImageView.center = CGPoint(x: CGRectGetMinX(mapImageView.frame) - 5, y: CGRectGetMidY(mapImageView.frame))
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
-        backgroundColor = UIColor.redColor()
 
         makeUI()
 
@@ -68,14 +62,6 @@ class ChatRightLocationCell: ChatRightBaseCell {
             }
         }
 
-//        mapImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - 5 - 192, y: 0, width: 192, height: bounds.height)
-//
-//        mapImageView.center = CGPoint(x: CGRectGetMinX(avatarImageView.frame) - 5 - 192/2, y: 108/2)
-//
-//        println("mapImageView.frame: \(mapImageView.frame)")
-//
-//        dotImageView.center = CGPoint(x: CGRectGetMinX(mapImageView.frame) - 5, y: CGRectGetMidY(mapImageView.frame))
-
         ImageCache.sharedInstance.mapImageOfMessage(message, withSize: CGSize(width: 192, height: 108), tailDirection: .Right) { mapImage in
             dispatch_async(dispatch_get_main_queue()) {
                 if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
@@ -85,3 +71,4 @@ class ChatRightLocationCell: ChatRightBaseCell {
         }
     }
 }
+

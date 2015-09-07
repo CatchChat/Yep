@@ -34,7 +34,6 @@ class ChatRightAudioCell: ChatRightBaseCell {
     @IBOutlet weak var bubbleImageView: UIImageView!
 
     @IBOutlet weak var sampleView: SampleView!
-//    @IBOutlet weak var sampleViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var audioDurationLabel: UILabel!
 
@@ -55,10 +54,7 @@ class ChatRightAudioCell: ChatRightBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        backgroundColor = UIColor.redColor()
-
         makeUI()
-
 
         bubbleImageView.tintColor = UIColor.rightBubbleTintColor()
 
@@ -109,14 +105,8 @@ class ChatRightAudioCell: ChatRightBaseCell {
 //                sampleViewWidthConstraint.constant = max(YepConfig.minMessageSampleViewWidth, sampleViewWidthConstraint.constant)
 
                 let width = 60 + CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
-
                 audioContainerView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - 5 - width, y: 0, width: width, height: bounds.height)
-
                 dotImageView.center = CGPoint(x: CGRectGetMinX(audioContainerView.frame) - 5, y: CGRectGetMidY(audioContainerView.frame))
-
-                println(dotImageView.frame)
-
-
 
 
                 sampleView.samples = audioSamples
@@ -128,10 +118,7 @@ class ChatRightAudioCell: ChatRightBaseCell {
             } else {
                 sampleView.progress = 0
 
-//                sampleViewWidthConstraint.constant = 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
-
                 let width = 60 + 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
-
                 audioContainerView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - 5 - width, y: 0, width: width, height: bounds.height)
 
                 dotImageView.center = CGPoint(x: CGRectGetMinX(audioContainerView.frame) - 5, y: CGRectGetMidY(audioContainerView.frame))
@@ -169,3 +156,4 @@ class ChatRightAudioCell: ChatRightBaseCell {
         playing = false
     }
 }
+

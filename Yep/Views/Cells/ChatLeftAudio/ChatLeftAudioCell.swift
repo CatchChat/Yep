@@ -35,7 +35,6 @@ class ChatLeftAudioCell: ChatBaseCell {
     @IBOutlet weak var bubbleImageView: UIImageView!
     
     @IBOutlet weak var sampleView: SampleView!
-//    @IBOutlet weak var sampleViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var audioDurationLabel: UILabel!
 
@@ -71,10 +70,7 @@ class ChatLeftAudioCell: ChatBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        backgroundColor = UIColor.yellowColor()
-
         makeUI()
-
 
         bubbleImageView.tintColor = UIColor.leftBubbleTintColor()
 
@@ -132,7 +128,6 @@ class ChatLeftAudioCell: ChatBaseCell {
 //                sampleViewWidthConstraint.constant = max(YepConfig.minMessageSampleViewWidth, sampleViewWidthConstraint.constant)
 
                 let width = 60 + CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
-
                 audioContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + 5, y: 0, width: width, height: bounds.height)
 
 
@@ -145,10 +140,7 @@ class ChatLeftAudioCell: ChatBaseCell {
             } else {
                 sampleView.progress = 0
 
-//                sampleViewWidthConstraint.constant = 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
-
                 let width = 60 + 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
-
                 audioContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + 5, y: 0, width: width, height: bounds.height)
 
                 audioDurationLabel.text = ""
@@ -170,3 +162,4 @@ class ChatLeftAudioCell: ChatBaseCell {
         playing = false
     }
 }
+
