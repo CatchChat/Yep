@@ -100,7 +100,13 @@ class ChatLeftTextCell: ChatBaseCell {
 
 //        contentView.layoutIfNeeded()
 
-        
+        var textContentLabelWidth = textContentLabelWidth
+
+        let size = textContentTextView.sizeThatFits(CGSize(width: textContentLabelWidth, height: CGFloat.max))
+        if size.width != textContentLabelWidth {
+            textContentLabelWidth += YepConfig.ChatCell.magicWidth
+        }
+
         textContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3, width: textContentLabelWidth, height: bounds.height - 3 * 2)
 
         println(textContainerView.frame)
