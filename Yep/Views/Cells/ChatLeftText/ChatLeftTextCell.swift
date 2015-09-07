@@ -21,8 +21,21 @@ class ChatLeftTextCell: ChatBaseCell {
 //    @IBOutlet weak var textContentTextViewLeadingConstraint: NSLayoutConstraint!
     //@IBOutlet weak var textContentTextViewWidthConstraint: NSLayoutConstraint!
 
+    func makeUI() {
+
+        let fullWidth = UIScreen.mainScreen().bounds.width
+
+        let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
+
+        avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize)
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        backgroundColor = UIColor.greenColor()
+
+        makeUI()
 
 //        avatarImageViewLeadingConstraint.constant = YepConfig.chatCellGapBetweenWallAndAvatar()
 
@@ -85,7 +98,22 @@ class ChatLeftTextCell: ChatBaseCell {
 //            textContentTextViewTrailingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel() - YepConfig.ChatCell.magicWidth
 //        }
 
-        contentView.layoutIfNeeded()
+//        contentView.layoutIfNeeded()
+
+        
+        textContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3, width: textContentLabelWidth, height: bounds.height - 3 * 2)
+
+        println(textContainerView.frame)
+
+        bubbleBodyImageView.frame = CGRectInset(textContainerView.frame, -12, -3)
+
+        println(bubbleBodyImageView.frame)
+
+        bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyImageView.frame), y: CGRectGetMidY(avatarImageView.frame))
+
+        println(bubbleTailImageView.frame)
+
+
 
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { [weak self] roundImage in
