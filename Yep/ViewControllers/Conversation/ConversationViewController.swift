@@ -61,6 +61,8 @@ class ConversationViewController: BaseViewController {
     // KeyboardMan 帮助我们做键盘动画
     let keyboardMan = KeyboardMan()
 
+    var isFirstAppear = true
+
     lazy var titleView: ConversationTitleView = {
         let titleView = ConversationTitleView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 150, height: 44)))
         titleView.nameLabel.text = nameOfConversation(self.conversation)
@@ -338,8 +340,6 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    var lazyOnceToken: dispatch_once_t = 0
-
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -362,13 +362,15 @@ class ConversationViewController: BaseViewController {
 
         // 尽量晚的设置一些属性和闭包
 
-        dispatch_once(&lazyOnceToken) { [unowned self] in
+        if isFirstAppear {
+
+            isFirstAppear = false
 
             // MARK: Notify Typing
 
-            self.checkTypingStatusTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("checkTypingStatus"), userInfo: nil, repeats: true)
+            checkTypingStatusTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("checkTypingStatus"), userInfo: nil, repeats: true)
 
-            self.messageToolbar.notifyTypingAction = {
+            messageToolbar.notifyTypingAction = {
 
                 if let withFriend = self.conversation.withFriend {
 
@@ -384,7 +386,7 @@ class ConversationViewController: BaseViewController {
 
             // MARK: Send Text
 
-            self.messageToolbar.textSendAction = { [weak self] messageToolbar in
+            messageToolbar.textSendAction = { [weak self] messageToolbar in
 
                 let text = messageToolbar.messageTextView.text!.trimming(.WhitespaceAndNewline)
 
@@ -543,7 +545,7 @@ class ConversationViewController: BaseViewController {
 
             // MARK: Voice Record
 
-            self.messageToolbar.voiceRecordBeginAction = { [weak self] messageToolbar in
+            messageToolbar.voiceRecordBeginAction = { [weak self] messageToolbar in
 
                 YepAudioService.sharedManager.shouldIgnoreStart = false
                 
@@ -587,7 +589,7 @@ class ConversationViewController: BaseViewController {
                 }
             }
             
-            self.messageToolbar.voiceRecordEndAction = { [weak self] messageToolbar in
+            messageToolbar.voiceRecordEndAction = { [weak self] messageToolbar in
 
                 YepAudioService.sharedManager.shouldIgnoreStart = true
                 
@@ -610,7 +612,7 @@ class ConversationViewController: BaseViewController {
                 sendAudioMessage()
             }
 
-            self.messageToolbar.voiceRecordCancelAction = { [weak self] messageToolbar in
+            messageToolbar.voiceRecordCancelAction = { [weak self] messageToolbar in
                 
                 self?.swipeUpView.hidden = true
                 self?.waverView.removeFromSuperview()
@@ -620,7 +622,7 @@ class ConversationViewController: BaseViewController {
                 YepAudioService.sharedManager.recordTimeoutAction = nil
             }
 
-            self.messageToolbar.voiceRecordingUpdateUIAction = { [weak self] topOffset in
+            messageToolbar.voiceRecordingUpdateUIAction = { [weak self] topOffset in
 
                 let text: String
 
@@ -635,7 +637,7 @@ class ConversationViewController: BaseViewController {
 
             // MARK: MessageToolbar State Transitions
 
-            self.messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
+            messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
 
                 if let strongSelf = self {
 
@@ -706,8 +708,8 @@ class ConversationViewController: BaseViewController {
 
             // MARK: More Message Types
 
-            self.choosePhotoButton.title = NSLocalizedString("Choose photo", comment: "")
-            self.choosePhotoButton.tapAction = { [weak self] in
+            choosePhotoButton.title = NSLocalizedString("Choose photo", comment: "")
+            choosePhotoButton.tapAction = { [weak self] in
 
                 let openCameraRoll: ProposerAction = { [weak self] in
                     if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
@@ -723,8 +725,8 @@ class ConversationViewController: BaseViewController {
                 })
             }
 
-            self.takePhotoButton.title = NSLocalizedString("Take photo", comment: "")
-            self.takePhotoButton.tapAction = { [weak self] in
+            takePhotoButton.title = NSLocalizedString("Take photo", comment: "")
+            takePhotoButton.tapAction = { [weak self] in
 
                 let openCamera: ProposerAction = { [weak self] in
                     if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
@@ -740,9 +742,9 @@ class ConversationViewController: BaseViewController {
                 })
             }
 
-            self.addLocationButton.title = NSLocalizedString("Share location", comment: "")
-            self.addLocationButton.tapAction = {
-                self.performSegueWithIdentifier("presentPickLocation", sender: nil)
+            addLocationButton.title = NSLocalizedString("Share location", comment: "")
+            addLocationButton.tapAction = { [weak self] in
+                self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
             }
         }
     }
