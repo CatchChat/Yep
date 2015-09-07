@@ -101,7 +101,7 @@ class MessageToolbar: UIToolbar {
         didSet {
             switch state {
             case .BeginTextInput, .TextInputing:
-                break
+                messageTextView.becomeFirstResponder()
             default:
                 messageTextView.resignFirstResponder()
             }
