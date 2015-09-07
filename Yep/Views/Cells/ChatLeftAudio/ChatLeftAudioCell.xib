@@ -41,13 +41,13 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" id="mlz-An-Tuw" userLabel="Wave View" customClass="SampleView" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="48" y="0.0" width="89" height="40"/>
+                                <rect key="frame" x="48" y="0.0" width="90" height="40"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2&quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nar-PJ-uc5" userLabel="Time Length Label">
-                                <rect key="frame" x="43" y="0.0" width="97" height="40"/>
+                                <rect key="frame" x="48" y="0.0" width="90" height="40"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
