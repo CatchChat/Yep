@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15A204h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -13,42 +12,37 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="276" height="126"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1K0-wd-BOr" userLabel="Avatar Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="1K0-wd-BOr" userLabel="Avatar Image View">
                         <rect key="frame" x="15" y="43" width="40" height="40"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="40" id="d1f-94-FWk"/>
-                            <constraint firstAttribute="width" secondItem="1K0-wd-BOr" secondAttribute="height" multiplier="1:1" id="rxl-T9-vR3"/>
-                        </constraints>
                     </imageView>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Whb-i5-kn8" userLabel="Audio Container View">
+                    <view contentMode="scaleToFill" id="Whb-i5-kn8" userLabel="Audio Container View">
                         <rect key="frame" x="60" y="43" width="150" height="40"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="left_tail_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="j0p-8V-Tjb" userLabel="Bubble Image View">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="left_tail_bubble" id="j0p-8V-Tjb" userLabel="Bubble Image View">
                                 <rect key="frame" x="0.0" y="0.0" width="150" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <animations/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JJr-x8-Ljw" userLabel="Play Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JJr-x8-Ljw" userLabel="Play Button">
                                 <rect key="frame" x="13" y="5" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="JJr-x8-Ljw" secondAttribute="height" id="qcL-S0-MeP"/>
-                                    <constraint firstAttribute="width" constant="30" id="yBd-CJ-kw2"/>
-                                </constraints>
                                 <state key="normal" image="icon_play">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mlz-An-Tuw" userLabel="Wave View" customClass="SampleView" customModule="Yep" customModuleProvider="target">
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" id="mlz-An-Tuw" userLabel="Wave View" customClass="SampleView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="48" y="0.0" width="87" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="87" id="12R-C6-EyM"/>
-                                </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2&quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nar-PJ-uc5" userLabel="Time Length Label">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2&quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nar-PJ-uc5" userLabel="Time Length Label">
                                 <rect key="frame" x="43" y="0.0" width="97" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -56,56 +50,26 @@
                             </label>
                         </subviews>
                         <animations/>
-                        <constraints>
-                            <constraint firstItem="j0p-8V-Tjb" firstAttribute="top" secondItem="Whb-i5-kn8" secondAttribute="top" id="2P1-sj-nDd"/>
-                            <constraint firstItem="JJr-x8-Ljw" firstAttribute="leading" secondItem="Whb-i5-kn8" secondAttribute="leading" constant="13" id="8Wa-dF-0TV"/>
-                            <constraint firstAttribute="bottom" secondItem="j0p-8V-Tjb" secondAttribute="bottom" id="J5p-D5-MJf"/>
-                            <constraint firstAttribute="trailing" secondItem="mlz-An-Tuw" secondAttribute="trailing" constant="15" id="Lps-ic-PsY"/>
-                            <constraint firstAttribute="height" constant="40" id="N3O-u2-oYu"/>
-                            <constraint firstItem="Nar-PJ-uc5" firstAttribute="trailing" secondItem="mlz-An-Tuw" secondAttribute="trailing" constant="5" id="PWf-JE-OeL"/>
-                            <constraint firstItem="mlz-An-Tuw" firstAttribute="top" secondItem="Whb-i5-kn8" secondAttribute="top" id="RO3-HD-5VX"/>
-                            <constraint firstAttribute="centerY" secondItem="JJr-x8-Ljw" secondAttribute="centerY" id="RhN-1T-q4N"/>
-                            <constraint firstItem="j0p-8V-Tjb" firstAttribute="leading" secondItem="Whb-i5-kn8" secondAttribute="leading" id="TmR-CA-j6B"/>
-                            <constraint firstItem="mlz-An-Tuw" firstAttribute="leading" secondItem="JJr-x8-Ljw" secondAttribute="trailing" constant="5" id="UwV-wg-0GN"/>
-                            <constraint firstItem="Nar-PJ-uc5" firstAttribute="leading" secondItem="mlz-An-Tuw" secondAttribute="leading" constant="-5" id="YIF-on-6fg"/>
-                            <constraint firstItem="Nar-PJ-uc5" firstAttribute="bottom" secondItem="mlz-An-Tuw" secondAttribute="bottom" id="qyd-GU-56h"/>
-                            <constraint firstAttribute="trailing" secondItem="j0p-8V-Tjb" secondAttribute="trailing" id="r6r-TN-l5p"/>
-                            <constraint firstItem="Nar-PJ-uc5" firstAttribute="top" secondItem="mlz-An-Tuw" secondAttribute="top" id="vdR-5f-8fd"/>
-                            <constraint firstAttribute="bottom" secondItem="mlz-An-Tuw" secondAttribute="bottom" id="zwN-D3-Jl5"/>
-                        </constraints>
                     </view>
-                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nrA-Yd-6hV" customClass="MessageLoadingProgressView" customModule="Yep" customModuleProvider="target">
+                    <view hidden="YES" contentMode="scaleToFill" id="nrA-Yd-6hV" customClass="MessageLoadingProgressView" customModule="Yep" customModuleProvider="target">
                         <rect key="frame" x="73" y="48" width="30" height="30"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="30" id="MZF-Ir-IdP"/>
-                            <constraint firstAttribute="width" secondItem="nrA-Yd-6hV" secondAttribute="height" multiplier="1:1" id="SoP-80-nI5"/>
-                        </constraints>
                     </view>
                 </subviews>
                 <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <animations/>
-            <constraints>
-                <constraint firstItem="Whb-i5-kn8" firstAttribute="leading" secondItem="1K0-wd-BOr" secondAttribute="trailing" constant="5" id="0XT-SX-UNS"/>
-                <constraint firstAttribute="centerY" secondItem="1K0-wd-BOr" secondAttribute="centerY" id="8np-sL-P6D"/>
-                <constraint firstItem="1K0-wd-BOr" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="kHD-0i-acN"/>
-                <constraint firstItem="nrA-Yd-6hV" firstAttribute="centerX" secondItem="JJr-x8-Ljw" secondAttribute="centerX" id="lT0-TH-WwL"/>
-                <constraint firstItem="1K0-wd-BOr" firstAttribute="centerY" secondItem="Whb-i5-kn8" secondAttribute="centerY" id="pkM-ef-orb"/>
-                <constraint firstItem="nrA-Yd-6hV" firstAttribute="centerY" secondItem="JJr-x8-Ljw" secondAttribute="centerY" id="t2F-sF-p8s"/>
-            </constraints>
             <size key="customSize" width="276" height="126"/>
             <connections>
                 <outlet property="audioDurationLabel" destination="Nar-PJ-uc5" id="cAT-ry-mhm"/>
                 <outlet property="avatarImageView" destination="1K0-wd-BOr" id="ldH-Pm-vDG"/>
-                <outlet property="avatarImageViewWidthConstraint" destination="d1f-94-FWk" id="u3Q-bz-Vpe"/>
                 <outlet property="bubbleImageView" destination="j0p-8V-Tjb" id="Uca-XB-lkc"/>
                 <outlet property="loadingProgressView" destination="nrA-Yd-6hV" id="juv-eK-E9s"/>
                 <outlet property="playButton" destination="JJr-x8-Ljw" id="iMv-JQ-MHS"/>
                 <outlet property="sampleView" destination="mlz-An-Tuw" id="Vne-hR-WQH"/>
-                <outlet property="sampleViewWidthConstraint" destination="12R-C6-EyM" id="UMe-Ql-Saj"/>
             </connections>
             <point key="canvasLocation" x="360" y="358"/>
         </collectionViewCell>
@@ -114,4 +78,9 @@
         <image name="icon_play" width="30" height="30"/>
         <image name="left_tail_bubble" width="48" height="40"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

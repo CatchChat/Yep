@@ -32,7 +32,7 @@ class ChatRightAudioCell: ChatRightBaseCell {
     @IBOutlet weak var bubbleImageView: UIImageView!
 
     @IBOutlet weak var sampleView: SampleView!
-    @IBOutlet weak var sampleViewWidthConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var sampleViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var audioDurationLabel: UILabel!
 
@@ -88,9 +88,9 @@ class ChatRightAudioCell: ChatRightBaseCell {
         if let message = message {
 
             if let (audioDuration, audioSamples) = audioMetaOfMessage(message) {
-                sampleViewWidthConstraint.constant = CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
+//                sampleViewWidthConstraint.constant = CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
 
-                sampleViewWidthConstraint.constant = max(YepConfig.minMessageSampleViewWidth, sampleViewWidthConstraint.constant)
+//                sampleViewWidthConstraint.constant = max(YepConfig.minMessageSampleViewWidth, sampleViewWidthConstraint.constant)
 
                 sampleView.samples = audioSamples
 
@@ -101,7 +101,7 @@ class ChatRightAudioCell: ChatRightBaseCell {
             } else {
                 sampleView.progress = 0
 
-                sampleViewWidthConstraint.constant = 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
+//                sampleViewWidthConstraint.constant = 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
                 audioDurationLabel.text = ""
             }
 

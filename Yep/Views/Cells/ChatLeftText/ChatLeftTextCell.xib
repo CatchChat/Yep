@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -13,32 +12,29 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="500" height="129"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_left_tail" translatesAutoresizingMaskIntoConstraints="NO" id="ppr-iG-zxj" userLabel="Bubble Tail Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_left_tail" id="ppr-iG-zxj" userLabel="Bubble Tail Image View">
                         <rect key="frame" x="57" y="13" width="13" height="14"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="13" id="TUy-IJ-8Vo"/>
-                            <constraint firstAttribute="height" constant="14" id="sV7-oL-IJa"/>
-                        </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_body" translatesAutoresizingMaskIntoConstraints="NO" id="Yfx-Em-Job" userLabel="Bubble Body Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_body" id="Yfx-Em-Job" userLabel="Bubble Body Image View">
                         <rect key="frame" x="63" y="0.0" width="116" height="129"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
                         <color key="tintColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hYu-LI-zcX" userLabel="Avatar Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="hYu-LI-zcX" userLabel="Avatar Image View">
                         <rect key="frame" x="15" y="0.0" width="40" height="40"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="40" id="JV9-zT-1At"/>
-                            <constraint firstAttribute="width" secondItem="hYu-LI-zcX" secondAttribute="height" multiplier="1:1" id="LI4-Sm-y72"/>
-                        </constraints>
                     </imageView>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ieh-wh-12u" customClass="ChatTextContainerView" customModule="Yep" customModuleProvider="target">
+                    <view contentMode="scaleToFill" id="Ieh-wh-12u" customClass="ChatTextContainerView" customModule="Yep" customModuleProvider="target">
                         <rect key="frame" x="75" y="3" width="92" height="123"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Text Content" translatesAutoresizingMaskIntoConstraints="NO" id="o2v-vm-ItZ" customClass="ChatTextView" customModule="Yep" customModuleProvider="target">
+                            <textView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Text Content" id="o2v-vm-ItZ" customClass="ChatTextView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="92" height="123"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -47,43 +43,19 @@
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="o2v-vm-ItZ" secondAttribute="trailing" id="751-18-ycS"/>
-                            <constraint firstItem="o2v-vm-ItZ" firstAttribute="leading" secondItem="Ieh-wh-12u" secondAttribute="leading" id="LvO-5D-arq"/>
-                            <constraint firstItem="o2v-vm-ItZ" firstAttribute="top" secondItem="Ieh-wh-12u" secondAttribute="top" id="NiX-G4-RiT"/>
-                            <constraint firstAttribute="bottom" secondItem="o2v-vm-ItZ" secondAttribute="bottom" id="RvB-S3-Pgd"/>
-                        </constraints>
                     </view>
                 </subviews>
                 <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <animations/>
-            <constraints>
-                <constraint firstItem="hYu-LI-zcX" firstAttribute="centerY" secondItem="ppr-iG-zxj" secondAttribute="centerY" id="CqX-BA-AO1"/>
-                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ieh-wh-12u" secondAttribute="trailing" constant="40" id="R7d-pr-61M"/>
-                <constraint firstItem="Ieh-wh-12u" firstAttribute="leading" secondItem="hYu-LI-zcX" secondAttribute="trailing" constant="20" id="SFJ-md-0X6"/>
-                <constraint firstItem="Yfx-Em-Job" firstAttribute="top" secondItem="hYu-LI-zcX" secondAttribute="top" id="cCW-R1-CFn"/>
-                <constraint firstItem="Ieh-wh-12u" firstAttribute="top" secondItem="Yfx-Em-Job" secondAttribute="top" constant="3" id="cHR-67-SWw"/>
-                <constraint firstItem="Ieh-wh-12u" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="3" id="ezx-XB-nhW"/>
-                <constraint firstItem="Ieh-wh-12u" firstAttribute="leading" secondItem="Yfx-Em-Job" secondAttribute="leading" constant="12" id="gj0-ap-nOp"/>
-                <constraint firstItem="hYu-LI-zcX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="hM8-00-nUm"/>
-                <constraint firstItem="Ieh-wh-12u" firstAttribute="bottom" secondItem="Yfx-Em-Job" secondAttribute="bottom" constant="-3" id="lAw-xK-S4p"/>
-                <constraint firstItem="Ieh-wh-12u" firstAttribute="trailing" secondItem="Yfx-Em-Job" secondAttribute="trailing" constant="-12" id="uOJ-OF-AyG"/>
-                <constraint firstItem="Yfx-Em-Job" firstAttribute="leading" secondItem="ppr-iG-zxj" secondAttribute="trailing" constant="-7" id="vNs-HM-uGF"/>
-                <constraint firstAttribute="bottom" secondItem="Ieh-wh-12u" secondAttribute="bottom" constant="3" id="z32-pR-mtC"/>
-            </constraints>
             <size key="customSize" width="350" height="129"/>
             <connections>
                 <outlet property="avatarImageView" destination="hYu-LI-zcX" id="X8N-rV-848"/>
-                <outlet property="avatarImageViewLeadingConstraint" destination="hM8-00-nUm" id="gAV-2A-XjZ"/>
-                <outlet property="avatarImageViewWidthConstraint" destination="JV9-zT-1At" id="fe4-74-Gyw"/>
                 <outlet property="bubbleBodyImageView" destination="Yfx-Em-Job" id="bQk-7x-1RF"/>
                 <outlet property="bubbleTailImageView" destination="ppr-iG-zxj" id="kxh-jI-4L8"/>
                 <outlet property="textContainerView" destination="Ieh-wh-12u" id="VVJ-yk-Twz"/>
                 <outlet property="textContentTextView" destination="o2v-vm-ItZ" id="lj4-7V-6TH"/>
-                <outlet property="textContentTextViewLeadingConstraint" destination="SFJ-md-0X6" id="Icw-33-Beu"/>
-                <outlet property="textContentTextViewTrailingConstraint" destination="R7d-pr-61M" id="GFh-QJ-Fg8"/>
             </connections>
             <point key="canvasLocation" x="338" y="346.5"/>
         </collectionViewCell>
@@ -92,4 +64,9 @@
         <image name="bubble_body" width="42" height="40"/>
         <image name="bubble_left_tail" width="13" height="14"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

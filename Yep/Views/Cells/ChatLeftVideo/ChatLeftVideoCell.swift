@@ -11,11 +11,11 @@ import UIKit
 class ChatLeftVideoCell: ChatBaseCell {
 
     @IBOutlet weak var thumbnailImageView: UIImageView!
-    @IBOutlet weak var thumbnailImageViewWidthConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var thumbnailImageViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var playImageView: UIImageView!
-    @IBOutlet weak var playImageViewCenterXConstraint: NSLayoutConstraint!
-    
+//    @IBOutlet weak var playImageViewCenterXConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var loadingProgressView: MessageLoadingProgressView!
     
     typealias MediaTapAction = () -> Void
@@ -24,8 +24,8 @@ class ChatLeftVideoCell: ChatBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        playImageViewCenterXConstraint.constant = YepConfig.ChatCell.centerXOffset
-        
+//        playImageViewCenterXConstraint.constant = YepConfig.ChatCell.centerXOffset
+
         thumbnailImageView.tintColor = UIColor.leftBubbleTintColor()
 
         thumbnailImageView.userInteractionEnabled = true
@@ -100,7 +100,7 @@ class ChatLeftVideoCell: ChatBaseCell {
             let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
 
             if aspectRatio >= 1 {
-                thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
+//                thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
 
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Left, completion: { [weak self] progress, image in
 
@@ -112,7 +112,7 @@ class ChatLeftVideoCell: ChatBaseCell {
                 })
 
             } else {
-                thumbnailImageViewWidthConstraint.constant = messageImagePreferredHeight * aspectRatio
+//                thumbnailImageViewWidthConstraint.constant = messageImagePreferredHeight * aspectRatio
 
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Left, completion: { [weak self] progress, image in
 
@@ -125,7 +125,7 @@ class ChatLeftVideoCell: ChatBaseCell {
             }
 
         } else {
-            thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
+//            thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
 
             ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Left, completion: { [weak self] progress, image in
 

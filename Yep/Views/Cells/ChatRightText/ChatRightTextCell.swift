@@ -10,15 +10,15 @@ import UIKit
 
 class ChatRightTextCell: ChatRightBaseCell {
 
-    @IBOutlet weak var avatarImageViewTrailingConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var avatarImageViewTrailingConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var bubbleBodyImageView: UIImageView!
     @IBOutlet weak var bubbleTailImageView: UIImageView!
 
     @IBOutlet weak var textContainerView: ChatTextContainerView!
     @IBOutlet weak var textContentTextView: ChatTextView!
-    @IBOutlet weak var textContentTextViewTrailingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var textContentTextViewLeadingConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var textContentTextViewTrailingConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var textContentTextViewLeadingConstraint: NSLayoutConstraint!
     //@IBOutlet weak var textContentTextViewWidthConstraint: NSLayoutConstraint!
 
     typealias MediaTapAction = () -> Void
@@ -29,7 +29,7 @@ class ChatRightTextCell: ChatRightBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        avatarImageViewTrailingConstraint.constant = YepConfig.chatCellGapBetweenWallAndAvatar()
+//        avatarImageViewTrailingConstraint.constant = YepConfig.chatCellGapBetweenWallAndAvatar()
 
         textContentTextView.textContainer.lineFragmentPadding = 0
         textContentTextView.font = UIFont.chatTextFont()
@@ -54,8 +54,8 @@ class ChatRightTextCell: ChatRightBaseCell {
             self?.longPressAction?()
         }
         
-        textContentTextViewTrailingConstraint.constant = YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
-        textContentTextViewLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel() - YepConfig.ChatCell.magicWidth
+//        textContentTextViewTrailingConstraint.constant = YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
+//        textContentTextViewLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel() - YepConfig.ChatCell.magicWidth
 
         bubbleBodyImageView.tintColor = UIColor.rightBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.rightBubbleTintColor()
@@ -100,12 +100,12 @@ class ChatRightTextCell: ChatRightBaseCell {
         textContentTextView.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left
 
         // 用 sizeThatFits 来对比，不需要 magicWidth 的时候就可以避免了
-        let size = textContentTextView.sizeThatFits(CGSize(width: textContentLabelWidth, height: CGFloat.max))
-        if size.width == textContentLabelWidth {
-            textContentTextViewLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel()
-        } else {
-            textContentTextViewLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel() - YepConfig.ChatCell.magicWidth
-        }
+//        let size = textContentTextView.sizeThatFits(CGSize(width: textContentLabelWidth, height: CGFloat.max))
+//        if size.width == textContentLabelWidth {
+//            textContentTextViewLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel()
+//        } else {
+//            textContentTextViewLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel() - YepConfig.ChatCell.magicWidth
+//        }
 
         contentView.layoutIfNeeded()
 

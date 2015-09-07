@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15A216g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -13,59 +12,37 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="249" height="115"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cv4-jk-ysG" userLabel="Avatar Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="cv4-jk-ysG" userLabel="Avatar Image View">
                         <rect key="frame" x="194" y="0.0" width="40" height="40"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="40" id="Vwc-JE-HbI"/>
-                            <constraint firstAttribute="width" secondItem="cv4-jk-ysG" secondAttribute="height" multiplier="1:1" id="cPJ-aC-FeD"/>
-                        </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Usu-mV-m39" userLabel="Thumbnail Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Usu-mV-m39" userLabel="Thumbnail Image View">
                         <rect key="frame" x="63" y="0.0" width="126" height="115"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="126" id="nix-mc-fis"/>
-                        </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_playvideo" translatesAutoresizingMaskIntoConstraints="NO" id="4Zc-y0-R7I" userLabel="Play Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_playvideo" id="4Zc-y0-R7I" userLabel="Play Image View">
                         <rect key="frame" x="106" y="43" width="30" height="30"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_sending" translatesAutoresizingMaskIntoConstraints="NO" id="t6J-8M-Prm" userLabel="Dot Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_sending" id="t6J-8M-Prm" userLabel="Dot Image View">
                         <rect key="frame" x="52" y="55" width="6" height="6"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
-                        <constraints>
-                            <constraint firstAttribute="width" secondItem="t6J-8M-Prm" secondAttribute="height" multiplier="1:1" id="bga-IS-jlb"/>
-                            <constraint firstAttribute="width" constant="6" id="dhR-g2-3su"/>
-                        </constraints>
                     </imageView>
                 </subviews>
                 <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <animations/>
-            <constraints>
-                <constraint firstItem="Usu-mV-m39" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="8ku-OC-fVU"/>
-                <constraint firstAttribute="trailing" secondItem="cv4-jk-ysG" secondAttribute="trailing" constant="15" id="9W0-oW-HP0"/>
-                <constraint firstItem="Usu-mV-m39" firstAttribute="centerY" secondItem="t6J-8M-Prm" secondAttribute="centerY" id="Ubw-MU-fwT"/>
-                <constraint firstAttribute="bottom" secondItem="Usu-mV-m39" secondAttribute="bottom" id="V8A-BH-zoE"/>
-                <constraint firstItem="cv4-jk-ysG" firstAttribute="top" secondItem="Usu-mV-m39" secondAttribute="top" id="Wni-Je-PVy"/>
-                <constraint firstItem="Usu-mV-m39" firstAttribute="centerX" secondItem="4Zc-y0-R7I" secondAttribute="centerX" constant="5" id="YuD-W1-VF7"/>
-                <constraint firstItem="cv4-jk-ysG" firstAttribute="leading" secondItem="Usu-mV-m39" secondAttribute="trailing" constant="5" id="kHP-gM-bdJ"/>
-                <constraint firstItem="4Zc-y0-R7I" firstAttribute="centerY" secondItem="Usu-mV-m39" secondAttribute="centerY" id="mR7-Ve-yWj"/>
-                <constraint firstItem="Usu-mV-m39" firstAttribute="leading" secondItem="t6J-8M-Prm" secondAttribute="trailing" constant="5" id="nec-Oc-Qwb"/>
-            </constraints>
             <size key="customSize" width="249" height="115"/>
             <connections>
                 <outlet property="avatarImageView" destination="cv4-jk-ysG" id="pQU-nA-A0W"/>
-                <outlet property="avatarImageViewWidthConstraint" destination="Vwc-JE-HbI" id="Dto-Sj-M4f"/>
                 <outlet property="dotImageView" destination="t6J-8M-Prm" id="gDj-YZ-VfS"/>
-                <outlet property="gapBetweenDotImageViewAndBubbleConstraint" destination="nec-Oc-Qwb" id="rP3-RC-rbh"/>
                 <outlet property="playImageView" destination="4Zc-y0-R7I" id="yph-te-Ga1"/>
-                <outlet property="playImageViewCenterXConstraint" destination="YuD-W1-VF7" id="0UY-Qf-oko"/>
                 <outlet property="thumbnailImageView" destination="Usu-mV-m39" id="Vsi-Q8-Ywh"/>
-                <outlet property="thumbnailImageViewWidthConstraint" destination="nix-mc-fis" id="rPY-SZ-rG5"/>
             </connections>
             <point key="canvasLocation" x="329.5" y="414.5"/>
         </collectionViewCell>
@@ -74,4 +51,9 @@
         <image name="icon_dot_sending" width="8" height="8"/>
         <image name="icon_playvideo" width="30" height="30"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

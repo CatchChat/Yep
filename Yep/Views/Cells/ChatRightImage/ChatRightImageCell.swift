@@ -12,7 +12,7 @@ class ChatRightImageCell: ChatRightBaseCell {
 
     @IBOutlet weak var messageImageView: UIImageView!
 
-    @IBOutlet weak var messageImageViewWidthConstrint: NSLayoutConstraint!
+//    @IBOutlet weak var messageImageViewWidthConstrint: NSLayoutConstraint!
 
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
@@ -85,7 +85,7 @@ class ChatRightImageCell: ChatRightBaseCell {
             let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
 
             if aspectRatio >= 1 {
-                messageImageViewWidthConstrint.constant = messageImagePreferredWidth
+//                messageImageViewWidthConstrint.constant = messageImagePreferredWidth
 
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Right, completion: { [weak self] progress, image in
 
@@ -97,7 +97,7 @@ class ChatRightImageCell: ChatRightBaseCell {
                 })
 
             } else {
-                messageImageViewWidthConstrint.constant = messageImagePreferredHeight * aspectRatio
+//                messageImageViewWidthConstrint.constant = messageImagePreferredHeight * aspectRatio
 
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Right, completion: { [weak self] progress, image in
 
@@ -110,7 +110,7 @@ class ChatRightImageCell: ChatRightBaseCell {
             }
 
         } else {
-            messageImageViewWidthConstrint.constant = messageImagePreferredWidth
+//            messageImageViewWidthConstrint.constant = messageImagePreferredWidth
 
             ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Right, completion: { [weak self] progress, image in
 
