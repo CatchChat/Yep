@@ -30,6 +30,7 @@ class ChatLeftAudioCell: ChatBaseCell {
         }
     }
 
+    @IBOutlet weak var audioContainerView: UIView!
 
     @IBOutlet weak var bubbleImageView: UIImageView!
     
@@ -57,9 +58,23 @@ class ChatLeftAudioCell: ChatBaseCell {
             loadingProgressView.hidden = false
         }
     }
+
+    func makeUI() {
+
+        let fullWidth = UIScreen.mainScreen().bounds.width
+
+        let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
+
+        avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize)
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        backgroundColor = UIColor.yellowColor()
+
+        makeUI()
+
 
         bubbleImageView.tintColor = UIColor.leftBubbleTintColor()
 
@@ -116,6 +131,11 @@ class ChatLeftAudioCell: ChatBaseCell {
 
 //                sampleViewWidthConstraint.constant = max(YepConfig.minMessageSampleViewWidth, sampleViewWidthConstraint.constant)
 
+                let width = 60 + CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
+
+                audioContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + 5, y: 0, width: width, height: bounds.height)
+
+
                 sampleView.samples = audioSamples
 
                 audioDurationLabel.text = NSString(format: "%.1f\"", audioDuration) as String
@@ -126,6 +146,11 @@ class ChatLeftAudioCell: ChatBaseCell {
                 sampleView.progress = 0
 
 //                sampleViewWidthConstraint.constant = 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
+
+                let width = 60 + 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
+
+                audioContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + 5, y: 0, width: width, height: bounds.height)
+
                 audioDurationLabel.text = ""
             }
 

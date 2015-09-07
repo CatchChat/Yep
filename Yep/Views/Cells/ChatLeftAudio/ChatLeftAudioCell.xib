@@ -23,26 +23,32 @@
                         <subviews>
                             <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="left_tail_bubble" id="j0p-8V-Tjb" userLabel="Bubble Image View">
                                 <rect key="frame" x="0.0" y="0.0" width="150" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JJr-x8-Ljw" userLabel="Play Button">
                                 <rect key="frame" x="13" y="5" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
                                 <animations/>
                                 <state key="normal" image="icon_play">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" id="nrA-Yd-6hV" customClass="MessageLoadingProgressView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="13" y="5" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" id="mlz-An-Tuw" userLabel="Wave View" customClass="SampleView" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="48" y="0.0" width="87" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="48" y="0.0" width="89" height="40"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2&quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nar-PJ-uc5" userLabel="Time Length Label">
                                 <rect key="frame" x="43" y="0.0" width="97" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -51,12 +57,6 @@
                         </subviews>
                         <animations/>
                     </view>
-                    <view hidden="YES" contentMode="scaleToFill" id="nrA-Yd-6hV" customClass="MessageLoadingProgressView" customModule="Yep" customModuleProvider="target">
-                        <rect key="frame" x="73" y="48" width="30" height="30"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <animations/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </view>
                 </subviews>
                 <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -64,6 +64,7 @@
             <animations/>
             <size key="customSize" width="276" height="126"/>
             <connections>
+                <outlet property="audioContainerView" destination="Whb-i5-kn8" id="VQ7-cc-TDb"/>
                 <outlet property="audioDurationLabel" destination="Nar-PJ-uc5" id="cAT-ry-mhm"/>
                 <outlet property="avatarImageView" destination="1K0-wd-BOr" id="ldH-Pm-vDG"/>
                 <outlet property="bubbleImageView" destination="j0p-8V-Tjb" id="Uca-XB-lkc"/>
