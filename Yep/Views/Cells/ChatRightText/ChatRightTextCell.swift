@@ -26,8 +26,21 @@ class ChatRightTextCell: ChatRightBaseCell {
 
     var longPressAction: (() -> Void)?
 
+    func makeUI() {
+
+        let fullWidth = UIScreen.mainScreen().bounds.width
+
+        let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
+
+        avatarImageView.center = CGPoint(x: fullWidth - halfAvatarSize - YepConfig.chatCellGapBetweenWallAndAvatar(), y: halfAvatarSize)
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        backgroundColor = UIColor.redColor()
+
+        makeUI()
 
 //        avatarImageViewTrailingConstraint.constant = YepConfig.chatCellGapBetweenWallAndAvatar()
 
@@ -107,7 +120,23 @@ class ChatRightTextCell: ChatRightBaseCell {
 //            textContentTextViewLeadingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel() - YepConfig.ChatCell.magicWidth
 //        }
 
-        contentView.layoutIfNeeded()
+//        contentView.layoutIfNeeded()
+
+        textContainerView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() - textContentLabelWidth, y: 3, width: textContentLabelWidth, height: bounds.height - 3 * 2)
+
+        println(textContainerView.frame)
+
+        bubbleBodyImageView.frame = CGRectInset(textContainerView.frame, -12, -3)
+
+        println(bubbleBodyImageView.frame)
+
+        bubbleTailImageView.center = CGPoint(x: CGRectGetMaxX(bubbleBodyImageView.frame), y: CGRectGetMidY(avatarImageView.frame))
+
+        println(bubbleTailImageView.frame)
+
+        dotImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyImageView.frame) - 5, y: CGRectGetMidY(bubbleBodyImageView.frame))
+
+        println(dotImageView.frame)
 
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { [weak self] roundImage in

@@ -11,8 +11,8 @@ import UIKit
 class ChatRightBaseCell: ChatBaseCell {
     
     @IBOutlet weak var dotImageView: UIImageView!
-    @IBOutlet weak var gapBetweenDotImageViewAndBubbleConstraint: NSLayoutConstraint!
-    
+//    @IBOutlet weak var gapBetweenDotImageViewAndBubbleConstraint: NSLayoutConstraint!
+
     var messageSendState: MessageSendState = .NotSend {
         didSet {
             switch messageSendState {
