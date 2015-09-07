@@ -55,10 +55,12 @@ class RegisterVerifyMobileViewController: UIViewController {
 
         navigationItem.rightBarButtonItem = nextButton
 
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "activeAgain:", name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
+
         verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code send to", comment: "")
         phoneNumberLabel.text = "+" + areaCode + " " + mobile
 
-        verifyCodeTextField.placeholder = nil
+        //verifyCodeTextField.placeholder = ""
         verifyCodeTextField.delegate = self
         verifyCodeTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
@@ -86,6 +88,10 @@ class RegisterVerifyMobileViewController: UIViewController {
     }
 
     // MARK: Actions
+
+    func activeAgain(notification: NSNotification) {
+        verifyCodeTextField.becomeFirstResponder()
+    }
 
     func tryCallMe(timer: NSTimer) {
         if !haveAppropriateInput {
@@ -195,13 +201,15 @@ class RegisterVerifyMobileViewController: UIViewController {
 }
 
 extension RegisterVerifyMobileViewController: UITextFieldDelegate {
-    
+
+    /*
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if !textField.text.isEmpty {
+        if haveAppropriateInput {
             verifyRegisterMobile()
         }
 
         return true
     }
+    */
 }
 

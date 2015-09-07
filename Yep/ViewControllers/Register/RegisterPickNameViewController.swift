@@ -63,7 +63,7 @@ class RegisterPickNameViewController: BaseViewController {
         let tap = UITapGestureRecognizer(target: self, action: "tapTerms")
         promptTermsLabel.addGestureRecognizer(tap)
 
-        nameTextField.placeholder = nil
+        //nameTextField.placeholder = ""
         nameTextField.delegate = self
         nameTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
