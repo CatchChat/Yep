@@ -310,7 +310,13 @@ class SkillHomeViewController: CustomNavigationBarViewController {
                     defaultFailureHandler(reason, errorMessage)
 
                 }, completion: { _ in
-                    
+
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.navigationItem.rightBarButtonItem = nil
+                    }
+
+                    syncMyInfoAndDoFurtherAction {
+                    }
                 })
             }
 
