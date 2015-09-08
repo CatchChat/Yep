@@ -302,16 +302,18 @@ class SkillHomeViewController: CustomNavigationBarViewController {
     func addSkillToMe() {
         println("addSkillToMe")
 
-        if let skillID = skill?.ID {
+        if let skillID = skill?.ID, skillLocalName = skill?.localName {
 
             let doAddSkillToSkillSet: SkillSet -> Void = { skillSet in
 
                 addSkillWithSkillID(skillID, toSkillSet: skillSet, failureHandler: { reason, errorMessage in
                     defaultFailureHandler(reason, errorMessage)
 
-                }, completion: { _ in
+                }, completion: { [weak self] _ in
 
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: String(format: NSLocalizedString("Added %@ to %@ successfully!", comment: ""), skillLocalName, skillSet.name), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+
+                    dispatch_async(dispatch_get_main_queue()) {
                         self?.navigationItem.rightBarButtonItem = nil
                     }
 
@@ -320,7 +322,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
                 })
             }
 
-            let alertController = UIAlertController(title: NSLocalizedString("Choose Skill Set", comment: ""), message: nil, preferredStyle: .Alert)
+            let alertController = UIAlertController(title: NSLocalizedString("Choose skill set", comment: ""), message: String(format: NSLocalizedString("Which skill set do you want %@ to be?", comment: ""), skillLocalName), preferredStyle: .Alert)
 
             let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action in
             }
