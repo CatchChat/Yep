@@ -495,6 +495,26 @@ class ProfileViewController: UIViewController {
 
                     YepAlert.textInput(title: NSLocalizedString("Create a username", comment: ""), message: NSLocalizedString("In order to share your profile, create a unique username first.", comment: ""), placeholder: "letters", oldText: nil, confirmTitle: NSLocalizedString("Create", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
 
+                        let username = text
+
+                        updateMyselfWithInfo(["username": username], failureHandler: { [weak self] reason, errorMessage in
+                            defaultFailureHandler(reason, errorMessage)
+
+                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create username failed!", comment: ""), inViewController: self)
+
+                        }, completion: { success in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                let realm = Realm()
+                                if let
+                                    myUserID = YepUserDefaults.userID.value,
+                                    me = userWithUserID(myUserID, inRealm: realm) {
+                                        realm.write {
+                                            me.username = username
+                                        }
+                                }
+                            }
+                        })
+
                     }, cancelAction: {
                     })
                 }
