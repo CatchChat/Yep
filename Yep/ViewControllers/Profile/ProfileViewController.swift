@@ -433,9 +433,10 @@ class ProfileViewController: UIViewController {
                 })
             }
 
-            // 提示没有 Skills
-
             if profileUserIsMe {
+
+                // 提示没有 Skills
+
                 if let
                     myUserID = YepUserDefaults.userID.value,
                     me = userWithUserID(myUserID, inRealm: Realm()) {
@@ -446,6 +447,17 @@ class ProfileViewController: UIViewController {
                                 self?.pickSkills()
                             }, cancelAction: {})
                         }
+                }
+
+                // share button
+
+                println("profile.navigationController?.viewControllers.count \(navigationController?.viewControllers.count)")
+
+                if let viewControllersCount = navigationController?.viewControllers.count {
+                    if viewControllersCount == 1 {
+                        let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "shareProfile")
+                        customNavigationItem.leftBarButtonItem = shareButton
+                    }
                 }
             }
         }
@@ -477,6 +489,10 @@ class ProfileViewController: UIViewController {
     }
 
     // MARK: Actions
+
+    func shareProfile() {
+        println("shareProfile")
+    }
 
     func pickSkills() {
 
