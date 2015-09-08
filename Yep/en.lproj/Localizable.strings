@@ -565,3 +565,15 @@
 
 /* No comment provided by engineer. */
 "use letters, numbers, and underscore" = "use letters, numbers, and underscore";
+
+/* No comment provided by engineer. */
+"Add to Me" = "Add to Me";
+
+/* No comment provided by engineer. */
+"Added %@ to %@ successfully!" = "Added %1$@ to %2$@ successfully!";
+
+/* No comment provided by engineer. */
+"Choose skill set" = "Choose skill set";
+
+/* No comment provided by engineer. */
+"Which skill set do you want %@ to be?" = "Which skill set do you want %@ to be?";

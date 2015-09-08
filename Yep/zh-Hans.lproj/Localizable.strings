@@ -567,3 +567,15 @@
 
 /* No comment provided by engineer. */
 "use letters, numbers, and underscore" = "可使用英文字母、数字以及下划线";
+
+/* No comment provided by engineer. */
+"Add to Me" = "添加此技能";
+
+/* No comment provided by engineer. */
+"Added %@ to %@ successfully!" = "已成功将“%1$@”添加到“%2$@”！";
+
+/* No comment provided by engineer. */
+"Choose skill set" = "选择技能集合";
+
+/* No comment provided by engineer. */
+"Which skill set do you want %@ to be?" = "您想将“%@”放到哪一个技能集合？";
