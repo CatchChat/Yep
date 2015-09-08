@@ -60,11 +60,11 @@ class YepAlert {
         }
     }
 
-    class func textInput(#title: String, placeholder: String?, oldText: String?, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController?, withConfirmAction confirmAction: ((text: String) -> Void)?, cancelAction: (() -> Void)?) {
+    class func textInput(#title: String, message: String?, placeholder: String?, oldText: String?, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController?, withConfirmAction confirmAction: ((text: String) -> Void)?, cancelAction: (() -> Void)?) {
 
         dispatch_async(dispatch_get_main_queue()) {
 
-            let alertController = UIAlertController(title: title, message: nil, preferredStyle: .Alert)
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 
             alertController.addTextFieldWithConfigurationHandler { (textField) -> Void in
                 textField.placeholder = placeholder

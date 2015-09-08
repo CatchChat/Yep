@@ -487,7 +487,18 @@ class ProfileViewController: UIViewController {
     // MARK: Actions
 
     func shareProfile() {
-        println("shareProfile")
+        if let
+            myUserID = YepUserDefaults.userID.value,
+            me = userWithUserID(myUserID, inRealm: Realm()) {
+
+                if me.username.isEmpty {
+
+                    YepAlert.textInput(title: NSLocalizedString("Create a username", comment: ""), message: NSLocalizedString("In order to share your profile, create a unique username first.", comment: ""), placeholder: "letters", oldText: nil, confirmTitle: NSLocalizedString("Create", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
+
+                    }, cancelAction: {
+                    })
+                }
+        }
     }
 
     func pickSkills() {
