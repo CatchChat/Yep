@@ -63,7 +63,16 @@ class PodsHelpYepViewController: UITableViewController {
             "name": "pop",
             "URLString": "https://github.com/facebook/pop",
         ],
-    ]
+    ].sorted({ a, b in
+        if let
+            nameA = a["name"],
+            nameB = b["name"] {
+
+                return nameA < nameB
+        }
+
+        return true
+    })
 
     override func viewDidLoad() {
         super.viewDidLoad()
