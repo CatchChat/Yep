@@ -23,6 +23,7 @@ let fayeBaseURL = NSURL(string: "wss://faye.catchchatchina.com/faye")!
 struct LoginUser: Printable {
     let accessToken: String
     let userID: String
+    let username: String?
     let nickname: String
     let avatarURLString: String?
     let pusherID: String
@@ -129,8 +130,9 @@ func verifyMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: St
                     let userID = user["id"] as? String,
                     let nickname = user["nickname"] as? String,
                     let pusherID = user["pusher_id"] as? String {
+                        let username = user["username"] as? String
                         let avatarURLString = user["avatar_url"] as? String
-                        return LoginUser(accessToken: accessToken, userID: userID, nickname: nickname, avatarURLString: avatarURLString, pusherID: pusherID)
+                        return LoginUser(accessToken: accessToken, userID: userID, username: username, nickname: nickname, avatarURLString: avatarURLString, pusherID: pusherID)
                 }
             }
         }
@@ -485,8 +487,9 @@ func loginByMobile(mobile: String, withAreaCode areaCode: String, #verifyCode: S
                     let userID = user["id"] as? String,
                     let nickname = user["nickname"] as? String,
                     let pusherID = user["pusher_id"] as? String {
+                        let username = user["username"] as? String
                         let avatarURLString = user["avatar_url"] as? String
-                        return LoginUser(accessToken: accessToken, userID: userID, nickname: nickname, avatarURLString: avatarURLString, pusherID: pusherID)
+                        return LoginUser(accessToken: accessToken, userID: userID, username: username, nickname: nickname, avatarURLString: avatarURLString, pusherID: pusherID)
                 }
             }
         }
@@ -1058,6 +1061,7 @@ struct DiscoveredUser: Equatable {
     }
 
     let id: String
+    let username: String?
     let nickname: String
     let introduction: String?
     let avatarURLString: String
@@ -1094,6 +1098,8 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
         learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary],
         socialAccountProvidersInfo = userInfo["providers"] as? [String: Bool] {
 
+            let username = userInfo["username"] as? String
+
             let masterSkills = skillsFromSkillsData(masterSkillsData)
             let learningSkills = skillsFromSkillsData(learningSkillsData)
 
@@ -1110,7 +1116,7 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
 
             let distance = userInfo["distance"] as? Double
 
-            let discoverUser = DiscoveredUser(id: id, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, badge: badge, createdUnixTime: createdUnixTime, lastSignInUnixTime: lastSignInUnixTime, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
+            let discoverUser = DiscoveredUser(id: id, username: username, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, badge: badge, createdUnixTime: createdUnixTime, lastSignInUnixTime: lastSignInUnixTime, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
 
             return discoverUser
     }

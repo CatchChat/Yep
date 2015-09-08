@@ -433,9 +433,10 @@ class ProfileViewController: UIViewController {
                 })
             }
 
-            // 提示没有 Skills
-
             if profileUserIsMe {
+
+                // 提示没有 Skills
+
                 if let
                     myUserID = YepUserDefaults.userID.value,
                     me = userWithUserID(myUserID, inRealm: Realm()) {
@@ -446,6 +447,13 @@ class ProfileViewController: UIViewController {
                                 self?.pickSkills()
                             }, cancelAction: {})
                         }
+                }
+
+                // share button
+
+                if customNavigationItem.leftBarButtonItem == nil {
+                    let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "tryShareProfile")
+                    customNavigationItem.leftBarButtonItem = shareButton
                 }
             }
         }
@@ -477,6 +485,59 @@ class ProfileViewController: UIViewController {
     }
 
     // MARK: Actions
+
+    func tryShareProfile() {
+
+        if let
+            myUserID = YepUserDefaults.userID.value,
+            me = userWithUserID(myUserID, inRealm: Realm()) {
+
+                let username = me.username
+
+                let doShareProfile: () -> Void = { [weak self] in
+
+                    if let profileURL = NSURL(string: "http://soyep.com/\(username)") {
+
+                        let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: nil)
+
+                        self?.presentViewController(activityViewController, animated: true, completion: nil)
+                    }
+                }
+
+                if username.isEmpty {
+
+                    YepAlert.textInput(title: NSLocalizedString("Create a username", comment: ""), message: NSLocalizedString("In order to share your profile, create a unique username first.", comment: ""), placeholder: NSLocalizedString("use letters, numbers, and underscore", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Create", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
+
+                        let newUsername = text
+
+                        updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
+                            defaultFailureHandler(reason, errorMessage)
+
+                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create username failed!", comment: ""), inViewController: self)
+
+                        }, completion: { success in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                let realm = Realm()
+                                if let
+                                    myUserID = YepUserDefaults.userID.value,
+                                    me = userWithUserID(myUserID, inRealm: realm) {
+                                        realm.write {
+                                            me.username = newUsername
+                                        }
+                                }
+
+                                doShareProfile()
+                            }
+                        })
+
+                    }, cancelAction: {
+                    })
+
+                } else {
+                    doShareProfile()
+                }
+        }
+    }
 
     func pickSkills() {
 

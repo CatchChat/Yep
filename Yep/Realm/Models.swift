@@ -131,6 +131,7 @@ class UserDoNotDisturb: Object {
 
 class User: Object {
     dynamic var userID: String = ""
+    dynamic var username: String = ""
     dynamic var nickname: String = ""
     dynamic var introduction: String = ""
     dynamic var avatarURLString: String = ""
@@ -709,6 +710,10 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) 
 
             if let lastSignInUnixTime = userInfo["last_sign_in_at"] as? NSTimeInterval {
                 user.lastSignInUnixTime = lastSignInUnixTime
+            }
+
+            if let username = userInfo["username"] as? String {
+                user.username = username
             }
 
             if let nickname = userInfo["nickname"] as? String {

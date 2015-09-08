@@ -550,3 +550,18 @@
 
 /* No comment provided by engineer. */
 "Yep can't reach GitHub.\nWe blame GFW!" = "Yep can't reach GitHub.\nWe blame GFW!";
+
+/* No comment provided by engineer. */
+"Create" = "Create";
+
+/* No comment provided by engineer. */
+"Create a username" = "Create a username";
+
+/* No comment provided by engineer. */
+"Create username failed!" = "Create username failed!";
+
+/* No comment provided by engineer. */
+"In order to share your profile, create a unique username first." = "In order to share your profile, create a unique username first.";
+
+/* No comment provided by engineer. */
+"use letters, numbers, and underscore" = "use letters, numbers, and underscore";
