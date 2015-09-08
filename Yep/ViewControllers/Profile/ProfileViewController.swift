@@ -494,7 +494,7 @@ class ProfileViewController: UIViewController {
 
                 let username = me.username
 
-                let doShareProfile: () -> Void = { [weak self] in
+                let shareProfileWithUsername: String -> Void = { [weak self] username in
 
                     if let profileURL = NSURL(string: "http://soyep.com/\(username)") {
 
@@ -526,7 +526,7 @@ class ProfileViewController: UIViewController {
                                         }
                                 }
 
-                                doShareProfile()
+                                shareProfileWithUsername(newUsername)
                             }
                         })
 
@@ -534,7 +534,7 @@ class ProfileViewController: UIViewController {
                     })
 
                 } else {
-                    doShareProfile()
+                    shareProfileWithUsername(username)
                 }
         }
     }
