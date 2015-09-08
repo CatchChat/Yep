@@ -301,6 +301,37 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
     func addSkillToMe() {
         println("addSkillToMe")
+
+        if let skillID = skill?.ID {
+
+            let doAddSkillToSkillSet: SkillSet -> Void = { skillSet in
+
+                addSkillWithSkillID(skillID, toSkillSet: skillSet, failureHandler: { reason, errorMessage in
+                    defaultFailureHandler(reason, errorMessage)
+
+                }, completion: { _ in
+                    
+                })
+            }
+
+            let alertController = UIAlertController(title: NSLocalizedString("Choose Skill Set", comment: ""), message: nil, preferredStyle: .Alert)
+
+            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action in
+            }
+            alertController.addAction(cancelAction)
+
+            let learningAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Learning", comment: ""), style: .Default) { action in
+                doAddSkillToSkillSet(.Learning)
+            }
+            alertController.addAction(learningAction)
+
+            let masterAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Master", comment: ""), style: .Default) { action in
+                doAddSkillToSkillSet(.Master)
+            }
+            alertController.addAction(masterAction)
+
+            presentViewController(alertController, animated: true, completion: nil)
+        }
     }
 
     func changeToMaster() {

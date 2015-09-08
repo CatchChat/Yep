@@ -324,17 +324,16 @@ enum SkillSet: Int {
             return NSLocalizedString("This skill already in another master skills set!", comment: "")
         }
     }
-
 }
 
-func addSkill(skill: Skill, toSkillSet skillSet: SkillSet, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+func addSkillWithSkillID(skillID: String, toSkillSet skillSet: SkillSet, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
 
     let requestParameters: JSONDictionary = [
-        "skill_id": skill.id,
+        "skill_id": skillID,
     ]
 
     let parse: JSONDictionary -> Bool? = { data in
-        println("addSkill \(skill.name)")
+        println("addSkill \(skillID)")
         return true
     }
 
@@ -345,6 +344,11 @@ func addSkill(skill: Skill, toSkillSet skillSet: SkillSet, #failureHandler: ((Re
     } else {
         apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
     }
+}
+
+func addSkill(skill: Skill, toSkillSet skillSet: SkillSet, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
+
+    addSkillWithSkillID(skill.id, toSkillSet: skillSet, failureHandler: failureHandler, completion: completion)
 }
 
 func deleteSkillWithID(skillID: String, fromSkillSet skillSet: SkillSet, #failureHandler: ((Reason, String?) -> Void)?, #completion: Bool -> Void) {
