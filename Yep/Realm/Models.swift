@@ -712,6 +712,10 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) 
                 user.lastSignInUnixTime = lastSignInUnixTime
             }
 
+            if let username = userInfo["username"] as? String {
+                user.username = username
+            }
+
             if let nickname = userInfo["nickname"] as? String {
                 user.nickname = nickname
             }
