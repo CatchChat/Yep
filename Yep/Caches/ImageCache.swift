@@ -204,7 +204,16 @@ class ImageCache {
                             image.drawAtPoint(CGPointZero)
 
                             let pinCenter = snapshot.pointForCoordinate(locationCoordinate)
-                            let pinOrigin = CGPoint(x: pinCenter.x - pinImage.size.width * 0.5, y: pinCenter.y - pinImage.size.height * 0.5)
+
+                            let xOffset: CGFloat
+                            switch tailDirection {
+                            case .Left:
+                                xOffset = 3
+                            case .Right:
+                                xOffset = -3
+                            }
+
+                            let pinOrigin = CGPoint(x: pinCenter.x - pinImage.size.width * 0.5 + xOffset, y: pinCenter.y - pinImage.size.height * 0.5)
                             pinImage.drawAtPoint(pinOrigin)
 
                             let finalImage = UIGraphicsGetImageFromCurrentImageContext()

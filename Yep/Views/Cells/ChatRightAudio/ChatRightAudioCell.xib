@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="15A204h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -13,43 +12,38 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="316" height="105"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="76j-Ht-EsY" userLabel="Avatar Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="76j-Ht-EsY" userLabel="Avatar Image View">
                         <rect key="frame" x="261" y="33" width="40" height="40"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
-                        <constraints>
-                            <constraint firstAttribute="width" secondItem="76j-Ht-EsY" secondAttribute="height" multiplier="1:1" id="hTd-vS-wy8"/>
-                            <constraint firstAttribute="width" constant="40" id="tKU-Zf-UDc"/>
-                        </constraints>
                     </imageView>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="knU-A0-FO4" userLabel="Audio Container View">
+                    <view contentMode="scaleToFill" id="knU-A0-FO4" userLabel="Audio Container View">
                         <rect key="frame" x="106" y="33" width="150" height="40"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="right_tail_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="IUw-Mk-XlZ" userLabel="Bubble Image View">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="right_tail_bubble" id="IUw-Mk-XlZ" userLabel="Bubble Image View">
                                 <rect key="frame" x="0.0" y="0.0" width="150" height="40"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XTQ-XN-AqX" userLabel="Play Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="XTQ-XN-AqX" userLabel="Play Button">
                                 <rect key="frame" x="6" y="5" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
                                 <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="XTQ-XN-AqX" secondAttribute="height" id="0Xe-vj-6Vr"/>
-                                    <constraint firstAttribute="width" constant="30" id="ReT-Bg-ERe"/>
-                                </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" image="icon_play">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ynj-aF-z4D" userLabel="Wave View" customClass="SampleView" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="41" y="0.0" width="89" height="40"/>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" id="ynj-aF-z4D" userLabel="Wave View" customClass="SampleView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="41" y="0.0" width="90" height="40"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="89" id="LKH-Qz-uop"/>
-                                </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2&quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alU-Q7-YxY" userLabel="Time Length Label">
-                                <rect key="frame" x="36" y="0.0" width="99" height="40"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2&quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="alU-Q7-YxY" userLabel="Time Length Label">
+                                <rect key="frame" x="41" y="0.0" width="90" height="40"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -57,56 +51,26 @@
                             </label>
                         </subviews>
                         <animations/>
-                        <constraints>
-                            <constraint firstItem="XTQ-XN-AqX" firstAttribute="leading" secondItem="knU-A0-FO4" secondAttribute="leading" constant="6" id="2gQ-ob-cgb"/>
-                            <constraint firstAttribute="trailing" secondItem="IUw-Mk-XlZ" secondAttribute="trailing" id="8dj-VI-b8r"/>
-                            <constraint firstAttribute="centerY" secondItem="XTQ-XN-AqX" secondAttribute="centerY" id="9sZ-NN-OjE"/>
-                            <constraint firstItem="alU-Q7-YxY" firstAttribute="leading" secondItem="ynj-aF-z4D" secondAttribute="leading" constant="-5" id="DWl-Kd-47z"/>
-                            <constraint firstItem="alU-Q7-YxY" firstAttribute="bottom" secondItem="ynj-aF-z4D" secondAttribute="bottom" id="FfY-Nf-2Wq"/>
-                            <constraint firstAttribute="trailing" secondItem="ynj-aF-z4D" secondAttribute="trailing" constant="20" id="HSM-71-9gP"/>
-                            <constraint firstItem="IUw-Mk-XlZ" firstAttribute="leading" secondItem="knU-A0-FO4" secondAttribute="leading" id="LgR-iA-qgz"/>
-                            <constraint firstItem="IUw-Mk-XlZ" firstAttribute="top" secondItem="knU-A0-FO4" secondAttribute="top" id="PED-I8-vTn"/>
-                            <constraint firstItem="ynj-aF-z4D" firstAttribute="top" secondItem="knU-A0-FO4" secondAttribute="top" id="RIA-cc-ovU"/>
-                            <constraint firstItem="alU-Q7-YxY" firstAttribute="trailing" secondItem="ynj-aF-z4D" secondAttribute="trailing" constant="5" id="bWp-na-rZM"/>
-                            <constraint firstAttribute="bottom" secondItem="IUw-Mk-XlZ" secondAttribute="bottom" id="fGm-iu-3L1"/>
-                            <constraint firstItem="alU-Q7-YxY" firstAttribute="top" secondItem="ynj-aF-z4D" secondAttribute="top" id="fyp-2L-t3i"/>
-                            <constraint firstAttribute="bottom" secondItem="ynj-aF-z4D" secondAttribute="bottom" id="mJb-Pl-UbX"/>
-                            <constraint firstAttribute="height" constant="40" id="nzp-6c-lyX"/>
-                            <constraint firstItem="ynj-aF-z4D" firstAttribute="leading" secondItem="XTQ-XN-AqX" secondAttribute="trailing" constant="5" id="uLL-Bt-Lsk"/>
-                        </constraints>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_sending" translatesAutoresizingMaskIntoConstraints="NO" id="dkr-y8-xRJ" userLabel="Dot Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dot_sending" id="dkr-y8-xRJ" userLabel="Dot Image View">
                         <rect key="frame" x="95" y="50" width="6" height="6"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="6" id="DRh-dD-dg1"/>
-                            <constraint firstAttribute="width" secondItem="dkr-y8-xRJ" secondAttribute="height" multiplier="1:1" id="UQu-bF-nVc"/>
-                        </constraints>
                     </imageView>
                 </subviews>
                 <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <animations/>
-            <constraints>
-                <constraint firstAttribute="centerY" secondItem="76j-Ht-EsY" secondAttribute="centerY" id="0xE-OG-2LQ"/>
-                <constraint firstItem="knU-A0-FO4" firstAttribute="leading" secondItem="dkr-y8-xRJ" secondAttribute="trailing" constant="5" id="8wX-cx-mwT"/>
-                <constraint firstItem="76j-Ht-EsY" firstAttribute="leading" secondItem="knU-A0-FO4" secondAttribute="trailing" constant="5" id="Mcc-nk-9BG"/>
-                <constraint firstItem="dkr-y8-xRJ" firstAttribute="centerY" secondItem="knU-A0-FO4" secondAttribute="centerY" id="aQS-yi-Y3f"/>
-                <constraint firstItem="knU-A0-FO4" firstAttribute="centerY" secondItem="76j-Ht-EsY" secondAttribute="centerY" id="cDg-y0-QVu"/>
-                <constraint firstAttribute="trailing" secondItem="76j-Ht-EsY" secondAttribute="trailing" constant="15" id="utb-F3-DnW"/>
-            </constraints>
             <size key="customSize" width="316" height="105"/>
             <connections>
+                <outlet property="audioContainerView" destination="knU-A0-FO4" id="Gfe-yh-kkC"/>
                 <outlet property="audioDurationLabel" destination="alU-Q7-YxY" id="2dD-Pg-BJw"/>
                 <outlet property="avatarImageView" destination="76j-Ht-EsY" id="uPV-sw-dlg"/>
-                <outlet property="avatarImageViewWidthConstraint" destination="tKU-Zf-UDc" id="QK4-BN-nHs"/>
                 <outlet property="bubbleImageView" destination="IUw-Mk-XlZ" id="eH5-bH-lrf"/>
                 <outlet property="dotImageView" destination="dkr-y8-xRJ" id="u39-ha-daM"/>
-                <outlet property="gapBetweenDotImageViewAndBubbleConstraint" destination="8wX-cx-mwT" id="iL5-pO-aPK"/>
                 <outlet property="playButton" destination="XTQ-XN-AqX" id="UPv-c2-8JU"/>
                 <outlet property="sampleView" destination="ynj-aF-z4D" id="FIe-OE-IN2"/>
-                <outlet property="sampleViewWidthConstraint" destination="LKH-Qz-uop" id="TsO-kt-Lg5"/>
             </connections>
             <point key="canvasLocation" x="434" y="419.5"/>
         </collectionViewCell>
@@ -116,4 +80,9 @@
         <image name="icon_play" width="30" height="30"/>
         <image name="right_tail_bubble" width="48" height="40"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

@@ -332,9 +332,16 @@ class ConversationViewController: BaseViewController {
                 if state == .TextInputing || state == .Default {
                     messageToolbar.messageTextView.text = draft.text
                 }
+
+                // 恢复时特别注意：因为键盘改由用户触发，因此
+                if state == .TextInputing || state == .BeginTextInput {
+                    // 这两种状态时不恢复 messageToolbar.state
+                    return
+                }
         
                 // 这句要放在最后，因为它会触发 stateTransitionAction
-                if state != .MoreMessages {
+                // 只恢复不改变高度的状态
+                if state == .VoiceRecord {
                     messageToolbar.state = state
                 }
         }

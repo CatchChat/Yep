@@ -11,18 +11,25 @@ import UIKit
 class ChatRightVideoCell: ChatRightBaseCell {
 
     @IBOutlet weak var thumbnailImageView: UIImageView!
-    @IBOutlet weak var thumbnailImageViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var playImageView: UIImageView!
-    @IBOutlet weak var playImageViewCenterXConstraint: NSLayoutConstraint!
 
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
-    
+
+    func makeUI() {
+
+        let fullWidth = UIScreen.mainScreen().bounds.width
+
+        let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
+
+        avatarImageView.center = CGPoint(x: fullWidth - halfAvatarSize - YepConfig.chatCellGapBetweenWallAndAvatar(), y: halfAvatarSize)
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        playImageViewCenterXConstraint.constant = YepConfig.ChatCell.centerXOffset
+        makeUI()
 
         thumbnailImageView.tintColor = UIColor.rightBubbleTintColor()
 
@@ -87,7 +94,11 @@ class ChatRightVideoCell: ChatRightBaseCell {
             let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
 
             if aspectRatio >= 1 {
-                thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
+
+                let width = messageImagePreferredWidth
+                thumbnailImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: bounds.height)
+                playImageView.center = CGPoint(x: CGRectGetMidX(thumbnailImageView.frame) - 3, y: CGRectGetMidY(thumbnailImageView.frame))
+                dotImageView.center = CGPoint(x: CGRectGetMinX(thumbnailImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(thumbnailImageView.frame))
 
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Right, completion: { [weak self] progress, image in
 
@@ -99,7 +110,10 @@ class ChatRightVideoCell: ChatRightBaseCell {
                 })
 
             } else {
-                thumbnailImageViewWidthConstraint.constant = messageImagePreferredHeight * aspectRatio
+                let width = messageImagePreferredHeight * aspectRatio
+                thumbnailImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: bounds.height)
+                playImageView.center = CGPoint(x: CGRectGetMidX(thumbnailImageView.frame) - 3, y: CGRectGetMidY(thumbnailImageView.frame))
+                dotImageView.center = CGPoint(x: CGRectGetMinX(thumbnailImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(thumbnailImageView.frame))
 
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Right, completion: { [weak self] progress, image in
 
@@ -112,7 +126,10 @@ class ChatRightVideoCell: ChatRightBaseCell {
             }
 
         } else {
-            thumbnailImageViewWidthConstraint.constant = messageImagePreferredWidth
+            let width = messageImagePreferredWidth
+            thumbnailImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: bounds.height)
+            playImageView.center = CGPoint(x: CGRectGetMidX(thumbnailImageView.frame) - 3, y: CGRectGetMidY(thumbnailImageView.frame))
+            dotImageView.center = CGPoint(x: CGRectGetMinX(thumbnailImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(thumbnailImageView.frame))
 
             ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Right, completion: { [weak self] progress, image in
 
@@ -123,6 +140,6 @@ class ChatRightVideoCell: ChatRightBaseCell {
                 }
             })
         }
-
     }
 }
+

@@ -141,6 +141,8 @@ class YepConfig {
         
         static let gapBetweenDotImageViewAndBubble: CGFloat = 5
 
+        static let gapBetweenAvatarImageViewAndBubble: CGFloat = 5
+
         static let mediaPreferredWidth: CGFloat = Ruler.match(.iPhoneWidths(192, 225, 250))
         static let mediaPreferredHeight: CGFloat = Ruler.match(.iPhoneWidths(208, 244, 270))
 

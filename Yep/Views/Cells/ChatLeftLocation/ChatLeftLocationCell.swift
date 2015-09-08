@@ -15,8 +15,21 @@ class ChatLeftLocationCell: ChatBaseCell {
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
 
+    func makeUI() {
+
+        let fullWidth = UIScreen.mainScreen().bounds.width
+
+        let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
+
+        avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize)
+
+        mapImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: 192, height: 108)
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        makeUI()
 
         mapImageView.tintColor = UIColor.leftBubbleTintColor()
 
@@ -54,3 +67,4 @@ class ChatLeftLocationCell: ChatBaseCell {
         }
     }
 }
+

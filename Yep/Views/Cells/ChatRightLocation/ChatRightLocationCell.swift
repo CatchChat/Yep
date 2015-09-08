@@ -16,8 +16,23 @@ class ChatRightLocationCell: ChatRightBaseCell {
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
 
+    func makeUI() {
+
+        let fullWidth = UIScreen.mainScreen().bounds.width
+
+        let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
+
+        avatarImageView.center = CGPoint(x: fullWidth - halfAvatarSize - YepConfig.chatCellGapBetweenWallAndAvatar(), y: halfAvatarSize)
+
+        mapImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - 192, y: 0, width: 192, height: 108)
+
+        dotImageView.center = CGPoint(x: CGRectGetMinX(mapImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(mapImageView.frame))
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        makeUI()
 
         mapImageView.tintColor = UIColor.rightBubbleTintColor()
 
@@ -29,7 +44,7 @@ class ChatRightLocationCell: ChatRightBaseCell {
     func tapMediaView() {
         mediaTapAction?()
     }
-    
+
     func configureWithMessage(message: Message, mediaTapAction: MediaTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
 
         self.message = message
@@ -56,3 +71,4 @@ class ChatRightLocationCell: ChatRightBaseCell {
         }
     }
 }
+

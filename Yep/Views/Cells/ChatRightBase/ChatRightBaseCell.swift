@@ -11,8 +11,7 @@ import UIKit
 class ChatRightBaseCell: ChatBaseCell {
     
     @IBOutlet weak var dotImageView: UIImageView!
-    @IBOutlet weak var gapBetweenDotImageViewAndBubbleConstraint: NSLayoutConstraint!
-    
+
     var messageSendState: MessageSendState = .NotSend {
         didSet {
             switch messageSendState {
@@ -64,8 +63,6 @@ class ChatRightBaseCell: ChatBaseCell {
         super.awakeFromNib()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "tryUpdateMessageState", name: MessageNotification.MessageStateChanged, object: nil)
-
-        gapBetweenDotImageViewAndBubbleConstraint.constant = YepConfig.ChatCell.gapBetweenDotImageViewAndBubble
     }
 
     func tryUpdateMessageState() {

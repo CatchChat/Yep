@@ -10,21 +10,25 @@ import UIKit
 
 class ChatLeftTextCell: ChatBaseCell {
 
-    @IBOutlet weak var avatarImageViewLeadingConstraint: NSLayoutConstraint!
-
     @IBOutlet weak var bubbleBodyImageView: UIImageView!
     @IBOutlet weak var bubbleTailImageView: UIImageView!
 
     @IBOutlet weak var textContainerView: ChatTextContainerView!
     @IBOutlet weak var textContentTextView: ChatTextView!
-    @IBOutlet weak var textContentTextViewTrailingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var textContentTextViewLeadingConstraint: NSLayoutConstraint!
-    //@IBOutlet weak var textContentTextViewWidthConstraint: NSLayoutConstraint!
+
+    func makeUI() {
+
+        let fullWidth = UIScreen.mainScreen().bounds.width
+
+        let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
+
+        avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize)
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        avatarImageViewLeadingConstraint.constant = YepConfig.chatCellGapBetweenWallAndAvatar()
+        makeUI()
 
         textContentTextView.textContainer.lineFragmentPadding = 0
         textContentTextView.font = UIFont.chatTextFont()
@@ -44,9 +48,6 @@ class ChatLeftTextCell: ChatBaseCell {
             UIPasteboard.generalPasteboard().string = self?.textContentTextView.text
         }
 
-        textContentTextViewTrailingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel() - YepConfig.ChatCell.magicWidth
-        textContentTextViewLeadingConstraint.constant = YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
-        
         bubbleBodyImageView.tintColor = UIColor.leftBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.leftBubbleTintColor()
     }
@@ -74,18 +75,18 @@ class ChatLeftTextCell: ChatBaseCell {
         textContentTextView.text = message.textContent
         //textContentTextView.attributedText = NSAttributedString(string: message.textContent, attributes: textAttributes)
 
-        //textContentTextViewWidthConstraint.constant = max(YepConfig.minMessageTextLabelWidth, textContentLabelWidth)
         textContentTextView.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left
 
         // 用 sizeThatFits 来对比，不需要 magicWidth 的时候就可以避免了
+        var textContentLabelWidth = textContentLabelWidth
         let size = textContentTextView.sizeThatFits(CGSize(width: textContentLabelWidth, height: CGFloat.max))
-        if size.width == textContentLabelWidth {
-            textContentTextViewTrailingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel()
-        } else {
-            textContentTextViewTrailingConstraint.constant = YepConfig.chatTextGapBetweenWallAndContentLabel() - YepConfig.ChatCell.magicWidth
+        if size.width != textContentLabelWidth {
+            textContentLabelWidth += YepConfig.ChatCell.magicWidth
         }
 
-        contentView.layoutIfNeeded()
+        textContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3, width: textContentLabelWidth, height: bounds.height - 3 * 2)
+        bubbleBodyImageView.frame = CGRectInset(textContainerView.frame, -12, -3)
+        bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyImageView.frame), y: CGRectGetMidY(avatarImageView.frame))
 
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { [weak self] roundImage in

@@ -11,18 +11,25 @@ import UIKit
 class ChatLeftImageCell: ChatBaseCell {
 
     @IBOutlet weak var messageImageView: UIImageView!
-    @IBOutlet weak var messageImageViewWidthConstrint: NSLayoutConstraint!
-    
+
     @IBOutlet weak var loadingProgressView: MessageLoadingProgressView!
-    @IBOutlet weak var loadingProgressViewCenterXConstraint: NSLayoutConstraint!
 
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
 
+    func makeUI() {
+
+        let fullWidth = UIScreen.mainScreen().bounds.width
+
+        let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
+
+        avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize)
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        loadingProgressViewCenterXConstraint.constant = YepConfig.ChatCell.centerXOffset
+        makeUI()
 
         messageImageView.tintColor = UIColor.leftBubbleTintColor()
 
@@ -98,7 +105,9 @@ class ChatLeftImageCell: ChatBaseCell {
             let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
 
             if aspectRatio >= 1 {
-                messageImageViewWidthConstrint.constant = messageImagePreferredWidth
+
+                let width = messageImagePreferredWidth
+                messageImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: bounds.height)
 
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Left, completion: { [weak self] progress, image in
 
@@ -110,7 +119,8 @@ class ChatLeftImageCell: ChatBaseCell {
                 })
 
             } else {
-                messageImageViewWidthConstrint.constant = messageImagePreferredHeight * aspectRatio
+                let width = messageImagePreferredHeight * aspectRatio
+                messageImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: bounds.height)
 
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Left, completion: { [weak self] progress, image in
 
@@ -123,7 +133,8 @@ class ChatLeftImageCell: ChatBaseCell {
             }
 
         } else {
-            messageImageViewWidthConstrint.constant = messageImagePreferredWidth
+            let width = messageImagePreferredWidth
+            messageImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: bounds.height)
 
             ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Left, completion: { [weak self] progress, image in
 
@@ -134,7 +145,6 @@ class ChatLeftImageCell: ChatBaseCell {
                 }
             })
         }
-
     }
 }
 
