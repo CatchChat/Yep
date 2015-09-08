@@ -221,9 +221,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         }
 
         automaticallyAdjustsScrollViewInsets = false
-        
 
-        
         skillHomeScrollView.addSubview(masterTableView)
         skillHomeScrollView.addSubview(learningtTableView)
         skillHomeScrollView.pagingEnabled = true
@@ -244,6 +242,23 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         }
 
         customTitleView()
+
+        // Add to Me
+
+        if let skillID = skill?.ID {
+            if let
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID, inRealm: Realm()) {
+
+                    let predicate = NSPredicate(format: "skillID = %@", skillID)
+
+                    if me.masterSkills.filter(predicate).count == 0
+                        && me.learningSkills.filter(predicate).count == 0 {
+                            let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: "addSkillToMe")
+                            navigationItem.rightBarButtonItem = addSkillToMeButton
+                    }
+            }
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -284,10 +299,13 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
     // MARK: Actions
 
+    func addSkillToMe() {
+        println("addSkillToMe")
+    }
+
     func changeToMaster() {
         skillSet = .Master
     }
-    
     
     func changeToLearning() {
         skillSet = .Learning
