@@ -491,13 +491,15 @@ class ProfileViewController: UIViewController {
             myUserID = YepUserDefaults.userID.value,
             me = userWithUserID(myUserID, inRealm: Realm()) {
 
-                if me.username.isEmpty {
+                let username = me.username
+
+                if username.isEmpty {
 
                     YepAlert.textInput(title: NSLocalizedString("Create a username", comment: ""), message: NSLocalizedString("In order to share your profile, create a unique username first.", comment: ""), placeholder: "letters", oldText: nil, confirmTitle: NSLocalizedString("Create", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
 
-                        let username = text
+                        let newUsername = text
 
-                        updateMyselfWithInfo(["username": username], failureHandler: { [weak self] reason, errorMessage in
+                        updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
                             defaultFailureHandler(reason, errorMessage)
 
                             YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create username failed!", comment: ""), inViewController: self)
@@ -509,7 +511,7 @@ class ProfileViewController: UIViewController {
                                     myUserID = YepUserDefaults.userID.value,
                                     me = userWithUserID(myUserID, inRealm: realm) {
                                         realm.write {
-                                            me.username = username
+                                            me.username = newUsername
                                         }
                                 }
                             }
@@ -517,6 +519,14 @@ class ProfileViewController: UIViewController {
 
                     }, cancelAction: {
                     })
+
+                } else {
+                    if let profileURL = NSURL(string: "http://soyep.com/\(username)") {
+
+                        let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: nil)
+
+                        presentViewController(activityViewController, animated: true, completion: nil)
+                    }
                 }
         }
     }
