@@ -552,3 +552,18 @@
 
 /* No comment provided by engineer. */
 "Yep can't reach GitHub.\nWe blame GFW!" = "Yep无法访问GitHub。\n一定是GFW从中做梗！";
+
+/* No comment provided by engineer. */
+"Create" = "创建";
+
+/* No comment provided by engineer. */
+"Create a username" = "创建用户名";
+
+/* No comment provided by engineer. */
+"Create username failed!" = "创建用户名失败！";
+
+/* No comment provided by engineer. */
+"In order to share your profile, create a unique username first." = "为了分享您的个人主页，请先创建一个唯一的用户名。";
+
+/* No comment provided by engineer. */
+"use letters, numbers, and underscore" = "可使用英文字母、数字以及下划线";
