@@ -452,7 +452,7 @@ class ProfileViewController: UIViewController {
                 // share button
 
                 if customNavigationItem.leftBarButtonItem == nil {
-                    let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "shareProfile")
+                    let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "tryShareProfile")
                     customNavigationItem.leftBarButtonItem = shareButton
                 }
             }
@@ -486,12 +486,23 @@ class ProfileViewController: UIViewController {
 
     // MARK: Actions
 
-    func shareProfile() {
+    func tryShareProfile() {
+
         if let
             myUserID = YepUserDefaults.userID.value,
             me = userWithUserID(myUserID, inRealm: Realm()) {
 
                 let username = me.username
+
+                let doShareProfile: () -> Void = { [weak self] in
+
+                    if let profileURL = NSURL(string: "http://soyep.com/\(username)") {
+
+                        let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: nil)
+
+                        self?.presentViewController(activityViewController, animated: true, completion: nil)
+                    }
+                }
 
                 if username.isEmpty {
 
@@ -514,6 +525,8 @@ class ProfileViewController: UIViewController {
                                             me.username = newUsername
                                         }
                                 }
+
+                                doShareProfile()
                             }
                         })
 
@@ -521,12 +534,7 @@ class ProfileViewController: UIViewController {
                     })
 
                 } else {
-                    if let profileURL = NSURL(string: "http://soyep.com/\(username)") {
-
-                        let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: nil)
-
-                        presentViewController(activityViewController, animated: true, completion: nil)
-                    }
+                    doShareProfile()
                 }
         }
     }
