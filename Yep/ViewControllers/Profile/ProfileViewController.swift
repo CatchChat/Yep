@@ -620,6 +620,8 @@ class ProfileViewController: UIViewController {
 
                     user.lastSignInUnixTime = discoveredUser.lastSignInUnixTime
 
+                    user.username = discoveredUser.username ?? ""
+
                     user.nickname = discoveredUser.nickname
 
                     if let introduction = discoveredUser.introduction {
