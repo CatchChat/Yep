@@ -131,6 +131,7 @@ class UserDoNotDisturb: Object {
 
 class User: Object {
     dynamic var userID: String = ""
+    dynamic var username: String = ""
     dynamic var nickname: String = ""
     dynamic var introduction: String = ""
     dynamic var avatarURLString: String = ""
