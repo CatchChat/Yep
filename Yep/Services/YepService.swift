@@ -706,6 +706,28 @@ func unblockUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -
     }
 }
 
+func settingsForUserWithUserID(userID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: (blocked: Bool, doNotDisturb: Bool) -> Void) {
+
+    let parse: JSONDictionary -> (Bool, Bool)? = { data in
+
+        if let
+            blocked = data["blocked"] as? Bool,
+            doNotDisturb = data["do_not_disturb"] as? Bool {
+                return (blocked, doNotDisturb)
+        }
+
+        return nil
+    }
+
+    let resource = authJsonResource(path: "/api/v1/users/\(userID)/settings_with_current_user", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
+    } else {
+        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
+    }
+}
+
 // MARK: - Contacts
 
 func searchUsersByMobile(mobile: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: [JSONDictionary] -> Void) {

@@ -1236,6 +1236,7 @@ class ConversationViewController: BaseViewController {
 
             let userID = user.userID
 
+            /*
             userInfoOfUserWithUserID(userID, failureHandler: nil, completion: { userInfo in
                 //println("userInfoOfUserWithUserID \(userInfo)")
 
@@ -1250,6 +1251,12 @@ class ConversationViewController: BaseViewController {
                 // 对非好友来说，必要
 
                 updateUserWithUserID(userID, useUserInfo: userInfo)
+            })
+            */
+
+            settingsForUserWithUserID(userID, failureHandler: nil, completion: { [weak self] blocked, doNotDisturb in
+                self?.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
+                self?.updateBlocked(blocked, forUserWithUserID: userID)
             })
         }
 
