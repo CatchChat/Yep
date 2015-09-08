@@ -451,13 +451,9 @@ class ProfileViewController: UIViewController {
 
                 // share button
 
-                println("profile.navigationController?.viewControllers.count \(navigationController?.viewControllers.count)")
-
-                if let viewControllersCount = navigationController?.viewControllers.count {
-                    if viewControllersCount == 1 {
-                        let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "shareProfile")
-                        customNavigationItem.leftBarButtonItem = shareButton
-                    }
+                if customNavigationItem.leftBarButtonItem == nil {
+                    let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "shareProfile")
+                    customNavigationItem.leftBarButtonItem = shareButton
                 }
             }
         }
