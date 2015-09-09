@@ -1409,13 +1409,13 @@ class ConversationViewController: BaseViewController {
 
             // 按照 conversation 过滤消息，匹配的才能考虑插入
 
-            if let conversation = conversation, conversationID = conversation.fakeID, realm = conversation.realm {
+            if let conversationID = conversation?.fakeID, realm = conversation?.realm {
 
                 var filteredMessageIDs = [String]()
 
                 for messageID in allMessageIDs {
                     if let message = messageWithMessageID(messageID, inRealm: realm) {
-                        if let messageInConversation = message.conversation, messageInConversationID = messageInConversation.fakeID {
+                        if let messageInConversationID = message.conversation?.fakeID {
                             if messageInConversationID == conversationID {
                                 filteredMessageIDs.append(messageID)
                             }
