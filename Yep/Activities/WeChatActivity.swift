@@ -27,7 +27,16 @@ class WeChatActivity: UIActivity {
     }
 
     override func canPerformWithActivityItems(activityItems: [AnyObject]) -> Bool {
-        return true
+
+        println("Fuck WeChat!")
+        println(WXApi.isWXAppInstalled())
+        println(WXApi.isWXAppSupportApi())
+
+        if WXApi.isWXAppSupportApi() {
+            return true
+        }
+
+        return false
     }
 
     override func prepareWithActivityItems(activityItems: [AnyObject]) {
@@ -39,7 +48,28 @@ class WeChatActivity: UIActivity {
     }
 
     override func performActivity() {
-        println("Hello WeChat")
+        println("Share to WeChat")
+
+        let sendMessageRequest = SendMessageToWXReq()
+
+        sendMessageRequest.scene = 1
+        //WXSceneSession  = 0,        // 聊天界面
+        //WXSceneTimeline = 1,        // 朋友圈
+        //WXSceneFavorite = 2,        // 收藏
+
+        let message = WXMediaMessage()
+        message.title = "Yep! 遇见天才"
+        message.description = "以技能匹配寻找共同话题，达成灵魂间的对话。"
+
+        let webObject = WXWebpageObject()
+        webObject.webpageUrl = "http://soyep.com"
+        message.mediaObject = webObject
+
+        sendMessageRequest.message = message
+
+        WXApi.sendReq(sendMessageRequest)
+
+        activityDidFinish(true)
     }
 
     // state method
