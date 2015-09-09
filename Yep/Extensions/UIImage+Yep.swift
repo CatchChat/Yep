@@ -304,6 +304,9 @@ extension UIImage {
 
     func renderAtSize(size: CGSize) -> UIImage {
 
+        // 确保 size 为整数，防止 mask 里出现白线
+        let size = CGSize(width: ceil(size.width), height: ceil(size.height))
+
         UIGraphicsBeginImageContextWithOptions(size, false, 0) // key
 
         let context = UIGraphicsGetCurrentContext()
