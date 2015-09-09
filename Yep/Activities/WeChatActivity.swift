@@ -52,8 +52,8 @@ class WeChatActivity: UIActivity {
     }
 
     struct Message {
-        let title: String
-        let description: String
+        let title: String?
+        let description: String?
         let thumbnail: UIImage?
 
         enum Media {
