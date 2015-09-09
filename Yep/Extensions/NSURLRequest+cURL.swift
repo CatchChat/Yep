@@ -27,37 +27,47 @@ public extension NSURLRequest {
             components.append("-X \(HTTPMethod)")
         }
 
-        components.append("\"\(URL!.absoluteString!)\"")
+        if let URLString = URL?.absoluteString {
+            components.append("\"\(URLString)\"")
+        }
 
         if let credentialStorage = session?.configuration.URLCredentialStorage {
 
-            let protectionSpace = NSURLProtectionSpace(
-                host: URL!.host!,
-                port: URL!.port?.integerValue ?? 0,
-                `protocol`: URL!.scheme,
-                realm: URL!.host!,
-                authenticationMethod: NSURLAuthenticationMethodHTTPBasic
-            )
+            if let host = URL?.host, scheme = URL?.scheme {
+                let port = URL?.port?.integerValue ?? 0
 
-            if let credentials = credentialStorage.credentialsForProtectionSpace(protectionSpace)?.values {
+                let protectionSpace = NSURLProtectionSpace(
+                    host: host,
+                    port: port,
+                    `protocol`: scheme,
+                    realm: host,
+                    authenticationMethod: NSURLAuthenticationMethodHTTPBasic
+                )
 
-                for credential in credentials {
-                    components.append("-u \(credential.user!):\(credential.password!)")
-                }
+                if let credentials = credentialStorage.credentialsForProtectionSpace(protectionSpace)?.values {
 
-            } else {
-                if credential != nil {
-                    components.append("-u \(credential!.user!):\(credential!.password!)")
+                    for credential in credentials {
+                        if let user = credential.user, password = credential.password {
+                            components.append("-u \(user):\(password)")
+                        }
+                    }
+
+                } else {
+                    if let user = credential?.user, password = credential?.password {
+                        components.append("-u \(user):\(password)")
+                    }
                 }
             }
         }
 
-        if session != nil && session!.configuration.HTTPShouldSetCookies {
-            if let
-                cookieStorage = session!.configuration.HTTPCookieStorage,
-                cookies = cookieStorage.cookiesForURL(URL!) where !cookies.isEmpty {
-                    let string = cookies.reduce("") { $0 + "\($1.name)=\($1.value ?? String());" }
-                    components.append("-b \"\(string.substringToIndex(string.endIndex.predecessor()))\"")
+        if let session = session, URL = URL {
+            if session.configuration.HTTPShouldSetCookies {
+                if let
+                    cookieStorage = session.configuration.HTTPCookieStorage,
+                    cookies = cookieStorage.cookiesForURL(URL) where !cookies.isEmpty {
+                        let string = cookies.reduce("") { $0 + "\($1.name)=\($1.value ?? String());" }
+                        components.append("-b \"\(string.substringToIndex(string.endIndex.predecessor()))\"")
+                }
             }
         }
 
