@@ -855,7 +855,7 @@ class ConversationViewController: BaseViewController {
 
                     } else if receivedFriendRequestState == .Blocked {
                         YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: String(format: NSLocalizedString("You have blocked %@! Do you want to unblock him or her?", comment: ""), "\(userNickname)")
-                            , confirmTitle: NSLocalizedString("Unblock", comment: ""), cancelTitle: NSLocalizedString("No now", comment: ""), inViewController: self, withConfirmAction: {
+                            , confirmTitle: NSLocalizedString("Unblock", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
 
                             unblockUserWithUserID(userID, failureHandler: nil, completion: { success in
                                 println("unblockUserWithUserID \(success)")
