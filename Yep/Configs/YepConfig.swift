@@ -190,7 +190,7 @@ class YepConfig {
     }
 
     struct Location {
-        static let distanceThreshold: CLLocationDistance = 100
+        static let distanceThreshold: CLLocationDistance = 500
     }
 
 }
