@@ -51,10 +51,17 @@ class WeChatActivity: UIActivity {
         }
     }
 
-    let scene: Scene
+    enum Media {
+        case URL(NSURL)
+        case Image(UIImage)
+    }
 
-    init(scene: Scene) {
+    let scene: Scene
+    let media: Media
+
+    init(scene: Scene, media: Media) {
         self.scene = scene
+        self.media = media
 
         super.init()
     }
@@ -95,12 +102,22 @@ class WeChatActivity: UIActivity {
         sendMessageRequest.scene = scene.value
 
         let message = WXMediaMessage()
+
         message.title = "Yep! 遇见天才"
         message.description = "以技能匹配寻找共同话题，达成灵魂间的对话。"
 
-        let webObject = WXWebpageObject()
-        webObject.webpageUrl = "http://soyep.com"
-        message.mediaObject = webObject
+        switch media {
+
+        case .URL(let URL):
+            let webObject = WXWebpageObject()
+            webObject.webpageUrl = URL.absoluteString!
+            message.mediaObject = webObject
+
+        case .Image(let image):
+            let imageObject = WXImageObject()
+            imageObject.imageData = UIImageJPEGRepresentation(image, 1)
+            message.mediaObject = imageObject
+        }
 
         sendMessageRequest.message = message
 
