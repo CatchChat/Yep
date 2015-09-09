@@ -51,17 +51,24 @@ class WeChatActivity: UIActivity {
         }
     }
 
-    enum Media {
-        case URL(NSURL)
-        case Image(UIImage)
+    struct Message {
+        let title: String
+        let description: String
+
+        enum Media {
+            case URL(NSURL)
+            case Image(UIImage)
+        }
+
+        let media: Media
     }
 
     let scene: Scene
-    let media: Media
+    let message: Message
 
-    init(scene: Scene, media: Media) {
+    init(scene: Scene, message: Message) {
         self.scene = scene
-        self.media = media
+        self.message = message
 
         super.init()
     }
@@ -103,10 +110,10 @@ class WeChatActivity: UIActivity {
 
         let message = WXMediaMessage()
 
-        message.title = "Yep! 遇见天才"
-        message.description = "以技能匹配寻找共同话题，达成灵魂间的对话。"
+        message.title = self.message.title
+        message.description = self.message.description
 
-        switch media {
+        switch self.message.media {
 
         case .URL(let URL):
             let webObject = WXWebpageObject()
