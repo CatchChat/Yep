@@ -321,13 +321,13 @@
 "Picked Location" = "选择的位置";
 
 /* No comment provided by engineer. */
-"Please wait while the audio is not dready!" = "正在准备音频，请稍等！";
+"Please wait while the audio is not ready!" = "正在准备音频，请稍等！";
 
 /* No comment provided by engineer. */
-"Please wait while the image is not dready!" = "正在准备图片，请稍等！";
+"Please wait while the image is not ready!" = "正在准备图片，请稍等！";
 
 /* No comment provided by engineer. */
-"Please wait while the video is not dready!" = "正在准备视频，请稍等！";
+"Please wait while the video is not ready!" = "正在准备视频，请稍等！";
 
 /* No comment provided by engineer. */
 "Popular in " = "流行于";
