@@ -326,14 +326,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Global Tint Color
 
-        window!.tintColor = UIColor.yepTintColor()
+        window?.tintColor = UIColor.yepTintColor()
+        window?.tintAdjustmentMode = .Normal
 
-
-        // NacigationBar Item Style
+        // NavigationBar Item Style
 
         UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.yepTintColor()], forState: .Normal)
         UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.yepTintColor().colorWithAlphaComponent(0.3)], forState: .Disabled)
-
 
         // NavigationBar Title Style
 
@@ -361,7 +360,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //UINavigationBar.appearance().setBackgroundImage(UIImage(named:"white"), forBarMetrics: .Default)
         //UINavigationBar.appearance().shadowImage = UIImage()
         //UINavigationBar.appearance().translucent = false
-
 
         // TabBar
 
