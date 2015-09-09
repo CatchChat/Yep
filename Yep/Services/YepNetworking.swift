@@ -161,6 +161,8 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
         request.setValue(value, forHTTPHeaderField: key)
     }
 
+    //println(request.cURLCommandLineWithSession(session))
+
     let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
         if let httpResponse = response as? NSHTTPURLResponse {
             if httpResponse.statusCode == 200 {
@@ -175,16 +177,19 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                         
                         failure(Reason.CouldNotParseJSON, errorMessageInData(data))
                         println("\(resource)\n")
+                        println(request.cURLCommandLine)
                     }
 
                 } else {
                     failure(Reason.NoData, errorMessageInData(data))
                     println("\(resource)\n")
+                    println(request.cURLCommandLine)
                 }
 
             } else {
                 failure(Reason.NoSuccessStatusCode(statusCode: httpResponse.statusCode), errorMessageInData(data))
                 println("\(resource)\n")
+                println(request.cURLCommandLine)
 
                 // 对于 401: errorMessage: >>>HTTP Token: Access denied<<<
                 // 用户需要重新登录，所以
@@ -197,16 +202,21 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
             }
 
         } else {
-            println("\(resource)")
             failure(Reason.Other(error), errorMessageInData(data))
+            println("\(resource)")
+            println(request.cURLCommandLine)
         }
 
-        yepNetworkActivityCount--
+        dispatch_async(dispatch_get_main_queue()) {
+            yepNetworkActivityCount--
+        }
     }
 
     task.resume()
 
-    yepNetworkActivityCount++
+    dispatch_async(dispatch_get_main_queue()) {
+        yepNetworkActivityCount++
+    }
 }
 
 func errorMessageInData(data: NSData?) -> String? {
@@ -264,8 +274,6 @@ public func jsonResource<A>(#token: String?, #path: String, #method: Method, #re
         languageCode = locale.objectForKey(NSLocaleLanguageCode) as? String,
         countryCode = locale.objectForKey(NSLocaleCountryCode) as? String {
             headers["Accept-Language"] = languageCode + "-" + countryCode
-
-        //println("Accept-Language: " + headers["Accept-Language"]!)
     }
 
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)

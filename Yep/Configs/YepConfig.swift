@@ -143,6 +143,8 @@ class YepConfig {
 
         static let gapBetweenAvatarImageViewAndBubble: CGFloat = 5
 
+        static let playImageViewXOffset: CGFloat = 3
+
         static let mediaPreferredWidth: CGFloat = Ruler.match(.iPhoneWidths(192, 225, 250))
         static let mediaPreferredHeight: CGFloat = Ruler.match(.iPhoneWidths(208, 244, 270))
 
@@ -188,7 +190,7 @@ class YepConfig {
     }
 
     struct Location {
-        static let distanceThreshold: CLLocationDistance = 100
+        static let distanceThreshold: CLLocationDistance = 500
     }
 
 }

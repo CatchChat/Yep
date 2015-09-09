@@ -162,7 +162,7 @@ class ProfileViewController: UIViewController {
             } else {
                 sayHiView.hidden = true
 
-                let settingsBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_settings"), style: UIBarButtonItemStyle.Plain, target: self, action: "showSettings")
+                let settingsBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_settings"), style: .Plain, target: self, action: "showSettings")
 
                 customNavigationItem.rightBarButtonItem = settingsBarButtonItem
             }
@@ -361,6 +361,8 @@ class ProfileViewController: UIViewController {
         
         
         customNavigationBar = UINavigationBar(frame: CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 64))
+        customNavigationBar.tintColor = UIColor.whiteColor()
+        customNavigationBar.tintAdjustmentMode = .Normal
         customNavigationBar.alpha = 0
         customNavigationBar.setItems([customNavigationItem], animated: false)
         view.addSubview(customNavigationBar)
@@ -377,8 +379,7 @@ class ProfileViewController: UIViewController {
         ]
         
         customNavigationBar.titleTextAttributes = textAttributes
-        customNavigationBar.tintColor = UIColor.whiteColor()
-        
+
         
         //Make sure when pan edge screen collectionview not scroll
         if let gestures = navigationController?.view.gestureRecognizers {
@@ -494,7 +495,7 @@ class ProfileViewController: UIViewController {
 
                 let username = me.username
 
-                let doShareProfile: () -> Void = { [weak self] in
+                let shareProfileWithUsername: String -> Void = { [weak self] username in
 
                     if let profileURL = NSURL(string: "http://soyep.com/\(username)") {
 
@@ -526,7 +527,7 @@ class ProfileViewController: UIViewController {
                                         }
                                 }
 
-                                doShareProfile()
+                                shareProfileWithUsername(newUsername)
                             }
                         })
 
@@ -534,7 +535,7 @@ class ProfileViewController: UIViewController {
                     })
 
                 } else {
-                    doShareProfile()
+                    shareProfileWithUsername(username)
                 }
         }
     }
@@ -566,7 +567,6 @@ class ProfileViewController: UIViewController {
 
     func setBackButtonWithTitle() {
         let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBack")
-        backBarButtonItem.tintColor = UIColor.whiteColor()
 
         customNavigationItem.leftBarButtonItem = backBarButtonItem
     }
