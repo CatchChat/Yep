@@ -54,6 +54,7 @@ class WeChatActivity: UIActivity {
     struct Message {
         let title: String
         let description: String
+        let thumbnail: UIImage?
 
         enum Media {
             case URL(NSURL)
@@ -112,6 +113,7 @@ class WeChatActivity: UIActivity {
 
         message.title = self.message.title
         message.description = self.message.description
+        message.setThumbImage(self.message.thumbnail)
 
         switch self.message.media {
 
