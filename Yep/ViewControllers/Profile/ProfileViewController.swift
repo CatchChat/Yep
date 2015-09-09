@@ -499,9 +499,10 @@ class ProfileViewController: UIViewController {
 
                     if let profileURL = NSURL(string: "http://soyep.com/\(username)") {
 
-                        let weChatActivity = WeChatActivity()
+                        let weChatSessionActivity = WeChatActivity(scene: .Session)
+                        let weChatTimelineActivity = WeChatActivity(scene: .Timeline)
 
-                        let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: [weChatActivity])
+                        let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
 
                         self?.presentViewController(activityViewController, animated: true, completion: nil)
                     }
