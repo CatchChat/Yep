@@ -92,11 +92,7 @@ class WeChatActivity: UIActivity {
 
     override func canPerformWithActivityItems(activityItems: [AnyObject]) -> Bool {
 
-        println("Fuck WeChat!")
-        println(WXApi.isWXAppInstalled())
-        println(WXApi.isWXAppSupportApi())
-
-        if WXApi.isWXAppSupportApi() {
+        if WXApi.isWXAppInstalled() && WXApi.isWXAppSupportApi() {
             return true
         }
 
