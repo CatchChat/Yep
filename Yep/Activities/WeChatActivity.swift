@@ -56,7 +56,6 @@ class WeChatActivity: UIActivity {
     init(scene: Scene) {
         self.scene = scene
 
-        WXSceneSession
         super.init()
     }
 
@@ -89,16 +88,7 @@ class WeChatActivity: UIActivity {
         return false
     }
 
-    override func prepareWithActivityItems(activityItems: [AnyObject]) {
-        super.prepareWithActivityItems(activityItems)
-    }
-
-    override func activityViewController() -> UIViewController? {
-        return super.activityViewController()
-    }
-
     override func performActivity() {
-        println("Share to WeChat")
 
         let sendMessageRequest = SendMessageToWXReq()
 
@@ -118,10 +108,6 @@ class WeChatActivity: UIActivity {
 
         activityDidFinish(true)
     }
-
-    // state method
-
-    //func activityDidFinish(completed: Bool) // activity must call this when activity is finished. can be called on any thread
 }
 
 
