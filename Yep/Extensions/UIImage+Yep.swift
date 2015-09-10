@@ -384,8 +384,18 @@ extension UIImage {
 
             image.drawAtPoint(CGPointZero)
 
-            let bottomShadowImage = UIImage(named: "top_shadow")!
-            bottomShadowImage.drawAtPoint(CGPoint(x: 0, y: image.size.height / 2))
+            //let bottomShadowImage = UIImage(named: "location_bottom_shadow")!
+            //bottomShadowImage.drawAtPoint(CGPoint(x: 0, y: image.size.height - 20))
+            /*
+            let scale = UIScreen.mainScreen().scale
+            let orientation: UIImageOrientation = .Up
+            var bottomShadowImage = UIImage(CGImage: UIImage(named: "location_bottom_shadow")!.CGImage, scale: scale, orientation: orientation)!
+            bottomShadowImage = bottomShadowImage.resizableImageWithCapInsets(UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1), resizingMode: UIImageResizingMode.Stretch)
+            bottomShadowImage.drawInRect(CGRect(x: 0, y: image.size.height - 20, width: image.size.width, height: 20))
+            */
+            let bottomShadowImage = UIImage(named: "location_bottom_shadow")!
+            let bottomShadowHeightRatio: CGFloat = 0.185 // 20 / 108
+            bottomShadowImage.drawInRect(CGRect(x: 0, y: floor(image.size.height * (1 - bottomShadowHeightRatio)), width: image.size.width, height: ceil(image.size.height * bottomShadowHeightRatio)))
 
             let finalImage = UIGraphicsGetImageFromCurrentImageContext()
 
