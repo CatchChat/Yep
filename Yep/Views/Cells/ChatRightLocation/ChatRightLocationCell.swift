@@ -30,7 +30,8 @@ class ChatRightLocationCell: ChatRightBaseCell {
         dotImageView.center = CGPoint(x: CGRectGetMinX(mapImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(mapImageView.frame))
 
         let locationNameLabelHeight = YepConfig.ChatCell.locationNameLabelHeight
-        locationNameLabel.frame = CGRect(x: CGRectGetMinX(mapImageView.frame), y: CGRectGetMaxY(mapImageView.frame) - locationNameLabelHeight, width: 192 - 7, height: locationNameLabelHeight)
+        locationNameLabel.frame = CGRect(x: CGRectGetMinX(mapImageView.frame) + 20, y: CGRectGetMaxY(mapImageView.frame) - locationNameLabelHeight, width: 192 - 20 * 2 - 7, height: locationNameLabelHeight)
+        //locationNameLabel.backgroundColor = UIColor.redColor().colorWithAlphaComponent(0.1)
     }
 
     override func awakeFromNib() {
@@ -39,7 +40,7 @@ class ChatRightLocationCell: ChatRightBaseCell {
         makeUI()
 
         mapImageView.tintColor = UIColor.rightBubbleTintColor()
-        locationNameLabel.textColor = UIColor.yepTintColor()
+        locationNameLabel.textColor = UIColor.whiteColor()
 
         mapImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")

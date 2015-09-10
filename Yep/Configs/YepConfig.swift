@@ -145,7 +145,7 @@ class YepConfig {
 
         static let playImageViewXOffset: CGFloat = 3
 
-        static let locationNameLabelHeight: CGFloat = 18
+        static let locationNameLabelHeight: CGFloat = 20
 
         static let mediaPreferredWidth: CGFloat = Ruler.match(.iPhoneWidths(192, 225, 250))
         static let mediaPreferredHeight: CGFloat = Ruler.match(.iPhoneWidths(208, 244, 270))
