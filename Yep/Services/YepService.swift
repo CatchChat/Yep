@@ -1655,12 +1655,15 @@ func sendVideoInFilePath(filePath: String?, orFileData fileData: NSData?, #metaD
     createAndSendMessageWithMediaType(.Video, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-func sendLocationWithCoordinate(coordinate: CLLocationCoordinate2D, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
+func sendLocationWithLocationInfo(locationInfo: PickLocationViewController.Location.Info, toRecipient recipientID: String, #recipientType: String, #afterCreatedMessage: (Message) -> Void, #failureHandler: ((Reason, String?) -> Void)?, #completion: (success: Bool) -> Void) {
 
     let fillMoreInfo: JSONDictionary -> JSONDictionary = { info in
         var moreInfo = info
-        moreInfo["longitude"] = coordinate.longitude
-        moreInfo["latitude"] = coordinate.latitude
+        moreInfo["longitude"] = locationInfo.coordinate.longitude
+        moreInfo["latitude"] = locationInfo.coordinate.latitude
+        if let locationName = locationInfo.name {
+            moreInfo["text_content"] = locationName
+        }
         return moreInfo
     }
 

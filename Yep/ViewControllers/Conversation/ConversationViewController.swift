@@ -1861,7 +1861,7 @@ class ConversationViewController: BaseViewController {
 
                 if let withFriend = self?.conversation.withFriend {
 
-                    sendLocationWithCoordinate(locationInfo.coordinate, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
+                    sendLocationWithLocationInfo(locationInfo, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
 
                         dispatch_async(dispatch_get_main_queue()) {
                             self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
@@ -1879,7 +1879,7 @@ class ConversationViewController: BaseViewController {
 
                 } else if let withGroup = self?.conversation.withGroup {
 
-                    sendLocationWithCoordinate(locationInfo.coordinate, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
+                    sendLocationWithLocationInfo(locationInfo, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                         dispatch_async(dispatch_get_main_queue()) {
                             self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                             })

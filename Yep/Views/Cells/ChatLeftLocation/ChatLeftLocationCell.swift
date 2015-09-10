@@ -28,7 +28,6 @@ class ChatLeftLocationCell: ChatBaseCell {
 
         let locationNameLabelHeight = YepConfig.ChatCell.locationNameLabelHeight
         locationNameLabel.frame = CGRect(x: CGRectGetMinX(mapImageView.frame) + 7, y: CGRectGetMaxY(mapImageView.frame) - locationNameLabelHeight, width: 192 - 7, height: locationNameLabelHeight)
-        locationNameLabel.backgroundColor = UIColor.redColor()
     }
 
     override func awakeFromNib() {
@@ -37,6 +36,7 @@ class ChatLeftLocationCell: ChatBaseCell {
         makeUI()
 
         mapImageView.tintColor = UIColor.leftBubbleTintColor()
+        locationNameLabel.textColor = UIColor.yepTintColor()
 
         mapImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
@@ -62,6 +62,8 @@ class ChatLeftLocationCell: ChatBaseCell {
                 }
             }
         }
+
+        locationNameLabel.text = message.textContent
 
         ImageCache.sharedInstance.mapImageOfMessage(message, withSize: CGSize(width: 192, height: 108), tailDirection: .Left) { mapImage in
             dispatch_async(dispatch_get_main_queue()) {
