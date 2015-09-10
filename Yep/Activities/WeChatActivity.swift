@@ -101,9 +101,9 @@ class WeChatActivity: UIActivity {
 
     override func performActivity() {
 
-        let sendMessageRequest = SendMessageToWXReq()
+        let request = SendMessageToWXReq()
 
-        sendMessageRequest.scene = scene.value
+        request.scene = scene.value
 
         let message = WXMediaMessage()
 
@@ -124,9 +124,9 @@ class WeChatActivity: UIActivity {
             message.mediaObject = imageObject
         }
 
-        sendMessageRequest.message = message
+        request.message = message
 
-        WXApi.sendReq(sendMessageRequest)
+        WXApi.sendReq(request)
 
         activityDidFinish(true)
     }
