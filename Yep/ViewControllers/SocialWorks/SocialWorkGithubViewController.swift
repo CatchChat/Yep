@@ -145,7 +145,31 @@ class SocialWorkGithubViewController: BaseViewController {
     func share() {
         if let user = githubUser, githubURL = NSURL(string: user.htmlURLString) {
 
-            let activityViewController = UIActivityViewController(activityItems: [githubURL], applicationActivities: nil)
+            var title: String?
+            if let githubUser = githubUser {
+                title = String(format: NSLocalizedString("%@'s GitHub", comment: ""), githubUser.loginName)
+            }
+
+            var thumbnail: UIImage?
+            if let image = avatarImageView.image {
+                thumbnail = image
+            } else {
+                if let socialAccount = socialAccount {
+                    thumbnail = UIImage(named: socialAccount.iconName)
+                }
+            }
+            
+            let message = WeChatActivity.Message(
+                title: title,
+                description: nil,
+                thumbnail: thumbnail,
+                media: .URL(githubURL)
+            )
+
+            let weChatSessionActivity = WeChatActivity(scene: .Session, message: message)
+            let weChatTimelineActivity = WeChatActivity(scene: .Timeline, message: message)
+
+            let activityViewController = UIActivityViewController(activityItems: [githubURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
 
             presentViewController(activityViewController, animated: true, completion: nil)
         }

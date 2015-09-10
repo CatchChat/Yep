@@ -49,10 +49,20 @@ class MessageMediaViewController: UIViewController {
                         mediaView.image = image
 
                         mediaControlView.shareAction = {
-                            let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
 
-                            self.presentViewController(activityViewController, animated: true, completion: { () -> Void in
-                            })
+                            let message = WeChatActivity.Message(
+                                title: nil,
+                                description: nil,
+                                thumbnail: nil,
+                                media: .Image(image)
+                            )
+
+                            let weChatSessionActivity = WeChatActivity(scene: .Session, message: message)
+                            let weChatTimelineActivity = WeChatActivity(scene: .Timeline, message: message)
+
+                            let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
+
+                            self.presentViewController(activityViewController, animated: true, completion: nil)
                         }
                 }
 
