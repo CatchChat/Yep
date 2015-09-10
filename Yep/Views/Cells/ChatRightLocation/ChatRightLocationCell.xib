@@ -24,6 +24,13 @@
                         <rect key="frame" x="46" y="56" width="6" height="6"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LcY-WJ-YG7" userLabel="Location Name Label">
+                        <rect key="frame" x="57" y="90" width="192" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
@@ -31,6 +38,7 @@
             <connections>
                 <outlet property="avatarImageView" destination="SGV-zQ-j8s" id="anR-ZQ-6Ne"/>
                 <outlet property="dotImageView" destination="eTJ-7c-9qB" id="AIr-Ap-2Hc"/>
+                <outlet property="locationNameLabel" destination="LcY-WJ-YG7" id="dPJ-m8-om6"/>
                 <outlet property="mapImageView" destination="ivW-u4-fKZ" id="0pJ-tA-WYa"/>
             </connections>
             <point key="canvasLocation" x="240.5" y="398"/>

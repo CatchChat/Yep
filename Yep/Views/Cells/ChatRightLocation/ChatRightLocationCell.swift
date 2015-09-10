@@ -12,6 +12,7 @@ import MapKit
 class ChatRightLocationCell: ChatRightBaseCell {
 
     @IBOutlet weak var mapImageView: UIImageView!
+    @IBOutlet weak var locationNameLabel: UILabel!
 
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
@@ -27,6 +28,10 @@ class ChatRightLocationCell: ChatRightBaseCell {
         mapImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - 192, y: 0, width: 192, height: 108)
 
         dotImageView.center = CGPoint(x: CGRectGetMinX(mapImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(mapImageView.frame))
+
+        let locationNameLabelHeight = YepConfig.ChatCell.locationNameLabelHeight
+        locationNameLabel.frame = CGRect(x: CGRectGetMinX(mapImageView.frame), y: CGRectGetMaxY(mapImageView.frame) - locationNameLabelHeight, width: 192 - 7, height: locationNameLabelHeight)
+        locationNameLabel.backgroundColor = UIColor.redColor()
     }
 
     override func awakeFromNib() {
