@@ -2124,6 +2124,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 if let coordinate = message.coordinate {
                                     let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
                                     let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+                                    mapItem.name = message.textContent
                                     /*
                                     let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
                                     mapItem.openInMapsWithLaunchOptions(launchOptions)
@@ -2262,6 +2263,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     if let coordinate = message.coordinate {
                                         let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
                                         let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+                                        mapItem.name = message.textContent
                                         /*
                                         let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
                                         mapItem.openInMapsWithLaunchOptions(launchOptions)
