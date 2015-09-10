@@ -1857,11 +1857,11 @@ class ConversationViewController: BaseViewController {
             let nvc = segue.destinationViewController as! UINavigationController
             let vc = nvc.topViewController as! PickLocationViewController
 
-            vc.sendLocationAction = { [weak self] coordinate in
+            vc.sendLocationAction = { [weak self] locationInfo in
 
                 if let withFriend = self?.conversation.withFriend {
 
-                    sendLocationWithCoordinate(coordinate, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
+                    sendLocationWithLocationInfo(locationInfo, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
 
                         dispatch_async(dispatch_get_main_queue()) {
                             self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
@@ -1879,7 +1879,7 @@ class ConversationViewController: BaseViewController {
 
                 } else if let withGroup = self?.conversation.withGroup {
 
-                    sendLocationWithCoordinate(coordinate, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
+                    sendLocationWithLocationInfo(locationInfo, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                         dispatch_async(dispatch_get_main_queue()) {
                             self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                             })
@@ -2124,6 +2124,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 if let coordinate = message.coordinate {
                                     let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
                                     let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+                                    mapItem.name = message.textContent
                                     /*
                                     let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
                                     mapItem.openInMapsWithLaunchOptions(launchOptions)
@@ -2262,6 +2263,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     if let coordinate = message.coordinate {
                                         let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
                                         let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+                                        mapItem.name = message.textContent
                                         /*
                                         let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
                                         mapItem.openInMapsWithLaunchOptions(launchOptions)

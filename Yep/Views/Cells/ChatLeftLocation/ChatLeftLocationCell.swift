@@ -11,7 +11,8 @@ import UIKit
 class ChatLeftLocationCell: ChatBaseCell {
 
     @IBOutlet weak var mapImageView: UIImageView!
-    
+    @IBOutlet weak var locationNameLabel: UILabel!
+
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
 
@@ -24,6 +25,10 @@ class ChatLeftLocationCell: ChatBaseCell {
         avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize)
 
         mapImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: 192, height: 108)
+
+        let locationNameLabelHeight = YepConfig.ChatCell.locationNameLabelHeight
+        locationNameLabel.frame = CGRect(x: CGRectGetMinX(mapImageView.frame) + 20 + 7, y: CGRectGetMaxY(mapImageView.frame) - locationNameLabelHeight, width: 192 - 20 * 2 - 7, height: locationNameLabelHeight)
+        //locationNameLabel.backgroundColor = UIColor.redColor().colorWithAlphaComponent(0.1)
     }
 
     override func awakeFromNib() {
@@ -32,6 +37,7 @@ class ChatLeftLocationCell: ChatBaseCell {
         makeUI()
 
         mapImageView.tintColor = UIColor.leftBubbleTintColor()
+        locationNameLabel.textColor = UIColor.whiteColor()
 
         mapImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
@@ -58,7 +64,11 @@ class ChatLeftLocationCell: ChatBaseCell {
             }
         }
 
-        ImageCache.sharedInstance.mapImageOfMessage(message, withSize: CGSize(width: 192, height: 108), tailDirection: .Left) { mapImage in
+        let locationName = message.textContent
+
+        locationNameLabel.text = locationName
+
+        ImageCache.sharedInstance.mapImageOfMessage(message, withSize: CGSize(width: 192, height: 108), tailDirection: .Left, bottomShadowEnabled: !locationName.isEmpty) { mapImage in
             dispatch_async(dispatch_get_main_queue()) {
                 if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
                     self.mapImageView.image = mapImage
