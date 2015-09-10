@@ -63,9 +63,11 @@ class ChatLeftLocationCell: ChatBaseCell {
             }
         }
 
-        locationNameLabel.text = message.textContent
+        let locationName = message.textContent
 
-        ImageCache.sharedInstance.mapImageOfMessage(message, withSize: CGSize(width: 192, height: 108), tailDirection: .Left) { mapImage in
+        locationNameLabel.text = locationName
+
+        ImageCache.sharedInstance.mapImageOfMessage(message, withSize: CGSize(width: 192, height: 108), tailDirection: .Left, bottomShadowEnabled: !locationName.isEmpty) { mapImage in
             dispatch_async(dispatch_get_main_queue()) {
                 if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
                     self.mapImageView.image = mapImage

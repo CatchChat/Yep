@@ -365,7 +365,7 @@ extension UIImage {
             }()
     }
 
-    func bubbleImageWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize) -> UIImage {
+    func bubbleImageWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize, forMap: Bool = false) -> UIImage {
 
         let orientation: UIImageOrientation = tailDirection == .Left ? .Up : .UpMirrored
 
@@ -375,6 +375,25 @@ extension UIImage {
             maskImage = BubbleMaskImage.leftTail.renderAtSize(size)
         } else {
             maskImage = BubbleMaskImage.rightTail.renderAtSize(size)
+        }
+
+        if forMap {
+            let image = cropToAspectRatio(size.width / size.height).resizeToTargetSize(size)
+
+            UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale)
+
+            image.drawAtPoint(CGPointZero)
+
+            let bottomShadowImage = UIImage(named: "top_shadow")!
+            bottomShadowImage.drawAtPoint(CGPoint(x: 0, y: image.size.height / 2))
+
+            let finalImage = UIGraphicsGetImageFromCurrentImageContext()
+
+            UIGraphicsEndImageContext()
+
+            let bubbleImage = finalImage.maskWithImage(maskImage)
+            
+            return bubbleImage
         }
 
         // fixRotation 会消耗大量内存，改在发送前做
