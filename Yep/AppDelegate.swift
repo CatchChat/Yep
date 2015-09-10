@@ -128,7 +128,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             startFaye()
         }
-        
+
+        WXApi.registerApp("wx10f099f798871364")
+
         return true
     }
 
@@ -369,5 +371,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().barTintColor = UIColor.whiteColor()
         //UITabBar.appearance().translucent = false
     }
+
+    // for WeChat
+
+    func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
+        return WXApi.handleOpenURL(url, delegate: self)
+    }
+
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        return WXApi.handleOpenURL(url, delegate: self)
+    }
+}
+
+extension AppDelegate: WXApiDelegate {
 }
 

@@ -122,7 +122,24 @@ class SocialWorkInstagramViewController: BaseViewController {
 
             if let profileURL = NSURL(string: profileURLString) {
 
-                let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: nil)
+                let title = String(format: NSLocalizedString("%@'s Instagram", comment: ""), firstMedia.username)
+
+                var thumbnail: UIImage?
+                if let socialAccount = socialAccount {
+                    thumbnail = UIImage(named: socialAccount.iconName)
+                }
+
+                let message = WeChatActivity.Message(
+                    title: title,
+                    description: nil,
+                    thumbnail: thumbnail,
+                    media: .URL(profileURL)
+                )
+
+                let weChatSessionActivity = WeChatActivity(scene: .Session, message: message)
+                let weChatTimelineActivity = WeChatActivity(scene: .Timeline, message: message)
+
+                let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
 
                 presentViewController(activityViewController, animated: true, completion: nil)
             }

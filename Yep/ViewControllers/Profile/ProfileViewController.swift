@@ -499,7 +499,30 @@ class ProfileViewController: UIViewController {
 
                     if let profileURL = NSURL(string: "http://soyep.com/\(username)") {
 
-                        let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: nil)
+                        var thumbnail: UIImage?
+
+                        if let
+                            avatarURLString = YepUserDefaults.avatarURLString.value,
+                            avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()) {
+                                if let
+                                    avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
+                                    avatarFilePath = avatarFileURL.path,
+                                    image = UIImage(contentsOfFile: avatarFilePath) {
+                                        thumbnail = image.roundImageOfRadius(50)
+                                }
+                        }
+
+                        let message = WeChatActivity.Message(
+                            title: NSLocalizedString("Match me if you can", comment: ""),
+                            description: NSLocalizedString("From Yep with Skills", comment: ""),
+                            thumbnail: thumbnail,
+                            media: .URL(profileURL)
+                        )
+
+                        let weChatSessionActivity = WeChatActivity(scene: .Session, message: message)
+                        let weChatTimelineActivity = WeChatActivity(scene: .Timeline, message: message)
+
+                        let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
 
                         self?.presentViewController(activityViewController, animated: true, completion: nil)
                     }

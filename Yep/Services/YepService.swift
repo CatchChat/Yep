@@ -2178,6 +2178,7 @@ struct DribbbleWork {
     }
     let shots: [Shot]
 
+    let username: String
     let userURLString: String
 }
 
@@ -2190,6 +2191,7 @@ func dribbbleWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, Str
         if let
             shotsData = data["shots"] as? [JSONDictionary],
             userInfo = data["user"] as? JSONDictionary,
+            username = userInfo["username"] as? String,
             userURLString = userInfo["html_url"] as? String {
 
                 var shots = Array<DribbbleWork.Shot>()
@@ -2216,7 +2218,7 @@ func dribbbleWorkOfUserWithUserID(userID: String, #failureHandler: ((Reason, Str
                     }
                 }
 
-                return DribbbleWork(shots: shots, userURLString: userURLString)
+                return DribbbleWork(shots: shots, username: username, userURLString: userURLString)
         }
 
         return nil
