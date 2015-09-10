@@ -581,6 +581,12 @@
 "Which skill set do you want %@ to be?" = "您想将“%@”放到哪一个技能集合？";
 
 /* No comment provided by engineer. */
+"WeChat Session" = "微信好友";
+
+/* No comment provided by engineer. */
+"WeChat Timeline" = "微信朋友圈";
+
+/* No comment provided by engineer. */
 "Match me if you can" = "以技能匹配你我";
 
 /* No comment provided by engineer. */
