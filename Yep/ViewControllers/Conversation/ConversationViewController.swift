@@ -1857,11 +1857,11 @@ class ConversationViewController: BaseViewController {
             let nvc = segue.destinationViewController as! UINavigationController
             let vc = nvc.topViewController as! PickLocationViewController
 
-            vc.sendLocationAction = { [weak self] coordinate in
+            vc.sendLocationAction = { [weak self] locationInfo in
 
                 if let withFriend = self?.conversation.withFriend {
 
-                    sendLocationWithCoordinate(coordinate, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
+                    sendLocationWithCoordinate(locationInfo.coordinate, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
 
                         dispatch_async(dispatch_get_main_queue()) {
                             self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
@@ -1879,7 +1879,7 @@ class ConversationViewController: BaseViewController {
 
                 } else if let withGroup = self?.conversation.withGroup {
 
-                    sendLocationWithCoordinate(coordinate, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
+                    sendLocationWithCoordinate(locationInfo.coordinate, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                         dispatch_async(dispatch_get_main_queue()) {
                             self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                             })
