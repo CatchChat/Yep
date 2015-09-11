@@ -92,6 +92,12 @@ class ChatRightAudioCell: ChatRightBaseCell {
             }
         }
 
+        layoutIfNeeded()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
         updateAudioInfoViews()
     }
 
