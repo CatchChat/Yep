@@ -365,7 +365,7 @@ extension UIImage {
             }()
     }
 
-    func bubbleImageWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize) -> UIImage {
+    func bubbleImageWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize, forMap: Bool = false) -> UIImage {
 
         let orientation: UIImageOrientation = tailDirection == .Left ? .Up : .UpMirrored
 
@@ -375,6 +375,35 @@ extension UIImage {
             maskImage = BubbleMaskImage.leftTail.renderAtSize(size)
         } else {
             maskImage = BubbleMaskImage.rightTail.renderAtSize(size)
+        }
+
+        if forMap {
+            let image = cropToAspectRatio(size.width / size.height).resizeToTargetSize(size)
+
+            UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale)
+
+            image.drawAtPoint(CGPointZero)
+
+            //let bottomShadowImage = UIImage(named: "location_bottom_shadow")!
+            //bottomShadowImage.drawAtPoint(CGPoint(x: 0, y: image.size.height - 20))
+            /*
+            let scale = UIScreen.mainScreen().scale
+            let orientation: UIImageOrientation = .Up
+            var bottomShadowImage = UIImage(CGImage: UIImage(named: "location_bottom_shadow")!.CGImage, scale: scale, orientation: orientation)!
+            bottomShadowImage = bottomShadowImage.resizableImageWithCapInsets(UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1), resizingMode: UIImageResizingMode.Stretch)
+            bottomShadowImage.drawInRect(CGRect(x: 0, y: image.size.height - 20, width: image.size.width, height: 20))
+            */
+            let bottomShadowImage = UIImage(named: "location_bottom_shadow")!
+            let bottomShadowHeightRatio: CGFloat = 0.185 // 20 / 108
+            bottomShadowImage.drawInRect(CGRect(x: 0, y: floor(image.size.height * (1 - bottomShadowHeightRatio)), width: image.size.width, height: ceil(image.size.height * bottomShadowHeightRatio)))
+
+            let finalImage = UIGraphicsGetImageFromCurrentImageContext()
+
+            UIGraphicsEndImageContext()
+
+            let bubbleImage = finalImage.maskWithImage(maskImage)
+            
+            return bubbleImage
         }
 
         // fixRotation 会消耗大量内存，改在发送前做

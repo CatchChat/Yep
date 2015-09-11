@@ -136,7 +136,7 @@ class ImageCache {
         }
     }
 
-    func mapImageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (UIImage) -> ()) {
+    func mapImageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, bottomShadowEnabled: Bool, completion: (UIImage) -> ()) {
 
         let imageKey = "mapImage-\(message.coordinate)"
 
@@ -169,7 +169,7 @@ class ImageCache {
                             let imageFileURL = NSFileManager.yepMessageImageURLWithName(fileName),
                             let image = UIImage(contentsOfFile: imageFileURL.path!) {
 
-                                let mapImage = image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
+                                let mapImage = image.bubbleImageWithTailDirection(tailDirection, size: size, forMap: bottomShadowEnabled).decodedImage()
 
                                 self.cache.setObject(mapImage, forKey: imageKey)
 
@@ -239,7 +239,7 @@ class ImageCache {
                                 }
                             }
 
-                            let mapImage = finalImage.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
+                            let mapImage = finalImage.bubbleImageWithTailDirection(tailDirection, size: size, forMap: bottomShadowEnabled).decodedImage()
 
                             self.cache.setObject(mapImage, forKey: imageKey)
 
