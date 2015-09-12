@@ -499,6 +499,8 @@ class ProfileViewController: UIViewController {
 
                     if let profileURL = NSURL(string: "http://soyep.com/\(username)") {
 
+                        MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
+
                         var thumbnail: UIImage?
 
                         if let
@@ -512,15 +514,36 @@ class ProfileViewController: UIViewController {
                                 }
                         }
 
-                        let message = WeChatActivity.Message(
+                        let info = MonkeyKing.Message.WeChatSubtype.Info(
                             title: NSLocalizedString("Match me if you can", comment: ""),
                             description: NSLocalizedString("From Yep with Skills", comment: ""),
                             thumbnail: thumbnail,
                             media: .URL(profileURL)
                         )
 
-                        let weChatSessionActivity = WeChatActivity(scene: .Session, message: message)
-                        let weChatTimelineActivity = WeChatActivity(scene: .Timeline, message: message)
+                        let sessionMessage = MonkeyKing.Message.WeChat(.Session(info))
+
+                        let weChatSessionActivity = WeChatActivity(
+                            type: .Session,
+                            canPerform: sessionMessage.canBeDelivered,
+                            perform: {
+                                MonkeyKing.shareMessage(sessionMessage) { success in
+                                    println("share Profile to WeChat Session success: \(success)")
+                                }
+                            }
+                        )
+
+                        let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info))
+                        
+                        let weChatTimelineActivity = WeChatActivity(
+                            type: .Timeline,
+                            canPerform: timelineMessage.canBeDelivered,
+                            perform: {
+                                MonkeyKing.shareMessage(timelineMessage) { success in
+                                    println("share Profile to WeChat Timeline success: \(success)")
+                                }
+                            }
+                        )
 
                         let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
 

@@ -117,6 +117,8 @@ class SocialWorkDribbbleViewController: BaseViewController {
 
         if let dribbbleWork = dribbbleWork, profileURL = NSURL(string: dribbbleWork.userURLString) {
 
+            MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
+
             let title = String(format: NSLocalizedString("%@'s Dribbble", comment: ""), dribbbleWork.username)
 
             var thumbnail: UIImage?
@@ -124,16 +126,37 @@ class SocialWorkDribbbleViewController: BaseViewController {
                 thumbnail = UIImage(named: socialAccount.iconName)
             }
 
-            let message = WeChatActivity.Message(
+            let info = MonkeyKing.Message.WeChatSubtype.Info(
                 title: title,
                 description: nil,
                 thumbnail: thumbnail,
                 media: .URL(profileURL)
             )
 
-            let weChatSessionActivity = WeChatActivity(scene: .Session, message: message)
-            let weChatTimelineActivity = WeChatActivity(scene: .Timeline, message: message)
+            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info))
 
+            let weChatSessionActivity = WeChatActivity(
+                type: .Session,
+                canPerform: sessionMessage.canBeDelivered,
+                perform: {
+                    MonkeyKing.shareMessage(sessionMessage) { success in
+                        println("share Dribbble to WeChat Session success: \(success)")
+                    }
+                }
+            )
+
+            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info))
+
+            let weChatTimelineActivity = WeChatActivity(
+                type: .Timeline,
+                canPerform: timelineMessage.canBeDelivered,
+                perform: {
+                    MonkeyKing.shareMessage(timelineMessage) { success in
+                        println("share Dribbble to WeChat Timeline success: \(success)")
+                    }
+                }
+            )
+            
             let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
 
             presentViewController(activityViewController, animated: true, completion: nil)

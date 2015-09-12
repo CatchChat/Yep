@@ -42,7 +42,6 @@ PODS:
   - Ruler (0.5)
   - SocketRocket (0.4)
   - TPKeyboardAvoiding (1.2.9)
-  - WeixinSDK (1.4.3)
 
 DEPENDENCIES:
   - 1PasswordExtension (~> 1.5)
@@ -58,7 +57,6 @@ DEPENDENCIES:
   - RealmSwift (= 0.95)
   - Ruler
   - TPKeyboardAvoiding (~> 1.2)
-  - WeixinSDK (~> 1.4.3)
 
 EXTERNAL SOURCES:
   MZFayeClient:
@@ -81,6 +79,5 @@ SPEC CHECKSUMS:
   Ruler: bf01a372f064c900c089c78abd75c2685a86ecba
   SocketRocket: 01443933b7bc362621325f4607b80b4286a99707
   TPKeyboardAvoiding: ff1ee4e5a5a0c119b965552af8f183868ea20207
-  WeixinSDK: 012c72fbaf8cef68afa7b0d0bb81c67a7a5c9136
 
 COCOAPODS: 0.38.2

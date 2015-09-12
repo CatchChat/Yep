@@ -50,15 +50,38 @@ class MessageMediaViewController: UIViewController {
 
                         mediaControlView.shareAction = {
 
-                            let message = WeChatActivity.Message(
+                            MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
+                            
+                            let info = MonkeyKing.Message.WeChatSubtype.Info(
                                 title: nil,
                                 description: nil,
                                 thumbnail: nil,
                                 media: .Image(image)
                             )
 
-                            let weChatSessionActivity = WeChatActivity(scene: .Session, message: message)
-                            let weChatTimelineActivity = WeChatActivity(scene: .Timeline, message: message)
+                            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info))
+
+                            let weChatSessionActivity = WeChatActivity(
+                                type: .Session,
+                                canPerform: sessionMessage.canBeDelivered,
+                                perform: {
+                                    MonkeyKing.shareMessage(sessionMessage) { success in
+                                        println("share Image to WeChat Session success: \(success)")
+                                    }
+                                }
+                            )
+
+                            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info))
+
+                            let weChatTimelineActivity = WeChatActivity(
+                                type: .Timeline,
+                                canPerform: timelineMessage.canBeDelivered,
+                                perform: {
+                                    MonkeyKing.shareMessage(timelineMessage) { success in
+                                        println("share Image to WeChat Timeline success: \(success)")
+                                    }
+                                }
+                            )
 
                             let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
 
