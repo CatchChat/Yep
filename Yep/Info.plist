@@ -50,6 +50,7 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>org-appextension-feature-password-management</string>
+		<string>weixin</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

@@ -122,6 +122,8 @@ class SocialWorkInstagramViewController: BaseViewController {
 
             if let profileURL = NSURL(string: profileURLString) {
 
+                MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
+
                 let title = String(format: NSLocalizedString("%@'s Instagram", comment: ""), firstMedia.username)
 
                 var thumbnail: UIImage?
@@ -129,15 +131,40 @@ class SocialWorkInstagramViewController: BaseViewController {
                     thumbnail = UIImage(named: socialAccount.iconName)
                 }
 
-                let message = WeChatActivity.Message(
+                let info = MonkeyKing.Message.WeChatSubtype.Info(
                     title: title,
                     description: nil,
                     thumbnail: thumbnail,
                     media: .URL(profileURL)
                 )
 
-                let weChatSessionActivity = WeChatActivity(scene: .Session, message: message)
-                let weChatTimelineActivity = WeChatActivity(scene: .Timeline, message: message)
+                let sessionMessage = MonkeyKing.Message.WeChat(.Session(info))
+
+                let weChatSessionActivity = AnyActivity(
+                    type: YepConfig.ChinaSocialNetwork.WeChat.sessionType,
+                    title: YepConfig.ChinaSocialNetwork.WeChat.sessionTitle,
+                    image: YepConfig.ChinaSocialNetwork.WeChat.sessionImage,
+                    canPerform: sessionMessage.canBeDelivered,
+                    perform: {
+                        MonkeyKing.shareMessage(sessionMessage) { success in
+                            println("share Instagram to WeChat Session success: \(success)")
+                        }
+                    }
+                )
+
+                let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info))
+
+                let weChatTimelineActivity = AnyActivity(
+                    type: YepConfig.ChinaSocialNetwork.WeChat.timelineType,
+                    title: YepConfig.ChinaSocialNetwork.WeChat.timelineTitle,
+                    image: YepConfig.ChinaSocialNetwork.WeChat.timelineImage,
+                    canPerform: timelineMessage.canBeDelivered,
+                    perform: {
+                        MonkeyKing.shareMessage(timelineMessage) { success in
+                            println("share Instagram to WeChat Timeline success: \(success)")
+                        }
+                    }
+                )
 
                 let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
 

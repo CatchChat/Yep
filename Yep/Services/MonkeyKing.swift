@@ -233,6 +233,8 @@ public class MonkeyKing {
 
                             if !UIApplication.sharedApplication().openURL(URL) {
                                 finish(false)
+                            } else {
+                                return
                             }
                         }
                     }

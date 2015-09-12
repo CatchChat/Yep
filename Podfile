@@ -3,7 +3,6 @@ platform :ios, '8.0'
 use_frameworks!
 
 def pods
-    pod 'WeixinSDK', '~> 1.4.3'
     pod 'DeviceGuru'
     pod '1PasswordExtension', '~> 1.5'
     pod 'KeyboardMan'

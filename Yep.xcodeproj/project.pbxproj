@@ -107,7 +107,6 @@
 		504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F41581AD5028200FBB19A /* SkillCell.swift */; };
 		504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504F41591AD5028200FBB19A /* SkillCell.xib */; };
 		504F5E6F1B9F1F13006CE418 /* NSURLRequest+cURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F5E6E1B9F1F13006CE418 /* NSURLRequest+cURL.swift */; };
-		504F5E711BA034B4006CE418 /* WeChatActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F5E701BA034B4006CE418 /* WeChatActivity.swift */; };
 		504F85AC1B4D21DD00F909BE /* DiscoverFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F85AB1B4D21DD00F909BE /* DiscoverFilterView.swift */; };
 		5053AD4A1AF772C500B3CBFA /* PickLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD491AF772C500B3CBFA /* PickLocationViewController.swift */; };
 		5053AD4D1AF79EEA00B3CBFA /* LocationPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD4C1AF79EEA00B3CBFA /* LocationPin.swift */; };
@@ -369,7 +368,6 @@
 		504F41581AD5028200FBB19A /* SkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillCell.swift; path = Views/Cells/Skill/SkillCell.swift; sourceTree = "<group>"; };
 		504F41591AD5028200FBB19A /* SkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillCell.xib; path = Views/Cells/Skill/SkillCell.xib; sourceTree = "<group>"; };
 		504F5E6E1B9F1F13006CE418 /* NSURLRequest+cURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURLRequest+cURL.swift"; path = "Extensions/NSURLRequest+cURL.swift"; sourceTree = "<group>"; };
-		504F5E701BA034B4006CE418 /* WeChatActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeChatActivity.swift; path = Activities/WeChatActivity.swift; sourceTree = "<group>"; };
 		504F85AB1B4D21DD00F909BE /* DiscoverFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverFilterView.swift; path = Views/DiscoverFilter/DiscoverFilterView.swift; sourceTree = "<group>"; };
 		5053AD491AF772C500B3CBFA /* PickLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickLocationViewController.swift; path = ViewControllers/PickLocation/PickLocationViewController.swift; sourceTree = "<group>"; };
 		5053AD4C1AF79EEA00B3CBFA /* LocationPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationPin.swift; path = ViewControllers/PickLocation/LocationPin.swift; sourceTree = "<group>"; };
@@ -1167,7 +1165,6 @@
 		504F5E721BA034BB006CE418 /* Activities */ = {
 			isa = PBXGroup;
 			children = (
-				504F5E701BA034B4006CE418 /* WeChatActivity.swift */,
 				501813291BA3C58E0025873C /* AnyActivity.swift */,
 			);
 			name = Activities;
@@ -1947,7 +1944,6 @@
 				502AE5311AB85067005BD199 /* RegisterPickMobileViewController.swift in Sources */,
 				506E241E1AE6391A00A33C1A /* TouchZoomButton.swift in Sources */,
 				508F8FDB1B0479E700461B0B /* SocialWorkInstagramViewController.swift in Sources */,
-				504F5E711BA034B4006CE418 /* WeChatActivity.swift in Sources */,
 				5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */,
 				502AE5581AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift in Sources */,
 				508F8FDE1B049ACF00461B0B /* InstagramMediaCell.swift in Sources */,
