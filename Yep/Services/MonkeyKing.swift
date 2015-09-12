@@ -79,24 +79,6 @@ public class MonkeyKing {
                         }
                     }
                 }
-//
-//                if let dic = try? NSPropertyListSerialization.propertyListWithData(data, options: .Immutable, format: nil) {
-//
-//                    for case let .WeChat(appID) in sharedMonkeyKing.accountSet {
-//
-//                        if let dic = dic[appID] as? NSDictionary {
-//
-//                            if let result = dic["result"]?.integerValue {
-//
-//                                let success = (result == 0)
-//
-//                                sharedMonkeyKing.latestFinish?(success)
-//                                
-//                                return success
-//                            }
-//                        }
-//                    }
-//                }
             }
 
             return false
@@ -231,10 +213,10 @@ public class MonkeyKing {
 
                         if let URL = NSURL(string: weChatSchemeURLString) {
 
-                            if !UIApplication.sharedApplication().openURL(URL) {
-                                finish(false)
-                            } else {
+                            if UIApplication.sharedApplication().openURL(URL) {
                                 return
+                            } else {
+                                finish(false)
                             }
                         }
                     }

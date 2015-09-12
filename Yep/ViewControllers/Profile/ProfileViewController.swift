@@ -523,10 +523,8 @@ class ProfileViewController: UIViewController {
 
                         let sessionMessage = MonkeyKing.Message.WeChat(.Session(info))
 
-                        let weChatSessionActivity = AnyActivity(
-                            type: YepConfig.ChinaSocialNetwork.WeChat.sessionType,
-                            title: YepConfig.ChinaSocialNetwork.WeChat.sessionTitle,
-                            image: YepConfig.ChinaSocialNetwork.WeChat.sessionImage,
+                        let weChatSessionActivity = WeChatActivity(
+                            type: .Session,
                             canPerform: sessionMessage.canBeDelivered,
                             perform: {
                                 MonkeyKing.shareMessage(sessionMessage) { success in
@@ -537,10 +535,8 @@ class ProfileViewController: UIViewController {
 
                         let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info))
                         
-                        let weChatTimelineActivity = AnyActivity(
-                            type: YepConfig.ChinaSocialNetwork.WeChat.timelineType,
-                            title: YepConfig.ChinaSocialNetwork.WeChat.timelineTitle,
-                            image: YepConfig.ChinaSocialNetwork.WeChat.timelineImage,
+                        let weChatTimelineActivity = WeChatActivity(
+                            type: .Timeline,
                             canPerform: timelineMessage.canBeDelivered,
                             perform: {
                                 MonkeyKing.shareMessage(timelineMessage) { success in
