@@ -80,6 +80,7 @@ class ChatLeftAudioCell: ChatBaseCell {
 
         playButton.userInteractionEnabled = false
         playButton.tintColor = UIColor.darkGrayColor()
+        playButton.tintAdjustmentMode = .Normal
 
         bubbleImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")

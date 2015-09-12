@@ -63,6 +63,8 @@ class ChatRightAudioCell: ChatRightBaseCell {
         audioDurationLabel.textColor = UIColor.whiteColor()
 
         playButton.userInteractionEnabled = false
+        playButton.tintColor = UIColor.whiteColor()
+        playButton.tintAdjustmentMode = .Normal
 
         bubbleImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")

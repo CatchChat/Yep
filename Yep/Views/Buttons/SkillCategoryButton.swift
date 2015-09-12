@@ -59,6 +59,8 @@ class SkillCategoryButton: UIButton {
         let imageView = UIImageView()
         imageView.contentMode = .Center
         imageView.image = UIImage(named: "icon_skill_category_arrow")
+        imageView.tintColor = UIColor.whiteColor()
+        imageView.tintAdjustmentMode = .Normal
         return imageView
         }()
 
