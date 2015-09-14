@@ -358,7 +358,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                                     YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set username failed!", comment: ""), inViewController: self)
 
                                 }, completion: { success in
-                                    dispatch_async(dispatch_get_main_queue()) {
+                                    dispatch_async(dispatch_get_main_queue()) { [weak tableView] in
                                         let realm = Realm()
                                         if let
                                             myUserID = YepUserDefaults.userID.value,
@@ -366,6 +366,12 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                                                 realm.write {
                                                     me.username = newUsername
                                                 }
+                                        }
+
+                                        // update UI
+
+                                        if let usernameCell = tableView?.cellForRowAtIndexPath(indexPath) as? EditProfileLessInfoCell {
+                                            usernameCell.infoLabel.text = newUsername
                                         }
                                     }
                                 })
