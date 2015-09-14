@@ -2170,6 +2170,16 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     })
 
                                 } else {
+                                    if let messageTextView = self?.messageToolbar.messageTextView {
+                                        if messageTextView.isFirstResponder() {
+                                            messageTextView.resignFirstResponder()
+                                            delay(0.45) {
+                                                self?.performSegueWithIdentifier("showMessageMedia", sender: message)
+                                            }
+                                            return
+                                        }
+                                    }
+
                                     self?.performSegueWithIdentifier("showMessageMedia", sender: message)
                                 }
 
