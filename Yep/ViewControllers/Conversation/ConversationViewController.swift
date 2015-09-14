@@ -2080,9 +2080,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     if let messageTextView = self?.messageToolbar.messageTextView {
                                         if messageTextView.isFirstResponder() {
                                             self?.messageToolbar.state = .Default
-                                            delay(YepConfig.dismissKeyboardDelayTimeInterval) {
-                                                self?.performSegueWithIdentifier("showMessageMedia", sender: message)
-                                            }
                                             return
                                         }
                                     }
@@ -2125,9 +2122,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     if let messageTextView = self?.messageToolbar.messageTextView {
                                         if messageTextView.isFirstResponder() {
                                             self?.messageToolbar.state = .Default
-                                            delay(YepConfig.dismissKeyboardDelayTimeInterval) {
-                                                self?.performSegueWithIdentifier("showMessageMedia", sender: message)
-                                            }
                                             return
                                         }
                                     }
@@ -2198,9 +2192,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     if let messageTextView = self?.messageToolbar.messageTextView {
                                         if messageTextView.isFirstResponder() {
                                             self?.messageToolbar.state = .Default
-                                            delay(YepConfig.dismissKeyboardDelayTimeInterval) {
-                                                self?.performSegueWithIdentifier("showMessageMedia", sender: message)
-                                            }
                                             return
                                         }
                                     }
@@ -2269,9 +2260,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     if let messageTextView = self?.messageToolbar.messageTextView {
                                         if messageTextView.isFirstResponder() {
                                             self?.messageToolbar.state = .Default
-                                            delay(YepConfig.dismissKeyboardDelayTimeInterval) {
-                                                self?.performSegueWithIdentifier("showMessageMedia", sender: message)
-                                            }
                                             return
                                         }
                                     }
