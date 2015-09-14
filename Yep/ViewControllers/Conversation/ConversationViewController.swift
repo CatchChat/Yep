@@ -1502,6 +1502,9 @@ class ConversationViewController: BaseViewController {
             if newMessagesCount != messageIDs.count {
                 reloadConversationCollectionView()
                 println("newMessagesCount != messageIDs.count")
+                #if DEBUG
+                    YepAlert.alertSorry(message: "newMessagesCount: \(newMessagesCount)\nmessageIDs.count: \(messageIDs.count)", inViewController: self)
+                #endif
                 return
             }
         }
