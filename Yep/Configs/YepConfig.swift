@@ -37,6 +37,8 @@ class YepConfig {
 
     static let forcedHideActivityIndicatorTimeInterval: NSTimeInterval = 30
 
+    static let dismissKeyboardDelayTimeInterval : NSTimeInterval = 0.45
+
     struct Message {
         // 注意：确保 localNewerTimeInterval > sectionOlderTimeInterval
         static let localNewerTimeInterval: NSTimeInterval = 0.001
