@@ -2073,6 +2073,17 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
 
                                 if message.downloadState == MessageDownloadState.Downloaded.rawValue {
+
+                                    if let messageTextView = self?.messageToolbar.messageTextView {
+                                        if messageTextView.isFirstResponder() {
+                                            self?.messageToolbar.state = .Default
+                                            delay(YepConfig.dismissKeyboardDelayTimeInterval) {
+                                                self?.performSegueWithIdentifier("showMessageMedia", sender: message)
+                                            }
+                                            return
+                                        }
+                                    }
+
                                     self?.performSegueWithIdentifier("showMessageMedia", sender: message)
 
                                 } else {
@@ -2107,6 +2118,17 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
 
                                 if message.downloadState == MessageDownloadState.Downloaded.rawValue {
+
+                                    if let messageTextView = self?.messageToolbar.messageTextView {
+                                        if messageTextView.isFirstResponder() {
+                                            self?.messageToolbar.state = .Default
+                                            delay(YepConfig.dismissKeyboardDelayTimeInterval) {
+                                                self?.performSegueWithIdentifier("showMessageMedia", sender: message)
+                                            }
+                                            return
+                                        }
+                                    }
+
                                     self?.performSegueWithIdentifier("showMessageMedia", sender: message)
 
                                 } else {
@@ -2170,6 +2192,16 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     })
 
                                 } else {
+                                    if let messageTextView = self?.messageToolbar.messageTextView {
+                                        if messageTextView.isFirstResponder() {
+                                            self?.messageToolbar.state = .Default
+                                            delay(YepConfig.dismissKeyboardDelayTimeInterval) {
+                                                self?.performSegueWithIdentifier("showMessageMedia", sender: message)
+                                            }
+                                            return
+                                        }
+                                    }
+
                                     self?.performSegueWithIdentifier("showMessageMedia", sender: message)
                                 }
 
@@ -2231,6 +2263,16 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     })
 
                                 } else {
+                                    if let messageTextView = self?.messageToolbar.messageTextView {
+                                        if messageTextView.isFirstResponder() {
+                                            self?.messageToolbar.state = .Default
+                                            delay(YepConfig.dismissKeyboardDelayTimeInterval) {
+                                                self?.performSegueWithIdentifier("showMessageMedia", sender: message)
+                                            }
+                                            return
+                                        }
+                                    }
+
                                     self?.performSegueWithIdentifier("showMessageMedia", sender: message)
                                 }
 

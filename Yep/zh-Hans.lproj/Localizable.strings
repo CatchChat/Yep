@@ -601,3 +601,17 @@
 /* No comment provided by engineer. */
 "%@'s Instagram" = "%@ 的 Instagram";
 
+/* No comment provided by engineer. */
+"Username" = "用户名";
+
+/* No comment provided by engineer. */
+"Set Username" = "设置用户名";
+
+/* No comment provided by engineer. */
+"Please note that you can only set username once." = "请注意，您只能设置一次用户名。";
+
+/* No comment provided by engineer. */
+"Set" = "设置";
+
+/* No comment provided by engineer. */
+"Set username failed!" = "设置用户名失败！";

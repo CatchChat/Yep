@@ -157,7 +157,8 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
     }
 
     enum InfoRow: Int {
-        case Name = 0
+        case Username = 0
+        case Nickname
         case Intro
     }
 
@@ -170,7 +171,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
         switch section {
 
         case Section.Info.rawValue:
-            return 2
+            return 3
 
         case Section.LogOut.rawValue:
             return 1
@@ -181,12 +182,39 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+
         switch indexPath.section {
 
         case Section.Info.rawValue:
 
             switch indexPath.row {
-            case InfoRow.Name.rawValue:
+
+            case InfoRow.Username.rawValue:
+
+                let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileLessInfoCell
+
+                cell.annotationLabel.text = NSLocalizedString("Username", comment: "")
+
+                var username = ""
+                if let
+                    myUserID = YepUserDefaults.userID.value,
+                    me = userWithUserID(myUserID, inRealm: Realm()) {
+                        username = me.username
+                }
+
+                if username.isEmpty {
+                    cell.infoLabel.text = NSLocalizedString("None", comment: "")
+                } else {
+                    cell.infoLabel.text = username
+                }
+
+                cell.badgeImageView.image = nil
+                cell.infoLabelTrailingConstraint.constant = EditProfileLessInfoCell.ConstraintConstant.minInfoLabelTrailing
+
+                return cell
+
+            case InfoRow.Nickname.rawValue:
+
                 let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileLessInfoCell
 
                 cell.annotationLabel.text = NSLocalizedString("Nickname", comment: "")
@@ -211,6 +239,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 return cell
 
             case InfoRow.Intro.rawValue:
+
                 let cell = tableView.dequeueReusableCellWithIdentifier(editProfileMoreInfoCellIdentifier) as! EditProfileMoreInfoCell
 
                 cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
@@ -263,14 +292,21 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+
         switch indexPath.section {
+
         case Section.Info.rawValue:
 
             switch indexPath.row {
-            case InfoRow.Name.rawValue:
+
+            case InfoRow.Username.rawValue:
+                return 60
+
+            case InfoRow.Nickname.rawValue:
                 return 60
 
             case InfoRow.Intro.rawValue:
+
                 let tableViewWidth = CGRectGetWidth(editProfileTableView.bounds)
                 let introLabelMaxWidth = tableViewWidth - YepConfig.EditProfile.introInset
 
@@ -302,7 +338,50 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
             switch indexPath.row {
 
-            case InfoRow.Name.rawValue:
+            case InfoRow.Username.rawValue:
+
+                if let
+                    myUserID = YepUserDefaults.userID.value,
+                    me = userWithUserID(myUserID, inRealm: Realm()) {
+
+                        let username = me.username
+
+                        if username.isEmpty {
+
+                            YepAlert.textInput(title: NSLocalizedString("Set Username", comment: ""), message: NSLocalizedString("Please note that you can only set username once.", comment: ""), placeholder: NSLocalizedString("use letters, numbers, and underscore", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Set", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
+
+                                let newUsername = text
+
+                                updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
+                                    defaultFailureHandler(reason, errorMessage)
+
+                                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set username failed!", comment: ""), inViewController: self)
+
+                                }, completion: { success in
+                                    dispatch_async(dispatch_get_main_queue()) { [weak tableView] in
+                                        let realm = Realm()
+                                        if let
+                                            myUserID = YepUserDefaults.userID.value,
+                                            me = userWithUserID(myUserID, inRealm: realm) {
+                                                realm.write {
+                                                    me.username = newUsername
+                                                }
+                                        }
+
+                                        // update UI
+
+                                        if let usernameCell = tableView?.cellForRowAtIndexPath(indexPath) as? EditProfileLessInfoCell {
+                                            usernameCell.infoLabel.text = newUsername
+                                        }
+                                    }
+                                })
+                                
+                            }, cancelAction: {
+                            })
+                        }
+                }
+
+            case InfoRow.Nickname.rawValue:
                 performSegueWithIdentifier("showEditNicknameAndBadge", sender: nil)
 
             default:

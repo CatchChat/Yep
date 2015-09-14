@@ -599,3 +599,17 @@
 /* No comment provided by engineer. */
 "%@'s Instagram" = "%@'s Instagram";
 
+/* No comment provided by engineer. */
+"Username" = "Username";
+
+/* No comment provided by engineer. */
+"Set Username" = "Set Username";
+
+/* No comment provided by engineer. */
+"Please note that you can only set username once." = "Please note that you can only set username once.";
+
+/* No comment provided by engineer. */
+"Set" = "Set";
+
+/* No comment provided by engineer. */
+"Set username failed!" = "Set username failed!";
