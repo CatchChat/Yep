@@ -338,6 +338,43 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
             switch indexPath.row {
 
+            case InfoRow.Username.rawValue:
+
+                if let
+                    myUserID = YepUserDefaults.userID.value,
+                    me = userWithUserID(myUserID, inRealm: Realm()) {
+
+                        let username = me.username
+
+                        if username.isEmpty {
+
+                            YepAlert.textInput(title: NSLocalizedString("Set Username", comment: ""), message: NSLocalizedString("Please note that you can only set username once.", comment: ""), placeholder: NSLocalizedString("use letters, numbers, and underscore", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Set", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
+
+                                let newUsername = text
+
+                                updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
+                                    defaultFailureHandler(reason, errorMessage)
+
+                                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set username failed!", comment: ""), inViewController: self)
+
+                                }, completion: { success in
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        let realm = Realm()
+                                        if let
+                                            myUserID = YepUserDefaults.userID.value,
+                                            me = userWithUserID(myUserID, inRealm: realm) {
+                                                realm.write {
+                                                    me.username = newUsername
+                                                }
+                                        }
+                                    }
+                                })
+                                
+                            }, cancelAction: {
+                            })
+                        }
+                }
+
             case InfoRow.Nickname.rawValue:
                 performSegueWithIdentifier("showEditNicknameAndBadge", sender: nil)
 
