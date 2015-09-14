@@ -215,6 +215,10 @@ class AvatarCache {
                 completion(roundImage)
 
             } else {
+
+                // 缓存失效时，先清除对应的 avatarCompletions，不然后面的缓存重建可能不会执行（因为 completeWithImage 不一定被调用，……）
+                avatarCompletions = avatarCompletions.filter({ $0.avatarURLString != avatarURLString })
+
                 // NOTICE: 默认在主线程添加
                 avatarCompletions.append(avatarCompletion)
 
@@ -355,6 +359,9 @@ class AvatarCache {
                 completion(roundImage)
 
             } else {
+                // 缓存失效时，先清除对应的 avatarCompletions，不然后面的缓存重建可能不会执行（因为 completeWithImage 不一定被调用，……）
+                avatarCompletions = avatarCompletions.filter({ $0.avatarURLString != avatarURLString })
+
                 // NOTICE: 默认在主线程添加
                 avatarCompletions.append(avatarCompletion)
 
