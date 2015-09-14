@@ -195,5 +195,21 @@ class YepConfig {
         static let distanceThreshold: CLLocationDistance = 500
     }
 
+    struct ChinaSocialNetwork {
+
+        struct WeChat {
+
+            static let appID = "wx10f099f798871364"
+
+            static let sessionType = "com.Catch-Inc.Yep.WeChat.Session"
+            static let sessionTitle = NSLocalizedString("WeChat Session", comment: "")
+            static let sessionImage = UIImage(named: "wechat_session")!
+
+            static let timelineType = "com.Catch-Inc.Yep.WeChat.Timeline"
+            static let timelineTitle = NSLocalizedString("WeChat Timeline", comment: "")
+            static let timelineImage = UIImage(named: "wechat_timeline")!
+        }
+    }
+
 }
 

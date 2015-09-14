@@ -97,11 +97,15 @@ class ChatRightTextCell: ChatRightBaseCell {
         textContentTextView.text = message.textContent
         //textContentTextView.attributedText = NSAttributedString(string: message.textContent, attributes: textAttributes)
 
-        textContentTextView.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left
+        //textContentTextView.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left
 
         // 用 sizeThatFits 来对比，不需要 magicWidth 的时候就可以避免了
         var textContentLabelWidth = textContentLabelWidth
         let size = textContentTextView.sizeThatFits(CGSize(width: textContentLabelWidth, height: CGFloat.max))
+
+        // lineHeight 19.088, size.height 35.5 (1 line) 54.5 (2 lines)
+        textContentTextView.textAlignment = ((size.height - textContentTextView.font.lineHeight) < 20) ? .Center : .Left
+
         if size.width != textContentLabelWidth {
             textContentLabelWidth += YepConfig.ChatCell.magicWidth
         }
