@@ -23,6 +23,7 @@ class MediaControlView: UIView {
             case .Image:
                 timeLabel.hidden = true
                 playButton.hidden = true
+                shareButton.setImage(UIImage(named: "icon_more_image"), forState: .Normal)
 
             case .Video:
                 timeLabel.hidden = false
