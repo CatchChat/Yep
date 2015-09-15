@@ -1502,6 +1502,9 @@ class ConversationViewController: BaseViewController {
             if newMessagesCount != messageIDs.count {
                 reloadConversationCollectionView()
                 println("newMessagesCount != messageIDs.count")
+                //#if DEBUG
+                    YepAlert.alertSorry(message: "请截屏报告!\nnewMessagesCount: \(newMessagesCount)\nmessageIDs.count: \(messageIDs.count): \(messageIDs)", inViewController: self)
+                //#endif
                 return
             }
         }
@@ -2077,9 +2080,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     if let messageTextView = self?.messageToolbar.messageTextView {
                                         if messageTextView.isFirstResponder() {
                                             self?.messageToolbar.state = .Default
-                                            delay(YepConfig.dismissKeyboardDelayTimeInterval) {
-                                                self?.performSegueWithIdentifier("showMessageMedia", sender: message)
-                                            }
                                             return
                                         }
                                     }
@@ -2122,9 +2122,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     if let messageTextView = self?.messageToolbar.messageTextView {
                                         if messageTextView.isFirstResponder() {
                                             self?.messageToolbar.state = .Default
-                                            delay(YepConfig.dismissKeyboardDelayTimeInterval) {
-                                                self?.performSegueWithIdentifier("showMessageMedia", sender: message)
-                                            }
                                             return
                                         }
                                     }
@@ -2195,9 +2192,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     if let messageTextView = self?.messageToolbar.messageTextView {
                                         if messageTextView.isFirstResponder() {
                                             self?.messageToolbar.state = .Default
-                                            delay(YepConfig.dismissKeyboardDelayTimeInterval) {
-                                                self?.performSegueWithIdentifier("showMessageMedia", sender: message)
-                                            }
                                             return
                                         }
                                     }
@@ -2266,9 +2260,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     if let messageTextView = self?.messageToolbar.messageTextView {
                                         if messageTextView.isFirstResponder() {
                                             self?.messageToolbar.state = .Default
-                                            delay(YepConfig.dismissKeyboardDelayTimeInterval) {
-                                                self?.performSegueWithIdentifier("showMessageMedia", sender: message)
-                                            }
                                             return
                                         }
                                     }

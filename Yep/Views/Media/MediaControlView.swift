@@ -23,6 +23,7 @@ class MediaControlView: UIView {
             case .Image:
                 timeLabel.hidden = true
                 playButton.hidden = true
+                shareButton.setImage(UIImage(named: "icon_more_image"), forState: .Normal)
 
             case .Video:
                 timeLabel.hidden = false
@@ -120,7 +121,7 @@ class MediaControlView: UIView {
 
         let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[timeLable]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-20-[timeLable]-(>=0)-[playButton]-(>=0)-[shareButton]|", options: .AlignAllCenterY | .AlignAllTop | .AlignAllBottom, metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-30-[timeLable]-(>=0)-[playButton]-(>=0)-[shareButton]|", options: .AlignAllCenterY | .AlignAllTop | .AlignAllBottom, metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(constraintsV)
         NSLayoutConstraint.activateConstraints(constraintsH)
