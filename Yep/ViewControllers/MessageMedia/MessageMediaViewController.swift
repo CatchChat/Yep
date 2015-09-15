@@ -33,7 +33,8 @@ class MessageMediaViewController: UIViewController {
         title = NSLocalizedString("Preview", comment: "")
 
         automaticallyAdjustsScrollViewInsets = false
-        
+
+        mediaControlView.hidden = true
 
         if let message = message {
 
@@ -170,6 +171,13 @@ class MessageMediaViewController: UIViewController {
         delay(0.01) {
             self.hideStatusBar = true
         }
+
+        mediaControlView.alpha = 0
+        mediaControlView.hidden = false
+
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: {
+            self.mediaControlView.alpha = 1
+        }, completion: { _ in })
     }
 
     override func viewWillDisappear(animated: Bool) {
