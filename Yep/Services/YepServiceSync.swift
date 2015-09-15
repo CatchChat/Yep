@@ -895,7 +895,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
 
                             // Do furtherAction after sync
 
-                            if let sectionDateMessageID = sectionDateMessageID{
+                            if let sectionDateMessageID = sectionDateMessageID {
                                 furtherAction?(messageIDs: [sectionDateMessageID, messageID])
                             } else {
                                 furtherAction?(messageIDs: [messageID])

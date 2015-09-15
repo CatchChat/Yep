@@ -365,11 +365,11 @@ class Conversation: Object {
         switch type {
         case ConversationType.OneToOne.rawValue:
             if let withFriend = withFriend {
-                return withFriend.userID
+                return "user" + withFriend.userID
             }
         case ConversationType.Group.rawValue:
             if let withGroup = withGroup {
-                return withGroup.groupID
+                return "group" + withGroup.groupID
             }
         default:
             break
