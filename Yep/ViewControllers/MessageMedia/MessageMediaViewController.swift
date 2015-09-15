@@ -92,6 +92,8 @@ class MessageMediaViewController: UIViewController {
 
             case MessageMediaType.Video.rawValue:
 
+                mediaView.imageView.hidden = true
+
                 mediaControlView.type = .Video
                 mediaControlView.playState = .Playing
 
