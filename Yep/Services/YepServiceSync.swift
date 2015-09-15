@@ -757,8 +757,14 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
                 newMessage.createdUnixTime = updatedUnixTime
             }
 
-            // TODO: 可能可以根据是否已进入Conversation界面来修改到达时间，减少聊天界面的插入切换
-            // 之后消息以到达时间排序
+            // 确保网络来的消息比任何已有的消息都要新，防止服务器消息延后发来导致插入到当前消息上面
+            if let latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: true).last {
+                if newMessage.createdUnixTime < latestMessage.createdUnixTime {
+                    println("before newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
+                    newMessage.createdUnixTime = latestMessage.createdUnixTime + YepConfig.Message.localNewerTimeInterval
+                    println("adjust newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
+                }
+            }
 
             realm.write {
                 realm.add(newMessage)
