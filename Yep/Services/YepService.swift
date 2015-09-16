@@ -2029,6 +2029,7 @@ func resendMessage(message: Message, #failureHandler: ((Reason, String?) -> Void
 func markAsReadMessage(message: Message ,#failureHandler: ((Reason, String?) -> Void)?, #completion: (Bool) -> Void) {
 
     if message.messageID.isEmpty {
+        println("markAsReadMessage ID isEmpty")
         return
     }
 

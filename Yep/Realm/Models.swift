@@ -551,11 +551,13 @@ func messagesInConversation(conversation: Conversation) -> Results<Message> {
     }
 }
 
+/*
 func messagesOfConversationByMe(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
     let predicate = NSPredicate(format: "conversation = %@ AND fromFriend.friendState == %d", argumentArray: [conversation, UserFriendState.Me.rawValue])
     let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
 }
+*/
 
 func messagesUnreadSentByMe(inRealm realm: Realm) -> Results<Message> {
     let predicate = NSPredicate(format: "fromFriend.friendState == %d AND readed = 0 AND sendState == %d", argumentArray: [ UserFriendState.Me.rawValue, MessageSendState.Successed.rawValue])
