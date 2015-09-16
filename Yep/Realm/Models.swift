@@ -453,7 +453,13 @@ func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
     }
 
     let predicate = NSPredicate(format: "messageID = %@", messageID)
-    return realm.objects(Message).filter(predicate).first
+
+    let messages = realm.objects(Message).filter(predicate)
+    if messages.count > 1 {
+        println("Warning: same messageID: \(messages.count), \(messageID)")
+    }
+
+    return messages.first
 }
 
 func deleteMediaFilesOfMessage(message: Message) {

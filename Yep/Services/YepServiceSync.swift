@@ -606,6 +606,7 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 }
 
 func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) -> Void) {
+
     unreadMessages { allUnreadMessages in
 
         //println("\n allUnreadMessages: \(allUnreadMessages)")

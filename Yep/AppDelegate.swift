@@ -274,12 +274,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         syncMyInfoAndDoFurtherAction {
             syncFriendshipsAndDoFurtherAction {
                 syncGroupsAndDoFurtherAction {
+                    // 等到 didBecomeActive 再做，减少重复
+                    /*
                     syncUnreadMessagesAndDoFurtherAction { messageIDs in
                         dispatch_async(dispatch_get_main_queue()) {
                             let object = ["messageIDs": messageIDs]
                             NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: object)
                         }
-                    }
+                    }*/
                 }
             }
         }

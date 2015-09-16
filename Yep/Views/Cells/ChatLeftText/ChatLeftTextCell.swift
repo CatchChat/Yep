@@ -71,7 +71,7 @@ class ChatLeftTextCell: ChatBaseCell {
     func configureWithMessage(message: Message, textContentLabelWidth: CGFloat, collectionView: UICollectionView, indexPath: NSIndexPath) {
 
         self.user = message.fromFriend
-        
+
         textContentTextView.text = message.textContent
         //textContentTextView.attributedText = NSAttributedString(string: message.textContent, attributes: textAttributes)
 
