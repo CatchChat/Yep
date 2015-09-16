@@ -365,11 +365,11 @@ class Conversation: Object {
         switch type {
         case ConversationType.OneToOne.rawValue:
             if let withFriend = withFriend {
-                return withFriend.userID
+                return "user" + withFriend.userID
             }
         case ConversationType.Group.rawValue:
             if let withGroup = withGroup {
-                return withGroup.groupID
+                return "group" + withGroup.groupID
             }
         default:
             break
@@ -585,15 +585,25 @@ func tryCreateSectionDateMessageInConversation(conversation: Conversation, befor
 
             if message.createdUnixTime - prevMessage.createdUnixTime > 180 { // TODO: Time Section
 
-                // insert a new SectionDate Message
-                let newSectionDateMessage = Message()
-                newSectionDateMessage.conversation = conversation
-                newSectionDateMessage.mediaType = MessageMediaType.SectionDate.rawValue
-                newSectionDateMessage.createdUnixTime = message.createdUnixTime - YepConfig.Message.sectionOlderTimeInterval // 比新消息早一点点即可
-                newSectionDateMessage.arrivalUnixTime = message.arrivalUnixTime - YepConfig.Message.sectionOlderTimeInterval // 比新消息早一点点即可
-                newSectionDateMessage.messageID = "sectionDate-\(newSectionDateMessage.createdUnixTime)"
+                // 比新消息早一点点即可
+                let sectionDateMessageCreatedUnixTime = message.createdUnixTime - YepConfig.Message.sectionOlderTimeInterval
+                let sectionDateMessageID = "sectionDate-\(sectionDateMessageCreatedUnixTime)"
 
-                success(newSectionDateMessage)
+                if let _ = messageWithMessageID(sectionDateMessageID, inRealm: realm) {
+                    // do nothing
+                } else {
+                    // create a new SectionDate Message
+                    let newSectionDateMessage = Message()
+                    newSectionDateMessage.messageID = sectionDateMessageID
+
+                    newSectionDateMessage.conversation = conversation
+                    newSectionDateMessage.mediaType = MessageMediaType.SectionDate.rawValue
+
+                    newSectionDateMessage.createdUnixTime = sectionDateMessageCreatedUnixTime
+                    newSectionDateMessage.arrivalUnixTime = sectionDateMessageCreatedUnixTime
+                    
+                    success(newSectionDateMessage)
+                }
             }
         }
     }

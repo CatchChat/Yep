@@ -78,11 +78,15 @@ class ContactsViewController: BaseViewController {
         contactsTableView.tableFooterView = UIView()
 
         YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] _ in
-            self?.updateContactsTableView()
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.updateContactsTableView()
+            }
         }
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
-            self?.updateContactsTableView()
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.updateContactsTableView()
+            }
         }
     }
 

@@ -81,9 +81,11 @@ class ProfileHeaderCell: UICollectionViewCell {
 
         if user.friendState == UserFriendState.Me.rawValue {
             YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] avatarURLString in
-                if let avatarURLString = avatarURLString {
-                    self?.blurredAvatarImage = nil // need reblur
-                    self?.updateAvatarWithAvatarURLString(avatarURLString)
+                dispatch_async(dispatch_get_main_queue()) {
+                    if let avatarURLString = avatarURLString {
+                        self?.blurredAvatarImage = nil // need reblur
+                        self?.updateAvatarWithAvatarURLString(avatarURLString)
+                    }
                 }
             }
 

@@ -59,7 +59,9 @@ class SettingsViewController: BaseViewController {
         settingsTableView.registerNib(UINib(nibName: settingsMoreCellIdentifier, bundle: nil), forCellReuseIdentifier: settingsMoreCellIdentifier)
 
         YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [weak self] introduction in
-            self?.settingsTableView.reloadData()
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.settingsTableView.reloadData()
+            }
         }
         
         if let gestures = navigationController?.view.gestureRecognizers {

@@ -607,10 +607,11 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 
 func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) -> Void) {
     unreadMessages { allUnreadMessages in
+
         //println("\n allUnreadMessages: \(allUnreadMessages)")
-        println("Got unread message \(allUnreadMessages.count)")
+        println("Got unread message: \(allUnreadMessages.count)")
         
-        dispatch_async(realmQueue) {
+        dispatch_async(dispatch_get_main_queue()) {
 
             let realm = Realm()
 
@@ -623,7 +624,6 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
             }
 
             // do futher action
-            println("加个打印，希望能等到 Realm 在线程间同步好")
             furtherAction(messageIDs: messageIDs)
         }
     }
@@ -895,7 +895,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
 
                             // Do furtherAction after sync
 
-                            if let sectionDateMessageID = sectionDateMessageID{
+                            if let sectionDateMessageID = sectionDateMessageID {
                                 furtherAction?(messageIDs: [sectionDateMessageID, messageID])
                             } else {
                                 furtherAction?(messageIDs: [messageID])
