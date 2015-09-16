@@ -190,6 +190,8 @@ class ConversationViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
 
         YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
+
+        println("deinit ConversationViewController")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -379,9 +381,9 @@ class ConversationViewController: BaseViewController {
 
             checkTypingStatusTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("checkTypingStatus"), userInfo: nil, repeats: true)
 
-            messageToolbar.notifyTypingAction = {
+            messageToolbar.notifyTypingAction = { [weak self] in
 
-                if let withFriend = self.conversation.withFriend {
+                if let withFriend = self?.conversation.withFriend {
 
                     let typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Text.rawValue]
 
@@ -804,7 +806,7 @@ class ConversationViewController: BaseViewController {
         FayeService.sharedManager.delegate = nil
         checkTypingStatusTimer?.invalidate()
 
-        self.waverView.removeFromSuperview()
+        waverView.removeFromSuperview()
     }
 
     override func viewDidLayoutSubviews() {
