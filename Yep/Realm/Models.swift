@@ -457,6 +457,13 @@ func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
     let messages = realm.objects(Message).filter(predicate)
     if messages.count > 1 {
         println("Warning: same messageID: \(messages.count), \(messageID)")
+
+        // 治标未读
+        realm.write {
+            for message in messages {
+                message.readed = true
+            }
+        }
     }
 
     return messages.first
