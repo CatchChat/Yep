@@ -32,7 +32,7 @@ class YepConfig {
         #endif
     }
 
-    static let termsURLString = "http://soyep.com/privacy"
+    static let termsURLString = "http://privacy.soyep.com"
     static let appURLString = "itms-apps://itunes.apple.com/app/id" + "983891256"
 
     static let forcedHideActivityIndicatorTimeInterval: NSTimeInterval = 30

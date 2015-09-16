@@ -453,7 +453,20 @@ func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
     }
 
     let predicate = NSPredicate(format: "messageID = %@", messageID)
-    return realm.objects(Message).filter(predicate).first
+
+    let messages = realm.objects(Message).filter(predicate)
+    if messages.count > 1 {
+        println("Warning: same messageID: \(messages.count), \(messageID)")
+
+        // 治标未读
+        realm.write {
+            for message in messages {
+                message.readed = true
+            }
+        }
+    }
+
+    return messages.first
 }
 
 func deleteMediaFilesOfMessage(message: Message) {
@@ -551,11 +564,13 @@ func messagesInConversation(conversation: Conversation) -> Results<Message> {
     }
 }
 
+/*
 func messagesOfConversationByMe(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
     let predicate = NSPredicate(format: "conversation = %@ AND fromFriend.friendState == %d", argumentArray: [conversation, UserFriendState.Me.rawValue])
     let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
 }
+*/
 
 func messagesUnreadSentByMe(inRealm realm: Realm) -> Results<Message> {
     let predicate = NSPredicate(format: "fromFriend.friendState == %d AND readed = 0 AND sendState == %d", argumentArray: [ UserFriendState.Me.rawValue, MessageSendState.Successed.rawValue])

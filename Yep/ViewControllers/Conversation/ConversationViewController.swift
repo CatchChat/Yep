@@ -1985,8 +1985,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
 
-                        cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
-
                         return cell
                     }
 
