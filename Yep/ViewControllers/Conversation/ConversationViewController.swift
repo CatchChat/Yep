@@ -371,15 +371,18 @@ class ConversationViewController: BaseViewController {
             }
         }).map({ self.markMessageAsReaded($0) })
 
+        // MARK: Notify Typing
+
+        // 为 nil 时才新建
+        if checkTypingStatusTimer == nil {
+            checkTypingStatusTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("checkTypingStatus"), userInfo: nil, repeats: true)
+        }
+
         // 尽量晚的设置一些属性和闭包
 
         if isFirstAppear {
 
             isFirstAppear = false
-
-            // MARK: Notify Typing
-
-            checkTypingStatusTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("checkTypingStatus"), userInfo: nil, repeats: true)
 
             messageToolbar.notifyTypingAction = { [weak self] in
 
@@ -805,6 +808,7 @@ class ConversationViewController: BaseViewController {
 
         FayeService.sharedManager.delegate = nil
         checkTypingStatusTimer?.invalidate()
+        checkTypingStatusTimer = nil // 及时释放
 
         waverView.removeFromSuperview()
     }
