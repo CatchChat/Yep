@@ -215,9 +215,11 @@ class ProfileViewController: UIViewController {
 
                 if user.friendState == UserFriendState.Me.rawValue {
                     YepUserDefaults.introduction.bindListener(Listener.Introduction) { [weak self] introduction in
-                        if let introduction = introduction {
-                            self?.introductionText = introduction
-                            self?.updateProfileCollectionView()
+                        dispatch_async(dispatch_get_main_queue()) {
+                            if let introduction = introduction {
+                                self?.introductionText = introduction
+                                self?.updateProfileCollectionView()
+                            }
                         }
                     }
                 }
@@ -416,7 +418,9 @@ class ProfileViewController: UIViewController {
 
                 if user.friendState == UserFriendState.Me.rawValue {
                     YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] nickname in
-                        self?.customNavigationItem.title = nickname
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self?.customNavigationItem.title = nickname
+                        }
                     }
                 }
             }

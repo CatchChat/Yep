@@ -245,7 +245,9 @@ class ConversationViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "tryInsertInActiveNewMessages:", name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
-            self?.reloadConversationCollectionView()
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.reloadConversationCollectionView()
+            }
         }
 
         swipeUpView.hidden = true

@@ -220,19 +220,22 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 cell.annotationLabel.text = NSLocalizedString("Nickname", comment: "")
 
                 YepUserDefaults.nickname.bindAndFireListener(Listener.Nickname) { [weak cell] nickname in
-                    cell?.infoLabel.text = nickname
+                    dispatch_async(dispatch_get_main_queue()) {
+                        cell?.infoLabel.text = nickname
+                    }
                 }
 
                 YepUserDefaults.badge.bindAndFireListener(Listener.Badge) { [weak cell] badgeName in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        if let badgeName = badgeName, badge = BadgeView.Badge(rawValue: badgeName) {
+                            cell?.badgeImageView.image = badge.image
+                            cell?.badgeImageView.tintColor = badge.color
+                            cell?.infoLabelTrailingConstraint.constant = EditProfileLessInfoCell.ConstraintConstant.normalInfoLabelTrailing
 
-                    if let badgeName = badgeName, badge = BadgeView.Badge(rawValue: badgeName) {
-                        cell?.badgeImageView.image = badge.image
-                        cell?.badgeImageView.tintColor = badge.color
-                        cell?.infoLabelTrailingConstraint.constant = EditProfileLessInfoCell.ConstraintConstant.normalInfoLabelTrailing
-
-                    } else {
-                        cell?.badgeImageView.image = nil
-                        cell?.infoLabelTrailingConstraint.constant = EditProfileLessInfoCell.ConstraintConstant.minInfoLabelTrailing
+                        } else {
+                            cell?.badgeImageView.image = nil
+                            cell?.infoLabelTrailingConstraint.constant = EditProfileLessInfoCell.ConstraintConstant.minInfoLabelTrailing
+                        }
                     }
                 }
 

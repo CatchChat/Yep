@@ -59,11 +59,15 @@ class ConversationsViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepNewMessagesReceivedNotification, object: nil)
         
         YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] _ in
-            self?.reloadConversationsTableView()
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.reloadConversationsTableView()
+            }
         }
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
-            self?.reloadConversationsTableView()
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.reloadConversationsTableView()
+            }
         }
 
         view.backgroundColor = UIColor.whiteColor()
