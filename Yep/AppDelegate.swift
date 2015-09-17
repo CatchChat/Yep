@@ -32,57 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(YepConfig.appGroupID)!
         let realmPath = directory.path!.stringByAppendingPathComponent("db.realm")
 
-        return Realm.Configuration(path: realmPath, schemaVersion: 17, migrationBlock: { migration, oldSchemaVersion in
-
-            if oldSchemaVersion < 9 {
-                migration.enumerate(Message.className()) { oldObject, newObject in
-                    let createdAt = oldObject!["createdAt"] as! NSDate
-                    let updatedAt = oldObject!["updatedAt"] as! NSDate
-
-                    newObject!["createdUnixTime"] = createdAt.timeIntervalSince1970
-                    newObject!["updatedUnixTime"] = updatedAt.timeIntervalSince1970
-                }
-
-                migration.enumerate(Conversation.className()) { oldObject, newObject in
-                    let updatedAt = oldObject!["updatedAt"] as! NSDate
-
-                    newObject!["updatedUnixTime"] = updatedAt.timeIntervalSince1970
-                }
-            }
-
-            if oldSchemaVersion < 10 {
-                migration.enumerate(User.className()) { oldObject, newObject in
-                    let createdAt = oldObject!["createdAt"] as! NSDate
-                    let lastSignInAt = oldObject!["lastSignInAt"] as! NSDate
-
-                    newObject!["createdUnixTime"] = createdAt.timeIntervalSince1970
-                    newObject!["lastSignInUnixTime"] = lastSignInAt.timeIntervalSince1970
-                }
-
-                migration.enumerate(Group.className()) { oldObject, newObject in
-                    let createdAt = oldObject!["createdAt"] as! NSDate
-
-                    newObject!["createdUnixTime"] = createdAt.timeIntervalSince1970
-                }
-            }
-
-            if oldSchemaVersion < 14 {
-                migration.enumerate(Message.className()) { oldObject, newObject in
-                    let metaDataString = oldObject!["metaData"] as! String
-
-                    if !metaDataString.isEmpty {
-                        if let data = metaDataString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                            let mediaMetaData = MediaMetaData()
-                            mediaMetaData.data = data
-
-                            newObject!["mediaMetaData"] = mediaMetaData
-                        }
-                    }
-                }
-            }
-
-            if oldSchemaVersion < 17 {
-            }
+        return Realm.Configuration(path: realmPath, schemaVersion: 0, migrationBlock: { migration, oldSchemaVersion in
         })
     }
 
