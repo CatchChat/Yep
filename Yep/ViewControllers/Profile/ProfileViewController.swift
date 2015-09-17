@@ -454,11 +454,28 @@ class ProfileViewController: UIViewController {
                         }
                 }
 
-                // share button
+                // share my profile button
 
                 if customNavigationItem.leftBarButtonItem == nil {
-                    let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "tryShareProfile")
-                    customNavigationItem.leftBarButtonItem = shareButton
+                    let shareMyProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "tryShareMyProfile")
+                    customNavigationItem.leftBarButtonItem = shareMyProfileButton
+                }
+
+            } else {
+                // share others' profile button
+
+                var username = ""
+
+                switch profileUser {
+                case .DiscoveredUserType(let discoveredUser):
+                    username = discoveredUser.username ?? ""
+                case .UserType(let user):
+                    username = user.username
+                }
+
+                if !username.isEmpty {
+                    let shareOthersProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "shareOthersProfile")
+                    customNavigationItem.rightBarButtonItem = shareOthersProfileButton
                 }
             }
         }
@@ -491,7 +508,7 @@ class ProfileViewController: UIViewController {
 
     // MARK: Actions
 
-    func tryShareProfile() {
+    func tryShareMyProfile() {
 
         if let
             myUserID = YepUserDefaults.userID.value,
@@ -588,6 +605,10 @@ class ProfileViewController: UIViewController {
                     shareProfileWithUsername(username)
                 }
         }
+    }
+
+    func shareOthersProfile() {
+        println("shareOthersProfile")
     }
 
     func pickSkills() {
