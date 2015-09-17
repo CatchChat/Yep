@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Yep
+
+  Created by nixzhu on 15/9/17.
+  Copyright (c) 2015年 Catch Inc. All rights reserved.
+*/
+
+"NSLocationWhenInUseUsageDescription" = "Meeting with near genius";

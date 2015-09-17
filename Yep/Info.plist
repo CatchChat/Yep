@@ -55,7 +55,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Find pepole around you</string>
+	<string>Meeting with near genius</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
