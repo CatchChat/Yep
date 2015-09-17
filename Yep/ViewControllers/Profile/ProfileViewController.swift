@@ -633,7 +633,7 @@ class ProfileViewController: UIViewController {
 
     func shareOthersProfile() {
         shareProfile()
-   }
+    }
 
     func pickSkills() {
 
