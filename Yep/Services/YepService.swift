@@ -1118,29 +1118,32 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
         createdUnixTime = userInfo["created_at"] as? NSTimeInterval,
         lastSignInUnixTime = userInfo["last_sign_in_at"] as? NSTimeInterval,
         longitude = userInfo["longitude"] as? Double,
-        latitude = userInfo["latitude"] as? Double,
-        //distance = userInfo["distance"] as? Double,
-        masterSkillsData = userInfo["master_skills"] as? [JSONDictionary],
-        learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary],
-        socialAccountProvidersInfo = userInfo["providers"] as? [String: Bool] {
+        latitude = userInfo["latitude"] as? Double {
 
             let username = userInfo["username"] as? String
-
-            let masterSkills = skillsFromSkillsData(masterSkillsData)
-            let learningSkills = skillsFromSkillsData(learningSkillsData)
-
-            var socialAccountProviders = Array<DiscoveredUser.SocialAccountProvider>()
-
-            for (name, enabled) in socialAccountProvidersInfo {
-                let provider = DiscoveredUser.SocialAccountProvider(name: name, enabled: enabled)
-
-                socialAccountProviders.append(provider)
-            }
-
             let introduction = userInfo["introduction"] as? String
             let badge = userInfo["badge"] as? String
-
             let distance = userInfo["distance"] as? Double
+
+            var masterSkills: [Skill] = []
+            if let masterSkillsData = userInfo["master_skills"] as? [JSONDictionary] {
+                masterSkills = skillsFromSkillsData(masterSkillsData)
+            }
+
+            var learningSkills: [Skill] = []
+            if let learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary] {
+
+                learningSkills = skillsFromSkillsData(learningSkillsData)
+            }
+
+            var socialAccountProviders = Array<DiscoveredUser.SocialAccountProvider>()
+            if let socialAccountProvidersInfo = userInfo["providers"] as? [String: Bool] {
+                for (name, enabled) in socialAccountProvidersInfo {
+                    let provider = DiscoveredUser.SocialAccountProvider(name: name, enabled: enabled)
+
+                    socialAccountProviders.append(provider)
+                }
+            }
 
             let discoverUser = DiscoveredUser(id: id, username: username, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, badge: badge, createdUnixTime: createdUnixTime, lastSignInUnixTime: lastSignInUnixTime, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
 
@@ -1152,7 +1155,7 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
 
 let parseDiscoveredUsers: JSONDictionary -> [DiscoveredUser]? = { data in
 
-    //println("discoverUsers: \(data)")
+    println("discoverUsers: \(data)")
 
     if let usersData = data["users"] as? [JSONDictionary] {
 
