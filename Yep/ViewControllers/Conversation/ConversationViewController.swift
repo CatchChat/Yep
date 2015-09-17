@@ -332,6 +332,10 @@ class ConversationViewController: BaseViewController {
 
         if isFirstAppear {
 
+            // 为记录草稿准备
+
+            messageToolbar.conversation = conversation
+
             // MARK: MessageToolbar State Transitions
 
             messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
@@ -385,6 +389,7 @@ class ConversationViewController: BaseViewController {
                         }
                     }
 
+                    /*
                     // 尝试保留草稿
 
                     let realm = Realm()
@@ -406,6 +411,7 @@ class ConversationViewController: BaseViewController {
                             strongSelf.conversation.draft = draft
                         }
                     }
+                    */
                 }
             }
 
@@ -807,6 +813,12 @@ class ConversationViewController: BaseViewController {
                 }
             }
         }
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
     }
 
     override func viewDidDisappear(animated: Bool) {
