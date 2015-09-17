@@ -474,6 +474,15 @@ class ProfileViewController: UIViewController {
 
                     updateUserWithUserID(userID, useUserInfo: userInfo)
 
+                    if let discoveredUser = parseDiscoveredUser(userInfo) {
+                        switch profileUser {
+                        case .DiscoveredUserType:
+                            self?.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                        default:
+                            break
+                        }
+                    }
+
                     self?.updateProfileCollectionView()
                 })
             }
