@@ -272,8 +272,8 @@ class MessageToolbar: UIToolbar {
     func showVoiceButtonAnimation() {
         let animation = CABasicAnimation(keyPath: "cornerRadius")
 
-        animation.fromValue = voiceRecordButton.layer.cornerRadius
-        let newCornerRadius = CGRectGetHeight(voiceRecordButton.bounds) * 0.5
+        animation.fromValue = normalCornerRadius
+        let newCornerRadius: CGFloat = 17
         animation.toValue = newCornerRadius
         animation.timingFunction = CAMediaTimingFunction(name: "easeInEaseOut")
         animation.repeatCount = 0
@@ -281,7 +281,7 @@ class MessageToolbar: UIToolbar {
         voiceRecordButton.layer.addAnimation(animation, forKey: "cornerRadius")
         
         voiceRecordButton.layer.cornerRadius = newCornerRadius
-        messageTextView.layer.cornerRadius = CGRectGetHeight(messageTextView.bounds) * 0.5
+        messageTextView.layer.cornerRadius = newCornerRadius
     }
 
     func hideVoiceButtonAnimation() {
