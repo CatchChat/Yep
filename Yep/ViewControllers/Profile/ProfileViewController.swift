@@ -78,6 +78,42 @@ enum ProfileUser {
     case DiscoveredUserType(DiscoveredUser)
     case UserType(User)
 
+    var username: String? {
+
+        var username: String? = nil
+
+        switch self {
+
+        case .DiscoveredUserType(let discoveredUser):
+            username = discoveredUser.username
+
+        case .UserType(let user):
+            if !user.username.isEmpty {
+                username = user.username
+            }
+        }
+
+        return username
+    }
+
+    var avatarURLString: String? {
+
+        var avatarURLString: String? = nil
+
+        switch self {
+
+        case .DiscoveredUserType(let discoveredUser):
+            avatarURLString = discoveredUser.avatarURLString
+
+        case .UserType(let user):
+            if !user.avatarURLString.isEmpty {
+                avatarURLString = user.avatarURLString
+            }
+        }
+        
+        return avatarURLString
+    }
+
     var isMe: Bool {
 
         let userID: String
@@ -464,16 +500,7 @@ class ProfileViewController: UIViewController {
             } else {
                 // share others' profile button
 
-                var username = ""
-
-                switch profileUser {
-                case .DiscoveredUserType(let discoveredUser):
-                    username = discoveredUser.username ?? ""
-                case .UserType(let user):
-                    username = user.username
-                }
-
-                if !username.isEmpty {
+                if let _ = profileUser.username {
                     let shareOthersProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "shareOthersProfile")
                     customNavigationItem.rightBarButtonItem = shareOthersProfileButton
                 }
@@ -609,6 +636,61 @@ class ProfileViewController: UIViewController {
 
     func shareOthersProfile() {
         println("shareOthersProfile")
+
+        if let username = profileUser?.username {
+            if let profileURL = NSURL(string: "http://soyep.com/\(username)") {
+
+                MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
+
+                var thumbnail: UIImage?
+
+                if let
+                    avatarURLString = profileUser?.avatarURLString,
+                    avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()) {
+                        if let
+                            avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
+                            avatarFilePath = avatarFileURL.path,
+                            image = UIImage(contentsOfFile: avatarFilePath) {
+                                thumbnail = image.roundImageOfRadius(50)
+                        }
+                }
+
+                let info = MonkeyKing.Message.WeChatSubtype.Info(
+                    title: NSLocalizedString("Match me if you can", comment: ""),
+                    description: NSLocalizedString("From Yep with Skills", comment: ""),
+                    thumbnail: thumbnail,
+                    media: .URL(profileURL)
+                )
+
+                let sessionMessage = MonkeyKing.Message.WeChat(.Session(info))
+
+                let weChatSessionActivity = WeChatActivity(
+                    type: .Session,
+                    canPerform: sessionMessage.canBeDelivered,
+                    perform: {
+                        MonkeyKing.shareMessage(sessionMessage) { success in
+                            println("share Profile to WeChat Session success: \(success)")
+                        }
+                    }
+                )
+
+                let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info))
+
+                let weChatTimelineActivity = WeChatActivity(
+                    type: .Timeline,
+                    canPerform: timelineMessage.canBeDelivered,
+                    perform: {
+                        MonkeyKing.shareMessage(timelineMessage) { success in
+                            println("share Profile to WeChat Timeline success: \(success)")
+                        }
+                    }
+                )
+
+                let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
+
+                self.presentViewController(activityViewController, animated: true, completion: nil)
+            }
+        }
     }
 
     func pickSkills() {
