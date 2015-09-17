@@ -195,15 +195,6 @@ class ConversationViewController: BaseViewController {
 
         println("deinit ConversationViewController")
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
-        if let delegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = delegate
-        }
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -329,27 +320,121 @@ class ConversationViewController: BaseViewController {
             }
         }
     }
-    
-    func tryRecoverMessageToolBar() {
-        if let
-            draft = conversation.draft,
-            state = MessageToolbarState(rawValue: draft.messageToolbarState) {
-                
-                if state == .TextInputing || state == .Default {
-                    messageToolbar.messageTextView.text = draft.text
-                }
 
-                // 恢复时特别注意：因为键盘改由用户触发，因此
-                if state == .TextInputing || state == .BeginTextInput {
-                    // 这两种状态时不恢复 messageToolbar.state
-                    return
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
+        if let delegate = originalNavigationControllerDelegate {
+            navigationController?.delegate = delegate
+        }
+
+        if isFirstAppear {
+
+            // MARK: MessageToolbar State Transitions
+
+            messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
+
+                if let strongSelf = self {
+
+                    switch (previousState, currentState) {
+
+                    case (.MoreMessages, .Default): fallthrough
+                    case (.MoreMessages, .VoiceRecord):
+
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                            UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+
+                                strongSelf.conversationCollectionView.contentOffset.y -= strongSelf.moreMessageTypesViewDefaultHeight
+                                strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
+
+                                strongSelf.messageToolbarBottomConstraint.constant = 0
+                                strongSelf.view.layoutIfNeeded()
+
+                            }, completion: { finished in
+                            })
+                        }
+
+                    default:
+
+                        if currentState == .MoreMessages {
+
+                            if previousState != .BeginTextInput && previousState != .TextInputing {
+
+                                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                                    UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+
+                                        strongSelf.conversationCollectionView.contentOffset.y += strongSelf.moreMessageTypesViewDefaultHeight
+                                        strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewDefaultHeight
+
+                                        strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
+                                        strongSelf.view.layoutIfNeeded()
+
+                                    }, completion: { finished in
+                                    })
+                                }
+                            }
+
+                            // touch to create (if need) for faster appear
+                            delay(0.2) {
+                                self?.imagePicker.hidesBarsOnTap = false
+                            }
+                        }
+                    }
+
+                    // 尝试保留草稿
+
+                    let realm = Realm()
+
+                    if let draft = strongSelf.conversation.draft {
+                        realm.write {
+                            draft.messageToolbarState = currentState.rawValue
+
+                            if currentState == .BeginTextInput || currentState == .TextInputing {
+                                draft.text = messageToolbar.messageTextView.text
+                            }
+                        }
+
+                    } else {
+                        let draft = Draft()
+                        draft.messageToolbarState = currentState.rawValue
+
+                        realm.write {
+                            strongSelf.conversation.draft = draft
+                        }
+                    }
                 }
-        
-                // 这句要放在最后，因为它会触发 stateTransitionAction
-                // 只恢复不改变高度的状态
-                if state == .VoiceRecord {
-                    messageToolbar.state = state
+            }
+
+            // 在这里才尝试恢复 messageToolbar 的状态，因为依赖 stateTransitionAction
+    
+            func tryRecoverMessageToolBar() {
+                if let
+                    draft = conversation.draft,
+                    state = MessageToolbarState(rawValue: draft.messageToolbarState) {
+
+                        if state == .TextInputing || state == .Default {
+                            messageToolbar.messageTextView.text = draft.text
+                        }
+
+                        // 恢复时特别注意：因为键盘改由用户触发，因此
+                        if state == .TextInputing || state == .BeginTextInput {
+                            // 这两种状态时不恢复 messageToolbar.state
+                            return
+                        }
+
+                        // 这句要放在最后，因为它会触发 stateTransitionAction
+                        // 只恢复不改变高度的状态
+                        if state == .VoiceRecord {
+                            messageToolbar.state = state
+                        }
                 }
+            }
+
+            tryRecoverMessageToolBar()           
         }
     }
 
@@ -650,87 +735,6 @@ class ConversationViewController: BaseViewController {
 
                 self?.swipeUpPromptLabel.text = text
             }
-
-            // MARK: MessageToolbar State Transitions
-
-            messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
-
-                if let strongSelf = self {
-
-                    switch (previousState, currentState) {
-
-                    case (.MoreMessages, .Default): fallthrough
-                    case (.MoreMessages, .VoiceRecord):
-
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                            UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-
-                                strongSelf.conversationCollectionView.contentOffset.y -= strongSelf.moreMessageTypesViewDefaultHeight
-                                strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
-
-                                strongSelf.messageToolbarBottomConstraint.constant = 0
-                                strongSelf.view.layoutIfNeeded()
-
-                            }, completion: { finished in
-                            })
-                        }
-
-                    default:
-
-                        if currentState == .MoreMessages {
-
-                            if previousState != .BeginTextInput && previousState != .TextInputing {
-
-                                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                                    UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-
-                                        strongSelf.conversationCollectionView.contentOffset.y += strongSelf.moreMessageTypesViewDefaultHeight
-                                        strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewDefaultHeight
-
-                                        strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
-                                        strongSelf.view.layoutIfNeeded()
-
-                                    }, completion: { finished in
-                                    })
-                                }
-                            }
-
-                            // touch to create (if need) for faster appear
-                            delay(0.2) {
-                                self?.imagePicker.hidesBarsOnTap = false
-                            }
-                        }
-                    }
-
-                    // 尝试保留草稿
-
-                    let realm = Realm()
-
-                    if let draft = strongSelf.conversation.draft {
-                        realm.write {
-                            draft.messageToolbarState = currentState.rawValue
-
-                            if currentState == .BeginTextInput || currentState == .TextInputing {
-                                draft.text = messageToolbar.messageTextView.text
-                            }
-                        }
-
-                    } else {
-                        let draft = Draft()
-                        draft.messageToolbarState = currentState.rawValue
-
-                        realm.write {
-                            strongSelf.conversation.draft = draft
-                        }
-                    }
-                }
-            }
-
-            // 在这里才尝试恢复 messageToolbar 的状态，因为依赖 stateTransitionAction
-
-            tryRecoverMessageToolBar()
 
             // MARK: More Message Types
 
