@@ -388,30 +388,6 @@ class ConversationViewController: BaseViewController {
                             }
                         }
                     }
-
-                    /*
-                    // 尝试保留草稿
-
-                    let realm = Realm()
-
-                    if let draft = strongSelf.conversation.draft {
-                        realm.write {
-                            draft.messageToolbarState = currentState.rawValue
-
-                            if currentState == .BeginTextInput || currentState == .TextInputing {
-                                draft.text = messageToolbar.messageTextView.text
-                            }
-                        }
-
-                    } else {
-                        let draft = Draft()
-                        draft.messageToolbarState = currentState.rawValue
-
-                        realm.write {
-                            strongSelf.conversation.draft = draft
-                        }
-                    }
-                    */
                 }
             }
 
