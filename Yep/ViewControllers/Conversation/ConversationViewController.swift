@@ -2087,7 +2087,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     self?.performSegueWithIdentifier("showMessageMedia", sender: message)
 
                                 } else {
-                                    YepAlert.alertSorry(message: NSLocalizedString("Please wait while the image is not ready!", comment: ""), inViewController: self)
+                                    //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the image is not ready!", comment: ""), inViewController: self)
                                 }
 
                             }, collectionView: collectionView, indexPath: indexPath)
@@ -2105,7 +2105,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     self?.playMessageAudioWithMessage(message)
 
                                 } else {
-                                    YepAlert.alertSorry(message: NSLocalizedString("Please wait while the audio is not ready!", comment: ""), inViewController: self)
+                                    //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the audio is not ready!", comment: ""), inViewController: self)
                                 }
 
                             }, collectionView: collectionView, indexPath: indexPath)
@@ -2129,7 +2129,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     self?.performSegueWithIdentifier("showMessageMedia", sender: message)
 
                                 } else {
-                                    YepAlert.alertSorry(message: NSLocalizedString("Please wait while the video is not ready!", comment: ""), inViewController: self)
+                                    //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the video is not ready!", comment: ""), inViewController: self)
                                 }
 
                             }, collectionView: collectionView, indexPath: indexPath)
