@@ -84,6 +84,8 @@ class MessageToolbar: UIToolbar {
                 messageTextView.hidden = true
                 voiceRecordButton.hidden = false
 
+                messageTextView.text = nil
+
                 micButton.setImage(UIImage(named: "icon_keyboard"), forState: .Normal)
 
                 micButton.tintColor = UIColor.messageToolBarNormalColor()
