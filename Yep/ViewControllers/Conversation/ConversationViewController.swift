@@ -190,15 +190,10 @@ class ConversationViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
 
         YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
 
-        // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
-        if let delegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = delegate
-        }
+        conversationCollectionView.delegate = nil
+
+        println("deinit ConversationViewController")
     }
 
     override func viewDidLoad() {
@@ -325,27 +320,103 @@ class ConversationViewController: BaseViewController {
             }
         }
     }
-    
-    func tryRecoverMessageToolBar() {
-        if let
-            draft = conversation.draft,
-            state = MessageToolbarState(rawValue: draft.messageToolbarState) {
-                
-                if state == .TextInputing || state == .Default {
-                    messageToolbar.messageTextView.text = draft.text
-                }
 
-                // 恢复时特别注意：因为键盘改由用户触发，因此
-                if state == .TextInputing || state == .BeginTextInput {
-                    // 这两种状态时不恢复 messageToolbar.state
-                    return
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
+        if let delegate = originalNavigationControllerDelegate {
+            navigationController?.delegate = delegate
+        }
+
+        if isFirstAppear {
+
+            // 为记录草稿准备
+
+            messageToolbar.conversation = conversation
+
+            // MARK: MessageToolbar State Transitions
+
+            messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
+
+                if let strongSelf = self {
+
+                    switch (previousState, currentState) {
+
+                    case (.MoreMessages, .Default): fallthrough
+                    case (.MoreMessages, .VoiceRecord):
+
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                            UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+
+                                strongSelf.conversationCollectionView.contentOffset.y -= strongSelf.moreMessageTypesViewDefaultHeight
+                                strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
+
+                                strongSelf.messageToolbarBottomConstraint.constant = 0
+                                strongSelf.view.layoutIfNeeded()
+
+                            }, completion: { finished in
+                            })
+                        }
+
+                    default:
+
+                        if currentState == .MoreMessages {
+
+                            if previousState != .BeginTextInput && previousState != .TextInputing {
+
+                                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                                    UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+
+                                        strongSelf.conversationCollectionView.contentOffset.y += strongSelf.moreMessageTypesViewDefaultHeight
+                                        strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewDefaultHeight
+
+                                        strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
+                                        strongSelf.view.layoutIfNeeded()
+
+                                    }, completion: { finished in
+                                    })
+                                }
+                            }
+
+                            // touch to create (if need) for faster appear
+                            delay(0.2) {
+                                self?.imagePicker.hidesBarsOnTap = false
+                            }
+                        }
+                    }
                 }
-        
-                // 这句要放在最后，因为它会触发 stateTransitionAction
-                // 只恢复不改变高度的状态
-                if state == .VoiceRecord {
-                    messageToolbar.state = state
+            }
+
+            // 在这里才尝试恢复 messageToolbar 的状态，因为依赖 stateTransitionAction
+    
+            func tryRecoverMessageToolBar() {
+                if let
+                    draft = conversation.draft,
+                    state = MessageToolbarState(rawValue: draft.messageToolbarState) {
+
+                        if state == .TextInputing || state == .Default {
+                            messageToolbar.messageTextView.text = draft.text
+                        }
+
+                        // 恢复时特别注意：因为键盘改由用户触发，因此
+                        if state == .TextInputing || state == .BeginTextInput {
+                            // 这两种状态时不恢复 messageToolbar.state
+                            return
+                        }
+
+                        // 这句要放在最后，因为它会触发 stateTransitionAction
+                        // 只恢复不改变高度的状态
+                        if state == .VoiceRecord {
+                            messageToolbar.state = state
+                        }
                 }
+            }
+
+            tryRecoverMessageToolBar()           
         }
     }
 
@@ -369,19 +440,22 @@ class ConversationViewController: BaseViewController {
             }
         }).map({ self.markMessageAsReaded($0) })
 
+        // MARK: Notify Typing
+
+        // 为 nil 时才新建
+        if checkTypingStatusTimer == nil {
+            checkTypingStatusTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("checkTypingStatus"), userInfo: nil, repeats: true)
+        }
+
         // 尽量晚的设置一些属性和闭包
 
         if isFirstAppear {
 
             isFirstAppear = false
 
-            // MARK: Notify Typing
+            messageToolbar.notifyTypingAction = { [weak self] in
 
-            checkTypingStatusTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("checkTypingStatus"), userInfo: nil, repeats: true)
-
-            messageToolbar.notifyTypingAction = {
-
-                if let withFriend = self.conversation.withFriend {
+                if let withFriend = self?.conversation.withFriend {
 
                     let typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Text.rawValue]
 
@@ -644,87 +718,6 @@ class ConversationViewController: BaseViewController {
                 self?.swipeUpPromptLabel.text = text
             }
 
-            // MARK: MessageToolbar State Transitions
-
-            messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
-
-                if let strongSelf = self {
-
-                    switch (previousState, currentState) {
-
-                    case (.MoreMessages, .Default): fallthrough
-                    case (.MoreMessages, .VoiceRecord):
-
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                            UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-
-                                strongSelf.conversationCollectionView.contentOffset.y -= strongSelf.moreMessageTypesViewDefaultHeight
-                                strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
-
-                                strongSelf.messageToolbarBottomConstraint.constant = 0
-                                strongSelf.view.layoutIfNeeded()
-
-                            }, completion: { finished in
-                            })
-                        }
-
-                    default:
-
-                        if currentState == .MoreMessages {
-
-                            if previousState != .BeginTextInput && previousState != .TextInputing {
-
-                                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                                    UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-
-                                        strongSelf.conversationCollectionView.contentOffset.y += strongSelf.moreMessageTypesViewDefaultHeight
-                                        strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewDefaultHeight
-
-                                        strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
-                                        strongSelf.view.layoutIfNeeded()
-
-                                    }, completion: { finished in
-                                    })
-                                }
-                            }
-
-                            // touch to create (if need) for faster appear
-                            delay(0.2) {
-                                self?.imagePicker.hidesBarsOnTap = false
-                            }
-                        }
-                    }
-
-                    // 尝试保留草稿
-
-                    let realm = Realm()
-
-                    if let draft = strongSelf.conversation.draft {
-                        realm.write {
-                            draft.messageToolbarState = currentState.rawValue
-
-                            if currentState == .BeginTextInput || currentState == .TextInputing {
-                                draft.text = messageToolbar.messageTextView.text
-                            }
-                        }
-
-                    } else {
-                        let draft = Draft()
-                        draft.messageToolbarState = currentState.rawValue
-
-                        realm.write {
-                            strongSelf.conversation.draft = draft
-                        }
-                    }
-                }
-            }
-
-            // 在这里才尝试恢复 messageToolbar 的状态，因为依赖 stateTransitionAction
-
-            tryRecoverMessageToolBar()
-
             // MARK: More Message Types
 
             choosePhotoButton.title = NSLocalizedString("Choose photo", comment: "")
@@ -798,13 +791,20 @@ class ConversationViewController: BaseViewController {
         }
     }
 
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
+    }
+
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
 
         FayeService.sharedManager.delegate = nil
         checkTypingStatusTimer?.invalidate()
+        checkTypingStatusTimer = nil // 及时释放
 
-        self.waverView.removeFromSuperview()
+        waverView.removeFromSuperview()
     }
 
     override func viewDidLayoutSubviews() {
@@ -2087,7 +2087,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     self?.performSegueWithIdentifier("showMessageMedia", sender: message)
 
                                 } else {
-                                    YepAlert.alertSorry(message: NSLocalizedString("Please wait while the image is not ready!", comment: ""), inViewController: self)
+                                    //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the image is not ready!", comment: ""), inViewController: self)
                                 }
 
                             }, collectionView: collectionView, indexPath: indexPath)
@@ -2105,7 +2105,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     self?.playMessageAudioWithMessage(message)
 
                                 } else {
-                                    YepAlert.alertSorry(message: NSLocalizedString("Please wait while the audio is not ready!", comment: ""), inViewController: self)
+                                    //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the audio is not ready!", comment: ""), inViewController: self)
                                 }
 
                             }, collectionView: collectionView, indexPath: indexPath)
@@ -2129,7 +2129,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     self?.performSegueWithIdentifier("showMessageMedia", sender: message)
 
                                 } else {
-                                    YepAlert.alertSorry(message: NSLocalizedString("Please wait while the video is not ready!", comment: ""), inViewController: self)
+                                    //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the video is not ready!", comment: ""), inViewController: self)
                                 }
 
                             }, collectionView: collectionView, indexPath: indexPath)

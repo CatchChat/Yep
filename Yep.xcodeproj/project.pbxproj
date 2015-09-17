@@ -124,6 +124,7 @@
 		5056AD6E1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056AD6C1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift */; };
 		5056AD6F1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5056AD6D1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib */; };
 		505A48401B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505A483F1B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift */; };
+		505C338B1BAA92CA00E044E2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 505C338D1BAA92CA00E044E2 /* InfoPlist.strings */; };
 		505EC8131ADE607D001D27E0 /* SkillCategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505EC8121ADE607D001D27E0 /* SkillCategoryButton.swift */; };
 		505EC8171ADF8151001D27E0 /* SkillCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505EC8151ADF8151001D27E0 /* SkillCategoryCell.swift */; };
 		505EC8181ADF8151001D27E0 /* SkillCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505EC8161ADF8151001D27E0 /* SkillCategoryCell.xib */; };
@@ -386,6 +387,8 @@
 		5056AD6C1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountImagesCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountImagesCell.swift; sourceTree = "<group>"; };
 		5056AD6D1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountImagesCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountImagesCell.xib; sourceTree = "<group>"; };
 		505A483F1B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterSelectSkillsLayout.swift; path = ViewControllers/Register/RegisterSelectSkillsLayout.swift; sourceTree = "<group>"; };
+		505C338C1BAA92CA00E044E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		505C338E1BAA92CD00E044E2 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		505EC8121ADE607D001D27E0 /* SkillCategoryButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillCategoryButton.swift; path = Views/Buttons/SkillCategoryButton.swift; sourceTree = "<group>"; };
 		505EC8151ADF8151001D27E0 /* SkillCategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillCategoryCell.swift; path = Views/Cells/SkillCategory/SkillCategoryCell.swift; sourceTree = "<group>"; };
 		505EC8161ADF8151001D27E0 /* SkillCategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillCategoryCell.xib; path = Views/Cells/SkillCategory/SkillCategoryCell.xib; sourceTree = "<group>"; };
@@ -632,6 +635,7 @@
 				0A8F54B91AB67D11004AD60E /* LaunchScreen.xib */,
 				0A8F54AE1AB67D11004AD60E /* Supporting Files */,
 				5008A1951B8DB8B500E94274 /* Localizable.strings */,
+				505C338D1BAA92CA00E044E2 /* InfoPlist.strings */,
 			);
 			path = Yep;
 			sourceTree = "<group>";
@@ -1809,6 +1813,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */,
+				505C338B1BAA92CA00E044E2 /* InfoPlist.strings in Resources */,
 				50C090A11ADE391600CC6389 /* AddSkillsReusableView.xib in Resources */,
 				504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */,
 				50E348931B9063A700A8E699 /* AboutCell.xib in Resources */,
@@ -2162,6 +2167,15 @@
 				502AE5181AB70D72005BD199 /* Base */,
 			);
 			name = Intro.storyboard;
+			sourceTree = "<group>";
+		};
+		505C338D1BAA92CA00E044E2 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				505C338C1BAA92CA00E044E2 /* en */,
+				505C338E1BAA92CD00E044E2 /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

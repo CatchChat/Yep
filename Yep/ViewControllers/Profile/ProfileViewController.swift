@@ -78,6 +78,52 @@ enum ProfileUser {
     case DiscoveredUserType(DiscoveredUser)
     case UserType(User)
 
+    var userID: String {
+        switch self {
+        case .DiscoveredUserType(let discoveredUser):
+            return discoveredUser.id
+
+        case .UserType(let user):
+            return user.userID
+        }
+    }
+
+    var username: String? {
+
+        var username: String? = nil
+
+        switch self {
+
+        case .DiscoveredUserType(let discoveredUser):
+            username = discoveredUser.username
+
+        case .UserType(let user):
+            if !user.username.isEmpty {
+                username = user.username
+            }
+        }
+
+        return username
+    }
+
+    var avatarURLString: String? {
+
+        var avatarURLString: String? = nil
+
+        switch self {
+
+        case .DiscoveredUserType(let discoveredUser):
+            avatarURLString = discoveredUser.avatarURLString
+
+        case .UserType(let user):
+            if !user.avatarURLString.isEmpty {
+                avatarURLString = user.avatarURLString
+            }
+        }
+        
+        return avatarURLString
+    }
+
     var isMe: Bool {
 
         let userID: String
@@ -400,20 +446,12 @@ class ProfileViewController: UIViewController {
 
         if let profileUser = profileUser {
 
-            let userID: String
-
             switch profileUser {
 
             case .DiscoveredUserType(let discoveredUser):
-
-                userID = discoveredUser.id
-
                 customNavigationItem.title = discoveredUser.nickname
 
             case .UserType(let user):
-
-                userID = user.userID
-
                 customNavigationItem.title = user.nickname
 
                 if user.friendState == UserFriendState.Me.rawValue {
@@ -427,12 +465,23 @@ class ProfileViewController: UIViewController {
 
             if !profileUserIsMe {
 
+                let userID = profileUser.userID
+
                 userInfoOfUserWithUserID(userID, failureHandler: nil, completion: { [weak self] userInfo in
                     //println("userInfoOfUserWithUserID \(userInfo)")
 
                     // 对非好友来说，必要
 
                     updateUserWithUserID(userID, useUserInfo: userInfo)
+
+                    if let discoveredUser = parseDiscoveredUser(userInfo) {
+                        switch profileUser {
+                        case .DiscoveredUserType:
+                            self?.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                        default:
+                            break
+                        }
+                    }
 
                     self?.updateProfileCollectionView()
                 })
@@ -454,11 +503,19 @@ class ProfileViewController: UIViewController {
                         }
                 }
 
-                // share button
+                // share my profile button
 
                 if customNavigationItem.leftBarButtonItem == nil {
-                    let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "tryShareProfile")
-                    customNavigationItem.leftBarButtonItem = shareButton
+                    let shareMyProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "tryShareMyProfile")
+                    customNavigationItem.leftBarButtonItem = shareMyProfileButton
+                }
+
+            } else {
+                // share others' profile button
+
+                if let _ = profileUser.username {
+                    let shareOthersProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "shareOthersProfile")
+                    customNavigationItem.rightBarButtonItem = shareOthersProfileButton
                 }
             }
         }
@@ -491,103 +548,100 @@ class ProfileViewController: UIViewController {
 
     // MARK: Actions
 
-    func tryShareProfile() {
+    private func shareProfile() {
 
-        if let
-            myUserID = YepUserDefaults.userID.value,
-            me = userWithUserID(myUserID, inRealm: Realm()) {
+         if let username = profileUser?.username, profileURL = NSURL(string: "http://soyep.com/\(username)") {
 
-                let username = me.username
+            MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
 
-                let shareProfileWithUsername: String -> Void = { [weak self] username in
+            var thumbnail: UIImage?
 
-                    if let profileURL = NSURL(string: "http://soyep.com/\(username)") {
+            if let
+                avatarURLString = profileUser?.avatarURLString,
+                avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()) {
+                    if let
+                        avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
+                        avatarFilePath = avatarFileURL.path,
+                        image = UIImage(contentsOfFile: avatarFilePath) {
+                            thumbnail = image.roundImageOfRadius(50)
+                    }
+            }
 
-                        MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
+            let info = MonkeyKing.Message.WeChatSubtype.Info(
+                title: NSLocalizedString("Match me if you can", comment: ""),
+                description: NSLocalizedString("From Yep with Skills", comment: ""),
+                thumbnail: thumbnail,
+                media: .URL(profileURL)
+            )
 
-                        var thumbnail: UIImage?
+            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info))
 
+            let weChatSessionActivity = WeChatActivity(
+                type: .Session,
+                canPerform: sessionMessage.canBeDelivered,
+                perform: {
+                    MonkeyKing.shareMessage(sessionMessage) { success in
+                        println("share Profile to WeChat Session success: \(success)")
+                    }
+                }
+            )
+
+            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info))
+
+            let weChatTimelineActivity = WeChatActivity(
+                type: .Timeline,
+                canPerform: timelineMessage.canBeDelivered,
+                perform: {
+                    MonkeyKing.shareMessage(timelineMessage) { success in
+                        println("share Profile to WeChat Timeline success: \(success)")
+                    }
+                }
+            )
+
+            let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
+
+            self.presentViewController(activityViewController, animated: true, completion: nil)
+        }
+    }
+
+    func tryShareMyProfile() {
+
+        if let _ = profileUser?.username {
+            shareProfile()
+
+        } else {
+
+            YepAlert.textInput(title: NSLocalizedString("Create a username", comment: ""), message: NSLocalizedString("In order to share your profile, create a unique username first.", comment: ""), placeholder: NSLocalizedString("use letters, numbers, and underscore", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Create", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
+
+                let newUsername = text
+
+                updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
+                    defaultFailureHandler(reason, errorMessage)
+
+                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create username failed!", comment: ""), inViewController: self)
+
+                }, completion: { success in
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        let realm = Realm()
                         if let
-                            avatarURLString = YepUserDefaults.avatarURLString.value,
-                            avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()) {
-                                if let
-                                    avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
-                                    avatarFilePath = avatarFileURL.path,
-                                    image = UIImage(contentsOfFile: avatarFilePath) {
-                                        thumbnail = image.roundImageOfRadius(50)
+                            myUserID = YepUserDefaults.userID.value,
+                            me = userWithUserID(myUserID, inRealm: realm) {
+                                realm.write {
+                                    me.username = newUsername
                                 }
                         }
 
-                        let info = MonkeyKing.Message.WeChatSubtype.Info(
-                            title: NSLocalizedString("Match me if you can", comment: ""),
-                            description: NSLocalizedString("From Yep with Skills", comment: ""),
-                            thumbnail: thumbnail,
-                            media: .URL(profileURL)
-                        )
-
-                        let sessionMessage = MonkeyKing.Message.WeChat(.Session(info))
-
-                        let weChatSessionActivity = WeChatActivity(
-                            type: .Session,
-                            canPerform: sessionMessage.canBeDelivered,
-                            perform: {
-                                MonkeyKing.shareMessage(sessionMessage) { success in
-                                    println("share Profile to WeChat Session success: \(success)")
-                                }
-                            }
-                        )
-
-                        let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info))
-                        
-                        let weChatTimelineActivity = WeChatActivity(
-                            type: .Timeline,
-                            canPerform: timelineMessage.canBeDelivered,
-                            perform: {
-                                MonkeyKing.shareMessage(timelineMessage) { success in
-                                    println("share Profile to WeChat Timeline success: \(success)")
-                                }
-                            }
-                        )
-
-                        let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-
-                        self?.presentViewController(activityViewController, animated: true, completion: nil)
+                        self?.shareProfile()
                     }
-                }
+                })
 
-                if username.isEmpty {
-
-                    YepAlert.textInput(title: NSLocalizedString("Create a username", comment: ""), message: NSLocalizedString("In order to share your profile, create a unique username first.", comment: ""), placeholder: NSLocalizedString("use letters, numbers, and underscore", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Create", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
-
-                        let newUsername = text
-
-                        updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
-                            defaultFailureHandler(reason, errorMessage)
-
-                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create username failed!", comment: ""), inViewController: self)
-
-                        }, completion: { success in
-                            dispatch_async(dispatch_get_main_queue()) {
-                                let realm = Realm()
-                                if let
-                                    myUserID = YepUserDefaults.userID.value,
-                                    me = userWithUserID(myUserID, inRealm: realm) {
-                                        realm.write {
-                                            me.username = newUsername
-                                        }
-                                }
-
-                                shareProfileWithUsername(newUsername)
-                            }
-                        })
-
-                    }, cancelAction: {
-                    })
-
-                } else {
-                    shareProfileWithUsername(username)
-                }
+            }, cancelAction: {
+            })
         }
+    }
+
+    func shareOthersProfile() {
+        shareProfile()
     }
 
     func pickSkills() {

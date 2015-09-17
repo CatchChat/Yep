@@ -38,6 +38,22 @@ class MessageToolbar: UIToolbar {
 
     let messageTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(15)]
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+    struct Notification {
+        static let updateDraft = "UpdateDraftOfConversation"
+    }
+
+    var conversation: Conversation? {
+        willSet {
+            if let conversation = newValue {
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateDraft:", name: Notification.updateDraft, object: nil)
+            }
+        }
+    }
+
     var stateTransitionAction: ((messageToolbar: MessageToolbar, previousState: MessageToolbarState, currentState: MessageToolbarState) -> Void)?
 
     var previousState: MessageToolbarState = .Default
@@ -83,6 +99,8 @@ class MessageToolbar: UIToolbar {
                 
                 messageTextView.hidden = true
                 voiceRecordButton.hidden = false
+
+                messageTextView.text = nil
 
                 micButton.setImage(UIImage(named: "icon_keyboard"), forState: .Normal)
 
@@ -272,8 +290,8 @@ class MessageToolbar: UIToolbar {
     func showVoiceButtonAnimation() {
         let animation = CABasicAnimation(keyPath: "cornerRadius")
 
-        animation.fromValue = voiceRecordButton.layer.cornerRadius
-        let newCornerRadius = CGRectGetHeight(voiceRecordButton.bounds) * 0.5
+        animation.fromValue = normalCornerRadius
+        let newCornerRadius: CGFloat = 17
         animation.toValue = newCornerRadius
         animation.timingFunction = CAMediaTimingFunction(name: "easeInEaseOut")
         animation.repeatCount = 0
@@ -281,7 +299,7 @@ class MessageToolbar: UIToolbar {
         voiceRecordButton.layer.addAnimation(animation, forKey: "cornerRadius")
         
         voiceRecordButton.layer.cornerRadius = newCornerRadius
-        messageTextView.layer.cornerRadius = CGRectGetHeight(messageTextView.bounds) * 0.5
+        messageTextView.layer.cornerRadius = newCornerRadius
     }
 
     func hideVoiceButtonAnimation() {
@@ -319,6 +337,33 @@ class MessageToolbar: UIToolbar {
     }
 
     // MARK: Actions
+
+    func updateDraft(notification: NSNotification) {
+
+        if let conversation = conversation, realm = conversation.realm {
+
+            if let draft = conversation.draft {
+
+                realm.write { [weak self] in
+                    if let strongSelf = self {
+                        draft.messageToolbarState = strongSelf.state.rawValue
+
+                        if strongSelf.state == .BeginTextInput || strongSelf.state == .TextInputing {
+                            draft.text = strongSelf.messageTextView.text
+                        }
+                    }
+                }
+
+            } else {
+                let draft = Draft()
+                draft.messageToolbarState = state.rawValue
+                
+                realm.write {
+                    conversation.draft = draft
+                }
+            }
+        }
+    }
 
     func trySendTextMessage() {
         if let textSendAction = textSendAction {

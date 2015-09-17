@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>88</string>
+	<string>89</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -55,7 +55,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Find pepole around you</string>
+	<string>Meeting with near genius</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
