@@ -535,8 +535,98 @@ class ProfileViewController: UIViewController {
 
     // MARK: Actions
 
+    private func shareProfile() {
+
+         if let username = profileUser?.username, profileURL = NSURL(string: "http://soyep.com/\(username)") {
+
+            MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
+
+            var thumbnail: UIImage?
+
+            if let
+                avatarURLString = profileUser?.avatarURLString,
+                avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()) {
+                    if let
+                        avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
+                        avatarFilePath = avatarFileURL.path,
+                        image = UIImage(contentsOfFile: avatarFilePath) {
+                            thumbnail = image.roundImageOfRadius(50)
+                    }
+            }
+
+            let info = MonkeyKing.Message.WeChatSubtype.Info(
+                title: NSLocalizedString("Match me if you can", comment: ""),
+                description: NSLocalizedString("From Yep with Skills", comment: ""),
+                thumbnail: thumbnail,
+                media: .URL(profileURL)
+            )
+
+            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info))
+
+            let weChatSessionActivity = WeChatActivity(
+                type: .Session,
+                canPerform: sessionMessage.canBeDelivered,
+                perform: {
+                    MonkeyKing.shareMessage(sessionMessage) { success in
+                        println("share Profile to WeChat Session success: \(success)")
+                    }
+                }
+            )
+
+            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info))
+
+            let weChatTimelineActivity = WeChatActivity(
+                type: .Timeline,
+                canPerform: timelineMessage.canBeDelivered,
+                perform: {
+                    MonkeyKing.shareMessage(timelineMessage) { success in
+                        println("share Profile to WeChat Timeline success: \(success)")
+                    }
+                }
+            )
+
+            let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
+
+            self.presentViewController(activityViewController, animated: true, completion: nil)
+        }
+    }
+
     func tryShareMyProfile() {
 
+        if let _ = profileUser?.username {
+            shareProfile()
+
+        } else {
+
+            YepAlert.textInput(title: NSLocalizedString("Create a username", comment: ""), message: NSLocalizedString("In order to share your profile, create a unique username first.", comment: ""), placeholder: NSLocalizedString("use letters, numbers, and underscore", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Create", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
+
+                let newUsername = text
+
+                updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
+                    defaultFailureHandler(reason, errorMessage)
+
+                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create username failed!", comment: ""), inViewController: self)
+
+                }, completion: { success in
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        let realm = Realm()
+                        if let
+                            myUserID = YepUserDefaults.userID.value,
+                            me = userWithUserID(myUserID, inRealm: realm) {
+                                realm.write {
+                                    me.username = newUsername
+                                }
+                        }
+
+                        self?.shareProfile()
+                    }
+                })
+
+            }, cancelAction: {
+            })
+        }
+
+        /*
         if let
             myUserID = YepUserDefaults.userID.value,
             me = userWithUserID(myUserID, inRealm: Realm()) {
@@ -632,66 +722,12 @@ class ProfileViewController: UIViewController {
                     shareProfileWithUsername(username)
                 }
         }
+        */
     }
 
     func shareOthersProfile() {
-        println("shareOthersProfile")
-
-        if let username = profileUser?.username {
-            if let profileURL = NSURL(string: "http://soyep.com/\(username)") {
-
-                MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
-
-                var thumbnail: UIImage?
-
-                if let
-                    avatarURLString = profileUser?.avatarURLString,
-                    avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()) {
-                        if let
-                            avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
-                            avatarFilePath = avatarFileURL.path,
-                            image = UIImage(contentsOfFile: avatarFilePath) {
-                                thumbnail = image.roundImageOfRadius(50)
-                        }
-                }
-
-                let info = MonkeyKing.Message.WeChatSubtype.Info(
-                    title: NSLocalizedString("Match me if you can", comment: ""),
-                    description: NSLocalizedString("From Yep with Skills", comment: ""),
-                    thumbnail: thumbnail,
-                    media: .URL(profileURL)
-                )
-
-                let sessionMessage = MonkeyKing.Message.WeChat(.Session(info))
-
-                let weChatSessionActivity = WeChatActivity(
-                    type: .Session,
-                    canPerform: sessionMessage.canBeDelivered,
-                    perform: {
-                        MonkeyKing.shareMessage(sessionMessage) { success in
-                            println("share Profile to WeChat Session success: \(success)")
-                        }
-                    }
-                )
-
-                let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info))
-
-                let weChatTimelineActivity = WeChatActivity(
-                    type: .Timeline,
-                    canPerform: timelineMessage.canBeDelivered,
-                    perform: {
-                        MonkeyKing.shareMessage(timelineMessage) { success in
-                            println("share Profile to WeChat Timeline success: \(success)")
-                        }
-                    }
-                )
-
-                let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-
-                self.presentViewController(activityViewController, animated: true, completion: nil)
-            }
-        }
-    }
+        shareProfile()
+   }
 
     func pickSkills() {
 
