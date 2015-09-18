@@ -32,6 +32,10 @@ class PodsHelpYepViewController: UITableViewController {
             "URLString": "https://github.com/nixzhu/Ruler",
         ],
         [
+            "name": "MonkeyKing",
+            "URLString": "https://github.com/nixzhu/MonkeyKing",
+        ],
+        [
             "name": "APAddressBook/Swift",
             "URLString": "https://github.com/Alterplay/APAddressBook",
         ],
