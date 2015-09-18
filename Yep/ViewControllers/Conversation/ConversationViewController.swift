@@ -213,10 +213,18 @@ class ConversationViewController: BaseViewController {
         }
 
         navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
-        
+
+        view.tintAdjustmentMode = .Normal
+
+        /*
         let layout = ConversationLayout()
         layout.minimumLineSpacing = YepConfig.ChatCell.lineSpacing
         conversationCollectionView.setCollectionViewLayout(layout, animated: false)
+        */
+
+        if let layout = conversationCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.minimumLineSpacing = YepConfig.ChatCell.lineSpacing
+        }
 
         if messages.count >= messagesBunchCount {
             displayedMessagesRange = NSRange(location: Int(messages.count) - messagesBunchCount, length: messagesBunchCount)

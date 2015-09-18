@@ -56,7 +56,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
     enum More: Int, Printable {
         case Contacts
-        case FaceToFace
+        //case FaceToFace
 
         static var caseCount: Int {
             var max: Int = 0
@@ -70,8 +70,8 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
             case .Contacts:
                 return NSLocalizedString("Friends in Contacts", comment: "")
 
-            case .FaceToFace:
-                return NSLocalizedString("Face to Face", comment: "")
+            //case .FaceToFace:
+            //    return NSLocalizedString("Face to Face", comment: "")
             }
         }
     }
@@ -137,8 +137,8 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 showProposeMessageIfNeedForContactsAndTryPropose(propose)
 
-            case More.FaceToFace.rawValue:
-                break
+            //case More.FaceToFace.rawValue:
+            //    break
                 
             default:
                 break

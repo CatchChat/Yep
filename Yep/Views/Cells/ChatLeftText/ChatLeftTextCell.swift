@@ -88,6 +88,8 @@ class ChatLeftTextCell: ChatBaseCell {
             textContentLabelWidth += YepConfig.ChatCell.magicWidth
         }
 
+        textContentLabelWidth = max(textContentLabelWidth, YepConfig.ChatCell.minTextWidth)
+
         textContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3, width: textContentLabelWidth, height: bounds.height - 3 * 2)
         bubbleBodyImageView.frame = CGRectInset(textContainerView.frame, -12, -3)
         bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyImageView.frame), y: CGRectGetMidY(avatarImageView.frame))
