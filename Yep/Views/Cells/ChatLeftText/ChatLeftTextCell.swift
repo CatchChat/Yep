@@ -116,7 +116,20 @@ extension ChatLeftTextCell: UIGestureRecognizerDelegate {
 
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOfGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
 
-        return false
+        // iOS 9 在长按链接时不弹出 menu
+
+        if isOperatingSystemAtLeastMajorVersion(9) {
+
+            if let longPressGestureRecognizer = otherGestureRecognizer as? UILongPressGestureRecognizer {
+                if longPressGestureRecognizer.minimumPressDuration == 0.75 {
+                    return true
+                }
+            }
+
+            return false
+        }
+
+        return true
     }
 }
 

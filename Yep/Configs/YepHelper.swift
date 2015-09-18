@@ -78,3 +78,7 @@ func cleanRealmAndCaches() {
     NSNotificationCenter.defaultCenter().postNotificationName(EditProfileViewController.Notification.Logout, object: nil)
 }
 
+func isOperatingSystemAtLeastMajorVersion(majorVersion: Int) -> Bool {
+    return NSProcessInfo().isOperatingSystemAtLeastVersion(NSOperatingSystemVersion(majorVersion: majorVersion, minorVersion: 0, patchVersion: 0))
+}
+
