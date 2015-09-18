@@ -106,6 +106,16 @@ enum ProfileUser {
         return username
     }
 
+    var nickname: String {
+        switch self {
+        case .DiscoveredUserType(let discoveredUser):
+            return discoveredUser.nickname
+
+        case .UserType(let user):
+            return user.nickname
+        }
+    }
+
     var avatarURLString: String? {
 
         var avatarURLString: String? = nil
@@ -550,7 +560,7 @@ class ProfileViewController: UIViewController {
 
     private func shareProfile() {
 
-         if let username = profileUser?.username, profileURL = NSURL(string: "http://soyep.com/\(username)"), nickname =   profileUser?.username {
+         if let username = profileUser?.username, profileURL = NSURL(string: "http://soyep.com/\(username)"), nickname =   profileUser?.nickname {
 
             MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
 
@@ -568,8 +578,8 @@ class ProfileViewController: UIViewController {
             }
 
             let info = MonkeyKing.Message.WeChatSubtype.Info(
-                title: NSLocalizedString("Yep! I'm ", comment: "") + nickname,
-                description: NSLocalizedString("Match Genius Around You", comment: ""),
+                title: String(format:NSLocalizedString("Yep! I'm %@.", comment: ""), nickname),
+                description: NSLocalizedString("From Yep, with Skills.", comment: ""),
                 thumbnail: thumbnail,
                 media: .URL(profileURL)
             )

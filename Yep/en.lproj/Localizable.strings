@@ -135,10 +135,7 @@
 "Do you want to logout?" = "Do you want to logout?";
 
 /* No comment provided by engineer. */
-"Match Genius Around You" = "Match Genius Around You"
-
-/* No comment provided by engineer. */
-"Yep! I'm " = "Yep! I'm "
+"Yep! I'm %@." = "Yep！I'm %@.";
 
 /* No comment provided by engineer. */
 "Do you want to reject this friend request?" = "Do you want to reject this friend request?";
@@ -594,7 +591,7 @@
 "Match me if you can" = "Match me if you can";
 
 /* No comment provided by engineer. */
-"From Yep with Skills" = "From Yep with Skills";
+"From Yep, with Skills." = "From Yep, with Skills.";
 
 /* No comment provided by engineer. */
 "%@'s Dribbble" = "%@'s Dribbble";

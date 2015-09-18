@@ -590,10 +590,10 @@
 "Match me if you can" = "以技能匹配你我";
 
 /* No comment provided by engineer. */
-"Match Genius Around You" = "寻找身边的天才"
+"Yep! I'm %@." = "Yep! 我是“%@”。";
 
 /* No comment provided by engineer. */
-"From Yep with Skills" = "From Yep with Skills";
+"From Yep, with Skills." = "来自Yep，身怀绝技。";
 
 /* No comment provided by engineer. */
 "%@'s Dribbble" = "%@ 的 Dribbble";
@@ -609,9 +609,6 @@
 
 /* No comment provided by engineer. */
 "Set Username" = "设置用户名";
-
-/* No comment provided by engineer. */
-"Yep! I'm " = "Yep! 我是 "
 
 /* No comment provided by engineer. */
 "Please note that you can only set username once." = "请注意，您只能设置一次用户名。";
