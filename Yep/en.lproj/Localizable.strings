@@ -135,6 +135,12 @@
 "Do you want to logout?" = "Do you want to logout?";
 
 /* No comment provided by engineer. */
+"Match Genius Around You" = "Match Genius Around You"
+
+/* No comment provided by engineer. */
+"Yep! I'm " = "Yep! I'm "
+
+/* No comment provided by engineer. */
 "Do you want to reject this friend request?" = "Do you want to reject this friend request?";
 
 /* No comment provided by engineer. */
@@ -276,7 +282,7 @@
 "No more new friends." = "No more new friends.";
 
 /* No comment provided by engineer. */
-"No now" = "No now";
+"Not now" = "Not now";
 
 /* No comment provided by engineer. */
 "No search results." = "No search results.";

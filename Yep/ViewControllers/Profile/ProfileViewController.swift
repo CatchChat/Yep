@@ -497,7 +497,7 @@ class ProfileViewController: UIViewController {
 
                         if me.masterSkills.count == 0 && me.learningSkills.count == 0 {
 
-                            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("No now", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
+                            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
                                 self?.pickSkills()
                             }, cancelAction: {})
                         }
@@ -550,7 +550,7 @@ class ProfileViewController: UIViewController {
 
     private func shareProfile() {
 
-         if let username = profileUser?.username, profileURL = NSURL(string: "http://soyep.com/\(username)") {
+         if let username = profileUser?.username, profileURL = NSURL(string: "http://soyep.com/\(username)"), nickname =   profileUser?.username {
 
             MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
 
@@ -568,8 +568,8 @@ class ProfileViewController: UIViewController {
             }
 
             let info = MonkeyKing.Message.WeChatSubtype.Info(
-                title: NSLocalizedString("Match me if you can", comment: ""),
-                description: NSLocalizedString("From Yep with Skills", comment: ""),
+                title: NSLocalizedString("Yep! I'm ", comment: "") + nickname,
+                description: NSLocalizedString("Match Genius Around You", comment: ""),
                 thumbnail: thumbnail,
                 media: .URL(profileURL)
             )
