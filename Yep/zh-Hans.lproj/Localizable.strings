@@ -242,7 +242,7 @@
 "Meet" = "见面";
 
 /* No comment provided by engineer. */
-"Meet with genius" = "与天才相遇";
+"Meet with genius" = "Meet with genius";
 
 /* No comment provided by engineer. */
 "Mute" = "静音";
@@ -590,6 +590,9 @@
 "Match me if you can" = "以技能匹配你我";
 
 /* No comment provided by engineer. */
+"Match Genius Around You" = "寻找身边的天才"
+
+/* No comment provided by engineer. */
 "From Yep with Skills" = "From Yep with Skills";
 
 /* No comment provided by engineer. */
@@ -606,6 +609,9 @@
 
 /* No comment provided by engineer. */
 "Set Username" = "设置用户名";
+
+/* No comment provided by engineer. */
+"Yep! I'm " = "Yep! 我是 "
 
 /* No comment provided by engineer. */
 "Please note that you can only set username once." = "请注意，您只能设置一次用户名。";

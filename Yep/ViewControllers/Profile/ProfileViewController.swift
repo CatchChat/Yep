@@ -550,7 +550,7 @@ class ProfileViewController: UIViewController {
 
     private func shareProfile() {
 
-         if let username = profileUser?.username, profileURL = NSURL(string: "http://soyep.com/\(username)") {
+         if let username = profileUser?.username, profileURL = NSURL(string: "http://soyep.com/\(username)"), nickname =   profileUser?.username {
 
             MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
 
@@ -568,8 +568,8 @@ class ProfileViewController: UIViewController {
             }
 
             let info = MonkeyKing.Message.WeChatSubtype.Info(
-                title: NSLocalizedString("Match me if you can", comment: ""),
-                description: NSLocalizedString("From Yep with Skills", comment: ""),
+                title: NSLocalizedString("Yep! I'm ", comment: "") + nickname,
+                description: NSLocalizedString("Match Genius Around You", comment: ""),
                 thumbnail: thumbnail,
                 media: .URL(profileURL)
             )
