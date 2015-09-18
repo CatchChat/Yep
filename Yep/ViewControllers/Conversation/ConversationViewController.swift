@@ -1512,9 +1512,9 @@ class ConversationViewController: BaseViewController {
             if newMessagesCount != messageIDs.count {
                 reloadConversationCollectionView()
                 println("newMessagesCount != messageIDs.count")
-                //#if DEBUG
+                #if DEBUG
                     YepAlert.alertSorry(message: "请截屏报告!\nnewMessagesCount: \(newMessagesCount)\nmessageIDs.count: \(messageIDs.count): \(messageIDs)", inViewController: self)
-                //#endif
+                #endif
                 return
             }
         }
