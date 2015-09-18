@@ -124,11 +124,13 @@ class ProfileHeaderCell: UICollectionViewCell {
             avatarBlurImageView.alpha = 0
         }
 
-        AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!) { [weak self] image in
+        AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!) { [weak self] isFinish, image in
 
-            self?.blurImage(image) { blurredImage in
-                dispatch_async(dispatch_get_main_queue()) {
-                    self?.blurredAvatarImage = blurredImage
+            if isFinish {
+                self?.blurImage(image) { blurredImage in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self?.blurredAvatarImage = blurredImage
+                    }
                 }
             }
 

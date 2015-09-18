@@ -75,9 +75,9 @@ class AvatarCache {
 //        }
 //    }
 
-    func avatarFromURL(url: NSURL, completion: (UIImage) -> ()) {
+    func avatarFromURL(url: NSURL, completion: (isFinish: Bool, image: UIImage) -> ()) {
 
-        completion(UIImage(named: "default_avatar")!)
+        completion(isFinish: false, image: UIImage(named: "default_avatar")!)
 
         let normalImageKey = "normal-\(url.hashValue)"
 
@@ -85,7 +85,7 @@ class AvatarCache {
 
         // 先看看缓存
         if let normalImage = cache.objectForKey(normalImageKey) as? UIImage {
-            completion(normalImage)
+            completion(isFinish: true, image: normalImage)
 
         } else {
             dispatch_async(self.cacheQueue) {
@@ -98,7 +98,7 @@ class AvatarCache {
 
                         self.cache.setObject(image, forKey: normalImageKey)
 
-                        completion(image)
+                        completion(isFinish: true, image: image)
 
                 } else {
                     // 没办法，下载吧
@@ -133,7 +133,7 @@ class AvatarCache {
                         
                         self.cache.setObject(image, forKey: normalImageKey)
                         
-                        completion(image)
+                        completion(isFinish: true, image: image)
                     }
                 }
             }
