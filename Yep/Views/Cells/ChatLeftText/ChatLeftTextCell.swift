@@ -41,8 +41,9 @@ class ChatLeftTextCell: ChatBaseCell {
         ]
 
         let longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
-        textContainerView.addGestureRecognizer(longPress)
+        longPress.minimumPressDuration = 0.3
         longPress.delegate = self
+        textContainerView.addGestureRecognizer(longPress)
 
         textContainerView.copyTextAction = { [weak self] in
             UIPasteboard.generalPasteboard().string = self?.textContentTextView.text
@@ -115,7 +116,7 @@ extension ChatLeftTextCell: UIGestureRecognizerDelegate {
 
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOfGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
 
-        return true
+        return false
     }
 }
 
