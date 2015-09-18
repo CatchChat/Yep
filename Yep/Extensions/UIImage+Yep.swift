@@ -16,6 +16,11 @@ extension UIImage {
         return self.largestCenteredSquareImage().resizeToTargetSize(CGSize(width: radius * 2, height: radius * 2)).roundImage()
     }
 
+    func squareImageOfSize(size: CGFloat) -> UIImage {
+        let size = floor(size - Ruler.match(.iPhoneWidths(0.5, 0.5, 1.5)))
+        return self.largestCenteredSquareImage().resizeToTargetSize(CGSize(width: size, height: size))
+    }
+
     func largestCenteredSquareImage() -> UIImage {
         let scale = self.scale
 

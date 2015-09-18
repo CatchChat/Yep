@@ -573,7 +573,8 @@ class ProfileViewController: UIViewController {
                         avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
                         avatarFilePath = avatarFileURL.path,
                         image = UIImage(contentsOfFile: avatarFilePath) {
-                            thumbnail = image.roundImageOfRadius(50)
+                            //thumbnail = image.roundImageOfRadius(50)
+                            thumbnail = image.squareImageOfSize(100)
                     }
             }
 
