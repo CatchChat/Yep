@@ -31,12 +31,12 @@ class SkillHomeHeaderView: UIView {
     }()
     
     lazy var masterButton: SkillHomeSectionButton = {
-        let button = createSkillHomeButtonWithText("Master", 100, YepConfig.skillHomeHeaderButtonHeight)
+        let button = createSkillHomeButtonWithText(NSLocalizedString("Master", comment: ""), 100, YepConfig.skillHomeHeaderButtonHeight)
         return button
     }()
     
     lazy var learningButton: SkillHomeSectionButton = {
-        let button = createSkillHomeButtonWithText("Learning", 100, YepConfig.skillHomeHeaderButtonHeight)
+        let button = createSkillHomeButtonWithText(NSLocalizedString("Learning", comment: ""), 100, YepConfig.skillHomeHeaderButtonHeight)
         return button
     }()
 
