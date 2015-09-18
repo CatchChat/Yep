@@ -32,3 +32,29 @@ class ChatBaseCell: UICollectionViewCell {
     }
 }
 
+extension ChatBaseCell: UIGestureRecognizerDelegate {
+
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+
+        return true
+    }
+
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOfGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+
+        // iOS 9 在长按链接时不弹出 menu
+
+        if isOperatingSystemAtLeastMajorVersion(9) {
+
+            if let longPressGestureRecognizer = otherGestureRecognizer as? UILongPressGestureRecognizer {
+                if longPressGestureRecognizer.minimumPressDuration == 0.75 {
+                    return true
+                }
+            }
+
+            return false
+        }
+        
+        return true
+    }
+}
+

@@ -42,7 +42,7 @@ class ChatLeftTextCell: ChatBaseCell {
 
         let longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
         longPress.minimumPressDuration = 0.3
-        longPress.delegate = self
+        longPress.delegate = self // 由 ChatBaseCell 负责
         textContainerView.addGestureRecognizer(longPress)
 
         textContainerView.copyTextAction = { [weak self] in
@@ -104,32 +104,6 @@ class ChatLeftTextCell: ChatBaseCell {
                 }
             }
         }
-    }
-}
-
-extension ChatLeftTextCell: UIGestureRecognizerDelegate {
-    
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-
-        return true
-    }
-
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOfGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-
-        // iOS 9 在长按链接时不弹出 menu
-
-        if isOperatingSystemAtLeastMajorVersion(9) {
-
-            if let longPressGestureRecognizer = otherGestureRecognizer as? UILongPressGestureRecognizer {
-                if longPressGestureRecognizer.minimumPressDuration == 0.75 {
-                    return true
-                }
-            }
-
-            return false
-        }
-
-        return true
     }
 }
 
