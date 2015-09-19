@@ -1184,13 +1184,14 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             if let profileUser = profileUser {
 
-                var providerName = ""
+                var providerName: String?
 
                 switch profileUser {
 
                 case .DiscoveredUserType(let discoveredUser):
-                    let provider = discoveredUser.socialAccountProviders.filter({ $0.enabled })[indexPath.row]
-                    providerName = provider.name
+                    if let provider = discoveredUser.socialAccountProviders.filter({ $0.enabled })[safe: indexPath.row] {
+                        providerName = provider.name
+                    }
 
                 case .UserType(let user):
                     if user.friendState == UserFriendState.Me.rawValue {
@@ -1198,12 +1199,13 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                         providerName = provider.name
 
                     } else {
-                        let provider = user.socialAccountProviders.filter("enabled = true")[indexPath.row]
-                        providerName = provider.name
+                        if let provider = user.socialAccountProviders.filter("enabled = true")[safe: indexPath.row] {
+                            providerName = provider.name
+                        }
                     }
                 }
 
-                if let socialAccount = SocialAccount(rawValue: providerName) {
+                if let providerName = providerName, socialAccount = SocialAccount(rawValue: providerName) {
 
                     if socialAccount == .Github {
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountGithubCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountGithubCell
@@ -1249,7 +1251,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                         
                         return cell
                     }
-                    
                 }
             }
 
@@ -1438,13 +1439,14 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             if let profileUser = profileUser {
 
-                var providerName = ""
+                var providerName: String?
 
                 switch profileUser {
 
                 case .DiscoveredUserType(let discoveredUser):
-                    let provider = discoveredUser.socialAccountProviders.filter({ $0.enabled })[indexPath.row]
-                    providerName = provider.name
+                    if let provider = discoveredUser.socialAccountProviders.filter({ $0.enabled })[safe: indexPath.row] {
+                        providerName = provider.name
+                    }
 
                 case .UserType(let user):
 
@@ -1453,12 +1455,13 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                         providerName = provider.name
 
                     } else {
-                        let provider = user.socialAccountProviders.filter("enabled = true")[indexPath.row]
-                        providerName = provider.name
+                        if let provider = user.socialAccountProviders.filter("enabled = true")[safe: indexPath.row] {
+                            providerName = provider.name
+                        }
                     }
                 }
 
-                if let socialAccount = SocialAccount(rawValue: providerName) {
+                if let providerName = providerName, socialAccount = SocialAccount(rawValue: providerName) {
 
                     if profileUser.enabledSocialAccount(socialAccount) {
                         performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: providerName)
