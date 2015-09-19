@@ -486,7 +486,29 @@ class ProfileViewController: UIViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout", name: EditProfileViewController.Notification.Logout, object: nil)
 
-        if profileUser == nil {
+        if let profileUser = profileUser {
+
+            // 如果是 DiscoveredUser，也可能是好友或已存储的陌生人，查询本地 User 替换
+
+            switch profileUser {
+
+            case .DiscoveredUserType(let discoveredUser):
+
+                if let user = userWithUserID(discoveredUser.id, inRealm: Realm()) {
+                    self.profileUser = ProfileUser.UserType(user)
+
+                    masterSkills = skillsFromUserSkillList(user.masterSkills)
+                    learningSkills = skillsFromUserSkillList(user.learningSkills)
+                }
+
+            default:
+                break
+            }
+
+        } else {
+
+            // 为空的话就要显示自己
+
             if let
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID, inRealm: Realm()) {
