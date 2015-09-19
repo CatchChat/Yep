@@ -14,3 +14,10 @@ extension Results {
         return (index >= 0 && index < count) ? self[index] : nil
     }
 }
+
+extension List {
+
+    subscript (safe index: Int) -> T? {
+        return (index >= 0 && index < count) ? self[index] : nil
+    }
+}

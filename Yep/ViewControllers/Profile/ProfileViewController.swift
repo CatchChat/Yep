@@ -184,14 +184,131 @@ enum ProfileUser {
 
         return accountEnabled
     }
+
+    var masterSkillsCount: Int {
+        switch self {
+        case .DiscoveredUserType(let discoveredUser):
+            return discoveredUser.masterSkills.count
+        case .UserType(let user):
+            return Int(user.masterSkills.count)
+        }
+    }
+
+    var learningSkillsCount: Int {
+        switch self {
+        case .DiscoveredUserType(let discoveredUser):
+            return discoveredUser.learningSkills.count
+        case .UserType(let user):
+            return Int(user.learningSkills.count)
+        }
+    }
+
+    var providersCount: Int {
+
+        switch self {
+
+        case .DiscoveredUserType(let discoveredUser):
+            return discoveredUser.socialAccountProviders.filter({ $0.enabled }).count
+
+        case .UserType(let user):
+
+            if user.friendState == UserFriendState.Me.rawValue {
+                return user.socialAccountProviders.count
+
+            } else {
+                return user.socialAccountProviders.filter("enabled = true").count
+            }
+        }
+    }
+
+    func cellSkillInSkillSet(skillSet: SkillSet, atIndexPath indexPath: NSIndexPath)  -> SkillCell.Skill? {
+
+        switch self {
+
+        case .DiscoveredUserType(let discoveredUser):
+
+            let skill: Skill?
+            switch skillSet {
+            case .Master:
+                skill = discoveredUser.masterSkills[safe: indexPath.item]
+            case .Learning:
+                skill = discoveredUser.learningSkills[safe: indexPath.item]
+            }
+
+            if let skill = skill {
+                return SkillCell.Skill(ID: skill.id, localName: skill.localName, coverURLString: skill.coverURLString, category: skill.skillCategory)
+            }
+
+        case .UserType(let user):
+
+            let userSkill: UserSkill?
+            switch skillSet {
+            case .Master:
+                userSkill = user.masterSkills[safe: indexPath.item]
+            case .Learning:
+                userSkill = user.learningSkills[safe: indexPath.item]
+            }
+
+            if let userSkill = userSkill {
+                return SkillCell.Skill(ID: userSkill.skillID, localName: userSkill.localName, coverURLString: userSkill.coverURLString, category: userSkill.skillCategory)
+            }
+        }
+
+        return nil
+    }
+
+    func providerNameWithIndexPath(indexPath: NSIndexPath) -> String? {
+
+        var providerName: String?
+
+        switch self {
+
+        case .DiscoveredUserType(let discoveredUser):
+            if let provider = discoveredUser.socialAccountProviders.filter({ $0.enabled })[safe: indexPath.row] {
+                providerName = provider.name
+            }
+
+        case .UserType(let user):
+
+            if user.friendState == UserFriendState.Me.rawValue {
+                let provider = user.socialAccountProviders[indexPath.row]
+                providerName = provider.name
+
+            } else {
+                if let provider = user.socialAccountProviders.filter("enabled = true")[safe: indexPath.row] {
+                    providerName = provider.name
+                }
+            }
+        }
+
+        return providerName
+    }
+
+    var needSeparationLine: Bool {
+
+        var need = true
+
+        switch self {
+
+        case .DiscoveredUserType(let discoveredUser):
+            need = discoveredUser.socialAccountProviders.filter({ $0.enabled }).count > 0
+
+        case .UserType(let user):
+            if user.friendState != UserFriendState.Me.rawValue {
+                need = user.socialAccountProviders.filter("enabled = true").count > 0
+            }
+        }
+
+        return need
+    }
 }
 
 class ProfileViewController: UIViewController {
 
     var statusBarShouldLight = false
-    
+
     var noNeedToChangeStatusBar = false
-    
+
     var isFromConversation = false
 
     var profileUser: ProfileUser?
@@ -943,7 +1060,9 @@ class ProfileViewController: UIViewController {
             }
 
         } else if segue.identifier == "presentOAuth" {
+
             if let providerName = sender as? String {
+
                 let nvc = segue.destinationViewController as! UINavigationController
                 let vc = nvc.topViewController as! OAuthViewController
                 vc.socialAccount = SocialAccount(rawValue: providerName)
@@ -989,7 +1108,9 @@ class ProfileViewController: UIViewController {
             }
 
         } else if segue.identifier == "showSocialWorkGithub" {
+
             if let providerName = sender as? String {
+
                 let vc = segue.destinationViewController as! SocialWorkGithubViewController
                 vc.socialAccount = SocialAccount(rawValue: providerName)
                 vc.profileUser = profileUser
@@ -1001,7 +1122,9 @@ class ProfileViewController: UIViewController {
             }
 
         } else if segue.identifier == "showSocialWorkDribbble" {
+
             if let providerName = sender as? String {
+
                 let vc = segue.destinationViewController as! SocialWorkDribbbleViewController
                 vc.socialAccount = SocialAccount(rawValue: providerName)
                 vc.profileUser = profileUser
@@ -1013,7 +1136,9 @@ class ProfileViewController: UIViewController {
             }
 
         } else if segue.identifier == "showSocialWorkInstagram" {
+
             if let providerName = sender as? String {
+
                 let vc = segue.destinationViewController as! SocialWorkInstagramViewController
                 vc.socialAccount = SocialAccount(rawValue: providerName)
                 vc.profileUser = profileUser
@@ -1052,29 +1177,10 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return 1
 
         case ProfileSection.Master.rawValue:
-            if let profileUser = profileUser {
-                switch profileUser {
-                case .DiscoveredUserType(let discoveredUser):
-                    return discoveredUser.masterSkills.count
-                case .UserType(let user):
-                    return Int(user.masterSkills.count)
-                }
-            }
-
-            return 0
+            return profileUser?.masterSkillsCount ?? 0
 
         case ProfileSection.Learning.rawValue:
-
-            if let profileUser = profileUser {
-                switch profileUser {
-                case .DiscoveredUserType(let discoveredUser):
-                    return discoveredUser.learningSkills.count
-                case .UserType(let user):
-                    return Int(user.learningSkills.count)
-                }
-            }
-
-            return 0
+            return profileUser?.learningSkillsCount ?? 0
 
         case ProfileSection.Footer.rawValue:
             return 1
@@ -1083,25 +1189,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return 1
             
         case ProfileSection.SocialAccount.rawValue:
-
-            if let profileUser = profileUser {
-                switch profileUser {
-
-                case .DiscoveredUserType(let discoveredUser):
-                    return discoveredUser.socialAccountProviders.filter({ $0.enabled }).count
-
-                case .UserType(let user):
-
-                    if user.friendState == UserFriendState.Me.rawValue {
-                        return user.socialAccountProviders.count
-
-                    } else {
-                        return user.socialAccountProviders.filter("enabled = true").count
-                    }
-                }
-            }
-
-            return 0
+            return profileUser?.providersCount ?? 0
 
         default:
             return 0
@@ -1129,17 +1217,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Master.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
 
-            if let profileUser = profileUser {
-                switch profileUser {
-                case .DiscoveredUserType(let discoveredUser):
-                    let skill = discoveredUser.masterSkills[indexPath.item]
-                    cell.skill = SkillCell.Skill(ID: skill.id, localName: skill.localName, coverURLString: skill.coverURLString, category: skill.skillCategory)
-
-                case .UserType(let user):
-                    let userSkill = user.masterSkills[indexPath.item]
-                    cell.skill = SkillCell.Skill(ID: userSkill.skillID, localName: userSkill.localName, coverURLString: userSkill.coverURLString, category: userSkill.skillCategory)
-                }
-            }
+            cell.skill = profileUser?.cellSkillInSkillSet(.Master, atIndexPath: indexPath)
 
             cell.tapAction = { [weak self] skill in
                 self?.performSegueWithIdentifier("showSkillHome", sender: ["skill": skill, "preferedSkillSet": SkillSet.Master.rawValue])
@@ -1150,17 +1228,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Learning.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
 
-            if let profileUser = profileUser {
-                switch profileUser {
-                case .DiscoveredUserType(let discoveredUser):
-                    let skill = discoveredUser.learningSkills[indexPath.item]
-                    cell.skill = SkillCell.Skill(ID: skill.id, localName: skill.localName, coverURLString: skill.coverURLString, category: skill.skillCategory)
-
-                case .UserType(let user):
-                    let userSkill = user.learningSkills[indexPath.item]
-                    cell.skill = SkillCell.Skill(ID: userSkill.skillID, localName: userSkill.localName, coverURLString: userSkill.coverURLString, category: userSkill.skillCategory)
-                }
-            }
+            cell.skill = profileUser?.cellSkillInSkillSet(.Learning, atIndexPath: indexPath)
 
             cell.tapAction = { [weak self] skill in
                 self?.performSegueWithIdentifier("showSkillHome", sender: ["skill": skill, "preferedSkillSet": SkillSet.Learning.rawValue])
@@ -1182,75 +1250,51 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             
         case ProfileSection.SocialAccount.rawValue:
 
-            if let profileUser = profileUser {
+            if let providerName = profileUser?.providerNameWithIndexPath(indexPath), socialAccount = SocialAccount(rawValue: providerName) {
 
-                var providerName: String?
+                if socialAccount == .Github {
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountGithubCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountGithubCell
 
-                switch profileUser {
+                    cell.configureWithProfileUser(profileUser, socialAccount: socialAccount, githubWork: githubWork, completion: { githubWork in
+                        self.githubWork = githubWork
+                    })
 
-                case .DiscoveredUserType(let discoveredUser):
-                    if let provider = discoveredUser.socialAccountProviders.filter({ $0.enabled })[safe: indexPath.row] {
-                        providerName = provider.name
-                    }
+                    return cell
 
-                case .UserType(let user):
-                    if user.friendState == UserFriendState.Me.rawValue {
-                        let provider = user.socialAccountProviders[indexPath.row]
-                        providerName = provider.name
+                } else {
 
-                    } else {
-                        if let provider = user.socialAccountProviders.filter("enabled = true")[safe: indexPath.row] {
-                            providerName = provider.name
-                        }
-                    }
-                }
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountImagesCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountImagesCell
 
-                if let providerName = providerName, socialAccount = SocialAccount(rawValue: providerName) {
+                    var socialWork: SocialWork?
 
-                    if socialAccount == .Github {
-                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountGithubCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountGithubCell
+                    switch socialAccount {
 
-                        cell.configureWithProfileUser(profileUser, socialAccount: socialAccount, githubWork: githubWork, completion: { githubWork in
-                            self.githubWork = githubWork
-                        })
-
-                        return cell
-
-                    } else {
-
-                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountImagesCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountImagesCell
-
-                        var socialWork: SocialWork?
-
-                        switch socialAccount {
-
-                        case .Dribbble:
-                            if let dribbbleWork = dribbbleWork {
-                                socialWork = SocialWork.Dribbble(dribbbleWork)
-                            }
-
-                        case .Instagram:
-                            if let instagramWork = instagramWork {
-                                socialWork = SocialWork.Instagram(instagramWork)
-                            }
-
-                        default:
-                            break
+                    case .Dribbble:
+                        if let dribbbleWork = dribbbleWork {
+                            socialWork = SocialWork.Dribbble(dribbbleWork)
                         }
 
-                        cell.configureWithProfileUser(profileUser, socialAccount: socialAccount, socialWork: socialWork, completion: { socialWork in
-                            switch socialWork {
+                    case .Instagram:
+                        if let instagramWork = instagramWork {
+                            socialWork = SocialWork.Instagram(instagramWork)
+                        }
 
-                            case .Dribbble(let dribbbleWork):
-                                self.dribbbleWork = dribbbleWork
-                                
-                            case .Instagram(let instagramWork):
-                                self.instagramWork = instagramWork
-                            }
-                        })
-                        
-                        return cell
+                    default:
+                        break
                     }
+
+                    cell.configureWithProfileUser(profileUser, socialAccount: socialAccount, socialWork: socialWork, completion: { socialWork in
+                        switch socialWork {
+
+                        case .Dribbble(let dribbbleWork):
+                            self.dribbbleWork = dribbbleWork
+
+                        case .Instagram(let instagramWork):
+                            self.instagramWork = instagramWork
+                        }
+                    })
+                    
+                    return cell
                 }
             }
 
@@ -1347,68 +1391,37 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         switch indexPath.section {
 
         case ProfileSection.Header.rawValue:
+
             return CGSize(width: collectionViewWidth, height: collectionViewWidth * profileAvatarAspectRatio)
 
         case ProfileSection.Master.rawValue:
-            var skillLocalName = ""
 
-            if let profileUser = profileUser {
-                switch profileUser {
-
-                case .DiscoveredUserType(let discoveredUser):
-                    skillLocalName = discoveredUser.masterSkills[indexPath.item].localName
-
-                case .UserType(let user):
-                    let userSkill = user.masterSkills[indexPath.item]
-                    skillLocalName = userSkill.localName
-                }
-            }
+            var skillLocalName = profileUser?.cellSkillInSkillSet(.Master, atIndexPath: indexPath)?.localName ?? ""
 
             let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
             return CGSize(width: rect.width + 24, height: SkillCell.height)
 
         case ProfileSection.Learning.rawValue:
-            var skillLocalName = ""
 
-            if let profileUser = profileUser {
-                switch profileUser {
-
-                case .DiscoveredUserType(let discoveredUser):
-                    skillLocalName = discoveredUser.learningSkills[indexPath.item].localName
-
-                case .UserType(let user):
-                    let userSkill = user.learningSkills[indexPath.item]
-                    skillLocalName = userSkill.localName
-                }
-            }
+            var skillLocalName = profileUser?.cellSkillInSkillSet(.Learning, atIndexPath: indexPath)?.localName ?? ""
 
             let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
 
             return CGSize(width: rect.width + 24, height: SkillCell.height)
 
         case ProfileSection.Footer.rawValue:
+
             return CGSize(width: collectionViewWidth, height: footerCellHeight)
 
         case ProfileSection.SeparationLine.rawValue:
-            var enabled = true
 
-            if let profileUser = profileUser {
-                switch profileUser {
-
-                case .DiscoveredUserType(let discoveredUser):
-                    enabled = discoveredUser.socialAccountProviders.filter({ $0.enabled }).count > 0
-
-                case .UserType(let user):
-                    if user.friendState != UserFriendState.Me.rawValue {
-                        enabled = user.socialAccountProviders.filter("enabled = true").count > 0
-                    }
-                }
-            }
+            var enabled = profileUser?.needSeparationLine ?? true
 
             return enabled ? CGSize(width: collectionViewWidth, height: 1) : CGSizeZero
             
         case ProfileSection.SocialAccount.rawValue:
+
             return CGSize(width: collectionViewWidth, height: 40)
 
         default:
@@ -1439,29 +1452,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             if let profileUser = profileUser {
 
-                var providerName: String?
-
-                switch profileUser {
-
-                case .DiscoveredUserType(let discoveredUser):
-                    if let provider = discoveredUser.socialAccountProviders.filter({ $0.enabled })[safe: indexPath.row] {
-                        providerName = provider.name
-                    }
-
-                case .UserType(let user):
-
-                    if user.friendState == UserFriendState.Me.rawValue {
-                        let provider = user.socialAccountProviders[indexPath.row]
-                        providerName = provider.name
-
-                    } else {
-                        if let provider = user.socialAccountProviders.filter("enabled = true")[safe: indexPath.row] {
-                            providerName = provider.name
-                        }
-                    }
-                }
-
-                if let providerName = providerName, socialAccount = SocialAccount(rawValue: providerName) {
+                if let providerName = profileUser.providerNameWithIndexPath(indexPath), socialAccount = SocialAccount(rawValue: providerName) {
 
                     if profileUser.enabledSocialAccount(socialAccount) {
                         performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: providerName)
@@ -1481,7 +1472,7 @@ extension ProfileViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if scrollView.contentOffset.y < -300 {
-            YepAlert.alert(title: "Hello", message: "Hi, my name is NIX.\nHow are you?", dismissTitle: "I'm fine.", inViewController: self, withDismissAction: nil)
+            YepAlert.alert(title: "Hello", message: "My name is NIX.\nHow are you?", dismissTitle: "I'm fine.", inViewController: self, withDismissAction: nil)
         }
     }
 }
