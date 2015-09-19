@@ -1339,10 +1339,10 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             switch indexPath.section {
 
             case ProfileSection.Master.rawValue:
-                header.titleLabel.text = NSLocalizedString("Master", comment: "")
+                header.titleLabel.text = SkillSet.Master.name
 
             case ProfileSection.Learning.rawValue:
-                header.titleLabel.text = NSLocalizedString("Learning", comment: "")
+                header.titleLabel.text = SkillSet.Learning.name
 
             default:
                 header.titleLabel.text = ""

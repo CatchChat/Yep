@@ -328,12 +328,12 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             }
             alertController.addAction(cancelAction)
 
-            let learningAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Learning", comment: ""), style: .Default) { action in
+            let learningAction: UIAlertAction = UIAlertAction(title: SkillSet.Learning.name, style: .Default) { action in
                 doAddSkillToSkillSet(.Learning)
             }
             alertController.addAction(learningAction)
 
-            let masterAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Master", comment: ""), style: .Default) { action in
+            let masterAction: UIAlertAction = UIAlertAction(title: SkillSet.Master.name, style: .Default) { action in
                 doAddSkillToSkillSet(.Master)
             }
             alertController.addAction(masterAction)
