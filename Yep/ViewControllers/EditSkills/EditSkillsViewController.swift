@@ -192,9 +192,6 @@ class EditSkillsViewController: BaseViewController {
                                     success = true
                                 }
                             }
-                            
-                        default:
-                            break
                         }
 
                         strongSelf.updateSkillsTableView()

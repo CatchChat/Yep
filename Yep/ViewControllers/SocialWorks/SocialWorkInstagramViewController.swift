@@ -34,7 +34,7 @@ class SocialWorkInstagramViewController: BaseViewController {
         didSet {
             updateInstagramCollectionView()
 
-            if let firstMedia = instagramMedias.first {
+            if let _ = instagramMedias.first {
                 shareButton.enabled = true
             }
         }

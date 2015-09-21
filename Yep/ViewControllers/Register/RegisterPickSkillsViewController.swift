@@ -257,9 +257,6 @@ class RegisterPickSkillsViewController: BaseViewController {
                                     success = true
                                 }
                             }
-
-                        default:
-                            break
                         }
 
                         strongSelf.updateSkillsCollectionView()
@@ -325,7 +322,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
                 cell.addSkillsAction = { [weak self] skillSet in
 
-                    if let skillCategories = self?.skillCategories {
+                    if let _ = self?.skillCategories {
                         self?.performSegueWithIdentifier("presentSelectSkills", sender: skillSet.rawValue)
 
                     } else {
@@ -358,7 +355,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
                 cell.addSkillsAction = { [weak self] skillSet in
 
-                    if let skillCategories = self?.skillCategories {
+                    if let _ = self?.skillCategories {
                         self?.performSegueWithIdentifier("presentSelectSkills", sender: skillSet.rawValue)
 
                     } else {

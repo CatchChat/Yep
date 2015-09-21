@@ -306,9 +306,6 @@ extension DiscoverFilterView: UITableViewDataSource, UITableViewDelegate {
                 cell.colorTitleLabelFontStyle = .Regular
                 
                 return cell
-                
-            default:
-                break
             }
         }
         
@@ -337,9 +334,6 @@ extension DiscoverFilterView: UITableViewDataSource, UITableViewDelegate {
 
             case .Cancel:
                 hide()
-                
-            default:
-                break
             }
         }
     }

@@ -75,7 +75,7 @@ extension OAuthViewController: UIWebViewDelegate {
 
         if (!authenticated) {
             failedRequest = request
-            NSURLConnection(request: request, delegate: self)
+            //NSURLConnection(request: request, delegate: self)
         }
 
         return result

@@ -90,11 +90,11 @@ class ProfileLayout: UICollectionViewFlowLayout {
         }
 
         // 再调整每一行的 item 的 frame
-        for (key, rowCollection) in rowCollections {
-            let rowItemsCount = rowCollection.count
+        for (_, rowCollection) in rowCollections {
+            //let rowItemsCount = rowCollection.count
 
             // 每一行总的 InteritemSpacing
-            let aggregateInteritemSpacing = minimumInteritemSpacing * CGFloat(rowItemsCount - 1)
+            //let aggregateInteritemSpacing = minimumInteritemSpacing * CGFloat(rowItemsCount - 1)
 
             // 每一行所有 items 的宽度
             var aggregateItemsWidth: CGFloat = 0
@@ -103,8 +103,8 @@ class ProfileLayout: UICollectionViewFlowLayout {
             }
 
             // 计算出有效的 width 和需要偏移的 offset
-            let alignmentWidth = aggregateItemsWidth + aggregateInteritemSpacing
-            let alignmentOffsetX = (CGRectGetWidth(collectionView!.bounds) - alignmentWidth) / 2
+            //let alignmentWidth = aggregateItemsWidth + aggregateInteritemSpacing
+            //let alignmentOffsetX = (CGRectGetWidth(collectionView!.bounds) - alignmentWidth) / 2
 
             // 调整每个 item 的 origin.x 即可
             var previousFrame = CGRectZero

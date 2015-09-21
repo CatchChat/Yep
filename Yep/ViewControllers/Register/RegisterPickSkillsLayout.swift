@@ -35,10 +35,10 @@ class RegisterPickSkillsLayout: UICollectionViewFlowLayout {
 
         // 再调整每一行的 item 的 frame
         for (_, rowCollection) in rowCollections {
-            let rowItemsCount = rowCollection.count
+            //let rowItemsCount = rowCollection.count
 
             // 每一行总的 InteritemSpacing
-            let aggregateInteritemSpacing = minimumInteritemSpacing * CGFloat(rowItemsCount - 1)
+            //let aggregateInteritemSpacing = minimumInteritemSpacing * CGFloat(rowItemsCount - 1)
 
             // 每一行所有 items 的宽度
             var aggregateItemsWidth: CGFloat = 0
@@ -47,7 +47,7 @@ class RegisterPickSkillsLayout: UICollectionViewFlowLayout {
             }
 
             // 计算出有效的 width 和需要偏移的 offset
-            let alignmentWidth = aggregateItemsWidth + aggregateInteritemSpacing
+            //let alignmentWidth = aggregateItemsWidth + aggregateInteritemSpacing
             //let alignmentOffsetX = (CGRectGetWidth(collectionView!.bounds) - alignmentWidth) / 2
 
             // 调整每个 item 的 origin.x 即可

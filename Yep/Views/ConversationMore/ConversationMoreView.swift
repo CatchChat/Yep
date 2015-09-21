@@ -391,9 +391,6 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                 cell.colorTitleLabelFontStyle = .Regular
 
                 return cell
-
-            default:
-                break
             }
         }
 
@@ -425,9 +422,6 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                 
             case .Cancel:
                 hide()
-
-            default:
-                break
             }
         }
     }

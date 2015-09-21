@@ -38,11 +38,6 @@ class ChatRightBaseCell: ChatBaseCell {
                 dotImageView.hidden = false
 
                 removeSendingAnimation()
-
-            default:
-                dotImageView.hidden = true
-
-                removeSendingAnimation()
             }
         }
     }

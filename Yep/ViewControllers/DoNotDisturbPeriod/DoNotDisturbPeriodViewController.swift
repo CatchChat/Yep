@@ -153,7 +153,7 @@ extension DoNotDisturbPeriodViewController: UIPickerViewDataSource, UIPickerView
         return 60
     }
 
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
 
         if component == 0 {
             return String(format: "%02d", row % 24)

@@ -48,7 +48,7 @@ class MessageToolbar: UIToolbar {
 
     var conversation: Conversation? {
         willSet {
-            if let conversation = newValue {
+            if let _ = newValue {
                 NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateDraft:", name: Notification.updateDraft, object: nil)
             }
         }

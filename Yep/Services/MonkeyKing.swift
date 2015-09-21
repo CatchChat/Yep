@@ -55,8 +55,8 @@ public class MonkeyKing {
 
         if URL.scheme.hasPrefix("wx") {
 
-            if let data = UIPasteboard.generalPasteboard().dataForPasteboardType("content") {
-
+//            if let data = UIPasteboard.generalPasteboard().dataForPasteboardType("content") {
+//
 //                if let dic = (try? NSPropertyListSerialization.propertyListWithData(data, options: Int(NSPropertyListMutabilityOptions.Immutable.rawValue), format: nil)) as? NSDictionary {
 //
 //                    for account in sharedMonkeyKing.accountSet {
@@ -79,7 +79,7 @@ public class MonkeyKing {
 //                        }
 //                    }
 //                }
-            }
+//            }
 
             return false
         }

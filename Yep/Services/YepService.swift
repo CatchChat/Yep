@@ -811,7 +811,7 @@ enum ReportReason {
             return 1
         case .Scams:
             return 2
-        case .Other(let description):
+        case .Other:
             return 3
         }
     }
@@ -824,7 +824,7 @@ enum ReportReason {
             return NSLocalizedString("Advertising", comment: "")
         case .Scams:
             return NSLocalizedString("Scams", comment: "")
-        case .Other(let description):
+        case .Other:
             return NSLocalizedString("Other", comment: "")
         }
     }
@@ -1818,11 +1818,6 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
 
         if let fillMoreInfo = fillMoreInfo {
             messageInfo = fillMoreInfo(messageInfo)
-        }
-
-
-        let _failureHandler: (Reason, String?) -> Void = { (reason, errorMessage) in
-            failureHandler?(reason, errorMessage)
         }
 
         switch mediaType {

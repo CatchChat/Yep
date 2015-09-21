@@ -104,7 +104,7 @@ class RegisterSelectSkillsViewController: UIViewController {
         anim.beginTime = CACurrentMediaTime() + 0.0
         anim.duration = 0.9
         anim.timingFunction = CAMediaTimingFunction(name: "easeInEaseOut")
-        var prop = POPAnimatableProperty.propertyWithName("minimumLineSpacing", initializer: { props in
+        let prop = POPAnimatableProperty.propertyWithName("minimumLineSpacing", initializer: { props in
 
             props.readBlock = { obj, values in
                 values[0] = (obj as! UICollectionViewFlowLayout).minimumLineSpacing
@@ -279,10 +279,6 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                     button.translatesAutoresizingMaskIntoConstraints = false
 
-                    let viewsDictionary = [
-                        "button": button,
-                    ]
-
                     let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonWidth)
 
                     let heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonHeight)
@@ -310,12 +306,12 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                     }, completion: { (finished) -> Void in
                     })
                     
-                    var layout = self.skillsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
-                    var originLineSpacing = layout.minimumLineSpacing
-                    var anim = POPBasicAnimation();
+                    let layout = self.skillsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+                    let originLineSpacing = layout.minimumLineSpacing
+                    let anim = POPBasicAnimation()
                     anim.duration = 0.8
                     anim.timingFunction = CAMediaTimingFunction(name: "easeOut")
-                    var prop = POPAnimatableProperty.propertyWithName("minimumLineSpacing", initializer: { props in
+                    let prop = POPAnimatableProperty.propertyWithName("minimumLineSpacing", initializer: { props in
                         
                         props.readBlock = { obj, values in
                             values[0] = (obj as! UICollectionViewFlowLayout).minimumLineSpacing

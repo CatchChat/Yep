@@ -544,7 +544,7 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                     }
                 }
 
-                var localMembers = group.members
+                let localMembers = group.members
 
                 // 去除远端没有的 member
 
