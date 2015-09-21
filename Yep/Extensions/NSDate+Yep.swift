@@ -13,7 +13,7 @@ extension NSDate {
     func firstDateInThisWeek() -> NSDate {
         var beginningOfWeek: NSDate?
         let calendar = NSCalendar.currentCalendar()
-        calendar.rangeOfUnit(.CalendarUnitWeekOfYear, startDate: &beginningOfWeek, interval: nil, forDate: self)
+        calendar.rangeOfUnit(.WeekOfYear, startDate: &beginningOfWeek, interval: nil, forDate: self)
         return beginningOfWeek!
     }
 
@@ -32,7 +32,7 @@ extension NSDate {
             var dateString = dateString
 
             if dateString.hasSuffix("Z") {
-                dateString = dropLast(dateString).stringByAppendingString("-0000")
+                dateString = String(dateString.characters.dropLast()).stringByAppendingString("-0000")
             }
 
             return dateFromString(dateString, withFormat: "yyyy-MM-dd'T'HH:mm:ssZ")

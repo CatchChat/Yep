@@ -10,7 +10,7 @@ import UIKit
 
 extension NSFileManager {
     class func yepCachesURL() -> NSURL {
-        return NSFileManager.defaultManager().URLForDirectory(.CachesDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: false, error: nil)!
+        return try! NSFileManager.defaultManager().URLForDirectory(.CachesDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: false)
     }
 
     // MARK: Avatar
@@ -21,8 +21,10 @@ extension NSFileManager {
 
         let avatarCachesURL = yepCachesURL().URLByAppendingPathComponent("avatar_caches", isDirectory: true)
 
-        if fileManager.createDirectoryAtURL(avatarCachesURL, withIntermediateDirectories: true, attributes: nil, error: nil) {
+        do {
+            try fileManager.createDirectoryAtURL(avatarCachesURL, withIntermediateDirectories: true, attributes: nil)
             return avatarCachesURL
+        } catch _ {
         }
 
         return nil
@@ -51,7 +53,10 @@ extension NSFileManager {
 
     class func deleteAvatarImageWithName(name: String) {
         if let avatarURL = yepAvatarURLWithName(name) {
-            NSFileManager.defaultManager().removeItemAtURL(avatarURL, error: nil)
+            do {
+                try NSFileManager.defaultManager().removeItemAtURL(avatarURL)
+            } catch _ {
+            }
         }
     }
 
@@ -63,8 +68,10 @@ extension NSFileManager {
 
         let messageCachesURL = yepCachesURL().URLByAppendingPathComponent("message_caches", isDirectory: true)
 
-        if fileManager.createDirectoryAtURL(messageCachesURL, withIntermediateDirectories: true, attributes: nil, error: nil) {
+        do {
+            try fileManager.createDirectoryAtURL(messageCachesURL, withIntermediateDirectories: true, attributes: nil)
             return messageCachesURL
+        } catch _ {
         }
 
         return nil
@@ -99,7 +106,10 @@ extension NSFileManager {
         }
 
         if let messageImageURL = yepMessageImageURLWithName(name) {
-            NSFileManager.defaultManager().removeItemAtURL(messageImageURL, error: nil)
+            do {
+                try NSFileManager.defaultManager().removeItemAtURL(messageImageURL)
+            } catch _ {
+            }
         }
     }
 
@@ -132,7 +142,10 @@ extension NSFileManager {
         }
 
         if let messageAudioURL = yepMessageAudioURLWithName(name) {
-            NSFileManager.defaultManager().removeItemAtURL(messageAudioURL, error: nil)
+            do {
+                try NSFileManager.defaultManager().removeItemAtURL(messageAudioURL)
+            } catch _ {
+            }
         }
     }
 
@@ -162,13 +175,19 @@ extension NSFileManager {
 
         if !name.isEmpty {
             if let messageVideoURL = yepMessageVideoURLWithName(name) {
-                NSFileManager.defaultManager().removeItemAtURL(messageVideoURL, error: nil)
+                do {
+                    try NSFileManager.defaultManager().removeItemAtURL(messageVideoURL)
+                } catch _ {
+                }
             }
         }
 
         if !thumbnailName.isEmpty {
             if let messageImageURL = yepMessageImageURLWithName(thumbnailName) {
-                NSFileManager.defaultManager().removeItemAtURL(messageImageURL, error: nil)
+                do {
+                    try NSFileManager.defaultManager().removeItemAtURL(messageImageURL)
+                } catch _ {
+                }
             }
         }
     }
@@ -178,9 +197,12 @@ extension NSFileManager {
     class func cleanCachesDirectoryAtURL(cachesDirectoryURL: NSURL) {
         let fileManager = NSFileManager.defaultManager()
 
-        if let fileURLs = fileManager.contentsOfDirectoryAtURL(cachesDirectoryURL, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions.allZeros, error: nil) as? [NSURL] {
+        if let fileURLs = (try? fileManager.contentsOfDirectoryAtURL(cachesDirectoryURL, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions())) as? [NSURL] {
             for fileURL in fileURLs {
-                fileManager.removeItemAtURL(fileURL, error: nil)
+                do {
+                    try fileManager.removeItemAtURL(fileURL)
+                } catch _ {
+                }
             }
         }
     }

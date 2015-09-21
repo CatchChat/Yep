@@ -140,7 +140,7 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
 
                     case .Dribbble:
                         dribbbleWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
-                            defaultFailureHandler(reason, errorMessage)
+                            defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         }, completion: { dribbbleWork in
                             //println("dribbbleWork: \(dribbbleWork.shots.count)")
@@ -156,7 +156,7 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
 
                     case .Instagram:
                         instagramWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
-                            defaultFailureHandler(reason, errorMessage)
+                            defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         }, completion: { instagramWork in
                             //println("instagramWork: \(instagramWork.medias.count)")

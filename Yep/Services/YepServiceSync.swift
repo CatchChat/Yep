@@ -162,7 +162,7 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm
 func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
     userInfo(failureHandler: { (reason, errorMessage) in
-        defaultFailureHandler(reason, errorMessage)
+        defaultFailureHandler(reason, errorMessage: errorMessage)
 
         furtherAction()
 

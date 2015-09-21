@@ -104,7 +104,11 @@ class RegisterPickAvatarViewController: UIViewController {
     lazy var videoDeviceInput: AVCaptureDeviceInput = {
         var error: NSError? = nil
         let videoDevice = self.deviceWithMediaType(self.mediaType, preferringPosition: .Front)
-        return AVCaptureDeviceInput(device: videoDevice!, error: &error)
+        do {
+            return try AVCaptureDeviceInput(device: videoDevice!)
+        } catch _ {
+            return nil
+        }
         }()
 
     lazy var stillImageOutput: AVCaptureStillImageOutput = {
@@ -228,7 +232,7 @@ class RegisterPickAvatarViewController: UIViewController {
 
         s3PublicUploadFile(inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
 
-            defaultFailureHandler(reason, errorMessage)
+            defaultFailureHandler(reason, errorMessage: errorMessage)
 
             YepHUD.hideActivityIndicator()
 
@@ -238,7 +242,7 @@ class RegisterPickAvatarViewController: UIViewController {
 
             updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: { (reason, errorMessage) in
 
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 YepHUD.hideActivityIndicator()
 

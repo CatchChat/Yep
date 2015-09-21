@@ -127,7 +127,7 @@ class RegisterSelectSkillsViewController: UIViewController {
         // 如果前一个 VC 来不及传递，这里还得再请求一次
         if skillCategories.isEmpty {
             allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
             }, completion: { skillCategories in
                 self.skillCategories = skillCategories
@@ -277,7 +277,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                     self.view.addSubview(button)
 
-                    button.setTranslatesAutoresizingMaskIntoConstraints(false)
+                    button.translatesAutoresizingMaskIntoConstraints = false
 
                     let viewsDictionary = [
                         "button": button,
@@ -377,7 +377,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                             cell.contentView.addSubview(button)
 
-                            button.setTranslatesAutoresizingMaskIntoConstraints(false)
+                            button.translatesAutoresizingMaskIntoConstraints = false
 
                             let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonWidth)
 
@@ -443,7 +443,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                 let skill = skills[indexPath.item]
 
-                let rect = skill.localName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillSelectionCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+                let rect = skill.localName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillSelectionCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
 
                 return CGSizeMake(rect.width + 24, SkillSelectionCell.height)
             }

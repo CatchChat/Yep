@@ -117,7 +117,7 @@ class BadgeView: UIView {
 
         addSubview(badgeImageView)
 
-        badgeImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        badgeImageView.translatesAutoresizingMaskIntoConstraints = false
 
         let iconConstraintCenterX = NSLayoutConstraint(item: badgeImageView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0)
         let iconConstraintCenterY = NSLayoutConstraint(item: badgeImageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0)

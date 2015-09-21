@@ -28,7 +28,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
         case Read = "mark_as_read"
     }
 
-    enum InstantStateType: Int, Printable {
+    enum InstantStateType: Int, CustomStringConvertible {
         case Text = 0
         case Audio
 

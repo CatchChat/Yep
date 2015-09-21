@@ -12,12 +12,12 @@ let registerPickSkillsLayoutLeftEdgeInset: CGFloat = 20
 
 class RegisterPickSkillsLayout: UICollectionViewFlowLayout {
 
-    override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
+    override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         let layoutAttributes = super.layoutAttributesForElementsInRect(rect) as! [UICollectionViewLayoutAttributes]
 
         // 先按照每个 item 的 centerY 分组
         var rowCollections = [CGFloat: [UICollectionViewLayoutAttributes]]()
-        for (index, attributes) in enumerate(layoutAttributes) {
+        for (index, attributes) in layoutAttributes.enumerate() {
             let centerY = CGRectGetMidY(attributes.frame)
 
             if let rowCollection = rowCollections[centerY] {

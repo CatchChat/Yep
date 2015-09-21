@@ -41,7 +41,12 @@ class YepAudioService: NSObject {
         ]
         
         var error: NSError?
-        audioRecorder = AVAudioRecorder(URL: fileURL, settings: settings as [NSObject : AnyObject], error: &error)
+        do {
+            audioRecorder = try AVAudioRecorder(URL: fileURL, settings: settings as [NSObject : AnyObject])
+        } catch var error1 as NSError {
+            error = error1
+            audioRecorder = nil
+        }
 
         if let error = error {
             println(error.localizedDescription)
@@ -84,7 +89,10 @@ class YepAudioService: NSObject {
 
     func beginRecordWithFileURL(fileURL: NSURL, audioRecorderDelegate: AVAudioRecorderDelegate) {
 
-        AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryRecord, error: nil)
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryRecord)
+        } catch _ {
+        }
 
 //        dispatch_async(queue, { () -> Void in
 //            AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker,error: nil)
@@ -131,7 +139,7 @@ class YepAudioService: NSObject {
             }
             dispatch_async(queue, { () -> Void in
     //            AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker,error: nil)
-                AVAudioSession.sharedInstance().setActive(false, withOptions: AVAudioSessionSetActiveOptions.OptionNotifyOthersOnDeactivation, error: nil)
+                AVAudioSession.sharedInstance().setActive(false, withOptions: AVAudioSessionSetActiveOptions.NotifyOthersOnDeactivation)
             })
         
             self.checkRecordTimeoutTimer?.invalidate()
@@ -154,7 +162,10 @@ class YepAudioService: NSObject {
     func playAudioWithMessage(message: Message, beginFromTime time: NSTimeInterval, delegate: AVAudioPlayerDelegate, success: () -> Void) {
 
         if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
-            AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, error: nil)
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            } catch _ {
+            }
         }
 
         UIDevice.currentDevice().proximityMonitoringEnabled = true
@@ -166,7 +177,8 @@ class YepAudioService: NSObject {
             if let fileURL = NSFileManager.yepMessageAudioURLWithName(fileName) {
 
                 var error: NSError?
-                if let audioPlayer = AVAudioPlayer(contentsOfURL: fileURL, error: &error) {
+                do {
+                    let audioPlayer = try AVAudioPlayer(contentsOfURL: fileURL)
                     self.audioPlayer = audioPlayer
                     audioPlayer.delegate = delegate
                     audioPlayer.prepareToPlay()
@@ -180,7 +192,8 @@ class YepAudioService: NSObject {
                         success()
                     }
 
-                } else {
+                } catch let error1 as NSError {
+                    error = error1
                     println("play audio \(error)")
                 }
             }
@@ -205,9 +218,15 @@ class YepAudioService: NSObject {
     func proximityStateChanged() {
 
         if UIDevice.currentDevice().proximityState {
-            AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, error: nil)
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+            } catch _ {
+            }
         } else {
-            AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, error: nil)
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            } catch _ {
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 
 func println(object: Any) {
     #if DEBUG
-        Swift.println(object)
+        Swift.print(object)
     #endif
 }
 

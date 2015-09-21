@@ -307,7 +307,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
             let doAddSkillToSkillSet: SkillSet -> Void = { skillSet in
 
                 addSkillWithSkillID(skillID, toSkillSet: skillSet, failureHandler: { reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage)
+                    defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 }, completion: { [weak self] _ in
 
@@ -355,7 +355,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         activityIndicator.startAnimating()
         
         discoverUsers(masterSkillIDs: [skillID], learningSkillIDs: [], discoveredUserSortStyle: .LastSignIn, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
+            defaultFailureHandler(reason, errorMessage: errorMessage)
 
             dispatch_async(dispatch_get_main_queue()) {
                 self?.activityIndicator.stopAnimating()
@@ -369,7 +369,7 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         })
         
         discoverUsers(masterSkillIDs: [], learningSkillIDs: [skillID], discoveredUserSortStyle: .LastSignIn, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
+            defaultFailureHandler(reason, errorMessage: errorMessage)
 
             dispatch_async(dispatch_get_main_queue()) {
                 self?.activityIndicator.stopAnimating()
@@ -450,13 +450,13 @@ class SkillHomeViewController: CustomNavigationBarViewController {
 
 extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
 
         if let mediaType = info[UIImagePickerControllerMediaType] as? String {
 
             switch mediaType {
 
-            case kUTTypeImage as! String:
+            case kUTTypeImage as String:
 
                 if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
 
@@ -478,7 +478,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                     // resize to smaller, not need fixRotation
 
-                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: kCGInterpolationMedium) {
+                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.Medium) {
 
                         let data = UIImageJPEGRepresentation(fixedImage, 0.7)
 
@@ -490,7 +490,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                                 YepHUD.hideActivityIndicator()
 
-                                defaultFailureHandler(reason, errorMessage)
+                                defaultFailureHandler(reason, errorMessage: errorMessage)
                                 YepAlert.alertSorry(message: NSLocalizedString("Upload skill cover failed!", comment: ""), inViewController: self)
 
                             }, completion: { s3UploadParams in
@@ -501,7 +501,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                                     YepHUD.hideActivityIndicator()
 
-                                    defaultFailureHandler(reason, errorMessage)
+                                    defaultFailureHandler(reason, errorMessage: errorMessage)
                                     YepAlert.alertSorry(message: NSLocalizedString("Update skill cover failed!", comment: ""), inViewController: self)
                                     
                                 }, completion: { [weak self] success in

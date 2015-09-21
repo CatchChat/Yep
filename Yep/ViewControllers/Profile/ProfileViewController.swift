@@ -11,7 +11,7 @@ import RealmSwift
 
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
-enum SocialAccount: String, Printable {
+enum SocialAccount: String, CustomStringConvertible {
     case Dribbble = "dribbble"
     case Github = "github"
     case Instagram = "instagram"
@@ -63,13 +63,13 @@ enum SocialAccount: String, Printable {
         
         switch self {
         case .Dribbble:
-            return NSURL(string: "\(baseURL.absoluteString!)/auth/dribbble")!
+            return NSURL(string: "\(baseURL.absoluteString)/auth/dribbble")!
         case .Github:
-            return NSURL(string: "\(baseURL.absoluteString!)/auth/github")!
+            return NSURL(string: "\(baseURL.absoluteString)/auth/github")!
         case .Behance:
-            return NSURL(string: "\(baseURL.absoluteString!)/auth/behance")!
+            return NSURL(string: "\(baseURL.absoluteString)/auth/behance")!
         case .Instagram:
-            return NSURL(string: "\(baseURL.absoluteString!)/auth/instagram")!
+            return NSURL(string: "\(baseURL.absoluteString)/auth/instagram")!
         }
     }
 }
@@ -445,7 +445,7 @@ class ProfileViewController: UIViewController {
         get {
             let attributes = [NSFontAttributeName: YepConfig.Profile.introductionLabelFont]
             let labelWidth = self.collectionViewWidth - (YepConfig.Profile.leftEdgeInset + YepConfig.Profile.rightEdgeInset)
-            let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes:attributes, context:nil)
+            let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes:attributes, context:nil)
             return ceil(rect.height) + 4
         }
     }
@@ -767,7 +767,7 @@ class ProfileViewController: UIViewController {
                 let newUsername = text
 
                 updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage)
+                    defaultFailureHandler(reason, errorMessage: errorMessage)
 
                     YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create username failed!", comment: ""), inViewController: self)
 
@@ -1377,7 +1377,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return header
 
         } else {
-            let footer = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: sectionFooterIdentifier, forIndexPath: indexPath) as! UICollectionReusableView
+            let footer = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: sectionFooterIdentifier, forIndexPath: indexPath) 
             return footer
         }
     }
@@ -1419,17 +1419,17 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.Master.rawValue:
 
-            var skillLocalName = profileUser?.cellSkillInSkillSet(.Master, atIndexPath: indexPath)?.localName ?? ""
+            let skillLocalName = profileUser?.cellSkillInSkillSet(.Master, atIndexPath: indexPath)?.localName ?? ""
 
-            let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+            let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
 
             return CGSize(width: rect.width + 24, height: SkillCell.height)
 
         case ProfileSection.Learning.rawValue:
 
-            var skillLocalName = profileUser?.cellSkillInSkillSet(.Learning, atIndexPath: indexPath)?.localName ?? ""
+            let skillLocalName = profileUser?.cellSkillInSkillSet(.Learning, atIndexPath: indexPath)?.localName ?? ""
 
-            let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+            let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
 
             return CGSize(width: rect.width + 24, height: SkillCell.height)
 
@@ -1439,7 +1439,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.SeparationLine.rawValue:
 
-            var enabled = profileUser?.needSeparationLine ?? true
+            let enabled = profileUser?.needSeparationLine ?? true
 
             return enabled ? CGSize(width: collectionViewWidth, height: 1) : CGSizeZero
             

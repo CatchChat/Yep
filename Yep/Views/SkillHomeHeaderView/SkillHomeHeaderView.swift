@@ -31,12 +31,12 @@ class SkillHomeHeaderView: UIView {
     }()
     
     lazy var masterButton: SkillHomeSectionButton = {
-        let button = createSkillHomeButtonWithText(SkillSet.Master.name, 100, YepConfig.skillHomeHeaderButtonHeight)
+        let button = createSkillHomeButtonWithText(SkillSet.Master.name, width: 100, height: YepConfig.skillHomeHeaderButtonHeight)
         return button
     }()
     
     lazy var learningButton: SkillHomeSectionButton = {
-        let button = createSkillHomeButtonWithText(SkillSet.Learning.name, 100, YepConfig.skillHomeHeaderButtonHeight)
+        let button = createSkillHomeButtonWithText(SkillSet.Learning.name, width: 100, height: YepConfig.skillHomeHeaderButtonHeight)
         return button
     }()
 
@@ -48,7 +48,7 @@ class SkillHomeHeaderView: UIView {
         setup()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
         setup()

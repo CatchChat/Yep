@@ -28,7 +28,7 @@ class RegisterPickSkillsSelectSkillsTransitionManager: NSObject, UIViewControlle
 
     // MARK: UIViewControllerAnimatedTransitioning
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return 0.6
     }
 
@@ -64,7 +64,7 @@ class RegisterPickSkillsSelectSkillsTransitionManager: NSObject, UIViewControlle
             animatingView.alpha = 1
         }
 
-        UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, options: .AllowUserInteraction | .BeginFromCurrentState, animations: { () -> Void in
+        UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, options: [.AllowUserInteraction, .BeginFromCurrentState], animations: { () -> Void in
             animatingView.frame = finalFrame
 
             if self.isPresentation {

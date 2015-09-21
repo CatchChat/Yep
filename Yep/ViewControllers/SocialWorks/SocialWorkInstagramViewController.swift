@@ -89,7 +89,7 @@ class SocialWorkInstagramViewController: BaseViewController {
             if let userID = userID {
 
                 instagramWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) -> Void in
-                    defaultFailureHandler(reason, errorMessage)
+                    defaultFailureHandler(reason, errorMessage: errorMessage)
 
                     YepAlert.alertSorry(message: NSLocalizedString("Network is not good!", comment: ""), inViewController: self)
 

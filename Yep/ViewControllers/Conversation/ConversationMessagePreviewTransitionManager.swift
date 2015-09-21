@@ -41,7 +41,7 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
 
     // MARK: UIViewControllerAnimatedTransitioning
 
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return isPresentation ? 0.5 : 0.5
     }
 

@@ -127,7 +127,7 @@ class NotificationsViewController: UIViewController {
 
     // MARK: Actions
 
-    func enableDoNotDisturb(#failed: () -> Void) {
+    func enableDoNotDisturb(failed failed: () -> Void) {
 
         let realm = Realm()
 
@@ -155,7 +155,7 @@ class NotificationsViewController: UIViewController {
                     ]
 
                     updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
-                        defaultFailureHandler(reason, errorMessage)
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         YepAlert.alertSorry(message: NSLocalizedString("Enable Do Not Disturb failed!", comment: ""), inViewController: self)
 
@@ -181,7 +181,7 @@ class NotificationsViewController: UIViewController {
         }
     }
 
-    func disableDoNotDisturb(#failed: () -> Void) {
+    func disableDoNotDisturb(failed failed: () -> Void) {
 
         let realm = Realm()
 
@@ -197,7 +197,7 @@ class NotificationsViewController: UIViewController {
                     ]
 
                     updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
-                        defaultFailureHandler(reason, errorMessage)
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         YepAlert.alertSorry(message: NSLocalizedString("Disable Do Not Disturb failed!", comment: ""), inViewController: self)
 

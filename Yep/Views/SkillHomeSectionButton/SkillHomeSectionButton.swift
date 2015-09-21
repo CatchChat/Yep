@@ -15,7 +15,7 @@ class SkillHomeSectionButton: UIButton {
     
     let highLight = CALayer()
     
-    func setActive(#animated: Bool) {
+    func setActive(animated animated: Bool) {
 
         let setting: () -> Void = {
             self.highLight.frame =  CGRectMake(0, self.frame.size.height - skillHeomSectionButtonLineHeight, self.frame.size.width, skillHeomSectionButtonLineHeight)
@@ -23,7 +23,7 @@ class SkillHomeSectionButton: UIButton {
         }
 
         if animated {
-            UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: nil, animations: {
+            UIView.animateWithDuration(0.7, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [], animations: {
 
                 setting()
 
@@ -34,7 +34,7 @@ class SkillHomeSectionButton: UIButton {
         }
     }
     
-    func setInActive(#animated: Bool) {
+    func setInActive(animated animated: Bool) {
 
         let setting: () -> Void = {
             self.highLight.frame =  CGRectMake(0, self.frame.size.height - skillHeomSectionButtonLineHeight, self.frame.size.width, skillHeomSectionButtonLineHeight)
@@ -42,7 +42,7 @@ class SkillHomeSectionButton: UIButton {
         }
 
         if animated {
-            UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: nil, animations: {
+            UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [], animations: {
 
                 setting()
 
@@ -62,7 +62,7 @@ class SkillHomeSectionButton: UIButton {
 
 func createSkillHomeButtonWithText(text: String, width: CGFloat, height: CGFloat) -> SkillHomeSectionButton {
     
-    var button = SkillHomeSectionButton.buttonWithType(UIButtonType.Custom) as! SkillHomeSectionButton
+    let button = UIButton(type: UIButtonType.Custom) as! SkillHomeSectionButton
     
     button.frame = CGRectMake(0, 0, width, height)
     button.setTitle(text, forState: UIControlState.Normal)

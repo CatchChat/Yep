@@ -49,7 +49,7 @@ class YepHUD: NSObject {
                     window.addSubview(self.sharedInstance.containerView)
                     self.sharedInstance.containerView.frame = window.bounds
 
-                    UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions(0), animations: { () -> Void in
+                    UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
                         self.sharedInstance.containerView.alpha = 1
 
                     }, completion: { (finished) -> Void in
@@ -100,7 +100,7 @@ class YepHUD: NSObject {
 
                 self.sharedInstance.activityIndicator.transform = CGAffineTransformIdentity
 
-                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions(0), animations: { () -> Void in
+                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
                     self.sharedInstance.activityIndicator.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
                     self.sharedInstance.activityIndicator.alpha = 0
 

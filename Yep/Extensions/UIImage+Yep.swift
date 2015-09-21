@@ -278,7 +278,7 @@ extension UIImage {
 extension UIImage {
 
     func imageWithGradientTintColor(tintColor: UIColor) -> UIImage {
-        return imageWithTintColor(tintColor, blendMode: kCGBlendModeOverlay)
+        return imageWithTintColor(tintColor, blendMode: CGBlendMode.Overlay)
     }
 
 
@@ -293,8 +293,8 @@ extension UIImage {
 
         self.drawInRect(bounds, blendMode: blendMode, alpha: 1)
 
-        if blendMode.value != kCGBlendModeDestinationIn.value {
-            self.drawInRect(bounds, blendMode: kCGBlendModeDestinationIn, alpha: 1)
+        if blendMode != CGBlendMode.DestinationIn {
+            self.drawInRect(bounds, blendMode: CGBlendMode.DestinationIn, alpha: 1)
         }
 
         let tintedImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -356,7 +356,7 @@ extension UIImage {
         static let leftTail: UIImage = {
             let scale = UIScreen.mainScreen().scale
             let orientation: UIImageOrientation = .Up
-            var maskImage = UIImage(CGImage: UIImage(named: "left_tail_image_bubble")!.CGImage, scale: scale, orientation: orientation)!
+            var maskImage = UIImage(CGImage: UIImage(named: "left_tail_image_bubble")!.CGImage, scale: scale, orientation: orientation)
             maskImage = maskImage.resizableImageWithCapInsets(UIEdgeInsets(top: 25, left: 27, bottom: 20, right: 20), resizingMode: UIImageResizingMode.Stretch)
             return maskImage
             }()
@@ -364,7 +364,7 @@ extension UIImage {
         static let rightTail: UIImage = {
             let scale = UIScreen.mainScreen().scale
             let orientation: UIImageOrientation = .UpMirrored
-            var maskImage = UIImage(CGImage: UIImage(named: "left_tail_image_bubble")!.CGImage, scale: scale, orientation: orientation)!
+            var maskImage = UIImage(CGImage: UIImage(named: "left_tail_image_bubble")!.CGImage, scale: scale, orientation: orientation)
             maskImage = maskImage.resizableImageWithCapInsets(UIEdgeInsets(top: 25, left: 27, bottom: 20, right: 20), resizingMode: UIImageResizingMode.Stretch)
             return maskImage
             }()
@@ -499,10 +499,10 @@ extension UIImage {
         return decodedImage(scale: scale)
     }
 
-    func decodedImage(#scale: CGFloat) -> UIImage {
+    func decodedImage(scale scale: CGFloat) -> UIImage {
         let imageRef = CGImage
         let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let bitmapInfo = CGBitmapInfo(CGImageAlphaInfo.PremultipliedLast.rawValue)
+        let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.PremultipliedLast.rawValue)
         let context = CGBitmapContextCreate(nil, CGImageGetWidth(imageRef), CGImageGetHeight(imageRef), 8, 0, colorSpace, bitmapInfo)
 
         if let context = context {

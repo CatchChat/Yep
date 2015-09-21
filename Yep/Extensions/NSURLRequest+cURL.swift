@@ -102,7 +102,7 @@ public extension NSURLRequest {
             components.append("-d \"\(escapedString)\"")
         }
 
-        return " ".join(components) + "\n"
+        return components.joinWithSeparator(" ") + "\n"
     }
 }
 

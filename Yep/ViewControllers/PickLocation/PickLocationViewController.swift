@@ -197,7 +197,7 @@ class PickLocationViewController: UIViewController {
 
 extension PickLocationViewController: MKMapViewDelegate {
     
-    func mapView(mapView: MKMapView!, didUpdateUserLocation userLocation: MKUserLocation!) {
+    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
 
         if isFirstShowUserLocation {
             isFirstShowUserLocation = false
@@ -218,7 +218,7 @@ extension PickLocationViewController: MKMapViewDelegate {
         }
     }
 
-    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
 
         if let annotation = annotation as? LocationPin {
 

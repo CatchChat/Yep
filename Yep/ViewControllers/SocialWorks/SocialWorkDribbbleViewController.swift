@@ -87,7 +87,7 @@ class SocialWorkDribbbleViewController: BaseViewController {
             if let userID = userID {
 
                 dribbbleWorkOfUserWithUserID(userID, failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage)
+                    defaultFailureHandler(reason, errorMessage: errorMessage)
 
                     YepAlert.alertSorry(message: NSLocalizedString("Network is not good!", comment: ""), inViewController: self)
 

@@ -111,7 +111,7 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
                     }
 
                     if let strongSelf = self {
-                        if let index = find(strongSelf.blockedUsers, discoveredUser)  {
+                        if let index = strongSelf.blockedUsers.indexOf(discoveredUser)  {
 
                             strongSelf.blockedUsers.removeAtIndex(index)
 

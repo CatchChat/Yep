@@ -135,7 +135,7 @@ class LoginVerifyMobileViewController: UIViewController {
         }
 
         sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
+            defaultFailureHandler(reason, errorMessage: errorMessage)
 
             if let errorMessage = errorMessage {
 
@@ -155,7 +155,7 @@ class LoginVerifyMobileViewController: UIViewController {
     }
 
     func textFieldDidChange(textField: UITextField) {
-        haveAppropriateInput = (count(textField.text) == YepConfig.verifyCodeLength())
+        haveAppropriateInput = (textField.text.characters.count == YepConfig.verifyCodeLength())
     }
 
     func next(sender: UIBarButtonItem) {

@@ -27,7 +27,7 @@ class RegisterSkillsLayout: UICollectionViewFlowLayout {
         setup()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -99,15 +99,15 @@ class RegisterSkillsLayout: UICollectionViewFlowLayout {
     override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
         if let layoutAttributes = animator!.layoutAttributesForCellAtIndexPath(indexPath) {
             return layoutAttributes
-        }else {
-            var layoutAttributes = super.layoutAttributesForItemAtIndexPath(indexPath)
+        } else {
+            let layoutAttributes = super.layoutAttributesForItemAtIndexPath(indexPath)
             return layoutAttributes
         }
     }
     
-    override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
+    override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         var newRect = rect
-        var padding:CGFloat = kScrollPaddingRect
+        let padding:CGFloat = kScrollPaddingRect
         newRect.size.height += 3.0*padding
         newRect.origin.y -= padding
         return animator!.itemsInRect(newRect)
@@ -134,7 +134,7 @@ class RegisterSkillsLayout: UICollectionViewFlowLayout {
     }
     
     override func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
-        var attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, withIndexPath: indexPath)
+        let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, withIndexPath: indexPath)
         attributes.frame = CGRect(x: 0, y: 0, width: 320, height: 50)
         
         return attributes

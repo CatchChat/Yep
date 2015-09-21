@@ -142,7 +142,7 @@ class MessageMediaViewController: UIViewController {
 
                         mediaView.videoPlayerLayer.player = player
 
-                        mediaView.videoPlayerLayer.player.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(0), context: nil)
+                        mediaView.videoPlayerLayer.player.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(rawValue: 0), context: nil)
 
                         //mediaView.videoPlayerLayer.player.play()
                         //mediaView.imageView.removeFromSuperview()
@@ -212,7 +212,7 @@ class MessageMediaViewController: UIViewController {
         dismiss()
     }
 
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if let player = object as? AVPlayer {
 
             if player == mediaView.videoPlayerLayer.player {

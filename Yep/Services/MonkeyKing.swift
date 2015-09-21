@@ -53,11 +53,11 @@ public class MonkeyKing {
 
     public class func handleOpenURL(URL: NSURL) -> Bool {
 
-        if URL.scheme!.hasPrefix("wx") {
+        if URL.scheme.hasPrefix("wx") {
 
             if let data = UIPasteboard.generalPasteboard().dataForPasteboardType("content") {
 
-                if let dic = NSPropertyListSerialization.propertyListWithData(data, options: Int(NSPropertyListMutabilityOptions.Immutable.rawValue), format: nil, error: nil) as? NSDictionary {
+                if let dic = (try? NSPropertyListSerialization.propertyListWithData(data, options: Int(NSPropertyListMutabilityOptions.Immutable.rawValue), format: nil)) as? NSDictionary {
 
                     for account in sharedMonkeyKing.accountSet {
 
@@ -205,7 +205,7 @@ public class MonkeyKing {
 
                     let weChatMessage = [appID: weChatMessageInfo]
 
-                    if let data = NSPropertyListSerialization.dataWithPropertyList(weChatMessage, format: NSPropertyListFormat.BinaryFormat_v1_0, options: NSPropertyListWriteOptions.allZeros, error: nil) {
+                    if let data = try? NSPropertyListSerialization.dataWithPropertyList(weChatMessage, format: NSPropertyListFormat.BinaryFormat_v1_0, options: NSPropertyListWriteOptions.allZeros) {
 
                         UIPasteboard.generalPasteboard().setData(data, forPasteboardType: "content")
 

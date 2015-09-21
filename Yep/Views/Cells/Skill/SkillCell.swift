@@ -73,11 +73,11 @@ class SkillCell: UICollectionViewCell {
 
     var tapAction: ((skill: Skill) -> Void)?
 
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         tapped = true
     }
 
-    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
 
         delay(0.15) { [weak self] in
 
@@ -92,7 +92,7 @@ class SkillCell: UICollectionViewCell {
         }
     }
 
-    override func touchesCancelled(touches: Set<NSObject>!, withEvent event: UIEvent!) {
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
         tapped = false
     }
 }

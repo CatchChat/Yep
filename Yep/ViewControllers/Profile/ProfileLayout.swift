@@ -16,7 +16,7 @@ class ProfileLayout: UICollectionViewFlowLayout {
 
     let leftEdgeInset: CGFloat = YepConfig.Profile.leftEdgeInset
 
-    override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
+    override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
 
         let layoutAttributes = super.layoutAttributesForElementsInRect(rect) as! [UICollectionViewLayoutAttributes]
         let contentInset = collectionView!.contentInset

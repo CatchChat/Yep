@@ -19,7 +19,7 @@ class ConversationLayout: UICollectionViewFlowLayout {
 
     var insertIndexPathSet = Set<NSIndexPath>()
 
-    override func prepareForCollectionViewUpdates(updateItems: [AnyObject]!) {
+    override func prepareForCollectionViewUpdates(updateItems: [UICollectionViewUpdateItem]) {
         super.prepareForCollectionViewUpdates(updateItems)
 
         var insertIndexPathSet = Set<NSIndexPath>()

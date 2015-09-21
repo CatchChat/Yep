@@ -69,7 +69,7 @@ class SampleView: UIView {
 
                 let viewHeight = self.bounds.height
 
-                for (index, percent) in enumerate(samples) {
+                for (index, percent) in samples.enumerate() {
 
                     let x = CGFloat(index) * sampleWidth + sampleGap * CGFloat(index)
                     let sampleHeightMax = viewHeight * 0.7

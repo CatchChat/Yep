@@ -135,7 +135,7 @@ class RegisterVerifyMobileViewController: UIViewController {
         }
 
         sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
+            defaultFailureHandler(reason, errorMessage: errorMessage)
 
             if let errorMessage = errorMessage {
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
@@ -154,7 +154,7 @@ class RegisterVerifyMobileViewController: UIViewController {
     }
 
     func textFieldDidChange(textField: UITextField) {
-        haveAppropriateInput = (count(textField.text) == YepConfig.verifyCodeLength())
+        haveAppropriateInput = (textField.text.characters.count == YepConfig.verifyCodeLength())
     }
 
     func next(sender: UIBarButtonItem) {

@@ -22,7 +22,7 @@ func delay(time: NSTimeInterval, work: dispatch_block_t) -> CancelableTask? {
 
     var finalTask: CancelableTask?
 
-    var cancelableTask: CancelableTask = { cancel in
+    let cancelableTask: CancelableTask = { cancel in
         if cancel {
             finalTask = nil // key
 

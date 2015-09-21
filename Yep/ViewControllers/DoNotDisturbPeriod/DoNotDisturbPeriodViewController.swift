@@ -67,7 +67,7 @@ class DoNotDisturbPeriodViewController: UIViewController {
 
     // MARK: - Actions
 
-    func updateDoNotDisturb(#success: () -> Void) {
+    func updateDoNotDisturb(success success: () -> Void) {
 
         let info: JSONDictionary = [
             "mute_started_at_string": doNotDisturbPeriod.serverFromString,
@@ -75,7 +75,7 @@ class DoNotDisturbPeriodViewController: UIViewController {
         ]
 
         updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
+            defaultFailureHandler(reason, errorMessage: errorMessage)
 
             YepAlert.alertSorry(message: NSLocalizedString("Set Do Not Disturb failed!", comment: ""), inViewController: self)
 

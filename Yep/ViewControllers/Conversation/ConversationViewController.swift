@@ -79,17 +79,17 @@ class ConversationViewController: BaseViewController {
 
         self.conversationCollectionView.insertSubview(pullToRefreshView, atIndex: 0)
 
-        pullToRefreshView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        pullToRefreshView.translatesAutoresizingMaskIntoConstraints = false
 
         let viewsDictionary = [
             "pullToRefreshView": pullToRefreshView,
             "view": self.view,
         ]
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(-200)-[pullToRefreshView(200)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(-200)-[pullToRefreshView(200)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         // 非常奇怪，若直接用 "H:|[pullToRefreshView]|" 得到的实际宽度为 0
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[pullToRefreshView(==view)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[pullToRefreshView(==view)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(constraintsV)
         NSLayoutConstraint.activateConstraints(constraintsH)
@@ -487,7 +487,7 @@ class ConversationViewController: BaseViewController {
                         }
 
                     }, failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason, errorMessage)
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
@@ -515,7 +515,7 @@ class ConversationViewController: BaseViewController {
                         }
 
                     }, failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason, errorMessage)
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         dispatch_async(dispatch_get_main_queue()) {
                             YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
@@ -557,7 +557,7 @@ class ConversationViewController: BaseViewController {
 
                         let audioMetaDataInfo = [YepConfig.MetaData.audioSamples: audioSamples, YepConfig.MetaData.audioDuration: audioDuration]
 
-                        if let audioMetaData = NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: nil, error: nil) {
+                        if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
                             let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
                             metaData = audioMetaDataString
                         }
@@ -586,7 +586,7 @@ class ConversationViewController: BaseViewController {
                             }
 
                         }, failureHandler: { [weak self] reason, errorMessage in
-                            defaultFailureHandler(reason, errorMessage)
+                            defaultFailureHandler(reason, errorMessage: errorMessage)
 
                             YepAlert.alertSorry(message: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
@@ -613,7 +613,7 @@ class ConversationViewController: BaseViewController {
                             }
 
                         }, failureHandler: { [weak self] reason, errorMessage in
-                            defaultFailureHandler(reason, errorMessage)
+                            defaultFailureHandler(reason, errorMessage: errorMessage)
 
                             YepAlert.alertSorry(message: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
@@ -834,7 +834,7 @@ class ConversationViewController: BaseViewController {
             let userNickname = user.nickname
 
             stateOfFriendRequestWithUser(user, failureHandler: { reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
             }, completion: { isFriend, receivedFriendRequestState, receivedFriendRequestID, sentFriendRequestState in
 
@@ -888,7 +888,7 @@ class ConversationViewController: BaseViewController {
 
         let friendRequestView = FriendRequestView(state: state)
 
-        friendRequestView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        friendRequestView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(friendRequestView)
 
         let friendRequestViewLeading = NSLayoutConstraint(item: friendRequestView, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1, constant: 0)
@@ -1035,7 +1035,7 @@ class ConversationViewController: BaseViewController {
         switch message.mediaType {
 
         case MessageMediaType.Text.rawValue:
-            let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: YepConfig.ChatCell.textAttributes, context: nil)
+            let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
             height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
 
@@ -1105,7 +1105,7 @@ class ConversationViewController: BaseViewController {
             }
         }
 
-        let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: YepConfig.ChatCell.textAttributes, context: nil)
+        let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
         let width = ceil(rect.width)
 
@@ -1320,7 +1320,7 @@ class ConversationViewController: BaseViewController {
                 let profileUser = ProfileUser.UserType(user)
 
                 reportProfileUser(profileUser, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage)
+                    defaultFailureHandler(reason, errorMessage: errorMessage)
 
                     if let errorMessage = errorMessage {
                         YepAlert.alertSorry(message: errorMessage, inViewController: self)
@@ -1872,7 +1872,7 @@ class ConversationViewController: BaseViewController {
                         }
 
                     }, failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason, errorMessage)
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         YepAlert.alertSorry(message: NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
@@ -1889,7 +1889,7 @@ class ConversationViewController: BaseViewController {
                         }
 
                     }, failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason, errorMessage)
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         YepAlert.alertSorry(message: NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
@@ -2549,11 +2549,11 @@ extension ConversationViewController: PullToRefreshViewDelegate {
 
 extension ConversationViewController : AVAudioRecorderDelegate {
 
-    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
+    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
         println("finished recording \(flag)")
     }
 
-    func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder!, error: NSError!) {
+    func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {
         println("\(error.localizedDescription)")
     }
 }
@@ -2562,7 +2562,7 @@ extension ConversationViewController : AVAudioRecorderDelegate {
 
 extension ConversationViewController: AVAudioPlayerDelegate {
 
-    func audioPlayerBeginInterruption(player: AVAudioPlayer!) {
+    func audioPlayerBeginInterruption(player: AVAudioPlayer) {
 
         println("audioPlayerBeginInterruption")
 
@@ -2571,12 +2571,12 @@ extension ConversationViewController: AVAudioPlayerDelegate {
         }
     }
 
-    func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer!, error: NSError!) {
+    func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
 
         println("audioPlayerDecodeErrorDidOccur")
     }
 
-    func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully flag: Bool) {
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
 
         UIDevice.currentDevice().proximityMonitoringEnabled = false
 
@@ -2625,13 +2625,13 @@ extension ConversationViewController: AVAudioPlayerDelegate {
 
 extension ConversationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
 
         if let mediaType = info[UIImagePickerControllerMediaType] as? String {
 
             switch mediaType {
 
-            case kUTTypeImage as! String:
+            case kUTTypeImage as String:
 
                 if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
 
@@ -2653,12 +2653,12 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                     // resize to smaller, not need fixRotation
 
-                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: kCGInterpolationMedium) {
+                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.Medium) {
                         sendImage(fixedImage)
                     }
                 }
 
-            case kUTTypeMovie as! String:
+            case kUTTypeMovie as String:
 
                 if let videoURL = info[UIImagePickerControllerMediaURL] as? NSURL {
                     println("videoURL \(videoURL)")
@@ -2693,7 +2693,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         let audioMetaDataInfo: [String: AnyObject]
 
-        if let thumbnail = image.resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailHeight), withInterpolationQuality: kCGInterpolationLow) {
+        if let thumbnail = image.resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailHeight), withInterpolationQuality: CGInterpolationQuality.Low) {
             let blurredThumbnail = thumbnail.blurredImageWithRadius(5, iterations: 7, tintColor: UIColor.clearColor())
 
             let data = UIImageJPEGRepresentation(blurredThumbnail, 0.7)
@@ -2717,7 +2717,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         var metaData: String? = nil
 
-        if let imageMetaData = NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: nil, error: nil) {
+        if let imageMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
             let imageMetaDataString = NSString(data: imageMetaData, encoding: NSUTF8StringEncoding) as? String
             metaData = imageMetaDataString
         }
@@ -2751,7 +2751,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 }
 
             }, failureHandler: { [weak self] reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 YepAlert.alertSorry(message: NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
@@ -2781,7 +2781,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 }
                 
             }, failureHandler: { [weak self] reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 YepAlert.alertSorry(message: NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
@@ -2817,7 +2817,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
             let videoMetaDataInfo: [String: AnyObject]
 
-            if let thumbnail = image.resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailHeight), withInterpolationQuality: kCGInterpolationLow) {
+            if let thumbnail = image.resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailHeight), withInterpolationQuality: CGInterpolationQuality.Low) {
                 let blurredThumbnail = thumbnail.blurredImageWithRadius(5, iterations: 7, tintColor: UIColor.clearColor())
 
                 let data = UIImageJPEGRepresentation(blurredThumbnail, 0.7)
@@ -2839,7 +2839,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 ]
             }
 
-            if let videoMetaData = NSJSONSerialization.dataWithJSONObject(videoMetaDataInfo, options: nil, error: nil) {
+            if let videoMetaData = try? NSJSONSerialization.dataWithJSONObject(videoMetaDataInfo, options: []) {
                 let videoMetaDataString = NSString(data: videoMetaData, encoding: NSUTF8StringEncoding) as? String
                 metaData = videoMetaDataString
             }
@@ -2884,7 +2884,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         if let withFriend = conversation.withFriend {
 
             sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 YepAlert.alertSorry(message: NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
@@ -2895,7 +2895,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         } else if let withGroup = conversation.withGroup {
 
             sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 YepAlert.alertSorry(message: NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: ""), inViewController: self)
 

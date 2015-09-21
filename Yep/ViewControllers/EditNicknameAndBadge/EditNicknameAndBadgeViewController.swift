@@ -114,7 +114,7 @@ class EditNicknameAndBadgeViewController: UITableViewController {
                     self.badgeEnabledImageViewAppearInCenter(badgeView.center)
 
                 } else {
-                    UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
+                    UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { _ in
                         self.badgeEnabledImageView.center = badgeView.center
                     }, completion: { finished in
                     })
@@ -125,7 +125,7 @@ class EditNicknameAndBadgeViewController: UITableViewController {
                 let newBadgeName = badgeView.badge.rawValue
 
                 updateMyselfWithInfo(["badge": newBadgeName], failureHandler: { [weak self] (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage)
+                    defaultFailureHandler(reason, errorMessage: errorMessage)
 
                     dispatch_async(dispatch_get_main_queue()) {
                         badgeView.enabled = false
@@ -150,7 +150,7 @@ class EditNicknameAndBadgeViewController: UITableViewController {
 
         badgeEnabledImageView.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
 
-        UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
+        UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { _ in
             self.badgeEnabledImageView.alpha = 1
             self.badgeEnabledImageView.transform = CGAffineTransformMakeScale(1.0, 1.0)
 

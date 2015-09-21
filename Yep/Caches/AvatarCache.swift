@@ -81,7 +81,7 @@ class AvatarCache {
 
         let normalImageKey = "normal-\(url.hashValue)"
 
-        let avatarURLString = url.absoluteString!
+        let avatarURLString = url.absoluteString
 
         // 先看看缓存
         if let normalImage = cache.objectForKey(normalImageKey) as? UIImage {

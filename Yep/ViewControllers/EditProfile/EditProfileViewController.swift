@@ -264,7 +264,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     YepHUD.showActivityIndicator()
 
                     updateMyselfWithInfo(["introduction": newIntroduction], failureHandler: { (reason, errorMessage) in
-                        defaultFailureHandler(reason, errorMessage)
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         YepHUD.hideActivityIndicator()
 
@@ -358,7 +358,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                                 let newUsername = text
 
                                 updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
-                                    defaultFailureHandler(reason, errorMessage)
+                                    defaultFailureHandler(reason, errorMessage: errorMessage)
 
                                     YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set username failed!", comment: ""), inViewController: self)
 
@@ -429,7 +429,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
 
         s3PublicUploadFile(inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
             
-            defaultFailureHandler(reason, errorMessage)
+            defaultFailureHandler(reason, errorMessage: errorMessage)
 
             YepHUD.hideActivityIndicator()
 
@@ -438,7 +438,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
             let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
 
             updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 YepHUD.hideActivityIndicator()
 

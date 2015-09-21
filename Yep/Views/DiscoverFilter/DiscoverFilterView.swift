@@ -17,7 +17,7 @@ class DiscoverFilterCell: UITableViewCell {
         makeUI()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -59,8 +59,8 @@ class DiscoverFilterCell: UITableViewCell {
 
         contentView.addSubview(colorTitleLabel)
         contentView.addSubview(checkLabel)
-        colorTitleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        checkLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        colorTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        checkLabel.translatesAutoresizingMaskIntoConstraints = false
 
         let centerY = NSLayoutConstraint(item: colorTitleLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1, constant: 0)
         let centerX = NSLayoutConstraint(item: colorTitleLabel, attribute: .CenterX, relatedBy: .Equal, toItem: contentView, attribute: .CenterX, multiplier: 1, constant: 0)
@@ -191,10 +191,10 @@ class DiscoverFilterView: UIView {
     func makeUI() {
 
         addSubview(containerView)
-        containerView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        containerView.translatesAutoresizingMaskIntoConstraints = false
 
         containerView.addSubview(tableView)
-        tableView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
 
         let viewsDictionary = [
             "containerView": containerView,
@@ -203,15 +203,15 @@ class DiscoverFilterView: UIView {
 
         // layout for containerView
 
-        let containerViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[containerView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
-        let containerViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[containerView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let containerViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[containerView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let containerViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[containerView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(containerViewConstraintsH)
         NSLayoutConstraint.activateConstraints(containerViewConstraintsV)
 
         // layour for tableView
 
-        let tableViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[tableView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let tableViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[tableView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         let tableViewBottomConstraint = NSLayoutConstraint(item: tableView, attribute: .Bottom, relatedBy: .Equal, toItem: containerView, attribute: .Bottom, multiplier: 1.0, constant: self.totalHeight)
 

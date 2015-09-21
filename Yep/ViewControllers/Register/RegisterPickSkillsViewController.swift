@@ -67,7 +67,7 @@ class RegisterPickSkillsViewController: BaseViewController {
         skillsCollectionView.registerNib(UINib(nibName: skillAddCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillAddCellIdentifier)
 
         allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
-            defaultFailureHandler(reason, errorMessage)
+            defaultFailureHandler(reason, errorMessage: errorMessage)
             
         }, completion: { skillCategories -> Void in
             self.skillCategories = skillCategories
@@ -102,7 +102,7 @@ class RegisterPickSkillsViewController: BaseViewController {
             dispatch_group_enter(addSkillsGroup)
 
             addSkill(skill, toSkillSet: .Master, failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 saveSkillsErrorMessage = errorMessage
 
@@ -117,7 +117,7 @@ class RegisterPickSkillsViewController: BaseViewController {
             dispatch_group_enter(addSkillsGroup)
 
             addSkill(skill, toSkillSet: .Learning, failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 saveSkillsErrorMessage = errorMessage
 
@@ -330,7 +330,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
                     } else {
                         allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
-                            defaultFailureHandler(reason, errorMessage)
+                            defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         }, completion: { skillCategories -> Void in
                             self?.skillCategories = skillCategories
@@ -363,7 +363,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
                     } else {
                         allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
-                            defaultFailureHandler(reason, errorMessage)
+                            defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         }, completion: { skillCategories -> Void in
                             self?.skillCategories = skillCategories
@@ -400,7 +400,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
             return header
 
         } else {
-            let footer = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "footer", forIndexPath: indexPath) as! UICollectionReusableView
+            let footer = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "footer", forIndexPath: indexPath) 
             return footer
         }
     }
@@ -448,7 +448,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
             break
         }
 
-        let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillSelectionCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+        let rect = skillString.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillSelectionCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
 
         return CGSize(width: rect.width + 24, height: SkillSelectionCell.height)
     }

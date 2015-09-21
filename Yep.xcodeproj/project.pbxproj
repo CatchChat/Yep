@@ -1765,8 +1765,9 @@
 		0A8F54A31AB67D11004AD60E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Catch Inc";
 				TargetAttributes = {
 					0A8F54AA1AB67D11004AD60E = {
@@ -2202,6 +2203,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2287,6 +2289,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Yep/JPush",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Yep/Yep-Bridging-Header.h";
@@ -2317,6 +2320,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Yep/JPush",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Yep/Yep-Bridging-Header.h";
@@ -2338,6 +2342,7 @@
 				INFOPLIST_FILE = YepTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING_";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
 			};
@@ -2353,6 +2358,7 @@
 				);
 				INFOPLIST_FILE = YepTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
 			};

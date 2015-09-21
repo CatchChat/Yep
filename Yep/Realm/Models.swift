@@ -220,7 +220,7 @@ enum MessageDownloadState: Int {
     case Downloaded     = 2 // 已下载
 }
 
-enum MessageMediaType: Int, Printable {
+enum MessageMediaType: Int, CustomStringConvertible {
     case Text           = 0
     case Image          = 1
     case Video          = 2
@@ -264,7 +264,7 @@ enum MessageMediaType: Int, Printable {
     }
 }
 
-enum MessageSendState: Int, Printable {
+enum MessageSendState: Int, CustomStringConvertible {
     case NotSend    = 0
     case Failed     = 1
     case Successed  = 2

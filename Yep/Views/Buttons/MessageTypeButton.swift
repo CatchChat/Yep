@@ -56,17 +56,17 @@ class MessageTypeButton: TouchZoomButton {
         addSubview(typeImageView)
         addSubview(typeTitleLabel)
 
-        typeImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        typeTitleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        typeImageView.translatesAutoresizingMaskIntoConstraints = false
+        typeTitleLabel.translatesAutoresizingMaskIntoConstraints = false
 
         let viewsDictionary = [
             "typeImageView": typeImageView,
             "typeTitleLabel": typeTitleLabel,
         ]
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[typeImageView]-(>=0)-[typeTitleLabel(20)]|", options: .AlignAllCenterX | .AlignAllLeading | .AlignAllTrailing , metrics: nil, views: viewsDictionary)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[typeImageView]-(>=0)-[typeTitleLabel(20)]|", options: [.AlignAllCenterX, .AlignAllLeading, .AlignAllTrailing] , metrics: nil, views: viewsDictionary)
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[typeImageView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[typeImageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(constraintsV)
         NSLayoutConstraint.activateConstraints(constraintsH)

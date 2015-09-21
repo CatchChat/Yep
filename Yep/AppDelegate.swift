@@ -42,14 +42,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         cacheInAdvance()
 
-        delay(0.5, {
+        delay(0.5, work: {
             Crashlytics.startWithAPIKey("3030ba006e21bcf8eb4a2127b6a7931ea6667486")
 
             // 推送初始化
             APService.setupWithOption(launchOptions)
         })
         
-        AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker,error: nil)
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
+        } catch _ {
+        }
         
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
 
@@ -289,7 +292,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // NavigationBar Title Style
 
         let shadow: NSShadow = {
-            var shadow = NSShadow()
+            let shadow = NSShadow()
             shadow.shadowColor = UIColor.lightGrayColor()
             shadow.shadowOffset = CGSizeMake(0, 0)
             return shadow
@@ -322,7 +325,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //UITabBar.appearance().translucent = false
     }
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
 
         if MonkeyKing.handleOpenURL(url) {
             return true

@@ -44,7 +44,7 @@ class FriendRequestView: UIView {
         self.stateLabel.text = state.prompt
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -176,20 +176,20 @@ class FriendRequestView: UIView {
         let blurEffect = UIBlurEffect(style: .ExtraLight)
         let visualEffectView = UIVisualEffectView(effect: blurEffect)
 
-        visualEffectView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        visualEffectView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(visualEffectView)
 
         let containerView = ContainerView()
-        containerView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        containerView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(containerView)
 
-        avatarImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(avatarImageView)
 
-        nicknameLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        nicknameLabel.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(nicknameLabel)
 
-        stateLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        stateLabel.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(stateLabel)
 
 
@@ -200,16 +200,16 @@ class FriendRequestView: UIView {
 
         // visualEffectView
 
-        let visualEffectViewConstraintH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[visualEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
-        let visualEffectViewConstraintV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[visualEffectView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let visualEffectViewConstraintH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[visualEffectView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let visualEffectViewConstraintV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[visualEffectView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(visualEffectViewConstraintH)
         NSLayoutConstraint.activateConstraints(visualEffectViewConstraintV)
 
         // containerView
 
-        let containerViewConstraintH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[containerView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
-        let containerViewConstraintV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[containerView]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let containerViewConstraintH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[containerView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let containerViewConstraintV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[containerView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(containerViewConstraintH)
         NSLayoutConstraint.activateConstraints(containerViewConstraintV)
@@ -244,7 +244,7 @@ class FriendRequestView: UIView {
 
             // addButton
 
-            addButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+            addButton.translatesAutoresizingMaskIntoConstraints = false
             containerView.addSubview(addButton)
 
             let addButtonTrailing = NSLayoutConstraint(item: addButton, attribute: .Trailing, relatedBy: .Equal, toItem: containerView, attribute: .Trailing, multiplier: 1, constant: -YepConfig.chatCellGapBetweenWallAndAvatar())
@@ -263,7 +263,7 @@ class FriendRequestView: UIView {
 
             // acceptButton
 
-            acceptButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+            acceptButton.translatesAutoresizingMaskIntoConstraints = false
             containerView.addSubview(acceptButton)
 
             let acceptButtonTrailing = NSLayoutConstraint(item: acceptButton, attribute: .Trailing, relatedBy: .Equal, toItem: containerView, attribute: .Trailing, multiplier: 1, constant: -YepConfig.chatCellGapBetweenWallAndAvatar())
@@ -273,7 +273,7 @@ class FriendRequestView: UIView {
 
             // rejectButton
 
-            rejectButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+            rejectButton.translatesAutoresizingMaskIntoConstraints = false
             containerView.addSubview(rejectButton)
 
             let rejectButtonRight = NSLayoutConstraint(item: rejectButton, attribute: .Right, relatedBy: .Equal, toItem: acceptButton, attribute: .Left, multiplier: 1, constant: -8)

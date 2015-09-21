@@ -62,7 +62,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
     var transitionContext: UIViewControllerContextTransitioning?
 
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
 //        return 2
         return isPresentation ? 0.3 : 0.3
     }
