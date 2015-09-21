@@ -40,7 +40,7 @@ class BottomButtonView: UIView {
         // Add actionButton
 
         self.addSubview(actionButton)
-        actionButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+        actionButton.translatesAutoresizingMaskIntoConstraints = false
 
         let actionButtonCenterXConstraint = NSLayoutConstraint(item: actionButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0)
 

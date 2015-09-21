@@ -81,7 +81,7 @@ class AvatarCache {
 
         let normalImageKey = "normal-\(url.hashValue)"
 
-        let avatarURLString = url.absoluteString!
+        let avatarURLString = url.absoluteString
 
         // 先看看缓存
         if let normalImage = cache.objectForKey(normalImageKey) as? UIImage {
@@ -89,8 +89,13 @@ class AvatarCache {
 
         } else {
             dispatch_async(self.cacheQueue) {
+
+                guard let realm = try? Realm() else {
+                    return
+                }
+
                 if
-                    let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()),
+                    let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm),
                     let avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
                     let image = UIImage(contentsOfFile: avatarFileURL.path!) {
 
@@ -111,20 +116,23 @@ class AvatarCache {
 
                         dispatch_async(dispatch_get_main_queue()) {
 
-                            var avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm())
+                            guard let realm = try? Realm() else {
+                                return
+                            }
+
+                            let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm)
 
                             if avatar == nil {
                                 
                                 let avatarFileName = NSUUID().UUIDString
 
-                                if let avatarURL = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
-                                    let realm = Realm()
+                                if let _ = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
 
                                     let newAvatar = Avatar()
                                     newAvatar.avatarURLString = avatarURLString
                                     newAvatar.avatarFileName = avatarFileName
 
-                                    realm.write {
+                                    let _ = try? realm.write {
                                         realm.add(newAvatar)
                                     }
                                 }
@@ -168,20 +176,22 @@ class AvatarCache {
                     avatarCompletion.completion(avatar)
                 }
 
-                let realm = Realm()
+                guard let realm = try? Realm() else {
+                    return
+                }
 
                 if let avatarObject = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
                     switch avatarCompletion.radius {
                     case YepConfig.ConversationCell.avatarSize * 0.5:
                         if avatarObject.roundMini.length == 0 {
-                            realm.write {
-                                avatarObject.roundMini = UIImageJPEGRepresentation(avatar, 0.9)
+                            let _ = try? realm.write {
+                                avatarObject.roundMini = UIImageJPEGRepresentation(avatar, 0.9)!
                             }
                         }
                     case YepConfig.chatCellAvatarSize() * 0.5:
                         if avatarObject.roundNano.length == 0 {
-                            realm.write {
-                                avatarObject.roundNano = UIImageJPEGRepresentation(avatar, 0.9)
+                            let _ = try? realm.write {
+                                avatarObject.roundNano = UIImageJPEGRepresentation(avatar, 0.9)!
                             }
                         }
                     default:
@@ -229,7 +239,11 @@ class AvatarCache {
 
                     // 再看看是否已有裁剪后的圆图
 
-                    if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()) {
+                    guard let realm = try? Realm() else {
+                        return
+                    }
+
+                    if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
 
                         switch radius {
                         case YepConfig.ConversationCell.avatarSize * 0.5:
@@ -257,7 +271,11 @@ class AvatarCache {
 
                         // 再看看是否已下载
 
-                        if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()) {
+                        guard let realm = try? Realm() else {
+                            return
+                        }
+
+                        if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
 
                             if let
                                 avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
@@ -282,19 +300,21 @@ class AvatarCache {
 
                             // TODO 裁减 image
 
-                            let realm = Realm()
+                            guard let realm = try? Realm() else {
+                                return
+                            }
 
-                            var avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm())
+                            let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm)
 
                             if avatar == nil {
                                 let avatarFileName = NSUUID().UUIDString
 
-                                if let avatarURL = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
+                                if let _ = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
                                     let newAvatar = Avatar()
                                     newAvatar.avatarURLString = avatarURLString
                                     newAvatar.avatarFileName = avatarFileName
 
-                                    realm.write {
+                                    let _ = try? realm.write {
                                         realm.add(newAvatar)
                                     }
 
@@ -303,12 +323,12 @@ class AvatarCache {
                                         if let oldAvatar = user.avatar {
                                             NSFileManager.deleteAvatarImageWithName(oldAvatar.avatarFileName)
 
-                                            realm.write {
+                                            let _ = try? realm.write {
                                                 realm.delete(oldAvatar)
                                             }
                                         }
 
-                                        realm.write {
+                                        let _ = try? realm.write {
                                             user.avatar = newAvatar
                                         }
                                     }
@@ -372,7 +392,11 @@ class AvatarCache {
 
                     // 再看看是否已有裁剪后的圆图
 
-                    if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()) {
+                    guard let realm = try? Realm() else {
+                        return
+                    }
+
+                    if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
 
                         switch radius {
                         case YepConfig.ConversationCell.avatarSize * 0.5:
@@ -400,7 +424,9 @@ class AvatarCache {
 
                     dispatch_async(self.cacheQueue) {
 
-                        let realm = Realm()
+                        guard let realm = try? Realm() else {
+                            return
+                        }
 
                         // 再看看是否已下载
                         if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
@@ -427,7 +453,7 @@ class AvatarCache {
 
                                     NSFileManager.deleteAvatarImageWithName(avatar.avatarFileName)
 
-                                    realm.write {
+                                    let _ = try? realm.write {
                                         realm.delete(avatar)
                                     }
                             }
@@ -440,19 +466,21 @@ class AvatarCache {
 
                             // TODO: 裁减 image
 
-                            let realm = Realm()
+                            guard let realm = try? Realm() else {
+                                return
+                            }
 
                             var avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm)
 
                             if avatar == nil {
                                 let avatarFileName = NSUUID().UUIDString
 
-                                if let avatarURL = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
+                                if let _ = NSFileManager.saveAvatarImage(image, withName: avatarFileName) {
                                     let newAvatar = Avatar()
                                     newAvatar.avatarURLString = avatarURLString
                                     newAvatar.avatarFileName = avatarFileName
 
-                                    realm.write {
+                                    let _ = try? realm.write {
                                         realm.add(newAvatar)
                                     }
 
@@ -462,7 +490,7 @@ class AvatarCache {
 
                             if let avatar = avatar {
                                 if let user = userWithUserID(userID, inRealm: realm) {
-                                    realm.write {
+                                    let _ = try? realm.write {
                                         user.avatar = avatar
                                     }
                                 }

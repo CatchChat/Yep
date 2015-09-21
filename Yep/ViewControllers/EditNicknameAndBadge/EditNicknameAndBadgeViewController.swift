@@ -50,7 +50,8 @@ class EditNicknameAndBadgeViewController: UITableViewController {
         nicknameTextField.text = YepUserDefaults.nickname.value
         nicknameTextField.delegate = self
 
-        let gap = Ruler.match(.iPhoneWidths(10, 25, 32))
+        let gap: CGFloat = Ruler.iPhoneHorizontal(10, 25, 32).value
+
         centerLeft1GapConstraint.constant = gap
         centerRight1GapConstraint.constant = gap
         left1Left2GapConstraint.constant = gap
@@ -96,11 +97,11 @@ class EditNicknameAndBadgeViewController: UITableViewController {
             techBadgeView,
         ]
 
-        let disableAllBadges: () -> Void = {
-            badgeViews.map { $0.enabled = false }
+        let disableAllBadges: () -> Void = { [weak self] in
+            self?.badgeViews.forEach { $0.enabled = false }
         }
 
-        badgeViews.map {
+        badgeViews.forEach {
 
             $0.tapAction = { badgeView in
 
@@ -114,7 +115,7 @@ class EditNicknameAndBadgeViewController: UITableViewController {
                     self.badgeEnabledImageViewAppearInCenter(badgeView.center)
 
                 } else {
-                    UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
+                    UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { _ in
                         self.badgeEnabledImageView.center = badgeView.center
                     }, completion: { finished in
                     })
@@ -125,7 +126,7 @@ class EditNicknameAndBadgeViewController: UITableViewController {
                 let newBadgeName = badgeView.badge.rawValue
 
                 updateMyselfWithInfo(["badge": newBadgeName], failureHandler: { [weak self] (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage)
+                    defaultFailureHandler(reason, errorMessage: errorMessage)
 
                     dispatch_async(dispatch_get_main_queue()) {
                         badgeView.enabled = false
@@ -150,7 +151,7 @@ class EditNicknameAndBadgeViewController: UITableViewController {
 
         badgeEnabledImageView.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
 
-        UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(0), animations: { _ in
+        UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { _ in
             self.badgeEnabledImageView.alpha = 1
             self.badgeEnabledImageView.transform = CGAffineTransformMakeScale(1.0, 1.0)
 
@@ -163,7 +164,7 @@ class EditNicknameAndBadgeViewController: UITableViewController {
         super.viewDidAppear(animated)
 
         if let badgeName = YepUserDefaults.badge.value {
-            badgeViews.map { $0.enabled = ($0.badge.rawValue == badgeName) }
+            badgeViews.forEach { $0.enabled = ($0.badge.rawValue == badgeName) }
         }
 
         if let enabledBadgeView = badgeViews.filter({ $0.enabled }).first {
@@ -180,7 +181,9 @@ extension EditNicknameAndBadgeViewController: UITextFieldDelegate {
 
             textField.resignFirstResponder()
 
-            let newNickname = textField.text
+            guard let newNickname = textField.text else {
+                return true
+            }
 
             if newNickname.isEmpty {
                 YepAlert.alertSorry(message: NSLocalizedString("You did not enter any nickname!", comment: ""), inViewController: self, withDismissAction: {
@@ -193,7 +196,7 @@ extension EditNicknameAndBadgeViewController: UITextFieldDelegate {
                 if newNickname != YepUserDefaults.nickname.value {
 
                     updateMyselfWithInfo(["nickname": newNickname], failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason, errorMessage)
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         YepAlert.alertSorry(message: NSLocalizedString("Update nickname failed!", comment: ""), inViewController: self)
 

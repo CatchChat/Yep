@@ -54,7 +54,7 @@ class ConversationsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        realm = Realm()
+        realm = try! Realm()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepNewMessagesReceivedNotification, object: nil)
         
@@ -100,7 +100,9 @@ class ConversationsViewController: UIViewController {
 
             // 每个对话的最近 10 条消息（image or thumbnail）
 
-            let realm = Realm()
+            guard let realm = try? Realm() else {
+                return
+            }
 
             for conversation in realm.objects(Conversation) {
 
@@ -250,13 +252,13 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
                         // delete all media files of messages
 
-                        messages.map { deleteMediaFilesOfMessage($0) }
+                        messages.forEach { deleteMediaFilesOfMessage($0) }
 
                         // delete all mediaMetaDatas
 
                         for message in messages {
                             if let mediaMetaData = message.mediaMetaData {
-                                realm.write {
+                                let _ = try? realm.write {
                                     realm.delete(mediaMetaData)
                                 }
                             }
@@ -264,7 +266,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
                         // delete all messages in conversation
                         
-                        realm.write {
+                        let _ = try? realm.write {
                             realm.delete(messages)
                         }
                     }
@@ -275,7 +277,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
                         // delete conversation, finally
 
-                        realm.write {
+                        let _ = try? realm.write {
                             realm.delete(conversation)
                         }
                     }

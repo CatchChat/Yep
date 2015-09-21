@@ -154,9 +154,9 @@ class User: Object {
 
     dynamic var doNotDisturb: UserDoNotDisturb?
 
-    let learningSkills = List<UserSkill>()
-    let masterSkills = List<UserSkill>()
-    let socialAccountProviders = List<UserSocialAccountProvider>()
+    var learningSkills = List<UserSkill>()
+    var masterSkills = List<UserSkill>()
+    var socialAccountProviders = List<UserSocialAccountProvider>()
 
     var messages: [Message] {
         return linkingObjects(Message.self, forProperty: "fromFriend")
@@ -185,7 +185,7 @@ class Group: Object {
     dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
 
     dynamic var owner: User?
-    let members = List<User>()
+    var members = List<User>()
 
     var conversation: Conversation? {
         let conversations = linkingObjects(Conversation.self, forProperty: "withGroup")
@@ -220,7 +220,7 @@ enum MessageDownloadState: Int {
     case Downloaded     = 2 // 已下载
 }
 
-enum MessageMediaType: Int, Printable {
+enum MessageMediaType: Int, CustomStringConvertible {
     case Text           = 0
     case Image          = 1
     case Video          = 2
@@ -264,7 +264,7 @@ enum MessageMediaType: Int, Printable {
     }
 }
 
-enum MessageSendState: Int, Printable {
+enum MessageSendState: Int, CustomStringConvertible {
     case NotSend    = 0
     case Failed     = 1
     case Successed  = 2
@@ -396,13 +396,13 @@ class Conversation: Object {
 // MARK: Helpers
 
 func normalFriends() -> Results<User> {
-    let realm = Realm()
+    let realm = try! Realm()
     let predicate = NSPredicate(format: "friendState = %d", UserFriendState.Normal.rawValue)
     return realm.objects(User).filter(predicate)
 }
 
 func normalUsers() -> Results<User> {
-    let realm = Realm()
+    let realm = try! Realm()
     let predicate = NSPredicate(format: "friendState != %d", UserFriendState.Blocked.rawValue)
     return realm.objects(User).filter(predicate)
 }
@@ -459,7 +459,7 @@ func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
         println("Warning: same messageID: \(messages.count), \(messageID)")
 
         // 治标未读
-        realm.write {
+        let _ = try? realm.write {
             for message in messages {
                 message.readed = true
             }
@@ -513,7 +513,7 @@ func tryGetOrCreateMeInRealm(realm: Realm) -> User? {
                 me.avatarURLString = avatarURLString
             }
 
-            realm.write {
+            let _ = try? realm.write {
                 realm.add(me)
             }
 
@@ -546,7 +546,7 @@ func messagesInConversationFromFriend(conversation: Conversation) -> Results<Mes
         return realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
         
     } else {
-        let realm = Realm()
+        let realm = try! Realm()
         return realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     }
 }
@@ -559,7 +559,7 @@ func messagesInConversation(conversation: Conversation) -> Results<Message> {
         return realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
 
     } else {
-        let realm = Realm()
+        let realm = try! Realm()
         return realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     }
 }
@@ -579,13 +579,13 @@ func messagesUnreadSentByMe(inRealm realm: Realm) -> Results<Message> {
 }
 
 func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
-    let predicate = NSPredicate(format: "conversation = %@", conversation)
+    let predicate = NSPredicate(format: "conversation = %@", argumentArray: [conversation])
     let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
 }
 
 func unReadMessagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
-    let predicate = NSPredicate(format: "conversation = %@ AND readed = 0", conversation)
+    let predicate = NSPredicate(format: "conversation = %@ AND readed = 0", argumentArray: [conversation])
     let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
 }
@@ -666,7 +666,7 @@ func blurredThumbnailImageOfMessage(message: Message) -> UIImage? {
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
             if let blurredThumbnailString = metaDataInfo[YepConfig.MetaData.blurredThumbnailString] as? String {
-                if let data = NSData(base64EncodedString: blurredThumbnailString, options: NSDataBase64DecodingOptions(0)) {
+                if let data = NSData(base64EncodedString: blurredThumbnailString, options: NSDataBase64DecodingOptions(rawValue: 0)) {
                     return UIImage(data: data)
                 }
             }
@@ -725,11 +725,13 @@ func videoMetaOfMessage(message: Message) -> (width: CGFloat, height: CGFloat)? 
 
 func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) {
 
-    let realm = Realm()
+    guard let realm = try? Realm() else {
+        return
+    }
 
     if let user = userWithUserID(userID, inRealm: realm) {
 
-        realm.write {
+        let _ = try? realm.write {
 
             // 更新用户信息
 
@@ -770,13 +772,13 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) 
             if let learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary] {
                 user.learningSkills.removeAll()
                 let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: realm)
-                user.learningSkills.extend(userSkills)
+                user.learningSkills.appendContentsOf(userSkills)
             }
 
             if let masterSkillsData = userInfo["master_skills"] as? [JSONDictionary] {
                 user.masterSkills.removeAll()
                 let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
-                user.masterSkills.extend(userSkills)
+                user.masterSkills.appendContentsOf(userSkills)
             }
 
             // 更新 Social Account Provider

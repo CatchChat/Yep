@@ -45,7 +45,7 @@ class BorderButton: UIButton {
         accessoryImageView.tintColor = borderColor
 
         addSubview(accessoryImageView)
-        accessoryImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        accessoryImageView.translatesAutoresizingMaskIntoConstraints = false
 
         let accessoryImageViewTrailing = NSLayoutConstraint(item: accessoryImageView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1, constant: -10)
         let accessoryImageViewCenterY = NSLayoutConstraint(item: accessoryImageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0)

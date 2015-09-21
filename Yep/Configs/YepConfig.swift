@@ -103,7 +103,7 @@ class YepConfig {
     }
 
     struct Profile {
-        static let leftEdgeInset: CGFloat = Ruler.match(.iPhoneWidths(20, 38, 40))
+        static let leftEdgeInset: CGFloat = Ruler.iPhoneHorizontal(20, 38, 40).value
         static let rightEdgeInset: CGFloat = leftEdgeInset
         static let introductionLabelFont = UIFont(name: "Helvetica-Light", size: 14)!
     }
@@ -122,8 +122,8 @@ class YepConfig {
 
     struct SocialWorkGithub {
         struct Repo {
-            static let leftEdgeInset = Ruler.match(.iPhoneWidths(20, 38, 40))
-            static let rightEdgeInset = leftEdgeInset
+            static let leftEdgeInset: CGFloat = Ruler.iPhoneHorizontal(20, 38, 40).value
+            static let rightEdgeInset: CGFloat = leftEdgeInset
         }
     }
 
@@ -151,8 +151,8 @@ class YepConfig {
 
         static let locationNameLabelHeight: CGFloat = 20
 
-        static let mediaPreferredWidth: CGFloat = Ruler.match(.iPhoneWidths(192, 225, 250))
-        static let mediaPreferredHeight: CGFloat = Ruler.match(.iPhoneWidths(208, 244, 270))
+        static let mediaPreferredWidth: CGFloat = Ruler.iPhoneHorizontal(192, 225, 250).value
+        static let mediaPreferredHeight: CGFloat = Ruler.iPhoneHorizontal(208, 244, 270).value
 
         static let mediaMinWidth: CGFloat = 60
         static let mediaMinHeight: CGFloat = 30

@@ -125,7 +125,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             let tableViewWidth = CGRectGetWidth(settingsTableView.bounds)
             let introLabelMaxWidth = tableViewWidth - YepConfig.Settings.introInset
 
-            let rect = introduction.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: introAttributes, context: nil)
+            let rect = introduction.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: introAttributes, context: nil)
 
             let height = max(20 + 8 + 22 + 8 + ceil(rect.height) + 20, 20 + YepConfig.Settings.userCellAvatarSize + 20)
 

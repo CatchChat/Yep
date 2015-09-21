@@ -55,10 +55,10 @@ class ProfileHeaderCell: UICollectionViewCell {
 
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
                         if (error != nil) {
-                            println("\(location) reverse geodcode fail: \(error.localizedDescription)")
+                            println("\(location) reverse geodcode fail: \(error?.localizedDescription)")
                         }
 
-                        if let placemarks = placemarks as? [CLPlacemark] {
+                        if let placemarks = placemarks {
                             if let firstPlacemark = placemarks.first {
                                 self?.locationLabel.text = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
                             }
@@ -94,7 +94,7 @@ class ProfileHeaderCell: UICollectionViewCell {
                 YepLocationService.turnOn()
 
             }, rejected: {
-                print("Yep can NOT get Location. :[\n")
+                println("Yep can NOT get Location. :[\n")
             })
 
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)

@@ -28,8 +28,8 @@ class EditSkillCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        skillLabelLeadingConstraint.constant = Ruler.match(.iPhoneWidths(15, 20, 25))
-        removeButtonTrailingConstraint.constant = Ruler.match(.iPhoneWidths(15, 20, 25))
+        skillLabelLeadingConstraint.constant = Ruler.iPhoneHorizontal(15, 20, 25).value
+        removeButtonTrailingConstraint.constant = Ruler.iPhoneHorizontal(15, 20, 25).value
 
         removeButton.addTarget(self, action: "tryRemoveSkill", forControlEvents: .TouchUpInside)
     }
@@ -47,5 +47,5 @@ class EditSkillCell: UITableViewCell {
             removeSkillAction?(self, userSkill)
         }
     }
-    
 }
+

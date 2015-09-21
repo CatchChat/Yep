@@ -20,7 +20,7 @@ class YepDownloader: NSObject {
         }()
 
     class func updateAttachmentOfMessage(message: Message, withAttachmentFileName attachmentFileName: String, inRealm realm: Realm) {
-        realm.write {
+        let _ = try? realm.write {
             message.localAttachmentName = attachmentFileName
 
             if message.mediaType == MessageMediaType.Video.rawValue {
@@ -35,7 +35,7 @@ class YepDownloader: NSObject {
     }
 
     class func updateThumbnailOfMessage(message: Message, withThumbnailFileName thumbnailFileName: String, inRealm realm: Realm) {
-        realm.write {
+        let _ = try? realm.write {
             message.localThumbnailName = thumbnailFileName
 
             if message.mediaType == MessageMediaType.Video.rawValue {
@@ -106,7 +106,9 @@ class YepDownloader: NSObject {
 
                 dispatch_async(dispatch_get_main_queue()) {
 
-                    let realm = Realm()
+                    guard let realm = try? Realm() else {
+                        return
+                    }
 
                     if let message = messageWithMessageID(messageID, inRealm: realm) {
 
@@ -118,7 +120,7 @@ class YepDownloader: NSObject {
 
                             case MessageMediaType.Image.rawValue:
 
-                                if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
+                                if let _ = NSFileManager.saveMessageImageData(data, withName: fileName) {
 
                                     self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
 
@@ -129,13 +131,13 @@ class YepDownloader: NSObject {
 
                             case MessageMediaType.Video.rawValue:
 
-                                if let fileURL = NSFileManager.saveMessageVideoData(data, withName: fileName) {
+                                if let _ = NSFileManager.saveMessageVideoData(data, withName: fileName) {
                                     self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
                                 }
 
                             case MessageMediaType.Audio.rawValue:
 
-                                if let fileURL = NSFileManager.saveMessageAudioData(data, withName: fileName) {
+                                if let _ = NSFileManager.saveMessageAudioData(data, withName: fileName) {
                                     self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
                                 }
                                 
@@ -162,7 +164,9 @@ class YepDownloader: NSObject {
                 thumbnailFinishedAction = { data in
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        let realm = Realm()
+                        guard let realm = try? Realm() else {
+                            return
+                        }
 
                         if let message = messageWithMessageID(messageID, inRealm: realm) {
 
@@ -170,7 +174,7 @@ class YepDownloader: NSObject {
 
                                 let fileName = NSUUID().UUIDString
 
-                                if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
+                                if let _ = NSFileManager.saveMessageImageData(data, withName: fileName) {
 
                                     self.updateThumbnailOfMessage(message, withThumbnailFileName: fileName, inRealm: realm)
 
@@ -201,10 +205,10 @@ class YepDownloader: NSObject {
 
             sharedDownloader.progressReporters.append(progressReporter)
 
-            tasks.map { $0.downloadTask.resume() }
+            tasks.forEach { $0.downloadTask.resume() }
 
         } else {
-            print("Can NOT download attachments of message: \(mediaType), \(messageID)")
+            println("Can NOT download attachments of message: \(mediaType), \(messageID)")
         }
     }
 }

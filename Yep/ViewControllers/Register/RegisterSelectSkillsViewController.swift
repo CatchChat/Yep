@@ -104,7 +104,7 @@ class RegisterSelectSkillsViewController: UIViewController {
         anim.beginTime = CACurrentMediaTime() + 0.0
         anim.duration = 0.9
         anim.timingFunction = CAMediaTimingFunction(name: "easeInEaseOut")
-        var prop = POPAnimatableProperty.propertyWithName("minimumLineSpacing", initializer: { props in
+        let prop = POPAnimatableProperty.propertyWithName("minimumLineSpacing", initializer: { props in
 
             props.readBlock = { obj, values in
                 values[0] = (obj as! UICollectionViewFlowLayout).minimumLineSpacing
@@ -127,7 +127,7 @@ class RegisterSelectSkillsViewController: UIViewController {
         // 如果前一个 VC 来不及传递，这里还得再请求一次
         if skillCategories.isEmpty {
             allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
             }, completion: { skillCategories in
                 self.skillCategories = skillCategories
@@ -277,11 +277,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                     self.view.addSubview(button)
 
-                    button.setTranslatesAutoresizingMaskIntoConstraints(false)
-
-                    let viewsDictionary = [
-                        "button": button,
-                    ]
+                    button.translatesAutoresizingMaskIntoConstraints = false
 
                     let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonWidth)
 
@@ -310,12 +306,12 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                     }, completion: { (finished) -> Void in
                     })
                     
-                    var layout = self.skillsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
-                    var originLineSpacing = layout.minimumLineSpacing
-                    var anim = POPBasicAnimation();
+                    let layout = self.skillsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+                    let originLineSpacing = layout.minimumLineSpacing
+                    let anim = POPBasicAnimation()
                     anim.duration = 0.8
                     anim.timingFunction = CAMediaTimingFunction(name: "easeOut")
-                    var prop = POPAnimatableProperty.propertyWithName("minimumLineSpacing", initializer: { props in
+                    let prop = POPAnimatableProperty.propertyWithName("minimumLineSpacing", initializer: { props in
                         
                         props.readBlock = { obj, values in
                             values[0] = (obj as! UICollectionViewFlowLayout).minimumLineSpacing
@@ -377,7 +373,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                             cell.contentView.addSubview(button)
 
-                            button.setTranslatesAutoresizingMaskIntoConstraints(false)
+                            button.translatesAutoresizingMaskIntoConstraints = false
 
                             let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonWidth)
 
@@ -443,7 +439,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                 let skill = skills[indexPath.item]
 
-                let rect = skill.localName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillSelectionCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+                let rect = skill.localName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillSelectionCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
 
                 return CGSizeMake(rect.width + 24, SkillSelectionCell.height)
             }

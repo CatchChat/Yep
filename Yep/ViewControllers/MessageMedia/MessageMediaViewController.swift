@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import MonkeyKing
 
 class MessageMediaViewController: UIViewController {
 
@@ -51,36 +52,30 @@ class MessageMediaViewController: UIViewController {
 
                         mediaControlView.shareAction = {
 
-                            MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
-                            
-                            let info = MonkeyKing.Message.WeChatSubtype.Info(
+                            let info = MonkeyKing.Info(
                                 title: nil,
                                 description: nil,
                                 thumbnail: nil,
                                 media: .Image(image)
                             )
 
-                            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info))
+                            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
 
                             let weChatSessionActivity = WeChatActivity(
                                 type: .Session,
-                                canPerform: sessionMessage.canBeDelivered,
-                                perform: {
-                                    MonkeyKing.shareMessage(sessionMessage) { success in
-                                        println("share Image to WeChat Session success: \(success)")
-                                    }
+                                message: sessionMessage,
+                                finish: { success in
+                                    println("share Image to WeChat Session success: \(success)")
                                 }
                             )
 
-                            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info))
+                            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
 
                             let weChatTimelineActivity = WeChatActivity(
                                 type: .Timeline,
-                                canPerform: timelineMessage.canBeDelivered,
-                                perform: {
-                                    MonkeyKing.shareMessage(timelineMessage) { success in
-                                        println("share Image to WeChat Timeline success: \(success)")
-                                    }
+                                message: timelineMessage,
+                                finish: { success in
+                                    println("share Image to WeChat Timeline success: \(success)")
                                 }
                             )
 
@@ -104,11 +99,11 @@ class MessageMediaViewController: UIViewController {
                 }
 
                 if
-                    let videoFileURL = NSFileManager.yepMessageVideoURLWithName(message.localAttachmentName),
-                    let asset = AVURLAsset(URL: videoFileURL, options: [:]),
-                    let playerItem = AVPlayerItem(asset: asset) {
+                    let videoFileURL = NSFileManager.yepMessageVideoURLWithName(message.localAttachmentName) {
+                        let asset = AVURLAsset(URL: videoFileURL, options: [:])
+                        let playerItem = AVPlayerItem(asset: asset)
 
-                        let x = NSFileManager.defaultManager().fileExistsAtPath(videoFileURL.path!)
+                        //let x = NSFileManager.defaultManager().fileExistsAtPath(videoFileURL.path!)
 
                         playerItem.seekToTime(kCMTimeZero)
                         //mediaView.videoPlayerLayer.player.replaceCurrentItemWithPlayerItem(playerItem)
@@ -118,8 +113,12 @@ class MessageMediaViewController: UIViewController {
 
                         player.addPeriodicTimeObserverForInterval(CMTimeMakeWithSeconds(0.1, Int32(NSEC_PER_SEC)), queue: nil, usingBlock: { time in
 
-                            if player.currentItem.status == .ReadyToPlay {
-                                let durationSeconds = CMTimeGetSeconds(player.currentItem.duration)
+                            guard let currentItem = player.currentItem else {
+                                return
+                            }
+
+                            if currentItem.status == .ReadyToPlay {
+                                let durationSeconds = CMTimeGetSeconds(currentItem.duration)
                                 let currentSeconds = CMTimeGetSeconds(time)
                                 let coundDownTime = Double(Int((durationSeconds - currentSeconds) * 10)) / 10
                                 self.mediaControlView.timeLabel.text = "\(coundDownTime)"
@@ -142,7 +141,7 @@ class MessageMediaViewController: UIViewController {
 
                         mediaView.videoPlayerLayer.player = player
 
-                        mediaView.videoPlayerLayer.player.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(0), context: nil)
+                        mediaView.videoPlayerLayer.player?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(rawValue: 0), context: nil)
 
                         //mediaView.videoPlayerLayer.player.play()
                         //mediaView.imageView.removeFromSuperview()
@@ -185,7 +184,7 @@ class MessageMediaViewController: UIViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
-        mediaView.videoPlayerLayer.player.pause()
+        mediaView.videoPlayerLayer.player?.pause()
     }
 
     // MARK: Actions
@@ -193,7 +192,7 @@ class MessageMediaViewController: UIViewController {
     func dismiss() {
         if let message = message {
             if message.mediaType == MessageMediaType.Video.rawValue {
-                mediaView.videoPlayerLayer.player.removeObserver(self, forKeyPath: "status")
+                mediaView.videoPlayerLayer.player?.removeObserver(self, forKeyPath: "status")
             }
         }
 
@@ -212,7 +211,7 @@ class MessageMediaViewController: UIViewController {
         dismiss()
     }
 
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if let player = object as? AVPlayer {
 
             if player == mediaView.videoPlayerLayer.player {
@@ -226,7 +225,7 @@ class MessageMediaViewController: UIViewController {
                     case AVPlayerStatus.ReadyToPlay:
                         println("ReadyToPlay")
                         dispatch_async(dispatch_get_main_queue()) {
-                            self.mediaView.videoPlayerLayer.player.play()
+                            self.mediaView.videoPlayerLayer.player?.play()
                         }
 
                     case AVPlayerStatus.Unknown:

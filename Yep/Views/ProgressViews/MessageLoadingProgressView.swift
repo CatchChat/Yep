@@ -39,7 +39,7 @@ class MessageLoadingProgressView: UIView {
 
         CGContextAddArc(context, center.x, center.y, radius, 0, CGFloat(M_PI * 2), 0)
 
-        CGContextDrawPath(context, kCGPathStroke)
+        CGContextDrawPath(context, CGPathDrawingMode.Stroke)
 
         CGContextRestoreGState(context)
 
@@ -51,11 +51,11 @@ class MessageLoadingProgressView: UIView {
 
         CGContextSetStrokeColorWithColor(context, UIColor.whiteColor().CGColor)
         CGContextSetLineWidth(context, lineWidth)
-        CGContextSetLineCap(context, kCGLineCapRound)
+        CGContextSetLineCap(context, CGLineCap.Round)
 
         CGContextAddArc(context, center.x, center.y, radius, CGFloat(-M_PI_2), CGFloat(M_PI * 2 * progress - M_PI_2), 0)
 
-        CGContextDrawPath(context, kCGPathStroke)
+        CGContextDrawPath(context, CGPathDrawingMode.Stroke)
 
         CGContextRestoreGState(context)
 

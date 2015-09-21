@@ -71,7 +71,7 @@ public extension NSURLRequest {
             }
         }
 
-        if let headerFields = allHTTPHeaderFields as? [String: String] {
+        if let headerFields = allHTTPHeaderFields {
 
             for (field, value) in headerFields {
                 switch field {
@@ -102,7 +102,7 @@ public extension NSURLRequest {
             components.append("-d \"\(escapedString)\"")
         }
 
-        return " ".join(components) + "\n"
+        return components.joinWithSeparator(" ") + "\n"
     }
 }
 

@@ -198,7 +198,8 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 var username = ""
                 if let
                     myUserID = YepUserDefaults.userID.value,
-                    me = userWithUserID(myUserID, inRealm: Realm()) {
+                    realm = try? Realm(),
+                    me = userWithUserID(myUserID, inRealm: realm) {
                         username = me.username
                 }
 
@@ -264,7 +265,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     YepHUD.showActivityIndicator()
 
                     updateMyselfWithInfo(["introduction": newIntroduction], failureHandler: { (reason, errorMessage) in
-                        defaultFailureHandler(reason, errorMessage)
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         YepHUD.hideActivityIndicator()
 
@@ -315,7 +316,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 let tableViewWidth = CGRectGetWidth(editProfileTableView.bounds)
                 let introLabelMaxWidth = tableViewWidth - YepConfig.EditProfile.introInset
 
-                let rect = introduction.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: introAttributes, context: nil)
+                let rect = introduction.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: introAttributes, context: nil)
 
                 let height = 20 + 22 + 10 + ceil(rect.height) + 20
                 
@@ -347,7 +348,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 if let
                     myUserID = YepUserDefaults.userID.value,
-                    me = userWithUserID(myUserID, inRealm: Realm()) {
+                    me = userWithUserID(myUserID, inRealm: try! Realm()) {
 
                         let username = me.username
 
@@ -358,17 +359,20 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                                 let newUsername = text
 
                                 updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
-                                    defaultFailureHandler(reason, errorMessage)
+                                    defaultFailureHandler(reason, errorMessage: errorMessage)
 
                                     YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set username failed!", comment: ""), inViewController: self)
 
                                 }, completion: { success in
                                     dispatch_async(dispatch_get_main_queue()) { [weak tableView] in
-                                        let realm = Realm()
+                                        guard let realm = try? Realm() else {
+                                            return
+                                        }
+                                        
                                         if let
                                             myUserID = YepUserDefaults.userID.value,
                                             me = userWithUserID(myUserID, inRealm: realm) {
-                                                realm.write {
+                                                let _ = try? realm.write {
                                                     me.username = newUsername
                                                 }
                                         }
@@ -429,7 +433,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
 
         s3PublicUploadFile(inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
             
-            defaultFailureHandler(reason, errorMessage)
+            defaultFailureHandler(reason, errorMessage: errorMessage)
 
             YepHUD.hideActivityIndicator()
 
@@ -438,7 +442,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
             let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
 
             updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 YepHUD.hideActivityIndicator()
 

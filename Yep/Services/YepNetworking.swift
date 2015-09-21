@@ -8,7 +8,7 @@
 
 import UIKit
 
-public enum Method: String, Printable {
+public enum Method: String, CustomStringConvertible {
     case OPTIONS = "OPTIONS"
     case GET = "GET"
     case HEAD = "HEAD"
@@ -24,7 +24,7 @@ public enum Method: String, Printable {
     }
 }
 
-public struct Resource<A>: Printable {
+public struct Resource<A>: CustomStringConvertible {
     let path: String
     let method: Method
     let requestBody: NSData?
@@ -43,11 +43,11 @@ public struct Resource<A>: Printable {
     }
 }
 
-public enum Reason: Printable {
+public enum Reason: CustomStringConvertible {
     case CouldNotParseJSON
     case NoData
     case NoSuccessStatusCode(statusCode: Int)
-    case Other(NSError)
+    case Other(NSError?)
 
     public var description: String {
         switch self {
@@ -58,7 +58,7 @@ public enum Reason: Printable {
         case .NoSuccessStatusCode(let statusCode):
             return "NoSuccessStatusCode: \(statusCode)"
         case .Other(let error):
-            return "Other, Error: \(error.description)"
+            return "Other, Error: \(error?.description)"
         }
     }
 }
@@ -74,20 +74,20 @@ func defaultFailureHandler(reason: Reason, errorMessage: String?) {
 func queryComponents(key: String, value: AnyObject) -> [(String, String)] {
     func escape(string: String) -> String {
         let legalURLCharactersToBeEscaped: CFStringRef = ":/?&=;+!@#$()',*"
-        return CFURLCreateStringByAddingPercentEscapes(nil, string, nil, legalURLCharactersToBeEscaped, CFStringBuiltInEncodings.UTF8.rawValue) as! String
+        return CFURLCreateStringByAddingPercentEscapes(nil, string, nil, legalURLCharactersToBeEscaped, CFStringBuiltInEncodings.UTF8.rawValue) as String
     }
 
     var components: [(String, String)] = []
     if let dictionary = value as? [String: AnyObject] {
         for (nestedKey, value) in dictionary {
-            components += queryComponents("\(key)[\(nestedKey)]", value)
+            components += queryComponents("\(key)[\(nestedKey)]", value: value)
         }
     } else if let array = value as? [AnyObject] {
         for value in array {
-            components += queryComponents("\(key)[]", value)
+            components += queryComponents("\(key)[]", value: value)
         }
     } else {
-        components.extend([(escape(key), escape("\(value)"))])
+        components.appendContentsOf([(escape(key), escape("\(value)"))])
     }
 
     return components
@@ -135,12 +135,12 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
 
     func query(parameters: [String: AnyObject]) -> String {
         var components: [(String, String)] = []
-        for key in sorted(Array(parameters.keys), <) {
+        for key in Array(parameters.keys).sort(<) {
             let value: AnyObject! = parameters[key]
-            components += queryComponents(key, value)
+            components += queryComponents(key, value: value)
         }
 
-        return join("&", components.map{"\($0)=\($1)"} as [String])
+        return (components.map{"\($0)=\($1)"} as [String]).joinWithSeparator("&")
     }
 
     if needEncodesParametersForMethod(resource.method) {
@@ -236,23 +236,23 @@ func errorMessageInData(data: NSData?) -> String? {
 public typealias JSONDictionary = [String: AnyObject]
 
 func decodeJSON(data: NSData) -> JSONDictionary? {
-    return NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.allZeros, error: nil) as? JSONDictionary
+    return (try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())) as? JSONDictionary
 }
 
 func encodeJSON(dict: JSONDictionary) -> NSData? {
-    return dict.count > 0 ? NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions.allZeros, error: nil) : nil
+    return dict.count > 0 ? (try? NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions())) : nil
 }
 
-public func jsonResource<A>(#path: String, #method: Method, #requestParameters: JSONDictionary, #parse: JSONDictionary -> A?) -> Resource<A> {
+public func jsonResource<A>(path path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
     return jsonResource(token: nil, path: path, method: method, requestParameters: requestParameters, parse: parse)
 }
 
-public func authJsonResource<A>(#path: String, #method: Method, #requestParameters: JSONDictionary, #parse: JSONDictionary -> A?) -> Resource<A> {
+public func authJsonResource<A>(path path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
     let token = YepUserDefaults.v1AccessToken.value
     return jsonResource(token: token, path: path, method: method, requestParameters: requestParameters, parse: parse)
 }
 
-public func jsonResource<A>(#token: String?, #path: String, #method: Method, #requestParameters: JSONDictionary, #parse: JSONDictionary -> A?) -> Resource<A> {
+public func jsonResource<A>(token token: String?, path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
     
     let jsonParse: NSData -> A? = { data in
         if let json = decodeJSON(data) {

@@ -11,7 +11,7 @@ import Proposer
 
 class YepAlert {
 
-    class func alert(#title: String, message: String?, dismissTitle: String, inViewController viewController: UIViewController?, withDismissAction dismissAction: (() -> Void)?) {
+    class func alert(title title: String, message: String?, dismissTitle: String, inViewController viewController: UIViewController?, withDismissAction dismissAction: (() -> Void)?) {
 
         dispatch_async(dispatch_get_main_queue()) {
 
@@ -28,15 +28,15 @@ class YepAlert {
         }
     }
 
-    class func alertSorry(#message: String?, inViewController viewController: UIViewController?, withDismissAction dismissAction: () -> Void) {
+    class func alertSorry(message message: String?, inViewController viewController: UIViewController?, withDismissAction dismissAction: () -> Void) {
         alert(title: NSLocalizedString("Sorry", comment: ""), message: message, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: viewController, withDismissAction: dismissAction)
     }
 
-    class func alertSorry(#message: String?, inViewController viewController: UIViewController?) {
+    class func alertSorry(message message: String?, inViewController viewController: UIViewController?) {
         alert(title: NSLocalizedString("Sorry", comment: ""), message: message, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: viewController, withDismissAction: nil)
     }
 
-    class func textInput(#title: String, placeholder: String?, oldText: String?, dismissTitle: String, inViewController viewController: UIViewController?, withFinishedAction finishedAction: ((text: String) -> Void)?) {
+    class func textInput(title title: String, placeholder: String?, oldText: String?, dismissTitle: String, inViewController viewController: UIViewController?, withFinishedAction finishedAction: ((text: String) -> Void)?) {
 
         dispatch_async(dispatch_get_main_queue()) {
 
@@ -49,8 +49,8 @@ class YepAlert {
 
             let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .Default) { action -> Void in
                 if let finishedAction = finishedAction {
-                    if let textField = alertController.textFields?.first as? UITextField {
-                        finishedAction(text: textField.text)
+                    if let textField = alertController.textFields?.first, text = textField.text {
+                        finishedAction(text: text)
                     }
                 }
             }
@@ -60,7 +60,7 @@ class YepAlert {
         }
     }
 
-    class func textInput(#title: String, message: String?, placeholder: String?, oldText: String?, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController?, withConfirmAction confirmAction: ((text: String) -> Void)?, cancelAction: (() -> Void)?) {
+    class func textInput(title title: String, message: String?, placeholder: String?, oldText: String?, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController?, withConfirmAction confirmAction: ((text: String) -> Void)?, cancelAction: (() -> Void)?) {
 
         dispatch_async(dispatch_get_main_queue()) {
 
@@ -77,8 +77,8 @@ class YepAlert {
             alertController.addAction(_cancelAction)
 
             let _confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action -> Void in
-                if let textField = alertController.textFields?.first as? UITextField {
-                    confirmAction?(text: textField.text)
+                if let textField = alertController.textFields?.first, text = textField.text {
+                    confirmAction?(text: text)
                 }
             }
             alertController.addAction(_confirmAction)
@@ -87,7 +87,7 @@ class YepAlert {
         }
     }
 
-    class func confirmOrCancel(#title: String, message: String, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController?, withConfirmAction confirmAction: () -> Void, cancelAction: () -> Void) {
+    class func confirmOrCancel(title title: String, message: String, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController?, withConfirmAction confirmAction: () -> Void, cancelAction: () -> Void) {
 
         dispatch_async(dispatch_get_main_queue()) {
 

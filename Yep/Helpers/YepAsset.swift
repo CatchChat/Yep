@@ -16,9 +16,10 @@ func thumbnailImageOfVideoInVideoURL(videoURL: NSURL) -> UIImage? {
     imageGenerator.appliesPreferredTrackTransform = true
 
     var actualTime: CMTime = CMTimeMake(0, 0)
-    var error: NSError?
 
-    let cgImage = imageGenerator.copyCGImageAtTime(CMTimeMakeWithSeconds(0.0, 600), actualTime: &actualTime, error: &error)
+    guard let cgImage = try? imageGenerator.copyCGImageAtTime(CMTimeMakeWithSeconds(0.0, 600), actualTime: &actualTime) else {
+        return nil
+    }
 
     let thumbnail = UIImage(CGImage: cgImage)
 

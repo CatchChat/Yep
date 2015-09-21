@@ -84,8 +84,6 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
         iconImageView.tintColor = UIColor.grayColor()
         nameLabel.textColor = UIColor.grayColor()
 
-        let providerName = socialAccount.description.lowercaseString
-
         var accountEnabled = false
 
         if let profileUser = profileUser {
@@ -119,7 +117,7 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
                 if let userID = userID {
 
                     githubWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
-                        defaultFailureHandler(reason, errorMessage)
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
 
                     }, completion: { githubWork in
                         //println("githubWork: \(githubWork)")

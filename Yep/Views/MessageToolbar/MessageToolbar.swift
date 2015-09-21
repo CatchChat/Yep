@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum MessageToolbarState: Int, Printable {
+enum MessageToolbarState: Int, CustomStringConvertible {
     case Default
     case BeginTextInput
     case TextInputing
@@ -48,7 +48,7 @@ class MessageToolbar: UIToolbar {
 
     var conversation: Conversation? {
         willSet {
-            if let conversation = newValue {
+            if let _ = newValue {
                 NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateDraft:", name: Notification.updateDraft, object: nil)
             }
         }
@@ -227,19 +227,19 @@ class MessageToolbar: UIToolbar {
     func makeUI() {
 
         self.addSubview(messageTextView)
-        messageTextView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        messageTextView.translatesAutoresizingMaskIntoConstraints = false
 
         self.addSubview(micButton)
-        micButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+        micButton.translatesAutoresizingMaskIntoConstraints = false
 
         self.addSubview(voiceRecordButton)
-        voiceRecordButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+        voiceRecordButton.translatesAutoresizingMaskIntoConstraints = false
 
         self.addSubview(moreButton)
-        moreButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+        moreButton.translatesAutoresizingMaskIntoConstraints = false
 
         self.addSubview(sendButton)
-        sendButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+        sendButton.translatesAutoresizingMaskIntoConstraints = false
 
         let viewsDictionary = [
             "moreButton": moreButton,
@@ -249,12 +249,12 @@ class MessageToolbar: UIToolbar {
             "sendButton": sendButton,
         ]
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[micButton(==moreButton)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[micButton(==moreButton)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
-        let messageTextViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-8-[messageTextView]-8-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let messageTextViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-8-[messageTextView]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         let textContainerInset = messageTextView.textContainerInset
-        let constant = ceil(messageTextView.font.lineHeight + textContainerInset.top + textContainerInset.bottom)
+        let constant = ceil(messageTextView.font!.lineHeight + textContainerInset.top + textContainerInset.bottom)
         messageTextViewHeightConstraint = NSLayoutConstraint(item: messageTextView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: constant)
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[micButton(48)][messageTextView][moreButton(==micButton)]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
@@ -276,9 +276,9 @@ class MessageToolbar: UIToolbar {
         NSLayoutConstraint.activateConstraints(sendButtonConstraintsH)
 
         // void record button
-        let voiceRecordButtonConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-8-[voiceRecordButton]-8-|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let voiceRecordButtonConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-8-[voiceRecordButton]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
-        let voiceRecordButtonConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[micButton][voiceRecordButton][moreButton]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let voiceRecordButtonConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[micButton][voiceRecordButton][moreButton]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(voiceRecordButtonConstraintsV)
         NSLayoutConstraint.activateConstraints(voiceRecordButtonConstraintsH)
@@ -344,7 +344,7 @@ class MessageToolbar: UIToolbar {
 
             if let draft = conversation.draft {
 
-                realm.write { [weak self] in
+                let _ = try? realm.write { [weak self] in
                     if let strongSelf = self {
                         draft.messageToolbarState = strongSelf.state.rawValue
 
@@ -358,7 +358,7 @@ class MessageToolbar: UIToolbar {
                 let draft = Draft()
                 draft.messageToolbarState = state.rawValue
                 
-                realm.write {
+                let _ = try? realm.write {
                     conversation.draft = draft
                 }
             }

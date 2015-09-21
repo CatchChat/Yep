@@ -91,7 +91,7 @@ class NotificationsViewController: UIViewController {
 
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
 
-        let realm = Realm()
+        let realm = try! Realm()
 
         if let
             myUserID = YepUserDefaults.userID.value,
@@ -127,9 +127,11 @@ class NotificationsViewController: UIViewController {
 
     // MARK: Actions
 
-    func enableDoNotDisturb(#failed: () -> Void) {
+    func enableDoNotDisturb(failed failed: () -> Void) {
 
-        let realm = Realm()
+        guard let realm = try? Realm() else {
+            return
+        }
 
         if let
             myUserID = YepUserDefaults.userID.value,
@@ -140,7 +142,7 @@ class NotificationsViewController: UIViewController {
                 if userDoNotDisturb == nil {
                     let _userDoNotDisturb = UserDoNotDisturb()
 
-                    realm.write {
+                    let _ = try? realm.write {
                         me.doNotDisturb = _userDoNotDisturb
                     }
 
@@ -155,7 +157,7 @@ class NotificationsViewController: UIViewController {
                     ]
 
                     updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
-                        defaultFailureHandler(reason, errorMessage)
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         YepAlert.alertSorry(message: NSLocalizedString("Enable Do Not Disturb failed!", comment: ""), inViewController: self)
 
@@ -165,13 +167,15 @@ class NotificationsViewController: UIViewController {
 
                         dispatch_async(dispatch_get_main_queue()) {
 
-                            let realm = Realm()
+                            guard let realm = try? Realm() else {
+                                return
+                            }
 
                             if let
                                 myUserID = YepUserDefaults.userID.value,
                                 me = userWithUserID(myUserID, inRealm: realm) {
 
-                                    realm.write {
+                                    let _ = try? realm.write {
                                         me.doNotDisturb?.isOn = true
                                     }
                             }
@@ -181,15 +185,17 @@ class NotificationsViewController: UIViewController {
         }
     }
 
-    func disableDoNotDisturb(#failed: () -> Void) {
+    func disableDoNotDisturb(failed failed: () -> Void) {
 
-        let realm = Realm()
+        guard let realm = try? Realm() else {
+            return
+        }
 
         if let
             myUserID = YepUserDefaults.userID.value,
             me = userWithUserID(myUserID, inRealm: realm) {
 
-                if let userDoNotDisturb = me.doNotDisturb {
+                if let _ = me.doNotDisturb {
 
                     let info: JSONDictionary = [
                         "mute_started_at_string": "",
@@ -197,7 +203,7 @@ class NotificationsViewController: UIViewController {
                     ]
 
                     updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
-                        defaultFailureHandler(reason, errorMessage)
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         YepAlert.alertSorry(message: NSLocalizedString("Disable Do Not Disturb failed!", comment: ""), inViewController: self)
 
@@ -210,14 +216,16 @@ class NotificationsViewController: UIViewController {
                             // clean UI
                             self?.doNotDisturbPeriod = DoNotDisturbPeriod()
 
-                            let realm = Realm()
+                            guard let realm = try? Realm() else {
+                                return
+                            }
 
                             if let
                                 myUserID = YepUserDefaults.userID.value,
                                 me = userWithUserID(myUserID, inRealm: realm) {
 
                                     if let userDoNotDisturb = me.doNotDisturb {
-                                        realm.write {
+                                        let _ = try? realm.write {
                                             realm.delete(userDoNotDisturb)
                                         }
                                     }

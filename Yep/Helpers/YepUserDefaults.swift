@@ -123,7 +123,7 @@ class YepUserDefaults {
 
     class func userNeedRelogin() {
 
-        if let token = v1AccessToken.value {
+        if let _ = v1AccessToken.value {
 
             cleanRealmAndCaches()
 
@@ -170,15 +170,17 @@ class YepUserDefaults {
         return Listenable<String?>(nickname) { nickname in
             defaults.setObject(nickname, forKey: nicknameKey)
 
-            let realm = Realm()
+            guard let realm = try? Realm() else {
+                return
+            }
 
             if let
                 nickname = nickname,
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID, inRealm: realm) {
-                    realm.beginWrite()
-                    me.nickname = nickname
-                    realm.commitWrite()
+                    let _ = try? realm.write {
+                        me.nickname = nickname
+                    }
             }
         }
         }()
@@ -189,15 +191,17 @@ class YepUserDefaults {
         return Listenable<String?>(introduction) { introduction in
             defaults.setObject(introduction, forKey: introductionKey)
 
-            let realm = Realm()
+            guard let realm = try? Realm() else {
+                return
+            }
 
             if let
                 introduction = introduction,
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID, inRealm: realm) {
-                    realm.beginWrite()
-                    me.introduction = introduction
-                    realm.commitWrite()
+                    let _ = try? realm.write {
+                        me.introduction = introduction
+                    }
             }
         }
         }()
@@ -208,16 +212,17 @@ class YepUserDefaults {
         return Listenable<String?>(avatarURLString) { avatarURLString in
             defaults.setObject(avatarURLString, forKey: avatarURLStringKey)
 
-            let realm = Realm()
+            guard let realm = try? Realm() else {
+                return
+            }
 
             if let
                 avatarURLString = avatarURLString,
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID, inRealm: realm) {
-                    let realm = Realm()
-                    realm.beginWrite()
-                    me.avatarURLString = avatarURLString
-                    realm.commitWrite()
+                    let _ = try? realm.write {
+                        me.avatarURLString = avatarURLString
+                    }
             }
         }
         }()
@@ -228,15 +233,17 @@ class YepUserDefaults {
         return Listenable<String?>(badge) { badge in
             defaults.setObject(badge, forKey: badgeKey)
 
-            let realm = Realm()
+            guard let realm = try? Realm() else {
+                return
+            }
 
             if let
                 badge = badge,
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID, inRealm: realm) {
-                    realm.beginWrite()
-                    me.badge = badge
-                    realm.commitWrite()
+                    let _ = try? realm.write {
+                        me.badge = badge
+                    }
             }
         }
         }()

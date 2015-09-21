@@ -43,7 +43,7 @@ class EditSkillsViewController: BaseViewController {
         // get all skill categories
 
         allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
-            defaultFailureHandler(reason, errorMessage)
+            defaultFailureHandler(reason, errorMessage: errorMessage)
 
         }, completion: { skillCategories -> Void in
             self.skillCategories = skillCategories
@@ -59,7 +59,7 @@ class EditSkillsViewController: BaseViewController {
         skillsTableView.rowHeight = 60
 
         var separatorInset = skillsTableView.separatorInset
-        separatorInset.left = Ruler.match(.iPhoneWidths(15, 20, 25))
+        separatorInset.left = Ruler.iPhoneHorizontal(15, 20, 25).value
         skillsTableView.separatorInset = separatorInset
 
         skillsTableView.registerNib(UINib(nibName: editSkillCellID, bundle: nil), forCellReuseIdentifier: editSkillCellID)
@@ -131,10 +131,12 @@ class EditSkillsViewController: BaseViewController {
 
                                     for skill in skillsToDelete {
 
-                                        let realm = Realm()
+                                        guard let realm = try? Realm() else {
+                                            return success
+                                        }
 
                                         if let userSkill = userSkillWithSkillID(skill.id, inRealm: realm) {
-                                            realm.write {
+                                            let _ = try? realm.write {
                                                 realm.delete(userSkill)
                                             }
                                         }
@@ -170,10 +172,12 @@ class EditSkillsViewController: BaseViewController {
 
                                     for skill in skillsToDelete {
 
-                                        let realm = Realm()
+                                        guard let realm = try? Realm() else {
+                                            return success
+                                        }
 
                                         if let userSkill = userSkillWithSkillID(skill.id, inRealm: realm) {
-                                            realm.write {
+                                            let _ = try? realm.write {
                                                 realm.delete(userSkill)
                                             }
                                         }
@@ -188,9 +192,6 @@ class EditSkillsViewController: BaseViewController {
                                     success = true
                                 }
                             }
-                            
-                        default:
-                            break
                         }
 
                         strongSelf.updateSkillsTableView()
@@ -216,7 +217,7 @@ class EditSkillsViewController: BaseViewController {
 
         // prepare realm & me
 
-        realm = Realm()
+        realm = try! Realm()
 
         if let
             myUserID = YepUserDefaults.userID.value,
@@ -289,7 +290,7 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 // delete from local
 
-                self?.realm.write {
+                let _ = try? self?.realm.write {
                     self?.realm.delete(userSkill)
 
                     // 防止连续点击时 Realm 出错

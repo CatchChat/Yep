@@ -22,7 +22,7 @@ func delay(time: NSTimeInterval, work: dispatch_block_t) -> CancelableTask? {
 
     var finalTask: CancelableTask?
 
-    var cancelableTask: CancelableTask = { cancel in
+    let cancelableTask: CancelableTask = { cancel in
         if cancel {
             finalTask = nil // key
 
@@ -57,8 +57,11 @@ func cleanRealmAndCaches() {
 
     // clean Realm
 
-    let realm = Realm()
-    realm.write {
+    guard let realm = try? Realm() else {
+        return
+    }
+
+    let _ = try? realm.write {
         realm.deleteAll()
     }
 

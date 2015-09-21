@@ -40,10 +40,10 @@ class ConversationTitleView: UIView {
 
         addSubview(helperView)
 
-        nameLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        stateInfoLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        stateInfoLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        helperView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        helperView.translatesAutoresizingMaskIntoConstraints = false
 
         let viewsDictionary = [
             "nameLabel": nameLabel,
@@ -58,9 +58,9 @@ class ConversationTitleView: UIView {
 
         NSLayoutConstraint.activateConstraints([helperViewCenterX, helperViewCenterY, helperViewTop, helperViewBottom])
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:[nameLabel(24)][stateInfoLabel(12)]", options: .AlignAllCenterX | .AlignAllLeading | .AlignAllTrailing, metrics: nil, views: viewsDictionary)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:[nameLabel(24)][stateInfoLabel(12)]", options: [.AlignAllCenterX, .AlignAllLeading, .AlignAllTrailing], metrics: nil, views: viewsDictionary)
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[nameLabel]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[nameLabel]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(constraintsV)
         NSLayoutConstraint.activateConstraints(constraintsH)

@@ -43,8 +43,8 @@ class RegisterPickMobileViewController: UIViewController {
         mobileNumberTextField.delegate = self
         mobileNumberTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
-        pickMobileNumberPromptLabelTopConstraint.constant = Ruler.match(.iPhoneHeights(30, 50, 60, 60))
-        mobileNumberTextFieldTopConstraint.constant = Ruler.match(.iPhoneHeights(30, 40, 50, 50))
+        pickMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
+        mobileNumberTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -62,7 +62,11 @@ class RegisterPickMobileViewController: UIViewController {
     // MARK: Actions
 
     func adjustAreaCodeTextFieldWidth() {
-        let text = areaCodeTextField.text
+
+        guard let text = areaCodeTextField.text else {
+            return
+        }
+
         let size = text.sizeWithAttributes(areaCodeTextField.editing ? areaCodeTextField.typingAttributes : areaCodeTextField.defaultTextAttributes)
 
         let width = 32 + (size.width + 22) + 20
@@ -75,8 +79,12 @@ class RegisterPickMobileViewController: UIViewController {
     }
 
     func textFieldDidChange(textField: UITextField) {
+
+        guard let areaCode = areaCodeTextField.text, mobileNumber = mobileNumberTextField.text else {
+            return
+        }
         
-        nextButton.enabled = !areaCodeTextField.text.isEmpty && !mobileNumberTextField.text.isEmpty
+        nextButton.enabled = !areaCode.isEmpty && !mobileNumber.isEmpty
 
         if textField == areaCodeTextField {
             adjustAreaCodeTextFieldWidth()
@@ -91,13 +99,14 @@ class RegisterPickMobileViewController: UIViewController {
         
         view.endEditing(true)
         
-        let mobile = mobileNumberTextField.text
-        let areaCode = areaCodeTextField.text
+        guard let mobile = mobileNumberTextField.text, areaCode = areaCodeTextField.text else {
+            return
+        }
 
         YepHUD.showActivityIndicator()
         
         validateMobile(mobile, withAreaCode: areaCode, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
+            defaultFailureHandler(reason, errorMessage: errorMessage)
             
             YepHUD.hideActivityIndicator()
 
@@ -106,7 +115,7 @@ class RegisterPickMobileViewController: UIViewController {
                 println("ValidateMobile: available")
 
                 registerMobile(mobile, withAreaCode: areaCode, nickname: nickname, failureHandler: { (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage)
+                    defaultFailureHandler(reason, errorMessage: errorMessage)
 
                     YepHUD.hideActivityIndicator()
 
@@ -191,7 +200,12 @@ extension RegisterPickMobileViewController: UITextFieldDelegate {
     }
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if !areaCodeTextField.text.isEmpty && !mobileNumberTextField.text.isEmpty {
+
+        guard let mobile = mobileNumberTextField.text, areaCode = areaCodeTextField.text else {
+            return false
+        }
+
+        if !areaCode.isEmpty && !mobile.isEmpty {
             tryShowRegisterVerifyMobile()
         }
 

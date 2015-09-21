@@ -15,7 +15,12 @@ def pods
     pod 'pop'
     pod 'AFNetworking', '~> 2.5.4'
     pod 'MZFayeClient', :path => '../CatchLib-iOS/MZFayeClient/'
-    pod 'RealmSwift', 0.95
+    pod 'Realm', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'swift-2.0'
+    pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'swift-2.0'
+    pod 'MonkeyKing'
+    pod 'JPush'
+    pod 'Fabric'
+    pod 'Crashlytics'
 end
 
 target 'Yep' do

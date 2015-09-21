@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import Fabric
 import Crashlytics
 import AVFoundation
 import RealmSwift
+import MonkeyKing
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -30,26 +32,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 默认将 Realm 放在 App Group 里
 
         let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(YepConfig.appGroupID)!
-        let realmPath = directory.path!.stringByAppendingPathComponent("db.realm")
+        let realmPath = directory.URLByAppendingPathComponent("db.realm").path!
 
-        return Realm.Configuration(path: realmPath, schemaVersion: 0, migrationBlock: { migration, oldSchemaVersion in
+        return Realm.Configuration(path: realmPath, schemaVersion: 1, migrationBlock: { migration, oldSchemaVersion in
         })
     }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
+        Fabric.with([Crashlytics.self()])
+
         Realm.Configuration.defaultConfiguration = realmConfig()
 
         cacheInAdvance()
 
-        delay(0.5, {
-            Crashlytics.startWithAPIKey("3030ba006e21bcf8eb4a2127b6a7931ea6667486")
-
+        delay(0.5, work: {
             // 推送初始化
             APService.setupWithOption(launchOptions)
         })
         
-        AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker,error: nil)
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
+        } catch _ {
+        }
         
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
 
@@ -251,7 +256,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             // 主界面的头像
 
-            let realm = Realm()
+            guard let realm = try? Realm() else {
+                return
+            }
+
             let conversations = realm.objects(Conversation)
 
             for conversation in conversations {
@@ -289,7 +297,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // NavigationBar Title Style
 
         let shadow: NSShadow = {
-            var shadow = NSShadow()
+            let shadow = NSShadow()
             shadow.shadowColor = UIColor.lightGrayColor()
             shadow.shadowOffset = CGSizeMake(0, 0)
             return shadow
@@ -322,7 +330,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //UITabBar.appearance().translucent = false
     }
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
 
         if MonkeyKing.handleOpenURL(url) {
             return true

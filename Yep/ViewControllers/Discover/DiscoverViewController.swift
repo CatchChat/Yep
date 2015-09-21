@@ -26,7 +26,7 @@ class DiscoverViewController: BaseViewController {
             activityIndicator.startAnimating()
 
             discoverUsers(masterSkillIDs: [], learningSkillIDs: [], discoveredUserSortStyle: discoveredUserSortStyle, failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 dispatch_async(dispatch_get_main_queue()) {
                     self.activityIndicator.stopAnimating()
@@ -47,7 +47,7 @@ class DiscoverViewController: BaseViewController {
         }
     }
 
-    lazy var filterView = DiscoverFilterView()
+    lazy var filterView: DiscoverFilterView = DiscoverFilterView()
 
     override func viewDidLoad() {
         super.viewDidLoad()

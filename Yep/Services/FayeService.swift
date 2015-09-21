@@ -28,7 +28,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
         case Read = "mark_as_read"
     }
 
-    enum InstantStateType: Int, Printable {
+    enum InstantStateType: Int, CustomStringConvertible {
         case Text = 0
         case Audio
 
@@ -105,15 +105,17 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                 if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
                                     
                                     if let
-                                        recipientID = messageDataInfo["recipient_id"] as? String,
+                                        //recipientID = messageDataInfo["recipient_id"] as? String,
                                         messageID = messageDataInfo["id"] as? String {
                                             
                                             println("Mark Message \(messageID) As Read")
 
-                                            let realm = Realm()
+                                            guard let realm = try? Realm() else {
+                                                return
+                                            }
 
                                             if let message = messageWithMessageID(messageID, inRealm: realm) {
-                                                realm.write {
+                                                let _ = try? realm.write {
                                                     message.sendState = MessageSendState.Read.rawValue
                                                 }
                                                 
@@ -161,7 +163,9 @@ class FayeService: NSObject, MZFayeClientDelegate {
     private func saveMessageWithMessageInfo(messageInfo: JSONDictionary) {
         //这里不用 realmQueue 是为了下面的通知同步，用了 realmQueue 可能导致数据更新慢于通知
         dispatch_async(dispatch_get_main_queue()) {
-            let realm = Realm()
+            guard let realm = try? Realm() else {
+                return
+            }
 
             syncMessageWithMessageInfo(messageInfo, inRealm: realm) { messageIDs in
                 dispatch_async(dispatch_get_main_queue()) {

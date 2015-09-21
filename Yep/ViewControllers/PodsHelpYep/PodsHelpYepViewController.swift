@@ -67,7 +67,7 @@ class PodsHelpYepViewController: UITableViewController {
             "name": "pop",
             "URLString": "https://github.com/facebook/pop",
         ],
-    ].sorted({ a, b in
+    ].sort({ a, b in
         if let
             nameA = a["name"],
             nameB = b["name"] {
@@ -97,7 +97,7 @@ class PodsHelpYepViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("PodCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("PodCell", forIndexPath: indexPath) 
 
         let pod = pods[indexPath.row]
 

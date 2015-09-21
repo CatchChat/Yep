@@ -25,7 +25,7 @@ class AboutViewController: UIViewController {
 
     let aboutCellID = "AboutCell"
 
-    let rowHeight: CGFloat = Ruler.match(.iPhoneHeights(50, 60, 60, 60))
+    let rowHeight: CGFloat = Ruler.iPhoneVertical(50, 60, 60, 60).value
 
     let aboutAnnotations: [String] = [
         NSLocalizedString("Pods help Yep", comment: ""),
@@ -38,8 +38,8 @@ class AboutViewController: UIViewController {
 
         title = NSLocalizedString("About", comment: "")
 
-        appLogoImageViewTopConstraint.constant = Ruler.match(.iPhoneHeights(0, 20, 40, 60))
-        appNameLabelTopConstraint.constant = Ruler.match(.iPhoneHeights(10, 20, 20, 20))
+        appLogoImageViewTopConstraint.constant = Ruler.iPhoneVertical(0, 20, 40, 60).value
+        appNameLabelTopConstraint.constant = Ruler.iPhoneVertical(10, 20, 20, 20).value
 
         appNameLabel.textColor = UIColor.yepTintColor()
 

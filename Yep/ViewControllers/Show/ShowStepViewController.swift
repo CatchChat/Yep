@@ -22,8 +22,8 @@ class ShowStepViewController: UIViewController {
 
         titleLabel.textColor = UIColor.yepTintColor()
 
-        titleLabelBottomConstraint.constant = Ruler.match(.iPhoneHeights(20, 30, 30, 30))
-        subTitleLabelBottomConstraint.constant = Ruler.match(.iPhoneHeights(120, 140, 160, 180))
+        titleLabelBottomConstraint.constant = Ruler.iPhoneVertical(20, 30, 30, 30).value
+        subTitleLabelBottomConstraint.constant = Ruler.iPhoneVertical(120, 140, 160, 180).value
     }
 
     func repeatAnimate(view: UIView, alongWithPath path: UIBezierPath, duration: CFTimeInterval, autoreverses: Bool = false) {

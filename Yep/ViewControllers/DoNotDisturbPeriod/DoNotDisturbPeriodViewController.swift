@@ -67,7 +67,7 @@ class DoNotDisturbPeriodViewController: UIViewController {
 
     // MARK: - Actions
 
-    func updateDoNotDisturb(#success: () -> Void) {
+    func updateDoNotDisturb(success success: () -> Void) {
 
         let info: JSONDictionary = [
             "mute_started_at_string": doNotDisturbPeriod.serverFromString,
@@ -75,7 +75,7 @@ class DoNotDisturbPeriodViewController: UIViewController {
         ]
 
         updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
+            defaultFailureHandler(reason, errorMessage: errorMessage)
 
             YepAlert.alertSorry(message: NSLocalizedString("Set Do Not Disturb failed!", comment: ""), inViewController: self)
 
@@ -85,7 +85,9 @@ class DoNotDisturbPeriodViewController: UIViewController {
 
                 success()
 
-                let realm = Realm()
+                guard let realm = try? Realm() else {
+                    return
+                }
 
                 if let
                     myUserID = YepUserDefaults.userID.value,
@@ -97,7 +99,7 @@ class DoNotDisturbPeriodViewController: UIViewController {
                             let _userDoNotDisturb = UserDoNotDisturb()
                             _userDoNotDisturb.isOn = true
 
-                            realm.write {
+                            let _ = try? realm.write {
                                 me.doNotDisturb = _userDoNotDisturb
                             }
 
@@ -105,7 +107,7 @@ class DoNotDisturbPeriodViewController: UIViewController {
                         }
 
                         if let userDoNotDisturb = me.doNotDisturb {
-                            realm.write {
+                            let _ = try? realm.write {
                                 userDoNotDisturb.fromHour = self.doNotDisturbPeriod.fromHour
                                 userDoNotDisturb.fromMinute = self.doNotDisturbPeriod.fromMinute
 
@@ -151,7 +153,7 @@ extension DoNotDisturbPeriodViewController: UIPickerViewDataSource, UIPickerView
         return 60
     }
 
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
 
         if component == 0 {
             return String(format: "%02d", row % 24)

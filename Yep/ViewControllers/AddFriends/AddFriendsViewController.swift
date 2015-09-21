@@ -49,18 +49,18 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
         static var caseCount: Int {
             var max: Int = 0
-            while let _ = self(rawValue: ++max) {}
+            while let _ = self.init(rawValue: ++max) {}
             return max
         }
     }
 
-    enum More: Int, Printable {
+    enum More: Int, CustomStringConvertible {
         case Contacts
         //case FaceToFace
 
         static var caseCount: Int {
             var max: Int = 0
-            while let _ = self(rawValue: ++max) {}
+            while let _ = self.init(rawValue: ++max) {}
             return max
         }
 

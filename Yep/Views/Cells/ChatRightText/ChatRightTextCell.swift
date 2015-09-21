@@ -105,7 +105,7 @@ class ChatRightTextCell: ChatRightBaseCell {
         let size = textContentTextView.sizeThatFits(CGSize(width: textContentLabelWidth, height: CGFloat.max))
 
         // lineHeight 19.088, size.height 35.5 (1 line) 54.5 (2 lines)
-        textContentTextView.textAlignment = ((size.height - textContentTextView.font.lineHeight) < 20) ? .Center : .Left
+        textContentTextView.textAlignment = ((size.height - textContentTextView.font!.lineHeight) < 20) ? .Center : .Left
 
         if size.width != textContentLabelWidth {
             textContentLabelWidth += YepConfig.ChatCell.magicWidth

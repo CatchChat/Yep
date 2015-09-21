@@ -70,7 +70,7 @@ class ConversationViewController: BaseViewController {
         return titleView
         }()
 
-    lazy var moreView = ConversationMoreView()
+    lazy var moreView: ConversationMoreView = ConversationMoreView()
 
     lazy var pullToRefreshView: PullToRefreshView = {
 
@@ -79,17 +79,17 @@ class ConversationViewController: BaseViewController {
 
         self.conversationCollectionView.insertSubview(pullToRefreshView, atIndex: 0)
 
-        pullToRefreshView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        pullToRefreshView.translatesAutoresizingMaskIntoConstraints = false
 
         let viewsDictionary = [
             "pullToRefreshView": pullToRefreshView,
             "view": self.view,
         ]
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(-200)-[pullToRefreshView(200)]", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(-200)-[pullToRefreshView(200)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         // 非常奇怪，若直接用 "H:|[pullToRefreshView]|" 得到的实际宽度为 0
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[pullToRefreshView(==view)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[pullToRefreshView(==view)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(constraintsV)
         NSLayoutConstraint.activateConstraints(constraintsH)
@@ -163,7 +163,7 @@ class ConversationViewController: BaseViewController {
     lazy var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
-        imagePicker.mediaTypes = [kUTTypeImage, kUTTypeMovie]
+        imagePicker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
         imagePicker.videoQuality = .TypeMedium
         imagePicker.allowsEditing = false
         return imagePicker
@@ -199,7 +199,7 @@ class ConversationViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        realm = Realm()
+        realm = try! Realm()
 
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
         if let gestures = navigationController?.view.gestureRecognizers {
@@ -212,7 +212,7 @@ class ConversationViewController: BaseViewController {
             }
         }
 
-        navigationController?.interactivePopGestureRecognizer.delaysTouchesBegan = false
+        navigationController?.interactivePopGestureRecognizer?.delaysTouchesBegan = false
 
         view.tintAdjustmentMode = .Normal
 
@@ -226,7 +226,7 @@ class ConversationViewController: BaseViewController {
 
         navigationItem.titleView = titleView
 
-        if let withFriend = conversation?.withFriend {
+        if let _ = conversation?.withFriend {
             let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
             navigationItem.rightBarButtonItem = moreBarButtonItem
         }
@@ -267,7 +267,7 @@ class ConversationViewController: BaseViewController {
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
 
-            print("appear \(keyboardHeight), \(keyboardHeightIncrement)\n")
+            println("appear \(keyboardHeight), \(keyboardHeightIncrement)\n")
 
             if let strongSelf = self {
 
@@ -297,7 +297,7 @@ class ConversationViewController: BaseViewController {
 
         keyboardMan.animateWhenKeyboardDisappear = { [weak self] keyboardHeight in
 
-            print("disappear \(keyboardHeight)\n")
+            println("disappear \(keyboardHeight)\n")
 
             if let strongSelf = self {
 
@@ -436,7 +436,7 @@ class ConversationViewController: BaseViewController {
             } else {
                 return false
             }
-        }).map({ self.markMessageAsReaded($0) })
+        }).forEach({ self.markMessageAsReaded($0) })
 
         // MARK: Notify Typing
 
@@ -487,7 +487,7 @@ class ConversationViewController: BaseViewController {
                         }
 
                     }, failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason, errorMessage)
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
@@ -515,7 +515,7 @@ class ConversationViewController: BaseViewController {
                         }
 
                     }, failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason, errorMessage)
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         dispatch_async(dispatch_get_main_queue()) {
                             YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
@@ -557,7 +557,7 @@ class ConversationViewController: BaseViewController {
 
                         let audioMetaDataInfo = [YepConfig.MetaData.audioSamples: audioSamples, YepConfig.MetaData.audioDuration: audioDuration]
 
-                        if let audioMetaData = NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: nil, error: nil) {
+                        if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
                             let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
                             metaData = audioMetaDataString
                         }
@@ -572,21 +572,21 @@ class ConversationViewController: BaseViewController {
 
                             dispatch_async(dispatch_get_main_queue()) {
                                 if let realm = message.realm {
-                                    realm.beginWrite()
-                                    message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
-                                    message.mediaType = MessageMediaType.Audio.rawValue
-                                    if let metaDataString = metaData {
-                                        message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
+                                    let _ = try? realm.write {
+                                        message.localAttachmentName = fileURL.URLByDeletingPathExtension?.lastPathComponent ?? ""
+                                        message.mediaType = MessageMediaType.Audio.rawValue
+                                        if let metaDataString = metaData {
+                                            message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
+                                        }
                                     }
-                                    realm.commitWrite()
-
+                                    
                                     self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                                     })
                                 }
                             }
 
                         }, failureHandler: { [weak self] reason, errorMessage in
-                            defaultFailureHandler(reason, errorMessage)
+                            defaultFailureHandler(reason, errorMessage: errorMessage)
 
                             YepAlert.alertSorry(message: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
@@ -599,13 +599,13 @@ class ConversationViewController: BaseViewController {
 
                             dispatch_async(dispatch_get_main_queue()) {
                                 if let realm = message.realm {
-                                    realm.beginWrite()
-                                    message.localAttachmentName = fileURL.path!.lastPathComponent.stringByDeletingPathExtension
-                                    message.mediaType = MessageMediaType.Audio.rawValue
-                                    if let metaDataString = metaData {
-                                        message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
+                                    let _ = try? realm.write {
+                                        message.localAttachmentName = fileURL.URLByDeletingPathExtension?.lastPathComponent ?? ""
+                                        message.mediaType = MessageMediaType.Audio.rawValue
+                                        if let metaDataString = metaData {
+                                            message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
+                                        }
                                     }
-                                    realm.commitWrite()
 
                                     self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
                                     })
@@ -613,7 +613,7 @@ class ConversationViewController: BaseViewController {
                             }
 
                         }, failureHandler: { [weak self] reason, errorMessage in
-                            defaultFailureHandler(reason, errorMessage)
+                            defaultFailureHandler(reason, errorMessage: errorMessage)
 
                             YepAlert.alertSorry(message: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
@@ -670,7 +670,7 @@ class ConversationViewController: BaseViewController {
                 }
             }
             
-            messageToolbar.voiceRecordEndAction = { [weak self] messageToolbar in
+            messageToolbar.voiceRecordEndAction = { messageToolbar in
 
                 YepAudioService.sharedManager.shouldIgnoreStart = true
                 
@@ -772,10 +772,12 @@ class ConversationViewController: BaseViewController {
             let messageID = message.messageID
 
             dispatch_async(realmQueue) {
-                let realm = Realm()
+                guard let realm = try? Realm() else {
+                    return
+                }
                 
                 if let message = messageWithMessageID(messageID, inRealm: realm) {
-                    realm.write {
+                    let _ = try? realm.write {
                         message.readed = true
                     }
 
@@ -834,7 +836,7 @@ class ConversationViewController: BaseViewController {
             let userNickname = user.nickname
 
             stateOfFriendRequestWithUser(user, failureHandler: { reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
             }, completion: { isFriend, receivedFriendRequestState, receivedFriendRequestID, sentFriendRequestState in
 
@@ -888,7 +890,7 @@ class ConversationViewController: BaseViewController {
 
         let friendRequestView = FriendRequestView(state: state)
 
-        friendRequestView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        friendRequestView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(friendRequestView)
 
         let friendRequestViewLeading = NSLayoutConstraint(item: friendRequestView, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1, constant: 0)
@@ -940,9 +942,11 @@ class ConversationViewController: BaseViewController {
                 println("friendRequestState: \(friendRequestState.rawValue)")
 
                 dispatch_async(dispatch_get_main_queue()) {
-                    let realm = Realm()
+                    guard let realm = try? Realm() else {
+                        return
+                    }
                     if let user = userWithUserID(userID, inRealm: realm) {
-                        realm.write {
+                        let _ = try? realm.write {
                             user.friendState = UserFriendState.IssuedRequest.rawValue
                         }
                     }
@@ -964,9 +968,11 @@ class ConversationViewController: BaseViewController {
                     println("acceptFriendRequestWithID: \(friendRequestID), \(success)")
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        let realm = Realm()
+                        guard let realm = try? Realm() else {
+                            return
+                        }
                         if let user = userWithUserID(userID, inRealm: realm) {
-                            realm.write {
+                            let _ = try? realm.write {
                                 user.friendState = UserFriendState.Normal.rawValue
                             }
                         }
@@ -1035,7 +1041,7 @@ class ConversationViewController: BaseViewController {
         switch message.mediaType {
 
         case MessageMediaType.Text.rawValue:
-            let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: YepConfig.ChatCell.textAttributes, context: nil)
+            let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
             height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
 
@@ -1105,7 +1111,7 @@ class ConversationViewController: BaseViewController {
             }
         }
 
-        let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: YepConfig.ChatCell.textAttributes, context: nil)
+        let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
         let width = ceil(rect.width)
 
@@ -1278,10 +1284,13 @@ class ConversationViewController: BaseViewController {
     }
 
     func updateNotificationEnabled(enabled: Bool, forUserWithUserID userID: String) {
-        let realm = Realm()
+
+        guard let realm = try? Realm() else {
+            return
+        }
 
         if let user = userWithUserID(userID, inRealm: realm) {
-            realm.write {
+            let _ = try? realm.write {
                 user.notificationEnabled = enabled
             }
 
@@ -1320,7 +1329,7 @@ class ConversationViewController: BaseViewController {
                 let profileUser = ProfileUser.UserType(user)
 
                 reportProfileUser(profileUser, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage)
+                    defaultFailureHandler(reason, errorMessage: errorMessage)
 
                     if let errorMessage = errorMessage {
                         YepAlert.alertSorry(message: errorMessage, inViewController: self)
@@ -1365,10 +1374,13 @@ class ConversationViewController: BaseViewController {
     }
 
     func updateBlocked(blocked: Bool, forUserWithUserID userID: String, needUpdateUI: Bool = true) {
-        let realm = Realm()
+
+        guard let realm = try? Realm() else {
+            return
+        }
 
         if let user = userWithUserID(userID, inRealm: realm) {
-            realm.write {
+            let _ = try? realm.write {
                 user.blocked = blocked
             }
 
@@ -1485,13 +1497,7 @@ class ConversationViewController: BaseViewController {
             return
         }
 
-        var newMessagesCount = Int(messages.count - _lastTimeMessagesCount)
-
-        /*
-        if let messageIDs = messageIDs {
-            newMessagesCount = messageIDs.count
-        }
-        */
+        let newMessagesCount = Int(messages.count - _lastTimeMessagesCount)
 
         let lastDisplayedMessagesRange = displayedMessagesRange
 
@@ -1518,8 +1524,8 @@ class ConversationViewController: BaseViewController {
                 for messageID in messageIDs {
                     if let
                         message = messageWithMessageID(messageID, inRealm: realm),
-                        index = messages.indexOf(message),
-                        indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: 0) {
+                        index = messages.indexOf(message) {
+                            let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: 0)
                             println("insert item: \(indexPath.item)")
 
                             indexPaths.append(indexPath)
@@ -1872,7 +1878,7 @@ class ConversationViewController: BaseViewController {
                         }
 
                     }, failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason, errorMessage)
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         YepAlert.alertSorry(message: NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
@@ -1889,7 +1895,7 @@ class ConversationViewController: BaseViewController {
                         }
 
                     }, failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason, errorMessage)
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         YepAlert.alertSorry(message: NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
@@ -2137,7 +2143,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         if let cell = cell as? ChatLeftLocationCell {
 
-                            cell.configureWithMessage(message, mediaTapAction: { [weak self] in
+                            cell.configureWithMessage(message, mediaTapAction: {
                                 if let coordinate = message.coordinate {
                                     let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
                                     let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
@@ -2175,7 +2181,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend image?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
 
                                         resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
-                                            defaultFailureHandler(reason, errorMessage)
+                                            defaultFailureHandler(reason, errorMessage: errorMessage)
 
                                             YepAlert.alertSorry(message: NSLocalizedString("Failed to resend image!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
 
@@ -2213,7 +2219,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend audio?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
 
                                         resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
-                                            defaultFailureHandler(reason, errorMessage)
+                                            defaultFailureHandler(reason, errorMessage: errorMessage)
 
                                             YepAlert.alertSorry(message: NSLocalizedString("Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
 
@@ -2243,7 +2249,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend video?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
 
                                         resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
-                                            defaultFailureHandler(reason, errorMessage)
+                                            defaultFailureHandler(reason, errorMessage: errorMessage)
 
                                             YepAlert.alertSorry(message: NSLocalizedString("Failed to resend video!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
 
@@ -2279,7 +2285,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend location?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
 
                                         resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
-                                            defaultFailureHandler(reason, errorMessage)
+                                            defaultFailureHandler(reason, errorMessage: errorMessage)
 
                                             YepAlert.alertSorry(message: NSLocalizedString("Failed to resend location!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
 
@@ -2317,7 +2323,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend text?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
 
                                         resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
-                                            defaultFailureHandler(reason, errorMessage)
+                                            defaultFailureHandler(reason, errorMessage: errorMessage)
 
                                             YepAlert.alertSorry(message: NSLocalizedString("Failed to resend text!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
 
@@ -2369,7 +2375,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                                 strongSelf.displayedMessagesRange.length -= 1
                                             }
 
-                                            realm.write {
+                                            let _ = try? realm.write {
                                                 if let mediaMetaData = sectionDateMessage.mediaMetaData {
                                                     realm.delete(mediaMetaData)
                                                 }
@@ -2389,7 +2395,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                         } else {
                                             strongSelf.displayedMessagesRange.length -= 1
-                                            realm.write {
+                                            let _ = try? realm.write {
                                                 if let mediaMetaData = message.mediaMetaData {
                                                     realm.delete(mediaMetaData)
                                                 }
@@ -2491,7 +2497,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
             pulllToRefreshView.endRefreshingAndDoFurtherAction() { [weak self] in
 
                 if let strongSelf = self {
-                    let lastDisplayedMessagesRange = strongSelf.displayedMessagesRange
+                    //let lastDisplayedMessagesRange = strongSelf.displayedMessagesRange
 
                     var newMessagesCount = strongSelf.messagesBunchCount
 
@@ -2549,12 +2555,12 @@ extension ConversationViewController: PullToRefreshViewDelegate {
 
 extension ConversationViewController : AVAudioRecorderDelegate {
 
-    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
+    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
         println("finished recording \(flag)")
     }
 
-    func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder!, error: NSError!) {
-        println("\(error.localizedDescription)")
+    func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {
+        println("\(error?.localizedDescription)")
     }
 }
 
@@ -2562,7 +2568,7 @@ extension ConversationViewController : AVAudioRecorderDelegate {
 
 extension ConversationViewController: AVAudioPlayerDelegate {
 
-    func audioPlayerBeginInterruption(player: AVAudioPlayer!) {
+    func audioPlayerBeginInterruption(player: AVAudioPlayer) {
 
         println("audioPlayerBeginInterruption")
 
@@ -2571,12 +2577,12 @@ extension ConversationViewController: AVAudioPlayerDelegate {
         }
     }
 
-    func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer!, error: NSError!) {
+    func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
 
         println("audioPlayerDecodeErrorDidOccur")
     }
 
-    func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully flag: Bool) {
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
 
         UIDevice.currentDevice().proximityMonitoringEnabled = false
 
@@ -2615,7 +2621,7 @@ extension ConversationViewController: AVAudioPlayerDelegate {
         }
     }
 
-    func audioPlayerEndInterruption(player: AVAudioPlayer!) {
+    func audioPlayerEndInterruption(player: AVAudioPlayer) {
 
         println("audioPlayerEndInterruption")
     }
@@ -2625,7 +2631,7 @@ extension ConversationViewController: AVAudioPlayerDelegate {
 
 extension ConversationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
 
         if let mediaType = info[UIImagePickerControllerMediaType] as? String {
 
@@ -2653,7 +2659,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                     // resize to smaller, not need fixRotation
 
-                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: kCGInterpolationMedium) {
+                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.Medium) {
                         sendImage(fixedImage)
                     }
                 }
@@ -2693,14 +2699,14 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         let audioMetaDataInfo: [String: AnyObject]
 
-        if let thumbnail = image.resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailHeight), withInterpolationQuality: kCGInterpolationLow) {
+        if let thumbnail = image.resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailHeight), withInterpolationQuality: CGInterpolationQuality.Low) {
             let blurredThumbnail = thumbnail.blurredImageWithRadius(5, iterations: 7, tintColor: UIColor.clearColor())
 
             let data = UIImageJPEGRepresentation(blurredThumbnail, 0.7)
 
-            let string = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(0))
+            let string = data!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
 
-            print("image blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
+            println("image blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
 
             audioMetaDataInfo = [
                 YepConfig.MetaData.imageWidth: imageWidth,
@@ -2717,14 +2723,14 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         var metaData: String? = nil
 
-        if let imageMetaData = NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: nil, error: nil) {
+        if let imageMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
             let imageMetaDataString = NSString(data: imageMetaData, encoding: NSUTF8StringEncoding) as? String
             metaData = imageMetaDataString
         }
 
         // Do send
 
-        let imageData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
+        let imageData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())!
 
         let messageImageName = NSUUID().UUIDString
 
@@ -2734,15 +2740,15 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                 dispatch_async(dispatch_get_main_queue()) {
 
-                    if let messageImageURL = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
+                    if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
                         if let realm = message.realm {
-                            realm.beginWrite()
-                            message.localAttachmentName = messageImageName
-                            message.mediaType = MessageMediaType.Image.rawValue
-                            if let metaDataString = metaData {
-                                message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
+                            let _ = try? realm.write {
+                                message.localAttachmentName = messageImageName
+                                message.mediaType = MessageMediaType.Image.rawValue
+                                if let metaDataString = metaData {
+                                    message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
+                                }
                             }
-                            realm.commitWrite()
                         }
                     }
 
@@ -2751,7 +2757,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 }
 
             }, failureHandler: { [weak self] reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 YepAlert.alertSorry(message: NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
@@ -2764,15 +2770,15 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             sendImageInFilePath(nil, orFileData: imageData, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
 
                 dispatch_async(dispatch_get_main_queue()) {
-                    if let messageImageURL = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
+                    if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
                         if let realm = message.realm {
-                            realm.beginWrite()
-                            message.localAttachmentName = messageImageName
-                            message.mediaType = MessageMediaType.Image.rawValue
-                            if let metaDataString = metaData {
-                                message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
+                            let _ = try? realm.write {
+                                message.localAttachmentName = messageImageName
+                                message.mediaType = MessageMediaType.Image.rawValue
+                                if let metaDataString = metaData {
+                                    message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
+                                }
                             }
-                            realm.commitWrite()
                         }
                     }
                     
@@ -2781,7 +2787,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 }
                 
             }, failureHandler: { [weak self] reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 YepAlert.alertSorry(message: NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
@@ -2817,14 +2823,14 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
             let videoMetaDataInfo: [String: AnyObject]
 
-            if let thumbnail = image.resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailHeight), withInterpolationQuality: kCGInterpolationLow) {
+            if let thumbnail = image.resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailHeight), withInterpolationQuality: CGInterpolationQuality.Low) {
                 let blurredThumbnail = thumbnail.blurredImageWithRadius(5, iterations: 7, tintColor: UIColor.clearColor())
 
-                let data = UIImageJPEGRepresentation(blurredThumbnail, 0.7)
+                let data = UIImageJPEGRepresentation(blurredThumbnail, 0.7)!
 
-                let string = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(0))
+                let string = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
 
-                print("video blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
+                println("video blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
 
                 videoMetaDataInfo = [
                     YepConfig.MetaData.videoWidth: imageWidth,
@@ -2839,7 +2845,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 ]
             }
 
-            if let videoMetaData = NSJSONSerialization.dataWithJSONObject(videoMetaDataInfo, options: nil, error: nil) {
+            if let videoMetaData = try? NSJSONSerialization.dataWithJSONObject(videoMetaDataInfo, options: []) {
                 let videoMetaDataString = NSString(data: videoMetaData, encoding: NSUTF8StringEncoding) as? String
                 metaData = videoMetaDataString
             }
@@ -2855,23 +2861,23 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                 if let videoData = NSData(contentsOfURL: videoURL) {
 
-                    if let messageVideoURL = NSFileManager.saveMessageVideoData(videoData, withName: messageVideoName) {
+                    if let _ = NSFileManager.saveMessageVideoData(videoData, withName: messageVideoName) {
                         if let realm = message.realm {
-                            realm.beginWrite()
+                            let _ = try? realm.write {
 
-                            if let thumbnailData = thumbnailData {
-                                if let thumbnailURL = NSFileManager.saveMessageImageData(thumbnailData, withName: messageVideoName) {
-                                    message.localThumbnailName = messageVideoName
+                                if let thumbnailData = thumbnailData {
+                                    if let _ = NSFileManager.saveMessageImageData(thumbnailData, withName: messageVideoName) {
+                                        message.localThumbnailName = messageVideoName
+                                    }
+                                }
+
+                                message.localAttachmentName = messageVideoName
+
+                                message.mediaType = MessageMediaType.Video.rawValue
+                                if let metaDataString = metaData {
+                                    message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
                                 }
                             }
-
-                            message.localAttachmentName = messageVideoName
-
-                            message.mediaType = MessageMediaType.Video.rawValue
-                            if let metaDataString = metaData {
-                                message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
-                            }
-                            realm.commitWrite()
                         }
                     }
 
@@ -2884,7 +2890,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         if let withFriend = conversation.withFriend {
 
             sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 YepAlert.alertSorry(message: NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
@@ -2895,7 +2901,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         } else if let withGroup = conversation.withGroup {
 
             sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 YepAlert.alertSorry(message: NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: ""), inViewController: self)
 

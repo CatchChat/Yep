@@ -8,10 +8,11 @@
 
 import UIKit
 import RealmSwift
+import MonkeyKing
 
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
-enum SocialAccount: String, Printable {
+enum SocialAccount: String, CustomStringConvertible {
     case Dribbble = "dribbble"
     case Github = "github"
     case Instagram = "instagram"
@@ -63,13 +64,13 @@ enum SocialAccount: String, Printable {
         
         switch self {
         case .Dribbble:
-            return NSURL(string: "\(baseURL.absoluteString!)/auth/dribbble")!
+            return NSURL(string: "\(baseURL.absoluteString)/auth/dribbble")!
         case .Github:
-            return NSURL(string: "\(baseURL.absoluteString!)/auth/github")!
+            return NSURL(string: "\(baseURL.absoluteString)/auth/github")!
         case .Behance:
-            return NSURL(string: "\(baseURL.absoluteString!)/auth/behance")!
+            return NSURL(string: "\(baseURL.absoluteString)/auth/behance")!
         case .Instagram:
-            return NSURL(string: "\(baseURL.absoluteString!)/auth/instagram")!
+            return NSURL(string: "\(baseURL.absoluteString)/auth/instagram")!
         }
     }
 }
@@ -404,30 +405,34 @@ class ProfileViewController: UIViewController {
 
     var masterSkills = [Skill]() {
         didSet {
-            let realm = Realm()
+            guard let realm = try? Realm() else {
+                return
+            }
 
             if let
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID, inRealm: realm) {
-                    realm.write {
+                    let _ = try? realm.write {
                         me.masterSkills.removeAll()
                         let userSkills = userSkillsFromSkills(self.masterSkills, inRealm: realm)
-                        me.masterSkills.extend(userSkills)
+                        me.masterSkills.appendContentsOf(userSkills)
                     }
             }
         }
     }
     var learningSkills = [Skill]() {
         didSet {
-            let realm = Realm()
+            guard let realm = try? Realm() else {
+                return
+            }
 
             if let
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID, inRealm: realm) {
-                    realm.write {
+                    let _ = try? realm.write {
                         me.learningSkills.removeAll()
                         let userSkills = userSkillsFromSkills(self.learningSkills, inRealm: realm)
-                        me.learningSkills.extend(userSkills)
+                        me.learningSkills.appendContentsOf(userSkills)
                     }
             }
         }
@@ -445,7 +450,7 @@ class ProfileViewController: UIViewController {
         get {
             let attributes = [NSFontAttributeName: YepConfig.Profile.introductionLabelFont]
             let labelWidth = self.collectionViewWidth - (YepConfig.Profile.leftEdgeInset + YepConfig.Profile.rightEdgeInset)
-            let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes:attributes, context:nil)
+            let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes:attributes, context:nil)
             return ceil(rect.height) + 4
         }
     }
@@ -494,7 +499,11 @@ class ProfileViewController: UIViewController {
 
             case .DiscoveredUserType(let discoveredUser):
 
-                if let user = userWithUserID(discoveredUser.id, inRealm: Realm()) {
+                guard let realm = try? Realm() else {
+                    break
+                }
+
+                if let user = userWithUserID(discoveredUser.id, inRealm: realm) {
                     self.profileUser = ProfileUser.UserType(user)
 
                     masterSkills = skillsFromUserSkillList(user.masterSkills)
@@ -511,7 +520,8 @@ class ProfileViewController: UIViewController {
 
             if let
                 myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: Realm()) {
+                realm = try? Realm(),
+                me = userWithUserID(myUserID, inRealm: realm) {
                     profileUser = ProfileUser.UserType(me)
 
                     masterSkills = skillsFromUserSkillList(me.masterSkills)
@@ -642,7 +652,8 @@ class ProfileViewController: UIViewController {
 
                 if let
                     myUserID = YepUserDefaults.userID.value,
-                    me = userWithUserID(myUserID, inRealm: Realm()) {
+                    realm = try? Realm(),
+                    me = userWithUserID(myUserID, inRealm: realm) {
 
                         if me.masterSkills.count == 0 && me.learningSkills.count == 0 {
 
@@ -701,13 +712,12 @@ class ProfileViewController: UIViewController {
 
          if let username = profileUser?.username, profileURL = NSURL(string: "http://soyep.com/\(username)"), nickname =   profileUser?.nickname {
 
-            MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
-
             var thumbnail: UIImage?
 
             if let
                 avatarURLString = profileUser?.avatarURLString,
-                avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()) {
+                realm = try? Realm(),
+                avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
                     if let
                         avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
                         avatarFilePath = avatarFileURL.path,
@@ -717,7 +727,7 @@ class ProfileViewController: UIViewController {
                     }
             }
 
-            let info = MonkeyKing.Message.WeChatSubtype.Info(
+            let info = MonkeyKing.Info(
                 //title: String(format:NSLocalizedString("Yep! I'm %@.", comment: ""), nickname),
                 title: nickname,
                 description: NSLocalizedString("From Yep, with Skills.", comment: ""),
@@ -725,27 +735,23 @@ class ProfileViewController: UIViewController {
                 media: .URL(profileURL)
             )
 
-            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info))
+            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
 
             let weChatSessionActivity = WeChatActivity(
                 type: .Session,
-                canPerform: sessionMessage.canBeDelivered,
-                perform: {
-                    MonkeyKing.shareMessage(sessionMessage) { success in
-                        println("share Profile to WeChat Session success: \(success)")
-                    }
+                message: sessionMessage,
+                finish: { success in
+                    println("share Profile to WeChat Session success: \(success)")
                 }
             )
 
-            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info))
+            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
 
             let weChatTimelineActivity = WeChatActivity(
                 type: .Timeline,
-                canPerform: timelineMessage.canBeDelivered,
-                perform: {
-                    MonkeyKing.shareMessage(timelineMessage) { success in
-                        println("share Profile to WeChat Timeline success: \(success)")
-                    }
+                message: timelineMessage,
+                finish: { success in
+                    println("share Profile to WeChat Timeline success: \(success)")
                 }
             )
 
@@ -767,17 +773,19 @@ class ProfileViewController: UIViewController {
                 let newUsername = text
 
                 updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage)
+                    defaultFailureHandler(reason, errorMessage: errorMessage)
 
                     YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create username failed!", comment: ""), inViewController: self)
 
                 }, completion: { success in
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        let realm = Realm()
+                        guard let realm = try? Realm() else {
+                            return
+                        }
                         if let
                             myUserID = YepUserDefaults.userID.value,
                             me = userWithUserID(myUserID, inRealm: realm) {
-                                realm.write {
+                                let _ = try? realm.write {
                                     me.username = newUsername
                                 }
                         }
@@ -846,7 +854,9 @@ class ProfileViewController: UIViewController {
 
         if let profileUser = profileUser {
 
-            let realm = Realm()
+            guard let realm = try? Realm() else {
+                return
+            }
 
             switch profileUser {
 
@@ -860,57 +870,55 @@ class ProfileViewController: UIViewController {
 
                     newUser.friendState = UserFriendState.Stranger.rawValue
 
-                    realm.beginWrite()
-                    realm.add(newUser)
-                    realm.commitWrite()
+                    let _ = try? realm.write {
+                        realm.add(newUser)
+                    }
 
                     stranger = newUser
                 }
 
                 if let user = stranger {
 
-                    realm.beginWrite()
+                    let _ = try? realm.write {
 
-                    // 更新用户信息
+                        // 更新用户信息
 
-                    user.lastSignInUnixTime = discoveredUser.lastSignInUnixTime
+                        user.lastSignInUnixTime = discoveredUser.lastSignInUnixTime
 
-                    user.username = discoveredUser.username ?? ""
+                        user.username = discoveredUser.username ?? ""
 
-                    user.nickname = discoveredUser.nickname
+                        user.nickname = discoveredUser.nickname
 
-                    if let introduction = discoveredUser.introduction {
-                        user.introduction = introduction
+                        if let introduction = discoveredUser.introduction {
+                            user.introduction = introduction
+                        }
+                        
+                        user.avatarURLString = discoveredUser.avatarURLString
+
+                        user.longitude = discoveredUser.longitude
+
+                        user.latitude = discoveredUser.latitude
+
+                        if let badge = discoveredUser.badge {
+                            user.badge = badge
+                        }
+
+                        // 更新技能
+
+                        user.learningSkills.removeAll()
+                        let learningUserSkills = userSkillsFromSkills(discoveredUser.learningSkills, inRealm: realm)
+                        user.learningSkills.appendContentsOf(learningUserSkills)
+
+                        user.masterSkills.removeAll()
+                        let masterUserSkills = userSkillsFromSkills(discoveredUser.masterSkills, inRealm: realm)
+                        user.masterSkills.appendContentsOf(masterUserSkills)
+
+                        // 更新 Social Account Provider
+
+                        user.socialAccountProviders.removeAll()
+                        let socialAccountProviders = userSocialAccountProvidersFromSocialAccountProviders(discoveredUser.socialAccountProviders)
+                        user.socialAccountProviders.appendContentsOf(socialAccountProviders)
                     }
-                    
-                    user.avatarURLString = discoveredUser.avatarURLString
-
-                    user.longitude = discoveredUser.longitude
-
-                    user.latitude = discoveredUser.latitude
-
-                    if let badge = discoveredUser.badge {
-                        user.badge = badge
-                    }
-
-                    // 更新技能
-
-                    user.learningSkills.removeAll()
-                    let learningUserSkills = userSkillsFromSkills(discoveredUser.learningSkills, inRealm: realm)
-                    user.learningSkills.extend(learningUserSkills)
-
-                    user.masterSkills.removeAll()
-                    let masterUserSkills = userSkillsFromSkills(discoveredUser.masterSkills, inRealm: realm)
-                    user.masterSkills.extend(masterUserSkills)
-
-                    // 更新 Social Account Provider
-
-                    user.socialAccountProviders.removeAll()
-                    let socialAccountProviders = userSocialAccountProvidersFromSocialAccountProviders(discoveredUser.socialAccountProviders)
-                    user.socialAccountProviders.extend(socialAccountProviders)
-
-                    realm.commitWrite()
-
 
                     if user.conversation == nil {
                         let newConversation = Conversation()
@@ -918,9 +926,9 @@ class ProfileViewController: UIViewController {
                         newConversation.type = ConversationType.OneToOne.rawValue
                         newConversation.withFriend = user
 
-                        realm.beginWrite()
-                        realm.add(newConversation)
-                        realm.commitWrite()
+                        let _ = try? realm.write {
+                            realm.add(newConversation)
+                        }
                     }
 
                     if let conversation = user.conversation {
@@ -940,9 +948,9 @@ class ProfileViewController: UIViewController {
                         newConversation.type = ConversationType.OneToOne.rawValue
                         newConversation.withFriend = user
 
-                        realm.beginWrite()
-                        realm.add(newConversation)
-                        realm.commitWrite()
+                        let _ = try? realm.write {
+                            realm.add(newConversation)
+                        }
                     }
 
                     if let conversation = user.conversation {
@@ -1095,7 +1103,9 @@ class ProfileViewController: UIViewController {
                     let providerName = socialAccount.rawValue
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        let realm = Realm()
+                        guard let realm = try? Realm() else {
+                            return
+                        }
 
                         if let
                             myUserID = YepUserDefaults.userID.value,
@@ -1104,7 +1114,7 @@ class ProfileViewController: UIViewController {
                                 var haveSocialAccountProvider = false
                                 for socialAccountProvider in me.socialAccountProviders {
                                     if socialAccountProvider.name == providerName {
-                                        realm.write {
+                                        let _ = try? realm.write {
                                             socialAccountProvider.enabled = true
                                         }
 
@@ -1119,7 +1129,7 @@ class ProfileViewController: UIViewController {
                                     provider.name = providerName
                                     provider.enabled = true
 
-                                    realm.write {
+                                    let _ = try? realm.write {
                                         me.socialAccountProviders.append(provider)
                                     }
                                 }
@@ -1377,7 +1387,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return header
 
         } else {
-            let footer = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: sectionFooterIdentifier, forIndexPath: indexPath) as! UICollectionReusableView
+            let footer = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: sectionFooterIdentifier, forIndexPath: indexPath) 
             return footer
         }
     }
@@ -1419,17 +1429,17 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.Master.rawValue:
 
-            var skillLocalName = profileUser?.cellSkillInSkillSet(.Master, atIndexPath: indexPath)?.localName ?? ""
+            let skillLocalName = profileUser?.cellSkillInSkillSet(.Master, atIndexPath: indexPath)?.localName ?? ""
 
-            let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+            let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
 
             return CGSize(width: rect.width + 24, height: SkillCell.height)
 
         case ProfileSection.Learning.rawValue:
 
-            var skillLocalName = profileUser?.cellSkillInSkillSet(.Learning, atIndexPath: indexPath)?.localName ?? ""
+            let skillLocalName = profileUser?.cellSkillInSkillSet(.Learning, atIndexPath: indexPath)?.localName ?? ""
 
-            let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: .UsesLineFragmentOrigin | .UsesFontLeading, attributes: skillTextAttributes, context: nil)
+            let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
 
             return CGSize(width: rect.width + 24, height: SkillCell.height)
 
@@ -1439,7 +1449,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.SeparationLine.rawValue:
 
-            var enabled = profileUser?.needSeparationLine ?? true
+            let enabled = profileUser?.needSeparationLine ?? true
 
             return enabled ? CGSize(width: collectionViewWidth, height: 1) : CGSizeZero
             

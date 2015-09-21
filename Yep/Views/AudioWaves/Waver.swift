@@ -80,17 +80,17 @@ class Waver: UIView {
             displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
             
             for var i = 0; i < self.numberOfWaves; ++i {
-                var waveline = CAShapeLayer()
+                let waveline = CAShapeLayer()
                 waveline.lineCap       = kCALineCapButt
                 waveline.lineJoin      = kCALineJoinRound
                 waveline.strokeColor   = UIColor.clearColor().CGColor
                 waveline.fillColor     = UIColor.clearColor().CGColor
                 waveline.lineWidth = (i==0 ? self.mainWaveWidth : self.decorativeWavesWidth)
 
-                var floatI = CGFloat(i)
-                var progressIndex = floatI/CGFloat(self.numberOfWaves)
-                var progress = 1.0 - progressIndex
-                var multiplier = min(1.0, (progress/3.0*2.0) + (1.0/3.0))
+                let floatI = CGFloat(i)
+                let progressIndex = floatI/CGFloat(self.numberOfWaves)
+                let progress = 1.0 - progressIndex
+                let multiplier = min(1.0, (progress/3.0*2.0) + (1.0/3.0))
                 
                 waveline.strokeColor   = waveColor.colorWithAlphaComponent(( i == 0 ? 1.0 : 1.0*multiplier*0.4)).CGColor
                 
@@ -105,7 +105,7 @@ class Waver: UIView {
         displayLink.invalidate()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -146,22 +146,22 @@ class Waver: UIView {
         for var i=0; i < self.numberOfWaves; ++i {
             
             
-            var wavelinePath = UIBezierPath()
+            let wavelinePath = UIBezierPath()
             
             // Progress is a value between 1.0 and -0.5, determined by the current wave idx, which is used to alter the wave's amplitude.
-            var progress = 1.0 - CGFloat(i)/CGFloat(self.numberOfWaves)
-            var normedAmplitude = (1.5*progress-0.5)*self.amplitude
+            let progress = 1.0 - CGFloat(i)/CGFloat(self.numberOfWaves)
+            let normedAmplitude = (1.5*progress-0.5)*self.amplitude
             
             
             for var x = 0 as CGFloat; x<self.waveWidth + self.density; x += self.density {
                 
                 //Thanks to https://github.com/stefanceriu/SCSiriWaveformView
                 // We use a parable to scale the sinus wave, that has its peak in the middle of the view.
-                var scaling = -pow(x/self.waveMid-1, 2) + 1 // make center bigger
+                let scaling = -pow(x/self.waveMid-1, 2) + 1 // make center bigger
                 
                 var y = scaling*self.maxAmplitude*normedAmplitude
-                var temp = 2.0*CGFloat(M_PI)*(x/self.waveWidth)*self.frequency
-                var temp2 = temp+self.phase
+                let temp = 2.0*CGFloat(M_PI)*(x/self.waveWidth)*self.frequency
+                let temp2 = temp+self.phase
                 y = CGFloat(y)*CGFloat(sinf(Float(temp2))) + self.waveHeight
                 
                 if (x==0) {
@@ -172,7 +172,7 @@ class Waver: UIView {
                 }
             }
             
-            var waveline = self.waves.objectAtIndex(i) as! CAShapeLayer
+            let waveline = self.waves.objectAtIndex(i) as! CAShapeLayer
             waveline.path = wavelinePath.CGPath
             
         }
@@ -188,7 +188,7 @@ class Waver: UIView {
             return nil
         }
         
-        let sampleMax = maxElement(waveSamples)
+        let sampleMax = waveSamples.maxElement()!
 
         if sampleMax > 0 { // 防止除零错误
             let sampleMaxGrade = 1.0 / sampleMax
@@ -198,13 +198,13 @@ class Waver: UIView {
 
         var finalSamples = [Float]()
         
-        var samplesCount = waveSamples.count //获取总的 Sample 数量
+        let samplesCount = waveSamples.count //获取总的 Sample 数量
         
         println("Samples before compress \(waveSamples)")
         
-        var totalTime:CGFloat = CGFloat(waveSamples.count/(60/fps)) // 计算音频的时长
+        let totalTime:CGFloat = CGFloat(waveSamples.count/(60/fps)) // 计算音频的时长
         
-        var bubbleWidth = -0.035*(totalTime*totalTime) + 4.3*totalTime + 50 //计算这个时长下的Bubble宽度，Bubble 的宽度和时间的关系函数是一个一元二次函数
+        let bubbleWidth = -0.035*(totalTime*totalTime) + 4.3*totalTime + 50 //计算这个时长下的Bubble宽度，Bubble 的宽度和时间的关系函数是一个一元二次函数
         
         var effectiveSample = bubbleWidth/(waveSquareWidth+waveGap) < 1 ? 1 : bubbleWidth/(waveSquareWidth+waveGap) //计算这个长度里实际可以放多少个sample
         
@@ -212,9 +212,9 @@ class Waver: UIView {
         
         effectiveSample = max(20, effectiveSample)
         
-        var sampleGap = CGFloat(samplesCount)/effectiveSample //计算按照实际可放的sample数量，原sample需要每几个合并一次
+        let sampleGap = CGFloat(samplesCount)/effectiveSample //计算按照实际可放的sample数量，原sample需要每几个合并一次
         
-        var timePerSample = totalTime/(CGFloat(samplesCount)/effectiveSample) //计算合并后每个 sample 需要经过多少时间播放
+        let timePerSample = totalTime/(CGFloat(samplesCount)/effectiveSample) //计算合并后每个 sample 需要经过多少时间播放
         
         println("😄 samplesCount \(samplesCount) totalTime \(totalTime) bubbleWidth \(bubbleWidth) effectiveSample \(effectiveSample) sampleGap \(sampleGap) timePerSample \(timePerSample)")
         
@@ -224,7 +224,7 @@ class Waver: UIView {
         
         var lastSample: CGFloat = 0
         
-        for (index, sample) in enumerate(waveSamples) {
+        for (index, sample) in waveSamples.enumerate() {
             
             lastSample = max(sample, lastSample)
             

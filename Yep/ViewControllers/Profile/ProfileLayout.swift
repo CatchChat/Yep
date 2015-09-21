@@ -16,9 +16,9 @@ class ProfileLayout: UICollectionViewFlowLayout {
 
     let leftEdgeInset: CGFloat = YepConfig.Profile.leftEdgeInset
 
-    override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
+    override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
 
-        let layoutAttributes = super.layoutAttributesForElementsInRect(rect) as! [UICollectionViewLayoutAttributes]
+        let layoutAttributes = super.layoutAttributesForElementsInRect(rect)
         let contentInset = collectionView!.contentInset
         let contentOffset = collectionView!.contentOffset
 
@@ -27,14 +27,16 @@ class ProfileLayout: UICollectionViewFlowLayout {
         if contentOffset.y < minY {
             let deltaY = abs(contentOffset.y - minY)
 
-            for attributes in layoutAttributes {
-                if attributes.indexPath.section == ProfileViewController.ProfileSection.Header.rawValue {
-                    var frame = attributes.frame
-                    frame.size.height = max(minY, CGRectGetWidth(collectionView!.bounds) * profileAvatarAspectRatio + deltaY)
-                    frame.origin.y = CGRectGetMinY(frame) - deltaY
-                    attributes.frame = frame
+            if let layoutAttributes = layoutAttributes {
+                for attributes in layoutAttributes {
+                    if attributes.indexPath.section == ProfileViewController.ProfileSection.Header.rawValue {
+                        var frame = attributes.frame
+                        frame.size.height = max(minY, CGRectGetWidth(collectionView!.bounds) * profileAvatarAspectRatio + deltaY)
+                        frame.origin.y = CGRectGetMinY(frame) - deltaY
+                        attributes.frame = frame
 
-                    break
+                        break
+                    }
                 }
             }
 
@@ -46,14 +48,16 @@ class ProfileLayout: UICollectionViewFlowLayout {
 
                 let deltaY = abs(contentOffset.y - minY)
 
-                for attributes in layoutAttributes {
-                    if attributes.indexPath.section == ProfileViewController.ProfileSection.Header.rawValue {
-                        var frame = attributes.frame
-                        frame.origin.y = deltaY - coverHideHeight
-                        attributes.frame = frame
-                        attributes.zIndex = 1000
+                if let layoutAttributes = layoutAttributes {
+                    for attributes in layoutAttributes {
+                        if attributes.indexPath.section == ProfileViewController.ProfileSection.Header.rawValue {
+                            var frame = attributes.frame
+                            frame.origin.y = deltaY - coverHideHeight
+                            attributes.frame = frame
+                            attributes.zIndex = 1000
 
-                        break
+                            break
+                        }
                     }
                 }
             }
@@ -69,25 +73,28 @@ class ProfileLayout: UICollectionViewFlowLayout {
 
         // 先按照每个 item 的 centerY 分组
         var rowCollections = [CGFloat: [UICollectionViewLayoutAttributes]]()
-        for attributes in layoutAttributes {
-            let centerY = CGRectGetMidY(attributes.frame)
 
-            if let rowCollection = rowCollections[centerY] {
-                var rowCollection = rowCollection
-                rowCollection.append(attributes)
-                rowCollections[centerY] = rowCollection
+        if let layoutAttributes = layoutAttributes {
+            for attributes in layoutAttributes {
+                let centerY = CGRectGetMidY(attributes.frame)
 
-            } else {
-                rowCollections[centerY] = [attributes]
+                if let rowCollection = rowCollections[centerY] {
+                    var rowCollection = rowCollection
+                    rowCollection.append(attributes)
+                    rowCollections[centerY] = rowCollection
+
+                } else {
+                    rowCollections[centerY] = [attributes]
+                }
             }
         }
 
         // 再调整每一行的 item 的 frame
-        for (key, rowCollection) in rowCollections {
-            let rowItemsCount = rowCollection.count
+        for (_, rowCollection) in rowCollections {
+            //let rowItemsCount = rowCollection.count
 
             // 每一行总的 InteritemSpacing
-            let aggregateInteritemSpacing = minimumInteritemSpacing * CGFloat(rowItemsCount - 1)
+            //let aggregateInteritemSpacing = minimumInteritemSpacing * CGFloat(rowItemsCount - 1)
 
             // 每一行所有 items 的宽度
             var aggregateItemsWidth: CGFloat = 0
@@ -96,8 +103,8 @@ class ProfileLayout: UICollectionViewFlowLayout {
             }
 
             // 计算出有效的 width 和需要偏移的 offset
-            let alignmentWidth = aggregateItemsWidth + aggregateInteritemSpacing
-            let alignmentOffsetX = (CGRectGetWidth(collectionView!.bounds) - alignmentWidth) / 2
+            //let alignmentWidth = aggregateItemsWidth + aggregateInteritemSpacing
+            //let alignmentOffsetX = (CGRectGetWidth(collectionView!.bounds) - alignmentWidth) / 2
 
             // 调整每个 item 的 origin.x 即可
             var previousFrame = CGRectZero

@@ -15,11 +15,11 @@ class YepShape: CAShapeLayer {
     let shapeColor = UIColor(red:0.33, green:0.71, blue:0.98, alpha:1)
 
     func setupPathWithWidth(width: CGFloat, height: CGFloat) {
-        var rectanglePath = UIBezierPath()
+        let rectanglePath = UIBezierPath()
         
         let bottomGap = height / CGFloat(tan(M_PI / 3))
         let bottomWidth = width - bottomGap * 2
-        let gapSideLenth = bottomGap * 2
+        //let gapSideLenth = bottomGap * 2
         
         rectanglePath.moveToPoint(CGPointMake(0, 0))
         rectanglePath.addLineToPoint(CGPointMake(width, 0))
@@ -32,11 +32,11 @@ class YepShape: CAShapeLayer {
     }
     
     func setupFlipPathWithWidth(width: CGFloat, height: CGFloat) {
-        var rectanglePath = UIBezierPath()
+        let rectanglePath = UIBezierPath()
         
         let bottomGap = height / CGFloat(tan(M_PI / 3))
         let bottomWidth = width - bottomGap * 2
-        let gapSideLenth = bottomGap * 2
+        //let gapSideLenth = bottomGap * 2
         
         rectanglePath.moveToPoint(CGPointMake(bottomGap, 0))
         rectanglePath.addLineToPoint(CGPointMake(bottomGap + bottomWidth, 0))
@@ -66,16 +66,16 @@ class YepRefreshView: UIView {
 
         super.init(frame: frame)
 
-        var x = shapeHeight / CGFloat(tan(M_PI / 3))
+        //let x = shapeHeight / CGFloat(tan(M_PI / 3))
 
-        var bottomWidth = shapeWidth - x * 2
+        //var bottomWidth = shapeWidth - x * 2
 
-        var shape1 = YepShape()
-        var shape2 = YepShape()
-        var shape3 = YepShape()
-        var shape5 = YepShape()
-        var shape4 = YepShape()
-        var shape6 = YepShape()
+        let shape1 = YepShape()
+        let shape2 = YepShape()
+        let shape3 = YepShape()
+        let shape5 = YepShape()
+        let shape4 = YepShape()
+        let shape6 = YepShape()
         
         shape1.setupPathWithWidth(shapeWidth, height: shapeHeight)
         shape1.position = CGPoint(
@@ -106,12 +106,12 @@ class YepRefreshView: UIView {
 
         ramdonShapePositions = generateRamdonShapePositionsWithCount(originShapePositions.count)
 
-        for (index, shape) in enumerate(shapes) {
+        for (index, shape) in shapes.enumerate() {
             shape.opacity = 0.0
             shape.position = ramdonShapePositions[index]
         }
         
-        var leafShape1 = CAShapeLayer()
+        let leafShape1 = CAShapeLayer()
         leafShape1.frame = CGRect(
             x: -shapeWidth / 2 + frame.width / 2,
             y: -shapeHeight + frame.height / 2,
@@ -122,7 +122,7 @@ class YepRefreshView: UIView {
         leafShape1.addSublayer(shape2)
         self.layer.addSublayer(leafShape1)
         
-        var leafShape2 = CAShapeLayer()
+        let leafShape2 = CAShapeLayer()
         leafShape2.frame = CGRect(
             x: -shapeWidth / 2 + frame.width / 2,
             y: -shapeHeight + frame.height / 2,
@@ -133,7 +133,7 @@ class YepRefreshView: UIView {
         leafShape2.addSublayer(shape4)
         self.layer.addSublayer(leafShape2)
         
-        var leafShape3 = CAShapeLayer()
+        let leafShape3 = CAShapeLayer()
         leafShape3.frame = CGRect(
             x: -shapeWidth / 2 + frame.width / 2,
             y: -shapeHeight + frame.height / 2,
@@ -170,7 +170,7 @@ class YepRefreshView: UIView {
 
         var positions = [CGPoint]()
 
-        for i in 0..<count {
+        for _ in 0..<count {
             positions.append(CGPoint(x: randomInRange(-200...200), y: randomInRange(-200...200)))
         }
 
@@ -194,7 +194,7 @@ class YepRefreshView: UIView {
             }
         }
 
-        for (index, shape) in enumerate(shapes) {
+        for (index, shape) in shapes.enumerate() {
 
             shape.opacity = Float(progressPercentage)
 
@@ -215,7 +215,7 @@ class YepRefreshView: UIView {
 
         isFlashing = true
 
-        for (index, shape) in enumerate(shapes) {
+        for (index, shape) in shapes.enumerate() {
             shape.opacity = 1.0
 
             let animation = CABasicAnimation(keyPath: "opacity")
@@ -227,7 +227,7 @@ class YepRefreshView: UIView {
             animation.timingFunction = CAMediaTimingFunction(name: "linear")
 
             var delay: Double = 0
-            var timeScale: Double = 3
+            let timeScale: Double = 3
 
             switch index {
             case 0, 5:
@@ -256,7 +256,7 @@ class YepRefreshView: UIView {
         }
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

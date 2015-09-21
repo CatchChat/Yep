@@ -27,8 +27,8 @@ class ShowViewController: UIViewController {
         finishButton.tintColor = UIColor.yepTintColor()
         finishButton.needShowAccessory = true
         
-        pageControlBottomConstraint.constant = Ruler.match(.iPhoneHeights(0, 10, 20, 30))
-        finishButtonBottomConstraint.constant = Ruler.match(.iPhoneHeights(20, 30, 40, 50))
+        pageControlBottomConstraint.constant = Ruler.iPhoneVertical(0, 10, 20, 30).value
+        finishButtonBottomConstraint.constant = Ruler.iPhoneVertical(20, 30, 40, 50).value
 
         makeUI()
     }
@@ -73,11 +73,11 @@ class ShowViewController: UIViewController {
             "stepC": stepC.view,
         ]
 
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[stepA(==view)]|", options: NSLayoutFormatOptions(0), metrics: nil, views: viewsDictionary)
+        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[stepA(==view)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(vConstraints)
 
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[stepA(==view)][stepB(==view)][stepC(==view)]|", options: .AlignAllBottom | .AlignAllTop, metrics: nil, views: viewsDictionary)
+        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[stepA(==view)][stepB(==view)][stepC(==view)]|", options: [.AlignAllBottom, .AlignAllTop], metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(hConstraints)
     }
@@ -85,7 +85,7 @@ class ShowViewController: UIViewController {
     private func stepGenius() -> ShowStepGeniusViewController {
         let step = storyboard!.instantiateViewControllerWithIdentifier("ShowStepGeniusViewController") as! ShowStepGeniusViewController
 
-        step.view.setTranslatesAutoresizingMaskIntoConstraints(false)
+        step.view.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(step.view)
 
         addChildViewController(step)
@@ -97,7 +97,7 @@ class ShowViewController: UIViewController {
     private func stepMatch() -> ShowStepMatchViewController {
         let step = storyboard!.instantiateViewControllerWithIdentifier("ShowStepMatchViewController") as! ShowStepMatchViewController
 
-        step.view.setTranslatesAutoresizingMaskIntoConstraints(false)
+        step.view.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(step.view)
 
         addChildViewController(step)
@@ -109,7 +109,7 @@ class ShowViewController: UIViewController {
     private func stepMeet() -> ShowStepMeetViewController {
         let step = storyboard!.instantiateViewControllerWithIdentifier("ShowStepMeetViewController") as! ShowStepMeetViewController
 
-        step.view.setTranslatesAutoresizingMaskIntoConstraints(false)
+        step.view.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(step.view)
 
         addChildViewController(step)
