@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import MonkeyKing
 
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
@@ -711,8 +712,6 @@ class ProfileViewController: UIViewController {
 
          if let username = profileUser?.username, profileURL = NSURL(string: "http://soyep.com/\(username)"), nickname =   profileUser?.nickname {
 
-            MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
-
             var thumbnail: UIImage?
 
             if let
@@ -728,7 +727,7 @@ class ProfileViewController: UIViewController {
                     }
             }
 
-            let info = MonkeyKing.Message.WeChatSubtype.Info(
+            let info = MonkeyKing.Info(
                 //title: String(format:NSLocalizedString("Yep! I'm %@.", comment: ""), nickname),
                 title: nickname,
                 description: NSLocalizedString("From Yep, with Skills.", comment: ""),
@@ -736,27 +735,23 @@ class ProfileViewController: UIViewController {
                 media: .URL(profileURL)
             )
 
-            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info))
+            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
 
             let weChatSessionActivity = WeChatActivity(
                 type: .Session,
-                canPerform: sessionMessage.canBeDelivered,
-                perform: {
-                    MonkeyKing.shareMessage(sessionMessage) { success in
-                        println("share Profile to WeChat Session success: \(success)")
-                    }
+                message: sessionMessage,
+                finish: { success in
+                    println("share Profile to WeChat Session success: \(success)")
                 }
             )
 
-            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info))
+            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
 
             let weChatTimelineActivity = WeChatActivity(
                 type: .Timeline,
-                canPerform: timelineMessage.canBeDelivered,
-                perform: {
-                    MonkeyKing.shareMessage(timelineMessage) { success in
-                        println("share Profile to WeChat Timeline success: \(success)")
-                    }
+                message: timelineMessage,
+                finish: { success in
+                    println("share Profile to WeChat Timeline success: \(success)")
                 }
             )
 

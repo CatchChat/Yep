@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MonkeyKing
 
 class SocialWorkInstagramViewController: BaseViewController {
 
@@ -122,8 +123,6 @@ class SocialWorkInstagramViewController: BaseViewController {
 
             if let profileURL = NSURL(string: profileURLString) {
 
-                MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
-
                 let title = String(format: NSLocalizedString("%@'s Instagram", comment: ""), firstMedia.username)
 
                 var thumbnail: UIImage?
@@ -131,34 +130,30 @@ class SocialWorkInstagramViewController: BaseViewController {
                     thumbnail = UIImage(named: socialAccount.iconName)
                 }
 
-                let info = MonkeyKing.Message.WeChatSubtype.Info(
+                let info = MonkeyKing.Info(
                     title: title,
                     description: nil,
                     thumbnail: thumbnail,
                     media: .URL(profileURL)
                 )
 
-                let sessionMessage = MonkeyKing.Message.WeChat(.Session(info))
+                let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
 
                 let weChatSessionActivity = WeChatActivity(
                     type: .Session,
-                    canPerform: sessionMessage.canBeDelivered,
-                    perform: {
-                        MonkeyKing.shareMessage(sessionMessage) { success in
-                            println("share Instagram to WeChat Session success: \(success)")
-                        }
+                    message: sessionMessage,
+                    finish: { success in
+                        println("share Instagram to WeChat Session success: \(success)")
                     }
                 )
 
-                let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info))
+                let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
 
                 let weChatTimelineActivity = WeChatActivity(
                     type: .Timeline,
-                    canPerform: timelineMessage.canBeDelivered,
-                    perform: {
-                        MonkeyKing.shareMessage(timelineMessage) { success in
-                            println("share Instagram to WeChat Timeline success: \(success)")
-                        }
+                    message: timelineMessage,
+                    finish: { success in
+                        println("share Instagram to WeChat Timeline success: \(success)")
                     }
                 )
 

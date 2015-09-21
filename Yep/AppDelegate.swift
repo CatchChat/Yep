@@ -10,6 +10,7 @@ import UIKit
 import Crashlytics
 import AVFoundation
 import RealmSwift
+import MonkeyKing
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

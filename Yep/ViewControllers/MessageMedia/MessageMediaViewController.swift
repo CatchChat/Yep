@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import MonkeyKing
 
 class MessageMediaViewController: UIViewController {
 
@@ -51,36 +52,30 @@ class MessageMediaViewController: UIViewController {
 
                         mediaControlView.shareAction = {
 
-                            MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
-                            
-                            let info = MonkeyKing.Message.WeChatSubtype.Info(
+                            let info = MonkeyKing.Info(
                                 title: nil,
                                 description: nil,
                                 thumbnail: nil,
                                 media: .Image(image)
                             )
 
-                            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info))
+                            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
 
                             let weChatSessionActivity = WeChatActivity(
                                 type: .Session,
-                                canPerform: sessionMessage.canBeDelivered,
-                                perform: {
-                                    MonkeyKing.shareMessage(sessionMessage) { success in
-                                        println("share Image to WeChat Session success: \(success)")
-                                    }
+                                message: sessionMessage,
+                                finish: { success in
+                                    println("share Image to WeChat Session success: \(success)")
                                 }
                             )
 
-                            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info))
+                            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
 
                             let weChatTimelineActivity = WeChatActivity(
                                 type: .Timeline,
-                                canPerform: timelineMessage.canBeDelivered,
-                                perform: {
-                                    MonkeyKing.shareMessage(timelineMessage) { success in
-                                        println("share Image to WeChat Timeline success: \(success)")
-                                    }
+                                message: timelineMessage,
+                                finish: { success in
+                                    println("share Image to WeChat Timeline success: \(success)")
                                 }
                             )
 

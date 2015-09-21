@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MonkeyKing
 
 class WeChatActivity: AnyActivity {
 
@@ -43,14 +44,16 @@ class WeChatActivity: AnyActivity {
         }
     }
 
-    init(type: Type, canPerform: Bool, perform: () -> Void) {
+    init(type: Type, message: MonkeyKing.Message, finish: MonkeyKing.Finish) {
+
+        MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
 
         super.init(
             type: type.type,
             title: type.title,
             image: type.image,
-            canPerform: canPerform,
-            perform: perform
+            message: message,
+            finish: finish
         )
     }
 }
