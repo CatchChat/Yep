@@ -14,8 +14,3 @@ func println(object: Any) {
     #endif
 }
 
-func print(object: Any) {
-    #if DEBUG
-        Swift.print(object)
-    #endif
-}

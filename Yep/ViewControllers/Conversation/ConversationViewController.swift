@@ -267,7 +267,7 @@ class ConversationViewController: BaseViewController {
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
 
-            print("appear \(keyboardHeight), \(keyboardHeightIncrement)\n")
+            println("appear \(keyboardHeight), \(keyboardHeightIncrement)\n")
 
             if let strongSelf = self {
 
@@ -297,7 +297,7 @@ class ConversationViewController: BaseViewController {
 
         keyboardMan.animateWhenKeyboardDisappear = { [weak self] keyboardHeight in
 
-            print("disappear \(keyboardHeight)\n")
+            println("disappear \(keyboardHeight)\n")
 
             if let strongSelf = self {
 
@@ -2706,7 +2706,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
             let string = data!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
 
-            print("image blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
+            println("image blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
 
             audioMetaDataInfo = [
                 YepConfig.MetaData.imageWidth: imageWidth,
@@ -2830,7 +2830,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                 let string = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
 
-                print("video blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
+                println("video blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
 
                 videoMetaDataInfo = [
                     YepConfig.MetaData.videoWidth: imageWidth,

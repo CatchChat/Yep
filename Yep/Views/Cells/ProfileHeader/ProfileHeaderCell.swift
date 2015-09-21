@@ -94,7 +94,7 @@ class ProfileHeaderCell: UICollectionViewCell {
                 YepLocationService.turnOn()
 
             }, rejected: {
-                print("Yep can NOT get Location. :[\n")
+                println("Yep can NOT get Location. :[\n")
             })
 
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)

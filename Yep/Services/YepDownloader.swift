@@ -208,7 +208,7 @@ class YepDownloader: NSObject {
             tasks.forEach { $0.downloadTask.resume() }
 
         } else {
-            print("Can NOT download attachments of message: \(mediaType), \(messageID)")
+            println("Can NOT download attachments of message: \(mediaType), \(messageID)")
         }
     }
 }
