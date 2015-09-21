@@ -17,7 +17,7 @@ func thumbnailImageOfVideoInVideoURL(videoURL: NSURL) -> UIImage? {
 
     var actualTime: CMTime = CMTimeMake(0, 0)
 
-    guard let cgImage = try imageGenerator.copyCGImageAtTime(CMTimeMakeWithSeconds(0.0, 600), actualTime: &actualTime) else {
+    guard let cgImage = try? imageGenerator.copyCGImageAtTime(CMTimeMakeWithSeconds(0.0, 600), actualTime: &actualTime) else {
         return nil
     }
 

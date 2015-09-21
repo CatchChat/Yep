@@ -49,8 +49,8 @@ class YepAlert {
 
             let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .Default) { action -> Void in
                 if let finishedAction = finishedAction {
-                    if let textField = alertController.textFields?.first as? UITextField {
-                        finishedAction(text: textField.text)
+                    if let textField = alertController.textFields?.first, text = textField.text {
+                        finishedAction(text: text)
                     }
                 }
             }
@@ -77,8 +77,8 @@ class YepAlert {
             alertController.addAction(_cancelAction)
 
             let _confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action -> Void in
-                if let textField = alertController.textFields?.first as? UITextField {
-                    confirmAction?(text: textField.text)
+                if let textField = alertController.textFields?.first, text = textField.text {
+                    confirmAction?(text: text)
                 }
             }
             alertController.addAction(_confirmAction)

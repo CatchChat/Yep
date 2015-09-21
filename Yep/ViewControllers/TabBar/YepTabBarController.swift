@@ -25,7 +25,7 @@ class YepTabBarController: UITabBarController {
 //            }
 //        }
 
-        if let items = tabBar.items as? [UITabBarItem] {
+        if let items = tabBar.items {
 
             let titles = [
                 NSLocalizedString("Chats", comment: ""),

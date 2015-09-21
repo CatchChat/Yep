@@ -43,12 +43,12 @@ class RegisterPickNameViewController: BaseViewController {
         pickNamePromptLabel.text = NSLocalizedString("What's your name?", comment: "")
 
         let text = NSLocalizedString("By tap Next you agree to our terms.", comment: "")
-        let textAttributes: [NSObject: AnyObject] = [
+        let textAttributes: [String: AnyObject] = [
             NSFontAttributeName: UIFont.systemFontOfSize(14),
             NSForegroundColorAttributeName: UIColor.grayColor(),
         ]
-        var attributedText = NSMutableAttributedString(string: text, attributes: textAttributes)
-        let termsAttributes: [NSObject: AnyObject] = [
+        let attributedText = NSMutableAttributedString(string: text, attributes: textAttributes)
+        let termsAttributes: [String: AnyObject] = [
             NSForegroundColorAttributeName: UIColor.yepTintColor(),
             NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
         ]
@@ -67,8 +67,8 @@ class RegisterPickNameViewController: BaseViewController {
         nameTextField.delegate = self
         nameTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
-        pickNamePromptLabelTopConstraint.constant = Ruler.match(.iPhoneHeights(30, 50, 60, 60))
-        nameTextFieldTopConstraint.constant = Ruler.match(.iPhoneHeights(30, 40, 50, 50))
+        pickNamePromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
+        nameTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -90,7 +90,11 @@ class RegisterPickNameViewController: BaseViewController {
     }
 
     func textFieldDidChange(textField: UITextField) {
-        isDirty = !textField.text.isEmpty
+        guard let text = textField.text else {
+            return
+        }
+
+        isDirty = !text.isEmpty
     }
 
     func next(sender: UIBarButtonItem) {
@@ -98,7 +102,12 @@ class RegisterPickNameViewController: BaseViewController {
     }
 
     private func showRegisterPickMobile() {
-        let nickname = nameTextField.text.trimming(.WhitespaceAndNewline)
+
+        guard let text = nameTextField.text else {
+            return
+        }
+
+        let nickname = text.trimming(.WhitespaceAndNewline)
         YepUserDefaults.nickname.value = nickname
 
         performSegueWithIdentifier("showRegisterPickMobile", sender: nil)
@@ -108,7 +117,12 @@ class RegisterPickNameViewController: BaseViewController {
 extension RegisterPickNameViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if !textField.text.isEmpty {
+
+        guard let text = textField.text else {
+            return true
+        }
+
+        if !text.isEmpty {
             showRegisterPickMobile()
         }
 

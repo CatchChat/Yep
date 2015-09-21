@@ -67,9 +67,9 @@ class LoginVerifyMobileViewController: UIViewController {
         callMePromptLabel.text = NSLocalizedString("Didn't get it?", comment: "")
         callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
 
-        verifyMobileNumberPromptLabelTopConstraint.constant = Ruler.match(.iPhoneHeights(30, 50, 60, 60))
-        verifyCodeTextFieldTopConstraint.constant = Ruler.match(.iPhoneHeights(30, 40, 50, 50))
-        callMeButtonTopConstraint.constant = Ruler.match(.iPhoneHeights(10, 20, 40, 40))
+        verifyMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
+        verifyCodeTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
+        callMeButtonTopConstraint.constant = Ruler.iPhoneVertical(10, 20, 40, 40).value
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -155,7 +155,11 @@ class LoginVerifyMobileViewController: UIViewController {
     }
 
     func textFieldDidChange(textField: UITextField) {
-        haveAppropriateInput = (textField.text.characters.count == YepConfig.verifyCodeLength())
+        guard let text = textField.text else {
+            return
+        }
+
+        haveAppropriateInput = (text.characters.count == YepConfig.verifyCodeLength())
     }
 
     func next(sender: UIBarButtonItem) {
@@ -166,12 +170,14 @@ class LoginVerifyMobileViewController: UIViewController {
 
         view.endEditing(true)
 
-        let verifyCode = verifyCodeTextField.text
+        guard let verifyCode = verifyCodeTextField.text else {
+            return
+        }
 
         YepHUD.showActivityIndicator()
 
         loginByMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
+            defaultFailureHandler(reason, errorMessage: errorMessage)
 
             YepHUD.hideActivityIndicator()
 

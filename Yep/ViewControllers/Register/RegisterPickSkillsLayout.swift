@@ -13,25 +13,28 @@ let registerPickSkillsLayoutLeftEdgeInset: CGFloat = 20
 class RegisterPickSkillsLayout: UICollectionViewFlowLayout {
 
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        let layoutAttributes = super.layoutAttributesForElementsInRect(rect) as! [UICollectionViewLayoutAttributes]
+        let layoutAttributes = super.layoutAttributesForElementsInRect(rect)
 
         // 先按照每个 item 的 centerY 分组
+
         var rowCollections = [CGFloat: [UICollectionViewLayoutAttributes]]()
-        for (index, attributes) in layoutAttributes.enumerate() {
-            let centerY = CGRectGetMidY(attributes.frame)
+        if let layoutAttributes = layoutAttributes {
+            for (_, attributes) in layoutAttributes.enumerate() {
+                let centerY = CGRectGetMidY(attributes.frame)
 
-            if let rowCollection = rowCollections[centerY] {
-                var rowCollection = rowCollection
-                rowCollection.append(attributes)
-                rowCollections[centerY] = rowCollection
+                if let rowCollection = rowCollections[centerY] {
+                    var rowCollection = rowCollection
+                    rowCollection.append(attributes)
+                    rowCollections[centerY] = rowCollection
 
-            } else {
-                rowCollections[centerY] = [attributes]
+                } else {
+                    rowCollections[centerY] = [attributes]
+                }
             }
         }
 
         // 再调整每一行的 item 的 frame
-        for (key, rowCollection) in rowCollections {
+        for (_, rowCollection) in rowCollections {
             let rowItemsCount = rowCollection.count
 
             // 每一行总的 InteritemSpacing
@@ -45,7 +48,7 @@ class RegisterPickSkillsLayout: UICollectionViewFlowLayout {
 
             // 计算出有效的 width 和需要偏移的 offset
             let alignmentWidth = aggregateItemsWidth + aggregateInteritemSpacing
-            let alignmentOffsetX = (CGRectGetWidth(collectionView!.bounds) - alignmentWidth) / 2
+            //let alignmentOffsetX = (CGRectGetWidth(collectionView!.bounds) - alignmentWidth) / 2
 
             // 调整每个 item 的 origin.x 即可
             var previousFrame = CGRectZero
@@ -74,3 +77,4 @@ class RegisterPickSkillsLayout: UICollectionViewFlowLayout {
         return true
     }
 }
+

@@ -60,15 +60,15 @@ class ConversationMessagePreviewTransitionManager: NSObject, UIViewControllerTra
     let largerOffset: CGFloat = 80
 
     func presentTransition(transitionContext: UIViewControllerContextTransitioning) {
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as? ConversationsViewController
+        //let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as? ConversationsViewController
         let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as? MessageMediaViewController
 
-        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
+        //let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)
 
         let containerView = transitionContext.containerView()
 
-        containerView.addSubview(toView!)
+        containerView?.addSubview(toView!)
 
         let animatingVC = toVC!
         let animatingView = toView!

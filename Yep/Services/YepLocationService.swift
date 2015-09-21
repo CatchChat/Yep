@@ -33,45 +33,39 @@ class YepLocationService: NSObject, CLLocationManagerDelegate {
     var address: String?
     let geocoder = CLGeocoder()
 
-    func locationManager(manager: CLLocationManager!, didUpdateToLocation newLocation: CLLocation!, fromLocation oldLocation: CLLocation!) {
-        
-        if let newLocation = newLocation {
+    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
 
-            // 尽量减少对服务器的请求和反向查询
+        // 尽量减少对服务器的请求和反向查询
 
-            if let oldLocation = oldLocation {
+        let distance = newLocation.distanceFromLocation(oldLocation)
 
-                let distance = newLocation.distanceFromLocation(oldLocation)
+        if distance < YepConfig.Location.distanceThreshold {
+            return
+        }
 
-                if distance < YepConfig.Location.distanceThreshold {
-                    return
-                }
-            }
+        updateMyselfWithInfo(["latitude": newLocation.coordinate.latitude, "longitude": newLocation.coordinate.longitude], failureHandler: nil, completion: { _ in
+        })
 
-            updateMyselfWithInfo(["latitude": newLocation.coordinate.latitude, "longitude": newLocation.coordinate.longitude], failureHandler: nil, completion: { _ in
-            })
+        geocoder.reverseGeocodeLocation(newLocation, completionHandler: { (placemarks, error) in
 
-            geocoder.reverseGeocodeLocation(newLocation, completionHandler: { (placemarks, error) in
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                if (error != nil) {
+                    println("self reverse geocode fail: \(error?.localizedDescription)")
 
-                    if (error != nil) {
-                        println("self reverse geocode fail: \(error.localizedDescription)")
+                } else {
+                    if let placemarks = placemarks {
 
-                    } else {
-                        if let placemarks = placemarks as? [CLPlacemark] {
+                        if let firstPlacemark = placemarks.first {
 
-                            if let firstPlacemark = placemarks.first {
+                            self?.address = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
 
-                                self?.address = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
-
-                                NSNotificationCenter.defaultCenter().postNotificationName("YepLocationUpdated", object: nil)
-                            }
+                            NSNotificationCenter.defaultCenter().postNotificationName("YepLocationUpdated", object: nil)
                         }
                     }
                 }
-            })
-        }
+            }
+        })
     }
 }
 

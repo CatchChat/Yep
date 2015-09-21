@@ -61,11 +61,10 @@ class MediaPreviewView: UIView {
                     mediaControlView.playState = .Playing
 
                     if
-                        let videoFileURL = NSFileManager.yepMessageVideoURLWithName(message.localAttachmentName),
-                        let asset = AVURLAsset(URL: videoFileURL, options: [:]),
-                        let playerItem = AVPlayerItem(asset: asset) {
+                        let videoFileURL = NSFileManager.yepMessageVideoURLWithName(message.localAttachmentName) {
+                            let playerItem = AVPlayerItem(asset: AVURLAsset(URL: videoFileURL, options: [:]))
 
-                            let x = NSFileManager.defaultManager().fileExistsAtPath(videoFileURL.path!)
+                            //let x = NSFileManager.defaultManager().fileExistsAtPath(videoFileURL.path!)
 
                             playerItem.seekToTime(kCMTimeZero)
 
@@ -75,8 +74,12 @@ class MediaPreviewView: UIView {
 
                             player.addPeriodicTimeObserverForInterval(CMTimeMakeWithSeconds(0.1, Int32(NSEC_PER_SEC)), queue: nil, usingBlock: { time in
 
-                                if player.currentItem.status == .ReadyToPlay {
-                                    let durationSeconds = CMTimeGetSeconds(player.currentItem.duration)
+                                guard let currentItem = player.currentItem else {
+                                    return
+                                }
+
+                                if currentItem.status == .ReadyToPlay {
+                                    let durationSeconds = CMTimeGetSeconds(currentItem.duration)
                                     let currentSeconds = CMTimeGetSeconds(time)
                                     let coundDownTime = Double(Int((durationSeconds - currentSeconds) * 10)) / 10
                                     self.mediaControlView.timeLabel.text = "\(coundDownTime)"
@@ -99,7 +102,7 @@ class MediaPreviewView: UIView {
 
                             mediaView.videoPlayerLayer.player = player
 
-                            mediaView.videoPlayerLayer.player.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(rawValue: 0), context: nil)
+                            mediaView.videoPlayerLayer.player?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(rawValue: 0), context: nil)
 
                             mediaView.videoPlayerLayer.addObserver(self, forKeyPath: "readyForDisplay", options: NSKeyValueObservingOptions(rawValue: 0), context: nil)
 
@@ -208,8 +211,8 @@ class MediaPreviewView: UIView {
     func hide() {
         if let message = message {
             if message.mediaType == MessageMediaType.Video.rawValue {
-                mediaView.videoPlayerLayer.player.pause()
-                mediaView.videoPlayerLayer.player.removeObserver(self, forKeyPath: "status")
+                mediaView.videoPlayerLayer.player?.pause()
+                mediaView.videoPlayerLayer.player?.removeObserver(self, forKeyPath: "status")
             }
         }
 
@@ -293,7 +296,7 @@ class MediaPreviewView: UIView {
 
                         delay(0.3) {
                             dispatch_async(dispatch_get_main_queue()) {
-                                self.mediaView.videoPlayerLayer.player.play()
+                                self.mediaView.videoPlayerLayer.player?.play()
                             }
                         }
 

@@ -13,29 +13,32 @@ class RegisterSelectSkillsLayout: UICollectionViewFlowLayout {
     let leftEdgeInset: CGFloat = 20
 
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        let layoutAttributes = super.layoutAttributesForElementsInRect(rect) as! [UICollectionViewLayoutAttributes]
+        let layoutAttributes = super.layoutAttributesForElementsInRect(rect)
 
         // 先按照每个 item 的 centerY 分组
         var rowCollections = [CGFloat: [UICollectionViewLayoutAttributes]]()
-        for (index, attributes) in layoutAttributes.enumerate() {
-            let centerY = CGRectGetMidY(attributes.frame)
 
-            if let rowCollection = rowCollections[centerY] {
-                var rowCollection = rowCollection
-                rowCollection.append(attributes)
-                rowCollections[centerY] = rowCollection
+        if let layoutAttributes = layoutAttributes {
+            for (_, attributes) in layoutAttributes.enumerate() {
+                let centerY = CGRectGetMidY(attributes.frame)
 
-            } else {
-                rowCollections[centerY] = [attributes]
+                if let rowCollection = rowCollections[centerY] {
+                    var rowCollection = rowCollection
+                    rowCollection.append(attributes)
+                    rowCollections[centerY] = rowCollection
+
+                } else {
+                    rowCollections[centerY] = [attributes]
+                }
             }
         }
 
         // 再调整每一行的 item 的 frame
-        for (key, rowCollection) in rowCollections {
+        for (_, rowCollection) in rowCollections {
             let rowItemsCount = rowCollection.count
 
             // 每一行总的 InteritemSpacing
-            let aggregateInteritemSpacing = minimumInteritemSpacing * CGFloat(rowItemsCount - 1)
+            //let aggregateInteritemSpacing = minimumInteritemSpacing * CGFloat(rowItemsCount - 1)
 
             // 每一行所有 items 的宽度
             var aggregateItemsWidth: CGFloat = 0
@@ -44,8 +47,8 @@ class RegisterSelectSkillsLayout: UICollectionViewFlowLayout {
             }
 
             // 计算出有效的 width 和需要偏移的 offset
-            let alignmentWidth = aggregateItemsWidth + aggregateInteritemSpacing
-            let alignmentOffsetX = (CGRectGetWidth(collectionView!.bounds) - alignmentWidth) / 2
+            //let alignmentWidth = aggregateItemsWidth + aggregateInteritemSpacing
+            //let alignmentOffsetX = (CGRectGetWidth(collectionView!.bounds) - alignmentWidth) / 2
 
             // 调整每个 item 的 origin.x 即可
             var previousFrame = CGRectZero
@@ -84,3 +87,4 @@ class RegisterSelectSkillsLayout: UICollectionViewFlowLayout {
         return true
     }
 }
+

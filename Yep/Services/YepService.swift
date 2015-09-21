@@ -1361,7 +1361,9 @@ func officialMessages(completion completion: Int -> Void) {
 
             // Yep Team
 
-            let realm = Realm()
+            guard let realm = try? Realm() else {
+                return 0
+            }
 
             var sender = userWithUserID(senderID, inRealm: realm)
 
@@ -1372,7 +1374,7 @@ func officialMessages(completion completion: Int -> Void) {
 
                 newUser.friendState = UserFriendState.Yep.rawValue
 
-                realm.write {
+                let _ = try? realm.write {
                     realm.add(newUser)
                 }
 
@@ -1390,7 +1392,7 @@ func officialMessages(completion completion: Int -> Void) {
                     newConversation.type = ConversationType.OneToOne.rawValue
                     newConversation.withFriend = sender
 
-                    realm.write {
+                    let _ = try? realm.write {
                         realm.add(newConversation)
                     }
                 }
@@ -1414,7 +1416,7 @@ func officialMessages(completion completion: Int -> Void) {
                             newMessage.createdUnixTime = updatedUnixTime
                         }
 
-                        realm.write {
+                        let _ = try? realm.write {
                             realm.add(newMessage)
                         }
                         
@@ -1422,12 +1424,12 @@ func officialMessages(completion completion: Int -> Void) {
                     }
 
                     if let message = message {
-                        realm.write {
+                        let _ = try? realm.write {
                             message.fromFriend = sender
                         }
 
                         if let conversation = sender?.conversation {
-                            realm.write {
+                            let _ = try? realm.write {
                                 message.conversation = conversation
 
                             }
@@ -1676,9 +1678,9 @@ func sendLocationWithLocationInfo(locationInfo: PickLocationViewController.Locat
 func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, metaData: String?, fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: ((Reason, String?) -> Void)?, completion: (success: Bool) -> Void) {
     // 因为 message_id 必须来自远端，线程无法切换，所以这里暂时没用 realmQueue // TOOD: 也许有办法
 
-    let realm = Realm()
-
-    realm.beginWrite()
+    guard let realm = try? Realm() else {
+        return
+    }
 
     let message = Message()
 
@@ -1692,15 +1694,14 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
 
     message.mediaType = mediaType.rawValue
 
-    realm.add(message)
-
-    realm.commitWrite()
-
+    let _ = try? realm.write {
+        realm.add(message)
+    }
 
     // 消息来自于自己
 
     if let me = tryGetOrCreateMeInRealm(realm) {
-        realm.write {
+        let _ = try? realm.write {
             message.fromFriend = me
         }
     }
@@ -1709,50 +1710,49 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
 
     var conversation: Conversation? = nil
 
-    realm.beginWrite()
-
-    if recipientType == "User" {
-        if let withFriend = userWithUserID(recipientID, inRealm: realm) {
-            conversation = withFriend.conversation
-        }
-
-    } else {
-        if let withGroup = groupWithGroupID(recipientID, inRealm: realm) {
-            conversation = withGroup.conversation
-        }
-    }
-
-    if conversation == nil {
-        let newConversation = Conversation()
+    let _ = try? realm.write {
 
         if recipientType == "User" {
-            newConversation.type = ConversationType.OneToOne.rawValue
-
             if let withFriend = userWithUserID(recipientID, inRealm: realm) {
-                newConversation.withFriend = withFriend
+                conversation = withFriend.conversation
             }
 
         } else {
-            newConversation.type = ConversationType.Group.rawValue
-
             if let withGroup = groupWithGroupID(recipientID, inRealm: realm) {
-                newConversation.withGroup = withGroup
+                conversation = withGroup.conversation
             }
         }
 
-        conversation = newConversation
-    }
+        if conversation == nil {
+            let newConversation = Conversation()
 
-    if let conversation = conversation {
-        conversation.updatedUnixTime = message.createdUnixTime // 关键哦
-        message.conversation = conversation
+            if recipientType == "User" {
+                newConversation.type = ConversationType.OneToOne.rawValue
 
-        tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in
-            realm.add(sectionDateMessage)
+                if let withFriend = userWithUserID(recipientID, inRealm: realm) {
+                    newConversation.withFriend = withFriend
+                }
+
+            } else {
+                newConversation.type = ConversationType.Group.rawValue
+
+                if let withGroup = groupWithGroupID(recipientID, inRealm: realm) {
+                    newConversation.withGroup = withGroup
+                }
+            }
+
+            conversation = newConversation
+        }
+
+        if let conversation = conversation {
+            conversation.updatedUnixTime = message.createdUnixTime // 关键哦
+            message.conversation = conversation
+
+            tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in
+                realm.add(sectionDateMessage)
+            }
         }
     }
-
-    realm.commitWrite()
 
 
     var messageInfo: JSONDictionary = [
@@ -1765,23 +1765,23 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
         messageInfo = fillMoreInfo(messageInfo)
     }
 
-    realm.beginWrite()
 
-    if let textContent = messageInfo["text_content"] as? String {
-        message.textContent = textContent
+    let _ = try? realm.write {
+
+        if let textContent = messageInfo["text_content"] as? String {
+            message.textContent = textContent
+        }
+
+        if let
+            longitude = messageInfo["longitude"] as? Double,
+            latitude = messageInfo["latitude"] as? Double {
+
+                let coordinate = Coordinate()
+                coordinate.safeConfigureWithLatitude(latitude, longitude: longitude)
+                
+                message.coordinate = coordinate
+        }
     }
-
-    if let
-        longitude = messageInfo["longitude"] as? Double,
-        latitude = messageInfo["latitude"] as? Double {
-
-            let coordinate = Coordinate()
-            coordinate.safeConfigureWithLatitude(latitude, longitude: longitude)
-
-            message.coordinate = coordinate
-    }
-
-    realm.commitWrite()
 
 
     // 发出之前就显示 Message
@@ -1796,7 +1796,7 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
 
             let realm = message.realm
 
-            realm?.write {
+            let _ = try? realm?.write {
                 message.sendState = MessageSendState.Failed.rawValue
             }
 
@@ -1832,7 +1832,7 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
 
                 dispatch_async(dispatch_get_main_queue()) {
                     let realm = message.realm
-                    realm?.write {
+                    let _ = try? realm?.write {
                         message.messageID = messageID
                         message.sendState = MessageSendState.Successed.rawValue
                     }
@@ -1877,7 +1877,7 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
                     createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in
                         dispatch_async(dispatch_get_main_queue()) {
                             let realm = message.realm
-                            realm?.write {
+                            let _ = try? realm?.write {
                                 message.messageID = messageID
                                 message.sendState = MessageSendState.Successed.rawValue
                             }
@@ -1959,7 +1959,7 @@ func resendMessage(message: Message, failureHandler: ((Reason, String?) -> Void)
 
                 let realm = message.realm
 
-                realm?.write {
+                let _ = try? realm?.write {
                     message.sendState = MessageSendState.NotSend.rawValue
                 }
 
@@ -1976,7 +1976,7 @@ func resendMessage(message: Message, failureHandler: ((Reason, String?) -> Void)
 
                     let realm = message.realm
 
-                    realm?.write {
+                    let _ = try? realm?.write {
                         message.sendState = MessageSendState.Failed.rawValue
                     }
 

@@ -88,9 +88,7 @@ class RegisterPickAvatarViewController: UIViewController {
         }
     }
 
-    lazy var sessionQueue = {
-        return dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL)
-        }()
+    lazy var sessionQueue: dispatch_queue_t = dispatch_queue_create("session_queue", DISPATCH_QUEUE_SERIAL)
 
     lazy var session: AVCaptureSession = {
         let _session = AVCaptureSession()
@@ -101,14 +99,12 @@ class RegisterPickAvatarViewController: UIViewController {
 
     let mediaType = AVMediaTypeVideo
 
-    lazy var videoDeviceInput: AVCaptureDeviceInput = {
-        var error: NSError? = nil
-        let videoDevice = self.deviceWithMediaType(self.mediaType, preferringPosition: .Front)
-        do {
-            return try AVCaptureDeviceInput(device: videoDevice!)
-        } catch _ {
+    lazy var videoDeviceInput: AVCaptureDeviceInput? = {
+        guard let videoDevice = self.deviceWithMediaType(self.mediaType, preferringPosition: .Front) else {
             return nil
         }
+
+        return try? AVCaptureDeviceInput(device: videoDevice)
         }()
 
     lazy var stillImageOutput: AVCaptureStillImageOutput = {
@@ -271,7 +267,9 @@ class RegisterPickAvatarViewController: UIViewController {
                         let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
                         var image = UIImage(data: data)!
 
-                        image = UIImage(CGImage: image.CGImage, scale: image.scale, orientation: .LeftMirrored)!
+                        if let CGImage = image.CGImage {
+                            image = UIImage(CGImage: CGImage, scale: image.scale, orientation: .LeftMirrored)
+                        }
 
                         image = image.fixRotation().largestCenteredSquareImage()
 

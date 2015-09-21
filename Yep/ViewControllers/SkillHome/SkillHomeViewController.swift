@@ -248,7 +248,8 @@ class SkillHomeViewController: CustomNavigationBarViewController {
         if let skillID = skill?.ID {
             if let
                 myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: Realm()) {
+                realm = try? Realm(),
+                me = userWithUserID(myUserID, inRealm: realm) {
 
                     let predicate = NSPredicate(format: "skillID = %@", skillID)
 
@@ -456,7 +457,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
             switch mediaType {
 
-            case kUTTypeImage as String:
+            case kUTTypeImage as! String:
 
                 if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
 
@@ -507,11 +508,13 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
                                 }, completion: { [weak self] success in
 
                                     dispatch_async(dispatch_get_main_queue()) {
-                                        let realm = Realm()
+                                        guard let realm = try? Realm() else {
+                                            return
+                                        }
 
                                         if let userSkill = userSkillWithSkillID(skillID, inRealm: realm) {
 
-                                            realm.write {
+                                            let _ = try? realm.write {
                                                 userSkill.coverURLString = skillCoverURLString
                                             }
 

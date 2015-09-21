@@ -27,8 +27,8 @@ class ShowViewController: UIViewController {
         finishButton.tintColor = UIColor.yepTintColor()
         finishButton.needShowAccessory = true
         
-        pageControlBottomConstraint.constant = Ruler.match(.iPhoneHeights(0, 10, 20, 30))
-        finishButtonBottomConstraint.constant = Ruler.match(.iPhoneHeights(20, 30, 40, 50))
+        pageControlBottomConstraint.constant = Ruler.iPhoneVertical(0, 10, 20, 30).value
+        finishButtonBottomConstraint.constant = Ruler.iPhoneVertical(20, 30, 40, 50).value
 
         makeUI()
     }

@@ -44,7 +44,7 @@ class RegisterPickSkillsSelectSkillsTransitionManager: NSObject, UIViewControlle
 
         if isPresentation {
             if let view = toView {
-                containerView.addSubview(view)
+                containerView?.addSubview(view)
             }
         }
 

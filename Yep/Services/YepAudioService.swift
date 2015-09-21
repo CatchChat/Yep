@@ -30,10 +30,11 @@ class YepAudioService: NSObject {
     var audioPlayer: AVAudioPlayer?
 
     func prepareAudioRecorderWithFileURL(fileURL: NSURL, audioRecorderDelegate: AVAudioRecorderDelegate) {
+
         audioFileURL = fileURL
 
-        let settings = [
-            AVFormatIDKey: kAudioFormatMPEG4AAC,
+        let settings: [String: AnyObject] = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
             AVEncoderAudioQualityKey : AVAudioQuality.Max.rawValue,
             AVEncoderBitRateKey : 64000,
             AVNumberOfChannelsKey: 2,
@@ -42,8 +43,8 @@ class YepAudioService: NSObject {
         
         var error: NSError?
         do {
-            audioRecorder = try AVAudioRecorder(URL: fileURL, settings: settings as [NSObject : AnyObject])
-        } catch var error1 as NSError {
+            audioRecorder = try AVAudioRecorder(URL: fileURL, settings: settings)
+        } catch let error1 as NSError {
             error = error1
             audioRecorder = nil
         }
@@ -139,7 +140,7 @@ class YepAudioService: NSObject {
             }
             dispatch_async(queue, { () -> Void in
     //            AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker,error: nil)
-                AVAudioSession.sharedInstance().setActive(false, withOptions: AVAudioSessionSetActiveOptions.NotifyOthersOnDeactivation)
+                let _ = try? AVAudioSession.sharedInstance().setActive(false, withOptions: AVAudioSessionSetActiveOptions.NotifyOthersOnDeactivation)
             })
         
             self.checkRecordTimeoutTimer?.invalidate()

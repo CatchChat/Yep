@@ -49,7 +49,7 @@ class ContactsViewController: BaseViewController {
 
         // 超过一定人数才显示搜索框
 
-        if friends.count > Int(Ruler.match(.iPhoneHeights(6, 8, 10, 12))) {
+        if friends.count > Ruler.iPhoneVertical(6, 8, 10, 12).value {
 
             let searchController = UISearchController(searchResultsController: nil)
             searchController.delegate = self
@@ -194,7 +194,10 @@ extension ContactsViewController: UISearchResultsUpdating {
 
     func updateSearchResultsForSearchController(searchController: UISearchController) {
 
-        let searchText = searchController.searchBar.text
+        guard let searchText = searchController.searchBar.text else {
+            return
+        }
+        
         let predicate = NSPredicate(format: "nickname CONTAINS[c] %@", searchText)
         filteredFriends = friends.filter(predicate)
 

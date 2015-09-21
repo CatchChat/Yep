@@ -24,16 +24,14 @@ class ConversationLayout: UICollectionViewFlowLayout {
 
         var insertIndexPathSet = Set<NSIndexPath>()
 
-        if let updateItems = updateItems as? [UICollectionViewUpdateItem] {
-            for updateItem in updateItems {
-                switch updateItem.updateAction {
-                case .Insert:
-                    if let indexPath = updateItem.indexPathAfterUpdate {
-                        insertIndexPathSet.insert(indexPath)
-                    }
-                default:
-                    break
-                }
+        for updateItem in updateItems {
+            switch updateItem.updateAction {
+            case .Insert:
+                let indexPath = updateItem.indexPathAfterUpdate
+                insertIndexPathSet.insert(indexPath)
+
+            default:
+                break
             }
         }
 
@@ -45,7 +43,7 @@ class ConversationLayout: UICollectionViewFlowLayout {
         let attributes = layoutAttributesForItemAtIndexPath(itemIndexPath)
 
         if insertIndexPathSet.contains(itemIndexPath) {
-            attributes.frame.origin.y += 30
+            attributes?.frame.origin.y += 30
 
             insertIndexPathSet.remove(itemIndexPath)
         }

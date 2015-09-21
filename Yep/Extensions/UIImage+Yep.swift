@@ -12,12 +12,12 @@ import Ruler
 extension UIImage {
 
     func roundImageOfRadius(radius: CGFloat) -> UIImage {
-        let radius = floor(radius - Ruler.match(.iPhoneWidths(0.5, 0.5, 1.5)))
+        let radius = floor(radius - Ruler.iPhoneHorizontal(0.5, 0.5, 1.5).value)
         return self.largestCenteredSquareImage().resizeToTargetSize(CGSize(width: radius * 2, height: radius * 2)).roundImage()
     }
 
     func squareImageOfSize(size: CGFloat) -> UIImage {
-        let size = floor(size - Ruler.match(.iPhoneWidths(0.5, 0.5, 1.5)))
+        let size = floor(size - Ruler.iPhoneHorizontal(0.5, 0.5, 1.5).value)
         return self.largestCenteredSquareImage().resizeToTargetSize(CGSize(width: size, height: size))
     }
 
@@ -39,9 +39,9 @@ extension UIImage {
 
         let cropSquare = CGRectMake(posX, posY, edge, edge)
 
-        let imageRef = CGImageCreateWithImageInRect(self.CGImage, cropSquare)
+        let imageRef = CGImageCreateWithImageInRect(self.CGImage, cropSquare)!
 
-        return UIImage(CGImage: imageRef, scale: scale, orientation: self.imageOrientation)!
+        return UIImage(CGImage: imageRef, scale: scale, orientation: self.imageOrientation)
     }
 
     func resizeToTargetSize(targetSize: CGSize) -> UIImage {
@@ -134,7 +134,7 @@ extension UIImage {
         }
 
         let selfCGImage = self.CGImage
-        var context = CGBitmapContextCreate(nil, Int(width), Int(height), CGImageGetBitsPerComponent(selfCGImage), 0, CGImageGetColorSpace(selfCGImage), CGImageGetBitmapInfo(selfCGImage));
+        let context = CGBitmapContextCreate(nil, Int(width), Int(height), CGImageGetBitsPerComponent(selfCGImage), 0, CGImageGetColorSpace(selfCGImage), CGImageGetBitmapInfo(selfCGImage).rawValue);
 
         CGContextConcatCTM(context, transform)
 
@@ -146,8 +146,8 @@ extension UIImage {
             CGContextDrawImage(context, CGRectMake(0,0, width, height), selfCGImage)
         }
 
-        let cgImage = CGBitmapContextCreateImage(context)
-        return UIImage(CGImage: cgImage)!
+        let cgImage = CGBitmapContextCreateImage(context)!
+        return UIImage(CGImage: cgImage)
     }
 }
 
@@ -179,8 +179,8 @@ extension UIImage {
             return self
         }
 
-        let cgImage = CGImageCreateWithImageInRect(self.CGImage, rect)
-        return UIImage(CGImage: cgImage)!
+        let cgImage = CGImageCreateWithImageInRect(self.CGImage, rect)!
+        return UIImage(CGImage: cgImage)
     }
 /*
     private func bubblePathWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize) -> UIBezierPath {
@@ -318,9 +318,9 @@ extension UIImage {
 
         drawInRect(CGRect(origin: CGPointZero, size: size))
 
-        let cgImage = CGBitmapContextCreateImage(context)
+        let cgImage = CGBitmapContextCreateImage(context)!
 
-        let image = UIImage(CGImage: cgImage)!
+        let image = UIImage(CGImage: cgImage)
 
         UIGraphicsEndImageContext()
 
@@ -356,7 +356,7 @@ extension UIImage {
         static let leftTail: UIImage = {
             let scale = UIScreen.mainScreen().scale
             let orientation: UIImageOrientation = .Up
-            var maskImage = UIImage(CGImage: UIImage(named: "left_tail_image_bubble")!.CGImage, scale: scale, orientation: orientation)
+            var maskImage = UIImage(CGImage: UIImage(named: "left_tail_image_bubble")!.CGImage!, scale: scale, orientation: orientation)
             maskImage = maskImage.resizableImageWithCapInsets(UIEdgeInsets(top: 25, left: 27, bottom: 20, right: 20), resizingMode: UIImageResizingMode.Stretch)
             return maskImage
             }()
@@ -364,7 +364,7 @@ extension UIImage {
         static let rightTail: UIImage = {
             let scale = UIScreen.mainScreen().scale
             let orientation: UIImageOrientation = .UpMirrored
-            var maskImage = UIImage(CGImage: UIImage(named: "left_tail_image_bubble")!.CGImage, scale: scale, orientation: orientation)
+            var maskImage = UIImage(CGImage: UIImage(named: "left_tail_image_bubble")!.CGImage!, scale: scale, orientation: orientation)
             maskImage = maskImage.resizableImageWithCapInsets(UIEdgeInsets(top: 25, left: 27, bottom: 20, right: 20), resizingMode: UIImageResizingMode.Stretch)
             return maskImage
             }()
@@ -372,7 +372,7 @@ extension UIImage {
 
     func bubbleImageWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize, forMap: Bool = false) -> UIImage {
 
-        let orientation: UIImageOrientation = tailDirection == .Left ? .Up : .UpMirrored
+        //let orientation: UIImageOrientation = tailDirection == .Left ? .Up : .UpMirrored
 
         let maskImage: UIImage
 
@@ -426,7 +426,7 @@ extension UIImage {
         let newRect = CGRectIntegral(CGRect(origin: CGPointZero, size: size))
         let transposedRect = CGRect(origin: CGPointZero, size: CGSize(width: size.height, height: size.width))
 
-        let bitmapContext = CGBitmapContextCreate(nil, Int(newRect.width), Int(newRect.height), CGImageGetBitsPerComponent(CGImage), 0, CGImageGetColorSpace(CGImage), CGImageGetBitmapInfo(CGImage))
+        let bitmapContext = CGBitmapContextCreate(nil, Int(newRect.width), Int(newRect.height), CGImageGetBitsPerComponent(CGImage), 0, CGImageGetColorSpace(CGImage), CGImageGetBitmapInfo(CGImage).rawValue)
 
         CGContextConcatCTM(bitmapContext, transform)
 
@@ -434,7 +434,7 @@ extension UIImage {
 
         CGContextDrawImage(bitmapContext, drawTransposed ? transposedRect : newRect, CGImage)
 
-        let newCGImage = CGBitmapContextCreateImage(bitmapContext)
+        let newCGImage = CGBitmapContextCreateImage(bitmapContext)!
         let newImage = UIImage(CGImage: newCGImage)
 
         return newImage
@@ -503,12 +503,12 @@ extension UIImage {
         let imageRef = CGImage
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.PremultipliedLast.rawValue)
-        let context = CGBitmapContextCreate(nil, CGImageGetWidth(imageRef), CGImageGetHeight(imageRef), 8, 0, colorSpace, bitmapInfo)
+        let context = CGBitmapContextCreate(nil, CGImageGetWidth(imageRef), CGImageGetHeight(imageRef), 8, 0, colorSpace, bitmapInfo.rawValue)
 
         if let context = context {
             let rect = CGRectMake(0, 0, CGFloat(CGImageGetWidth(imageRef)), CGFloat(CGImageGetHeight(imageRef)))
             CGContextDrawImage(context, rect, imageRef)
-            let decompressedImageRef = CGBitmapContextCreateImage(context)
+            let decompressedImageRef = CGBitmapContextCreateImage(context)!
 
             return UIImage(CGImage: decompressedImageRef, scale: scale, orientation: imageOrientation) ?? self
         }

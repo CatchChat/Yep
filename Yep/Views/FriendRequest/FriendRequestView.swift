@@ -20,14 +20,14 @@ class FriendRequestView: UIView {
             switch self {
             case .Add(let prompt):
                 return prompt
-            case .Consider(let prompt, let _):
+            case .Consider(let prompt, _):
                 return prompt
             }
         }
 
         var friendRequestID: String? {
             switch self {
-            case .Consider(let _, let friendRequestID):
+            case .Consider( _, let friendRequestID):
                 return friendRequestID
             default:
                 return nil

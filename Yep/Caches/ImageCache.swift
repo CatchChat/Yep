@@ -51,7 +51,11 @@ class ImageCache {
             } else {
                 dispatch_async(self.cacheQueue) {
 
-                    if let message = messageWithMessageID(messageID, inRealm: Realm()) {
+                    guard let realm = try? Realm() else {
+                        return
+                    }
+                    
+                    if let message = messageWithMessageID(messageID, inRealm: realm) {
                         if let blurredThumbnailImage = blurredThumbnailImageOfMessage(message) {
                             let bubbleBlurredThumbnailImage = blurredThumbnailImage.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
 
@@ -102,7 +106,11 @@ class ImageCache {
                     return
                 }
 
-                if let message = messageWithMessageID(messageID, inRealm: Realm()) {
+                guard let realm = try? Realm() else {
+                    return
+                }
+
+                if let message = messageWithMessageID(messageID, inRealm: realm) {
 
                     let mediaType = message.mediaType
 
@@ -195,8 +203,12 @@ class ImageCache {
                     mapSnapshotter.startWithCompletionHandler { (snapshot, error) -> Void in
                         if error == nil {
 
-                            let image = snapshot.image
+                            guard let snapshot = snapshot else {
+                                return
+                            }
 
+                            let image = snapshot.image
+                            
                             UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale)
 
                             let pinImage = UIImage(named: "icon_current_location")!
@@ -226,12 +238,12 @@ class ImageCache {
 
                                 let fileName = NSUUID().UUIDString
 
-                                if let fileURL = NSFileManager.saveMessageImageData(data, withName: fileName) {
+                                if let _ = NSFileManager.saveMessageImageData(data, withName: fileName) {
 
                                     dispatch_async(dispatch_get_main_queue()) {
                                         
                                         if let realm = message.realm {
-                                            realm.write {
+                                            let _ = try? realm.write {
                                                 message.localAttachmentName = fileName
                                             }
                                         }

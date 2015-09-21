@@ -38,7 +38,7 @@ class RegisterSkillsLayout: UICollectionViewFlowLayout {
     
     override func prepareLayout() {
         super.prepareLayout()
-        var contentOffset = self.collectionView!.contentOffset
+        let contentOffset = self.collectionView!.contentOffset
         
         // only refresh the set of UIAttachmentBehaviours if we've moved more than the scroll threshold since last load
         if (fabsf(Float(contentOffset.y) - Float(lastContentOffset.y)) < Float(kScrollRefreshThreshold)) && visibleIndexPaths.count > 0{
@@ -46,18 +46,23 @@ class RegisterSkillsLayout: UICollectionViewFlowLayout {
         }
         lastContentOffset = contentOffset
         
-        var padding = kScrollPaddingRect
-        var currentRect = CGRectMake(0, contentOffset.y - padding, self.collectionView!.frame.size.width, self.collectionView!.frame.size.height + 3 * padding)
+        let padding = kScrollPaddingRect
+        let currentRect = CGRectMake(0, contentOffset.y - padding, self.collectionView!.frame.size.width, self.collectionView!.frame.size.height + 3 * padding)
         
-        var itemsInCurrentRect = super.layoutAttributesForElementsInRect(currentRect)! as NSArray
-        var indexPathsInVisibleRect = NSSet(array: itemsInCurrentRect.valueForKey("indexPath") as! [AnyObject])
+        let itemsInCurrentRect = super.layoutAttributesForElementsInRect(currentRect)! as NSArray
+        let indexPathsInVisibleRect = NSSet(array: itemsInCurrentRect.valueForKey("indexPath") as! [AnyObject])
         
         // Remove behaviours that are no longer visible
         
         for behaviour in animator!.behaviors as! [UIAttachmentBehavior] {
-            var indexPath = behaviour.items.first?.indexPath
+
+            guard let items = behaviour.items as? [UICollectionViewLayoutAttributes] else {
+                continue
+            }
+
+            let indexPath = items.first?.indexPath
             
-            var isInVisibleIndexPaths = indexPathsInVisibleRect.member(indexPath!) != nil
+            let isInVisibleIndexPaths = indexPathsInVisibleRect.member(indexPath!) != nil
             if (!isInVisibleIndexPaths){
                 animator.removeBehavior(behaviour)
                 visibleIndexPaths.removeObject(indexPath!)
@@ -65,13 +70,13 @@ class RegisterSkillsLayout: UICollectionViewFlowLayout {
         }
         
         // Find newly visible indexes
-        var newVisibleItems = itemsInCurrentRect.filteredArrayUsingPredicate(NSPredicate(block: { (item, bindings) -> Bool in
-            var isInVisibleIndexPaths = self.visibleIndexPaths.member(item.indexPath) != nil
+        let newVisibleItems = itemsInCurrentRect.filteredArrayUsingPredicate(NSPredicate(block: { (item, bindings) -> Bool in
+            let isInVisibleIndexPaths = self.visibleIndexPaths.member(item.indexPath) != nil
             return !isInVisibleIndexPaths
         }));
 
         for attribute in newVisibleItems as! [UICollectionViewLayoutAttributes] {
-            var spring = UIAttachmentBehavior(item: attribute, attachedToAnchor: attribute.center)
+            let spring = UIAttachmentBehavior(item: attribute, attachedToAnchor: attribute.center)
             spring.length = 0
             spring.frequency = 1.5
             spring.damping = 0.8
@@ -96,7 +101,7 @@ class RegisterSkillsLayout: UICollectionViewFlowLayout {
         attributes.center.y += lastScrollDelta > 0 ? min(scrollDelta, scrollDelta * scrollResistance) : max(scrollDelta, scrollDelta * scrollResistance)
     }
     
-    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
+    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
         if let layoutAttributes = animator!.layoutAttributesForCellAtIndexPath(indexPath) {
             return layoutAttributes
         } else {
@@ -108,9 +113,9 @@ class RegisterSkillsLayout: UICollectionViewFlowLayout {
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         var newRect = rect
         let padding:CGFloat = kScrollPaddingRect
-        newRect.size.height += 3.0*padding
+        newRect.size.height += 3.0 * padding
         newRect.origin.y -= padding
-        return animator!.itemsInRect(newRect)
+        return animator?.itemsInRect(newRect) as? [UICollectionViewLayoutAttributes]
     }
     
     override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
@@ -121,8 +126,11 @@ class RegisterSkillsLayout: UICollectionViewFlowLayout {
         lastTouchLocation = scrollView.panGestureRecognizer.locationInView(scrollView)
         
         for behaviour in animator!.behaviors as! [UIAttachmentBehavior] {
-            self.adjustSpring(behaviour, touchLocation: lastTouchLocation, scrollDelta: lastScrollDelta)
-            animator!.updateItemUsingCurrentState(behaviour.items.first as! UIDynamicItem)
+            adjustSpring(behaviour, touchLocation: lastTouchLocation, scrollDelta: lastScrollDelta)
+
+            if let firstItem = behaviour.items.first {
+                animator?.updateItemUsingCurrentState(firstItem)
+            }
         }
         
         return false
@@ -133,10 +141,11 @@ class RegisterSkillsLayout: UICollectionViewFlowLayout {
         visibleIndexPaths.removeAllObjects()
     }
     
-    override func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
+    override func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
         let attributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, withIndexPath: indexPath)
         attributes.frame = CGRect(x: 0, y: 0, width: 320, height: 50)
         
         return attributes
     }
 }
+

@@ -43,7 +43,7 @@ class VoiceRecordButton: UIView {
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesMoved(touches, withEvent: event)
         
-        if let touch = touches.first as? UITouch {
+        if let touch = touches.first {
             let location = touch.locationInView(touch.view)
 
             if location.y < 0 {

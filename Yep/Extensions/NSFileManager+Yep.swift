@@ -197,7 +197,7 @@ extension NSFileManager {
     class func cleanCachesDirectoryAtURL(cachesDirectoryURL: NSURL) {
         let fileManager = NSFileManager.defaultManager()
 
-        if let fileURLs = (try? fileManager.contentsOfDirectoryAtURL(cachesDirectoryURL, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions())) as? [NSURL] {
+        if let fileURLs = (try? fileManager.contentsOfDirectoryAtURL(cachesDirectoryURL, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions())) {
             for fileURL in fileURLs {
                 do {
                     try fileManager.removeItemAtURL(fileURL)

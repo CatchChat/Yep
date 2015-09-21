@@ -18,8 +18,6 @@ class ChatLeftTextCell: ChatBaseCell {
 
     func makeUI() {
 
-        let fullWidth = UIScreen.mainScreen().bounds.width
-
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
 
         avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize)
@@ -83,7 +81,7 @@ class ChatLeftTextCell: ChatBaseCell {
         let size = textContentTextView.sizeThatFits(CGSize(width: textContentLabelWidth, height: CGFloat.max))
 
         // lineHeight 19.088, size.height 35.5 (1 line) 54.5 (2 lines)
-        textContentTextView.textAlignment = ((size.height - textContentTextView.font.lineHeight) < 20) ? .Center : .Left
+        textContentTextView.textAlignment = ((size.height - textContentTextView.font!.lineHeight) < 20) ? .Center : .Left
 
         if size.width != textContentLabelWidth {
             textContentLabelWidth += YepConfig.ChatCell.magicWidth

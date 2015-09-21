@@ -47,7 +47,7 @@ class DiscoverViewController: BaseViewController {
         }
     }
 
-    lazy var filterView = DiscoverFilterView()
+    lazy var filterView: DiscoverFilterView = DiscoverFilterView()
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -45,8 +45,8 @@ class LoginByMobileViewController: BaseViewController {
         mobileNumberTextField.delegate = self
         mobileNumberTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
-        pickMobileNumberPromptLabelTopConstraint.constant = Ruler.match(.iPhoneHeights(30, 50, 60, 60))
-        mobileNumberTextFieldTopConstraint.constant = Ruler.match(.iPhoneHeights(30, 40, 50, 50))
+        pickMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
+        mobileNumberTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -64,7 +64,10 @@ class LoginByMobileViewController: BaseViewController {
     // MARK: Actions
 
     func adjustAreaCodeTextFieldWidth() {
-        let text = areaCodeTextField.text
+        guard let text = areaCodeTextField.text else {
+            return
+        }
+
         let size = text.sizeWithAttributes(areaCodeTextField.editing ? areaCodeTextField.typingAttributes : areaCodeTextField.defaultTextAttributes)
 
         let width = 32 + (size.width + 22) + 20
@@ -78,7 +81,11 @@ class LoginByMobileViewController: BaseViewController {
 
     func textFieldDidChange(textField: UITextField) {
 
-        nextButton.enabled = !areaCodeTextField.text.isEmpty && !mobileNumberTextField.text.isEmpty
+        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
+            return
+        }
+
+        nextButton.enabled = !areaCode.isEmpty && !mobile.isEmpty
 
         if textField == areaCodeTextField {
             adjustAreaCodeTextFieldWidth()
@@ -93,13 +100,14 @@ class LoginByMobileViewController: BaseViewController {
         
         view.endEditing(true)
 
-        let mobile = mobileNumberTextField.text
-        let areaCode = areaCodeTextField.text
+        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
+            return
+        }
 
         YepHUD.showActivityIndicator()
         
         sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .SMS, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
+            defaultFailureHandler(reason, errorMessage: errorMessage)
 
             YepHUD.hideActivityIndicator()
 
@@ -129,8 +137,9 @@ class LoginByMobileViewController: BaseViewController {
     }
 
     func showLoginVerifyMobile() {
-        let mobile = mobileNumberTextField.text
-        let areaCode = areaCodeTextField.text
+        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
+            return
+        }
 
         self.performSegueWithIdentifier("showLoginVerifyMobile", sender: ["mobile" : mobile, "areaCode": areaCode])
     }
@@ -172,7 +181,12 @@ extension LoginByMobileViewController: UITextFieldDelegate {
     }
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if !areaCodeTextField.text.isEmpty && !mobileNumberTextField.text.isEmpty {
+
+        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
+            return true
+        }
+
+        if !areaCode.isEmpty && !mobile.isEmpty {
             tryShowLoginVerifyMobile()
         }
 

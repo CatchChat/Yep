@@ -20,7 +20,7 @@ class YepDownloader: NSObject {
         }()
 
     class func updateAttachmentOfMessage(message: Message, withAttachmentFileName attachmentFileName: String, inRealm realm: Realm) {
-        realm.write {
+        let _ = try? realm.write {
             message.localAttachmentName = attachmentFileName
 
             if message.mediaType == MessageMediaType.Video.rawValue {
@@ -35,7 +35,7 @@ class YepDownloader: NSObject {
     }
 
     class func updateThumbnailOfMessage(message: Message, withThumbnailFileName thumbnailFileName: String, inRealm realm: Realm) {
-        realm.write {
+        let _ = try? realm.write {
             message.localThumbnailName = thumbnailFileName
 
             if message.mediaType == MessageMediaType.Video.rawValue {
@@ -106,7 +106,9 @@ class YepDownloader: NSObject {
 
                 dispatch_async(dispatch_get_main_queue()) {
 
-                    let realm = Realm()
+                    guard let realm = try? Realm() else {
+                        return
+                    }
 
                     if let message = messageWithMessageID(messageID, inRealm: realm) {
 
@@ -162,7 +164,9 @@ class YepDownloader: NSObject {
                 thumbnailFinishedAction = { data in
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        let realm = Realm()
+                        guard let realm = try? Realm() else {
+                            return
+                        }
 
                         if let message = messageWithMessageID(messageID, inRealm: realm) {
 

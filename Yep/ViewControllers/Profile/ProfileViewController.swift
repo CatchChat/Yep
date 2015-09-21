@@ -404,30 +404,34 @@ class ProfileViewController: UIViewController {
 
     var masterSkills = [Skill]() {
         didSet {
-            let realm = Realm()
+            guard let realm = try? Realm() else {
+                return
+            }
 
             if let
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID, inRealm: realm) {
-                    realm.write {
+                    let _ = try? realm.write {
                         me.masterSkills.removeAll()
                         let userSkills = userSkillsFromSkills(self.masterSkills, inRealm: realm)
-                        me.masterSkills.extend(userSkills)
+                        me.masterSkills.appendContentsOf(userSkills)
                     }
             }
         }
     }
     var learningSkills = [Skill]() {
         didSet {
-            let realm = Realm()
+            guard let realm = try? Realm() else {
+                return
+            }
 
             if let
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID, inRealm: realm) {
-                    realm.write {
+                    let _ = try? realm.write {
                         me.learningSkills.removeAll()
                         let userSkills = userSkillsFromSkills(self.learningSkills, inRealm: realm)
-                        me.learningSkills.extend(userSkills)
+                        me.learningSkills.appendContentsOf(userSkills)
                     }
             }
         }
@@ -494,7 +498,11 @@ class ProfileViewController: UIViewController {
 
             case .DiscoveredUserType(let discoveredUser):
 
-                if let user = userWithUserID(discoveredUser.id, inRealm: Realm()) {
+                guard let realm = try? Realm() else {
+                    break
+                }
+
+                if let user = userWithUserID(discoveredUser.id, inRealm: realm) {
                     self.profileUser = ProfileUser.UserType(user)
 
                     masterSkills = skillsFromUserSkillList(user.masterSkills)
@@ -511,7 +519,8 @@ class ProfileViewController: UIViewController {
 
             if let
                 myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: Realm()) {
+                realm = try? Realm(),
+                me = userWithUserID(myUserID, inRealm: realm) {
                     profileUser = ProfileUser.UserType(me)
 
                     masterSkills = skillsFromUserSkillList(me.masterSkills)
@@ -642,7 +651,8 @@ class ProfileViewController: UIViewController {
 
                 if let
                     myUserID = YepUserDefaults.userID.value,
-                    me = userWithUserID(myUserID, inRealm: Realm()) {
+                    realm = try? Realm(),
+                    me = userWithUserID(myUserID, inRealm: realm) {
 
                         if me.masterSkills.count == 0 && me.learningSkills.count == 0 {
 
@@ -707,7 +717,8 @@ class ProfileViewController: UIViewController {
 
             if let
                 avatarURLString = profileUser?.avatarURLString,
-                avatar = avatarWithAvatarURLString(avatarURLString, inRealm: Realm()) {
+                realm = try? Realm(),
+                avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
                     if let
                         avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
                         avatarFilePath = avatarFileURL.path,
@@ -773,11 +784,13 @@ class ProfileViewController: UIViewController {
 
                 }, completion: { success in
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        let realm = Realm()
+                        guard let realm = try? Realm() else {
+                            return
+                        }
                         if let
                             myUserID = YepUserDefaults.userID.value,
                             me = userWithUserID(myUserID, inRealm: realm) {
-                                realm.write {
+                                let _ = try? realm.write {
                                     me.username = newUsername
                                 }
                         }
@@ -846,7 +859,9 @@ class ProfileViewController: UIViewController {
 
         if let profileUser = profileUser {
 
-            let realm = Realm()
+            guard let realm = try? Realm() else {
+                return
+            }
 
             switch profileUser {
 
@@ -860,57 +875,55 @@ class ProfileViewController: UIViewController {
 
                     newUser.friendState = UserFriendState.Stranger.rawValue
 
-                    realm.beginWrite()
-                    realm.add(newUser)
-                    realm.commitWrite()
+                    let _ = try? realm.write {
+                        realm.add(newUser)
+                    }
 
                     stranger = newUser
                 }
 
                 if let user = stranger {
 
-                    realm.beginWrite()
+                    let _ = try? realm.write {
 
-                    // 更新用户信息
+                        // 更新用户信息
 
-                    user.lastSignInUnixTime = discoveredUser.lastSignInUnixTime
+                        user.lastSignInUnixTime = discoveredUser.lastSignInUnixTime
 
-                    user.username = discoveredUser.username ?? ""
+                        user.username = discoveredUser.username ?? ""
 
-                    user.nickname = discoveredUser.nickname
+                        user.nickname = discoveredUser.nickname
 
-                    if let introduction = discoveredUser.introduction {
-                        user.introduction = introduction
+                        if let introduction = discoveredUser.introduction {
+                            user.introduction = introduction
+                        }
+                        
+                        user.avatarURLString = discoveredUser.avatarURLString
+
+                        user.longitude = discoveredUser.longitude
+
+                        user.latitude = discoveredUser.latitude
+
+                        if let badge = discoveredUser.badge {
+                            user.badge = badge
+                        }
+
+                        // 更新技能
+
+                        user.learningSkills.removeAll()
+                        let learningUserSkills = userSkillsFromSkills(discoveredUser.learningSkills, inRealm: realm)
+                        user.learningSkills.appendContentsOf(learningUserSkills)
+
+                        user.masterSkills.removeAll()
+                        let masterUserSkills = userSkillsFromSkills(discoveredUser.masterSkills, inRealm: realm)
+                        user.masterSkills.appendContentsOf(masterUserSkills)
+
+                        // 更新 Social Account Provider
+
+                        user.socialAccountProviders.removeAll()
+                        let socialAccountProviders = userSocialAccountProvidersFromSocialAccountProviders(discoveredUser.socialAccountProviders)
+                        user.socialAccountProviders.appendContentsOf(socialAccountProviders)
                     }
-                    
-                    user.avatarURLString = discoveredUser.avatarURLString
-
-                    user.longitude = discoveredUser.longitude
-
-                    user.latitude = discoveredUser.latitude
-
-                    if let badge = discoveredUser.badge {
-                        user.badge = badge
-                    }
-
-                    // 更新技能
-
-                    user.learningSkills.removeAll()
-                    let learningUserSkills = userSkillsFromSkills(discoveredUser.learningSkills, inRealm: realm)
-                    user.learningSkills.extend(learningUserSkills)
-
-                    user.masterSkills.removeAll()
-                    let masterUserSkills = userSkillsFromSkills(discoveredUser.masterSkills, inRealm: realm)
-                    user.masterSkills.extend(masterUserSkills)
-
-                    // 更新 Social Account Provider
-
-                    user.socialAccountProviders.removeAll()
-                    let socialAccountProviders = userSocialAccountProvidersFromSocialAccountProviders(discoveredUser.socialAccountProviders)
-                    user.socialAccountProviders.extend(socialAccountProviders)
-
-                    realm.commitWrite()
-
 
                     if user.conversation == nil {
                         let newConversation = Conversation()
@@ -918,9 +931,9 @@ class ProfileViewController: UIViewController {
                         newConversation.type = ConversationType.OneToOne.rawValue
                         newConversation.withFriend = user
 
-                        realm.beginWrite()
-                        realm.add(newConversation)
-                        realm.commitWrite()
+                        let _ = try? realm.write {
+                            realm.add(newConversation)
+                        }
                     }
 
                     if let conversation = user.conversation {
@@ -940,9 +953,9 @@ class ProfileViewController: UIViewController {
                         newConversation.type = ConversationType.OneToOne.rawValue
                         newConversation.withFriend = user
 
-                        realm.beginWrite()
-                        realm.add(newConversation)
-                        realm.commitWrite()
+                        let _ = try? realm.write {
+                            realm.add(newConversation)
+                        }
                     }
 
                     if let conversation = user.conversation {
@@ -1095,7 +1108,9 @@ class ProfileViewController: UIViewController {
                     let providerName = socialAccount.rawValue
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        let realm = Realm()
+                        guard let realm = try? Realm() else {
+                            return
+                        }
 
                         if let
                             myUserID = YepUserDefaults.userID.value,
@@ -1104,7 +1119,7 @@ class ProfileViewController: UIViewController {
                                 var haveSocialAccountProvider = false
                                 for socialAccountProvider in me.socialAccountProviders {
                                     if socialAccountProvider.name == providerName {
-                                        realm.write {
+                                        let _ = try? realm.write {
                                             socialAccountProvider.enabled = true
                                         }
 
@@ -1119,7 +1134,7 @@ class ProfileViewController: UIViewController {
                                     provider.name = providerName
                                     provider.enabled = true
 
-                                    realm.write {
+                                    let _ = try? realm.write {
                                         me.socialAccountProviders.append(provider)
                                     }
                                 }

@@ -254,7 +254,7 @@ class MessageToolbar: UIToolbar {
         let messageTextViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-8-[messageTextView]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         let textContainerInset = messageTextView.textContainerInset
-        let constant = ceil(messageTextView.font.lineHeight + textContainerInset.top + textContainerInset.bottom)
+        let constant = ceil(messageTextView.font!.lineHeight + textContainerInset.top + textContainerInset.bottom)
         messageTextViewHeightConstraint = NSLayoutConstraint(item: messageTextView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: constant)
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[micButton(48)][messageTextView][moreButton(==micButton)]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
@@ -344,7 +344,7 @@ class MessageToolbar: UIToolbar {
 
             if let draft = conversation.draft {
 
-                realm.write { [weak self] in
+                let _ = try? realm.write { [weak self] in
                     if let strongSelf = self {
                         draft.messageToolbarState = strongSelf.state.rawValue
 
@@ -358,7 +358,7 @@ class MessageToolbar: UIToolbar {
                 let draft = Draft()
                 draft.messageToolbarState = state.rawValue
                 
-                realm.write {
+                let _ = try? realm.write {
                     conversation.draft = draft
                 }
             }

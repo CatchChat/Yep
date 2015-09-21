@@ -39,7 +39,7 @@ struct S3UploadParams {
 
 private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: NSData?, mimeType: String, s3UploadParams: S3UploadParams, failureHandler: ((Reason, String?) -> ())?, completion: () -> Void) {
 
-    let parameters = [
+    let parameters: [NSObject: AnyObject] = [
         "key": s3UploadParams.key,
         "acl": s3UploadParams.acl,
         "X-Amz-Algorithm": s3UploadParams.algorithm,
@@ -51,16 +51,18 @@ private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: N
     
     let filename = "attachment"
 
-    let request = AFHTTPRequestSerializer().multipartFormRequestWithMethod("POST", URLString: s3UploadParams.url, parameters: parameters, constructingBodyWithBlock: { formData in
+    guard let request = try? AFHTTPRequestSerializer().multipartFormRequestWithMethod("POST", URLString: s3UploadParams.url, parameters: parameters, constructingBodyWithBlock: { formData in
         
         if let filePath = filePath {
-            formData.appendPartWithFileURL(NSURL(fileURLWithPath: filePath)!, name: "file", fileName: filename, mimeType: mimeType, error: nil)
+            let _ = try? formData.appendPartWithFileURL(NSURL(fileURLWithPath: filePath), name: "file", fileName: filename, mimeType: mimeType)
 
         } else if let fileData = fileData {
             formData.appendPartWithFileData(fileData, name: "file", fileName: filename, mimeType: mimeType)
         }
-        
-    }, error: nil)
+    }, error: ()) else {
+        failureHandler?(.Other(nil), "Can not create AFHTTPRequestSerializer request")
+        return
+    }
     
     let manager = AFURLSessionManager(sessionConfiguration: NSURLSessionConfiguration.defaultSessionConfiguration())
     manager.responseSerializer = AFHTTPResponseSerializer()

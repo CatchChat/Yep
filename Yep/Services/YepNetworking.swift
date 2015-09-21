@@ -47,7 +47,7 @@ public enum Reason: CustomStringConvertible {
     case CouldNotParseJSON
     case NoData
     case NoSuccessStatusCode(statusCode: Int)
-    case Other(NSError)
+    case Other(NSError?)
 
     public var description: String {
         switch self {
@@ -58,7 +58,7 @@ public enum Reason: CustomStringConvertible {
         case .NoSuccessStatusCode(let statusCode):
             return "NoSuccessStatusCode: \(statusCode)"
         case .Other(let error):
-            return "Other, Error: \(error.description)"
+            return "Other, Error: \(error?.description)"
         }
     }
 }

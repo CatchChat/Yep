@@ -59,7 +59,7 @@ class YepHUD: NSObject {
 
                         self.sharedInstance.activityIndicator.alpha = 0
                         self.sharedInstance.activityIndicator.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
-                        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions(0), animations: { () -> Void in
+                        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
                             self.sharedInstance.activityIndicator.transform = CGAffineTransformMakeScale(1.0, 1.0)
                             self.sharedInstance.activityIndicator.alpha = 1
 
@@ -107,7 +107,7 @@ class YepHUD: NSObject {
                 }, completion: { (finished) -> Void in
                     self.sharedInstance.activityIndicator.removeFromSuperview()
 
-                    UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions(0), animations: { () -> Void in
+                    UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
                         self.sharedInstance.containerView.alpha = 0
 
                     }, completion: { (finished) -> Void in

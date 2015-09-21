@@ -18,7 +18,7 @@ class ProfileLayout: UICollectionViewFlowLayout {
 
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
 
-        let layoutAttributes = super.layoutAttributesForElementsInRect(rect) as! [UICollectionViewLayoutAttributes]
+        let layoutAttributes = super.layoutAttributesForElementsInRect(rect)
         let contentInset = collectionView!.contentInset
         let contentOffset = collectionView!.contentOffset
 
@@ -27,14 +27,16 @@ class ProfileLayout: UICollectionViewFlowLayout {
         if contentOffset.y < minY {
             let deltaY = abs(contentOffset.y - minY)
 
-            for attributes in layoutAttributes {
-                if attributes.indexPath.section == ProfileViewController.ProfileSection.Header.rawValue {
-                    var frame = attributes.frame
-                    frame.size.height = max(minY, CGRectGetWidth(collectionView!.bounds) * profileAvatarAspectRatio + deltaY)
-                    frame.origin.y = CGRectGetMinY(frame) - deltaY
-                    attributes.frame = frame
+            if let layoutAttributes = layoutAttributes {
+                for attributes in layoutAttributes {
+                    if attributes.indexPath.section == ProfileViewController.ProfileSection.Header.rawValue {
+                        var frame = attributes.frame
+                        frame.size.height = max(minY, CGRectGetWidth(collectionView!.bounds) * profileAvatarAspectRatio + deltaY)
+                        frame.origin.y = CGRectGetMinY(frame) - deltaY
+                        attributes.frame = frame
 
-                    break
+                        break
+                    }
                 }
             }
 
@@ -46,14 +48,16 @@ class ProfileLayout: UICollectionViewFlowLayout {
 
                 let deltaY = abs(contentOffset.y - minY)
 
-                for attributes in layoutAttributes {
-                    if attributes.indexPath.section == ProfileViewController.ProfileSection.Header.rawValue {
-                        var frame = attributes.frame
-                        frame.origin.y = deltaY - coverHideHeight
-                        attributes.frame = frame
-                        attributes.zIndex = 1000
+                if let layoutAttributes = layoutAttributes {
+                    for attributes in layoutAttributes {
+                        if attributes.indexPath.section == ProfileViewController.ProfileSection.Header.rawValue {
+                            var frame = attributes.frame
+                            frame.origin.y = deltaY - coverHideHeight
+                            attributes.frame = frame
+                            attributes.zIndex = 1000
 
-                        break
+                            break
+                        }
                     }
                 }
             }
@@ -69,16 +73,19 @@ class ProfileLayout: UICollectionViewFlowLayout {
 
         // 先按照每个 item 的 centerY 分组
         var rowCollections = [CGFloat: [UICollectionViewLayoutAttributes]]()
-        for attributes in layoutAttributes {
-            let centerY = CGRectGetMidY(attributes.frame)
 
-            if let rowCollection = rowCollections[centerY] {
-                var rowCollection = rowCollection
-                rowCollection.append(attributes)
-                rowCollections[centerY] = rowCollection
+        if let layoutAttributes = layoutAttributes {
+            for attributes in layoutAttributes {
+                let centerY = CGRectGetMidY(attributes.frame)
 
-            } else {
-                rowCollections[centerY] = [attributes]
+                if let rowCollection = rowCollections[centerY] {
+                    var rowCollection = rowCollection
+                    rowCollection.append(attributes)
+                    rowCollections[centerY] = rowCollection
+
+                } else {
+                    rowCollections[centerY] = [attributes]
+                }
             }
         }
 

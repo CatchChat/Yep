@@ -135,17 +135,17 @@ extension OAuthViewController: NSURLConnectionDelegate {
 
             let authURL = socialAccount.authURL
             
-            if challenge.protectionSpace.host == authURL.host {
+            if challenge.protectionSpace.host == authURL.host, let trust = challenge.protectionSpace.serverTrust {
 
                 println("OAuthViewController trusting connection to host \(challenge.protectionSpace.host)")
                 
-                let credential = NSURLCredential(trust: challenge.protectionSpace.serverTrust)
+                let credential = NSURLCredential(trust: trust)
                 
-                challenge.sender.useCredential(credential, forAuthenticationChallenge: challenge)
+                challenge.sender?.useCredential(credential, forAuthenticationChallenge: challenge)
             }
         }
         
-        challenge.sender.continueWithoutCredentialForAuthenticationChallenge(challenge)
+        challenge.sender?.continueWithoutCredentialForAuthenticationChallenge(challenge)
     }
 }
 

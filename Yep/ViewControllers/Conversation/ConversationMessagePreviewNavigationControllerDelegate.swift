@@ -82,10 +82,10 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
     let largerOffset: CGFloat = 0//80
 
     func presentTransition(transitionContext: UIViewControllerContextTransitioning) {
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as? ConversationsViewController
+        //let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as? ConversationsViewController
         let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as? MessageMediaViewController
 
-        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
+        //let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)
 
         let containerView = transitionContext.containerView()
@@ -97,7 +97,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
             transitionViewCover.backgroundColor = UIColor.whiteColor()
             snapshot.addSubview(transitionViewCover)
 
-            containerView.addSubview(snapshot)
+            containerView?.addSubview(snapshot)
         }
 
 //        let blackColorView = UIView()
@@ -106,7 +106,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 //        blackColorView.alpha = 0
 //        containerView.addSubview(blackColorView)
 
-        containerView.addSubview(toView!)
+        containerView?.addSubview(toView!)
 
         let animatingVC = toVC!
         let animatingView = toView!
@@ -202,14 +202,14 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
         let containerView = transitionContext.containerView()
 
-        containerView.addSubview(toView!)
+        containerView?.addSubview(toView!)
 
         if let snapshot = snapshot {
             snapshot.alpha = 1
-            containerView.addSubview(snapshot)
+            containerView?.addSubview(snapshot)
         }
 
-        containerView.addSubview(fromView!)
+        containerView?.addSubview(fromView!)
 
         let animatingVC = fromVC!
         let animatingView = fromView!

@@ -102,8 +102,6 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
         iconImageView.tintColor = UIColor.lightGrayColor()
         nameLabel.textColor = UIColor.lightGrayColor()
 
-        let providerName = socialAccount.description.lowercaseString
-
         var accountEnabled = false
 
         if let profileUser = profileUser {

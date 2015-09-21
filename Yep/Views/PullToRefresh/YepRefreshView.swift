@@ -19,7 +19,7 @@ class YepShape: CAShapeLayer {
         
         let bottomGap = height / CGFloat(tan(M_PI / 3))
         let bottomWidth = width - bottomGap * 2
-        let gapSideLenth = bottomGap * 2
+        //let gapSideLenth = bottomGap * 2
         
         rectanglePath.moveToPoint(CGPointMake(0, 0))
         rectanglePath.addLineToPoint(CGPointMake(width, 0))
@@ -36,7 +36,7 @@ class YepShape: CAShapeLayer {
         
         let bottomGap = height / CGFloat(tan(M_PI / 3))
         let bottomWidth = width - bottomGap * 2
-        let gapSideLenth = bottomGap * 2
+        //let gapSideLenth = bottomGap * 2
         
         rectanglePath.moveToPoint(CGPointMake(bottomGap, 0))
         rectanglePath.addLineToPoint(CGPointMake(bottomGap + bottomWidth, 0))
@@ -66,9 +66,9 @@ class YepRefreshView: UIView {
 
         super.init(frame: frame)
 
-        let x = shapeHeight / CGFloat(tan(M_PI / 3))
+        //let x = shapeHeight / CGFloat(tan(M_PI / 3))
 
-        var bottomWidth = shapeWidth - x * 2
+        //var bottomWidth = shapeWidth - x * 2
 
         let shape1 = YepShape()
         let shape2 = YepShape()
@@ -170,7 +170,7 @@ class YepRefreshView: UIView {
 
         var positions = [CGPoint]()
 
-        for i in 0..<count {
+        for _ in 0..<count {
             positions.append(CGPoint(x: randomInRange(-200...200), y: randomInRange(-200...200)))
         }
 

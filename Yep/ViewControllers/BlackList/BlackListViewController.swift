@@ -102,10 +102,12 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
-                    let realm = Realm()
+                    guard let realm = try? Realm() else {
+                        return
+                    }
 
                     if let user = userWithUserID(discoveredUser.id, inRealm: realm) {
-                        realm.write {
+                        let _ = try? realm.write {
                             user.blocked = false
                         }
                     }
@@ -124,7 +126,7 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String! {
+    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
         return NSLocalizedString("Unblock", comment: "")
     }
 }

@@ -14,7 +14,7 @@ class YepNavigationController: UINavigationController, UIGestureRecognizerDelega
         super.viewDidLoad()
 
         if respondsToSelector("interactivePopGestureRecognizer") {
-            interactivePopGestureRecognizer.delegate = self
+            interactivePopGestureRecognizer?.delegate = self
             
             delegate = self
         }
@@ -30,7 +30,7 @@ class YepNavigationController: UINavigationController, UIGestureRecognizerDelega
 
     override func pushViewController(viewController: UIViewController, animated: Bool) {
         if respondsToSelector("interactivePopGestureRecognizer") && animated {
-            interactivePopGestureRecognizer.enabled = false
+            interactivePopGestureRecognizer?.enabled = false
         }
         
         super.pushViewController(viewController, animated: animated)
@@ -38,7 +38,7 @@ class YepNavigationController: UINavigationController, UIGestureRecognizerDelega
     
     override func popToRootViewControllerAnimated(animated: Bool) -> [UIViewController]? {
         if respondsToSelector("interactivePopGestureRecognizer") && animated {
-            interactivePopGestureRecognizer.enabled = false
+            interactivePopGestureRecognizer?.enabled = false
         }
         
         return super.popToRootViewControllerAnimated(animated)
@@ -46,7 +46,7 @@ class YepNavigationController: UINavigationController, UIGestureRecognizerDelega
     
     override func popToViewController(viewController: UIViewController, animated: Bool) -> [UIViewController]? {
         if respondsToSelector("interactivePopGestureRecognizer") && animated {
-            interactivePopGestureRecognizer.enabled = false
+            interactivePopGestureRecognizer?.enabled = false
         }
         
         return super.popToViewController(viewController, animated: false)
@@ -54,7 +54,7 @@ class YepNavigationController: UINavigationController, UIGestureRecognizerDelega
     
     func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
         if respondsToSelector("interactivePopGestureRecognizer") {
-            interactivePopGestureRecognizer.enabled = true
+            interactivePopGestureRecognizer?.enabled = true
         }
     }
     

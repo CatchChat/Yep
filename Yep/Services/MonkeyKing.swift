@@ -57,28 +57,28 @@ public class MonkeyKing {
 
             if let data = UIPasteboard.generalPasteboard().dataForPasteboardType("content") {
 
-                if let dic = (try? NSPropertyListSerialization.propertyListWithData(data, options: Int(NSPropertyListMutabilityOptions.Immutable.rawValue), format: nil)) as? NSDictionary {
-
-                    for account in sharedMonkeyKing.accountSet {
-
-                        switch account {
-
-                        case .WeChat(let appID):
-
-                            if let dic = dic[appID] as? NSDictionary {
-
-                                if let result = dic["result"]?.integerValue {
-
-                                    let success = (result == 0)
-
-                                    sharedMonkeyKing.latestFinish?(success)
-
-                                    return success
-                                }
-                            }
-                        }
-                    }
-                }
+//                if let dic = (try? NSPropertyListSerialization.propertyListWithData(data, options: Int(NSPropertyListMutabilityOptions.Immutable.rawValue), format: nil)) as? NSDictionary {
+//
+//                    for account in sharedMonkeyKing.accountSet {
+//
+//                        switch account {
+//
+//                        case .WeChat(let appID):
+//
+//                            if let dic = dic[appID] as? NSDictionary {
+//
+//                                if let result = dic["result"]?.integerValue {
+//
+//                                    let success = (result == 0)
+//
+//                                    sharedMonkeyKing.latestFinish?(success)
+//
+//                                    return success
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
             }
 
             return false
@@ -137,7 +137,7 @@ public class MonkeyKing {
             case .WeChat:
                 for account in sharedMonkeyKing.accountSet {
                     switch account {
-                    case .WeChat(let appID):
+                    case .WeChat:
                         return account.isAppInstalled
                     }
                 }

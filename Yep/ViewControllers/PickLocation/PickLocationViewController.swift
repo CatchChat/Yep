@@ -73,7 +73,7 @@ class PickLocationViewController: UIViewController {
 
         var isPicked: Bool {
             switch self {
-            case .Picked(let _):
+            case .Picked:
                 return true
             default:
                 return false
@@ -141,7 +141,10 @@ class PickLocationViewController: UIViewController {
                 if let location = self.location {
                     sendLocationAction(locationInfo: location.info)
                 } else {
-                    sendLocationAction(locationInfo: Location.Info(coordinate: self.mapView.userLocation.location.coordinate, name: nil))
+                    guard let location = self.mapView.userLocation.location else {
+                        return
+                    }
+                    sendLocationAction(locationInfo: Location.Info(coordinate: location.coordinate, name: nil))
                 }
             }
         })
@@ -149,7 +152,9 @@ class PickLocationViewController: UIViewController {
 
     private func updateLocationPinWithCoordinate(coordinate: CLLocationCoordinate2D) {
 
-        mapView.removeAnnotation(locationPin)
+        if let locationPin = locationPin {
+            mapView.removeAnnotation(locationPin)
+        }
 
         let pin = LocationPin(title: "Pin", subtitle: "User Picked Location", coordinate: coordinate)
         mapView.addAnnotation(pin)
@@ -168,15 +173,18 @@ class PickLocationViewController: UIViewController {
     }
 
     func placemarksAroundLocation(location: CLLocation, completion: [CLPlacemark] -> Void) {
+
         geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
 
             if (error != nil) {
-                println("reverse geodcode fail: \(error.localizedDescription)")
+                println("reverse geodcode fail: \(error?.localizedDescription)")
 
                 completion([])
+
+                return
             }
 
-            if let placemarks = placemarks as? [CLPlacemark] {
+            if let placemarks = placemarks {
                 
                 completion(placemarks)
 
@@ -199,12 +207,15 @@ extension PickLocationViewController: MKMapViewDelegate {
     
     func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
 
+        guard let location = userLocation.location else {
+            return
+        }
+
         if isFirstShowUserLocation {
             isFirstShowUserLocation = false
 
             sendButton.enabled = true
 
-            let location = userLocation.location
             let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 2000, 2000)
             mapView.setRegion(region, animated: true)
 
@@ -213,12 +224,12 @@ extension PickLocationViewController: MKMapViewDelegate {
             })
         }
 
-        placemarksAroundLocation(userLocation.location) { placemarks in
+        placemarksAroundLocation(location) { placemarks in
             self.placemarks = placemarks.filter({ $0.name != nil })
         }
     }
 
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
 
         if let annotation = annotation as? LocationPin {
 
@@ -279,7 +290,10 @@ extension PickLocationViewController: UISearchBarDelegate {
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        let name = searchBar.text
+
+        guard let name = searchBar.text else {
+            return
+        }
 
         searchPlacesByName(name)
 
@@ -291,13 +305,15 @@ extension PickLocationViewController: UISearchBarDelegate {
         let request = MKLocalSearchRequest()
         request.naturalLanguageQuery = name
 
-        request.region = MKCoordinateRegionMakeWithDistance(mapView.userLocation.location.coordinate, 200000, 200000)
+        if let location = mapView.userLocation.location {
+            request.region = MKCoordinateRegionMakeWithDistance(location.coordinate, 200000, 200000)
+        }
 
         let search = MKLocalSearch(request: request)
 
         search.startWithCompletionHandler { [weak self] response, error in
             if error == nil {
-                if let mapItems = response.mapItems as? [MKMapItem] {
+                if let mapItems = response?.mapItems {
 
                     let searchedMapItems = mapItems.filter({ $0.placemark.name != nil })
 
@@ -381,11 +397,8 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             cell.iconImageView.hidden = false
             cell.iconImageView.image = UIImage(named: "icon_pin")
 
-            if let placemark = searchedMapItems[indexPath.row].placemark {
-                cell.locationLabel.text = placemark.name ?? ""
-            } else {
-                cell.locationLabel.text = ""
-            }
+            let placemark = searchedMapItems[indexPath.row].placemark
+            cell.locationLabel.text = placemark.name
 
             cell.checkImageView.hidden = true
 
@@ -445,11 +458,17 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         case Section.Placemarks.rawValue:
             let placemark = placemarks[indexPath.row]
-            location = .Selected(info: Location.Info(coordinate: placemark.location.coordinate, name: placemark.name))
+            guard let _location = placemark.location else {
+                break
+            }
+            location = .Selected(info: Location.Info(coordinate: _location.coordinate, name: placemark.name))
 
         case Section.SearchedLocation.rawValue:
             let placemark = self.searchedMapItems[indexPath.row].placemark
-            location = .Selected(info: Location.Info(coordinate: placemark.location.coordinate, name: placemark.name))
+            guard let _location = placemark.location else {
+                break
+            }
+            location = .Selected(info: Location.Info(coordinate: _location.coordinate, name: placemark.name))
 
         case Section.FoursquareVenue.rawValue:
             let foursquareVenue = foursquareVenues[indexPath.row]
