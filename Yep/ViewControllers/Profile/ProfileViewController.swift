@@ -718,7 +718,8 @@ class ProfileViewController: UIViewController {
             }
 
             let info = MonkeyKing.Message.WeChatSubtype.Info(
-                title: String(format:NSLocalizedString("Yep! I'm %@.", comment: ""), nickname),
+                //title: String(format:NSLocalizedString("Yep! I'm %@.", comment: ""), nickname),
+                title: nickname,
                 description: NSLocalizedString("From Yep, with Skills.", comment: ""),
                 thumbnail: thumbnail,
                 media: .URL(profileURL)
