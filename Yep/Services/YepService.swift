@@ -1155,7 +1155,7 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
 
 let parseDiscoveredUsers: JSONDictionary -> [DiscoveredUser]? = { data in
 
-    println("discoverUsers: \(data)")
+    //println("discoverUsers: \(data)")
 
     if let usersData = data["users"] as? [JSONDictionary] {
 
