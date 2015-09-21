@@ -25,7 +25,11 @@ PODS:
   - APAddressBook/Swift (0.1.11):
     - APAddressBook/Core
   - Base64 (1.0.1)
+  - Crashlytics (3.3.1)
   - DeviceGuru (1.2.1)
+  - Fabric (1.5.1):
+    - Fabric/Base (= 1.5.1)
+  - Fabric/Base (1.5.1)
   - FXBlurView (1.6.4)
   - JPush (1.8.5)
   - KeyboardMan (0.5)
@@ -49,7 +53,9 @@ DEPENDENCIES:
   - 1PasswordExtension (~> 1.5)
   - AFNetworking (~> 2.5.4)
   - APAddressBook/Swift
+  - Crashlytics
   - DeviceGuru
+  - Fabric
   - FXBlurView
   - JPush
   - KeyboardMan
@@ -86,7 +92,9 @@ SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   APAddressBook: 2c949367b190a993d2cce769a3b20bce8bcf000c
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
+  Crashlytics: 0e61bdda9def51f1e99720f804eebe94865442b2
   DeviceGuru: d887a4f5dc68002d2a8d1b38ade5e7a6c16cbcae
+  Fabric: 03c3b3fe77e11a2bc31421b989a9c7adaa4779a5
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   JPush: ba06a6f866ce11f11c15149e7fa67488a23eec87
   KeyboardMan: ae716dfb1252ebcd1f68a2b659e91a970110e799

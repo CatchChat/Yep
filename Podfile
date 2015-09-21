@@ -19,6 +19,8 @@ def pods
     pod 'RealmSwift', :git => 'https://github.com/realm/realm-cocoa.git', :branch => 'swift-2.0'
     pod 'MonkeyKing'
     pod 'JPush'
+    pod 'Fabric'
+    pod 'Crashlytics'
 end
 
 target 'Yep' do

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Fabric
 import Crashlytics
 import AVFoundation
 import RealmSwift
@@ -39,13 +40,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
+        Fabric.with([Crashlytics.self()])
+
         Realm.Configuration.defaultConfiguration = realmConfig()
 
         cacheInAdvance()
 
         delay(0.5, work: {
-            Crashlytics.startWithAPIKey("3030ba006e21bcf8eb4a2127b6a7931ea6667486")
-
             // 推送初始化
             APService.setupWithOption(launchOptions)
         })
