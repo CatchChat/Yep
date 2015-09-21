@@ -40,7 +40,6 @@
 		0AD7EA6A1AC3ED3D00617758 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA691AC3ED3D00617758 /* UIKit.framework */; };
 		0AD7EA6C1AC3ED4300617758 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA6B1AC3ED4300617758 /* Security.framework */; };
 		0AD7EA6E1AC3ED4A00617758 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA6D1AC3ED4A00617758 /* libz.dylib */; };
-		0AD7EA741AC3EE9600617758 /* libPushSDK-1.8.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA731AC3EE9600617758 /* libPushSDK-1.8.3.a */; };
 		0AD7EA771AC3EEB000617758 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AD7EA761AC3EEB000617758 /* PushConfig.plist */; };
 		0AEB1CC21B0E69B500178C9C /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEB1CC11B0E69B500178C9C /* Fabric.framework */; };
 		0AEB1CC41B0E6A4B00178C9C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEB1CC31B0E6A4B00178C9C /* Crashlytics.framework */; };
@@ -298,8 +297,6 @@
 		0AD7EA691AC3ED3D00617758 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0AD7EA6B1AC3ED4300617758 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0AD7EA6D1AC3ED4A00617758 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		0AD7EA721AC3EE9600617758 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APService.h; path = JPush/APService.h; sourceTree = "<group>"; };
-		0AD7EA731AC3EE9600617758 /* libPushSDK-1.8.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPushSDK-1.8.3.a"; path = "JPush/libPushSDK-1.8.3.a"; sourceTree = "<group>"; };
 		0AD7EA761AC3EEB000617758 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PushConfig.plist; path = JPush/PushConfig.plist; sourceTree = "<group>"; };
 		0AEB1CC11B0E69B500178C9C /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		0AEB1CC31B0E6A4B00178C9C /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
@@ -520,7 +517,6 @@
 				0AEB1CC41B0E6A4B00178C9C /* Crashlytics.framework in Frameworks */,
 				0A02E46F1AC9208A00235DBF /* libxml2.dylib in Frameworks */,
 				0AAFCFF91AC8CA5B00EB0EF8 /* MobileCoreServices.framework in Frameworks */,
-				0AD7EA741AC3EE9600617758 /* libPushSDK-1.8.3.a in Frameworks */,
 				0AD7EA6E1AC3ED4A00617758 /* libz.dylib in Frameworks */,
 				0AD7EA6C1AC3ED4300617758 /* Security.framework in Frameworks */,
 				0AD7EA6A1AC3ED3D00617758 /* UIKit.framework in Frameworks */,
@@ -710,8 +706,6 @@
 		0AD7EA751AC3EE9B00617758 /* JPush */ = {
 			isa = PBXGroup;
 			children = (
-				0AD7EA721AC3EE9600617758 /* APService.h */,
-				0AD7EA731AC3EE9600617758 /* libPushSDK-1.8.3.a */,
 				0AD7EA761AC3EEB000617758 /* PushConfig.plist */,
 			);
 			name = JPush;
