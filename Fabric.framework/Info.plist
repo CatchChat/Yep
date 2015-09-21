@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>13F34</string>
+	<string>14E46</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>FMWK</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.5</string>
+	<string>1.5.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleSupportedPlatforms</key>
@@ -25,25 +25,25 @@
 		<string>iPhoneOS</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>16</string>
+	<string>25</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
-	<string>12B411</string>
+	<string>13A340</string>
 	<key>DTPlatformName</key>
 	<string>iphoneos</string>
 	<key>DTPlatformVersion</key>
-	<string>8.1</string>
+	<string>9.0</string>
 	<key>DTSDKBuild</key>
-	<string>12B411</string>
+	<string>13A340</string>
 	<key>DTSDKName</key>
-	<string>iphoneos8.1</string>
+	<string>iphoneos9.0</string>
 	<key>DTXcode</key>
-	<string>0611</string>
+	<string>0700</string>
 	<key>DTXcodeBuild</key>
-	<string>6A2008a</string>
+	<string>7A218</string>
 	<key>MinimumOSVersion</key>
-	<string>5.0</string>
+	<string>6.0</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2015 Twitter. All rights reserved.</string>
 	<key>UIDeviceFamily</key>
