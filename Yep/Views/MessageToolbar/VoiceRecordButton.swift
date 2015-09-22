@@ -20,24 +20,45 @@ class VoiceRecordButton: UIView {
 
     var abort = false
 
+    var titleLabel: UILabel?
+    var leftVoiceImageView: UIImageView?
+    var rightVoiceImageView: UIImageView?
+
+    var stateTintColor: UIColor? {
+        willSet {
+            if let color = newValue {
+                layer.borderColor = color.CGColor
+                titleLabel?.textColor = color
+                leftVoiceImageView?.tintColor = color
+                rightVoiceImageView?.tintColor = color
+            }
+        }
+    }
+
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesBegan(touches, withEvent: event)
 
         abort = false
         
         touchesBegin?()
+
+        titleLabel?.text = NSLocalizedString("Release to Send", comment: "")
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
         
         touchesEnded?(needAbort: abort)
+
+        titleLabel?.text = NSLocalizedString("Hold for Voice", comment: "")
     }
     
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
         super.touchesCancelled(touches, withEvent: event)
         
         touchesCancelled?()
+
+        titleLabel?.text = NSLocalizedString("Hold for Voice", comment: "")
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -66,6 +87,8 @@ class VoiceRecordButton: UIView {
         titleLabel.textAlignment = .Center
         titleLabel.textColor = self.tintColor
 
+        self.titleLabel = titleLabel
+
         self.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
@@ -73,12 +96,16 @@ class VoiceRecordButton: UIView {
         leftVoiceImageView.contentMode = .Center
         leftVoiceImageView.tintColor = self.tintColor
 
+        self.leftVoiceImageView = leftVoiceImageView
+
         self.addSubview(leftVoiceImageView)
         leftVoiceImageView.translatesAutoresizingMaskIntoConstraints = false
 
         let rightVoiceImageView = UIImageView(image: UIImage(named: "icon_voice_right"))
         rightVoiceImageView.contentMode = .Center
         rightVoiceImageView.tintColor = self.tintColor
+
+        self.rightVoiceImageView = rightVoiceImageView
 
         self.addSubview(rightVoiceImageView)
         rightVoiceImageView.translatesAutoresizingMaskIntoConstraints = false

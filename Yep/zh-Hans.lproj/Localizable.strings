@@ -203,7 +203,7 @@
 "Meet with genius" = "Meet with genius";
 
 /* No comment provided by engineer. */
-"Hold for Voice" = "长按录制声音";
+"Hold for Voice" = "按住 录音";
 
 /* No comment provided by engineer. */
 "Input verification code sent to" = "输入收到的短信验证码";
@@ -618,3 +618,5 @@
 
 /* No comment provided by engineer. */
 "Set username failed!" = "设置用户名失败！";
+
+"Release to Send" = "松开 发送";

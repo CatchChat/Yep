@@ -25,6 +25,10 @@ extension UIColor {
         return UIColor(red: 0.557, green: 0.557, blue: 0.576, alpha: 1.0)
     }
 
+    class func yepMessageToolbarSubviewBorderColor() -> UIColor {
+        return UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
+    }
+
     class func avatarBackgroundColor() -> UIColor {
         return UIColor(red: 50/255.0, green: 167/255.0, blue: 255/255.0, alpha: 0.3)
     }
@@ -42,7 +46,8 @@ extension UIColor {
     }
 
     class func rightWaveColor() -> UIColor {
-        return UIColor(white: 0.0, alpha: 0.15)
+        //return UIColor(white: 0.0, alpha: 0.15)
+        return UIColor(red:0.176,  green:0.537,  blue:0.878, alpha:1)
     }
 
     class func skillMasterColor() -> UIColor {
