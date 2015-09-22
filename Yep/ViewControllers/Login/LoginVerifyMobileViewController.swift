@@ -57,7 +57,7 @@ class LoginVerifyMobileViewController: UIViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "activeAgain:", name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
         
-        verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code send to", comment: "")
+        verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code sent to", comment: "")
         phoneNumberLabel.text = "+" + areaCode + " " + mobile
 
         verifyCodeTextField.placeholder = " "
