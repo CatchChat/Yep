@@ -54,7 +54,8 @@ extension UIColor {
     }
 
     class func messageToolBarHighlightColor() -> UIColor {
-        return UIColor.yepTintColor()
+        //return UIColor.yepTintColor()
+        return UIColor(red:0.557, green:0.557, blue:0.576, alpha:1)
     }
 
     class func messageToolBarNormalColor() -> UIColor {

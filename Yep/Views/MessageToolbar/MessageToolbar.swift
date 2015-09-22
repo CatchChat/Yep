@@ -156,7 +156,7 @@ class MessageToolbar: UIToolbar {
         textView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 4)
         textView.font = UIFont.systemFontOfSize(15)
         textView.layer.borderWidth = 1
-        textView.layer.borderColor = UIColor.messageToolBarHighlightColor().CGColor
+        textView.layer.borderColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0).CGColor//UIColor.messageToolBarHighlightColor().CGColor
         textView.layer.cornerRadius = self.normalCornerRadius
         textView.delegate = self
         textView.scrollEnabled = false // 重要：若没有它，换行时可能有 top inset 不正确
