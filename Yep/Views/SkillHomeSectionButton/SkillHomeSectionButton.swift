@@ -61,8 +61,8 @@ class SkillHomeSectionButton: UIButton {
 
 
 func createSkillHomeButtonWithText(text: String, width: CGFloat, height: CGFloat) -> SkillHomeSectionButton {
-    
-    let button = UIButton(type: UIButtonType.Custom) as! SkillHomeSectionButton
+
+    let button = SkillHomeSectionButton()
     
     button.frame = CGRectMake(0, 0, width, height)
     button.setTitle(text, forState: UIControlState.Normal)
