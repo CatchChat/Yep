@@ -40,7 +40,7 @@ class RegisterPickSkillsViewController: BaseViewController {
         }()
 
     let sectionLeftEdgeInset: CGFloat = registerPickSkillsLayoutLeftEdgeInset
-    let sectionRightEdgeInset: CGFloat = 20
+    let sectionRightEdgeInset: CGFloat = registerPickSkillsLayoutRightEdgeInset
     let sectionBottomEdgeInset: CGFloat = 50
 
     var skillCategories: [SkillCategory]?

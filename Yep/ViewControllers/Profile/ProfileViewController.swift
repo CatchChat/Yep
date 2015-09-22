@@ -646,6 +646,10 @@ class ProfileViewController: UIViewController {
                 })
             }
 
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
+                self?.pickSkills()
+                }, cancelAction: {})
+            
             if profileUserIsMe {
 
                 // 提示没有 Skills
