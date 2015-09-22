@@ -122,13 +122,14 @@ class ConversationMoreColorTitleCell: UITableViewCell {
             colorTitleLabel.text = NSLocalizedString("Block", comment: "")
         }
 
-        colorTitleLabelTextColor = blocked ? UIColor.redColor() : UIColor.yepTintColor()
+        //colorTitleLabelTextColor = blocked ? UIColor.redColor() : UIColor.yepTintColor()
+        colorTitleLabelTextColor = UIColor.redColor()
     }
 }
 
 class ConversationMoreView: UIView {
 
-    let totalHeight: CGFloat = 240
+    let totalHeight: CGFloat = 60 * 5
 
     lazy var containerView: UIView = {
         let view = UIView()
