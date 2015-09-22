@@ -10,7 +10,7 @@ import UIKit
 
 class RegisterSelectSkillsLayout: UICollectionViewFlowLayout {
 
-    let leftEdgeInset: CGFloat = 20
+    let leftEdgeInset: CGFloat = registerPickSkillsLayoutLeftEdgeInset
 
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         let layoutAttributes = super.layoutAttributesForElementsInRect(rect)

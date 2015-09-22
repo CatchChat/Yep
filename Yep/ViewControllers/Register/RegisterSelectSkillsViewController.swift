@@ -48,7 +48,7 @@ class RegisterSelectSkillsViewController: UIViewController {
     let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextLargeFont()]
 
     let sectionLeftEdgeInset: CGFloat = registerPickSkillsLayoutLeftEdgeInset
-    let sectionRightEdgeInset: CGFloat = 20
+    let sectionRightEdgeInset: CGFloat = registerPickSkillsLayoutRightEdgeInset
 
     var skillCategories = [SkillCategory]()
     var skillCategoryIndex: Int = 0
