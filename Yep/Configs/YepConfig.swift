@@ -122,7 +122,7 @@ class YepConfig {
 
     struct SocialWorkGithub {
         struct Repo {
-            static let leftEdgeInset: CGFloat = Ruler.iPhoneHorizontal(20, 38, 40).value
+            static let leftEdgeInset: CGFloat = Ruler.iPhoneHorizontal(20, 40, 40).value
             static let rightEdgeInset: CGFloat = leftEdgeInset
         }
     }
