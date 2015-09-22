@@ -36,13 +36,15 @@ class RegisterPickNameViewController: BaseViewController {
 
         animatedOnNavigationBar = false
 
+        view.backgroundColor = UIColor.yepViewBackgroundColor()
+
         navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Sign up", comment: ""))
 
         navigationItem.rightBarButtonItem = nextButton
 
         pickNamePromptLabel.text = NSLocalizedString("What's your name?", comment: "")
 
-        let text = NSLocalizedString("By tap Next you agree to our terms.", comment: "")
+        let text = NSLocalizedString("By tapping Next you agree to our terms.", comment: "")
         let textAttributes: [String: AnyObject] = [
             NSFontAttributeName: UIFont.systemFontOfSize(14),
             NSForegroundColorAttributeName: UIColor.grayColor(),
@@ -63,7 +65,9 @@ class RegisterPickNameViewController: BaseViewController {
         let tap = UITapGestureRecognizer(target: self, action: "tapTerms")
         promptTermsLabel.addGestureRecognizer(tap)
 
-        //nameTextField.placeholder = ""
+        nameTextField.backgroundColor = UIColor.whiteColor()
+        nameTextField.textColor = UIColor.yepInputTextColor()
+        nameTextField.placeholder = " "//NSLocalizedString("Nickname", comment: "")
         nameTextField.delegate = self
         nameTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 

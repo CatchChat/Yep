@@ -26,11 +26,9 @@ class DiscoverFilterCell: UITableViewCell {
         return label
         }()
 
-    lazy var checkLabel: UILabel = {
-        let label = UILabel()
-        label.text = "✓"
-        label.textColor = UIColor.yepTintColor()
-        return label
+    lazy var checkImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "icon_location_checkmark"))
+        return imageView
         }()
 
     var colorTitleLabelTextColor: UIColor = UIColor.yepTintColor() {
@@ -58,9 +56,9 @@ class DiscoverFilterCell: UITableViewCell {
     func makeUI() {
 
         contentView.addSubview(colorTitleLabel)
-        contentView.addSubview(checkLabel)
+        contentView.addSubview(checkImageView)
         colorTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        checkLabel.translatesAutoresizingMaskIntoConstraints = false
+        checkImageView.translatesAutoresizingMaskIntoConstraints = false
 
         let centerY = NSLayoutConstraint(item: colorTitleLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1, constant: 0)
         let centerX = NSLayoutConstraint(item: colorTitleLabel, attribute: .CenterX, relatedBy: .Equal, toItem: contentView, attribute: .CenterX, multiplier: 1, constant: 0)
@@ -68,10 +66,10 @@ class DiscoverFilterCell: UITableViewCell {
         NSLayoutConstraint.activateConstraints([centerY, centerX])
 
 
-        let checkLabelCenterY = NSLayoutConstraint(item: checkLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1, constant: 0)
-        let checkLabelTrailing = NSLayoutConstraint(item: checkLabel, attribute: .Trailing, relatedBy: .Equal, toItem: contentView, attribute: .Trailing, multiplier: 1, constant: -20)
+        let checkImageViewCenterY = NSLayoutConstraint(item: checkImageView, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1, constant: 0)
+        let checkImageViewTrailing = NSLayoutConstraint(item: checkImageView, attribute: .Trailing, relatedBy: .Equal, toItem: contentView, attribute: .Trailing, multiplier: 1, constant: -20)
 
-        NSLayoutConstraint.activateConstraints([checkLabelCenterY, checkLabelTrailing])
+        NSLayoutConstraint.activateConstraints([checkImageViewCenterY, checkImageViewTrailing])
     }
 
 }
@@ -269,7 +267,7 @@ extension DiscoverFilterView: UITableViewDataSource, UITableViewDelegate {
                 cell.colorTitleLabelTextColor = UIColor.yepTintColor()
                 cell.colorTitleLabelFontStyle = .Light
 
-                cell.checkLabel.hidden = !(currentDiscoveredUserSortStyle == .Distance)
+                cell.checkImageView.hidden = !(currentDiscoveredUserSortStyle == .Distance)
 
                 return cell
 
@@ -281,7 +279,7 @@ extension DiscoverFilterView: UITableViewDataSource, UITableViewDelegate {
                 cell.colorTitleLabelTextColor = UIColor.yepTintColor()
                 cell.colorTitleLabelFontStyle = .Light
 
-                cell.checkLabel.hidden = !(currentDiscoveredUserSortStyle == .LastSignIn)
+                cell.checkImageView.hidden = !(currentDiscoveredUserSortStyle == .LastSignIn)
 
                 return cell
 
@@ -293,7 +291,7 @@ extension DiscoverFilterView: UITableViewDataSource, UITableViewDelegate {
                 cell.colorTitleLabelTextColor = UIColor.yepTintColor()
                 cell.colorTitleLabelFontStyle = .Light
 
-                cell.checkLabel.hidden = !(currentDiscoveredUserSortStyle == .Default)
+                cell.checkImageView.hidden = !(currentDiscoveredUserSortStyle == .Default)
 
                 return cell
 

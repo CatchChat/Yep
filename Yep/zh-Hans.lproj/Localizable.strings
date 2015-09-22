@@ -66,7 +66,7 @@
 /* No comment provided by engineer. */
 "Build world together" = "共建世界";
 
-"By tap Next you agree to our terms." = "点击下一步表示您同意我们的条款。";
+"By tapping Next you agree to our terms." = "点击下一步表示您同意我们的条款。";
 
 /* No comment provided by engineer. */
 "Call me" = "呼叫我";
@@ -203,10 +203,10 @@
 "Meet with genius" = "Meet with genius";
 
 /* No comment provided by engineer. */
-"Hold for Voice" = "长按录制声音";
+"Hold for Voice" = "按住 录音";
 
 /* No comment provided by engineer. */
-"Input verification code send to" = "输入收到的短信验证码";
+"Input verification code sent to" = "输入收到的短信验证码";
 
 /* No comment provided by engineer. */
 "Introduce yourself here." = "此处是自我介绍";
@@ -618,3 +618,5 @@
 
 /* No comment provided by engineer. */
 "Set username failed!" = "设置用户名失败！";
+
+"Release to Send" = "松开 发送";

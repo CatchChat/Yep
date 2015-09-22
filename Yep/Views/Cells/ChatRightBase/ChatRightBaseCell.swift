@@ -74,7 +74,7 @@ class ChatRightBaseCell: ChatBaseCell {
         let animation = CABasicAnimation(keyPath: "transform.rotation.z")
         animation.fromValue = 0.0
         animation.toValue = 2 * M_PI
-        animation.duration = 3.0
+        animation.duration = 1.0
         animation.repeatCount = MAXFLOAT
 
         dotImageView.layer.addAnimation(animation, forKey: sendingAnimationName)

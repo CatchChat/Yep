@@ -6,10 +6,10 @@
       "resizing" : {
         "mode" : "3-part-horizontal",
         "center" : {
-          "mode" : "fill",
+          "mode" : "tile",
           "width" : 1
         },
-        "capInsets" : {
+        "cap-insets" : {
           "right" : 17,
           "left" : 17
         }

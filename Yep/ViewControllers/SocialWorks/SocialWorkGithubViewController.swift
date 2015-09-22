@@ -84,6 +84,8 @@ class SocialWorkGithubViewController: BaseViewController {
         githubTableView.registerNib(UINib(nibName: githubRepoCellIdentifier, bundle: nil), forCellReuseIdentifier: githubRepoCellIdentifier)
 
         githubTableView.rowHeight = 100
+
+        githubTableView.contentInset.bottom = YepConfig.SocialWorkGithub.Repo.rightEdgeInset - 10
         
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {

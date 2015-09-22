@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Ruler
 
 class AddSkillsReusableView: UICollectionReusableView {
     
@@ -17,4 +18,11 @@ class AddSkillsReusableView: UICollectionReusableView {
     }
 
     @IBOutlet weak var skillTypeLabel: UILabel!
+    @IBOutlet weak var skillTypeLabelLeadingConstraint: NSLayoutConstraint!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
+        skillTypeLabelLeadingConstraint.constant = registerPickSkillsLayoutLeftEdgeInset
+    }
 }
