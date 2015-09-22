@@ -156,7 +156,7 @@ class MessageToolbar: UIToolbar {
         textView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 4)
         textView.font = UIFont.systemFontOfSize(15)
         textView.layer.borderWidth = 1
-        textView.layer.borderColor = UIColor.messageToolBarHighlightColor().CGColor
+        textView.layer.borderColor = UIColor.yepMessageToolbarSubviewBorderColor().CGColor
         textView.layer.cornerRadius = self.normalCornerRadius
         textView.delegate = self
         textView.scrollEnabled = false // 重要：若没有它，换行时可能有 top inset 不正确
@@ -169,7 +169,7 @@ class MessageToolbar: UIToolbar {
         button.backgroundColor = UIColor.whiteColor()
         button.layer.cornerRadius = self.normalCornerRadius
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.messageToolBarHighlightColor().CGColor
+        button.layer.borderColor = UIColor.yepMessageToolbarSubviewBorderColor().CGColor
         button.tintColor = UIColor.messageToolBarHighlightColor()
 
         button.touchesBegin = { [weak self] in
@@ -389,17 +389,20 @@ class MessageToolbar: UIToolbar {
     }
 
     func tryVoiceRecordBegin() {
-        voiceRecordButton.backgroundColor = UIColor.lightGrayColor()
+        //voiceRecordButton.backgroundColor = UIColor.lightGrayColor()
+        voiceRecordButton.stateTintColor = UIColor.yepTintColor()
         voiceRecordBeginAction?(messageToolBar: self)
     }
     
     func tryVoiceRecordEnd() {
-        voiceRecordButton.backgroundColor = UIColor.whiteColor()
+        //voiceRecordButton.backgroundColor = UIColor.whiteColor()
+        voiceRecordButton.stateTintColor = UIColor.yepMessageToolbarSubviewBorderColor()
         voiceRecordEndAction?(messageToolBar: self)
     }
     
     func tryVoiceRecordCancel() {
-        voiceRecordButton.backgroundColor = UIColor.whiteColor()
+        //voiceRecordButton.backgroundColor = UIColor.whiteColor()
+        voiceRecordButton.stateTintColor = UIColor.yepMessageToolbarSubviewBorderColor()
         voiceRecordCancelAction?(messageToolBar: self)
     }
     

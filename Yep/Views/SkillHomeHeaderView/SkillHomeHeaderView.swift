@@ -84,5 +84,5 @@ class SkillHomeHeaderView: UIView {
         
         learningButton.updateHightLightBounce()
     }
-
 }
+

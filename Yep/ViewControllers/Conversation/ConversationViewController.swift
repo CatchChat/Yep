@@ -121,6 +121,7 @@ class ConversationViewController: BaseViewController {
     let samplingInterval = 6
     
     @IBOutlet weak var conversationCollectionView: UICollectionView!
+    let conversationCollectionViewContentInsetYOffset: CGFloat = 10
 
     @IBOutlet weak var messageToolbar: MessageToolbar!
     @IBOutlet weak var messageToolbarBottomConstraint: NSLayoutConstraint!
@@ -261,6 +262,10 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.registerNib(UINib(nibName: chatRightLocationCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightLocationCellIdentifier)
         
         conversationCollectionView.bounces = true
+
+
+        let tap = UITapGestureRecognizer(target: self, action: "tapToCollapseMessageToolBar:")
+        conversationCollectionView.addGestureRecognizer(tap)
 
         messageToolbarBottomConstraint.constant = 0
         moreMessageTypesViewHeightConstraint.constant = moreMessageTypesViewDefaultHeight
@@ -917,10 +922,12 @@ class ConversationViewController: BaseViewController {
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
                 UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
-                    self?.conversationCollectionView.contentInset.top = 64
+                    if let strongSelf = self {
+                        strongSelf.conversationCollectionView.contentInset.top = 64 + strongSelf.conversationCollectionViewContentInsetYOffset
 
-                    friendRequestViewTop.constant -= FriendRequestView.height
-                    self?.view.layoutIfNeeded()
+                        friendRequestViewTop.constant -= FriendRequestView.height
+                        strongSelf.view.layoutIfNeeded()
+                    }
 
                 }, completion: { _ in
                     friendRequestView.removeFromSuperview()
@@ -1022,6 +1029,9 @@ class ConversationViewController: BaseViewController {
     }
 
     private func setConversaitonCollectionViewOriginalContentInset() {
+
+        conversationCollectionView.contentInset.top = 64 + conversationCollectionViewContentInsetYOffset
+
         setConversaitonCollectionViewContentInsetBottom(CGRectGetHeight(messageToolbar.bounds) + sectionInsetBottom)
     }
 
@@ -1201,6 +1211,10 @@ class ConversationViewController: BaseViewController {
     }
 
     // MARK: Actions
+
+    func tapToCollapseMessageToolBar(sender: UITapGestureRecognizer) {
+        messageToolbar.state = .Default
+    }
 
     func checkTypingStatus() {
 

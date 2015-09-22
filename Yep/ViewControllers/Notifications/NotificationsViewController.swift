@@ -339,7 +339,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
             switch indexPath.row {
 
             case DoNotDisturbPeriodRow.Switch.rawValue:
-                return 44
+                return 60
 
             case DoNotDisturbPeriodRow.Period.rawValue:
                 return 60

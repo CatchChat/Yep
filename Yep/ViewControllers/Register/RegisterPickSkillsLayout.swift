@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import Ruler
 
-let registerPickSkillsLayoutLeftEdgeInset: CGFloat = 20
+let registerPickSkillsLayoutLeftEdgeInset: CGFloat = Ruler.iPhoneHorizontal(20, 40, 40).value
+let registerPickSkillsLayoutRightEdgeInset: CGFloat = registerPickSkillsLayoutLeftEdgeInset
 
 class RegisterPickSkillsLayout: UICollectionViewFlowLayout {
 
