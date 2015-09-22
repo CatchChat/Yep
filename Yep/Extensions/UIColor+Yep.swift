@@ -17,6 +17,14 @@ extension UIColor {
         return UIColor(red: 0.247, green: 0.247, blue: 0.247, alpha: 1.0)
     }
 
+    class func yepViewBackgroundColor() -> UIColor {
+        return UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1.0)
+    }
+
+    class func yepInputTextColor() -> UIColor {
+        return UIColor(red: 0.557, green: 0.557, blue: 0.576, alpha: 1.0)
+    }
+
     class func avatarBackgroundColor() -> UIColor {
         return UIColor(red: 50/255.0, green: 167/255.0, blue: 255/255.0, alpha: 0.3)
     }

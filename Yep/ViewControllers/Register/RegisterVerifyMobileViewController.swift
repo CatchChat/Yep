@@ -51,6 +51,8 @@ class RegisterVerifyMobileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = UIColor.yepViewBackgroundColor()
+
         navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Sign up", comment: ""))
 
         navigationItem.rightBarButtonItem = nextButton
@@ -61,6 +63,8 @@ class RegisterVerifyMobileViewController: UIViewController {
         phoneNumberLabel.text = "+" + areaCode + " " + mobile
 
         verifyCodeTextField.placeholder = " "
+        verifyCodeTextField.backgroundColor = UIColor.whiteColor()
+        verifyCodeTextField.textColor = UIColor.yepInputTextColor()
         verifyCodeTextField.delegate = self
         verifyCodeTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
