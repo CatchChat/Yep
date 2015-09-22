@@ -71,7 +71,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   MZFayeClient:
-    :path: "../CatchLib-iOS/MZFayeClient/"
+    :path: ../CatchLib-iOS/MZFayeClient/
   Realm:
     :branch: swift-2.0
     :git: https://github.com/realm/realm-cocoa.git
