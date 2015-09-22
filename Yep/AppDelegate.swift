@@ -309,14 +309,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSFontAttributeName: UIFont.navigationBarTitleFont()
         ]
         
-        let barButtonTextAttributes = [
-            NSForegroundColorAttributeName: UIColor.yepTintColor(),
-            NSFontAttributeName: UIFont.barButtonFont()
-        ]
+//        let barButtonTextAttributes = [
+//            NSForegroundColorAttributeName: UIColor.yepTintColor(),
+//            NSFontAttributeName: UIFont.barButtonFont()
+//        ]
 
         UINavigationBar.appearance().titleTextAttributes = textAttributes
         UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
-        UIBarButtonItem.appearance().setTitleTextAttributes(barButtonTextAttributes, forState: UIControlState.Normal)
+        //UIBarButtonItem.appearance().setTitleTextAttributes(barButtonTextAttributes, forState: UIControlState.Normal)
         //UINavigationBar.appearance().setBackgroundImage(UIImage(named:"white"), forBarMetrics: .Default)
         //UINavigationBar.appearance().shadowImage = UIImage()
         //UINavigationBar.appearance().translucent = false

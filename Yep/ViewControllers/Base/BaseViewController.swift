@@ -32,7 +32,7 @@ class BaseViewController: UIViewController {
             navigationController.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
             
             let textAttributes = [
-                NSForegroundColorAttributeName: UIColor.yepTintColor(),
+                NSForegroundColorAttributeName: UIColor.yepNavgationBarTitleColor(),
                 NSFontAttributeName: UIFont.navigationBarTitleFont()
             ]
             
