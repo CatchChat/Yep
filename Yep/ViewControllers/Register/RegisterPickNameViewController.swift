@@ -42,7 +42,7 @@ class RegisterPickNameViewController: BaseViewController {
 
         pickNamePromptLabel.text = NSLocalizedString("What's your name?", comment: "")
 
-        let text = NSLocalizedString("By tap Next you agree to our terms.", comment: "")
+        let text = NSLocalizedString("By tapping Next you agree to our terms.", comment: "")
         let textAttributes: [String: AnyObject] = [
             NSFontAttributeName: UIFont.systemFontOfSize(14),
             NSForegroundColorAttributeName: UIColor.grayColor(),
