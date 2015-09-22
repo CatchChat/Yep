@@ -262,6 +262,9 @@ class ConversationViewController: BaseViewController {
         
         conversationCollectionView.bounces = true
 
+        let tap = UITapGestureRecognizer(target: self, action: "tapToCollapseMessageToolBar:")
+        conversationCollectionView.addGestureRecognizer(tap)
+
         messageToolbarBottomConstraint.constant = 0
         moreMessageTypesViewHeightConstraint.constant = moreMessageTypesViewDefaultHeight
 
@@ -1201,6 +1204,10 @@ class ConversationViewController: BaseViewController {
     }
 
     // MARK: Actions
+
+    func tapToCollapseMessageToolBar(sender: UITapGestureRecognizer) {
+        messageToolbar.state = .Default
+    }
 
     func checkTypingStatus() {
 
