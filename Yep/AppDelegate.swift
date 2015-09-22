@@ -304,7 +304,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }()
 
         let textAttributes = [
-            NSForegroundColorAttributeName: UIColor.yepTintColor(),
+            NSForegroundColorAttributeName: UIColor.yepNavgationBarTitleColor(),
             NSShadowAttributeName: shadow,
             NSFontAttributeName: UIFont.navigationBarTitleFont()
         ]
