@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case Default
         case Message
     }
-    var lauchStyle: LaunchStyle = .Default
+    var lauchStyle = Listenable<LaunchStyle>(.Default) { _ in }
 
     struct Notification {
         static let applicationDidBecomeActive = "applicationDidBecomeActive"
@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 switch type {
 
                 case .Message, .OfficialMessage:
-                    lauchStyle = .Message
+                    lauchStyle.value = .Message
 
                 default:
                     break
