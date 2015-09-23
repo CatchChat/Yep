@@ -44,6 +44,8 @@ class ConversationsViewController: UIViewController {
     struct Listener {
         static let Nickname = "ConversationsViewController.Nickname"
         static let Avatar = "ConversationsViewController.Avatar"
+
+        static let isFetchingUnreadMessages = "ConversationsViewController.isFetchingUnreadMessages"
     }
 
     deinit {
@@ -51,6 +53,8 @@ class ConversationsViewController: UIViewController {
 
         YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
         YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
+
+        isFetchingUnreadMessages.removeListenerWithName(Listener.isFetchingUnreadMessages)
     }
 
     override func viewDidLoad() {
@@ -69,6 +73,13 @@ class ConversationsViewController: UIViewController {
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {
                 self?.reloadConversationsTableView()
+            }
+        }
+
+        isFetchingUnreadMessages.bindListener(Listener.isFetchingUnreadMessages) { [weak self] isFetching in
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.title = isFetching ? NSLocalizedString("Fetching", comment: "") : "Yep"
+                println("isFetchingUnreadMessages: \(isFetching)")
             }
         }
 

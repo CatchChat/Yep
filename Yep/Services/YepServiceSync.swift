@@ -609,7 +609,13 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
     }
 }
 
+var isFetchingUnreadMessages = Listenable<Bool>(false) { _ in }
+
 func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) -> Void) {
+
+    dispatch_async(dispatch_get_main_queue()) {
+        isFetchingUnreadMessages.value = true
+    }
 
     unreadMessages { allUnreadMessages in
 
@@ -632,6 +638,8 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
 
             // do futher action
             furtherAction(messageIDs: messageIDs)
+
+            isFetchingUnreadMessages.value = false
         }
     }
 }
