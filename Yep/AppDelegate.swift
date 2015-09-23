@@ -46,12 +46,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         cacheInAdvance()
 
-        APService.setupWithOption(launchOptions)
+        delay(0.5, work: {
+            // 推送初始化
+            APService.setupWithOption(launchOptions)
+        })
         
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
         } catch _ {
-            
         }
         
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
