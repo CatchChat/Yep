@@ -26,6 +26,20 @@ class ShowStepViewController: UIViewController {
         subTitleLabelBottomConstraint.constant = Ruler.iPhoneVertical(120, 140, 160, 180).value
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        view.alpha = 0
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            self?.view.alpha = 1
+        }, completion: { _ in })
+    }
+
     func repeatAnimate(view: UIView, alongWithPath path: UIBezierPath, duration: CFTimeInterval, autoreverses: Bool = false) {
 
         let animation = CAKeyframeAnimation(keyPath: "position")
