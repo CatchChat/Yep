@@ -193,6 +193,7 @@
 		50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */; };
 		50A9D4511ACD383E000B2599 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */; };
 		50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4541ACD393A000B2599 /* YepWaverView.swift */; };
+		50AFBF461BB25F40007D19DA /* ActivityIndicatorTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AFBF451BB25F40007D19DA /* ActivityIndicatorTitleView.swift */; settings = {ASSET_TAGS = (); }; };
 		50B38FB71B69CD960064C132 /* Array+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FB61B69CD960064C132 /* Array+Yep.swift */; };
 		50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */; };
 		50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */; };
@@ -452,6 +453,7 @@
 		50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = NSDateTimeAgo.bundle; path = Extensions/NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Extensions/NSDate+Extension.swift"; sourceTree = "<group>"; };
 		50A9D4541ACD393A000B2599 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/AudioWaves/YepWaverView.swift; sourceTree = "<group>"; };
+		50AFBF451BB25F40007D19DA /* ActivityIndicatorTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActivityIndicatorTitleView.swift; path = Views/TitleViews/ActivityIndicatorTitleView.swift; sourceTree = "<group>"; };
 		50B38FB61B69CD960064C132 /* Array+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Yep.swift"; path = "Extensions/Array+Yep.swift"; sourceTree = "<group>"; };
 		50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedbackViewController.swift; path = ViewControllers/Feedback/FeedbackViewController.swift; sourceTree = "<group>"; };
 		50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepDownloader.swift; path = Services/YepDownloader.swift; sourceTree = "<group>"; };
@@ -869,6 +871,7 @@
 				500A0B201B451A7400D49358 /* Badge */,
 				504F85AD1B4D21E400F909BE /* DiscoverFilter */,
 				8409137E1B7DB178001C89D6 /* FriendRequest */,
+				50AFBF471BB25F81007D19DA /* TitleViews */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1490,6 +1493,14 @@
 			name = AudioWaves;
 			sourceTree = "<group>";
 		};
+		50AFBF471BB25F81007D19DA /* TitleViews */ = {
+			isa = PBXGroup;
+			children = (
+				50AFBF451BB25F40007D19DA /* ActivityIndicatorTitleView.swift */,
+			);
+			name = TitleViews;
+			sourceTree = "<group>";
+		};
 		50B38FCD1B6B37F90064C132 /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
@@ -1955,6 +1966,7 @@
 				500A0B1F1B451A6F00D49358 /* BadgeView.swift in Sources */,
 				503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */,
 				50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */,
+				50AFBF461BB25F40007D19DA /* ActivityIndicatorTitleView.swift in Sources */,
 				50E61CEB1AF1F69D00908A9D /* ConversationTitleView.swift in Sources */,
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */,
