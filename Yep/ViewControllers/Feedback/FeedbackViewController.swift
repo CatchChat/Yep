@@ -13,7 +13,7 @@ import DeviceGuru
 
 class FeedbackTextView: UITextView {
 
-    let lineColor: UIColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+    let lineColor: UIColor = UIColor.yepBorderColor()
     let lineWidth: CGFloat = 1
 
     lazy var topLineLayer: CAShapeLayer = {

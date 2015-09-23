@@ -65,8 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let isLogined = YepUserDefaults.isLogined
 
         if !isLogined {
-            //startIntroStory()
-
             startShowStory()
         }
 
@@ -238,15 +236,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func startShowStory() {
         let storyboard = UIStoryboard(name: "Show", bundle: nil)
-        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("ShowViewController") as! ShowViewController
+        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("ShowNavigationController") as! UINavigationController
         window?.rootViewController = rootViewController
     }
 
+    /*
     func startIntroStory() {
         let storyboard = UIStoryboard(name: "Intro", bundle: nil)
         let rootViewController = storyboard.instantiateViewControllerWithIdentifier("IntroNavigationController") as! UINavigationController
         window?.rootViewController = rootViewController
     }
+    */
 
     func startMainStory() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

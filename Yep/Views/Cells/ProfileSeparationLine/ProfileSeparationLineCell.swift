@@ -12,7 +12,7 @@ class ProfileSeparationLineCell: UICollectionViewCell {
 
     var leftEdgeInset: CGFloat = YepConfig.Profile.leftEdgeInset
     var rightEdgeInset: CGFloat = YepConfig.Profile.rightEdgeInset
-    var lineColor: UIColor = UIColor.lightGrayColor()
+    var lineColor: UIColor = UIColor.yepBorderColor()
     var lineWidth: CGFloat = 1.0 / UIScreen.mainScreen().scale
 
     // MARK: Draw

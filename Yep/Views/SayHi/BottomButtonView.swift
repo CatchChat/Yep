@@ -11,7 +11,7 @@ import UIKit
 @IBDesignable
 class BottomButtonView: UIView {
 
-    @IBInspectable var topLineColor: UIColor = UIColor.lightGrayColor()
+    @IBInspectable var topLineColor: UIColor = UIColor.yepBorderColor()
     @IBInspectable var topLineWidth: CGFloat = 1 / UIScreen.mainScreen().scale
     @IBInspectable var title: String = NSLocalizedString("Say Hi", comment: "") {
         didSet {

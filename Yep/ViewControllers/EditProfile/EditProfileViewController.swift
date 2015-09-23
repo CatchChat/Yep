@@ -408,7 +408,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 YepUserDefaults.cleanAllUserDefaults()
 
                 if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-                    appDelegate.startIntroStory()
+                    appDelegate.startShowStory()
                 }
 
             }, cancelAction: { () -> Void in

@@ -133,7 +133,7 @@ class YepUserDefaults {
                 if let rootViewController = appDelegate.window?.rootViewController {
                     YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { () -> Void in
 
-                        appDelegate.startIntroStory()
+                        appDelegate.startShowStory()
                     })
                 }
             }
