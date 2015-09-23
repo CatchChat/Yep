@@ -19,13 +19,7 @@ class BlackListViewController: UIViewController {
     var blockedUsers = [DiscoveredUser]() {
         willSet {
             if newValue.count == 0 {
-                let label = UILabel(frame: CGRect(x: 0, y: 0, width: blockedUsersTableView.bounds.width, height: 240))
-
-                label.textAlignment = .Center
-                label.text = NSLocalizedString("No blocked users.", comment: "")
-                label.textColor = UIColor.lightGrayColor()
-
-                blockedUsersTableView.tableFooterView = label
+                blockedUsersTableView.tableFooterView = InfoView(NSLocalizedString("No blocked users.", comment: ""))
             }
         }
     }

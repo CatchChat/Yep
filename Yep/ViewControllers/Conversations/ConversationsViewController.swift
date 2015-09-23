@@ -40,14 +40,7 @@ class ConversationsViewController: UIViewController {
         }
     }
 
-    lazy var noConversationFooterView: InfoView = {
-
-        let view = InfoView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.width, height: 240))
-
-        view.info = NSLocalizedString("Do not do to others what you would not like to be done to you.", comment: "")
-
-        return view
-        }()
+    lazy var noConversationFooterView: InfoView = InfoView(NSLocalizedString("Do not do to others what you would not like to be done to you.", comment: ""))
 
     var noConversation = false {
         didSet {

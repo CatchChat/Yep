@@ -21,13 +21,7 @@ class SearchedUsersViewController: BaseViewController {
                 updateSearchedUsersTableView()
 
             } else {
-                let label = UILabel(frame: CGRect(x: 0, y: 0, width: searchedUsersTableView.bounds.width, height: 240))
-
-                label.textAlignment = .Center
-                label.text = NSLocalizedString("No search results.", comment: "")
-                label.textColor = UIColor.lightGrayColor()
-
-                searchedUsersTableView.tableFooterView = label
+                searchedUsersTableView.tableFooterView = InfoView(NSLocalizedString("No search results.", comment: ""))
             }
         }
     }

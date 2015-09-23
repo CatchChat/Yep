@@ -32,13 +32,7 @@ class FriendsInContactsViewController: BaseViewController {
                 NSNotificationCenter.defaultCenter().postNotificationName(Notification.NewFriends, object: nil)
 
             } else {
-                let label = UILabel(frame: CGRect(x: 0, y: 0, width: friendsTableView.bounds.width, height: 240))
-
-                label.textAlignment = .Center
-                label.text = NSLocalizedString("No more new friends.", comment: "")
-                label.textColor = UIColor.lightGrayColor()
-
-                friendsTableView.tableFooterView = label
+                friendsTableView.tableFooterView = InfoView(NSLocalizedString("No more new friends.", comment: ""))
             }
         }
     }

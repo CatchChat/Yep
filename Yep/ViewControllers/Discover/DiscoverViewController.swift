@@ -42,6 +42,11 @@ class DiscoverViewController: BaseViewController {
     }
 
     var discoveredUsers = [DiscoveredUser]() {
+        willSet {
+            if newValue.count == 0 {
+                discoverTableView.tableFooterView = InfoView(NSLocalizedString("No discovered users.", comment: ""))
+            }
+        }
         didSet {
             updateDiscoverTableView()
         }

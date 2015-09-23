@@ -29,6 +29,12 @@ class InfoView: UIView {
         makeUI()
     }
 
+    convenience init(_ info: String? = nil) {
+        self.init(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.width, height: 240))
+
+        self.info = info
+    }
+
     func makeUI() {
 
         //let view = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.width, height: 240))
