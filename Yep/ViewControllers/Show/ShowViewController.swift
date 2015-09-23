@@ -61,6 +61,9 @@ class ShowViewController: UIViewController {
         registerButton.setTitle(NSLocalizedString("Sign Up", comment: ""), forState: .Normal)
         loginButton.setTitle(NSLocalizedString("Login", comment: ""), forState: .Normal)
 
+        registerButton.backgroundColor = UIColor.yepTintColor()
+        loginButton.setTitleColor(UIColor.yepInputTextColor(), forState: .Normal)
+
         let viewsDictionary = [
             "view": view,
             "stepA": stepA.view,
