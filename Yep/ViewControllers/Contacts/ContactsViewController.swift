@@ -26,6 +26,18 @@ class ContactsViewController: BaseViewController {
     lazy var friends = normalFriends()
     var filteredFriends: Results<User>?
 
+    var realmNotificationToken: NotificationToken?
+
+    lazy var noContactsFooterView: InfoView = InfoView(NSLocalizedString("No friends yet.\nTry discover or add some.", comment: ""))
+
+    var noContacts = false {
+        didSet {
+            if noContacts != oldValue {
+                contactsTableView.tableFooterView = noContacts ? noContactsFooterView : UIView()
+            }
+        }
+    }
+
     struct Listener {
         static let Nickname = "ContactsViewController.Nickname"
         static let Avatar = "ContactsViewController.Avatar"
@@ -76,6 +88,14 @@ class ContactsViewController: BaseViewController {
         contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         contactsTableView.rowHeight = 80
         contactsTableView.tableFooterView = UIView()
+
+        noContacts = friends.isEmpty
+
+        realmNotificationToken = friends.realm?.addNotificationBlock { [weak self] notification, realm in
+            if let strongSelf = self {
+                strongSelf.noContacts = strongSelf.friends.isEmpty
+            }
+        }
 
         YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {
