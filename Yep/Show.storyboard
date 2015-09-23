@@ -24,38 +24,47 @@
                                 </connections>
                             </scrollView>
                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="9Z8-B0-cVp">
-                                <rect key="frame" x="168" y="570" width="39" height="37"/>
+                                <rect key="frame" x="168" y="560" width="39" height="37"/>
                             </pageControl>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c1Z-F1-RQr" customClass="BorderButton" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="124" y="607" width="127" height="40"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <inset key="contentEdgeInsets" minX="30" minY="10" maxX="30" maxY="10"/>
-                                <state key="normal" title="Start Yep">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kzt-eY-iLl" userLabel="Register Button">
+                                <rect key="frame" x="0.0" y="607" width="187.5" height="60"/>
+                                <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="g5v-yL-RwM"/>
+                                </constraints>
+                                <state key="normal" title="Register">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <action selector="finish:" destination="Acs-5Z-0vE" eventType="touchUpInside" id="ajM-bI-yg8"/>
-                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OXr-PM-hSY" userLabel="Login Button">
+                                <rect key="frame" x="187.5" y="607" width="187.5" height="60"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                                </state>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="0sA-kf-Eg9" firstAttribute="top" secondItem="c1Z-F1-RQr" secondAttribute="bottom" constant="20" id="0iC-ay-rTE"/>
+                            <constraint firstItem="OXr-PM-hSY" firstAttribute="height" secondItem="kzt-eY-iLl" secondAttribute="height" id="5c3-oR-ODQ"/>
+                            <constraint firstItem="OXr-PM-hSY" firstAttribute="leading" secondItem="kzt-eY-iLl" secondAttribute="trailing" id="Ayl-tb-tHU"/>
                             <constraint firstAttribute="trailing" secondItem="Zwm-fM-O1u" secondAttribute="trailing" id="BIF-Nd-eN7"/>
+                            <constraint firstItem="kzt-eY-iLl" firstAttribute="width" secondItem="OXr-PM-hSY" secondAttribute="width" id="BKO-Qe-HDB"/>
                             <constraint firstItem="Zwm-fM-O1u" firstAttribute="leading" secondItem="CUt-X0-WDO" secondAttribute="leading" id="BaF-jS-bGU"/>
-                            <constraint firstItem="c1Z-F1-RQr" firstAttribute="top" secondItem="9Z8-B0-cVp" secondAttribute="bottom" id="E75-Mv-TaD"/>
+                            <constraint firstItem="kzt-eY-iLl" firstAttribute="leading" secondItem="CUt-X0-WDO" secondAttribute="leading" id="Dc6-V6-3Xd"/>
+                            <constraint firstItem="9Z8-B0-cVp" firstAttribute="centerX" secondItem="CUt-X0-WDO" secondAttribute="centerX" id="Ej0-cw-PmF"/>
+                            <constraint firstItem="kzt-eY-iLl" firstAttribute="top" secondItem="9Z8-B0-cVp" secondAttribute="bottom" constant="10" id="G2n-aW-sFX"/>
                             <constraint firstAttribute="bottom" secondItem="Zwm-fM-O1u" secondAttribute="bottom" id="Q82-ie-kQU"/>
-                            <constraint firstItem="c1Z-F1-RQr" firstAttribute="centerX" secondItem="9Z8-B0-cVp" secondAttribute="centerX" id="lZq-gR-t1p"/>
+                            <constraint firstItem="0sA-kf-Eg9" firstAttribute="top" secondItem="kzt-eY-iLl" secondAttribute="bottom" id="X06-Mm-HKj"/>
+                            <constraint firstItem="OXr-PM-hSY" firstAttribute="top" secondItem="kzt-eY-iLl" secondAttribute="top" id="dwY-eD-gLe"/>
+                            <constraint firstAttribute="trailing" secondItem="OXr-PM-hSY" secondAttribute="trailing" id="krR-7D-sYs"/>
                             <constraint firstItem="Zwm-fM-O1u" firstAttribute="top" secondItem="CUt-X0-WDO" secondAttribute="top" id="oS0-jj-Eyf"/>
-                            <constraint firstAttribute="centerX" secondItem="c1Z-F1-RQr" secondAttribute="centerX" id="r2N-tD-Kra"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="finishButton" destination="c1Z-F1-RQr" id="yI2-US-Iaz"/>
-                        <outlet property="finishButtonBottomConstraint" destination="0iC-ay-rTE" id="5Gc-6m-pFu"/>
+                        <outlet property="loginButton" destination="OXr-PM-hSY" id="t1n-4e-AV0"/>
                         <outlet property="pageControl" destination="9Z8-B0-cVp" id="D8a-Vi-bnF"/>
-                        <outlet property="pageControlBottomConstraint" destination="E75-Mv-TaD" id="hHb-S6-7yh"/>
+                        <outlet property="registerButton" destination="kzt-eY-iLl" id="Z7W-O2-x7v"/>
                         <outlet property="scrollView" destination="Zwm-fM-O1u" id="AzC-i3-j5q"/>
                     </connections>
                 </viewController>

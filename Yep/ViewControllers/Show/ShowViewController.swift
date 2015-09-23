@@ -14,21 +14,14 @@ class ShowViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
 
     @IBOutlet weak var pageControl: UIPageControl!
-    @IBOutlet weak var pageControlBottomConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var finishButton: BorderButton!
-    @IBOutlet weak var finishButtonBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var registerButton: UIButton!
+    @IBOutlet weak var loginButton: UIButton!
 
     var steps = [UIViewController]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        finishButton.tintColor = UIColor.yepTintColor()
-        finishButton.needShowAccessory = true
-        
-        pageControlBottomConstraint.constant = Ruler.iPhoneVertical(0, 10, 20, 30).value
-        finishButtonBottomConstraint.constant = Ruler.iPhoneVertical(20, 30, 40, 50).value
 
         makeUI()
     }
@@ -38,7 +31,8 @@ class ShowViewController: UIViewController {
 
         scrollView.alpha = 0
         pageControl.alpha = 0
-        finishButton.alpha = 0
+        registerButton.alpha = 0
+        loginButton.alpha = 0
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -47,7 +41,8 @@ class ShowViewController: UIViewController {
         UIView.animateWithDuration(2, delay: 0.5, options: .CurveEaseInOut, animations: { [weak self] in
             self?.scrollView.alpha = 1
             self?.pageControl.alpha = 1
-            self?.finishButton.alpha = 1
+            self?.registerButton.alpha = 1
+            self?.loginButton.alpha = 1
         }, completion: { _ in })
     }
 
@@ -63,8 +58,8 @@ class ShowViewController: UIViewController {
         pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
         pageControl.currentPageIndicatorTintColor = UIColor.yepTintColor()
 
-        //finishButton.alpha = 0
-        finishButton.setTitle(NSLocalizedString("Get Started", comment: ""), forState: .Normal)
+        registerButton.setTitle(NSLocalizedString("Sign Up", comment: ""), forState: .Normal)
+        loginButton.setTitle(NSLocalizedString("Login", comment: ""), forState: .Normal)
 
         let viewsDictionary = [
             "view": view,
@@ -143,15 +138,6 @@ extension ShowViewController: UIScrollViewDelegate {
         let pageFraction = scrollView.contentOffset.x / pageWidth
 
         let page = Int(round(pageFraction))
-
-//        let isLastStep = (page == (steps.count - 1))
-//
-//        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-//            self.finishButton.alpha = isLastStep ? 1 : 0
-//            //self.pageControl.alpha = isLastStep ? 0 : 1
-//
-//        }, completion: { _ in
-//        })
 
         pageControl.currentPage = page
     }
