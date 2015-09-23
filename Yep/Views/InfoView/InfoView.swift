@@ -11,11 +11,7 @@ import Ruler
 
 class InfoView: UIView {
 
-    var info: String? {
-        willSet {
-            infoLabel?.text = newValue
-        }
-    }
+    var info: String?
 
     private var infoLabel: UILabel?
 
@@ -36,8 +32,6 @@ class InfoView: UIView {
     }
 
     func makeUI() {
-
-        //let view = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.width, height: 240))
 
         let label = UILabel()
 
@@ -61,4 +55,11 @@ class InfoView: UIView {
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
     }
+
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+
+        infoLabel?.text = info
+    }
 }
+
