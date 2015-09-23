@@ -40,30 +40,11 @@ class ConversationsViewController: UIViewController {
         }
     }
 
-    lazy var noConversationFooterView: UIView = {
+    lazy var noConversationFooterView: InfoView = {
 
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.width, height: 240))
+        let view = InfoView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.width, height: 240))
 
-        let label = UILabel()
-
-        label.numberOfLines = 0
-        label.textAlignment = .Center
-        label.text = NSLocalizedString("Do not do to others what you would not like to be done to you.", comment: "")
-        label.textColor = UIColor.lightGrayColor()
-
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        view.addSubview(label)
-
-        let views = [
-            "label": label
-        ]
-
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-margin-[label]-margin-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: ["margin": Ruler.iPhoneHorizontal(20, 40, 40).value], views: views)
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[label]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
-
-        NSLayoutConstraint.activateConstraints(constraintsH)
-        NSLayoutConstraint.activateConstraints(constraintsV)
+        view.info = NSLocalizedString("Do not do to others what you would not like to be done to you.", comment: "")
 
         return view
         }()
