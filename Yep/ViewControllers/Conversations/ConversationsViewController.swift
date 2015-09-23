@@ -184,7 +184,7 @@ class ConversationsViewController: UIViewController {
         if #available(iOS 9.0, *) {
             
             let replyAction = UIMutableUserNotificationAction()
-            replyAction.title = "Reply"
+            replyAction.title = NSLocalizedString("Reply", comment: "")
             replyAction.identifier = YepNotificationCommentAction
             replyAction.activationMode = .Background
             replyAction.behavior = .TextInput
