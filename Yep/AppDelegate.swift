@@ -155,16 +155,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if identifier == YepNotificationCommentAction,
                 let response = responseInfo[UIUserNotificationActionResponseTypedTextKey],
                 responseText = response as? String {
-                    
-                    print(responseText)
+
+                    sendMessageWithUserInfo(userInfo, responseText: responseText)
                     
             } else if identifier == YepNotificationOKAction {
-                
+                sendMessageWithUserInfo(userInfo, responseText: "OK")
             }
         } else {
             // Fallback on earlier versions
         }
         completionHandler()
+    }
+    
+    func sendMessageWithUserInfo(userInfo: [NSObject: AnyObject], responseText: String) {
+        
+        if let type = userInfo["recipient_type"] as? String,
+            recipient_id =  userInfo["recipient_id"] as? String {
+                
+                if type == "User" {
+                    
+                    print("Send Message \(responseText) to \(recipient_id)")
+                    
+                    sendText(responseText, toRecipient: recipient_id, recipientType: "User", afterCreatedMessage: { message in
+                        
+                        }, failureHandler: { reason, errorMessage in
+                            defaultFailureHandler(reason, errorMessage: errorMessage)
+                            
+                        }, completion: { success in
+                            println("sendText to friend: \(success)")
+                    })
+                    
+                }
+                
+        }
     }
 
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
