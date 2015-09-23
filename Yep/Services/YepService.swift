@@ -1675,6 +1675,8 @@ func sendLocationWithLocationInfo(locationInfo: PickLocationViewController.Locat
     createAndSendMessageWithMediaType(.Location, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
+let afterCreatedMessageSoundEffect: YepSoundEffect = YepSoundEffect(soundName: "bub3")
+
 func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, metaData: String?, fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: ((Reason, String?) -> Void)?, completion: (success: Bool) -> Void) {
     // 因为 message_id 必须来自远端，线程无法切换，所以这里暂时没用 realmQueue // TOOD: 也许有办法
 
@@ -1786,6 +1788,9 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
 
     // 发出之前就显示 Message
     afterCreatedMessage(message)
+
+    // 做个音效
+    afterCreatedMessageSoundEffect.play()
 
     // 下面开始真正的消息发送
     sendMessage(message, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: { (reason, errorMessage) in
