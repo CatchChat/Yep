@@ -18,6 +18,8 @@ class ShowViewController: UIViewController {
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var loginButton: EdgeBorderButton!
 
+    var isFirstAppear = true
+
     var steps = [UIViewController]()
 
     override func viewDidLoad() {
@@ -31,21 +33,27 @@ class ShowViewController: UIViewController {
 
         navigationController?.setNavigationBarHidden(true, animated: true)
 
-        scrollView.alpha = 0
-        pageControl.alpha = 0
-        registerButton.alpha = 0
-        loginButton.alpha = 0
+        if isFirstAppear {
+            scrollView.alpha = 0
+            pageControl.alpha = 0
+            registerButton.alpha = 0
+            loginButton.alpha = 0
+        }
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        UIView.animateWithDuration(2, delay: 0.5, options: .CurveEaseInOut, animations: { [weak self] in
-            self?.scrollView.alpha = 1
-            self?.pageControl.alpha = 1
-            self?.registerButton.alpha = 1
-            self?.loginButton.alpha = 1
-        }, completion: { _ in })
+        if isFirstAppear {
+            UIView.animateWithDuration(1, delay: 0.5, options: .CurveEaseInOut, animations: { [weak self] in
+                self?.scrollView.alpha = 1
+                self?.pageControl.alpha = 1
+                self?.registerButton.alpha = 1
+                self?.loginButton.alpha = 1
+            }, completion: { _ in })
+        }
+
+        isFirstAppear = false
     }
 
     func makeUI() {
