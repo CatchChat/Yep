@@ -8,6 +8,8 @@
 
 import UIKit
 import RealmSwift
+import Ruler
+
 let YepNotificationCommentAction = "YepNotificationCommentAction"
 let YepNotificationOKAction = "YepNotificationOKAction"
 
@@ -19,7 +21,8 @@ class ConversationsViewController: UIViewController {
 
     var realm: Realm!
 
-    var unreadMessagesToken: NotificationToken?
+    var realmNotificationToken: NotificationToken?
+
     var haveUnreadMessages = false {
         didSet {
             if haveUnreadMessages != oldValue {
@@ -33,6 +36,42 @@ class ConversationsViewController: UIViewController {
                 }
 
                 reloadConversationsTableView()
+            }
+        }
+    }
+
+    lazy var noConversationFooterView: UIView = {
+
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.width, height: 240))
+
+        let label = UILabel()
+
+        label.numberOfLines = 0
+        label.textAlignment = .Center
+        label.text = NSLocalizedString("Do not do to others what you would not like to be done to you.", comment: "")
+        label.textColor = UIColor.lightGrayColor()
+
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(label)
+
+        let views = [
+            "label": label
+        ]
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-margin-[label]-margin-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: ["margin": Ruler.iPhoneHorizontal(20, 40, 40).value], views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[label]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
+
+        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activateConstraints(constraintsV)
+
+        return view
+        }()
+
+    var noConversation = false {
+        didSet {
+            if noConversation != oldValue {
+                conversationsTableView.tableFooterView = noConversation ? noConversationFooterView : UIView()
             }
         }
     }
@@ -98,8 +137,14 @@ class ConversationsViewController: UIViewController {
         conversationsTableView.rowHeight = 80
         conversationsTableView.tableFooterView = UIView()
 
-        unreadMessagesToken = realm.addNotificationBlock { [weak self] notification, realm in
-            self?.haveUnreadMessages = countOfUnreadMessagesInRealm(realm) > 0
+        noConversation = conversations.isEmpty
+
+        realmNotificationToken = realm.addNotificationBlock { [weak self] notification, realm in
+            if let strongSelf = self {
+                strongSelf.haveUnreadMessages = countOfUnreadMessagesInRealm(realm) > 0
+
+                strongSelf.noConversation = strongSelf.conversations.isEmpty
+            }
         }
 
         // 预先生成头像和最近消息图片的缓存
