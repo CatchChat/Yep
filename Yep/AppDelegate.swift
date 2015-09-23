@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var deviceToken: NSData?
     var notRegisteredPush = true
 
-    var isColdLaunch = true
+    var isFirstActive = true
 
     struct Notification {
         static let applicationDidBecomeActive = "applicationDidBecomeActive"
@@ -106,9 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 
-        if !isColdLaunch {
-            isColdLaunch = false
-
+        if !isFirstActive {
             if YepUserDefaults.isLogined {
                 syncUnreadMessages() {
                 }
@@ -120,6 +118,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         NSNotificationCenter.defaultCenter().postNotificationName(Notification.applicationDidBecomeActive, object: nil)
+
+        isFirstActive = false
     }
 
     func applicationWillTerminate(application: UIApplication) {
