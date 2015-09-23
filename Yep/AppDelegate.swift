@@ -191,7 +191,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let response = responseInfo[UIUserNotificationActionResponseTypedTextKey],
                 responseText = response as? String {
                     
-                    print(responseText)
+                    println(responseText)
                     
             } else if identifier == YepNotificationOKAction {
                 
@@ -237,8 +237,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
 
-                // 记录从启动通知类型
-                self.remoteNotificationType = remoteNotificationType
+                // 非前台才记录启动通知类型
+                if application.applicationState != .Active {
+                    self.remoteNotificationType = remoteNotificationType
+                }
 
                 completionHandler(UIBackgroundFetchResult.NoData)
                 
