@@ -6,10 +6,10 @@
 //  Copyright © 2015年 Catch Inc. All rights reserved.
 //
 
-import UIKit
 import AudioToolbox.AudioServices
 
-class YepSoundEffectHelper: NSObject {
+class YepSoundEffect: NSObject {
+
     var soundID: SystemSoundID?
     
     init(soundName: String) {
@@ -21,9 +21,8 @@ class YepSoundEffectHelper: NSObject {
             if (error == kAudioServicesNoError) {
                 soundID = theSoundID
             } else {
-                print("Sound Init Error")
+                println("YepSoundEffect Init Error")
             }
-            
         }
     }
     
@@ -39,3 +38,4 @@ class YepSoundEffectHelper: NSObject {
         }
     }
 }
+
