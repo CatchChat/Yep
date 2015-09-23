@@ -238,7 +238,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func startShowStory() {
         let storyboard = UIStoryboard(name: "Show", bundle: nil)
-        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("ShowViewController") as! ShowViewController
+        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("ShowNavigationController") as! UINavigationController
         window?.rootViewController = rootViewController
     }
 

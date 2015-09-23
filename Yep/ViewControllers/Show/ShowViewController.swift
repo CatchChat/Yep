@@ -29,6 +29,8 @@ class ShowViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
+        navigationController?.setNavigationBarHidden(true, animated: true)
+
         scrollView.alpha = 0
         pageControl.alpha = 0
         registerButton.alpha = 0
@@ -117,18 +119,20 @@ class ShowViewController: UIViewController {
     }
 
     // MARK: Actions
-
-    @IBAction func finish(sender: UIButton) {
-
-        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-            if YepUserDefaults.isLogined {
-                appDelegate.startMainStory()
-            } else {
-                appDelegate.startIntroStory()
-            }
-        }
-    }
     
+    @IBAction func register(sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("RegisterPickNameViewController") as! RegisterPickNameViewController
+
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    @IBAction func login(sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("LoginByMobileViewController") as! LoginByMobileViewController
+
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 // MARK: - UIScrollViewDelegate

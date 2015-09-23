@@ -8,7 +8,7 @@
         <!--Show View Controller-->
         <scene sceneID="ArT-yr-P3e">
             <objects>
-                <viewController storyboardIdentifier="ShowViewController" id="Acs-5Z-0vE" customClass="ShowViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ShowViewController" automaticallyAdjustsScrollViewInsets="NO" id="Acs-5Z-0vE" customClass="ShowViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="VPL-Lp-RgF"/>
                         <viewControllerLayoutGuide type="bottom" id="0sA-kf-Eg9"/>
@@ -35,12 +35,18 @@
                                 <state key="normal" title="Register">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="register:" destination="Acs-5Z-0vE" eventType="touchUpInside" id="ahk-Hd-25p"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OXr-PM-hSY" userLabel="Login Button">
                                 <rect key="frame" x="187.5" y="607" width="187.5" height="60"/>
                                 <state key="normal" title="Login">
                                     <color key="titleColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="login:" destination="Acs-5Z-0vE" eventType="touchUpInside" id="wvm-pc-lbb"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -60,6 +66,7 @@
                             <constraint firstItem="Zwm-fM-O1u" firstAttribute="top" secondItem="CUt-X0-WDO" secondAttribute="top" id="oS0-jj-Eyf"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Ezk-0U-8oV"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="loginButton" destination="OXr-PM-hSY" id="t1n-4e-AV0"/>
@@ -70,7 +77,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rlh-Fl-iXX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="348" y="330"/>
+            <point key="canvasLocation" x="1159.5" y="329.5"/>
         </scene>
         <!--Show Step Genius View Controller-->
         <scene sceneID="PLw-aM-8MV">
@@ -204,7 +211,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h2f-lA-c09" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="795.5" y="329.5"/>
+            <point key="canvasLocation" x="1607.5" y="329.5"/>
         </scene>
         <!--Show Step Match View Controller-->
         <scene sceneID="s8K-Id-ctX">
@@ -291,7 +298,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eRf-2b-6t8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1251.5" y="329.5"/>
+            <point key="canvasLocation" x="2063.5" y="329.5"/>
         </scene>
         <!--Show Step Meet View Controller-->
         <scene sceneID="BhG-6b-dOc">
@@ -391,7 +398,26 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="urc-QG-uK3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1713.5" y="329.5"/>
+            <point key="canvasLocation" x="2525.5" y="329.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="3zM-n1-XF5">
+            <objects>
+                <navigationController storyboardIdentifier="ShowNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="wNH-aL-wte" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="uLP-N4-GPU">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Acs-5Z-0vE" kind="relationship" relationship="rootViewController" id="XKf-og-dVV"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uDX-I7-bBu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="691.5" y="329.5"/>
         </scene>
     </scenes>
     <resources>
