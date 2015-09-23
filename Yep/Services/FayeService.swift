@@ -73,7 +73,6 @@ class FayeService: NSObject, MZFayeClientDelegate {
                 client.setExtension(extensionData, forChannel: "handshake")
                 client.setExtension(extensionData, forChannel: "connect")
 
-
                 client.subscribeToChannel(personalChannel, usingBlock: { data in
                     //println("subscribeToChannel: \(data)")
                     if let

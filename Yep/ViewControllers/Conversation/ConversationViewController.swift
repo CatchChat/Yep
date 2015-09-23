@@ -23,6 +23,8 @@ class ConversationViewController: BaseViewController {
     var conversation: Conversation!
 
     var realm: Realm!
+    
+    var sendMessageSound = YepSoundEffectHelper(soundName: "bub3")
 
     lazy var messages: Results<Message> = {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
@@ -474,6 +476,8 @@ class ConversationViewController: BaseViewController {
 
             messageToolbar.textSendAction = { [weak self] messageToolbar in
 
+                self?.sendMessageSound.play()
+                
                 let text = messageToolbar.messageTextView.text!.trimming(.WhitespaceAndNewline)
 
                 self?.cleanTextInput()
