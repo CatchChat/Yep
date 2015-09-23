@@ -15,6 +15,50 @@ class ConversationsViewController: UIViewController {
 
     @IBOutlet weak var conversationsTableView: UITableView!
 
+    lazy var fetchingTitleView: UIView = {
+        let view = UIView()
+
+        let helperView = UIView()
+        helperView.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(helperView)
+
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        activityIndicator.tintColor = UIColor.yepNavgationBarTitleColor()
+
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+
+        activityIndicator.startAnimating()
+
+        helperView.addSubview(activityIndicator)
+
+        let label = UILabel()
+        label.text = NSLocalizedString("Fetching", comment: "")
+        label.textColor = UIColor.yepNavgationBarTitleColor()
+
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        helperView.addSubview(label)
+
+        let helperViewCenterX = NSLayoutConstraint(item: helperView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1.0, constant: 0)
+        let helperViewCenterY = NSLayoutConstraint(item: helperView, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1.0, constant: 0)
+
+        NSLayoutConstraint.activateConstraints([helperViewCenterX, helperViewCenterY])
+
+        let viewsDictionary = [
+            "activityIndicator": activityIndicator,
+            "label": label,
+        ]
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[activityIndicator]-[label]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[activityIndicator]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
+
+        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activateConstraints(constraintsV)
+
+        return view
+        }()
+
     let cellIdentifier = "ConversationCell"
 
     var realm: Realm!
@@ -78,7 +122,14 @@ class ConversationsViewController: UIViewController {
 
         isFetchingUnreadMessages.bindListener(Listener.isFetchingUnreadMessages) { [weak self] isFetching in
             dispatch_async(dispatch_get_main_queue()) {
-                self?.title = isFetching ? NSLocalizedString("Fetching", comment: "") : "Yep"
+                if isFetching {
+                    self?.navigationItem.titleView = self?.fetchingTitleView
+                    self?.fetchingTitleView.frame = CGRect(x: 0, y: 0, width: 120, height: 30)
+                    //self?.fetchingTitleView.backgroundColor = UIColor.redColor()
+                } else {
+                    //self?.title = "Yep"
+                }
+                //self?.title = isFetching ? NSLocalizedString("Fetching", comment: "") : "Yep"
                 println("isFetchingUnreadMessages: \(isFetching)")
             }
         }
