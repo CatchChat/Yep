@@ -8,6 +8,8 @@
 
 import UIKit
 import RealmSwift
+let YepNotificationCommentAction = "YepNotificationCommentAction"
+let YepNotificationOKAction = "YepNotificationOKAction"
 
 class ConversationsViewController: UIViewController {
 
@@ -178,12 +180,43 @@ class ConversationsViewController: UIViewController {
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if #available(iOS 9.0, *) {
+            
+            let replyAction = UIMutableUserNotificationAction()
+            replyAction.title = "Reply"
+            replyAction.identifier = YepNotificationCommentAction
+            replyAction.activationMode = .Background
+            replyAction.behavior = .TextInput
+            replyAction.authenticationRequired = false
+            
+            let replyOKAction = UIMutableUserNotificationAction()
+            replyOKAction.title = "OK"
+            replyOKAction.identifier = YepNotificationOKAction
+            replyOKAction.activationMode = .Background
+            replyOKAction.behavior = .Default
+            replyOKAction.authenticationRequired = false
+            
+            let category = UIMutableUserNotificationCategory()
+            category.identifier = "YepMessageNotification"
+            category.setActions([replyAction, replyOKAction], forContext: UIUserNotificationActionContext.Minimal)
+            
+            APService.registerForRemoteNotificationTypes(
+                UIUserNotificationType.Badge.rawValue |
+                    UIUserNotificationType.Sound.rawValue |
+                    UIUserNotificationType.Alert.rawValue, categories: [category])
+            
+        } else {
+            
+            // 这里才开始向用户提示推送
+            APService.registerForRemoteNotificationTypes(
+                UIUserNotificationType.Badge.rawValue |
+                    UIUserNotificationType.Sound.rawValue |
+                    UIUserNotificationType.Alert.rawValue, categories: nil)
+        }
+        
 
-        // 这里才开始向用户提示推送
-        APService.registerForRemoteNotificationTypes(
-            UIUserNotificationType.Badge.rawValue |
-            UIUserNotificationType.Sound.rawValue |
-            UIUserNotificationType.Alert.rawValue, categories: nil)
+
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

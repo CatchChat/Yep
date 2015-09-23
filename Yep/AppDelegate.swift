@@ -46,10 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         cacheInAdvance()
 
-        delay(0.5, work: {
-            // 推送初始化
-            APService.setupWithOption(launchOptions)
-        })
+        APService.setupWithOption(launchOptions)
         
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
@@ -151,12 +148,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 纪录下来，用于初次登录或注册有 pusherID 后，或“注销再登录”
         self.deviceToken = deviceToken
     }
+    
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], withResponseInfo responseInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+        if #available(iOS 9.0, *) {
+            if identifier == YepNotificationCommentAction,
+                let response = responseInfo[UIUserNotificationActionResponseTypedTextKey],
+                responseText = response as? String {
+                    
+                    print(responseText)
+                    
+            } else if identifier == YepNotificationOKAction {
+                
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+        completionHandler()
+    }
 
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
 
         println("didReceiveRemoteNotification: \(userInfo)")
 
         if YepUserDefaults.isLogined {
+
             
             if let type = userInfo["type"] as? String {
 
@@ -187,12 +202,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
 
                 default:
-                    break
+                    completionHandler(UIBackgroundFetchResult.NoData)
                 }
+                
+            } else {
+                completionHandler(UIBackgroundFetchResult.NoData)
             }
+            
+        } else {
+            completionHandler(UIBackgroundFetchResult.NewData)
         }
+        
+        
     }
-    
+
     func syncUnreadMessages(furtherAction: () -> Void) {
         syncUnreadMessagesAndDoFurtherAction() { messageIDs in
             furtherAction()
@@ -206,6 +229,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         println(error.description)
     }
+    
 
     // MARK: Public
 
