@@ -39,7 +39,7 @@
                                     <action selector="register:" destination="Acs-5Z-0vE" eventType="touchUpInside" id="ahk-Hd-25p"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OXr-PM-hSY" userLabel="Login Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OXr-PM-hSY" userLabel="Login Button" customClass="EdgeBorderButton" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="187.5" y="607" width="187.5" height="60"/>
                                 <state key="normal" title="Login">
                                     <color key="titleColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>

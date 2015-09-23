@@ -194,6 +194,7 @@
 		50A9D4511ACD383E000B2599 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */; };
 		50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4541ACD393A000B2599 /* YepWaverView.swift */; };
 		50AFBF461BB25F40007D19DA /* ActivityIndicatorTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AFBF451BB25F40007D19DA /* ActivityIndicatorTitleView.swift */; settings = {ASSET_TAGS = (); }; };
+		50AFBF491BB2830E007D19DA /* EdgeBorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AFBF481BB2830E007D19DA /* EdgeBorderButton.swift */; settings = {ASSET_TAGS = (); }; };
 		50B38FB71B69CD960064C132 /* Array+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FB61B69CD960064C132 /* Array+Yep.swift */; };
 		50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */; };
 		50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */; };
@@ -454,6 +455,7 @@
 		50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Extensions/NSDate+Extension.swift"; sourceTree = "<group>"; };
 		50A9D4541ACD393A000B2599 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/AudioWaves/YepWaverView.swift; sourceTree = "<group>"; };
 		50AFBF451BB25F40007D19DA /* ActivityIndicatorTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActivityIndicatorTitleView.swift; path = Views/TitleViews/ActivityIndicatorTitleView.swift; sourceTree = "<group>"; };
+		50AFBF481BB2830E007D19DA /* EdgeBorderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EdgeBorderButton.swift; path = Views/Buttons/EdgeBorderButton.swift; sourceTree = "<group>"; };
 		50B38FB61B69CD960064C132 /* Array+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Yep.swift"; path = "Extensions/Array+Yep.swift"; sourceTree = "<group>"; };
 		50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedbackViewController.swift; path = ViewControllers/Feedback/FeedbackViewController.swift; sourceTree = "<group>"; };
 		50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepDownloader.swift; path = Services/YepDownloader.swift; sourceTree = "<group>"; };
@@ -973,6 +975,7 @@
 				505EC8121ADE607D001D27E0 /* SkillCategoryButton.swift */,
 				506E241D1AE6391A00A33C1A /* TouchZoomButton.swift */,
 				506E241B1AE6254F00A33C1A /* MessageTypeButton.swift */,
+				50AFBF481BB2830E007D19DA /* EdgeBorderButton.swift */,
 			);
 			name = Buttons;
 			sourceTree = "<group>";
@@ -2003,6 +2006,7 @@
 				0AC25F061B1105D5009E6E13 /* YepChildScrollView.swift in Sources */,
 				0A943A7B1B0F8EAE0022DD67 /* BaseViewController.swift in Sources */,
 				50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */,
+				50AFBF491BB2830E007D19DA /* EdgeBorderButton.swift in Sources */,
 				50EB8C5E1AE78AB9001AC1EE /* YepAsset.swift in Sources */,
 				508C2AA41AD661B3002B8097 /* UserStateCell.swift in Sources */,
 				0A5D83941AC5D3C8000045BF /* YepTabBarController.swift in Sources */,

@@ -16,7 +16,7 @@ class ShowViewController: UIViewController {
     @IBOutlet weak var pageControl: UIPageControl!
 
     @IBOutlet weak var registerButton: UIButton!
-    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var loginButton: EdgeBorderButton!
 
     var steps = [UIViewController]()
 
