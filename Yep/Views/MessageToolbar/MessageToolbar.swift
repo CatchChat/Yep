@@ -84,11 +84,13 @@ class MessageToolbar: UIToolbar {
             case .BeginTextInput:
                 moreButton.hidden = false
                 sendButton.hidden = true
+                //sendButton.setTitleColor(UIColor.messageToolBarHighlightColor(), forState: .Normal)
                 moreButton.setImage(UIImage(named: "item_more"), forState: .Normal)
 
             case .TextInputing:
                 moreButton.hidden = true
                 sendButton.hidden = false
+                //sendButton.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
 
                 messageTextView.hidden = false
                 voiceRecordButton.hidden = true
