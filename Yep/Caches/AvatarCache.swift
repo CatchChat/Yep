@@ -176,7 +176,6 @@ class AvatarCache {
         }
 
         // 完成过的就不需要了
-        //avatarCompletions = avatarCompletions.filter({ $0.avatarURLString != avatarURLString })
         removeAvatarCompletionsByAvatarURLString(avatarURLString)
     }
 
@@ -220,20 +219,25 @@ class AvatarCache {
                     if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
 
                         switch radius {
+
                         case YepConfig.ConversationCell.avatarSize * 0.5:
+
                             if avatar.roundMini.length > 0 {
                                 if let image = UIImage(data: avatar.roundMini) {
                                     completeWithImage(image, avatarURLString: avatarURLString)
                                     return
                                 }
                             }
+
                         case YepConfig.chatCellAvatarSize() * 0.5:
+
                             if avatar.roundNano.length > 0 {
                                 if let image = UIImage(data: avatar.roundNano) {
                                     completeWithImage(image, avatarURLString: avatarURLString)
                                     return
                                 }
                             }
+
                         default:
                             break
                         }
@@ -372,20 +376,25 @@ class AvatarCache {
                     if let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
 
                         switch radius {
+
                         case YepConfig.ConversationCell.avatarSize * 0.5:
+
                             if avatar.roundMini.length > 0 {
                                 if let image = UIImage(data: avatar.roundMini) {
                                     completeWithImage(image, avatarURLString: avatarURLString)
                                     return
                                 }
                             }
+
                         case YepConfig.chatCellAvatarSize() * 0.5:
+
                             if avatar.roundNano.length > 0 {
                                 if let image = UIImage(data: avatar.roundNano) {
                                     completeWithImage(image, avatarURLString: avatarURLString)
                                     return
                                 }
                             }
+
                         default:
                             break
                         }
