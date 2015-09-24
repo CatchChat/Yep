@@ -288,6 +288,7 @@ class MessageToolbar: UIToolbar {
     // MARK: Animations
 
     func showVoiceButtonAnimation() {
+        
         let animation = CABasicAnimation(keyPath: "cornerRadius")
 
         animation.fromValue = normalCornerRadius
@@ -303,6 +304,7 @@ class MessageToolbar: UIToolbar {
     }
 
     func hideVoiceButtonAnimation() {
+
         let animation = CABasicAnimation(keyPath: "cornerRadius")
 
         animation.fromValue = messageTextView.layer.cornerRadius
@@ -366,12 +368,14 @@ class MessageToolbar: UIToolbar {
     }
 
     func trySendTextMessage() {
+
         if let textSendAction = textSendAction {
             textSendAction(messageToolBar: self)
         }
     }
 
     func toggleRecordVoice() {
+
         if state == .VoiceRecord {
             state = .Default
 
@@ -381,34 +385,40 @@ class MessageToolbar: UIToolbar {
     }
 
     func toggleMoreMessages() {
+
         if state != .MoreMessages {
             state = .MoreMessages
+
         } else {
             state = .Default
         }
     }
 
     func tryVoiceRecordBegin() {
-        //voiceRecordButton.backgroundColor = UIColor.lightGrayColor()
-        voiceRecordButton.stateTintColor = UIColor.yepTintColor()
+
+        voiceRecordButton.state = .Touched
+
         voiceRecordBeginAction?(messageToolBar: self)
     }
     
     func tryVoiceRecordEnd() {
-        //voiceRecordButton.backgroundColor = UIColor.whiteColor()
-        voiceRecordButton.stateTintColor = UIColor.yepMessageToolbarSubviewBorderColor()
+
+        voiceRecordButton.state = .Default
+
         voiceRecordEndAction?(messageToolBar: self)
     }
     
     func tryVoiceRecordCancel() {
-        //voiceRecordButton.backgroundColor = UIColor.whiteColor()
-        voiceRecordButton.stateTintColor = UIColor.yepMessageToolbarSubviewBorderColor()
+
+        voiceRecordButton.state = .Default
+
         voiceRecordCancelAction?(messageToolBar: self)
     }
     
     // Update status
     
     func notifyTyping() {
+
         notifyTypingAction?()
     }
 }
@@ -418,12 +428,14 @@ class MessageToolbar: UIToolbar {
 extension MessageToolbar: UITextViewDelegate {
 
     func textViewDidBeginEditing(textView: UITextView) {
+
         if let text = textView.text {
             state = text.isEmpty ? .BeginTextInput : .TextInputing
         }
     }
 
     func textViewDidChange(textView: UITextView) {
+
         if let text = textView.text {
             state = text.isEmpty ? .BeginTextInput : .TextInputing
         }

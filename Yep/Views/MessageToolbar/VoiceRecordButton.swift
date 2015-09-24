@@ -24,13 +24,29 @@ class VoiceRecordButton: UIView {
     var leftVoiceImageView: UIImageView?
     var rightVoiceImageView: UIImageView?
 
-    var stateTintColor: UIColor? {
+    enum State {
+        case Default
+        case Touched
+    }
+
+    var state: State = .Default {
         willSet {
-            if let color = newValue {
-                layer.borderColor = color.CGColor
-                titleLabel?.textColor = color
-                leftVoiceImageView?.tintColor = color
-                rightVoiceImageView?.tintColor = color
+            let color: UIColor
+            switch newValue {
+            case .Default:
+                color = UIColor.yepMessageToolbarSubviewBorderColor()
+            case .Touched:
+                color = UIColor.yepTintColor()
+            }
+            layer.borderColor = color.CGColor
+            leftVoiceImageView?.tintColor = color
+            rightVoiceImageView?.tintColor = color
+
+            switch newValue {
+            case .Default:
+                titleLabel?.textColor = tintColor
+            case .Touched:
+                titleLabel?.textColor = UIColor.yepTintColor()
             }
         }
     }
