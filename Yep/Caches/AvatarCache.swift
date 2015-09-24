@@ -9,6 +9,10 @@
 import UIKit
 import RealmSwift
 
+func ==(lhs: AvatarCache.AvatarCompletion, rhs: AvatarCache.AvatarCompletion) -> Bool {
+    return lhs.avatarKey == rhs.avatarKey
+}
+
 class AvatarCache {
 
     static let sharedInstance = AvatarCache()
@@ -17,30 +21,10 @@ class AvatarCache {
     //let cacheQueue = dispatch_queue_create("AvatarCacheQueue", DISPATCH_QUEUE_CONCURRENT)
     let cacheQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
 
-//    func roundImageNamed(name: String, ofRadius radius: CGFloat) -> UIImage {
-//        let roundImageKey = "round-\(name)-\(radius)"
-//        
-//        if let roundImage = cache.objectForKey(roundImageKey) as? UIImage {
-//            return roundImage
-//
-//        } else {
-//            if let image = UIImage(named: name) {
-//
-//                let roundImage = image.roundImageOfRadius(radius)
-//
-//                cache.setObject(roundImage, forKey: roundImageKey)
-//
-//                return roundImage
-//            }
-//        }
-//
-//        return defaultRoundAvatarOfRadius(radius)
-//    }
-
     func defaultRoundAvatarOfRadius(radius: CGFloat) -> UIImage {
-        let facelessRouncImageKey = "round-faceless-\(radius)"
+        let facelessRoundImageKey = "round-faceless-\(radius)"
 
-        if let roundImage = cache.objectForKey(facelessRouncImageKey) as? UIImage {
+        if let roundImage = cache.objectForKey(facelessRoundImageKey) as? UIImage {
             return roundImage
 
         } else {
@@ -48,32 +32,11 @@ class AvatarCache {
 
             let roundImage = image.roundImageOfRadius(radius).decodedImage()
 
-            cache.setObject(roundImage, forKey: facelessRouncImageKey)
+            cache.setObject(roundImage, forKey: facelessRoundImageKey)
             
             return roundImage
         }
     }
-
-//    func roundImageFromURL(url: NSURL, ofRadius radius: CGFloat, completion: (UIImage) -> ()) {
-//        let roundImageKey = "round-\(url.hashValue)"
-//
-//        if let roundImage = cache.objectForKey(roundImageKey) as? UIImage {
-//            completion(roundImage)
-//
-//        } else {
-//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-//                if let data = NSData(contentsOfURL: url) {
-//                    let image = UIImage(data: data)!
-//
-//                    let roundImage = image.roundImageOfRadius(radius)
-//
-//                    self.cache.setObject(roundImage, forKey: roundImageKey)
-//
-//                    completion(roundImage)
-//                }
-//            }
-//        }
-//    }
 
     func avatarFromURL(url: NSURL, completion: (isFinish: Bool, image: UIImage) -> ()) {
 
@@ -151,7 +114,7 @@ class AvatarCache {
 
     typealias Completion = UIImage -> Void
 
-    struct AvatarCompletion {
+    struct AvatarCompletion: Hashable {
         let avatarURLString: String
         let radius: CGFloat
         let completion: Completion
@@ -159,13 +122,24 @@ class AvatarCache {
         var avatarKey: String {
             return "round-\(radius)-\(avatarURLString.hashValue)"
         }
+
+        var hashValue: Int {
+            return avatarKey.hashValue
+        }
     }
 
-    private var avatarCompletions = [AvatarCompletion]()
+    private var avatarCompletionSet = Set<AvatarCompletion>()
+
+    private func removeAvatarCompletionsByAvatarURLString(avatarURLString: String) {
+        let avatarCompletions = avatarCompletionSet.filter({ $0.avatarURLString == avatarURLString })
+        avatarCompletions.forEach {
+            avatarCompletionSet.remove($0)
+        }
+    }
 
     private func completeWithImage(image: UIImage, avatarURLString: String) {
 
-        for avatarCompletion in avatarCompletions.filter({ $0.avatarURLString == avatarURLString }) {
+        for avatarCompletion in avatarCompletionSet.filter({ $0.avatarURLString == avatarURLString }) {
 
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
                 let avatar = image.roundImageOfRadius(avatarCompletion.radius)
@@ -202,11 +176,11 @@ class AvatarCache {
         }
 
         // 完成过的就不需要了
-        avatarCompletions = avatarCompletions.filter({ $0.avatarURLString != avatarURLString })
+        //avatarCompletions = avatarCompletions.filter({ $0.avatarURLString != avatarURLString })
+        removeAvatarCompletionsByAvatarURLString(avatarURLString)
     }
 
-
-    func roundAvatarWithAvatarURLString(avatarURLString: String, withRadius radius: CGFloat, completion: (UIImage) -> ()) {
+    func roundAvatarWithAvatarURLString(avatarURLString: String, withRadius radius: CGFloat, completion: Completion) {
 
         completion(defaultRoundAvatarOfRadius(radius))
 
@@ -227,12 +201,12 @@ class AvatarCache {
             } else {
 
                 // 缓存失效时，先清除对应的 avatarCompletions，不然后面的缓存重建可能不会执行（因为 completeWithImage 不一定被调用，……）
-                avatarCompletions = avatarCompletions.filter({ $0.avatarURLString != avatarURLString })
+                removeAvatarCompletionsByAvatarURLString(avatarURLString)
 
                 // NOTICE: 默认在主线程添加
-                avatarCompletions.append(avatarCompletion)
+                avatarCompletionSet.insert(avatarCompletion)
 
-                if avatarCompletions.filter({ $0.avatarURLString == avatarURLString }).count > 1 {
+                if avatarCompletionSet.filter({ $0.avatarURLString == avatarURLString }).count > 1 {
                     // 不用做事，等着具有同样 avatarURLString 的 avatarCompletion 帮忙完成
 
                 } else {
@@ -355,8 +329,7 @@ class AvatarCache {
         }
     }
 
-
-    func roundAvatarOfUser(user: User, withRadius radius: CGFloat, completion: (UIImage) -> ()) {
+    func roundAvatarOfUser(user: User, withRadius radius: CGFloat, completion: Completion) {
 
         completion(defaultRoundAvatarOfRadius(radius))
 
@@ -380,12 +353,12 @@ class AvatarCache {
 
             } else {
                 // 缓存失效时，先清除对应的 avatarCompletions，不然后面的缓存重建可能不会执行（因为 completeWithImage 不一定被调用，……）
-                avatarCompletions = avatarCompletions.filter({ $0.avatarURLString != avatarURLString })
+                removeAvatarCompletionsByAvatarURLString(avatarURLString)
 
                 // NOTICE: 默认在主线程添加
-                avatarCompletions.append(avatarCompletion)
+                avatarCompletionSet.insert(avatarCompletion)
 
-                if avatarCompletions.filter({ $0.avatarURLString == avatarURLString }).count > 1 {
+                if avatarCompletionSet.filter({ $0.avatarURLString == avatarURLString }).count > 1 {
                     // 不用做事，等着具有同样 avatarURLString 的 avatarCompletion 帮忙完成
 
                 } else {
