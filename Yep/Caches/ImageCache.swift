@@ -243,7 +243,7 @@ class ImageCache {
                                     dispatch_async(dispatch_get_main_queue()) {
                                         
                                         if let realm = message.realm {
-                                            let _ = try? realm.write {
+                                            realm.write {
                                                 message.localAttachmentName = fileName
                                             }
                                         }

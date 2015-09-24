@@ -98,7 +98,8 @@ class ConversationViewController: BaseViewController {
         }()
 
     lazy var waverView: YepWaverView = {
-        let view = YepWaverView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height))
+        let frame = self.view.bounds
+        let view = YepWaverView(frame: frame)
 
         view.waver.waverCallback = { waver in
 
@@ -126,6 +127,7 @@ class ConversationViewController: BaseViewController {
     @IBOutlet weak var messageToolbar: MessageToolbar!
     @IBOutlet weak var messageToolbarBottomConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var moreMessageTypesView: UIView!
     @IBOutlet weak var moreMessageTypesViewHeightConstraint: NSLayoutConstraint!
     let moreMessageTypesViewDefaultHeight: CGFloat = 110
 
@@ -577,7 +579,7 @@ class ConversationViewController: BaseViewController {
 
                             dispatch_async(dispatch_get_main_queue()) {
                                 if let realm = message.realm {
-                                    let _ = try? realm.write {
+                                    realm.write {
                                         message.localAttachmentName = fileURL.URLByDeletingPathExtension?.lastPathComponent ?? ""
                                         message.mediaType = MessageMediaType.Audio.rawValue
                                         if let metaDataString = metaData {
@@ -604,7 +606,7 @@ class ConversationViewController: BaseViewController {
 
                             dispatch_async(dispatch_get_main_queue()) {
                                 if let realm = message.realm {
-                                    let _ = try? realm.write {
+                                    realm.write {
                                         message.localAttachmentName = fileURL.URLByDeletingPathExtension?.lastPathComponent ?? ""
                                         message.mediaType = MessageMediaType.Audio.rawValue
                                         if let metaDataString = metaData {
@@ -642,6 +644,8 @@ class ConversationViewController: BaseViewController {
                     strongSelf.swipeUpPromptLabel.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
                     strongSelf.swipeUpView.hidden = false
                     strongSelf.view.bringSubviewToFront(strongSelf.swipeUpView)
+                    strongSelf.view.bringSubviewToFront(strongSelf.messageToolbar)
+                    strongSelf.view.bringSubviewToFront(strongSelf.moreMessageTypesView)
 
                     let audioFileName = NSUUID().UUIDString
 
@@ -782,7 +786,7 @@ class ConversationViewController: BaseViewController {
                 }
                 
                 if let message = messageWithMessageID(messageID, inRealm: realm) {
-                    let _ = try? realm.write {
+                    realm.write {
                         message.readed = true
                     }
 
@@ -953,7 +957,7 @@ class ConversationViewController: BaseViewController {
                         return
                     }
                     if let user = userWithUserID(userID, inRealm: realm) {
-                        let _ = try? realm.write {
+                        realm.write {
                             user.friendState = UserFriendState.IssuedRequest.rawValue
                         }
                     }
@@ -979,7 +983,7 @@ class ConversationViewController: BaseViewController {
                             return
                         }
                         if let user = userWithUserID(userID, inRealm: realm) {
-                            let _ = try? realm.write {
+                            realm.write {
                                 user.friendState = UserFriendState.Normal.rawValue
                             }
                         }
@@ -1304,7 +1308,7 @@ class ConversationViewController: BaseViewController {
         }
 
         if let user = userWithUserID(userID, inRealm: realm) {
-            let _ = try? realm.write {
+            realm.write {
                 user.notificationEnabled = enabled
             }
 
@@ -1394,7 +1398,7 @@ class ConversationViewController: BaseViewController {
         }
 
         if let user = userWithUserID(userID, inRealm: realm) {
-            let _ = try? realm.write {
+            realm.write {
                 user.blocked = blocked
             }
 
@@ -2389,7 +2393,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                                 strongSelf.displayedMessagesRange.length -= 1
                                             }
 
-                                            let _ = try? realm.write {
+                                            realm.write {
                                                 if let mediaMetaData = sectionDateMessage.mediaMetaData {
                                                     realm.delete(mediaMetaData)
                                                 }
@@ -2409,7 +2413,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                         } else {
                                             strongSelf.displayedMessagesRange.length -= 1
-                                            let _ = try? realm.write {
+                                            realm.write {
                                                 if let mediaMetaData = message.mediaMetaData {
                                                     realm.delete(mediaMetaData)
                                                 }
@@ -2756,7 +2760,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                     if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
                         if let realm = message.realm {
-                            let _ = try? realm.write {
+                            realm.write {
                                 message.localAttachmentName = messageImageName
                                 message.mediaType = MessageMediaType.Image.rawValue
                                 if let metaDataString = metaData {
@@ -2786,7 +2790,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 dispatch_async(dispatch_get_main_queue()) {
                     if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
                         if let realm = message.realm {
-                            let _ = try? realm.write {
+                            realm.write {
                                 message.localAttachmentName = messageImageName
                                 message.mediaType = MessageMediaType.Image.rawValue
                                 if let metaDataString = metaData {
@@ -2877,7 +2881,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                     if let _ = NSFileManager.saveMessageVideoData(videoData, withName: messageVideoName) {
                         if let realm = message.realm {
-                            let _ = try? realm.write {
+                            realm.write {
 
                                 if let thumbnailData = thumbnailData {
                                     if let _ = NSFileManager.saveMessageImageData(thumbnailData, withName: messageVideoName) {

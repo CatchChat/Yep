@@ -514,7 +514,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                                         if let userSkill = userSkillWithSkillID(skillID, inRealm: realm) {
 
-                                            let _ = try? realm.write {
+                                            realm.write {
                                                 userSkill.coverURLString = skillCoverURLString
                                             }
 

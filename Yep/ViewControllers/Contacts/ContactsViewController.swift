@@ -91,7 +91,7 @@ class ContactsViewController: BaseViewController {
 
         noContacts = friends.isEmpty
 
-        realmNotificationToken = friends.realm?.addNotificationBlock { [weak self] notification, realm in
+        realmNotificationToken = friends.realm.addNotificationBlock { [weak self] notification, realm in
             if let strongSelf = self {
                 strongSelf.noContacts = strongSelf.friends.isEmpty
             }

@@ -74,6 +74,7 @@ class MessageToolbar: UIToolbar {
                 messageTextView.hidden = false
                 voiceRecordButton.hidden = true
                 micButton.setImage(UIImage(named: "item_mic"), forState: .Normal)
+                moreButton.setImage(UIImage(named: "item_more"), forState: .Normal)
 
                 micButton.tintColor = UIColor.messageToolBarHighlightColor()
                 moreButton.tintColor = UIColor.messageToolBarHighlightColor()
@@ -83,10 +84,13 @@ class MessageToolbar: UIToolbar {
             case .BeginTextInput:
                 moreButton.hidden = false
                 sendButton.hidden = true
+                //sendButton.setTitleColor(UIColor.messageToolBarHighlightColor(), forState: .Normal)
+                moreButton.setImage(UIImage(named: "item_more"), forState: .Normal)
 
             case .TextInputing:
                 moreButton.hidden = true
                 sendButton.hidden = false
+                //sendButton.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
 
                 messageTextView.hidden = false
                 voiceRecordButton.hidden = true
@@ -103,6 +107,7 @@ class MessageToolbar: UIToolbar {
                 messageTextView.text = nil
 
                 micButton.setImage(UIImage(named: "icon_keyboard"), forState: .Normal)
+                moreButton.setImage(UIImage(named: "item_more"), forState: .Normal)
 
                 micButton.tintColor = UIColor.messageToolBarNormalColor()
                 moreButton.tintColor = UIColor.messageToolBarNormalColor()
@@ -110,7 +115,7 @@ class MessageToolbar: UIToolbar {
                 showVoiceButtonAnimation()
 
             case .MoreMessages:
-                break
+                moreButton.setImage(UIImage(named: "item_less"), forState: .Normal)
             }
 
             updateHeightOfMessageTextView()
@@ -145,6 +150,7 @@ class MessageToolbar: UIToolbar {
         let button = UIButton()
         button.setImage(UIImage(named: "item_mic"), forState: .Normal)
         button.tintColor = UIColor.messageToolBarHighlightColor()
+        button.tintAdjustmentMode = .Normal
         button.addTarget(self, action: "toggleRecordVoice", forControlEvents: UIControlEvents.TouchUpInside)
         return button
         }()
@@ -201,6 +207,7 @@ class MessageToolbar: UIToolbar {
         let button = UIButton()
         button.setImage(UIImage(named: "item_more"), forState: .Normal)
         button.tintColor = UIColor.messageToolBarHighlightColor()
+        button.tintAdjustmentMode = .Normal
         button.addTarget(self, action: "toggleMoreMessages", forControlEvents: UIControlEvents.TouchUpInside)
         return button
         }()
@@ -208,6 +215,8 @@ class MessageToolbar: UIToolbar {
     lazy var sendButton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("Send", comment: ""), forState: .Normal)
+        button.tintColor = UIColor.messageToolBarHighlightColor()
+        button.tintAdjustmentMode = .Normal
         button.setTitleColor(UIColor.messageToolBarHighlightColor(), forState: .Normal)
         button.addTarget(self, action: "trySendTextMessage", forControlEvents: UIControlEvents.TouchUpInside)
         return button
@@ -288,6 +297,7 @@ class MessageToolbar: UIToolbar {
     // MARK: Animations
 
     func showVoiceButtonAnimation() {
+        
         let animation = CABasicAnimation(keyPath: "cornerRadius")
 
         animation.fromValue = normalCornerRadius
@@ -303,6 +313,7 @@ class MessageToolbar: UIToolbar {
     }
 
     func hideVoiceButtonAnimation() {
+
         let animation = CABasicAnimation(keyPath: "cornerRadius")
 
         animation.fromValue = messageTextView.layer.cornerRadius
@@ -344,7 +355,7 @@ class MessageToolbar: UIToolbar {
 
             if let draft = conversation.draft {
 
-                let _ = try? realm.write { [weak self] in
+                realm.write { [weak self] in
                     if let strongSelf = self {
                         draft.messageToolbarState = strongSelf.state.rawValue
 
@@ -358,7 +369,7 @@ class MessageToolbar: UIToolbar {
                 let draft = Draft()
                 draft.messageToolbarState = state.rawValue
                 
-                let _ = try? realm.write {
+                realm.write {
                     conversation.draft = draft
                 }
             }
@@ -366,12 +377,14 @@ class MessageToolbar: UIToolbar {
     }
 
     func trySendTextMessage() {
+
         if let textSendAction = textSendAction {
             textSendAction(messageToolBar: self)
         }
     }
 
     func toggleRecordVoice() {
+
         if state == .VoiceRecord {
             state = .Default
 
@@ -381,34 +394,40 @@ class MessageToolbar: UIToolbar {
     }
 
     func toggleMoreMessages() {
+
         if state != .MoreMessages {
             state = .MoreMessages
+
         } else {
             state = .Default
         }
     }
 
     func tryVoiceRecordBegin() {
-        //voiceRecordButton.backgroundColor = UIColor.lightGrayColor()
-        voiceRecordButton.stateTintColor = UIColor.yepTintColor()
+
+        voiceRecordButton.state = .Touched
+
         voiceRecordBeginAction?(messageToolBar: self)
     }
     
     func tryVoiceRecordEnd() {
-        //voiceRecordButton.backgroundColor = UIColor.whiteColor()
-        voiceRecordButton.stateTintColor = UIColor.yepMessageToolbarSubviewBorderColor()
+
+        voiceRecordButton.state = .Default
+
         voiceRecordEndAction?(messageToolBar: self)
     }
     
     func tryVoiceRecordCancel() {
-        //voiceRecordButton.backgroundColor = UIColor.whiteColor()
-        voiceRecordButton.stateTintColor = UIColor.yepMessageToolbarSubviewBorderColor()
+
+        voiceRecordButton.state = .Default
+
         voiceRecordCancelAction?(messageToolBar: self)
     }
     
     // Update status
     
     func notifyTyping() {
+
         notifyTypingAction?()
     }
 }
@@ -418,12 +437,14 @@ class MessageToolbar: UIToolbar {
 extension MessageToolbar: UITextViewDelegate {
 
     func textViewDidBeginEditing(textView: UITextView) {
+
         if let text = textView.text {
             state = text.isEmpty ? .BeginTextInput : .TextInputing
         }
     }
 
     func textViewDidChange(textView: UITextView) {
+
         if let text = textView.text {
             state = text.isEmpty ? .BeginTextInput : .TextInputing
         }

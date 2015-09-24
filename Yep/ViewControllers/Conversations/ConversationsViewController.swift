@@ -119,12 +119,9 @@ class ConversationsViewController: UIViewController {
                 strongSelf.noConversation = strongSelf.conversations.isEmpty
             }
         }
-
-        // 预先生成头像和最近消息图片的缓存
-        cacheInAdvance()
     }
 
-    func cacheInAdvance() {
+    private func cacheInAdvance() {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
 
@@ -249,9 +246,9 @@ class ConversationsViewController: UIViewController {
                     UIUserNotificationType.Sound.rawValue |
                     UIUserNotificationType.Alert.rawValue, categories: nil)
         }
-        
 
-
+        // 预先生成头像和最近消息图片的缓存
+        cacheInAdvance()
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -326,7 +323,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
                         for message in messages {
                             if let mediaMetaData = message.mediaMetaData {
-                                let _ = try? realm.write {
+                                realm.write {
                                     realm.delete(mediaMetaData)
                                 }
                             }
@@ -334,7 +331,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
                         // delete all messages in conversation
                         
-                        let _ = try? realm.write {
+                        realm.write {
                             realm.delete(messages)
                         }
                     }
@@ -345,7 +342,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
                         // delete conversation, finally
 
-                        let _ = try? realm.write {
+                        realm.write {
                             realm.delete(conversation)
                         }
                     }

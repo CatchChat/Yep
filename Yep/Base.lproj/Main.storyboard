@@ -188,6 +188,7 @@
                         <outlet property="conversationCollectionView" destination="o5R-dM-KPW" id="lsW-8A-zmB"/>
                         <outlet property="messageToolbar" destination="Q0w-sM-iIR" id="vmQ-s1-SlQ"/>
                         <outlet property="messageToolbarBottomConstraint" destination="Sf8-1u-t01" id="f02-ze-rKh"/>
+                        <outlet property="moreMessageTypesView" destination="g11-Ob-rEy" id="82c-V7-Cu4"/>
                         <outlet property="moreMessageTypesViewHeightConstraint" destination="faf-Xw-b0H" id="wNA-e7-3wx"/>
                         <outlet property="swipeUpPromptLabel" destination="Zew-F7-znc" id="4qL-BA-cWR"/>
                         <outlet property="swipeUpView" destination="Gu7-gn-2ia" id="C4f-tg-leq"/>
@@ -290,13 +291,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k4j-Ub-3bn" customClass="MediaView" customModule="Yep" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k4j-Ub-3bn" customClass="MediaView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Cb-zQ-dUZ" customClass="MediaControlView" customModule="Yep" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Cb-zQ-dUZ" customClass="MediaControlView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="471" width="600" height="80"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -1020,7 +1021,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IrX-gK-Zkg">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IrX-gK-Zkg">
                                 <rect key="frame" x="0.0" y="144" width="600" height="44"/>
                                 <animations/>
                                 <constraints>
@@ -1033,7 +1034,7 @@
                                     <action selector="activeFrom" destination="GqQ-V0-aYk" eventType="touchUpInside" id="yIG-DH-kZc"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flj-e3-cbm">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flj-e3-cbm">
                                 <rect key="frame" x="0.0" y="188" width="600" height="44"/>
                                 <animations/>
                                 <constraints>
@@ -1046,7 +1047,7 @@
                                     <action selector="activeTo" destination="GqQ-V0-aYk" eventType="touchUpInside" id="90e-4a-0ZA"/>
                                 </connections>
                             </button>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hap-y9-JVX">
+                            <pickerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hap-y9-JVX">
                                 <rect key="frame" x="0.0" y="335" width="600" height="216"/>
                                 <animations/>
                                 <connections>
@@ -1247,14 +1248,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We read every feedback" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdt-Vd-sD9">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="We read every feedback" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdt-Vd-sD9">
                                 <rect key="frame" x="208" y="104" width="185" height="20.5"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="fVo-Zl-gHQ" customClass="FeedbackTextView" customModule="Yep" customModuleProvider="target">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="fVo-Zl-gHQ" customClass="FeedbackTextView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="164.5" width="600" height="121.5"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1980,7 +1981,7 @@
         <image name="yep_icon_solo" width="120" height="120"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="PTw-QB-dRp"/>
+        <segue reference="eTq-BP-vMS"/>
         <segue reference="o3b-2D-AMq"/>
         <segue reference="6No-Lc-7X4"/>
     </inferredMetricsTieBreakers>
