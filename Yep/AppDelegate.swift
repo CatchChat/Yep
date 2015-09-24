@@ -23,6 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var isFirstActive = true
 
+    enum LaunchStyle {
+        case Default
+        case Message
+    }
+    var lauchStyle = Listenable<LaunchStyle>(.Default) { _ in }
+
     struct Notification {
         static let applicationDidBecomeActive = "applicationDidBecomeActive"
     }
@@ -36,6 +42,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return Realm.Configuration(path: realmPath, schemaVersion: 1, migrationBlock: { migration, oldSchemaVersion in
         })
+    }
+
+    enum RemoteNotificationType: String {
+        case Message = "message"
+        case OfficialMessage = "official_message"
+        case FriendRequest = "friend_request"
+    }
+
+    private var remoteNotificationType: RemoteNotificationType? {
+        willSet {
+            if let type = newValue {
+                switch type {
+
+                case .Message, .OfficialMessage:
+                    lauchStyle.value = .Message
+
+                default:
+                    break
+                }
+            }
+        }
     }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -80,6 +107,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             sync()
 
             startFaye()
+
+            // 记录从启动通知类型
+            if let
+                notification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? UILocalNotification,
+                userInfo = notification.userInfo,
+                type = userInfo["type"] as? String {
+                    remoteNotificationType = RemoteNotificationType(rawValue: type)
+            }
         }
 
         return true
@@ -156,7 +191,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let response = responseInfo[UIUserNotificationActionResponseTypedTextKey],
                 responseText = response as? String {
                     
-                    print(responseText)
+                    println(responseText)
                     
             } else if identifier == YepNotificationOKAction {
                 
@@ -173,18 +208,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if YepUserDefaults.isLogined {
 
-            
-            if let type = userInfo["type"] as? String {
+            if let type = userInfo["type"] as? String, remoteNotificationType = RemoteNotificationType(rawValue: type) {
 
-                switch type {
+                switch remoteNotificationType {
 
-                case "message":
+                case .Message:
                     syncUnreadMessages() {
                         completionHandler(UIBackgroundFetchResult.NewData)
                         APService.handleRemoteNotification(userInfo)
                     }
 
-                case "official_message":
+                case .OfficialMessage:
                     officialMessages { messagesCount in
                         println("new officialMessages count: \(messagesCount)")
 
@@ -192,7 +226,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         APService.handleRemoteNotification(userInfo)
                     }
 
-                case "friend_request":
+                case .FriendRequest:
                     if let subType = userInfo["subtype"] as? String {
                         if subType == "accepted" {
                             syncFriendshipsAndDoFurtherAction {
@@ -201,10 +235,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             }
                         }
                     }
-
-                default:
-                    completionHandler(UIBackgroundFetchResult.NoData)
                 }
+
+                // 非前台才记录启动通知类型
+                if application.applicationState != .Active {
+                    self.remoteNotificationType = remoteNotificationType
+                }
+
+                completionHandler(UIBackgroundFetchResult.NoData)
                 
             } else {
                 completionHandler(UIBackgroundFetchResult.NoData)
@@ -213,8 +251,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             completionHandler(UIBackgroundFetchResult.NewData)
         }
-        
-        
     }
 
     func syncUnreadMessages(furtherAction: () -> Void) {
