@@ -70,7 +70,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   MZFayeClient:
-    :path: ../CatchLib-iOS/MZFayeClient/
+    :path: "../CatchLib-iOS/MZFayeClient/"
 
 SPEC CHECKSUMS:
   1PasswordExtension: 42b79b7ac6d8e7468b22b7a651fc0b445bcdbd3e
