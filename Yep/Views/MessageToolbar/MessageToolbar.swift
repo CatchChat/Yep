@@ -145,6 +145,7 @@ class MessageToolbar: UIToolbar {
         let button = UIButton()
         button.setImage(UIImage(named: "item_mic"), forState: .Normal)
         button.tintColor = UIColor.messageToolBarHighlightColor()
+        button.tintAdjustmentMode = .Normal
         button.addTarget(self, action: "toggleRecordVoice", forControlEvents: UIControlEvents.TouchUpInside)
         return button
         }()
@@ -201,6 +202,7 @@ class MessageToolbar: UIToolbar {
         let button = UIButton()
         button.setImage(UIImage(named: "item_more"), forState: .Normal)
         button.tintColor = UIColor.messageToolBarHighlightColor()
+        button.tintAdjustmentMode = .Normal
         button.addTarget(self, action: "toggleMoreMessages", forControlEvents: UIControlEvents.TouchUpInside)
         return button
         }()
@@ -208,6 +210,8 @@ class MessageToolbar: UIToolbar {
     lazy var sendButton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("Send", comment: ""), forState: .Normal)
+        button.tintColor = UIColor.messageToolBarHighlightColor()
+        button.tintAdjustmentMode = .Normal
         button.setTitleColor(UIColor.messageToolBarHighlightColor(), forState: .Normal)
         button.addTarget(self, action: "trySendTextMessage", forControlEvents: UIControlEvents.TouchUpInside)
         return button
