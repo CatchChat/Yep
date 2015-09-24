@@ -8,7 +8,6 @@
 
 import UIKit
 import RealmSwift
-import Ruler
 
 let YepNotificationCommentAction = "YepNotificationCommentAction"
 let YepNotificationOKAction = "YepNotificationOKAction"

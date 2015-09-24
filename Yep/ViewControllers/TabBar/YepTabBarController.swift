@@ -10,6 +10,16 @@ import UIKit
 
 class YepTabBarController: UITabBarController {
 
+    struct Listener {
+        static let lauchStyle = "YepTabBarController.lauchStyle"
+    }
+
+    deinit {
+        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            appDelegate.lauchStyle.removeListenerWithName(Listener.lauchStyle)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -18,12 +28,14 @@ class YepTabBarController: UITabBarController {
         view.backgroundColor = UIColor.whiteColor()
 
         // 将 UITabBarItem 的 image 下移一些，也不显示 title 了
-//        if let items = tabBar.items as? [UITabBarItem] {
-//            for item in items {
-//                item.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
-//                item.title = nil
-//            }
-//        }
+        /*
+        if let items = tabBar.items as? [UITabBarItem] {
+            for item in items {
+                item.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
+                item.title = nil
+            }
+        }
+        */
 
         if let items = tabBar.items {
 
@@ -37,6 +49,16 @@ class YepTabBarController: UITabBarController {
             for i in 0..<items.count {
                 let item = items[i]
                 item.title = titles[i]
+            }
+        }
+
+        // 处理启动切换
+
+        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            appDelegate.lauchStyle.bindListener(Listener.lauchStyle) { [weak self] style in
+                if style == .Message {
+                    self?.selectedIndex = 0
+                }
             }
         }
     }
