@@ -190,7 +190,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         case YepNotificationOKAction:
 
-            sendMessageWithUserInfo(userInfo, responseText: "OK")
+            tryReplyText("OK", withUserInfo: userInfo)
 
         default:
             break
@@ -248,7 +248,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             completionHandler(UIBackgroundFetchResult.NewData)
         }
     }
-
 
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         println(error.description)
@@ -319,7 +318,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: Private
 
-    private func sendMessageWithUserInfo(userInfo: [NSObject: AnyObject], responseText: String) {
+    private func tryReplyText(text: String, withUserInfo userInfo: [NSObject: AnyObject]) {
 
         guard let
             recipientType = userInfo["recipient_type"] as? String,
@@ -329,9 +328,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if recipientType == "User" {
 
-            println("try reply \"\(responseText)\" to [\(recipientType): \(recipientID)]")
+            println("try reply \"\(text)\" to [\(recipientType): \(recipientID)]")
 
-            sendText(responseText, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
+            sendText(text, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
                 println("reply to [\(recipientType): \(recipientID)], \(success)")
             })
         }
