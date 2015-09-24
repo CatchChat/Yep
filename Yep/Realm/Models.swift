@@ -459,7 +459,7 @@ func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
         println("Warning: same messageID: \(messages.count), \(messageID)")
 
         // 治标未读
-        let _ = try? realm.write {
+        realm.write {
             for message in messages {
                 message.readed = true
             }
@@ -513,7 +513,7 @@ func tryGetOrCreateMeInRealm(realm: Realm) -> User? {
                 me.avatarURLString = avatarURLString
             }
 
-            let _ = try? realm.write {
+            realm.write {
                 realm.add(me)
             }
 
@@ -731,7 +731,7 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) 
 
     if let user = userWithUserID(userID, inRealm: realm) {
 
-        let _ = try? realm.write {
+        realm.write {
 
             // 更新用户信息
 

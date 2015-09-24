@@ -142,7 +142,7 @@ class NotificationsViewController: UIViewController {
                 if userDoNotDisturb == nil {
                     let _userDoNotDisturb = UserDoNotDisturb()
 
-                    let _ = try? realm.write {
+                    realm.write {
                         me.doNotDisturb = _userDoNotDisturb
                     }
 
@@ -175,7 +175,7 @@ class NotificationsViewController: UIViewController {
                                 myUserID = YepUserDefaults.userID.value,
                                 me = userWithUserID(myUserID, inRealm: realm) {
 
-                                    let _ = try? realm.write {
+                                    realm.write {
                                         me.doNotDisturb?.isOn = true
                                     }
                             }
@@ -225,7 +225,7 @@ class NotificationsViewController: UIViewController {
                                 me = userWithUserID(myUserID, inRealm: realm) {
 
                                     if let userDoNotDisturb = me.doNotDisturb {
-                                        let _ = try? realm.write {
+                                        realm.write {
                                             realm.delete(userDoNotDisturb)
                                         }
                                     }

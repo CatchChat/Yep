@@ -326,7 +326,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
                         for message in messages {
                             if let mediaMetaData = message.mediaMetaData {
-                                let _ = try? realm.write {
+                                realm.write {
                                     realm.delete(mediaMetaData)
                                 }
                             }
@@ -334,7 +334,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
                         // delete all messages in conversation
                         
-                        let _ = try? realm.write {
+                        realm.write {
                             realm.delete(messages)
                         }
                     }
@@ -345,7 +345,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
                         // delete conversation, finally
 
-                        let _ = try? realm.write {
+                        realm.write {
                             realm.delete(conversation)
                         }
                     }

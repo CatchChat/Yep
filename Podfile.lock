@@ -64,28 +64,13 @@ DEPENDENCIES:
   - MZFayeClient (from `../CatchLib-iOS/MZFayeClient/`)
   - pop
   - Proposer
-  - Realm (from `https://github.com/realm/realm-cocoa.git`, branch `swift-2.0`)
-  - RealmSwift (from `https://github.com/realm/realm-cocoa.git`, branch `swift-2.0`)
+  - RealmSwift
   - Ruler
   - TPKeyboardAvoiding (~> 1.2)
 
 EXTERNAL SOURCES:
   MZFayeClient:
     :path: ../CatchLib-iOS/MZFayeClient/
-  Realm:
-    :branch: swift-2.0
-    :git: https://github.com/realm/realm-cocoa.git
-  RealmSwift:
-    :branch: swift-2.0
-    :git: https://github.com/realm/realm-cocoa.git
-
-CHECKOUT OPTIONS:
-  Realm:
-    :commit: f317909cc16e34b42545e849afe81686b3863b24
-    :git: https://github.com/realm/realm-cocoa.git
-  RealmSwift:
-    :commit: f317909cc16e34b42545e849afe81686b3863b24
-    :git: https://github.com/realm/realm-cocoa.git
 
 SPEC CHECKSUMS:
   1PasswordExtension: 42b79b7ac6d8e7468b22b7a651fc0b445bcdbd3e
@@ -103,8 +88,8 @@ SPEC CHECKSUMS:
   MZFayeClient: 65e7ef67e61fbe7a7a8b196130541c9f06bcb5d8
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   Proposer: c244e0d031227b6cf140da7a24d30f2d954d2cb2
-  Realm: 6888430917b197eed845dcce9a1f99c9c4bd9cd1
-  RealmSwift: 01ecf1cd1a6cc7cd05eed53c6bfaec21b0db6bf8
+  Realm: f6de6065c69ef504b80dd920b63af56e8337ff74
+  RealmSwift: f9f157edc8241948526c6de8988e377c49295547
   Ruler: b36ec3bbc5fc6c3b7f629a6052cc1c17ada4b280
   SocketRocket: ee0b5c34182d37bb4f1f8d628bbe737718126daa
   TPKeyboardAvoiding: ff1ee4e5a5a0c119b965552af8f183868ea20207

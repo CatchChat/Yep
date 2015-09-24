@@ -1374,7 +1374,7 @@ func officialMessages(completion completion: Int -> Void) {
 
                 newUser.friendState = UserFriendState.Yep.rawValue
 
-                let _ = try? realm.write {
+                realm.write {
                     realm.add(newUser)
                 }
 
@@ -1392,7 +1392,7 @@ func officialMessages(completion completion: Int -> Void) {
                     newConversation.type = ConversationType.OneToOne.rawValue
                     newConversation.withFriend = sender
 
-                    let _ = try? realm.write {
+                    realm.write {
                         realm.add(newConversation)
                     }
                 }
@@ -1416,7 +1416,7 @@ func officialMessages(completion completion: Int -> Void) {
                             newMessage.createdUnixTime = updatedUnixTime
                         }
 
-                        let _ = try? realm.write {
+                        realm.write {
                             realm.add(newMessage)
                         }
                         
@@ -1424,12 +1424,12 @@ func officialMessages(completion completion: Int -> Void) {
                     }
 
                     if let message = message {
-                        let _ = try? realm.write {
+                        realm.write {
                             message.fromFriend = sender
                         }
 
                         if let conversation = sender?.conversation {
-                            let _ = try? realm.write {
+                            realm.write {
                                 message.conversation = conversation
 
                             }
@@ -1696,14 +1696,14 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
 
     message.mediaType = mediaType.rawValue
 
-    let _ = try? realm.write {
+    realm.write {
         realm.add(message)
     }
 
     // 消息来自于自己
 
     if let me = tryGetOrCreateMeInRealm(realm) {
-        let _ = try? realm.write {
+        realm.write {
             message.fromFriend = me
         }
     }
@@ -1712,7 +1712,7 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
 
     var conversation: Conversation? = nil
 
-    let _ = try? realm.write {
+    realm.write {
 
         if recipientType == "User" {
             if let withFriend = userWithUserID(recipientID, inRealm: realm) {
@@ -1768,7 +1768,7 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
     }
 
 
-    let _ = try? realm.write {
+    realm.write {
 
         if let textContent = messageInfo["text_content"] as? String {
             message.textContent = textContent
@@ -1801,7 +1801,7 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
 
             let realm = message.realm
 
-            let _ = try? realm?.write {
+            realm?.write {
                 message.sendState = MessageSendState.Failed.rawValue
             }
 
@@ -1832,7 +1832,8 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
 
                 dispatch_async(dispatch_get_main_queue()) {
                     let realm = message.realm
-                    let _ = try? realm?.write {
+
+                    realm?.write {
                         message.messageID = messageID
                         message.sendState = MessageSendState.Successed.rawValue
                     }
@@ -1877,7 +1878,7 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
                     createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in
                         dispatch_async(dispatch_get_main_queue()) {
                             let realm = message.realm
-                            let _ = try? realm?.write {
+                            realm?.write {
                                 message.messageID = messageID
                                 message.sendState = MessageSendState.Successed.rawValue
                             }
@@ -1959,7 +1960,7 @@ func resendMessage(message: Message, failureHandler: ((Reason, String?) -> Void)
 
                 let realm = message.realm
 
-                let _ = try? realm?.write {
+                realm?.write {
                     message.sendState = MessageSendState.NotSend.rawValue
                 }
 
@@ -1976,7 +1977,7 @@ func resendMessage(message: Message, failureHandler: ((Reason, String?) -> Void)
 
                     let realm = message.realm
 
-                    let _ = try? realm?.write {
+                    realm?.write {
                         message.sendState = MessageSendState.Failed.rawValue
                     }
 

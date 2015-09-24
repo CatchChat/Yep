@@ -101,7 +101,7 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
                     }
 
                     if let user = userWithUserID(discoveredUser.id, inRealm: realm) {
-                        let _ = try? realm.write {
+                        realm.write {
                             user.blocked = false
                         }
                     }

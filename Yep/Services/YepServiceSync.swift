@@ -188,7 +188,7 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                     newUser.createdUnixTime = createdUnixTime
                 }
 
-                let _ = try? realm.write {
+                realm.write {
                     realm.add(newUser)
                 }
 
@@ -215,7 +215,7 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                                 let _userDoNotDisturb = UserDoNotDisturb()
                                 _userDoNotDisturb.isOn = true
 
-                                let _ = try? realm.write {
+                                realm.write {
                                     user.doNotDisturb = _userDoNotDisturb
                                 }
 
@@ -241,7 +241,7 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                                     return (localHour, localMinute)
                                 }
 
-                                let _ = try? realm.write {
+                                realm.write {
 
                                     let fromParts = fromString.componentsSeparatedByString(":")
 
@@ -334,7 +334,7 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
                 if !remoteUerIDSet.contains(localUser.userID) {
 
-                    let _ = try? realm.write {
+                    realm.write {
 
                         localUser.friendshipID = ""
 
@@ -367,7 +367,7 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                                 newUser.createdUnixTime = createdUnixTime
                             }
 
-                            let _ = try? realm.write {
+                            realm.write {
                                 realm.add(newUser)
                             }
 
@@ -380,7 +380,7 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
                             updateUserWithUserID(user.userID, useUserInfo: friendInfo)
 
-                            let _ = try? realm.write {
+                            realm.write {
 
                                 if let friendshipID = friendshipInfo["id"] as? String {
                                     user.friendshipID = friendshipID
@@ -430,7 +430,7 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
             let localGroups = realm.objects(Group)
 
-            let _ = try? realm.write {
+            realm.write {
 
                 var groupsToDelete = [Group]()
                 for i in 0..<localGroups.count {
@@ -470,7 +470,7 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                 newGroup.groupName = groupName
             }
 
-            let _ = try? realm.write {
+            realm.write {
                 realm.add(newGroup)
             }
 
@@ -484,7 +484,7 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                 conversation.type = ConversationType.Group.rawValue
                 conversation.withGroup = group
 
-                let _ = try? realm.write {
+                realm.write {
                     realm.add(conversation)
                 }
             }
@@ -514,7 +514,7 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                             newUser.friendState = UserFriendState.Stranger.rawValue
                         }
 
-                        let _ = try? realm.write {
+                        realm.write {
                             realm.add(newUser)
                         }
 
@@ -527,7 +527,7 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
 
                         updateUserWithUserID(owner.userID, useUserInfo: ownerInfo)
 
-                        let _ = try? realm.write {
+                        realm.write {
                             group.owner = owner
                         }
                     }
@@ -582,7 +582,7 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                                 newMember.friendState = UserFriendState.Stranger.rawValue
                             }
 
-                            let _ = try? realm.write {
+                            realm.write {
                                 realm.add(newMember)
 
                                 localMembers.append(newMember)
@@ -600,7 +600,7 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                     }
                 }
 
-                let _ = try? realm.write {
+                realm.write {
                     group.members.removeAll()
                     group.members.appendContentsOf(localMembers)
                 }
@@ -675,7 +675,7 @@ func syncMessagesReadStatus() {
                 }
             }
             
-            let _ = try? realm.write {
+            realm.write {
                 for message in toMarkMessages {
                     message.sendState = MessageSendState.Read.rawValue
                     message.readed = true
@@ -689,7 +689,7 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
 
     if let message = messageWithMessageID(messageID, inRealm: realm) {
 
-        let _ = try? realm.write {
+        realm.write {
 
             if let textContent = messageInfo["text_content"] as? String {
                 message.textContent = textContent
@@ -754,7 +754,7 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
 func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)? ) {
 
     func deleteMessage(message: Message, inRealm realm: Realm) {
-        let _ = try? realm.write {
+        realm.write {
             realm.delete(message)
         }
     }
@@ -780,7 +780,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
                 }
             }
 
-            let _ = try? realm.write {
+            realm.write {
                 realm.add(newMessage)
             }
 
@@ -812,7 +812,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
 
                         newUser.friendState = UserFriendState.Stranger.rawValue
 
-                        let _ = try? realm.write {
+                        realm.write {
                             realm.add(newUser)
                         }
 
@@ -823,7 +823,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
 
                         updateUserWithUserID(sender.userID, useUserInfo: senderInfo)
 
-                        let _ = try? realm.write {
+                        realm.write {
                             message.fromFriend = sender
                         }
 
@@ -846,7 +846,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
                                             }
                                         }
 
-                                        let _ = try? realm.write {
+                                        realm.write {
                                             realm.add(newGroup)
                                         }
 
@@ -879,7 +879,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
                                 newConversation.withFriend = sender
                             }
 
-                            let _ = try? realm.write {
+                            realm.write {
                                 realm.add(newConversation)
                             }
 
@@ -892,7 +892,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
 
                             var sectionDateMessageID: String?
 
-                            let _ = try? realm.write {
+                            realm.write {
 
                                 conversation.updatedUnixTime = message.createdUnixTime
 
