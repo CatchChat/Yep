@@ -196,6 +196,7 @@
 		50AFBF461BB25F40007D19DA /* ActivityIndicatorTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AFBF451BB25F40007D19DA /* ActivityIndicatorTitleView.swift */; settings = {ASSET_TAGS = (); }; };
 		50AFBF491BB2830E007D19DA /* EdgeBorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AFBF481BB2830E007D19DA /* EdgeBorderButton.swift */; settings = {ASSET_TAGS = (); }; };
 		50AFBF4B1BB2A44C007D19DA /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AFBF4A1BB2A44C007D19DA /* InfoView.swift */; settings = {ASSET_TAGS = (); }; };
+		50AFBF4E1BB3A594007D19DA /* bub3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 50AFBF4D1BB3A594007D19DA /* bub3.caf */; settings = {ASSET_TAGS = (); }; };
 		50B38FB71B69CD960064C132 /* Array+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FB61B69CD960064C132 /* Array+Yep.swift */; };
 		50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */; };
 		50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */; };
@@ -232,7 +233,6 @@
 		50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */; };
 		50FA9A441B661698009BF2A0 /* UIViewController+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */; };
 		6A649A9B1BB259CB00EE4FB5 /* YepSoundEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A649A9A1BB259CB00EE4FB5 /* YepSoundEffect.swift */; settings = {ASSET_TAGS = (); }; };
-		6A649A9D1BB25BF100EE4FB5 /* bub3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 6A649A9C1BB25BF100EE4FB5 /* bub3.caf */; settings = {ASSET_TAGS = (); }; };
 		6ADDB4501B848C600012877A /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6ADDB44F1B848C600012877A /* 1Password.xcassets */; };
 		8409137D1B7DB173001C89D6 /* FriendRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409137C1B7DB173001C89D6 /* FriendRequestView.swift */; };
 		840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */; };
@@ -458,6 +458,7 @@
 		50AFBF451BB25F40007D19DA /* ActivityIndicatorTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActivityIndicatorTitleView.swift; path = Views/TitleViews/ActivityIndicatorTitleView.swift; sourceTree = "<group>"; };
 		50AFBF481BB2830E007D19DA /* EdgeBorderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EdgeBorderButton.swift; path = Views/Buttons/EdgeBorderButton.swift; sourceTree = "<group>"; };
 		50AFBF4A1BB2A44C007D19DA /* InfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoView.swift; path = Views/InfoView/InfoView.swift; sourceTree = "<group>"; };
+		50AFBF4D1BB3A594007D19DA /* bub3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = bub3.caf; path = Sounds/bub3.caf; sourceTree = "<group>"; };
 		50B38FB61B69CD960064C132 /* Array+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Yep.swift"; path = "Extensions/Array+Yep.swift"; sourceTree = "<group>"; };
 		50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedbackViewController.swift; path = ViewControllers/Feedback/FeedbackViewController.swift; sourceTree = "<group>"; };
 		50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepDownloader.swift; path = Services/YepDownloader.swift; sourceTree = "<group>"; };
@@ -494,7 +495,6 @@
 		50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTitleLabel.swift; path = Views/Labels/NavigationTitleLabel.swift; sourceTree = "<group>"; };
 		50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Yep.swift"; path = "Extensions/UIViewController+Yep.swift"; sourceTree = "<group>"; };
 		6A649A9A1BB259CB00EE4FB5 /* YepSoundEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepSoundEffect.swift; path = Helpers/YepSoundEffect.swift; sourceTree = "<group>"; };
-		6A649A9C1BB25BF100EE4FB5 /* bub3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = bub3.caf; sourceTree = "<group>"; };
 		6ADDB44F1B848C600012877A /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = 1Password.xcassets; sourceTree = "<group>"; };
 		8409137C1B7DB173001C89D6 /* FriendRequestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendRequestView.swift; path = Views/FriendRequest/FriendRequestView.swift; sourceTree = "<group>"; };
 		840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepViewController.swift; path = ViewControllers/Show/ShowStepViewController.swift; sourceTree = "<group>"; };
@@ -607,10 +607,10 @@
 		0A8F54AD1AB67D11004AD60E /* Yep */ = {
 			isa = PBXGroup;
 			children = (
-				6A649A9C1BB25BF100EE4FB5 /* bub3.caf */,
 				848806B21B7B0230000C5424 /* Yep.entitlements */,
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
 				0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */,
+				50AFBF4F1BB3A5A1007D19DA /* Sounds */,
 				50E114F51ABBF9D100F13000 /* Realm */,
 				502AE53B1AB871C5005BD199 /* Helpers */,
 				502AE52C1AB819B5005BD199 /* Configs */,
@@ -1515,6 +1515,14 @@
 			name = InfoView;
 			sourceTree = "<group>";
 		};
+		50AFBF4F1BB3A5A1007D19DA /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				50AFBF4D1BB3A594007D19DA /* bub3.caf */,
+			);
+			name = Sounds;
+			sourceTree = "<group>";
+		};
 		50B38FCD1B6B37F90064C132 /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
@@ -1834,7 +1842,7 @@
 				502AE5591AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib in Resources */,
 				5056AD6F1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib in Resources */,
 				506BB7F61AE4E0A500C1A2A0 /* SkillAnnotationHeader.xib in Resources */,
-				6A649A9D1BB25BF100EE4FB5 /* bub3.caf in Resources */,
+				50AFBF4E1BB3A594007D19DA /* bub3.caf in Resources */,
 				5053AD561AF83B0F00B3CBFA /* ChatRightLocationCell.xib in Resources */,
 				50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */,
 				501813261BA07CED0025873C /* Activities.xcassets in Resources */,
