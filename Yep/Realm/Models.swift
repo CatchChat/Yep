@@ -789,9 +789,10 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) 
 
             // 更新 Social Account Provider
 
-            user.socialAccountProviders.removeAll()
-
             if let providersInfo = userInfo["providers"] as? [String: Bool] {
+
+                user.socialAccountProviders.removeAll()
+
                 for (name, enabled) in providersInfo {
                     let provider = UserSocialAccountProvider()
                     provider.name = name
