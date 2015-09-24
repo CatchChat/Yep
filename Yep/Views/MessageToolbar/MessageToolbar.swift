@@ -74,6 +74,7 @@ class MessageToolbar: UIToolbar {
                 messageTextView.hidden = false
                 voiceRecordButton.hidden = true
                 micButton.setImage(UIImage(named: "item_mic"), forState: .Normal)
+                moreButton.setImage(UIImage(named: "item_more"), forState: .Normal)
 
                 micButton.tintColor = UIColor.messageToolBarHighlightColor()
                 moreButton.tintColor = UIColor.messageToolBarHighlightColor()
@@ -83,6 +84,7 @@ class MessageToolbar: UIToolbar {
             case .BeginTextInput:
                 moreButton.hidden = false
                 sendButton.hidden = true
+                moreButton.setImage(UIImage(named: "item_more"), forState: .Normal)
 
             case .TextInputing:
                 moreButton.hidden = true
@@ -103,6 +105,7 @@ class MessageToolbar: UIToolbar {
                 messageTextView.text = nil
 
                 micButton.setImage(UIImage(named: "icon_keyboard"), forState: .Normal)
+                moreButton.setImage(UIImage(named: "item_more"), forState: .Normal)
 
                 micButton.tintColor = UIColor.messageToolBarNormalColor()
                 moreButton.tintColor = UIColor.messageToolBarNormalColor()
@@ -110,7 +113,7 @@ class MessageToolbar: UIToolbar {
                 showVoiceButtonAnimation()
 
             case .MoreMessages:
-                break
+                moreButton.setImage(UIImage(named: "item_less"), forState: .Normal)
             }
 
             updateHeightOfMessageTextView()
