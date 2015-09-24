@@ -272,8 +272,9 @@ enum ProfileUser {
         case .UserType(let user):
 
             if user.friendState == UserFriendState.Me.rawValue {
-                let provider = user.socialAccountProviders[indexPath.row]
-                providerName = provider.name
+                if let provider = user.socialAccountProviders[safe: indexPath.row] {
+                    providerName = provider.name
+                }
 
             } else {
                 if let provider = user.socialAccountProviders.filter("enabled = true")[safe: indexPath.row] {
@@ -287,20 +288,7 @@ enum ProfileUser {
 
     var needSeparationLine: Bool {
 
-        var need = true
-
-        switch self {
-
-        case .DiscoveredUserType(let discoveredUser):
-            need = discoveredUser.socialAccountProviders.filter({ $0.enabled }).count > 0
-
-        case .UserType(let user):
-            if user.friendState != UserFriendState.Me.rawValue {
-                need = user.socialAccountProviders.filter("enabled = true").count > 0
-            }
-        }
-
-        return need
+        return providersCount > 0
     }
 }
 
@@ -508,6 +496,8 @@ class ProfileViewController: UIViewController {
 
                     masterSkills = skillsFromUserSkillList(user.masterSkills)
                     learningSkills = skillsFromUserSkillList(user.learningSkills)
+
+                    updateProfileCollectionView()
                 }
 
             default:
@@ -526,6 +516,8 @@ class ProfileViewController: UIViewController {
 
                     masterSkills = skillsFromUserSkillList(me.masterSkills)
                     learningSkills = skillsFromUserSkillList(me.learningSkills)
+
+                    updateProfileCollectionView()
             }
         }
 
@@ -626,23 +618,26 @@ class ProfileViewController: UIViewController {
 
                 let userID = profileUser.userID
 
-                userInfoOfUserWithUserID(userID, failureHandler: nil, completion: { [weak self] userInfo in
+                userInfoOfUserWithUserID(userID, failureHandler: nil, completion: { userInfo in
                     //println("userInfoOfUserWithUserID \(userInfo)")
 
                     // 对非好友来说，必要
 
-                    updateUserWithUserID(userID, useUserInfo: userInfo)
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
-                    if let discoveredUser = parseDiscoveredUser(userInfo) {
-                        switch profileUser {
-                        case .DiscoveredUserType:
-                            self?.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
-                        default:
-                            break
+                        updateUserWithUserID(userID, useUserInfo: userInfo)
+
+                        if let discoveredUser = parseDiscoveredUser(userInfo) {
+                            switch profileUser {
+                            case .DiscoveredUserType:
+                                self?.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                            default:
+                                break
+                            }
                         }
+                        
+                        self?.updateProfileCollectionView()
                     }
-
-                    self?.updateProfileCollectionView()
                 })
             }
 
@@ -1224,7 +1219,8 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return 1
 
         case ProfileSection.SeparationLine.rawValue:
-            return 1
+            let needSeparationLine = profileUser?.needSeparationLine ?? false
+            return needSeparationLine ? 1 : 0
             
         case ProfileSection.SocialAccount.rawValue:
             return profileUser?.providersCount ?? 0
@@ -1454,9 +1450,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.SeparationLine.rawValue:
 
-            let enabled = profileUser?.needSeparationLine ?? true
-
-            return enabled ? CGSize(width: collectionViewWidth, height: 1) : CGSizeZero
+            return CGSize(width: collectionViewWidth, height: 1)
             
         case ProfileSection.SocialAccount.rawValue:
 
