@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var deviceToken: NSData?
     var notRegisteredPush = true
 
-    var isFirstActive = true
+    private var isFirstActive = true
 
     enum LaunchStyle {
         case Default
@@ -73,18 +73,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         cacheInAdvance()
 
-        delay(0.5, work: {
+        delay(0.5) {
             // 推送初始化
             APService.setupWithOption(launchOptions)
-        })
-        
-        do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
-        } catch _ {
         }
         
-        application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+        let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
 
+        application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
 
         // 全局的外观自定义
         customAppearce()
@@ -95,20 +91,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             startShowStory()
         }
 
-//        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
-//        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickSkillsViewController") as! RegisterPickSkillsViewController
-//        window?.rootViewController = rootViewController
-
-//        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
-//        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickAvatarViewController") as! RegisterPickAvatarViewController
-//        window?.rootViewController = UINavigationController(rootViewController: rootViewController)
-
         if isLogined {
             sync()
 
             startFaye()
 
-            // 记录从启动通知类型
+            // 记录启动通知类型
             if let
                 notification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? UILocalNotification,
                 userInfo = notification.userInfo,
@@ -121,15 +109,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillResignActive(application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-        
+
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 
         NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
     }
@@ -139,12 +123,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 
         if !isFirstActive {
             if YepUserDefaults.isLogined {
-                syncUnreadMessages() {
-                }
+                syncUnreadMessages() {}
             }
         }
 
@@ -166,7 +148,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         syncUnreadMessages() {
             completionHandler(UIBackgroundFetchResult.NewData)
         }
-        
     }
 
     // MARK: APNs
@@ -186,44 +167,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], withResponseInfo responseInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
-        if #available(iOS 9.0, *) {
-            if identifier == YepNotificationCommentAction,
-                let response = responseInfo[UIUserNotificationActionResponseTypedTextKey],
-                responseText = response as? String {
-                    
-                    println(responseText)
-                    
-            } else if identifier == YepNotificationOKAction {
-                sendMessageWithUserInfo(userInfo, responseText: "OK")
+
+        defer {
+            completionHandler()
+        }
+
+        guard #available(iOS 9, *) else {
+            return
+        }
+
+        guard let identifier = identifier else {
+            return
+        }
+
+        switch identifier {
+
+        case YepNotificationCommentAction:
+
+            if let responseText = responseInfo[UIUserNotificationActionResponseTypedTextKey] as? String {
+                println(responseText)
             }
-        } else {
-            // Fallback on earlier versions
-        }
-        completionHandler()
-    }
-    
-    func sendMessageWithUserInfo(userInfo: [NSObject: AnyObject], responseText: String) {
-        
-        if let type = userInfo["recipient_type"] as? String,
-            recipient_id =  userInfo["recipient_id"] as? String {
-                
-                if type == "User" {
-                    
-                    print("Send Message \(responseText) to \(recipient_id)")
-                    
-                    sendText(responseText, toRecipient: recipient_id, recipientType: "User", afterCreatedMessage: { message in
-                        
-                        }, failureHandler: { reason, errorMessage in
-                            defaultFailureHandler(reason, errorMessage: errorMessage)
-                            
-                        }, completion: { success in
-                            println("sendText to friend: \(success)")
-                    })
-                    
-                }
-                
+
+        case YepNotificationOKAction:
+
+            sendMessageWithUserInfo(userInfo, responseText: "OK")
+
+        default:
+            break
         }
     }
+
 
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
 
@@ -276,20 +249,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    func syncUnreadMessages(furtherAction: () -> Void) {
-        syncUnreadMessagesAndDoFurtherAction() { messageIDs in
-            furtherAction()
-            dispatch_async(dispatch_get_main_queue()) {
-                let object = ["messageIDs": messageIDs]
-                NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: object)
-            }
-        }
-    }
 
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         println(error.description)
     }
-    
+
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+
+        if MonkeyKing.handleOpenURL(url) {
+            return true
+        }
+
+        return false
+    }
 
     // MARK: Public
 
@@ -336,7 +308,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FayeService.sharedManager.startConnect()
     }
 
-    func cacheInAdvance() {
+    func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {
+        APService.registerDeviceToken(deviceToken)
+        APService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector:nil, object: nil)
+    }
+
+    func tagsAliasCallback(iResCode: Int, tags: NSSet, alias: NSString) {
+        println("tagsAliasCallback \(iResCode), \(tags), \(alias)")
+    }
+
+    // MARK: Private
+
+    private func sendMessageWithUserInfo(userInfo: [NSObject: AnyObject], responseText: String) {
+
+        guard let
+            recipientType = userInfo["recipient_type"] as? String,
+            recipientID = userInfo["recipient_id"] as? String else {
+                return
+        }
+
+        if recipientType == "User" {
+
+            println("try reply \"\(responseText)\" to [\(recipientType): \(recipientID)]")
+
+            sendText(responseText, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
+                println("reply to [\(recipientType): \(recipientID)], \(success)")
+            })
+        }
+    }
+
+    private func syncUnreadMessages(furtherAction: () -> Void) {
+
+        syncUnreadMessagesAndDoFurtherAction() { messageIDs in
+            dispatch_async(dispatch_get_main_queue()) {
+                let object = ["messageIDs": messageIDs]
+                NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: object)
+
+                furtherAction()
+            }
+        }
+    }
+
+    private func cacheInAdvance() {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
 
@@ -356,17 +369,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
-    func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {
-        APService.registerDeviceToken(deviceToken)
-        APService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector:nil, object: nil)
-    }
-
-    func tagsAliasCallback(iResCode: Int, tags: NSSet, alias: NSString) {
-        println("tagsAliasCallback \(iResCode), \(tags), \(alias)")
-    }
-
-    // MARK: Private
 
     private func customAppearce() {
 
@@ -394,11 +396,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSShadowAttributeName: shadow,
             NSFontAttributeName: UIFont.navigationBarTitleFont()
         ]
-        
-//        let barButtonTextAttributes = [
-//            NSForegroundColorAttributeName: UIColor.yepTintColor(),
-//            NSFontAttributeName: UIFont.barButtonFont()
-//        ]
+
+        /*
+        let barButtonTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.yepTintColor(),
+            NSFontAttributeName: UIFont.barButtonFont()
+        ]
+        */
 
         UINavigationBar.appearance().titleTextAttributes = textAttributes
         UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
@@ -414,15 +418,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().tintColor = UIColor.yepTintColor()
         UITabBar.appearance().barTintColor = UIColor.whiteColor()
         //UITabBar.appearance().translucent = false
-    }
-
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-
-        if MonkeyKing.handleOpenURL(url) {
-            return true
-        }
-        
-        return false
     }
 }
 
