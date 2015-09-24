@@ -419,6 +419,12 @@ func userSkillCategoryWithSkillCategoryID(skillCategoryID: String, inRealm realm
 
 func userWithUserID(userID: String, inRealm realm: Realm) -> User? {
     let predicate = NSPredicate(format: "userID = %@", userID)
+
+    let users = realm.objects(User).filter(predicate)
+    if users.count > 1 {
+        println("Warning: same userID: \(users.count), \(userID)")
+    }
+
     return realm.objects(User).filter(predicate).first
 }
 
@@ -783,9 +789,10 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) 
 
             // 更新 Social Account Provider
 
-            user.socialAccountProviders.removeAll()
-
             if let providersInfo = userInfo["providers"] as? [String: Bool] {
+
+                user.socialAccountProviders.removeAll()
+
                 for (name, enabled) in providersInfo {
                     let provider = UserSocialAccountProvider()
                     provider.name = name
@@ -797,3 +804,4 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) 
         }
     }
 }
+
