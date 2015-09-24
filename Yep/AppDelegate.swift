@@ -185,8 +185,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         case YepNotificationCommentAction:
 
-            if let responseText = responseInfo[UIUserNotificationActionResponseTypedTextKey] as? String {
-                println(responseText)
+            if let replyText = responseInfo[UIUserNotificationActionResponseTypedTextKey] as? String {
+                tryReplyText(replyText, withUserInfo: userInfo)
             }
 
         case YepNotificationOKAction:
