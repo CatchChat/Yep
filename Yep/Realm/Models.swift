@@ -798,8 +798,6 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) 
                     provider.name = name
                     provider.enabled = enabled
 
-                    realm.add(provider)
-
                     user.socialAccountProviders.append(provider)
                 }
             }
