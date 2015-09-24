@@ -98,7 +98,8 @@ class ConversationViewController: BaseViewController {
         }()
 
     lazy var waverView: YepWaverView = {
-        let view = YepWaverView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - self.messageToolbar.frame.size.height))
+        let frame = self.view.bounds
+        let view = YepWaverView(frame: frame)
 
         view.waver.waverCallback = { waver in
 
@@ -126,6 +127,7 @@ class ConversationViewController: BaseViewController {
     @IBOutlet weak var messageToolbar: MessageToolbar!
     @IBOutlet weak var messageToolbarBottomConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var moreMessageTypesView: UIView!
     @IBOutlet weak var moreMessageTypesViewHeightConstraint: NSLayoutConstraint!
     let moreMessageTypesViewDefaultHeight: CGFloat = 110
 
@@ -642,6 +644,8 @@ class ConversationViewController: BaseViewController {
                     strongSelf.swipeUpPromptLabel.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
                     strongSelf.swipeUpView.hidden = false
                     strongSelf.view.bringSubviewToFront(strongSelf.swipeUpView)
+                    strongSelf.view.bringSubviewToFront(strongSelf.messageToolbar)
+                    strongSelf.view.bringSubviewToFront(strongSelf.moreMessageTypesView)
 
                     let audioFileName = NSUUID().UUIDString
 
