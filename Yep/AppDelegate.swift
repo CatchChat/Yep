@@ -65,6 +65,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    // MARK: Life Circle
+
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         Fabric.with([Crashlytics.self()])
@@ -87,10 +89,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let isLogined = YepUserDefaults.isLogined
 
-        if !isLogined {
-            startShowStory()
-        }
-
         if isLogined {
             sync()
 
@@ -103,6 +101,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 type = userInfo["type"] as? String {
                     remoteNotificationType = RemoteNotificationType(rawValue: type)
             }
+
+        } else {
+            startShowStory()
         }
 
         return true
@@ -142,15 +143,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-    
+
+    // MARK: APNs
+
     func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
 
         syncUnreadMessages() {
             completionHandler(UIBackgroundFetchResult.NewData)
         }
     }
-
-    // MARK: APNs
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
 
@@ -250,8 +251,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+
         println(error.description)
     }
+
+    // MARK: Open URL
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
 
@@ -265,6 +269,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Public
 
     func startShowStory() {
+
         let storyboard = UIStoryboard(name: "Show", bundle: nil)
         let rootViewController = storyboard.instantiateViewControllerWithIdentifier("ShowNavigationController") as! UINavigationController
         window?.rootViewController = rootViewController
@@ -272,6 +277,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     /*
     func startIntroStory() {
+
         let storyboard = UIStoryboard(name: "Intro", bundle: nil)
         let rootViewController = storyboard.instantiateViewControllerWithIdentifier("IntroNavigationController") as! UINavigationController
         window?.rootViewController = rootViewController
@@ -279,12 +285,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     */
 
     func startMainStory() {
+
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let rootViewController = storyboard.instantiateViewControllerWithIdentifier("MainTabBarController") as! UITabBarController
         window?.rootViewController = rootViewController
     }
 
     func sync() {
+
         syncMyInfoAndDoFurtherAction {
             syncFriendshipsAndDoFurtherAction {
                 syncGroupsAndDoFurtherAction {
@@ -304,15 +312,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func startFaye() {
+
         FayeService.sharedManager.startConnect()
     }
 
     func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {
+
         APService.registerDeviceToken(deviceToken)
         APService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector:nil, object: nil)
     }
 
     func tagsAliasCallback(iResCode: Int, tags: NSSet, alias: NSString) {
+
         println("tagsAliasCallback \(iResCode), \(tags), \(alias)")
     }
 
@@ -339,6 +350,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func syncUnreadMessages(furtherAction: () -> Void) {
 
         syncUnreadMessagesAndDoFurtherAction() { messageIDs in
+
             dispatch_async(dispatch_get_main_queue()) {
                 let object = ["messageIDs": messageIDs]
                 NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: object)
