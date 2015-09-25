@@ -24,8 +24,9 @@ class FeedsViewController: UIViewController {
     }
     let fakeFeeds: [FakeFeed] = [
         FakeFeed(mediaCount: 1, message: "My name is NIX."),
-        FakeFeed(mediaCount: 2, message: "My name is NIX.\nHow are you?"),
+        FakeFeed(mediaCount: 0, message: "My name is NIX.\nHow are you?"),
         FakeFeed(mediaCount: 3, message: "My name is NIX.\nHow are you?\nWhould you like to go to China buy iPhone?"),
+        FakeFeed(mediaCount: 0, message: "My name is NIX.\nHow are you?\nWhould you like to go to China buy iPhone?"),
         FakeFeed(mediaCount: 4, message: "Whould you like to go to China buy iPhone?"),
         FakeFeed(mediaCount: 5, message: "998"),
     ]
@@ -34,9 +35,12 @@ class FeedsViewController: UIViewController {
 
         let rect = feed.message.boundingRectWithSize(CGSize(width: FeedCell.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
-        let height = rect.height + 10 + 40 + 4 + 10 + 80 + 10 + 20.5
-
-        println(height)
+        let height: CGFloat
+        if feed.mediaCount > 0 {
+            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 80 + 10 + 20.5 + 10
+        } else {
+            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 20.5 + 10
+        }
 
         return ceil(height)
     }
@@ -72,6 +76,8 @@ extension FeedsViewController: UICollectionViewDataSource, UICollectionViewDeleg
         let feed = fakeFeeds[indexPath.item]
 
         cell.configureWithFeed(feed)
+
+        cell.backgroundColor = indexPath.item % 2 == 0 ? UIColor.yellowColor() : UIColor.purpleColor()
 
         return cell
     }

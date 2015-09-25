@@ -40,9 +40,9 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="UU0-sb-5Ol">
-                        <rect key="frame" x="60" y="85" width="359" height="75"/>
+                        <rect key="frame" x="60" y="85" width="359" height="80"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="75" id="LMa-Ae-OIq"/>
+                            <constraint firstAttribute="height" constant="80" id="LMa-Ae-OIq"/>
                         </constraints>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="0.0" id="2DI-sh-Uhk">
                             <size key="itemSize" width="50" height="50"/>
@@ -52,16 +52,16 @@
                         </collectionViewFlowLayout>
                     </collectionView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 hours ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="upt-ad-rf2" userLabel="Time Label">
-                        <rect key="frame" x="60" y="170" width="91" height="20.5"/>
+                        <rect key="frame" x="60" y="174.5" width="91" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_discussion" translatesAutoresizingMaskIntoConstraints="NO" id="OLa-Uh-bY9">
-                        <rect key="frame" x="379" y="171" width="30" height="19"/>
+                        <rect key="frame" x="379" y="175.5" width="30" height="19"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="42" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wHI-jf-JoM" userLabel="Message Count Label">
-                        <rect key="frame" x="348" y="170" width="20.5" height="20.5"/>
+                        <rect key="frame" x="348" y="174.5" width="20.5" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -71,6 +71,7 @@
             </view>
             <constraints>
                 <constraint firstItem="wHI-jf-JoM" firstAttribute="centerY" secondItem="OLa-Uh-bY9" secondAttribute="centerY" id="0qG-Zl-7h9"/>
+                <constraint firstItem="upt-ad-rf2" firstAttribute="top" secondItem="wz4-2S-kb0" secondAttribute="bottom" constant="100" id="2hI-75-j94"/>
                 <constraint firstItem="upt-ad-rf2" firstAttribute="leading" secondItem="UU0-sb-5Ol" secondAttribute="leading" id="5ny-Ol-UT1"/>
                 <constraint firstAttribute="trailing" secondItem="UU0-sb-5Ol" secondAttribute="trailing" id="5zM-b9-1dN"/>
                 <constraint firstItem="4Ua-MT-dEu" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="ACC-6G-IvC"/>
@@ -83,7 +84,6 @@
                 <constraint firstAttribute="trailing" secondItem="KKP-NL-yjI" secondAttribute="trailing" constant="10" id="Vpe-Eu-jQ0"/>
                 <constraint firstItem="wz4-2S-kb0" firstAttribute="leading" secondItem="V6O-gn-uhp" secondAttribute="leading" id="WdE-IH-c9b"/>
                 <constraint firstItem="UU0-sb-5Ol" firstAttribute="leading" secondItem="wz4-2S-kb0" secondAttribute="leading" id="bBM-HB-unt"/>
-                <constraint firstItem="upt-ad-rf2" firstAttribute="top" secondItem="UU0-sb-5Ol" secondAttribute="bottom" constant="10" id="hne-qV-RRC"/>
                 <constraint firstItem="V6O-gn-uhp" firstAttribute="centerY" secondItem="4Ua-MT-dEu" secondAttribute="centerY" id="jRO-fZ-3of"/>
                 <constraint firstItem="OLa-Uh-bY9" firstAttribute="trailing" secondItem="KKP-NL-yjI" secondAttribute="trailing" id="lBr-S4-Oje"/>
                 <constraint firstItem="wz4-2S-kb0" firstAttribute="top" secondItem="4Ua-MT-dEu" secondAttribute="bottom" constant="4" id="tA9-UA-uBf"/>
@@ -96,6 +96,7 @@
                 <outlet property="mediaCollectionView" destination="UU0-sb-5Ol" id="AkG-ki-m1S"/>
                 <outlet property="messageCountLabel" destination="wHI-jf-JoM" id="zKc-Y9-QeX"/>
                 <outlet property="messageLabel" destination="wz4-2S-kb0" id="yCc-Ha-vTT"/>
+                <outlet property="messageLabelTopConstraint" destination="2hI-75-j94" id="05P-cX-q9C"/>
                 <outlet property="nicknameLabel" destination="V6O-gn-uhp" id="xPi-1C-YOv"/>
                 <outlet property="timeLabel" destination="upt-ad-rf2" id="N5b-0C-jCn"/>
             </connections>

@@ -13,8 +13,12 @@ class FeedCell: UICollectionViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
+
     @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var messageLabelTopConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var mediaCollectionView: UICollectionView!
+
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var messageCountLabel: UILabel!
 
@@ -44,6 +48,10 @@ class FeedCell: UICollectionViewCell {
 
     func configureWithFeed(feed: FeedsViewController.FakeFeed) {
         messageLabel.text = feed.message
+
+        let hasMedia = feed.mediaCount > 0
+        messageLabelTopConstraint.constant = hasMedia ? 100 : 10
+        mediaCollectionView.hidden = hasMedia ? false : true
     }
 }
 
