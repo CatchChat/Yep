@@ -18,6 +18,29 @@ class FeedsViewController: UIViewController {
 
     let feedCellID = "FeedCell"
 
+    struct FakeFeed {
+        let mediaCount: Int
+        let message: String
+    }
+    let fakeFeeds: [FakeFeed] = [
+        FakeFeed(mediaCount: 1, message: "My name is NIX."),
+        FakeFeed(mediaCount: 2, message: "My name is NIX.\nHow are you?"),
+        FakeFeed(mediaCount: 3, message: "My name is NIX.\nHow are you?\nWhould you like to go to China buy iPhone?"),
+        FakeFeed(mediaCount: 4, message: "Whould you like to go to China buy iPhone?"),
+        FakeFeed(mediaCount: 5, message: "998"),
+    ]
+
+    private func heightOfFeed(feed: FakeFeed) -> CGFloat {
+
+        let rect = feed.message.boundingRectWithSize(CGSize(width: FeedCell.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+
+        let height = rect.height + 10 + 40 + 4 + 10 + 80 + 10 + 20.5
+
+        println(height)
+
+        return ceil(height)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -40,17 +63,24 @@ extension FeedsViewController: UICollectionViewDataSource, UICollectionViewDeleg
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 15
+        return fakeFeeds.count
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedCellID, forIndexPath: indexPath) as! FeedCell
+
+        let feed = fakeFeeds[indexPath.item]
+
+        cell.configureWithFeed(feed)
+
         return cell
     }
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        return CGSize(width: collectionViewWidth, height: 200)
+        let feed = fakeFeeds[indexPath.item]
+
+        return CGSize(width: collectionViewWidth, height: heightOfFeed(feed))
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {

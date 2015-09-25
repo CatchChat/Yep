@@ -18,6 +18,11 @@ class FeedCell: UICollectionViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var messageCountLabel: UILabel!
 
+    static let messageLabelMaxWidth: CGFloat = {
+        let maxWidth = UIScreen.mainScreen().bounds.width - (60 + 10)
+        return maxWidth
+        }()
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -29,10 +34,16 @@ class FeedCell: UICollectionViewCell {
         timeLabel.backgroundColor = UIColor.redColor()
         messageCountLabel.backgroundColor = UIColor.redColor()
 
+        messageLabel.font = UIFont.feedMessageFont()
+        
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 
         mediaCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+    }
+
+    func configureWithFeed(feed: FeedsViewController.FakeFeed) {
+        messageLabel.text = feed.message
     }
 }
 
