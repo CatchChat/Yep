@@ -197,6 +197,7 @@
 		50AFBF491BB2830E007D19DA /* EdgeBorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AFBF481BB2830E007D19DA /* EdgeBorderButton.swift */; settings = {ASSET_TAGS = (); }; };
 		50AFBF4B1BB2A44C007D19DA /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AFBF4A1BB2A44C007D19DA /* InfoView.swift */; settings = {ASSET_TAGS = (); }; };
 		50AFBF4E1BB3A594007D19DA /* bub3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 50AFBF4D1BB3A594007D19DA /* bub3.caf */; settings = {ASSET_TAGS = (); }; };
+		50AFBF5F1BB4F332007D19DA /* FeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AFBF5E1BB4F332007D19DA /* FeedsViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		50B38FB71B69CD960064C132 /* Array+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FB61B69CD960064C132 /* Array+Yep.swift */; };
 		50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */; };
 		50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */; };
@@ -459,6 +460,7 @@
 		50AFBF481BB2830E007D19DA /* EdgeBorderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EdgeBorderButton.swift; path = Views/Buttons/EdgeBorderButton.swift; sourceTree = "<group>"; };
 		50AFBF4A1BB2A44C007D19DA /* InfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoView.swift; path = Views/InfoView/InfoView.swift; sourceTree = "<group>"; };
 		50AFBF4D1BB3A594007D19DA /* bub3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = bub3.caf; path = Sounds/bub3.caf; sourceTree = "<group>"; };
+		50AFBF5E1BB4F332007D19DA /* FeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedsViewController.swift; path = ViewControllers/Feeds/FeedsViewController.swift; sourceTree = "<group>"; };
 		50B38FB61B69CD960064C132 /* Array+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Yep.swift"; path = "Extensions/Array+Yep.swift"; sourceTree = "<group>"; };
 		50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedbackViewController.swift; path = ViewControllers/Feedback/FeedbackViewController.swift; sourceTree = "<group>"; };
 		50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepDownloader.swift; path = Services/YepDownloader.swift; sourceTree = "<group>"; };
@@ -789,6 +791,7 @@
 				0A943A7C1B0F8EB10022DD67 /* Base */,
 				0AB8F79B1B15D1DF00F4AF09 /* Nav */,
 				848806B71B7B4F58000C5424 /* Show */,
+				50AFBF601BB4F33A007D19DA /* Feeds */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1523,6 +1526,14 @@
 			name = Sounds;
 			sourceTree = "<group>";
 		};
+		50AFBF601BB4F33A007D19DA /* Feeds */ = {
+			isa = PBXGroup;
+			children = (
+				50AFBF5E1BB4F332007D19DA /* FeedsViewController.swift */,
+			);
+			name = Feeds;
+			sourceTree = "<group>";
+		};
 		50B38FCD1B6B37F90064C132 /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
@@ -2037,6 +2048,7 @@
 				505EC81C1ADFBE1B001D27E0 /* SkillSelectionCell.swift in Sources */,
 				5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */,
 				508F8FD41B01E3D100461B0B /* SocialWorkDribbbleViewController.swift in Sources */,
+				50AFBF5F1BB4F332007D19DA /* FeedsViewController.swift in Sources */,
 				50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */,
 				502AE5331AB86020005BD199 /* RegisterVerifyMobileViewController.swift in Sources */,
 				5064F6541B0B0E160089FAD4 /* AddFriendSearchCell.swift in Sources */,

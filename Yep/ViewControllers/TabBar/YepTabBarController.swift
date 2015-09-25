@@ -44,6 +44,7 @@ class YepTabBarController: UITabBarController {
                 NSLocalizedString("Contacts", comment: ""),
                 NSLocalizedString("Discover", comment: ""),
                 NSLocalizedString("Profile", comment: ""),
+                NSLocalizedString("Feeds", comment: ""),
             ]
 
             for i in 0..<items.count {
