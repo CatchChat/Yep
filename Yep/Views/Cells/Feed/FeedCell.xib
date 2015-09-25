@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FeedCell" id="gTV-IL-0wX" customClass="FeedCell" customModule="Yep" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="419" height="200"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="419" height="200"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4Ua-MT-dEu" userLabel="Avatar Image View">
+                        <rect key="frame" x="10" y="10" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="4Ua-MT-dEu" secondAttribute="height" multiplier="1:1" id="KDc-Lz-yZm"/>
+                            <constraint firstAttribute="width" constant="40" id="Onx-bE-aNw"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NIX" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V6O-gn-uhp" userLabel="Nickname Label">
+                        <rect key="frame" x="60" y="19" width="28" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.2 km" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KKP-NL-yjI" userLabel="Distance Label">
+                        <rect key="frame" x="360" y="19" width="49" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How do you do?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wz4-2S-kb0">
+                        <rect key="frame" x="60" y="54" width="123" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="UU0-sb-5Ol">
+                        <rect key="frame" x="60" y="85" width="359" height="75"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="75" id="LMa-Ae-OIq"/>
+                        </constraints>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="2DI-sh-Uhk">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                    </collectionView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 hours ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="upt-ad-rf2" userLabel="Time Label">
+                        <rect key="frame" x="60" y="170" width="91" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_discussion" translatesAutoresizingMaskIntoConstraints="NO" id="OLa-Uh-bY9">
+                        <rect key="frame" x="379" y="171" width="30" height="19"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="42" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wHI-jf-JoM" userLabel="Message Count Label">
+                        <rect key="frame" x="348" y="170" width="20.5" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="wHI-jf-JoM" firstAttribute="centerY" secondItem="OLa-Uh-bY9" secondAttribute="centerY" id="0qG-Zl-7h9"/>
+                <constraint firstItem="upt-ad-rf2" firstAttribute="leading" secondItem="UU0-sb-5Ol" secondAttribute="leading" id="5ny-Ol-UT1"/>
+                <constraint firstAttribute="trailing" secondItem="UU0-sb-5Ol" secondAttribute="trailing" id="5zM-b9-1dN"/>
+                <constraint firstItem="4Ua-MT-dEu" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="ACC-6G-IvC"/>
+                <constraint firstItem="OLa-Uh-bY9" firstAttribute="leading" secondItem="wHI-jf-JoM" secondAttribute="trailing" constant="10" id="Akp-dO-fKe"/>
+                <constraint firstAttribute="bottom" secondItem="upt-ad-rf2" secondAttribute="bottom" constant="10" id="GJs-Bx-wMw"/>
+                <constraint firstItem="4Ua-MT-dEu" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="JuJ-dQ-Jqw"/>
+                <constraint firstItem="KKP-NL-yjI" firstAttribute="centerY" secondItem="V6O-gn-uhp" secondAttribute="centerY" id="Q2y-4Y-8d1"/>
+                <constraint firstItem="V6O-gn-uhp" firstAttribute="leading" secondItem="4Ua-MT-dEu" secondAttribute="trailing" constant="10" id="SxF-ab-XLL"/>
+                <constraint firstItem="wz4-2S-kb0" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="KKP-NL-yjI" secondAttribute="trailing" id="UnC-Im-f2w"/>
+                <constraint firstItem="UU0-sb-5Ol" firstAttribute="top" secondItem="wz4-2S-kb0" secondAttribute="bottom" constant="10" id="Uqs-gP-6VO"/>
+                <constraint firstAttribute="trailing" secondItem="KKP-NL-yjI" secondAttribute="trailing" constant="10" id="Vpe-Eu-jQ0"/>
+                <constraint firstItem="wz4-2S-kb0" firstAttribute="leading" secondItem="V6O-gn-uhp" secondAttribute="leading" id="WdE-IH-c9b"/>
+                <constraint firstItem="UU0-sb-5Ol" firstAttribute="leading" secondItem="wz4-2S-kb0" secondAttribute="leading" id="bBM-HB-unt"/>
+                <constraint firstItem="upt-ad-rf2" firstAttribute="top" secondItem="UU0-sb-5Ol" secondAttribute="bottom" constant="10" id="hne-qV-RRC"/>
+                <constraint firstItem="V6O-gn-uhp" firstAttribute="centerY" secondItem="4Ua-MT-dEu" secondAttribute="centerY" id="jRO-fZ-3of"/>
+                <constraint firstItem="OLa-Uh-bY9" firstAttribute="trailing" secondItem="KKP-NL-yjI" secondAttribute="trailing" id="lBr-S4-Oje"/>
+                <constraint firstItem="wz4-2S-kb0" firstAttribute="top" secondItem="4Ua-MT-dEu" secondAttribute="bottom" constant="4" id="tA9-UA-uBf"/>
+                <constraint firstItem="OLa-Uh-bY9" firstAttribute="centerY" secondItem="upt-ad-rf2" secondAttribute="centerY" id="y8i-FK-qyF"/>
+            </constraints>
+            <size key="customSize" width="419" height="200"/>
+            <connections>
+                <outlet property="avatarImageView" destination="4Ua-MT-dEu" id="Htw-6Y-afI"/>
+                <outlet property="distanceLabel" destination="KKP-NL-yjI" id="vvt-v9-IOk"/>
+                <outlet property="mediaCollectionView" destination="UU0-sb-5Ol" id="AkG-ki-m1S"/>
+                <outlet property="messageCountLabel" destination="wHI-jf-JoM" id="zKc-Y9-QeX"/>
+                <outlet property="messageLabel" destination="wz4-2S-kb0" id="yCc-Ha-vTT"/>
+                <outlet property="nicknameLabel" destination="V6O-gn-uhp" id="xPi-1C-YOv"/>
+                <outlet property="timeLabel" destination="upt-ad-rf2" id="N5b-0C-jCn"/>
+            </connections>
+            <point key="canvasLocation" x="287.5" y="249"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="icon_discussion" width="30" height="19"/>
+    </resources>
+</document>

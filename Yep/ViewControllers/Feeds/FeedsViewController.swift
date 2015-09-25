@@ -16,12 +16,15 @@ class FeedsViewController: UIViewController {
         return CGRectGetWidth(self.feedsCollectionView.bounds)
         }()
 
+    let feedCellID = "FeedCell"
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("Feeds", comment: "")
 
-        feedsCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        feedsCollectionView.backgroundColor = UIColor.whiteColor()
+        feedsCollectionView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellWithReuseIdentifier: feedCellID)
     }
 
     // MARK: - Navigation
@@ -41,8 +44,7 @@ extension FeedsViewController: UICollectionViewDataSource, UICollectionViewDeleg
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
-        cell.backgroundColor = UIColor.redColor()
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedCellID, forIndexPath: indexPath) as! FeedCell
         return cell
     }
 
