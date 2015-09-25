@@ -42,9 +42,9 @@ class YepTabBarController: UITabBarController {
             let titles = [
                 NSLocalizedString("Chats", comment: ""),
                 NSLocalizedString("Contacts", comment: ""),
+                NSLocalizedString("Feeds", comment: ""),
                 NSLocalizedString("Discover", comment: ""),
                 NSLocalizedString("Profile", comment: ""),
-                NSLocalizedString("Feeds", comment: ""),
             ]
 
             for i in 0..<items.count {
