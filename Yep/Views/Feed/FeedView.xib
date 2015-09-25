@@ -15,7 +15,6 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Hb-fw-n9b" userLabel="Avatar Image View">
                     <rect key="frame" x="10" y="10" width="40" height="40"/>
                     <constraints>
-                        <constraint firstAttribute="width" secondItem="0Hb-fw-n9b" secondAttribute="height" multiplier="1:1" id="FGV-9z-p8b"/>
                         <constraint firstAttribute="width" constant="40" id="ybP-zf-3Yo"/>
                     </constraints>
                 </imageView>
@@ -92,9 +91,12 @@
                 <outlet property="avatarImageView" destination="0Hb-fw-n9b" id="AAN-W3-uXW"/>
                 <outlet property="distanceLabel" destination="ffh-Mx-17Q" id="rwL-f4-mRt"/>
                 <outlet property="mediaCollectionView" destination="umP-Za-loD" id="4wa-a9-jxB"/>
+                <outlet property="messageCountImageView" destination="S5X-ug-XWY" id="Nos-2u-ifS"/>
                 <outlet property="messageCountLabel" destination="NQi-eu-CjC" id="GZA-xe-6jo"/>
                 <outlet property="messageLabel" destination="6i2-Pl-6hN" id="8hF-9H-5JD"/>
+                <outlet property="messageLabelTopConstraint" destination="Jch-Vu-xwA" id="nno-Xq-YwL"/>
                 <outlet property="nicknameLabel" destination="C2E-Yo-twp" id="gHO-Mm-Ycn"/>
+                <outlet property="nicknameLabelCenterYConstraint" destination="lSc-cs-Lug" id="10y-pq-G3V"/>
                 <outlet property="timeLabel" destination="Ix5-dG-THW" id="sGx-zI-RsF"/>
                 <outlet property="timeLabelTopConstraint" destination="mCj-xS-Tud" id="occ-se-7hx"/>
             </connections>

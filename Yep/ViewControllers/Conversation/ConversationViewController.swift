@@ -122,6 +122,7 @@ class ConversationViewController: BaseViewController {
     let samplingInterval = 6
 
     var feedView: FeedView?
+    var dragBeginLocation: CGPoint?
 
     @IBOutlet weak var conversationCollectionView: UICollectionView!
     let conversationCollectionViewContentInsetYOffset: CGFloat = 10
@@ -1042,10 +1043,16 @@ class ConversationViewController: BaseViewController {
         ]
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[feedView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-64-[feedView(==height)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: ["height": FeedView.normalHeight], views: views)
+        //let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-64-[feedView(==height)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: ["height": FeedView.normalHeight], views: views)
+
+        let top = NSLayoutConstraint(item: feedView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1.0, constant: 64)
+        let height = NSLayoutConstraint(item: feedView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: FeedView.normalHeight)
 
         NSLayoutConstraint.activateConstraints(constraintsH)
-        NSLayoutConstraint.activateConstraints(constraintsV)
+        //NSLayoutConstraint.activateConstraints(constraintsV)
+        NSLayoutConstraint.activateConstraints([top, height])
+
+        feedView.heightConstraint = height
 
         self.feedView = feedView
     }
@@ -2491,9 +2498,26 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     // MARK: UIScrollViewDelegate
 
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+
+        let location = scrollView.panGestureRecognizer.locationInView(view)
+        dragBeginLocation = location
+    }
+
     func scrollViewDidScroll(scrollView: UIScrollView) {
 
         pullToRefreshView.scrollViewDidScroll(scrollView)
+
+        if let dragBeginLocation = dragBeginLocation {
+            let location = scrollView.panGestureRecognizer.locationInView(view)
+            let deltaY = location.y - dragBeginLocation.y
+            println(deltaY)
+
+            let fullDeltaHeight = FeedView.normalHeight - FeedView.foldHeight
+            let currentHeight = max(min(FeedView.normalHeight + deltaY, FeedView.normalHeight), FeedView.foldHeight)
+            //feedView?.frame.size.height = currentHeight
+            feedView?.foldProgress = (FeedView.normalHeight - currentHeight) / fullDeltaHeight
+        }
     }
 
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
