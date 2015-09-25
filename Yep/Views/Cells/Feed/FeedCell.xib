@@ -44,7 +44,7 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="75" id="LMa-Ae-OIq"/>
                         </constraints>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="2DI-sh-Uhk">
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="0.0" id="2DI-sh-Uhk">
                             <size key="itemSize" width="50" height="50"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>

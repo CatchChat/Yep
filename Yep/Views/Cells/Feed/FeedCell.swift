@@ -11,19 +11,12 @@ import UIKit
 class FeedCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
-
     @IBOutlet weak var nicknameLabel: UILabel!
-
     @IBOutlet weak var distanceLabel: UILabel!
-
     @IBOutlet weak var messageLabel: UILabel!
-
     @IBOutlet weak var mediaCollectionView: UICollectionView!
-
     @IBOutlet weak var timeLabel: UILabel!
-
     @IBOutlet weak var messageCountLabel: UILabel!
-
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,6 +28,37 @@ class FeedCell: UICollectionViewCell {
         mediaCollectionView.backgroundColor = UIColor.redColor()
         timeLabel.backgroundColor = UIColor.redColor()
         messageCountLabel.backgroundColor = UIColor.redColor()
+
+        mediaCollectionView.dataSource = self
+        mediaCollectionView.delegate = self
+
+        mediaCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+    }
+}
+
+extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegate {
+
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 15
+    }
+
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
+        cell.backgroundColor = UIColor.greenColor()
+        return cell
+    }
+
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+
+        return CGSize(width: 80, height: 80)
+    }
+
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 }
 
