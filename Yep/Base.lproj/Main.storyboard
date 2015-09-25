@@ -1574,9 +1574,34 @@
                     <view key="view" contentMode="scaleToFill" id="aTs-V4-FkM">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Tuy-Vc-gDL">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="FkS-Hc-62O">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="W3w-jm-aNI" id="fF1-l9-6uA"/>
+                                    <outlet property="delegate" destination="W3w-jm-aNI" id="ixO-Bf-jeR"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Tuy-Vc-gDL" firstAttribute="top" secondItem="aTs-V4-FkM" secondAttribute="top" id="ZJg-mo-Jd6"/>
+                            <constraint firstItem="Tuy-Vc-gDL" firstAttribute="leading" secondItem="aTs-V4-FkM" secondAttribute="leading" id="lGY-nz-iZZ"/>
+                            <constraint firstAttribute="trailing" secondItem="Tuy-Vc-gDL" secondAttribute="trailing" id="na0-Yn-PHa"/>
+                            <constraint firstAttribute="bottom" secondItem="Tuy-Vc-gDL" secondAttribute="bottom" id="pJE-9F-fNv"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="LaU-sr-um0"/>
+                    <connections>
+                        <outlet property="feedsCollectionView" destination="Tuy-Vc-gDL" id="uv6-en-GgH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ETW-Em-Kw5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
