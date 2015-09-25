@@ -10,6 +10,12 @@ import UIKit
 
 class FeedView: UIView {
 
+    static let normalHeight: CGFloat = 200
+
+    class func instanceFromNib() -> FeedView {
+        return UINib(nibName: "FeedView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! FeedView
+    }
+
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!

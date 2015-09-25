@@ -120,7 +120,9 @@ class ConversationViewController: BaseViewController {
         }()
     var samplesCount = 0
     let samplingInterval = 6
-    
+
+    var feedView: FeedView?
+
     @IBOutlet weak var conversationCollectionView: UICollectionView!
     let conversationCollectionViewContentInsetYOffset: CGFloat = 10
 
@@ -336,6 +338,9 @@ class ConversationViewController: BaseViewController {
         }
 
         if isFirstAppear {
+
+            // test
+            makeFeedView()
 
             // 为记录草稿准备
 
@@ -1024,6 +1029,27 @@ class ConversationViewController: BaseViewController {
         }
     }
 
+    private func makeFeedView() {
+
+        let feedView = FeedView.instanceFromNib()
+        feedView.backgroundColor = UIColor.orangeColor()
+        feedView.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(feedView)
+
+        let views = [
+            "feedView": feedView
+        ]
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[feedView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-64-[feedView(==height)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: ["height": FeedView.normalHeight], views: views)
+
+        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activateConstraints(constraintsV)
+
+        self.feedView = feedView
+    }
+
     // MARK: Private
 
     private func setConversaitonCollectionViewContentInsetBottom(bottom: CGFloat) {
@@ -1034,7 +1060,9 @@ class ConversationViewController: BaseViewController {
 
     private func setConversaitonCollectionViewOriginalContentInset() {
 
-        conversationCollectionView.contentInset.top = 64 + conversationCollectionViewContentInsetYOffset
+        let feedViewHeight: CGFloat = (feedView == nil) ? 0 : FeedView.normalHeight
+
+        conversationCollectionView.contentInset.top = 64 + feedViewHeight + conversationCollectionViewContentInsetYOffset
 
         setConversaitonCollectionViewContentInsetBottom(CGRectGetHeight(messageToolbar.bounds) + sectionInsetBottom)
     }

@@ -15,11 +15,12 @@ class FeedCell: UICollectionViewCell {
     @IBOutlet weak var distanceLabel: UILabel!
 
     @IBOutlet weak var messageLabel: UILabel!
-    @IBOutlet weak var messageLabelTopConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var mediaCollectionView: UICollectionView!
 
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var messageCountLabel: UILabel!
 
     static let messageLabelMaxWidth: CGFloat = {
@@ -50,7 +51,7 @@ class FeedCell: UICollectionViewCell {
         messageLabel.text = feed.message
 
         let hasMedia = feed.mediaCount > 0
-        messageLabelTopConstraint.constant = hasMedia ? 100 : 10
+        timeLabelTopConstraint.constant = hasMedia ? 100 : 10
         mediaCollectionView.hidden = hasMedia ? false : true
     }
 }

@@ -193,6 +193,8 @@
 		50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */; };
 		50A9D4511ACD383E000B2599 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */; };
 		50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4541ACD393A000B2599 /* YepWaverView.swift */; };
+		50AACEC81BB54128004DD54B /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AACEC71BB54128004DD54B /* FeedView.swift */; settings = {ASSET_TAGS = (); }; };
+		50AACECD1BB5419A004DD54B /* FeedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50AACECC1BB5419A004DD54B /* FeedView.xib */; settings = {ASSET_TAGS = (); }; };
 		50AFBF461BB25F40007D19DA /* ActivityIndicatorTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AFBF451BB25F40007D19DA /* ActivityIndicatorTitleView.swift */; settings = {ASSET_TAGS = (); }; };
 		50AFBF491BB2830E007D19DA /* EdgeBorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AFBF481BB2830E007D19DA /* EdgeBorderButton.swift */; settings = {ASSET_TAGS = (); }; };
 		50AFBF4B1BB2A44C007D19DA /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AFBF4A1BB2A44C007D19DA /* InfoView.swift */; settings = {ASSET_TAGS = (); }; };
@@ -458,6 +460,8 @@
 		50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = NSDateTimeAgo.bundle; path = Extensions/NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Extensions/NSDate+Extension.swift"; sourceTree = "<group>"; };
 		50A9D4541ACD393A000B2599 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/AudioWaves/YepWaverView.swift; sourceTree = "<group>"; };
+		50AACEC71BB54128004DD54B /* FeedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedView.swift; path = Views/Feed/FeedView.swift; sourceTree = "<group>"; };
+		50AACECC1BB5419A004DD54B /* FeedView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedView.xib; path = Views/Feed/FeedView.xib; sourceTree = "<group>"; };
 		50AFBF451BB25F40007D19DA /* ActivityIndicatorTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActivityIndicatorTitleView.swift; path = Views/TitleViews/ActivityIndicatorTitleView.swift; sourceTree = "<group>"; };
 		50AFBF481BB2830E007D19DA /* EdgeBorderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EdgeBorderButton.swift; path = Views/Buttons/EdgeBorderButton.swift; sourceTree = "<group>"; };
 		50AFBF4A1BB2A44C007D19DA /* InfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoView.swift; path = Views/InfoView/InfoView.swift; sourceTree = "<group>"; };
@@ -884,6 +888,7 @@
 				8409137E1B7DB178001C89D6 /* FriendRequest */,
 				50AFBF471BB25F81007D19DA /* TitleViews */,
 				50AFBF4C1BB2A453007D19DA /* InfoView */,
+				50AACEC91BB54132004DD54B /* Feed */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1507,6 +1512,15 @@
 			name = AudioWaves;
 			sourceTree = "<group>";
 		};
+		50AACEC91BB54132004DD54B /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				50AACEC71BB54128004DD54B /* FeedView.swift */,
+				50AACECC1BB5419A004DD54B /* FeedView.xib */,
+			);
+			name = Feed;
+			sourceTree = "<group>";
+		};
 		50AFBF471BB25F81007D19DA /* TitleViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -1860,6 +1874,7 @@
 			files = (
 				5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */,
 				505C338B1BAA92CA00E044E2 /* InfoPlist.strings in Resources */,
+				50AACECD1BB5419A004DD54B /* FeedView.xib in Resources */,
 				50C090A11ADE391600CC6389 /* AddSkillsReusableView.xib in Resources */,
 				504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */,
 				50E348931B9063A700A8E699 /* AboutCell.xib in Resources */,
@@ -2074,6 +2089,7 @@
 				84385C4A1B85BE200071130D /* ShowStepMeetViewController.swift in Sources */,
 				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
 				0A1CAC701AFA481600826B45 /* SkillHomeHeaderView.swift in Sources */,
+				50AACEC81BB54128004DD54B /* FeedView.swift in Sources */,
 				0AB8F79A1B15D1DC00F4AF09 /* YepNavigationController.swift in Sources */,
 				502AE53A1AB871C1005BD199 /* YepAlert.swift in Sources */,
 				5039594E1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift in Sources */,

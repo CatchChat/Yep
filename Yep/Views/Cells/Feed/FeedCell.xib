@@ -96,9 +96,9 @@
                 <outlet property="mediaCollectionView" destination="UU0-sb-5Ol" id="AkG-ki-m1S"/>
                 <outlet property="messageCountLabel" destination="wHI-jf-JoM" id="zKc-Y9-QeX"/>
                 <outlet property="messageLabel" destination="wz4-2S-kb0" id="yCc-Ha-vTT"/>
-                <outlet property="messageLabelTopConstraint" destination="2hI-75-j94" id="05P-cX-q9C"/>
                 <outlet property="nicknameLabel" destination="V6O-gn-uhp" id="xPi-1C-YOv"/>
                 <outlet property="timeLabel" destination="upt-ad-rf2" id="N5b-0C-jCn"/>
+                <outlet property="timeLabelTopConstraint" destination="2hI-75-j94" id="o0z-P5-1TZ"/>
             </connections>
             <point key="canvasLocation" x="287.5" y="249"/>
         </collectionViewCell>
