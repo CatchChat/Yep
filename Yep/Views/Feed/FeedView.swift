@@ -54,9 +54,15 @@ class FeedView: UIView {
                     self?.miniMediasView.alpha = newValue
 
                 }, completion: nil)
+
+                if newValue == 1.0 {
+                    foldAction?()
+                }
             }
         }
     }
+
+    var foldAction: (() -> Void)?
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!

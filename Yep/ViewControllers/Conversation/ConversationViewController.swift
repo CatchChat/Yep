@@ -1044,6 +1044,10 @@ class ConversationViewController: BaseViewController {
 
         feedView.feed = feed
 
+        feedView.foldAction = { [weak self] in
+            self?.conversationCollectionView.contentInset.top = 64 + FeedView.foldHeight + conversationCollectionViewContentInsetYOffset
+        }
+
         feedView.backgroundColor = UIColor.orangeColor()
         feedView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -1268,8 +1272,6 @@ class ConversationViewController: BaseViewController {
         if feedView.foldProgress != 1.0 {
 
             feedView.foldProgress = 1.0
-
-            conversationCollectionView.contentInset.top = 64 + FeedView.foldHeight + conversationCollectionViewContentInsetYOffset
         }
     }
 
