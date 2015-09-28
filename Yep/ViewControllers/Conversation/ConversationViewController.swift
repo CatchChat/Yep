@@ -341,7 +341,7 @@ class ConversationViewController: BaseViewController {
         if isFirstAppear {
 
             // test
-            let feed = FakeFeed(mediaCount: 2, message: "My name is NIX.\nHow are you?\nWhould you like to go to China buy iPhone?")
+            let feed = FakeFeed(mediaCount: 2, message: "My name is NIX. How are you? Would you like to go to China buy iPhone?")
             makeFeedViewWithFeed(feed)
 
             // 为记录草稿准备

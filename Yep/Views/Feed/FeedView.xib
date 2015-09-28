@@ -31,13 +31,13 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How do you do? Do not go gentle into that good night." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6i2-Pl-6hN">
-                    <rect key="frame" x="60" y="53.5" width="327" height="41"/>
+                    <rect key="frame" x="60" y="54" width="327" height="41"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="umP-Za-loD">
-                    <rect key="frame" x="60" y="104" width="359" height="80"/>
+                    <rect key="frame" x="60" y="105" width="359" height="80"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="80" id="BNj-Sa-n9K"/>
                     </constraints>
@@ -49,20 +49,28 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 hours ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ix5-dG-THW" userLabel="Time Label">
-                    <rect key="frame" x="60" y="194.5" width="91" height="20.5"/>
+                    <rect key="frame" x="60" y="195" width="91" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_discussion" translatesAutoresizingMaskIntoConstraints="NO" id="S5X-ug-XWY">
-                    <rect key="frame" x="379" y="195" width="30" height="19"/>
+                    <rect key="frame" x="379" y="196" width="30" height="19"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="42" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NQi-eu-CjC" userLabel="Message Count Label">
-                    <rect key="frame" x="348" y="194.5" width="20.5" height="20.5"/>
+                    <rect key="frame" x="348" y="195" width="20.5" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r5V-GF-1ON">
+                    <rect key="frame" x="369" y="10" width="40" height="40"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="8TR-dN-ztJ"/>
+                        <constraint firstAttribute="height" constant="40" id="TDm-8m-Yrn"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -76,7 +84,9 @@
                 <constraint firstItem="Ix5-dG-THW" firstAttribute="leading" secondItem="umP-Za-loD" secondAttribute="leading" id="Vq0-HZ-3E7"/>
                 <constraint firstItem="0Hb-fw-n9b" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="aje-GN-Nlw"/>
                 <constraint firstItem="C2E-Yo-twp" firstAttribute="leading" secondItem="0Hb-fw-n9b" secondAttribute="trailing" constant="10" id="cGH-ZO-Eiv"/>
+                <constraint firstItem="r5V-GF-1ON" firstAttribute="trailing" secondItem="ffh-Mx-17Q" secondAttribute="trailing" id="cRo-WX-ifz"/>
                 <constraint firstItem="6i2-Pl-6hN" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="ffh-Mx-17Q" secondAttribute="trailing" id="i9m-7j-Roh"/>
+                <constraint firstItem="r5V-GF-1ON" firstAttribute="top" secondItem="0Hb-fw-n9b" secondAttribute="top" id="iV6-9c-4SJ"/>
                 <constraint firstItem="S5X-ug-XWY" firstAttribute="centerY" secondItem="Ix5-dG-THW" secondAttribute="centerY" id="iY4-zX-g2F"/>
                 <constraint firstItem="umP-Za-loD" firstAttribute="top" secondItem="6i2-Pl-6hN" secondAttribute="bottom" constant="10" id="ibW-Ne-b33"/>
                 <constraint firstItem="ffh-Mx-17Q" firstAttribute="centerY" secondItem="C2E-Yo-twp" secondAttribute="centerY" id="lAd-63-gax"/>
@@ -95,6 +105,8 @@
                 <outlet property="messageCountLabel" destination="NQi-eu-CjC" id="GZA-xe-6jo"/>
                 <outlet property="messageLabel" destination="6i2-Pl-6hN" id="8hF-9H-5JD"/>
                 <outlet property="messageLabelTopConstraint" destination="Jch-Vu-xwA" id="nno-Xq-YwL"/>
+                <outlet property="messageLabelTrailingConstraint" destination="i9m-7j-Roh" id="0TW-qO-Gzq"/>
+                <outlet property="miniAvatarsView" destination="r5V-GF-1ON" id="LT4-HJ-LsT"/>
                 <outlet property="nicknameLabel" destination="C2E-Yo-twp" id="gHO-Mm-Ycn"/>
                 <outlet property="nicknameLabelCenterYConstraint" destination="lSc-cs-Lug" id="10y-pq-G3V"/>
                 <outlet property="timeLabel" destination="Ix5-dG-THW" id="sGx-zI-RsF"/>

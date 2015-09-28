@@ -36,6 +36,7 @@ class FeedView: UIView {
 
                     self?.nicknameLabelCenterYConstraint.constant = -10 * newValue
                     self?.messageLabelTopConstraint.constant = -25 * newValue + 4
+                    self?.messageLabelTrailingConstraint.constant = -(40 + 10)
 
                     self?.heightConstraint?.constant = FeedView.foldHeight + (normalHeight - FeedView.foldHeight) * (1 - newValue)
 
@@ -50,6 +51,8 @@ class FeedView: UIView {
                     self?.messageCountLabel.alpha = foldingAlpha
                     self?.messageCountImageView.alpha = foldingAlpha
 
+                    self?.miniAvatarsView.alpha = newValue
+
                 }, completion: nil)
             }
         }
@@ -60,8 +63,11 @@ class FeedView: UIView {
     @IBOutlet weak var nicknameLabelCenterYConstraint: NSLayoutConstraint!
     @IBOutlet weak var distanceLabel: UILabel!
 
+    @IBOutlet weak var miniAvatarsView: UIView!
+
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var messageLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var messageLabelTrailingConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var mediaCollectionView: UICollectionView!
 
@@ -85,6 +91,8 @@ class FeedView: UIView {
         messageCountLabel.backgroundColor = UIColor.redColor()
 
         messageLabel.font = UIFont.feedMessageFont()
+
+        miniAvatarsView.alpha = 0
 
         //mediaCollectionView.dataSource = self
         //mediaCollectionView.delegate = self
