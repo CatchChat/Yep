@@ -36,13 +36,20 @@ class FeedView: UIView {
 
                     self?.nicknameLabelCenterYConstraint.constant = -10 * newValue
                     self?.messageLabelTopConstraint.constant = -25 * newValue + 4
-                    self?.messageLabelTrailingConstraint.constant = -(40 + 10)
+
+                    if newValue == 1.0 {
+                        self?.messageLabelTrailingConstraint.constant = -(40 + 10)
+                        self?.messageLabel.numberOfLines = 1
+                    }
+
+                    if newValue == 0.0 {
+                        self?.messageLabelTrailingConstraint.constant = 0
+                        self?.messageLabel.numberOfLines = 0
+                    }
 
                     self?.heightConstraint?.constant = FeedView.foldHeight + (normalHeight - FeedView.foldHeight) * (1 - newValue)
 
                     self?.layoutIfNeeded()
-
-                    self?.messageLabel.numberOfLines = 1
 
                     let foldingAlpha = (1 - newValue)
                     self?.distanceLabel.alpha = foldingAlpha
@@ -58,11 +65,16 @@ class FeedView: UIView {
                 if newValue == 1.0 {
                     foldAction?()
                 }
+
+                if newValue == 0.0 {
+                    unfoldAction?(self)
+                }
             }
         }
     }
 
     var foldAction: (() -> Void)?
+    var unfoldAction: (FeedView -> Void)?
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
@@ -104,6 +116,13 @@ class FeedView: UIView {
         //mediaCollectionView.delegate = self
 
         //mediaCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+
+        let tap = UITapGestureRecognizer(target: self, action: "unfold:")
+        miniMediasView.addGestureRecognizer(tap)
+    }
+
+    func unfold(sender: UITapGestureRecognizer) {
+        foldProgress = 0
     }
 
     var normalHeight: CGFloat {

@@ -1048,6 +1048,10 @@ class ConversationViewController: BaseViewController {
             self?.conversationCollectionView.contentInset.top = 64 + FeedView.foldHeight + conversationCollectionViewContentInsetYOffset
         }
 
+        feedView.unfoldAction = { [weak self] feedView in
+            self?.conversationCollectionView.contentInset.top = 64 + feedView.normalHeight + conversationCollectionViewContentInsetYOffset
+        }
+
         feedView.backgroundColor = UIColor.orangeColor()
         feedView.translatesAutoresizingMaskIntoConstraints = false
 
