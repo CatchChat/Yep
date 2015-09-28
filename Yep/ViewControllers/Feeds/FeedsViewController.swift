@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 struct FakeFeed {
     let mediaCount: Int
@@ -58,6 +59,15 @@ class FeedsViewController: UIViewController {
     // MARK: - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        if segue.identifier == "showConversation" {
+
+            let vc = segue.destinationViewController as! ConversationViewController
+            let realm = try! Realm()
+            vc.conversation = realm.objects(Conversation).sorted("updatedUnixTime", ascending: false).first
+            let feed = FakeFeed(mediaCount: 2, message: "My name is NIX. How are you? Would you like to go to China buy iPhone?")
+            vc.feed = feed
+        }
     }
 }
 
@@ -92,6 +102,11 @@ extension FeedsViewController: UICollectionViewDataSource, UICollectionViewDeleg
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
+    }
+
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+
+        performSegueWithIdentifier("showConversation", sender: nil)
     }
 }
 
