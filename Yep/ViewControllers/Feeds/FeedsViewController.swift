@@ -108,5 +108,17 @@ extension FeedsViewController: UICollectionViewDataSource, UICollectionViewDeleg
 
         performSegueWithIdentifier("showConversation", sender: nil)
     }
+
+    func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
+
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedCell
+        cell.contentView.backgroundColor = UIColor.lightGrayColor()
+    }
+
+    func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {
+
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedCell
+        cell.contentView.backgroundColor = UIColor.clearColor()
+    }
 }
 
