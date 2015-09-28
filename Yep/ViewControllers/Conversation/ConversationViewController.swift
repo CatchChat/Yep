@@ -1035,7 +1035,7 @@ class ConversationViewController: BaseViewController {
 
         let feedView = FeedView.instanceFromNib()
 
-        feedView.configureWithFeed(feed)
+        feedView.feed = feed
 
         feedView.backgroundColor = UIColor.orangeColor()
         feedView.translatesAutoresizingMaskIntoConstraints = false
@@ -1050,7 +1050,7 @@ class ConversationViewController: BaseViewController {
         //let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-64-[feedView(==height)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: ["height": FeedView.normalHeight], views: views)
 
         let top = NSLayoutConstraint(item: feedView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1.0, constant: 64)
-        let height = NSLayoutConstraint(item: feedView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: FeedView.normalHeightOfFeed(feed))
+        let height = NSLayoutConstraint(item: feedView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: feedView.normalHeight)
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         //NSLayoutConstraint.activateConstraints(constraintsV)
@@ -1071,8 +1071,7 @@ class ConversationViewController: BaseViewController {
 
     private func setConversaitonCollectionViewOriginalContentInset() {
 
-        let feedViewHeight: CGFloat = (feedView == nil) ? 0 : FeedView.normalHeight
-
+        let feedViewHeight: CGFloat = (feedView == nil) ? 0 : feedView!.normalHeight
         conversationCollectionView.contentInset.top = 64 + feedViewHeight + conversationCollectionViewContentInsetYOffset
 
         setConversaitonCollectionViewContentInsetBottom(CGRectGetHeight(messageToolbar.bounds) + sectionInsetBottom)
@@ -2521,6 +2520,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 if let feedView = feedView {
                     if feedView.foldProgress != 1.0 {
                         feedView.foldProgress = 1.0
+
+                        conversationCollectionView.contentInset.top = 64 + FeedView.foldHeight + conversationCollectionViewContentInsetYOffset
                     }
                 }
             }

@@ -10,7 +10,14 @@ import UIKit
 
 class FeedView: UIView {
 
-    static let normalHeight: CGFloat = 200
+    var feed: FakeFeed? {
+        willSet {
+            if let feed = newValue {
+                configureWithFeed(feed)
+            }
+        }
+    }
+
     static let foldHeight: CGFloat = 60
 
     weak var heightConstraint: NSLayoutConstraint?
@@ -23,12 +30,14 @@ class FeedView: UIView {
         willSet {
             if newValue >= 0 && newValue <= 1 {
 
-                UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.8, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
+                let normalHeight = self.normalHeight
+
+                UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
 
                     self?.nicknameLabelCenterYConstraint.constant = -10 * newValue
                     self?.messageLabelTopConstraint.constant = -25 * newValue + 4
 
-                    self?.heightConstraint?.constant = FeedView.foldHeight + (FeedView.normalHeight - FeedView.foldHeight) * (1 - newValue)
+                    self?.heightConstraint?.constant = FeedView.foldHeight + (normalHeight - FeedView.foldHeight) * (1 - newValue)
 
                     self?.layoutIfNeeded()
 
@@ -83,7 +92,11 @@ class FeedView: UIView {
         //mediaCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
     }
 
-    class func normalHeightOfFeed(feed: FakeFeed) -> CGFloat {
+    var normalHeight: CGFloat {
+
+        guard let feed = feed else {
+            return 220
+        }
 
         let rect = feed.message.boundingRectWithSize(CGSize(width: FeedCell.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
@@ -97,7 +110,7 @@ class FeedView: UIView {
         return ceil(height)
     }
 
-    func configureWithFeed(feed: FakeFeed) {
+    private func configureWithFeed(feed: FakeFeed) {
         messageLabel.text = feed.message
 
         let hasMedia = feed.mediaCount > 0
