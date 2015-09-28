@@ -47,7 +47,7 @@ class FeedCell: UICollectionViewCell {
         mediaCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
     }
 
-    func configureWithFeed(feed: FeedsViewController.FakeFeed) {
+    func configureWithFeed(feed: FakeFeed) {
         messageLabel.text = feed.message
 
         let hasMedia = feed.mediaCount > 0

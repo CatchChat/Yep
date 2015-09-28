@@ -9,7 +9,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="FeedView" customModule="Yep" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="419" height="214"/>
+            <rect key="frame" x="0.0" y="0.0" width="419" height="225"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Hb-fw-n9b" userLabel="Avatar Image View">
@@ -30,14 +30,14 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How do you do?" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6i2-Pl-6hN">
-                    <rect key="frame" x="60" y="53.5" width="123" height="20.5"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How do you do? Do not go gentle into that good night." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6i2-Pl-6hN">
+                    <rect key="frame" x="60" y="53.5" width="327" height="41"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="umP-Za-loD">
-                    <rect key="frame" x="60" y="84" width="359" height="80"/>
+                    <rect key="frame" x="60" y="104" width="359" height="80"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="80" id="BNj-Sa-n9K"/>
                     </constraints>
@@ -49,16 +49,16 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 hours ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ix5-dG-THW" userLabel="Time Label">
-                    <rect key="frame" x="60" y="174.5" width="91" height="20.5"/>
+                    <rect key="frame" x="60" y="194.5" width="91" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_discussion" translatesAutoresizingMaskIntoConstraints="NO" id="S5X-ug-XWY">
-                    <rect key="frame" x="379" y="175" width="30" height="19"/>
+                    <rect key="frame" x="379" y="195" width="30" height="19"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="42" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NQi-eu-CjC" userLabel="Message Count Label">
-                    <rect key="frame" x="348" y="174.5" width="20.5" height="20.5"/>
+                    <rect key="frame" x="348" y="194.5" width="20.5" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -100,7 +100,7 @@
                 <outlet property="timeLabel" destination="Ix5-dG-THW" id="sGx-zI-RsF"/>
                 <outlet property="timeLabelTopConstraint" destination="mCj-xS-Tud" id="occ-se-7hx"/>
             </connections>
-            <point key="canvasLocation" x="-182.5" y="-741"/>
+            <point key="canvasLocation" x="-182.5" y="-735.5"/>
         </view>
     </objects>
     <resources>

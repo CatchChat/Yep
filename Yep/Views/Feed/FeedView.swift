@@ -21,21 +21,27 @@ class FeedView: UIView {
 
     var foldProgress: CGFloat = 0 {
         willSet {
-            println(newValue)
             if newValue >= 0 && newValue <= 1 {
-                nicknameLabelCenterYConstraint.constant = -10 * newValue
-                messageLabelTopConstraint.constant = -25 * newValue + 4
 
-                heightConstraint?.constant = FeedView.foldHeight + (FeedView.normalHeight - FeedView.foldHeight) * (1 - newValue)
+                UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.8, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
 
-                layoutIfNeeded()
+                    self?.nicknameLabelCenterYConstraint.constant = -10 * newValue
+                    self?.messageLabelTopConstraint.constant = -25 * newValue + 4
 
-                let foldingAlpha = (1 - newValue)
-                distanceLabel.alpha = foldingAlpha
-                mediaCollectionView.alpha = foldingAlpha
-                timeLabel.alpha = foldingAlpha
-                messageCountLabel.alpha = foldingAlpha
-                messageCountImageView.alpha = foldingAlpha
+                    self?.heightConstraint?.constant = FeedView.foldHeight + (FeedView.normalHeight - FeedView.foldHeight) * (1 - newValue)
+
+                    self?.layoutIfNeeded()
+
+                    self?.messageLabel.numberOfLines = 1
+
+                    let foldingAlpha = (1 - newValue)
+                    self?.distanceLabel.alpha = foldingAlpha
+                    self?.mediaCollectionView.alpha = foldingAlpha
+                    self?.timeLabel.alpha = foldingAlpha
+                    self?.messageCountLabel.alpha = foldingAlpha
+                    self?.messageCountImageView.alpha = foldingAlpha
+
+                }, completion: nil)
             }
         }
     }
@@ -75,6 +81,28 @@ class FeedView: UIView {
         //mediaCollectionView.delegate = self
 
         //mediaCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+    }
+
+    class func normalHeightOfFeed(feed: FakeFeed) -> CGFloat {
+
+        let rect = feed.message.boundingRectWithSize(CGSize(width: FeedCell.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+
+        let height: CGFloat
+        if feed.mediaCount > 0 {
+            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 80 + 10 + 20.5 + 10
+        } else {
+            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 20.5 + 10
+        }
+
+        return ceil(height)
+    }
+
+    func configureWithFeed(feed: FakeFeed) {
+        messageLabel.text = feed.message
+
+        let hasMedia = feed.mediaCount > 0
+        timeLabelTopConstraint.constant = hasMedia ? 100 : 10
+        mediaCollectionView.hidden = hasMedia ? false : true
     }
 }
 

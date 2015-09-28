@@ -341,7 +341,8 @@ class ConversationViewController: BaseViewController {
         if isFirstAppear {
 
             // test
-            makeFeedView()
+            let feed = FakeFeed(mediaCount: 2, message: "My name is NIX.\nHow are you?\nWhould you like to go to China buy iPhone?")
+            makeFeedViewWithFeed(feed)
 
             // 为记录草稿准备
 
@@ -1030,9 +1031,12 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    private func makeFeedView() {
+    private func makeFeedViewWithFeed(feed: FakeFeed) {
 
         let feedView = FeedView.instanceFromNib()
+
+        feedView.configureWithFeed(feed)
+
         feedView.backgroundColor = UIColor.orangeColor()
         feedView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -1046,7 +1050,7 @@ class ConversationViewController: BaseViewController {
         //let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-64-[feedView(==height)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: ["height": FeedView.normalHeight], views: views)
 
         let top = NSLayoutConstraint(item: feedView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1.0, constant: 64)
-        let height = NSLayoutConstraint(item: feedView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: FeedView.normalHeight)
+        let height = NSLayoutConstraint(item: feedView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: FeedView.normalHeightOfFeed(feed))
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         //NSLayoutConstraint.activateConstraints(constraintsV)
@@ -2513,10 +2517,20 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             let deltaY = location.y - dragBeginLocation.y
             println(deltaY)
 
+            if deltaY < -30 {
+                if let feedView = feedView {
+                    if feedView.foldProgress != 1.0 {
+                        feedView.foldProgress = 1.0
+                    }
+                }
+            }
+
+            /*
             let fullDeltaHeight = FeedView.normalHeight - FeedView.foldHeight
             let currentHeight = max(min(FeedView.normalHeight + deltaY, FeedView.normalHeight), FeedView.foldHeight)
             //feedView?.frame.size.height = currentHeight
             feedView?.foldProgress = (FeedView.normalHeight - currentHeight) / fullDeltaHeight
+            */
         }
     }
 

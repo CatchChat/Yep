@@ -8,6 +8,11 @@
 
 import UIKit
 
+struct FakeFeed {
+    let mediaCount: Int
+    let message: String
+}
+
 class FeedsViewController: UIViewController {
 
     @IBOutlet weak var feedsCollectionView: UICollectionView!
@@ -18,10 +23,6 @@ class FeedsViewController: UIViewController {
 
     let feedCellID = "FeedCell"
 
-    struct FakeFeed {
-        let mediaCount: Int
-        let message: String
-    }
     let fakeFeeds: [FakeFeed] = [
         FakeFeed(mediaCount: 1, message: "My name is NIX."),
         FakeFeed(mediaCount: 0, message: "My name is NIX.\nHow are you?"),
