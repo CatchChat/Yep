@@ -400,6 +400,13 @@ class ConversationViewController: BaseViewController {
                             }
                         }
                     }
+
+                    switch currentState {
+                    case .BeginTextInput, .MoreMessages:
+                        self?.tryFoldFeedView()
+                    default:
+                        break
+                    }
                 }
             }
 
@@ -1249,6 +1256,20 @@ class ConversationViewController: BaseViewController {
 
                 updateAudioCellOfMessage(playingMessage, withCurrentTime: currentTime)
             }
+        }
+    }
+
+    private func tryFoldFeedView() {
+
+        guard let feedView = feedView else {
+            return
+        }
+
+        if feedView.foldProgress != 1.0 {
+
+            feedView.foldProgress = 1.0
+
+            conversationCollectionView.contentInset.top = 64 + FeedView.foldHeight + conversationCollectionViewContentInsetYOffset
         }
     }
 
@@ -2517,13 +2538,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             println(deltaY)
 
             if deltaY < -30 {
-                if let feedView = feedView {
-                    if feedView.foldProgress != 1.0 {
-                        feedView.foldProgress = 1.0
-
-                        conversationCollectionView.contentInset.top = 64 + FeedView.foldHeight + conversationCollectionViewContentInsetYOffset
-                    }
-                }
+                tryFoldFeedView()
             }
 
             /*

@@ -106,7 +106,7 @@
                 <outlet property="messageLabel" destination="6i2-Pl-6hN" id="8hF-9H-5JD"/>
                 <outlet property="messageLabelTopConstraint" destination="Jch-Vu-xwA" id="nno-Xq-YwL"/>
                 <outlet property="messageLabelTrailingConstraint" destination="i9m-7j-Roh" id="0TW-qO-Gzq"/>
-                <outlet property="miniAvatarsView" destination="r5V-GF-1ON" id="LT4-HJ-LsT"/>
+                <outlet property="miniMediasView" destination="r5V-GF-1ON" id="Via-CC-QYA"/>
                 <outlet property="nicknameLabel" destination="C2E-Yo-twp" id="gHO-Mm-Ycn"/>
                 <outlet property="nicknameLabelCenterYConstraint" destination="lSc-cs-Lug" id="10y-pq-G3V"/>
                 <outlet property="timeLabel" destination="Ix5-dG-THW" id="sGx-zI-RsF"/>

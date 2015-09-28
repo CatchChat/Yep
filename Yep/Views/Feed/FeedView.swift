@@ -32,7 +32,7 @@ class FeedView: UIView {
 
                 let normalHeight = self.normalHeight
 
-                UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
+                UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
 
                     self?.nicknameLabelCenterYConstraint.constant = -10 * newValue
                     self?.messageLabelTopConstraint.constant = -25 * newValue + 4
@@ -51,7 +51,7 @@ class FeedView: UIView {
                     self?.messageCountLabel.alpha = foldingAlpha
                     self?.messageCountImageView.alpha = foldingAlpha
 
-                    self?.miniAvatarsView.alpha = newValue
+                    self?.miniMediasView.alpha = newValue
 
                 }, completion: nil)
             }
@@ -63,7 +63,7 @@ class FeedView: UIView {
     @IBOutlet weak var nicknameLabelCenterYConstraint: NSLayoutConstraint!
     @IBOutlet weak var distanceLabel: UILabel!
 
-    @IBOutlet weak var miniAvatarsView: UIView!
+    @IBOutlet weak var miniMediasView: UIView!
 
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var messageLabelTopConstraint: NSLayoutConstraint!
@@ -92,7 +92,7 @@ class FeedView: UIView {
 
         messageLabel.font = UIFont.feedMessageFont()
 
-        miniAvatarsView.alpha = 0
+        miniMediasView.alpha = 0
 
         //mediaCollectionView.dataSource = self
         //mediaCollectionView.delegate = self
