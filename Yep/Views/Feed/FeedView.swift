@@ -58,7 +58,7 @@ class FeedView: UIView {
                     self?.messageCountLabel.alpha = foldingAlpha
                     self?.messageCountImageView.alpha = foldingAlpha
 
-                    self?.miniMediasView.alpha = newValue
+                    self?.mediaView.alpha = newValue
 
                 }, completion: nil)
 
@@ -81,7 +81,7 @@ class FeedView: UIView {
     @IBOutlet weak var nicknameLabelCenterYConstraint: NSLayoutConstraint!
     @IBOutlet weak var distanceLabel: UILabel!
 
-    @IBOutlet weak var miniMediasView: UIView!
+    @IBOutlet weak var mediaView: FeedMediaView!
 
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var messageLabelTopConstraint: NSLayoutConstraint!
@@ -110,7 +110,7 @@ class FeedView: UIView {
 
         messageLabel.font = UIFont.feedMessageFont()
 
-        miniMediasView.alpha = 0
+        mediaView.alpha = 0
 
         //mediaCollectionView.dataSource = self
         //mediaCollectionView.delegate = self
@@ -118,7 +118,7 @@ class FeedView: UIView {
         //mediaCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
 
         let tap = UITapGestureRecognizer(target: self, action: "unfold:")
-        miniMediasView.addGestureRecognizer(tap)
+        mediaView.addGestureRecognizer(tap)
     }
 
     func unfold(sender: UITapGestureRecognizer) {
@@ -149,6 +149,12 @@ class FeedView: UIView {
         let hasMedia = feed.mediaCount > 0
         timeLabelTopConstraint.constant = hasMedia ? 100 : 10
         mediaCollectionView.hidden = hasMedia ? false : true
+
+        let URLs = (0..<feed.mediaCount).map({
+            NSURL(string: String(format:"https://raw.githubusercontent.com/onevcat/Kingfisher/master/images/kingfisher-%d.jpg", $0 + 1))!
+        })
+
+        mediaView.setImagesWithURLs(URLs)
     }
 }
 

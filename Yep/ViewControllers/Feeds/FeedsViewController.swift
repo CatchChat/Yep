@@ -65,7 +65,7 @@ class FeedsViewController: UIViewController {
             let vc = segue.destinationViewController as! ConversationViewController
             let realm = try! Realm()
             vc.conversation = realm.objects(Conversation).sorted("updatedUnixTime", ascending: false).first
-            let feed = FakeFeed(mediaCount: 2, message: "My name is NIX. How are you? Would you like to go to China buy iPhone?")
+            let feed = FakeFeed(mediaCount: 3, message: "My name is NIX. How are you? Would you like to go to China buy iPhone?")
             vc.feed = feed
         }
     }
