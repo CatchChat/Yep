@@ -1561,7 +1561,13 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, failureHandler: (
             return nil
         }
 
-        let resource = authJsonResource(path: "/api/v1/messages", method: .POST, requestParameters: messageInfo, parse: parse)
+        guard let
+            recipientType = messageInfo["recipient_type"] as? String,
+            recipientID = messageInfo["recipient_id"] as? String else {
+                return
+        }
+
+        let resource = authJsonResource(path: "/api/v1/\(recipientType)/\(recipientID)/messages", method: .POST, requestParameters: messageInfo, parse: parse)
 
         if let failureHandler = failureHandler {
             apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
