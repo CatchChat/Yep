@@ -2091,6 +2091,7 @@ struct DiscoveredFeed {
 
     let skill: Skill?
     let groupID: String
+    let messageCount: Int
 
     static func fromJSONDictionary(json: JSONDictionary) -> DiscoveredFeed? {
 
@@ -2103,7 +2104,8 @@ struct DiscoveredFeed {
             body = json["body"] as? String,
             //attachmentsData = json["circle"] as? [JSONDictionary], // TODO:
             //skill
-            groupInfo = json["circle"] as? JSONDictionary else {
+            groupInfo = json["circle"] as? JSONDictionary,
+            messageCount = json["message_count"] as? Int else {
                 return nil
         }
 
@@ -2111,7 +2113,7 @@ struct DiscoveredFeed {
             return nil
         }
 
-        return DiscoveredFeed(id: id, allowComment: allowComment, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: [], skill: nil, groupID: groupID)
+        return DiscoveredFeed(id: id, allowComment: allowComment, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: [], skill: nil, groupID: groupID, messageCount: messageCount)
     }
 }
 

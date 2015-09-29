@@ -31,6 +31,7 @@ class FeedCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        /*
         avatarImageView.backgroundColor = UIColor.redColor()
         nicknameLabel.backgroundColor = UIColor.redColor()
         distanceLabel.backgroundColor = UIColor.redColor()
@@ -38,6 +39,7 @@ class FeedCell: UICollectionViewCell {
         mediaCollectionView.backgroundColor = UIColor.redColor()
         timeLabel.backgroundColor = UIColor.redColor()
         messageCountLabel.backgroundColor = UIColor.redColor()
+        */
 
         messageLabel.font = UIFont.feedMessageFont()
         
@@ -54,6 +56,20 @@ class FeedCell: UICollectionViewCell {
         let hasMedia = !feed.attachments.isEmpty
         timeLabelTopConstraint.constant = hasMedia ? 100 : 10
         mediaCollectionView.hidden = hasMedia ? false : true
+
+        let avatarURLString = feed.creator.avatarURLString
+        let radius = min(CGRectGetWidth(avatarImageView.bounds), CGRectGetHeight(avatarImageView.bounds)) * 0.5
+        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { [weak self] roundImage in
+            dispatch_async(dispatch_get_main_queue()) {
+                //if let _ = tableView.cellForRowAtIndexPath(indexPath) {
+                    self?.avatarImageView.image = roundImage
+                //}
+            }
+        }
+
+        nicknameLabel.text = feed.creator.nickname
+        timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
+        messageCountLabel.text = "\(feed.messageCount)"
     }
 }
 

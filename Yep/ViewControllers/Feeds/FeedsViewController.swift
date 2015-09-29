@@ -99,7 +99,7 @@ extension FeedsViewController: UICollectionViewDataSource, UICollectionViewDeleg
 
         cell.configureWithFeed(feed)
 
-        cell.backgroundColor = indexPath.item % 2 == 0 ? UIColor.yellowColor() : UIColor.purpleColor()
+        //cell.backgroundColor = indexPath.item % 2 == 0 ? UIColor.yellowColor() : UIColor.purpleColor()
 
         return cell
     }
