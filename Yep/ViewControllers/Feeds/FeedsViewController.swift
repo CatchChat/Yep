@@ -69,15 +69,61 @@ class FeedsViewController: UIViewController {
 
         if segue.identifier == "showConversation" {
 
-            let vc = segue.destinationViewController as! ConversationViewController
-            let realm = try! Realm()
-            vc.conversation = realm.objects(Conversation).sorted("updatedUnixTime", ascending: false).first
-
-            if let
+            guard let
                 index = sender as? Int,
-                feed = feeds[safe: index] {
-                    vc.feed = feed
+                feed = feeds[safe: index],
+                realm = try? Realm() else {
+                    return
             }
+
+            let vc = segue.destinationViewController as! ConversationViewController
+
+            let groupID = feed.groupID
+            var group = groupWithGroupID(groupID, inRealm: realm)
+
+            if group == nil {
+
+                let newGroup = Group()
+                newGroup.groupID = groupID
+
+                // TOOD: newGroup of Feed
+                /*
+                if let groupInfo = messageInfo["circle"] as? JSONDictionary {
+                    if let groupName = groupInfo["name"] as? String {
+                        newGroup.groupName = groupName
+                    }
+                }
+                */
+
+                realm.write {
+                    realm.add(newGroup)
+                }
+
+                group = newGroup
+            }
+
+            guard let feedGroup = group else {
+                return
+            }
+
+            if feedGroup.conversation == nil {
+
+                let newConversation = Conversation()
+
+                newConversation.type = ConversationType.Group.rawValue
+                newConversation.withGroup = feedGroup
+
+                realm.write {
+                    realm.add(newConversation)
+                }
+            }
+
+            guard let feedConversation = feedGroup.conversation else {
+                return
+            }
+
+            vc.conversation = feedConversation
+            vc.feed = feed
         }
     }
 }
