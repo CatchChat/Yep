@@ -8,20 +8,56 @@
         <!--New Feed View Controller-->
         <scene sceneID="to0-yX-42w">
             <objects>
-                <viewController storyboardIdentifier="NewFeedViewController" id="qLB-nJ-bBk" customClass="NewFeedViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewFeedViewController" automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="qLB-nJ-bBk" customClass="NewFeedViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="P6L-c6-EtM"/>
                         <viewControllerLayoutGuide type="bottom" id="ntq-Pl-HIt"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="XTF-TD-X10">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="kWS-hy-hsK">
+                                <rect key="frame" x="20" y="40" width="335" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="I5A-Wd-eMC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nqc-gK-NZL">
+                                <rect key="frame" x="0.0" y="108" width="375" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="rBg-4C-s5H"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="EJB-VM-0EX">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="nqc-gK-NZL" secondAttribute="trailing" id="9aV-hx-aoj"/>
+                            <constraint firstItem="nqc-gK-NZL" firstAttribute="leading" secondItem="XTF-TD-X10" secondAttribute="leading" id="be1-Wt-Njn"/>
+                            <constraint firstItem="kWS-hy-hsK" firstAttribute="top" secondItem="P6L-c6-EtM" secondAttribute="bottom" constant="20" id="dKw-0O-6Mx"/>
+                            <constraint firstItem="nqc-gK-NZL" firstAttribute="top" secondItem="kWS-hy-hsK" secondAttribute="bottom" constant="8" id="lP3-le-51b"/>
+                            <constraint firstItem="kWS-hy-hsK" firstAttribute="leading" secondItem="XTF-TD-X10" secondAttribute="leading" constant="20" id="mNE-5D-ygq"/>
+                            <constraint firstAttribute="trailing" secondItem="kWS-hy-hsK" secondAttribute="trailing" constant="20" id="mgZ-OL-1ch"/>
+                        </constraints>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="mediaCollectionView" destination="nqc-gK-NZL" id="vUb-KN-uL1"/>
+                        <outlet property="messageTextView" destination="kWS-hy-hsK" id="r5G-r3-3P5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JFr-yV-jlt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="239" y="405"/>
+            <point key="canvasLocation" x="238.5" y="404.5"/>
         </scene>
     </scenes>
 </document>
