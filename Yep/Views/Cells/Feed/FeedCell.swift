@@ -31,6 +31,12 @@ class FeedCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        nicknameLabel.textColor = UIColor.yepTintColor()
+        messageLabel.textColor = UIColor.darkGrayColor()
+        distanceLabel.textColor = UIColor.grayColor()
+        timeLabel.textColor = UIColor.grayColor()
+        messageCountLabel.textColor = UIColor.yepTintColor()
+
         /*
         avatarImageView.backgroundColor = UIColor.redColor()
         nicknameLabel.backgroundColor = UIColor.redColor()

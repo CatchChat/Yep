@@ -33,9 +33,9 @@ class FeedsViewController: UIViewController {
 
         let height: CGFloat
         if feed.attachments.isEmpty {
-            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 20.5 + 10
+            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 17 + 10
         } else {
-            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 80 + 10 + 20.5 + 10
+            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 80 + 10 + 17 + 10
         }
 
         return ceil(height)
@@ -123,7 +123,7 @@ extension FeedsViewController: UICollectionViewDataSource, UICollectionViewDeleg
     func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
 
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedCell
-        cell.contentView.backgroundColor = UIColor.lightGrayColor()
+        cell.contentView.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.5)
     }
 
     func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {
