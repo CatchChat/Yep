@@ -391,6 +391,37 @@ class Conversation: Object {
     }
 }
 
+// MARK: Feed
+
+class Attachment: Object {
+
+    enum Kind: String {
+        case Image = "image"
+        case Thumbnail = "thumbnail"
+        case Audio = "audio"
+        case Video = "video"
+    }
+
+    dynamic var kind: String = ""
+    dynamic var metadata: String = ""
+    dynamic var URLString: String = ""
+}
+
+class Feed: Object {
+
+    dynamic var feedID: String = ""
+    dynamic var allowComment: Bool = true
+
+    dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+    dynamic var updatedUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+
+    dynamic var creator: User?
+    dynamic var body: String = ""
+    var attachments = List<Attachment>()
+
+    dynamic var skill: UserSkill?
+    dynamic var group: Group?
+}
 
 
 // MARK: Helpers
