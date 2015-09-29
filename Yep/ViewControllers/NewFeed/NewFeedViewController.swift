@@ -34,6 +34,12 @@ class NewFeedViewController: UIViewController {
 
     func post(sender: UIBarButtonItem) {
         println("post")
+
+        createFeedWithMessage(messageTextView.text, attachments: nil, coordinate: nil, skill: nil, allowComment: true, failureHandler: { reason, errorMessage in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+        }, completion: { data in
+            println(data)
+        })
     }
 }
 

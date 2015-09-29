@@ -2091,6 +2091,41 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, pageIndex: Int, perPag
     }
 }
 
+func createFeedWithMessage(message: String, attachments: String?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+
+    var requestParameters: JSONDictionary = [
+        "body": message,
+        "latitude": 0,
+        "longitude": 0,
+        "allow_comment": allowComment,
+    ]
+
+    if let coordinate = coordinate {
+        requestParameters["latitude"] = coordinate.latitude
+        requestParameters["longitude"] = coordinate.longitude
+    }
+
+    if let skill = skill {
+        requestParameters["skill_id"] = skill.id
+    }
+
+    if let attachments = attachments {
+        requestParameters["attachments"] = attachments
+    }
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/api/v1/topics", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 // MARK: - Social Work
 
 func authURLRequestWithURL(url: NSURL) -> NSURLRequest {
