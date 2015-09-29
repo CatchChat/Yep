@@ -150,19 +150,19 @@
 "Face to Face" = "面对面";
 
 /* No comment provided by engineer. */
-"Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet." = "重发音频失败！\n情确保您的iPhone已连接到互联网。";
+"Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet." = "重发音频失败！\n请确保您的 iPhone 已连接到互联网。";
 
 /* No comment provided by engineer. */
-"Failed to resend image!\nPlease make sure your iPhone is connected to the Internet." = "重发图片失败！\n情确保您的iPhone已连接到互联网。";
+"Failed to resend image!\nPlease make sure your iPhone is connected to the Internet." = "重发图片失败！\n请确保您的 iPhone 已连接到互联网。";
 
 /* No comment provided by engineer. */
-"Failed to resend location!\nPlease make sure your iPhone is connected to the Internet." = "重发位置失败！\n情确保您的iPhone已连接到互联网。";
+"Failed to resend location!\nPlease make sure your iPhone is connected to the Internet." = "重发位置失败！\n请确保您的 iPhone 已连接到互联网。";
 
 /* No comment provided by engineer. */
-"Failed to resend text!\nPlease make sure your iPhone is connected to the Internet." = "重发文字失败！\n情确保您的iPhone已连接到互联网。";
+"Failed to resend text!\nPlease make sure your iPhone is connected to the Internet." = "重发文字失败！\n请确保您的 iPhone 已连接到互联网。";
 
 /* No comment provided by engineer. */
-"Failed to resend video!\nPlease make sure your iPhone is connected to the Internet." = "重发视频失败！\n情确保您的iPhone已连接到互联网。";
+"Failed to resend video!\nPlease make sure your iPhone is connected to the Internet." = "重发视频失败！\n请确保您的 iPhone 已连接到互联网。";
 
 /* No comment provided by engineer. */
 "Failed to send audio!\nTry tap on message to resend." = "发送音频失败！\n轻按消息气泡可以重发。";
