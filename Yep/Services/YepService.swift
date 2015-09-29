@@ -2091,6 +2091,26 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, pageIndex: Int, perPag
     }
 }
 
+func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: ((Reason, String?) -> Void)?,completion: JSONDictionary -> Void) {
+
+    let requestParameters: JSONDictionary = [
+        "page": pageIndex,
+        "per_page": perPage,
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/api/v1/topics", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 func createFeedWithMessage(message: String, attachments: String?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
 
     var requestParameters: JSONDictionary = [

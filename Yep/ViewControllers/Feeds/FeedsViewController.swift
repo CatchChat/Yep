@@ -58,7 +58,13 @@ class FeedsViewController: UIViewController {
         discoverFeedsWithSortStyle(.Time, pageIndex: 1, perPage: 100, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason, errorMessage: errorMessage)
         }, completion: { data in
-            println(data)
+            println("discoverFeeds \(data)")
+        })
+
+        myFeedsAtPageIndex(1, perPage: 100, failureHandler: { reason, errorMessage in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+        }, completion: { data in
+            println("myFeeds \(data)")
         })
     }
 
