@@ -237,6 +237,8 @@
 		50EB8CCE1AEA1B38001AC1EE /* MessageMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CCD1AEA1B38001AC1EE /* MessageMediaViewController.swift */; };
 		50F2B9781B2EDF3D00F840CC /* BorderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */; };
 		50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */; };
+		50F5AF831BBA67060033C9BC /* NewFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF821BBA67060033C9BC /* NewFeedViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		50F5AF861BBA676D0033C9BC /* NewFeed.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50F5AF851BBA676D0033C9BC /* NewFeed.storyboard */; settings = {ASSET_TAGS = (); }; };
 		50FA9A441B661698009BF2A0 /* UIViewController+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */; };
 		6A649A9B1BB259CB00EE4FB5 /* YepSoundEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A649A9A1BB259CB00EE4FB5 /* YepSoundEffect.swift */; settings = {ASSET_TAGS = (); }; };
 		6ADDB4501B848C600012877A /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6ADDB44F1B848C600012877A /* 1Password.xcassets */; };
@@ -505,6 +507,8 @@
 		50EB8CCD1AEA1B38001AC1EE /* MessageMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageMediaViewController.swift; path = ViewControllers/MessageMedia/MessageMediaViewController.swift; sourceTree = "<group>"; };
 		50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BorderTextField.swift; path = Views/TextFields/BorderTextField.swift; sourceTree = "<group>"; };
 		50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTitleLabel.swift; path = Views/Labels/NavigationTitleLabel.swift; sourceTree = "<group>"; };
+		50F5AF821BBA67060033C9BC /* NewFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewFeedViewController.swift; path = ViewControllers/NewFeed/NewFeedViewController.swift; sourceTree = "<group>"; };
+		50F5AF851BBA676D0033C9BC /* NewFeed.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = NewFeed.storyboard; path = ViewControllers/NewFeed/NewFeed.storyboard; sourceTree = "<group>"; };
 		50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Yep.swift"; path = "Extensions/UIViewController+Yep.swift"; sourceTree = "<group>"; };
 		6A649A9A1BB259CB00EE4FB5 /* YepSoundEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepSoundEffect.swift; path = Helpers/YepSoundEffect.swift; sourceTree = "<group>"; };
 		6ADDB44F1B848C600012877A /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = 1Password.xcassets; sourceTree = "<group>"; };
@@ -802,6 +806,7 @@
 				0AB8F79B1B15D1DF00F4AF09 /* Nav */,
 				848806B71B7B4F58000C5424 /* Show */,
 				50AFBF601BB4F33A007D19DA /* Feeds */,
+				50F5AF841BBA67140033C9BC /* NewFeed */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1702,6 +1707,15 @@
 			name = Labels;
 			sourceTree = "<group>";
 		};
+		50F5AF841BBA67140033C9BC /* NewFeed */ = {
+			isa = PBXGroup;
+			children = (
+				50F5AF821BBA67060033C9BC /* NewFeedViewController.swift */,
+				50F5AF851BBA676D0033C9BC /* NewFeed.storyboard */,
+			);
+			name = NewFeed;
+			sourceTree = "<group>";
+		};
 		59CC1DE9D59AC08247B97B4F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1878,6 +1892,7 @@
 				5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */,
 				505C338B1BAA92CA00E044E2 /* InfoPlist.strings in Resources */,
 				50AACECD1BB5419A004DD54B /* FeedView.xib in Resources */,
+				50F5AF861BBA676D0033C9BC /* NewFeed.storyboard in Resources */,
 				50C090A11ADE391600CC6389 /* AddSkillsReusableView.xib in Resources */,
 				504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */,
 				50E348931B9063A700A8E699 /* AboutCell.xib in Resources */,
@@ -2171,6 +2186,7 @@
 				505EC8171ADF8151001D27E0 /* SkillCategoryCell.swift in Sources */,
 				50E18BB71B180F7D0076C3C6 /* BottomButtonView.swift in Sources */,
 				0A90187E1B01152800AE4B7F /* ProfileSocialAccountCell.swift in Sources */,
+				50F5AF831BBA67060033C9BC /* NewFeedViewController.swift in Sources */,
 				50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */,
 				84385C441B8592120071130D /* ShowStepGeniusViewController.swift in Sources */,
 				5053AD5A1AF83B4200B3CBFA /* ChatLeftLocationCell.swift in Sources */,

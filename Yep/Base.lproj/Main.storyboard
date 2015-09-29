@@ -1598,7 +1598,13 @@
                             <constraint firstAttribute="bottom" secondItem="Tuy-Vc-gDL" secondAttribute="bottom" id="pJE-9F-fNv"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="LaU-sr-um0"/>
+                    <navigationItem key="navigationItem" id="LaU-sr-um0">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Goz-ft-7ec">
+                            <connections>
+                                <segue destination="4oS-hQ-vpS" kind="show" identifier="showNewFeed" id="zix-bq-iJe"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="feedsCollectionView" destination="Tuy-Vc-gDL" id="uv6-en-GgH"/>
                         <segue destination="la3-6z-2aH" kind="show" identifier="showConversation" id="Sdt-ox-uOm"/>
@@ -1607,6 +1613,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ETW-Em-Kw5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="643" y="-1667"/>
+        </scene>
+        <!--NewFeedViewController-->
+        <scene sceneID="LDV-cy-JhT">
+            <objects>
+                <viewControllerPlaceholder storyboardName="NewFeed" referencedIdentifier="NewFeedViewController" id="4oS-hQ-vpS" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HCX-id-Kbz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1144.5" y="-1667"/>
         </scene>
         <!--Chats-->
         <scene sceneID="ySr-fW-tdP">
