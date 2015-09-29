@@ -2062,6 +2062,35 @@ func markAsReadMessage(message: Message ,failureHandler: ((Reason, String?) -> V
     }
 }
 
+// MARK: - Feeds
+
+enum FeedSortStyle: String {
+
+    case Distance = "distance"
+    case Time = "time"
+}
+
+func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, pageIndex: Int, perPage: Int, failureHandler: ((Reason, String?) -> Void)?,completion: JSONDictionary -> Void) {
+
+    let requestParameters: JSONDictionary = [
+        "sort": sortStyle.rawValue,
+        "page": pageIndex,
+        "per_page": perPage,
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/api/v1/topics/discover", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 // MARK: - Social Work
 
 func authURLRequestWithURL(url: NSURL) -> NSURLRequest {

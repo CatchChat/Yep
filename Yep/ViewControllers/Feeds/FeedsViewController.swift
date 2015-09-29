@@ -54,6 +54,12 @@ class FeedsViewController: UIViewController {
 
         feedsCollectionView.backgroundColor = UIColor.whiteColor()
         feedsCollectionView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellWithReuseIdentifier: feedCellID)
+
+        discoverFeedsWithSortStyle(.Time, pageIndex: 1, perPage: 100, failureHandler: { reason, errorMessage in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+        }, completion: { data in
+            println(data)
+        })
     }
 
     // MARK: - Navigation
