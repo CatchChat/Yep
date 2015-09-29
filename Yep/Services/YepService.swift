@@ -2070,6 +2070,51 @@ enum FeedSortStyle: String {
     case Time = "time"
 }
 
+struct DiscoveredAttachment {
+
+    let kind: AttachmentKind
+    let metadata: String
+    let URLString: String
+}
+
+struct DiscoveredFeed {
+
+    let id: String
+    let allowComment: Bool
+
+    let createdUnixTime: NSTimeInterval
+    let updatedUnixTime: NSTimeInterval
+
+    let creator: DiscoveredUser
+    let body: String
+    let attachments: [DiscoveredAttachment]
+
+    let skill: Skill?
+    let groupID: String
+
+    static func fromJSONDictionary(json: JSONDictionary) -> DiscoveredFeed? {
+
+        guard let
+            id = json["id"] as? String,
+            allowComment = json["allow_comment"] as? Bool,
+            createdUnixTime = json["created_at"] as? NSTimeInterval,
+            updatedUnixTime = json["updated_at"] as? NSTimeInterval,
+            creatorInfo = json["user"] as? JSONDictionary,
+            body = json["body"] as? String,
+            //attachmentsData = json["circle"] as? [JSONDictionary], // TODO:
+            //skill
+            groupInfo = json["circle"] as? JSONDictionary else {
+                return nil
+        }
+
+        guard let creator = parseDiscoveredUser(creatorInfo), groupID = groupInfo["id"] as? String else {
+            return nil
+        }
+
+        return DiscoveredFeed(id: id, allowComment: allowComment, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: [], skill: nil, groupID: groupID)
+    }
+}
+
 func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, pageIndex: Int, perPage: Int, failureHandler: ((Reason, String?) -> Void)?,completion: JSONDictionary -> Void) {
 
     let requestParameters: JSONDictionary = [
@@ -2091,15 +2136,22 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, pageIndex: Int, perPag
     }
 }
 
-func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: ((Reason, String?) -> Void)?,completion: JSONDictionary -> Void) {
+func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: ((Reason, String?) -> Void)?,completion: [DiscoveredFeed] -> Void) {
 
     let requestParameters: JSONDictionary = [
         "page": pageIndex,
         "per_page": perPage,
     ]
 
-    let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
+    let parse: JSONDictionary -> [DiscoveredFeed]? = { data in
+
+        println(data)
+
+        if let feedsData = data["topics"] as? [JSONDictionary] {
+            return feedsData.map({ DiscoveredFeed.fromJSONDictionary($0) }).flatMap({ $0 })
+        }
+
+        return []
     }
 
     let resource = authJsonResource(path: "/api/v1/topics", method: .GET, requestParameters: requestParameters, parse: parse)

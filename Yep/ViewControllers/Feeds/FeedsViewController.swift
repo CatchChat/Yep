@@ -9,11 +9,6 @@
 import UIKit
 import RealmSwift
 
-struct FakeFeed {
-    let mediaCount: Int
-    let message: String
-}
-
 class FeedsViewController: UIViewController {
 
     @IBOutlet weak var feedsCollectionView: UICollectionView!
@@ -24,24 +19,23 @@ class FeedsViewController: UIViewController {
 
     let feedCellID = "FeedCell"
 
-    let fakeFeeds: [FakeFeed] = [
-        FakeFeed(mediaCount: 1, message: "My name is NIX."),
-        FakeFeed(mediaCount: 0, message: "My name is NIX.\nHow are you?"),
-        FakeFeed(mediaCount: 3, message: "My name is NIX.\nHow are you?\nWhould you like to go to China buy iPhone?"),
-        FakeFeed(mediaCount: 0, message: "My name is NIX.\nHow are you?\nWhould you like to go to China buy iPhone?"),
-        FakeFeed(mediaCount: 4, message: "Whould you like to go to China buy iPhone?"),
-        FakeFeed(mediaCount: 5, message: "998"),
-    ]
+    var feeds = [DiscoveredFeed]() {
+        didSet {
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.feedsCollectionView.reloadData()
+            }
+        }
+    }
 
-    private func heightOfFeed(feed: FakeFeed) -> CGFloat {
+    private func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
-        let rect = feed.message.boundingRectWithSize(CGSize(width: FeedCell.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedCell.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
         let height: CGFloat
-        if feed.mediaCount > 0 {
-            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 80 + 10 + 20.5 + 10
-        } else {
+        if feed.attachments.isEmpty {
             height = ceil(rect.height) + 10 + 40 + 4 + 10 + 20.5 + 10
+        } else {
+            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 80 + 10 + 20.5 + 10
         }
 
         return ceil(height)
@@ -63,8 +57,9 @@ class FeedsViewController: UIViewController {
 
         myFeedsAtPageIndex(1, perPage: 100, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason, errorMessage: errorMessage)
-        }, completion: { data in
-            println("myFeeds \(data)")
+        }, completion: { [weak self] feeds in
+            self?.feeds = feeds
+            println("myFeeds.count \(feeds.count)")
         })
     }
 
@@ -77,8 +72,12 @@ class FeedsViewController: UIViewController {
             let vc = segue.destinationViewController as! ConversationViewController
             let realm = try! Realm()
             vc.conversation = realm.objects(Conversation).sorted("updatedUnixTime", ascending: false).first
-            let feed = FakeFeed(mediaCount: 3, message: "My name is NIX. How are you? Would you like to go to China buy iPhone?")
-            vc.feed = feed
+
+            if let
+                index = sender as? Int,
+                feed = feeds[safe: index] {
+                    vc.feed = feed
+            }
         }
     }
 }
@@ -90,13 +89,13 @@ extension FeedsViewController: UICollectionViewDataSource, UICollectionViewDeleg
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fakeFeeds.count
+        return feeds.count
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedCellID, forIndexPath: indexPath) as! FeedCell
 
-        let feed = fakeFeeds[indexPath.item]
+        let feed = feeds[indexPath.item]
 
         cell.configureWithFeed(feed)
 
@@ -107,7 +106,7 @@ extension FeedsViewController: UICollectionViewDataSource, UICollectionViewDeleg
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        let feed = fakeFeeds[indexPath.item]
+        let feed = feeds[indexPath.item]
 
         return CGSize(width: collectionViewWidth, height: heightOfFeed(feed))
     }
@@ -118,7 +117,7 @@ extension FeedsViewController: UICollectionViewDataSource, UICollectionViewDeleg
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 
-        performSegueWithIdentifier("showConversation", sender: nil)
+        performSegueWithIdentifier("showConversation", sender: indexPath.item)
     }
 
     func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {

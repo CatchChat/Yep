@@ -20,7 +20,7 @@ struct MessageNotification {
 
 class ConversationViewController: BaseViewController {
 
-    var feed: FakeFeed?
+    var feed: DiscoveredFeed?
 
     var conversation: Conversation!
 
@@ -1041,7 +1041,7 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    private func makeFeedViewWithFeed(feed: FakeFeed) {
+    private func makeFeedViewWithFeed(feed: DiscoveredFeed) {
 
         let feedView = FeedView.instanceFromNib()
 

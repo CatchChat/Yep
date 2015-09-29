@@ -393,14 +393,15 @@ class Conversation: Object {
 
 // MARK: Feed
 
-class Attachment: Object {
+enum AttachmentKind: String {
 
-    enum Kind: String {
-        case Image = "image"
-        case Thumbnail = "thumbnail"
-        case Audio = "audio"
-        case Video = "video"
-    }
+    case Image = "image"
+    case Thumbnail = "thumbnail"
+    case Audio = "audio"
+    case Video = "video"
+}
+
+class Attachment: Object {
 
     dynamic var kind: String = ""
     dynamic var metadata: String = ""

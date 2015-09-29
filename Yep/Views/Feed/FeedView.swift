@@ -10,7 +10,7 @@ import UIKit
 
 class FeedView: UIView {
 
-    var feed: FakeFeed? {
+    var feed: DiscoveredFeed? {
         willSet {
             if let feed = newValue {
                 configureWithFeed(feed)
@@ -131,27 +131,28 @@ class FeedView: UIView {
             return 220
         }
 
-        let rect = feed.message.boundingRectWithSize(CGSize(width: FeedCell.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedCell.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
         let height: CGFloat
-        if feed.mediaCount > 0 {
-            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 80 + 10 + 20.5 + 10
-        } else {
+        if feed.attachments.isEmpty {
             height = ceil(rect.height) + 10 + 40 + 4 + 10 + 20.5 + 10
+        } else {
+            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 80 + 10 + 20.5 + 10
         }
 
         return ceil(height)
     }
 
-    private func configureWithFeed(feed: FakeFeed) {
-        messageLabel.text = feed.message
+    private func configureWithFeed(feed: DiscoveredFeed) {
 
-        let hasMedia = feed.mediaCount > 0
+        messageLabel.text = feed.body
+
+        let hasMedia = !feed.attachments.isEmpty
         timeLabelTopConstraint.constant = hasMedia ? 100 : 10
         mediaCollectionView.hidden = hasMedia ? false : true
 
-        let URLs = (0..<feed.mediaCount).map({
-            NSURL(string: String(format:"https://raw.githubusercontent.com/onevcat/Kingfisher/master/images/kingfisher-%d.jpg", $0 + 1))!
+        let URLs = feed.attachments.map({
+            NSURL(string: $0.URLString)!
         })
 
         mediaView.setImagesWithURLs(URLs)

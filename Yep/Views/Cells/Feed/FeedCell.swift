@@ -47,10 +47,11 @@ class FeedCell: UICollectionViewCell {
         mediaCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
     }
 
-    func configureWithFeed(feed: FakeFeed) {
-        messageLabel.text = feed.message
+    func configureWithFeed(feed: DiscoveredFeed) {
 
-        let hasMedia = feed.mediaCount > 0
+        messageLabel.text = feed.body
+
+        let hasMedia = !feed.attachments.isEmpty
         timeLabelTopConstraint.constant = hasMedia ? 100 : 10
         mediaCollectionView.hidden = hasMedia ? false : true
     }
