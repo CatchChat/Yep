@@ -144,6 +144,11 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case 1:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaCellID, forIndexPath: indexPath) as! FeedMediaCell
+
+            let image = mediaImages[indexPath.item]
+
+            cell.configureWithImage(image)
+
             return cell
 
         default:
@@ -169,7 +174,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             let openCameraRoll: ProposerAction = { [weak self] in
                 if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
                     if let strongSelf = self {
-                        strongSelf.imagePicker.sourceType = .PhotoLibrary
+                        strongSelf.imagePicker.sourceType = .SavedPhotosAlbum
                         strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
                     }
                 }

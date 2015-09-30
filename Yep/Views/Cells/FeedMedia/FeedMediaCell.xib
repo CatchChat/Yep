@@ -13,7 +13,7 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Aee-O7-EqM">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Aee-O7-EqM">
                         <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_media_delete" translatesAutoresizingMaskIntoConstraints="NO" id="hUo-wW-DEo">
@@ -31,6 +31,9 @@
                 <constraint firstItem="hUo-wW-DEo" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="pIZ-QQ-Aek"/>
             </constraints>
             <size key="customSize" width="120" height="116"/>
+            <connections>
+                <outlet property="imageView" destination="Aee-O7-EqM" id="X5m-t5-bCA"/>
+            </connections>
             <point key="canvasLocation" x="306" y="341"/>
         </collectionViewCell>
     </objects>
