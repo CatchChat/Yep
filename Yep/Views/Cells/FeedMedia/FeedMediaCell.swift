@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class FeedMediaCell: UICollectionViewCell {
 
@@ -20,5 +21,9 @@ class FeedMediaCell: UICollectionViewCell {
 
     func configureWithImage(image: UIImage) {
         imageView.image = image
+    }
+
+    func configureWithImageURL(imageURL: NSURL) {
+        imageView.kf_setImageWithURL(imageURL)
     }
 }

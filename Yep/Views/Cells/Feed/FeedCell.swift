@@ -23,11 +23,20 @@ class FeedCell: UITableViewCell {
 
     @IBOutlet weak var messageCountLabel: UILabel!
 
+
+    var attachmentURLs = [NSURL]() {
+        didSet {
+            mediaCollectionView.reloadData()
+        }
+    }
+
     static let messageLabelMaxWidth: CGFloat = {
         let maxWidth = UIScreen.mainScreen().bounds.width - (60 + 10)
         return maxWidth
         }()
 
+    let feedMediaCellID = "FeedMediaCell"
+    
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -39,6 +48,7 @@ class FeedCell: UITableViewCell {
 
         messageLabel.font = UIFont.feedMessageFont()
 
+        mediaCollectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 
@@ -53,7 +63,7 @@ class FeedCell: UITableViewCell {
         timeLabelTopConstraint.constant = hasMedia ? 100 : 10
         mediaCollectionView.hidden = hasMedia ? false : true
 
-        //let URLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
+        attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
 
         let avatarURLString = feed.creator.avatarURLString
         let radius = min(CGRectGetWidth(avatarImageView.bounds), CGRectGetHeight(avatarImageView.bounds)) * 0.5
@@ -83,12 +93,19 @@ extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegate {
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 15
+        return attachmentURLs.count
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
-        cell.backgroundColor = UIColor.greenColor()
+
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaCellID, forIndexPath: indexPath) as! FeedMediaCell
+
+        let imageURL = attachmentURLs[indexPath.item]
+
+        println("attachment imageURL: \(imageURL)")
+
+        cell.configureWithImageURL(imageURL)
+
         return cell
     }
 
