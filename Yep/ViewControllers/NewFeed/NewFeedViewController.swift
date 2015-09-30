@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Proposer
+import CoreLocation
 
 class NewFeedViewController: UIViewController {
 
@@ -28,14 +30,38 @@ class NewFeedViewController: UIViewController {
 
         messageTextView.backgroundColor = UIColor.lightGrayColor()
         mediaCollectionView.backgroundColor = UIColor.blueColor()
+
+        // try turn on location
+
+        let locationResource = PrivateResource.Location(.WhenInUse)
+
+        if locationResource.isNotDeterminedAuthorization {
+
+            proposeToAccess(.Location(.WhenInUse), agreed: {
+
+                YepLocationService.turnOn()
+
+            }, rejected: {
+                self.alertCanNotAccessLocation()
+            })
+
+        } else {
+            proposeToAccess(.Location(.WhenInUse), agreed: {
+
+                YepLocationService.turnOn()
+
+            }, rejected: {
+            })
+        }
     }
 
     // MARK: Actions
 
     func post(sender: UIBarButtonItem) {
-        println("post")
 
-        createFeedWithMessage(messageTextView.text, attachments: nil, coordinate: nil, skill: nil, allowComment: true, failureHandler: { reason, errorMessage in
+        let coordinate = YepLocationService.sharedManager.currentLocation?.coordinate
+
+        createFeedWithMessage(messageTextView.text, attachments: nil, coordinate: coordinate, skill: nil, allowComment: true, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason, errorMessage: errorMessage)
         }, completion: { data in
             println(data)
