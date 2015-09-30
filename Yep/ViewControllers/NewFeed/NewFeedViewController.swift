@@ -96,24 +96,88 @@ class NewFeedViewController: UIViewController {
 
     func post(sender: UIBarButtonItem) {
 
+        YepHUD.showActivityIndicator()
+
+        let message = messageTextView.text
+
         let coordinate = YepLocationService.sharedManager.currentLocation?.coordinate
 
-        createFeedWithMessage(messageTextView.text, attachments: nil, coordinate: coordinate, skill: nil, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage: errorMessage)
+        let uploadMediaImagesGroup = dispatch_group_create()
 
-            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create feed failed!", comment: ""), inViewController: self)
+        var allS3UploadParams = [S3UploadParams]()
 
-        }, completion: { data in
-            println(data)
+        mediaImages.forEach({ image in
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            if let imageData = UIImageJPEGRepresentation(image, 0.7) {
 
-                self?.afterCreatedFeedAction?()
+                dispatch_group_enter(uploadMediaImagesGroup)
 
-                self?.navigationController?.popViewControllerAnimated(true)
+                s3PublicUploadFile(inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
+
+                    defaultFailureHandler(reason, errorMessage: errorMessage)
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        dispatch_group_leave(uploadMediaImagesGroup)
+                    }
+
+                }, completion: { s3UploadParams in
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        allS3UploadParams.append(s3UploadParams)
+
+                        dispatch_group_leave(uploadMediaImagesGroup)
+                    }
+                })
             }
         })
-    }
+
+        dispatch_group_notify(uploadMediaImagesGroup, dispatch_get_main_queue()) {
+
+            let imageInfosData = allS3UploadParams.map({
+                [
+                    "file": $0.key,
+                    "metadata": "", // TODO: metadata
+                ]
+            })
+
+            let mediaInfo = [
+                "image": imageInfosData,
+            ]
+
+            /*
+            guard let
+                mediaData = try? NSJSONSerialization.dataWithJSONObject(mediaInfo, options: []),
+                mediaDataString = NSString(data: mediaData, encoding: NSUTF8StringEncoding) as? String else {
+
+                    YepHUD.hideActivityIndicator()
+
+                    return
+            }
+
+            println("mediaDataString: \(mediaDataString)")
+            */
+
+            createFeedWithMessage(message, attachments: mediaInfo, coordinate: coordinate, skill: nil, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
+                defaultFailureHandler(reason, errorMessage: errorMessage)
+
+                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create feed failed!", comment: ""), inViewController: self)
+
+                YepHUD.hideActivityIndicator()
+
+            }, completion: { data in
+                println(data)
+
+                YepHUD.hideActivityIndicator()
+
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                    self?.afterCreatedFeedAction?()
+
+                    self?.navigationController?.popViewControllerAnimated(true)
+                }
+            })
+        }
+   }
 }
 
 extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDelegate {

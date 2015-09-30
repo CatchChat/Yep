@@ -2174,7 +2174,7 @@ func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: ((Reason, 
     }
 }
 
-func createFeedWithMessage(message: String, attachments: String?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+func createFeedWithMessage(message: String, attachments: JSONDictionary?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
 
     var requestParameters: JSONDictionary = [
         "body": message,
