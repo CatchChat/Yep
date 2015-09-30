@@ -17,6 +17,8 @@ class NewFeedViewController: UIViewController {
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var mediaCollectionView: UICollectionView!
 
+    let feedMediaAddCellID = "FeedMediaAddCell"
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,8 +31,9 @@ class NewFeedViewController: UIViewController {
         messageTextView.text = "What's up?"
 
         messageTextView.backgroundColor = UIColor.lightGrayColor()
-        mediaCollectionView.backgroundColor = UIColor.blueColor()
+        //mediaCollectionView.backgroundColor = UIColor.blueColor()
 
+        mediaCollectionView.registerNib(UINib(nibName: feedMediaAddCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaAddCellID)
         mediaCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         mediaCollectionView.contentInset.left = 20
         mediaCollectionView.dataSource = self
@@ -91,13 +94,35 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            return 3
+        default:
+            return 0
+        }
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
-        cell.backgroundColor = UIColor.greenColor()
-        return cell
+
+        switch indexPath.section {
+
+        case 0:
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaAddCellID, forIndexPath: indexPath) as! FeedMediaAddCell
+            cell.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.5)
+            return cell
+
+        case 1:
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
+            cell.backgroundColor = UIColor.greenColor()
+            return cell
+
+        default:
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
+            return cell
+        }
     }
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
