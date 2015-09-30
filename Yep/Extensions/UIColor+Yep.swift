@@ -30,7 +30,8 @@ extension UIColor {
     }
 
     class func yepBorderColor() -> UIColor {
-        return UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        //return UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        return UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1)
     }
 
     class func avatarBackgroundColor() -> UIColor {

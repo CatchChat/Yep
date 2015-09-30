@@ -55,8 +55,6 @@ class FeedView: UIView {
                     self?.distanceLabel.alpha = foldingAlpha
                     self?.mediaCollectionView.alpha = foldingAlpha
                     self?.timeLabel.alpha = foldingAlpha
-                    self?.messageCountLabel.alpha = foldingAlpha
-                    self?.messageCountImageView.alpha = foldingAlpha
 
                     self?.mediaView.alpha = newValue
 
@@ -92,13 +90,15 @@ class FeedView: UIView {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var messageCountLabel: UILabel!
-    @IBOutlet weak var messageCountImageView: UIImageView!
-
     override func awakeFromNib() {
         super.awakeFromNib()
 
         clipsToBounds = true
+
+        nicknameLabel.textColor = UIColor.yepTintColor()
+        messageLabel.textColor = UIColor.darkGrayColor()
+        distanceLabel.textColor = UIColor.grayColor()
+        timeLabel.textColor = UIColor.grayColor()
 
         /*
         avatarImageView.backgroundColor = UIColor.redColor()
@@ -107,7 +107,6 @@ class FeedView: UIView {
         messageLabel.backgroundColor = UIColor.redColor()
         mediaCollectionView.backgroundColor = UIColor.redColor()
         timeLabel.backgroundColor = UIColor.redColor()
-        messageCountLabel.backgroundColor = UIColor.redColor()
         */
 
         messageLabel.font = UIFont.feedMessageFont()
@@ -137,9 +136,9 @@ class FeedView: UIView {
 
         let height: CGFloat
         if feed.attachments.isEmpty {
-            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 20.5 + 10
+            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 17 + 10
         } else {
-            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 80 + 10 + 20.5 + 10
+            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 80 + 10 + 17 + 10
         }
 
         return ceil(height)
@@ -172,7 +171,6 @@ class FeedView: UIView {
         }
 
         timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
-        messageCountLabel.text = "\(feed.messageCount)"
     }
 }
 

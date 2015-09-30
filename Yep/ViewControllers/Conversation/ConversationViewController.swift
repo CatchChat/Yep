@@ -1055,7 +1055,7 @@ class ConversationViewController: BaseViewController {
             self?.conversationCollectionView.contentInset.top = 64 + feedView.normalHeight + conversationCollectionViewContentInsetYOffset
         }
 
-        feedView.backgroundColor = UIColor.orangeColor()
+        //feedView.backgroundColor = UIColor.orangeColor()
         feedView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(feedView)
