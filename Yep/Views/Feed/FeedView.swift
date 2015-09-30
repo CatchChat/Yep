@@ -100,6 +100,7 @@ class FeedView: UIView {
 
         clipsToBounds = true
 
+        /*
         avatarImageView.backgroundColor = UIColor.redColor()
         nicknameLabel.backgroundColor = UIColor.redColor()
         distanceLabel.backgroundColor = UIColor.redColor()
@@ -107,6 +108,7 @@ class FeedView: UIView {
         mediaCollectionView.backgroundColor = UIColor.redColor()
         timeLabel.backgroundColor = UIColor.redColor()
         messageCountLabel.backgroundColor = UIColor.redColor()
+        */
 
         messageLabel.font = UIFont.feedMessageFont()
 
@@ -151,11 +153,21 @@ class FeedView: UIView {
         timeLabelTopConstraint.constant = hasMedia ? 100 : 10
         mediaCollectionView.hidden = hasMedia ? false : true
 
-        let URLs = feed.attachments.map({
-            NSURL(string: $0.URLString)!
-        })
+        let URLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
 
         mediaView.setImagesWithURLs(URLs)
+
+        let avatarURLString = feed.creator.avatarURLString
+        let radius = min(CGRectGetWidth(avatarImageView.bounds), CGRectGetHeight(avatarImageView.bounds)) * 0.5
+        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { [weak self] roundImage in
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.avatarImageView.image = roundImage
+            }
+        }
+
+        nicknameLabel.text = feed.creator.nickname
+        timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
+        messageCountLabel.text = "\(feed.messageCount)"
     }
 }
 
