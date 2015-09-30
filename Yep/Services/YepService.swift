@@ -2081,6 +2081,19 @@ struct DiscoveredAttachment {
     let kind: AttachmentKind
     let metadata: String
     let URLString: String
+
+    static func fromJSONDictionary(json: JSONDictionary) -> DiscoveredAttachment? {
+        guard let
+            kindString = json["kind"] as? String,
+            kind = AttachmentKind(rawValue: kindString),
+            metadata = json["metadata"] as? String,
+            fileInfo = json["file"] as? JSONDictionary,
+            URLString = fileInfo["url"] as? String else {
+                return nil
+        }
+
+        return DiscoveredAttachment(kind: kind, metadata: metadata, URLString: URLString)
+    }
 }
 
 struct DiscoveredFeed {
@@ -2109,8 +2122,8 @@ struct DiscoveredFeed {
             updatedUnixTime = json["updated_at"] as? NSTimeInterval,
             creatorInfo = json["user"] as? JSONDictionary,
             body = json["body"] as? String,
-            //attachmentsData = json["circle"] as? [JSONDictionary], // TODO:
-            //skill
+            attachmentsData = json["attachments"] as? [JSONDictionary],
+            //skill // TODO: skill
             groupInfo = json["circle"] as? JSONDictionary,
             messageCount = json["message_count"] as? Int else {
                 return nil
@@ -2120,9 +2133,11 @@ struct DiscoveredFeed {
             return nil
         }
 
-        var distance = json["distance"] as? Double
+        let distance = json["distance"] as? Double
 
-        return DiscoveredFeed(id: id, allowComment: allowComment, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: [], distance: distance, skill: nil, groupID: groupID, messageCount: messageCount)
+        let attachments = attachmentsData.map({ DiscoveredAttachment.fromJSONDictionary($0) }).flatMap({ $0 })
+
+        return DiscoveredFeed(id: id, allowComment: allowComment, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: attachments, distance: distance, skill: nil, groupID: groupID, messageCount: messageCount)
     }
 }
 
