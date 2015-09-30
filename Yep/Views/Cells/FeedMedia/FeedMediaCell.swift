@@ -1,5 +1,5 @@
 //
-//  FeedMediaAddCell.swift
+//  FeedMediaCell.swift
 //  Yep
 //
 //  Created by nixzhu on 15/9/30.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-class FeedMediaAddCell: UICollectionViewCell {
+class FeedMediaCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        contentView.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.5)
+        contentView.backgroundColor = UIColor.darkGrayColor()
     }
 }

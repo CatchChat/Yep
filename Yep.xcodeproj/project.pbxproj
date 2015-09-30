@@ -242,6 +242,8 @@
 		50F5AF8D1BBBB64C0033C9BC /* FeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F5AF8B1BBBB64C0033C9BC /* FeedCell.xib */; settings = {ASSET_TAGS = (); }; };
 		50F5AF951BBBCDA30033C9BC /* FeedMediaAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF931BBBCDA30033C9BC /* FeedMediaAddCell.swift */; settings = {ASSET_TAGS = (); }; };
 		50F5AF961BBBCDA30033C9BC /* FeedMediaAddCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F5AF941BBBCDA30033C9BC /* FeedMediaAddCell.xib */; settings = {ASSET_TAGS = (); }; };
+		50F5AF991BBBD02A0033C9BC /* FeedMediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF971BBBD02A0033C9BC /* FeedMediaCell.swift */; settings = {ASSET_TAGS = (); }; };
+		50F5AF9A1BBBD02A0033C9BC /* FeedMediaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F5AF981BBBD02A0033C9BC /* FeedMediaCell.xib */; settings = {ASSET_TAGS = (); }; };
 		50FA9A441B661698009BF2A0 /* UIViewController+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */; };
 		6A649A9B1BB259CB00EE4FB5 /* YepSoundEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A649A9A1BB259CB00EE4FB5 /* YepSoundEffect.swift */; settings = {ASSET_TAGS = (); }; };
 		6ADDB4501B848C600012877A /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6ADDB44F1B848C600012877A /* 1Password.xcassets */; };
@@ -515,6 +517,8 @@
 		50F5AF8B1BBBB64C0033C9BC /* FeedCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedCell.xib; path = Views/Cells/Feed/FeedCell.xib; sourceTree = "<group>"; };
 		50F5AF931BBBCDA30033C9BC /* FeedMediaAddCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaAddCell.swift; path = Views/Cells/FeedMediaAdd/FeedMediaAddCell.swift; sourceTree = "<group>"; };
 		50F5AF941BBBCDA30033C9BC /* FeedMediaAddCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedMediaAddCell.xib; path = Views/Cells/FeedMediaAdd/FeedMediaAddCell.xib; sourceTree = "<group>"; };
+		50F5AF971BBBD02A0033C9BC /* FeedMediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaCell.swift; path = Views/Cells/FeedMedia/FeedMediaCell.swift; sourceTree = "<group>"; };
+		50F5AF981BBBD02A0033C9BC /* FeedMediaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedMediaCell.xib; path = Views/Cells/FeedMedia/FeedMediaCell.xib; sourceTree = "<group>"; };
 		50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Yep.swift"; path = "Extensions/UIViewController+Yep.swift"; sourceTree = "<group>"; };
 		6A649A9A1BB259CB00EE4FB5 /* YepSoundEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepSoundEffect.swift; path = Helpers/YepSoundEffect.swift; sourceTree = "<group>"; };
 		6ADDB44F1B848C600012877A /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = 1Password.xcassets; sourceTree = "<group>"; };
@@ -951,6 +955,7 @@
 				50E348941B9063AD00A8E699 /* About */,
 				50AFBF651BB4FC37007D19DA /* Feed */,
 				50F5AF921BBBCC960033C9BC /* FeedMediaAdd */,
+				50F5AF9B1BBBD0310033C9BC /* FeedMedia */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1741,6 +1746,15 @@
 			name = FeedMediaAdd;
 			sourceTree = "<group>";
 		};
+		50F5AF9B1BBBD0310033C9BC /* FeedMedia */ = {
+			isa = PBXGroup;
+			children = (
+				50F5AF971BBBD02A0033C9BC /* FeedMediaCell.swift */,
+				50F5AF981BBBD02A0033C9BC /* FeedMediaCell.xib */,
+			);
+			name = FeedMedia;
+			sourceTree = "<group>";
+		};
 		59CC1DE9D59AC08247B97B4F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1956,6 +1970,7 @@
 				848806B11B789A2D000C5424 /* EditSkillCell.xib in Resources */,
 				50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */,
 				502AE54F1AB93175005BD199 /* ProfileHeaderCell.xib in Resources */,
+				50F5AF9A1BBBD02A0033C9BC /* FeedMediaCell.xib in Resources */,
 				50A640EA1B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib in Resources */,
 				0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */,
 				5053AD511AF82A1700B3CBFA /* PickLocationCell.xib in Resources */,
@@ -2075,6 +2090,7 @@
 				50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */,
 				50AFBF461BB25F40007D19DA /* ActivityIndicatorTitleView.swift in Sources */,
 				50E61CEB1AF1F69D00908A9D /* ConversationTitleView.swift in Sources */,
+				50F5AF991BBBD02A0033C9BC /* FeedMediaCell.swift in Sources */,
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,

@@ -18,6 +18,7 @@ class NewFeedViewController: UIViewController {
     @IBOutlet weak var mediaCollectionView: UICollectionView!
 
     let feedMediaAddCellID = "FeedMediaAddCell"
+    let feedMediaCellID = "FeedMediaCell"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,9 +32,10 @@ class NewFeedViewController: UIViewController {
         messageTextView.text = "What's up?"
 
         messageTextView.backgroundColor = UIColor.lightGrayColor()
-        //mediaCollectionView.backgroundColor = UIColor.blueColor()
+        mediaCollectionView.backgroundColor = UIColor.clearColor()
 
         mediaCollectionView.registerNib(UINib(nibName: feedMediaAddCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaAddCellID)
+        mediaCollectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
         mediaCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         mediaCollectionView.contentInset.left = 20
         mediaCollectionView.dataSource = self
@@ -111,12 +113,10 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case 0:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaAddCellID, forIndexPath: indexPath) as! FeedMediaAddCell
-            cell.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.5)
             return cell
 
         case 1:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
-            cell.backgroundColor = UIColor.greenColor()
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaCellID, forIndexPath: indexPath) as! FeedMediaCell
             return cell
 
         default:
