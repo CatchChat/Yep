@@ -61,10 +61,17 @@ class NewFeedViewController: UIViewController {
 
         let coordinate = YepLocationService.sharedManager.currentLocation?.coordinate
 
-        createFeedWithMessage(messageTextView.text, attachments: nil, coordinate: coordinate, skill: nil, allowComment: true, failureHandler: { reason, errorMessage in
+        createFeedWithMessage(messageTextView.text, attachments: nil, coordinate: coordinate, skill: nil, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason, errorMessage: errorMessage)
+
+            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create feed failed!", comment: ""), inViewController: self)
+
         }, completion: { data in
             println(data)
+
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.navigationController?.popViewControllerAnimated(true)
+            }
         })
     }
 }
