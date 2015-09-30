@@ -90,6 +90,7 @@
                     <constraint firstItem="uir-A9-aaJ" firstAttribute="centerY" secondItem="d97-mK-bJE" secondAttribute="centerY" id="vTi-1C-OoG"/>
                 </constraints>
             </tableViewCellContentView>
+            <inset key="separatorInset" minX="60" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
                 <outlet property="avatarImageView" destination="GRs-kP-Ugk" id="Rch-2A-tIe"/>
                 <outlet property="distanceLabel" destination="uir-A9-aaJ" id="asK-JQ-ew5"/>

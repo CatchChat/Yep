@@ -15,10 +15,16 @@ class FeedsViewController: UIViewController {
 
     let feedCellID = "FeedCell"
 
+    lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
+
     var feeds = [DiscoveredFeed]() {
         didSet {
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 self?.feedsTableView.reloadData()
+
+                if let strongSelf = self {
+                    strongSelf.feedsTableView.tableFooterView = strongSelf.feeds.isEmpty ? strongSelf.noFeedsFooterView : UIView()
+                }
             }
         }
     }
@@ -44,6 +50,7 @@ class FeedsViewController: UIViewController {
 
         feedsTableView.backgroundColor = UIColor.whiteColor()
         feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
+        feedsTableView.tableFooterView = UIView()
 
         discoverFeedsWithSortStyle(.Time, pageIndex: 1, perPage: 100, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason, errorMessage: errorMessage)
