@@ -2,13 +2,13 @@
 //  FeedCell.swift
 //  Yep
 //
-//  Created by nixzhu on 15/9/25.
+//  Created by nixzhu on 15/9/30.
 //  Copyright © 2015年 Catch Inc. All rights reserved.
 //
 
 import UIKit
 
-class FeedCell: UICollectionViewCell {
+class FeedCell: UITableViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
@@ -37,18 +37,8 @@ class FeedCell: UICollectionViewCell {
         timeLabel.textColor = UIColor.grayColor()
         messageCountLabel.textColor = UIColor.yepTintColor()
 
-        /*
-        avatarImageView.backgroundColor = UIColor.redColor()
-        nicknameLabel.backgroundColor = UIColor.redColor()
-        distanceLabel.backgroundColor = UIColor.redColor()
-        messageLabel.backgroundColor = UIColor.redColor()
-        mediaCollectionView.backgroundColor = UIColor.redColor()
-        timeLabel.backgroundColor = UIColor.redColor()
-        messageCountLabel.backgroundColor = UIColor.redColor()
-        */
-
         messageLabel.font = UIFont.feedMessageFont()
-        
+
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 
@@ -64,13 +54,13 @@ class FeedCell: UICollectionViewCell {
         mediaCollectionView.hidden = hasMedia ? false : true
 
         //let URLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
-        
+
         let avatarURLString = feed.creator.avatarURLString
         let radius = min(CGRectGetWidth(avatarImageView.bounds), CGRectGetHeight(avatarImageView.bounds)) * 0.5
         AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { [weak self] roundImage in
             dispatch_async(dispatch_get_main_queue()) {
                 //if let _ = tableView.cellForRowAtIndexPath(indexPath) {
-                    self?.avatarImageView.image = roundImage
+                self?.avatarImageView.image = roundImage
                 //}
             }
         }

@@ -11,18 +11,14 @@ import RealmSwift
 
 class FeedsViewController: UIViewController {
 
-    @IBOutlet weak var feedsCollectionView: UICollectionView!
-
-    lazy var collectionViewWidth: CGFloat = {
-        return CGRectGetWidth(self.feedsCollectionView.bounds)
-        }()
+    @IBOutlet weak var feedsTableView: UITableView!
 
     let feedCellID = "FeedCell"
 
     var feeds = [DiscoveredFeed]() {
         didSet {
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                self?.feedsCollectionView.reloadData()
+                self?.feedsTableView.reloadData()
             }
         }
     }
@@ -46,8 +42,8 @@ class FeedsViewController: UIViewController {
 
         title = NSLocalizedString("Feeds", comment: "")
 
-        feedsCollectionView.backgroundColor = UIColor.whiteColor()
-        feedsCollectionView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellWithReuseIdentifier: feedCellID)
+        feedsTableView.backgroundColor = UIColor.whiteColor()
+        feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
 
         discoverFeedsWithSortStyle(.Time, pageIndex: 1, perPage: 100, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason, errorMessage: errorMessage)
@@ -131,6 +127,45 @@ class FeedsViewController: UIViewController {
     }
 }
 
+extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+
+        return 1
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        return feeds.count
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+
+        let cell = tableView.dequeueReusableCellWithIdentifier(feedCellID) as! FeedCell
+
+        let feed = feeds[indexPath.item]
+
+        cell.configureWithFeed(feed)
+
+        return cell
+    }
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+
+        let feed = feeds[indexPath.item]
+
+        return heightOfFeed(feed)
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        performSegueWithIdentifier("showConversation", sender: indexPath.item)
+    }
+}
+
+/*
 extension FeedsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -181,4 +216,4 @@ extension FeedsViewController: UICollectionViewDataSource, UICollectionViewDeleg
         cell.contentView.backgroundColor = UIColor.clearColor()
     }
 }
-
+*/
