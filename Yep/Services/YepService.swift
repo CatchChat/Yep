@@ -2094,6 +2094,7 @@ struct DiscoveredFeed {
     let creator: DiscoveredUser
     let body: String
     let attachments: [DiscoveredAttachment]
+    let distance: Double?
 
     let skill: Skill?
     let groupID: String
@@ -2119,7 +2120,9 @@ struct DiscoveredFeed {
             return nil
         }
 
-        return DiscoveredFeed(id: id, allowComment: allowComment, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: [], skill: nil, groupID: groupID, messageCount: messageCount)
+        var distance = json["distance"] as? Double
+
+        return DiscoveredFeed(id: id, allowComment: allowComment, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: [], distance: distance, skill: nil, groupID: groupID, messageCount: messageCount)
     }
 }
 

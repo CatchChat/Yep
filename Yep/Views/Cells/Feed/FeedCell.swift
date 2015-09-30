@@ -63,6 +63,8 @@ class FeedCell: UICollectionViewCell {
         timeLabelTopConstraint.constant = hasMedia ? 100 : 10
         mediaCollectionView.hidden = hasMedia ? false : true
 
+        //let URLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
+        
         let avatarURLString = feed.creator.avatarURLString
         let radius = min(CGRectGetWidth(avatarImageView.bounds), CGRectGetHeight(avatarImageView.bounds)) * 0.5
         AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { [weak self] roundImage in
@@ -74,6 +76,11 @@ class FeedCell: UICollectionViewCell {
         }
 
         nicknameLabel.text = feed.creator.nickname
+
+        if let distance = feed.distance?.format(".1") {
+            distanceLabel.text = "\(distance) km"
+        }
+
         timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
         messageCountLabel.text = "\(feed.messageCount)"
     }

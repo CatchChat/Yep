@@ -166,6 +166,11 @@ class FeedView: UIView {
         }
 
         nicknameLabel.text = feed.creator.nickname
+
+        if let distance = feed.distance?.format(".1") {
+            distanceLabel.text = "\(distance) km"
+        }
+
         timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
         messageCountLabel.text = "\(feed.messageCount)"
     }
