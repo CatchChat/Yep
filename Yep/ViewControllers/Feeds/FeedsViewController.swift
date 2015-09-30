@@ -52,12 +52,7 @@ class FeedsViewController: UIViewController {
         feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
         feedsTableView.tableFooterView = UIView()
 
-        discoverFeedsWithSortStyle(.Time, pageIndex: 1, perPage: 100, failureHandler: { reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage: errorMessage)
-        }, completion: { [weak self] feeds in
-            self?.feeds = feeds
-            println("discoverFeeds.count: \(feeds.count)")
-        })
+        updateFeeds()
 
         /*
         myFeedsAtPageIndex(1, perPage: 100, failureHandler: { reason, errorMessage in
@@ -69,9 +64,31 @@ class FeedsViewController: UIViewController {
         */
     }
 
+    // MARK: - Actions
+
+    func updateFeeds() {
+
+        discoverFeedsWithSortStyle(.Time, pageIndex: 1, perPage: 100, failureHandler: { reason, errorMessage in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+
+        }, completion: { [weak self] feeds in
+            self?.feeds = feeds
+            println("discoverFeeds.count: \(feeds.count)")
+        })
+    }
+
     // MARK: - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        if segue.identifier == "showNewFeed" {
+
+            let vc = segue.destinationViewController as! NewFeedViewController
+            
+            vc.afterCreatedFeedAction = { [weak self] in
+                self?.updateFeeds()
+            }
+        }
 
         if segue.identifier == "showConversation" {
 

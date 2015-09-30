@@ -12,10 +12,10 @@ import CoreLocation
 
 class NewFeedViewController: UIViewController {
 
+    var afterCreatedFeedAction: (() -> Void)?
+
     @IBOutlet weak var messageTextView: UITextView!
-
     @IBOutlet weak var mediaCollectionView: UICollectionView!
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +70,9 @@ class NewFeedViewController: UIViewController {
             println(data)
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                self?.afterCreatedFeedAction?()
+
                 self?.navigationController?.popViewControllerAnimated(true)
             }
         })
