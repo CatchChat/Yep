@@ -51,16 +51,19 @@ class FeedsViewController: UIViewController {
 
         discoverFeedsWithSortStyle(.Time, pageIndex: 1, perPage: 100, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason, errorMessage: errorMessage)
-        }, completion: { data in
-            println("discoverFeeds \(data)")
+        }, completion: { [weak self] feeds in
+            self?.feeds = feeds
+            println("discoverFeeds.count: \(feeds.count)")
         })
 
+        /*
         myFeedsAtPageIndex(1, perPage: 100, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason, errorMessage: errorMessage)
         }, completion: { [weak self] feeds in
             self?.feeds = feeds
-            println("myFeeds.count \(feeds.count)")
+            println("myFeeds.count: \(feeds.count)")
         })
+        */
     }
 
     // MARK: - Navigation

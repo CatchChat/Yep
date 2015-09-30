@@ -2123,7 +2123,18 @@ struct DiscoveredFeed {
     }
 }
 
-func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, pageIndex: Int, perPage: Int, failureHandler: ((Reason, String?) -> Void)?,completion: JSONDictionary -> Void) {
+let parseFeeds: JSONDictionary -> [DiscoveredFeed]? = { data in
+
+    println("feedsData: \(data)")
+
+    if let feedsData = data["topics"] as? [JSONDictionary] {
+        return feedsData.map({ DiscoveredFeed.fromJSONDictionary($0) }).flatMap({ $0 })
+    }
+
+    return []
+}
+
+func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, pageIndex: Int, perPage: Int, failureHandler: ((Reason, String?) -> Void)?,completion: [DiscoveredFeed] -> Void) {
 
     let requestParameters: JSONDictionary = [
         "sort": sortStyle.rawValue,
@@ -2131,9 +2142,7 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, pageIndex: Int, perPag
         "per_page": perPage,
     ]
 
-    let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
-    }
+    let parse = parseFeeds
 
     let resource = authJsonResource(path: "/api/v1/topics/discover", method: .GET, requestParameters: requestParameters, parse: parse)
 
@@ -2151,16 +2160,7 @@ func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: ((Reason, 
         "per_page": perPage,
     ]
 
-    let parse: JSONDictionary -> [DiscoveredFeed]? = { data in
-
-        println(data)
-
-        if let feedsData = data["topics"] as? [JSONDictionary] {
-            return feedsData.map({ DiscoveredFeed.fromJSONDictionary($0) }).flatMap({ $0 })
-        }
-
-        return []
-    }
+    let parse = parseFeeds
 
     let resource = authJsonResource(path: "/api/v1/topics", method: .GET, requestParameters: requestParameters, parse: parse)
 
