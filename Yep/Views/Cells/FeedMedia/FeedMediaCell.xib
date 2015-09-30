@@ -32,6 +32,7 @@
             </constraints>
             <size key="customSize" width="120" height="116"/>
             <connections>
+                <outlet property="deleteImageView" destination="hUo-wW-DEo" id="DrB-Br-qyb"/>
                 <outlet property="imageView" destination="Aee-O7-EqM" id="X5m-t5-bCA"/>
             </connections>
             <point key="canvasLocation" x="306" y="341"/>

@@ -48,6 +48,7 @@ class FeedCell: UITableViewCell {
 
         messageLabel.font = UIFont.feedMessageFont()
 
+        mediaCollectionView.backgroundColor = UIColor.clearColor()
         mediaCollectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
