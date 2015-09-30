@@ -90,6 +90,15 @@ class FeedView: UIView {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
 
+    var attachmentURLs = [NSURL]() {
+        didSet {
+            mediaCollectionView.reloadData()
+            mediaView.setImagesWithURLs(attachmentURLs)
+        }
+    }
+
+    let feedMediaCellID = "FeedMediaCell"
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -100,21 +109,14 @@ class FeedView: UIView {
         distanceLabel.textColor = UIColor.grayColor()
         timeLabel.textColor = UIColor.grayColor()
 
-        /*
-        avatarImageView.backgroundColor = UIColor.redColor()
-        nicknameLabel.backgroundColor = UIColor.redColor()
-        distanceLabel.backgroundColor = UIColor.redColor()
-        messageLabel.backgroundColor = UIColor.redColor()
-        mediaCollectionView.backgroundColor = UIColor.redColor()
-        timeLabel.backgroundColor = UIColor.redColor()
-        */
-
         messageLabel.font = UIFont.feedMessageFont()
 
         mediaView.alpha = 0
 
-        //mediaCollectionView.dataSource = self
-        //mediaCollectionView.delegate = self
+        mediaCollectionView.backgroundColor = UIColor.clearColor()
+        mediaCollectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
+        mediaCollectionView.dataSource = self
+        mediaCollectionView.delegate = self
 
         //mediaCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
 
@@ -152,9 +154,7 @@ class FeedView: UIView {
         timeLabelTopConstraint.constant = hasMedia ? 100 : 10
         mediaCollectionView.hidden = hasMedia ? false : true
 
-        let URLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
-
-        mediaView.setImagesWithURLs(URLs)
+        attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
 
         let avatarURLString = feed.creator.avatarURLString
         let radius = min(CGRectGetWidth(avatarImageView.bounds), CGRectGetHeight(avatarImageView.bounds)) * 0.5
@@ -171,6 +171,39 @@ class FeedView: UIView {
         }
 
         timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
+    }
+}
+
+extension FeedView: UICollectionViewDataSource, UICollectionViewDelegate {
+
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return attachmentURLs.count
+    }
+
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaCellID, forIndexPath: indexPath) as! FeedMediaCell
+
+        let imageURL = attachmentURLs[indexPath.item]
+
+        println("attachment imageURL: \(imageURL)")
+
+        cell.configureWithImageURL(imageURL)
+
+        return cell
+    }
+
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+
+        return CGSize(width: 80, height: 80)
+    }
+
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 }
 
