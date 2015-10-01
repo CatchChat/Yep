@@ -228,7 +228,7 @@ class RegisterPickAvatarViewController: UIViewController {
         avatar = self.avatar.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
         let imageData = UIImageJPEGRepresentation(avatar, YepConfig.avatarCompressionQuality())
 
-        s3PublicUploadFile(inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
+        s3UploadFileOfKind(.Avatar, inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
 
             defaultFailureHandler(reason, errorMessage: errorMessage)
 

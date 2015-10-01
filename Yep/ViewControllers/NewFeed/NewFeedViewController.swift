@@ -112,7 +112,7 @@ class NewFeedViewController: UIViewController {
 
                 dispatch_group_enter(uploadMediaImagesGroup)
 
-                s3PrivateUploadFile(inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
+                s3UploadFileOfKind(.Feed, inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
 
                     defaultFailureHandler(reason, errorMessage: errorMessage)
 
