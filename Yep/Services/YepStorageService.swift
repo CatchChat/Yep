@@ -10,10 +10,10 @@ import Foundation
 import MobileCoreServices.UTType
 import AFNetworking
 
-
 /**
     Struct of S3 UploadParams
 */
+
 struct S3UploadParams {
 
     let url: String
@@ -98,60 +98,6 @@ private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: N
     uploadTask.resume()
 }
 
-// MARK: Upload
-
-
-
-func s3UploadParamsOfKind(kind: S3UploadParams.Kind, failureHandler: ((Reason, String?) -> ())?, completion: (S3UploadParams) -> Void) {
-
-    s3UploadParams("/api/v1/attachments/\(kind.rawValue)/s3_upload_form_fields", failureHandler: { (reason, error)  in
-        if let failureHandler = failureHandler {
-            failureHandler(reason, error)
-        } else {
-            defaultFailureHandler(reason, errorMessage: error)
-        }
-
-    }, completion: { S3PrivateUploadParams in
-        completion(S3PrivateUploadParams)
-    })
-}
-
-/*
-private func s3PrivateUploadParams(failureHandler failureHandler: ((Reason, String?) -> ())?, completion: (S3UploadParams) -> Void) {
-
-    s3UploadParams("/api/v1/attachments/s3_upload_form_fields", failureHandler: { (reason, error)  in
-        if let failureHandler = failureHandler {
-            failureHandler(reason, error)
-        } else {
-            defaultFailureHandler(reason, errorMessage: error)
-        }
-        
-    }, completion: { S3PrivateUploadParams in
-        completion(S3PrivateUploadParams)
-    })
-}
-
-/// Get S3 public upload params
-///
-/// You can use this in Avatar
-///
-/// :S3UploadParams:     The Upload Params
-
-private func s3PublicUploadParams(failureHandler failureHandler: ((Reason, String?) -> ())?, completion: (S3UploadParams) -> Void) {
-
-    s3UploadParams("/api/v1/attachments/s3_upload_public_form_fields", failureHandler: { (reason, error)  in
-        if let failureHandler = failureHandler {
-            failureHandler(reason, error)
-        } else {
-            defaultFailureHandler(reason, errorMessage: error)
-        }
-        
-    }, completion: { S3PublicUploadParams in
-        completion(S3PublicUploadParams)
-    })
-}
-*/
-
 /// Get S3  upload params
 ///
 ///
@@ -211,6 +157,20 @@ private func s3UploadParams(url: String, failureHandler: ((Reason, String?) -> (
     }
 }
 
+private func s3UploadParamsOfKind(kind: S3UploadParams.Kind, failureHandler: ((Reason, String?) -> ())?, completion: (S3UploadParams) -> Void) {
+
+    s3UploadParams("/api/v1/attachments/\(kind.rawValue)/s3_upload_form_fields", failureHandler: { (reason, error)  in
+        if let failureHandler = failureHandler {
+            failureHandler(reason, error)
+        } else {
+            defaultFailureHandler(reason, errorMessage: error)
+        }
+
+        }, completion: { S3PrivateUploadParams in
+            completion(S3PrivateUploadParams)
+    })
+}
+
 // API
 
 func s3UploadFileOfKind(kind: S3UploadParams.Kind, inFilePath filePath: String?, orFileData fileData: NSData?, mimeType: String,  failureHandler: ((Reason, String?) -> ())?, completion: S3UploadParams -> ()) {
@@ -222,22 +182,3 @@ func s3UploadFileOfKind(kind: S3UploadParams.Kind, inFilePath filePath: String?,
     }
 }
 
-/*
-func s3PublicUploadFile(inFilePath filePath: String?, orFileData fileData: NSData?, mimeType: String,  failureHandler: ((Reason, String?) -> ())?, completion: S3UploadParams -> ()) {
-
-    s3PublicUploadParams(failureHandler: failureHandler) { s3UploadParams in
-        uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mimeType, s3UploadParams: s3UploadParams, failureHandler: failureHandler) {
-            completion(s3UploadParams)
-        }
-    }
-}
-
-func s3PrivateUploadFile(inFilePath filePath: String?, orFileData fileData: NSData?, mimeType: String,  failureHandler: ((Reason, String?) -> ())?, completion: S3UploadParams -> ()) {
-
-    s3PrivateUploadParams(failureHandler: failureHandler) { s3UploadParams in
-        uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mimeType, s3UploadParams: s3UploadParams, failureHandler: failureHandler) {
-            completion(s3UploadParams)
-        }
-    }
-}
-*/
