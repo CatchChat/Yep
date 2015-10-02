@@ -42,6 +42,7 @@ class YepTabBarController: UITabBarController {
             let titles = [
                 NSLocalizedString("Chats", comment: ""),
                 NSLocalizedString("Contacts", comment: ""),
+                NSLocalizedString("Feeds", comment: ""),
                 NSLocalizedString("Discover", comment: ""),
                 NSLocalizedString("Profile", comment: ""),
             ]

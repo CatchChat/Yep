@@ -42,4 +42,8 @@ extension UIFont {
         //return UIFont(name: "Helvetica-Bold", size: 15)!
         return UIFont.boldSystemFontOfSize(15)
     }
+
+    class func feedMessageFont() -> UIFont {
+        return UIFont.systemFontOfSize(17)
+    }
 }

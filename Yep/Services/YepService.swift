@@ -1504,25 +1504,24 @@ func sentButUnreadMessages(failureHandler failureHandler: ((Reason, String?) -> 
 
 
 func unreadMessages(completion completion: [JSONDictionary] -> Void) {
+
     headUnreadMessages { result in
+
+        var messages = [JSONDictionary]()
+
+        if let page1Messages = result["messages"] as? [JSONDictionary] {
+            messages += page1Messages
+        }
+
         if
             let count = result["count"] as? Int,
             let currentPage = result["current_page"] as? Int,
             let perPage = result["per_page"] as? Int {
+
                 if count <= currentPage * perPage {
-                    if let messages = result["messages"] as? [JSONDictionary] {
-                        completion(messages)
-                    } else {
-                        completion([])
-                    }
+                    completion(messages)
 
                 } else {
-                    var messages = [JSONDictionary]()
-
-                    if let page1Messages = result["messages"] as? [JSONDictionary] {
-                        messages += page1Messages
-                    }
-
                     // We have more messages
 
                     let downloadGroup = dispatch_group_create()
@@ -1532,11 +1531,13 @@ func unreadMessages(completion completion: [JSONDictionary] -> Void) {
 
                         moreUnreadMessages(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
                             dispatch_group_leave(downloadGroup)
-                            }, completion: { result in
-                                if let currentPageMessages = result["messages"] as? [JSONDictionary] {
-                                    messages += currentPageMessages
-                                }
-                                dispatch_group_leave(downloadGroup)
+
+                        }, completion: { result in
+                            if let currentPageMessages = result["messages"] as? [JSONDictionary] {
+                                messages += currentPageMessages
+                            }
+
+                            dispatch_group_leave(downloadGroup)
                         })
                     }
 
@@ -1544,7 +1545,80 @@ func unreadMessages(completion completion: [JSONDictionary] -> Void) {
                         completion(messages)
                     }
                 }
+
+        } else {
+            // 可能无分页
+            completion(messages)
         }
+    }
+}
+
+struct Recipient {
+
+    let type: ConversationType
+    let ID: String
+}
+
+enum TimeDirection {
+
+    case Future(minMessageID: String)
+    case Past(maxMessageID: String)
+    case None
+}
+
+func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection: TimeDirection, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+
+    var requestParameters = [
+        "recipient_type": recipient.type.nameForServer,
+        "recipient_id": recipient.ID,
+    ]
+
+    switch timeDirection {
+    case .Future(let minMessageID):
+        requestParameters["min_id"] = minMessageID
+    case .Past(let maxMessageID):
+        requestParameters["max_id"] = maxMessageID
+    case .None:
+        break
+    }
+
+    let parse: JSONDictionary -> Bool? = { data in
+
+        guard let unreadMessagesData = data["messages"] as? [JSONDictionary] else {
+            return false
+        }
+
+        println("messagesFromRecipient: \(recipient), \(unreadMessagesData.count)")
+
+        dispatch_async(dispatch_get_main_queue()) {
+
+            guard let realm = try? Realm() else {
+                return
+            }
+
+            var messageIDs = [String]()
+
+            for messageInfo in unreadMessagesData {
+                syncMessageWithMessageInfo(messageInfo, inRealm: realm) { _messageIDs in
+                    messageIDs += _messageIDs
+                }
+            }
+
+            if !messageIDs.isEmpty {
+                let object = ["messageIDs": messageIDs]
+                NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: object)
+            }
+        }
+
+        return true
+    }
+
+    let resource = authJsonResource(path: "/api/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages/unread", method: .GET, requestParameters: requestParameters, parse: parse )
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
     }
 }
 
@@ -1561,7 +1635,13 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, failureHandler: (
             return nil
         }
 
-        let resource = authJsonResource(path: "/api/v1/messages", method: .POST, requestParameters: messageInfo, parse: parse)
+        guard let
+            recipientType = messageInfo["recipient_type"] as? String,
+            recipientID = messageInfo["recipient_id"] as? String else {
+                return
+        }
+
+        let resource = authJsonResource(path: "/api/v1/\(recipientType)/\(recipientID)/messages", method: .POST, requestParameters: messageInfo, parse: parse)
 
         if let failureHandler = failureHandler {
             apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
@@ -1846,7 +1926,7 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
 
         default:
 
-            s3PrivateUploadFile(inFilePath: filePath, orFileData: fileData, mimeType: mediaType.mineType, failureHandler: failureHandler, completion: { s3UploadParams in
+            s3UploadFileOfKind(.Message, inFilePath: filePath, orFileData: fileData, mimeType: mediaType.mineType, failureHandler: failureHandler, completion: { s3UploadParams in
 
                 switch mediaType {
 
@@ -1901,7 +1981,7 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
                             thumbnailData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
                     }
 
-                    s3PrivateUploadFile(inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType, failureHandler: failureHandler, completion: { thumbnailS3UploadParams in
+                    s3UploadFileOfKind(.Message, inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType, failureHandler: failureHandler, completion: { thumbnailS3UploadParams in
 
                         if let metaData = metaData {
                             let attachments = [
@@ -2054,6 +2134,162 @@ func markAsReadMessage(message: Message ,failureHandler: ((Reason, String?) -> V
     }
 
     let resource = authJsonResource(path: "/api/v1/messages/\(message.messageID)/mark_as_read", method: .PATCH, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+// MARK: - Feeds
+
+enum FeedSortStyle: String {
+
+    case Distance = "distance"
+    case Time = "time"
+}
+
+struct DiscoveredAttachment {
+
+    let kind: AttachmentKind
+    let metadata: String
+    let URLString: String
+
+    static func fromJSONDictionary(json: JSONDictionary) -> DiscoveredAttachment? {
+        guard let
+            kindString = json["kind"] as? String,
+            kind = AttachmentKind(rawValue: kindString),
+            metadata = json["metadata"] as? String,
+            fileInfo = json["file"] as? JSONDictionary,
+            URLString = fileInfo["url"] as? String else {
+                return nil
+        }
+
+        return DiscoveredAttachment(kind: kind, metadata: metadata, URLString: URLString)
+    }
+}
+
+struct DiscoveredFeed {
+
+    let id: String
+    let allowComment: Bool
+
+    let createdUnixTime: NSTimeInterval
+    let updatedUnixTime: NSTimeInterval
+
+    let creator: DiscoveredUser
+    let body: String
+    let attachments: [DiscoveredAttachment]
+    let distance: Double?
+
+    let skill: Skill?
+    let groupID: String
+    let messageCount: Int
+
+    static func fromJSONDictionary(json: JSONDictionary) -> DiscoveredFeed? {
+
+        guard let
+            id = json["id"] as? String,
+            allowComment = json["allow_comment"] as? Bool,
+            createdUnixTime = json["created_at"] as? NSTimeInterval,
+            updatedUnixTime = json["updated_at"] as? NSTimeInterval,
+            creatorInfo = json["user"] as? JSONDictionary,
+            body = json["body"] as? String,
+            attachmentsData = json["attachments"] as? [JSONDictionary],
+            //skill // TODO: skill
+            groupInfo = json["circle"] as? JSONDictionary,
+            messageCount = json["message_count"] as? Int else {
+                return nil
+        }
+
+        guard let creator = parseDiscoveredUser(creatorInfo), groupID = groupInfo["id"] as? String else {
+            return nil
+        }
+
+        let distance = json["distance"] as? Double
+
+        let attachments = attachmentsData.map({ DiscoveredAttachment.fromJSONDictionary($0) }).flatMap({ $0 })
+
+        return DiscoveredFeed(id: id, allowComment: allowComment, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: attachments, distance: distance, skill: nil, groupID: groupID, messageCount: messageCount)
+    }
+}
+
+let parseFeeds: JSONDictionary -> [DiscoveredFeed]? = { data in
+
+    println("feedsData: \(data)")
+
+    if let feedsData = data["topics"] as? [JSONDictionary] {
+        return feedsData.map({ DiscoveredFeed.fromJSONDictionary($0) }).flatMap({ $0 })
+    }
+
+    return []
+}
+
+func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, pageIndex: Int, perPage: Int, failureHandler: ((Reason, String?) -> Void)?,completion: [DiscoveredFeed] -> Void) {
+
+    let requestParameters: JSONDictionary = [
+        "sort": sortStyle.rawValue,
+        "page": pageIndex,
+        "per_page": perPage,
+    ]
+
+    let parse = parseFeeds
+
+    let resource = authJsonResource(path: "/api/v1/topics/discover", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: ((Reason, String?) -> Void)?,completion: [DiscoveredFeed] -> Void) {
+
+    let requestParameters: JSONDictionary = [
+        "page": pageIndex,
+        "per_page": perPage,
+    ]
+
+    let parse = parseFeeds
+
+    let resource = authJsonResource(path: "/api/v1/topics", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+func createFeedWithMessage(message: String, attachments: JSONDictionary?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+
+    var requestParameters: JSONDictionary = [
+        "body": message,
+        "latitude": 0,
+        "longitude": 0,
+        "allow_comment": allowComment,
+    ]
+
+    if let coordinate = coordinate {
+        requestParameters["latitude"] = coordinate.latitude
+        requestParameters["longitude"] = coordinate.longitude
+    }
+
+    if let skill = skill {
+        requestParameters["skill_id"] = skill.id
+    }
+
+    if let attachments = attachments {
+        requestParameters["attachments"] = attachments
+    }
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/api/v1/topics", method: .POST, requestParameters: requestParameters, parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)

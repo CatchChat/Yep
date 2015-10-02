@@ -362,6 +362,7 @@ enum ConversationType: Int {
 class Conversation: Object {
 
     var fakeID: String? {
+
         switch type {
         case ConversationType.OneToOne.rawValue:
             if let withFriend = withFriend {
@@ -372,7 +373,34 @@ class Conversation: Object {
                 return "group" + withGroup.groupID
             }
         default:
-            break
+            return nil
+        }
+
+        return nil
+    }
+
+    var recipientID: String? {
+
+        switch type {
+        case ConversationType.OneToOne.rawValue:
+            if let withFriend = withFriend {
+                return withFriend.userID
+            }
+        case ConversationType.Group.rawValue:
+            if let withGroup = withGroup {
+                return withGroup.groupID
+            }
+        default:
+            return nil
+        }
+
+        return nil
+    }
+
+    var recipient: Recipient? {
+
+        if let recipientType = ConversationType(rawValue: type), recipientID = recipientID {
+            return Recipient(type: recipientType, ID: recipientID)
         }
 
         return nil
@@ -391,7 +419,40 @@ class Conversation: Object {
     }
 }
 
+// MARK: Feed
 
+enum AttachmentKind: String {
+
+    case Image = "image"
+    case Thumbnail = "thumbnail"
+    case Audio = "audio"
+    case Video = "video"
+}
+
+/*
+class Attachment: Object {
+
+    dynamic var kind: String = ""
+    dynamic var metadata: String = ""
+    dynamic var URLString: String = ""
+}
+
+class Feed: Object {
+
+    dynamic var feedID: String = ""
+    dynamic var allowComment: Bool = true
+
+    dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+    dynamic var updatedUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+
+    dynamic var creator: User?
+    dynamic var body: String = ""
+    var attachments = List<Attachment>()
+
+    dynamic var skill: UserSkill?
+    dynamic var group: Group?
+}
+*/
 
 // MARK: Helpers
 

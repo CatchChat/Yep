@@ -20,6 +20,8 @@ struct MessageNotification {
 
 class ConversationViewController: BaseViewController {
 
+    var feed: DiscoveredFeed?
+
     var conversation: Conversation!
 
     var realm: Realm!
@@ -120,7 +122,10 @@ class ConversationViewController: BaseViewController {
         }()
     var samplesCount = 0
     let samplingInterval = 6
-    
+
+    var feedView: FeedView?
+    var dragBeginLocation: CGPoint?
+
     @IBOutlet weak var conversationCollectionView: UICollectionView!
     let conversationCollectionViewContentInsetYOffset: CGFloat = 10
 
@@ -324,6 +329,22 @@ class ConversationViewController: BaseViewController {
                 }
             }
         }
+
+        // sync unread messages
+
+        if let recipient = conversation.recipient {
+
+            let timeDirection: TimeDirection
+            if let minMessageID = messages.last?.messageID {
+                timeDirection = .Future(minMessageID: minMessageID)
+            } else {
+                timeDirection = .None
+            }
+
+            messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { success in
+                println("messagesFromRecipient: \(success)")
+            })
+        }
     }
 
     
@@ -336,6 +357,11 @@ class ConversationViewController: BaseViewController {
         }
 
         if isFirstAppear {
+
+            // test
+            if let feed = feed {
+                makeFeedViewWithFeed(feed)
+            }
 
             // 为记录草稿准备
 
@@ -392,6 +418,13 @@ class ConversationViewController: BaseViewController {
                                 self?.imagePicker.hidesBarsOnTap = false
                             }
                         }
+                    }
+
+                    switch currentState {
+                    case .BeginTextInput, .MoreMessages:
+                        self?.tryFoldFeedView()
+                    default:
+                        break
                     }
                 }
             }
@@ -1024,6 +1057,44 @@ class ConversationViewController: BaseViewController {
         }
     }
 
+    private func makeFeedViewWithFeed(feed: DiscoveredFeed) {
+
+        let feedView = FeedView.instanceFromNib()
+
+        feedView.feed = feed
+
+        feedView.foldAction = { [weak self] in
+            self?.conversationCollectionView.contentInset.top = 64 + FeedView.foldHeight + conversationCollectionViewContentInsetYOffset
+        }
+
+        feedView.unfoldAction = { [weak self] feedView in
+            self?.conversationCollectionView.contentInset.top = 64 + feedView.normalHeight + conversationCollectionViewContentInsetYOffset
+        }
+
+        //feedView.backgroundColor = UIColor.orangeColor()
+        feedView.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(feedView)
+
+        let views = [
+            "feedView": feedView
+        ]
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[feedView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
+        //let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-64-[feedView(==height)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: ["height": FeedView.normalHeight], views: views)
+
+        let top = NSLayoutConstraint(item: feedView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1.0, constant: 64)
+        let height = NSLayoutConstraint(item: feedView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: feedView.normalHeight)
+
+        NSLayoutConstraint.activateConstraints(constraintsH)
+        //NSLayoutConstraint.activateConstraints(constraintsV)
+        NSLayoutConstraint.activateConstraints([top, height])
+
+        feedView.heightConstraint = height
+
+        self.feedView = feedView
+    }
+
     // MARK: Private
 
     private func setConversaitonCollectionViewContentInsetBottom(bottom: CGFloat) {
@@ -1034,7 +1105,8 @@ class ConversationViewController: BaseViewController {
 
     private func setConversaitonCollectionViewOriginalContentInset() {
 
-        conversationCollectionView.contentInset.top = 64 + conversationCollectionViewContentInsetYOffset
+        let feedViewHeight: CGFloat = (feedView == nil) ? 0 : feedView!.normalHeight
+        conversationCollectionView.contentInset.top = 64 + feedViewHeight + conversationCollectionViewContentInsetYOffset
 
         setConversaitonCollectionViewContentInsetBottom(CGRectGetHeight(messageToolbar.bounds) + sectionInsetBottom)
     }
@@ -1211,6 +1283,18 @@ class ConversationViewController: BaseViewController {
 
                 updateAudioCellOfMessage(playingMessage, withCurrentTime: currentTime)
             }
+        }
+    }
+
+    private func tryFoldFeedView() {
+
+        guard let feedView = feedView else {
+            return
+        }
+
+        if feedView.foldProgress != 1.0 {
+
+            feedView.foldProgress = 1.0
         }
     }
 
@@ -2463,9 +2547,24 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     // MARK: UIScrollViewDelegate
 
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+
+        let location = scrollView.panGestureRecognizer.locationInView(view)
+        dragBeginLocation = location
+    }
+
     func scrollViewDidScroll(scrollView: UIScrollView) {
 
         pullToRefreshView.scrollViewDidScroll(scrollView)
+
+        if let dragBeginLocation = dragBeginLocation {
+            let location = scrollView.panGestureRecognizer.locationInView(view)
+            let deltaY = location.y - dragBeginLocation.y
+
+            if deltaY < -30 {
+                tryFoldFeedView()
+            }
+        }
     }
 
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {

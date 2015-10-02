@@ -171,6 +171,12 @@ class YepConfig {
 //        ]
     }
 
+    struct FeedCell {
+        static let textAttributes:[String: NSObject] = [
+            NSFontAttributeName: UIFont.feedMessageFont(),
+        ]
+    }
+
     struct MetaData {
         static let audioDuration = "audio_duration"
         static let audioSamples = "audio_samples"
