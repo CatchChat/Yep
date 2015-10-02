@@ -401,6 +401,7 @@ enum AttachmentKind: String {
     case Video = "video"
 }
 
+/*
 class Attachment: Object {
 
     dynamic var kind: String = ""
@@ -423,7 +424,7 @@ class Feed: Object {
     dynamic var skill: UserSkill?
     dynamic var group: Group?
 }
-
+*/
 
 // MARK: Helpers
 
