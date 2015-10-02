@@ -1553,6 +1553,75 @@ func unreadMessages(completion completion: [JSONDictionary] -> Void) {
     }
 }
 
+struct Recipient {
+
+    let type: ConversationType
+    let ID: String
+}
+
+enum TimeDirection {
+
+    case Future(minMessageID: String)
+    case Past(maxMessageID: String)
+    case None
+}
+
+func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection: TimeDirection, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+
+    var requestParameters = [
+        "recipient_type": recipient.type.nameForServer,
+        "recipient_id": recipient.ID,
+    ]
+
+    switch timeDirection {
+    case .Future(let minMessageID):
+        requestParameters["min_id"] = minMessageID
+    case .Past(let maxMessageID):
+        requestParameters["max_id"] = maxMessageID
+    case .None:
+        break
+    }
+
+    let parse: JSONDictionary -> Bool? = { data in
+
+        guard let unreadMessagesData = data["messages"] as? [JSONDictionary] else {
+            return false
+        }
+
+        println("messagesFromRecipient: \(recipient), \(unreadMessagesData.count)")
+
+        dispatch_async(dispatch_get_main_queue()) {
+
+            guard let realm = try? Realm() else {
+                return
+            }
+
+            var messageIDs = [String]()
+
+            for messageInfo in unreadMessagesData {
+                syncMessageWithMessageInfo(messageInfo, inRealm: realm) { _messageIDs in
+                    messageIDs += _messageIDs
+                }
+            }
+
+            if !messageIDs.isEmpty {
+                let object = ["messageIDs": messageIDs]
+                NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: object)
+            }
+        }
+
+        return true
+    }
+
+    let resource = authJsonResource(path: "/api/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages/unread", method: .GET, requestParameters: requestParameters, parse: parse )
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 func createMessageWithMessageInfo(messageInfo: JSONDictionary, failureHandler: ((Reason, String?) -> Void)?, completion: (messageID: String) -> Void) {
 
     println("Message info \(messageInfo)")

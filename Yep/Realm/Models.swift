@@ -362,6 +362,7 @@ enum ConversationType: Int {
 class Conversation: Object {
 
     var fakeID: String? {
+
         switch type {
         case ConversationType.OneToOne.rawValue:
             if let withFriend = withFriend {
@@ -372,7 +373,34 @@ class Conversation: Object {
                 return "group" + withGroup.groupID
             }
         default:
-            break
+            return nil
+        }
+
+        return nil
+    }
+
+    var recipientID: String? {
+
+        switch type {
+        case ConversationType.OneToOne.rawValue:
+            if let withFriend = withFriend {
+                return withFriend.userID
+            }
+        case ConversationType.Group.rawValue:
+            if let withGroup = withGroup {
+                return withGroup.groupID
+            }
+        default:
+            return nil
+        }
+
+        return nil
+    }
+
+    var recipient: Recipient? {
+
+        if let recipientType = ConversationType(rawValue: type), recipientID = recipientID {
+            return Recipient(type: recipientType, ID: recipientID)
         }
 
         return nil

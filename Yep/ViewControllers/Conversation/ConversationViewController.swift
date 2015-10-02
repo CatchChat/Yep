@@ -329,6 +329,22 @@ class ConversationViewController: BaseViewController {
                 }
             }
         }
+
+        // sync unread messages
+
+        if let recipient = conversation.recipient {
+
+            let timeDirection: TimeDirection
+            if let minMessageID = messages.last?.messageID {
+                timeDirection = .Future(minMessageID: minMessageID)
+            } else {
+                timeDirection = .None
+            }
+
+            messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { success in
+                println("messagesFromRecipient: \(success)")
+            })
+        }
     }
 
     
