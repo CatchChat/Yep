@@ -102,9 +102,9 @@ var yepNetworkActivityCount = 0 {
 #if STAGING
 class SessionDelegate: NSObject, NSURLSessionDelegate {
 
-    func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential!) -> Void) {
+    func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
 
-        completionHandler(.UseCredential, NSURLCredential(forTrust: challenge.protectionSpace.serverTrust))
+        completionHandler(.UseCredential, NSURLCredential(forTrust: challenge.protectionSpace.serverTrust!))
     }
 }
 

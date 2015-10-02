@@ -30,10 +30,13 @@ class YepLocationService: NSObject, CLLocationManagerDelegate {
         return locationManager
         }()
 
+    var currentLocation: CLLocation?
     var address: String?
     let geocoder = CLGeocoder()
 
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
+
+        currentLocation = newLocation
 
         // 尽量减少对服务器的请求和反向查询
 

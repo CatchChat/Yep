@@ -10,11 +10,12 @@ import Foundation
 import MobileCoreServices.UTType
 import AFNetworking
 
-
 /**
     Struct of S3 UploadParams
 */
+
 struct S3UploadParams {
+
     let url: String
     let key: String
     let acl: String
@@ -23,6 +24,13 @@ struct S3UploadParams {
     let date: String
     let credential: String
     let encodedPolicy: String
+
+    enum Kind: String {
+
+        case Message = "message"
+        case Avatar = "avatar"
+        case Feed = "topic"
+    }
 }
 
 /**
@@ -90,72 +98,6 @@ private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: N
     uploadTask.resume()
 }
 
-// MARK: Upload
-
-//extension NSMutableData {
-//    
-//    /// Append string to NSMutableData
-//    ///
-//    /// Rather than littering my code with calls to `dataUsingEncoding` to convert strings to NSData, and then add that data to the NSMutableData, this wraps it in a nice convenient little extension to NSMutableData. This converts using UTF-8.
-//    ///
-//    /// :param: string       The string to be added to the `NSMutableData`.
-//    
-//    func appendString(string: String) {
-//        let data = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-//        appendData(data!)
-//    }
-//}
-
-
-
-/// Create boundary string for multipart/form-data request
-///
-/// - returns:            The boundary string that consists of "Boundary-" followed by a UUID string.
-
-//func generateBoundaryString() -> String {
-//    return "Boundary-\(NSUUID().UUIDString)"
-//}
-
-/// Get S3 Private Message upload params
-///
-/// You can use this in Message Attachment
-///
-/// :S3UploadParams:     The Upload Params
-
-private func s3PrivateUploadParams(failureHandler failureHandler: ((Reason, String?) -> ())?, completion: (S3UploadParams) -> Void) {
-
-    s3UploadParams("/api/v1/attachments/s3_upload_form_fields", failureHandler: { (reason, error)  in
-        if let failureHandler = failureHandler {
-            failureHandler(reason, error)
-        } else {
-            defaultFailureHandler(reason, errorMessage: error)
-        }
-        
-    }, completion: { S3PrivateUploadParams in
-        completion(S3PrivateUploadParams)
-    })
-}
-
-/// Get S3 public upload params
-///
-/// You can use this in Avatar
-///
-/// :S3UploadParams:     The Upload Params
-
-private func s3PublicUploadParams(failureHandler failureHandler: ((Reason, String?) -> ())?, completion: (S3UploadParams) -> Void) {
-
-    s3UploadParams("/api/v1/attachments/s3_upload_public_form_fields", failureHandler: { (reason, error)  in
-        if let failureHandler = failureHandler {
-            failureHandler(reason, error)
-        } else {
-            defaultFailureHandler(reason, errorMessage: error)
-        }
-        
-    }, completion: { S3PublicUploadParams in
-        completion(S3PublicUploadParams)
-    })
-}
-
 /// Get S3  upload params
 ///
 ///
@@ -215,22 +157,28 @@ private func s3UploadParams(url: String, failureHandler: ((Reason, String?) -> (
     }
 }
 
+private func s3UploadParamsOfKind(kind: S3UploadParams.Kind, failureHandler: ((Reason, String?) -> ())?, completion: (S3UploadParams) -> Void) {
+
+    s3UploadParams("/api/v1/attachments/\(kind.rawValue)/s3_upload_form_fields", failureHandler: { (reason, error)  in
+        if let failureHandler = failureHandler {
+            failureHandler(reason, error)
+        } else {
+            defaultFailureHandler(reason, errorMessage: error)
+        }
+
+        }, completion: { S3PrivateUploadParams in
+            completion(S3PrivateUploadParams)
+    })
+}
+
 // API
 
-func s3PublicUploadFile(inFilePath filePath: String?, orFileData fileData: NSData?, mimeType: String,  failureHandler: ((Reason, String?) -> ())?, completion: S3UploadParams -> ()) {
+func s3UploadFileOfKind(kind: S3UploadParams.Kind, inFilePath filePath: String?, orFileData fileData: NSData?, mimeType: String,  failureHandler: ((Reason, String?) -> ())?, completion: S3UploadParams -> ()) {
 
-    s3PublicUploadParams(failureHandler: failureHandler) { s3UploadParams in
+    s3UploadParamsOfKind(kind, failureHandler: failureHandler) { s3UploadParams in
         uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mimeType, s3UploadParams: s3UploadParams, failureHandler: failureHandler) {
             completion(s3UploadParams)
         }
     }
 }
 
-func s3PrivateUploadFile(inFilePath filePath: String?, orFileData fileData: NSData?, mimeType: String,  failureHandler: ((Reason, String?) -> ())?, completion: S3UploadParams -> ()) {
-
-    s3PrivateUploadParams(failureHandler: failureHandler) { s3UploadParams in
-        uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mimeType, s3UploadParams: s3UploadParams, failureHandler: failureHandler) {
-            completion(s3UploadParams)
-        }
-    }
-}

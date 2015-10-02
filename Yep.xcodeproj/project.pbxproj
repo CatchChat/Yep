@@ -193,10 +193,14 @@
 		50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */; };
 		50A9D4511ACD383E000B2599 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */; };
 		50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4541ACD393A000B2599 /* YepWaverView.swift */; };
+		50AACEC81BB54128004DD54B /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AACEC71BB54128004DD54B /* FeedView.swift */; settings = {ASSET_TAGS = (); }; };
+		50AACECD1BB5419A004DD54B /* FeedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50AACECC1BB5419A004DD54B /* FeedView.xib */; settings = {ASSET_TAGS = (); }; };
+		50AACECF1BB93336004DD54B /* FeedMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AACECE1BB93336004DD54B /* FeedMediaView.swift */; settings = {ASSET_TAGS = (); }; };
 		50AFBF461BB25F40007D19DA /* ActivityIndicatorTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AFBF451BB25F40007D19DA /* ActivityIndicatorTitleView.swift */; settings = {ASSET_TAGS = (); }; };
 		50AFBF491BB2830E007D19DA /* EdgeBorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AFBF481BB2830E007D19DA /* EdgeBorderButton.swift */; settings = {ASSET_TAGS = (); }; };
 		50AFBF4B1BB2A44C007D19DA /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AFBF4A1BB2A44C007D19DA /* InfoView.swift */; settings = {ASSET_TAGS = (); }; };
 		50AFBF4E1BB3A594007D19DA /* bub3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 50AFBF4D1BB3A594007D19DA /* bub3.caf */; settings = {ASSET_TAGS = (); }; };
+		50AFBF5F1BB4F332007D19DA /* FeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AFBF5E1BB4F332007D19DA /* FeedsViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		50B38FB71B69CD960064C132 /* Array+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FB61B69CD960064C132 /* Array+Yep.swift */; };
 		50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */; };
 		50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */; };
@@ -231,6 +235,15 @@
 		50EB8CCE1AEA1B38001AC1EE /* MessageMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CCD1AEA1B38001AC1EE /* MessageMediaViewController.swift */; };
 		50F2B9781B2EDF3D00F840CC /* BorderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */; };
 		50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */; };
+		50F5AF831BBA67060033C9BC /* NewFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF821BBA67060033C9BC /* NewFeedViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		50F5AF861BBA676D0033C9BC /* NewFeed.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50F5AF851BBA676D0033C9BC /* NewFeed.storyboard */; settings = {ASSET_TAGS = (); }; };
+		50F5AF881BBBB2AE0033C9BC /* HorizontalLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF871BBBB2AE0033C9BC /* HorizontalLineView.swift */; settings = {ASSET_TAGS = (); }; };
+		50F5AF8C1BBBB64C0033C9BC /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF8A1BBBB64C0033C9BC /* FeedCell.swift */; settings = {ASSET_TAGS = (); }; };
+		50F5AF8D1BBBB64C0033C9BC /* FeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F5AF8B1BBBB64C0033C9BC /* FeedCell.xib */; settings = {ASSET_TAGS = (); }; };
+		50F5AF951BBBCDA30033C9BC /* FeedMediaAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF931BBBCDA30033C9BC /* FeedMediaAddCell.swift */; settings = {ASSET_TAGS = (); }; };
+		50F5AF961BBBCDA30033C9BC /* FeedMediaAddCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F5AF941BBBCDA30033C9BC /* FeedMediaAddCell.xib */; settings = {ASSET_TAGS = (); }; };
+		50F5AF991BBBD02A0033C9BC /* FeedMediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF971BBBD02A0033C9BC /* FeedMediaCell.swift */; settings = {ASSET_TAGS = (); }; };
+		50F5AF9A1BBBD02A0033C9BC /* FeedMediaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F5AF981BBBD02A0033C9BC /* FeedMediaCell.xib */; settings = {ASSET_TAGS = (); }; };
 		50FA9A441B661698009BF2A0 /* UIViewController+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */; };
 		6A649A9B1BB259CB00EE4FB5 /* YepSoundEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A649A9A1BB259CB00EE4FB5 /* YepSoundEffect.swift */; settings = {ASSET_TAGS = (); }; };
 		6ADDB4501B848C600012877A /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6ADDB44F1B848C600012877A /* 1Password.xcassets */; };
@@ -455,10 +468,14 @@
 		50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = NSDateTimeAgo.bundle; path = Extensions/NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Extensions/NSDate+Extension.swift"; sourceTree = "<group>"; };
 		50A9D4541ACD393A000B2599 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/AudioWaves/YepWaverView.swift; sourceTree = "<group>"; };
+		50AACEC71BB54128004DD54B /* FeedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedView.swift; path = Views/Feed/FeedView.swift; sourceTree = "<group>"; };
+		50AACECC1BB5419A004DD54B /* FeedView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedView.xib; path = Views/Feed/FeedView.xib; sourceTree = "<group>"; };
+		50AACECE1BB93336004DD54B /* FeedMediaView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaView.swift; path = Views/Feed/FeedMediaView.swift; sourceTree = "<group>"; };
 		50AFBF451BB25F40007D19DA /* ActivityIndicatorTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActivityIndicatorTitleView.swift; path = Views/TitleViews/ActivityIndicatorTitleView.swift; sourceTree = "<group>"; };
 		50AFBF481BB2830E007D19DA /* EdgeBorderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EdgeBorderButton.swift; path = Views/Buttons/EdgeBorderButton.swift; sourceTree = "<group>"; };
 		50AFBF4A1BB2A44C007D19DA /* InfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InfoView.swift; path = Views/InfoView/InfoView.swift; sourceTree = "<group>"; };
 		50AFBF4D1BB3A594007D19DA /* bub3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = bub3.caf; path = Sounds/bub3.caf; sourceTree = "<group>"; };
+		50AFBF5E1BB4F332007D19DA /* FeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedsViewController.swift; path = ViewControllers/Feeds/FeedsViewController.swift; sourceTree = "<group>"; };
 		50B38FB61B69CD960064C132 /* Array+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Yep.swift"; path = "Extensions/Array+Yep.swift"; sourceTree = "<group>"; };
 		50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedbackViewController.swift; path = ViewControllers/Feedback/FeedbackViewController.swift; sourceTree = "<group>"; };
 		50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepDownloader.swift; path = Services/YepDownloader.swift; sourceTree = "<group>"; };
@@ -493,6 +510,15 @@
 		50EB8CCD1AEA1B38001AC1EE /* MessageMediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageMediaViewController.swift; path = ViewControllers/MessageMedia/MessageMediaViewController.swift; sourceTree = "<group>"; };
 		50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BorderTextField.swift; path = Views/TextFields/BorderTextField.swift; sourceTree = "<group>"; };
 		50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTitleLabel.swift; path = Views/Labels/NavigationTitleLabel.swift; sourceTree = "<group>"; };
+		50F5AF821BBA67060033C9BC /* NewFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewFeedViewController.swift; path = ViewControllers/NewFeed/NewFeedViewController.swift; sourceTree = "<group>"; };
+		50F5AF851BBA676D0033C9BC /* NewFeed.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = NewFeed.storyboard; path = ViewControllers/NewFeed/NewFeed.storyboard; sourceTree = "<group>"; };
+		50F5AF871BBBB2AE0033C9BC /* HorizontalLineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HorizontalLineView.swift; path = Views/HorizontalLine/HorizontalLineView.swift; sourceTree = "<group>"; };
+		50F5AF8A1BBBB64C0033C9BC /* FeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedCell.swift; path = Views/Cells/Feed/FeedCell.swift; sourceTree = "<group>"; };
+		50F5AF8B1BBBB64C0033C9BC /* FeedCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedCell.xib; path = Views/Cells/Feed/FeedCell.xib; sourceTree = "<group>"; };
+		50F5AF931BBBCDA30033C9BC /* FeedMediaAddCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaAddCell.swift; path = Views/Cells/FeedMediaAdd/FeedMediaAddCell.swift; sourceTree = "<group>"; };
+		50F5AF941BBBCDA30033C9BC /* FeedMediaAddCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedMediaAddCell.xib; path = Views/Cells/FeedMediaAdd/FeedMediaAddCell.xib; sourceTree = "<group>"; };
+		50F5AF971BBBD02A0033C9BC /* FeedMediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaCell.swift; path = Views/Cells/FeedMedia/FeedMediaCell.swift; sourceTree = "<group>"; };
+		50F5AF981BBBD02A0033C9BC /* FeedMediaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedMediaCell.xib; path = Views/Cells/FeedMedia/FeedMediaCell.xib; sourceTree = "<group>"; };
 		50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Yep.swift"; path = "Extensions/UIViewController+Yep.swift"; sourceTree = "<group>"; };
 		6A649A9A1BB259CB00EE4FB5 /* YepSoundEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepSoundEffect.swift; path = Helpers/YepSoundEffect.swift; sourceTree = "<group>"; };
 		6ADDB44F1B848C600012877A /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = 1Password.xcassets; sourceTree = "<group>"; };
@@ -789,6 +815,8 @@
 				0A943A7C1B0F8EB10022DD67 /* Base */,
 				0AB8F79B1B15D1DF00F4AF09 /* Nav */,
 				848806B71B7B4F58000C5424 /* Show */,
+				50AFBF601BB4F33A007D19DA /* Feeds */,
+				50F5AF841BBA67140033C9BC /* NewFeed */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -877,6 +905,8 @@
 				8409137E1B7DB178001C89D6 /* FriendRequest */,
 				50AFBF471BB25F81007D19DA /* TitleViews */,
 				50AFBF4C1BB2A453007D19DA /* InfoView */,
+				50AACEC91BB54132004DD54B /* Feed */,
+				50F5AF891BBBB2B30033C9BC /* HorizontalLine */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -923,6 +953,9 @@
 				5064F6561B0B0E1B0089FAD4 /* AddFriendSearch */,
 				5064F65B1B0B14470089FAD4 /* AddFriendMore */,
 				50E348941B9063AD00A8E699 /* About */,
+				50AFBF651BB4FC37007D19DA /* Feed */,
+				50F5AF921BBBCC960033C9BC /* FeedMediaAdd */,
+				50F5AF9B1BBBD0310033C9BC /* FeedMedia */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1499,6 +1532,16 @@
 			name = AudioWaves;
 			sourceTree = "<group>";
 		};
+		50AACEC91BB54132004DD54B /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				50AACEC71BB54128004DD54B /* FeedView.swift */,
+				50AACECC1BB5419A004DD54B /* FeedView.xib */,
+				50AACECE1BB93336004DD54B /* FeedMediaView.swift */,
+			);
+			name = Feed;
+			sourceTree = "<group>";
+		};
 		50AFBF471BB25F81007D19DA /* TitleViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -1521,6 +1564,23 @@
 				50AFBF4D1BB3A594007D19DA /* bub3.caf */,
 			);
 			name = Sounds;
+			sourceTree = "<group>";
+		};
+		50AFBF601BB4F33A007D19DA /* Feeds */ = {
+			isa = PBXGroup;
+			children = (
+				50AFBF5E1BB4F332007D19DA /* FeedsViewController.swift */,
+			);
+			name = Feeds;
+			sourceTree = "<group>";
+		};
+		50AFBF651BB4FC37007D19DA /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				50F5AF8A1BBBB64C0033C9BC /* FeedCell.swift */,
+				50F5AF8B1BBBB64C0033C9BC /* FeedCell.xib */,
+			);
+			name = Feed;
 			sourceTree = "<group>";
 		};
 		50B38FCD1B6B37F90064C132 /* Feedback */ = {
@@ -1658,6 +1718,41 @@
 				50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */,
 			);
 			name = Labels;
+			sourceTree = "<group>";
+		};
+		50F5AF841BBA67140033C9BC /* NewFeed */ = {
+			isa = PBXGroup;
+			children = (
+				50F5AF821BBA67060033C9BC /* NewFeedViewController.swift */,
+				50F5AF851BBA676D0033C9BC /* NewFeed.storyboard */,
+			);
+			name = NewFeed;
+			sourceTree = "<group>";
+		};
+		50F5AF891BBBB2B30033C9BC /* HorizontalLine */ = {
+			isa = PBXGroup;
+			children = (
+				50F5AF871BBBB2AE0033C9BC /* HorizontalLineView.swift */,
+			);
+			name = HorizontalLine;
+			sourceTree = "<group>";
+		};
+		50F5AF921BBBCC960033C9BC /* FeedMediaAdd */ = {
+			isa = PBXGroup;
+			children = (
+				50F5AF931BBBCDA30033C9BC /* FeedMediaAddCell.swift */,
+				50F5AF941BBBCDA30033C9BC /* FeedMediaAddCell.xib */,
+			);
+			name = FeedMediaAdd;
+			sourceTree = "<group>";
+		};
+		50F5AF9B1BBBD0310033C9BC /* FeedMedia */ = {
+			isa = PBXGroup;
+			children = (
+				50F5AF971BBBD02A0033C9BC /* FeedMediaCell.swift */,
+				50F5AF981BBBD02A0033C9BC /* FeedMediaCell.xib */,
+			);
+			name = FeedMedia;
 			sourceTree = "<group>";
 		};
 		59CC1DE9D59AC08247B97B4F /* Pods */ = {
@@ -1835,11 +1930,14 @@
 			files = (
 				5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */,
 				505C338B1BAA92CA00E044E2 /* InfoPlist.strings in Resources */,
+				50AACECD1BB5419A004DD54B /* FeedView.xib in Resources */,
+				50F5AF861BBA676D0033C9BC /* NewFeed.storyboard in Resources */,
 				50C090A11ADE391600CC6389 /* AddSkillsReusableView.xib in Resources */,
 				504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */,
 				50E348931B9063A700A8E699 /* AboutCell.xib in Resources */,
 				5039594F1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib in Resources */,
 				502AE5591AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib in Resources */,
+				50F5AF8D1BBBB64C0033C9BC /* FeedCell.xib in Resources */,
 				5056AD6F1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib in Resources */,
 				506BB7F61AE4E0A500C1A2A0 /* SkillAnnotationHeader.xib in Resources */,
 				50AFBF4E1BB3A594007D19DA /* bub3.caf in Resources */,
@@ -1872,6 +1970,7 @@
 				848806B11B789A2D000C5424 /* EditSkillCell.xib in Resources */,
 				50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */,
 				502AE54F1AB93175005BD199 /* ProfileHeaderCell.xib in Resources */,
+				50F5AF9A1BBBD02A0033C9BC /* FeedMediaCell.xib in Resources */,
 				50A640EA1B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib in Resources */,
 				0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */,
 				5053AD511AF82A1700B3CBFA /* PickLocationCell.xib in Resources */,
@@ -1880,6 +1979,7 @@
 				50EB8CC51AE89F12001AC1EE /* ChatRightVideoCell.xib in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
 				504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */,
+				50F5AF961BBBCDA30033C9BC /* FeedMediaAddCell.xib in Resources */,
 				50894D081AEDFDA2000981AF /* EditProfileMoreInfoCell.xib in Resources */,
 				50A640E61B6F41E00050E4A3 /* DoNotDisturbSwitchCell.xib in Resources */,
 				508D174D1ACCF49B0092D666 /* ChatRightAudioCell.xib in Resources */,
@@ -1990,6 +2090,7 @@
 				50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */,
 				50AFBF461BB25F40007D19DA /* ActivityIndicatorTitleView.swift in Sources */,
 				50E61CEB1AF1F69D00908A9D /* ConversationTitleView.swift in Sources */,
+				50F5AF991BBBD02A0033C9BC /* FeedMediaCell.swift in Sources */,
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
@@ -2000,7 +2101,9 @@
 				6A649A9B1BB259CB00EE4FB5 /* YepSoundEffect.swift in Sources */,
 				508D174C1ACCF49B0092D666 /* ChatRightAudioCell.swift in Sources */,
 				502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */,
+				50F5AF881BBBB2AE0033C9BC /* HorizontalLineView.swift in Sources */,
 				50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */,
+				50AACECF1BB93336004DD54B /* FeedMediaView.swift in Sources */,
 				50D4D0DB1AFA825B005AEB6F /* MediaControlView.swift in Sources */,
 				0A9018821B0120A500AE4B7F /* OAuthViewController.swift in Sources */,
 				508D17471ACCF4710092D666 /* ChatLeftAudioCell.swift in Sources */,
@@ -2037,6 +2140,7 @@
 				505EC81C1ADFBE1B001D27E0 /* SkillSelectionCell.swift in Sources */,
 				5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */,
 				508F8FD41B01E3D100461B0B /* SocialWorkDribbbleViewController.swift in Sources */,
+				50AFBF5F1BB4F332007D19DA /* FeedsViewController.swift in Sources */,
 				50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */,
 				502AE5331AB86020005BD199 /* RegisterVerifyMobileViewController.swift in Sources */,
 				5064F6541B0B0E160089FAD4 /* AddFriendSearchCell.swift in Sources */,
@@ -2047,6 +2151,7 @@
 				84385C4A1B85BE200071130D /* ShowStepMeetViewController.swift in Sources */,
 				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
 				0A1CAC701AFA481600826B45 /* SkillHomeHeaderView.swift in Sources */,
+				50AACEC81BB54128004DD54B /* FeedView.swift in Sources */,
 				0AB8F79A1B15D1DC00F4AF09 /* YepNavigationController.swift in Sources */,
 				502AE53A1AB871C1005BD199 /* YepAlert.swift in Sources */,
 				5039594E1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift in Sources */,
@@ -2070,6 +2175,7 @@
 				0A0A11821AE389380008772C /* RegisterSkillsLayout.swift in Sources */,
 				50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */,
 				5076FC5A1AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift in Sources */,
+				50F5AF951BBBCDA30033C9BC /* FeedMediaAddCell.swift in Sources */,
 				508D16BD1ADCAF0400270E3F /* PullToRefreshView.swift in Sources */,
 				508D17441ACCDC9F0092D666 /* VoiceRecordButton.swift in Sources */,
 				502AE5271AB72D06005BD199 /* YepNetworking.swift in Sources */,
@@ -2089,6 +2195,7 @@
 				50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */,
 				506E241C1AE6254F00A33C1A /* MessageTypeButton.swift in Sources */,
 				0A3E60671ACCAECE003DC853 /* YepLocationService.swift in Sources */,
+				50F5AF8C1BBBB64C0033C9BC /* FeedCell.swift in Sources */,
 				50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */,
 				5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */,
 				50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */,
@@ -2123,6 +2230,7 @@
 				505EC8171ADF8151001D27E0 /* SkillCategoryCell.swift in Sources */,
 				50E18BB71B180F7D0076C3C6 /* BottomButtonView.swift in Sources */,
 				0A90187E1B01152800AE4B7F /* ProfileSocialAccountCell.swift in Sources */,
+				50F5AF831BBA67060033C9BC /* NewFeedViewController.swift in Sources */,
 				50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */,
 				84385C441B8592120071130D /* ShowStepGeniusViewController.swift in Sources */,
 				5053AD5A1AF83B4200B3CBFA /* ChatLeftLocationCell.swift in Sources */,
@@ -2245,7 +2353,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING_";
+				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};

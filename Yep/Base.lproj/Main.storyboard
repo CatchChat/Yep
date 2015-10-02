@@ -291,13 +291,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k4j-Ub-3bn" customClass="MediaView" customModule="Yep" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k4j-Ub-3bn" customClass="MediaView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Cb-zQ-dUZ" customClass="MediaControlView" customModule="Yep" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Cb-zQ-dUZ" customClass="MediaControlView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="471" width="600" height="80"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -1021,7 +1021,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IrX-gK-Zkg">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IrX-gK-Zkg">
                                 <rect key="frame" x="0.0" y="144" width="600" height="44"/>
                                 <animations/>
                                 <constraints>
@@ -1034,7 +1034,7 @@
                                     <action selector="activeFrom" destination="GqQ-V0-aYk" eventType="touchUpInside" id="yIG-DH-kZc"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flj-e3-cbm">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flj-e3-cbm">
                                 <rect key="frame" x="0.0" y="188" width="600" height="44"/>
                                 <animations/>
                                 <constraints>
@@ -1047,7 +1047,7 @@
                                     <action selector="activeTo" destination="GqQ-V0-aYk" eventType="touchUpInside" id="90e-4a-0ZA"/>
                                 </connections>
                             </button>
-                            <pickerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hap-y9-JVX">
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hap-y9-JVX">
                                 <rect key="frame" x="0.0" y="335" width="600" height="216"/>
                                 <animations/>
                                 <connections>
@@ -1248,14 +1248,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="We read every feedback" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdt-Vd-sD9">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We read every feedback" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdt-Vd-sD9">
                                 <rect key="frame" x="208" y="104" width="185" height="20.5"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="fVo-Zl-gHQ" customClass="FeedbackTextView" customModule="Yep" customModuleProvider="target">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="fVo-Zl-gHQ" customClass="FeedbackTextView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="164.5" width="600" height="121.5"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1554,6 +1554,7 @@
                     <connections>
                         <segue destination="hOb-vY-dSl" kind="relationship" relationship="viewControllers" id="7mr-Lj-HcA"/>
                         <segue destination="HI7-HE-lfi" kind="relationship" relationship="viewControllers" id="u9t-ac-tqW"/>
+                        <segue destination="uRR-B1-khD" kind="relationship" relationship="viewControllers" id="hp1-fR-jRe"/>
                         <segue destination="HFE-uY-fys" kind="relationship" relationship="viewControllers" id="DQ6-Rk-9zC"/>
                         <segue destination="dwP-GL-7hj" kind="relationship" relationship="viewControllers" id="I8B-nP-KAs"/>
                     </connections>
@@ -1561,6 +1562,59 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CMa-ZP-SEr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="621" y="-791"/>
+        </scene>
+        <!--Feeds View Controller-->
+        <scene sceneID="Dcb-bn-5M7">
+            <objects>
+                <viewController storyboardIdentifier="FeedsViewController" id="W3w-jm-aNI" customClass="FeedsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1v6-QD-r3B"/>
+                        <viewControllerLayoutGuide type="bottom" id="Vr5-XL-uqL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aTs-V4-FkM">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="D86-dp-qKQ">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="W3w-jm-aNI" id="Ld3-tu-vGC"/>
+                                    <outlet property="delegate" destination="W3w-jm-aNI" id="Zmv-Qw-N8o"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="D86-dp-qKQ" secondAttribute="trailing" id="0cJ-BC-Zme"/>
+                            <constraint firstItem="D86-dp-qKQ" firstAttribute="leading" secondItem="aTs-V4-FkM" secondAttribute="leading" id="7rL-66-51f"/>
+                            <constraint firstAttribute="bottom" secondItem="D86-dp-qKQ" secondAttribute="bottom" id="IGV-gd-9fq"/>
+                            <constraint firstItem="D86-dp-qKQ" firstAttribute="top" secondItem="aTs-V4-FkM" secondAttribute="top" id="WZ4-Nx-qhp"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="LaU-sr-um0">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Goz-ft-7ec">
+                            <connections>
+                                <segue destination="4oS-hQ-vpS" kind="show" identifier="showNewFeed" id="zix-bq-iJe"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="feedsTableView" destination="D86-dp-qKQ" id="rh9-wh-IqK"/>
+                        <segue destination="la3-6z-2aH" kind="show" identifier="showConversation" id="Sdt-ox-uOm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ETW-Em-Kw5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="643" y="-1667"/>
+        </scene>
+        <!--NewFeedViewController-->
+        <scene sceneID="LDV-cy-JhT">
+            <objects>
+                <viewControllerPlaceholder storyboardName="NewFeed" referencedIdentifier="NewFeedViewController" id="4oS-hQ-vpS" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HCX-id-Kbz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1144.5" y="-1667"/>
         </scene>
         <!--Chats-->
         <scene sceneID="ySr-fW-tdP">
@@ -1957,6 +2011,25 @@
             </objects>
             <point key="canvasLocation" x="4277" y="1999"/>
         </scene>
+        <!--Feeds-->
+        <scene sceneID="lMZ-Mf-PVd">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uRR-B1-khD" customClass="YepNavigationController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Feeds" image="icon_feeds" selectedImage="icon_feeds_active" id="1aS-xr-y1X"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6uo-JX-xvr">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="W3w-jm-aNI" kind="relationship" relationship="rootViewController" id="AMg-D0-eU6"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vh6-Xb-Pbc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-97" y="-1659"/>
+        </scene>
     </scenes>
     <resources>
         <image name="default_avatar" width="100" height="100"/>
@@ -1967,6 +2040,8 @@
         <image name="icon_contact_active" width="30" height="30"/>
         <image name="icon_explore" width="30" height="30"/>
         <image name="icon_explore_active" width="30" height="30"/>
+        <image name="icon_feeds" width="30" height="30"/>
+        <image name="icon_feeds_active" width="30" height="30"/>
         <image name="icon_me" width="30" height="30"/>
         <image name="icon_me_active" width="30" height="30"/>
         <image name="icon_more_add_location" width="70" height="50"/>
@@ -1982,7 +2057,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="eTq-BP-vMS"/>
-        <segue reference="o3b-2D-AMq"/>
+        <segue reference="Sdt-ox-uOm"/>
         <segue reference="6No-Lc-7X4"/>
     </inferredMetricsTieBreakers>
 </document>
