@@ -1504,25 +1504,24 @@ func sentButUnreadMessages(failureHandler failureHandler: ((Reason, String?) -> 
 
 
 func unreadMessages(completion completion: [JSONDictionary] -> Void) {
+
     headUnreadMessages { result in
+
+        var messages = [JSONDictionary]()
+
+        if let page1Messages = result["messages"] as? [JSONDictionary] {
+            messages += page1Messages
+        }
+
         if
             let count = result["count"] as? Int,
             let currentPage = result["current_page"] as? Int,
             let perPage = result["per_page"] as? Int {
+
                 if count <= currentPage * perPage {
-                    if let messages = result["messages"] as? [JSONDictionary] {
-                        completion(messages)
-                    } else {
-                        completion([])
-                    }
+                    completion(messages)
 
                 } else {
-                    var messages = [JSONDictionary]()
-
-                    if let page1Messages = result["messages"] as? [JSONDictionary] {
-                        messages += page1Messages
-                    }
-
                     // We have more messages
 
                     let downloadGroup = dispatch_group_create()
@@ -1532,11 +1531,13 @@ func unreadMessages(completion completion: [JSONDictionary] -> Void) {
 
                         moreUnreadMessages(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
                             dispatch_group_leave(downloadGroup)
-                            }, completion: { result in
-                                if let currentPageMessages = result["messages"] as? [JSONDictionary] {
-                                    messages += currentPageMessages
-                                }
-                                dispatch_group_leave(downloadGroup)
+
+                        }, completion: { result in
+                            if let currentPageMessages = result["messages"] as? [JSONDictionary] {
+                                messages += currentPageMessages
+                            }
+
+                            dispatch_group_leave(downloadGroup)
                         })
                     }
 
@@ -1544,6 +1545,10 @@ func unreadMessages(completion completion: [JSONDictionary] -> Void) {
                         completion(messages)
                     }
                 }
+
+        } else {
+            // 可能无分页
+            completion(messages)
         }
     }
 }
