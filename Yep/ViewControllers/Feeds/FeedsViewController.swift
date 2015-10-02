@@ -53,15 +53,6 @@ class FeedsViewController: UIViewController {
         feedsTableView.tableFooterView = UIView()
 
         updateFeeds()
-
-        /*
-        myFeedsAtPageIndex(1, perPage: 100, failureHandler: { reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage: errorMessage)
-        }, completion: { [weak self] feeds in
-            self?.feeds = feeds
-            println("myFeeds.count: \(feeds.count)")
-        })
-        */
     }
 
     // MARK: - Actions
@@ -189,55 +180,3 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-/*
-extension FeedsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 1
-    }
-
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return feeds.count
-    }
-
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedCellID, forIndexPath: indexPath) as! FeedCell
-
-        let feed = feeds[indexPath.item]
-
-        cell.configureWithFeed(feed)
-
-        //cell.backgroundColor = indexPath.item % 2 == 0 ? UIColor.yellowColor() : UIColor.purpleColor()
-
-        return cell
-    }
-
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-
-        let feed = feeds[indexPath.item]
-
-        return CGSize(width: collectionViewWidth, height: heightOfFeed(feed))
-    }
-
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
-    }
-
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-
-        performSegueWithIdentifier("showConversation", sender: indexPath.item)
-    }
-
-    func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
-
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedCell
-        cell.contentView.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.5)
-    }
-
-    func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {
-
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedCell
-        cell.contentView.backgroundColor = UIColor.clearColor()
-    }
-}
-*/

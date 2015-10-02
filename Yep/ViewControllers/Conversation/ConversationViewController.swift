@@ -2544,18 +2544,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         if let dragBeginLocation = dragBeginLocation {
             let location = scrollView.panGestureRecognizer.locationInView(view)
             let deltaY = location.y - dragBeginLocation.y
-            println(deltaY)
 
             if deltaY < -30 {
                 tryFoldFeedView()
             }
-
-            /*
-            let fullDeltaHeight = FeedView.normalHeight - FeedView.foldHeight
-            let currentHeight = max(min(FeedView.normalHeight + deltaY, FeedView.normalHeight), FeedView.foldHeight)
-            //feedView?.frame.size.height = currentHeight
-            feedView?.foldProgress = (FeedView.normalHeight - currentHeight) / fullDeltaHeight
-            */
         }
     }
 

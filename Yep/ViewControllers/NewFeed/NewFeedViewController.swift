@@ -54,7 +54,6 @@ class NewFeedViewController: UIViewController {
 
         mediaCollectionView.registerNib(UINib(nibName: feedMediaAddCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaAddCellID)
         mediaCollectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
-        mediaCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         mediaCollectionView.contentInset.left = 20
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
@@ -136,26 +135,13 @@ class NewFeedViewController: UIViewController {
             let imageInfosData = allS3UploadParams.map({
                 [
                     "file": $0.key,
-                    "metadata": "", // TODO: metadata
+                    "metadata": "", // TODO: metadata, maybe not need
                 ]
             })
 
             let mediaInfo = [
                 "image": imageInfosData,
             ]
-
-            /*
-            guard let
-                mediaData = try? NSJSONSerialization.dataWithJSONObject(mediaInfo, options: []),
-                mediaDataString = NSString(data: mediaData, encoding: NSUTF8StringEncoding) as? String else {
-
-                    YepHUD.hideActivityIndicator()
-
-                    return
-            }
-
-            println("mediaDataString: \(mediaDataString)")
-            */
 
             createFeedWithMessage(message, attachments: mediaInfo, coordinate: coordinate, skill: nil, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
@@ -216,8 +202,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             return cell
 
         default:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
-            return cell
+            return UICollectionViewCell()
         }
     }
 
