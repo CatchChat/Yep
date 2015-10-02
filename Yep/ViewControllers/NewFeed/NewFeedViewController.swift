@@ -132,16 +132,21 @@ class NewFeedViewController: UIViewController {
 
         dispatch_group_notify(uploadMediaImagesGroup, dispatch_get_main_queue()) {
 
-            let imageInfosData = allS3UploadParams.map({
-                [
-                    "file": $0.key,
-                    "metadata": "", // TODO: metadata, maybe not need
-                ]
-            })
+            var mediaInfo: JSONDictionary?
 
-            let mediaInfo = [
-                "image": imageInfosData,
-            ]
+            if !allS3UploadParams.isEmpty {
+
+                let imageInfosData = allS3UploadParams.map({
+                    [
+                        "file": $0.key,
+                        "metadata": "", // TODO: metadata, maybe not need
+                    ]
+                })
+
+                mediaInfo = [
+                    "image": imageInfosData,
+                ]
+            }
 
             createFeedWithMessage(message, attachments: mediaInfo, coordinate: coordinate, skill: nil, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
