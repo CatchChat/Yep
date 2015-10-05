@@ -59,19 +59,88 @@ class FayeService: NSObject, MZFayeClientDelegate {
     }
 
     // MARK: Public
+    
+    func prepareForChannel(channel: String) {
+        if let extensionData = extensionData() {
+            client.setExtension(extensionData, forChannel: channel)
+        }
+    }
+    
+    func subscribeGroup(groupID groupID: String) {
+        
+        let circleChannel = circleChannelWithCircleID(groupID)
+        
+        prepareForChannel(circleChannel!)
+        
+        client.subscribeToChannel(circleChannel, usingBlock: { data in
+            //println("subscribeToChannel: \(data)")
+            if let
+                messageInfo = data as? JSONDictionary,
+                messageType = messageInfo["message_type"] as? String {
+                    
+                    switch messageType {
+                        
+                    case FayeService.MessageType.Default.rawValue:
+                        if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
+                            self.saveMessageWithMessageInfo(messageDataInfo)
+                        }
+                        
+                    case FayeService.MessageType.Instant.rawValue:
+                        if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
+                            
+                            if let
+                                user = messageDataInfo["user"] as? JSONDictionary,
+                                userID = user["id"] as? String,
+                                state = messageDataInfo["state"] as? Int {
+                                    
+                                    if let instantStateType = InstantStateType(rawValue: state) {
+                                        self.delegate?.fayeRecievedInstantStateType(instantStateType, userID: userID)
+                                    }
+                            }
+                        }
+                        
+                    case FayeService.MessageType.Read.rawValue:
+                        if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
+                            
+                            if let
+                                //recipientID = messageDataInfo["recipient_id"] as? String,
+                                messageID = messageDataInfo["id"] as? String {
+                                    
+                                    println("Mark Message \(messageID) As Read")
+                                    
+                                    guard let realm = try? Realm() else {
+                                        return
+                                    }
+                                    
+                                    if let message = messageWithMessageID(messageID, inRealm: realm) {
+                                        realm.write {
+                                            message.sendState = MessageSendState.Read.rawValue
+                                        }
+                                        
+                                        NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                                    }
+                            }
+                        }
+                    default:
+                        println("Recieved unknow message type")
+                    }
+            }
+        })
+    }
 
     func startConnect() {
         if
-            let extensionData = extensionData(),
             let userID = YepUserDefaults.userID.value {
                 
                 let personalChannel = personalChannelWithUserID(userID)
 
                 println("Will Subscribe \(personalChannel)")
-
-                client.setExtension(extensionData, forChannel: personalChannel)
-                client.setExtension(extensionData, forChannel: "handshake")
-                client.setExtension(extensionData, forChannel: "connect")
+                
+                prepareForChannel("connect")
+                
+                prepareForChannel("handshake")
+                
+                prepareForChannel(personalChannel!)
 
                 client.subscribeToChannel(personalChannel, usingBlock: { data in
                     //println("subscribeToChannel: \(data)")
