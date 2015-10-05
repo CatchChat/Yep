@@ -61,7 +61,7 @@ class FeedCell: UITableViewCell {
         messageLabel.text = feed.body
 
         let hasMedia = !feed.attachments.isEmpty
-        timeLabelTopConstraint.constant = hasMedia ? 100 : 10
+        timeLabelTopConstraint.constant = hasMedia ? 110 : 15
         mediaCollectionView.hidden = hasMedia ? false : true
 
         attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
