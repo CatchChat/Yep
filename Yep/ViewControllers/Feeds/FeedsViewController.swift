@@ -35,9 +35,9 @@ class FeedsViewController: UIViewController {
 
         let height: CGFloat
         if feed.attachments.isEmpty {
-            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 17 + 10
+            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 17 + 15
         } else {
-            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 80 + 10 + 17 + 10
+            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 80 + 10 + 17 + 15
         }
 
         return ceil(height)

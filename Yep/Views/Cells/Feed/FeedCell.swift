@@ -31,7 +31,7 @@ class FeedCell: UITableViewCell {
     }
 
     static let messageLabelMaxWidth: CGFloat = {
-        let maxWidth = UIScreen.mainScreen().bounds.width - (60 + 10)
+        let maxWidth = UIScreen.mainScreen().bounds.width - (60 + 15)
         return maxWidth
         }()
 
@@ -41,7 +41,7 @@ class FeedCell: UITableViewCell {
         super.awakeFromNib()
 
         nicknameLabel.textColor = UIColor.yepTintColor()
-        messageLabel.textColor = UIColor.darkGrayColor()
+        messageLabel.textColor = UIColor.yepMessageColor()
         distanceLabel.textColor = UIColor.grayColor()
         timeLabel.textColor = UIColor.grayColor()
         messageCountLabel.textColor = UIColor.yepTintColor()
