@@ -221,11 +221,11 @@ class FayeService: NSObject, MZFayeClientDelegate {
     }
 
     private func personalChannelWithUserID(userID: String) -> String?{
-        return "/users/\(userID)/messages"
+        return "/v1/users/\(userID)/messages"
     }
     
     private func circleChannelWithCircleID(circleID: String) -> String?{
-        return "/circles/\(circleID)/messages"
+        return "／v1/circles/\(circleID)/messages"
     }
 
     private func saveMessageWithMessageInfo(messageInfo: JSONDictionary) {
