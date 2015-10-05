@@ -1258,6 +1258,22 @@ func friendships(completion completion: [JSONDictionary] -> Void) {
 
 // MARK: - Groups
 
+func joinGroup(groupID groupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+    
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+    
+    let resource = authJsonResource(path: "/api/v1/circles/\(groupID)/join", method: .POST, requestParameters: [:], parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+
 func headGroups(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": 1,

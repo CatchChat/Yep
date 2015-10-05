@@ -67,7 +67,13 @@ class ConversationViewController: BaseViewController {
 
     lazy var titleView: ConversationTitleView = {
         let titleView = ConversationTitleView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 150, height: 44)))
-        titleView.nameLabel.text = nameOfConversation(self.conversation)
+        
+        if nameOfConversation(self.conversation) != "" {
+            titleView.nameLabel.text = nameOfConversation(self.conversation)
+        } else {
+            titleView.nameLabel.text = NSLocalizedString("Discussion", comment: "")
+        }
+
         self.updateStateInfoOfTitleView(titleView)
         return titleView
         }()
@@ -343,6 +349,14 @@ class ConversationViewController: BaseViewController {
 
             messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { success in
                 println("messagesFromRecipient: \(success)")
+            })
+        }
+        
+        if let feed = feed {
+            joinGroup(groupID: feed.groupID, failureHandler: { (reason, error) -> Void in
+                
+                }, completion: { (result) -> Void in
+                    
             })
         }
     }

@@ -91,7 +91,7 @@ class FeedsViewController: UIViewController {
             }
 
             let vc = segue.destinationViewController as! ConversationViewController
-
+            
             let groupID = feed.groupID
             var group = groupWithGroupID(groupID, inRealm: realm)
 
