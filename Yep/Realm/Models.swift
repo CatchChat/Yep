@@ -459,7 +459,7 @@ class Feed: Object {
 func normalFriends() -> Results<User> {
     let realm = try! Realm()
     let predicate = NSPredicate(format: "friendState = %d", UserFriendState.Normal.rawValue)
-    return realm.objects(User).filter(predicate)
+    return realm.objects(User).filter(predicate).sorted("lastSignInUnixTime", ascending: false)
 }
 
 func normalUsers() -> Results<User> {

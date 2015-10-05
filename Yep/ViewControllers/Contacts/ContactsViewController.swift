@@ -189,7 +189,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
             cell.joinedDateLabel.text = friend.introduction
-            cell.lastTimeSeenLabel.text = NSDate(timeIntervalSince1970: friend.createdUnixTime).timeAgo
+            cell.lastTimeSeenLabel.text = NSLocalizedString("Last seen ", comment: "") + NSDate(timeIntervalSince1970: friend.lastSignInUnixTime).timeAgo.lowercaseString
         }
 
         return cell
