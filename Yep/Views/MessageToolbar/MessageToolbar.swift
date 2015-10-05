@@ -76,8 +76,8 @@ class MessageToolbar: UIToolbar {
                 micButton.setImage(UIImage(named: "item_mic"), forState: .Normal)
                 moreButton.setImage(UIImage(named: "item_more"), forState: .Normal)
 
-                micButton.tintColor = UIColor.messageToolBarHighlightColor()
-                moreButton.tintColor = UIColor.messageToolBarHighlightColor()
+                micButton.tintColor = UIColor.messageToolBarColor()
+                moreButton.tintColor = UIColor.messageToolBarColor()
 
                 hideVoiceButtonAnimation()
 
@@ -109,13 +109,14 @@ class MessageToolbar: UIToolbar {
                 micButton.setImage(UIImage(named: "icon_keyboard"), forState: .Normal)
                 moreButton.setImage(UIImage(named: "item_more"), forState: .Normal)
 
-                micButton.tintColor = UIColor.messageToolBarNormalColor()
-                moreButton.tintColor = UIColor.messageToolBarNormalColor()
+                micButton.tintColor = UIColor.messageToolBarColor()
+                moreButton.tintColor = UIColor.messageToolBarColor()
                 
                 showVoiceButtonAnimation()
 
             case .MoreMessages:
                 moreButton.setImage(UIImage(named: "item_less"), forState: .Normal)
+                moreButton.tintColor = UIColor.messageToolBarHighlightColor()
             }
 
             updateHeightOfMessageTextView()
@@ -149,7 +150,7 @@ class MessageToolbar: UIToolbar {
     lazy var micButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "item_mic"), forState: .Normal)
-        button.tintColor = UIColor.messageToolBarHighlightColor()
+        button.tintColor = UIColor.messageToolBarColor()
         button.tintAdjustmentMode = .Normal
         button.addTarget(self, action: "toggleRecordVoice", forControlEvents: UIControlEvents.TouchUpInside)
         return button
@@ -206,7 +207,7 @@ class MessageToolbar: UIToolbar {
     lazy var moreButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "item_more"), forState: .Normal)
-        button.tintColor = UIColor.messageToolBarHighlightColor()
+        button.tintColor = UIColor.messageToolBarColor()
         button.tintAdjustmentMode = .Normal
         button.addTarget(self, action: "toggleMoreMessages", forControlEvents: UIControlEvents.TouchUpInside)
         return button

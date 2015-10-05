@@ -67,10 +67,15 @@ extension UIColor {
     class func skillLearningColor() -> UIColor {
         return UIColor(red:0.49, green:0.83, blue:0.13, alpha:1)
     }
+    
+    class func messageToolBarColor() -> UIColor {
+//        return UIColor.yepTintColor()
+        return UIColor(red:0.557, green:0.557, blue:0.576, alpha:1)
+    }
 
     class func messageToolBarHighlightColor() -> UIColor {
-        //return UIColor.yepTintColor()
-        return UIColor(red:0.557, green:0.557, blue:0.576, alpha:1)
+        return UIColor.yepTintColor()
+//        return UIColor(red:0.557, green:0.557, blue:0.576, alpha:1)
     }
 
     class func messageToolBarNormalColor() -> UIColor {
