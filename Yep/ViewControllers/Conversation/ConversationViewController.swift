@@ -352,15 +352,15 @@ class ConversationViewController: BaseViewController {
             })
         }
         
-        if let feed = feed {
-            joinGroup(groupID: feed.groupID, failureHandler: { (reason, error) -> Void in
+        if let groupID = conversation.withGroup?.groupID {
+            joinGroup(groupID: groupID, failureHandler: { (reason, error) -> Void in
                 
                 print("Join Group Failed \(reason)")
-                FayeService.sharedManager.subscribeGroup(groupID: feed.groupID)
+                FayeService.sharedManager.subscribeGroup(groupID: groupID)
                 
             }, completion: { (result) -> Void in
                     
-                FayeService.sharedManager.subscribeGroup(groupID: feed.groupID)
+                FayeService.sharedManager.subscribeGroup(groupID: groupID)
                     
             })
         }

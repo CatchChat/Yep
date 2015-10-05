@@ -98,9 +98,13 @@ class ConversationCell: UITableViewCell {
         } else { // Group Conversation
 
             if let group = conversation.withGroup {
-                self.nameLabel.text = group.groupName
+                if  group.groupName != "" {
+                    self.nameLabel.text = group.groupName
+                } else {
+                    self.nameLabel.text = "Discussion"
+                }
             } else {
-                self.nameLabel.text = ""
+                self.nameLabel.text = "Discussion"
             }
 
             if let latestMessage = messagesInConversation(conversation).last {
