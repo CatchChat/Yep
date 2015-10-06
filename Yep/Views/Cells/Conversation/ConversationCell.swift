@@ -111,7 +111,11 @@ class ConversationCell: UITableViewCell {
                 if let latestMessage = messagesInConversation(conversation).last {
                     
                     if let feed = group.withFeed, URL = feed.attachments.first?.URLString {
-                        self.avatarImageView.kf_setImageWithURL(NSURL(string: URL)!)
+                        
+                        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(URL, withRadius: 30.0, completion: {[weak self] (image) -> Void in
+                            self?.avatarImageView.image = image
+                        })
+                        
                     } else {
                         if let messageSender = latestMessage.fromFriend {
                             AvatarCache.sharedInstance.roundAvatarOfUser(messageSender, withRadius: radius) { [weak self] roundImage in
@@ -144,9 +148,11 @@ class ConversationCell: UITableViewCell {
                     self.timeAgoLabel.text = createdAt.timeAgo
                     
                 } else {
-                    
+
                     if let feed = group.withFeed, URL = feed.attachments.first?.URLString {
-                        self.avatarImageView.kf_setImageWithURL(NSURL(string: URL)!)
+                        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(URL, withRadius: 30.0, completion: {[weak self] (image) -> Void in
+                            self?.avatarImageView.image = image
+                        })
                     } else {
                         self.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(radius)
                     }
