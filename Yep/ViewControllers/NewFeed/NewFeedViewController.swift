@@ -13,6 +13,8 @@ import MobileCoreServices
 
 class NewFeedViewController: UIViewController {
 
+    @IBOutlet weak var feedWhiteBGView: UIView!
+    
     var afterCreatedFeedAction: (() -> Void)?
 
     @IBOutlet weak var messageTextView: UITextView!
@@ -46,15 +48,21 @@ class NewFeedViewController: UIViewController {
         let postButton = UIBarButtonItem(title: NSLocalizedString("Post", comment: ""), style: .Plain, target: self, action: "post:")
 
         navigationItem.rightBarButtonItem = postButton
+        
+        view.sendSubviewToBack(feedWhiteBGView)
 
         messageTextView.text = "What's up?"
+        
+        messageTextView.textContainer.lineFragmentPadding = 0
+        
+        messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 
-        messageTextView.backgroundColor = UIColor.lightGrayColor()
+        view.backgroundColor = UIColor.yepBackgroundColor()
         mediaCollectionView.backgroundColor = UIColor.clearColor()
 
         mediaCollectionView.registerNib(UINib(nibName: feedMediaAddCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaAddCellID)
         mediaCollectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
-        mediaCollectionView.contentInset.left = 20
+        mediaCollectionView.contentInset.left = 15
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 

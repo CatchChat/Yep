@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -17,16 +17,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="kWS-hy-hsK">
-                                <rect key="frame" x="20" y="40" width="335" height="60"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="I5A-Wd-eMC"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nqc-gK-NZL">
-                                <rect key="frame" x="0.0" y="108" width="375" height="80"/>
+                                <rect key="frame" x="0.0" y="115" width="375" height="80"/>
+                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="rBg-4C-s5H"/>
                                 </constraints>
@@ -38,19 +31,39 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tdd-kc-O7L">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="210"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="kWS-hy-hsK">
+                                <rect key="frame" x="15" y="35" width="345" height="60"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="I5A-Wd-eMC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="nqc-gK-NZL" secondAttribute="trailing" id="9aV-hx-aoj"/>
+                            <constraint firstAttribute="trailing" secondItem="tdd-kc-O7L" secondAttribute="trailing" id="ET6-Wp-sPs"/>
+                            <constraint firstItem="tdd-kc-O7L" firstAttribute="bottom" secondItem="nqc-gK-NZL" secondAttribute="bottom" constant="15" id="Euq-y9-NSv"/>
+                            <constraint firstItem="tdd-kc-O7L" firstAttribute="top" secondItem="XTF-TD-X10" secondAttribute="top" id="HYS-Mm-PNs"/>
                             <constraint firstItem="nqc-gK-NZL" firstAttribute="leading" secondItem="XTF-TD-X10" secondAttribute="leading" id="be1-Wt-Njn"/>
-                            <constraint firstItem="kWS-hy-hsK" firstAttribute="top" secondItem="P6L-c6-EtM" secondAttribute="bottom" constant="20" id="dKw-0O-6Mx"/>
-                            <constraint firstItem="nqc-gK-NZL" firstAttribute="top" secondItem="kWS-hy-hsK" secondAttribute="bottom" constant="8" id="lP3-le-51b"/>
-                            <constraint firstItem="kWS-hy-hsK" firstAttribute="leading" secondItem="XTF-TD-X10" secondAttribute="leading" constant="20" id="mNE-5D-ygq"/>
-                            <constraint firstAttribute="trailing" secondItem="kWS-hy-hsK" secondAttribute="trailing" constant="20" id="mgZ-OL-1ch"/>
+                            <constraint firstItem="kWS-hy-hsK" firstAttribute="top" secondItem="P6L-c6-EtM" secondAttribute="bottom" constant="15" id="dKw-0O-6Mx"/>
+                            <constraint firstItem="tdd-kc-O7L" firstAttribute="leading" secondItem="XTF-TD-X10" secondAttribute="leading" id="gkg-5n-b4m"/>
+                            <constraint firstItem="nqc-gK-NZL" firstAttribute="top" secondItem="kWS-hy-hsK" secondAttribute="bottom" constant="20" id="lP3-le-51b"/>
+                            <constraint firstItem="kWS-hy-hsK" firstAttribute="leading" secondItem="XTF-TD-X10" secondAttribute="leading" constant="15" id="mNE-5D-ygq"/>
+                            <constraint firstAttribute="trailing" secondItem="kWS-hy-hsK" secondAttribute="trailing" constant="15" id="mgZ-OL-1ch"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="feedWhiteBGView" destination="tdd-kc-O7L" id="32E-RO-YcU"/>
                         <outlet property="mediaCollectionView" destination="nqc-gK-NZL" id="vUb-KN-uL1"/>
                         <outlet property="messageTextView" destination="kWS-hy-hsK" id="r5G-r3-3P5"/>
                     </connections>
