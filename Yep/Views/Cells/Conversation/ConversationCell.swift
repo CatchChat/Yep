@@ -135,15 +135,25 @@ class ConversationCell: UITableViewCell {
                     self.timeAgoLabel.text = NSDate(timeIntervalSince1970: group.createdUnixTime).timeAgo
                 }
                 
-                if let feed = group.withFeed, URL = feed.attachments.first?.URLString {
+                if let feed = group.withFeed {
+                
+                    if let URL = feed.attachments.first?.URLString {
                         AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(URL, withRadius: 30.0, completion: {[weak self] (image) -> Void in
                             self?.avatarImageView.image = image
+                        })
+                    } else {
+                        if let avatarURL = feed.creator?.avatarURLString {
+                            AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURL, withRadius: 30.0, completion: {[weak self] (image) -> Void in
+                                self?.avatarImageView.image = image
                             })
+                        }
+                    }
+                    
                 } else {
                     if let avatarURL = group.owner?.avatarURLString {
                         AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURL, withRadius: 30.0, completion: {[weak self] (image) -> Void in
                             self?.avatarImageView.image = image
-                            })
+                        })
                     }
                 }
             }
