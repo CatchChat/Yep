@@ -1,26 +1,8 @@
 PODS:
   - 1PasswordExtension (1.6.1)
-  - AFNetworking (2.5.4):
-    - AFNetworking/NSURLConnection (= 2.5.4)
-    - AFNetworking/NSURLSession (= 2.5.4)
-    - AFNetworking/Reachability (= 2.5.4)
-    - AFNetworking/Security (= 2.5.4)
-    - AFNetworking/Serialization (= 2.5.4)
-    - AFNetworking/UIKit (= 2.5.4)
-  - AFNetworking/NSURLConnection (2.5.4):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.5.4):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.5.4)
-  - AFNetworking/Security (2.5.4)
-  - AFNetworking/Serialization (2.5.4)
-  - AFNetworking/UIKit (2.5.4):
-    - AFNetworking/NSURLConnection
-    - AFNetworking/NSURLSession
+  - Alamofire (2.0.2)
+  - AlamofireImage (1.1.2):
+    - Alamofire (~> 2.0)
   - APAddressBook/Core (0.1.13)
   - APAddressBook/Swift (0.1.13):
     - APAddressBook/Core
@@ -51,7 +33,8 @@ PODS:
 
 DEPENDENCIES:
   - 1PasswordExtension (~> 1.5)
-  - AFNetworking (~> 2.5.4)
+  - Alamofire
+  - AlamofireImage
   - APAddressBook/Swift
   - Crashlytics
   - DeviceGuru
@@ -74,7 +57,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   1PasswordExtension: 42b79b7ac6d8e7468b22b7a651fc0b445bcdbd3e
-  AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
+  Alamofire: 8edbab00802a752bb5240cc2abe70e7e881488ad
+  AlamofireImage: dc3d3de5d095fd9545b144ba8f6da5bfc539512a
   APAddressBook: fcd5ee526abaabbf2c06bfa8d857016c95ba76f0
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
   Crashlytics: 0e61bdda9def51f1e99720f804eebe94865442b2

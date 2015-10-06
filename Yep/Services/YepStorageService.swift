@@ -8,7 +8,7 @@
 
 import Foundation
 import MobileCoreServices.UTType
-import AFNetworking
+import Alamofire
 
 /**
     Struct of S3 UploadParams
@@ -47,7 +47,7 @@ struct S3UploadParams {
 
 private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: NSData?, mimeType: String, s3UploadParams: S3UploadParams, failureHandler: ((Reason, String?) -> ())?, completion: () -> Void) {
 
-    let parameters: [NSObject: AnyObject] = [
+    let parameters: [String: String] = [
         "key": s3UploadParams.key,
         "acl": s3UploadParams.acl,
         "X-Amz-Algorithm": s3UploadParams.algorithm,
@@ -58,44 +58,42 @@ private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: N
     ]
     
     let filename = "attachment"
-
-    guard let request = try? AFHTTPRequestSerializer().multipartFormRequestWithMethod("POST", URLString: s3UploadParams.url, parameters: parameters, constructingBodyWithBlock: { formData in
-        
-        if let filePath = filePath {
-            let _ = try? formData.appendPartWithFileURL(NSURL(fileURLWithPath: filePath), name: "file", fileName: filename, mimeType: mimeType)
-
-        } else if let fileData = fileData {
-            formData.appendPartWithFileData(fileData, name: "file", fileName: filename, mimeType: mimeType)
-        }
-    }, error: ()) else {
-        failureHandler?(.Other(nil), "Can not create AFHTTPRequestSerializer request")
-        return
-    }
     
-    let manager = AFURLSessionManager(sessionConfiguration: NSURLSessionConfiguration.defaultSessionConfiguration())
-    manager.responseSerializer = AFHTTPResponseSerializer()
-
-    var progress: NSProgress?
-    
-    let uploadTask = manager.uploadTaskWithStreamedRequest(request, progress: &progress, completionHandler: { (response, responseObject, error) in
-        
-        if error != nil {
-            println("Error \(error.description) \(response) \(responseObject)")
-            if let data = responseObject as? NSData {
-                let string = NSString(data: data, encoding: NSUTF8StringEncoding)
-                println("\(string)")
+    Alamofire.upload(
+        .POST,
+        s3UploadParams.url,
+        multipartFormData: { multipartFormData in
+            
+            for parameter in parameters {
+                multipartFormData.appendBodyPart(data: parameter.1.dataUsingEncoding(NSUTF8StringEncoding)!, name: parameter.0)
             }
-
-            failureHandler?(.Other(error), error.description)
-
-        } else {
-            println("Upload \(response) \(responseObject)")
-
-            completion()
+            
+            if let filePath = filePath {
+                multipartFormData.appendBodyPart(fileURL: NSURL(fileURLWithPath: filePath), name: "file", fileName: filename, mimeType: mimeType)
+                
+            } else if let fileData = fileData {
+                multipartFormData.appendBodyPart(data: fileData, name: "file", fileName: filename, mimeType: mimeType)
+            }
+            
+        },
+        encodingCompletion: { encodingResult in
+            switch encodingResult {
+            case .Success(let upload, _, _):
+                
+                upload.responseJSON { response in
+                    println("Upload \(response)")
+                    
+                    completion()
+                }
+                
+            case .Failure(let encodingError):
+                
+                println("Error \(encodingError)")
+                
+                failureHandler?(.Other(nil), nil)
+            }
         }
-    })
-
-    uploadTask.resume()
+    )
 }
 
 /// Get S3  upload params
