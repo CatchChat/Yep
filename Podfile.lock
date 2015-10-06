@@ -1,17 +1,15 @@
 PODS:
   - 1PasswordExtension (1.6.1)
   - Alamofire (2.0.2)
-  - AlamofireImage (1.1.2):
-    - Alamofire (~> 2.0)
-  - APAddressBook/Core (0.1.13)
-  - APAddressBook/Swift (0.1.13):
+  - APAddressBook/Core (0.2.0)
+  - APAddressBook/Swift (0.2.0):
     - APAddressBook/Core
   - Base64 (1.0.1)
-  - Crashlytics (3.3.1)
-  - DeviceGuru (1.2.1)
-  - Fabric (1.5.1):
-    - Fabric/Base (= 1.5.1)
-  - Fabric/Base (1.5.1)
+  - Crashlytics (3.3.4)
+  - DeviceGuru (1.2.3)
+  - Fabric (1.5.5):
+    - Fabric/Base (= 1.5.5)
+  - Fabric/Base (1.5.5)
   - FXBlurView (1.6.4)
   - JPush (1.8.5)
   - KeyboardMan (0.5)
@@ -22,11 +20,11 @@ PODS:
     - SocketRocket (~> 0.4)
   - pop (1.0.8)
   - Proposer (0.7)
-  - Realm (0.95.1):
-    - Realm/Headers (= 0.95.1)
-  - Realm/Headers (0.95.1)
-  - RealmSwift (0.95.1):
-    - Realm (= 0.95.1)
+  - Realm (0.95.3):
+    - Realm/Headers (= 0.95.3)
+  - Realm/Headers (0.95.3)
+  - RealmSwift (0.95.3):
+    - Realm (= 0.95.3)
   - Ruler (0.6)
   - SocketRocket (0.4.1)
   - TPKeyboardAvoiding (1.2.9)
@@ -34,7 +32,6 @@ PODS:
 DEPENDENCIES:
   - 1PasswordExtension (~> 1.5)
   - Alamofire
-  - AlamofireImage
   - APAddressBook/Swift
   - Crashlytics
   - DeviceGuru
@@ -58,12 +55,11 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   1PasswordExtension: 42b79b7ac6d8e7468b22b7a651fc0b445bcdbd3e
   Alamofire: 8edbab00802a752bb5240cc2abe70e7e881488ad
-  AlamofireImage: dc3d3de5d095fd9545b144ba8f6da5bfc539512a
-  APAddressBook: fcd5ee526abaabbf2c06bfa8d857016c95ba76f0
+  APAddressBook: e4e2163baf82d20016e2125cf4afe0292aba0401
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
-  Crashlytics: 0e61bdda9def51f1e99720f804eebe94865442b2
-  DeviceGuru: d887a4f5dc68002d2a8d1b38ade5e7a6c16cbcae
-  Fabric: 03c3b3fe77e11a2bc31421b989a9c7adaa4779a5
+  Crashlytics: 41c082440d2e14da444186fff65e79c0b4b35d4c
+  DeviceGuru: 6703820f7058693781c0048184eb4c3594b602cc
+  Fabric: 190bf1a6eb65f7500de1347d027d2e59a7e53db1
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   JPush: ba06a6f866ce11f11c15149e7fa67488a23eec87
   KeyboardMan: ae716dfb1252ebcd1f68a2b659e91a970110e799
@@ -72,8 +68,8 @@ SPEC CHECKSUMS:
   MZFayeClient: 65e7ef67e61fbe7a7a8b196130541c9f06bcb5d8
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   Proposer: c244e0d031227b6cf140da7a24d30f2d954d2cb2
-  Realm: f6de6065c69ef504b80dd920b63af56e8337ff74
-  RealmSwift: f9f157edc8241948526c6de8988e377c49295547
+  Realm: 55885fa05865344994ad8b56da96669ffa39fbf1
+  RealmSwift: 586df4b5a6d01473d2653b16e9fe7debce4a87ed
   Ruler: b36ec3bbc5fc6c3b7f629a6052cc1c17ada4b280
   SocketRocket: ee0b5c34182d37bb4f1f8d628bbe737718126daa
   TPKeyboardAvoiding: ff1ee4e5a5a0c119b965552af8f183868ea20207

@@ -20,7 +20,7 @@ class FriendsInContactsViewController: BaseViewController {
 
     lazy var addressBook: APAddressBook = {
         let addressBook = APAddressBook()
-        addressBook.fieldsMask = APContactField(rawValue: APContactField.CompositeName.rawValue | APContactField.Phones.rawValue)
+        addressBook.fieldsMask = APContactField(rawValue: APContactField.Name.rawValue | APContactField.PhonesOnly.rawValue)
         return addressBook
         }()
 
@@ -51,23 +51,22 @@ class FriendsInContactsViewController: BaseViewController {
         friendsTableView.rowHeight = 80
         friendsTableView.tableFooterView = UIView()
 
-        addressBook.loadContacts { [weak self] (contacts: [AnyObject]!, error: NSError!) in
-
-            if (error != nil) {
-                YepAlert.alertSorry(message: error.localizedDescription, inViewController: self)
-
-            } else if let contacts = contacts as? [APContact] {
+        addressBook.loadContacts { (contacts, error) -> Void in
+            
+            if let contacts = contacts {
 
                 var uploadContacts = [UploadContact]()
 
                 for contact in contacts {
 
-                    if let name = contact.compositeName {
+                    if let name = contact.name {
 
-                        if let phones = contact.phones as? [String] {
+                        if let phones = contact.phones{
                             for phone in phones {
-                                let uploadContact: UploadContact = ["name": name, "number": phone]
-                                uploadContacts.append(uploadContact)
+                                if let compositeName = name.compositeName, number = phone.number {
+                                    let uploadContact: UploadContact = ["name": compositeName , "number": number]
+                                    uploadContacts.append(uploadContact)
+                                }
                             }
                         }
                     }

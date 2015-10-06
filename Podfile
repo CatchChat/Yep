@@ -4,7 +4,7 @@ use_frameworks!
 
 def pods
     pod 'Alamofire'
-    pod 'AlamofireImage'
+#    pod 'AlamofireImage'
     pod 'DeviceGuru'
     pod '1PasswordExtension', '~> 1.5'
     pod 'KeyboardMan'
