@@ -85,14 +85,14 @@ class FeedsViewController: UIViewController {
 
             guard let
                 index = sender as? Int,
-                feed = feeds[safe: index],
+                feedData = feeds[safe: index],
                 realm = try? Realm() else {
                     return
             }
-
+            
             let vc = segue.destinationViewController as! ConversationViewController
             
-            let groupID = feed.groupID
+            let groupID = feedData.groupID
             var group = groupWithGroupID(groupID, inRealm: realm)
 
             if group == nil {
@@ -137,7 +137,41 @@ class FeedsViewController: UIViewController {
             }
 
             vc.conversation = feedConversation
-            vc.feed = feed
+            
+            if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
+                print("Join Feed \(feed.feedID)")
+            } else {
+                let newFeed = Feed()
+                newFeed.feedID = feedData.id
+                newFeed.allowComment = feedData.allowComment
+                newFeed.createdUnixTime = feedData.createdUnixTime
+                newFeed.updatedUnixTime = feedData.updatedUnixTime
+                newFeed.creator = userFromDiscoverUser(feedData.creator, inRealm: realm)
+                newFeed.body = feedData.body
+                
+                if let distance = feedData.distance {
+                    newFeed.distance = distance
+                }
+
+                newFeed.messageCount = feedData.messageCount
+                
+                if let feedSkill = feedData.skill {
+                    newFeed.skill = userSkillsFromSkills([feedSkill], inRealm: realm).first
+                }
+                
+                newFeed.attachments.removeAll()
+                
+                let attachments = attachmentFromDiscoveredAttachment(feedData.attachments, inRealm: realm)
+                newFeed.attachments.appendContentsOf(attachments)
+                
+                realm.write {
+                    group?.withFeed = newFeed
+                    realm.add(newFeed)
+                }
+                
+            }
+
+            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feedData)
         }
     }
 }

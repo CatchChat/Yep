@@ -174,6 +174,7 @@ class User: Object {
     var belongsToGroups: [Group] {
         return linkingObjects(Group.self, forProperty: "members")
     }
+    
 }
 
 // MARK: Group
@@ -186,6 +187,8 @@ class Group: Object {
 
     dynamic var owner: User?
     var members = List<User>()
+    
+    dynamic var withFeed: Feed?
 
     var conversation: Conversation? {
         let conversations = linkingObjects(Conversation.self, forProperty: "withGroup")
@@ -429,10 +432,10 @@ enum AttachmentKind: String {
     case Video = "video"
 }
 
-/*
+
 class Attachment: Object {
 
-    dynamic var kind: String = ""
+    var kind: AttachmentKind?
     dynamic var metadata: String = ""
     dynamic var URLString: String = ""
 }
@@ -446,13 +449,19 @@ class Feed: Object {
     dynamic var updatedUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
 
     dynamic var creator: User?
+    dynamic var distance: Double = 0
+    dynamic var messageCount: Int = 0
     dynamic var body: String = ""
     var attachments = List<Attachment>()
 
     dynamic var skill: UserSkill?
-    dynamic var group: Group?
+    
+    var group: Group? {
+        let groups = linkingObjects(Group.self, forProperty: "withFeed")
+        return groups.first
+    }
 }
-*/
+
 
 // MARK: Helpers
 
@@ -497,6 +506,11 @@ func userWithAvatarURLString(avatarURLString: String, inRealm realm: Realm) -> U
 func groupWithGroupID(groupID: String, inRealm realm: Realm) -> Group? {
     let predicate = NSPredicate(format: "groupID = %@", groupID)
     return realm.objects(Group).filter(predicate).first
+}
+
+func feedWithFeedID(feedID: String, inRealm realm: Realm) -> Feed? {
+    let predicate = NSPredicate(format: "feedID = %@", feedID)
+    return realm.objects(Feed).filter(predicate).first
 }
 
 func countOfUnreadMessagesInRealm(realm: Realm) -> Int {

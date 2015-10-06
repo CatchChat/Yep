@@ -12,6 +12,91 @@ import RealmSwift
 
 let YepNewMessagesReceivedNotification = "YepNewMessagesReceivedNotification"
 
+func userFromDiscoverUser(discoveredUser: DiscoveredUser, inRealm realm: Realm?) -> User? {
+    
+    var stranger: User?
+    
+    if let realm = realm {
+        stranger = userWithUserID(discoveredUser.id, inRealm: realm)
+    }
+
+    
+    if stranger == nil {
+        let newUser = User()
+        
+        newUser.userID = discoveredUser.id
+        
+        newUser.friendState = UserFriendState.Stranger.rawValue
+        
+        if let realm = realm {
+            realm.write {
+                realm.add(newUser)
+            }
+        }
+
+        
+        stranger = newUser
+    }
+    
+    if let user = stranger {
+        
+        if let realm = realm {
+            realm.write {
+                fillUserInfo(discoveredUser, user: user, inRealm: realm)
+            }
+        } else {
+            fillUserInfo(discoveredUser, user: user, inRealm: nil)
+        }
+
+        
+        return user
+    } else {
+        return nil
+    }
+}
+
+func fillUserInfo(discoveredUser: DiscoveredUser, user: User, inRealm realm: Realm?) {
+    
+    // 更新用户信息
+    
+    user.lastSignInUnixTime = discoveredUser.lastSignInUnixTime
+    
+    user.username = discoveredUser.username ?? ""
+    
+    user.nickname = discoveredUser.nickname
+    
+    if let introduction = discoveredUser.introduction {
+        user.introduction = introduction
+    }
+    
+    user.avatarURLString = discoveredUser.avatarURLString
+    
+    user.longitude = discoveredUser.longitude
+    
+    user.latitude = discoveredUser.latitude
+    
+    if let badge = discoveredUser.badge {
+        user.badge = badge
+    }
+    
+    // 更新技能
+    if let realm = realm {
+        user.learningSkills.removeAll()
+        let learningUserSkills = userSkillsFromSkills(discoveredUser.learningSkills, inRealm: realm)
+        user.learningSkills.appendContentsOf(learningUserSkills)
+        
+        user.masterSkills.removeAll()
+        let masterUserSkills = userSkillsFromSkills(discoveredUser.masterSkills, inRealm: realm)
+        user.masterSkills.appendContentsOf(masterUserSkills)
+    }
+    
+    // 更新 Social Account Provider
+    
+    user.socialAccountProviders.removeAll()
+    let socialAccountProviders = userSocialAccountProvidersFromSocialAccountProviders(discoveredUser.socialAccountProviders)
+    user.socialAccountProviders.appendContentsOf(socialAccountProviders)
+}
+
 func skillsFromUserSkillList(userSkillList: List<UserSkill>) -> [Skill] {
 
     var userSkills = [UserSkill]()
@@ -32,6 +117,28 @@ func skillsFromUserSkillList(userSkillList: List<UserSkill>) -> [Skill] {
 
         return skill
     })
+}
+
+
+func attachmentFromDiscoveredAttachment(discoverAttachments: [DiscoveredAttachment], inRealm realm: Realm?) -> [Attachment]{
+
+    return discoverAttachments.map({ discoverAttachment -> Attachment? in
+        
+        let newAttachment = Attachment()
+        newAttachment.kind = discoverAttachment.kind
+        newAttachment.metadata = discoverAttachment.metadata
+        newAttachment.URLString = discoverAttachment.URLString
+        
+        if let realm = realm {
+            realm.write {
+                realm.add(newAttachment)
+            }
+        }
+        
+        return newAttachment
+        
+    }).filter({ $0 != nil }).map({ discoverAttachment in discoverAttachment! })
+
 }
 
 func userSkillsFromSkills(skills: [Skill], inRealm realm: Realm) -> [UserSkill] {

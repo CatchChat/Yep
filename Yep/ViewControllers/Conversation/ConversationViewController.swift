@@ -18,10 +18,75 @@ struct MessageNotification {
     static let MessageStateChanged = "MessageStateChangedNotification"
 }
 
+enum ConversationFeed {
+    case DiscoveredFeedType(DiscoveredFeed)
+    case FeedType(Feed)
+    
+    var feedID: String {
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            return discoveredFeed.id
+            
+        case .FeedType(let feed):
+            return feed.feedID
+        }
+    }
+    
+    var body: String {
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            return discoveredFeed.body
+            
+        case .FeedType(let feed):
+            return feed.body
+        }
+    }
+    
+    var creator: User? {
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            return userFromDiscoverUser(discoveredFeed.creator, inRealm: nil)
+            
+        case .FeedType(let feed):
+            return feed.creator
+        }
+    }
+    
+    var distance: Double? {
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            return discoveredFeed.distance
+            
+        case .FeedType(let feed):
+            return feed.distance
+        }
+    }
+    
+    var attachments: [Attachment] {
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            return attachmentFromDiscoveredAttachment(discoveredFeed.attachments, inRealm: nil)
+            
+        case .FeedType(let feed):
+            return Array(feed.attachments)
+        }
+    }
+    
+    var createdUnixTime: NSTimeInterval {
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            return discoveredFeed.createdUnixTime
+            
+        case .FeedType(let feed):
+            return feed.createdUnixTime
+        }
+    }
+}
+
 class ConversationViewController: BaseViewController {
-
-    var feed: DiscoveredFeed?
-
+    
+    var conversationFeed: ConversationFeed?
+    
     var conversation: Conversation!
 
     var realm: Realm!
@@ -356,7 +421,6 @@ class ConversationViewController: BaseViewController {
             joinGroup(groupID: groupID, failureHandler: { (reason, error) -> Void in
                 
                 print("Join Group Failed \(reason)")
-                FayeService.sharedManager.subscribeGroup(groupID: groupID)
                 
             }, completion: { (result) -> Void in
                     
@@ -377,9 +441,12 @@ class ConversationViewController: BaseViewController {
 
         if isFirstAppear {
 
+            if let feed = conversation.withGroup?.withFeed {
+                conversationFeed = ConversationFeed.FeedType(feed)
+            }
             // test
-            if let feed = feed {
-                makeFeedViewWithFeed(feed)
+            if let conversationFeed = conversationFeed {
+                makeFeedViewWithFeed(conversationFeed)
             }
 
             // 为记录草稿准备
@@ -1076,7 +1143,7 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    private func makeFeedViewWithFeed(feed: DiscoveredFeed) {
+    private func makeFeedViewWithFeed(feed: ConversationFeed) {
 
         let feedView = FeedView.instanceFromNib()
 

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ConversationCell: UITableViewCell {
 
@@ -101,47 +102,61 @@ class ConversationCell: UITableViewCell {
                 if  group.groupName != "" {
                     self.nameLabel.text = group.groupName
                 } else {
-                    self.nameLabel.text = "Discussion"
-                }
-            } else {
-                self.nameLabel.text = "Discussion"
-            }
-
-            if let latestMessage = messagesInConversation(conversation).last {
-                if let messageSender = latestMessage.fromFriend {
-                    AvatarCache.sharedInstance.roundAvatarOfUser(messageSender, withRadius: radius) { [weak self] roundImage in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self?.avatarImageView.image = roundImage
-                        }
+                    if let feed = group.withFeed {
+                        self.nameLabel.text = feed.body
                     }
                 }
+                
+                
+                if let latestMessage = messagesInConversation(conversation).last {
+                    
+                    if let feed = group.withFeed, URL = feed.attachments.first?.URLString {
+                        self.avatarImageView.kf_setImageWithURL(NSURL(string: URL)!)
+                    } else {
+                        if let messageSender = latestMessage.fromFriend {
+                            AvatarCache.sharedInstance.roundAvatarOfUser(messageSender, withRadius: radius) { [weak self] roundImage in
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    self?.avatarImageView.image = roundImage
+                                }
+                            }
+                        }
+                    }
+                    
 
-                switch latestMessage.mediaType {
-
-                case MessageMediaType.Audio.rawValue:
-                    self.chatLabel.text = NSLocalizedString("[Audio]", comment: "")
-                case MessageMediaType.Video.rawValue:
-                    self.chatLabel.text = NSLocalizedString("[Video]", comment: "")
-                case MessageMediaType.Image.rawValue:
-                    self.chatLabel.text = NSLocalizedString("[Image]", comment: "")
-                case MessageMediaType.Location.rawValue:
-                    self.chatLabel.text = NSLocalizedString("[Location]", comment: "")
-                case MessageMediaType.Text.rawValue:
-                    self.chatLabel.text = latestMessage.textContent
-                default:
-                    self.chatLabel.text = "We love NIX."
-
+                    switch latestMessage.mediaType {
+                        
+                    case MessageMediaType.Audio.rawValue:
+                        self.chatLabel.text = NSLocalizedString("[Audio]", comment: "")
+                    case MessageMediaType.Video.rawValue:
+                        self.chatLabel.text = NSLocalizedString("[Video]", comment: "")
+                    case MessageMediaType.Image.rawValue:
+                        self.chatLabel.text = NSLocalizedString("[Image]", comment: "")
+                    case MessageMediaType.Location.rawValue:
+                        self.chatLabel.text = NSLocalizedString("[Location]", comment: "")
+                    case MessageMediaType.Text.rawValue:
+                        self.chatLabel.text = latestMessage.textContent
+                    default:
+                        self.chatLabel.text = "We love NIX."
+                        
+                    }
+                    
+                    let createdAt = NSDate(timeIntervalSince1970: latestMessage.createdUnixTime)
+                    self.timeAgoLabel.text = createdAt.timeAgo
+                    
+                } else {
+                    
+                    if let feed = group.withFeed, URL = feed.attachments.first?.URLString {
+                        self.avatarImageView.kf_setImageWithURL(NSURL(string: URL)!)
+                    } else {
+                        self.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(radius)
+                    }
+                    
+                    self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
+                    self.timeAgoLabel.text = NSLocalizedString("None", comment: "")
                 }
-
-                let createdAt = NSDate(timeIntervalSince1970: latestMessage.createdUnixTime)
-                self.timeAgoLabel.text = createdAt.timeAgo
-
-            } else {
-                self.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(radius)
-
-                self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
-                self.timeAgoLabel.text = NSLocalizedString("None", comment: "")
             }
+
         }
+
     }
 }

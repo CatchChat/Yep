@@ -245,6 +245,7 @@
 		50F5AF991BBBD02A0033C9BC /* FeedMediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF971BBBD02A0033C9BC /* FeedMediaCell.swift */; settings = {ASSET_TAGS = (); }; };
 		50F5AF9A1BBBD02A0033C9BC /* FeedMediaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F5AF981BBBD02A0033C9BC /* FeedMediaCell.xib */; settings = {ASSET_TAGS = (); }; };
 		50FA9A441B661698009BF2A0 /* UIViewController+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */; };
+		6A34C1D81BC40E7F00E74792 /* YepModelConvertor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A34C1D71BC40E7F00E74792 /* YepModelConvertor.swift */; settings = {ASSET_TAGS = (); }; };
 		6A649A9B1BB259CB00EE4FB5 /* YepSoundEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A649A9A1BB259CB00EE4FB5 /* YepSoundEffect.swift */; settings = {ASSET_TAGS = (); }; };
 		6ADDB4501B848C600012877A /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6ADDB44F1B848C600012877A /* 1Password.xcassets */; };
 		8409137D1B7DB173001C89D6 /* FriendRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409137C1B7DB173001C89D6 /* FriendRequestView.swift */; };
@@ -520,6 +521,7 @@
 		50F5AF971BBBD02A0033C9BC /* FeedMediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaCell.swift; path = Views/Cells/FeedMedia/FeedMediaCell.swift; sourceTree = "<group>"; };
 		50F5AF981BBBD02A0033C9BC /* FeedMediaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedMediaCell.xib; path = Views/Cells/FeedMedia/FeedMediaCell.xib; sourceTree = "<group>"; };
 		50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Yep.swift"; path = "Extensions/UIViewController+Yep.swift"; sourceTree = "<group>"; };
+		6A34C1D71BC40E7F00E74792 /* YepModelConvertor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepModelConvertor.swift; path = Helpers/YepModelConvertor.swift; sourceTree = "<group>"; };
 		6A649A9A1BB259CB00EE4FB5 /* YepSoundEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepSoundEffect.swift; path = Helpers/YepSoundEffect.swift; sourceTree = "<group>"; };
 		6ADDB44F1B848C600012877A /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = 1Password.xcassets; sourceTree = "<group>"; };
 		8409137C1B7DB173001C89D6 /* FriendRequestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendRequestView.swift; path = Views/FriendRequest/FriendRequestView.swift; sourceTree = "<group>"; };
@@ -1066,6 +1068,7 @@
 				50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */,
 				50894D0F1AEE3C25000981AF /* YepHUD.swift */,
 				508DF62A1B9985F300B194A4 /* YepLog.swift */,
+				6A34C1D71BC40E7F00E74792 /* YepModelConvertor.swift */,
 				6A649A9A1BB259CB00EE4FB5 /* YepSoundEffect.swift */,
 			);
 			name = Helpers;
@@ -2087,6 +2090,7 @@
 				506923141ADE025F00D27574 /* YepRefreshView.swift in Sources */,
 				500A0B1F1B451A6F00D49358 /* BadgeView.swift in Sources */,
 				503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */,
+				6A34C1D81BC40E7F00E74792 /* YepModelConvertor.swift in Sources */,
 				50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */,
 				50AFBF461BB25F40007D19DA /* ActivityIndicatorTitleView.swift in Sources */,
 				50E61CEB1AF1F69D00908A9D /* ConversationTitleView.swift in Sources */,

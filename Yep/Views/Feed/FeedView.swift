@@ -10,7 +10,7 @@ import UIKit
 
 class FeedView: UIView {
 
-    var feed: DiscoveredFeed? {
+    var feed: ConversationFeed? {
         willSet {
             if let feed = newValue {
                 configureWithFeed(feed)
@@ -137,6 +137,7 @@ class FeedView: UIView {
         let rect = feed.body.boundingRectWithSize(CGSize(width: FeedCell.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
         let height: CGFloat
+        
         if feed.attachments.isEmpty {
             height = ceil(rect.height) + 10 + 40 + 4 + 10 + 17 + 10
         } else {
@@ -146,7 +147,7 @@ class FeedView: UIView {
         return ceil(height)
     }
 
-    private func configureWithFeed(feed: DiscoveredFeed) {
+    private func configureWithFeed(feed: ConversationFeed) {
 
         messageLabel.text = feed.body
 
@@ -156,15 +157,18 @@ class FeedView: UIView {
 
         attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
 
-        let avatarURLString = feed.creator.avatarURLString
-        let radius = min(CGRectGetWidth(avatarImageView.bounds), CGRectGetHeight(avatarImageView.bounds)) * 0.5
-        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { [weak self] roundImage in
-            dispatch_async(dispatch_get_main_queue()) {
-                self?.avatarImageView.image = roundImage
+        if let creator = feed.creator {
+            let avatarURLString = creator.avatarURLString
+            let radius = min(CGRectGetWidth(avatarImageView.bounds), CGRectGetHeight(avatarImageView.bounds)) * 0.5
+            AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { [weak self] roundImage in
+                dispatch_async(dispatch_get_main_queue()) {
+                    self?.avatarImageView.image = roundImage
+                }
             }
+            
+            nicknameLabel.text = creator.nickname
         }
-
-        nicknameLabel.text = feed.creator.nickname
+        
 
         if let distance = feed.distance?.format(".1") {
             distanceLabel.text = "\(distance) km"
