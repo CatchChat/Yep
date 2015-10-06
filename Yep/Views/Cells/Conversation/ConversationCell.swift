@@ -92,7 +92,7 @@ class ConversationCell: UITableViewCell {
 
                 } else {
                     self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
-                    self.timeAgoLabel.text = NSLocalizedString("None", comment: "")
+                    self.timeAgoLabel.text = NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
                 }
             }
 
@@ -107,24 +107,7 @@ class ConversationCell: UITableViewCell {
                     }
                 }
                 
-                
                 if let latestMessage = messagesInConversation(conversation).last {
-                    
-                    if let feed = group.withFeed, URL = feed.attachments.first?.URLString {
-                        
-                        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(URL, withRadius: 30.0, completion: {[weak self] (image) -> Void in
-                            self?.avatarImageView.image = image
-                        })
-                        
-                    } else {
-                        if let messageSender = latestMessage.fromFriend {
-                            AvatarCache.sharedInstance.roundAvatarOfUser(messageSender, withRadius: radius) { [weak self] roundImage in
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    self?.avatarImageView.image = roundImage
-                                }
-                            }
-                        }
-                    }
                     
 
                     switch latestMessage.mediaType {
@@ -148,17 +131,20 @@ class ConversationCell: UITableViewCell {
                     self.timeAgoLabel.text = createdAt.timeAgo
                     
                 } else {
-
-                    if let feed = group.withFeed, URL = feed.attachments.first?.URLString {
+                    self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
+                    self.timeAgoLabel.text = NSDate(timeIntervalSince1970: group.createdUnixTime).timeAgo
+                }
+                
+                if let feed = group.withFeed, URL = feed.attachments.first?.URLString {
                         AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(URL, withRadius: 30.0, completion: {[weak self] (image) -> Void in
                             self?.avatarImageView.image = image
-                        })
-                    } else {
-                        self.avatarImageView.image = AvatarCache.sharedInstance.defaultRoundAvatarOfRadius(radius)
+                            })
+                } else {
+                    if let avatarURL = group.owner?.avatarURLString {
+                        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURL, withRadius: 30.0, completion: {[weak self] (image) -> Void in
+                            self?.avatarImageView.image = image
+                            })
                     }
-                    
-                    self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
-                    self.timeAgoLabel.text = NSLocalizedString("None", comment: "")
                 }
             }
 

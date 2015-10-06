@@ -27,12 +27,15 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kjj-pV-aMN">
                         <rect key="frame" x="85" y="10" width="38.5" height="17"/>
                         <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="210" id="g3F-Uz-w0i"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                         <color key="textColor" white="0.24954602935097434" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 mins ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xjd-IV-gXl">
-                        <rect key="frame" x="254" y="9" width="57.5" height="14.5"/>
+                        <rect key="frame" x="254" y="11.5" width="57.5" height="14.5"/>
                         <animations/>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
                         <color key="textColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
@@ -68,8 +71,10 @@
                     <constraint firstItem="e3N-7V-FD4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="2" id="C6e-Zm-787"/>
                     <constraint firstItem="kjj-pV-aMN" firstAttribute="top" secondItem="e3N-7V-FD4" secondAttribute="top" id="GXJ-23-qOR"/>
                     <constraint firstItem="EBI-KB-5zQ" firstAttribute="trailing" secondItem="iMI-cX-ITU" secondAttribute="trailing" constant="5" id="Jd7-6j-ojN"/>
+                    <constraint firstItem="Xjd-IV-gXl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kjj-pV-aMN" secondAttribute="trailing" priority="750" constant="100" id="O21-4s-INp"/>
                     <constraint firstItem="Xjd-IV-gXl" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="OgI-LN-3Ho"/>
                     <constraint firstItem="EBI-KB-5zQ" firstAttribute="centerY" secondItem="iMI-cX-ITU" secondAttribute="centerY" id="PhU-kS-TVk"/>
+                    <constraint firstItem="Xjd-IV-gXl" firstAttribute="centerY" secondItem="kjj-pV-aMN" secondAttribute="centerY" id="SsC-sp-t6e"/>
                     <constraint firstItem="iMI-cX-ITU" firstAttribute="leading" secondItem="EBI-KB-5zQ" secondAttribute="leading" constant="5" id="UKr-bJ-j2T"/>
                     <constraint firstItem="0ku-jC-UO9" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="dRu-r7-NyH"/>
                     <constraint firstItem="0ku-jC-UO9" firstAttribute="leading" secondItem="e3N-7V-FD4" secondAttribute="trailing" constant="15" id="e0B-sB-dWY"/>
@@ -77,6 +82,12 @@
                     <constraint firstItem="e3N-7V-FD4" firstAttribute="trailing" secondItem="iMI-cX-ITU" secondAttribute="trailing" constant="5" id="w3d-v9-Oot"/>
                     <constraint firstItem="kjj-pV-aMN" firstAttribute="bottom" secondItem="Xjd-IV-gXl" secondAttribute="bottom" constant="3" id="xLh-Pw-tXg"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="xLh-Pw-tXg"/>
+                        <exclude reference="O21-4s-INp"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <animations/>
             <connections>
