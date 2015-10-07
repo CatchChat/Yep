@@ -139,9 +139,9 @@ class FeedView: UIView {
         let height: CGFloat
         
         if feed.attachments.isEmpty {
-            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 17 + 10
+            height = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
         } else {
-            height = ceil(rect.height) + 10 + 40 + 4 + 10 + 80 + 10 + 17 + 10
+            height = ceil(rect.height) + 10 + 40 + 4 + 15 + 80 + 15 + 17 + 15
         }
 
         return ceil(height)
@@ -152,7 +152,7 @@ class FeedView: UIView {
         messageLabel.text = feed.body
 
         let hasMedia = !feed.attachments.isEmpty
-        timeLabelTopConstraint.constant = hasMedia ? 100 : 10
+        timeLabelTopConstraint.constant = hasMedia ? 110 : 15
         mediaCollectionView.hidden = hasMedia ? false : true
 
         attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
