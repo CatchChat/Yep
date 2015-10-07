@@ -97,6 +97,7 @@ class NewFeedViewController: UIViewController {
     }
     
     func cancle(sender: UIBarButtonItem) {
+        messageTextView.resignFirstResponder()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 

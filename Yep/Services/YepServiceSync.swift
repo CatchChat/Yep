@@ -568,6 +568,7 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
 private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) {
     if let groupID = groupInfo["id"] as? String {
+        
         var group = groupWithGroupID(groupID, inRealm: realm)
 
         if group == nil {

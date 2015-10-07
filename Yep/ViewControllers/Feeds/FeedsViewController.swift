@@ -65,6 +65,7 @@ class FeedsViewController: UIViewController {
         feedsTableView.backgroundColor = UIColor.whiteColor()
         feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
         feedsTableView.tableFooterView = UIView()
+        feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
 
         updateFeeds()
     }
