@@ -354,6 +354,8 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                                 
                                 let groupID = group.groupID
                                 
+                                FayeService.sharedManager.unsubscribeGroup(groupID: groupID)
+                                
                                 leaveGroup(groupID: groupID, failureHandler: { (reason, error) -> Void in
                                     
                                 }, completion: { (result) -> Void in

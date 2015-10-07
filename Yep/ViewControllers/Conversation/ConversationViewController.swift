@@ -403,30 +403,32 @@ class ConversationViewController: BaseViewController {
 
         // sync unread messages
 
-        if let recipient = conversation.recipient {
-
-            let timeDirection: TimeDirection
-            if let minMessageID = messages.last?.messageID {
-                timeDirection = .Future(minMessageID: minMessageID)
-            } else {
-                timeDirection = .None
-            }
-
-            messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { success in
-                println("messagesFromRecipient: \(success)")
-            })
-        }
-        
         if let groupID = conversation.withGroup?.groupID {
             joinGroup(groupID: groupID, failureHandler: { (reason, error) -> Void in
                 
                 print("Join Group Failed \(reason)")
                 
-            }, completion: { (result) -> Void in
-                    
+            }, completion: {(result) -> Void in
+                
                 FayeService.sharedManager.subscribeGroup(groupID: groupID)
                     
             })
+        }
+        
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            if let recipient = self?.conversation.recipient {
+                
+                let timeDirection: TimeDirection
+                if let minMessageID = self?.messages.last?.messageID {
+                    timeDirection = .Future(minMessageID: minMessageID)
+                } else {
+                    timeDirection = .None
+                }
+                
+                messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { success in
+                    println("messagesFromRecipient: \(success)")
+                })
+            }
         }
     }
 
@@ -558,6 +560,7 @@ class ConversationViewController: BaseViewController {
 
         conversation.messages.filter({ message in
             if let fromFriend = message.fromFriend {
+                
                 return (message.readed == false) && (fromFriend.friendState != UserFriendState.Me.rawValue)
             } else {
                 return false
@@ -1608,22 +1611,23 @@ class ConversationViewController: BaseViewController {
         if let messagesInfo = notification.object as? [String: [String]], let allMessageIDs = messagesInfo["messageIDs"] {
 
             // 按照 conversation 过滤消息，匹配的才能考虑插入
-
-            if let conversationID = conversation?.fakeID, realm = conversation?.realm {
-
-                var filteredMessageIDs = [String]()
-
-                for messageID in allMessageIDs {
-                    if let message = messageWithMessageID(messageID, inRealm: realm) {
-                        if let messageInConversationID = message.conversation?.fakeID {
-                            if messageInConversationID == conversationID {
-                                filteredMessageIDs.append(messageID)
+            if let conversation = conversation {
+                if let conversationID = conversation.fakeID, realm = conversation.realm {
+                    
+                    var filteredMessageIDs = [String]()
+                    
+                    for messageID in allMessageIDs {
+                        if let message = messageWithMessageID(messageID, inRealm: realm) {
+                            if let messageInConversationID = message.conversation?.fakeID {
+                                if messageInConversationID == conversationID {
+                                    filteredMessageIDs.append(messageID)
+                                }
                             }
                         }
                     }
+                    
+                    messageIDs = filteredMessageIDs
                 }
-
-                messageIDs = filteredMessageIDs
             }
         }
 

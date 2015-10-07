@@ -66,6 +66,14 @@ class FayeService: NSObject, MZFayeClientDelegate {
         }
     }
     
+    func unsubscribeGroup(groupID groupID: String) {
+        let circleChannel = circleChannelWithCircleID(groupID)
+        
+        prepareForChannel(circleChannel!)
+        
+        client.unsubscribeFromChannel(circleChannel)
+    }
+    
     func subscribeGroup(groupID groupID: String) {
         
         let circleChannel = circleChannelWithCircleID(groupID)

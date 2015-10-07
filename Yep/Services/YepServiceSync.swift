@@ -641,6 +641,12 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                     }
                 }
             }
+            
+            //Sync Feed
+            
+            if let topic = groupInfo["topic"] as? JSONDictionary, feedData = DiscoveredFeed.fromJSONDictionary(topic) {
+                saveFeedWithFeedData(feedData, inRealm: realm, group: group)
+            }
 
             // 同步 Group 的成员
 

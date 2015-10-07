@@ -528,6 +528,42 @@ func countOfUnreadMessagesInConversation(conversation: Conversation) -> Int {
     }).count
 }
 
+func saveFeedWithFeedData(feedData: DiscoveredFeed, inRealm realm: Realm, group: Group) {
+    
+    if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
+        print("Join Feed \(feed.feedID)")
+    } else {
+        let newFeed = Feed()
+        newFeed.feedID = feedData.id
+        newFeed.allowComment = feedData.allowComment
+        newFeed.createdUnixTime = feedData.createdUnixTime
+        newFeed.updatedUnixTime = feedData.updatedUnixTime
+        newFeed.creator = userFromDiscoverUser(feedData.creator, inRealm: realm)
+        newFeed.body = feedData.body
+        
+        if let distance = feedData.distance {
+            newFeed.distance = distance
+        }
+        
+        newFeed.messageCount = feedData.messageCount
+        
+        if let feedSkill = feedData.skill {
+            newFeed.skill = userSkillsFromSkills([feedSkill], inRealm: realm).first
+        }
+        
+        newFeed.attachments.removeAll()
+        
+        let attachments = attachmentFromDiscoveredAttachment(feedData.attachments, inRealm: realm)
+        newFeed.attachments.appendContentsOf(attachments)
+        
+        realm.write {
+            group.withFeed = newFeed
+            realm.add(newFeed)
+        }
+        
+    }
+}
+
 func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
     if messageID.isEmpty {
         return nil

@@ -1645,7 +1645,7 @@ func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection
         return true
     }
 
-    let resource = authJsonResource(path: "/api/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages/unread", method: .GET, requestParameters: requestParameters, parse: parse )
+    let resource = authJsonResource(path: "/api/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages", method: .GET, requestParameters: requestParameters, parse: parse )
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
