@@ -409,9 +409,9 @@ class ConversationViewController: BaseViewController {
                 print("Join Group Failed \(reason)")
                 
             }, completion: {(result) -> Void in
-                
-                FayeService.sharedManager.subscribeGroup(groupID: groupID)
-                    
+                dispatch_async(dispatch_get_main_queue()) {
+                    FayeService.sharedManager.subscribeGroup(groupID: groupID)
+                }
             })
         }
         
@@ -926,6 +926,7 @@ class ConversationViewController: BaseViewController {
         super.viewWillDisappear(animated)
 
         NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
+        
     }
 
     override func viewDidDisappear(animated: Bool) {
@@ -936,6 +937,16 @@ class ConversationViewController: BaseViewController {
         checkTypingStatusTimer = nil // 及时释放
 
         waverView.removeFromSuperview()
+        
+        if self.isMovingFromParentViewController() {
+            
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: YepNewMessagesReceivedNotification, object: nil)
+            
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: EditProfileViewController.Notification.Logout, object: nil)
+            
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
+
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -1612,6 +1623,7 @@ class ConversationViewController: BaseViewController {
 
             // 按照 conversation 过滤消息，匹配的才能考虑插入
             if let conversation = conversation {
+                
                 if let conversationID = conversation.fakeID, realm = conversation.realm {
                     
                     var filteredMessageIDs = [String]()
