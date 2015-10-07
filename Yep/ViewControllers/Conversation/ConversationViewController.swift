@@ -1164,16 +1164,14 @@ class ConversationViewController: BaseViewController {
         feedView.feed = feed
 
         feedView.foldAction = { [weak self] in
-            
             if let strongSelf = self {
-            
-            self?.conversationCollectionView.contentInset.top = 64 + FeedView.foldHeight + strongSelf.conversationCollectionViewContentInsetYOffset
+                self?.conversationCollectionView.contentInset.top = 64 + FeedView.foldHeight + strongSelf.conversationCollectionViewContentInsetYOffset
             }
         }
-
+        
         feedView.unfoldAction = { [weak self] feedView in
             if let strongSelf = self {
-            self?.conversationCollectionView.contentInset.top = 64 + feedView.normalHeight + strongSelf.conversationCollectionViewContentInsetYOffset
+                self?.conversationCollectionView.contentInset.top = 64 + feedView.normalHeight + strongSelf.conversationCollectionViewContentInsetYOffset
             }
         }
 
