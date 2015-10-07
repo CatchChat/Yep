@@ -337,14 +337,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return
         }
 
-        if recipientType == "User" {
-
-            println("try reply \"\(text)\" to [\(recipientType): \(recipientID)]")
-
-            sendText(text, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
-                println("reply to [\(recipientType): \(recipientID)], \(success)")
-            })
-        }
+        println("try reply \"\(text)\" to [\(recipientType): \(recipientID)]")
+        
+        sendText(text, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
+            println("reply to [\(recipientType): \(recipientID)], \(success)")
+        })
+        
     }
 
     private func syncUnreadMessages(furtherAction: () -> Void) {
