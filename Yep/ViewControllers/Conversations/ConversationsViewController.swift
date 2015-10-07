@@ -39,7 +39,7 @@ class ConversationsViewController: UIViewController {
         }
     }
 
-    lazy var noConversationFooterView: InfoView = InfoView(NSLocalizedString("Do not do to others what you would not like to be done to you.", comment: ""))
+    lazy var noConversationFooterView: InfoView = InfoView(NSLocalizedString("All conversations will show at here.", comment: ""))
 
     var noConversation = false {
         didSet {
@@ -345,7 +345,27 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                         // delete conversation, finally
 
                         realm.write {
+                            
+                            if let group = conversation.withGroup {
+                                
+                                if let feed = conversation.withGroup?.withFeed {
+                                    realm.delete(feed)
+                                }
+                                
+                                let groupID = group.groupID
+                                
+                                leaveGroup(groupID: groupID, failureHandler: { (reason, error) -> Void in
+                                    
+                                }, completion: { (result) -> Void in
+                                    
+                                })
+                                
+                                realm.delete(group)
+                                
+                            }
+                            
                             realm.delete(conversation)
+                            
                         }
                     }
 
