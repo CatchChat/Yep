@@ -67,7 +67,7 @@ class SocialWorkGithubViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        animatedOnNavigationBar = false
+//        animatedOnNavigationBar = false
 
         if let socialAccount = socialAccount {
             let accountImageView = UIImageView(image: UIImage(named: socialAccount.iconName)!)

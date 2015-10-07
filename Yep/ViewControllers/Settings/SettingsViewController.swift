@@ -51,7 +51,7 @@ class SettingsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        animatedOnNavigationBar = false
+//        animatedOnNavigationBar = false
 
         title = NSLocalizedString("Settings", comment: "")
 

@@ -1044,7 +1044,7 @@ class ProfileViewController: UIViewController {
         
         
         if segue.identifier == "showSkillHome" {
-            noNeedToChangeStatusBar = true
+            noNeedToChangeStatusBar = false
         } else {
             noNeedToChangeStatusBar = false
         }

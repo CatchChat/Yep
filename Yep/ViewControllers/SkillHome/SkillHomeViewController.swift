@@ -77,8 +77,6 @@ class SkillHomeViewController: BaseViewController {
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    var statusBarShouldLight = true
-    
     var discoveredMasterUsers = [DiscoveredUser]() {
         didSet {
             dispatch_async(dispatch_get_main_queue()) {
@@ -94,15 +92,7 @@ class SkillHomeViewController: BaseViewController {
             }
         }
     }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        statusBarShouldLight = true
 
-        
-        self.setNeedsStatusBarAppearanceUpdate()
-    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -122,18 +112,9 @@ class SkillHomeViewController: BaseViewController {
         }
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        if statusBarShouldLight {
-            return UIStatusBarStyle.LightContent
-        } else {
-            return UIStatusBarStyle.Default
-        }
-        
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if let skillCategory = skill?.category {
             headerView.skillCategory = skillCategory
         }
@@ -262,15 +243,6 @@ class SkillHomeViewController: BaseViewController {
         }
     }
 
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-        
-        statusBarShouldLight = true
-        
-        self.setNeedsStatusBarAppearanceUpdate()
-    }
 
     // MARK: UI
 
