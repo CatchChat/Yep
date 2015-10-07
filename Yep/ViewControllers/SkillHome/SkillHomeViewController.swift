@@ -13,7 +13,7 @@ import RealmSwift
 
 let ScrollViewTag = 100
 
-class SkillHomeViewController: CustomNavigationBarViewController {
+class SkillHomeViewController: BaseViewController {
     
     let cellIdentifier = "ContactsCell"
     

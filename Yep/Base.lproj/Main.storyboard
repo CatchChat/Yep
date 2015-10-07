@@ -606,26 +606,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cmT-Gk-qyV" customClass="SkillHomeHeaderView" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="160"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="160" id="zQ8-r2-xvU"/>
+                                    <constraint firstAttribute="height" constant="60" id="zQ8-r2-xvU"/>
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qu8-bN-78f">
-                                <rect key="frame" x="0.0" y="160" width="600" height="440"/>
+                                <rect key="frame" x="0.0" y="60" width="600" height="540"/>
                                 <animations/>
                             </scrollView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="top_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="nqy-s8-NRi" userLabel="Shadow Image View">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="xjD-5X-wSy"/>
-                                </constraints>
-                            </imageView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Y6t-fN-Z4c">
-                                <rect key="frame" x="290" y="280" width="20" height="20"/>
+                                <rect key="frame" x="290" y="180" width="20" height="20"/>
                                 <animations/>
                             </activityIndicatorView>
                         </subviews>
@@ -637,9 +630,6 @@
                             <constraint firstItem="cmT-Gk-qyV" firstAttribute="leading" secondItem="EQO-b7-KgY" secondAttribute="leading" id="9To-eb-Bk6"/>
                             <constraint firstAttribute="centerX" secondItem="Y6t-fN-Z4c" secondAttribute="centerX" id="Nzv-iZ-hOt"/>
                             <constraint firstAttribute="trailing" secondItem="cmT-Gk-qyV" secondAttribute="trailing" id="XdR-Xa-qcN"/>
-                            <constraint firstAttribute="trailing" secondItem="nqy-s8-NRi" secondAttribute="trailing" id="ZAL-7z-1Wu"/>
-                            <constraint firstItem="nqy-s8-NRi" firstAttribute="top" secondItem="EQO-b7-KgY" secondAttribute="top" id="d5F-4m-aF6"/>
-                            <constraint firstItem="nqy-s8-NRi" firstAttribute="leading" secondItem="EQO-b7-KgY" secondAttribute="leading" id="eMq-vV-vde"/>
                             <constraint firstAttribute="trailing" secondItem="Qu8-bN-78f" secondAttribute="trailing" id="fez-Gm-up4"/>
                             <constraint firstItem="Qu8-bN-78f" firstAttribute="leading" secondItem="EQO-b7-KgY" secondAttribute="leading" id="hTe-1J-M6S"/>
                             <constraint firstItem="Qu8-bN-78f" firstAttribute="bottom" secondItem="cmT-Gk-qyV" secondAttribute="bottom" id="hfd-P8-W1D"/>
