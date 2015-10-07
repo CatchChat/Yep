@@ -49,13 +49,19 @@ class NewFeedViewController: UIViewController {
 
         navigationItem.rightBarButtonItem = postButton
         
+        let cancleButton = UIBarButtonItem(title: NSLocalizedString("Cancle", comment: ""), style: .Plain, target: self, action: "cancle:")
+        
+        navigationItem.leftBarButtonItem = cancleButton
+        
         view.sendSubviewToBack(feedWhiteBGView)
 
-        messageTextView.text = "What's up?"
+        messageTextView.text = ""
         
         messageTextView.textContainer.lineFragmentPadding = 0
         
         messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
+        messageTextView.becomeFirstResponder()
 
         view.backgroundColor = UIColor.yepBackgroundColor()
         mediaCollectionView.backgroundColor = UIColor.clearColor()
@@ -88,6 +94,10 @@ class NewFeedViewController: UIViewController {
             }, rejected: {
             })
         }
+    }
+    
+    func cancle(sender: UIBarButtonItem) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -172,7 +182,7 @@ class NewFeedViewController: UIViewController {
 
                     self?.afterCreatedFeedAction?()
 
-                    self?.navigationController?.popViewControllerAnimated(true)
+                    self?.dismissViewControllerAnimated(true, completion: nil)
                 }
             })
         }

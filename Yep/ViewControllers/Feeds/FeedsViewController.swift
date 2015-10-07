@@ -28,6 +28,20 @@ class FeedsViewController: UIViewController {
             }
         }
     }
+    
+    @IBAction func showNewFeed(sender: AnyObject) {
+        
+        
+        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("NewFeedViewController") as! NewFeedViewController
+        
+        vc.afterCreatedFeedAction = { [weak self] in
+            self?.updateFeeds()
+        }
+        
+        let navi = UINavigationController(rootViewController: vc)
+        
+        self.presentViewController(navi, animated: true, completion: nil)
+    }
 
     private func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
@@ -71,15 +85,6 @@ class FeedsViewController: UIViewController {
     // MARK: - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-
-        if segue.identifier == "showNewFeed" {
-
-            let vc = segue.destinationViewController as! NewFeedViewController
-            
-            vc.afterCreatedFeedAction = { [weak self] in
-                self?.updateFeeds()
-            }
-        }
 
         if segue.identifier == "showConversation" {
 
