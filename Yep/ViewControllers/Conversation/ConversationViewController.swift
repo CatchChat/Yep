@@ -1822,6 +1822,8 @@ class ConversationViewController: BaseViewController {
                 } else {
                     titleView.stateInfoLabel.text = NSLocalizedString("Begin chat just now", comment: "")
                 }
+                
+                titleView.stateInfoLabel.textColor = UIColor.grayColor()
             }
         }
     }
@@ -2677,11 +2679,12 @@ extension ConversationViewController: FayeServiceDelegate {
 
             if userID == withFriend.userID {
 
-                let nickname = withFriend.nickname
+//                let nickname = withFriend.nickname
 
-                let content = "\(nickname)" + NSLocalizedString(" is ", comment: "正在") + "\(instantStateType)"
+                let content = NSLocalizedString(" is ", comment: "正在") + "\(instantStateType)"
 
                 titleView.stateInfoLabel.text = "\(content)..."
+                titleView.stateInfoLabel.textColor = UIColor.yepTintColor()
 
                 switch instantStateType {
 
