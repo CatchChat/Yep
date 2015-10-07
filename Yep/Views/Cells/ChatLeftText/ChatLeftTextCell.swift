@@ -26,7 +26,9 @@ class ChatLeftTextCell: ChatBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        makeUI()
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.makeUI()
+        }
 
         textContentTextView.textContainer.lineFragmentPadding = 0
         textContentTextView.font = UIFont.chatTextFont()

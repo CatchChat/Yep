@@ -29,7 +29,9 @@ class ChatRightVideoCell: ChatRightBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        makeUI()
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.makeUI()
+        }
 
         thumbnailImageView.tintColor = UIColor.rightBubbleTintColor()
 

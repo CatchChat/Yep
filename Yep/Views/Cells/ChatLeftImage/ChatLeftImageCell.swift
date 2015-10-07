@@ -22,14 +22,16 @@ class ChatLeftImageCell: ChatBaseCell {
         //let fullWidth = UIScreen.mainScreen().bounds.width
 
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
-
+        
         avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize)
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        makeUI()
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.makeUI()
+        }
 
         messageImageView.tintColor = UIColor.leftBubbleTintColor()
 
