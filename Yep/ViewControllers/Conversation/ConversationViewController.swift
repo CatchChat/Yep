@@ -1164,11 +1164,17 @@ class ConversationViewController: BaseViewController {
         feedView.feed = feed
 
         feedView.foldAction = { [weak self] in
-            self?.conversationCollectionView.contentInset.top = 64 + FeedView.foldHeight + conversationCollectionViewContentInsetYOffset
+            
+            if let strongSelf = self {
+            
+            self?.conversationCollectionView.contentInset.top = 64 + FeedView.foldHeight + strongSelf.conversationCollectionViewContentInsetYOffset
+            }
         }
 
         feedView.unfoldAction = { [weak self] feedView in
-            self?.conversationCollectionView.contentInset.top = 64 + feedView.normalHeight + conversationCollectionViewContentInsetYOffset
+            if let strongSelf = self {
+            self?.conversationCollectionView.contentInset.top = 64 + feedView.normalHeight + strongSelf.conversationCollectionViewContentInsetYOffset
+            }
         }
 
         //feedView.backgroundColor = UIColor.orangeColor()
