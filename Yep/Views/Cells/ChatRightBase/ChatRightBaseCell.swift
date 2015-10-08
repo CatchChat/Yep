@@ -19,23 +19,31 @@ class ChatRightBaseCell: ChatBaseCell {
             case MessageSendState.NotSend:
                 dotImageView.image = UIImage(named: "icon_dot_sending")
                 dotImageView.hidden = false
-
-                showSendingAnimation()
+                if !group {
+                    showSendingAnimation()
+                } else {
+                    dotImageView.hidden = true
+                }
 
             case MessageSendState.Successed:
-                dotImageView.image = UIImage(named: "icon_dot_unread")
-                dotImageView.hidden = false
+                if !group {
+                    dotImageView.image = UIImage(named: "icon_dot_unread")
+                    dotImageView.hidden = false
+                }
 
                 removeSendingAnimation()
 
             case MessageSendState.Read:
-                dotImageView.hidden = true
-
+                if !group {
+                    dotImageView.hidden = true
+                }
                 removeSendingAnimation()
 
             case MessageSendState.Failed:
-                dotImageView.image = UIImage(named: "icon_dot_failed")
-                dotImageView.hidden = false
+                if !group {
+                    dotImageView.image = UIImage(named: "icon_dot_failed")
+                    dotImageView.hidden = false
+                }
 
                 removeSendingAnimation()
             }

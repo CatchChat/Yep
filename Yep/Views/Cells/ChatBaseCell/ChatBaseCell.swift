@@ -9,6 +9,8 @@
 import UIKit
 
 class ChatBaseCell: UICollectionViewCell {
+    
+    var group = false
 
     @IBOutlet weak var avatarImageView: UIImageView!
 
