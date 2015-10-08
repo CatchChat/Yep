@@ -115,6 +115,7 @@ class ConversationCell: UITableViewCell {
                 }
 
                 if let user = group.owner {
+
                     AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: radius, completion: {[weak self] image in
                         dispatch_async(dispatch_get_main_queue()) {
                             if let _ = tableView.cellForRowAtIndexPath(indexPath) {
@@ -122,12 +123,11 @@ class ConversationCell: UITableViewCell {
                             }
                         }
                     })
-                }
 
-                /*
-                if let feed = group.withFeed {
+                } else {
 
-                    if let user = feed.creator {
+                    if let user = group.withFeed?.creator {
+
                         AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: radius, completion: {[weak self] image in
                             dispatch_async(dispatch_get_main_queue()) {
                                 if let _ = tableView.cellForRowAtIndexPath(indexPath) {
@@ -135,42 +135,11 @@ class ConversationCell: UITableViewCell {
                                 }
                             }
                         })
-                    }
 
-                    /*
-                    if let URL = feed.attachments.first?.URLString {
-                        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(URL, withRadius: radius, completion: {[weak self] (image) -> Void in
-                            dispatch_async(dispatch_get_main_queue()) {
-                                if let _ = tableView.cellForRowAtIndexPath(indexPath) {
-                                    self?.avatarImageView.image = image
-                                }
-                            }
-                        })
                     } else {
-                        if let user = feed.creator {
-                            AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: radius, completion: {[weak self] image in
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    if let _ = tableView.cellForRowAtIndexPath(indexPath) {
-                                        self?.avatarImageView.image = image
-                                    }
-                                }
-                            })
-                        }
-                    }
-                    */
-
-                } else {
-                    if let avatarURL = group.owner?.avatarURLString {
-                        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURL, withRadius: radius, completion: {[weak self] image in
-                            dispatch_async(dispatch_get_main_queue()) {
-                                if let _ = tableView.cellForRowAtIndexPath(indexPath) {
-                                    self?.avatarImageView.image = image
-                                }
-                            }
-                        })
+                        avatarImageView.image = UIImage(named: "default_avatar")
                     }
                 }
-                */
             }
         }
     }

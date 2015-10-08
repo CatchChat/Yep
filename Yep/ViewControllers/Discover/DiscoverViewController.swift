@@ -28,14 +28,14 @@ class DiscoverViewController: BaseViewController {
             discoverUsers(masterSkillIDs: [], learningSkillIDs: [], discoveredUserSortStyle: discoveredUserSortStyle, failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
 
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.activityIndicator.stopAnimating()
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.activityIndicator.stopAnimating()
                 }
 
             }, completion: { discoveredUsers in
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.discoveredUsers = discoveredUsers
-                    self.activityIndicator.stopAnimating()
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.discoveredUsers = discoveredUsers
+                    self?.activityIndicator.stopAnimating()
                 }
             })
         }
