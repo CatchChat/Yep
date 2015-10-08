@@ -125,7 +125,7 @@ func attachmentFromDiscoveredAttachment(discoverAttachments: [DiscoveredAttachme
     return discoverAttachments.map({ discoverAttachment -> Attachment? in
         
         let newAttachment = Attachment()
-        newAttachment.kind = discoverAttachment.kind
+        newAttachment.kind = discoverAttachment.kind.rawValue
         newAttachment.metadata = discoverAttachment.metadata
         newAttachment.URLString = discoverAttachment.URLString
         
@@ -645,7 +645,7 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
             //Sync Feed
             
             if let topic = groupInfo["topic"] as? JSONDictionary, feedData = DiscoveredFeed.fromJSONDictionary(topic) {
-                saveFeedWithFeedData(feedData, inRealm: realm, group: group)
+                saveFeedWithFeedData(feedData, group: group, inRealm: realm)
             }
 
             // 同步 Group 的成员

@@ -188,7 +188,9 @@ class Group: Object {
     dynamic var owner: User?
     var members = List<User>()
     
-    dynamic var withFeed: Feed?
+    var withFeed: Feed? {
+        return linkingObjects(Feed.self, forProperty: "group").first
+    }
 
     var conversation: Conversation? {
         let conversations = linkingObjects(Conversation.self, forProperty: "withGroup")
@@ -435,7 +437,7 @@ enum AttachmentKind: String {
 
 class Attachment: Object {
 
-    var kind: AttachmentKind?
+    dynamic var kind: String = ""
     dynamic var metadata: String = ""
     dynamic var URLString: String = ""
 }
@@ -455,11 +457,8 @@ class Feed: Object {
     var attachments = List<Attachment>()
 
     dynamic var skill: UserSkill?
-    
-    var group: Group? {
-        let groups = linkingObjects(Group.self, forProperty: "withFeed")
-        return groups.first
-    }
+
+    dynamic var group: Group?
 }
 
 
@@ -528,10 +527,11 @@ func countOfUnreadMessagesInConversation(conversation: Conversation) -> Int {
     }).count
 }
 
-func saveFeedWithFeedData(feedData: DiscoveredFeed, inRealm realm: Realm, group: Group) {
+func saveFeedWithFeedData(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
     
     if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
         print("Join Feed \(feed.feedID)")
+
     } else {
         let newFeed = Feed()
         newFeed.feedID = feedData.id
@@ -555,12 +555,12 @@ func saveFeedWithFeedData(feedData: DiscoveredFeed, inRealm realm: Realm, group:
         
         let attachments = attachmentFromDiscoveredAttachment(feedData.attachments, inRealm: realm)
         newFeed.attachments.appendContentsOf(attachments)
-        
+
+        newFeed.group = group
+
         realm.write {
-            group.withFeed = newFeed
             realm.add(newFeed)
         }
-        
     }
 }
 
