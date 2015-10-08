@@ -39,7 +39,7 @@ class ConversationsViewController: UIViewController {
         }
     }
 
-    lazy var noConversationFooterView: InfoView = InfoView(NSLocalizedString("All conversations will show at here.", comment: ""))
+    lazy var noConversationFooterView: InfoView = InfoView(NSLocalizedString("Have a nice day!", comment: ""))
 
     var noConversation = false {
         didSet {
