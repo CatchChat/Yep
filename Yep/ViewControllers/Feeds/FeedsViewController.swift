@@ -12,6 +12,7 @@ import RealmSwift
 class FeedsViewController: UIViewController {
 
     @IBOutlet weak var feedsTableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     lazy var pullToRefreshView: PullToRefreshView = {
 
@@ -97,10 +98,21 @@ class FeedsViewController: UIViewController {
 
     func updateFeeds() {
 
+        activityIndicator.startAnimating()
+
         discoverFeedsWithSortStyle(.Time, pageIndex: 1, perPage: 100, failureHandler: { reason, errorMessage in
+
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.activityIndicator.stopAnimating()
+            }
+
             defaultFailureHandler(reason, errorMessage: errorMessage)
 
         }, completion: { [weak self] feeds in
+
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.activityIndicator.stopAnimating()
+            }
 
             if let strongSelf = self {
 

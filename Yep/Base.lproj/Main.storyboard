@@ -74,8 +74,8 @@
                                     <outlet property="delegate" destination="la3-6z-2aH" id="zOV-zM-2KH"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gu7-gn-2ia">
-                                <rect key="frame" x="0.0" y="276" width="600" height="100"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gu7-gn-2ia">
+                                <rect key="frame" x="0.0" y="270" width="600" height="100"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe Up to Cancel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zew-F7-znc">
                                         <rect key="frame" x="234" y="62" width="132.5" height="18"/>
@@ -103,8 +103,8 @@
                                     <constraint firstItem="Zew-F7-znc" firstAttribute="top" secondItem="4p2-ZI-7q3" secondAttribute="bottom" constant="10" id="b9o-gU-cOq"/>
                                 </constraints>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="396" width="600" height="44"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="390" width="600" height="50"/>
                                 <animations/>
                                 <items/>
                             </toolbar>
@@ -1590,6 +1590,9 @@
                                     <outlet property="delegate" destination="W3w-jm-aNI" id="Zmv-Qw-N8o"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="sHk-eY-6TD">
+                                <rect key="frame" x="290" y="184" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1598,6 +1601,8 @@
                             <constraint firstItem="D86-dp-qKQ" firstAttribute="leading" secondItem="aTs-V4-FkM" secondAttribute="leading" id="7rL-66-51f"/>
                             <constraint firstAttribute="bottom" secondItem="D86-dp-qKQ" secondAttribute="bottom" id="IGV-gd-9fq"/>
                             <constraint firstItem="D86-dp-qKQ" firstAttribute="top" secondItem="aTs-V4-FkM" secondAttribute="top" id="WZ4-Nx-qhp"/>
+                            <constraint firstItem="sHk-eY-6TD" firstAttribute="centerX" secondItem="aTs-V4-FkM" secondAttribute="centerX" id="ZFA-ds-EiT"/>
+                            <constraint firstItem="sHk-eY-6TD" firstAttribute="top" secondItem="1v6-QD-r3B" secondAttribute="bottom" constant="120" id="jeQ-RT-k0A"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="LaU-sr-um0">
@@ -1608,6 +1613,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="sHk-eY-6TD" id="Xlo-a7-8l6"/>
                         <outlet property="feedsTableView" destination="D86-dp-qKQ" id="rh9-wh-IqK"/>
                         <segue destination="la3-6z-2aH" kind="show" identifier="showConversation" id="Sdt-ox-uOm"/>
                     </connections>
