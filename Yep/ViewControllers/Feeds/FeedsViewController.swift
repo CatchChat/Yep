@@ -13,6 +13,31 @@ class FeedsViewController: UIViewController {
 
     @IBOutlet weak var feedsTableView: UITableView!
 
+    lazy var pullToRefreshView: PullToRefreshView = {
+
+        let pullToRefreshView = PullToRefreshView()
+        pullToRefreshView.delegate = self
+
+        self.feedsTableView.insertSubview(pullToRefreshView, atIndex: 0)
+
+        pullToRefreshView.translatesAutoresizingMaskIntoConstraints = false
+
+        let viewsDictionary = [
+            "pullToRefreshView": pullToRefreshView,
+            "view": self.view,
+        ]
+
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(-200)-[pullToRefreshView(200)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+
+        // 非常奇怪，若直接用 "H:|[pullToRefreshView]|" 得到的实际宽度为 0
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[pullToRefreshView(==view)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+
+        NSLayoutConstraint.activateConstraints(constraintsV)
+        NSLayoutConstraint.activateConstraints(constraintsH)
+        
+        return pullToRefreshView
+        }()
+
     let feedCellID = "FeedCell"
 
     lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
@@ -29,18 +54,23 @@ class FeedsViewController: UIViewController {
         }
     }
 
+    private var feedHeightHash = [String: CGFloat]()
+
     private func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
-        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedCell.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+        let key = feed.id
 
-        let height: CGFloat
-        if feed.attachments.isEmpty {
-            height = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
+        if let height = feedHeightHash[key] {
+            return height
         } else {
-            height = ceil(rect.height) + 10 + 40 + 4 + 15 + 80 + 15 + 17 + 15
-        }
+            let height = FeedCell.heightOfFeed(feed)
 
-        return ceil(height)
+            if !key.isEmpty {
+                feedHeightHash[key] = height
+            }
+
+            return height
+        }
     }
 
     override func viewDidLoad() {
@@ -178,6 +208,36 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
         performSegueWithIdentifier("showConversation", sender: indexPath.item)
+    }
+
+    // MARK: UIScrollViewDelegate
+
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+
+        pullToRefreshView.scrollViewDidScroll(scrollView)
+    }
+
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+
+        pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
+    }
+}
+
+// MARK: PullToRefreshViewDelegate
+
+extension FeedsViewController: PullToRefreshViewDelegate {
+
+    func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
+
+        delay(0.5) {
+            pulllToRefreshView.endRefreshingAndDoFurtherAction() { [weak self] in
+                self?.updateFeeds()
+            }
+        }
+    }
+    
+    func scrollView() -> UIScrollView {
+        return feedsTableView
     }
 }
 
