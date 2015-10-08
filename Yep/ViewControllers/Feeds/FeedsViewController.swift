@@ -54,18 +54,23 @@ class FeedsViewController: UIViewController {
         }
     }
 
+    private var feedHeightHash = [String: CGFloat]()
+
     private func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
-        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedCell.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+        let key = feed.id
 
-        let height: CGFloat
-        if feed.attachments.isEmpty {
-            height = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
+        if let height = feedHeightHash[key] {
+            return height
         } else {
-            height = ceil(rect.height) + 10 + 40 + 4 + 15 + 80 + 15 + 17 + 15
-        }
+            let height = FeedCell.heightOfFeed(feed)
 
-        return ceil(height)
+            if !key.isEmpty {
+                feedHeightHash[key] = height
+            }
+
+            return height
+        }
     }
 
     override func viewDidLoad() {

@@ -23,7 +23,6 @@ class FeedCell: UITableViewCell {
 
     @IBOutlet weak var messageCountLabel: UILabel!
 
-
     var attachmentURLs = [NSURL]() {
         didSet {
             mediaCollectionView.reloadData()
@@ -31,11 +30,25 @@ class FeedCell: UITableViewCell {
     }
 
     static let messageLabelMaxWidth: CGFloat = {
-        let maxWidth = UIScreen.mainScreen().bounds.width - (60 + 15)
+        let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
         return maxWidth
         }()
 
     let feedMediaCellID = "FeedMediaCell"
+
+    class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedCell.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedCell.textAttributes, context: nil)
+
+        let height: CGFloat
+        if feed.attachments.isEmpty {
+            height = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
+        } else {
+            height = ceil(rect.height) + 10 + 40 + 4 + 15 + 80 + 15 + 17 + 15
+        }
+
+        return ceil(height)
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -61,7 +74,7 @@ class FeedCell: UITableViewCell {
         messageLabel.text = feed.body
 
         let hasMedia = !feed.attachments.isEmpty
-        timeLabelTopConstraint.constant = hasMedia ? 110 : 15
+        timeLabelTopConstraint.constant = hasMedia ? (15 + 80 + 15) : 15
         mediaCollectionView.hidden = hasMedia ? false : true
 
         attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
