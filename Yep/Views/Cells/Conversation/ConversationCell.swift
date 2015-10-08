@@ -69,22 +69,11 @@ class ConversationCell: UITableViewCell {
                 }
 
                 if let latestMessage = messagesInConversation(conversation).last {
-                    
-                    switch latestMessage.mediaType {
 
-                    case MessageMediaType.Audio.rawValue:
-                        self.chatLabel.text = NSLocalizedString("[Audio]", comment: "")
-                    case MessageMediaType.Video.rawValue:
-                        self.chatLabel.text = NSLocalizedString("[Video]", comment: "")
-                    case MessageMediaType.Image.rawValue:
-                        self.chatLabel.text = NSLocalizedString("[Image]", comment: "")
-                    case MessageMediaType.Location.rawValue:
-                        self.chatLabel.text = NSLocalizedString("[Location]", comment: "")
-                    case MessageMediaType.Text.rawValue:
+                    if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
+                        self.chatLabel.text = placeholder
+                    } else {
                         self.chatLabel.text = latestMessage.textContent
-                    default:
-                        self.chatLabel.text = "I love NIX."
-
                     }
 
                     let createdAt = NSDate(timeIntervalSince1970: latestMessage.createdUnixTime)
@@ -99,34 +88,24 @@ class ConversationCell: UITableViewCell {
         } else { // Group Conversation
 
             if let group = conversation.withGroup {
-                if  group.groupName != "" {
-                    self.nameLabel.text = group.groupName
+
+                if !group.groupName.isEmpty {
+                    nameLabel.text = group.groupName
+
                 } else {
                     if let feed = group.withFeed {
-                        self.nameLabel.text = feed.body
+                        nameLabel.text = feed.body
                     }
                 }
                 
                 if let latestMessage = messagesInConversation(conversation).last {
-                    
 
-                    switch latestMessage.mediaType {
-                        
-                    case MessageMediaType.Audio.rawValue:
-                        self.chatLabel.text = NSLocalizedString("[Audio]", comment: "")
-                    case MessageMediaType.Video.rawValue:
-                        self.chatLabel.text = NSLocalizedString("[Video]", comment: "")
-                    case MessageMediaType.Image.rawValue:
-                        self.chatLabel.text = NSLocalizedString("[Image]", comment: "")
-                    case MessageMediaType.Location.rawValue:
-                        self.chatLabel.text = NSLocalizedString("[Location]", comment: "")
-                    case MessageMediaType.Text.rawValue:
+                    if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
+                        self.chatLabel.text = placeholder
+                    } else {
                         self.chatLabel.text = latestMessage.textContent
-                    default:
-                        self.chatLabel.text = "We love NIX."
-                        
                     }
-                    
+
                     let createdAt = NSDate(timeIntervalSince1970: latestMessage.createdUnixTime)
                     self.timeAgoLabel.text = createdAt.timeAgo
                     
@@ -157,8 +136,7 @@ class ConversationCell: UITableViewCell {
                     }
                 }
             }
-
         }
-
     }
 }
+

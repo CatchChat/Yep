@@ -267,6 +267,23 @@ enum MessageMediaType: Int, CustomStringConvertible {
             return "" // TODO: more mineType
         }
     }
+
+    var placeholder: String? {
+        switch self {
+        case .Audio:
+            return NSLocalizedString("[Audio]", comment: "")
+        case .Video:
+            return NSLocalizedString("[Video]", comment: "")
+        case .Image:
+            return NSLocalizedString("[Image]", comment: "")
+        case .Location:
+            return NSLocalizedString("[Location]", comment: "")
+        case .Text:
+            return nil
+        default:
+            return (arc4random() % 2 == 0) ?  "I love NIX." : "We love NIX."
+        }
+    }
 }
 
 enum MessageSendState: Int, CustomStringConvertible {
