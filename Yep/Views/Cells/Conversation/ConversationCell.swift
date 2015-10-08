@@ -69,22 +69,11 @@ class ConversationCell: UITableViewCell {
                 }
 
                 if let latestMessage = messagesInConversation(conversation).last {
-                    
-                    switch latestMessage.mediaType {
 
-                    case MessageMediaType.Audio.rawValue:
-                        self.chatLabel.text = NSLocalizedString("[Audio]", comment: "")
-                    case MessageMediaType.Video.rawValue:
-                        self.chatLabel.text = NSLocalizedString("[Video]", comment: "")
-                    case MessageMediaType.Image.rawValue:
-                        self.chatLabel.text = NSLocalizedString("[Image]", comment: "")
-                    case MessageMediaType.Location.rawValue:
-                        self.chatLabel.text = NSLocalizedString("[Location]", comment: "")
-                    case MessageMediaType.Text.rawValue:
+                    if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
+                        self.chatLabel.text = placeholder
+                    } else {
                         self.chatLabel.text = latestMessage.textContent
-                    default:
-                        self.chatLabel.text = "I love NIX."
-
                     }
 
                     let createdAt = NSDate(timeIntervalSince1970: latestMessage.createdUnixTime)
@@ -99,34 +88,24 @@ class ConversationCell: UITableViewCell {
         } else { // Group Conversation
 
             if let group = conversation.withGroup {
-                if  group.groupName != "" {
-                    self.nameLabel.text = group.groupName
+
+                if !group.groupName.isEmpty {
+                    nameLabel.text = group.groupName
+
                 } else {
                     if let feed = group.withFeed {
-                        self.nameLabel.text = feed.body
+                        nameLabel.text = feed.body
                     }
                 }
                 
                 if let latestMessage = messagesInConversation(conversation).last {
-                    
 
-                    switch latestMessage.mediaType {
-                        
-                    case MessageMediaType.Audio.rawValue:
-                        self.chatLabel.text = NSLocalizedString("[Audio]", comment: "")
-                    case MessageMediaType.Video.rawValue:
-                        self.chatLabel.text = NSLocalizedString("[Video]", comment: "")
-                    case MessageMediaType.Image.rawValue:
-                        self.chatLabel.text = NSLocalizedString("[Image]", comment: "")
-                    case MessageMediaType.Location.rawValue:
-                        self.chatLabel.text = NSLocalizedString("[Location]", comment: "")
-                    case MessageMediaType.Text.rawValue:
+                    if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
+                        self.chatLabel.text = placeholder
+                    } else {
                         self.chatLabel.text = latestMessage.textContent
-                    default:
-                        self.chatLabel.text = "We love NIX."
-                        
                     }
-                    
+
                     let createdAt = NSDate(timeIntervalSince1970: latestMessage.createdUnixTime)
                     self.timeAgoLabel.text = createdAt.timeAgo
                     
@@ -134,31 +113,66 @@ class ConversationCell: UITableViewCell {
                     self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
                     self.timeAgoLabel.text = NSDate(timeIntervalSince1970: group.createdUnixTime).timeAgo
                 }
-                
+
+                if let user = group.owner {
+                    AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: radius, completion: {[weak self] image in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            if let _ = tableView.cellForRowAtIndexPath(indexPath) {
+                                self?.avatarImageView.image = image
+                            }
+                        }
+                    })
+                }
+
+                /*
                 if let feed = group.withFeed {
-                
+
+                    if let user = feed.creator {
+                        AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: radius, completion: {[weak self] image in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                if let _ = tableView.cellForRowAtIndexPath(indexPath) {
+                                    self?.avatarImageView.image = image
+                                }
+                            }
+                        })
+                    }
+
+                    /*
                     if let URL = feed.attachments.first?.URLString {
-                        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(URL, withRadius: 30.0, completion: {[weak self] (image) -> Void in
-                            self?.avatarImageView.image = image
+                        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(URL, withRadius: radius, completion: {[weak self] (image) -> Void in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                if let _ = tableView.cellForRowAtIndexPath(indexPath) {
+                                    self?.avatarImageView.image = image
+                                }
+                            }
                         })
                     } else {
-                        if let avatarURL = feed.creator?.avatarURLString {
-                            AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURL, withRadius: 30.0, completion: {[weak self] (image) -> Void in
-                                self?.avatarImageView.image = image
+                        if let user = feed.creator {
+                            AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: radius, completion: {[weak self] image in
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    if let _ = tableView.cellForRowAtIndexPath(indexPath) {
+                                        self?.avatarImageView.image = image
+                                    }
+                                }
                             })
                         }
                     }
-                    
+                    */
+
                 } else {
                     if let avatarURL = group.owner?.avatarURLString {
-                        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURL, withRadius: 30.0, completion: {[weak self] (image) -> Void in
-                            self?.avatarImageView.image = image
+                        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURL, withRadius: radius, completion: {[weak self] image in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                if let _ = tableView.cellForRowAtIndexPath(indexPath) {
+                                    self?.avatarImageView.image = image
+                                }
+                            }
                         })
                     }
                 }
+                */
             }
-
         }
-
     }
 }
+

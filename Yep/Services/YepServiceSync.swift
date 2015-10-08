@@ -12,89 +12,53 @@ import RealmSwift
 
 let YepNewMessagesReceivedNotification = "YepNewMessagesReceivedNotification"
 
-func userFromDiscoverUser(discoveredUser: DiscoveredUser, inRealm realm: Realm?) -> User? {
+func getOrCreateUserWithDiscoverUser(discoveredUser: DiscoveredUser, inRealm realm: Realm) -> User? {
     
-    var stranger: User?
-    
-    if let realm = realm {
-        stranger = userWithUserID(discoveredUser.id, inRealm: realm)
-    }
+    var user = userWithUserID(discoveredUser.id, inRealm: realm)
 
-    
-    if stranger == nil {
+    if user == nil {
         let newUser = User()
         
         newUser.userID = discoveredUser.id
         
         newUser.friendState = UserFriendState.Stranger.rawValue
-        
-        if let realm = realm {
-            realm.write {
-                realm.add(newUser)
-            }
+
+        realm.write {
+            realm.add(newUser)
         }
 
-        
-        stranger = newUser
+        user = newUser
     }
     
-    if let user = stranger {
+    if let user = user {
         
-        if let realm = realm {
-            realm.write {
-                fillUserInfo(discoveredUser, user: user, inRealm: realm)
+        realm.write {
+
+            // 只更新用户信息即可
+
+            user.lastSignInUnixTime = discoveredUser.lastSignInUnixTime
+
+            user.username = discoveredUser.username ?? ""
+
+            user.nickname = discoveredUser.nickname
+
+            if let introduction = discoveredUser.introduction {
+                user.introduction = introduction
             }
-        } else {
-            fillUserInfo(discoveredUser, user: user, inRealm: nil)
+
+            user.avatarURLString = discoveredUser.avatarURLString
+
+            user.longitude = discoveredUser.longitude
+
+            user.latitude = discoveredUser.latitude
+            
+            if let badge = discoveredUser.badge {
+                user.badge = badge
+            }
         }
+    }
 
-        
-        return user
-    } else {
-        return nil
-    }
-}
-
-func fillUserInfo(discoveredUser: DiscoveredUser, user: User, inRealm realm: Realm?) {
-    
-    // 更新用户信息
-    
-    user.lastSignInUnixTime = discoveredUser.lastSignInUnixTime
-    
-    user.username = discoveredUser.username ?? ""
-    
-    user.nickname = discoveredUser.nickname
-    
-    if let introduction = discoveredUser.introduction {
-        user.introduction = introduction
-    }
-    
-    user.avatarURLString = discoveredUser.avatarURLString
-    
-    user.longitude = discoveredUser.longitude
-    
-    user.latitude = discoveredUser.latitude
-    
-    if let badge = discoveredUser.badge {
-        user.badge = badge
-    }
-    
-    // 更新技能
-    if let realm = realm {
-        user.learningSkills.removeAll()
-        let learningUserSkills = userSkillsFromSkills(discoveredUser.learningSkills, inRealm: realm)
-        user.learningSkills.appendContentsOf(learningUserSkills)
-        
-        user.masterSkills.removeAll()
-        let masterUserSkills = userSkillsFromSkills(discoveredUser.masterSkills, inRealm: realm)
-        user.masterSkills.appendContentsOf(masterUserSkills)
-    }
-    
-    // 更新 Social Account Provider
-    
-    user.socialAccountProviders.removeAll()
-    let socialAccountProviders = userSocialAccountProvidersFromSocialAccountProviders(discoveredUser.socialAccountProviders)
-    user.socialAccountProviders.appendContentsOf(socialAccountProviders)
+    return user
 }
 
 func skillsFromUserSkillList(userSkillList: List<UserSkill>) -> [Skill] {
@@ -118,7 +82,6 @@ func skillsFromUserSkillList(userSkillList: List<UserSkill>) -> [Skill] {
         return skill
     })
 }
-
 
 func attachmentFromDiscoveredAttachment(discoverAttachments: [DiscoveredAttachment], inRealm realm: Realm?) -> [Attachment]{
 
@@ -556,7 +519,17 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
             // 增加本地没有的 Group
 
             for groupInfo in allGroups {
-                syncGroupWithGroupInfo(groupInfo, inRealm: realm)
+
+                let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm)
+
+                //Sync Feed
+
+                if let
+                    topic = groupInfo["topic"] as? JSONDictionary,
+                    feedData = DiscoveredFeed.fromJSONDictionary(topic),
+                    group = group {
+                        saveFeedWithFeedData(feedData, group: group, inRealm: realm)
+                }
             }
             
             // do further action
@@ -566,7 +539,8 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
     }
 }
 
-private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) {
+func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> Group? {
+
     if let groupID = groupInfo["id"] as? String {
         
         var group = groupWithGroupID(groupID, inRealm: realm)
@@ -641,12 +615,6 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                     }
                 }
             }
-            
-            //Sync Feed
-            
-            if let topic = groupInfo["topic"] as? JSONDictionary, feedData = DiscoveredFeed.fromJSONDictionary(topic) {
-                saveFeedWithFeedData(feedData, group: group, inRealm: realm)
-            }
 
             // 同步 Group 的成员
 
@@ -720,7 +688,11 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                 }
             }
         }
+
+        return group
     }
+
+    return nil
 }
 
 var isFetchingUnreadMessages = Listenable<Bool>(false) { _ in }

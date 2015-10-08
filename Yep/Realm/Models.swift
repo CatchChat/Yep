@@ -267,6 +267,23 @@ enum MessageMediaType: Int, CustomStringConvertible {
             return "" // TODO: more mineType
         }
     }
+
+    var placeholder: String? {
+        switch self {
+        case .Audio:
+            return NSLocalizedString("[Audio]", comment: "")
+        case .Video:
+            return NSLocalizedString("[Video]", comment: "")
+        case .Image:
+            return NSLocalizedString("[Image]", comment: "")
+        case .Location:
+            return NSLocalizedString("[Location]", comment: "")
+        case .Text:
+            return nil
+        default:
+            return (arc4random() % 2 == 0) ?  "I love NIX." : "We love NIX."
+        }
+    }
 }
 
 enum MessageSendState: Int, CustomStringConvertible {
@@ -528,7 +545,22 @@ func countOfUnreadMessagesInConversation(conversation: Conversation) -> Int {
 }
 
 func saveFeedWithFeedData(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
-    
+
+    // try sync group first
+
+    groupWithGroupID(groupID: group.groupID, failureHandler: nil, completion: { groupInfo in
+
+        guard let realm = try? Realm() else {
+            return
+        }
+
+        println("feed groupInfo: \(groupInfo)")
+
+        syncGroupWithGroupInfo(groupInfo, inRealm: realm)
+    })
+
+    // save feed
+
     if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
         print("Join Feed \(feed.feedID)")
 
@@ -538,7 +570,7 @@ func saveFeedWithFeedData(feedData: DiscoveredFeed, group: Group, inRealm realm:
         newFeed.allowComment = feedData.allowComment
         newFeed.createdUnixTime = feedData.createdUnixTime
         newFeed.updatedUnixTime = feedData.updatedUnixTime
-        newFeed.creator = userFromDiscoverUser(feedData.creator, inRealm: realm)
+        newFeed.creator = getOrCreateUserWithDiscoverUser(feedData.creator, inRealm: realm)
         newFeed.body = feedData.body
         
         if let distance = feedData.distance {

@@ -28,20 +28,6 @@ class FeedsViewController: UIViewController {
             }
         }
     }
-    
-    @IBAction func showNewFeed(sender: AnyObject) {
-        
-        
-        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("NewFeedViewController") as! NewFeedViewController
-        
-        vc.afterCreatedFeedAction = { [weak self] in
-            self?.updateFeeds()
-        }
-        
-        let navi = UINavigationController(rootViewController: vc)
-        
-        self.presentViewController(navi, animated: true, completion: nil)
-    }
 
     private func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
@@ -83,6 +69,19 @@ class FeedsViewController: UIViewController {
         })
     }
 
+    @IBAction func showNewFeed(sender: AnyObject) {
+
+        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("NewFeedViewController") as! NewFeedViewController
+
+        vc.afterCreatedFeedAction = { [weak self] feed in
+            self?.feeds.insert(feed, atIndex: 0)
+        }
+
+        let navi = UINavigationController(rootViewController: vc)
+
+        self.presentViewController(navi, animated: true, completion: nil)
+    }
+
     // MARK: - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -105,15 +104,6 @@ class FeedsViewController: UIViewController {
 
                 let newGroup = Group()
                 newGroup.groupID = groupID
-
-                // TOOD: newGroup of Feed
-                /*
-                if let groupInfo = messageInfo["circle"] as? JSONDictionary {
-                    if let groupName = groupInfo["name"] as? String {
-                        newGroup.groupName = groupName
-                    }
-                }
-                */
 
                 realm.write {
                     realm.add(newGroup)
