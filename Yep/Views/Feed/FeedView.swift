@@ -97,6 +97,11 @@ class FeedView: UIView {
         }
     }
 
+    static let messageLabelMaxWidth: CGFloat = {
+        let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
+        return maxWidth
+        }()
+
     let feedMediaCellID = "FeedMediaCell"
 
     override func awakeFromNib() {
@@ -134,7 +139,7 @@ class FeedView: UIView {
             return 220
         }
 
-        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedCell.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedView.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedView.textAttributes, context: nil)
 
         let height: CGFloat
         
@@ -152,7 +157,7 @@ class FeedView: UIView {
         messageLabel.text = feed.body
 
         let hasMedia = !feed.attachments.isEmpty
-        timeLabelTopConstraint.constant = hasMedia ? 110 : 15
+        timeLabelTopConstraint.constant = hasMedia ? (15 + 80 + 15) : 15
         mediaCollectionView.hidden = hasMedia ? false : true
 
         attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })

@@ -55,7 +55,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.2 km" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uir-A9-aaJ" userLabel="Distance Label">
-                        <rect key="frame" x="151" y="182" width="40.5" height="17"/>
+                        <rect key="frame" x="156" y="182" width="40.5" height="17"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -78,7 +78,7 @@
                 </subviews>
                 <animations/>
                 <constraints>
-                    <constraint firstItem="uir-A9-aaJ" firstAttribute="leading" secondItem="yFm-kf-Ghp" secondAttribute="trailing" constant="10" id="1RE-Ku-WQU"/>
+                    <constraint firstItem="uir-A9-aaJ" firstAttribute="leading" secondItem="yFm-kf-Ghp" secondAttribute="trailing" constant="15" id="1RE-Ku-WQU"/>
                     <constraint firstItem="WEl-kb-LcL" firstAttribute="top" secondItem="GRs-kP-Ugk" secondAttribute="bottom" constant="4" id="1dk-I4-Thh"/>
                     <constraint firstItem="WEl-kb-LcL" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="uir-A9-aaJ" secondAttribute="trailing" id="440-LJ-l3f"/>
                     <constraint firstItem="WEl-kb-LcL" firstAttribute="leading" secondItem="d97-mK-bJE" secondAttribute="leading" id="4i1-eZ-94H"/>
