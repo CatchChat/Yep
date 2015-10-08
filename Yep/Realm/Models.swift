@@ -555,7 +555,7 @@ func saveFeedWithFeedData(feedData: DiscoveredFeed, group: Group, inRealm realm:
         newFeed.allowComment = feedData.allowComment
         newFeed.createdUnixTime = feedData.createdUnixTime
         newFeed.updatedUnixTime = feedData.updatedUnixTime
-        newFeed.creator = userFromDiscoverUser(feedData.creator, inRealm: realm)
+        newFeed.creator = getOrCreateUserWithDiscoverUser(feedData.creator, inRealm: realm)
         newFeed.body = feedData.body
         
         if let distance = feedData.distance {

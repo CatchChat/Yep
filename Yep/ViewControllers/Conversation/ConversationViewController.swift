@@ -45,7 +45,10 @@ enum ConversationFeed {
     var creator: User? {
         switch self {
         case .DiscoveredFeedType(let discoveredFeed):
-            return userFromDiscoverUser(discoveredFeed.creator, inRealm: nil)
+            guard let realm = try? Realm() else {
+                return nil
+            }
+            return getOrCreateUserWithDiscoverUser(discoveredFeed.creator, inRealm: realm)
             
         case .FeedType(let feed):
             return feed.creator
