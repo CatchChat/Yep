@@ -96,7 +96,7 @@ class FeedsViewController: UIViewController {
 
     // MARK: - Actions
 
-    func updateFeeds() {
+    func updateFeeds(finish: (() -> Void)? = nil) {
 
         activityIndicator.startAnimating()
 
@@ -104,6 +104,8 @@ class FeedsViewController: UIViewController {
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 self?.activityIndicator.stopAnimating()
+
+                finish?()
             }
 
             defaultFailureHandler(reason, errorMessage: errorMessage)
@@ -112,6 +114,8 @@ class FeedsViewController: UIViewController {
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 self?.activityIndicator.stopAnimating()
+
+                finish?()
             }
 
             if let strongSelf = self {
@@ -271,10 +275,12 @@ extension FeedsViewController: PullToRefreshViewDelegate {
 
     func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
 
-        delay(0.5) {
-            pulllToRefreshView.endRefreshingAndDoFurtherAction() { [weak self] in
-                self?.updateFeeds()
-            }
+        activityIndicator.alpha = 0
+
+        updateFeeds { [weak self] in
+            pulllToRefreshView.endRefreshingAndDoFurtherAction() {}
+
+            self?.activityIndicator.alpha = 1
         }
     }
     
