@@ -30,12 +30,13 @@ class FeedsViewController: UIViewController {
     }
     
     @IBAction func showNewFeed(sender: AnyObject) {
-        
-        
+
         let vc = self.storyboard?.instantiateViewControllerWithIdentifier("NewFeedViewController") as! NewFeedViewController
         
         vc.afterCreatedFeedAction = { [weak self] in
-            self?.updateFeeds()
+            delay(3) {
+                self?.updateFeeds()
+            }
         }
         
         let navi = UINavigationController(rootViewController: vc)
