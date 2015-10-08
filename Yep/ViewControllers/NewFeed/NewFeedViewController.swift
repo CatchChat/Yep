@@ -15,7 +15,7 @@ class NewFeedViewController: UIViewController {
 
     @IBOutlet weak var feedWhiteBGView: UIView!
     
-    var afterCreatedFeedAction: (() -> Void)?
+    var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
 
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var mediaCollectionView: UICollectionView!
@@ -181,7 +181,9 @@ class NewFeedViewController: UIViewController {
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
-                    self?.afterCreatedFeedAction?()
+                    if let feed = DiscoveredFeed.fromJSONDictionary(data) {
+                        self?.afterCreatedFeedAction?(feed: feed)
+                    }
 
                     self?.dismissViewControllerAnimated(true, completion: nil)
                 }

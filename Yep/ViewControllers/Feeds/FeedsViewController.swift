@@ -28,21 +28,6 @@ class FeedsViewController: UIViewController {
             }
         }
     }
-    
-    @IBAction func showNewFeed(sender: AnyObject) {
-
-        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("NewFeedViewController") as! NewFeedViewController
-        
-        vc.afterCreatedFeedAction = { [weak self] in
-            delay(3) {
-                self?.updateFeeds()
-            }
-        }
-        
-        let navi = UINavigationController(rootViewController: vc)
-        
-        self.presentViewController(navi, animated: true, completion: nil)
-    }
 
     private func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
@@ -82,6 +67,19 @@ class FeedsViewController: UIViewController {
             self?.feeds = feeds
             println("discoverFeeds.count: \(feeds.count)")
         })
+    }
+
+    @IBAction func showNewFeed(sender: AnyObject) {
+
+        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("NewFeedViewController") as! NewFeedViewController
+
+        vc.afterCreatedFeedAction = { [weak self] feed in
+            self?.feeds.insert(feed, atIndex: 0)
+        }
+
+        let navi = UINavigationController(rootViewController: vc)
+
+        self.presentViewController(navi, animated: true, completion: nil)
     }
 
     // MARK: - Navigation
