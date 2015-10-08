@@ -64,8 +64,17 @@ class ChatRightBaseCell: ChatBaseCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "tryUpdateMessageState", name: MessageNotification.MessageStateChanged, object: nil)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if !group {
+            dotImageView.hidden = false
+        } else {
+            dotImageView.hidden = true
+        }
     }
 
     func tryUpdateMessageState() {
