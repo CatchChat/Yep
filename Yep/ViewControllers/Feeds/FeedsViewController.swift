@@ -42,14 +42,21 @@ class FeedsViewController: UIViewController {
 
     lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
 
-    var feeds = [DiscoveredFeed]() {
-        didSet {
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                self?.feedsTableView.reloadData()
+    var feeds = [DiscoveredFeed]()
 
-                if let strongSelf = self {
-                    strongSelf.feedsTableView.tableFooterView = strongSelf.feeds.isEmpty ? strongSelf.noFeedsFooterView : UIView()
-                }
+    private func updateFeedsTableViewOrInsertWithIndexPaths(indexPaths: [NSIndexPath]?) {
+
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+            if let indexPaths = indexPaths {
+                self?.feedsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+
+            } else {
+                self?.feedsTableView.reloadData()
+            }
+
+            if let strongSelf = self {
+                strongSelf.feedsTableView.tableFooterView = strongSelf.feeds.isEmpty ? strongSelf.noFeedsFooterView : UIView()
             }
         }
     }
@@ -94,8 +101,31 @@ class FeedsViewController: UIViewController {
             defaultFailureHandler(reason, errorMessage: errorMessage)
 
         }, completion: { [weak self] feeds in
-            self?.feeds = feeds
-            println("discoverFeeds.count: \(feeds.count)")
+
+            if let strongSelf = self {
+
+                let oldFeedSet = Set(strongSelf.feeds)
+                let newFeedSet = Set(feeds)
+
+                let unionFeedSet = oldFeedSet.union(newFeedSet)
+                let allNewFeedSet = newFeedSet.subtract(oldFeedSet)
+
+                let allFeeds = Array(unionFeedSet).sort({ $0.createdUnixTime > $1.createdUnixTime })
+
+                let newIndexPaths = allNewFeedSet.map({ allFeeds.indexOf($0) }).flatMap({ $0 }).map({ NSIndexPath(forRow: $0, inSection: 0) })
+
+                dispatch_async(dispatch_get_main_queue()) {
+
+                    strongSelf.feeds = allFeeds
+
+                    if newIndexPaths.count == allNewFeedSet.count {
+                        strongSelf.updateFeedsTableViewOrInsertWithIndexPaths(newIndexPaths)
+
+                    } else {
+                        strongSelf.updateFeedsTableViewOrInsertWithIndexPaths(nil)
+                    }
+                }
+            }
         })
     }
 

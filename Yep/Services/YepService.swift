@@ -2217,7 +2217,15 @@ struct DiscoveredAttachment {
     }
 }
 
-struct DiscoveredFeed {
+func ==(lhs: DiscoveredFeed, rhs: DiscoveredFeed) -> Bool {
+    return lhs.id == rhs.id
+}
+
+struct DiscoveredFeed: Hashable {
+    
+    var hashValue: Int {
+        return id.hashValue
+    }
 
     let id: String
     let allowComment: Bool
