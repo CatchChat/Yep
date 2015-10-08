@@ -937,16 +937,6 @@ class ConversationViewController: BaseViewController {
         checkTypingStatusTimer = nil // 及时释放
 
         waverView.removeFromSuperview()
-        
-        if self.isMovingFromParentViewController() {
-            
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: YepNewMessagesReceivedNotification, object: nil)
-            
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: EditProfileViewController.Notification.Logout, object: nil)
-            
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
-
-        }
     }
 
     override func viewDidLayoutSubviews() {
