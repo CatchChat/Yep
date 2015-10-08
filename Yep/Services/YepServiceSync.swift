@@ -519,7 +519,17 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
             // 增加本地没有的 Group
 
             for groupInfo in allGroups {
-                syncGroupWithGroupInfo(groupInfo, inRealm: realm)
+
+                let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm)
+
+                //Sync Feed
+
+                if let
+                    topic = groupInfo["topic"] as? JSONDictionary,
+                    feedData = DiscoveredFeed.fromJSONDictionary(topic),
+                    group = group {
+                        saveFeedWithFeedData(feedData, group: group, inRealm: realm)
+                }
             }
             
             // do further action
@@ -529,7 +539,8 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
     }
 }
 
-private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) {
+func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> Group? {
+
     if let groupID = groupInfo["id"] as? String {
         
         var group = groupWithGroupID(groupID, inRealm: realm)
@@ -604,12 +615,6 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                     }
                 }
             }
-            
-            //Sync Feed
-            
-            if let topic = groupInfo["topic"] as? JSONDictionary, feedData = DiscoveredFeed.fromJSONDictionary(topic) {
-                saveFeedWithFeedData(feedData, group: group, inRealm: realm)
-            }
 
             // 同步 Group 的成员
 
@@ -683,7 +688,11 @@ private func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Re
                 }
             }
         }
+
+        return group
     }
+
+    return nil
 }
 
 var isFetchingUnreadMessages = Listenable<Bool>(false) { _ in }

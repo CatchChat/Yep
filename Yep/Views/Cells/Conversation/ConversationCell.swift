@@ -113,28 +113,64 @@ class ConversationCell: UITableViewCell {
                     self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
                     self.timeAgoLabel.text = NSDate(timeIntervalSince1970: group.createdUnixTime).timeAgo
                 }
-                
+
+                if let user = group.owner {
+                    AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: radius, completion: {[weak self] image in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            if let _ = tableView.cellForRowAtIndexPath(indexPath) {
+                                self?.avatarImageView.image = image
+                            }
+                        }
+                    })
+                }
+
+                /*
                 if let feed = group.withFeed {
-                
+
+                    if let user = feed.creator {
+                        AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: radius, completion: {[weak self] image in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                if let _ = tableView.cellForRowAtIndexPath(indexPath) {
+                                    self?.avatarImageView.image = image
+                                }
+                            }
+                        })
+                    }
+
+                    /*
                     if let URL = feed.attachments.first?.URLString {
-                        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(URL, withRadius: 30.0, completion: {[weak self] (image) -> Void in
-                            self?.avatarImageView.image = image
+                        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(URL, withRadius: radius, completion: {[weak self] (image) -> Void in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                if let _ = tableView.cellForRowAtIndexPath(indexPath) {
+                                    self?.avatarImageView.image = image
+                                }
+                            }
                         })
                     } else {
-                        if let avatarURL = feed.creator?.avatarURLString {
-                            AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURL, withRadius: 30.0, completion: {[weak self] (image) -> Void in
-                                self?.avatarImageView.image = image
+                        if let user = feed.creator {
+                            AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: radius, completion: {[weak self] image in
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    if let _ = tableView.cellForRowAtIndexPath(indexPath) {
+                                        self?.avatarImageView.image = image
+                                    }
+                                }
                             })
                         }
                     }
-                    
+                    */
+
                 } else {
                     if let avatarURL = group.owner?.avatarURLString {
-                        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURL, withRadius: 30.0, completion: {[weak self] (image) -> Void in
-                            self?.avatarImageView.image = image
+                        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURL, withRadius: radius, completion: {[weak self] image in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                if let _ = tableView.cellForRowAtIndexPath(indexPath) {
+                                    self?.avatarImageView.image = image
+                                }
+                            }
                         })
                     }
                 }
+                */
             }
         }
     }

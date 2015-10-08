@@ -106,15 +106,6 @@ class FeedsViewController: UIViewController {
                 let newGroup = Group()
                 newGroup.groupID = groupID
 
-                // TOOD: newGroup of Feed
-                /*
-                if let groupInfo = messageInfo["circle"] as? JSONDictionary {
-                    if let groupName = groupInfo["name"] as? String {
-                        newGroup.groupName = groupName
-                    }
-                }
-                */
-
                 realm.write {
                     realm.add(newGroup)
                 }

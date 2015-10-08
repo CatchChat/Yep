@@ -545,7 +545,22 @@ func countOfUnreadMessagesInConversation(conversation: Conversation) -> Int {
 }
 
 func saveFeedWithFeedData(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
-    
+
+    // try sync group first
+
+    groupWithGroupID(groupID: group.groupID, failureHandler: nil, completion: { groupInfo in
+
+        guard let realm = try? Realm() else {
+            return
+        }
+
+        println("feed groupInfo: \(groupInfo)")
+
+        syncGroupWithGroupInfo(groupInfo, inRealm: realm)
+    })
+
+    // save feed
+
     if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
         print("Join Feed \(feed.feedID)")
 
