@@ -1919,7 +1919,7 @@ class ConversationViewController: BaseViewController {
 
             if let message = sender as? Message, messageIndex = messages.indexOf(message) {
 
-                vc.message = message
+                vc.previewMedia = PreviewMedia.MessageType(message: message)
 
                 let indexPath = NSIndexPath(forRow: messageIndex - displayedMessagesRange.location , inSection: 0)
 
@@ -1996,7 +1996,7 @@ class ConversationViewController: BaseViewController {
 
             if let message = sender as? Message, messageIndex = messages.indexOf(message) {
 
-                vc.message = message
+                vc.previewMedia = PreviewMedia.MessageType(message: message)
 
                 let indexPath = NSIndexPath(forRow: messageIndex - displayedMessagesRange.location , inSection: 0)
 

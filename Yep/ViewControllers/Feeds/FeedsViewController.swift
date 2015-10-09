@@ -104,10 +104,6 @@ class FeedsViewController: UIViewController {
         if let delegate = originalNavigationControllerDelegate {
             navigationController?.delegate = delegate
         }
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
 
         navigationController?.setNavigationBarHidden(false, animated: false)
         tabBarController?.tabBar.hidden = false
@@ -253,7 +249,12 @@ class FeedsViewController: UIViewController {
 
         case "showFeedMedia":
 
-            let transitionView = sender as! UIView
+            let info = sender as! [String: AnyObject]
+
+            let vc = segue.destinationViewController as! MessageMediaViewController
+            vc.previewMedia = PreviewMedia.AttachmentType(imageURL: info["imageURL"] as! NSURL )
+
+            let transitionView = info["transitionView"] as! UIView
 
             let delegate = ConversationMessagePreviewNavigationControllerDelegate()
             delegate.snapshot = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(false)
@@ -298,8 +299,12 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.configureWithFeed(feed)
 
-        cell.tapMediaAction = { [weak self] transitionView in
-            self?.performSegueWithIdentifier("showFeedMedia", sender: transitionView)
+        cell.tapMediaAction = { [weak self] transitionView, imageURL in
+            let info = [
+                "transitionView": transitionView,
+                "imageURL": imageURL,
+            ]
+            self?.performSegueWithIdentifier("showFeedMedia", sender: info)
         }
 
         return cell

@@ -9,10 +9,17 @@
 import UIKit
 import AVFoundation
 import MonkeyKing
+import Kingfisher
+
+enum PreviewMedia {
+
+    case MessageType(message: Message)
+    case AttachmentType(imageURL: NSURL)
+}
 
 class MessageMediaViewController: UIViewController {
 
-    var message: Message?
+    var previewMedia: PreviewMedia?
 
     @IBOutlet weak var mediaView: MediaView!
 
@@ -37,7 +44,13 @@ class MessageMediaViewController: UIViewController {
 
         mediaControlView.hidden = true
 
-        if let message = message {
+        guard let previewMedia = previewMedia else {
+            return
+        }
+
+        switch previewMedia {
+
+        case .MessageType(let message):
 
             switch message.mediaType {
 
@@ -157,6 +170,12 @@ class MessageMediaViewController: UIViewController {
             default:
                 break
             }
+
+        case .AttachmentType(let imageURL):
+            mediaControlView.type = .Image
+            mediaView.imageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: nil, completionHandler: { [weak self] (image, error, cacheType, imageURL) in
+                self?.mediaView.updateImageViewWithImage(image!)
+            })
         }
     }
 
@@ -192,10 +211,18 @@ class MessageMediaViewController: UIViewController {
     // MARK: Actions
 
     func dismiss() {
-        if let message = message {
+
+        guard let previewMedia = previewMedia else {
+            return
+        }
+
+        switch previewMedia {
+        case .MessageType(let message):
             if message.mediaType == MessageMediaType.Video.rawValue {
                 mediaView.videoPlayerLayer.player?.removeObserver(self, forKeyPath: "status")
             }
+        default:
+            break
         }
 
         navigationController?.popViewControllerAnimated(true)

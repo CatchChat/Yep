@@ -24,7 +24,7 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var messageCountLabel: UILabel!
 
 
-    var tapMediaAction: ((transitionView: UIView) -> Void)?
+    var tapMediaAction: ((transitionView: UIView, imageURL: NSURL) -> Void)?
 
 
     var attachmentURLs = [NSURL]() {
@@ -142,8 +142,8 @@ extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegate {
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedMediaCell
 
         let transitionView = cell.imageView
-
-        tapMediaAction?(transitionView: transitionView)
+        let imageURL = attachmentURLs[indexPath.item]
+        tapMediaAction?(transitionView: transitionView, imageURL: imageURL)
     }
 }
 

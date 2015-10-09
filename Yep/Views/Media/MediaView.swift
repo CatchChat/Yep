@@ -11,20 +11,25 @@ import AVFoundation
 
 class MediaView: UIView {
 
+    func updateImageViewWithImage(image: UIImage) {
+
+        scrollView.frame = UIScreen.mainScreen().bounds
+
+        let size = image.size
+        imageView.frame = CGRect(origin: CGPointZero, size: size)
+
+        setZoomParametersForSize(scrollView.bounds.size, imageSize: size)
+        scrollView.zoomScale = scrollView.minimumZoomScale
+
+        recenterImage()
+    }
+
     var image: UIImage? {
         didSet {
             if let image = image {
                 imageView.image = image
 
-                scrollView.frame = UIScreen.mainScreen().bounds
-
-                let size = image.size
-                imageView.frame = CGRect(origin: CGPointZero, size: size)
-
-                setZoomParametersForSize(scrollView.bounds.size, imageSize: size)
-                scrollView.zoomScale = scrollView.minimumZoomScale
-
-                recenterImage()
+                updateImageViewWithImage(image)
             }
         }
     }
