@@ -253,14 +253,13 @@ class FeedsViewController: UIViewController {
 
         case "showFeedMedia":
 
-            let vc = segue.destinationViewController
-            //vc.hidesBottomBarWhenPushed = true
+            let transitionView = sender as! UIView
 
             let delegate = ConversationMessagePreviewNavigationControllerDelegate()
             delegate.snapshot = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(false)
-            delegate.frame = CGRect(x: 50, y: 50, width: 80, height: 80)//frame
-            delegate.thumbnailImage = UIImage(named: "default_avatar")// nil//message.thumbnailImage
-            delegate.transitionView = UIView()//transitionView
+            delegate.frame = transitionView.convertRect(transitionView.frame, toView: view)
+            delegate.thumbnailImage = nil
+            delegate.transitionView = transitionView
 
             navigationControllerDelegate = delegate
 
@@ -276,6 +275,8 @@ class FeedsViewController: UIViewController {
         }
     }
 }
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
@@ -297,8 +298,8 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.configureWithFeed(feed)
 
-        cell.tapMediaAction = { [weak self] in
-            self?.performSegueWithIdentifier("showFeedMedia", sender: nil)
+        cell.tapMediaAction = { [weak self] transitionView in
+            self?.performSegueWithIdentifier("showFeedMedia", sender: transitionView)
         }
 
         return cell
