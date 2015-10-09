@@ -34,6 +34,8 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
     // MARK: UIViewControllerAnimatedTransitioning
 
+    var isFeedMedia = false
+
     var snapshot: UIView?
 
     var frame = CGRectZero
@@ -52,7 +54,16 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
     var transitionView: UIView? {
         didSet {
             if let transitionView = transitionView {
-                transitionViewSnapshot = transitionView.snapshotViewAfterScreenUpdates(true)
+                //transitionViewSnapshot = transitionView.snapshotViewAfterScreenUpdates(true)
+
+                if isFeedMedia {
+                    let _imageView = transitionView as! UIImageView
+                    let imageView = UIImageView()
+                    imageView.image = _imageView.image
+                    transitionViewSnapshot = imageView
+                } else {
+                    transitionViewSnapshot = transitionView.snapshotViewAfterScreenUpdates(true)
+                }
             }
         }
     }
@@ -63,8 +74,8 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
     var transitionContext: UIViewControllerContextTransitioning?
 
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
-//        return 2
-        return isPresentation ? 0.3 : 0.3
+        return 2
+//        return isPresentation ? 0.3 : 0.3
     }
 
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
@@ -157,6 +168,17 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
                     transitionViewSnapshot.frame = frame
                     transitionViewSnapshot.center = animatingView.center
 
+                    if self.isFeedMedia {
+                        let size = (transitionViewSnapshot as! UIImageView).image!.size
+                        if size.width > size.height {
+                            transitionViewSnapshot.contentMode = UIViewContentMode.ScaleAspectFit
+                            thumbnailImageView.contentMode = UIViewContentMode.ScaleAspectFit
+                        } else {
+                            transitionViewSnapshot.contentMode = UIViewContentMode.ScaleAspectFill
+                            thumbnailImageView.contentMode = UIViewContentMode.ScaleAspectFill
+                        }
+                    }
+
                     thumbnailImageView.frame = frame
                     thumbnailImageView.center = animatingView.center
 
@@ -245,6 +267,10 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
                 UIView.addKeyframeWithRelativeStartTime(0.11, relativeDuration: 0.89, animations: { () -> Void in
                     transitionViewSnapshot.frame = self.frame
+                    /*
+                    if self.isFeedMedia {
+                        transitionViewSnapshot.contentMode = UIViewContentMode.ScaleAspectFill
+                    }*/
                     thumbnailImageView.frame = self.frame
 
                     transitionViewSnapshot.alpha = 1

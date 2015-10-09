@@ -254,12 +254,25 @@ class FeedsViewController: UIViewController {
             let vc = segue.destinationViewController as! MessageMediaViewController
             vc.previewMedia = PreviewMedia.AttachmentType(imageURL: info["imageURL"] as! NSURL )
 
-            let transitionView = info["transitionView"] as! UIView
+            let transitionView = info["transitionView"] as! UIImageView
 
             let delegate = ConversationMessagePreviewNavigationControllerDelegate()
+            delegate.isFeedMedia = true
             delegate.snapshot = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(false)
-            delegate.frame = transitionView.convertRect(transitionView.frame, toView: view)
-            delegate.thumbnailImage = nil
+
+            var frame = transitionView.convertRect(transitionView.frame, toView: view)
+            if let image = transitionView.image {
+                let width = image.size.width
+                let height = image.size.height
+                if width > height {
+                    let newWidth = frame.width * (width / height)
+                    frame.origin.x -= (newWidth - frame.width) / 2
+                    frame.size.width = newWidth
+                }
+                delegate.thumbnailImage = image
+            }
+            delegate.frame = frame
+
             delegate.transitionView = transitionView
 
             navigationControllerDelegate = delegate
