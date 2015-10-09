@@ -34,7 +34,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="umP-Za-loD">
-                    <rect key="frame" x="65" y="105" width="354" height="80"/>
+                    <rect key="frame" x="0.0" y="105" width="419" height="80"/>
                     <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="80" id="BNj-Sa-n9K"/>
@@ -86,8 +86,9 @@
                 <constraint firstAttribute="trailing" secondItem="ffh-Mx-17Q" secondAttribute="trailing" constant="10" id="Irr-i3-cMb"/>
                 <constraint firstItem="6i2-Pl-6hN" firstAttribute="top" secondItem="0Hb-fw-n9b" secondAttribute="bottom" constant="4" id="Jch-Vu-xwA"/>
                 <constraint firstAttribute="trailing" secondItem="umP-Za-loD" secondAttribute="trailing" id="SSw-dY-XgC"/>
+                <constraint firstItem="umP-Za-loD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VaQ-38-Sg1"/>
                 <constraint firstAttribute="trailing" secondItem="r5V-GF-1ON" secondAttribute="trailing" constant="10" id="VmR-NW-fv5"/>
-                <constraint firstItem="Ix5-dG-THW" firstAttribute="leading" secondItem="umP-Za-loD" secondAttribute="leading" id="Vq0-HZ-3E7"/>
+                <constraint firstItem="Ix5-dG-THW" firstAttribute="leading" secondItem="6i2-Pl-6hN" secondAttribute="leading" id="XQ7-Cz-Z9a"/>
                 <constraint firstItem="0Hb-fw-n9b" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="aje-GN-Nlw"/>
                 <constraint firstItem="C2E-Yo-twp" firstAttribute="leading" secondItem="0Hb-fw-n9b" secondAttribute="trailing" constant="10" id="cGH-ZO-Eiv"/>
                 <constraint firstItem="r5V-GF-1ON" firstAttribute="trailing" secondItem="ffh-Mx-17Q" secondAttribute="trailing" id="cRo-WX-ifz"/>
@@ -102,7 +103,6 @@
                 <constraint firstItem="ffh-Mx-17Q" firstAttribute="centerY" secondItem="C2E-Yo-twp" secondAttribute="centerY" id="lAd-63-gax"/>
                 <constraint firstItem="C2E-Yo-twp" firstAttribute="centerY" secondItem="0Hb-fw-n9b" secondAttribute="centerY" id="lSc-cs-Lug"/>
                 <constraint firstItem="Ix5-dG-THW" firstAttribute="top" secondItem="6i2-Pl-6hN" secondAttribute="bottom" constant="110" id="mCj-xS-Tud"/>
-                <constraint firstItem="umP-Za-loD" firstAttribute="leading" secondItem="6i2-Pl-6hN" secondAttribute="leading" id="mIy-L4-SXl"/>
                 <constraint firstItem="wH6-T7-mOv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="niy-IC-PEM"/>
                 <constraint firstItem="6i2-Pl-6hN" firstAttribute="leading" secondItem="C2E-Yo-twp" secondAttribute="leading" id="rh1-wd-ajF"/>
                 <constraint firstItem="0Hb-fw-n9b" firstAttribute="width" secondItem="0Hb-fw-n9b" secondAttribute="height" multiplier="1:1" id="sFg-ds-P8V"/>

@@ -118,12 +118,12 @@ class FeedView: UIView {
 
         mediaView.alpha = 0
 
+        mediaCollectionView.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
+        mediaCollectionView.showsHorizontalScrollIndicator = false
         mediaCollectionView.backgroundColor = UIColor.clearColor()
         mediaCollectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
-
-        //mediaCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
 
         let tap = UITapGestureRecognizer(target: self, action: "unfold:")
         mediaView.addGestureRecognizer(tap)
