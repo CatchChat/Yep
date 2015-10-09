@@ -61,6 +61,7 @@ class FeedCell: UITableViewCell {
 
         messageLabel.font = UIFont.feedMessageFont()
 
+        mediaCollectionView.scrollsToTop = false
         mediaCollectionView.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
         mediaCollectionView.showsHorizontalScrollIndicator = false
         mediaCollectionView.backgroundColor = UIColor.clearColor()
