@@ -81,6 +81,9 @@ class FeedsViewController: UIViewController {
         }
     }
 
+    var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
+    var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -92,6 +95,22 @@ class FeedsViewController: UIViewController {
         feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
 
         updateFeeds()
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
+        if let delegate = originalNavigationControllerDelegate {
+            navigationController?.delegate = delegate
+        }
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        tabBarController?.tabBar.hidden = false
     }
 
     // MARK: - Actions
@@ -172,7 +191,13 @@ class FeedsViewController: UIViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
-        if segue.identifier == "showConversation" {
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        switch identifier {
+
+        case "showConversation":
 
             guard let
                 index = sender as? Int,
@@ -225,6 +250,29 @@ class FeedsViewController: UIViewController {
             }
 
             vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feedData)
+
+        case "showFeedMedia":
+
+            let vc = segue.destinationViewController
+            //vc.hidesBottomBarWhenPushed = true
+
+            let delegate = ConversationMessagePreviewNavigationControllerDelegate()
+            delegate.snapshot = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(false)
+            delegate.frame = CGRect(x: 50, y: 50, width: 80, height: 80)//frame
+            delegate.thumbnailImage = UIImage(named: "default_avatar")// nil//message.thumbnailImage
+            delegate.transitionView = UIView()//transitionView
+
+            navigationControllerDelegate = delegate
+
+            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
+            originalNavigationControllerDelegate = navigationController!.delegate
+
+            navigationController?.delegate = delegate
+            
+            break
+
+        default:
+            break
         }
     }
 }
@@ -248,6 +296,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         let feed = feeds[indexPath.item]
 
         cell.configureWithFeed(feed)
+
+        cell.tapMediaAction = { [weak self] in
+            self?.performSegueWithIdentifier("showFeedMedia", sender: nil)
+        }
 
         return cell
     }

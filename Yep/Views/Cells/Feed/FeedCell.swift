@@ -23,6 +23,10 @@ class FeedCell: UITableViewCell {
 
     @IBOutlet weak var messageCountLabel: UILabel!
 
+
+    var tapMediaAction: (() -> Void)?
+
+
     var attachmentURLs = [NSURL]() {
         didSet {
             mediaCollectionView.reloadData()
@@ -131,6 +135,11 @@ extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+
+        tapMediaAction?()
     }
 }
 

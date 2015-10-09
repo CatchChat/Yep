@@ -164,6 +164,8 @@ class MessageMediaViewController: UIViewController {
         super.viewWillAppear(animated)
 
         navigationController?.setNavigationBarHidden(true, animated: false)
+
+        tabBarController?.tabBar.hidden = true
     }
 
     override func viewDidAppear(animated: Bool) {
