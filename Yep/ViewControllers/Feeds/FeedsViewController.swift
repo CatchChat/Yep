@@ -150,7 +150,17 @@ class FeedsViewController: UIViewController {
         let vc = self.storyboard?.instantiateViewControllerWithIdentifier("NewFeedViewController") as! NewFeedViewController
 
         vc.afterCreatedFeedAction = { [weak self] feed in
-            self?.feeds.insert(feed, atIndex: 0)
+
+            dispatch_async(dispatch_get_main_queue()) {
+
+                if let strongSelf = self {
+
+                    strongSelf.feeds.insert(feed, atIndex: 0)
+
+                    let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+                    strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath])
+                }
+            }
         }
 
         let navi = UINavigationController(rootViewController: vc)
