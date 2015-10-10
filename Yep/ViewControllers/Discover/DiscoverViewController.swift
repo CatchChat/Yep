@@ -8,16 +8,41 @@
 
 import UIKit
 
+enum DiscoverUserMode: Int {
+    case Normal = 0
+    case Card
+}
+
 class DiscoverViewController: BaseViewController {
 
-    @IBOutlet weak var discoverTableView: UITableView!
+    @IBOutlet weak var discoverCollectionView: UICollectionView!
     
     @IBOutlet weak var filterButtonItem: UIBarButtonItem!
+    
+    @IBOutlet weak var modeButtonItem: UIBarButtonItem!
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-
     
-    let cellIdentifier = "ContactsCell"
+    let NormalUserIdentifier = "DiscoverNormalUserCell"
+    
+    let CardUserIdentifier = "DiscoverCardUserCell"
+    
+    var userMode: DiscoverUserMode? {
+        didSet {
+            layout.userMode = userMode
+            
+            switch userMode! {
+            case .Card:
+                view.backgroundColor = UIColor.yepBackgroundColor()
+                modeButtonItem.image = UIImage(named: "icon_list")
+            case .Normal:
+                view.backgroundColor = UIColor.whiteColor()
+                modeButtonItem.image = UIImage(named: "icon_minicard")
+            }
+        }
+    }
+    
+    let layout = DiscoverFlowLayout()
 
     var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
         didSet {
@@ -44,7 +69,7 @@ class DiscoverViewController: BaseViewController {
     var discoveredUsers = [DiscoveredUser]() {
         willSet {
             if newValue.count == 0 {
-                discoverTableView.tableFooterView = InfoView(NSLocalizedString("No discovered users.", comment: ""))
+//                discoverCollectionView.tableFooterView = InfoView(NSLocalizedString("No discovered users.", comment: ""))
             }
         }
         didSet {
@@ -61,20 +86,35 @@ class DiscoverViewController: BaseViewController {
 
         view.backgroundColor = UIColor.whiteColor()
 
-        discoverTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        discoverTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+        discoverCollectionView.backgroundColor = UIColor.clearColor()
+        discoverCollectionView.setCollectionViewLayout(layout, animated: false)
+        discoverCollectionView.delegate = self
+        discoverCollectionView.dataSource = self
+        userMode = .Card
+        
+        discoverCollectionView.registerNib(UINib(nibName: NormalUserIdentifier, bundle: nil), forCellWithReuseIdentifier: NormalUserIdentifier)
+        
+        discoverCollectionView.registerNib(UINib(nibName: CardUserIdentifier, bundle: nil), forCellWithReuseIdentifier: CardUserIdentifier)
 
-        discoverTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        discoverTableView.rowHeight = 80
-
-        discoverTableView.tableFooterView = UIView()
 
         discoveredUserSortStyle = .Default
     }
 
 
     // MARK: Actions
-
+    
+    @IBAction func changeMode(sender: AnyObject) {
+        switch userMode! {
+            
+        case .Card:
+            userMode = .Normal
+        case .Normal:
+            userMode = .Card
+        }
+        
+        discoverCollectionView.reloadData()
+        
+    }
     @IBAction func showFilters(sender: UIBarButtonItem) {
 
         filterView.currentDiscoveredUserSortStyle = discoveredUserSortStyle
@@ -90,8 +130,8 @@ class DiscoverViewController: BaseViewController {
 
     func updateDiscoverTableView() {
         dispatch_async(dispatch_get_main_queue()) {
-            //self.discoverTableView.reloadData()
-            self.discoverTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
+            self.discoverCollectionView.reloadData()
+//            self.discoverCollectionView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
         }
     }
 
@@ -120,27 +160,52 @@ class DiscoverViewController: BaseViewController {
 
 // MARK: UITableViewDataSource, UITableViewDelegate
 
-extension DiscoverViewController: UITableViewDataSource, UITableViewDelegate {
-
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return discoveredUsers.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
-        
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let discoveredUser = discoveredUsers[indexPath.row]
-
-        cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
-
-        return cell
+        
+        switch userMode! {
+        case .Normal:
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(NormalUserIdentifier, forIndexPath: indexPath) as! DiscoverNormalUserCell
+            
+            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
+            return cell
+            
+        case .Card:
+           let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CardUserIdentifier, forIndexPath: indexPath) as! DiscoverCardUserCell
+            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
+            return cell
+        }
+        
+        
     }
-
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        switch userMode! {
+        case .Normal:
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            
+        case .Card:
+            return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        }
+    }
+    
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        collectionView.deselectItemAtIndexPath(indexPath, animated: true)
+        
         performSegueWithIdentifier("showProfile", sender: indexPath)
     }
+    
+    
+
+
 }
 
 
