@@ -4,7 +4,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -80,10 +79,8 @@
                 <constraints>
                     <constraint firstItem="uir-A9-aaJ" firstAttribute="leading" secondItem="yFm-kf-Ghp" secondAttribute="trailing" constant="15" id="1RE-Ku-WQU"/>
                     <constraint firstItem="WEl-kb-LcL" firstAttribute="top" secondItem="GRs-kP-Ugk" secondAttribute="bottom" constant="4" id="1dk-I4-Thh"/>
-                    <constraint firstItem="WEl-kb-LcL" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="uir-A9-aaJ" secondAttribute="trailing" id="440-LJ-l3f"/>
                     <constraint firstItem="WEl-kb-LcL" firstAttribute="leading" secondItem="d97-mK-bJE" secondAttribute="leading" id="4i1-eZ-94H"/>
                     <constraint firstAttribute="trailing" secondItem="B9B-Nc-h8k" secondAttribute="trailing" constant="17.5" id="5um-0R-Amw"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="uir-A9-aaJ" secondAttribute="trailing" constant="10" id="8NU-fY-2JM"/>
                     <constraint firstAttribute="trailing" secondItem="COt-7F-KVK" secondAttribute="trailing" id="AfO-Hm-djL"/>
                     <constraint firstItem="B9B-Nc-h8k" firstAttribute="leading" secondItem="6k9-TF-Ftd" secondAttribute="trailing" constant="10" id="JkX-QS-ZmS"/>
                     <constraint firstItem="yFm-kf-Ghp" firstAttribute="top" secondItem="WEl-kb-LcL" secondAttribute="bottom" constant="110" id="K9W-zF-0zZ"/>
@@ -92,7 +89,6 @@
                     <constraint firstItem="yFm-kf-Ghp" firstAttribute="leading" secondItem="WEl-kb-LcL" secondAttribute="leading" id="SBE-O6-YTI"/>
                     <constraint firstItem="uir-A9-aaJ" firstAttribute="centerY" secondItem="yFm-kf-Ghp" secondAttribute="centerY" id="SLb-Wq-xlf"/>
                     <constraint firstItem="6k9-TF-Ftd" firstAttribute="centerY" secondItem="B9B-Nc-h8k" secondAttribute="centerY" id="Sk6-jV-ssD"/>
-                    <constraint firstItem="B9B-Nc-h8k" firstAttribute="trailing" secondItem="uir-A9-aaJ" secondAttribute="trailing" id="VNI-Ix-3aU"/>
                     <constraint firstItem="d97-mK-bJE" firstAttribute="centerY" secondItem="GRs-kP-Ugk" secondAttribute="centerY" id="XVe-o1-zRc"/>
                     <constraint firstAttribute="trailing" secondItem="WEl-kb-LcL" secondAttribute="trailing" constant="15" id="a1R-Va-aaT"/>
                     <constraint firstItem="GRs-kP-Ugk" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="cna-DW-PPM"/>
@@ -100,16 +96,7 @@
                     <constraint firstItem="COt-7F-KVK" firstAttribute="top" secondItem="WEl-kb-LcL" secondAttribute="bottom" constant="15" id="iqg-Wr-S7c"/>
                     <constraint firstItem="GRs-kP-Ugk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="tIk-7d-Ux7"/>
                     <constraint firstItem="COt-7F-KVK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="uDa-ob-a5U"/>
-                    <constraint firstItem="uir-A9-aaJ" firstAttribute="centerY" secondItem="d97-mK-bJE" secondAttribute="centerY" id="vTi-1C-OoG"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="constraints">
-                        <exclude reference="440-LJ-l3f"/>
-                        <exclude reference="8NU-fY-2JM"/>
-                        <exclude reference="vTi-1C-OoG"/>
-                        <exclude reference="VNI-Ix-3aU"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <animations/>
             <inset key="separatorInset" minX="60" minY="0.0" maxX="0.0" maxY="0.0"/>
