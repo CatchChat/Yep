@@ -12,6 +12,12 @@ class ChatRightBaseCell: ChatBaseCell {
     
     @IBOutlet weak var dotImageView: UIImageView!
 
+    var inGroup = false {
+        willSet {
+            dotImageView.hidden = newValue ? true : false
+        }
+    }
+
     var messageSendState: MessageSendState = .NotSend {
         didSet {
             switch messageSendState {
@@ -19,31 +25,23 @@ class ChatRightBaseCell: ChatBaseCell {
             case MessageSendState.NotSend:
                 dotImageView.image = UIImage(named: "icon_dot_sending")
                 dotImageView.hidden = false
-                if !group {
-                    showSendingAnimation()
-                } else {
-                    dotImageView.hidden = true
-                }
+
+                showSendingAnimation()
 
             case MessageSendState.Successed:
-                if !group {
-                    dotImageView.image = UIImage(named: "icon_dot_unread")
-                    dotImageView.hidden = false
-                }
+                dotImageView.image = UIImage(named: "icon_dot_unread")
+                dotImageView.hidden = false
 
                 removeSendingAnimation()
 
             case MessageSendState.Read:
-                if !group {
-                    dotImageView.hidden = true
-                }
+                dotImageView.hidden = true
+
                 removeSendingAnimation()
 
             case MessageSendState.Failed:
-                if !group {
-                    dotImageView.image = UIImage(named: "icon_dot_failed")
-                    dotImageView.hidden = false
-                }
+                dotImageView.image = UIImage(named: "icon_dot_failed")
+                dotImageView.hidden = false
 
                 removeSendingAnimation()
             }
@@ -64,20 +62,16 @@ class ChatRightBaseCell: ChatBaseCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "tryUpdateMessageState", name: MessageNotification.MessageStateChanged, object: nil)
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        if !group {
-            dotImageView.hidden = false
-        } else {
-            dotImageView.hidden = true
-        }
-    }
-
     func tryUpdateMessageState() {
+
+        guard !inGroup else {
+            return
+        }
+
         if let message = message {
             if !message.invalidated {
                 if let messageSendState = MessageSendState(rawValue: message.sendState) {
