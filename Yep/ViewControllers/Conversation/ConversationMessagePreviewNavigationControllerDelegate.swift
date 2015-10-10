@@ -257,6 +257,9 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
             animatingView.addSubview(transitionViewSnapshot)
             animatingView.addSubview(thumbnailImageView)
 
+            transitionViewSnapshot.alpha = 0
+            thumbnailImageView.alpha = 1
+
             self.transitionView?.alpha = 0
 
             UIView.animateKeyframesWithDuration(fullDuration, delay: 0.0, options: .CalculationModeLinear, animations: { () -> Void in
@@ -274,8 +277,8 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
                 UIView.addKeyframeWithRelativeStartTime(0.1, relativeDuration: 0.01, animations: { () -> Void in
                     animatingView.addSubview(transitionViewSnapshot)
 //                    transitionViewSnapshot.center = animatingView.center
-                    transitionViewSnapshot.alpha = 0
-                    thumbnailImageView.alpha = 1
+                    //transitionViewSnapshot.alpha = 0
+                    //thumbnailImageView.alpha = 1
                     animatingVC.mediaView.alpha = 0
                 })
 
