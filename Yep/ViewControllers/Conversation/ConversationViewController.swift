@@ -3062,7 +3062,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         } else if let withGroup = conversation.withGroup {
 
-            sendImageInFilePath(nil, orFileData: imageData, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
+            sendImageInFilePath(nil, orFileData: imageData, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
 
                 dispatch_async(dispatch_get_main_queue()) {
                     if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
