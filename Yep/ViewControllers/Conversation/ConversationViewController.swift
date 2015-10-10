@@ -2252,49 +2252,29 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
                         
-                        if let _ = conversation.withGroup {
-                            cell.group = true
-                        }
-
                         return cell
 
                     case MessageMediaType.Audio.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightAudioCellIdentifier, forIndexPath: indexPath) as! ChatRightAudioCell
-                        
-                        if let _ = conversation.withGroup {
-                            cell.group = true
-                        }
 
                         return cell
 
                     case MessageMediaType.Video.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightVideoCellIdentifier, forIndexPath: indexPath) as! ChatRightVideoCell
-                        
-                        if let _ = conversation.withGroup {
-                            cell.group = true
-                        }
 
                         return cell
 
                     case MessageMediaType.Location.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightLocationCellIdentifier, forIndexPath: indexPath) as! ChatRightLocationCell
-                        
-                        if let _ = conversation.withGroup {
-                            cell.group = true
-                        }
 
                         return cell
 
                     default:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
-                        
-                        if let _ = conversation.withGroup {
-                            cell.group = true
-                        }
 
                         return cell
                     }
@@ -2340,6 +2320,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         if let cell = cell as? ChatBaseCell {
                             cell.tapAvatarAction = { [weak self] user in
                                 self?.performSegueWithIdentifier("showProfile", sender: user)
+                            }
+                        }
+
+                        if let cell = cell as? ChatRightBaseCell {
+                            if let _ = weakSelf.conversation.withGroup {
+                                cell.inGroup = true
                             }
                         }
                         

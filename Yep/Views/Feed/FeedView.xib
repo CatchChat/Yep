@@ -54,7 +54,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r5V-GF-1ON" customClass="FeedMediaView" customModule="Yep" customModuleProvider="target">
-                    <rect key="frame" x="369" y="10" width="40" height="40"/>
+                    <rect key="frame" x="364" y="10" width="40" height="40"/>
                     <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -83,24 +83,19 @@
             <constraints>
                 <constraint firstItem="ffh-Mx-17Q" firstAttribute="centerY" secondItem="Ix5-dG-THW" secondAttribute="centerY" id="0A2-l4-FZA"/>
                 <constraint firstItem="0Hb-fw-n9b" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="IUd-8S-7JE"/>
-                <constraint firstAttribute="trailing" secondItem="ffh-Mx-17Q" secondAttribute="trailing" constant="10" id="Irr-i3-cMb"/>
                 <constraint firstItem="6i2-Pl-6hN" firstAttribute="top" secondItem="0Hb-fw-n9b" secondAttribute="bottom" constant="4" id="Jch-Vu-xwA"/>
                 <constraint firstAttribute="trailing" secondItem="umP-Za-loD" secondAttribute="trailing" id="SSw-dY-XgC"/>
                 <constraint firstItem="umP-Za-loD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VaQ-38-Sg1"/>
-                <constraint firstAttribute="trailing" secondItem="r5V-GF-1ON" secondAttribute="trailing" constant="10" id="VmR-NW-fv5"/>
+                <constraint firstAttribute="trailing" secondItem="r5V-GF-1ON" secondAttribute="trailing" constant="15" id="VmR-NW-fv5"/>
                 <constraint firstItem="Ix5-dG-THW" firstAttribute="leading" secondItem="6i2-Pl-6hN" secondAttribute="leading" id="XQ7-Cz-Z9a"/>
                 <constraint firstItem="0Hb-fw-n9b" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="aje-GN-Nlw"/>
                 <constraint firstItem="C2E-Yo-twp" firstAttribute="leading" secondItem="0Hb-fw-n9b" secondAttribute="trailing" constant="10" id="cGH-ZO-Eiv"/>
-                <constraint firstItem="r5V-GF-1ON" firstAttribute="trailing" secondItem="ffh-Mx-17Q" secondAttribute="trailing" id="cRo-WX-ifz"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6i2-Pl-6hN" secondAttribute="trailing" constant="15" id="dEn-gP-4DJ"/>
                 <constraint firstAttribute="bottom" secondItem="wH6-T7-mOv" secondAttribute="bottom" id="eKo-DO-p72"/>
                 <constraint firstAttribute="trailing" secondItem="wH6-T7-mOv" secondAttribute="trailing" id="gaQ-Ac-b0T"/>
-                <constraint firstItem="6i2-Pl-6hN" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="ffh-Mx-17Q" secondAttribute="trailing" id="i9m-7j-Roh"/>
                 <constraint firstItem="ffh-Mx-17Q" firstAttribute="leading" secondItem="Ix5-dG-THW" secondAttribute="trailing" constant="15" id="iOu-S7-Zg1"/>
                 <constraint firstItem="r5V-GF-1ON" firstAttribute="top" secondItem="0Hb-fw-n9b" secondAttribute="top" id="iV6-9c-4SJ"/>
                 <constraint firstItem="umP-Za-loD" firstAttribute="top" secondItem="6i2-Pl-6hN" secondAttribute="bottom" constant="15" id="ibW-Ne-b33"/>
-                <constraint firstItem="Ix5-dG-THW" firstAttribute="top" secondItem="wH6-T7-mOv" secondAttribute="bottom" id="jYt-zy-Fkb"/>
-                <constraint firstItem="ffh-Mx-17Q" firstAttribute="centerY" secondItem="C2E-Yo-twp" secondAttribute="centerY" id="lAd-63-gax"/>
                 <constraint firstItem="C2E-Yo-twp" firstAttribute="centerY" secondItem="0Hb-fw-n9b" secondAttribute="centerY" id="lSc-cs-Lug"/>
                 <constraint firstItem="Ix5-dG-THW" firstAttribute="top" secondItem="6i2-Pl-6hN" secondAttribute="bottom" constant="110" id="mCj-xS-Tud"/>
                 <constraint firstItem="wH6-T7-mOv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="niy-IC-PEM"/>
@@ -108,15 +103,6 @@
                 <constraint firstItem="0Hb-fw-n9b" firstAttribute="width" secondItem="0Hb-fw-n9b" secondAttribute="height" multiplier="1:1" id="sFg-ds-P8V"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <variation key="default">
-                <mask key="constraints">
-                    <exclude reference="i9m-7j-Roh"/>
-                    <exclude reference="jYt-zy-Fkb"/>
-                    <exclude reference="Irr-i3-cMb"/>
-                    <exclude reference="lAd-63-gax"/>
-                    <exclude reference="cRo-WX-ifz"/>
-                </mask>
-            </variation>
             <connections>
                 <outlet property="avatarImageView" destination="0Hb-fw-n9b" id="AAN-W3-uXW"/>
                 <outlet property="distanceLabel" destination="ffh-Mx-17Q" id="rwL-f4-mRt"/>
@@ -124,7 +110,7 @@
                 <outlet property="mediaView" destination="r5V-GF-1ON" id="tPB-3w-zKI"/>
                 <outlet property="messageLabel" destination="6i2-Pl-6hN" id="8hF-9H-5JD"/>
                 <outlet property="messageLabelTopConstraint" destination="Jch-Vu-xwA" id="nno-Xq-YwL"/>
-                <outlet property="messageLabelTrailingConstraint" destination="i9m-7j-Roh" id="0TW-qO-Gzq"/>
+                <outlet property="messageLabelTrailingConstraint" destination="dEn-gP-4DJ" id="K1Z-vh-OUC"/>
                 <outlet property="nicknameLabel" destination="C2E-Yo-twp" id="gHO-Mm-Ycn"/>
                 <outlet property="nicknameLabelCenterYConstraint" destination="lSc-cs-Lug" id="10y-pq-G3V"/>
                 <outlet property="timeLabel" destination="Ix5-dG-THW" id="sGx-zI-RsF"/>
