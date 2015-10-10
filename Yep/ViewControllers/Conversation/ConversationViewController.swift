@@ -1156,6 +1156,10 @@ class ConversationViewController: BaseViewController {
 
         feedView.feed = feed
 
+        feedView.tapAvatarAction = { [weak self] in
+            self?.performSegueWithIdentifier("showProfileFromFeedView", sender: nil)
+        }
+
         feedView.foldAction = { [weak self] in
             if let strongSelf = self {
                 self?.conversationCollectionView.contentInset.top = 64 + FeedView.foldHeight + strongSelf.conversationCollectionViewContentInsetYOffset
@@ -1903,7 +1907,18 @@ class ConversationViewController: BaseViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
-        if segue.identifier == "showProfile" {
+        if segue.identifier == "showProfileFromFeedView" {
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            if let user = feedView?.feed?.creator {
+                vc.profileUser = ProfileUser.UserType(user)
+            }
+
+            vc.isFromConversation = true
+            vc.setBackButtonWithTitle()
+
+        } else if segue.identifier == "showProfile" {
 
             let vc = segue.destinationViewController as! ProfileViewController
 

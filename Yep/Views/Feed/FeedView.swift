@@ -73,6 +73,7 @@ class FeedView: UIView {
         }
     }
 
+    var tapAvatarAction: (() -> Void)?
     var foldAction: (() -> Void)?
     var unfoldAction: (FeedView -> Void)?
 
@@ -129,12 +130,21 @@ class FeedView: UIView {
 
         let tap = UITapGestureRecognizer(target: self, action: "unfold:")
         mediaView.addGestureRecognizer(tap)
+
+        let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
+        avatarImageView.userInteractionEnabled = true
+        avatarImageView.addGestureRecognizer(tapAvatar)
     }
 
     func unfold(sender: UITapGestureRecognizer) {
         foldProgress = 0
     }
 
+    func tapAvatar(sender: UITapGestureRecognizer) {
+
+        tapAvatarAction?()
+    }
+    
     var normalHeight: CGFloat {
 
         guard let feed = feed else {
