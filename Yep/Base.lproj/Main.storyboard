@@ -197,6 +197,7 @@
                         <segue destination="wNI-He-VjY" kind="presentation" identifier="presentPickLocation" id="8Uc-bg-xSe"/>
                         <segue destination="AyC-pt-NR2" kind="show" identifier="showProfile" id="PTw-QB-dRp"/>
                         <segue destination="f92-fs-zdh" kind="show" identifier="showMessageMedia" id="6No-Lc-7X4"/>
+                        <segue destination="f92-fs-zdh" kind="show" identifier="showFeedMedia" id="N7F-Tw-oVn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="chH-Zx-2Ge" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2078,6 +2079,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="PTw-QB-dRp"/>
         <segue reference="Sdt-ox-uOm"/>
-        <segue reference="fWY-6d-Rja"/>
+        <segue reference="N7F-Tw-oVn"/>
     </inferredMetricsTieBreakers>
 </document>

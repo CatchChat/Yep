@@ -18,6 +18,8 @@ class FeedView: UIView {
         }
     }
 
+    var tapMediaAction: ((transitionView: UIView, imageURL: NSURL) -> Void)?
+
     static let foldHeight: CGFloat = 60
 
     weak var heightConstraint: NSLayoutConstraint?
@@ -213,6 +215,15 @@ extension FeedView: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedMediaCell
+
+        let transitionView = cell.imageView
+        let imageURL = attachmentURLs[indexPath.item]
+        tapMediaAction?(transitionView: transitionView, imageURL: imageURL)
     }
 }
 

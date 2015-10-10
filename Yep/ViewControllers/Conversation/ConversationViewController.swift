@@ -1168,6 +1168,14 @@ class ConversationViewController: BaseViewController {
             }
         }
 
+        feedView.tapMediaAction = { [weak self] transitionView, imageURL in
+            let info = [
+                "transitionView": transitionView,
+                "imageURL": imageURL,
+            ]
+            self?.performSegueWithIdentifier("showFeedMedia", sender: info)
+        }
+
         //feedView.backgroundColor = UIColor.orangeColor()
         feedView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -1912,6 +1920,46 @@ class ConversationViewController: BaseViewController {
 
             vc.isFromConversation = true
             vc.setBackButtonWithTitle()
+
+        } else if segue.identifier == "showFeedMedia" {
+
+            let info = sender as! [String: AnyObject]
+
+            let vc = segue.destinationViewController as! MessageMediaViewController
+            vc.previewMedia = PreviewMedia.AttachmentType(imageURL: info["imageURL"] as! NSURL )
+
+            let transitionView = info["transitionView"] as! UIImageView
+
+            let delegate = ConversationMessagePreviewNavigationControllerDelegate()
+            delegate.isFeedMedia = true
+            delegate.snapshot = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(false)
+
+            var frame = transitionView.convertRect(transitionView.frame, toView: view)
+            delegate.frame = frame
+            if let image = transitionView.image {
+                let width = image.size.width
+                let height = image.size.height
+                if width > height {
+                    let newWidth = frame.width * (width / height)
+                    frame.origin.x -= (newWidth - frame.width) / 2
+                    frame.size.width = newWidth
+                } else {
+                    let newHeight = frame.height * (height / width)
+                    frame.origin.y -= (newHeight - frame.height) / 2
+                    frame.size.height = newHeight
+                }
+                delegate.thumbnailImage = image
+            }
+            delegate.thumbnailFrame = frame
+
+            delegate.transitionView = transitionView
+
+            navigationControllerDelegate = delegate
+
+            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
+            originalNavigationControllerDelegate = navigationController!.delegate
+            
+            navigationController?.delegate = delegate
 
         } else if segue.identifier == "showMessageMedia" {
 
