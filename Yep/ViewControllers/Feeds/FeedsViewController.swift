@@ -261,6 +261,7 @@ class FeedsViewController: UIViewController {
             delegate.snapshot = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(false)
 
             var frame = transitionView.convertRect(transitionView.frame, toView: view)
+            delegate.frame = frame
             if let image = transitionView.image {
                 let width = image.size.width
                 let height = image.size.height
@@ -268,10 +269,14 @@ class FeedsViewController: UIViewController {
                     let newWidth = frame.width * (width / height)
                     frame.origin.x -= (newWidth - frame.width) / 2
                     frame.size.width = newWidth
+                } else {
+                    let newHeight = frame.height * (height / width)
+                    frame.origin.y -= (newHeight - frame.height) / 2
+                    frame.size.height = newHeight
                 }
                 delegate.thumbnailImage = image
             }
-            delegate.frame = frame
+            delegate.thumbnailFrame = frame
 
             delegate.transitionView = transitionView
 
