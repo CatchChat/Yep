@@ -23,6 +23,10 @@ class FeedCell: UITableViewCell {
 
     @IBOutlet weak var messageCountLabel: UILabel!
 
+
+    var tapMediaAction: ((transitionView: UIView, imageURL: NSURL) -> Void)?
+
+
     var attachmentURLs = [NSURL]() {
         didSet {
             mediaCollectionView.reloadData()
@@ -61,12 +65,13 @@ class FeedCell: UITableViewCell {
 
         messageLabel.font = UIFont.feedMessageFont()
 
+        mediaCollectionView.scrollsToTop = false
+        mediaCollectionView.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
+        mediaCollectionView.showsHorizontalScrollIndicator = false
         mediaCollectionView.backgroundColor = UIColor.clearColor()
         mediaCollectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
-
-        mediaCollectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
     }
 
     func configureWithFeed(feed: DiscoveredFeed) {
@@ -130,6 +135,15 @@ extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedMediaCell
+
+        let transitionView = cell.imageView
+        let imageURL = attachmentURLs[indexPath.item]
+        tapMediaAction?(transitionView: transitionView, imageURL: imageURL)
     }
 }
 
