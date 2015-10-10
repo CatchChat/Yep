@@ -9,10 +9,17 @@
 import UIKit
 import AVFoundation
 import MonkeyKing
+import Kingfisher
+
+enum PreviewMedia {
+
+    case MessageType(message: Message)
+    case AttachmentType(imageURL: NSURL)
+}
 
 class MessageMediaViewController: UIViewController {
 
-    var message: Message?
+    var previewMedia: PreviewMedia?
 
     @IBOutlet weak var mediaView: MediaView!
 
@@ -37,7 +44,13 @@ class MessageMediaViewController: UIViewController {
 
         mediaControlView.hidden = true
 
-        if let message = message {
+        guard let previewMedia = previewMedia else {
+            return
+        }
+
+        switch previewMedia {
+
+        case .MessageType(let message):
 
             switch message.mediaType {
 
@@ -157,6 +170,51 @@ class MessageMediaViewController: UIViewController {
             default:
                 break
             }
+
+        case .AttachmentType(let imageURL):
+            mediaControlView.type = .Image
+            mediaView.imageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: nil, completionHandler: { [weak self] (image, error, cacheType, imageURL) in
+
+                guard let image = image else {
+                    return
+                }
+
+                self?.mediaView.updateImageViewWithImage(image)
+
+                self?.mediaControlView.shareAction = {
+
+                    let info = MonkeyKing.Info(
+                        title: nil,
+                        description: nil,
+                        thumbnail: nil,
+                        media: .Image(image)
+                    )
+
+                    let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
+
+                    let weChatSessionActivity = WeChatActivity(
+                        type: .Session,
+                        message: sessionMessage,
+                        finish: { success in
+                            println("share Image to WeChat Session success: \(success)")
+                        }
+                    )
+
+                    let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
+
+                    let weChatTimelineActivity = WeChatActivity(
+                        type: .Timeline,
+                        message: timelineMessage,
+                        finish: { success in
+                            println("share Image to WeChat Timeline success: \(success)")
+                        }
+                    )
+
+                    let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
+
+                    self?.presentViewController(activityViewController, animated: true, completion: nil)
+                }
+            })
         }
     }
 
@@ -164,6 +222,8 @@ class MessageMediaViewController: UIViewController {
         super.viewWillAppear(animated)
 
         navigationController?.setNavigationBarHidden(true, animated: false)
+
+        tabBarController?.tabBar.hidden = true
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -190,10 +250,18 @@ class MessageMediaViewController: UIViewController {
     // MARK: Actions
 
     func dismiss() {
-        if let message = message {
+
+        guard let previewMedia = previewMedia else {
+            return
+        }
+
+        switch previewMedia {
+        case .MessageType(let message):
             if message.mediaType == MessageMediaType.Video.rawValue {
                 mediaView.videoPlayerLayer.player?.removeObserver(self, forKeyPath: "status")
             }
+        default:
+            break
         }
 
         navigationController?.popViewControllerAnimated(true)

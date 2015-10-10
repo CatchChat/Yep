@@ -81,6 +81,9 @@ class FeedsViewController: UIViewController {
         }
     }
 
+    var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
+    var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -92,6 +95,18 @@ class FeedsViewController: UIViewController {
         feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
 
         updateFeeds()
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
+        if let delegate = originalNavigationControllerDelegate {
+            navigationController?.delegate = delegate
+        }
+
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        tabBarController?.tabBar.hidden = false
     }
 
     // MARK: - Actions
@@ -172,7 +187,13 @@ class FeedsViewController: UIViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
-        if segue.identifier == "showConversation" {
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        switch identifier {
+
+        case "showConversation":
 
             guard let
                 index = sender as? Int,
@@ -225,9 +246,56 @@ class FeedsViewController: UIViewController {
             }
 
             vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feedData)
+
+        case "showFeedMedia":
+
+            let info = sender as! [String: AnyObject]
+
+            let vc = segue.destinationViewController as! MessageMediaViewController
+            vc.previewMedia = PreviewMedia.AttachmentType(imageURL: info["imageURL"] as! NSURL )
+
+            let transitionView = info["transitionView"] as! UIImageView
+
+            let delegate = ConversationMessagePreviewNavigationControllerDelegate()
+            delegate.isFeedMedia = true
+            delegate.snapshot = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(false)
+
+            var frame = transitionView.convertRect(transitionView.frame, toView: view)
+            delegate.frame = frame
+            if let image = transitionView.image {
+                let width = image.size.width
+                let height = image.size.height
+                if width > height {
+                    let newWidth = frame.width * (width / height)
+                    frame.origin.x -= (newWidth - frame.width) / 2
+                    frame.size.width = newWidth
+                } else {
+                    let newHeight = frame.height * (height / width)
+                    frame.origin.y -= (newHeight - frame.height) / 2
+                    frame.size.height = newHeight
+                }
+                delegate.thumbnailImage = image
+            }
+            delegate.thumbnailFrame = frame
+
+            delegate.transitionView = transitionView
+
+            navigationControllerDelegate = delegate
+
+            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
+            originalNavigationControllerDelegate = navigationController!.delegate
+
+            navigationController?.delegate = delegate
+            
+            break
+
+        default:
+            break
         }
     }
 }
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
@@ -248,6 +316,14 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         let feed = feeds[indexPath.item]
 
         cell.configureWithFeed(feed)
+
+        cell.tapMediaAction = { [weak self] transitionView, imageURL in
+            let info = [
+                "transitionView": transitionView,
+                "imageURL": imageURL,
+            ]
+            self?.performSegueWithIdentifier("showFeedMedia", sender: info)
+        }
 
         return cell
     }

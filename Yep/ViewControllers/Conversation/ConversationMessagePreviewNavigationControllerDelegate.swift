@@ -15,14 +15,14 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         if operation == .Push {
-            if fromVC.isKindOfClass(ConversationViewController.self) && toVC.isKindOfClass(MessageMediaViewController.self) {
+            if /*fromVC.isKindOfClass(ConversationViewController.self) && */toVC.isKindOfClass(MessageMediaViewController.self) {
                 isPresentation = true
                 
                 return self
             }
 
         } else if operation == .Pop {
-            if fromVC.isKindOfClass(MessageMediaViewController.self) && toVC.isKindOfClass(ConversationViewController.self) {
+            if fromVC.isKindOfClass(MessageMediaViewController.self) /*&& toVC.isKindOfClass(ConversationViewController.self)*/ {
                 isPresentation = false
 
                 return self
@@ -34,9 +34,12 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
     // MARK: UIViewControllerAnimatedTransitioning
 
+    var isFeedMedia = false
+
     var snapshot: UIView?
 
     var frame = CGRectZero
+    var thumbnailFrame = CGRectZero
 
     var thumbnailImage: UIImage? {
         willSet {
@@ -53,6 +56,17 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
         didSet {
             if let transitionView = transitionView {
                 transitionViewSnapshot = transitionView.snapshotViewAfterScreenUpdates(true)
+
+                /*
+                if isFeedMedia {
+                    let _imageView = transitionView as! UIImageView
+                    let imageView = UIImageView()
+                    imageView.image = _imageView.image
+                    transitionViewSnapshot = imageView
+                } else {
+                    transitionViewSnapshot = transitionView.snapshotViewAfterScreenUpdates(true)
+                }
+                */
             }
         }
     }
@@ -121,7 +135,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
             transitionViewSnapshot.frame = frame
             animatingView.addSubview(transitionViewSnapshot)
 
-            thumbnailImageView.frame = frame
+            thumbnailImageView.frame = thumbnailFrame
             animatingView.addSubview(thumbnailImageView)
 
 
@@ -154,10 +168,32 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
                     let frame = CGRectInset(transitionViewSnapshot.frame, -dw * 0.5, -dh * 0.5)
 
-                    transitionViewSnapshot.frame = frame
-                    transitionViewSnapshot.center = animatingView.center
+                    if self.isFeedMedia, let thumbnailImage = self.thumbnailImage {
 
-                    thumbnailImageView.frame = frame
+                        let size = thumbnailImage.size
+
+                        if size.width > size.height {
+
+                            let pheight = (UIScreen.mainScreen().bounds.width / size.width) * size.height
+
+                            let newFrame = CGRect(x: 0, y: 0, width: pheight, height: pheight)
+                            transitionViewSnapshot.frame = newFrame
+
+                            thumbnailImageView.frame = frame
+
+                        } else {
+                            let pwidth = UIScreen.mainScreen().bounds.width
+                            let pheight = pwidth * (size.height / size.width)
+                            let newFrame = CGRect(x: 0, y: 0, width: pwidth, height: pheight)
+                            thumbnailImageView.frame = newFrame
+
+                            transitionViewSnapshot.frame = frame
+                        }
+                    } else {
+                        transitionViewSnapshot.frame = frame
+                        thumbnailImageView.frame = frame
+                    }
+                    transitionViewSnapshot.center = animatingView.center
                     thumbnailImageView.center = animatingView.center
 
 //                    transitionViewSnapshot.alpha = 0.5
@@ -221,11 +257,14 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
             animatingView.addSubview(transitionViewSnapshot)
             animatingView.addSubview(thumbnailImageView)
 
+            transitionViewSnapshot.alpha = 0
+            thumbnailImageView.alpha = 1
+
             self.transitionView?.alpha = 0
 
             UIView.animateKeyframesWithDuration(fullDuration, delay: 0.0, options: .CalculationModeLinear, animations: { () -> Void in
 
-                UIView.addKeyframeWithRelativeStartTime(0.7, relativeDuration: 0.3, animations: { () -> Void in
+                UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.05, animations: { () -> Void in
                     animatingVC.view.backgroundColor = UIColor.clearColor()
                 })
 
@@ -238,14 +277,18 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
                 UIView.addKeyframeWithRelativeStartTime(0.1, relativeDuration: 0.01, animations: { () -> Void in
                     animatingView.addSubview(transitionViewSnapshot)
 //                    transitionViewSnapshot.center = animatingView.center
-                    transitionViewSnapshot.alpha = 0
-                    thumbnailImageView.alpha = 1
+                    //transitionViewSnapshot.alpha = 0
+                    //thumbnailImageView.alpha = 1
                     animatingVC.mediaView.alpha = 0
                 })
 
                 UIView.addKeyframeWithRelativeStartTime(0.11, relativeDuration: 0.89, animations: { () -> Void in
                     transitionViewSnapshot.frame = self.frame
-                    thumbnailImageView.frame = self.frame
+                    /*
+                    if self.isFeedMedia {
+                        transitionViewSnapshot.contentMode = UIViewContentMode.ScaleAspectFill
+                    }*/
+                    thumbnailImageView.frame = self.thumbnailFrame
 
                     transitionViewSnapshot.alpha = 1
                     thumbnailImageView.alpha = 0

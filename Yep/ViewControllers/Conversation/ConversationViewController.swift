@@ -1168,6 +1168,14 @@ class ConversationViewController: BaseViewController {
             }
         }
 
+        feedView.tapMediaAction = { [weak self] transitionView, imageURL in
+            let info = [
+                "transitionView": transitionView,
+                "imageURL": imageURL,
+            ]
+            self?.performSegueWithIdentifier("showFeedMedia", sender: info)
+        }
+
         //feedView.backgroundColor = UIColor.orangeColor()
         feedView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -1913,13 +1921,53 @@ class ConversationViewController: BaseViewController {
             vc.isFromConversation = true
             vc.setBackButtonWithTitle()
 
+        } else if segue.identifier == "showFeedMedia" {
+
+            let info = sender as! [String: AnyObject]
+
+            let vc = segue.destinationViewController as! MessageMediaViewController
+            vc.previewMedia = PreviewMedia.AttachmentType(imageURL: info["imageURL"] as! NSURL )
+
+            let transitionView = info["transitionView"] as! UIImageView
+
+            let delegate = ConversationMessagePreviewNavigationControllerDelegate()
+            delegate.isFeedMedia = true
+            delegate.snapshot = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(false)
+
+            var frame = transitionView.convertRect(transitionView.frame, toView: view)
+            delegate.frame = frame
+            if let image = transitionView.image {
+                let width = image.size.width
+                let height = image.size.height
+                if width > height {
+                    let newWidth = frame.width * (width / height)
+                    frame.origin.x -= (newWidth - frame.width) / 2
+                    frame.size.width = newWidth
+                } else {
+                    let newHeight = frame.height * (height / width)
+                    frame.origin.y -= (newHeight - frame.height) / 2
+                    frame.size.height = newHeight
+                }
+                delegate.thumbnailImage = image
+            }
+            delegate.thumbnailFrame = frame
+
+            delegate.transitionView = transitionView
+
+            navigationControllerDelegate = delegate
+
+            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
+            originalNavigationControllerDelegate = navigationController!.delegate
+            
+            navigationController?.delegate = delegate
+
         } else if segue.identifier == "showMessageMedia" {
 
             let vc = segue.destinationViewController as! MessageMediaViewController
 
             if let message = sender as? Message, messageIndex = messages.indexOf(message) {
 
-                vc.message = message
+                vc.previewMedia = PreviewMedia.MessageType(message: message)
 
                 let indexPath = NSIndexPath(forRow: messageIndex - displayedMessagesRange.location , inSection: 0)
 
@@ -1978,6 +2026,7 @@ class ConversationViewController: BaseViewController {
                     let delegate = ConversationMessagePreviewNavigationControllerDelegate()
                     delegate.snapshot = UIScreen.mainScreen().snapshotViewAfterScreenUpdates(false)
                     delegate.frame = frame
+                    delegate.thumbnailFrame = frame
                     delegate.thumbnailImage = message.thumbnailImage
                     delegate.transitionView = transitionView
 
@@ -1996,7 +2045,7 @@ class ConversationViewController: BaseViewController {
 
             if let message = sender as? Message, messageIndex = messages.indexOf(message) {
 
-                vc.message = message
+                vc.previewMedia = PreviewMedia.MessageType(message: message)
 
                 let indexPath = NSIndexPath(forRow: messageIndex - displayedMessagesRange.location , inSection: 0)
 
@@ -3013,7 +3062,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         } else if let withGroup = conversation.withGroup {
 
-            sendImageInFilePath(nil, orFileData: imageData, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
+            sendImageInFilePath(nil, orFileData: imageData, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
 
                 dispatch_async(dispatch_get_main_queue()) {
                     if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
@@ -3146,7 +3195,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         } else if let withGroup = conversation.withGroup {
 
-            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: nil, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
+            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 YepAlert.alertSorry(message: NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: ""), inViewController: self)
