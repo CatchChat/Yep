@@ -203,9 +203,6 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
         performSegueWithIdentifier("showProfile", sender: indexPath)
     }
     
-    
-
-
 }
 
 
