@@ -53,7 +53,7 @@ class PodsHelpYepViewController: UITableViewController {
         ],
         [
             "name": "TPKeyboardAvoiding",
-            "URLString": "https://github.com/michaeltyson/TPKeyboardAvoidin",
+            "URLString": "https://github.com/michaeltyson/TPKeyboardAvoiding",
         ],
         [
             "name": "DeviceGuru",
