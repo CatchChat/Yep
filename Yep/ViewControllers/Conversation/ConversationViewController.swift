@@ -1427,7 +1427,9 @@ class ConversationViewController: BaseViewController {
         if displayedMessagesRange.length > 0 {
 
             let messageToolBarTop = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
-            let invisibleHeight = messageToolBarTop + topBarsHeight
+
+            let feedViewHeight: CGFloat = (feedView == nil) ? 0 : feedView!.normalHeight
+            let invisibleHeight = messageToolBarTop + topBarsHeight + feedViewHeight
             let visibleHeight = conversationCollectionView.frame.height - invisibleHeight
 
             let canScroll = visibleHeight <= conversationCollectionView.contentSize.height
