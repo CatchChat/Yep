@@ -193,6 +193,18 @@ class FeedsViewController: UIViewController {
 
         switch identifier {
 
+        case "showProfile":
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            if let indexPath = sender as? NSIndexPath {
+                let discoveredUser = feeds[indexPath.row].creator
+                vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+            }
+
+            vc.isFromConversation = false
+            vc.setBackButtonWithTitle()
+
         case "showConversation":
 
             guard let
@@ -316,6 +328,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         let feed = feeds[indexPath.item]
 
         cell.configureWithFeed(feed)
+
+        cell.tapAvatarAction = { [weak self] in
+            self?.performSegueWithIdentifier("showProfile", sender: indexPath)
+        }
 
         cell.tapMediaAction = { [weak self] transitionView, imageURL in
             let info = [

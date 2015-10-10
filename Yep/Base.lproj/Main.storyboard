@@ -1619,6 +1619,7 @@
                         <outlet property="feedsTableView" destination="D86-dp-qKQ" id="rh9-wh-IqK"/>
                         <segue destination="la3-6z-2aH" kind="show" identifier="showConversation" id="Sdt-ox-uOm"/>
                         <segue destination="f92-fs-zdh" kind="show" identifier="showFeedMedia" id="fWY-6d-Rja"/>
+                        <segue destination="AyC-pt-NR2" kind="show" identifier="showProfile" id="WEi-uo-nf5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ETW-Em-Kw5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2077,8 +2078,8 @@
         <image name="yep_icon_solo" width="120" height="120"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="PTw-QB-dRp"/>
-        <segue reference="Sdt-ox-uOm"/>
+        <segue reference="WEi-uo-nf5"/>
+        <segue reference="o3b-2D-AMq"/>
         <segue reference="N7F-Tw-oVn"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -24,6 +24,7 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var messageCountLabel: UILabel!
 
 
+    var tapAvatarAction: (() -> Void)?
     var tapMediaAction: ((transitionView: UIView, imageURL: NSURL) -> Void)?
 
 
@@ -72,6 +73,15 @@ class FeedCell: UITableViewCell {
         mediaCollectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
+
+        let tap = UITapGestureRecognizer(target: self, action: "tapAvatar:")
+        avatarImageView.userInteractionEnabled = true
+        avatarImageView.addGestureRecognizer(tap)
+    }
+
+    func tapAvatar(sender: UITapGestureRecognizer) {
+
+        tapAvatarAction?()
     }
 
     func configureWithFeed(feed: DiscoveredFeed) {
