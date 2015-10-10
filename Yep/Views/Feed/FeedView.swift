@@ -40,12 +40,12 @@ class FeedView: UIView {
                     self?.messageLabelTopConstraint.constant = -25 * newValue + 4
 
                     if newValue == 1.0 {
-                        self?.messageLabelTrailingConstraint.constant = -(40 + 10)
+                        self?.messageLabelTrailingConstraint.constant = (15 + 40 + 15)
                         self?.messageLabel.numberOfLines = 1
                     }
 
                     if newValue == 0.0 {
-                        self?.messageLabelTrailingConstraint.constant = 0
+                        self?.messageLabelTrailingConstraint.constant = 15
                         self?.messageLabel.numberOfLines = 0
                     }
 
