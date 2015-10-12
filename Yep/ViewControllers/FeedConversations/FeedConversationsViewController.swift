@@ -14,6 +14,13 @@ class FeedConversationsViewController: UIViewController {
     @IBOutlet weak var feedConversationsTableView: UITableView!
 
     var realm: Realm!
+    var realmNotificationToken: NotificationToken?
+
+    var haveUnreadMessages = false {
+        didSet {
+            reloadFeedConversationsTableView()
+        }
+    }
 
     lazy var feedConversations: Results<Conversation> = {
         let predicate = NSPredicate(format: "type = %d", ConversationType.Group.rawValue)
@@ -32,7 +39,23 @@ class FeedConversationsViewController: UIViewController {
         feedConversationsTableView.registerNib(UINib(nibName: feedConversationCellID, bundle: nil), forCellReuseIdentifier: feedConversationCellID)
         feedConversationsTableView.rowHeight = 80
         feedConversationsTableView.tableFooterView = UIView()
+
+        realmNotificationToken = realm.addNotificationBlock { [weak self] notification, realm in
+            if let strongSelf = self {
+                strongSelf.haveUnreadMessages = countOfUnreadMessagesInRealm(realm) > 0
+            }
+        }
     }
+
+    // MARK: Actions
+
+    func reloadFeedConversationsTableView() {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.feedConversationsTableView.reloadData()
+        }
+    }
+
+    // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showConversation" {
