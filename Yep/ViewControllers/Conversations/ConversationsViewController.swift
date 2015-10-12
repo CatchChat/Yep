@@ -310,7 +310,21 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
         case Section.FeedConversation.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationDockCellID) as! FeedConversationDockCell
+
             cell.haveGroupUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
+
+            if let latestMessage = latestMessageInRealm(realm, withConversationType: ConversationType.Group) {
+
+                if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
+                    cell.chatLabel.text = placeholder
+                } else {
+                    cell.chatLabel.text = latestMessage.textContent
+                }
+
+            } else {
+                cell.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
+            }
+
             return cell
 
         case Section.Conversation.rawValue:

@@ -549,6 +549,11 @@ func countOfUnreadMessagesInConversation(conversation: Conversation) -> Int {
     }).count
 }
 
+func latestMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
+    let predicate = NSPredicate(format: "fromFriend != nil AND fromFriend.friendState != %d AND conversation!= nil AND conversation.type = %d", UserFriendState.Me.rawValue, conversationType.rawValue)
+    return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
+}
+
 func saveFeedWithFeedData(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
 
     // try sync group first
@@ -559,7 +564,7 @@ func saveFeedWithFeedData(feedData: DiscoveredFeed, group: Group, inRealm realm:
             return
         }
 
-        println("feed groupInfo: \(groupInfo)")
+        //println("feed groupInfo: \(groupInfo)")
 
         syncGroupWithGroupInfo(groupInfo, inRealm: realm)
     })
