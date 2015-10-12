@@ -127,8 +127,8 @@ class ConversationsViewController: UIViewController {
 
                 strongSelf.haveOneToOneUnreadMessages = haveOneToOneUnreadMessages
                 strongSelf.haveUnreadMessages = haveOneToOneUnreadMessages || (countOfUnreadMessagesInRealm(realm) > 0)
-                    
-                strongSelf.noConversation = strongSelf.conversations.isEmpty
+
+                strongSelf.noConversation = countOfConversationsInRealm(realm) == 0
             }
         }
     }

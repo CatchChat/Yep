@@ -529,6 +529,10 @@ func feedWithFeedID(feedID: String, inRealm realm: Realm) -> Feed? {
     return realm.objects(Feed).filter(predicate).first
 }
 
+func countOfConversationsInRealm(realm: Realm) -> Int {
+    return realm.objects(Conversation).count
+}
+
 func countOfUnreadMessagesInRealm(realm: Realm) -> Int {
     let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
     return realm.objects(Message).filter(predicate).count
