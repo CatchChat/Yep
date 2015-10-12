@@ -45,6 +45,8 @@
 		5008A1931B8DB8B500E94274 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5008A1951B8DB8B500E94274 /* Localizable.strings */; };
 		500A0B1C1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */; };
 		500A0B1F1B451A6F00D49358 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1E1B451A6F00D49358 /* BadgeView.swift */; };
+		501138261BCB59120055A014 /* FeedConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501138251BCB59120055A014 /* FeedConversationsViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		501138291BCB593F0055A014 /* FeedConversations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 501138281BCB593F0055A014 /* FeedConversations.storyboard */; settings = {ASSET_TAGS = (); }; };
 		501560D71B427FD6000933F0 /* Results+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501560D61B427FD6000933F0 /* Results+Yep.swift */; };
 		50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50165C441AC2860900C7AEBE /* ConversationLayout.swift */; };
 		501813261BA07CED0025873C /* Activities.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501813251BA07CED0025873C /* Activities.xcassets */; };
@@ -325,6 +327,8 @@
 		5008A1961B8DB8E100E94274 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditNicknameAndBadgeViewController.swift; path = ViewControllers/EditNicknameAndBadge/EditNicknameAndBadgeViewController.swift; sourceTree = "<group>"; };
 		500A0B1E1B451A6F00D49358 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgeView.swift; path = Views/Badge/BadgeView.swift; sourceTree = "<group>"; };
+		501138251BCB59120055A014 /* FeedConversationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedConversationsViewController.swift; path = ViewControllers/FeedConversations/FeedConversationsViewController.swift; sourceTree = "<group>"; };
+		501138281BCB593F0055A014 /* FeedConversations.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FeedConversations.storyboard; sourceTree = "<group>"; };
 		501560D61B427FD6000933F0 /* Results+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Results+Yep.swift"; path = "Extensions/Results+Yep.swift"; sourceTree = "<group>"; };
 		50165C441AC2860900C7AEBE /* ConversationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationLayout.swift; path = ViewControllers/Conversation/ConversationLayout.swift; sourceTree = "<group>"; };
 		501813251BA07CED0025873C /* Activities.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Activities.xcassets; sourceTree = "<group>"; };
@@ -769,6 +773,15 @@
 			name = Badge;
 			sourceTree = "<group>";
 		};
+		501138271BCB591E0055A014 /* FeedConversations */ = {
+			isa = PBXGroup;
+			children = (
+				501138251BCB59120055A014 /* FeedConversationsViewController.swift */,
+				501138281BCB593F0055A014 /* FeedConversations.storyboard */,
+			);
+			name = FeedConversations;
+			sourceTree = "<group>";
+		};
 		5019F62F1B39BFCB0000D993 /* ConversationMore */ = {
 			isa = PBXGroup;
 			children = (
@@ -829,6 +842,7 @@
 				848806B71B7B4F58000C5424 /* Show */,
 				50AFBF601BB4F33A007D19DA /* Feeds */,
 				50F5AF841BBA67140033C9BC /* NewFeed */,
+				501138271BCB591E0055A014 /* FeedConversations */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1985,6 +1999,7 @@
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
 				50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */,
 				6A56328F1BC90A4500397B53 /* DiscoverCardUserCell.xib in Resources */,
+				501138291BCB593F0055A014 /* FeedConversations.storyboard in Resources */,
 				0A90187F1B01152800AE4B7F /* ProfileSocialAccountCell.xib in Resources */,
 				5064F6551B0B0E160089FAD4 /* AddFriendSearchCell.xib in Resources */,
 				508F8FC91B0161EF00461B0B /* ProfileSeparationLineCell.xib in Resources */,
@@ -2145,6 +2160,7 @@
 				0A9018821B0120A500AE4B7F /* OAuthViewController.swift in Sources */,
 				508D17471ACCF4710092D666 /* ChatLeftAudioCell.swift in Sources */,
 				50894D021AEA6433000981AF /* EditProfileLessInfoCell.swift in Sources */,
+				501138261BCB59120055A014 /* FeedConversationsViewController.swift in Sources */,
 				50894CFA1AEA54BA000981AF /* SettingsMoreCell.swift in Sources */,
 				50AFBF4B1BB2A44C007D19DA /* InfoView.swift in Sources */,
 				508F8FCC1B01C7FC00461B0B /* SocialWorkGithubViewController.swift in Sources */,
