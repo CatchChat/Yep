@@ -64,6 +64,12 @@ class DiscoverCardUserCell: UICollectionViewCell {
             }
         }
         
+        if let accountName = discoveredUser.recently_updated_provider, account = SocialAccount(rawValue: accountName) {
+            serviceImageView.image = UIImage(named: account.iconName)
+            serviceImageView.tintColor = account.tintColor
+        } else {
+            serviceImageView.image = nil
+        }
         
         userIntroductionLbael.text = discoveredUser.introduction
 //        if let distance = discoveredUser.distance?.format(".1") {

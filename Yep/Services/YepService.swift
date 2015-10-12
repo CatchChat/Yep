@@ -1104,6 +1104,8 @@ struct DiscoveredUser: Equatable {
     let learningSkills: [Skill]
 
     let socialAccountProviders: [SocialAccountProvider]
+    
+    let recently_updated_provider: String?
 }
 
 func ==(lhs: DiscoveredUser, rhs: DiscoveredUser) -> Bool {
@@ -1144,8 +1146,14 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
                     socialAccountProviders.append(provider)
                 }
             }
+            
+            var recently_updated_provider: String?
+            
+            if let updated_provider = userInfo["recently_updated_provider"] as? String{
+                recently_updated_provider = updated_provider
+            }
 
-            let discoverUser = DiscoveredUser(id: id, username: username, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, badge: badge, createdUnixTime: createdUnixTime, lastSignInUnixTime: lastSignInUnixTime, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders)
+            let discoverUser = DiscoveredUser(id: id, username: username, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, badge: badge, createdUnixTime: createdUnixTime, lastSignInUnixTime: lastSignInUnixTime, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders, recently_updated_provider: recently_updated_provider)
 
             return discoverUser
     }

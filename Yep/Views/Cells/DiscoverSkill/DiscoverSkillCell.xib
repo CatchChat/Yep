@@ -18,9 +18,9 @@
                         <animations/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qga-fb-Vy0">
-                        <rect key="frame" x="0.0" y="0.0" width="126" height="30"/>
+                        <rect key="frame" x="49" y="8.5" width="28.5" height="13.5"/>
                         <animations/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -31,15 +31,33 @@
             <animations/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="qga-fb-Vy0" secondAttribute="bottom" id="1sy-11-VeW"/>
+                <constraint firstItem="qga-fb-Vy0" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="EKp-hQ-Cgf"/>
                 <constraint firstAttribute="trailing" secondItem="HSy-QM-IJa" secondAttribute="trailing" id="GFU-g4-bb9"/>
                 <constraint firstAttribute="trailing" secondItem="qga-fb-Vy0" secondAttribute="trailing" id="GVh-jx-ccC"/>
                 <constraint firstItem="qga-fb-Vy0" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="HnI-GZ-OYq"/>
+                <constraint firstItem="HSy-QM-IJa" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="P15-mO-Qdo"/>
+                <constraint firstItem="qga-fb-Vy0" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="Pnx-o1-yPN"/>
                 <constraint firstItem="HSy-QM-IJa" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Qhz-lz-EAf"/>
+                <constraint firstAttribute="trailing" secondItem="HSy-QM-IJa" secondAttribute="trailing" id="aZ8-Wi-jWq"/>
                 <constraint firstItem="qga-fb-Vy0" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="igv-fQ-UZN"/>
+                <constraint firstAttribute="bottom" secondItem="HSy-QM-IJa" secondAttribute="bottom" id="jCj-VV-zE6"/>
+                <constraint firstItem="HSy-QM-IJa" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="kdp-SI-vHJ"/>
                 <constraint firstAttribute="bottom" secondItem="HSy-QM-IJa" secondAttribute="bottom" id="tJB-yK-UdX"/>
                 <constraint firstItem="HSy-QM-IJa" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="wDl-sC-P7E"/>
             </constraints>
             <size key="customSize" width="126" height="30"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="GFU-g4-bb9"/>
+                    <exclude reference="Qhz-lz-EAf"/>
+                    <exclude reference="tJB-yK-UdX"/>
+                    <exclude reference="wDl-sC-P7E"/>
+                    <exclude reference="1sy-11-VeW"/>
+                    <exclude reference="GVh-jx-ccC"/>
+                    <exclude reference="HnI-GZ-OYq"/>
+                    <exclude reference="igv-fQ-UZN"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="skillLabel" destination="qga-fb-Vy0" id="qBl-Lu-Oob"/>
             </connections>
