@@ -47,6 +47,11 @@ class FeedConversationCell: UITableViewCell {
 
         countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
 
-        nameLabel.text = conversation.withGroup?.withFeed?.body
+        if let feed = conversation.withGroup?.withFeed {
+            nameLabel.text = feed.body
+
+            let attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
+            mediaView.setImagesWithURLs(attachmentURLs)
+        }
     }
 }
