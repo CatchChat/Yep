@@ -53,12 +53,22 @@
                             </mask>
                         </variation>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="06E-GR-zHe">
+                        <rect key="frame" x="130" y="176" width="30" height="30"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="44C-GS-3Ex"/>
+                            <constraint firstAttribute="height" constant="30" id="fBl-Ab-I0A"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <animations/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="06E-GR-zHe" secondAttribute="trailing" constant="10" id="1UD-ye-T7e"/>
+                <constraint firstItem="06E-GR-zHe" firstAttribute="top" secondItem="Op8-Yi-D8v" secondAttribute="bottom" constant="6" id="85r-jQ-ZH5"/>
                 <constraint firstAttribute="trailing" secondItem="tzq-8A-E7A" secondAttribute="trailing" constant="10" id="Eax-Fc-Ayf"/>
                 <constraint firstItem="dnI-7Q-SSY" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="F2E-9v-jO8"/>
                 <constraint firstItem="Op8-Yi-D8v" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Gz0-Jc-IGm"/>
@@ -74,6 +84,7 @@
             <size key="customSize" width="193" height="234"/>
             <connections>
                 <outlet property="avatarImageView" destination="Op8-Yi-D8v" id="Pef-VA-BOk"/>
+                <outlet property="serviceImageView" destination="06E-GR-zHe" id="rLE-iv-mpN"/>
                 <outlet property="userIntroductionLbael" destination="tzq-8A-E7A" id="aaW-hB-lmz"/>
                 <outlet property="userSkillsCollectionView" destination="dnI-7Q-SSY" id="0Wh-CK-D7K"/>
                 <outlet property="usernameLabel" destination="UY0-zc-CIG" id="Vhj-Ua-eIA"/>

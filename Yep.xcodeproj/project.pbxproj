@@ -258,6 +258,9 @@
 		6A5632941BC911CB00397B53 /* DiscoverNormalUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A5632921BC911CB00397B53 /* DiscoverNormalUserCell.xib */; settings = {ASSET_TAGS = (); }; };
 		6A5632971BC9559100397B53 /* DiscoverFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5632961BC9559100397B53 /* DiscoverFlowLayout.swift */; settings = {ASSET_TAGS = (); }; };
 		6A649A9B1BB259CB00EE4FB5 /* YepSoundEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A649A9A1BB259CB00EE4FB5 /* YepSoundEffect.swift */; settings = {ASSET_TAGS = (); }; };
+		6A8215051BCBE5170011F36C /* MiniCardSkillLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8215041BCBE5170011F36C /* MiniCardSkillLayout.swift */; settings = {ASSET_TAGS = (); }; };
+		6A8215081BCBE8F10011F36C /* DiscoverSkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8215061BCBE8F10011F36C /* DiscoverSkillCell.swift */; settings = {ASSET_TAGS = (); }; };
+		6A8215091BCBE8F10011F36C /* DiscoverSkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8215071BCBE8F10011F36C /* DiscoverSkillCell.xib */; settings = {ASSET_TAGS = (); }; };
 		6ADDB4501B848C600012877A /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6ADDB44F1B848C600012877A /* 1Password.xcassets */; };
 		8409137D1B7DB173001C89D6 /* FriendRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409137C1B7DB173001C89D6 /* FriendRequestView.swift */; };
 		840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */; };
@@ -545,6 +548,9 @@
 		6A5632921BC911CB00397B53 /* DiscoverNormalUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DiscoverNormalUserCell.xib; path = Views/Cells/DiscoverNormalUser/DiscoverNormalUserCell.xib; sourceTree = "<group>"; };
 		6A5632961BC9559100397B53 /* DiscoverFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverFlowLayout.swift; path = ViewControllers/Discover/DiscoverFlowLayout.swift; sourceTree = "<group>"; };
 		6A649A9A1BB259CB00EE4FB5 /* YepSoundEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepSoundEffect.swift; path = Helpers/YepSoundEffect.swift; sourceTree = "<group>"; };
+		6A8215041BCBE5170011F36C /* MiniCardSkillLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniCardSkillLayout.swift; path = Views/Cells/DiscoverCardUser/MiniCardSkillLayout.swift; sourceTree = "<group>"; };
+		6A8215061BCBE8F10011F36C /* DiscoverSkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverSkillCell.swift; path = Views/Cells/DiscoverSkill/DiscoverSkillCell.swift; sourceTree = "<group>"; };
+		6A8215071BCBE8F10011F36C /* DiscoverSkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DiscoverSkillCell.xib; path = Views/Cells/DiscoverSkill/DiscoverSkillCell.xib; sourceTree = "<group>"; };
 		6ADDB44F1B848C600012877A /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = 1Password.xcassets; sourceTree = "<group>"; };
 		8409137C1B7DB173001C89D6 /* FriendRequestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendRequestView.swift; path = Views/FriendRequest/FriendRequestView.swift; sourceTree = "<group>"; };
 		840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepViewController.swift; path = ViewControllers/Show/ShowStepViewController.swift; sourceTree = "<group>"; };
@@ -1013,6 +1019,7 @@
 				6A5632951BC911CE00397B53 /* DiscoverNormalUser */,
 				5011382E1BCB5E1F0055A014 /* FeedConversationDock */,
 				501138331BCB62A70055A014 /* FeedConversation */,
+				6A82150A1BCBE8F40011F36C /* DiscoverSkill */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1847,6 +1854,7 @@
 			children = (
 				6A56328C1BC90A4500397B53 /* DiscoverCardUserCell.swift */,
 				6A56328D1BC90A4500397B53 /* DiscoverCardUserCell.xib */,
+				6A8215041BCBE5170011F36C /* MiniCardSkillLayout.swift */,
 			);
 			name = DiscoverCardUser;
 			sourceTree = "<group>";
@@ -1858,6 +1866,15 @@
 				6A5632921BC911CB00397B53 /* DiscoverNormalUserCell.xib */,
 			);
 			name = DiscoverNormalUser;
+			sourceTree = "<group>";
+		};
+		6A82150A1BCBE8F40011F36C /* DiscoverSkill */ = {
+			isa = PBXGroup;
+			children = (
+				6A8215061BCBE8F10011F36C /* DiscoverSkillCell.swift */,
+				6A8215071BCBE8F10011F36C /* DiscoverSkillCell.xib */,
+			);
+			name = DiscoverSkill;
 			sourceTree = "<group>";
 		};
 		8409137E1B7DB178001C89D6 /* FriendRequest */ = {
@@ -2040,6 +2057,7 @@
 				84385C461B8594E80071130D /* Show.xcassets in Resources */,
 				50894CFB1AEA54BA000981AF /* SettingsMoreCell.xib in Resources */,
 				505EC8181ADF8151001D27E0 /* SkillCategoryCell.xib in Resources */,
+				6A8215091BCBE8F10011F36C /* DiscoverSkillCell.xib in Resources */,
 				505EC81D1ADFBE1B001D27E0 /* SkillSelectionCell.xib in Resources */,
 				50EB8CC01AE89ED8001AC1EE /* ChatLeftVideoCell.xib in Resources */,
 				50894D0D1AEE0177000981AF /* EditProfileColoredTitleCell.xib in Resources */,
@@ -2281,6 +2299,7 @@
 				50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */,
 				506E241C1AE6254F00A33C1A /* MessageTypeButton.swift in Sources */,
 				0A3E60671ACCAECE003DC853 /* YepLocationService.swift in Sources */,
+				6A8215051BCBE5170011F36C /* MiniCardSkillLayout.swift in Sources */,
 				50F5AF8C1BBBB64C0033C9BC /* FeedCell.swift in Sources */,
 				50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */,
 				5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */,
@@ -2312,6 +2331,7 @@
 				506923121ADE025200D27574 /* Waver.swift in Sources */,
 				504F5E6F1B9F1F13006CE418 /* NSURLRequest+cURL.swift in Sources */,
 				502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */,
+				6A8215081BCBE8F10011F36C /* DiscoverSkillCell.swift in Sources */,
 				505498621B12FB0E0037E3BD /* ConversationMessagePreviewNavigationControllerDelegate.swift in Sources */,
 				0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */,
 				505EC8171ADF8151001D27E0 /* SkillCategoryCell.swift in Sources */,

@@ -23,6 +23,7 @@ class FeedCell: UITableViewCell {
 
     @IBOutlet weak var messageCountLabel: UILabel!
 
+    @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
 
     var tapAvatarAction: (() -> Void)?
     var tapMediaAction: ((transitionView: UIView, imageURL: NSURL) -> Void)?
@@ -30,6 +31,12 @@ class FeedCell: UITableViewCell {
 
     var attachmentURLs = [NSURL]() {
         didSet {
+            if attachmentURLs.count == 1 {
+                collectionViewHeight.constant = 160
+            } else {
+                collectionViewHeight.constant = 80
+            }
+            contentView.layoutIfNeeded()
             mediaCollectionView.reloadData()
         }
     }
@@ -49,7 +56,11 @@ class FeedCell: UITableViewCell {
         if feed.attachments.isEmpty {
             height = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
         } else {
-            height = ceil(rect.height) + 10 + 40 + 4 + 15 + 80 + 15 + 17 + 15
+            var imageHeight: CGFloat = 80
+            if feed.attachments.count == 1 {
+                imageHeight = 160
+            }
+            height = ceil(rect.height) + 10 + 40 + 4 + 15 + imageHeight + 15 + 17 + 15
         }
 
         return ceil(height)
@@ -89,7 +100,13 @@ class FeedCell: UITableViewCell {
         messageLabel.text = feed.body
 
         let hasMedia = !feed.attachments.isEmpty
-        timeLabelTopConstraint.constant = hasMedia ? (15 + 80 + 15) : 15
+        
+        if feed.attachments.count > 1 {
+            timeLabelTopConstraint.constant = hasMedia ? (15 + 80 + 15) : 15
+        } else {
+            timeLabelTopConstraint.constant = hasMedia ? (15 + 160 + 15) : 15
+        }
+
         mediaCollectionView.hidden = hasMedia ? false : true
 
         attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
@@ -140,7 +157,12 @@ extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        return CGSize(width: 80, height: 80)
+        if attachmentURLs.count > 1 {
+            return CGSize(width: 80, height: 80)
+        } else {
+            return CGSize(width: 160, height: 160)
+        }
+
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {

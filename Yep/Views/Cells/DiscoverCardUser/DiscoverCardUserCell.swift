@@ -10,7 +10,9 @@ import UIKit
 
 class DiscoverCardUserCell: UICollectionViewCell {
     
-    let skillCellIdentifier = "SkillCell"
+    @IBOutlet weak var serviceImageView: UIImageView!
+    
+    let skillCellIdentifier = "DiscoverSkillCell"
 
     @IBOutlet weak var avatarImageView: UIImageView!
     
@@ -22,7 +24,9 @@ class DiscoverCardUserCell: UICollectionViewCell {
     
     var discoveredUser: DiscoveredUser?
     
-    let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
+    let skillTextAttributes = [NSFontAttributeName: UIFont.skillDiscoverTextFont()]
+    
+    let discoverCellHeight: CGFloat = 16
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,6 +44,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
         
         userSkillsCollectionView.delegate = self
         userSkillsCollectionView.dataSource = self
+        userSkillsCollectionView.setCollectionViewLayout(MiniCardSkillLayout(), animated: false)
         
         userSkillsCollectionView.registerNib(UINib(nibName: skillCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCellIdentifier)
     }
@@ -79,7 +84,11 @@ extension DiscoverCardUserCell:  UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let discoveredUser = discoveredUser {
-            return discoveredUser.masterSkills.count
+            if discoveredUser.masterSkills.count > 4 {
+                return 4
+            } else {
+                return discoveredUser.masterSkills.count
+            }
         } else {
             return 0
         }
@@ -93,7 +102,7 @@ extension DiscoverCardUserCell:  UICollectionViewDelegate, UICollectionViewDataS
             
             let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
             
-            return CGSize(width: rect.width + 24, height: SkillCell.height)
+            return CGSize(width: rect.width + 12, height: discoverCellHeight)
         } else {
             return CGSizeZero
         }
@@ -102,9 +111,12 @@ extension DiscoverCardUserCell:  UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         if let discoveredUser = discoveredUser {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! DiscoverSkillCell
             
+//            cell.skillLabel.font = UIFont.skillDiscoverTextFont()
             cell.skillLabel.text = discoveredUser.masterSkills[indexPath.row].localName ?? ""
+//            cell.backgroundImageView.image = UIImage(named: "minicard_bubble")
+//            cell.backgroundImageView.contentMode = UIViewContentMode.ScaleAspectFill
             
             return cell
         } else {

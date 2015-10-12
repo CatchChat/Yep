@@ -13,6 +13,10 @@ extension UIFont {
         return UIFont.systemFontOfSize(16)
     }
 
+    class func skillDiscoverTextFont() -> UIFont {
+        return UIFont.systemFontOfSize(11)
+    }
+    
     class func skillTextFont() -> UIFont {
         return UIFont.systemFontOfSize(14)
     }
