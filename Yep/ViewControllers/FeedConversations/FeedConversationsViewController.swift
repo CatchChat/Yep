@@ -39,12 +39,17 @@ class FeedConversationsViewController: UIViewController {
         feedConversationsTableView.registerNib(UINib(nibName: feedConversationCellID, bundle: nil), forCellReuseIdentifier: feedConversationCellID)
         feedConversationsTableView.rowHeight = 80
         feedConversationsTableView.tableFooterView = UIView()
-
-        realmNotificationToken = realm.addNotificationBlock { [weak self] notification, realm in
-            if let strongSelf = self {
-                strongSelf.haveUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
-            }
-        }
+//
+//        realmNotificationToken = realm.addNotificationBlock { [weak self] notification, realm in
+//            if let strongSelf = self {
+//                strongSelf.haveUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
+//            }
+//        }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        haveUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
     }
 
     // MARK: Actions

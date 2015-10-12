@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -13,17 +13,23 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed_media_add" translatesAutoresizingMaskIntoConstraints="NO" id="wLD-ko-O7n">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="feed_media_add" translatesAutoresizingMaskIntoConstraints="NO" id="wLD-ko-O7n">
                         <rect key="frame" x="25" y="25" width="30" height="30"/>
+                        <animations/>
                     </imageView>
                 </subviews>
+                <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
+            <animations/>
             <constraints>
                 <constraint firstItem="wLD-ko-O7n" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="L6z-rD-aF6"/>
                 <constraint firstItem="wLD-ko-O7n" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="ibY-N2-mvO"/>
             </constraints>
             <size key="customSize" width="100" height="93"/>
+            <connections>
+                <outlet property="mediaAddImage" destination="wLD-ko-O7n" id="eHD-Jg-fzA"/>
+            </connections>
             <point key="canvasLocation" x="184" y="241.5"/>
         </collectionViewCell>
     </objects>

@@ -49,7 +49,7 @@ class NewFeedViewController: UIViewController {
 
         navigationItem.rightBarButtonItem = postButton
         
-        let cancleButton = UIBarButtonItem(title: NSLocalizedString("Cancle", comment: ""), style: .Plain, target: self, action: "cancle:")
+        let cancleButton = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .Plain, target: self, action: "cancel:")
         
         navigationItem.leftBarButtonItem = cancleButton
         
@@ -96,7 +96,7 @@ class NewFeedViewController: UIViewController {
         }
     }
     
-    func cancle(sender: UIBarButtonItem) {
+    func cancel(sender: UIBarButtonItem) {
         messageTextView.resignFirstResponder()
         self.dismissViewControllerAnimated(true, completion: nil)
     }

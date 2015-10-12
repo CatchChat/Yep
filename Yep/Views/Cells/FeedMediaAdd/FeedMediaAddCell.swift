@@ -10,9 +10,12 @@ import UIKit
 
 class FeedMediaAddCell: UICollectionViewCell {
 
+    @IBOutlet weak var mediaAddImage: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        contentView.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.5)
+        mediaAddImage.tintColor = UIColor.yepTintColor()
+        contentView.backgroundColor = UIColor.yepBackgroundColor()
     }
 }
