@@ -533,13 +533,18 @@ func countOfConversationsInRealm(realm: Realm) -> Int {
     return realm.objects(Conversation).count
 }
 
+func countOfConversationsInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Int {
+    let predicate = NSPredicate(format: "type = %d", conversationType.rawValue)
+    return realm.objects(Conversation).filter(predicate).count
+}
+
 func countOfUnreadMessagesInRealm(realm: Realm) -> Int {
     let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
     return realm.objects(Message).filter(predicate).count
 }
 
 func countOfUnreadMessagesInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Int {
-    let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d AND conversation!= nil AND conversation.type = %d", UserFriendState.Me.rawValue, conversationType.rawValue)
+    let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d AND conversation != nil AND conversation.type = %d", UserFriendState.Me.rawValue, conversationType.rawValue)
     return realm.objects(Message).filter(predicate).count
 }
 

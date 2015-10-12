@@ -296,7 +296,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case Section.FeedConversation.rawValue:
-            return 1
+            return countOfConversationsInRealm(realm, withConversationType: ConversationType.Group) > 0 ? 1 : 0
         case Section.Conversation.rawValue:
             return conversations.count
         default:
