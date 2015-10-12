@@ -32,7 +32,7 @@ class FeedConversationsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Feeds"
+        title = NSLocalizedString("Joined Feeds", comment: "")
 
         realm = try! Realm()
 
