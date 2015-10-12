@@ -105,18 +105,18 @@ class YepConfig {
     struct Profile {
         static let leftEdgeInset: CGFloat = Ruler.iPhoneHorizontal(20, 38, 40).value
         static let rightEdgeInset: CGFloat = leftEdgeInset
-        static let introductionLabelFont = UIFont(name: "Helvetica-Light", size: 14)!
+        static let introductionLabelFont = UIFont.systemFontOfSize(14)
     }
     
     struct Settings {
         static let userCellAvatarSize: CGFloat = 80
 
-        static let introFont = UIFont(name: "Helvetica-Light", size: 12)!
+        static let introFont = UIFont.systemFontOfSize(12)
         static let introInset: CGFloat = 20 + userCellAvatarSize + 20 + 10 + 11 + 20
     }
 
     struct EditProfile {
-        static let introFont = UIFont(name: "Helvetica-Light", size: 15)!
+        static let introFont = UIFont.systemFontOfSize(15)
         static let introInset: CGFloat = 20 + 20
     }
 
@@ -128,7 +128,7 @@ class YepConfig {
     }
 
     struct ContactsCell {
-        static let separatorInset = UIEdgeInsets(top: 0, left: 90, bottom: 0, right: 0) 
+        static let separatorInset = UIEdgeInsets(top: 0, left: 85, bottom: 0, right: 0)
     }
 
     struct ConversationCell {

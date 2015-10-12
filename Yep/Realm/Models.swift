@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 Catch Inc. All rights reserved.
 //
 
+import UIKit
 import RealmSwift
-
 
 // 总是在这个队列里使用 Realm
 let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)
@@ -529,8 +529,22 @@ func feedWithFeedID(feedID: String, inRealm realm: Realm) -> Feed? {
     return realm.objects(Feed).filter(predicate).first
 }
 
+func countOfConversationsInRealm(realm: Realm) -> Int {
+    return realm.objects(Conversation).count
+}
+
+func countOfConversationsInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Int {
+    let predicate = NSPredicate(format: "type = %d", conversationType.rawValue)
+    return realm.objects(Conversation).filter(predicate).count
+}
+
 func countOfUnreadMessagesInRealm(realm: Realm) -> Int {
     let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
+    return realm.objects(Message).filter(predicate).count
+}
+
+func countOfUnreadMessagesInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Int {
+    let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d AND conversation != nil AND conversation.type = %d", UserFriendState.Me.rawValue, conversationType.rawValue)
     return realm.objects(Message).filter(predicate).count
 }
 
@@ -544,6 +558,11 @@ func countOfUnreadMessagesInConversation(conversation: Conversation) -> Int {
     }).count
 }
 
+func latestMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
+    let predicate = NSPredicate(format: "fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
+    return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
+}
+
 func saveFeedWithFeedData(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
 
     // try sync group first
@@ -554,7 +573,7 @@ func saveFeedWithFeedData(feedData: DiscoveredFeed, group: Group, inRealm realm:
             return
         }
 
-        println("feed groupInfo: \(groupInfo)")
+        //println("feed groupInfo: \(groupInfo)")
 
         syncGroupWithGroupInfo(groupInfo, inRealm: realm)
     })
@@ -949,3 +968,101 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) 
     }
 }
 
+// MARK: Delete
+
+func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewController vc: UIViewController, whenAfterClearedHistory afterClearedHistory: () -> Void, afterDeleted: () -> Void, orCanceled cancelled: () -> Void) {
+
+    guard let realm = conversation.realm else {
+        cancelled()
+        return
+    }
+
+    let clearMessages: () -> Void = {
+
+        let messages = conversation.messages
+
+        // delete all media files of messages
+
+        messages.forEach { deleteMediaFilesOfMessage($0) }
+
+        // delete all mediaMetaDatas
+
+        for message in messages {
+            if let mediaMetaData = message.mediaMetaData {
+                realm.write {
+                    realm.delete(mediaMetaData)
+                }
+            }
+        }
+
+        // delete all messages in conversation
+
+        realm.write {
+            realm.delete(messages)
+        }
+    }
+
+    let delete: () -> Void = {
+
+        clearMessages()
+
+        // delete conversation, finally
+
+        realm.write {
+
+            if let group = conversation.withGroup {
+
+                if let feed = conversation.withGroup?.withFeed {
+
+                    for attachment in feed.attachments {
+                        realm.delete(attachment)
+                    }
+
+                    realm.delete(feed)
+                }
+
+                let groupID = group.groupID
+
+                FayeService.sharedManager.unsubscribeGroup(groupID: groupID)
+
+                leaveGroup(groupID: groupID, failureHandler: { (reason, error) -> Void in
+
+                    }, completion: { (result) -> Void in
+
+                })
+
+                realm.delete(group)
+            }
+
+            realm.delete(conversation)
+        }
+    }
+
+    // show ActionSheet before delete
+
+    let deleteAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+
+    let clearHistoryAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Clear history", comment: ""), style: .Default) { _ in
+
+        clearMessages()
+
+        afterClearedHistory()
+    }
+    deleteAlertController.addAction(clearHistoryAction)
+
+    let deleteAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .Destructive) { _ in
+
+        delete()
+
+        afterDeleted()
+    }
+    deleteAlertController.addAction(deleteAction)
+
+    let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { _ in
+
+        cancelled()
+    }
+    deleteAlertController.addAction(cancelAction)
+
+    vc.presentViewController(deleteAlertController, animated: true, completion: nil)
+}

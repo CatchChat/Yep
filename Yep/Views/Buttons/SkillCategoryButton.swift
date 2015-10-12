@@ -51,7 +51,11 @@ class SkillCategoryButton: UIButton {
     lazy var categoryTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.whiteColor()
-        label.font = UIFont(name: "HelveticaNeue-Thin", size: 24)!
+        if #available(iOS 8.2, *) {
+            label.font = UIFont.systemFontOfSize(24, weight: UIFontWeightThin)
+        } else {
+            label.font = UIFont(name: "HelveticaNeue-Thin", size: 24)!
+        }
         return label
         }()
 
