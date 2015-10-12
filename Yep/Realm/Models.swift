@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 Catch Inc. All rights reserved.
 //
 
+import UIKit
 import RealmSwift
-
 
 // 总是在这个队列里使用 Realm
 let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)
@@ -959,3 +959,101 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) 
     }
 }
 
+// MARK: Delete
+
+func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewController vc: UIViewController, whenAfterClearedHistory afterClearedHistory: () -> Void, afterDeleted: () -> Void, orCanceled cancelled: () -> Void) {
+
+    guard let realm = conversation.realm else {
+        cancelled()
+        return
+    }
+
+    let clearMessages: () -> Void = {
+
+        let messages = conversation.messages
+
+        // delete all media files of messages
+
+        messages.forEach { deleteMediaFilesOfMessage($0) }
+
+        // delete all mediaMetaDatas
+
+        for message in messages {
+            if let mediaMetaData = message.mediaMetaData {
+                realm.write {
+                    realm.delete(mediaMetaData)
+                }
+            }
+        }
+
+        // delete all messages in conversation
+
+        realm.write {
+            realm.delete(messages)
+        }
+    }
+
+    let delete: () -> Void = {
+
+        clearMessages()
+
+        // delete conversation, finally
+
+        realm.write {
+
+            if let group = conversation.withGroup {
+
+                if let feed = conversation.withGroup?.withFeed {
+
+                    for attachment in feed.attachments {
+                        realm.delete(attachment)
+                    }
+
+                    realm.delete(feed)
+                }
+
+                let groupID = group.groupID
+
+                FayeService.sharedManager.unsubscribeGroup(groupID: groupID)
+
+                leaveGroup(groupID: groupID, failureHandler: { (reason, error) -> Void in
+
+                    }, completion: { (result) -> Void in
+
+                })
+
+                realm.delete(group)
+            }
+
+            realm.delete(conversation)
+        }
+    }
+
+    // show ActionSheet before delete
+
+    let deleteAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+
+    let clearHistoryAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Clear history", comment: ""), style: .Default) { _ in
+
+        clearMessages()
+
+        afterClearedHistory()
+    }
+    deleteAlertController.addAction(clearHistoryAction)
+
+    let deleteAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .Destructive) { _ in
+
+        delete()
+
+        afterDeleted()
+    }
+    deleteAlertController.addAction(deleteAction)
+
+    let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { _ in
+
+        cancelled()
+    }
+    deleteAlertController.addAction(cancelAction)
+
+    vc.presentViewController(deleteAlertController, animated: true, completion: nil)
+}
