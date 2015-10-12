@@ -73,6 +73,7 @@
                     <constraint firstItem="ota-vy-FWR" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="zXW-Gs-kTj"/>
                 </constraints>
             </tableViewCellContentView>
+            <inset key="separatorInset" minX="85" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
                 <outlet property="chatLabel" destination="Pdh-nY-RnC" id="JiR-CT-TiL"/>
                 <outlet property="mediaView" destination="o0V-gJ-vFo" id="Zmb-u4-pZL"/>
