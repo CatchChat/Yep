@@ -209,7 +209,7 @@ class RegisterPickAvatarViewController: UIViewController {
             if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
-                imagePicker.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
+                imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
                 imagePicker.allowsEditing = true
 
                 self?.presentViewController(imagePicker, animated: true, completion: nil)
