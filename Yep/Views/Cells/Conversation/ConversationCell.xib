@@ -45,12 +45,12 @@
                         <color key="textColor" white="0.50391171924717781" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="unread_red_dot" translatesAutoresizingMaskIntoConstraints="NO" id="EBI-KB-5zQ" userLabel="Red Dot">
-                        <rect key="frame" x="52" y="9" width="17.5" height="19"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unread_red_dot" translatesAutoresizingMaskIntoConstraints="NO" id="EBI-KB-5zQ" userLabel="Red Dot">
+                        <rect key="frame" x="52.5" y="9" width="17.5" height="19"/>
                         <animations/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="7" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMI-cX-ITU" userLabel="Unread Count Label">
-                        <rect key="frame" x="57" y="10" width="7.5" height="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iMI-cX-ITU" userLabel="Unread Count Label">
+                        <rect key="frame" x="57.5" y="10" width="7.5" height="16"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="8" id="FkV-7K-FxX"/>
