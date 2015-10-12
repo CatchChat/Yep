@@ -46,9 +46,13 @@ class DiscoverFilterCell: UITableViewCell {
         willSet {
             switch newValue {
             case .Light:
-                colorTitleLabel.font = UIFont(name: "Helvetica-Light", size: 18)!
+                if #available(iOS 8.2, *) {
+                    colorTitleLabel.font = UIFont.systemFontOfSize(18, weight: UIFontWeightLight)
+                } else {
+                    colorTitleLabel.font = UIFont(name: "HelveticaNeue-Light", size: 18)!
+                }
             case .Regular:
-                colorTitleLabel.font = UIFont(name: "Helvetica", size: 18)!
+                colorTitleLabel.font = UIFont.systemFontOfSize(18)
             }
         }
     }

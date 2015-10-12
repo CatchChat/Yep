@@ -13,7 +13,13 @@ class ConversationTitleView: UIView {
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .Center
-        label.font = UIFont(name: "Helvetica-Bold", size: 15)!
+
+        if #available(iOS 8.2, *) {
+            label.font = UIFont.systemFontOfSize(15, weight: UIFontWeightBold)
+        } else {
+            label.font = UIFont(name: "HelveticaNeue-Bold", size: 15)!
+        }
+
         //label.textColor = UIColor.yepTintColor()
         return label
         }()
@@ -21,7 +27,11 @@ class ConversationTitleView: UIView {
     lazy var stateInfoLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .Center
-        label.font = UIFont(name: "Helvetica-Light", size: 10)!
+        if #available(iOS 8.2, *) {
+            label.font = UIFont.systemFontOfSize(10, weight: UIFontWeightLight)
+        } else {
+            label.font = UIFont(name: "HelveticaNeue-Light", size: 10)!
+        }
         label.textColor = UIColor.grayColor()
         return label
         }()
