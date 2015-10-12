@@ -890,7 +890,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
             if let senderInfo = messageInfo["sender"] as? JSONDictionary {
                 if let senderID = senderInfo["id"] as? String {
                     var sender = userWithUserID(senderID, inRealm: realm)
-
+                    
                     if sender == nil {
                         let newUser = User()
 

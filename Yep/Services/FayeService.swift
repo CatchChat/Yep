@@ -243,6 +243,12 @@ class FayeService: NSObject, MZFayeClientDelegate {
             guard let realm = try? Realm() else {
                 return
             }
+            
+            if let senderInfo = messageInfo["sender"] as? JSONDictionary, senderID = senderInfo["id"] as? String, currentUserID = YepUserDefaults.userID.value {
+                if senderID == currentUserID {
+                    return
+                }
+            }
 
             syncMessageWithMessageInfo(messageInfo, inRealm: realm) { messageIDs in
                 dispatch_async(dispatch_get_main_queue()) {
