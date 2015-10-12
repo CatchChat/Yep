@@ -70,7 +70,7 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        accessoryImageView.tintColor = UIColor.lightGrayColor()
+        accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
         iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
 

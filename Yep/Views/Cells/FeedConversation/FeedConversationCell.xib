@@ -75,6 +75,7 @@
             </tableViewCellContentView>
             <inset key="separatorInset" minX="85" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
+                <outlet property="accessoryImageView" destination="ota-vy-FWR" id="Bpa-n0-tud"/>
                 <outlet property="chatLabel" destination="Pdh-nY-RnC" id="JiR-CT-TiL"/>
                 <outlet property="mediaView" destination="o0V-gJ-vFo" id="Zmb-u4-pZL"/>
                 <outlet property="nameLabel" destination="0gK-pe-MlO" id="6IO-oJ-4l1"/>

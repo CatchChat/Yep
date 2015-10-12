@@ -50,7 +50,7 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
         reposCountLabel.textColor = UIColor.grayColor()
         starsCountLabel.textColor = UIColor.grayColor()
 
-        accessoryImageView.tintColor = UIColor.lightGrayColor()
+        accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
 
         iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset

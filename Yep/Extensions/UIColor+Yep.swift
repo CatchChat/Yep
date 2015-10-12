@@ -98,4 +98,8 @@ extension UIColor {
         return UIColor.lightGrayColor().colorWithAlphaComponent(0.3)
     }
 
+    class func yepCellAccessoryImageViewTintColor() -> UIColor {
+        return UIColor.lightGrayColor()
+    }
+
 }

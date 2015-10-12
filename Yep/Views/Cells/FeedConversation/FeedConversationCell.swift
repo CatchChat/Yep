@@ -15,6 +15,7 @@ class FeedConversationCell: UITableViewCell {
     @IBOutlet weak var unreadCountLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var chatLabel: UILabel!
+    @IBOutlet weak var accessoryImageView: UIImageView!
 
     var conversation: Conversation!
 
@@ -31,7 +32,8 @@ class FeedConversationCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

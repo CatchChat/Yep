@@ -66,6 +66,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="accessoryImageView" destination="PJc-cy-YN9" id="Snb-MT-Mqe"/>
                 <outlet property="avatarImageView" destination="fOv-tN-dsL" id="Ial-rH-xRx"/>
                 <outlet property="chatLabel" destination="GZP-be-uqO" id="Vfr-Ip-k2e"/>
                 <outlet property="nameLabel" destination="xqd-qQ-jMU" id="gZj-Mk-e80"/>
