@@ -49,6 +49,8 @@ class DiscoverViewController: BaseViewController {
             filterButtonItem.title = discoveredUserSortStyle.nameWithArrow
 
             activityIndicator.startAnimating()
+            
+            view.bringSubviewToFront(activityIndicator)
 
             discoverUsers(masterSkillIDs: [], learningSkillIDs: [], discoveredUserSortStyle: discoveredUserSortStyle, failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage: errorMessage)

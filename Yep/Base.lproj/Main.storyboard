@@ -424,12 +424,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zzD-ES-eHf">
-                                <rect key="frame" x="290" y="184" width="20" height="20"/>
-                                <animations/>
-                            </activityIndicatorView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qiv-cC-3J3">
-                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                                 <animations/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="sWq-uv-kTu">
                                     <size key="itemSize" width="50" height="50"/>
@@ -439,7 +435,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="d97-nq-Gms">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="64" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -451,11 +447,15 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zzD-ES-eHf">
+                                <rect key="frame" x="290" y="184" width="20" height="20"/>
+                                <animations/>
+                            </activityIndicatorView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="qiv-cC-3J3" firstAttribute="top" secondItem="y3q-lk-c8x" secondAttribute="bottom" id="7Dp-9c-rpA"/>
+                            <constraint firstItem="qiv-cC-3J3" firstAttribute="top" secondItem="y3q-lk-c8x" secondAttribute="bottom" constant="-64" id="7Dp-9c-rpA"/>
                             <constraint firstItem="fou-D4-AiD" firstAttribute="top" secondItem="qiv-cC-3J3" secondAttribute="bottom" id="CNN-fi-eLn"/>
                             <constraint firstAttribute="centerX" secondItem="zzD-ES-eHf" secondAttribute="centerX" id="NcD-eS-2bl"/>
                             <constraint firstAttribute="trailing" secondItem="qiv-cC-3J3" secondAttribute="trailing" id="j8a-KC-uIC"/>
