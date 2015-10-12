@@ -16,6 +16,12 @@ class FeedConversationDockCell: UITableViewCell {
     @IBOutlet weak var redDotImageView: UIImageView!
     @IBOutlet weak var accessoryImageView: UIImageView!
 
+    var haveGroupUnreadMessages = false {
+        willSet {
+            redDotImageView.hidden = !newValue
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 

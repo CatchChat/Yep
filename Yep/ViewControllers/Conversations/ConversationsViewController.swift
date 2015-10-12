@@ -310,6 +310,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
         case Section.FeedConversation.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationDockCellID) as! FeedConversationDockCell
+            cell.haveGroupUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
             return cell
 
         case Section.Conversation.rawValue:
