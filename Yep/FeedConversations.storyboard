@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Feed Conversations View Controller-->
@@ -16,9 +17,28 @@
                     <view key="view" contentMode="scaleToFill" id="U0V-mk-Fod">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="t4C-sz-m02">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="KR3-Bh-nyX" id="tdq-Ov-pcs"/>
+                                    <outlet property="delegate" destination="KR3-Bh-nyX" id="tic-28-dHh"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottomMargin" secondItem="t4C-sz-m02" secondAttribute="bottom" id="L7g-Tr-WSf"/>
+                            <constraint firstAttribute="trailing" secondItem="t4C-sz-m02" secondAttribute="trailing" id="Wzb-eC-xrZ"/>
+                            <constraint firstItem="t4C-sz-m02" firstAttribute="leading" secondItem="U0V-mk-Fod" secondAttribute="leading" id="ecV-k1-Ggp"/>
+                            <constraint firstItem="t4C-sz-m02" firstAttribute="top" secondItem="U0V-mk-Fod" secondAttribute="topMargin" id="xFv-5D-Hz6"/>
+                        </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="feedConversationsTableView" destination="t4C-sz-m02" id="HFs-Z4-9fG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yU0-NG-JpM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
