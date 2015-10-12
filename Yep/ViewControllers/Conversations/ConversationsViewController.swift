@@ -417,6 +417,11 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                             if let group = conversation.withGroup {
                                 
                                 if let feed = conversation.withGroup?.withFeed {
+
+                                    for attachment in feed.attachments {
+                                        realm.delete(attachment)
+                                    }
+
                                     realm.delete(feed)
                                 }
                                 
@@ -431,11 +436,9 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                                 })
                                 
                                 realm.delete(group)
-                                
                             }
                             
                             realm.delete(conversation)
-                            
                         }
                     }
 
