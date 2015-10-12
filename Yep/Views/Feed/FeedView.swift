@@ -33,6 +33,7 @@ class FeedView: UIView {
             if newValue >= 0 && newValue <= 1 {
 
                 let normalHeight = self.normalHeight
+                let attachmentURLsIsEmpty = attachmentURLs.isEmpty
 
                 UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
 
@@ -40,7 +41,7 @@ class FeedView: UIView {
                     self?.messageLabelTopConstraint.constant = -25 * newValue + 4
 
                     if newValue == 1.0 {
-                        self?.messageLabelTrailingConstraint.constant = (15 + 40 + 15)
+                        self?.messageLabelTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (15 + 40 + 15)
                         self?.messageLabel.numberOfLines = 1
                     }
 
