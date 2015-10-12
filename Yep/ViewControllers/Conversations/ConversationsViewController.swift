@@ -328,7 +328,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
         switch indexPath.section {
 
         case Section.FeedConversation.rawValue:
-            break
+            performSegueWithIdentifier("showFeedConversations", sender: nil)
 
         case Section.Conversation.rawValue:
             if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
