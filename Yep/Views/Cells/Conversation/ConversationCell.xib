@@ -68,7 +68,6 @@
                     <constraint firstItem="e3N-7V-FD4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="2" id="C6e-Zm-787"/>
                     <constraint firstItem="kjj-pV-aMN" firstAttribute="top" secondItem="e3N-7V-FD4" secondAttribute="top" id="GXJ-23-qOR"/>
                     <constraint firstItem="EBI-KB-5zQ" firstAttribute="trailing" secondItem="iMI-cX-ITU" secondAttribute="trailing" constant="5" id="Jd7-6j-ojN"/>
-                    <constraint firstItem="Xjd-IV-gXl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kjj-pV-aMN" secondAttribute="trailing" priority="750" constant="100" id="O21-4s-INp"/>
                     <constraint firstItem="Xjd-IV-gXl" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="OgI-LN-3Ho"/>
                     <constraint firstItem="EBI-KB-5zQ" firstAttribute="centerY" secondItem="iMI-cX-ITU" secondAttribute="centerY" id="PhU-kS-TVk"/>
                     <constraint firstItem="Xjd-IV-gXl" firstAttribute="centerY" secondItem="kjj-pV-aMN" secondAttribute="centerY" id="SsC-sp-t6e"/>
@@ -78,14 +77,7 @@
                     <constraint firstItem="0ku-jC-UO9" firstAttribute="leading" secondItem="e3N-7V-FD4" secondAttribute="trailing" constant="15" id="e0B-sB-dWY"/>
                     <constraint firstItem="0ku-jC-UO9" firstAttribute="top" secondItem="kjj-pV-aMN" secondAttribute="bottom" constant="5" id="eDW-xc-nVc"/>
                     <constraint firstItem="e3N-7V-FD4" firstAttribute="trailing" secondItem="iMI-cX-ITU" secondAttribute="trailing" constant="5" id="w3d-v9-Oot"/>
-                    <constraint firstItem="kjj-pV-aMN" firstAttribute="bottom" secondItem="Xjd-IV-gXl" secondAttribute="bottom" constant="3" id="xLh-Pw-tXg"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="constraints">
-                        <exclude reference="xLh-Pw-tXg"/>
-                        <exclude reference="O21-4s-INp"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <animations/>
             <connections>

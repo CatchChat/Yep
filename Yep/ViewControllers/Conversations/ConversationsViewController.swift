@@ -16,7 +16,9 @@ class ConversationsViewController: UIViewController {
 
     @IBOutlet weak var conversationsTableView: UITableView!
 
+    let feedConversationDockCellID = "FeedConversationDockCell"
     let cellIdentifier = "ConversationCell"
+
 
     var realm: Realm!
 
@@ -108,6 +110,7 @@ class ConversationsViewController: UIViewController {
         conversationsTableView.separatorColor = UIColor.yepCellSeparatorColor()
         conversationsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
+        conversationsTableView.registerNib(UINib(nibName: feedConversationDockCellID, bundle: nil), forCellReuseIdentifier: feedConversationDockCellID)
         conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         conversationsTableView.rowHeight = 80
         conversationsTableView.tableFooterView = UIView()
@@ -299,7 +302,8 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
         switch indexPath.section {
 
         case Section.FeedConversation.rawValue:
-            return UITableViewCell()
+            let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationDockCellID) as! FeedConversationDockCell
+            return cell
 
         case Section.Conversation.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ConversationCell
