@@ -42,7 +42,7 @@ class FeedConversationsViewController: UIViewController {
 
         realmNotificationToken = realm.addNotificationBlock { [weak self] notification, realm in
             if let strongSelf = self {
-                strongSelf.haveUnreadMessages = countOfUnreadMessagesInRealm(realm) > 0
+                strongSelf.haveUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
             }
         }
     }

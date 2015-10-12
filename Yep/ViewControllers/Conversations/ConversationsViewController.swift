@@ -36,7 +36,11 @@ class ConversationsViewController: UIViewController {
                     navigationController?.tabBarItem.selectedImage = UIImage(named: "icon_chat_active")
                 }
             }
+        }
+    }
 
+    var haveOneToOneUnreadMessages = false {
+        didSet {
             reloadConversationsTableView()
         }
     }
@@ -118,8 +122,12 @@ class ConversationsViewController: UIViewController {
 
         realmNotificationToken = realm.addNotificationBlock { [weak self] notification, realm in
             if let strongSelf = self {
-                strongSelf.haveUnreadMessages = countOfUnreadMessagesInRealm(realm) > 0
 
+                let haveOneToOneUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.OneToOne) > 0
+
+                strongSelf.haveOneToOneUnreadMessages = haveOneToOneUnreadMessages
+                strongSelf.haveUnreadMessages = haveOneToOneUnreadMessages || (countOfUnreadMessagesInRealm(realm) > 0)
+                    
                 strongSelf.noConversation = strongSelf.conversations.isEmpty
             }
         }
