@@ -562,6 +562,7 @@ func saveFeedWithFeedData(feedData: DiscoveredFeed, group: Group, inRealm realm:
     // save feed
 
     if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
+        
         print("Join Feed \(feed.feedID)")
 
     } else {
