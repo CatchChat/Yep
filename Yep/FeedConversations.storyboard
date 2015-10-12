@@ -38,11 +38,20 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="feedConversationsTableView" destination="t4C-sz-m02" id="HFs-Z4-9fG"/>
+                        <segue destination="Wr0-wW-z0D" kind="show" identifier="showConversation" id="Rwa-hh-chq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yU0-NG-JpM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="406" y="390"/>
+        </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="d5w-24-M7J">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ConversationViewController" id="Wr0-wW-z0D" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Iya-5r-qWQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="817" y="390"/>
         </scene>
     </scenes>
 </document>

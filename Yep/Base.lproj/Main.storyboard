@@ -2107,8 +2107,8 @@
         <image name="yep_icon_solo" width="120" height="120"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="X2e-mz-fLa"/>
-        <segue reference="o3b-2D-AMq"/>
+        <segue reference="0bS-uM-LPI"/>
         <segue reference="N7F-Tw-oVn"/>
+        <segue reference="X2e-mz-fLa"/>
     </inferredMetricsTieBreakers>
 </document>

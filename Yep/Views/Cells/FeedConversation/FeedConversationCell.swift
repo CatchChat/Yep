@@ -16,6 +16,8 @@ class FeedConversationCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var chatLabel: UILabel!
 
+    var conversation: Conversation!
+
     var countOfUnreadMessages = 0 {
         didSet {
             let hidden = countOfUnreadMessages == 0
@@ -41,7 +43,7 @@ class FeedConversationCell: UITableViewCell {
 
     func configureWithConversation(conversation: Conversation) {
 
-        //self.conversation = conversation
+        self.conversation = conversation
 
         countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
 

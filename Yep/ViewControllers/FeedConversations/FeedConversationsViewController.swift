@@ -33,6 +33,13 @@ class FeedConversationsViewController: UIViewController {
         feedConversationsTableView.rowHeight = 80
         feedConversationsTableView.tableFooterView = UIView()
     }
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showConversation" {
+            let vc = segue.destinationViewController as! ConversationViewController
+            vc.conversation = sender as! Conversation
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
@@ -49,6 +56,14 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
             cell.configureWithConversation(conversation)
         }
         return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? FeedConversationCell {
+            performSegueWithIdentifier("showConversation", sender: cell.conversation)
+        }
     }
 }
 
