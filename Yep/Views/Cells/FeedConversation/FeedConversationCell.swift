@@ -40,7 +40,6 @@ class FeedConversationCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-
     func configureWithConversation(conversation: Conversation) {
 
         self.conversation = conversation
@@ -52,6 +51,18 @@ class FeedConversationCell: UITableViewCell {
 
             let attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
             mediaView.setImagesWithURLs(attachmentURLs)
+        }
+
+        if let latestMessage = messagesInConversation(conversation).last {
+
+            if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
+                self.chatLabel.text = placeholder
+            } else {
+                self.chatLabel.text = latestMessage.textContent
+            }
+
+        } else {
+            self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
         }
     }
 }
