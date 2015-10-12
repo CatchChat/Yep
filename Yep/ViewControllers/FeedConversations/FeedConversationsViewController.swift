@@ -88,5 +88,43 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
             performSegueWithIdentifier("showConversation", sender: cell.conversation)
         }
     }
+
+    // Edit (for Delete)
+
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+
+        return true
+    }
+
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        if editingStyle == .Delete {
+
+            guard let conversation = feedConversations[safe: indexPath.row] else {
+                tableView.setEditing(false, animated: true)
+                return
+            }
+
+            tryDeleteOrClearHistoryOfConversation(conversation, inViewController: self, whenAfterClearedHistory: {
+
+                tableView.setEditing(false, animated: true)
+
+                // update cell
+
+                if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+                    if let conversation = self.feedConversations[safe: indexPath.row] {
+                        let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
+                        cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
+                    }
+                }
+
+            }, afterDeleted: {
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+
+            }, orCanceled: {
+                tableView.setEditing(false, animated: true)
+            })
+        }
+    }
 }
 
