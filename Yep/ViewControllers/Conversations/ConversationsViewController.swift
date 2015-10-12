@@ -273,36 +273,78 @@ class ConversationsViewController: UIViewController {
 
 extension ConversationsViewController: UITableViewDataSource, UITableViewDelegate {
 
+    enum Section: Int {
+
+        case FeedConversation
+        case Conversation
+    }
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
+    }
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return conversations.count
+        switch section {
+        case Section.FeedConversation.rawValue:
+            return 1
+        case Section.Conversation.rawValue:
+            return conversations.count
+        default:
+            return 0
+        }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ConversationCell
+        switch indexPath.section {
 
-        if let conversation = conversations[safe: indexPath.row] {
+        case Section.FeedConversation.rawValue:
+            return UITableViewCell()
 
-            let radius = YepConfig.ConversationCell.avatarSize * 0.5
+        case Section.Conversation.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ConversationCell
 
-            cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
+            if let conversation = conversations[safe: indexPath.row] {
+
+                let radius = YepConfig.ConversationCell.avatarSize * 0.5
+
+                cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
+            }
+            
+            return cell
+            
+        default:
+            return UITableViewCell()
         }
-
-        return cell
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-            performSegueWithIdentifier("showConversation", sender: cell.conversation)
+        switch indexPath.section {
+
+        case Section.FeedConversation.rawValue:
+            break
+
+        case Section.Conversation.rawValue:
+            if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+                performSegueWithIdentifier("showConversation", sender: cell.conversation)
+            }
+
+        default:
+            break
         }
     }
 
     // Edit (for Delete)
 
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
+
+        if indexPath.section == Section.Conversation.rawValue {
+            return true
+        }
+
+        return false
     }
 
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
