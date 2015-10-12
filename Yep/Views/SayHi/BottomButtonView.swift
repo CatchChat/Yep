@@ -21,7 +21,7 @@ class BottomButtonView: UIView {
 
     lazy var actionButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = UIFont(name: "Helvetica-Regular", size: 14)
+        button.titleLabel?.font = UIFont.systemFontOfSize(14)
         button.setTitle(self.title, forState: .Normal)
         button.backgroundColor = UIColor.yepTintColor()
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)

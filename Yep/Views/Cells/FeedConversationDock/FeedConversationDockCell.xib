@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeedConversationDockCell" rowHeight="80" id="KGk-i7-Jjw" customClass="FeedConversationDockCell" customModule="Yep" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="79.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_topic" translatesAutoresizingMaskIntoConstraints="NO" id="fOv-tN-dsL">
+                        <rect key="frame" x="10" y="10" width="60" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="Kh1-Wf-qTQ"/>
+                            <constraint firstAttribute="width" secondItem="fOv-tN-dsL" secondAttribute="height" multiplier="1:1" id="N7m-gV-W8p"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Feeds" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xqd-qQ-jMU">
+                        <rect key="frame" x="85" y="10" width="40.5" height="17"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                        <color key="textColor" white="0.24954602940000001" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do not go gentle into that good night. Old age should burn and rage at close of day." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GZP-be-uqO">
+                        <rect key="frame" x="85" y="32" width="191" height="31.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.5039117192" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory_mini" translatesAutoresizingMaskIntoConstraints="NO" id="PJc-cy-YN9" userLabel="Accessory Image View">
+                        <rect key="frame" x="299" y="30" width="11" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="11" id="IRI-JN-VPr"/>
+                            <constraint firstAttribute="height" constant="20" id="hL2-ih-YIW"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_topic_reddot" translatesAutoresizingMaskIntoConstraints="NO" id="pVD-RG-wqr">
+                        <rect key="frame" x="284" y="35" width="10" height="10"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="10" id="A0X-qK-TfC"/>
+                            <constraint firstAttribute="height" constant="10" id="hEa-nZ-Dfe"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="xqd-qQ-jMU" firstAttribute="leading" secondItem="fOv-tN-dsL" secondAttribute="trailing" constant="15" id="38F-cL-mZM"/>
+                    <constraint firstItem="GZP-be-uqO" firstAttribute="leading" secondItem="fOv-tN-dsL" secondAttribute="trailing" constant="15" id="Ara-2N-fal"/>
+                    <constraint firstItem="pVD-RG-wqr" firstAttribute="leading" secondItem="GZP-be-uqO" secondAttribute="trailing" constant="8" id="Foh-XM-e7v"/>
+                    <constraint firstItem="xqd-qQ-jMU" firstAttribute="top" secondItem="fOv-tN-dsL" secondAttribute="top" id="GBl-5z-1zc"/>
+                    <constraint firstItem="pVD-RG-wqr" firstAttribute="centerY" secondItem="PJc-cy-YN9" secondAttribute="centerY" id="Kzw-4C-8Rt"/>
+                    <constraint firstAttribute="trailing" secondItem="PJc-cy-YN9" secondAttribute="trailing" constant="10" id="LdI-zC-7Vs"/>
+                    <constraint firstItem="fOv-tN-dsL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="X4a-3c-5Os"/>
+                    <constraint firstItem="fOv-tN-dsL" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="fe1-4g-QwT"/>
+                    <constraint firstItem="PJc-cy-YN9" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="uoM-l9-Hjw"/>
+                    <constraint firstItem="GZP-be-uqO" firstAttribute="top" secondItem="xqd-qQ-jMU" secondAttribute="bottom" constant="5" id="vpP-5B-ita"/>
+                    <constraint firstItem="PJc-cy-YN9" firstAttribute="leading" secondItem="pVD-RG-wqr" secondAttribute="trailing" constant="5" id="wUf-do-5QY"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="GZP-be-uqO" secondAttribute="bottom" constant="10" id="zk1-Yk-Ro3"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="accessoryImageView" destination="PJc-cy-YN9" id="Snb-MT-Mqe"/>
+                <outlet property="avatarImageView" destination="fOv-tN-dsL" id="Ial-rH-xRx"/>
+                <outlet property="chatLabel" destination="GZP-be-uqO" id="Vfr-Ip-k2e"/>
+                <outlet property="nameLabel" destination="xqd-qQ-jMU" id="gZj-Mk-e80"/>
+                <outlet property="redDotImageView" destination="pVD-RG-wqr" id="5ZH-6g-VJr"/>
+            </connections>
+            <point key="canvasLocation" x="292" y="186"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon_accessory_mini" width="8" height="13"/>
+        <image name="icon_topic" width="60" height="60"/>
+        <image name="icon_topic_reddot" width="10" height="10"/>
+    </resources>
+</document>

@@ -56,7 +56,11 @@ class MediaControlView: UIView {
     lazy var timeLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .Center
-        label.font = UIFont(name: "HelveticaNeue-Light", size: 14)
+        if #available(iOS 8.2, *) {
+            label.font = UIFont.systemFontOfSize(14, weight: UIFontWeightLight)
+        } else {
+            label.font = UIFont(name: "HelveticaNeue-Light", size: 14)!
+        }
         label.textColor = UIColor.whiteColor()
         label.text = "00:42"
         return label

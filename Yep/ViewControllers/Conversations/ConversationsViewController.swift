@@ -16,7 +16,9 @@ class ConversationsViewController: UIViewController {
 
     @IBOutlet weak var conversationsTableView: UITableView!
 
+    let feedConversationDockCellID = "FeedConversationDockCell"
     let cellIdentifier = "ConversationCell"
+
 
     var realm: Realm!
 
@@ -33,9 +35,13 @@ class ConversationsViewController: UIViewController {
                     navigationController?.tabBarItem.image = UIImage(named: "icon_chat")
                     navigationController?.tabBarItem.selectedImage = UIImage(named: "icon_chat_active")
                 }
-
-                reloadConversationsTableView()
             }
+        }
+    }
+
+    var haveOneToOneUnreadMessages = false {
+        didSet {
+            reloadConversationsTableView()
         }
     }
 
@@ -50,9 +56,8 @@ class ConversationsViewController: UIViewController {
     }
 
     lazy var conversations: Results<Conversation> = {
-        //return self.realm.objects(Conversation).sorted("updatedUnixTime", ascending: false)
-//        let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
-        return self.realm.objects(Conversation).sorted("updatedUnixTime", ascending: false)
+        let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
+        return self.realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
         }()
 
     struct Listener {
@@ -108,6 +113,7 @@ class ConversationsViewController: UIViewController {
         conversationsTableView.separatorColor = UIColor.yepCellSeparatorColor()
         conversationsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
+        conversationsTableView.registerNib(UINib(nibName: feedConversationDockCellID, bundle: nil), forCellReuseIdentifier: feedConversationDockCellID)
         conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         conversationsTableView.rowHeight = 80
         conversationsTableView.tableFooterView = UIView()
@@ -116,9 +122,13 @@ class ConversationsViewController: UIViewController {
 
         realmNotificationToken = realm.addNotificationBlock { [weak self] notification, realm in
             if let strongSelf = self {
-                strongSelf.haveUnreadMessages = countOfUnreadMessagesInRealm(realm) > 0
 
-                strongSelf.noConversation = strongSelf.conversations.isEmpty
+                let haveOneToOneUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.OneToOne) > 0
+
+                strongSelf.haveOneToOneUnreadMessages = haveOneToOneUnreadMessages
+                strongSelf.haveUnreadMessages = haveOneToOneUnreadMessages || (countOfUnreadMessagesInRealm(realm) > 0)
+
+                strongSelf.noConversation = countOfConversationsInRealm(realm) == 0
             }
         }
     }
@@ -273,140 +283,124 @@ class ConversationsViewController: UIViewController {
 
 extension ConversationsViewController: UITableViewDataSource, UITableViewDelegate {
 
+    enum Section: Int {
+
+        case FeedConversation
+        case Conversation
+    }
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
+    }
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return conversations.count
+        switch section {
+        case Section.FeedConversation.rawValue:
+            return countOfConversationsInRealm(realm, withConversationType: ConversationType.Group) > 0 ? 1 : 0
+        case Section.Conversation.rawValue:
+            return conversations.count
+        default:
+            return 0
+        }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ConversationCell
+        switch indexPath.section {
 
-        if let conversation = conversations[safe: indexPath.row] {
+        case Section.FeedConversation.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationDockCellID) as! FeedConversationDockCell
 
-            let radius = YepConfig.ConversationCell.avatarSize * 0.5
+            cell.haveGroupUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
 
-            cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
+            if let latestMessage = latestMessageInRealm(realm, withConversationType: ConversationType.Group) {
+
+                if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
+                    cell.chatLabel.text = placeholder
+                } else {
+                    cell.chatLabel.text = latestMessage.textContent
+                }
+
+            } else {
+                cell.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
+            }
+
+            return cell
+
+        case Section.Conversation.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ConversationCell
+
+            if let conversation = conversations[safe: indexPath.row] {
+
+                let radius = YepConfig.ConversationCell.avatarSize * 0.5
+
+                cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
+            }
+            
+            return cell
+            
+        default:
+            return UITableViewCell()
         }
-
-        return cell
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-            performSegueWithIdentifier("showConversation", sender: cell.conversation)
+        switch indexPath.section {
+
+        case Section.FeedConversation.rawValue:
+            performSegueWithIdentifier("showFeedConversations", sender: nil)
+
+        case Section.Conversation.rawValue:
+            if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+                performSegueWithIdentifier("showConversation", sender: cell.conversation)
+            }
+
+        default:
+            break
         }
     }
 
     // Edit (for Delete)
 
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
+
+        if indexPath.section == Section.Conversation.rawValue {
+            return true
+        }
+
+        return false
     }
 
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
 
         if editingStyle == .Delete {
 
-            if let conversation = conversations[safe: indexPath.row] {
-
-                if let realm = conversation.realm {
-
-                    let clearMessages: () -> Void = {
-
-                        let messages = conversation.messages
-
-                        // delete all media files of messages
-
-                        messages.forEach { deleteMediaFilesOfMessage($0) }
-
-                        // delete all mediaMetaDatas
-
-                        for message in messages {
-                            if let mediaMetaData = message.mediaMetaData {
-                                realm.write {
-                                    realm.delete(mediaMetaData)
-                                }
-                            }
-                        }
-
-                        // delete all messages in conversation
-                        
-                        realm.write {
-                            realm.delete(messages)
-                        }
-                    }
-
-                    let delete: () -> Void = {
-
-                        clearMessages()
-
-                        // delete conversation, finally
-
-                        realm.write {
-                            
-                            if let group = conversation.withGroup {
-                                
-                                if let feed = conversation.withGroup?.withFeed {
-                                    realm.delete(feed)
-                                }
-                                
-                                let groupID = group.groupID
-                                
-                                FayeService.sharedManager.unsubscribeGroup(groupID: groupID)
-                                
-                                leaveGroup(groupID: groupID, failureHandler: { (reason, error) -> Void in
-                                    
-                                }, completion: { (result) -> Void in
-                                    
-                                })
-                                
-                                realm.delete(group)
-                                
-                            }
-                            
-                            realm.delete(conversation)
-                            
-                        }
-                    }
-
-                    // show ActionSheet before delete
-
-                    let deleteAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-
-                    let clearHistoryAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Clear history", comment: ""), style: .Default) { action -> Void in
-
-                        clearMessages()
-
-                        tableView.setEditing(false, animated: true)
-
-                        // update cell
-                        
-                        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-                            if let conversation = self.conversations[safe: indexPath.row] {
-                                let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
-                                cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
-                            }
-                        }
-                    }
-                    deleteAlertController.addAction(clearHistoryAction)
-
-                    let deleteAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .Destructive) { action -> Void in
-                        delete()
-
-                        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                    }
-                    deleteAlertController.addAction(deleteAction)
-
-                    let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
-                        tableView.setEditing(false, animated: true)
-                    }
-                    deleteAlertController.addAction(cancelAction)
-
-                    self.presentViewController(deleteAlertController, animated: true, completion: nil)
-                }
+            guard let conversation = conversations[safe: indexPath.row] else {
+                tableView.setEditing(false, animated: true)
+                return
             }
+
+            tryDeleteOrClearHistoryOfConversation(conversation, inViewController: self, whenAfterClearedHistory: {
+
+                tableView.setEditing(false, animated: true)
+
+                // update cell
+
+                if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+                    if let conversation = self.conversations[safe: indexPath.row] {
+                        let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
+                        cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
+                    }
+                }
+
+            }, afterDeleted: {
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+
+            }, orCanceled: {
+                tableView.setEditing(false, animated: true)
+            })
         }
     }
 }

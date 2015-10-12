@@ -45,6 +45,12 @@
 		5008A1931B8DB8B500E94274 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5008A1951B8DB8B500E94274 /* Localizable.strings */; };
 		500A0B1C1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */; };
 		500A0B1F1B451A6F00D49358 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1E1B451A6F00D49358 /* BadgeView.swift */; };
+		501138261BCB59120055A014 /* FeedConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501138251BCB59120055A014 /* FeedConversationsViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		501138291BCB593F0055A014 /* FeedConversations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 501138281BCB593F0055A014 /* FeedConversations.storyboard */; settings = {ASSET_TAGS = (); }; };
+		5011382C1BCB5E150055A014 /* FeedConversationDockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011382A1BCB5E150055A014 /* FeedConversationDockCell.swift */; settings = {ASSET_TAGS = (); }; };
+		5011382D1BCB5E150055A014 /* FeedConversationDockCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5011382B1BCB5E150055A014 /* FeedConversationDockCell.xib */; settings = {ASSET_TAGS = (); }; };
+		501138311BCB62A20055A014 /* FeedConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011382F1BCB62A20055A014 /* FeedConversationCell.swift */; settings = {ASSET_TAGS = (); }; };
+		501138321BCB62A20055A014 /* FeedConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501138301BCB62A20055A014 /* FeedConversationCell.xib */; settings = {ASSET_TAGS = (); }; };
 		501560D71B427FD6000933F0 /* Results+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501560D61B427FD6000933F0 /* Results+Yep.swift */; };
 		50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50165C441AC2860900C7AEBE /* ConversationLayout.swift */; };
 		501813261BA07CED0025873C /* Activities.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501813251BA07CED0025873C /* Activities.xcassets */; };
@@ -325,6 +331,12 @@
 		5008A1961B8DB8E100E94274 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditNicknameAndBadgeViewController.swift; path = ViewControllers/EditNicknameAndBadge/EditNicknameAndBadgeViewController.swift; sourceTree = "<group>"; };
 		500A0B1E1B451A6F00D49358 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgeView.swift; path = Views/Badge/BadgeView.swift; sourceTree = "<group>"; };
+		501138251BCB59120055A014 /* FeedConversationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedConversationsViewController.swift; path = ViewControllers/FeedConversations/FeedConversationsViewController.swift; sourceTree = "<group>"; };
+		501138281BCB593F0055A014 /* FeedConversations.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FeedConversations.storyboard; sourceTree = "<group>"; };
+		5011382A1BCB5E150055A014 /* FeedConversationDockCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedConversationDockCell.swift; path = Views/Cells/FeedConversationDock/FeedConversationDockCell.swift; sourceTree = "<group>"; };
+		5011382B1BCB5E150055A014 /* FeedConversationDockCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedConversationDockCell.xib; path = Views/Cells/FeedConversationDock/FeedConversationDockCell.xib; sourceTree = "<group>"; };
+		5011382F1BCB62A20055A014 /* FeedConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedConversationCell.swift; path = Views/Cells/FeedConversation/FeedConversationCell.swift; sourceTree = "<group>"; };
+		501138301BCB62A20055A014 /* FeedConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedConversationCell.xib; path = Views/Cells/FeedConversation/FeedConversationCell.xib; sourceTree = "<group>"; };
 		501560D61B427FD6000933F0 /* Results+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Results+Yep.swift"; path = "Extensions/Results+Yep.swift"; sourceTree = "<group>"; };
 		50165C441AC2860900C7AEBE /* ConversationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationLayout.swift; path = ViewControllers/Conversation/ConversationLayout.swift; sourceTree = "<group>"; };
 		501813251BA07CED0025873C /* Activities.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Activities.xcassets; sourceTree = "<group>"; };
@@ -769,6 +781,33 @@
 			name = Badge;
 			sourceTree = "<group>";
 		};
+		501138271BCB591E0055A014 /* FeedConversations */ = {
+			isa = PBXGroup;
+			children = (
+				501138251BCB59120055A014 /* FeedConversationsViewController.swift */,
+				501138281BCB593F0055A014 /* FeedConversations.storyboard */,
+			);
+			name = FeedConversations;
+			sourceTree = "<group>";
+		};
+		5011382E1BCB5E1F0055A014 /* FeedConversationDock */ = {
+			isa = PBXGroup;
+			children = (
+				5011382A1BCB5E150055A014 /* FeedConversationDockCell.swift */,
+				5011382B1BCB5E150055A014 /* FeedConversationDockCell.xib */,
+			);
+			name = FeedConversationDock;
+			sourceTree = "<group>";
+		};
+		501138331BCB62A70055A014 /* FeedConversation */ = {
+			isa = PBXGroup;
+			children = (
+				5011382F1BCB62A20055A014 /* FeedConversationCell.swift */,
+				501138301BCB62A20055A014 /* FeedConversationCell.xib */,
+			);
+			name = FeedConversation;
+			sourceTree = "<group>";
+		};
 		5019F62F1B39BFCB0000D993 /* ConversationMore */ = {
 			isa = PBXGroup;
 			children = (
@@ -829,6 +868,7 @@
 				848806B71B7B4F58000C5424 /* Show */,
 				50AFBF601BB4F33A007D19DA /* Feeds */,
 				50F5AF841BBA67140033C9BC /* NewFeed */,
+				501138271BCB591E0055A014 /* FeedConversations */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -971,6 +1011,8 @@
 				50F5AF9B1BBBD0310033C9BC /* FeedMedia */,
 				6A5632901BC90A4900397B53 /* DiscoverCardUser */,
 				6A5632951BC911CE00397B53 /* DiscoverNormalUser */,
+				5011382E1BCB5E1F0055A014 /* FeedConversationDock */,
+				501138331BCB62A70055A014 /* FeedConversation */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1985,6 +2027,7 @@
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
 				50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */,
 				6A56328F1BC90A4500397B53 /* DiscoverCardUserCell.xib in Resources */,
+				501138291BCB593F0055A014 /* FeedConversations.storyboard in Resources */,
 				0A90187F1B01152800AE4B7F /* ProfileSocialAccountCell.xib in Resources */,
 				5064F6551B0B0E160089FAD4 /* AddFriendSearchCell.xib in Resources */,
 				508F8FC91B0161EF00461B0B /* ProfileSeparationLineCell.xib in Resources */,
@@ -2010,6 +2053,7 @@
 				50A640EA1B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib in Resources */,
 				0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */,
 				5053AD511AF82A1700B3CBFA /* PickLocationCell.xib in Resources */,
+				5011382D1BCB5E150055A014 /* FeedConversationDockCell.xib in Resources */,
 				5053AD5B1AF83B4200B3CBFA /* ChatLeftLocationCell.xib in Resources */,
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 				50EB8CC51AE89F12001AC1EE /* ChatRightVideoCell.xib in Resources */,
@@ -2023,6 +2067,7 @@
 				50392CD21B393FF60009D647 /* SkillAddCell.xib in Resources */,
 				503315981AC1017E0008A209 /* ChatLeftTextCell.xib in Resources */,
 				50894D031AEA6433000981AF /* EditProfileLessInfoCell.xib in Resources */,
+				501138321BCB62A20055A014 /* FeedConversationCell.xib in Resources */,
 				848806B41B7B4E2E000C5424 /* Show.storyboard in Resources */,
 				0AD7EA771AC3EEB000617758 /* PushConfig.plist in Resources */,
 				5064F65A1B0B14420089FAD4 /* AddFriendMoreCell.xib in Resources */,
@@ -2145,6 +2190,7 @@
 				0A9018821B0120A500AE4B7F /* OAuthViewController.swift in Sources */,
 				508D17471ACCF4710092D666 /* ChatLeftAudioCell.swift in Sources */,
 				50894D021AEA6433000981AF /* EditProfileLessInfoCell.swift in Sources */,
+				501138261BCB59120055A014 /* FeedConversationsViewController.swift in Sources */,
 				50894CFA1AEA54BA000981AF /* SettingsMoreCell.swift in Sources */,
 				50AFBF4B1BB2A44C007D19DA /* InfoView.swift in Sources */,
 				508F8FCC1B01C7FC00461B0B /* SocialWorkGithubViewController.swift in Sources */,
@@ -2183,6 +2229,7 @@
 				5064F6541B0B0E160089FAD4 /* AddFriendSearchCell.swift in Sources */,
 				504CBA3D1B3D04B800663A90 /* ChatTextView.swift in Sources */,
 				0A1CAC6E1AFA42D400826B45 /* SkillHomeViewController.swift in Sources */,
+				501138311BCB62A20055A014 /* FeedConversationCell.swift in Sources */,
 				502AE5401AB88862005BD199 /* SkillRankCell.swift in Sources */,
 				50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */,
 				84385C4A1B85BE200071130D /* ShowStepMeetViewController.swift in Sources */,
@@ -2248,6 +2295,7 @@
 				505A48401B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift in Sources */,
 				502AE52B1AB819AF005BD199 /* YepConfig.swift in Sources */,
 				50B38FB71B69CD960064C132 /* Array+Yep.swift in Sources */,
+				5011382C1BCB5E150055A014 /* FeedConversationDockCell.swift in Sources */,
 				845E1A661B788EF3001E0789 /* EditSkillsViewController.swift in Sources */,
 				504F85AC1B4D21DD00F909BE /* DiscoverFilterView.swift in Sources */,
 				0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */,

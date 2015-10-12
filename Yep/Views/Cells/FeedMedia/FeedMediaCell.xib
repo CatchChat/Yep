@@ -16,7 +16,7 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Aee-O7-EqM">
                         <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_media_delete" translatesAutoresizingMaskIntoConstraints="NO" id="hUo-wW-DEo">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="icon_media_delete" translatesAutoresizingMaskIntoConstraints="NO" id="hUo-wW-DEo">
                         <rect key="frame" x="56" y="8" width="16" height="16"/>
                     </imageView>
                 </subviews>

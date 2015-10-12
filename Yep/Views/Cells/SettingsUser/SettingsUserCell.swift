@@ -57,8 +57,7 @@ class SettingsUserCell: UITableViewCell {
 
         introLabel.font = YepConfig.Settings.introFont
 
-        accessoryImageView.tintColor = UIColor.lightGrayColor()
-
+        accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
     }
 
     func updateAvatar() {

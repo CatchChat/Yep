@@ -18,7 +18,12 @@ class ConversationMoreDetailCell: UITableViewCell {
         layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
 
         textLabel?.textColor = UIColor.darkGrayColor()
-        textLabel?.font = UIFont(name: "Helvetica-Light", size: 18)!
+
+        if #available(iOS 8.2, *) {
+            textLabel?.font = UIFont.systemFontOfSize(18, weight: UIFontWeightLight)
+        } else {
+            textLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 18)!
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -34,7 +39,12 @@ class ConversationMoreCheckCell: UITableViewCell {
         layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
 
         textLabel?.textColor = UIColor.darkGrayColor()
-        textLabel?.font = UIFont(name: "Helvetica-Light", size: 18)!
+
+        if #available(iOS 8.2, *) {
+            textLabel?.font = UIFont.systemFontOfSize(18)
+        } else {
+            textLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 18)!
+        }
 
         makeUI()
     }
@@ -97,9 +107,13 @@ class ConversationMoreColorTitleCell: UITableViewCell {
         willSet {
             switch newValue {
             case .Light:
-                colorTitleLabel.font = UIFont(name: "Helvetica-Light", size: 18)!
+                if #available(iOS 8.2, *) {
+                    colorTitleLabel.font = UIFont.systemFontOfSize(18, weight: UIFontWeightLight)
+                } else {
+                    colorTitleLabel.font = UIFont(name: "HelveticaNeue-Light", size: 18)!
+                }
             case .Regular:
-                colorTitleLabel.font = UIFont(name: "Helvetica", size: 18)!
+                colorTitleLabel.font = UIFont.systemFontOfSize(18)
             }
         }
     }

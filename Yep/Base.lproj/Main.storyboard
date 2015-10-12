@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -8,6 +8,14 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
+        <!--FeedConversationsViewController-->
+        <scene sceneID="IRz-xo-nL8">
+            <objects>
+                <viewControllerPlaceholder storyboardName="FeedConversations" referencedIdentifier="FeedConversationsViewController" id="4LZ-EL-DIC" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WNH-o5-WbW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1242.5" y="1465"/>
+        </scene>
         <!--Conversations-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
@@ -45,6 +53,7 @@
                     <connections>
                         <outlet property="conversationsTableView" destination="ECY-qd-LcH" id="UNW-oM-y6R"/>
                         <segue destination="la3-6z-2aH" kind="show" identifier="showConversation" id="0bS-uM-LPI"/>
+                        <segue destination="4LZ-EL-DIC" kind="show" identifier="showFeedConversations" id="k6i-To-sje"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -1334,7 +1343,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="59"/>
                                                     <animations/>
                                                     <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                                 </textField>
                                             </subviews>
@@ -1484,9 +1493,9 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick a badge" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ez2-AI-ikn">
-                                                    <rect key="frame" x="252" y="17" width="96" height="19"/>
+                                                    <rect key="frame" x="254" y="16.5" width="92.5" height="19.5"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -2098,8 +2107,8 @@
         <image name="yep_icon_solo" width="120" height="120"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="l4P-ds-ihU"/>
-        <segue reference="o3b-2D-AMq"/>
+        <segue reference="0bS-uM-LPI"/>
         <segue reference="N7F-Tw-oVn"/>
+        <segue reference="X2e-mz-fLa"/>
     </inferredMetricsTieBreakers>
 </document>
