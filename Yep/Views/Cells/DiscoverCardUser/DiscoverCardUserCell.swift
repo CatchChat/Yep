@@ -31,6 +31,10 @@ class DiscoverCardUserCell: UICollectionViewCell {
         contentView.backgroundColor = UIColor.whiteColor()
         contentView.layer.cornerRadius  = 6
         contentView.layer.masksToBounds = true
+        
+        contentView.layer.borderColor = UIColor.yepCellSeparatorColor().CGColor
+        contentView.layer.borderWidth = 1.0
+        
         avatarImageView.contentMode = UIViewContentMode.ScaleAspectFill
         avatarImageView.clipsToBounds = true
         
