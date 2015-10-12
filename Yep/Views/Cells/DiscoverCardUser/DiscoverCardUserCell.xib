@@ -13,14 +13,6 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="170" height="280"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Op8-Yi-D8v">
-                        <rect key="frame" x="0.0" y="0.0" width="170" height="170"/>
-                        <animations/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="170" id="bhS-kX-W1K"/>
-                            <constraint firstAttribute="width" constant="170" id="zYh-ss-hKp"/>
-                        </constraints>
-                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UY0-zc-CIG">
                         <rect key="frame" x="10" y="180" width="35.5" height="17"/>
                         <animations/>
@@ -48,6 +40,19 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                     </collectionView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Op8-Yi-D8v">
+                        <rect key="frame" x="0.0" y="0.0" width="170" height="170"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="170" id="bhS-kX-W1K"/>
+                            <constraint firstAttribute="width" constant="170" id="zYh-ss-hKp"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="zYh-ss-hKp"/>
+                            </mask>
+                        </variation>
+                    </imageView>
                 </subviews>
                 <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
