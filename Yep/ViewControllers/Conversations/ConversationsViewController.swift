@@ -52,9 +52,8 @@ class ConversationsViewController: UIViewController {
     }
 
     lazy var conversations: Results<Conversation> = {
-        //return self.realm.objects(Conversation).sorted("updatedUnixTime", ascending: false)
-//        let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
-        return self.realm.objects(Conversation).sorted("updatedUnixTime", ascending: false)
+        let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
+        return self.realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
         }()
 
     struct Listener {

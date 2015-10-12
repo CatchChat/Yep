@@ -7,10 +7,18 @@
 //
 
 import UIKit
+import RealmSwift
 
 class FeedConversationsViewController: UIViewController {
 
     @IBOutlet weak var feedConversationsTableView: UITableView!
+
+    var realm: Realm!
+
+    lazy var feedConversations: Results<Conversation> = {
+        let predicate = NSPredicate(format: "type = %d", ConversationType.Group.rawValue)
+        return self.realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
+        }()
 
     let feedConversationCellID = "FeedConversationCell"
 
@@ -19,8 +27,11 @@ class FeedConversationsViewController: UIViewController {
 
         title = "Feeds"
 
+        realm = try! Realm()
+
         feedConversationsTableView.registerNib(UINib(nibName: feedConversationCellID, bundle: nil), forCellReuseIdentifier: feedConversationCellID)
         feedConversationsTableView.rowHeight = 80
+        feedConversationsTableView.tableFooterView = UIView()
     }
 }
 
@@ -29,11 +40,14 @@ class FeedConversationsViewController: UIViewController {
 extension FeedConversationsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 15
+        return feedConversations.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationCellID) as! FeedConversationCell
+        if let conversation = feedConversations[safe: indexPath.row] {
+            cell.configureWithConversation(conversation)
+        }
         return cell
     }
 }

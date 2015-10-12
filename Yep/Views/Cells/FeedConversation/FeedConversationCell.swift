@@ -24,5 +24,14 @@ class FeedConversationCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
+
+    func configureWithConversation(conversation: Conversation) {
+
+        //self.conversation = conversation
+
+        //countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
+
+        nameLabel.text = conversation.withGroup?.withFeed?.body
+    }
 }
