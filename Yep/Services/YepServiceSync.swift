@@ -787,6 +787,10 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
 
         realm.write {
 
+            if let user = message.fromFriend where user.userID == YepUserDefaults.userID.value {
+                message.sendState = MessageSendState.Read.rawValue
+            }
+
             if let textContent = messageInfo["text_content"] as? String {
                 message.textContent = textContent
             }
