@@ -17,7 +17,6 @@ class SocialWorkInstagramViewController: BaseViewController {
 
     var afterGetInstagramWork: (InstagramWork -> Void)?
 
-
     lazy var shareButton: UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share")
         return button
@@ -44,8 +43,6 @@ class SocialWorkInstagramViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        animatedOnNavigationBar = false
-
         if let socialAccount = socialAccount {
             let accountImageView = UIImageView(image: UIImage(named: socialAccount.iconName)!)
             accountImageView.tintColor = socialAccount.tintColor
@@ -163,7 +160,6 @@ class SocialWorkInstagramViewController: BaseViewController {
             }
         }
     }
-
 }
 
 extension SocialWorkInstagramViewController: UICollectionViewDataSource, UICollectionViewDelegate {
