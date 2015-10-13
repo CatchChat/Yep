@@ -90,6 +90,12 @@ class FeedCell: UITableViewCell {
         avatarImageView.addGestureRecognizer(tap)
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        attachmentURLs = []
+    }
+
     func tapAvatar(sender: UITapGestureRecognizer) {
 
         tapAvatarAction?()
@@ -146,11 +152,12 @@ extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegate {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaCellID, forIndexPath: indexPath) as! FeedMediaCell
 
-        let imageURL = attachmentURLs[indexPath.item]
+        if let imageURL = attachmentURLs[safe: indexPath.item] {
 
-        println("attachment imageURL: \(imageURL)")
+            println("attachment imageURL: \(imageURL)")
 
-        cell.configureWithImageURL(imageURL)
+            cell.configureWithImageURL(imageURL)
+        }
 
         return cell
     }
