@@ -2542,14 +2542,16 @@ struct InstagramWork {
 
     struct Media {
 
+        let ID: String
+        let linkURLString: String
+
         struct Images {
             let lowResolution: String
             let standardResolution: String
             let thumbnail: String
         }
-
-        let linkURLString: String
         let images: Images
+
         let likesCount: Int
         let commentsCount: Int
 
@@ -2562,7 +2564,7 @@ struct InstagramWork {
 func instagramWorkOfUserWithUserID(userID: String, failureHandler: ((Reason, String?) -> Void)?, completion: InstagramWork -> Void) {
 
     let parse: JSONDictionary -> InstagramWork? = { data in
-        //println("instagramData:\(data)")
+        println("instagramData:\(data)")
 
         if let mediaData = data["media"] as? [JSONDictionary] {
 
@@ -2570,6 +2572,7 @@ func instagramWorkOfUserWithUserID(userID: String, failureHandler: ((Reason, Str
 
             for mediaInfo in mediaData {
                 if let
+                    ID = mediaInfo["id"] as? String,
                     linkURLString = mediaInfo["link"] as? String,
                     imagesInfo = mediaInfo["images"] as? JSONDictionary,
                     likesInfo = mediaInfo["likes"] as? JSONDictionary,
@@ -2591,7 +2594,7 @@ func instagramWorkOfUserWithUserID(userID: String, failureHandler: ((Reason, Str
 
                                 let images = InstagramWork.Media.Images(lowResolution: lowResolution, standardResolution: standardResolution, thumbnail: thumbnail)
 
-                                let media = InstagramWork.Media(linkURLString: linkURLString, images: images, likesCount: likesCount, commentsCount: commentsCount, username: username)
+                                let media = InstagramWork.Media(ID: ID, linkURLString: linkURLString, images: images, likesCount: likesCount, commentsCount: commentsCount, username: username)
 
                                 medias.append(media)
                         }

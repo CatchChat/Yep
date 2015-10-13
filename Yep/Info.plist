@@ -51,6 +51,7 @@
 	<array>
 		<string>org-appextension-feature-password-management</string>
 		<string>weixin</string>
+		<string>instagram</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
