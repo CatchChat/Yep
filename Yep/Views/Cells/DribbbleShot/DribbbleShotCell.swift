@@ -18,7 +18,8 @@ class DribbbleShotCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        imageView.contentMode = .ScaleAspectFill
     }
 
     func configureWithDribbbleShot(shot: DribbbleWork.Shot) {

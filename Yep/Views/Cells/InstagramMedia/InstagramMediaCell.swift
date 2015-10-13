@@ -18,7 +18,8 @@ class InstagramMediaCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        imageView.contentMode = .ScaleAspectFill
     }
 
     func configureWithInstagramMedia(media: InstagramWork.Media) {
