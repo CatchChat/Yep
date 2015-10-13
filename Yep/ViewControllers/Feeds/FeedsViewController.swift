@@ -202,8 +202,10 @@ class FeedsViewController: UIViewController {
                 vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
             }
 
-            vc.isFromConversation = false
+            vc.fromType = .None
             vc.setBackButtonWithTitle()
+
+            vc.hidesBottomBarWhenPushed = true
 
         case "showConversation":
 

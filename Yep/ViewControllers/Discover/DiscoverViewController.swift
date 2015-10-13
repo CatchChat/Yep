@@ -65,6 +65,10 @@ class DiscoverViewController: BaseViewController {
                     self?.activityIndicator.stopAnimating()
                 }
             })
+
+            // save discoveredUserSortStyle
+
+            YepUserDefaults.discoveredUserSortStyle.value = discoveredUserSortStyle.rawValue
         }
     }
 
@@ -88,20 +92,28 @@ class DiscoverViewController: BaseViewController {
 
         view.backgroundColor = UIColor.whiteColor()
 
+        // recover discoveredUserSortStyle if can
+
+        if let
+            value = YepUserDefaults.discoveredUserSortStyle.value,
+            _discoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: value) {
+
+                discoveredUserSortStyle = _discoveredUserSortStyle
+
+        } else {
+            discoveredUserSortStyle = .Default
+        }
+
         discoverCollectionView.backgroundColor = UIColor.clearColor()
         discoverCollectionView.setCollectionViewLayout(layout, animated: false)
         discoverCollectionView.delegate = self
         discoverCollectionView.dataSource = self
-        userMode = .Card
-        
+
         discoverCollectionView.registerNib(UINib(nibName: NormalUserIdentifier, bundle: nil), forCellWithReuseIdentifier: NormalUserIdentifier)
-        
         discoverCollectionView.registerNib(UINib(nibName: CardUserIdentifier, bundle: nil), forCellWithReuseIdentifier: CardUserIdentifier)
 
-
-        discoveredUserSortStyle = .Default
+        userMode = .Card
     }
-
 
     // MARK: Actions
     
