@@ -240,6 +240,7 @@ extension DiscoverFilterView: UIGestureRecognizerDelegate {
     }
 }
 
+// MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension DiscoverFilterView: UITableViewDataSource, UITableViewDelegate {
 

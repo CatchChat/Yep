@@ -943,7 +943,6 @@ class ConversationViewController: BaseViewController {
         super.viewWillDisappear(animated)
 
         NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
-        
     }
 
     override func viewDidDisappear(animated: Bool) {

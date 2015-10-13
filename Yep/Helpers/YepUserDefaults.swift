@@ -20,6 +20,7 @@ let pusherIDKey = "pusherID"
 let areaCodeKey = "areaCode"
 let mobileKey = "mobile"
 
+let discoveredUserSortStyleKey = "discoveredUserSortStyle"
 
 struct Listener<T>: Hashable {
     let name: String
@@ -109,6 +110,7 @@ class YepUserDefaults {
         pusherID.removeAllListeners()
         areaCode.removeAllListeners()
         mobile.removeAllListeners()
+        discoveredUserSortStyle.removeAllListeners()
 
         defaults.removeObjectForKey(v1AccessTokenKey)
         defaults.removeObjectForKey(userIDKey)
@@ -119,6 +121,7 @@ class YepUserDefaults {
         defaults.removeObjectForKey(pusherIDKey)
         defaults.removeObjectForKey(areaCodeKey)
         defaults.removeObjectForKey(mobileKey)
+        defaults.removeObjectForKey(discoveredUserSortStyleKey)
     }
 
     class func userNeedRelogin() {
@@ -292,6 +295,14 @@ class YepUserDefaults {
 
         return nil
     }
+
+    static var discoveredUserSortStyle: Listenable<String?> = {
+        let discoveredUserSortStyle = defaults.stringForKey(discoveredUserSortStyleKey)
+
+        return Listenable<String?>(discoveredUserSortStyle) { discoveredUserSortStyle in
+            defaults.setObject(discoveredUserSortStyle, forKey: discoveredUserSortStyleKey)
+        }
+        }()
 }
 
 
