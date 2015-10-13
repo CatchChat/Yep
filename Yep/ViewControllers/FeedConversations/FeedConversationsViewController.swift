@@ -14,7 +14,6 @@ class FeedConversationsViewController: UIViewController {
     @IBOutlet weak var feedConversationsTableView: UITableView!
 
     var realm: Realm!
-    var realmNotificationToken: NotificationToken?
 
     var haveUnreadMessages = false {
         didSet {
@@ -39,17 +38,18 @@ class FeedConversationsViewController: UIViewController {
         feedConversationsTableView.registerNib(UINib(nibName: feedConversationCellID, bundle: nil), forCellReuseIdentifier: feedConversationCellID)
         feedConversationsTableView.rowHeight = 80
         feedConversationsTableView.tableFooterView = UIView()
-//
-//        realmNotificationToken = realm.addNotificationBlock { [weak self] notification, realm in
-//            if let strongSelf = self {
-//                strongSelf.haveUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
-//            }
-//        }
     }
+
+    var isFirstAppear = true
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        haveUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
+
+        if !isFirstAppear {
+            haveUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
+        }
+
+        isFirstAppear = false
     }
 
     // MARK: Actions
