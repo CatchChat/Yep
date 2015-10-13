@@ -404,37 +404,50 @@ class ConversationViewController: BaseViewController {
             }
         }
 
-        // sync unread messages
+        // sync messages
 
-        if let groupID = conversation.withGroup?.groupID {
-            joinGroup(groupID: groupID, failureHandler: { (reason, error) -> Void in
-                
-                print("Join Group Failed \(reason)")
-                
-            }, completion: {(result) -> Void in
-                dispatch_async(dispatch_get_main_queue()) {
-                    FayeService.sharedManager.subscribeGroup(groupID: groupID)
+        let syncMessages: () -> Void = {
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                if let recipient = self?.conversation.recipient {
+                    
+                    let timeDirection: TimeDirection
+                    if let minMessageID = self?.messages.last?.messageID {
+                        timeDirection = .Future(minMessageID: minMessageID)
+                    } else {
+                        timeDirection = .None
+                    }
+                    
+                    messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { success in
+                        println("messagesFromRecipient: \(success)")
+                    })
                 }
-            })
-        }
-        
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-            if let recipient = self?.conversation.recipient {
-                
-                let timeDirection: TimeDirection
-                if let minMessageID = self?.messages.last?.messageID {
-                    timeDirection = .Future(minMessageID: minMessageID)
-                } else {
-                    timeDirection = .None
-                }
-                
-                messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { success in
-                    println("messagesFromRecipient: \(success)")
-                })
             }
         }
-    }
 
+        switch conversation.type {
+
+        case ConversationType.OneToOne.rawValue:
+            syncMessages()
+
+        case ConversationType.Group.rawValue:
+
+            if let groupID = conversation.withGroup?.groupID {
+
+                joinGroup(groupID: groupID, failureHandler: nil, completion: { result in
+
+                    syncMessages()
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        FayeService.sharedManager.subscribeGroup(groupID: groupID)
+                    }
+                })
+            }
+
+        default:
+            break
+        }
+    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
