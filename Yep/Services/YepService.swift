@@ -1659,10 +1659,7 @@ func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection
                 }
             }
 
-            if !messageIDs.isEmpty {
-                let object = ["messageIDs": messageIDs]
-                NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: object)
-            }
+            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs)
         }
 
         return true

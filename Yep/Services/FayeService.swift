@@ -251,10 +251,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
             }
 
             syncMessageWithMessageInfo(messageInfo, inRealm: realm) { messageIDs in
-                dispatch_async(dispatch_get_main_queue()) {
-                    let object = ["messageIDs": messageIDs]
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: object)
-                }
+                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs)
             }
         }
     }

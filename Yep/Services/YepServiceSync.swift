@@ -12,6 +12,16 @@ import RealmSwift
 
 let YepNewMessagesReceivedNotification = "YepNewMessagesReceivedNotification"
 
+func tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs: [String]) {
+
+    if !messageIDs.isEmpty {
+        dispatch_async(dispatch_get_main_queue()) {
+            let object = ["messageIDs": messageIDs]
+            NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: object)
+        }
+    }
+}
+
 func getOrCreateUserWithDiscoverUser(discoveredUser: DiscoveredUser, inRealm realm: Realm) -> User? {
     
     var user = userWithUserID(discoveredUser.id, inRealm: realm)

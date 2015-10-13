@@ -297,10 +297,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             syncFriendshipsAndDoFurtherAction {
                 syncGroupsAndDoFurtherAction {
                     syncUnreadMessagesAndDoFurtherAction { messageIDs in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            let object = ["messageIDs": messageIDs]
-                            NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: object)
-                        }
+                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs)
                     }
                 }
             }
@@ -348,13 +345,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func syncUnreadMessages(furtherAction: () -> Void) {
 
         syncUnreadMessagesAndDoFurtherAction() { messageIDs in
-
-            dispatch_async(dispatch_get_main_queue()) {
-                let object = ["messageIDs": messageIDs]
-                NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: object)
-
-                furtherAction()
-            }
+            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs)
+            furtherAction()
         }
     }
 
