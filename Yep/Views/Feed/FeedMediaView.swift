@@ -38,7 +38,7 @@ class FeedMediaView: UIView {
         view.clipsToBounds = true
         return view
         }()
-
+    
     func setImagesWithURLs(URLs: [NSURL]) {
 
         let fullRect = bounds
@@ -103,6 +103,11 @@ class FeedMediaView: UIView {
             addSubview(imageView3)
             addSubview(imageView4)
 
+        case 0:
+            imageView1.image = nil
+            imageView2.image = nil
+            imageView3.image = nil
+            imageView4.image = nil
         default:
             break
         }
