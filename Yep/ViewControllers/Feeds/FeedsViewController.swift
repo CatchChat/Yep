@@ -347,10 +347,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.mediaCollectionViewTouchesBeganAction = { [weak self] in
             self?.tableView(tableView, willSelectRowAtIndexPath: indexPath)
-            tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .None)
+            tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
         }
         cell.mediaCollectionViewTouchesEndedAction = { [weak self] in
-            delay(0.2) {
+            delay(0.075) {
                 self?.tableView(tableView, didSelectRowAtIndexPath: indexPath)
             }
         }
