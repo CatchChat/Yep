@@ -343,6 +343,12 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             self?.performSegueWithIdentifier("showFeedMedia", sender: info)
         }
 
+        cell.tapMediaCollectionViewBackgroundViewAction = { [weak self] in
+            self?.tableView(tableView, willSelectRowAtIndexPath: indexPath)
+            tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .None)
+            self?.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+        }
+
         return cell
     }
 
@@ -351,6 +357,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         let feed = feeds[indexPath.item]
 
         return heightOfFeed(feed)
+    }
+
+    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        return indexPath
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
