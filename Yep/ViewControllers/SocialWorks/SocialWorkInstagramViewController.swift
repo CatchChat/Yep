@@ -198,6 +198,16 @@ extension SocialWorkInstagramViewController: UICollectionViewDataSource, UIColle
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let media = instagramMedias[indexPath.item]
 
-        UIApplication.sharedApplication().openURL(NSURL(string: media.linkURLString)!)
+        let application = UIApplication.sharedApplication()
+
+        if let instagramMediaURL = NSURL(string: "instagram://media?id=\(media.ID)") where application.canOpenURL(instagramMediaURL) {
+            application.openURL(instagramMediaURL)
+
+        } else {
+            if let mediaURL = NSURL(string: media.linkURLString) {
+                application.openURL(mediaURL)
+            }
+        }
     }
 }
+
