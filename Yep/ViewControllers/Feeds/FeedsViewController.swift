@@ -205,6 +205,8 @@ class FeedsViewController: UIViewController {
             vc.fromType = .None
             vc.setBackButtonWithTitle()
 
+            vc.hidesBottomBarWhenPushed = true
+
         case "showConversation":
 
             guard let
