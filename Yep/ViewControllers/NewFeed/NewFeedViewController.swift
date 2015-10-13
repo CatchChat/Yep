@@ -259,6 +259,10 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
                 self?.alertCanNotAccessCameraRoll()
             })
 
+        case 1:
+            mediaImages.removeAtIndex(indexPath.item)
+            collectionView.deleteItemsAtIndexPaths([indexPath])
+
         default:
             break
         }
