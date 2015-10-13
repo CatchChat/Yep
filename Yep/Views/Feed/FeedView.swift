@@ -149,7 +149,7 @@ class FeedView: UIView {
     var normalHeight: CGFloat {
 
         guard let feed = feed else {
-            return 220
+            return 60
         }
 
         let rect = feed.body.boundingRectWithSize(CGSize(width: FeedView.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedView.textAttributes, context: nil)
@@ -163,6 +163,10 @@ class FeedView: UIView {
         }
 
         return ceil(height)
+    }
+
+    var height: CGFloat {
+        return bounds.height
     }
 
     private func configureWithFeed(feed: ConversationFeed) {

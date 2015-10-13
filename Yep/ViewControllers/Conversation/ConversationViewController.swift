@@ -449,9 +449,10 @@ class ConversationViewController: BaseViewController {
             if let feed = conversation.withGroup?.withFeed {
                 conversationFeed = ConversationFeed.FeedType(feed)
             }
-            // test
+
             if let conversationFeed = conversationFeed {
                 makeFeedViewWithFeed(conversationFeed)
+                tryFoldFeedView()
             }
 
             // 为记录草稿准备
@@ -1190,7 +1191,6 @@ class ConversationViewController: BaseViewController {
         ]
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[feedView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
-        //let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-64-[feedView(==height)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: ["height": FeedView.normalHeight], views: views)
 
         let top = NSLayoutConstraint(item: feedView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1.0, constant: 64)
         let height = NSLayoutConstraint(item: feedView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: feedView.normalHeight)
@@ -1214,7 +1214,7 @@ class ConversationViewController: BaseViewController {
 
     private func setConversaitonCollectionViewOriginalContentInset() {
 
-        let feedViewHeight: CGFloat = (feedView == nil) ? 0 : feedView!.normalHeight
+        let feedViewHeight: CGFloat = (feedView == nil) ? 0 : feedView!.height
         conversationCollectionView.contentInset.top = 64 + feedViewHeight + conversationCollectionViewContentInsetYOffset
 
         setConversaitonCollectionViewContentInsetBottom(CGRectGetHeight(messageToolbar.bounds) + sectionInsetBottom)
@@ -1428,7 +1428,7 @@ class ConversationViewController: BaseViewController {
 
             let messageToolBarTop = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
 
-            let feedViewHeight: CGFloat = (feedView == nil) ? 0 : feedView!.normalHeight
+            let feedViewHeight: CGFloat = (feedView == nil) ? 0 : feedView!.height
             let invisibleHeight = messageToolBarTop + topBarsHeight + feedViewHeight
             let visibleHeight = conversationCollectionView.frame.height - invisibleHeight
 
