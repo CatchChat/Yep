@@ -27,7 +27,10 @@ class FeedCell: UITableViewCell {
 
     var tapAvatarAction: (() -> Void)?
     var tapMediaAction: ((transitionView: UIView, imageURL: NSURL) -> Void)?
-    var tapMediaCollectionViewBackgroundViewAction: (() -> Void)?
+
+    var mediaCollectionViewTouchesBeganAction: (() -> Void)?
+    var mediaCollectionViewTouchesEndedAction: (() -> Void)?
+    var mediaCollectionViewTouchesCancelledAction: (() -> Void)?
 
     var attachmentURLs = [NSURL]() {
         didSet {
@@ -89,10 +92,17 @@ class FeedCell: UITableViewCell {
         avatarImageView.userInteractionEnabled = true
         avatarImageView.addGestureRecognizer(tapAvatar)
 
-        let tapBackgroundView = UITapGestureRecognizer(target: self, action: "tapMediaCollectionViewBackgroundView:")
-        let backgroundView = UIView(frame: mediaCollectionView.bounds)
+        let backgroundView = TouchClosuresView(frame: mediaCollectionView.bounds)
+        backgroundView.touchesBeganAction = { [weak self] in
+            self?.mediaCollectionViewTouchesBeganAction?()
+        }
+        backgroundView.touchesEndedAction = { [weak self] in
+            self?.mediaCollectionViewTouchesEndedAction?()
+        }
+        backgroundView.touchesCancelledAction = { [weak self] in
+            self?.mediaCollectionViewTouchesCancelledAction?()
+        }
         mediaCollectionView.backgroundView = backgroundView
-        backgroundView.addGestureRecognizer(tapBackgroundView)
     }
 
     override func prepareForReuse() {
@@ -104,11 +114,6 @@ class FeedCell: UITableViewCell {
     func tapAvatar(sender: UITapGestureRecognizer) {
 
         tapAvatarAction?()
-    }
-
-    func tapMediaCollectionViewBackgroundView(sender: UITapGestureRecognizer) {
-
-        tapMediaCollectionViewBackgroundViewAction?()
     }
 
     func configureWithFeed(feed: DiscoveredFeed) {

@@ -343,10 +343,19 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             self?.performSegueWithIdentifier("showFeedMedia", sender: info)
         }
 
-        cell.tapMediaCollectionViewBackgroundViewAction = { [weak self] in
+        // simulate select effects when tap on cell.mediaCollectionView's space part
+
+        cell.mediaCollectionViewTouchesBeganAction = { [weak self] in
             self?.tableView(tableView, willSelectRowAtIndexPath: indexPath)
             tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .None)
-            self?.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+        }
+        cell.mediaCollectionViewTouchesEndedAction = { [weak self] in
+            delay(0.2) {
+                self?.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+            }
+        }
+        cell.mediaCollectionViewTouchesCancelledAction = {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
         return cell
