@@ -1929,7 +1929,7 @@ class ConversationViewController: BaseViewController {
                 vc.profileUser = ProfileUser.UserType(user)
             }
 
-            vc.isFromConversation = true
+            vc.fromType = .GroupConversation
             vc.setBackButtonWithTitle()
 
         } else if segue.identifier == "showProfile" {
@@ -1947,7 +1947,15 @@ class ConversationViewController: BaseViewController {
                 }
             }
 
-            vc.isFromConversation = true
+            switch conversation.type {
+            case ConversationType.OneToOne.rawValue:
+                vc.fromType = .OneToOneConversation
+            case ConversationType.Group.rawValue:
+                vc.fromType = .GroupConversation
+            default:
+                break
+            }
+
             vc.setBackButtonWithTitle()
 
         } else if segue.identifier == "showFeedMedia" {

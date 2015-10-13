@@ -300,7 +300,13 @@ class ProfileViewController: UIViewController {
 
     var noNeedToChangeStatusBar = false
 
-    var isFromConversation = false
+    enum FromType {
+        case None
+        case OneToOneConversation
+        case GroupConversation
+    }
+
+    var fromType: FromType = .None
 
     var profileUser: ProfileUser?
     var profileUserIsMe = true {
@@ -312,7 +318,7 @@ class ProfileViewController: UIViewController {
                 //customNavigationItem.rightBarButtonItem = moreBarButtonItem
 
 
-                if isFromConversation {
+                if fromType == .OneToOneConversation {
                     sayHiView.hidden = true
 
                 } else {
