@@ -110,6 +110,7 @@
 		504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504F41591AD5028200FBB19A /* SkillCell.xib */; };
 		504F5E6F1B9F1F13006CE418 /* NSURLRequest+cURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F5E6E1B9F1F13006CE418 /* NSURLRequest+cURL.swift */; };
 		504F85AC1B4D21DD00F909BE /* DiscoverFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F85AB1B4D21DD00F909BE /* DiscoverFilterView.swift */; };
+		50535D1A1BCD19AE002FE1A4 /* TouchClosuresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D191BCD19AE002FE1A4 /* TouchClosuresView.swift */; settings = {ASSET_TAGS = (); }; };
 		5053AD4A1AF772C500B3CBFA /* PickLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD491AF772C500B3CBFA /* PickLocationViewController.swift */; };
 		5053AD4D1AF79EEA00B3CBFA /* LocationPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD4C1AF79EEA00B3CBFA /* LocationPin.swift */; };
 		5053AD501AF82A1700B3CBFA /* PickLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD4E1AF82A1700B3CBFA /* PickLocationCell.swift */; };
@@ -399,6 +400,7 @@
 		504F41591AD5028200FBB19A /* SkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillCell.xib; path = Views/Cells/Skill/SkillCell.xib; sourceTree = "<group>"; };
 		504F5E6E1B9F1F13006CE418 /* NSURLRequest+cURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURLRequest+cURL.swift"; path = "Extensions/NSURLRequest+cURL.swift"; sourceTree = "<group>"; };
 		504F85AB1B4D21DD00F909BE /* DiscoverFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverFilterView.swift; path = Views/DiscoverFilter/DiscoverFilterView.swift; sourceTree = "<group>"; };
+		50535D191BCD19AE002FE1A4 /* TouchClosuresView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouchClosuresView.swift; path = Views/TouchClosures/TouchClosuresView.swift; sourceTree = "<group>"; };
 		5053AD491AF772C500B3CBFA /* PickLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickLocationViewController.swift; path = ViewControllers/PickLocation/PickLocationViewController.swift; sourceTree = "<group>"; };
 		5053AD4C1AF79EEA00B3CBFA /* LocationPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationPin.swift; path = ViewControllers/PickLocation/LocationPin.swift; sourceTree = "<group>"; };
 		5053AD4E1AF82A1700B3CBFA /* PickLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickLocationCell.swift; path = Views/Cells/PickLocation/PickLocationCell.swift; sourceTree = "<group>"; };
@@ -966,6 +968,7 @@
 				50AFBF4C1BB2A453007D19DA /* InfoView */,
 				50AACEC91BB54132004DD54B /* Feed */,
 				50F5AF891BBBB2B30033C9BC /* HorizontalLine */,
+				50535D1B1BCD19B4002FE1A4 /* TouchClosures */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1277,6 +1280,14 @@
 				504F85AB1B4D21DD00F909BE /* DiscoverFilterView.swift */,
 			);
 			name = DiscoverFilter;
+			sourceTree = "<group>";
+		};
+		50535D1B1BCD19B4002FE1A4 /* TouchClosures */ = {
+			isa = PBXGroup;
+			children = (
+				50535D191BCD19AE002FE1A4 /* TouchClosuresView.swift */,
+			);
+			name = TouchClosures;
 			sourceTree = "<group>";
 		};
 		5053AD4B1AF772CE00B3CBFA /* PickLocation */ = {
@@ -2171,6 +2182,7 @@
 				50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */,
 				5099B9C41AB9510D002F940B /* RankView.swift in Sources */,
 				502AE5311AB85067005BD199 /* RegisterPickMobileViewController.swift in Sources */,
+				50535D1A1BCD19AE002FE1A4 /* TouchClosuresView.swift in Sources */,
 				506E241E1AE6391A00A33C1A /* TouchZoomButton.swift in Sources */,
 				508F8FDB1B0479E700461B0B /* SocialWorkInstagramViewController.swift in Sources */,
 				5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */,
