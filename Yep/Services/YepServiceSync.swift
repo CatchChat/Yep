@@ -787,6 +787,10 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
 
         realm.write {
 
+            if let user = message.fromFriend where user.userID == YepUserDefaults.userID.value {
+                message.sendState = MessageSendState.Read.rawValue
+            }
+
             if let textContent = messageInfo["text_content"] as? String {
                 message.textContent = textContent
             }
@@ -954,12 +958,24 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
 
                         // 纪录消息所属的 Conversation
 
-                        var conversation: Conversation? = nil
+                        var conversation: Conversation?
+
+                        var conversationWithUser: User? // 注意：对于自己发送的消息被自己同步，要以其接收者来建立 Conversation
 
                         if let sendFromGroup = sendFromGroup {
                             conversation = sendFromGroup.conversation
+
                         } else {
-                            conversation = sender.conversation
+                            if sender.userID != YepUserDefaults.userID.value {
+                                conversation = sender.conversation
+                                conversationWithUser = sender
+
+                            } else {
+                                if let userID = messageInfo["recipient_id"] as? String, user = userWithUserID(userID, inRealm: realm) {
+                                    conversation = user.conversation
+                                    conversationWithUser = user
+                                }
+                            }
                         }
 
                         // 没有 Conversation 就尝试建立它
@@ -972,7 +988,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
                                 newConversation.withGroup = sendFromGroup
                             } else {
                                 newConversation.type = ConversationType.OneToOne.rawValue
-                                newConversation.withFriend = sender
+                                newConversation.withFriend = conversationWithUser
                             }
 
                             realm.write {
