@@ -82,6 +82,8 @@ class ConversationsViewController: UIViewController {
         realm = try! Realm()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepNewMessagesReceivedNotification, object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepCreatedConversationNotification, object: nil)
         
         YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {

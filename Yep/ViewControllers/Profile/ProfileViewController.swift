@@ -10,6 +10,8 @@ import UIKit
 import RealmSwift
 import MonkeyKing
 
+let YepCreatedConversationNotification = "YepCreatedConversationNotification"
+
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
 enum SocialAccount: String, CustomStringConvertible {
@@ -929,7 +931,7 @@ class ProfileViewController: UIViewController {
                     if let conversation = user.conversation {
                         performSegueWithIdentifier("showConversation", sender: conversation)
                         
-                        NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
+                        NSNotificationCenter.defaultCenter().postNotificationName(YepCreatedConversationNotification, object: nil)
                     }
                 }
 
@@ -951,7 +953,7 @@ class ProfileViewController: UIViewController {
                     if let conversation = user.conversation {
                         performSegueWithIdentifier("showConversation", sender: conversation)
 
-                        NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: nil)
+                        NSNotificationCenter.defaultCenter().postNotificationName(YepCreatedConversationNotification, object: nil)
                     }
                 }
             }
