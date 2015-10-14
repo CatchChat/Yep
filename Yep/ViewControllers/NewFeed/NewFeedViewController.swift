@@ -44,6 +44,7 @@ class NewFeedViewController: UIViewController {
         super.viewDidLoad()
 
         title = NSLocalizedString("New Feed", comment: "")
+        view.backgroundColor = UIColor.yepBackgroundColor()
 
         let postButton = UIBarButtonItem(title: NSLocalizedString("Post", comment: ""), style: .Plain, target: self, action: "post:")
 
@@ -56,14 +57,10 @@ class NewFeedViewController: UIViewController {
         view.sendSubviewToBack(feedWhiteBGView)
 
         messageTextView.text = ""
-        
         messageTextView.textContainer.lineFragmentPadding = 0
-        
         messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        
         messageTextView.becomeFirstResponder()
 
-        view.backgroundColor = UIColor.yepBackgroundColor()
         mediaCollectionView.backgroundColor = UIColor.clearColor()
 
         mediaCollectionView.registerNib(UINib(nibName: feedMediaAddCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaAddCellID)
@@ -95,11 +92,6 @@ class NewFeedViewController: UIViewController {
             })
         }
     }
-    
-    func cancel(sender: UIBarButtonItem) {
-        messageTextView.resignFirstResponder()
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -110,7 +102,26 @@ class NewFeedViewController: UIViewController {
         }
     }
 
+    // MARK: Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        if segue.identifier == "showPickPhotos" {
+
+            let vc = segue.destinationViewController as! PickPhotosViewController
+
+            vc.completion = { [weak self] images in
+                self?.mediaImages.appendContentsOf(images)
+            }
+        }
+    }
+
     // MARK: Actions
+
+    func cancel(sender: UIBarButtonItem) {
+        messageTextView.resignFirstResponder()
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
 
     func post(sender: UIBarButtonItem) {
 
@@ -246,6 +257,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         switch indexPath.section {
 
         case 0:
+            /*
             let openCameraRoll: ProposerAction = { [weak self] in
                 if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
                     if let strongSelf = self {
@@ -256,6 +268,14 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             }
 
             proposeToAccess(.Photos, agreed: openCameraRoll, rejected: { [weak self] in
+                self?.alertCanNotAccessCameraRoll()
+            })
+            */
+
+            proposeToAccess(.Photos, agreed: { [weak self] in
+                self?.performSegueWithIdentifier("showPickPhotos", sender: nil)
+
+            }, rejected: { [weak self] in
                 self?.alertCanNotAccessCameraRoll()
             })
 
