@@ -98,7 +98,7 @@ class ConversationViewController: BaseViewController {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
         }()
 
-    let messagesBunchCount = 50 // TODO: 分段载入的“一束”消息的数量
+    let messagesBunchCount = 30 // TODO: 分段载入的“一束”消息的数量
     var displayedMessagesRange = NSRange()
     
     // 上一次更新 UI 时的消息数
