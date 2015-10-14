@@ -22,6 +22,8 @@ class DiscoverCardUserCell: UICollectionViewCell {
     
     @IBOutlet weak var userSkillsCollectionView: UICollectionView!
     
+    var skillSizeCache = [String: CGRect]()
+    
     var discoveredUser: DiscoveredUser?
     
     let skillTextAttributes = [NSFontAttributeName: UIFont.skillDiscoverTextFont()]
@@ -33,8 +35,8 @@ class DiscoverCardUserCell: UICollectionViewCell {
         // Initialization code
         userSkillsCollectionView.backgroundColor = UIColor.clearColor()
         contentView.backgroundColor = UIColor.whiteColor()
-        contentView.layer.cornerRadius  = 6
-        contentView.layer.masksToBounds = true
+//        contentView.layer.cornerRadius  = 6
+//        contentView.layer.masksToBounds = true
         
         contentView.layer.borderColor = UIColor.yepCellSeparatorColor().CGColor
         contentView.layer.borderWidth = 1.0
@@ -106,7 +108,19 @@ extension DiscoverCardUserCell:  UICollectionViewDelegate, UICollectionViewDataS
             
             let skillLocalName = discoveredUser.masterSkills[indexPath.row].localName ?? ""
             
-            let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
+            let skillID =  discoveredUser.masterSkills[indexPath.row].id
+            
+//            print(skillID)
+
+            var rect = CGRectZero
+            
+            if let cacheRect = skillSizeCache[skillID] {
+                rect = cacheRect
+            } else {
+                rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
+                
+                skillSizeCache[skillID] = rect
+            }
             
             return CGSize(width: rect.width + 12, height: discoverCellHeight)
         } else {
