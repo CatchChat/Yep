@@ -21,6 +21,10 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = NSLocalizedString("Pick Photos", comment: "")
+
+        collectionView?.backgroundColor = UIColor.whiteColor()
+        collectionView?.alwaysBounceVertical = true
         collectionView?.registerNib(UINib(nibName: photoCellID, bundle: nil), forCellWithReuseIdentifier: photoCellID)
 
         if let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
