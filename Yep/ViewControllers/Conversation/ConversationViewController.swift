@@ -98,7 +98,7 @@ class ConversationViewController: BaseViewController {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
         }()
 
-    let messagesBunchCount = 50 // TODO: 分段载入的“一束”消息的数量
+    let messagesBunchCount = 30 // TODO: 分段载入的“一束”消息的数量
     var displayedMessagesRange = NSRange()
     
     // 上一次更新 UI 时的消息数
@@ -628,7 +628,7 @@ class ConversationViewController: BaseViewController {
                     sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
 
                         dispatch_async(dispatch_get_main_queue()) {
-                            self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { success in
+                            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { success in
                             })
                         }
 
@@ -656,7 +656,7 @@ class ConversationViewController: BaseViewController {
                     sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
 
                         dispatch_async(dispatch_get_main_queue()) {
-                            self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
                             })
                         }
 
@@ -726,7 +726,7 @@ class ConversationViewController: BaseViewController {
                                         }
                                     }
                                     
-                                    self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                                    self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
                                     })
                                 }
                             }
@@ -753,7 +753,7 @@ class ConversationViewController: BaseViewController {
                                         }
                                     }
 
-                                    self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                                    self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
                                     })
                                 }
                             }
@@ -1642,34 +1642,41 @@ class ConversationViewController: BaseViewController {
 
         var messageIDs: [String]?
 
-        if let messagesInfo = notification.object as? [String: [String]], let allMessageIDs = messagesInfo["messageIDs"] {
+        guard let
+            messagesInfo = notification.object as? [String: AnyObject],
+            allMessageIDs = messagesInfo["messageIDs"] as? [String],
+            messageAgeRawValue = messagesInfo["messageAge"] as? String,
+            messageAge = MessageAge(rawValue: messageAgeRawValue) else {
+                println("Can NOT handleReceivedNewMessagesNotification")
+                return
+        }
 
-            // 按照 conversation 过滤消息，匹配的才能考虑插入
-            if let conversation = conversation {
+        // 按照 conversation 过滤消息，匹配的才能考虑插入
+        if let conversation = conversation {
+            
+            if let conversationID = conversation.fakeID, realm = conversation.realm {
                 
-                if let conversationID = conversation.fakeID, realm = conversation.realm {
-                    
-                    var filteredMessageIDs = [String]()
-                    
-                    for messageID in allMessageIDs {
-                        if let message = messageWithMessageID(messageID, inRealm: realm) {
-                            if let messageInConversationID = message.conversation?.fakeID {
-                                if messageInConversationID == conversationID {
-                                    filteredMessageIDs.append(messageID)
-                                }
+                var filteredMessageIDs = [String]()
+                
+                for messageID in allMessageIDs {
+                    if let message = messageWithMessageID(messageID, inRealm: realm) {
+                        if let messageInConversationID = message.conversation?.fakeID {
+                            if messageInConversationID == conversationID {
+                                filteredMessageIDs.append(messageID)
                             }
                         }
                     }
-                    
-                    messageIDs = filteredMessageIDs
                 }
+                
+                messageIDs = filteredMessageIDs
             }
         }
+
 
         // 在前台时才能做插入
 
         if UIApplication.sharedApplication().applicationState == .Active {
-            updateConversationCollectionViewWithMessageIDs(messageIDs, scrollToBottom: false, success: { _ in
+            updateConversationCollectionViewWithMessageIDs(messageIDs, messageAge: messageAge, scrollToBottom: false, success: { _ in
             })
 
         } else {
@@ -1692,7 +1699,7 @@ class ConversationViewController: BaseViewController {
         if UIApplication.sharedApplication().applicationState == .Active {
 
             if inActiveNewMessageIDSet.count > 0 {
-                updateConversationCollectionViewWithMessageIDs(Array(inActiveNewMessageIDSet), scrollToBottom: false, success: { _ in
+                updateConversationCollectionViewWithMessageIDs(Array(inActiveNewMessageIDSet), messageAge: .New, scrollToBottom: false, success: { _ in
                 })
 
                 inActiveNewMessageIDSet = []
@@ -1702,19 +1709,19 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, scrollToBottom: Bool, success: (Bool) -> Void) {
+    func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, scrollToBottom: Bool, success: (Bool) -> Void) {
 
         if navigationController?.topViewController == self { // 防止 pop/push 后，原来未释放的 VC 也执行这下面的代码
 
             let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
 
-            adjustConversationCollectionViewWithMessageIDs(messageIDs, adjustHeight: keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
+            adjustConversationCollectionViewWithMessageIDs(messageIDs, messageAge: messageAge, adjustHeight: keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
                 success(finished)
             }
         }
     }
 
-    func adjustConversationCollectionViewWithMessageIDs(messageIDs: [String]?, adjustHeight: CGFloat, scrollToBottom: Bool, success: (Bool) -> Void) {
+    func adjustConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, adjustHeight: CGFloat, scrollToBottom: Bool, success: (Bool) -> Void) {
 
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
@@ -1753,7 +1760,7 @@ class ConversationViewController: BaseViewController {
                         message = messageWithMessageID(messageID, inRealm: realm),
                         index = messages.indexOf(message) {
                             let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: 0)
-                            println("insert item: \(indexPath.item)")
+                            println("insert item: \(indexPath.item), \(index), \(displayedMessagesRange.location)")
 
                             indexPaths.append(indexPath)
 
@@ -1762,7 +1769,35 @@ class ConversationViewController: BaseViewController {
                     }
                 }
 
-                conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+                switch messageAge {
+
+                case .New:
+                    conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
+                case .Old:
+                    let bottomOffset = conversationCollectionView.contentSize.height - conversationCollectionView.contentOffset.y
+                    CATransaction.begin()
+                    CATransaction.setDisableActions(true)
+
+                    conversationCollectionView.performBatchUpdates({ [weak self] in
+                        self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
+                    }, completion: { [weak self] finished in
+                        if let strongSelf = self {
+                            var contentOffset = strongSelf.conversationCollectionView.contentOffset
+                            contentOffset.y = strongSelf.conversationCollectionView.contentSize.height - bottomOffset
+
+                            strongSelf.conversationCollectionView.setContentOffset(contentOffset, animated: false)
+
+                            CATransaction.commit()
+
+                            // 上面的 CATransaction 保证了 CollectionView 在插入后不闪动
+                            // 此时再做个 scroll 动画比较自然
+                            let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: 0)
+                            strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: true)
+                        }
+                    })
+                }
 
                 println("insert messages A")
 
@@ -2162,7 +2197,7 @@ class ConversationViewController: BaseViewController {
                     sendLocationWithLocationInfo(locationInfo, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
 
                         dispatch_async(dispatch_get_main_queue()) {
-                            self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
                             })
                         }
 
@@ -2179,7 +2214,7 @@ class ConversationViewController: BaseViewController {
 
                     sendLocationWithLocationInfo(locationInfo, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
                         dispatch_async(dispatch_get_main_queue()) {
-                            self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
                             })
                         }
 
@@ -2810,54 +2845,77 @@ extension ConversationViewController: PullToRefreshViewDelegate {
     
     func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
 
-        delay(0.5) {
+        if displayedMessagesRange.location == 0 {
 
-            pulllToRefreshView.endRefreshingAndDoFurtherAction() { [weak self] in
+            if let recipient = conversation.recipient {
 
-                if let strongSelf = self {
-                    //let lastDisplayedMessagesRange = strongSelf.displayedMessagesRange
+                let timeDirection: TimeDirection
+                if let maxMessageID = messages.first?.messageID {
+                    timeDirection = .Past(maxMessageID: maxMessageID)
+                } else {
+                    timeDirection = .None
+                }
 
-                    var newMessagesCount = strongSelf.messagesBunchCount
+                messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { success in
+                    println("messagesFromRecipient: \(success)")
 
-                    if (strongSelf.displayedMessagesRange.location - newMessagesCount) < 0 {
-                        newMessagesCount = strongSelf.displayedMessagesRange.location - newMessagesCount
+                    dispatch_async(dispatch_get_main_queue()) {
+                        pulllToRefreshView.endRefreshingAndDoFurtherAction() {}
                     }
+                })
+            }
 
-                    if newMessagesCount > 0 {
-                        strongSelf.displayedMessagesRange.location -= newMessagesCount
-                        strongSelf.displayedMessagesRange.length += newMessagesCount
+        } else {
 
-                        strongSelf.lastTimeMessagesCount = strongSelf.messages.count // 同样需要纪录它
+            delay(0.5) {
 
-                        var indexPaths = [NSIndexPath]()
-                        for i in 0..<newMessagesCount {
-                            let indexPath = NSIndexPath(forItem: Int(i), inSection: 0)
-                            indexPaths.append(indexPath)
+                pulllToRefreshView.endRefreshingAndDoFurtherAction() { [weak self] in
+
+                    if let strongSelf = self {
+                        //let lastDisplayedMessagesRange = strongSelf.displayedMessagesRange
+
+                        var newMessagesCount = strongSelf.messagesBunchCount
+
+                        if (strongSelf.displayedMessagesRange.location - newMessagesCount) < 0 {
+                            newMessagesCount = strongSelf.displayedMessagesRange.location - newMessagesCount
                         }
 
-                        let bottomOffset = strongSelf.conversationCollectionView.contentSize.height - strongSelf.conversationCollectionView.contentOffset.y
-                        
-                        CATransaction.begin()
-                        CATransaction.setDisableActions(true)
+                        if newMessagesCount > 0 {
+                            strongSelf.displayedMessagesRange.location -= newMessagesCount
+                            strongSelf.displayedMessagesRange.length += newMessagesCount
 
-                        strongSelf.conversationCollectionView.performBatchUpdates({ [weak self] in
-                            self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+                            strongSelf.lastTimeMessagesCount = strongSelf.messages.count // 同样需要纪录它
 
-                        }, completion: { [weak self] finished in
-                            if let strongSelf = self {
-                                var contentOffset = strongSelf.conversationCollectionView.contentOffset
-                                contentOffset.y = strongSelf.conversationCollectionView.contentSize.height - bottomOffset
-
-                                strongSelf.conversationCollectionView.setContentOffset(contentOffset, animated: false)
-
-                                CATransaction.commit()
-
-                                // 上面的 CATransaction 保证了 CollectionView 在插入后不闪动
-                                // 此时再做个 scroll 动画比较自然
-                                let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: 0)
-                                strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: true)
+                            var indexPaths = [NSIndexPath]()
+                            for i in 0..<newMessagesCount {
+                                let indexPath = NSIndexPath(forItem: Int(i), inSection: 0)
+                                indexPaths.append(indexPath)
                             }
-                        })
+
+                            let bottomOffset = strongSelf.conversationCollectionView.contentSize.height - strongSelf.conversationCollectionView.contentOffset.y
+                            
+                            CATransaction.begin()
+                            CATransaction.setDisableActions(true)
+
+                            strongSelf.conversationCollectionView.performBatchUpdates({ [weak self] in
+                                self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
+                            }, completion: { [weak self] finished in
+                                if let strongSelf = self {
+                                    var contentOffset = strongSelf.conversationCollectionView.contentOffset
+                                    contentOffset.y = strongSelf.conversationCollectionView.contentSize.height - bottomOffset
+
+                                    strongSelf.conversationCollectionView.setContentOffset(contentOffset, animated: false)
+
+                                    CATransaction.commit()
+
+                                    // 上面的 CATransaction 保证了 CollectionView 在插入后不闪动
+                                    // 此时再做个 scroll 动画比较自然
+                                    let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: 0)
+                                    strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: true)
+                                }
+                            })
+                        }
                     }
                 }
             }
@@ -3070,7 +3128,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
 
-                    self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                    self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
                     })
                 }
 
@@ -3100,7 +3158,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
                     
-                    self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                    self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
                     })
                 }
                 
@@ -3199,7 +3257,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                         }
                     }
 
-                    self?.updateConversationCollectionViewWithMessageIDs(nil, scrollToBottom: true, success: { _ in
+                    self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
                     })
                 }
             }
