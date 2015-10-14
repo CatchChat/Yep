@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import Ruler
 
 class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChangeObserver {
 
@@ -21,6 +22,18 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
         super.viewDidLoad()
 
         collectionView?.registerNib(UINib(nibName: photoCellID, bundle: nil), forCellWithReuseIdentifier: photoCellID)
+
+        if let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
+
+            let width: CGFloat = Ruler.iPhoneHorizontal(77.5, 92.5, 101).value
+            let height = width
+            layout.itemSize = CGSize(width: width, height: height)
+
+            let gap: CGFloat = Ruler.iPhoneHorizontal(2, 1, 2).value
+            layout.minimumInteritemSpacing = gap
+            layout.minimumLineSpacing = gap
+            layout.sectionInset = UIEdgeInsets(top: gap, left: gap, bottom: gap, right: gap)
+        }
 
         images = PHAsset.fetchAssetsWithMediaType(.Image, options: nil)
         imageCacheController = ImageCacheController(imageManager: imageManager, images: images, preheatSize: 1)

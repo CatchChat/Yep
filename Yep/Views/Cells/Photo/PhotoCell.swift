@@ -13,19 +13,23 @@ class PhotoCell: UICollectionViewCell {
 
     @IBOutlet weak var photoImageView: UIImageView!
 
+    var imageManager: PHImageManager?
+
     var imageAsset: PHAsset? {
-        didSet {
-            self.imageManager?.requestImageForAsset(imageAsset!, targetSize: CGSize(width: 320, height: 320), contentMode: .AspectFill, options: nil) { image, info in
-                self.photoImageView.image = image
+        willSet {
+            guard let imageAsset = newValue else {
+                return
+            }
+
+            self.imageManager?.requestImageForAsset(imageAsset, targetSize: CGSize(width: 80, height: 80), contentMode: .AspectFill, options: nil) { [weak self] image, info in
+                self?.photoImageView.image = image
             }
         }
     }
-
-    var imageManager: PHImageManager?
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
 }
+
