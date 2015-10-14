@@ -246,6 +246,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         switch indexPath.section {
 
         case 0:
+            /*
             let openCameraRoll: ProposerAction = { [weak self] in
                 if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) {
                     if let strongSelf = self {
@@ -256,6 +257,14 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             }
 
             proposeToAccess(.Photos, agreed: openCameraRoll, rejected: { [weak self] in
+                self?.alertCanNotAccessCameraRoll()
+            })
+            */
+
+            proposeToAccess(.Photos, agreed: { [weak self] in
+                self?.performSegueWithIdentifier("showPickPhotos", sender: nil)
+
+            }, rejected: { [weak self] in
                 self?.alertCanNotAccessCameraRoll()
             })
 

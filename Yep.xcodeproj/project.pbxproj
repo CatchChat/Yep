@@ -111,6 +111,11 @@
 		504F5E6F1B9F1F13006CE418 /* NSURLRequest+cURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F5E6E1B9F1F13006CE418 /* NSURLRequest+cURL.swift */; };
 		504F85AC1B4D21DD00F909BE /* DiscoverFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F85AB1B4D21DD00F909BE /* DiscoverFilterView.swift */; };
 		50535D1A1BCD19AE002FE1A4 /* TouchClosuresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D191BCD19AE002FE1A4 /* TouchClosuresView.swift */; settings = {ASSET_TAGS = (); }; };
+		50535D1D1BCE42BE002FE1A4 /* PickPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D1C1BCE42BE002FE1A4 /* PickPhotosViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		50535D201BCE43ED002FE1A4 /* ImageCacheController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D1F1BCE43ED002FE1A4 /* ImageCacheController.swift */; settings = {ASSET_TAGS = (); }; };
+		50535D221BCE497E002FE1A4 /* PickPhotos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50535D211BCE497E002FE1A4 /* PickPhotos.storyboard */; settings = {ASSET_TAGS = (); }; };
+		50535D281BCE4A71002FE1A4 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D261BCE4A71002FE1A4 /* PhotoCell.swift */; settings = {ASSET_TAGS = (); }; };
+		50535D291BCE4A71002FE1A4 /* PhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50535D271BCE4A71002FE1A4 /* PhotoCell.xib */; settings = {ASSET_TAGS = (); }; };
 		5053AD4A1AF772C500B3CBFA /* PickLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD491AF772C500B3CBFA /* PickLocationViewController.swift */; };
 		5053AD4D1AF79EEA00B3CBFA /* LocationPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD4C1AF79EEA00B3CBFA /* LocationPin.swift */; };
 		5053AD501AF82A1700B3CBFA /* PickLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD4E1AF82A1700B3CBFA /* PickLocationCell.swift */; };
@@ -401,6 +406,11 @@
 		504F5E6E1B9F1F13006CE418 /* NSURLRequest+cURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURLRequest+cURL.swift"; path = "Extensions/NSURLRequest+cURL.swift"; sourceTree = "<group>"; };
 		504F85AB1B4D21DD00F909BE /* DiscoverFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverFilterView.swift; path = Views/DiscoverFilter/DiscoverFilterView.swift; sourceTree = "<group>"; };
 		50535D191BCD19AE002FE1A4 /* TouchClosuresView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouchClosuresView.swift; path = Views/TouchClosures/TouchClosuresView.swift; sourceTree = "<group>"; };
+		50535D1C1BCE42BE002FE1A4 /* PickPhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickPhotosViewController.swift; path = ViewControllers/PickPhotos/PickPhotosViewController.swift; sourceTree = "<group>"; };
+		50535D1F1BCE43ED002FE1A4 /* ImageCacheController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCacheController.swift; path = ViewControllers/PickPhotos/ImageCacheController.swift; sourceTree = "<group>"; };
+		50535D211BCE497E002FE1A4 /* PickPhotos.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = PickPhotos.storyboard; path = ViewControllers/PickPhotos/PickPhotos.storyboard; sourceTree = "<group>"; };
+		50535D261BCE4A71002FE1A4 /* PhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoCell.swift; path = Views/Cells/Photo/PhotoCell.swift; sourceTree = "<group>"; };
+		50535D271BCE4A71002FE1A4 /* PhotoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PhotoCell.xib; path = Views/Cells/Photo/PhotoCell.xib; sourceTree = "<group>"; };
 		5053AD491AF772C500B3CBFA /* PickLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickLocationViewController.swift; path = ViewControllers/PickLocation/PickLocationViewController.swift; sourceTree = "<group>"; };
 		5053AD4C1AF79EEA00B3CBFA /* LocationPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationPin.swift; path = ViewControllers/PickLocation/LocationPin.swift; sourceTree = "<group>"; };
 		5053AD4E1AF82A1700B3CBFA /* PickLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickLocationCell.swift; path = Views/Cells/PickLocation/PickLocationCell.swift; sourceTree = "<group>"; };
@@ -877,6 +887,7 @@
 				50AFBF601BB4F33A007D19DA /* Feeds */,
 				50F5AF841BBA67140033C9BC /* NewFeed */,
 				501138271BCB591E0055A014 /* FeedConversations */,
+				50535D1E1BCE42C4002FE1A4 /* PickPhotos */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1023,6 +1034,7 @@
 				5011382E1BCB5E1F0055A014 /* FeedConversationDock */,
 				501138331BCB62A70055A014 /* FeedConversation */,
 				6A82150A1BCBE8F40011F36C /* DiscoverSkill */,
+				50535D251BCE4A0A002FE1A4 /* Photo */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1288,6 +1300,25 @@
 				50535D191BCD19AE002FE1A4 /* TouchClosuresView.swift */,
 			);
 			name = TouchClosures;
+			sourceTree = "<group>";
+		};
+		50535D1E1BCE42C4002FE1A4 /* PickPhotos */ = {
+			isa = PBXGroup;
+			children = (
+				50535D1C1BCE42BE002FE1A4 /* PickPhotosViewController.swift */,
+				50535D1F1BCE43ED002FE1A4 /* ImageCacheController.swift */,
+				50535D211BCE497E002FE1A4 /* PickPhotos.storyboard */,
+			);
+			name = PickPhotos;
+			sourceTree = "<group>";
+		};
+		50535D251BCE4A0A002FE1A4 /* Photo */ = {
+			isa = PBXGroup;
+			children = (
+				50535D261BCE4A71002FE1A4 /* PhotoCell.swift */,
+				50535D271BCE4A71002FE1A4 /* PhotoCell.xib */,
+			);
+			name = Photo;
 			sourceTree = "<group>";
 		};
 		5053AD4B1AF772CE00B3CBFA /* PickLocation */ = {
@@ -2034,6 +2065,7 @@
 			files = (
 				5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */,
 				505C338B1BAA92CA00E044E2 /* InfoPlist.strings in Resources */,
+				50535D221BCE497E002FE1A4 /* PickPhotos.storyboard in Resources */,
 				50AACECD1BB5419A004DD54B /* FeedView.xib in Resources */,
 				50F5AF861BBA676D0033C9BC /* NewFeed.storyboard in Resources */,
 				50C090A11ADE391600CC6389 /* AddSkillsReusableView.xib in Resources */,
@@ -2065,6 +2097,7 @@
 				508D17481ACCF4710092D666 /* ChatLeftAudioCell.xib in Resources */,
 				0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */,
 				5033159D1AC101C80008A209 /* ChatRightTextCell.xib in Resources */,
+				50535D291BCE4A71002FE1A4 /* PhotoCell.xib in Resources */,
 				84385C461B8594E80071130D /* Show.xcassets in Resources */,
 				50894CFB1AEA54BA000981AF /* SettingsMoreCell.xib in Resources */,
 				505EC8181ADF8151001D27E0 /* SkillCategoryCell.xib in Resources */,
@@ -2200,6 +2233,7 @@
 				503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */,
 				6A34C1D81BC40E7F00E74792 /* YepModelConvertor.swift in Sources */,
 				50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */,
+				50535D1D1BCE42BE002FE1A4 /* PickPhotosViewController.swift in Sources */,
 				50AFBF461BB25F40007D19DA /* ActivityIndicatorTitleView.swift in Sources */,
 				50E61CEB1AF1F69D00908A9D /* ConversationTitleView.swift in Sources */,
 				50F5AF991BBBD02A0033C9BC /* FeedMediaCell.swift in Sources */,
@@ -2223,6 +2257,7 @@
 				501138261BCB59120055A014 /* FeedConversationsViewController.swift in Sources */,
 				50894CFA1AEA54BA000981AF /* SettingsMoreCell.swift in Sources */,
 				50AFBF4B1BB2A44C007D19DA /* InfoView.swift in Sources */,
+				50535D281BCE4A71002FE1A4 /* PhotoCell.swift in Sources */,
 				508F8FCC1B01C7FC00461B0B /* SocialWorkGithubViewController.swift in Sources */,
 				503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */,
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
@@ -2238,6 +2273,7 @@
 				50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */,
 				8409137D1B7DB173001C89D6 /* FriendRequestView.swift in Sources */,
 				50A640E51B6F41E00050E4A3 /* DoNotDisturbSwitchCell.swift in Sources */,
+				50535D201BCE43ED002FE1A4 /* ImageCacheController.swift in Sources */,
 				50FA9A441B661698009BF2A0 /* UIViewController+Yep.swift in Sources */,
 				0AC25F061B1105D5009E6E13 /* YepChildScrollView.swift in Sources */,
 				0A943A7B1B0F8EAE0022DD67 /* BaseViewController.swift in Sources */,
