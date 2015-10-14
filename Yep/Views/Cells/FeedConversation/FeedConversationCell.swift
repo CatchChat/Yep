@@ -42,6 +42,12 @@ class FeedConversationCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        mediaView.hidden = true
+    }
+
     func configureWithConversation(conversation: Conversation) {
 
         self.conversation = conversation

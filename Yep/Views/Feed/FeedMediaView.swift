@@ -45,6 +45,8 @@ class FeedMediaView: UIView {
         let halfRect = CGRect(x: 0, y: 0, width: fullRect.width * 0.5, height: fullRect.height)
         let quarterRect = CGRect(x: 0, y: 0, width: fullRect.width * 0.5, height: fullRect.height * 0.5)
 
+        hidden = (URLs.count == 0)
+
         switch URLs.count {
 
         case 1:
