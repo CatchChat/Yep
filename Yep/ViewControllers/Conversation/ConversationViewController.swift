@@ -2810,57 +2810,85 @@ extension ConversationViewController: PullToRefreshViewDelegate {
     
     func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
 
-        delay(0.5) {
+        switch conversation.type {
 
-            pulllToRefreshView.endRefreshingAndDoFurtherAction() { [weak self] in
+        case ConversationType.Group.rawValue:
 
-                if let strongSelf = self {
-                    //let lastDisplayedMessagesRange = strongSelf.displayedMessagesRange
+            if let recipient = conversation.recipient {
 
-                    var newMessagesCount = strongSelf.messagesBunchCount
+                let timeDirection: TimeDirection
+                if let maxMessageID = messages.first?.messageID {
+                    timeDirection = .Past(maxMessageID: maxMessageID)
+                } else {
+                    timeDirection = .None
+                }
 
-                    if (strongSelf.displayedMessagesRange.location - newMessagesCount) < 0 {
-                        newMessagesCount = strongSelf.displayedMessagesRange.location - newMessagesCount
+                messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { success in
+                    println("messagesFromRecipient: \(success)")
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        pulllToRefreshView.endRefreshingAndDoFurtherAction() {}
                     }
+                })
+            }
 
-                    if newMessagesCount > 0 {
-                        strongSelf.displayedMessagesRange.location -= newMessagesCount
-                        strongSelf.displayedMessagesRange.length += newMessagesCount
+        case ConversationType.OneToOne.rawValue:
 
-                        strongSelf.lastTimeMessagesCount = strongSelf.messages.count // 同样需要纪录它
+            delay(0.5) {
 
-                        var indexPaths = [NSIndexPath]()
-                        for i in 0..<newMessagesCount {
-                            let indexPath = NSIndexPath(forItem: Int(i), inSection: 0)
-                            indexPaths.append(indexPath)
+                pulllToRefreshView.endRefreshingAndDoFurtherAction() { [weak self] in
+
+                    if let strongSelf = self {
+                        //let lastDisplayedMessagesRange = strongSelf.displayedMessagesRange
+
+                        var newMessagesCount = strongSelf.messagesBunchCount
+
+                        if (strongSelf.displayedMessagesRange.location - newMessagesCount) < 0 {
+                            newMessagesCount = strongSelf.displayedMessagesRange.location - newMessagesCount
                         }
 
-                        let bottomOffset = strongSelf.conversationCollectionView.contentSize.height - strongSelf.conversationCollectionView.contentOffset.y
-                        
-                        CATransaction.begin()
-                        CATransaction.setDisableActions(true)
+                        if newMessagesCount > 0 {
+                            strongSelf.displayedMessagesRange.location -= newMessagesCount
+                            strongSelf.displayedMessagesRange.length += newMessagesCount
 
-                        strongSelf.conversationCollectionView.performBatchUpdates({ [weak self] in
-                            self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+                            strongSelf.lastTimeMessagesCount = strongSelf.messages.count // 同样需要纪录它
 
-                        }, completion: { [weak self] finished in
-                            if let strongSelf = self {
-                                var contentOffset = strongSelf.conversationCollectionView.contentOffset
-                                contentOffset.y = strongSelf.conversationCollectionView.contentSize.height - bottomOffset
-
-                                strongSelf.conversationCollectionView.setContentOffset(contentOffset, animated: false)
-
-                                CATransaction.commit()
-
-                                // 上面的 CATransaction 保证了 CollectionView 在插入后不闪动
-                                // 此时再做个 scroll 动画比较自然
-                                let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: 0)
-                                strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: true)
+                            var indexPaths = [NSIndexPath]()
+                            for i in 0..<newMessagesCount {
+                                let indexPath = NSIndexPath(forItem: Int(i), inSection: 0)
+                                indexPaths.append(indexPath)
                             }
-                        })
+
+                            let bottomOffset = strongSelf.conversationCollectionView.contentSize.height - strongSelf.conversationCollectionView.contentOffset.y
+                            
+                            CATransaction.begin()
+                            CATransaction.setDisableActions(true)
+
+                            strongSelf.conversationCollectionView.performBatchUpdates({ [weak self] in
+                                self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
+                            }, completion: { [weak self] finished in
+                                if let strongSelf = self {
+                                    var contentOffset = strongSelf.conversationCollectionView.contentOffset
+                                    contentOffset.y = strongSelf.conversationCollectionView.contentSize.height - bottomOffset
+
+                                    strongSelf.conversationCollectionView.setContentOffset(contentOffset, animated: false)
+
+                                    CATransaction.commit()
+
+                                    // 上面的 CATransaction 保证了 CollectionView 在插入后不闪动
+                                    // 此时再做个 scroll 动画比较自然
+                                    let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: 0)
+                                    strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: true)
+                                }
+                            })
+                        }
                     }
                 }
             }
+
+        default:
+            break
         }
     }
 
