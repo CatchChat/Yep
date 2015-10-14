@@ -59,25 +59,51 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(photoCellID, forIndexPath: indexPath) as! PhotoCell
 
         cell.imageManager = imageManager
-        cell.imageAsset = images[indexPath.item] as? PHAsset
+
+        if let imageAsset = images[indexPath.item] as? PHAsset {
+            cell.imageAsset = imageAsset
+            cell.photoPickedImageView.hidden = !pickedImagesSet.contains(imageAsset)
+        }
 
         return cell
     }
 
+    var pickedImagesSet = Set<PHAsset>()
+
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+
+        if let imageAsset = images[indexPath.item] as? PHAsset {
+            if pickedImagesSet.contains(imageAsset) {
+                pickedImagesSet.remove(imageAsset)
+            } else {
+                pickedImagesSet.insert(imageAsset)
+            }
+
+            let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoCell
+            cell.photoPickedImageView.hidden = !pickedImagesSet.contains(imageAsset)
+        }
+    }
+
     // MARK: - ScrollViewDelegate
+
     override func scrollViewDidScroll(scrollView: UIScrollView) {
+
         let indexPaths = collectionView?.indexPathsForVisibleItems()
         imageCacheController.updateVisibleCells(indexPaths as [NSIndexPath]!)
     }
 
     // MARK: - PHPhotoLibraryChangeObserver
+
     func photoLibraryDidChange(changeInstance: PHChange) {
+
         let changeDetails = changeInstance.changeDetailsForFetchResult(images)
 
         self.images = changeDetails!.fetchResultAfterChanges
+
         dispatch_async(dispatch_get_main_queue()) {
             // Loop through the visible cell indices
             let indexPaths = self.collectionView?.indexPathsForVisibleItems()
+
             for indexPath in indexPaths as [NSIndexPath]! {
                 if changeDetails!.changedIndexes!.containsIndex(indexPath.item) {
                     let cell = self.collectionView?.cellForItemAtIndexPath(indexPath) as! PhotoCell
