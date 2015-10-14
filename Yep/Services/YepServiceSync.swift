@@ -735,7 +735,7 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
             var messageIDs = [String]()
 
             for messageInfo in allUnreadMessages {
-                syncMessageWithMessageInfo(messageInfo, inRealm: realm) { _messageIDs in
+                syncMessageWithMessageInfo(messageInfo, messageAge: .New, inRealm: realm) { _messageIDs in
                     messageIDs += _messageIDs
                 }
             }
@@ -859,7 +859,7 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
     }
 }
 
-func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)? ) {
+func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: MessageAge, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)? ) {
 
     func deleteMessage(message: Message, inRealm realm: Realm) {
         realm.write {
@@ -879,15 +879,16 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
                 newMessage.createdUnixTime = updatedUnixTime
             }
 
-            /*
-            // 确保网络来的消息比任何已有的消息都要新，防止服务器消息延后发来导致插入到当前消息上面
-            if let latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: true).last {
-                if newMessage.createdUnixTime < latestMessage.createdUnixTime {
-                    println("before newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
-                    newMessage.createdUnixTime = latestMessage.createdUnixTime + YepConfig.Message.localNewerTimeInterval
-                    println("adjust newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
+            if case .New = messageAge {
+                // 确保网络来的新消息比任何已有的消息都要新，防止服务器消息延后发来导致插入到当前消息上面
+                if let latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: true).last {
+                    if newMessage.createdUnixTime < latestMessage.createdUnixTime {
+                        println("before newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
+                        newMessage.createdUnixTime = latestMessage.createdUnixTime + YepConfig.Message.localNewerTimeInterval
+                        println("adjust newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
+                    }
                 }
-            }*/
+            }
 
             realm.write {
                 realm.add(newMessage)

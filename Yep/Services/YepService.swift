@@ -1619,6 +1619,15 @@ enum TimeDirection {
     case Future(minMessageID: String)
     case Past(maxMessageID: String)
     case None
+
+    var messageAge: MessageAge {
+        switch self {
+        case .Past:
+            return .Old
+        default:
+            return .New
+        }
+    }
 }
 
 func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection: TimeDirection, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
@@ -1654,7 +1663,7 @@ func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection
             var messageIDs = [String]()
 
             for messageInfo in unreadMessagesData {
-                syncMessageWithMessageInfo(messageInfo, inRealm: realm) { _messageIDs in
+                syncMessageWithMessageInfo(messageInfo, messageAge: timeDirection.messageAge, inRealm: realm) { _messageIDs in
                     messageIDs += _messageIDs
                 }
             }
