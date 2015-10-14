@@ -44,6 +44,7 @@ class NewFeedViewController: UIViewController {
         super.viewDidLoad()
 
         title = NSLocalizedString("New Feed", comment: "")
+        view.backgroundColor = UIColor.yepBackgroundColor()
 
         let postButton = UIBarButtonItem(title: NSLocalizedString("Post", comment: ""), style: .Plain, target: self, action: "post:")
 
@@ -56,14 +57,10 @@ class NewFeedViewController: UIViewController {
         view.sendSubviewToBack(feedWhiteBGView)
 
         messageTextView.text = ""
-        
         messageTextView.textContainer.lineFragmentPadding = 0
-        
         messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        
         messageTextView.becomeFirstResponder()
 
-        view.backgroundColor = UIColor.yepBackgroundColor()
         mediaCollectionView.backgroundColor = UIColor.clearColor()
 
         mediaCollectionView.registerNib(UINib(nibName: feedMediaAddCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaAddCellID)
@@ -95,11 +92,6 @@ class NewFeedViewController: UIViewController {
             })
         }
     }
-    
-    func cancel(sender: UIBarButtonItem) {
-        messageTextView.resignFirstResponder()
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -110,7 +102,26 @@ class NewFeedViewController: UIViewController {
         }
     }
 
+    // MARK: Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        if segue.identifier == "showPickPhotos" {
+
+            let vc = segue.destinationViewController as! PickPhotosViewController
+
+            vc.completion = { [weak self] images in
+                self?.mediaImages.appendContentsOf(images)
+            }
+        }
+    }
+
     // MARK: Actions
+
+    func cancel(sender: UIBarButtonItem) {
+        messageTextView.resignFirstResponder()
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
 
     func post(sender: UIBarButtonItem) {
 

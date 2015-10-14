@@ -16,12 +16,18 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
     let imageManager = PHCachingImageManager()
     var imageCacheController: ImageCacheController!
 
+    var pickedImageSet = Set<PHAsset>()
+    var completion: ((images: [UIImage]) -> Void)?
+
     let photoCellID = "PhotoCell"
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("Pick Photos", comment: "")
+
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "done:")
+        navigationItem.rightBarButtonItem = doneButton
 
         collectionView?.backgroundColor = UIColor.whiteColor()
         collectionView?.alwaysBounceVertical = true
@@ -45,6 +51,52 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
         PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(self)
     }
 
+    // MARK: Actions
+
+    func done(sender: UIBarButtonItem) {
+
+        var images = [UIImage]()
+
+        let options = PHImageRequestOptions()
+        options.synchronous = true
+
+        for imageAsset in pickedImageSet {
+
+            let maxSize: CGFloat = 512
+
+            let pixelWidth = CGFloat(imageAsset.pixelWidth)
+            let pixelHeight = CGFloat(imageAsset.pixelHeight)
+
+            println("pixelWidth: \(pixelWidth)")
+            println("pixelHeight: \(pixelHeight)")
+
+            let targetSize: CGSize
+
+            if pixelWidth > pixelHeight {
+                let width = maxSize
+                let height = floor(maxSize * (pixelHeight / pixelWidth))
+                targetSize = CGSize(width: width, height: height)
+
+            } else {
+                let height = maxSize
+                let width = floor(maxSize * (pixelWidth / pixelHeight))
+                targetSize = CGSize(width: width, height: height)
+            }
+
+            println("targetSize: \(targetSize)")
+
+            imageManager.requestImageForAsset(imageAsset, targetSize: targetSize, contentMode: .AspectFill, options: options) { image, info in
+                if let image = image {
+                    println("image.size: \(image.size)")
+                    images.append(image)
+                }
+            }
+        }
+
+        completion?(images: images)
+        navigationController?.popViewControllerAnimated(true)
+    }
+
     // MARK: UICollectionViewDataSource
 
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -62,25 +114,23 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
 
         if let imageAsset = images[indexPath.item] as? PHAsset {
             cell.imageAsset = imageAsset
-            cell.photoPickedImageView.hidden = !pickedImagesSet.contains(imageAsset)
+            cell.photoPickedImageView.hidden = !pickedImageSet.contains(imageAsset)
         }
 
         return cell
     }
 
-    var pickedImagesSet = Set<PHAsset>()
-
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 
         if let imageAsset = images[indexPath.item] as? PHAsset {
-            if pickedImagesSet.contains(imageAsset) {
-                pickedImagesSet.remove(imageAsset)
+            if pickedImageSet.contains(imageAsset) {
+                pickedImageSet.remove(imageAsset)
             } else {
-                pickedImagesSet.insert(imageAsset)
+                pickedImageSet.insert(imageAsset)
             }
 
             let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoCell
-            cell.photoPickedImageView.hidden = !pickedImagesSet.contains(imageAsset)
+            cell.photoPickedImageView.hidden = !pickedImageSet.contains(imageAsset)
         }
     }
 
