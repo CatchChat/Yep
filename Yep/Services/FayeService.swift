@@ -251,7 +251,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
             }
 
             syncMessageWithMessageInfo(messageInfo, inRealm: realm) { messageIDs in
-                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs)
+                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: .New)
             }
         }
     }

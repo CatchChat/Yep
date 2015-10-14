@@ -297,7 +297,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             syncFriendshipsAndDoFurtherAction {
                 syncGroupsAndDoFurtherAction {
                     syncUnreadMessagesAndDoFurtherAction { messageIDs in
-                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs)
+                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: .New)
                     }
                 }
             }
@@ -345,7 +345,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func syncUnreadMessages(furtherAction: () -> Void) {
 
         syncUnreadMessagesAndDoFurtherAction() { messageIDs in
-            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs)
+            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: .New)
             furtherAction()
         }
     }

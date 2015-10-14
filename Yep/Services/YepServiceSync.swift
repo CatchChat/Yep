@@ -12,11 +12,19 @@ import RealmSwift
 
 let YepNewMessagesReceivedNotification = "YepNewMessagesReceivedNotification"
 
-func tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs: [String]) {
+enum MessageAge: String {
+    case Old
+    case New
+}
+
+func tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs: [String], withMessageAge messageAge: MessageAge) {
 
     if !messageIDs.isEmpty {
         dispatch_async(dispatch_get_main_queue()) {
-            let object = ["messageIDs": messageIDs]
+            let object = [
+                "messageIDs": messageIDs,
+                "messageAge": messageAge.rawValue,
+            ]
             NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: object)
         }
     }
@@ -871,6 +879,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
                 newMessage.createdUnixTime = updatedUnixTime
             }
 
+            /*
             // 确保网络来的消息比任何已有的消息都要新，防止服务器消息延后发来导致插入到当前消息上面
             if let latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: true).last {
                 if newMessage.createdUnixTime < latestMessage.createdUnixTime {
@@ -878,7 +887,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, inRealm realm: Real
                     newMessage.createdUnixTime = latestMessage.createdUnixTime + YepConfig.Message.localNewerTimeInterval
                     println("adjust newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
                 }
-            }
+            }*/
 
             realm.write {
                 realm.add(newMessage)

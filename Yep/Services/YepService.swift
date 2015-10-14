@@ -1659,7 +1659,7 @@ func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection
                 }
             }
 
-            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs)
+            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: .New)
         }
 
         return true
