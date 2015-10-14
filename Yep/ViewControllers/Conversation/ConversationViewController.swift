@@ -2845,9 +2845,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
     
     func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
 
-        switch conversation.type {
-
-        case ConversationType.Group.rawValue:
+        if displayedMessagesRange.location == 0 {
 
             if let recipient = conversation.recipient {
 
@@ -2867,7 +2865,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
                 })
             }
 
-        case ConversationType.OneToOne.rawValue:
+        } else {
 
             delay(0.5) {
 
@@ -2921,9 +2919,6 @@ extension ConversationViewController: PullToRefreshViewDelegate {
                     }
                 }
             }
-
-        default:
-            break
         }
     }
 
