@@ -408,7 +408,7 @@ class ProfileViewController: UIViewController {
             if let
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID, inRealm: realm) {
-                    realm.write {
+                    let _ = try? realm.write {
                         me.masterSkills.removeAll()
                         let userSkills = userSkillsFromSkills(self.masterSkills, inRealm: realm)
                         me.masterSkills.appendContentsOf(userSkills)
@@ -425,7 +425,7 @@ class ProfileViewController: UIViewController {
             if let
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID, inRealm: realm) {
-                    realm.write {
+                    let _ = try? realm.write {
                         me.learningSkills.removeAll()
                         let userSkills = userSkillsFromSkills(self.learningSkills, inRealm: realm)
                         me.learningSkills.appendContentsOf(userSkills)
@@ -788,7 +788,7 @@ class ProfileViewController: UIViewController {
                         if let
                             myUserID = YepUserDefaults.userID.value,
                             me = userWithUserID(myUserID, inRealm: realm) {
-                                realm.write {
+                                let _ = try? realm.write {
                                     me.username = newUsername
                                 }
                         }
@@ -873,7 +873,7 @@ class ProfileViewController: UIViewController {
 
                     newUser.friendState = UserFriendState.Stranger.rawValue
 
-                    realm.write {
+                    let _ = try? realm.write {
                         realm.add(newUser)
                     }
 
@@ -882,7 +882,7 @@ class ProfileViewController: UIViewController {
 
                 if let user = stranger {
 
-                    realm.write {
+                    let _ = try? realm.write {
 
                         // 更新用户信息
 
@@ -929,7 +929,7 @@ class ProfileViewController: UIViewController {
                         newConversation.type = ConversationType.OneToOne.rawValue
                         newConversation.withFriend = user
 
-                        realm.write {
+                        let _ = try? realm.write {
                             realm.add(newConversation)
                         }
                     }
@@ -951,7 +951,7 @@ class ProfileViewController: UIViewController {
                         newConversation.type = ConversationType.OneToOne.rawValue
                         newConversation.withFriend = user
 
-                        realm.write {
+                        let _ = try? realm.write {
                             realm.add(newConversation)
                         }
                     }
@@ -1117,7 +1117,7 @@ class ProfileViewController: UIViewController {
                                 var haveSocialAccountProvider = false
                                 for socialAccountProvider in me.socialAccountProviders {
                                     if socialAccountProvider.name == providerName {
-                                        realm.write {
+                                        let _ = try? realm.write {
                                             socialAccountProvider.enabled = true
                                         }
 
@@ -1132,7 +1132,7 @@ class ProfileViewController: UIViewController {
                                     provider.name = providerName
                                     provider.enabled = true
 
-                                    realm.write {
+                                    let _ = try? realm.write {
                                         me.socialAccountProviders.append(provider)
                                     }
                                 }

@@ -226,7 +226,7 @@ class FeedsViewController: UIViewController {
                 let newGroup = Group()
                 newGroup.groupID = groupID
 
-                realm.write {
+                let _ = try? realm.write {
                     realm.add(newGroup)
                 }
 
@@ -244,7 +244,7 @@ class FeedsViewController: UIViewController {
                 newConversation.type = ConversationType.Group.rawValue
                 newConversation.withGroup = feedGroup
 
-                realm.write {
+                let _ = try? realm.write {
                     realm.add(newConversation)
                 }
             }

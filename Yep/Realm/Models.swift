@@ -610,7 +610,7 @@ func saveFeedWithFeedData(feedData: DiscoveredFeed, group: Group, inRealm realm:
 
         newFeed.group = group
 
-        realm.write {
+        let _ = try? realm.write {
             realm.add(newFeed)
         }
     }
@@ -628,7 +628,7 @@ func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
         println("Warning: same messageID: \(messages.count), \(messageID)")
 
         // 治标未读
-        realm.write {
+        let _ = try? realm.write {
             for message in messages {
                 message.readed = true
             }
@@ -682,7 +682,7 @@ func tryGetOrCreateMeInRealm(realm: Realm) -> User? {
                 me.avatarURLString = avatarURLString
             }
 
-            realm.write {
+            let _ = try? realm.write {
                 realm.add(me)
             }
 
@@ -900,7 +900,7 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) 
 
     if let user = userWithUserID(userID, inRealm: realm) {
 
-        realm.write {
+        let _ = try? realm.write {
 
             // 更新用户信息
 
@@ -989,7 +989,7 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
 
         for message in messages {
             if let mediaMetaData = message.mediaMetaData {
-                realm.write {
+                let _ = try? realm.write {
                     realm.delete(mediaMetaData)
                 }
             }
@@ -997,7 +997,7 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
 
         // delete all messages in conversation
 
-        realm.write {
+        let _ = try? realm.write {
             realm.delete(messages)
         }
     }
@@ -1008,7 +1008,7 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
 
         // delete conversation, finally
 
-        realm.write {
+        let _ = try? realm.write {
 
             if let group = conversation.withGroup {
 

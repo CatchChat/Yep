@@ -99,7 +99,7 @@ class DoNotDisturbPeriodViewController: UIViewController {
                             let _userDoNotDisturb = UserDoNotDisturb()
                             _userDoNotDisturb.isOn = true
 
-                            realm.write {
+                            let _ = try? realm.write {
                                 me.doNotDisturb = _userDoNotDisturb
                             }
 
@@ -107,7 +107,7 @@ class DoNotDisturbPeriodViewController: UIViewController {
                         }
 
                         if let userDoNotDisturb = me.doNotDisturb {
-                            realm.write {
+                            let _ = try? realm.write {
                                 userDoNotDisturb.fromHour = self.doNotDisturbPeriod.fromHour
                                 userDoNotDisturb.fromMinute = self.doNotDisturbPeriod.fromMinute
 

@@ -372,7 +372,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                                         if let
                                             myUserID = YepUserDefaults.userID.value,
                                             me = userWithUserID(myUserID, inRealm: realm) {
-                                                realm.write {
+                                                let _ = try? realm.write {
                                                     me.username = newUsername
                                                 }
                                         }

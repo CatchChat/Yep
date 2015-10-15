@@ -181,7 +181,7 @@ class YepUserDefaults {
                 nickname = nickname,
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID, inRealm: realm) {
-                    realm.write {
+                    let _ = try? realm.write {
                         me.nickname = nickname
                     }
             }
@@ -202,7 +202,7 @@ class YepUserDefaults {
                 introduction = introduction,
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID, inRealm: realm) {
-                    realm.write {
+                    let _ = try? realm.write {
                         me.introduction = introduction
                     }
             }
@@ -223,7 +223,7 @@ class YepUserDefaults {
                 avatarURLString = avatarURLString,
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID, inRealm: realm) {
-                    realm.write {
+                    let _ = try? realm.write {
                         me.avatarURLString = avatarURLString
                     }
             }
@@ -244,7 +244,7 @@ class YepUserDefaults {
                 badge = badge,
                 myUserID = YepUserDefaults.userID.value,
                 me = userWithUserID(myUserID, inRealm: realm) {
-                    realm.write {
+                    let _ = try? realm.write {
                         me.badge = badge
                     }
             }
