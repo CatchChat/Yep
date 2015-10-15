@@ -136,7 +136,7 @@ class EditSkillsViewController: BaseViewController {
                                         }
 
                                         if let userSkill = userSkillWithSkillID(skill.id, inRealm: realm) {
-                                            realm.write {
+                                            let _ = try? realm.write {
                                                 realm.delete(userSkill)
                                             }
                                         }
@@ -177,7 +177,7 @@ class EditSkillsViewController: BaseViewController {
                                         }
 
                                         if let userSkill = userSkillWithSkillID(skill.id, inRealm: realm) {
-                                            realm.write {
+                                            let _ = try? realm.write {
                                                 realm.delete(userSkill)
                                             }
                                         }
@@ -290,7 +290,7 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 // delete from local
 
-                self?.realm.write {
+                let _ = try? self?.realm.write {
                     self?.realm.delete(userSkill)
 
                     // 防止连续点击时 Realm 出错

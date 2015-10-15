@@ -61,7 +61,7 @@ func cleanRealmAndCaches() {
         return
     }
 
-    realm.write {
+    let _ = try? realm.write {
         realm.deleteAll()
     }
 

@@ -1,8 +1,8 @@
 PODS:
   - 1PasswordExtension (1.6.1)
-  - Alamofire (2.0.2)
-  - APAddressBook/Core (0.2.0)
-  - APAddressBook/Swift (0.2.0):
+  - Alamofire (3.0.0)
+  - APAddressBook/Core (0.2.1)
+  - APAddressBook/Swift (0.2.1):
     - APAddressBook/Core
   - Base64 (1.0.1)
   - Crashlytics (3.3.4)
@@ -13,21 +13,21 @@ PODS:
   - FXBlurView (1.6.4)
   - JPush (1.8.5)
   - KeyboardMan (0.5)
-  - Kingfisher (1.6.0)
+  - Kingfisher (1.6.1)
   - MonkeyKing (0.0.2)
   - MZFayeClient (1.0.1):
     - Base64 (~> 1.0.1)
     - SocketRocket (~> 0.4)
   - pop (1.0.8)
   - Proposer (0.7)
-  - Realm (0.95.3):
-    - Realm/Headers (= 0.95.3)
-  - Realm/Headers (0.95.3)
-  - RealmSwift (0.95.3):
-    - Realm (= 0.95.3)
+  - Realm (0.96.0):
+    - Realm/Headers (= 0.96.0)
+  - Realm/Headers (0.96.0)
+  - RealmSwift (0.96.0):
+    - Realm (= 0.96.0)
   - Ruler (0.6)
   - SocketRocket (0.4.1)
-  - TPKeyboardAvoiding (1.2.9)
+  - TPKeyboardAvoiding (1.2.10)
 
 DEPENDENCIES:
   - 1PasswordExtension (~> 1.5)
@@ -40,7 +40,7 @@ DEPENDENCIES:
   - JPush
   - KeyboardMan
   - Kingfisher
-  - MonkeyKing
+  - MonkeyKing (~> 0.0.2)
   - MZFayeClient (from `../CatchLib-iOS/MZFayeClient/`)
   - pop
   - Proposer
@@ -54,8 +54,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   1PasswordExtension: 42b79b7ac6d8e7468b22b7a651fc0b445bcdbd3e
-  Alamofire: 8edbab00802a752bb5240cc2abe70e7e881488ad
-  APAddressBook: e4e2163baf82d20016e2125cf4afe0292aba0401
+  Alamofire: b61782387f81bcc538a0284cf2bb5d7995cd0a80
+  APAddressBook: 90c0fb07579a47e10ef1a2344e23cfd35f388bec
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
   Crashlytics: 41c082440d2e14da444186fff65e79c0b4b35d4c
   DeviceGuru: 6703820f7058693781c0048184eb4c3594b602cc
@@ -63,15 +63,15 @@ SPEC CHECKSUMS:
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   JPush: ba06a6f866ce11f11c15149e7fa67488a23eec87
   KeyboardMan: ae716dfb1252ebcd1f68a2b659e91a970110e799
-  Kingfisher: 3308d487e5c2a0fba9c1054fc3b8c45923e03c40
+  Kingfisher: a40cf8134ba1a78f395bdd3ee97d386ff3c3be0d
   MonkeyKing: 9be24307843a80f4cd3eca66adc12c67aefb83bb
   MZFayeClient: 65e7ef67e61fbe7a7a8b196130541c9f06bcb5d8
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   Proposer: c244e0d031227b6cf140da7a24d30f2d954d2cb2
-  Realm: 55885fa05865344994ad8b56da96669ffa39fbf1
-  RealmSwift: 586df4b5a6d01473d2653b16e9fe7debce4a87ed
+  Realm: d1b1eff5264cd6a3158b7a9b6c499d7f6ad3a860
+  RealmSwift: 40246e6f57a4e863bfdfc1ca1d7b967f0df607e2
   Ruler: b36ec3bbc5fc6c3b7f629a6052cc1c17ada4b280
   SocketRocket: ee0b5c34182d37bb4f1f8d628bbe737718126daa
-  TPKeyboardAvoiding: ff1ee4e5a5a0c119b965552af8f183868ea20207
+  TPKeyboardAvoiding: 614ebec846ec28b83d548769297fa5fb56468904
 
 COCOAPODS: 0.38.2

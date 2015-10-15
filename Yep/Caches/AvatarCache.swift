@@ -95,7 +95,7 @@ class AvatarCache {
                                     newAvatar.avatarURLString = avatarURLString
                                     newAvatar.avatarFileName = avatarFileName
 
-                                    realm.write {
+                                    let _ = try? realm.write {
                                         realm.add(newAvatar)
                                     }
                                 }
@@ -158,13 +158,13 @@ class AvatarCache {
                     switch avatarCompletion.radius {
                     case YepConfig.ConversationCell.avatarSize * 0.5:
                         if avatarObject.roundMini.length == 0 {
-                            realm.write {
+                            let _ = try? realm.write {
                                 avatarObject.roundMini = UIImageJPEGRepresentation(avatar, 0.9)!
                             }
                         }
                     case YepConfig.chatCellAvatarSize() * 0.5:
                         if avatarObject.roundNano.length == 0 {
-                            realm.write {
+                            let _ = try? realm.write {
                                 avatarObject.roundNano = UIImageJPEGRepresentation(avatar, 0.9)!
                             }
                         }
@@ -292,7 +292,7 @@ class AvatarCache {
                                     newAvatar.avatarURLString = avatarURLString
                                     newAvatar.avatarFileName = avatarFileName
 
-                                    realm.write {
+                                    let _ = try? realm.write {
                                         realm.add(newAvatar)
                                     }
 
@@ -301,12 +301,12 @@ class AvatarCache {
                                         if let oldAvatar = user.avatar {
                                             NSFileManager.deleteAvatarImageWithName(oldAvatar.avatarFileName)
 
-                                            realm.write {
+                                            let _ = try? realm.write {
                                                 realm.delete(oldAvatar)
                                             }
                                         }
 
-                                        realm.write {
+                                        let _ = try? realm.write {
                                             user.avatar = newAvatar
                                         }
                                     }
@@ -435,7 +435,7 @@ class AvatarCache {
 
                                     NSFileManager.deleteAvatarImageWithName(avatar.avatarFileName)
 
-                                    realm.write {
+                                    let _ = try? realm.write {
                                         realm.delete(avatar)
                                     }
                             }
@@ -462,7 +462,7 @@ class AvatarCache {
                                     newAvatar.avatarURLString = avatarURLString
                                     newAvatar.avatarFileName = avatarFileName
 
-                                    realm.write {
+                                    let _ = try? realm.write {
                                         realm.add(newAvatar)
                                     }
 
@@ -472,7 +472,7 @@ class AvatarCache {
 
                             if let avatar = avatar {
                                 if let user = userWithUserID(userID, inRealm: realm) {
-                                    realm.write {
+                                    let _ = try? realm.write {
                                         user.avatar = avatar
                                     }
                                 }

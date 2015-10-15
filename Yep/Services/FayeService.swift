@@ -121,7 +121,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                     }
                                     
                                     if let message = messageWithMessageID(messageID, inRealm: realm) {
-                                        realm.write {
+                                        let _ = try? realm.write {
                                             message.sendState = MessageSendState.Read.rawValue
                                         }
                                         
@@ -191,7 +191,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                             }
 
                                             if let message = messageWithMessageID(messageID, inRealm: realm) {
-                                                realm.write {
+                                                let _ = try? realm.write {
                                                     message.sendState = MessageSendState.Read.rawValue
                                                 }
                                                 

@@ -356,7 +356,7 @@ class MessageToolbar: UIToolbar {
 
             if let draft = conversation.draft {
 
-                realm.write { [weak self] in
+                let _ = try? realm.write { [weak self] in
                     if let strongSelf = self {
                         draft.messageToolbarState = strongSelf.state.rawValue
 
@@ -370,7 +370,7 @@ class MessageToolbar: UIToolbar {
                 let draft = Draft()
                 draft.messageToolbarState = state.rawValue
                 
-                realm.write {
+                let _ = try? realm.write {
                     conversation.draft = draft
                 }
             }

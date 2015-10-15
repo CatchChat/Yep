@@ -718,7 +718,7 @@ class ConversationViewController: BaseViewController {
 
                             dispatch_async(dispatch_get_main_queue()) {
                                 if let realm = message.realm {
-                                    realm.write {
+                                    let _ = try? realm.write {
                                         message.localAttachmentName = fileURL.URLByDeletingPathExtension?.lastPathComponent ?? ""
                                         message.mediaType = MessageMediaType.Audio.rawValue
                                         if let metaDataString = metaData {
@@ -745,7 +745,7 @@ class ConversationViewController: BaseViewController {
 
                             dispatch_async(dispatch_get_main_queue()) {
                                 if let realm = message.realm {
-                                    realm.write {
+                                    let _ = try? realm.write {
                                         message.localAttachmentName = fileURL.URLByDeletingPathExtension?.lastPathComponent ?? ""
                                         message.mediaType = MessageMediaType.Audio.rawValue
                                         if let metaDataString = metaData {
@@ -925,7 +925,7 @@ class ConversationViewController: BaseViewController {
                 }
                 
                 if let message = messageWithMessageID(messageID, inRealm: realm) {
-                    realm.write {
+                    let _ = try? realm.write {
                         message.readed = true
                     }
 
@@ -1096,7 +1096,7 @@ class ConversationViewController: BaseViewController {
                         return
                     }
                     if let user = userWithUserID(userID, inRealm: realm) {
-                        realm.write {
+                        let _ = try? realm.write {
                             user.friendState = UserFriendState.IssuedRequest.rawValue
                         }
                     }
@@ -1122,7 +1122,7 @@ class ConversationViewController: BaseViewController {
                             return
                         }
                         if let user = userWithUserID(userID, inRealm: realm) {
-                            realm.write {
+                            let _ = try? realm.write {
                                 user.friendState = UserFriendState.Normal.rawValue
                             }
                         }
@@ -1515,7 +1515,7 @@ class ConversationViewController: BaseViewController {
         }
 
         if let user = userWithUserID(userID, inRealm: realm) {
-            realm.write {
+            let _ = try? realm.write {
                 user.notificationEnabled = enabled
             }
 
@@ -1605,7 +1605,7 @@ class ConversationViewController: BaseViewController {
         }
 
         if let user = userWithUserID(userID, inRealm: realm) {
-            realm.write {
+            let _ = try? realm.write {
                 user.blocked = blocked
             }
 
@@ -2709,7 +2709,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                                         strongSelf.displayedMessagesRange.length -= 1
                                                     }
                                                     
-                                                    realm.write {
+                                                    let _ = try? realm.write {
                                                         if let mediaMetaData = sectionDateMessage.mediaMetaData {
                                                             realm.delete(mediaMetaData)
                                                         }
@@ -2729,7 +2729,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                                     
                                                 } else {
                                                     strongSelf.displayedMessagesRange.length -= 1
-                                                    realm.write {
+                                                    let _ = try? realm.write {
                                                         if let mediaMetaData = message.mediaMetaData {
                                                             realm.delete(mediaMetaData)
                                                         }
@@ -3118,7 +3118,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                     if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
                         if let realm = message.realm {
-                            realm.write {
+                            let _ = try? realm.write {
                                 message.localAttachmentName = messageImageName
                                 message.mediaType = MessageMediaType.Image.rawValue
                                 if let metaDataString = metaData {
@@ -3148,7 +3148,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 dispatch_async(dispatch_get_main_queue()) {
                     if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
                         if let realm = message.realm {
-                            realm.write {
+                            let _ = try? realm.write {
                                 message.localAttachmentName = messageImageName
                                 message.mediaType = MessageMediaType.Image.rawValue
                                 if let metaDataString = metaData {
@@ -3239,7 +3239,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                     if let _ = NSFileManager.saveMessageVideoData(videoData, withName: messageVideoName) {
                         if let realm = message.realm {
-                            realm.write {
+                            let _ = try? realm.write {
 
                                 if let thumbnailData = thumbnailData {
                                     if let _ = NSFileManager.saveMessageImageData(thumbnailData, withName: messageVideoName) {
