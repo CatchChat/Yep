@@ -14,7 +14,8 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
 
-    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var messageTextView: UITextView!
+    @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var mediaCollectionView: UICollectionView!
 
@@ -73,12 +74,14 @@ class FeedCell: UITableViewCell {
         super.awakeFromNib()
 
         nicknameLabel.textColor = UIColor.yepTintColor()
-        messageLabel.textColor = UIColor.yepMessageColor()
+        messageTextView.textColor = UIColor.yepMessageColor()
         distanceLabel.textColor = UIColor.grayColor()
         timeLabel.textColor = UIColor.grayColor()
         messageCountLabel.textColor = UIColor.yepTintColor()
 
-        messageLabel.font = UIFont.feedMessageFont()
+        messageTextView.font = UIFont.feedMessageFont()
+        messageTextView.textContainer.lineFragmentPadding = 0
+        messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 
         mediaCollectionView.scrollsToTop = false
         mediaCollectionView.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
@@ -116,9 +119,17 @@ class FeedCell: UITableViewCell {
         tapAvatarAction?()
     }
 
+    private func calHeightOfMessageTextView() {
+
+        let rect = messageTextView.text.boundingRectWithSize(CGSize(width: FeedCell.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedCell.textAttributes, context: nil)
+        messageTextViewHeightConstraint.constant = rect.height
+    }
+
     func configureWithFeed(feed: DiscoveredFeed) {
 
-        messageLabel.text = feed.body
+        messageTextView.text = feed.body
+
+        calHeightOfMessageTextView()
 
         let hasMedia = !feed.attachments.isEmpty
         
