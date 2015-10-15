@@ -10,6 +10,7 @@ import UIKit
 import Proposer
 import CoreLocation
 import MobileCoreServices
+import Photos
 
 class NewFeedViewController: UIViewController {
 
@@ -28,6 +29,8 @@ class NewFeedViewController: UIViewController {
         imagePicker.allowsEditing = false
         return imagePicker
         }()
+
+    var imageAssetSet: Set<PHAsset>?
 
     var mediaImages = [UIImage]() {
         didSet {
@@ -110,8 +113,13 @@ class NewFeedViewController: UIViewController {
 
             let vc = segue.destinationViewController as! PickPhotosViewController
 
-            vc.completion = { [weak self] images in
-                self?.mediaImages.appendContentsOf(images)
+            if let imageAssetSet = imageAssetSet {
+                vc.pickedImageSet = imageAssetSet
+            }
+
+            vc.completion = { [weak self] images, imageAssetSet in
+                self?.mediaImages = images
+                self?.imageAssetSet = imageAssetSet
             }
         }
     }

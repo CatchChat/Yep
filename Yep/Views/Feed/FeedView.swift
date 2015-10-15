@@ -229,7 +229,7 @@ extension FeedView: UICollectionViewDataSource, UICollectionViewDelegate {
 
         let imageURL = attachmentURLs[indexPath.item]
 
-        println("attachment imageURL: \(imageURL)")
+        //println("attachment imageURL: \(imageURL)")
 
         cell.configureWithImageURL(imageURL)
 

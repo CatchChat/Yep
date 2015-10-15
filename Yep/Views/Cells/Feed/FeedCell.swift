@@ -183,7 +183,7 @@ extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegate {
 
         if let imageURL = attachmentURLs[safe: indexPath.item] {
 
-            println("attachment imageURL: \(imageURL)")
+            //println("attachment imageURL: \(imageURL)")
 
             cell.configureWithImageURL(imageURL)
         }
