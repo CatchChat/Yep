@@ -35,10 +35,8 @@ class ImageCacheController {
             updatedCache.addIndex(path.item)
         }
 
-        println("images: \(images), \(visibleCells.count), \(updatedCache.lastIndex), \(cachePreheatSize)")
         let minCache = max(0, updatedCache.firstIndex - cachePreheatSize)
         let maxCache = min(images.count - 1, updatedCache.lastIndex + cachePreheatSize)
-        println("cache: \(minCache), \(maxCache)")
 
         updatedCache.addIndexesInRange(NSMakeRange(minCache, maxCache - minCache + 1))
 
@@ -47,7 +45,7 @@ class ImageCacheController {
             if !updatedCache.containsIndex(index) {
                 let asset: PHAsset! = self.images[index] as! PHAsset
                 self.imageCache.stopCachingImagesForAssets([asset], targetSize: self.targetSize, contentMode: self.contentMode, options: nil)
-                print("Stopping caching image \(index)")
+                //println("Stopping caching image \(index)")
             }
         }
 
@@ -56,7 +54,7 @@ class ImageCacheController {
             if !self.cachedIndices.containsIndex(index) {
                 let asset: PHAsset! = self.images[index] as! PHAsset
                 self.imageCache.startCachingImagesForAssets([asset], targetSize: self.targetSize, contentMode: self.contentMode, options: nil)
-                print("Starting caching image \(index)")
+                //println("Starting caching image \(index)")
             }
         }
 
