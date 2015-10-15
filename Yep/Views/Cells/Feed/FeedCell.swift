@@ -112,6 +112,9 @@ class FeedCell: UITableViewCell {
         super.prepareForReuse()
 
         attachmentURLs = []
+
+        messageTextView.text = nil
+        messageTextView.attributedText = nil
     }
 
     func tapAvatar(sender: UITapGestureRecognizer) {
@@ -127,7 +130,6 @@ class FeedCell: UITableViewCell {
 
     func configureWithFeed(feed: DiscoveredFeed) {
 
-        messageTextView.text = nil
         messageTextView.text = feed.body
 
         calHeightOfMessageTextView()
