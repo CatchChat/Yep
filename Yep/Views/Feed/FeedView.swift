@@ -104,7 +104,7 @@ class FeedView: UIView {
         }
     }
 
-    static let messageLabelMaxWidth: CGFloat = {
+    static let messageTextViewMaxWidth: CGFloat = {
         let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
         return maxWidth
         }()
@@ -157,7 +157,7 @@ class FeedView: UIView {
             return 60
         }
 
-        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedView.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedView.textAttributes, context: nil)
+        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedView.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedView.textAttributes, context: nil)
 
         let height: CGFloat
         
@@ -176,7 +176,7 @@ class FeedView: UIView {
 
     private func calHeightOfMessageTextView() {
 
-        let rect = messageTextView.text.boundingRectWithSize(CGSize(width: FeedView.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedView.textAttributes, context: nil)
+        let rect = messageTextView.text.boundingRectWithSize(CGSize(width: FeedView.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedView.textAttributes, context: nil)
         messageTextViewHeightConstraint.constant = rect.height
     }
 
