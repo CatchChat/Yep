@@ -127,6 +127,7 @@ class FeedCell: UITableViewCell {
 
     func configureWithFeed(feed: DiscoveredFeed) {
 
+        messageTextView.text = nil
         messageTextView.text = feed.body
 
         calHeightOfMessageTextView()
