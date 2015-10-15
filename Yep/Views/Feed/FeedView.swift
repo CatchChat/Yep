@@ -38,16 +38,18 @@ class FeedView: UIView {
                 UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
 
                     self?.nicknameLabelCenterYConstraint.constant = -10 * newValue
-                    self?.messageLabelTopConstraint.constant = -25 * newValue + 4
+                    self?.messageTextViewTopConstraint.constant = -25 * newValue + 4
 
                     if newValue == 1.0 {
-                        self?.messageLabelTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (15 + 40 + 15)
-                        self?.messageLabel.numberOfLines = 1
+                        self?.messageTextViewTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (15 + 40 + 15)
+                        //self?.messageLabel.numberOfLines = 1
+                        self?.messageTextViewHeightConstraint.constant = 20
                     }
 
                     if newValue == 0.0 {
-                        self?.messageLabelTrailingConstraint.constant = 15
-                        self?.messageLabel.numberOfLines = 0
+                        self?.messageTextViewTrailingConstraint.constant = 15
+                        //self?.messageLabel.numberOfLines = 0
+                        self?.calHeightOfMessageTextView()
                     }
 
                     self?.heightConstraint?.constant = FeedView.foldHeight + (normalHeight - FeedView.foldHeight) * (1 - newValue)
@@ -85,9 +87,10 @@ class FeedView: UIView {
 
     @IBOutlet weak var mediaView: FeedMediaView!
 
-    @IBOutlet weak var messageLabel: UILabel!
-    @IBOutlet weak var messageLabelTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var messageLabelTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var messageTextView: UITextView!
+    @IBOutlet weak var messageTextViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var messageTextViewTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var mediaCollectionView: UICollectionView!
 
@@ -101,7 +104,7 @@ class FeedView: UIView {
         }
     }
 
-    static let messageLabelMaxWidth: CGFloat = {
+    static let messageTextViewMaxWidth: CGFloat = {
         let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
         return maxWidth
         }()
@@ -114,11 +117,13 @@ class FeedView: UIView {
         clipsToBounds = true
 
         nicknameLabel.textColor = UIColor.yepTintColor()
-        messageLabel.textColor = UIColor.darkGrayColor()
+        messageTextView.textColor = UIColor.darkGrayColor()
         distanceLabel.textColor = UIColor.grayColor()
         timeLabel.textColor = UIColor.grayColor()
 
-        messageLabel.font = UIFont.feedMessageFont()
+        messageTextView.font = UIFont.feedMessageFont()
+        messageTextView.textContainer.lineFragmentPadding = 0
+        messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 
         mediaView.alpha = 0
 
@@ -152,7 +157,7 @@ class FeedView: UIView {
             return 60
         }
 
-        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedView.messageLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedView.textAttributes, context: nil)
+        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedView.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedView.textAttributes, context: nil)
 
         let height: CGFloat
         
@@ -169,9 +174,17 @@ class FeedView: UIView {
         return bounds.height
     }
 
+    private func calHeightOfMessageTextView() {
+
+        let rect = messageTextView.text.boundingRectWithSize(CGSize(width: FeedView.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedView.textAttributes, context: nil)
+        messageTextViewHeightConstraint.constant = rect.height
+    }
+
     private func configureWithFeed(feed: ConversationFeed) {
 
-        messageLabel.text = feed.body
+        messageTextView.text = feed.body
+
+        calHeightOfMessageTextView()
 
         let hasMedia = !feed.attachments.isEmpty
         timeLabelTopConstraint.constant = hasMedia ? (15 + 80 + 15) : 15

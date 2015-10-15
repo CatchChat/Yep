@@ -26,15 +26,8 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How do you do? Do not go gentle into that good night." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6i2-Pl-6hN">
-                    <rect key="frame" x="65" y="54" width="328" height="36"/>
-                    <animations/>
-                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="umP-Za-loD">
-                    <rect key="frame" x="0.0" y="105" width="419" height="80"/>
+                    <rect key="frame" x="0.0" y="109" width="419" height="80"/>
                     <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="80" id="BNj-Sa-n9K"/>
@@ -47,7 +40,7 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 hours ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ix5-dG-THW" userLabel="Time Label">
-                    <rect key="frame" x="65" y="200" width="76" height="17"/>
+                    <rect key="frame" x="65" y="197" width="76" height="17"/>
                     <animations/>
                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -71,35 +64,44 @@
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.2 km" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ffh-Mx-17Q" userLabel="Distance Label">
-                    <rect key="frame" x="156" y="200" width="40.5" height="17"/>
+                    <rect key="frame" x="156" y="197" width="40.5" height="17"/>
                     <animations/>
                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="How do you do? Do not go gentle into that good night." translatesAutoresizingMaskIntoConstraints="NO" id="3bv-tD-FhP">
+                    <rect key="frame" x="65" y="54" width="339" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="nvq-dS-cC0"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
+                </textView>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="ffh-Mx-17Q" firstAttribute="centerY" secondItem="Ix5-dG-THW" secondAttribute="centerY" id="0A2-l4-FZA"/>
+                <constraint firstAttribute="trailing" secondItem="3bv-tD-FhP" secondAttribute="trailing" constant="15" id="BeT-DR-GM8"/>
+                <constraint firstItem="Ix5-dG-THW" firstAttribute="leading" secondItem="C2E-Yo-twp" secondAttribute="leading" id="CNd-65-9tF"/>
                 <constraint firstItem="0Hb-fw-n9b" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="IUd-8S-7JE"/>
-                <constraint firstItem="6i2-Pl-6hN" firstAttribute="top" secondItem="0Hb-fw-n9b" secondAttribute="bottom" constant="4" id="Jch-Vu-xwA"/>
+                <constraint firstItem="3bv-tD-FhP" firstAttribute="leading" secondItem="C2E-Yo-twp" secondAttribute="leading" id="QQd-gY-DJO"/>
                 <constraint firstAttribute="trailing" secondItem="umP-Za-loD" secondAttribute="trailing" id="SSw-dY-XgC"/>
                 <constraint firstItem="umP-Za-loD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VaQ-38-Sg1"/>
                 <constraint firstAttribute="trailing" secondItem="r5V-GF-1ON" secondAttribute="trailing" constant="15" id="VmR-NW-fv5"/>
-                <constraint firstItem="Ix5-dG-THW" firstAttribute="leading" secondItem="6i2-Pl-6hN" secondAttribute="leading" id="XQ7-Cz-Z9a"/>
                 <constraint firstItem="0Hb-fw-n9b" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="aje-GN-Nlw"/>
                 <constraint firstItem="C2E-Yo-twp" firstAttribute="leading" secondItem="0Hb-fw-n9b" secondAttribute="trailing" constant="10" id="cGH-ZO-Eiv"/>
-                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6i2-Pl-6hN" secondAttribute="trailing" constant="15" id="dEn-gP-4DJ"/>
+                <constraint firstItem="Ix5-dG-THW" firstAttribute="top" secondItem="3bv-tD-FhP" secondAttribute="bottom" constant="103" id="cOy-Y1-cGU"/>
+                <constraint firstItem="umP-Za-loD" firstAttribute="top" secondItem="3bv-tD-FhP" secondAttribute="bottom" constant="15" id="dSs-SH-eJB"/>
                 <constraint firstAttribute="bottom" secondItem="wH6-T7-mOv" secondAttribute="bottom" id="eKo-DO-p72"/>
                 <constraint firstAttribute="trailing" secondItem="wH6-T7-mOv" secondAttribute="trailing" id="gaQ-Ac-b0T"/>
                 <constraint firstItem="ffh-Mx-17Q" firstAttribute="leading" secondItem="Ix5-dG-THW" secondAttribute="trailing" constant="15" id="iOu-S7-Zg1"/>
                 <constraint firstItem="r5V-GF-1ON" firstAttribute="top" secondItem="0Hb-fw-n9b" secondAttribute="top" id="iV6-9c-4SJ"/>
-                <constraint firstItem="umP-Za-loD" firstAttribute="top" secondItem="6i2-Pl-6hN" secondAttribute="bottom" constant="15" id="ibW-Ne-b33"/>
+                <constraint firstItem="3bv-tD-FhP" firstAttribute="top" secondItem="0Hb-fw-n9b" secondAttribute="bottom" constant="4" id="iax-kN-sMc"/>
                 <constraint firstItem="C2E-Yo-twp" firstAttribute="centerY" secondItem="0Hb-fw-n9b" secondAttribute="centerY" id="lSc-cs-Lug"/>
-                <constraint firstItem="Ix5-dG-THW" firstAttribute="top" secondItem="6i2-Pl-6hN" secondAttribute="bottom" constant="110" id="mCj-xS-Tud"/>
                 <constraint firstItem="wH6-T7-mOv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="niy-IC-PEM"/>
-                <constraint firstItem="6i2-Pl-6hN" firstAttribute="leading" secondItem="C2E-Yo-twp" secondAttribute="leading" id="rh1-wd-ajF"/>
                 <constraint firstItem="0Hb-fw-n9b" firstAttribute="width" secondItem="0Hb-fw-n9b" secondAttribute="height" multiplier="1:1" id="sFg-ds-P8V"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -108,13 +110,14 @@
                 <outlet property="distanceLabel" destination="ffh-Mx-17Q" id="rwL-f4-mRt"/>
                 <outlet property="mediaCollectionView" destination="umP-Za-loD" id="4wa-a9-jxB"/>
                 <outlet property="mediaView" destination="r5V-GF-1ON" id="tPB-3w-zKI"/>
-                <outlet property="messageLabel" destination="6i2-Pl-6hN" id="8hF-9H-5JD"/>
-                <outlet property="messageLabelTopConstraint" destination="Jch-Vu-xwA" id="nno-Xq-YwL"/>
-                <outlet property="messageLabelTrailingConstraint" destination="dEn-gP-4DJ" id="K1Z-vh-OUC"/>
+                <outlet property="messageTextView" destination="3bv-tD-FhP" id="Dyp-T7-2HB"/>
+                <outlet property="messageTextViewHeightConstraint" destination="nvq-dS-cC0" id="PQn-Ut-LZT"/>
+                <outlet property="messageTextViewTopConstraint" destination="iax-kN-sMc" id="iTS-Yh-8pJ"/>
+                <outlet property="messageTextViewTrailingConstraint" destination="BeT-DR-GM8" id="cF8-fO-hqF"/>
                 <outlet property="nicknameLabel" destination="C2E-Yo-twp" id="gHO-Mm-Ycn"/>
                 <outlet property="nicknameLabelCenterYConstraint" destination="lSc-cs-Lug" id="10y-pq-G3V"/>
                 <outlet property="timeLabel" destination="Ix5-dG-THW" id="sGx-zI-RsF"/>
-                <outlet property="timeLabelTopConstraint" destination="mCj-xS-Tud" id="occ-se-7hx"/>
+                <outlet property="timeLabelTopConstraint" destination="cOy-Y1-cGU" id="F5F-Qd-zep"/>
             </connections>
             <point key="canvasLocation" x="-182.5" y="-735.5"/>
         </view>
