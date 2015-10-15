@@ -17,7 +17,7 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
     var imageCacheController: ImageCacheController!
 
     var pickedImageSet = Set<PHAsset>()
-    var completion: ((images: [UIImage]) -> Void)?
+    var completion: ((images: [UIImage], imageAssetSet: Set<PHAsset>) -> Void)?
 
     let photoCellID = "PhotoCell"
 
@@ -67,8 +67,8 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
             let pixelWidth = CGFloat(imageAsset.pixelWidth)
             let pixelHeight = CGFloat(imageAsset.pixelHeight)
 
-            println("pixelWidth: \(pixelWidth)")
-            println("pixelHeight: \(pixelHeight)")
+            //println("pixelWidth: \(pixelWidth)")
+            //println("pixelHeight: \(pixelHeight)")
 
             let targetSize: CGSize
 
@@ -83,17 +83,17 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
                 targetSize = CGSize(width: width, height: height)
             }
 
-            println("targetSize: \(targetSize)")
+            //println("targetSize: \(targetSize)")
 
             imageManager.requestImageForAsset(imageAsset, targetSize: targetSize, contentMode: .AspectFill, options: options) { image, info in
                 if let image = image {
-                    println("image.size: \(image.size)")
+                    //println("image.size: \(image.size)")
                     images.append(image)
                 }
             }
         }
 
-        completion?(images: images)
+        completion?(images: images, imageAssetSet: pickedImageSet)
         navigationController?.popViewControllerAnimated(true)
     }
 
