@@ -24,7 +24,6 @@ class PhotoCell: UICollectionViewCell {
 
             self.imageManager?.requestImageForAsset(imageAsset, targetSize: CGSize(width: 80, height: 80), contentMode: .AspectFill, options: nil) { [weak self] image, info in
                 self?.photoImageView.image = image
-                self?.photoPickedImageView.hidden = !imageAsset.favorite
             }
         }
     }

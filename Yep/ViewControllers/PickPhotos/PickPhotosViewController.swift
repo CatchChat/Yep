@@ -108,16 +108,21 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(photoCellID, forIndexPath: indexPath) as! PhotoCell
-
-        cell.imageManager = imageManager
-
-        if let imageAsset = images[indexPath.item] as? PHAsset {
-            cell.imageAsset = imageAsset
-            cell.photoPickedImageView.hidden = !pickedImageSet.contains(imageAsset)
-        }
-
         return cell
+    }
+
+    override func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+
+        if let cell = cell as? PhotoCell {
+            cell.imageManager = imageManager
+
+            if let imageAsset = images[indexPath.item] as? PHAsset {
+                cell.imageAsset = imageAsset
+                cell.photoPickedImageView.hidden = !pickedImageSet.contains(imageAsset)
+            }
+        }
     }
 
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
