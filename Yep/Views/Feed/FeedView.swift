@@ -44,6 +44,7 @@ class FeedView: UIView {
                         self?.messageTextViewTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (15 + 40 + 15)
                         //self?.messageLabel.numberOfLines = 1
                         self?.messageTextViewHeightConstraint.constant = 20
+                        self?.messageTextView.scrollRangeToVisible(NSMakeRange(0, 1))
                     }
 
                     if newValue == 0.0 {
