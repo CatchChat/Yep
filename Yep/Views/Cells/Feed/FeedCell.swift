@@ -125,7 +125,7 @@ class FeedCell: UITableViewCell {
     private func calHeightOfMessageTextView() {
 
         let rect = messageTextView.text.boundingRectWithSize(CGSize(width: FeedCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedCell.textAttributes, context: nil)
-        messageTextViewHeightConstraint.constant = rect.height
+        messageTextViewHeightConstraint.constant = ceil(rect.height)
     }
 
     func configureWithFeed(feed: DiscoveredFeed) {

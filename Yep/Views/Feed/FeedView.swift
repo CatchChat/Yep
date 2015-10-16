@@ -177,7 +177,7 @@ class FeedView: UIView {
     private func calHeightOfMessageTextView() {
 
         let rect = messageTextView.text.boundingRectWithSize(CGSize(width: FeedView.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedView.textAttributes, context: nil)
-        messageTextViewHeightConstraint.constant = rect.height
+        messageTextViewHeightConstraint.constant = ceil(rect.height)
     }
 
     private func configureWithFeed(feed: ConversationFeed) {
