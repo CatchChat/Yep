@@ -546,7 +546,7 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                     topic = groupInfo["topic"] as? JSONDictionary,
                     feedData = DiscoveredFeed.fromJSONDictionary(topic),
                     group = group {
-                        saveFeedWithFeedData(feedData, group: group, inRealm: realm)
+                        saveFeedWithFeedDataWithFullGroup(feedData, group: group, inRealm: realm)
                 }
             }
             

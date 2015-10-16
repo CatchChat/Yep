@@ -563,7 +563,7 @@ func latestMessageInRealm(realm: Realm, withConversationType conversationType: C
     return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
 }
 
-func saveFeedWithFeedData(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
+func saveFeedWithFeedDataWithoutFullGroup(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
 
     // try sync group first
 
@@ -578,12 +578,17 @@ func saveFeedWithFeedData(feedData: DiscoveredFeed, group: Group, inRealm realm:
         syncGroupWithGroupInfo(groupInfo, inRealm: realm)
     })
 
-    // save feed
+    saveFeedWithFeedDataWithFullGroup(feedData, group: group, inRealm: realm)
 
+}
+
+func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
+    // save feed
+    
     if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
         
         print("Join Feed \(feed.feedID)")
-
+        
     } else {
         let newFeed = Feed()
         newFeed.feedID = feedData.id
@@ -607,9 +612,9 @@ func saveFeedWithFeedData(feedData: DiscoveredFeed, group: Group, inRealm realm:
         
         let attachments = attachmentFromDiscoveredAttachment(feedData.attachments, inRealm: realm)
         newFeed.attachments.appendContentsOf(attachments)
-
+        
         newFeed.group = group
-
+        
         let _ = try? realm.write {
             realm.add(newFeed)
         }

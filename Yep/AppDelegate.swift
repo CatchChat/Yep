@@ -294,16 +294,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func sync() {
-
-
-
         syncGroupsAndDoFurtherAction {
             syncUnreadMessagesAndDoFurtherAction { messageIDs in
                 tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: .New)
             }
         }
-
-
 
         officialMessages { messagesCount in
             println("new officialMessages count: \(messagesCount)")
