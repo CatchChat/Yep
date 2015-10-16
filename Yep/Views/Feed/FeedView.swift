@@ -137,6 +137,7 @@ class FeedView: UIView {
 
         let tap = UITapGestureRecognizer(target: self, action: "switchFold:")
         addGestureRecognizer(tap)
+        tap.delegate = self
 
         let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
         avatarImageView.userInteractionEnabled = true
@@ -218,6 +219,24 @@ class FeedView: UIView {
         timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
     }
 }
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension FeedView: UIGestureRecognizerDelegate {
+
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+
+        let location = touch.locationInView(mediaCollectionView)
+
+        if CGRectContainsPoint(mediaCollectionView.bounds, location) {
+            return false
+        }
+
+        return true
+    }
+}
+
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegate
 
 extension FeedView: UICollectionViewDataSource, UICollectionViewDelegate {
 
