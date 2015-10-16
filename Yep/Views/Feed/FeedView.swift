@@ -88,7 +88,7 @@ class FeedView: UIView {
 
     @IBOutlet weak var mediaView: FeedMediaView!
 
-    @IBOutlet weak var messageTextView: UITextView!
+    @IBOutlet weak var messageTextView: FeedTextView!
     @IBOutlet weak var messageTextViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageTextViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!

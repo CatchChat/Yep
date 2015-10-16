@@ -14,7 +14,7 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
 
-    @IBOutlet weak var messageTextView: UITextView!
+    @IBOutlet weak var messageTextView: FeedTextView!
     @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var mediaCollectionView: UICollectionView!
