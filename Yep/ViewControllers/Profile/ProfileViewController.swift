@@ -480,6 +480,9 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        syncMyInfoAndDoFurtherAction {
+        }
 
         title = NSLocalizedString("Profile", comment: "")
 

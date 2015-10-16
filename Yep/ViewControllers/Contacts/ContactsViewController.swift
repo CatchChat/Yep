@@ -52,6 +52,9 @@ class ContactsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        syncFriendshipsAndDoFurtherAction {
+        }
 
         title = NSLocalizedString("Contacts", comment: "")
 
