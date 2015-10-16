@@ -182,22 +182,35 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let discoveredUser = discoveredUsers[indexPath.row]
+//        let discoveredUser = discoveredUsers[indexPath.row]
         
         switch userMode! {
         case .Normal:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(NormalUserIdentifier, forIndexPath: indexPath) as! DiscoverNormalUserCell
             
-            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
+//            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
             return cell
             
         case .Card:
            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CardUserIdentifier, forIndexPath: indexPath) as! DiscoverCardUserCell
-            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
+//            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
             return cell
         }
+    }
+    
+    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+        let discoveredUser = discoveredUsers[indexPath.row]
         
-        
+        switch userMode! {
+        case .Normal:
+            let cell = cell as! DiscoverNormalUserCell
+            
+            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
+            
+        case .Card:
+            let cell = cell as! DiscoverCardUserCell
+            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
+        }
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
