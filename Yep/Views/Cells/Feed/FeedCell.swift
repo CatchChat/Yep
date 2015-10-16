@@ -95,6 +95,16 @@ class FeedCell: UITableViewCell {
         avatarImageView.userInteractionEnabled = true
         avatarImageView.addGestureRecognizer(tapAvatar)
 
+        messageTextView.touchesBeganAction = { [weak self] in
+            self?.mediaCollectionViewTouchesBeganAction?()
+        }
+        messageTextView.touchesEndedAction = { [weak self] in
+            self?.mediaCollectionViewTouchesEndedAction?()
+        }
+        messageTextView.touchesCancelledAction = { [weak self] in
+            self?.mediaCollectionViewTouchesCancelledAction?()
+        }
+
         let backgroundView = TouchClosuresView(frame: mediaCollectionView.bounds)
         backgroundView.touchesBeganAction = { [weak self] in
             self?.mediaCollectionViewTouchesBeganAction?()
