@@ -148,6 +148,8 @@ class ConversationViewController: BaseViewController {
 
     lazy var moreView: ConversationMoreView = ConversationMoreView()
 
+    lazy var moreMessageTypesView: MoreMessageTypesView = MoreMessageTypesView()
+
     lazy var pullToRefreshView: PullToRefreshView = {
 
         let pullToRefreshView = PullToRefreshView()
@@ -206,13 +208,13 @@ class ConversationViewController: BaseViewController {
     @IBOutlet weak var messageToolbar: MessageToolbar!
     @IBOutlet weak var messageToolbarBottomConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var moreMessageTypesView: UIView!
-    @IBOutlet weak var moreMessageTypesViewHeightConstraint: NSLayoutConstraint!
-    let moreMessageTypesViewDefaultHeight: CGFloat = 110
+    //@IBOutlet weak var moreMessageTypesView: UIView!
+    //@IBOutlet weak var moreMessageTypesViewHeightConstraint: NSLayoutConstraint!
+    //let moreMessageTypesViewDefaultHeight: CGFloat = 110
 
-    @IBOutlet weak var choosePhotoButton: MessageTypeButton!
-    @IBOutlet weak var takePhotoButton: MessageTypeButton!
-    @IBOutlet weak var addLocationButton: MessageTypeButton!
+    //@IBOutlet weak var choosePhotoButton: MessageTypeButton!
+    //@IBOutlet weak var takePhotoButton: MessageTypeButton!
+    //@IBOutlet weak var addLocationButton: MessageTypeButton!
 
     @IBOutlet weak var swipeUpView: UIView!
     @IBOutlet weak var swipeUpPromptLabel: UILabel!
@@ -349,7 +351,7 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.addGestureRecognizer(tap)
 
         messageToolbarBottomConstraint.constant = 0
-        moreMessageTypesViewHeightConstraint.constant = moreMessageTypesViewDefaultHeight
+        //moreMessageTypesViewHeightConstraint.constant = moreMessageTypesViewDefaultHeight
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
 
@@ -361,7 +363,7 @@ class ConversationViewController: BaseViewController {
 
                     // 注意第一次要减去已经有的高度偏移
                     if appearPostIndex == 0 {
-                        strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement - strongSelf.moreMessageTypesViewDefaultHeight
+                        strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement //- strongSelf.moreMessageTypesViewDefaultHeight
                     } else {
                         strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement
                     }
@@ -388,10 +390,10 @@ class ConversationViewController: BaseViewController {
             if let strongSelf = self {
 
                 if strongSelf.messageToolbar.state == .MoreMessages {
-                    strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight - strongSelf.moreMessageTypesViewDefaultHeight
-                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewDefaultHeight
+                    strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight //- strongSelf.moreMessageTypesViewDefaultHeight
+                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height //+ strongSelf.moreMessageTypesViewDefaultHeight
 
-                    strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
+                    //strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
                     strongSelf.view.layoutIfNeeded()
 
                 } else {
@@ -487,7 +489,7 @@ class ConversationViewController: BaseViewController {
 
                             UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
 
-                                strongSelf.conversationCollectionView.contentOffset.y -= strongSelf.moreMessageTypesViewDefaultHeight
+                                //strongSelf.conversationCollectionView.contentOffset.y -= strongSelf.moreMessageTypesViewDefaultHeight
                                 strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
 
                                 strongSelf.messageToolbarBottomConstraint.constant = 0
@@ -501,6 +503,7 @@ class ConversationViewController: BaseViewController {
 
                         if currentState == .MoreMessages {
 
+                            /*
                             if previousState != .BeginTextInput && previousState != .TextInputing {
 
                                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
@@ -521,6 +524,11 @@ class ConversationViewController: BaseViewController {
                             // touch to create (if need) for faster appear
                             delay(0.2) {
                                 self?.imagePicker.hidesBarsOnTap = false
+                            }
+                            */
+
+                            if let window = self?.view.window {
+                                self?.moreMessageTypesView.showInView(window)
                             }
                         }
                     }
@@ -866,6 +874,7 @@ class ConversationViewController: BaseViewController {
 
             // MARK: More Message Types
 
+            /*
             choosePhotoButton.title = NSLocalizedString("Choose photo", comment: "")
             choosePhotoButton.tapAction = { [weak self] in
 
@@ -904,6 +913,7 @@ class ConversationViewController: BaseViewController {
             addLocationButton.tapAction = { [weak self] in
                 self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
             }
+            */
         }
     }
 
