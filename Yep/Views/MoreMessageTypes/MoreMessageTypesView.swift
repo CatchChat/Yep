@@ -106,11 +106,11 @@ class MoreMessageTypesView: UIView {
 
             makeUI()
 
-//            let tap = UITapGestureRecognizer(target: self, action: "hide")
-//            containerView.addGestureRecognizer(tap)
-//
-//            tap.cancelsTouchesInView = true
-//            tap.delegate = self
+            let tap = UITapGestureRecognizer(target: self, action: "hide")
+            containerView.addGestureRecognizer(tap)
+
+            tap.cancelsTouchesInView = true
+            tap.delegate = self
         }
     }
 
@@ -149,6 +149,22 @@ class MoreMessageTypesView: UIView {
         NSLayoutConstraint.activateConstraints([tableViewBottomConstraint, tableViewHeightConstraint])
     }
 }
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension MoreMessageTypesView: UIGestureRecognizerDelegate {
+
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+
+        if touch.view != containerView {
+            return false
+        }
+
+        return true
+    }
+}
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
 
@@ -213,4 +229,3 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     }
 }
-
