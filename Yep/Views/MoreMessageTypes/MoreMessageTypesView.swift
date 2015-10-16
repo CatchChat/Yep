@@ -33,6 +33,10 @@ class MoreMessageTypesView: UIView {
         return view
         }()
 
+
+    var pickLocationAction: (() -> Void)?
+
+
     var tableViewBottomConstraint: NSLayoutConstraint?
 
     func showInView(view: UIView) {
@@ -228,5 +232,19 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        if let row = Row(rawValue: indexPath.row) {
+            switch row {
+            case .Location:
+                hideAndDo {
+                    pickLocationAction?()
+                }
+            default:
+                break
+            }
+        }
     }
 }
+

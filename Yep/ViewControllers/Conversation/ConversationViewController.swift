@@ -148,7 +148,13 @@ class ConversationViewController: BaseViewController {
 
     lazy var moreView: ConversationMoreView = ConversationMoreView()
 
-    lazy var moreMessageTypesView: MoreMessageTypesView = MoreMessageTypesView()
+    lazy var moreMessageTypesView: MoreMessageTypesView = {
+        let view =  MoreMessageTypesView()
+        view.pickLocationAction = { [weak self] in
+            self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
+        }
+        return view
+        }()
 
     lazy var pullToRefreshView: PullToRefreshView = {
 
