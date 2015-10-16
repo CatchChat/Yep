@@ -70,7 +70,7 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="How do you do? Do not go gentle into that good night." translatesAutoresizingMaskIntoConstraints="NO" id="3bv-tD-FhP">
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="How do you do? Do not go gentle into that good night." translatesAutoresizingMaskIntoConstraints="NO" id="3bv-tD-FhP" customClass="FeedTextView" customModule="Yep" customModuleProvider="target">
                     <rect key="frame" x="65" y="54" width="339" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="nvq-dS-cC0"/>

@@ -67,7 +67,7 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="How do you do?" translatesAutoresizingMaskIntoConstraints="NO" id="XYv-cX-YOQ">
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="How do you do?" translatesAutoresizingMaskIntoConstraints="NO" id="XYv-cX-YOQ" customClass="FeedTextView" customModule="Yep" customModuleProvider="target">
                         <rect key="frame" x="65" y="54" width="301" height="26"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="26" id="DpP-3J-Ftw"/>

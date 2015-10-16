@@ -44,6 +44,7 @@ class FeedView: UIView {
                         self?.messageTextViewTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (15 + 40 + 15)
                         //self?.messageLabel.numberOfLines = 1
                         self?.messageTextViewHeightConstraint.constant = 20
+                        self?.messageTextView.scrollRangeToVisible(NSMakeRange(0, 1))
                     }
 
                     if newValue == 0.0 {
@@ -87,7 +88,7 @@ class FeedView: UIView {
 
     @IBOutlet weak var mediaView: FeedMediaView!
 
-    @IBOutlet weak var messageTextView: UITextView!
+    @IBOutlet weak var messageTextView: FeedTextView!
     @IBOutlet weak var messageTextViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageTextViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
@@ -134,16 +135,21 @@ class FeedView: UIView {
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 
-        let tap = UITapGestureRecognizer(target: self, action: "unfold:")
-        mediaView.addGestureRecognizer(tap)
+        let tap = UITapGestureRecognizer(target: self, action: "switchFold:")
+        addGestureRecognizer(tap)
 
         let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
         avatarImageView.userInteractionEnabled = true
         avatarImageView.addGestureRecognizer(tapAvatar)
     }
 
-    func unfold(sender: UITapGestureRecognizer) {
-        foldProgress = 0
+    func switchFold(sender: UITapGestureRecognizer) {
+
+        if foldProgress == 1 {
+            foldProgress = 0
+        } else if foldProgress == 0 {
+            foldProgress = 1
+        }
     }
 
     func tapAvatar(sender: UITapGestureRecognizer) {
@@ -177,7 +183,7 @@ class FeedView: UIView {
     private func calHeightOfMessageTextView() {
 
         let rect = messageTextView.text.boundingRectWithSize(CGSize(width: FeedView.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedView.textAttributes, context: nil)
-        messageTextViewHeightConstraint.constant = rect.height
+        messageTextViewHeightConstraint.constant = ceil(rect.height)
     }
 
     private func configureWithFeed(feed: ConversationFeed) {

@@ -14,7 +14,7 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
 
-    @IBOutlet weak var messageTextView: UITextView!
+    @IBOutlet weak var messageTextView: FeedTextView!
     @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var mediaCollectionView: UICollectionView!
@@ -29,9 +29,9 @@ class FeedCell: UITableViewCell {
     var tapAvatarAction: (() -> Void)?
     var tapMediaAction: ((transitionView: UIView, imageURL: NSURL) -> Void)?
 
-    var mediaCollectionViewTouchesBeganAction: (() -> Void)?
-    var mediaCollectionViewTouchesEndedAction: (() -> Void)?
-    var mediaCollectionViewTouchesCancelledAction: (() -> Void)?
+    var touchesBeganAction: (() -> Void)?
+    var touchesEndedAction: (() -> Void)?
+    var touchesCancelledAction: (() -> Void)?
 
     var attachmentURLs = [NSURL]() {
         didSet {
@@ -95,15 +95,25 @@ class FeedCell: UITableViewCell {
         avatarImageView.userInteractionEnabled = true
         avatarImageView.addGestureRecognizer(tapAvatar)
 
+        messageTextView.touchesBeganAction = { [weak self] in
+            self?.touchesBeganAction?()
+        }
+        messageTextView.touchesEndedAction = { [weak self] in
+            self?.touchesEndedAction?()
+        }
+        messageTextView.touchesCancelledAction = { [weak self] in
+            self?.touchesCancelledAction?()
+        }
+
         let backgroundView = TouchClosuresView(frame: mediaCollectionView.bounds)
         backgroundView.touchesBeganAction = { [weak self] in
-            self?.mediaCollectionViewTouchesBeganAction?()
+            self?.touchesBeganAction?()
         }
         backgroundView.touchesEndedAction = { [weak self] in
-            self?.mediaCollectionViewTouchesEndedAction?()
+            self?.touchesEndedAction?()
         }
         backgroundView.touchesCancelledAction = { [weak self] in
-            self?.mediaCollectionViewTouchesCancelledAction?()
+            self?.touchesCancelledAction?()
         }
         mediaCollectionView.backgroundView = backgroundView
     }
@@ -125,7 +135,7 @@ class FeedCell: UITableViewCell {
     private func calHeightOfMessageTextView() {
 
         let rect = messageTextView.text.boundingRectWithSize(CGSize(width: FeedCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedCell.textAttributes, context: nil)
-        messageTextViewHeightConstraint.constant = rect.height
+        messageTextViewHeightConstraint.constant = ceil(rect.height)
     }
 
     func configureWithFeed(feed: DiscoveredFeed) {
