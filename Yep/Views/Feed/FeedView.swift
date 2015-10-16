@@ -135,16 +135,21 @@ class FeedView: UIView {
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 
-        let tap = UITapGestureRecognizer(target: self, action: "unfold:")
-        mediaView.addGestureRecognizer(tap)
+        let tap = UITapGestureRecognizer(target: self, action: "switchFold:")
+        addGestureRecognizer(tap)
 
         let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
         avatarImageView.userInteractionEnabled = true
         avatarImageView.addGestureRecognizer(tapAvatar)
     }
 
-    func unfold(sender: UITapGestureRecognizer) {
-        foldProgress = 0
+    func switchFold(sender: UITapGestureRecognizer) {
+
+        if foldProgress == 1 {
+            foldProgress = 0
+        } else if foldProgress == 0 {
+            foldProgress = 1
+        }
     }
 
     func tapAvatar(sender: UITapGestureRecognizer) {
