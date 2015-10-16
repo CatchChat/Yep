@@ -34,8 +34,8 @@ class MoreMessageTypesView: UIView {
         }()
 
 
+    var choosePhotoAction: (() -> Void)?
     var pickLocationAction: (() -> Void)?
-
 
     var tableViewBottomConstraint: NSLayoutConstraint?
 
@@ -237,6 +237,10 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
 
         if let row = Row(rawValue: indexPath.row) {
             switch row {
+            case .PickPhotos:
+                hideAndDo {
+                    choosePhotoAction?()
+                }
             case .Location:
                 hideAndDo {
                     pickLocationAction?()

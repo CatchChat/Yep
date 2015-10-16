@@ -149,10 +149,29 @@ class ConversationViewController: BaseViewController {
     lazy var moreView: ConversationMoreView = ConversationMoreView()
 
     lazy var moreMessageTypesView: MoreMessageTypesView = {
+
         let view =  MoreMessageTypesView()
+
         view.pickLocationAction = { [weak self] in
             self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
         }
+
+        view.choosePhotoAction = { [weak self] in
+
+            let openCameraRoll: ProposerAction = { [weak self] in
+                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
+                    if let strongSelf = self {
+                        strongSelf.imagePicker.sourceType = .PhotoLibrary
+                        strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                    }
+                }
+            }
+
+            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
+                self?.alertCanNotAccessCameraRoll()
+            })
+        }
+
         return view
         }()
 
