@@ -19,6 +19,7 @@ class MoreMessageTypesView: UIView {
         }()
 
     let titleCellID = "TitleCell"
+    let quickPickPhotosCellID = "QuickPickPhotosCell"
 
     lazy var tableView: UITableView = {
         let view = UITableView()
@@ -27,6 +28,7 @@ class MoreMessageTypesView: UIView {
         view.rowHeight = 60
         view.scrollEnabled = false
 
+        view.registerNib(UINib(nibName: self.quickPickPhotosCellID, bundle: nil), forCellReuseIdentifier: self.quickPickPhotosCellID)
         view.registerNib(UINib(nibName: self.titleCellID, bundle: nil), forCellReuseIdentifier: self.titleCellID)
         return view
         }()
@@ -180,9 +182,19 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCellWithIdentifier(titleCellID) as! TitleCell
-        cell.singleTitleLabel.text = Row(rawValue: indexPath.row)?.normalTitle
-        return cell
+        if let row = Row(rawValue: indexPath.row) {
+            if case .PhotoGallery = row {
+                let cell = tableView.dequeueReusableCellWithIdentifier(quickPickPhotosCellID) as! QuickPickPhotosCell
+                return cell
+
+            } else {
+                let cell = tableView.dequeueReusableCellWithIdentifier(titleCellID) as! TitleCell
+                cell.singleTitleLabel.text = row.normalTitle
+                return cell
+            }
+        }
+        
+        return UITableViewCell()
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
