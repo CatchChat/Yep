@@ -1,0 +1,18 @@
+//
+//  CameraCell.swift
+//  Yep
+//
+//  Created by nixzhu on 15/10/16.
+//  Copyright © 2015年 Catch Inc. All rights reserved.
+//
+
+import UIKit
+
+class CameraCell: UICollectionViewCell {
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+
+}

@@ -20,11 +20,13 @@ class QuickPickPhotosCell: UITableViewCell {
     var pickedImageSet = Set<PHAsset>()
     var completion: ((images: [UIImage], imageAssetSet: Set<PHAsset>) -> Void)?
 
+    let cameraCellID = "CameraCell"
     let photoCellID = "PhotoCell"
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        photosCollectionView.registerNib(UINib(nibName: cameraCellID, bundle: nil), forCellWithReuseIdentifier: cameraCellID)
         photosCollectionView.registerNib(UINib(nibName: photoCellID, bundle: nil), forCellWithReuseIdentifier: photoCellID)
         photosCollectionView.dataSource = self
         photosCollectionView.delegate = self
@@ -49,17 +51,35 @@ class QuickPickPhotosCell: UITableViewCell {
 extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 1
+        return 2
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return images.count
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            return images.count
+        default:
+            return 0
+        }
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(photoCellID, forIndexPath: indexPath) as! PhotoCell
-        return cell
+        switch indexPath.section {
+
+        case 0:
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cameraCellID, forIndexPath: indexPath) as! CameraCell
+            return cell
+
+        case 1:
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(photoCellID, forIndexPath: indexPath) as! PhotoCell
+            return cell
+
+        default:
+            return UICollectionViewCell()
+        }
     }
 
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {

@@ -169,6 +169,7 @@ extension MoreMessageTypesView: UIGestureRecognizerDelegate {
 extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
 
     enum Row: Int {
+
         case PhotoGallery = 0
         case PickPhotos
         case Location

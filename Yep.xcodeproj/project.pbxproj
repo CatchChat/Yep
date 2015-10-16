@@ -94,6 +94,8 @@
 		502B605B1BD1102B00D9C17E /* TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502B60591BD1102B00D9C17E /* TitleCell.xib */; settings = {ASSET_TAGS = (); }; };
 		502B605F1BD112E500D9C17E /* QuickPickPhotosCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B605D1BD112E500D9C17E /* QuickPickPhotosCell.swift */; settings = {ASSET_TAGS = (); }; };
 		502B60601BD112E500D9C17E /* QuickPickPhotosCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502B605E1BD112E500D9C17E /* QuickPickPhotosCell.xib */; settings = {ASSET_TAGS = (); }; };
+		502B60641BD1208E00D9C17E /* CameraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B60621BD1208E00D9C17E /* CameraCell.swift */; settings = {ASSET_TAGS = (); }; };
+		502B60651BD1208E00D9C17E /* CameraCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502B60631BD1208E00D9C17E /* CameraCell.xib */; settings = {ASSET_TAGS = (); }; };
 		503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503315951AC1017E0008A209 /* ChatLeftTextCell.swift */; };
 		503315981AC1017E0008A209 /* ChatLeftTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 503315961AC1017E0008A209 /* ChatLeftTextCell.xib */; };
 		5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159A1AC101C80008A209 /* ChatRightTextCell.swift */; };
@@ -395,6 +397,8 @@
 		502B60591BD1102B00D9C17E /* TitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TitleCell.xib; path = Views/Cells/Title/TitleCell.xib; sourceTree = "<group>"; };
 		502B605D1BD112E500D9C17E /* QuickPickPhotosCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuickPickPhotosCell.swift; path = Views/Cells/QuickPickPhotos/QuickPickPhotosCell.swift; sourceTree = "<group>"; };
 		502B605E1BD112E500D9C17E /* QuickPickPhotosCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QuickPickPhotosCell.xib; path = Views/Cells/QuickPickPhotos/QuickPickPhotosCell.xib; sourceTree = "<group>"; };
+		502B60621BD1208E00D9C17E /* CameraCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraCell.swift; path = Views/Cells/Camera/CameraCell.swift; sourceTree = "<group>"; };
+		502B60631BD1208E00D9C17E /* CameraCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CameraCell.xib; path = Views/Cells/Camera/CameraCell.xib; sourceTree = "<group>"; };
 		503315951AC1017E0008A209 /* ChatLeftTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextCell.swift; path = Views/Cells/ChatLeftText/ChatLeftTextCell.swift; sourceTree = "<group>"; };
 		503315961AC1017E0008A209 /* ChatLeftTextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftTextCell.xib; path = Views/Cells/ChatLeftText/ChatLeftTextCell.xib; sourceTree = "<group>"; };
 		5033159A1AC101C80008A209 /* ChatRightTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextCell.swift; path = Views/Cells/ChatRightText/ChatRightTextCell.swift; sourceTree = "<group>"; };
@@ -1050,6 +1054,7 @@
 				50535D251BCE4A0A002FE1A4 /* Photo */,
 				502B605C1BD1102F00D9C17E /* Title */,
 				502B60611BD112EA00D9C17E /* QuickPickPhotos */,
+				502B60661BD1209300D9C17E /* Camera */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1228,6 +1233,15 @@
 				502B605E1BD112E500D9C17E /* QuickPickPhotosCell.xib */,
 			);
 			name = QuickPickPhotos;
+			sourceTree = "<group>";
+		};
+		502B60661BD1209300D9C17E /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				502B60621BD1208E00D9C17E /* CameraCell.swift */,
+				502B60631BD1208E00D9C17E /* CameraCell.xib */,
+			);
+			name = Camera;
 			sourceTree = "<group>";
 		};
 		503315991AC101830008A209 /* ChatLeftText */ = {
@@ -2155,6 +2169,7 @@
 				502AE54F1AB93175005BD199 /* ProfileHeaderCell.xib in Resources */,
 				50F5AF9A1BBBD02A0033C9BC /* FeedMediaCell.xib in Resources */,
 				50A640EA1B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib in Resources */,
+				502B60651BD1208E00D9C17E /* CameraCell.xib in Resources */,
 				0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */,
 				5053AD511AF82A1700B3CBFA /* PickLocationCell.xib in Resources */,
 				5011382D1BCB5E150055A014 /* FeedConversationDockCell.xib in Resources */,
@@ -2403,6 +2418,7 @@
 				50E1D7291B870D7500D90A82 /* NSParagraphStyle+Yep.swift in Sources */,
 				5023DE561AB6CA1000B3EE96 /* AvatarCache.swift in Sources */,
 				5023DE371AB6979600B3EE96 /* ConversationCell.swift in Sources */,
+				502B60641BD1208E00D9C17E /* CameraCell.swift in Sources */,
 				502AE5351AB8649F005BD199 /* LoginByMobileViewController.swift in Sources */,
 				506BB7F91AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift in Sources */,
 				50B8E6181B41340A00C17EA1 /* MessageLoadingProgressView.swift in Sources */,
