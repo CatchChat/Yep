@@ -90,6 +90,8 @@
 		502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502AE5521AB93215005BD199 /* ProfileFooterCell.xib */; };
 		502AE5581AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5561AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift */; };
 		502AE5591AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502AE5571AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib */; };
+		502B605A1BD1102B00D9C17E /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B60581BD1102B00D9C17E /* TitleCell.swift */; settings = {ASSET_TAGS = (); }; };
+		502B605B1BD1102B00D9C17E /* TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502B60591BD1102B00D9C17E /* TitleCell.xib */; settings = {ASSET_TAGS = (); }; };
 		503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503315951AC1017E0008A209 /* ChatLeftTextCell.swift */; };
 		503315981AC1017E0008A209 /* ChatLeftTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 503315961AC1017E0008A209 /* ChatLeftTextCell.xib */; };
 		5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159A1AC101C80008A209 /* ChatRightTextCell.swift */; };
@@ -387,6 +389,8 @@
 		502AE5521AB93215005BD199 /* ProfileFooterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileFooterCell.xib; path = Views/Cells/ProfileFooter/ProfileFooterCell.xib; sourceTree = "<group>"; };
 		502AE5561AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSectionHeaderReusableView.swift; path = Views/ReusableViews/ProfileSectionHeader/ProfileSectionHeaderReusableView.swift; sourceTree = "<group>"; };
 		502AE5571AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSectionHeaderReusableView.xib; path = Views/ReusableViews/ProfileSectionHeader/ProfileSectionHeaderReusableView.xib; sourceTree = "<group>"; };
+		502B60581BD1102B00D9C17E /* TitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TitleCell.swift; path = Views/Cells/Title/TitleCell.swift; sourceTree = "<group>"; };
+		502B60591BD1102B00D9C17E /* TitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TitleCell.xib; path = Views/Cells/Title/TitleCell.xib; sourceTree = "<group>"; };
 		503315951AC1017E0008A209 /* ChatLeftTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextCell.swift; path = Views/Cells/ChatLeftText/ChatLeftTextCell.swift; sourceTree = "<group>"; };
 		503315961AC1017E0008A209 /* ChatLeftTextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftTextCell.xib; path = Views/Cells/ChatLeftText/ChatLeftTextCell.xib; sourceTree = "<group>"; };
 		5033159A1AC101C80008A209 /* ChatRightTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextCell.swift; path = Views/Cells/ChatRightText/ChatRightTextCell.swift; sourceTree = "<group>"; };
@@ -1040,6 +1044,7 @@
 				501138331BCB62A70055A014 /* FeedConversation */,
 				6A82150A1BCBE8F40011F36C /* DiscoverSkill */,
 				50535D251BCE4A0A002FE1A4 /* Photo */,
+				502B605C1BD1102F00D9C17E /* Title */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1200,6 +1205,15 @@
 				502AE5571AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib */,
 			);
 			name = ProfileSectionHeader;
+			sourceTree = "<group>";
+		};
+		502B605C1BD1102F00D9C17E /* Title */ = {
+			isa = PBXGroup;
+			children = (
+				502B60581BD1102B00D9C17E /* TitleCell.swift */,
+				502B60591BD1102B00D9C17E /* TitleCell.xib */,
+			);
+			name = Title;
 			sourceTree = "<group>";
 		};
 		503315991AC101830008A209 /* ChatLeftText */ = {
@@ -2146,6 +2160,7 @@
 				501138321BCB62A20055A014 /* FeedConversationCell.xib in Resources */,
 				848806B41B7B4E2E000C5424 /* Show.storyboard in Resources */,
 				0AD7EA771AC3EEB000617758 /* PushConfig.plist in Resources */,
+				502B605B1BD1102B00D9C17E /* TitleCell.xib in Resources */,
 				5064F65A1B0B14420089FAD4 /* AddFriendMoreCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2407,6 +2422,7 @@
 				6A5632931BC911CB00397B53 /* DiscoverNormalUserCell.swift in Sources */,
 				5053AD5A1AF83B4200B3CBFA /* ChatLeftLocationCell.swift in Sources */,
 				50A640E91B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.swift in Sources */,
+				502B605A1BD1102B00D9C17E /* TitleCell.swift in Sources */,
 				840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */,
 				508F8FD01B01D04400461B0B /* GithubRepoCell.swift in Sources */,
 				50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */,

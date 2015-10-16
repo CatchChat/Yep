@@ -18,6 +18,8 @@ class MoreMessageTypesView: UIView {
         return view
         }()
 
+    let titleCellID = "TitleCell"
+
     lazy var tableView: UITableView = {
         let view = UITableView()
         view.dataSource = self
@@ -25,9 +27,7 @@ class MoreMessageTypesView: UIView {
         view.rowHeight = 60
         view.scrollEnabled = false
 
-        view.registerClass(ConversationMoreDetailCell.self, forCellReuseIdentifier: "ConversationMoreDetailCell")
-        view.registerClass(ConversationMoreCheckCell.self, forCellReuseIdentifier: "ConversationMoreCheckCell")
-        view.registerClass(ConversationMoreColorTitleCell.self, forCellReuseIdentifier: "ConversationMoreColorTitleCell")
+        view.registerNib(UINib(nibName: self.titleCellID, bundle: nil), forCellReuseIdentifier: self.titleCellID)
         return view
         }()
 
@@ -155,6 +155,19 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
         case PickPhotos
         case Location
         case Cancel
+
+        var normalTitle: String {
+            switch self {
+            case .PhotoGallery:
+                return ""
+            case .PickPhotos:
+                return NSLocalizedString("Pick Photos", comment: "")
+            case .Location:
+                return NSLocalizedString("Location", comment: "")
+            case .Cancel:
+                return NSLocalizedString("Cancel", comment: "")
+            }
+        }
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -162,12 +175,14 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 4
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCellWithIdentifier(titleCellID) as! TitleCell
+        cell.singleTitleLabel.text = Row(rawValue: indexPath.row)?.normalTitle
+        return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
