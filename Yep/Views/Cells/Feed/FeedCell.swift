@@ -29,9 +29,9 @@ class FeedCell: UITableViewCell {
     var tapAvatarAction: (() -> Void)?
     var tapMediaAction: ((transitionView: UIView, imageURL: NSURL) -> Void)?
 
-    var mediaCollectionViewTouchesBeganAction: (() -> Void)?
-    var mediaCollectionViewTouchesEndedAction: (() -> Void)?
-    var mediaCollectionViewTouchesCancelledAction: (() -> Void)?
+    var touchesBeganAction: (() -> Void)?
+    var touchesEndedAction: (() -> Void)?
+    var touchesCancelledAction: (() -> Void)?
 
     var attachmentURLs = [NSURL]() {
         didSet {
@@ -96,24 +96,24 @@ class FeedCell: UITableViewCell {
         avatarImageView.addGestureRecognizer(tapAvatar)
 
         messageTextView.touchesBeganAction = { [weak self] in
-            self?.mediaCollectionViewTouchesBeganAction?()
+            self?.touchesBeganAction?()
         }
         messageTextView.touchesEndedAction = { [weak self] in
-            self?.mediaCollectionViewTouchesEndedAction?()
+            self?.touchesEndedAction?()
         }
         messageTextView.touchesCancelledAction = { [weak self] in
-            self?.mediaCollectionViewTouchesCancelledAction?()
+            self?.touchesCancelledAction?()
         }
 
         let backgroundView = TouchClosuresView(frame: mediaCollectionView.bounds)
         backgroundView.touchesBeganAction = { [weak self] in
-            self?.mediaCollectionViewTouchesBeganAction?()
+            self?.touchesBeganAction?()
         }
         backgroundView.touchesEndedAction = { [weak self] in
-            self?.mediaCollectionViewTouchesEndedAction?()
+            self?.touchesEndedAction?()
         }
         backgroundView.touchesCancelledAction = { [weak self] in
-            self?.mediaCollectionViewTouchesCancelledAction?()
+            self?.touchesCancelledAction?()
         }
         mediaCollectionView.backgroundView = backgroundView
     }
