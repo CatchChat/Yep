@@ -10,7 +10,7 @@ import UIKit
 
 class MoreMessageTypesView: UIView {
 
-    let totalHeight: CGFloat = 60 * 5
+    let totalHeight: CGFloat = 100 + 60 * 3
 
     lazy var containerView: UIView = {
         let view = UIView()
@@ -196,7 +196,20 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
         
         return UITableViewCell()
     }
-    
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if let row = Row(rawValue: indexPath.row) {
+            if case .PhotoGallery = row {
+                return 100
+
+            } else {
+                return 60
+            }
+        }
+
+        return 0
+    }
+
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     }
 }
