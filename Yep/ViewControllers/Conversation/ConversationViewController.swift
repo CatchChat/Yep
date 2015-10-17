@@ -1428,7 +1428,9 @@ class ConversationViewController: BaseViewController {
     // MARK: Actions
 
     func tapToCollapseMessageToolBar(sender: UITapGestureRecognizer) {
-        messageToolbar.state = .Default
+        if selectedIndexPathForMenu == nil {
+            messageToolbar.state = .Default
+        }
     }
 
     func checkTypingStatus() {
@@ -2289,7 +2291,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
             
             NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerWillShowMenuNotification, object: nil)
-            
+
             menu.setTargetRect(bubbleFrame, inView: view)
             menu.setMenuVisible(true, animated: true)
             
