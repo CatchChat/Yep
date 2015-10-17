@@ -125,7 +125,10 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                             message.sendState = MessageSendState.Read.rawValue
                                         }
                                         
-                                        NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                                        dispatch_async(dispatch_get_main_queue()) {
+                                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                                        }
+                                        
                                     }
                             }
                         }
@@ -195,7 +198,9 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                                     message.sendState = MessageSendState.Read.rawValue
                                                 }
                                                 
-                                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                                                dispatch_async(dispatch_get_main_queue()) {
+                                                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                                                }
                                             }
                                     }
                                 }
