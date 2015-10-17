@@ -240,15 +240,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if application.applicationState != .Active {
                     self.remoteNotificationType = remoteNotificationType
                 }
-
-                completionHandler(UIBackgroundFetchResult.NoData)
                 
             } else {
                 completionHandler(UIBackgroundFetchResult.NoData)
             }
             
         } else {
-            completionHandler(UIBackgroundFetchResult.NewData)
+            completionHandler(UIBackgroundFetchResult.NoData)
         }
     }
 
