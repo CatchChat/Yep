@@ -56,7 +56,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
         
         let avatarURLString = discoveredUser.avatarURLString
         
-        AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!) {[weak self] (isFinish, image) -> () in
+        AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!, size: 170) {[weak self] (isFinish, image) -> () in
             dispatch_async(dispatch_get_main_queue()) {
                 if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
                     self?.avatarImageView.image = image

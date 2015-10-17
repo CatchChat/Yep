@@ -38,7 +38,7 @@ class AvatarCache {
         }
     }
 
-    func avatarFromURL(url: NSURL, completion: (isFinish: Bool, image: UIImage) -> ()) {
+    func avatarFromURL(url: NSURL, size: CGFloat, completion: (isFinish: Bool, image: UIImage) -> ()) {
 
         completion(isFinish: false, image: UIImage(named: "default_avatar")!)
 
@@ -62,7 +62,7 @@ class AvatarCache {
                     let avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
                     let image = UIImage(contentsOfFile: avatarFileURL.path!) {
 
-                        let image = image.decodedImage()
+                        let image = image.squareImageOfSize(size).decodedImage()
 
                         self.cache.setObject(image, forKey: normalImageKey)
 
