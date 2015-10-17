@@ -16,6 +16,8 @@ class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarBlurImageView: UIImageView!
     @IBOutlet weak var locationLabel: UILabel!
+    
+    var askedForPermission = false
 
     struct Listener {
         static let Avatar = "ProfileHeaderCell.Avatar"
@@ -89,9 +91,14 @@ class ProfileHeaderCell: UICollectionViewCell {
                 }
             }
 
-            proposeToAccess(.Location(.WhenInUse), agreed: {
-
-                YepLocationService.turnOn()
+            proposeToAccess(.Location(.WhenInUse), agreed: { [weak self] in
+                
+                if let askedForPermission = self?.askedForPermission {
+                    if !askedForPermission {
+                        self?.askedForPermission = true
+                        YepLocationService.turnOn()
+                    }
+                }
 
             }, rejected: {
                 println("Yep can NOT get Location. :[\n")
