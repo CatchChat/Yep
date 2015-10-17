@@ -8,6 +8,8 @@
 
 import UIKit
 
+let skillTextAttributes = [NSFontAttributeName: UIFont.skillDiscoverTextFont()]
+
 class DiscoverCardUserCell: UICollectionViewCell {
     
     @IBOutlet weak var serviceImageView: UIImageView!
@@ -22,11 +24,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
     
     @IBOutlet weak var userSkillsCollectionView: UICollectionView!
     
-    var skillSizeCache = [String: CGRect]()
-    
     var discoveredUser: DiscoveredUser?
-    
-    let skillTextAttributes = [NSFontAttributeName: UIFont.skillDiscoverTextFont()]
     
     let discoverCellHeight: CGFloat = 16
     
@@ -81,14 +79,17 @@ class DiscoverCardUserCell: UICollectionViewCell {
 //        }
         
         usernameLabel.text = discoveredUser.nickname
-
-        userSkillsCollectionView.reloadData()
         
+        userSkillsCollectionView.reloadData()
     }
 
 }
 
 extension DiscoverCardUserCell:  UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let discoveredUser = discoveredUser {

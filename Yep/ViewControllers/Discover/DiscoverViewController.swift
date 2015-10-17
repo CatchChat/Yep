@@ -13,6 +13,8 @@ enum DiscoverUserMode: Int {
     case Card
 }
 
+var skillSizeCache = [String: CGRect]()
+
 class DiscoverViewController: BaseViewController {
 
     @IBOutlet weak var discoverCollectionView: UICollectionView!
@@ -60,6 +62,27 @@ class DiscoverViewController: BaseViewController {
                 }
 
             }, completion: { discoveredUsers in
+                
+                for user in discoveredUsers {
+                    
+                    for skill in  user.masterSkills {
+                        
+                        let skillLocalName = skill.localName ?? ""
+                        
+                        let skillID =  skill.id
+                        
+                        if let _ = skillSizeCache[skillID] {
+                            
+                        } else {
+                            let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
+                            
+                            skillSizeCache[skillID] = rect
+                        }
+                        
+                    }
+
+                }
+                
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     self?.discoveredUsers = discoveredUsers
                     self?.activityIndicator.stopAnimating()
