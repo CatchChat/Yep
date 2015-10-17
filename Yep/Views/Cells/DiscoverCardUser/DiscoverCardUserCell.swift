@@ -81,8 +81,8 @@ class DiscoverCardUserCell: UICollectionViewCell {
 //        }
         
         usernameLabel.text = discoveredUser.nickname
-        
-//        userSkillsCollectionView.reloadData()
+
+        userSkillsCollectionView.reloadData()
         
     }
 
