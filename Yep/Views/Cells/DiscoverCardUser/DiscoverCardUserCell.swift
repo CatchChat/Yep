@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AsyncDisplayKit
 
 class DiscoverCardUserCell: UICollectionViewCell {
     
