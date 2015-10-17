@@ -2438,7 +2438,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             if message.mediaType == MessageMediaType.SectionDate.rawValue {
 
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
-
+                collectionViewConfigCell(collectionView, cell: cell, forItemAtIndexPath: indexPath)
                 return cell
             }
 
