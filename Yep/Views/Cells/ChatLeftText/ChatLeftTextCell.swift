@@ -48,6 +48,14 @@ class ChatLeftTextCell: ChatBaseCell {
         bubbleBodyImageView.tintColor = UIColor.leftBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.leftBubbleTintColor()
     }
+    
+    override func respondsToSelector(aSelector: Selector) -> Bool {
+        if  ["copy:"].contains(aSelector) {
+            return true
+        } else {
+            return super.respondsToSelector(aSelector)
+        }
+    }
 
     func configureWithMessage(message: Message, textContentLabelWidth: CGFloat, collectionView: UICollectionView, indexPath: NSIndexPath) {
 

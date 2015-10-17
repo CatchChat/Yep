@@ -32,6 +32,20 @@ class ChatRightTextCell: ChatRightBaseCell {
         }
 
     }
+    
+    override func respondsToSelector(aSelector: Selector) -> Bool {
+        if  ["deleteMessage:" ,"copy:"].contains(aSelector) {
+            return true
+        } else {
+            return super.respondsToSelector(aSelector)
+        }
+    }
+    
+    func deleteMessage(object: UIMenuController?) {
+        if let longPressAction = longPressAction {
+            longPressAction()
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
