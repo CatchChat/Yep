@@ -40,6 +40,7 @@ class ChatRightTextCell: ChatRightBaseCell {
 
         textContentTextView.textContainer.lineFragmentPadding = 0
         textContentTextView.font = UIFont.chatTextFont()
+        
 
         textContentTextView.backgroundColor = UIColor.clearColor()
         textContentTextView.textColor = UIColor.whiteColor()
@@ -48,11 +49,6 @@ class ChatRightTextCell: ChatRightBaseCell {
             NSForegroundColorAttributeName: UIColor.whiteColor(),
             NSUnderlineStyleAttributeName: NSNumber(integer: NSUnderlineStyle.StyleSingle.rawValue),
         ]
-
-        let longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
-        longPress.minimumPressDuration = 0.3
-        longPress.delegate = self // 由 ChatBaseCell 负责
-        textContainerView.addGestureRecognizer(longPress)
 
         textContainerView.copyTextAction = { [weak self] in
             UIPasteboard.generalPasteboard().string = self?.textContentTextView.text
@@ -70,22 +66,6 @@ class ChatRightTextCell: ChatRightBaseCell {
         bubbleBodyImageView.addGestureRecognizer(tap)
     }
 
-    func handleLongPress(longPress: UILongPressGestureRecognizer) {
-        if longPress.state == .Began {
-
-            if let view = longPress.view, superview = view.superview {
-
-                view.becomeFirstResponder()
-
-                let menu = UIMenuController.sharedMenuController()
-                let copyItem = UIMenuItem(title: NSLocalizedString("Copy", comment: ""), action:"copyText")
-                let deleteItem = UIMenuItem(title: NSLocalizedString("Delete", comment: ""), action:"deleteTextMessage")
-                menu.menuItems = [copyItem, deleteItem]
-                menu.setTargetRect(view.frame, inView: superview)
-                menu.setMenuVisible(true, animated: true)
-            }
-        }
-    }
 
     func tapMediaView() {
         mediaTapAction?()

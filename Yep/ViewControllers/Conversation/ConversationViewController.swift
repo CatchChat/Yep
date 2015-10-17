@@ -91,6 +91,8 @@ class ConversationViewController: BaseViewController {
     var conversationFeed: ConversationFeed?
     
     var conversation: Conversation!
+    
+    var selectedIndexPathForMenu: NSIndexPath?
 
     var realm: Realm!
     
@@ -318,6 +320,10 @@ class ConversationViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout", name: EditProfileViewController.Notification.Logout, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "tryInsertInActiveNewMessages:", name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillShowNotification:", name: UIMenuControllerWillShowMenuNotification, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillHideNotification:", name: UIMenuControllerWillHideMenuNotification, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {
@@ -2255,8 +2261,73 @@ extension ConversationViewController: UIGestureRecognizerDelegate {
 }
 
 // MARK: UICollectionViewDataSource, UICollectionViewDelegate
-
 extension ConversationViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    func didRecieveMenuWillHideNotification(notification: NSNotification) {
+        print("Menu Will hide")
+        
+        selectedIndexPathForMenu = nil
+        
+    }
+    
+    func didRecieveMenuWillShowNotification(notification: NSNotification) {
+        
+        print("Menu Will show")
+        
+        if let menu = notification.object as? UIMenuController,
+            selectedIndexPathForMenu = selectedIndexPathForMenu
+        {
+            
+            var bubbleFrame = CGRectZero
+            
+            if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatRightTextCell {
+                bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
+            } else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftTextCell {
+                bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
+            } else {
+                return
+            }
+            
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerWillShowMenuNotification, object: nil)
+            
+            menu.setTargetRect(bubbleFrame, inView: view)
+            menu.setMenuVisible(true, animated: true)
+            
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillShowNotification:", name: UIMenuControllerWillShowMenuNotification, object: nil)
+
+
+        }
+
+        
+    }
+    
+    func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+        
+        if action == "copy:" || action == "delete:" {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        
+        selectedIndexPathForMenu = indexPath
+        
+        if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightTextCell {
+            return true
+        } else if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftTextCell {
+            return true
+        } else {
+            selectedIndexPathForMenu = nil
+        }
+
+        return false
+    }
+    
+    func collectionView(collectionView: UICollectionView, performAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
+        
+    }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1

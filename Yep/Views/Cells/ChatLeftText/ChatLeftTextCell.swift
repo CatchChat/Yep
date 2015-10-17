@@ -40,10 +40,6 @@ class ChatLeftTextCell: ChatBaseCell {
             NSUnderlineStyleAttributeName: NSNumber(integer: NSUnderlineStyle.StyleSingle.rawValue),
         ]
 
-        let longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
-        longPress.minimumPressDuration = 0.3
-        longPress.delegate = self // 由 ChatBaseCell 负责
-        textContainerView.addGestureRecognizer(longPress)
 
         textContainerView.copyTextAction = { [weak self] in
             UIPasteboard.generalPasteboard().string = self?.textContentTextView.text
@@ -51,22 +47,6 @@ class ChatLeftTextCell: ChatBaseCell {
 
         bubbleBodyImageView.tintColor = UIColor.leftBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.leftBubbleTintColor()
-    }
-
-    func handleLongPress(longPress: UILongPressGestureRecognizer) {
-        if longPress.state == .Began {
-
-            if let view = longPress.view, superview = view.superview {
-
-                view.becomeFirstResponder()
-
-                let menu = UIMenuController.sharedMenuController()
-                let copyItem = UIMenuItem(title: NSLocalizedString("Copy", comment: ""), action:"copyText")
-                menu.menuItems = [copyItem]
-                menu.setTargetRect(view.frame, inView: superview)
-                menu.setMenuVisible(true, animated: true)
-            }
-        }
     }
 
     func configureWithMessage(message: Message, textContentLabelWidth: CGFloat, collectionView: UICollectionView, indexPath: NSIndexPath) {
