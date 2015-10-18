@@ -36,6 +36,9 @@ class DiscoverCardUserCell: UICollectionViewCell {
 //        contentView.layer.cornerRadius  = 6
 //        contentView.layer.masksToBounds = true
         
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.mainScreen().scale
+        
         contentView.layer.borderColor = UIColor.yepCellSeparatorColor().CGColor
         contentView.layer.borderWidth = 1.0
         

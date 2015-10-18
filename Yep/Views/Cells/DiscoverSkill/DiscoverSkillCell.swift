@@ -16,6 +16,7 @@ class DiscoverSkillCell: UICollectionViewCell {
         super.awakeFromNib()
         
         skillLabel.font = UIFont.skillDiscoverTextFont()
+        skillLabel.backgroundColor = UIColor.yepTintColor()
         // Initialization code
     }
 

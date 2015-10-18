@@ -51,6 +51,9 @@ class ChatRightTextCell: ChatRightBaseCell {
         super.awakeFromNib()
 
         makeUI()
+        
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.mainScreen().scale
 
         textContentTextView.textContainer.lineFragmentPadding = 0
         textContentTextView.font = UIFont.chatTextFont()
