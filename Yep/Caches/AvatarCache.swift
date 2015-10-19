@@ -203,9 +203,6 @@ class AvatarCache {
 
             } else {
 
-                // 缓存失效时，先清除对应的 avatarCompletions，不然后面的缓存重建可能不会执行（因为 completeWithImage 不一定被调用，……）
-                removeAvatarCompletionsByAvatarURLString(avatarURLString)
-
                 // NOTICE: 默认在主线程添加
                 avatarCompletions.append(avatarCompletion)
 
@@ -324,8 +321,13 @@ class AvatarCache {
 
                         } else {
                             // 因此，要在主线程完成，防止对比 avatarCompletions 时数量不对
-                            dispatch_async(dispatch_get_main_queue()) {
-                                self.completeWithImage(self.defaultRoundAvatarOfRadius(radius), avatarURLString: avatarURLString)
+                            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                                if let strongSelf = self {
+                                    strongSelf.completeWithImage(strongSelf.defaultRoundAvatarOfRadius(radius), avatarURLString: avatarURLString)
+
+                                    // 清除
+                                    strongSelf.removeAvatarCompletionsByAvatarURLString(avatarURLString)
+                                }
                             }
                         }
                     }
