@@ -45,7 +45,11 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
             layout.sectionInset = UIEdgeInsets(top: gap, left: gap, bottom: gap, right: gap)
         }
 
-        images = PHAsset.fetchAssetsWithMediaType(.Image, options: nil)
+        let options = PHFetchOptions()
+        options.sortDescriptors = [
+            NSSortDescriptor(key: "creationDate", ascending: false)
+        ]
+        images = PHAsset.fetchAssetsWithMediaType(.Image, options: options)
         imageCacheController = ImageCacheController(imageManager: imageManager, images: images, preheatSize: 1)
 
         PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(self)

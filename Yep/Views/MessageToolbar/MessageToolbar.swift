@@ -9,11 +9,11 @@
 import UIKit
 
 enum MessageToolbarState: Int, CustomStringConvertible {
+
     case Default
     case BeginTextInput
     case TextInputing
     case VoiceRecord
-    case MoreMessages
 
     var description: String {
         switch self {
@@ -25,8 +25,6 @@ enum MessageToolbarState: Int, CustomStringConvertible {
             return "TextInputing"
         case .VoiceRecord:
             return "VoiceRecord"
-        case .MoreMessages:
-            return "MoreMessages"
         }
     }
 }
@@ -113,10 +111,6 @@ class MessageToolbar: UIToolbar {
                 moreButton.tintColor = UIColor.messageToolBarColor()
                 
                 showVoiceButtonAnimation()
-
-            case .MoreMessages:
-                moreButton.setImage(UIImage(named: "item_less"), forState: .Normal)
-                moreButton.tintColor = UIColor.messageToolBarHighlightColor()
             }
 
             updateHeightOfMessageTextView()
@@ -137,7 +131,7 @@ class MessageToolbar: UIToolbar {
 
     var textSendAction: ((messageToolBar: MessageToolbar) -> Void)?
 
-    var toggleMoreMessagesAction: ((messageToolBar: MessageToolbar) -> Void)?
+    var moreMessageTypesAction: (() -> Void)?
 
     var voiceRecordBeginAction: ((messageToolBar: MessageToolbar) -> Void)?
     
@@ -209,7 +203,7 @@ class MessageToolbar: UIToolbar {
         button.setImage(UIImage(named: "item_more"), forState: .Normal)
         button.tintColor = UIColor.messageToolBarColor()
         button.tintAdjustmentMode = .Normal
-        button.addTarget(self, action: "toggleMoreMessages", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: "moreMessageTypes", forControlEvents: UIControlEvents.TouchUpInside)
         return button
         }()
 
@@ -394,14 +388,8 @@ class MessageToolbar: UIToolbar {
         }
     }
 
-    func toggleMoreMessages() {
-
-        if state != .MoreMessages {
-            state = .MoreMessages
-
-        } else {
-            state = .Default
-        }
+    func moreMessageTypes() {
+        moreMessageTypesAction?()
     }
 
     func tryVoiceRecordBegin() {
