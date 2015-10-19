@@ -3002,7 +3002,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
                         var newMessagesCount = strongSelf.messagesBunchCount
 
                         if (strongSelf.displayedMessagesRange.location - newMessagesCount) < 0 {
-                            newMessagesCount = strongSelf.displayedMessagesRange.location - newMessagesCount
+                            newMessagesCount = strongSelf.displayedMessagesRange.location
                         }
 
                         if newMessagesCount > 0 {
