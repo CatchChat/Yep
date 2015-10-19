@@ -434,20 +434,11 @@ class ConversationViewController: BaseViewController {
 
             if let strongSelf = self {
 
-//                if strongSelf.messageToolbar.state == .MoreMessages {
-//                    strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight //- strongSelf.moreMessageTypesViewDefaultHeight
-//                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height //+ strongSelf.moreMessageTypesViewDefaultHeight
-//
-//                    //strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
-//                    strongSelf.view.layoutIfNeeded()
-//
-//                } else {
-                    strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight
-                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
+                strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight
+                strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
 
-                    strongSelf.messageToolbarBottomConstraint.constant = 0
-                    strongSelf.view.layoutIfNeeded()
-//                }
+                strongSelf.messageToolbarBottomConstraint.constant = 0
+                strongSelf.view.layoutIfNeeded()
             }
         }
 
@@ -519,6 +510,8 @@ class ConversationViewController: BaseViewController {
 
             messageToolbar.conversation = conversation
 
+            // MARK: MessageToolbar MoreMessageTypes
+
             messageToolbar.moreMessageTypesAction = { [weak self] in
 
                 if let window = self?.view.window {
@@ -529,63 +522,12 @@ class ConversationViewController: BaseViewController {
                     }
                 }
             }
+
             // MARK: MessageToolbar State Transitions
 
             messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
 
                 if let strongSelf = self {
-
-                    /*
-                    switch (previousState, currentState) {
-
-                    case (.MoreMessages, .Default): fallthrough
-                    case (.MoreMessages, .VoiceRecord):
-
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                            UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-
-                                //strongSelf.conversationCollectionView.contentOffset.y -= strongSelf.moreMessageTypesViewDefaultHeight
-                                strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
-
-                                strongSelf.messageToolbarBottomConstraint.constant = 0
-                                strongSelf.view.layoutIfNeeded()
-
-                            }, completion: { finished in
-                            })
-                        }
-
-                    default:
-
-                        if currentState == .MoreMessages {
-
-                            /*
-                            if previousState != .BeginTextInput && previousState != .TextInputing {
-
-                                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                                    UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-
-                                        strongSelf.conversationCollectionView.contentOffset.y += strongSelf.moreMessageTypesViewDefaultHeight
-                                        strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewDefaultHeight
-
-                                        strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
-                                        strongSelf.view.layoutIfNeeded()
-
-                                    }, completion: { finished in
-                                    })
-                                }
-                            }
-
-                            // touch to create (if need) for faster appear
-                            delay(0.2) {
-                                self?.imagePicker.hidesBarsOnTap = false
-                            }
-                            */
-                        }
-                    }
-                    */
-
                     switch currentState {
                     case .BeginTextInput:
                         self?.tryFoldFeedView()
