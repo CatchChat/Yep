@@ -434,20 +434,20 @@ class ConversationViewController: BaseViewController {
 
             if let strongSelf = self {
 
-                if strongSelf.messageToolbar.state == .MoreMessages {
-                    strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight //- strongSelf.moreMessageTypesViewDefaultHeight
-                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height //+ strongSelf.moreMessageTypesViewDefaultHeight
-
-                    //strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
-                    strongSelf.view.layoutIfNeeded()
-
-                } else {
+//                if strongSelf.messageToolbar.state == .MoreMessages {
+//                    strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight //- strongSelf.moreMessageTypesViewDefaultHeight
+//                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height //+ strongSelf.moreMessageTypesViewDefaultHeight
+//
+//                    //strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
+//                    strongSelf.view.layoutIfNeeded()
+//
+//                } else {
                     strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight
                     strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
 
                     strongSelf.messageToolbarBottomConstraint.constant = 0
                     strongSelf.view.layoutIfNeeded()
-                }
+//                }
             }
         }
 
@@ -519,12 +519,23 @@ class ConversationViewController: BaseViewController {
 
             messageToolbar.conversation = conversation
 
+            messageToolbar.moreMessageTypesAction = { [weak self] in
+
+                if let window = self?.view.window {
+                    self?.moreMessageTypesView.showInView(window)
+
+                    delay(0.2) {
+                        self?.imagePicker.hidesBarsOnTap = false
+                    }
+                }
+            }
             // MARK: MessageToolbar State Transitions
 
             messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
 
                 if let strongSelf = self {
 
+                    /*
                     switch (previousState, currentState) {
 
                     case (.MoreMessages, .Default): fallthrough
@@ -571,15 +582,12 @@ class ConversationViewController: BaseViewController {
                                 self?.imagePicker.hidesBarsOnTap = false
                             }
                             */
-
-                            if let window = self?.view.window {
-                                self?.moreMessageTypesView.showInView(window)
-                            }
                         }
                     }
+                    */
 
                     switch currentState {
-                    case .BeginTextInput, .MoreMessages:
+                    case .BeginTextInput:
                         self?.tryFoldFeedView()
                     default:
                         break
@@ -2827,7 +2835,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         
         switch messageToolbar.state {
 
-        case .BeginTextInput, .TextInputing, .MoreMessages:
+        case .BeginTextInput, .TextInputing:
             messageToolbar.state = .Default
 
         default:
