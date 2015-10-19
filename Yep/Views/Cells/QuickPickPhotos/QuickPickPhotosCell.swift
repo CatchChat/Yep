@@ -13,6 +13,8 @@ class QuickPickPhotosCell: UITableViewCell {
 
     @IBOutlet weak var photosCollectionView: UICollectionView!
 
+    var takePhotoAction: (() -> Void)?
+
     var images: PHFetchResult!
     let imageManager = PHCachingImageManager()
     var imageCacheController: ImageCacheController!
@@ -91,6 +93,21 @@ extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDeleg
                 cell.imageAsset = imageAsset
                 cell.photoPickedImageView.hidden = !pickedImageSet.contains(imageAsset)
             }
+        }
+    }
+
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+
+        switch indexPath.section {
+
+        case 0:
+            takePhotoAction?()
+
+        case 1:
+            break
+
+        default:
+            break
         }
     }
 }

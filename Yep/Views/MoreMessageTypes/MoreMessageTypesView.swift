@@ -33,7 +33,7 @@ class MoreMessageTypesView: UIView {
         return view
         }()
 
-
+    var takePhotoAction: (() -> Void)?
     var choosePhotoAction: (() -> Void)?
     var pickLocationAction: (() -> Void)?
 
@@ -206,6 +206,13 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
         if let row = Row(rawValue: indexPath.row) {
             if case .PhotoGallery = row {
                 let cell = tableView.dequeueReusableCellWithIdentifier(quickPickPhotosCellID) as! QuickPickPhotosCell
+
+                cell.takePhotoAction = { [weak self] in
+                    self?.hideAndDo {
+                        self?.takePhotoAction?()
+                    }
+                }
+
                 return cell
 
             } else {

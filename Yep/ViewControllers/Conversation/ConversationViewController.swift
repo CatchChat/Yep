@@ -152,8 +152,20 @@ class ConversationViewController: BaseViewController {
 
         let view =  MoreMessageTypesView()
 
-        view.pickLocationAction = { [weak self] in
-            self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
+        view.takePhotoAction = { [weak self] in
+
+            let openCamera: ProposerAction = { [weak self] in
+                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+                    if let strongSelf = self {
+                        strongSelf.imagePicker.sourceType = .Camera
+                        strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                    }
+                }
+            }
+
+            proposeToAccess(.Camera, agreed: openCamera, rejected: {
+                self?.alertCanNotOpenCamera()
+            })
         }
 
         view.choosePhotoAction = { [weak self] in
@@ -170,6 +182,10 @@ class ConversationViewController: BaseViewController {
             proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
                 self?.alertCanNotAccessCameraRoll()
             })
+        }
+
+        view.pickLocationAction = { [weak self] in
+            self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
         }
 
         return view
