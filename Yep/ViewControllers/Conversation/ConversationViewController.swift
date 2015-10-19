@@ -150,6 +150,57 @@ class ConversationViewController: BaseViewController {
 
     lazy var moreView: ConversationMoreView = ConversationMoreView()
 
+    lazy var moreMessageTypesView: MoreMessageTypesView = {
+
+        let view =  MoreMessageTypesView()
+
+        view.alertCanNotAccessCameraRollAction = { [weak self] in
+            self?.alertCanNotAccessCameraRoll()
+        }
+
+        view.sendImageAction = { [weak self] image in
+            self?.sendImage(image)
+        }
+
+        view.takePhotoAction = { [weak self] in
+
+            let openCamera: ProposerAction = { [weak self] in
+                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
+                    if let strongSelf = self {
+                        strongSelf.imagePicker.sourceType = .Camera
+                        strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                    }
+                }
+            }
+
+            proposeToAccess(.Camera, agreed: openCamera, rejected: {
+                self?.alertCanNotOpenCamera()
+            })
+        }
+
+        view.choosePhotoAction = { [weak self] in
+
+            let openCameraRoll: ProposerAction = { [weak self] in
+                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
+                    if let strongSelf = self {
+                        strongSelf.imagePicker.sourceType = .PhotoLibrary
+                        strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                    }
+                }
+            }
+
+            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
+                self?.alertCanNotAccessCameraRoll()
+            })
+        }
+
+        view.pickLocationAction = { [weak self] in
+            self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
+        }
+
+        return view
+        }()
+
     lazy var pullToRefreshView: PullToRefreshView = {
 
         let pullToRefreshView = PullToRefreshView()
@@ -208,16 +259,18 @@ class ConversationViewController: BaseViewController {
     @IBOutlet weak var messageToolbar: MessageToolbar!
     @IBOutlet weak var messageToolbarBottomConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var moreMessageTypesView: UIView!
-    @IBOutlet weak var moreMessageTypesViewHeightConstraint: NSLayoutConstraint!
-    let moreMessageTypesViewDefaultHeight: CGFloat = 110
+    //@IBOutlet weak var moreMessageTypesView: UIView!
+    //@IBOutlet weak var moreMessageTypesViewHeightConstraint: NSLayoutConstraint!
+    //let moreMessageTypesViewDefaultHeight: CGFloat = 110
 
-    @IBOutlet weak var choosePhotoButton: MessageTypeButton!
-    @IBOutlet weak var takePhotoButton: MessageTypeButton!
-    @IBOutlet weak var addLocationButton: MessageTypeButton!
+    //@IBOutlet weak var choosePhotoButton: MessageTypeButton!
+    //@IBOutlet weak var takePhotoButton: MessageTypeButton!
+    //@IBOutlet weak var addLocationButton: MessageTypeButton!
 
     @IBOutlet weak var swipeUpView: UIView!
     @IBOutlet weak var swipeUpPromptLabel: UILabel!
+
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var isTryingShowFriendRequestView = false
 
@@ -357,7 +410,7 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.addGestureRecognizer(tap)
 
         messageToolbarBottomConstraint.constant = 0
-        moreMessageTypesViewHeightConstraint.constant = moreMessageTypesViewDefaultHeight
+        //moreMessageTypesViewHeightConstraint.constant = moreMessageTypesViewDefaultHeight
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
 
@@ -369,7 +422,7 @@ class ConversationViewController: BaseViewController {
 
                     // 注意第一次要减去已经有的高度偏移
                     if appearPostIndex == 0 {
-                        strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement - strongSelf.moreMessageTypesViewDefaultHeight
+                        strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement //- strongSelf.moreMessageTypesViewDefaultHeight
                     } else {
                         strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement
                     }
@@ -395,20 +448,11 @@ class ConversationViewController: BaseViewController {
 
             if let strongSelf = self {
 
-                if strongSelf.messageToolbar.state == .MoreMessages {
-                    strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight - strongSelf.moreMessageTypesViewDefaultHeight
-                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewDefaultHeight
+                strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight
+                strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
 
-                    strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
-                    strongSelf.view.layoutIfNeeded()
-
-                } else {
-                    strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight
-                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
-
-                    strongSelf.messageToolbarBottomConstraint.constant = 0
-                    strongSelf.view.layoutIfNeeded()
-                }
+                strongSelf.messageToolbarBottomConstraint.constant = 0
+                strongSelf.view.layoutIfNeeded()
             }
         }
 
@@ -424,10 +468,19 @@ class ConversationViewController: BaseViewController {
                         timeDirection = .Future(minMessageID: minMessageID)
                     } else {
                         timeDirection = .None
+
+                        self?.activityIndicator.startAnimating()
                     }
                     
-                    messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { success in
-                        println("messagesFromRecipient: \(success)")
+                    messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { messageIDs in
+                        println("messagesFromRecipient: \(messageIDs.count)")
+
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: timeDirection.messageAge)
+
+                            self?.activityIndicator.stopAnimating()
+                        }
                     })
                 }
             }
@@ -480,61 +533,26 @@ class ConversationViewController: BaseViewController {
 
             messageToolbar.conversation = conversation
 
+            // MARK: MessageToolbar MoreMessageTypes
+
+            messageToolbar.moreMessageTypesAction = { [weak self] in
+
+                if let window = self?.view.window {
+                    self?.moreMessageTypesView.showInView(window)
+
+                    delay(0.2) {
+                        self?.imagePicker.hidesBarsOnTap = false
+                    }
+                }
+            }
+
             // MARK: MessageToolbar State Transitions
 
             messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
 
                 if let strongSelf = self {
-
-                    switch (previousState, currentState) {
-
-                    case (.MoreMessages, .Default): fallthrough
-                    case (.MoreMessages, .VoiceRecord):
-
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                            UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-
-                                strongSelf.conversationCollectionView.contentOffset.y -= strongSelf.moreMessageTypesViewDefaultHeight
-                                strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
-
-                                strongSelf.messageToolbarBottomConstraint.constant = 0
-                                strongSelf.view.layoutIfNeeded()
-
-                            }, completion: { finished in
-                            })
-                        }
-
-                    default:
-
-                        if currentState == .MoreMessages {
-
-                            if previousState != .BeginTextInput && previousState != .TextInputing {
-
-                                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                                    UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-
-                                        strongSelf.conversationCollectionView.contentOffset.y += strongSelf.moreMessageTypesViewDefaultHeight
-                                        strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + strongSelf.moreMessageTypesViewDefaultHeight
-
-                                        strongSelf.messageToolbarBottomConstraint.constant = strongSelf.moreMessageTypesViewDefaultHeight
-                                        strongSelf.view.layoutIfNeeded()
-
-                                    }, completion: { finished in
-                                    })
-                                }
-                            }
-
-                            // touch to create (if need) for faster appear
-                            delay(0.2) {
-                                self?.imagePicker.hidesBarsOnTap = false
-                            }
-                        }
-                    }
-
                     switch currentState {
-                    case .BeginTextInput, .MoreMessages:
+                    case .BeginTextInput:
                         self?.tryFoldFeedView()
                     default:
                         break
@@ -870,47 +888,6 @@ class ConversationViewController: BaseViewController {
                 }
 
                 self?.swipeUpPromptLabel.text = text
-            }
-
-            // MARK: More Message Types
-
-            choosePhotoButton.title = NSLocalizedString("Choose photo", comment: "")
-            choosePhotoButton.tapAction = { [weak self] in
-
-                let openCameraRoll: ProposerAction = { [weak self] in
-                    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
-                        if let strongSelf = self {
-                            strongSelf.imagePicker.sourceType = .PhotoLibrary
-                            strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
-                        }
-                    }
-                }
-
-                proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
-                    self?.alertCanNotAccessCameraRoll()
-                })
-            }
-
-            takePhotoButton.title = NSLocalizedString("Take photo", comment: "")
-            takePhotoButton.tapAction = { [weak self] in
-
-                let openCamera: ProposerAction = { [weak self] in
-                    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
-                        if let strongSelf = self {
-                            strongSelf.imagePicker.sourceType = .Camera
-                            strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
-                        }
-                    }
-                }
-
-                proposeToAccess(.Camera, agreed: openCamera, rejected: {
-                    self?.alertCanNotOpenCamera()
-                })
-            }
-
-            addLocationButton.title = NSLocalizedString("Share location", comment: "")
-            addLocationButton.tapAction = { [weak self] in
-                self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
             }
         }
     }
@@ -2931,7 +2908,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         
         switch messageToolbar.state {
 
-        case .BeginTextInput, .TextInputing, .MoreMessages:
+        case .BeginTextInput, .TextInputing:
             messageToolbar.state = .Default
 
         default:
@@ -3015,11 +2992,15 @@ extension ConversationViewController: PullToRefreshViewDelegate {
                     timeDirection = .None
                 }
 
-                messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { success in
-                    println("messagesFromRecipient: \(success)")
+                messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { messageIDs in
+                    println("messagesFromRecipient: \(messageIDs.count)")
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        pulllToRefreshView.endRefreshingAndDoFurtherAction() {}
+                        pulllToRefreshView.endRefreshingAndDoFurtherAction() {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: timeDirection.messageAge)
+                            }
+                        }
                     }
                 })
             }
@@ -3036,7 +3017,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
                         var newMessagesCount = strongSelf.messagesBunchCount
 
                         if (strongSelf.displayedMessagesRange.location - newMessagesCount) < 0 {
-                            newMessagesCount = strongSelf.displayedMessagesRange.location - newMessagesCount
+                            newMessagesCount = strongSelf.displayedMessagesRange.location
                         }
 
                         if newMessagesCount > 0 {
