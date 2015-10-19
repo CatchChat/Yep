@@ -1630,7 +1630,7 @@ enum TimeDirection {
     }
 }
 
-func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection: TimeDirection, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection: TimeDirection, failureHandler: ((Reason, String?) -> Void)?, completion: (messageIDs: [String]) -> Void) {
 
     var requestParameters = [
         "recipient_type": recipient.type.nameForServer,
@@ -1646,32 +1646,25 @@ func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection
         break
     }
 
-    let parse: JSONDictionary -> Bool? = { data in
+    let parse: JSONDictionary -> [String]? = { data in
 
-        guard let unreadMessagesData = data["messages"] as? [JSONDictionary] else {
-            return false
+        guard let
+            unreadMessagesData = data["messages"] as? [JSONDictionary],
+            realm = try? Realm() else {
+                return []
         }
 
-        println("messagesFromRecipient: \(recipient), \(unreadMessagesData.count)")
+        //println("messagesFromRecipient: \(recipient), \(unreadMessagesData.count)")
 
-        dispatch_async(dispatch_get_main_queue()) {
+        var messageIDs = [String]()
 
-            guard let realm = try? Realm() else {
-                return
+        for messageInfo in unreadMessagesData {
+            syncMessageWithMessageInfo(messageInfo, messageAge: timeDirection.messageAge, inRealm: realm) { _messageIDs in
+                messageIDs += _messageIDs
             }
-
-            var messageIDs = [String]()
-
-            for messageInfo in unreadMessagesData {
-                syncMessageWithMessageInfo(messageInfo, messageAge: timeDirection.messageAge, inRealm: realm) { _messageIDs in
-                    messageIDs += _messageIDs
-                }
-            }
-
-            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: timeDirection.messageAge)
         }
 
-        return true
+        return messageIDs
     }
 
     let resource = authJsonResource(path: "/api/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages", method: .GET, requestParameters: requestParameters, parse: parse )

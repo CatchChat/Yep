@@ -472,10 +472,13 @@ class ConversationViewController: BaseViewController {
                         self?.activityIndicator.startAnimating()
                     }
                     
-                    messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { success in
-                        println("messagesFromRecipient: \(success)")
+                    messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { messageIDs in
+                        println("messagesFromRecipient: \(messageIDs.count)")
 
                         dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: timeDirection.messageAge)
+
                             self?.activityIndicator.stopAnimating()
                         }
                     })
@@ -2989,11 +2992,15 @@ extension ConversationViewController: PullToRefreshViewDelegate {
                     timeDirection = .None
                 }
 
-                messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { success in
-                    println("messagesFromRecipient: \(success)")
+                messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { messageIDs in
+                    println("messagesFromRecipient: \(messageIDs.count)")
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        pulllToRefreshView.endRefreshingAndDoFurtherAction() {}
+                        pulllToRefreshView.endRefreshingAndDoFurtherAction() {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: timeDirection.messageAge)
+                            }
+                        }
                     }
                 })
             }
