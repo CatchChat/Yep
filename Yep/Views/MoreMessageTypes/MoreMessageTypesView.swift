@@ -263,6 +263,7 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
 
         if let row = Row(rawValue: indexPath.row) {
             switch row {
+
             case .PickPhotos:
                 if !quickPickedImageSet.isEmpty {
 
@@ -318,12 +319,15 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                         choosePhotoAction?()
                     }
                 }
+
             case .Location:
                 hideAndDo {
                     pickLocationAction?()
                 }
+
             case .Cancel:
                 hide()
+
             default:
                 break
             }

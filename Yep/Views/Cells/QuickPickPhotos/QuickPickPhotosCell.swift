@@ -45,7 +45,11 @@ class QuickPickPhotosCell: UITableViewCell {
             layout.sectionInset = UIEdgeInsetsZero
         }
 
-        images = PHAsset.fetchAssetsWithMediaType(.Image, options: nil)
+        let options = PHFetchOptions()
+        options.sortDescriptors = [
+            NSSortDescriptor(key: "creationDate", ascending: false)
+        ]
+        images = PHAsset.fetchAssetsWithMediaType(.Image, options: options)
         imageCacheController = ImageCacheController(imageManager: imageManager, images: images, preheatSize: 1)
     }
 
