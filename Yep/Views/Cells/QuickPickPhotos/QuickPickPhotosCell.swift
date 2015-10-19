@@ -34,6 +34,7 @@ class QuickPickPhotosCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        photosCollectionView.backgroundColor = UIColor.clearColor()
         photosCollectionView.registerNib(UINib(nibName: cameraCellID, bundle: nil), forCellWithReuseIdentifier: cameraCellID)
         photosCollectionView.registerNib(UINib(nibName: photoCellID, bundle: nil), forCellWithReuseIdentifier: photoCellID)
         photosCollectionView.dataSource = self
@@ -42,7 +43,7 @@ class QuickPickPhotosCell: UITableViewCell {
         if let layout = photosCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.itemSize = CGSize(width: 70, height: 70)
             layout.minimumInteritemSpacing = 10
-            layout.sectionInset = UIEdgeInsetsZero
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
         }
 
         let options = PHFetchOptions()
