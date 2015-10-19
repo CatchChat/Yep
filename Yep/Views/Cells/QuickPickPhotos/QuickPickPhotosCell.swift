@@ -15,11 +15,17 @@ class QuickPickPhotosCell: UITableViewCell {
 
     var takePhotoAction: (() -> Void)?
 
+    var pickedPhotosAction: (Set<PHAsset> -> Void)?
+
     var images: PHFetchResult!
     let imageManager = PHCachingImageManager()
     var imageCacheController: ImageCacheController!
 
-    var pickedImageSet = Set<PHAsset>()
+    var pickedImageSet = Set<PHAsset>() {
+        didSet {
+            pickedPhotosAction?(pickedImageSet)
+        }
+    }
     var completion: ((images: [UIImage], imageAssetSet: Set<PHAsset>) -> Void)?
 
     let cameraCellID = "CameraCell"
@@ -104,7 +110,18 @@ extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDeleg
             takePhotoAction?()
 
         case 1:
-            break
+            if let imageAsset = images[indexPath.item] as? PHAsset {
+
+                if pickedImageSet.contains(imageAsset) {
+                    pickedImageSet.remove(imageAsset)
+
+                } else {
+                    pickedImageSet.insert(imageAsset)
+                }
+
+                let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoCell
+                cell.photoPickedImageView.hidden = !pickedImageSet.contains(imageAsset)
+            }
 
         default:
             break

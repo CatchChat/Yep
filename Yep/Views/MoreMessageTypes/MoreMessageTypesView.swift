@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class MoreMessageTypesView: UIView {
 
@@ -36,6 +37,12 @@ class MoreMessageTypesView: UIView {
     var takePhotoAction: (() -> Void)?
     var choosePhotoAction: (() -> Void)?
     var pickLocationAction: (() -> Void)?
+
+    var quickPickedImageSet = Set<PHAsset>() {
+        didSet {
+            tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: Row.PickPhotos.rawValue, inSection: 0)], withRowAnimation: .None)
+        }
+    }
 
     var tableViewBottomConstraint: NSLayoutConstraint?
 
@@ -213,11 +220,22 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                     }
                 }
 
+                cell.pickedPhotosAction = { [weak self] pickedImageSet in
+                    self?.quickPickedImageSet = pickedImageSet
+                }
+
                 return cell
 
             } else {
                 let cell = tableView.dequeueReusableCellWithIdentifier(titleCellID) as! TitleCell
                 cell.singleTitleLabel.text = row.normalTitle
+
+                if case .PickPhotos = row {
+                    if !quickPickedImageSet.isEmpty {
+                        cell.singleTitleLabel.text = String(format: NSLocalizedString("Send Photos (%d)", comment: ""), quickPickedImageSet.count)
+                    }
+                }
+
                 return cell
             }
         }
@@ -245,8 +263,12 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
         if let row = Row(rawValue: indexPath.row) {
             switch row {
             case .PickPhotos:
-                hideAndDo {
-                    choosePhotoAction?()
+                if !quickPickedImageSet.isEmpty {
+
+                } else {
+                    hideAndDo {
+                        choosePhotoAction?()
+                    }
                 }
             case .Location:
                 hideAndDo {
