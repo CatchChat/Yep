@@ -269,6 +269,8 @@ class ConversationViewController: BaseViewController {
 
     @IBOutlet weak var swipeUpView: UIView!
     @IBOutlet weak var swipeUpPromptLabel: UILabel!
+
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var isTryingShowFriendRequestView = false
 
@@ -466,10 +468,19 @@ class ConversationViewController: BaseViewController {
                         timeDirection = .Future(minMessageID: minMessageID)
                     } else {
                         timeDirection = .None
+
+                        self?.activityIndicator.startAnimating()
                     }
                     
-                    messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { success in
-                        println("messagesFromRecipient: \(success)")
+                    messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { messageIDs in
+                        println("messagesFromRecipient: \(messageIDs.count)")
+
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: timeDirection.messageAge)
+
+                            self?.activityIndicator.stopAnimating()
+                        }
                     })
                 }
             }
@@ -2981,11 +2992,15 @@ extension ConversationViewController: PullToRefreshViewDelegate {
                     timeDirection = .None
                 }
 
-                messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { success in
-                    println("messagesFromRecipient: \(success)")
+                messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { messageIDs in
+                    println("messagesFromRecipient: \(messageIDs.count)")
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        pulllToRefreshView.endRefreshingAndDoFurtherAction() {}
+                        pulllToRefreshView.endRefreshingAndDoFurtherAction() {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: timeDirection.messageAge)
+                            }
+                        }
                     }
                 })
             }
@@ -3002,7 +3017,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
                         var newMessagesCount = strongSelf.messagesBunchCount
 
                         if (strongSelf.displayedMessagesRange.location - newMessagesCount) < 0 {
-                            newMessagesCount = strongSelf.displayedMessagesRange.location - newMessagesCount
+                            newMessagesCount = strongSelf.displayedMessagesRange.location
                         }
 
                         if newMessagesCount > 0 {

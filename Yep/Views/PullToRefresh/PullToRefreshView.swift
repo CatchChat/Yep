@@ -71,16 +71,18 @@ class PullToRefreshView: UIView {
     // MARK: Actions
 
     func beginRefreshing() {
+
         isRefreshing = true
 
-        UIView.animateWithDuration(0.3, delay: 0, options: .CurveEaseInOut, animations: { () -> Void in
+        UIView.animateWithDuration(0.25, delay: 0, options: .CurveEaseInOut, animations: { () -> Void in
             delegate?.scrollView().contentInset.top += sceneHeight
         }, completion: { (_) -> Void in
         })
     }
 
     func endRefreshingAndDoFurtherAction(furtherAction: () -> Void) {
-        UIView.animateWithDuration(0.3, delay: 0, options: .CurveEaseInOut, animations: { () -> Void in
+
+        UIView.animateWithDuration(0.25, delay: 0, options: .CurveEaseInOut, animations: { () -> Void in
             delegate?.scrollView().contentInset.top -= sceneHeight
 
         }, completion: { (_) -> Void in
