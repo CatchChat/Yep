@@ -37,6 +37,7 @@ class MoreMessageTypesView: UIView {
     var takePhotoAction: (() -> Void)?
     var choosePhotoAction: (() -> Void)?
     var pickLocationAction: (() -> Void)?
+    var sendImageAction: (UIImage -> Void)?
 
     var quickPickedImageSet = Set<PHAsset>() {
         didSet {
@@ -264,6 +265,53 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
             switch row {
             case .PickPhotos:
                 if !quickPickedImageSet.isEmpty {
+
+                    var images = [UIImage]()
+
+                    let options = PHImageRequestOptions()
+                    options.synchronous = true
+
+                    let imageManager = PHCachingImageManager()
+                    for imageAsset in quickPickedImageSet {
+
+                        let maxSize: CGFloat = 512
+
+                        let pixelWidth = CGFloat(imageAsset.pixelWidth)
+                        let pixelHeight = CGFloat(imageAsset.pixelHeight)
+
+                        //println("pixelWidth: \(pixelWidth)")
+                        //println("pixelHeight: \(pixelHeight)")
+
+                        let targetSize: CGSize
+
+                        if pixelWidth > pixelHeight {
+                            let width = maxSize
+                            let height = floor(maxSize * (pixelHeight / pixelWidth))
+                            targetSize = CGSize(width: width, height: height)
+
+                        } else {
+                            let height = maxSize
+                            let width = floor(maxSize * (pixelWidth / pixelHeight))
+                            targetSize = CGSize(width: width, height: height)
+                        }
+                        
+                        //println("targetSize: \(targetSize)")
+                        
+                        imageManager.requestImageForAsset(imageAsset, targetSize: targetSize, contentMode: .AspectFill, options: options) { image, info in
+                            if let image = image {
+                                println("image.size: \(image.size)")
+                                images.append(image)
+                            }
+                        }
+                    }
+
+                    images.forEach {
+                        sendImageAction?($0)
+                    }
+
+                    quickPickedImageSet.removeAll()
+
+                    hide()
 
                 } else {
                     hideAndDo {

@@ -152,6 +152,10 @@ class ConversationViewController: BaseViewController {
 
         let view =  MoreMessageTypesView()
 
+        view.sendImageAction = { [weak self] image in
+            self?.sendImage(image)
+        }
+
         view.takePhotoAction = { [weak self] in
 
             let openCamera: ProposerAction = { [weak self] in
