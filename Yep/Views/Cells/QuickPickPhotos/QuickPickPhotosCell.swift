@@ -40,6 +40,7 @@ class QuickPickPhotosCell: UITableViewCell {
         photosCollectionView.registerNib(UINib(nibName: photoCellID, bundle: nil), forCellWithReuseIdentifier: photoCellID)
         photosCollectionView.dataSource = self
         photosCollectionView.delegate = self
+        photosCollectionView.showsHorizontalScrollIndicator = false
 
         if let layout = photosCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.itemSize = CGSize(width: 70, height: 70)
