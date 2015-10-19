@@ -269,6 +269,8 @@ class ConversationViewController: BaseViewController {
 
     @IBOutlet weak var swipeUpView: UIView!
     @IBOutlet weak var swipeUpPromptLabel: UILabel!
+
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var isTryingShowFriendRequestView = false
 
@@ -466,10 +468,16 @@ class ConversationViewController: BaseViewController {
                         timeDirection = .Future(minMessageID: minMessageID)
                     } else {
                         timeDirection = .None
+
+                        self?.activityIndicator.startAnimating()
                     }
                     
                     messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { success in
                         println("messagesFromRecipient: \(success)")
+
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                            self?.activityIndicator.stopAnimating()
+                        }
                     })
                 }
             }
