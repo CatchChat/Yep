@@ -8,16 +8,17 @@
 
 import UIKit
 import Photos
+import Proposer
 
 class QuickPickPhotosCell: UITableViewCell {
 
     @IBOutlet weak var photosCollectionView: UICollectionView!
 
+    var alertCanNotAccessCameraRollAction: (() -> Void)?
     var takePhotoAction: (() -> Void)?
-
     var pickedPhotosAction: (Set<PHAsset> -> Void)?
 
-    var images: PHFetchResult!
+    var images: PHFetchResult?
     let imageManager = PHCachingImageManager()
     var imageCacheController: ImageCacheController!
 
@@ -48,12 +49,24 @@ class QuickPickPhotosCell: UITableViewCell {
             photosCollectionView.contentInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
         }
 
-        let options = PHFetchOptions()
-        options.sortDescriptors = [
-            NSSortDescriptor(key: "creationDate", ascending: false)
-        ]
-        images = PHAsset.fetchAssetsWithMediaType(.Image, options: options)
-        imageCacheController = ImageCacheController(imageManager: imageManager, images: images, preheatSize: 1)
+        proposeToAccess(.Photos, agreed: {
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                if let strongSelf = self {
+                    let options = PHFetchOptions()
+                    options.sortDescriptors = [
+                        NSSortDescriptor(key: "creationDate", ascending: false)
+                    ]
+                    let images = PHAsset.fetchAssetsWithMediaType(.Image, options: options)
+                    strongSelf.images = images
+                    strongSelf.imageCacheController = ImageCacheController(imageManager: strongSelf.imageManager, images: images, preheatSize: 1)
+
+                    strongSelf.photosCollectionView.reloadData()
+                }
+            }
+
+        }, rejected: { [weak self] in
+            self?.alertCanNotAccessCameraRollAction?()
+        })
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -74,7 +87,7 @@ extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDeleg
         case 0:
             return 1
         case 1:
-            return images.count
+            return images?.count ?? 0
         default:
             return 0
         }
@@ -102,7 +115,7 @@ extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDeleg
         if let cell = cell as? PhotoCell {
             cell.imageManager = imageManager
 
-            if let imageAsset = images[indexPath.item] as? PHAsset {
+            if let imageAsset = images?[indexPath.item] as? PHAsset {
                 cell.imageAsset = imageAsset
                 cell.photoPickedImageView.hidden = !pickedImageSet.contains(imageAsset)
             }
@@ -117,7 +130,7 @@ extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDeleg
             takePhotoAction?()
 
         case 1:
-            if let imageAsset = images[indexPath.item] as? PHAsset {
+            if let imageAsset = images?[indexPath.item] as? PHAsset {
 
                 if pickedImageSet.contains(imageAsset) {
                     pickedImageSet.remove(imageAsset)

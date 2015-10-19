@@ -34,6 +34,7 @@ class MoreMessageTypesView: UIView {
         return view
         }()
 
+    var alertCanNotAccessCameraRollAction: (() -> Void)?
     var takePhotoAction: (() -> Void)?
     var choosePhotoAction: (() -> Void)?
     var pickLocationAction: (() -> Void)?
@@ -214,6 +215,10 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
         if let row = Row(rawValue: indexPath.row) {
             if case .PhotoGallery = row {
                 let cell = tableView.dequeueReusableCellWithIdentifier(quickPickPhotosCellID) as! QuickPickPhotosCell
+
+                cell.alertCanNotAccessCameraRollAction = { [weak self] in
+                    self?.alertCanNotAccessCameraRollAction?()
+                }
 
                 cell.takePhotoAction = { [weak self] in
                     self?.hideAndDo {

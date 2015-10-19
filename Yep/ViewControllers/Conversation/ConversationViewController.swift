@@ -152,6 +152,10 @@ class ConversationViewController: BaseViewController {
 
         let view =  MoreMessageTypesView()
 
+        view.alertCanNotAccessCameraRollAction = { [weak self] in
+            self?.alertCanNotAccessCameraRoll()
+        }
+
         view.sendImageAction = { [weak self] image in
             self?.sendImage(image)
         }
@@ -866,49 +870,6 @@ class ConversationViewController: BaseViewController {
 
                 self?.swipeUpPromptLabel.text = text
             }
-
-            // MARK: More Message Types
-
-            /*
-            choosePhotoButton.title = NSLocalizedString("Choose photo", comment: "")
-            choosePhotoButton.tapAction = { [weak self] in
-
-                let openCameraRoll: ProposerAction = { [weak self] in
-                    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
-                        if let strongSelf = self {
-                            strongSelf.imagePicker.sourceType = .PhotoLibrary
-                            strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
-                        }
-                    }
-                }
-
-                proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
-                    self?.alertCanNotAccessCameraRoll()
-                })
-            }
-
-            takePhotoButton.title = NSLocalizedString("Take photo", comment: "")
-            takePhotoButton.tapAction = { [weak self] in
-
-                let openCamera: ProposerAction = { [weak self] in
-                    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
-                        if let strongSelf = self {
-                            strongSelf.imagePicker.sourceType = .Camera
-                            strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
-                        }
-                    }
-                }
-
-                proposeToAccess(.Camera, agreed: openCamera, rejected: {
-                    self?.alertCanNotOpenCamera()
-                })
-            }
-
-            addLocationButton.title = NSLocalizedString("Share location", comment: "")
-            addLocationButton.tapAction = { [weak self] in
-                self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
-            }
-            */
         }
     }
 
