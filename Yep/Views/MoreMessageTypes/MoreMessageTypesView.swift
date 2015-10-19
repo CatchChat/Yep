@@ -230,10 +230,13 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
             } else {
                 let cell = tableView.dequeueReusableCellWithIdentifier(titleCellID) as! TitleCell
                 cell.singleTitleLabel.text = row.normalTitle
+                cell.boldEnabled = false
+                cell.singleTitleLabel.textColor = UIColor.yepTintColor()
 
                 if case .PickPhotos = row {
                     if !quickPickedImageSet.isEmpty {
                         cell.singleTitleLabel.text = String(format: NSLocalizedString("Send Photos (%d)", comment: ""), quickPickedImageSet.count)
+                        cell.boldEnabled = true
                     }
                 }
 

@@ -12,6 +12,12 @@ class TitleCell: UITableViewCell {
 
     @IBOutlet weak var singleTitleLabel: UILabel!
 
+    var boldEnabled = false {
+        didSet {
+            singleTitleLabel.font = boldEnabled ? UIFont.boldSystemFontOfSize(17) : UIFont.systemFontOfSize(17)
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

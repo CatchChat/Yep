@@ -13,7 +13,7 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_more_take_photo" translatesAutoresizingMaskIntoConstraints="NO" id="9H2-Nb-pKx">
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_quick_camera" translatesAutoresizingMaskIntoConstraints="NO" id="9H2-Nb-pKx">
                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                     </imageView>
                 </subviews>
@@ -28,6 +28,6 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="icon_more_take_photo" width="70" height="50"/>
+        <image name="icon_quick_camera" width="70" height="50"/>
     </resources>
 </document>

@@ -43,7 +43,9 @@ class QuickPickPhotosCell: UITableViewCell {
         if let layout = photosCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.itemSize = CGSize(width: 70, height: 70)
             layout.minimumInteritemSpacing = 10
-            layout.sectionInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
+
+            photosCollectionView.contentInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
         }
 
         let options = PHFetchOptions()
