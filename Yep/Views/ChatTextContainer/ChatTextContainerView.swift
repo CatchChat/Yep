@@ -11,7 +11,7 @@ import UIKit
 class ChatTextContainerView: UIView {
 
     override func canBecomeFirstResponder() -> Bool {
-        return true
+        return false
     }
 
     override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {

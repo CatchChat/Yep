@@ -16,6 +16,8 @@ class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarBlurImageView: UIImageView!
     @IBOutlet weak var locationLabel: UILabel!
+    
+    var askedForPermission = false
 
     struct Listener {
         static let Avatar = "ProfileHeaderCell.Avatar"
@@ -89,9 +91,14 @@ class ProfileHeaderCell: UICollectionViewCell {
                 }
             }
 
-            proposeToAccess(.Location(.WhenInUse), agreed: {
-
-                YepLocationService.turnOn()
+            proposeToAccess(.Location(.WhenInUse), agreed: { [weak self] in
+                
+                if let askedForPermission = self?.askedForPermission {
+                    if !askedForPermission {
+                        self?.askedForPermission = true
+                        YepLocationService.turnOn()
+                    }
+                }
 
             }, rejected: {
                 println("Yep can NOT get Location. :[\n")
@@ -124,7 +131,7 @@ class ProfileHeaderCell: UICollectionViewCell {
             avatarBlurImageView.alpha = 0
         }
 
-        AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!) { [weak self] isFinish, image in
+        AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!, size: 375) {[weak self] (isFinish, image) -> () in
 
             if isFinish {
                 self?.blurImage(image) { blurredImage in

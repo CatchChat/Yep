@@ -8,6 +8,8 @@
 
 import UIKit
 
+let skillTextAttributes = [NSFontAttributeName: UIFont.skillDiscoverTextFont()]
+
 class DiscoverCardUserCell: UICollectionViewCell {
     
     @IBOutlet weak var serviceImageView: UIImageView!
@@ -24,8 +26,6 @@ class DiscoverCardUserCell: UICollectionViewCell {
     
     var discoveredUser: DiscoveredUser?
     
-    let skillTextAttributes = [NSFontAttributeName: UIFont.skillDiscoverTextFont()]
-    
     let discoverCellHeight: CGFloat = 16
     
     override func awakeFromNib() {
@@ -33,8 +33,8 @@ class DiscoverCardUserCell: UICollectionViewCell {
         // Initialization code
         userSkillsCollectionView.backgroundColor = UIColor.clearColor()
         contentView.backgroundColor = UIColor.whiteColor()
-        contentView.layer.cornerRadius  = 6
-        contentView.layer.masksToBounds = true
+//        contentView.layer.cornerRadius  = 6
+//        contentView.layer.masksToBounds = true
         
         contentView.layer.borderColor = UIColor.yepCellSeparatorColor().CGColor
         contentView.layer.borderWidth = 1.0
@@ -56,7 +56,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
         
         let avatarURLString = discoveredUser.avatarURLString
         
-        AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!) {[weak self] (isFinish, image) -> () in
+        AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!, size: 170) {[weak self] (isFinish, image) -> () in
             dispatch_async(dispatch_get_main_queue()) {
                 if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
                     self?.avatarImageView.image = image
@@ -81,12 +81,15 @@ class DiscoverCardUserCell: UICollectionViewCell {
         usernameLabel.text = discoveredUser.nickname
         
         userSkillsCollectionView.reloadData()
-        
     }
 
 }
 
 extension DiscoverCardUserCell:  UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let discoveredUser = discoveredUser {
@@ -106,7 +109,19 @@ extension DiscoverCardUserCell:  UICollectionViewDelegate, UICollectionViewDataS
             
             let skillLocalName = discoveredUser.masterSkills[indexPath.row].localName ?? ""
             
-            let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
+            let skillID =  discoveredUser.masterSkills[indexPath.row].id
+            
+//            print(skillID)
+
+            var rect = CGRectZero
+            
+            if let cacheRect = skillSizeCache[skillID] {
+                rect = cacheRect
+            } else {
+                rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
+                
+                skillSizeCache[skillID] = rect
+            }
             
             return CGSize(width: rect.width + 12, height: discoverCellHeight)
         } else {

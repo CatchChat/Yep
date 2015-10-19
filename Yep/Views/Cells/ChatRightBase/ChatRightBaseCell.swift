@@ -87,11 +87,16 @@ class ChatRightBaseCell: ChatBaseCell {
         animation.toValue = 2 * M_PI
         animation.duration = 1.0
         animation.repeatCount = MAXFLOAT
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.dotImageView.layer.addAnimation(animation, forKey: sendingAnimationName)
+        }
 
-        dotImageView.layer.addAnimation(animation, forKey: sendingAnimationName)
     }
 
     func removeSendingAnimation() {
-        dotImageView.layer.removeAnimationForKey(sendingAnimationName)
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.dotImageView.layer.removeAnimationForKey(sendingAnimationName)
+        }
+
     }
 }

@@ -90,9 +90,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let isLogined = YepUserDefaults.isLogined
 
         if isLogined {
-            sync()
 
-            startFaye()
+            delay(1.0, work: {[weak self] () -> Void in
+                self?.sync()
+                self?.startFaye()
+            })
 
             // 记录启动通知类型
             if let
@@ -238,15 +240,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if application.applicationState != .Active {
                     self.remoteNotificationType = remoteNotificationType
                 }
-
-                completionHandler(UIBackgroundFetchResult.NoData)
                 
             } else {
                 completionHandler(UIBackgroundFetchResult.NoData)
             }
             
         } else {
-            completionHandler(UIBackgroundFetchResult.NewData)
+            completionHandler(UIBackgroundFetchResult.NoData)
         }
     }
 
@@ -292,14 +292,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func sync() {
-
-        syncMyInfoAndDoFurtherAction {
-            syncFriendshipsAndDoFurtherAction {
-                syncGroupsAndDoFurtherAction {
-                    syncUnreadMessagesAndDoFurtherAction { messageIDs in
-                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: .New)
-                    }
-                }
+        syncGroupsAndDoFurtherAction {
+            syncUnreadMessagesAndDoFurtherAction { messageIDs in
+                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: .New)
             }
         }
 

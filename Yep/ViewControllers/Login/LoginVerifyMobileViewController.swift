@@ -206,6 +206,9 @@ class LoginVerifyMobileViewController: UIViewController {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
 
                 saveTokenAndUserInfoOfLoginUser(loginUser)
+                
+                syncMyInfoAndDoFurtherAction {
+                }
 
                 if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
                     appDelegate.startMainStory()

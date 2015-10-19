@@ -13,6 +13,8 @@ enum DiscoverUserMode: Int {
     case Card
 }
 
+var skillSizeCache = [String: CGRect]()
+
 class DiscoverViewController: BaseViewController {
 
     @IBOutlet weak var discoverCollectionView: UICollectionView!
@@ -60,6 +62,27 @@ class DiscoverViewController: BaseViewController {
                 }
 
             }, completion: { discoveredUsers in
+                
+                for user in discoveredUsers {
+                    
+                    for skill in  user.masterSkills {
+                        
+                        let skillLocalName = skill.localName ?? ""
+                        
+                        let skillID =  skill.id
+                        
+                        if let _ = skillSizeCache[skillID] {
+                            
+                        } else {
+                            let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
+                            
+                            skillSizeCache[skillID] = rect
+                        }
+                        
+                    }
+
+                }
+                
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     self?.discoveredUsers = discoveredUsers
                     self?.activityIndicator.stopAnimating()
@@ -182,22 +205,35 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let discoveredUser = discoveredUsers[indexPath.row]
+//        let discoveredUser = discoveredUsers[indexPath.row]
         
         switch userMode! {
         case .Normal:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(NormalUserIdentifier, forIndexPath: indexPath) as! DiscoverNormalUserCell
             
-            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
+//            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
             return cell
             
         case .Card:
            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CardUserIdentifier, forIndexPath: indexPath) as! DiscoverCardUserCell
-            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
+//            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
             return cell
         }
+    }
+    
+    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+        let discoveredUser = discoveredUsers[indexPath.row]
         
-        
+        switch userMode! {
+        case .Normal:
+            let cell = cell as! DiscoverNormalUserCell
+            
+            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
+            
+        case .Card:
+            let cell = cell as! DiscoverCardUserCell
+            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
+        }
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {

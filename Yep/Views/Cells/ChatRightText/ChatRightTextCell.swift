@@ -26,19 +26,35 @@ class ChatRightTextCell: ChatRightBaseCell {
         let fullWidth = UIScreen.mainScreen().bounds.width
 
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
+        
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.avatarImageView.center = CGPoint(x: fullWidth - halfAvatarSize - YepConfig.chatCellGapBetweenWallAndAvatar(), y: halfAvatarSize)
+        }
 
-        avatarImageView.center = CGPoint(x: fullWidth - halfAvatarSize - YepConfig.chatCellGapBetweenWallAndAvatar(), y: halfAvatarSize)
+    }
+    
+    override func respondsToSelector(aSelector: Selector) -> Bool {
+        if  ["deleteMessage:" ,"copy:"].contains(aSelector) {
+            return true
+        } else {
+            return super.respondsToSelector(aSelector)
+        }
+    }
+    
+    func deleteMessage(object: UIMenuController?) {
+        if let longPressAction = longPressAction {
+            longPressAction()
+        }
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-            self?.makeUI()
-        }
+        makeUI()
 
         textContentTextView.textContainer.lineFragmentPadding = 0
         textContentTextView.font = UIFont.chatTextFont()
+        
 
         textContentTextView.backgroundColor = UIColor.clearColor()
         textContentTextView.textColor = UIColor.whiteColor()
@@ -47,11 +63,6 @@ class ChatRightTextCell: ChatRightBaseCell {
             NSForegroundColorAttributeName: UIColor.whiteColor(),
             NSUnderlineStyleAttributeName: NSNumber(integer: NSUnderlineStyle.StyleSingle.rawValue),
         ]
-
-        let longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
-        longPress.minimumPressDuration = 0.3
-        longPress.delegate = self // 由 ChatBaseCell 负责
-        textContainerView.addGestureRecognizer(longPress)
 
         textContainerView.copyTextAction = { [weak self] in
             UIPasteboard.generalPasteboard().string = self?.textContentTextView.text
@@ -69,22 +80,6 @@ class ChatRightTextCell: ChatRightBaseCell {
         bubbleBodyImageView.addGestureRecognizer(tap)
     }
 
-    func handleLongPress(longPress: UILongPressGestureRecognizer) {
-        if longPress.state == .Began {
-
-            if let view = longPress.view, superview = view.superview {
-
-                view.becomeFirstResponder()
-
-                let menu = UIMenuController.sharedMenuController()
-                let copyItem = UIMenuItem(title: NSLocalizedString("Copy", comment: ""), action:"copyText")
-                let deleteItem = UIMenuItem(title: NSLocalizedString("Delete", comment: ""), action:"deleteTextMessage")
-                menu.menuItems = [copyItem, deleteItem]
-                menu.setTargetRect(view.frame, inView: superview)
-                menu.setMenuVisible(true, animated: true)
-            }
-        }
-    }
 
     func tapMediaView() {
         mediaTapAction?()
@@ -96,29 +91,34 @@ class ChatRightTextCell: ChatRightBaseCell {
         self.user = message.fromFriend
 
         self.mediaTapAction = mediaTapAction
+        
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
-        textContentTextView.text = message.textContent
-        //textContentTextView.attributedText = NSAttributedString(string: message.textContent, attributes: textAttributes)
-
-        //textContentTextView.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left
-
-        // 用 sizeThatFits 来对比，不需要 magicWidth 的时候就可以避免了
-        var textContentLabelWidth = textContentLabelWidth
-        let size = textContentTextView.sizeThatFits(CGSize(width: textContentLabelWidth, height: CGFloat.max))
-
-        // lineHeight 19.088, size.height 35.5 (1 line) 54.5 (2 lines)
-        textContentTextView.textAlignment = ((size.height - textContentTextView.font!.lineHeight) < 20) ? .Center : .Left
-
-        if size.width != textContentLabelWidth {
-            textContentLabelWidth += YepConfig.ChatCell.magicWidth
+            if let strongSelf = self {
+                strongSelf.textContentTextView.text = message.textContent
+                //textContentTextView.attributedText = NSAttributedString(string: message.textContent, attributes: textAttributes)
+                
+                //textContentTextView.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left
+                
+                // 用 sizeThatFits 来对比，不需要 magicWidth 的时候就可以避免了
+                var textContentLabelWidth = textContentLabelWidth
+                let size = strongSelf.textContentTextView.sizeThatFits(CGSize(width: textContentLabelWidth, height: CGFloat.max))
+                
+                // lineHeight 19.088, size.height 35.5 (1 line) 54.5 (2 lines)
+                strongSelf.textContentTextView.textAlignment = ((size.height - strongSelf.textContentTextView.font!.lineHeight) < 20) ? .Center : .Left
+                
+                if size.width != textContentLabelWidth {
+                    textContentLabelWidth += YepConfig.ChatCell.magicWidth
+                }
+                
+                textContentLabelWidth = max(textContentLabelWidth, YepConfig.ChatCell.minTextWidth)
+                
+                strongSelf.textContainerView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() - textContentLabelWidth, y: 3, width: textContentLabelWidth, height: strongSelf.bounds.height - 3 * 2)
+                strongSelf.bubbleBodyImageView.frame = CGRectInset(strongSelf.textContainerView.frame, -12, -3)
+                strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMaxX(strongSelf.bubbleBodyImageView.frame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
+                strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.bubbleBodyImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.bubbleBodyImageView.frame))
+            }
         }
-
-        textContentLabelWidth = max(textContentLabelWidth, YepConfig.ChatCell.minTextWidth)
-
-        textContainerView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() - textContentLabelWidth, y: 3, width: textContentLabelWidth, height: bounds.height - 3 * 2)
-        bubbleBodyImageView.frame = CGRectInset(textContainerView.frame, -12, -3)
-        bubbleTailImageView.center = CGPoint(x: CGRectGetMaxX(bubbleBodyImageView.frame), y: CGRectGetMidY(avatarImageView.frame))
-        dotImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(bubbleBodyImageView.frame))
 
         if let sender = message.fromFriend {
             AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { [weak self] roundImage in

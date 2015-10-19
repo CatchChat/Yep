@@ -124,7 +124,9 @@ class ChatLeftAudioCell: ChatBaseCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        updateAudioInfoViews()
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.updateAudioInfoViews()
+        }
     }
 
     func updateAudioInfoViews() {

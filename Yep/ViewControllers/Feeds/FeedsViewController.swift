@@ -256,7 +256,7 @@ class FeedsViewController: UIViewController {
             vc.conversation = feedConversation
             
             if let group = group {
-                saveFeedWithFeedData(feedData, group: group, inRealm: realm)
+                saveFeedWithFeedDataWithoutFullGroup(feedData, group: group, inRealm: realm)
             }
 
             vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feedData)
