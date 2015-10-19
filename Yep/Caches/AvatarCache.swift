@@ -128,18 +128,22 @@ class AvatarCache {
         }
     }
 
-    private var avatarCompletionSet = Set<AvatarCompletion>()
+    private var avatarCompletions = [AvatarCompletion]()
 
     private func removeAvatarCompletionsByAvatarURLString(avatarURLString: String) {
-        let avatarCompletions = avatarCompletionSet.filter({ $0.avatarURLString == avatarURLString })
-        avatarCompletions.forEach {
-            avatarCompletionSet.remove($0)
-        }
+
+        let completionsToRemove = avatarCompletions.filter({ $0.avatarURLString == avatarURLString })
+
+        completionsToRemove.forEach({
+            if let index = avatarCompletions.indexOf($0) {
+                avatarCompletions.removeAtIndex(index)
+            }
+        })
     }
 
     private func completeWithImage(image: UIImage, avatarURLString: String) {
 
-        for avatarCompletion in avatarCompletionSet.filter({ $0.avatarURLString == avatarURLString }) {
+        for avatarCompletion in avatarCompletions.filter({ $0.avatarURLString == avatarURLString }) {
 
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
                 let avatar = image.roundImageOfRadius(avatarCompletion.radius)
@@ -203,9 +207,9 @@ class AvatarCache {
                 removeAvatarCompletionsByAvatarURLString(avatarURLString)
 
                 // NOTICE: 默认在主线程添加
-                avatarCompletionSet.insert(avatarCompletion)
+                avatarCompletions.append(avatarCompletion)
 
-                if avatarCompletionSet.filter({ $0.avatarURLString == avatarURLString }).count > 1 {
+                if avatarCompletions.filter({ $0.avatarURLString == avatarURLString }).count > 1 {
                     // 不用做事，等着具有同样 avatarURLString 的 avatarCompletion 帮忙完成
 
                 } else {
@@ -360,9 +364,9 @@ class AvatarCache {
                 removeAvatarCompletionsByAvatarURLString(avatarURLString)
 
                 // NOTICE: 默认在主线程添加
-                avatarCompletionSet.insert(avatarCompletion)
+                avatarCompletions.append(avatarCompletion)
 
-                if avatarCompletionSet.filter({ $0.avatarURLString == avatarURLString }).count > 1 {
+                if avatarCompletions.filter({ $0.avatarURLString == avatarURLString }).count > 1 {
                     // 不用做事，等着具有同样 avatarURLString 的 avatarCompletion 帮忙完成
 
                 } else {
