@@ -2196,6 +2196,35 @@ func markAsReadMessage(message: Message ,failureHandler: ((Reason, String?) -> V
     }
 }
 
+func batchMarkAsReadOfMessagesToRecipient(recipient: Recipient, failureHandler: ((Reason, String?) -> Void)?, completion: (messageIDs: [String]) -> Void) {
+
+    let state = UIApplication.sharedApplication().applicationState
+    if state != .Active {
+        return
+    }
+
+    let requestParameters = [
+        "last_read_at": NSDate().timeIntervalSince1970
+    ]
+
+    let parse: JSONDictionary -> [String]? = { data in
+
+        if let messageIDs = data["message_ids"] as? [String] {
+            return messageIDs
+        }
+
+        return []
+    }
+
+    let resource = authJsonResource(path: "/api/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages/batch_mark_as_read", method: .PATCH, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 // MARK: - Feeds
 
 enum FeedSortStyle: String {
