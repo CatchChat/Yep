@@ -96,6 +96,7 @@
 		502B60601BD112E500D9C17E /* QuickPickPhotosCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502B605E1BD112E500D9C17E /* QuickPickPhotosCell.xib */; settings = {ASSET_TAGS = (); }; };
 		502B60641BD1208E00D9C17E /* CameraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B60621BD1208E00D9C17E /* CameraCell.swift */; settings = {ASSET_TAGS = (); }; };
 		502B60651BD1208E00D9C17E /* CameraCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502B60631BD1208E00D9C17E /* CameraCell.xib */; settings = {ASSET_TAGS = (); }; };
+		502B60681BD6252B00D9C17E /* UserAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B60671BD6252B00D9C17E /* UserAvatar.swift */; settings = {ASSET_TAGS = (); }; };
 		503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503315951AC1017E0008A209 /* ChatLeftTextCell.swift */; };
 		503315981AC1017E0008A209 /* ChatLeftTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 503315961AC1017E0008A209 /* ChatLeftTextCell.xib */; };
 		5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159A1AC101C80008A209 /* ChatRightTextCell.swift */; };
@@ -399,6 +400,7 @@
 		502B605E1BD112E500D9C17E /* QuickPickPhotosCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QuickPickPhotosCell.xib; path = Views/Cells/QuickPickPhotos/QuickPickPhotosCell.xib; sourceTree = "<group>"; };
 		502B60621BD1208E00D9C17E /* CameraCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraCell.swift; path = Views/Cells/Camera/CameraCell.swift; sourceTree = "<group>"; };
 		502B60631BD1208E00D9C17E /* CameraCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CameraCell.xib; path = Views/Cells/Camera/CameraCell.xib; sourceTree = "<group>"; };
+		502B60671BD6252B00D9C17E /* UserAvatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserAvatar.swift; path = Caches/UserAvatar.swift; sourceTree = "<group>"; };
 		503315951AC1017E0008A209 /* ChatLeftTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextCell.swift; path = Views/Cells/ChatLeftText/ChatLeftTextCell.swift; sourceTree = "<group>"; };
 		503315961AC1017E0008A209 /* ChatLeftTextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftTextCell.xib; path = Views/Cells/ChatLeftText/ChatLeftTextCell.xib; sourceTree = "<group>"; };
 		5033159A1AC101C80008A209 /* ChatRightTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextCell.swift; path = Views/Cells/ChatRightText/ChatRightTextCell.swift; sourceTree = "<group>"; };
@@ -1072,6 +1074,7 @@
 			isa = PBXGroup;
 			children = (
 				5023DE551AB6CA1000B3EE96 /* AvatarCache.swift */,
+				502B60671BD6252B00D9C17E /* UserAvatar.swift */,
 				50CDBE451ACA9F2200459CE0 /* ImageCache.swift */,
 			);
 			name = Caches;
@@ -2466,6 +2469,7 @@
 				5053AD501AF82A1700B3CBFA /* PickLocationCell.swift in Sources */,
 				5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */,
 				5053AD4A1AF772C500B3CBFA /* PickLocationViewController.swift in Sources */,
+				502B60681BD6252B00D9C17E /* UserAvatar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
