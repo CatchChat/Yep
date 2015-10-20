@@ -18,7 +18,7 @@ PODS:
   - MZFayeClient (1.0.1):
     - Base64 (~> 1.0.1)
     - SocketRocket (~> 0.4)
-  - Navi (0.3.4)
+  - Navi (0.3.5)
   - pop (1.0.8)
   - Proposer (0.7)
   - Realm (0.96.0):
@@ -68,7 +68,7 @@ SPEC CHECKSUMS:
   Kingfisher: a40cf8134ba1a78f395bdd3ee97d386ff3c3be0d
   MonkeyKing: 9be24307843a80f4cd3eca66adc12c67aefb83bb
   MZFayeClient: 65e7ef67e61fbe7a7a8b196130541c9f06bcb5d8
-  Navi: fab909d767ec5c74152d02ea139cabe93d531736
+  Navi: 23a368ab702e7b74fed21d15f6a1142c380dead7
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   Proposer: c244e0d031227b6cf140da7a24d30f2d954d2cb2
   Realm: d1b1eff5264cd6a3158b7a9b6c499d7f6ad3a860
