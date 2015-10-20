@@ -347,23 +347,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func cacheInAdvance() {
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-
-            // 主界面的头像
-
-            guard let realm = try? Realm() else {
-                return
-            }
-
-            let conversations = realm.objects(Conversation)
-
-            for conversation in conversations {
-                if let latestMessage = conversation.messages.last, user = latestMessage.fromFriend {
-                    AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: YepConfig.ConversationCell.avatarSize * 0.5, completion: { _ in
-                    })
-                }
-            }
-        }
+        // TODO: cacheInAdvance
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+//
+//            // 主界面的头像
+//
+//            guard let realm = try? Realm() else {
+//                return
+//            }
+//
+//            let conversations = realm.objects(Conversation)
+//
+//            for conversation in conversations {
+//                if let latestMessage = conversation.messages.last, user = latestMessage.fromFriend {
+//                    AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: YepConfig.ConversationCell.avatarSize * 0.5, completion: { _ in
+//                    })
+//                }
+//            }
+//        }
     }
 
     private func customAppearce() {

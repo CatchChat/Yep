@@ -1073,8 +1073,8 @@
 		5023DE571AB6CA1400B3EE96 /* Caches */ = {
 			isa = PBXGroup;
 			children = (
-				5023DE551AB6CA1000B3EE96 /* AvatarCache.swift */,
 				502B60671BD6252B00D9C17E /* UserAvatar.swift */,
+				5023DE551AB6CA1000B3EE96 /* AvatarCache.swift */,
 				50CDBE451ACA9F2200459CE0 /* ImageCache.swift */,
 			);
 			name = Caches;

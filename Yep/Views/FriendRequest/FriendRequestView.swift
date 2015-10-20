@@ -51,9 +51,12 @@ class FriendRequestView: UIView {
     var user: User? {
         willSet {
             if let user = newValue {
-                AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: YepConfig.chatCellAvatarSize() * 0.5, completion: { [weak self] avatar in
-                    self?.avatarImageView.image = avatar
-                })
+//                AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: YepConfig.chatCellAvatarSize() * 0.5, completion: { [weak self] avatar in
+//                    self?.avatarImageView.image = avatar
+//                })
+
+                let userAvatar = UserAvatar(userID: user.userID, avatarStyle: nanoAvatarStyle)
+                avatarImageView.navi_setAvatar(userAvatar)
 
                 nicknameLabel.text = user.nickname
             }

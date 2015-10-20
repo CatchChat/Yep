@@ -140,11 +140,11 @@ class ConversationsViewController: UIViewController {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
 
             // 聊天界面的头像
-
-            for user in normalUsers() {
-                AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: YepConfig.chatCellAvatarSize() * 0.5, completion: { _ in
-                })
-            }
+            // TOOD: cacheInAdvance
+//            for user in normalUsers() {
+//                AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: YepConfig.chatCellAvatarSize() * 0.5, completion: { _ in
+//                })
+//            }
 
             // 每个对话的最近 10 条消息（image or thumbnail）
 
