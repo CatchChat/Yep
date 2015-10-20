@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import MonkeyKing
+import Navi
 
 let YepCreatedConversationNotification = "YepCreatedConversationNotification"
 
@@ -728,8 +729,7 @@ class ProfileViewController: UIViewController {
                         avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
                         avatarFilePath = avatarFileURL.path,
                         image = UIImage(contentsOfFile: avatarFilePath) {
-                            //thumbnail = image.roundImageOfRadius(50)
-                            thumbnail = image.squareImageOfSize(100)
+                            thumbnail = image.navi_centerCropWithSize(CGSize(width: 100, height: 100))
                     }
             }
 

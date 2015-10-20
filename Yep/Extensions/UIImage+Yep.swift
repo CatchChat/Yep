@@ -11,39 +11,6 @@ import Ruler
 
 extension UIImage {
 
-    func roundImageOfRadius(radius: CGFloat) -> UIImage {
-        let radius = floor(radius - Ruler.iPhoneHorizontal(0.5, 0.5, 1.5).value)
-        return self.largestCenteredSquareImage().resizeToTargetSize(CGSize(width: radius * 2, height: radius * 2)).roundImage()
-    }
-
-    func squareImageOfSize(size: CGFloat) -> UIImage {
-        let size = floor(size - Ruler.iPhoneHorizontal(0.5, 0.5, 1.5).value)
-        return self.largestCenteredSquareImage().resizeToTargetSize(CGSize(width: size, height: size))
-    }
-
-    func largestCenteredSquareImage() -> UIImage {
-        let scale = self.scale
-
-        let originalWidth  = self.size.width * scale
-        let originalHeight = self.size.height * scale
-
-        let edge: CGFloat
-        if originalWidth > originalHeight {
-            edge = originalHeight
-        } else {
-            edge = originalWidth
-        }
-
-        let posX = (originalWidth  - edge) / 2.0
-        let posY = (originalHeight - edge) / 2.0
-
-        let cropSquare = CGRectMake(posX, posY, edge, edge)
-
-        let imageRef = CGImageCreateWithImageInRect(self.CGImage, cropSquare)!
-
-        return UIImage(CGImage: imageRef, scale: scale, orientation: self.imageOrientation)
-    }
-
     func resizeToTargetSize(targetSize: CGSize) -> UIImage {
         let size = self.size
 
@@ -66,31 +33,6 @@ extension UIImage {
         UIGraphicsEndImageContext()
         
         return newImage
-    }
-
-    func roundImage() -> UIImage {
-        let scale: CGFloat = self.scale
-
-        UIGraphicsBeginImageContextWithOptions(self.size, false, scale)
-
-        let context = UIGraphicsGetCurrentContext()
-
-        var transform = CGAffineTransformConcat(CGAffineTransformIdentity, CGAffineTransformMakeScale(1.0, -1.0))
-        transform = CGAffineTransformConcat(transform, CGAffineTransformMakeTranslation(0.0, self.size.height))
-        CGContextConcatCTM(context, transform)
-
-        let drawRect = CGRect(origin: CGPointZero, size: self.size)
-
-        CGContextAddEllipseInRect(context, drawRect.largestCenteredSquare())
-        CGContextClip(context)
-
-        CGContextDrawImage(context, drawRect, self.CGImage)
-
-        let roundImage = UIGraphicsGetImageFromCurrentImageContext()
-
-        UIGraphicsEndImageContext()
-
-        return roundImage
     }
 
     func fixRotation() -> UIImage {
@@ -417,78 +359,6 @@ extension UIImage {
         return bubbleImage
     }
 
-}
-
-extension UIImage {
-
-    func resizeToSize(size: CGSize, withTransform transform: CGAffineTransform, drawTransposed: Bool, interpolationQuality: CGInterpolationQuality) -> UIImage? {
-
-        let newRect = CGRectIntegral(CGRect(origin: CGPointZero, size: size))
-        let transposedRect = CGRect(origin: CGPointZero, size: CGSize(width: size.height, height: size.width))
-
-        let bitmapContext = CGBitmapContextCreate(nil, Int(newRect.width), Int(newRect.height), CGImageGetBitsPerComponent(CGImage), 0, CGImageGetColorSpace(CGImage), CGImageGetBitmapInfo(CGImage).rawValue)
-
-        CGContextConcatCTM(bitmapContext, transform)
-
-        CGContextSetInterpolationQuality(bitmapContext, interpolationQuality)
-
-        CGContextDrawImage(bitmapContext, drawTransposed ? transposedRect : newRect, CGImage)
-
-        let newCGImage = CGBitmapContextCreateImage(bitmapContext)!
-        let newImage = UIImage(CGImage: newCGImage)
-
-        return newImage
-    }
-
-    func transformForOrientationWithSize(size: CGSize) -> CGAffineTransform {
-        var transform = CGAffineTransformIdentity
-
-        switch imageOrientation {
-        case .Down, .DownMirrored:
-            transform = CGAffineTransformTranslate(transform, size.width, size.height)
-            transform = CGAffineTransformRotate(transform, CGFloat(M_PI))
-
-        case .Left, .LeftMirrored:
-            transform = CGAffineTransformTranslate(transform, size.width, 0)
-            transform = CGAffineTransformRotate(transform, CGFloat(M_PI_2))
-
-        case .Right, .RightMirrored:
-            transform = CGAffineTransformTranslate(transform, 0, size.height)
-            transform = CGAffineTransformRotate(transform, CGFloat(-M_PI_2))
-
-        default:
-            break
-        }
-
-        switch imageOrientation {
-        case .UpMirrored, .DownMirrored:
-            transform = CGAffineTransformTranslate(transform, size.width, 0)
-            transform = CGAffineTransformScale(transform, -1, 1)
-
-        case .LeftMirrored, .RightMirrored:
-            transform = CGAffineTransformTranslate(transform, size.height, 0)
-            transform = CGAffineTransformScale(transform, -1, 1)
-
-        default:
-            break
-        }
-
-        return transform
-    }
-
-    func resizeToSize(size: CGSize, withInterpolationQuality interpolationQuality: CGInterpolationQuality) -> UIImage? {
-
-        let drawTransposed: Bool
-
-        switch imageOrientation {
-        case .Left, .LeftMirrored, .Right, .RightMirrored:
-            drawTransposed = true
-        default:
-            drawTransposed = false
-        }
-
-        return resizeToSize(size, withTransform: transformForOrientationWithSize(size), drawTransposed: drawTransposed, interpolationQuality: interpolationQuality)
-    }
 }
 
 // MARK: - Decode
