@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Navi
 
 class SettingsUserCell: UITableViewCell {
 
@@ -66,17 +67,21 @@ class SettingsUserCell: UITableViewCell {
 
             let avatarSize = YepConfig.Settings.userCellAvatarSize
 
-            avatarImageView.alpha = 0
-            AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: avatarSize * 0.5) { [weak self] image in
-                dispatch_async(dispatch_get_main_queue()) {
-                    self?.avatarImageView.image = image
+//            avatarImageView.alpha = 0
+//            AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: avatarSize * 0.5) { [weak self] image in
+//                dispatch_async(dispatch_get_main_queue()) {
+//                    self?.avatarImageView.image = image
+//
+//                    UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
+//                        self?.avatarImageView.alpha = 1
+//                    }, completion: { (finished) -> Void in
+//                    })
+//                }
+//            }
 
-                    UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
-                        self?.avatarImageView.alpha = 1
-                    }, completion: { (finished) -> Void in
-                    })
-                }
-            }
+            let avatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: avatarSize, height: avatarSize), cornerRadius: avatarSize * 0.5, borderWidth: 0)
+            let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: avatarStyle)
+            avatarImageView.navi_setAvatar(plainAvatar)
         }
     }
 
