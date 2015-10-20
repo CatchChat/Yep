@@ -37,8 +37,8 @@ class DiscoverNormalUserCell: UICollectionViewCell {
 //                }
 //            }
 //        }
-        let userAvatar = UserAvatar(userID: discoveredUser.id, avatarStyle: miniAvatarStyle)
-        avatarImageView.navi_setAvatar(userAvatar)
+        let plainAvatar = PlainAvatar(avatarURLString: discoveredUser.avatarURLString, avatarStyle: miniAvatarStyle)
+        avatarImageView.navi_setAvatar(plainAvatar)
         
         joinedDateLabel.text = discoveredUser.introduction
         

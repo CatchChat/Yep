@@ -12,6 +12,9 @@ import Navi
 
 private let screenScale = UIScreen.mainScreen().scale
 
+let miniAvatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: 60, height: 60), cornerRadius: 30, borderWidth: 0)
+let nanoAvatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: 40, height: 40), cornerRadius: 20, borderWidth: 0)
+
 struct UserAvatar {
 
     let userID: String
@@ -26,9 +29,6 @@ struct UserAvatar {
         return userWithUserID(userID, inRealm: realm)
     }
 }
-
-let miniAvatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: 60, height: 60), cornerRadius: 30, borderWidth: 0)
-let nanoAvatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: 40, height: 40), cornerRadius: 20, borderWidth: 0)
 
 extension UserAvatar: Navi.Avatar {
 
