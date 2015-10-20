@@ -901,6 +901,8 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
 
         if let message = message {
 
+            // 原本是判断标记失败时再次标记，现已改为 batch 标记，先注释了
+            /*
             if message.readed == true {
                 markAsReadMessage(message, failureHandler: nil) { success in
                     if success {
@@ -908,6 +910,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                     }
                 }
             }
+            */
 
             // 纪录消息的发送者
 
