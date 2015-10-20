@@ -2164,6 +2164,7 @@ func resendMessage(message: Message, failureHandler: ((Reason, String?) -> Void)
     }
 }
 
+/*
 func markAsReadMessage(message: Message ,failureHandler: ((Reason, String?) -> Void)?, completion: (Bool) -> Void) {
 
     if message.messageID.isEmpty {
@@ -2195,6 +2196,7 @@ func markAsReadMessage(message: Message ,failureHandler: ((Reason, String?) -> V
         apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
     }
 }
+*/
 
 func batchMarkAsReadOfMessagesToRecipient(recipient: Recipient, beforeMessage: Message, failureHandler: ((Reason, String?) -> Void)?, completion: () -> Void) {
 

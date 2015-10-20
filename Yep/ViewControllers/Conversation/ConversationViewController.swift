@@ -603,31 +603,7 @@ class ConversationViewController: BaseViewController {
 
         // 进来时就尽快标记已读
 
-//        conversation.messages.filter({ message in
-//            if let fromFriend = message.fromFriend {
-//                
-//                return (message.readed == false) && (fromFriend.friendState != UserFriendState.Me.rawValue)
-//            } else {
-//                return false
-//            }
-//        }).forEach({ self.markMessageAsReaded($0) })
-
         batchMarkMessagesAsReaded(needUpdateAllMessages: true)
-
-//        if let _ = conversation.withFriend, recipient = conversation.recipient, latestMessage = messages.last {
-//
-//            messages.forEach { message in
-//                if !message.readed {
-//                    let _ = try? realm.write {
-//                        message.readed = true
-//                    }
-//                }
-//            }
-//
-//            batchMarkAsReadOfMessagesToRecipient(recipient, beforeMessage: latestMessage, failureHandler: nil, completion: {
-//                println("batchMarkAsReadOfMessagesToRecipient OK")
-//            })
-//        }
 
         // MARK: Notify Typing
 
@@ -910,38 +886,6 @@ class ConversationViewController: BaseViewController {
             }
         }
     }
-
-//    private func markMessageAsReaded(message: Message) {
-//
-//        if message.readed {
-//            return
-//        }
-//
-//        // 防止未在此界面时被标记
-//
-//        if navigationController?.topViewController == self {
-//
-//            let messageID = message.messageID
-//
-//            dispatch_async(realmQueue) {
-//                guard let realm = try? Realm() else {
-//                    return
-//                }
-//                
-//                if let message = messageWithMessageID(messageID, inRealm: realm) {
-//                    let _ = try? realm.write {
-//                        message.readed = true
-//                    }
-//
-//                    markAsReadMessage(message, failureHandler: nil) { success in
-//                        if success {
-//                            println("appear Mark message \(messageID) as read")
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     private func batchMarkMessagesAsReaded(needUpdateAllMessages needUpdateAllMessages: Bool = false) {
 
