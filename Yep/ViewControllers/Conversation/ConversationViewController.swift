@@ -2543,8 +2543,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 
                 if sender.friendState != UserFriendState.Me.rawValue { // from Friend
                     
-                    self.markMessageAsReaded(message)
-                    
                     switch message.mediaType {
                         
                     case MessageMediaType.Image.rawValue:
