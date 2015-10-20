@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import Navi
 
 let YepNotificationCommentAction = "YepNotificationCommentAction"
 let YepNotificationOKAction = "YepNotificationOKAction"
@@ -145,6 +146,12 @@ class ConversationsViewController: UIViewController {
 //                AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: YepConfig.chatCellAvatarSize() * 0.5, completion: { _ in
 //                })
 //            }
+
+            for user in normalUsers() {
+
+                let userAvatar = UserAvatar(userID: user.userID, avatarStyle: nanoAvatarStyle)
+                AvatarPod.wakeAvatar(userAvatar, completion: { _ ,_ in })
+            }
 
             // 每个对话的最近 10 条消息（image or thumbnail）
 

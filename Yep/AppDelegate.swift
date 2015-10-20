@@ -12,6 +12,7 @@ import Crashlytics
 import AVFoundation
 import RealmSwift
 import MonkeyKing
+import Navi
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -365,6 +366,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                }
 //            }
 //        }
+
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+
+            guard let realm = try? Realm() else {
+                return
+            }
+
+            let conversations = realm.objects(Conversation)
+
+            conversations.forEach { conversation in
+                if let latestMessage = conversation.messages.last, user = latestMessage.fromFriend {
+                    let userAvatar = UserAvatar(userID: user.userID, avatarStyle: miniAvatarStyle)
+                    AvatarPod.wakeAvatar(userAvatar, completion: { _ ,_ in })
+                }
+            }
+        }
     }
 
     private func customAppearce() {
