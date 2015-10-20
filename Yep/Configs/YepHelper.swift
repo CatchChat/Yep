@@ -8,6 +8,7 @@
 
 import Foundation
 import RealmSwift
+import Navi
 
 typealias CancelableTask = (cancel: Bool) -> Void
 
@@ -67,7 +68,8 @@ func cleanRealmAndCaches() {
 
     // cleam all memory caches
     
-    AvatarCache.sharedInstance.cache.removeAllObjects()
+    AvatarPod.clear()
+
     ImageCache.sharedInstance.cache.removeAllObjects()
 
     // clean Message File caches

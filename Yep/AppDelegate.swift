@@ -12,6 +12,7 @@ import Crashlytics
 import AVFoundation
 import RealmSwift
 import MonkeyKing
+import Navi
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -349,18 +350,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
 
-            // 主界面的头像
-
             guard let realm = try? Realm() else {
                 return
             }
 
+            // 主界面的头像
+
             let conversations = realm.objects(Conversation)
 
-            for conversation in conversations {
+            conversations.forEach { conversation in
                 if let latestMessage = conversation.messages.last, user = latestMessage.fromFriend {
-                    AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: YepConfig.ConversationCell.avatarSize * 0.5, completion: { _ in
-                    })
+                    let userAvatar = UserAvatar(userID: user.userID, avatarStyle: miniAvatarStyle)
+                    AvatarPod.wakeAvatar(userAvatar, completion: { _ ,_ in })
                 }
             }
         }

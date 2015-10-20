@@ -13,6 +13,7 @@ import MobileCoreServices
 import MapKit
 import Proposer
 import KeyboardMan
+import Navi
 
 struct MessageNotification {
     static let MessageStateChanged = "MessageStateChangedNotification"
@@ -3174,7 +3175,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                     // resize to smaller, not need fixRotation
 
-                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.Medium) {
+                    if let fixedImage = image.navi_resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.Medium) {
                         sendImage(fixedImage)
                     }
                 }
@@ -3214,7 +3215,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         let audioMetaDataInfo: [String: AnyObject]
 
-        if let thumbnail = image.resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailHeight), withInterpolationQuality: CGInterpolationQuality.Low) {
+        if let thumbnail = image.navi_resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailHeight), withInterpolationQuality: CGInterpolationQuality.Low) {
             let blurredThumbnail = thumbnail.blurredImageWithRadius(5, iterations: 7, tintColor: UIColor.clearColor())
 
             let data = UIImageJPEGRepresentation(blurredThumbnail, 0.7)
@@ -3338,7 +3339,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
             let videoMetaDataInfo: [String: AnyObject]
 
-            if let thumbnail = image.resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailHeight), withInterpolationQuality: CGInterpolationQuality.Low) {
+            if let thumbnail = image.navi_resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailHeight), withInterpolationQuality: CGInterpolationQuality.Low) {
                 let blurredThumbnail = thumbnail.blurredImageWithRadius(5, iterations: 7, tintColor: UIColor.clearColor())
 
                 let data = UIImageJPEGRepresentation(blurredThumbnail, 0.7)!

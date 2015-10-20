@@ -8,6 +8,7 @@
 
 import UIKit
 import MonkeyKing
+import Navi
 
 class SocialWorkGithubViewController: BaseViewController {
 
@@ -41,9 +42,10 @@ class SocialWorkGithubViewController: BaseViewController {
 
                 infoView.hidden = false
 
-                AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(user.avatarURLString, withRadius: avatarImageView.bounds.width * 0.5) { [weak self] image in
-                    self?.avatarImageView.image = image
-                }
+                let avatarSize = avatarImageView.bounds.width
+                let avatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: avatarSize, height: avatarSize), cornerRadius: avatarSize * 0.5, borderWidth: 0)
+                let plainAvatar = PlainAvatar(avatarURLString: user.avatarURLString, avatarStyle: avatarStyle)
+                avatarImageView.navi_setAvatar(plainAvatar)
 
                 followersCountLabel.text = "\(user.followersCount)"
                 followingCountLabel.text = "\(user.followingCount)"
