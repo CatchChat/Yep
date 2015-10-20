@@ -947,24 +947,35 @@ class ConversationViewController: BaseViewController {
 
         if let _ = conversation.withFriend, recipient = conversation.recipient, latestMessage = messages.last {
 
+            var needMarkInServer = false
+
             if needUpdateAllMessages {
                 messages.forEach { message in
                     if !message.readed {
                         let _ = try? realm.write {
                             message.readed = true
                         }
+
+                        needMarkInServer = true
                     }
                 }
 
             } else {
                 let _ = try? realm.write {
                     latestMessage.readed = true
+
+                    needMarkInServer = true
                 }
             }
 
-            batchMarkAsReadOfMessagesToRecipient(recipient, beforeMessage: latestMessage, failureHandler: nil, completion: {
-                println("batchMarkAsReadOfMessagesToRecipient OK")
-            })
+            if needMarkInServer {
+                batchMarkAsReadOfMessagesToRecipient(recipient, beforeMessage: latestMessage, failureHandler: nil, completion: {
+                    println("batchMarkAsReadOfMessagesToRecipient OK")
+                })
+
+            } else {
+                println("don't needMarkInServer")
+            }
         }
     }
 
