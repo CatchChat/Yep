@@ -111,7 +111,6 @@ extension PlainAvatar: Navi.Avatar {
         if avatar.avatarFileName.isEmpty, let _ = NSFileManager.saveAvatarImage(originalImage, withName: avatarFileName) {
 
             let _ = try? realm.write {
-                avatar.avatarURLString = self.avatarURLString
                 avatar.avatarFileName = avatarFileName
             }
         }

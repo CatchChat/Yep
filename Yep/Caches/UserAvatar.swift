@@ -12,9 +12,6 @@ import Navi
 
 private let screenScale = UIScreen.mainScreen().scale
 
-let miniAvatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: 60, height: 60), cornerRadius: 30, borderWidth: 0)
-let nanoAvatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: 40, height: 40), cornerRadius: 20, borderWidth: 0)
-
 struct UserAvatar {
 
     let userID: String
@@ -124,11 +121,9 @@ extension UserAvatar: Navi.Avatar {
 
             let avatarFileName = NSUUID().UUIDString
 
-            let avatarURLString = user.avatarURLString
             if avatar.avatarFileName.isEmpty, let _ = NSFileManager.saveAvatarImage(originalImage, withName: avatarFileName) {
 
                 let _ = try? realm.write {
-                    avatar.avatarURLString = avatarURLString
                     avatar.avatarFileName = avatarFileName
                 }
             }
