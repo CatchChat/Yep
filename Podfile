@@ -3,6 +3,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 def pods
+    pod 'Navi'
     pod 'Alamofire'
     pod 'DeviceGuru'
     pod '1PasswordExtension', '~> 1.5'
