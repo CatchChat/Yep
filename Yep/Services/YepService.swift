@@ -2196,7 +2196,7 @@ func markAsReadMessage(message: Message ,failureHandler: ((Reason, String?) -> V
     }
 }
 
-func batchMarkAsReadOfMessagesToRecipient(recipient: Recipient, failureHandler: ((Reason, String?) -> Void)?, completion: (messageIDs: [String]) -> Void) {
+func batchMarkAsReadOfMessagesToRecipient(recipient: Recipient, beforeMessage: Message, failureHandler: ((Reason, String?) -> Void)?, completion: () -> Void) {
 
     let state = UIApplication.sharedApplication().applicationState
     if state != .Active {
@@ -2204,19 +2204,14 @@ func batchMarkAsReadOfMessagesToRecipient(recipient: Recipient, failureHandler: 
     }
 
     let requestParameters = [
-        "last_read_at": NSDate().timeIntervalSince1970
+        "max_id": beforeMessage.messageID
     ]
 
-    let parse: JSONDictionary -> [String]? = { data in
-
-        if let messageIDs = data["message_ids"] as? [String] {
-            return messageIDs
-        }
-
-        return []
+    let parse: JSONDictionary -> Void? = { data in
+        return
     }
 
-    let resource = authJsonResource(path: "/api/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages/batch_mark_as_read", method: .PATCH, requestParameters: requestParameters, parse: parse)
+    let resource = authJsonResource(path: "/api/v1/\(recipient.type.nameForBatchMarkAsRead)/\(recipient.ID)/messages/batch_mark_as_read", method: .PATCH, requestParameters: requestParameters, parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)

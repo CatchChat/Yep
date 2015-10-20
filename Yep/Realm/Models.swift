@@ -379,6 +379,15 @@ enum ConversationType: Int {
             return "Circle"
         }
     }
+
+    var nameForBatchMarkAsRead: String {
+        switch self {
+        case .OneToOne:
+            return "users"
+        case .Group:
+            return "circles"
+        }
+    }
 }
 
 class Conversation: Object {
