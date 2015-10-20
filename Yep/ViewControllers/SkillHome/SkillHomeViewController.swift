@@ -7,9 +7,10 @@
 //
 
 import UIKit
-import Proposer
 import MobileCoreServices
 import RealmSwift
+import Proposer
+import Navi
 
 let ScrollViewTag = 100
 
@@ -451,7 +452,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                     // resize to smaller, not need fixRotation
 
-                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.Medium) {
+                    if let fixedImage = image.navi_resizeToSize(fixedSize, withInterpolationQuality: .Medium) {
 
                         let data = UIImageJPEGRepresentation(fixedImage, 0.7)
 

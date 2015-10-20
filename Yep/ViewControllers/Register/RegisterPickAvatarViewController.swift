@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import Proposer
+import Navi
 
 class RegisterPickAvatarViewController: UIViewController {
     
@@ -225,7 +226,7 @@ class RegisterPickAvatarViewController: UIViewController {
         
         YepHUD.showActivityIndicator()
 
-        avatar = self.avatar.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
+        avatar = self.avatar.navi_centerCropWithSize(YepConfig.avatarMaxSize())!
         let imageData = UIImageJPEGRepresentation(avatar, YepConfig.avatarCompressionQuality())
 
         s3UploadFileOfKind(.Avatar, inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
@@ -273,7 +274,7 @@ class RegisterPickAvatarViewController: UIViewController {
                             image = UIImage(CGImage: CGImage, scale: image.scale, orientation: .LeftMirrored)
                         }
 
-                        image = image.fixRotation().largestCenteredSquareImage()
+                        image = image.fixRotation().navi_centerCropWithSize(YepConfig.avatarMaxSize())!
 
                         dispatch_async(dispatch_get_main_queue()) {
                             self.avatar = image

@@ -172,15 +172,8 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
         if let friend = friendAtIndexPath(indexPath) {
 
-            let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
-
-            AvatarCache.sharedInstance.roundAvatarOfUser(friend, withRadius: radius) { [weak cell] roundImage in
-                dispatch_async(dispatch_get_main_queue()) {
-                    if let _ = tableView.cellForRowAtIndexPath(indexPath) {
-                        cell?.avatarImageView.image = roundImage
-                    }
-                }
-            }
+            let userAvatar = UserAvatar(userID: friend.userID, avatarStyle: miniAvatarStyle)
+            cell.avatarImageView.navi_setAvatar(userAvatar)
 
             cell.nameLabel.text = friend.nickname
 

@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import FXBlurView
 import Proposer
+import Navi
 
 class ProfileHeaderCell: UICollectionViewCell {
 
@@ -131,9 +132,12 @@ class ProfileHeaderCell: UICollectionViewCell {
             avatarBlurImageView.alpha = 0
         }
 
-        AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!, size: 375) {[weak self] (isFinish, image) -> () in
+        let avatarStyle = AvatarStyle.Original
+        let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: avatarStyle)
 
-            if isFinish {
+        AvatarPod.wakeAvatar(plainAvatar) { [weak self] finished, image in
+
+            if finished {
                 self?.blurImage(image) { blurredImage in
                     dispatch_async(dispatch_get_main_queue()) {
                         self?.blurredAvatarImage = blurredImage
