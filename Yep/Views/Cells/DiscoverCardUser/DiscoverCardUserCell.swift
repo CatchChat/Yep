@@ -55,19 +55,10 @@ class DiscoverCardUserCell: UICollectionViewCell {
     
     func configureWithDiscoveredUser(discoveredUser: DiscoveredUser, collectionView: UICollectionView, indexPath: NSIndexPath) {
         
-//        let radius = min(CGRectGetWidth(avatarImageView.bounds), CGRectGetHeight(avatarImageView.bounds)) * 0.5
         self.discoveredUser = discoveredUser
         
         let avatarURLString = discoveredUser.avatarURLString
 
-//        
-//        AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!, size: 170) {[weak self] (isFinish, image) -> () in
-//            dispatch_async(dispatch_get_main_queue()) {
-//                if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-//                    self?.avatarImageView.image = image
-//                }
-//            }
-//        }
         let avatarSize: CGFloat = 170
         let avatarStyle: AvatarStyle = .Rectangle(size: CGSize(width: avatarSize, height: avatarSize))
         let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: avatarStyle)
@@ -79,14 +70,9 @@ class DiscoverCardUserCell: UICollectionViewCell {
         } else {
             serviceImageView.image = nil
         }
-        
+
         userIntroductionLbael.text = discoveredUser.introduction
-//        if let distance = discoveredUser.distance?.format(".1") {
-//            lastTimeSeenLabel.text = "\(distance)km | \(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
-//        } else {
-//            lastTimeSeenLabel.text = "\(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
-//        }
-        
+
         usernameLabel.text = discoveredUser.nickname
         
         userSkillsCollectionView.reloadData()

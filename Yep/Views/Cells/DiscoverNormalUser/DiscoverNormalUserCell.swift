@@ -26,17 +26,7 @@ class DiscoverNormalUserCell: UICollectionViewCell {
     }
 
     func configureWithDiscoveredUser(discoveredUser: DiscoveredUser, collectionView: UICollectionView, indexPath: NSIndexPath) {
-        
-//        let radius = min(CGRectGetWidth(avatarImageView.bounds), CGRectGetHeight(avatarImageView.bounds)) * 0.5
-//        
-//        let avatarURLString = discoveredUser.avatarURLString
-//        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { [weak self] roundImage in
-//            dispatch_async(dispatch_get_main_queue()) {
-//                if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-//                    self?.avatarImageView.image = roundImage
-//                }
-//            }
-//        }
+ 
         let plainAvatar = PlainAvatar(avatarURLString: discoveredUser.avatarURLString, avatarStyle: miniAvatarStyle)
         avatarImageView.navi_setAvatar(plainAvatar)
         

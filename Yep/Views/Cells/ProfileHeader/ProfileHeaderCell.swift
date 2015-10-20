@@ -154,26 +154,6 @@ class ProfileHeaderCell: UICollectionViewCell {
                 })
             }
         }
-
-//        AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!, size: 375) {[weak self] (isFinish, image) -> () in
-//
-//            if isFinish {
-//                self?.blurImage(image) { blurredImage in
-//                    dispatch_async(dispatch_get_main_queue()) {
-//                        self?.blurredAvatarImage = blurredImage
-//                    }
-//                }
-//            }
-//
-//            dispatch_async(dispatch_get_main_queue()) {
-//                self?.avatarImageView.image = image
-//
-//                UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
-//                    self?.avatarImageView.alpha = 1
-//                }, completion: { (finished) -> Void in
-//                })
-//            }
-//        }
     }
 
     // MARK: Notifications

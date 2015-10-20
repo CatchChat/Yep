@@ -200,19 +200,11 @@ class FeedView: UIView {
         attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
 
         if let creator = feed.creator {
-//            let avatarURLString = creator.avatarURLString
-//            let radius = min(CGRectGetWidth(avatarImageView.bounds), CGRectGetHeight(avatarImageView.bounds)) * 0.5
-//            AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { [weak self] roundImage in
-//                dispatch_async(dispatch_get_main_queue()) {
-//                    self?.avatarImageView.image = roundImage
-//                }
-//            }
             let userAvatar = UserAvatar(userID: creator.userID, avatarStyle: nanoAvatarStyle)
             avatarImageView.navi_setAvatar(userAvatar)
 
             nicknameLabel.text = creator.nickname
         }
-        
 
         if let distance = feed.distance?.format(".1") {
             distanceLabel.text = "\(distance) km"

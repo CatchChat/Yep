@@ -141,11 +141,6 @@ class ConversationsViewController: UIViewController {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
 
             // 聊天界面的头像
-            // TOOD: cacheInAdvance
-//            for user in normalUsers() {
-//                AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: YepConfig.chatCellAvatarSize() * 0.5, completion: { _ in
-//                })
-//            }
 
             for user in normalUsers() {
 

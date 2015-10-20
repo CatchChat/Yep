@@ -156,17 +156,8 @@ class FeedCell: UITableViewCell {
 
         attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
 
-//        let avatarURLString = feed.creator.avatarURLString
-//        let radius = min(CGRectGetWidth(avatarImageView.bounds), CGRectGetHeight(avatarImageView.bounds)) * 0.5
-//        AvatarCache.sharedInstance.roundAvatarWithAvatarURLString(avatarURLString, withRadius: radius) { [weak self] roundImage in
-//            dispatch_async(dispatch_get_main_queue()) {
-//                //if let _ = tableView.cellForRowAtIndexPath(indexPath) {
-//                self?.avatarImageView.image = roundImage
-//                //}
-//            }
-//        }
-        let userAvatar = UserAvatar(userID: feed.creator.id, avatarStyle: nanoAvatarStyle)
-        avatarImageView.navi_setAvatar(userAvatar)
+        let plainAvatar = PlainAvatar(avatarURLString: feed.creator.avatarURLString, avatarStyle: nanoAvatarStyle)
+        avatarImageView.navi_setAvatar(plainAvatar)
 
         nicknameLabel.text = feed.creator.nickname
 

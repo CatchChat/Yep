@@ -60,13 +60,6 @@ class ConversationCell: UITableViewCell {
 
                 self.nameLabel.text = conversationWithFriend.nickname
 
-//                AvatarCache.sharedInstance.roundAvatarOfUser(conversationWithFriend, withRadius: radius) { [weak self] roundImage in
-//                    dispatch_async(dispatch_get_main_queue()) {
-//                        if let _ = tableView.cellForRowAtIndexPath(indexPath) {
-//                            self?.avatarImageView.image = roundImage
-//                        }
-//                    }
-//                }
                 let userAvatar = UserAvatar(userID: conversationWithFriend.userID, avatarStyle: miniAvatarStyle)
                 avatarImageView.navi_setAvatar(userAvatar)
 
@@ -117,28 +110,12 @@ class ConversationCell: UITableViewCell {
                 }
 
                 if let user = group.owner {
-
-//                    AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: radius, completion: {[weak self] image in
-//                        dispatch_async(dispatch_get_main_queue()) {
-//                            if let _ = tableView.cellForRowAtIndexPath(indexPath) {
-//                                self?.avatarImageView.image = image
-//                            }
-//                        }
-//                    })
                     let userAvatar = UserAvatar(userID: user.userID, avatarStyle: miniAvatarStyle)
                     avatarImageView.navi_setAvatar(userAvatar)
 
                 } else {
 
                     if let user = group.withFeed?.creator {
-
-//                        AvatarCache.sharedInstance.roundAvatarOfUser(user, withRadius: radius, completion: {[weak self] image in
-//                            dispatch_async(dispatch_get_main_queue()) {
-//                                if let _ = tableView.cellForRowAtIndexPath(indexPath) {
-//                                    self?.avatarImageView.image = image
-//                                }
-//                            }
-//                        })
                         let userAvatar = UserAvatar(userID: user.userID, avatarStyle: miniAvatarStyle)
                         avatarImageView.navi_setAvatar(userAvatar)
 

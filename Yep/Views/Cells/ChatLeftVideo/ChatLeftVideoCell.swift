@@ -88,13 +88,6 @@ class ChatLeftVideoCell: ChatBaseCell {
         self.mediaTapAction = mediaTapAction
 
         if let sender = message.fromFriend {
-//            AvatarCache.sharedInstance.roundAvatarOfUser(sender, withRadius: YepConfig.chatCellAvatarSize() * 0.5) { [weak self] roundImage in
-//                dispatch_async(dispatch_get_main_queue()) {
-//                    if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-//                        self?.avatarImageView.image = roundImage
-//                    }
-//                }
-//            }
             let userAvatar = UserAvatar(userID: sender.userID, avatarStyle: nanoAvatarStyle)
             avatarImageView.navi_setAvatar(userAvatar)
         }
