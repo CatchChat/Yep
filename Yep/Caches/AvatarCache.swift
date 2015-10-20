@@ -324,9 +324,6 @@ class AvatarCache {
                             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                                 if let strongSelf = self {
                                     strongSelf.completeWithImage(strongSelf.defaultRoundAvatarOfRadius(radius), avatarURLString: avatarURLString)
-
-                                    // 清除
-                                    strongSelf.removeAvatarCompletionsByAvatarURLString(avatarURLString)
                                 }
                             }
                         }
@@ -491,9 +488,6 @@ class AvatarCache {
                             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                                 if let strongSelf = self {
                                     strongSelf.completeWithImage(strongSelf.defaultRoundAvatarOfRadius(radius), avatarURLString: avatarURLString)
-
-                                    // 清除
-                                    strongSelf.removeAvatarCompletionsByAvatarURLString(avatarURLString)
                                 }
                             }
                         }
