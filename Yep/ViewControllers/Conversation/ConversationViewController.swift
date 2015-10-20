@@ -889,7 +889,7 @@ class ConversationViewController: BaseViewController {
 
     private func batchMarkMessagesAsReaded(needUpdateAllMessages needUpdateAllMessages: Bool = false) {
 
-        if let _ = conversation.withFriend, recipient = conversation.recipient, latestMessage = messages.last {
+        if let recipient = conversation.recipient, latestMessage = messages.last {
 
             var needMarkInServer = false
 
