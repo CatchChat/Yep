@@ -102,11 +102,21 @@ extension UserAvatar: Navi.Avatar {
 
         if user.avatar == nil {
 
-            let avatar = Avatar()
-            avatar.avatarURLString = user.avatarURLString
+            let _avatar = avatarWithAvatarURLString(user.avatarURLString, inRealm: realm)
 
-            let _ = try? realm.write {
-                user.avatar = avatar
+            if _avatar == nil {
+
+                let newAvatar = Avatar()
+                newAvatar.avatarURLString = user.avatarURLString
+
+                let _ = try? realm.write {
+                    user.avatar = newAvatar
+                }
+
+            } else {
+                let _ = try? realm.write {
+                    user.avatar = _avatar
+                }
             }
         }
 
