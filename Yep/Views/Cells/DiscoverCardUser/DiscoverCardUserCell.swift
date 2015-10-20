@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Navi
 
 let skillTextAttributes = [NSFontAttributeName: UIFont.skillDiscoverTextFont()]
 
@@ -58,15 +59,20 @@ class DiscoverCardUserCell: UICollectionViewCell {
         self.discoveredUser = discoveredUser
         
         let avatarURLString = discoveredUser.avatarURLString
-        
-        AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!, size: 170) {[weak self] (isFinish, image) -> () in
-            dispatch_async(dispatch_get_main_queue()) {
-                if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                    self?.avatarImageView.image = image
-                }
-            }
-        }
-        
+
+//        
+//        AvatarCache.sharedInstance.avatarFromURL(NSURL(string: avatarURLString)!, size: 170) {[weak self] (isFinish, image) -> () in
+//            dispatch_async(dispatch_get_main_queue()) {
+//                if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
+//                    self?.avatarImageView.image = image
+//                }
+//            }
+//        }
+        let avatarSize: CGFloat = 170
+        let avatarStyle: AvatarStyle = .Rectangle(size: CGSize(width: avatarSize, height: avatarSize))
+        let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: avatarStyle)
+        avatarImageView.navi_setAvatar(plainAvatar)
+
         if let accountName = discoveredUser.recently_updated_provider, account = SocialAccount(rawValue: accountName) {
             serviceImageView.image = UIImage(named: account.iconName)
             serviceImageView.tintColor = account.tintColor
