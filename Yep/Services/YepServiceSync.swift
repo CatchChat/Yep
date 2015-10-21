@@ -732,7 +732,7 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
         //println("\n allUnreadMessages: \(allUnreadMessages)")
         println("Got unread message: \(allUnreadMessages.count)")
         
-        dispatch_async(dispatch_get_main_queue()) {
+        dispatch_async(realmQueue) {
 
             guard let realm = try? Realm() else {
                 return
@@ -749,7 +749,9 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
             // do futher action
             furtherAction(messageIDs: messageIDs)
 
-            isFetchingUnreadMessages.value = false
+            dispatch_async(dispatch_get_main_queue()) {
+                isFetchingUnreadMessages.value = false
+            }
         }
     }
 }
