@@ -576,7 +576,9 @@ func saveFeedWithFeedDataWithoutFullGroup(feedData: DiscoveredFeed, group: Group
 
     // try sync group first
 
-    groupWithGroupID(groupID: group.groupID, failureHandler: nil, completion: { groupInfo in
+    let groupID = group.groupID
+
+    groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { groupInfo in
 
         guard let realm = try? Realm() else {
             return
@@ -585,18 +587,20 @@ func saveFeedWithFeedDataWithoutFullGroup(feedData: DiscoveredFeed, group: Group
         //println("feed groupInfo: \(groupInfo)")
 
         syncGroupWithGroupInfo(groupInfo, inRealm: realm)
+
+        // now try save feed with full group
+
+        if let group = groupWithGroupID(groupID, inRealm: realm) {
+            saveFeedWithFeedDataWithFullGroup(feedData, group: group, inRealm: realm)
+        }
     })
-
-    saveFeedWithFeedDataWithFullGroup(feedData, group: group, inRealm: realm)
-
 }
 
 func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
     // save feed
     
     if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
-        
-        print("Join Feed \(feed.feedID)")
+        println("saveFeed: \(feed.feedID), do nothing.")
         
     } else {
         let newFeed = Feed()

@@ -516,7 +516,7 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                 }
             }
 
-            // 再本地去除远端没有的 Group
+            // 再在本地去除远端没有的 Group
 
             guard let realm = try? Realm() else {
                 return
