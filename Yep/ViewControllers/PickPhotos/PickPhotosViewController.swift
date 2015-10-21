@@ -17,7 +17,7 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
     var imageCacheController: ImageCacheController!
 
     var pickedImageSet = Set<PHAsset>()
-    var completion: ((images: [UIImage], imageAssetSet: Set<PHAsset>) -> Void)?
+    var completion: ((images: [UIImage], imageAssets: [PHAsset]) -> Void)?
 
     let photoCellID = "PhotoCell"
 
@@ -64,7 +64,9 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
         let options = PHImageRequestOptions()
         options.synchronous = true
 
-        for imageAsset in pickedImageSet {
+        let pickedImageAssets = Array(pickedImageSet)
+
+        for imageAsset in pickedImageAssets {
 
             let maxSize: CGFloat = 512
 
@@ -97,7 +99,7 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
             }
         }
 
-        completion?(images: images, imageAssetSet: pickedImageSet)
+        completion?(images: images, imageAssets: pickedImageAssets)
         navigationController?.popViewControllerAnimated(true)
     }
 

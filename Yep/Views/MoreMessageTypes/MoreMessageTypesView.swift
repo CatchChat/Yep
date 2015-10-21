@@ -318,9 +318,16 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                         sendImageAction?($0)
                     }
 
+                    // clean UI
+                    
                     quickPickedImageSet.removeAll()
 
-                    hide()
+                    hideAndDo {
+                        if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: Row.PhotoGallery.rawValue, inSection: 0)) as? QuickPickPhotosCell {
+                            cell.pickedImageSet.removeAll()
+                            cell.photosCollectionView.reloadData()
+                        }
+                    }
 
                 } else {
                     hideAndDo {

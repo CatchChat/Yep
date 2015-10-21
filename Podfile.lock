@@ -18,14 +18,14 @@ PODS:
   - MZFayeClient (1.0.1):
     - Base64 (~> 1.0.1)
     - SocketRocket (~> 0.4)
-  - Navi (0.3.5)
+  - Navi (0.3.6)
   - pop (1.0.8)
   - Proposer (0.7)
-  - Realm (0.96.0):
-    - Realm/Headers (= 0.96.0)
-  - Realm/Headers (0.96.0)
-  - RealmSwift (0.96.0):
-    - Realm (= 0.96.0)
+  - Realm (0.96.1):
+    - Realm/Headers (= 0.96.1)
+  - Realm/Headers (0.96.1)
+  - RealmSwift (0.96.1):
+    - Realm (= 0.96.1)
   - Ruler (0.6)
   - SocketRocket (0.4.1)
   - TPKeyboardAvoiding (1.2.10)
@@ -68,11 +68,11 @@ SPEC CHECKSUMS:
   Kingfisher: a40cf8134ba1a78f395bdd3ee97d386ff3c3be0d
   MonkeyKing: 9be24307843a80f4cd3eca66adc12c67aefb83bb
   MZFayeClient: 65e7ef67e61fbe7a7a8b196130541c9f06bcb5d8
-  Navi: 23a368ab702e7b74fed21d15f6a1142c380dead7
+  Navi: 73dd4e6cbe8b5aa107d00d1e500ce421c4ad20bd
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   Proposer: c244e0d031227b6cf140da7a24d30f2d954d2cb2
-  Realm: d1b1eff5264cd6a3158b7a9b6c499d7f6ad3a860
-  RealmSwift: 40246e6f57a4e863bfdfc1ca1d7b967f0df607e2
+  Realm: d05e4621f67fb1c36acd4e573ac5b52a407fc2cc
+  RealmSwift: 6c96a72b385027d9593b69f6821c697fe843eb68
   Ruler: b36ec3bbc5fc6c3b7f629a6052cc1c17ada4b280
   SocketRocket: ee0b5c34182d37bb4f1f8d628bbe737718126daa
   TPKeyboardAvoiding: 614ebec846ec28b83d548769297fa5fb56468904

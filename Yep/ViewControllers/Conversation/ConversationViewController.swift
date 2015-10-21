@@ -895,13 +895,27 @@ class ConversationViewController: BaseViewController {
             var needMarkInServer = false
 
             if updateOlderMessagesIfNeeded {
+
+//                var x = 0
+//                messages.forEach { message in
+//                    if !message.readed {
+//                        x++
+//                    }
+//                }
+//
+//                println("x: \(x)")
+
                 var predicate = NSPredicate(format: "readed = false", argumentArray: nil)
 
                 if case .OneToOne = recipient.type {
                     predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
                 }
 
-                let filteredMessages = messages.filter(predicate).sorted("createdUnixTime", ascending: true)
+                let filteredMessages = messages.filter(predicate)
+
+                println("filteredMessages.count: \(filteredMessages.count)")
+
+                needMarkInServer = !filteredMessages.isEmpty
 
                 filteredMessages.forEach { message in
                     let _ = try? realm.write {
@@ -909,17 +923,22 @@ class ConversationViewController: BaseViewController {
                     }
                 }
 
-                needMarkInServer = !filteredMessages.isEmpty
-
             } else {
                 let _ = try? realm.write {
                     latestMessage.readed = true
-
-                    needMarkInServer = true
                 }
+
+                needMarkInServer = true
+
+                println("mark latestMessage readed")
             }
             
             if needMarkInServer {
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.markAsReaded, object: nil)
+                }
+
                 batchMarkAsReadOfMessagesToRecipient(recipient, beforeMessage: latestMessage, failureHandler: nil, completion: {
                     println("batchMarkAsReadOfMessagesToRecipient OK")
                 })
@@ -3181,7 +3200,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                     // resize to smaller, not need fixRotation
 
-                    if let fixedImage = image.navi_resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.Medium) {
+                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.Medium) {
                         sendImage(fixedImage)
                     }
                 }
@@ -3221,7 +3240,9 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         let audioMetaDataInfo: [String: AnyObject]
 
-        if let thumbnail = image.navi_resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailHeight), withInterpolationQuality: CGInterpolationQuality.Low) {
+        let thumbnailSize = CGSize(width: thumbnailWidth, height: thumbnailHeight)
+
+        if let thumbnail = image.resizeToSize(thumbnailSize, withInterpolationQuality: CGInterpolationQuality.Low) {
             let blurredThumbnail = thumbnail.blurredImageWithRadius(5, iterations: 7, tintColor: UIColor.clearColor())
 
             let data = UIImageJPEGRepresentation(blurredThumbnail, 0.7)
@@ -3345,7 +3366,9 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
             let videoMetaDataInfo: [String: AnyObject]
 
-            if let thumbnail = image.navi_resizeToSize(CGSize(width: thumbnailWidth, height: thumbnailHeight), withInterpolationQuality: CGInterpolationQuality.Low) {
+            let thumbnailSize = CGSize(width: thumbnailWidth, height: thumbnailHeight)
+
+            if let thumbnail = image.resizeToSize(thumbnailSize, withInterpolationQuality: CGInterpolationQuality.Low) {
                 let blurredThumbnail = thumbnail.blurredImageWithRadius(5, iterations: 7, tintColor: UIColor.clearColor())
 
                 let data = UIImageJPEGRepresentation(blurredThumbnail, 0.7)!

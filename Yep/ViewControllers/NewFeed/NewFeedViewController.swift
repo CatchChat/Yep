@@ -21,7 +21,7 @@ class NewFeedViewController: UIViewController {
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var mediaCollectionView: UICollectionView!
 
-    var imageAssetSet: Set<PHAsset>?
+    var imageAssets: [PHAsset] = []
 
     var mediaImages = [UIImage]() {
         didSet {
@@ -95,13 +95,11 @@ class NewFeedViewController: UIViewController {
 
             let vc = segue.destinationViewController as! PickPhotosViewController
 
-            if let imageAssetSet = imageAssetSet {
-                vc.pickedImageSet = imageAssetSet
-            }
+            vc.pickedImageSet = Set(imageAssets)
 
-            vc.completion = { [weak self] images, imageAssetSet in
+            vc.completion = { [weak self] images, imageAssets in
                 self?.mediaImages = images
-                self?.imageAssetSet = imageAssetSet
+                self?.imageAssets = imageAssets
             }
         }
     }
@@ -256,6 +254,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case 1:
             mediaImages.removeAtIndex(indexPath.item)
+            imageAssets.removeAtIndex(indexPath.item)
             collectionView.deleteItemsAtIndexPaths([indexPath])
 
         default:

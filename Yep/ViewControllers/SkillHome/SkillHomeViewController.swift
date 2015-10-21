@@ -452,7 +452,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                     // resize to smaller, not need fixRotation
 
-                    if let fixedImage = image.navi_resizeToSize(fixedSize, withInterpolationQuality: .Medium) {
+                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: .Medium) {
 
                         let data = UIImageJPEGRepresentation(fixedImage, 0.7)
 
