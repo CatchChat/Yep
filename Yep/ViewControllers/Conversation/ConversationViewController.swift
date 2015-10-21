@@ -895,7 +895,15 @@ class ConversationViewController: BaseViewController {
             var needMarkInServer = false
 
             if needUpdateAllMessages {
-                let predicate = NSPredicate(format: "readed = 0", argumentArray: nil)
+                
+                var predicate = NSPredicate(format: "readed = 0", argumentArray: nil)
+                
+                if let recipientType = conversation.recipient?.type {
+                    if recipientType == .OneToOne {
+                        predicate = NSPredicate(format: "readed = 0 AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
+                    }
+                }
+                
                 messages.filter(predicate).forEach { message in
                     let _ = try? realm.write {
                         message.readed = true
