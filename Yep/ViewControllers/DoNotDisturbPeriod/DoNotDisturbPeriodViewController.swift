@@ -47,8 +47,11 @@ class DoNotDisturbPeriodViewController: UIViewController {
 
     var isDirty = false {
         didSet {
-            updateDoNotDisturb(success: {
-                dirtyAction?(doNotDisturbPeriod)
+            updateDoNotDisturb(success: { [weak self] in
+                if let strongSelf = self {
+                    strongSelf.dirtyAction?(strongSelf.doNotDisturbPeriod)
+                }
+
             })
         }
     }

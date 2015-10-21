@@ -188,8 +188,8 @@ class RegisterVerifyMobileViewController: UIViewController {
                 dispatch_async(dispatch_get_main_queue()) {
                     self?.nextButton.enabled = false
 
-                    YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
-                        verifyCodeTextField.becomeFirstResponder()
+                    YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { [weak self] in
+                        self?.verifyCodeTextField.becomeFirstResponder()
                     })
                 }
             }

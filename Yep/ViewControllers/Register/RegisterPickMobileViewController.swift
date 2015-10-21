@@ -125,8 +125,8 @@ class RegisterPickMobileViewController: UIViewController {
                     YepHUD.hideActivityIndicator()
 
                     if let errorMessage = errorMessage {
-                        YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
-                            mobileNumberTextField.becomeFirstResponder()
+                        YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { [weak self] in
+                            self?.mobileNumberTextField.becomeFirstResponder()
                         })
                     }
 
@@ -143,8 +143,8 @@ class RegisterPickMobileViewController: UIViewController {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             self.nextButton.enabled = false
 
-                            YepAlert.alertSorry(message: "registerMobile failed", inViewController: self, withDismissAction: { () -> Void in
-                                mobileNumberTextField.becomeFirstResponder()
+                            YepAlert.alertSorry(message: "registerMobile failed", inViewController: self, withDismissAction: { [weak self] in
+                                self?.mobileNumberTextField.becomeFirstResponder()
                             })
                         })
                     }
@@ -159,8 +159,8 @@ class RegisterPickMobileViewController: UIViewController {
 
                     self.nextButton.enabled = false
 
-                    YepAlert.alertSorry(message: message, inViewController: self, withDismissAction: { () -> Void in
-                        mobileNumberTextField.becomeFirstResponder()
+                    YepAlert.alertSorry(message: message, inViewController: self, withDismissAction: { [weak self] in
+                        self?.mobileNumberTextField.becomeFirstResponder()
                     })
                 }
             }

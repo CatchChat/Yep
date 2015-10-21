@@ -8,6 +8,8 @@
 
 import UIKit
 
+let sendingAnimationName = "RotationOnStateAnimation"
+
 class ChatRightBaseCell: ChatBaseCell {
     
     @IBOutlet weak var dotImageView: UIImageView!
@@ -54,7 +56,6 @@ class ChatRightBaseCell: ChatBaseCell {
         }
     }
 
-    let sendingAnimationName = "RotationOnStateAnimation"
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)

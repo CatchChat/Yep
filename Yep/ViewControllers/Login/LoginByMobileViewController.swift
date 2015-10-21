@@ -134,8 +134,8 @@ class LoginByMobileViewController: BaseViewController {
                 }
 
             } else {
-                YepAlert.alertSorry(message: NSLocalizedString("Failed to send verification code!", comment: ""), inViewController: self, withDismissAction: { () -> Void in
-                    mobileNumberTextField.becomeFirstResponder()
+                YepAlert.alertSorry(message: NSLocalizedString("Failed to send verification code!", comment: ""), inViewController: self, withDismissAction: { [weak self] in
+                    self?.mobileNumberTextField.becomeFirstResponder()
                 })
             }
         })

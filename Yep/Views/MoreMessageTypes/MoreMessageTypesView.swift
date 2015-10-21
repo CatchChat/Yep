@@ -330,14 +330,14 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                     }
 
                 } else {
-                    hideAndDo {
-                        choosePhotoAction?()
+                    hideAndDo { [weak self] in
+                        self?.choosePhotoAction?()
                     }
                 }
 
             case .Location:
-                hideAndDo {
-                    pickLocationAction?()
+                hideAndDo { [weak self] in
+                    self?.pickLocationAction?()
                 }
 
             case .Cancel:
