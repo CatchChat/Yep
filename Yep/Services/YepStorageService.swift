@@ -81,9 +81,16 @@ private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: N
             case .Success(let upload, _, _):
                 
                 upload.responseJSON { response in
+                    
                     println("Upload \(response)")
                     
-                    completion()
+                    if response.result.isSuccess {
+                        completion()
+                    } else {
+                        failureHandler?(.Other(nil), nil)
+                    }
+
+
                 }
                 
             case .Failure(let encodingError):
