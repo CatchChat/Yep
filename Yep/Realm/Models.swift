@@ -576,7 +576,9 @@ func saveFeedWithFeedDataWithoutFullGroup(feedData: DiscoveredFeed, group: Group
 
     // try sync group first
 
-    groupWithGroupID(groupID: group.groupID, failureHandler: nil, completion: { groupInfo in
+    let groupID = group.groupID
+
+    groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { groupInfo in
 
         guard let realm = try? Realm() else {
             return
@@ -585,18 +587,20 @@ func saveFeedWithFeedDataWithoutFullGroup(feedData: DiscoveredFeed, group: Group
         //println("feed groupInfo: \(groupInfo)")
 
         syncGroupWithGroupInfo(groupInfo, inRealm: realm)
+
+        // now try save feed with full group
+
+        if let group = groupWithGroupID(groupID, inRealm: realm) {
+            saveFeedWithFeedDataWithFullGroup(feedData, group: group, inRealm: realm)
+        }
     })
-
-    saveFeedWithFeedDataWithFullGroup(feedData, group: group, inRealm: realm)
-
 }
 
 func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
     // save feed
     
     if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
-        
-        print("Join Feed \(feed.feedID)")
+        println("saveFeed: \(feed.feedID), do nothing.")
         
     } else {
         let newFeed = Feed()
@@ -749,26 +753,30 @@ func messagesInConversation(conversation: Conversation) -> Results<Message> {
 
 /*
 func messagesOfConversationByMe(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
-    let predicate = NSPredicate(format: "conversation = %@ AND fromFriend.friendState == %d", argumentArray: [conversation, UserFriendState.Me.rawValue])
+    let predicate = NSPredicate(format: "conversation = %@ AND fromFriend.friendState = %d", argumentArray: [conversation, UserFriendState.Me.rawValue])
     let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
 }
 */
 
+/*
 func messagesUnreadSentByMe(inRealm realm: Realm) -> Results<Message> {
-    let predicate = NSPredicate(format: "fromFriend.friendState == %d AND readed = 0 AND sendState == %d", argumentArray: [ UserFriendState.Me.rawValue, MessageSendState.Successed.rawValue])
+    let predicate = NSPredicate(format: "fromFriend.friendState = %d AND readed = false AND sendState = %d", argumentArray: [ UserFriendState.Me.rawValue, MessageSendState.Successed.rawValue])
     let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
 }
+*/
+
+/*
+func unReadMessagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
+    let predicate = NSPredicate(format: "conversation = %@ AND readed = false", argumentArray: [conversation])
+    let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
+    return messages
+}
+*/
 
 func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
     let predicate = NSPredicate(format: "conversation = %@", argumentArray: [conversation])
-    let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
-    return messages
-}
-
-func unReadMessagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
-    let predicate = NSPredicate(format: "conversation = %@ AND readed = 0", argumentArray: [conversation])
     let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
 }

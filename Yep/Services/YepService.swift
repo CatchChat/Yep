@@ -1542,6 +1542,7 @@ func moreUnreadMessages(inPage page: Int, withPerPage perPage: Int, failureHandl
     }
 }
 
+/*
 func sentButUnreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
 
     let parse: JSONDictionary -> JSONDictionary? = { data in
@@ -1556,7 +1557,7 @@ func sentButUnreadMessages(failureHandler failureHandler: ((Reason, String?) -> 
         apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
     }
 }
-
+*/
 
 func unreadMessages(completion completion: [JSONDictionary] -> Void) {
 

@@ -134,9 +134,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
+        /*
         if YepUserDefaults.isLogined {
             syncMessagesReadStatus()
         }
+        */
 
         NSNotificationCenter.defaultCenter().postNotificationName(Notification.applicationDidBecomeActive, object: nil)
 
@@ -295,7 +297,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func sync() {
         syncGroupsAndDoFurtherAction {
             syncUnreadMessagesAndDoFurtherAction { messageIDs in
-                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: .New)
+                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
             }
         }
 
@@ -341,7 +343,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func syncUnreadMessages(furtherAction: () -> Void) {
 
         syncUnreadMessagesAndDoFurtherAction() { messageIDs in
-            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: .New)
+            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
             furtherAction()
         }
     }

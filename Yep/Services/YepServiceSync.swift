@@ -17,7 +17,7 @@ enum MessageAge: String {
     case New
 }
 
-func tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs: [String], withMessageAge messageAge: MessageAge) {
+func tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs: [String], messageAge: MessageAge) {
 
     if !messageIDs.isEmpty {
         dispatch_async(dispatch_get_main_queue()) {
@@ -258,156 +258,160 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
         //println("my userInfo: \(friendInfo)")
 
-        if let myUserID = YepUserDefaults.userID.value {
+        dispatch_async(realmQueue) {
 
-            guard let realm = try? Realm() else {
-                return
-            }
+            if let myUserID = YepUserDefaults.userID.value {
 
-            var me = userWithUserID(myUserID, inRealm: realm)
-
-            if me == nil {
-                let newUser = User()
-                newUser.userID = myUserID
-
-                newUser.friendState = UserFriendState.Me.rawValue
-
-                if let createdUnixTime = friendInfo["created_at"] as? NSTimeInterval {
-                    newUser.createdUnixTime = createdUnixTime
+                guard let realm = try? Realm() else {
+                    return
                 }
 
-                let _ = try? realm.write {
-                    realm.add(newUser)
+                var me = userWithUserID(myUserID, inRealm: realm)
+
+                if me == nil {
+                    let newUser = User()
+                    newUser.userID = myUserID
+
+                    newUser.friendState = UserFriendState.Me.rawValue
+
+                    if let createdUnixTime = friendInfo["created_at"] as? NSTimeInterval {
+                        newUser.createdUnixTime = createdUnixTime
+                    }
+
+                    let _ = try? realm.write {
+                        realm.add(newUser)
+                    }
+
+                    me = newUser
                 }
 
-                me = newUser
-            }
+                if let user = me {
 
-            if let user = me {
+                    // 更新用户信息
 
-                // 更新用户信息
+                    updateUserWithUserID(user.userID, useUserInfo: friendInfo)
 
-                updateUserWithUserID(user.userID, useUserInfo: friendInfo)
+                    // 更新 DoNotDisturb
 
-                // 更新 DoNotDisturb
+                    if let
+                        fromString = friendInfo["mute_started_at_string"] as? String,
+                        toString = friendInfo["mute_ended_at_string"] as? String {
 
-                if let
-                    fromString = friendInfo["mute_started_at_string"] as? String,
-                    toString = friendInfo["mute_ended_at_string"] as? String {
+                            if !fromString.isEmpty && !toString.isEmpty {
 
-                        if !fromString.isEmpty && !toString.isEmpty {
+                                var userDoNotDisturb = user.doNotDisturb
 
-                            var userDoNotDisturb = user.doNotDisturb
+                                if userDoNotDisturb == nil {
+                                    let _userDoNotDisturb = UserDoNotDisturb()
+                                    _userDoNotDisturb.isOn = true
 
-                            if userDoNotDisturb == nil {
-                                let _userDoNotDisturb = UserDoNotDisturb()
-                                _userDoNotDisturb.isOn = true
-
-                                let _ = try? realm.write {
-                                    user.doNotDisturb = _userDoNotDisturb
-                                }
-
-                                userDoNotDisturb = _userDoNotDisturb
-                            }
-                            
-                            if let userDoNotDisturb = userDoNotDisturb {
-
-                                let convert: (Int, Int) -> (Int, Int) = { serverHour, serverMinute in
-
-                                    let localHour: Int
-                                    let localMinute: Int
-
-                                    if serverMinute + userDoNotDisturb.minuteOffset >= 60 {
-                                        localHour = (serverHour + userDoNotDisturb.hourOffset + 1) % 24
-
-                                    } else {
-                                        localHour = (serverHour + userDoNotDisturb.hourOffset) % 24
+                                    let _ = try? realm.write {
+                                        user.doNotDisturb = _userDoNotDisturb
                                     }
 
-                                    localMinute = (serverMinute + userDoNotDisturb.minuteOffset) % 60
-
-                                    return (localHour, localMinute)
+                                    userDoNotDisturb = _userDoNotDisturb
                                 }
+                                
+                                if let userDoNotDisturb = userDoNotDisturb {
 
-                                let _ = try? realm.write {
+                                    let convert: (Int, Int) -> (Int, Int) = { serverHour, serverMinute in
 
-                                    let fromParts = fromString.componentsSeparatedByString(":")
+                                        let localHour: Int
+                                        let localMinute: Int
 
-                                    if let
-                                        fromHourString = fromParts[safe: 0], fromHour = Int(fromHourString),
-                                        fromMinuteString = fromParts[safe: 1], fromMinute = Int(fromMinuteString) {
+                                        if serverMinute + userDoNotDisturb.minuteOffset >= 60 {
+                                            localHour = (serverHour + userDoNotDisturb.hourOffset + 1) % 24
 
-                                            (userDoNotDisturb.fromHour, userDoNotDisturb.fromMinute) = convert(fromHour, fromMinute)
+                                        } else {
+                                            localHour = (serverHour + userDoNotDisturb.hourOffset) % 24
+                                        }
+
+                                        localMinute = (serverMinute + userDoNotDisturb.minuteOffset) % 60
+
+                                        return (localHour, localMinute)
                                     }
 
-                                    let toParts = toString.componentsSeparatedByString(":")
+                                    let _ = try? realm.write {
 
-                                    if let
-                                        toHourString = toParts[safe: 0], toHour = Int(toHourString),
-                                        toMinuteString = toParts[safe: 1], toMinute = Int(toMinuteString) {
+                                        let fromParts = fromString.componentsSeparatedByString(":")
 
-                                            (userDoNotDisturb.toHour, userDoNotDisturb.toMinute) = convert(toHour, toMinute)
+                                        if let
+                                            fromHourString = fromParts[safe: 0], fromHour = Int(fromHourString),
+                                            fromMinuteString = fromParts[safe: 1], fromMinute = Int(fromMinuteString) {
+
+                                                (userDoNotDisturb.fromHour, userDoNotDisturb.fromMinute) = convert(fromHour, fromMinute)
+                                        }
+
+                                        let toParts = toString.componentsSeparatedByString(":")
+
+                                        if let
+                                            toHourString = toParts[safe: 0], toHour = Int(toHourString),
+                                            toMinuteString = toParts[safe: 1], toMinute = Int(toMinuteString) {
+
+                                                (userDoNotDisturb.toHour, userDoNotDisturb.toMinute) = convert(toHour, toMinute)
+                                        }
+
+                                        //println("userDoNotDisturb: \(userDoNotDisturb.isOn), from \(userDoNotDisturb.fromHour):\(userDoNotDisturb.fromMinute), to \(userDoNotDisturb.toHour):\(userDoNotDisturb.toMinute)")
                                     }
+                                }
 
-                                    //println("userDoNotDisturb: \(userDoNotDisturb.isOn), from \(userDoNotDisturb.fromHour):\(userDoNotDisturb.fromMinute), to \(userDoNotDisturb.toHour):\(userDoNotDisturb.toMinute)")
+                            } else {
+                                if let userDoNotDisturb = user.doNotDisturb {
+                                    realm.delete(userDoNotDisturb)
                                 }
                             }
-
-                        } else {
-                            if let userDoNotDisturb = user.doNotDisturb {
-                                realm.delete(userDoNotDisturb)
-                            }
-                        }
-                }
+                    }
 
 
-                // also save some infomation in YepUserDefaults
+                    // also save some infomation in YepUserDefaults
 
-                if let nickname = friendInfo["nickname"] as? String {
-                    YepUserDefaults.nickname.value = nickname
-                }
+                    if let nickname = friendInfo["nickname"] as? String {
+                        YepUserDefaults.nickname.value = nickname
+                    }
 
-                if let introduction = friendInfo["introduction"] as? String {
-                    YepUserDefaults.introduction.value = introduction
-                }
+                    if let introduction = friendInfo["introduction"] as? String {
+                        YepUserDefaults.introduction.value = introduction
+                    }
 
-                if let avatarURLString = friendInfo["avatar_url"] as? String {
-                    YepUserDefaults.avatarURLString.value = avatarURLString
-                }
+                    if let avatarURLString = friendInfo["avatar_url"] as? String {
+                        YepUserDefaults.avatarURLString.value = avatarURLString
+                    }
 
-                if let badge = friendInfo["badge"] as? String {
-                    YepUserDefaults.badge.value = badge
-                }
+                    if let badge = friendInfo["badge"] as? String {
+                        YepUserDefaults.badge.value = badge
+                    }
 
-                if let areaCode = friendInfo["phone_code"] as? String {
-                    YepUserDefaults.areaCode.value = areaCode
-                }
+                    if let areaCode = friendInfo["phone_code"] as? String {
+                        YepUserDefaults.areaCode.value = areaCode
+                    }
 
-                if let mobile = friendInfo["mobile"] as? String {
-                    YepUserDefaults.mobile.value = mobile
+                    if let mobile = friendInfo["mobile"] as? String {
+                        YepUserDefaults.mobile.value = mobile
+                    }
                 }
             }
+
+            furtherAction()
         }
-
-        furtherAction()
     })
 }
 
 func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
+
     friendships { allFriendships in
         //println("\n allFriendships: \(allFriendships)")
 
-        // 先整理出所有的 friend 的 userID
-        var remoteUerIDSet = Set<String>()
-        for friendshipInfo in allFriendships {
-            if let friendInfo = friendshipInfo["friend"] as? JSONDictionary {
-                if let userID = friendInfo["id"] as? String {
-                    remoteUerIDSet.insert(userID)
+        dispatch_async(realmQueue) {
+
+            // 先整理出所有的 friend 的 userID
+            var remoteUerIDSet = Set<String>()
+            for friendshipInfo in allFriendships {
+                if let friendInfo = friendshipInfo["friend"] as? JSONDictionary {
+                    if let userID = friendInfo["id"] as? String {
+                        remoteUerIDSet.insert(userID)
+                    }
                 }
             }
-        }
-
-        dispatch_async(realmQueue) {
 
             // 改变没有 friendship 的 user 的状态
 
@@ -497,20 +501,22 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 }
 
 func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
+
     groups { allGroups in
         //println("allGroups: \(allGroups)")
 
-        // 先整理出所有的 group 的 groupID
-        var remoteGroupIDSet = Set<String>()
-        for groupInfo in allGroups {
-            if let groupID = groupInfo["id"] as? String {
-                remoteGroupIDSet.insert(groupID)
-            }
-        }
-
         dispatch_async(realmQueue) {
 
-            // 在本地去除远端没有的 Group
+            // 先整理出所有的 group 的 groupID
+
+            var remoteGroupIDSet = Set<String>()
+            for groupInfo in allGroups {
+                if let groupID = groupInfo["id"] as? String {
+                    remoteGroupIDSet.insert(groupID)
+                }
+            }
+
+            // 再在本地去除远端没有的 Group
 
             guard let realm = try? Realm() else {
                 return
@@ -726,7 +732,7 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
         //println("\n allUnreadMessages: \(allUnreadMessages)")
         println("Got unread message: \(allUnreadMessages.count)")
         
-        dispatch_async(dispatch_get_main_queue()) {
+        dispatch_async(realmQueue) {
 
             guard let realm = try? Realm() else {
                 return
@@ -743,51 +749,55 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
             // do futher action
             furtherAction(messageIDs: messageIDs)
 
-            isFetchingUnreadMessages.value = false
+            dispatch_async(dispatch_get_main_queue()) {
+                isFetchingUnreadMessages.value = false
+            }
         }
     }
 }
 
+/*
 func syncMessagesReadStatus() {
     
-    sentButUnreadMessages(failureHandler: { (reason, message) -> Void in
-        
-    }, completion: { messagesDictionary in
-      
-        if let messageIDs = messagesDictionary["message_ids"] as? [String] {
-            guard let realm = try? Realm() else {
-                return
-            }
-            var messages = messagesUnreadSentByMe(inRealm: realm)
-            
-            var toMarkMessages = [Message]()
-            
-            if messageIDs.count < 1 {
-                for oldMessage in messages {
-                    if oldMessage.sendState == MessageSendState.Successed.rawValue {
-                        toMarkMessages.append(oldMessage)
+    sentButUnreadMessages(failureHandler: nil, completion: { messagesDictionary in
+
+        dispatch_async(realmQueue) {
+            if let messageIDs = messagesDictionary["message_ids"] as? [String] {
+                guard let realm = try? Realm() else {
+                    return
+                }
+                var messages = messagesUnreadSentByMe(inRealm: realm)
+                
+                var toMarkMessages = [Message]()
+                
+                if messageIDs.count < 1 {
+                    for oldMessage in messages {
+                        if oldMessage.sendState == MessageSendState.Successed.rawValue {
+                            toMarkMessages.append(oldMessage)
+                        }
+                    }
+                } else {
+                    for messageID in messageIDs {
+                        let predicate = NSPredicate(format: "messageID != %@", argumentArray: [messageID])
+                        messages = messages.filter(predicate)
+                    }
+                    
+                    for message in messages {
+                        toMarkMessages.append(message)
                     }
                 }
-            } else {
-                for messageID in messageIDs {
-                    let predicate = NSPredicate(format: "messageID != %@", argumentArray: [messageID])
-                    messages = messages.filter(predicate)
-                }
                 
-                for message in messages {
-                    toMarkMessages.append(message)
-                }
-            }
-            
-            let _ = try? realm.write {
-                for message in toMarkMessages {
-                    message.sendState = MessageSendState.Read.rawValue
-                    message.readed = true
+                let _ = try? realm.write {
+                    for message in toMarkMessages {
+                        message.sendState = MessageSendState.Read.rawValue
+                        message.readed = true
+                    }
                 }
             }
         }
     })
 }
+*/
 
 func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSONDictionary, inRealm realm: Realm) {
 
