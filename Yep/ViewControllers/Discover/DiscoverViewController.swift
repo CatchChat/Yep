@@ -31,8 +31,6 @@ class DiscoverViewController: BaseViewController {
     
     var userMode: DiscoverUserMode = .Card {
         didSet {
-            layout.userMode = userMode
-            
             switch userMode {
 
             case .Card:
@@ -43,6 +41,9 @@ class DiscoverViewController: BaseViewController {
                 view.backgroundColor = UIColor.whiteColor()
                 modeButtonItem.image = UIImage(named: "icon_minicard")
             }
+
+            layout.userMode = userMode
+            discoverCollectionView.reloadData()
         }
     }
     
@@ -148,13 +149,12 @@ class DiscoverViewController: BaseViewController {
             
         case .Card:
             userMode = .Normal
+
         case .Normal:
             userMode = .Card
         }
-        
-        discoverCollectionView.reloadData()
-        
     }
+
     @IBAction func showFilters(sender: UIBarButtonItem) {
 
         filterView.currentDiscoveredUserSortStyle = discoveredUserSortStyle
