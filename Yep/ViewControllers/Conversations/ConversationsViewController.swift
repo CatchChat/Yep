@@ -78,7 +78,9 @@ class ConversationsViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepNewMessagesReceivedNotification, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepCreatedConversationNotification, object: nil)
-        
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepConfig.Notification.markAsReaded, object: nil)
+
         YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {
                 self?.reloadConversationsTableView()
@@ -211,16 +213,8 @@ class ConversationsViewController: UIViewController {
         }
     }
 
-    var isFirstAppear = true
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // refresh for unread messages
-
-        if !isFirstAppear {
-            reloadConversationsTableView()
-        }
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -262,8 +256,6 @@ class ConversationsViewController: UIViewController {
 
         // 预先生成头像和最近消息图片的缓存
         cacheInAdvance()
-
-        isFirstAppear = false
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

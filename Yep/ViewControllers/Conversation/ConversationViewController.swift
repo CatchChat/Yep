@@ -895,13 +895,27 @@ class ConversationViewController: BaseViewController {
             var needMarkInServer = false
 
             if updateOlderMessagesIfNeeded {
+
+//                var x = 0
+//                messages.forEach { message in
+//                    if !message.readed {
+//                        x++
+//                    }
+//                }
+//
+//                println("x: \(x)")
+
                 var predicate = NSPredicate(format: "readed = false", argumentArray: nil)
 
                 if case .OneToOne = recipient.type {
                     predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
                 }
 
-                let filteredMessages = messages.filter(predicate).sorted("createdUnixTime", ascending: true)
+                let filteredMessages = messages.filter(predicate)
+
+                println("filteredMessages.count: \(filteredMessages.count)")
+
+                needMarkInServer = !filteredMessages.isEmpty
 
                 filteredMessages.forEach { message in
                     let _ = try? realm.write {
@@ -909,17 +923,22 @@ class ConversationViewController: BaseViewController {
                     }
                 }
 
-                needMarkInServer = !filteredMessages.isEmpty
-
             } else {
                 let _ = try? realm.write {
                     latestMessage.readed = true
-
-                    needMarkInServer = true
                 }
+
+                needMarkInServer = true
+
+                println("mark latestMessage readed")
             }
             
             if needMarkInServer {
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.markAsReaded, object: nil)
+                }
+
                 batchMarkAsReadOfMessagesToRecipient(recipient, beforeMessage: latestMessage, failureHandler: nil, completion: {
                     println("batchMarkAsReadOfMessagesToRecipient OK")
                 })
