@@ -501,20 +501,22 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 }
 
 func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
+
     groups { allGroups in
         //println("allGroups: \(allGroups)")
 
-        // 先整理出所有的 group 的 groupID
-        var remoteGroupIDSet = Set<String>()
-        for groupInfo in allGroups {
-            if let groupID = groupInfo["id"] as? String {
-                remoteGroupIDSet.insert(groupID)
-            }
-        }
-
         dispatch_async(realmQueue) {
 
-            // 在本地去除远端没有的 Group
+            // 先整理出所有的 group 的 groupID
+
+            var remoteGroupIDSet = Set<String>()
+            for groupInfo in allGroups {
+                if let groupID = groupInfo["id"] as? String {
+                    remoteGroupIDSet.insert(groupID)
+                }
+            }
+
+            // 再本地去除远端没有的 Group
 
             guard let realm = try? Realm() else {
                 return
