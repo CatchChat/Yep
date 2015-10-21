@@ -258,138 +258,141 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
         //println("my userInfo: \(friendInfo)")
 
-        if let myUserID = YepUserDefaults.userID.value {
+        dispatch_async(realmQueue) {
 
-            guard let realm = try? Realm() else {
-                return
-            }
+            if let myUserID = YepUserDefaults.userID.value {
 
-            var me = userWithUserID(myUserID, inRealm: realm)
-
-            if me == nil {
-                let newUser = User()
-                newUser.userID = myUserID
-
-                newUser.friendState = UserFriendState.Me.rawValue
-
-                if let createdUnixTime = friendInfo["created_at"] as? NSTimeInterval {
-                    newUser.createdUnixTime = createdUnixTime
+                guard let realm = try? Realm() else {
+                    return
                 }
 
-                let _ = try? realm.write {
-                    realm.add(newUser)
+                var me = userWithUserID(myUserID, inRealm: realm)
+
+                if me == nil {
+                    let newUser = User()
+                    newUser.userID = myUserID
+
+                    newUser.friendState = UserFriendState.Me.rawValue
+
+                    if let createdUnixTime = friendInfo["created_at"] as? NSTimeInterval {
+                        newUser.createdUnixTime = createdUnixTime
+                    }
+
+                    let _ = try? realm.write {
+                        realm.add(newUser)
+                    }
+
+                    me = newUser
                 }
 
-                me = newUser
-            }
+                if let user = me {
 
-            if let user = me {
+                    // 更新用户信息
 
-                // 更新用户信息
+                    updateUserWithUserID(user.userID, useUserInfo: friendInfo)
 
-                updateUserWithUserID(user.userID, useUserInfo: friendInfo)
+                    // 更新 DoNotDisturb
 
-                // 更新 DoNotDisturb
+                    if let
+                        fromString = friendInfo["mute_started_at_string"] as? String,
+                        toString = friendInfo["mute_ended_at_string"] as? String {
 
-                if let
-                    fromString = friendInfo["mute_started_at_string"] as? String,
-                    toString = friendInfo["mute_ended_at_string"] as? String {
+                            if !fromString.isEmpty && !toString.isEmpty {
 
-                        if !fromString.isEmpty && !toString.isEmpty {
+                                var userDoNotDisturb = user.doNotDisturb
 
-                            var userDoNotDisturb = user.doNotDisturb
+                                if userDoNotDisturb == nil {
+                                    let _userDoNotDisturb = UserDoNotDisturb()
+                                    _userDoNotDisturb.isOn = true
 
-                            if userDoNotDisturb == nil {
-                                let _userDoNotDisturb = UserDoNotDisturb()
-                                _userDoNotDisturb.isOn = true
-
-                                let _ = try? realm.write {
-                                    user.doNotDisturb = _userDoNotDisturb
-                                }
-
-                                userDoNotDisturb = _userDoNotDisturb
-                            }
-                            
-                            if let userDoNotDisturb = userDoNotDisturb {
-
-                                let convert: (Int, Int) -> (Int, Int) = { serverHour, serverMinute in
-
-                                    let localHour: Int
-                                    let localMinute: Int
-
-                                    if serverMinute + userDoNotDisturb.minuteOffset >= 60 {
-                                        localHour = (serverHour + userDoNotDisturb.hourOffset + 1) % 24
-
-                                    } else {
-                                        localHour = (serverHour + userDoNotDisturb.hourOffset) % 24
+                                    let _ = try? realm.write {
+                                        user.doNotDisturb = _userDoNotDisturb
                                     }
 
-                                    localMinute = (serverMinute + userDoNotDisturb.minuteOffset) % 60
-
-                                    return (localHour, localMinute)
+                                    userDoNotDisturb = _userDoNotDisturb
                                 }
+                                
+                                if let userDoNotDisturb = userDoNotDisturb {
 
-                                let _ = try? realm.write {
+                                    let convert: (Int, Int) -> (Int, Int) = { serverHour, serverMinute in
 
-                                    let fromParts = fromString.componentsSeparatedByString(":")
+                                        let localHour: Int
+                                        let localMinute: Int
 
-                                    if let
-                                        fromHourString = fromParts[safe: 0], fromHour = Int(fromHourString),
-                                        fromMinuteString = fromParts[safe: 1], fromMinute = Int(fromMinuteString) {
+                                        if serverMinute + userDoNotDisturb.minuteOffset >= 60 {
+                                            localHour = (serverHour + userDoNotDisturb.hourOffset + 1) % 24
 
-                                            (userDoNotDisturb.fromHour, userDoNotDisturb.fromMinute) = convert(fromHour, fromMinute)
+                                        } else {
+                                            localHour = (serverHour + userDoNotDisturb.hourOffset) % 24
+                                        }
+
+                                        localMinute = (serverMinute + userDoNotDisturb.minuteOffset) % 60
+
+                                        return (localHour, localMinute)
                                     }
 
-                                    let toParts = toString.componentsSeparatedByString(":")
+                                    let _ = try? realm.write {
 
-                                    if let
-                                        toHourString = toParts[safe: 0], toHour = Int(toHourString),
-                                        toMinuteString = toParts[safe: 1], toMinute = Int(toMinuteString) {
+                                        let fromParts = fromString.componentsSeparatedByString(":")
 
-                                            (userDoNotDisturb.toHour, userDoNotDisturb.toMinute) = convert(toHour, toMinute)
+                                        if let
+                                            fromHourString = fromParts[safe: 0], fromHour = Int(fromHourString),
+                                            fromMinuteString = fromParts[safe: 1], fromMinute = Int(fromMinuteString) {
+
+                                                (userDoNotDisturb.fromHour, userDoNotDisturb.fromMinute) = convert(fromHour, fromMinute)
+                                        }
+
+                                        let toParts = toString.componentsSeparatedByString(":")
+
+                                        if let
+                                            toHourString = toParts[safe: 0], toHour = Int(toHourString),
+                                            toMinuteString = toParts[safe: 1], toMinute = Int(toMinuteString) {
+
+                                                (userDoNotDisturb.toHour, userDoNotDisturb.toMinute) = convert(toHour, toMinute)
+                                        }
+
+                                        //println("userDoNotDisturb: \(userDoNotDisturb.isOn), from \(userDoNotDisturb.fromHour):\(userDoNotDisturb.fromMinute), to \(userDoNotDisturb.toHour):\(userDoNotDisturb.toMinute)")
                                     }
+                                }
 
-                                    //println("userDoNotDisturb: \(userDoNotDisturb.isOn), from \(userDoNotDisturb.fromHour):\(userDoNotDisturb.fromMinute), to \(userDoNotDisturb.toHour):\(userDoNotDisturb.toMinute)")
+                            } else {
+                                if let userDoNotDisturb = user.doNotDisturb {
+                                    realm.delete(userDoNotDisturb)
                                 }
                             }
-
-                        } else {
-                            if let userDoNotDisturb = user.doNotDisturb {
-                                realm.delete(userDoNotDisturb)
-                            }
-                        }
-                }
+                    }
 
 
-                // also save some infomation in YepUserDefaults
+                    // also save some infomation in YepUserDefaults
 
-                if let nickname = friendInfo["nickname"] as? String {
-                    YepUserDefaults.nickname.value = nickname
-                }
+                    if let nickname = friendInfo["nickname"] as? String {
+                        YepUserDefaults.nickname.value = nickname
+                    }
 
-                if let introduction = friendInfo["introduction"] as? String {
-                    YepUserDefaults.introduction.value = introduction
-                }
+                    if let introduction = friendInfo["introduction"] as? String {
+                        YepUserDefaults.introduction.value = introduction
+                    }
 
-                if let avatarURLString = friendInfo["avatar_url"] as? String {
-                    YepUserDefaults.avatarURLString.value = avatarURLString
-                }
+                    if let avatarURLString = friendInfo["avatar_url"] as? String {
+                        YepUserDefaults.avatarURLString.value = avatarURLString
+                    }
 
-                if let badge = friendInfo["badge"] as? String {
-                    YepUserDefaults.badge.value = badge
-                }
+                    if let badge = friendInfo["badge"] as? String {
+                        YepUserDefaults.badge.value = badge
+                    }
 
-                if let areaCode = friendInfo["phone_code"] as? String {
-                    YepUserDefaults.areaCode.value = areaCode
-                }
+                    if let areaCode = friendInfo["phone_code"] as? String {
+                        YepUserDefaults.areaCode.value = areaCode
+                    }
 
-                if let mobile = friendInfo["mobile"] as? String {
-                    YepUserDefaults.mobile.value = mobile
+                    if let mobile = friendInfo["mobile"] as? String {
+                        YepUserDefaults.mobile.value = mobile
+                    }
                 }
             }
+
+            furtherAction()
         }
-
-        furtherAction()
     })
 }
 
