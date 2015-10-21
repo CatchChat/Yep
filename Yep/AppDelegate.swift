@@ -295,9 +295,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func sync() {
-        syncGroupsAndDoFurtherAction {
-            syncUnreadMessagesAndDoFurtherAction { messageIDs in
-                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+
+        syncFriendshipsAndDoFurtherAction {
+            syncGroupsAndDoFurtherAction {
+                syncUnreadMessagesAndDoFurtherAction { messageIDs in
+                    tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                }
             }
         }
 
