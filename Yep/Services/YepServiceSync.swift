@@ -397,20 +397,21 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 }
 
 func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
+
     friendships { allFriendships in
         //println("\n allFriendships: \(allFriendships)")
 
-        // 先整理出所有的 friend 的 userID
-        var remoteUerIDSet = Set<String>()
-        for friendshipInfo in allFriendships {
-            if let friendInfo = friendshipInfo["friend"] as? JSONDictionary {
-                if let userID = friendInfo["id"] as? String {
-                    remoteUerIDSet.insert(userID)
+        dispatch_async(realmQueue) {
+
+            // 先整理出所有的 friend 的 userID
+            var remoteUerIDSet = Set<String>()
+            for friendshipInfo in allFriendships {
+                if let friendInfo = friendshipInfo["friend"] as? JSONDictionary {
+                    if let userID = friendInfo["id"] as? String {
+                        remoteUerIDSet.insert(userID)
+                    }
                 }
             }
-        }
-
-        dispatch_async(realmQueue) {
 
             // 改变没有 friendship 的 user 的状态
 
