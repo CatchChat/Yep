@@ -134,9 +134,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
+        /*
         if YepUserDefaults.isLogined {
             syncMessagesReadStatus()
         }
+        */
 
         NSNotificationCenter.defaultCenter().postNotificationName(Notification.applicationDidBecomeActive, object: nil)
 

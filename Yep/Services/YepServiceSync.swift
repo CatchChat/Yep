@@ -756,46 +756,48 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
     }
 }
 
+/*
 func syncMessagesReadStatus() {
     
-    sentButUnreadMessages(failureHandler: { (reason, message) -> Void in
-        
-    }, completion: { messagesDictionary in
-      
-        if let messageIDs = messagesDictionary["message_ids"] as? [String] {
-            guard let realm = try? Realm() else {
-                return
-            }
-            var messages = messagesUnreadSentByMe(inRealm: realm)
-            
-            var toMarkMessages = [Message]()
-            
-            if messageIDs.count < 1 {
-                for oldMessage in messages {
-                    if oldMessage.sendState == MessageSendState.Successed.rawValue {
-                        toMarkMessages.append(oldMessage)
+    sentButUnreadMessages(failureHandler: nil, completion: { messagesDictionary in
+
+        dispatch_async(realmQueue) {
+            if let messageIDs = messagesDictionary["message_ids"] as? [String] {
+                guard let realm = try? Realm() else {
+                    return
+                }
+                var messages = messagesUnreadSentByMe(inRealm: realm)
+                
+                var toMarkMessages = [Message]()
+                
+                if messageIDs.count < 1 {
+                    for oldMessage in messages {
+                        if oldMessage.sendState == MessageSendState.Successed.rawValue {
+                            toMarkMessages.append(oldMessage)
+                        }
+                    }
+                } else {
+                    for messageID in messageIDs {
+                        let predicate = NSPredicate(format: "messageID != %@", argumentArray: [messageID])
+                        messages = messages.filter(predicate)
+                    }
+                    
+                    for message in messages {
+                        toMarkMessages.append(message)
                     }
                 }
-            } else {
-                for messageID in messageIDs {
-                    let predicate = NSPredicate(format: "messageID != %@", argumentArray: [messageID])
-                    messages = messages.filter(predicate)
-                }
                 
-                for message in messages {
-                    toMarkMessages.append(message)
-                }
-            }
-            
-            let _ = try? realm.write {
-                for message in toMarkMessages {
-                    message.sendState = MessageSendState.Read.rawValue
-                    message.readed = true
+                let _ = try? realm.write {
+                    for message in toMarkMessages {
+                        message.sendState = MessageSendState.Read.rawValue
+                        message.readed = true
+                    }
                 }
             }
         }
     })
 }
+*/
 
 func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSONDictionary, inRealm realm: Realm) {
 
