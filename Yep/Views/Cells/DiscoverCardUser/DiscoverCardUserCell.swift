@@ -52,6 +52,12 @@ class DiscoverCardUserCell: UICollectionViewCell {
         
         userSkillsCollectionView.registerNib(UINib(nibName: skillCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCellIdentifier)
     }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        avatarImageView.image = nil
+    }
     
     func configureWithDiscoveredUser(discoveredUser: DiscoveredUser, collectionView: UICollectionView, indexPath: NSIndexPath) {
         
