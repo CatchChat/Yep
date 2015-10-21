@@ -17,7 +17,7 @@ enum MessageAge: String {
     case New
 }
 
-func tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs: [String], withMessageAge messageAge: MessageAge) {
+func tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs: [String], messageAge: MessageAge) {
 
     if !messageIDs.isEmpty {
         dispatch_async(dispatch_get_main_queue()) {

@@ -478,7 +478,7 @@ class ConversationViewController: BaseViewController {
 
                         dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
-                            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: timeDirection.messageAge)
+                            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
 
                             self?.activityIndicator.stopAnimating()
                         }
@@ -2999,7 +2999,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
                     dispatch_async(dispatch_get_main_queue()) {
                         pulllToRefreshView.endRefreshingAndDoFurtherAction() {
                             dispatch_async(dispatch_get_main_queue()) {
-                                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: timeDirection.messageAge)
+                                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
                             }
                         }
                     }
