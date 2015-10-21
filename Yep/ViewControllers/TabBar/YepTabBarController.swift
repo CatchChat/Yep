@@ -69,6 +69,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
 
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
 
+        /*
         if selectedIndex == 1 {
             if let nvc = viewController as? UINavigationController, vc = nvc.topViewController as? ContactsViewController {
                 syncFriendshipsAndDoFurtherAction {
@@ -78,6 +79,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
                 }
             }
         }
+        */
     }
 }
 

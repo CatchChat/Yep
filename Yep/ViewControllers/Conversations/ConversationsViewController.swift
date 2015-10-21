@@ -20,7 +20,6 @@ class ConversationsViewController: UIViewController {
     let feedConversationDockCellID = "FeedConversationDockCell"
     let cellIdentifier = "ConversationCell"
 
-
     var realm: Realm!
 
     var realmNotificationToken: NotificationToken?
@@ -37,12 +36,6 @@ class ConversationsViewController: UIViewController {
                     navigationController?.tabBarItem.selectedImage = UIImage(named: "icon_chat_active")
                 }
             }
-        }
-    }
-
-    var haveOneToOneUnreadMessages = false {
-        didSet {
-            reloadConversationsTableView()
         }
     }
 
@@ -128,7 +121,6 @@ class ConversationsViewController: UIViewController {
 
                 let haveOneToOneUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.OneToOne) > 0
 
-                strongSelf.haveOneToOneUnreadMessages = haveOneToOneUnreadMessages
                 strongSelf.haveUnreadMessages = haveOneToOneUnreadMessages || (countOfUnreadMessagesInRealm(realm) > 0)
 
                 strongSelf.noConversation = countOfConversationsInRealm(realm) == 0
@@ -218,12 +210,17 @@ class ConversationsViewController: UIViewController {
             }
         }
     }
+
+    var isFirstAppear = true
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        //Make sure unread message refreshed
-        reloadConversationsTableView()
+        // refresh for unread messages
+
+        if !isFirstAppear {
+            reloadConversationsTableView()
+        }
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -265,6 +262,8 @@ class ConversationsViewController: UIViewController {
 
         // 预先生成头像和最近消息图片的缓存
         cacheInAdvance()
+
+        isFirstAppear = false
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

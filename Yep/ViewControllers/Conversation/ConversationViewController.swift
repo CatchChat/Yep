@@ -478,7 +478,7 @@ class ConversationViewController: BaseViewController {
 
                         dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
-                            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: timeDirection.messageAge)
+                            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
 
                             self?.activityIndicator.stopAnimating()
                         }
@@ -604,7 +604,7 @@ class ConversationViewController: BaseViewController {
 
         // 进来时就尽快标记已读
 
-        batchMarkMessagesAsReaded()
+        batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded: true)
 
         // MARK: Notify Typing
 
@@ -888,39 +888,44 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    private func batchMarkMessagesAsReaded() {
+    private func batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded updateOlderMessagesIfNeeded: Bool = false) {
 
-        if let recipient = conversation.recipient {
+        if let recipient = conversation.recipient, latestMessage = messages.last {
 
             var needMarkInServer = false
-            
-            var predicate = NSPredicate(format: "readed = 0", argumentArray: nil)
-            
-            if let recipientType = conversation.recipient?.type {
-                if recipientType == .OneToOne {
-                    predicate = NSPredicate(format: "readed = 0 AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
-                }
-            }
-            
-            let filteredMessages = messages.filter(predicate).sorted("createdUnixTime", ascending: true)
-            
-            filteredMessages.forEach { message in
-                let _ = try? realm.write {
-                    message.readed = true
+
+            if updateOlderMessagesIfNeeded {
+                var predicate = NSPredicate(format: "readed = false", argumentArray: nil)
+
+                if case .OneToOne = recipient.type {
+                    predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
                 }
 
-                needMarkInServer = true
+                let filteredMessages = messages.filter(predicate).sorted("createdUnixTime", ascending: true)
+
+                filteredMessages.forEach { message in
+                    let _ = try? realm.write {
+                        message.readed = true
+                    }
+                }
+
+                needMarkInServer = !filteredMessages.isEmpty
+
+            } else {
+                let _ = try? realm.write {
+                    latestMessage.readed = true
+
+                    needMarkInServer = true
+                }
             }
             
-            if let latestMessage = filteredMessages.last {
-                if needMarkInServer {
-                    batchMarkAsReadOfMessagesToRecipient(recipient, beforeMessage: latestMessage, failureHandler: nil, completion: {
-                        println("batchMarkAsReadOfMessagesToRecipient OK")
-                    })
-                    
-                } else {
-                    println("don't needMarkInServer")
-                }
+            if needMarkInServer {
+                batchMarkAsReadOfMessagesToRecipient(recipient, beforeMessage: latestMessage, failureHandler: nil, completion: {
+                    println("batchMarkAsReadOfMessagesToRecipient OK")
+                })
+                
+            } else {
+                println("don't needMarkInServer")
             }
         }
     }
@@ -2999,7 +3004,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
                     dispatch_async(dispatch_get_main_queue()) {
                         pulllToRefreshView.endRefreshingAndDoFurtherAction() {
                             dispatch_async(dispatch_get_main_queue()) {
-                                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, withMessageAge: timeDirection.messageAge)
+                                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
                             }
                         }
                     }

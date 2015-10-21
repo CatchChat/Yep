@@ -29,18 +29,21 @@ class DiscoverViewController: BaseViewController {
     
     let CardUserIdentifier = "DiscoverCardUserCell"
     
-    var userMode: DiscoverUserMode? {
+    var userMode: DiscoverUserMode = .Card {
         didSet {
-            layout.userMode = userMode
-            
-            switch userMode! {
+            switch userMode {
+
             case .Card:
                 view.backgroundColor = UIColor.yepBackgroundColor()
                 modeButtonItem.image = UIImage(named: "icon_list")
+
             case .Normal:
                 view.backgroundColor = UIColor.whiteColor()
                 modeButtonItem.image = UIImage(named: "icon_minicard")
             }
+
+            layout.userMode = userMode
+            discoverCollectionView.reloadData()
         }
     }
     
@@ -141,17 +144,17 @@ class DiscoverViewController: BaseViewController {
     // MARK: Actions
     
     @IBAction func changeMode(sender: AnyObject) {
-        switch userMode! {
+
+        switch userMode {
             
         case .Card:
             userMode = .Normal
+
         case .Normal:
             userMode = .Card
         }
-        
-        discoverCollectionView.reloadData()
-        
     }
+
     @IBAction func showFilters(sender: UIBarButtonItem) {
 
         filterView.currentDiscoveredUserSortStyle = discoveredUserSortStyle
@@ -199,24 +202,20 @@ class DiscoverViewController: BaseViewController {
 
 extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return discoveredUsers.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-//        let discoveredUser = discoveredUsers[indexPath.row]
-        
-        switch userMode! {
+
+        switch userMode {
+
         case .Normal:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(NormalUserIdentifier, forIndexPath: indexPath) as! DiscoverNormalUserCell
-            
-//            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
             return cell
             
         case .Card:
            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CardUserIdentifier, forIndexPath: indexPath) as! DiscoverCardUserCell
-//            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
             return cell
         }
     }
@@ -224,10 +223,10 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         let discoveredUser = discoveredUsers[indexPath.row]
         
-        switch userMode! {
+        switch userMode {
+
         case .Normal:
             let cell = cell as! DiscoverNormalUserCell
-            
             cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
             
         case .Card:
@@ -237,7 +236,9 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        switch userMode! {
+
+        switch userMode {
+
         case .Normal:
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             
@@ -245,14 +246,11 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
             return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         }
     }
-    
-    
+
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         collectionView.deselectItemAtIndexPath(indexPath, animated: true)
         
         performSegueWithIdentifier("showProfile", sender: indexPath)
     }
-    
 }
-
 
