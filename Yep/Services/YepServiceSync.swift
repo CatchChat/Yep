@@ -724,33 +724,38 @@ var isFetchingUnreadMessages = Listenable<Bool>(false) { _ in }
 func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) -> Void) {
 
     dispatch_async(dispatch_get_main_queue()) {
-        isFetchingUnreadMessages.value = true
-    }
-
-    unreadMessages { allUnreadMessages in
-
-        //println("\n allUnreadMessages: \(allUnreadMessages)")
-        println("Got unread message: \(allUnreadMessages.count)")
         
-        dispatch_async(realmQueue) {
-
-            guard let realm = try? Realm() else {
-                return
-            }
-
-            var messageIDs = [String]()
-
-            for messageInfo in allUnreadMessages {
-                syncMessageWithMessageInfo(messageInfo, messageAge: .New, inRealm: realm) { _messageIDs in
-                    messageIDs += _messageIDs
+        if isFetchingUnreadMessages.value {
+            return
+        }
+        
+        isFetchingUnreadMessages.value = true
+        
+        unreadMessages { allUnreadMessages in
+            
+            //println("\n allUnreadMessages: \(allUnreadMessages)")
+            println("Got unread message: \(allUnreadMessages.count)")
+            
+            dispatch_async(realmQueue) {
+                
+                guard let realm = try? Realm() else {
+                    return
                 }
-            }
-
-            // do futher action
-            furtherAction(messageIDs: messageIDs)
-
-            dispatch_async(dispatch_get_main_queue()) {
-                isFetchingUnreadMessages.value = false
+                
+                var messageIDs = [String]()
+                
+                for messageInfo in allUnreadMessages {
+                    syncMessageWithMessageInfo(messageInfo, messageAge: .New, inRealm: realm) { _messageIDs in
+                        messageIDs += _messageIDs
+                    }
+                }
+                
+                // do futher action
+                furtherAction(messageIDs: messageIDs)
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    isFetchingUnreadMessages.value = false
+                }
             }
         }
     }
