@@ -895,14 +895,13 @@ class ConversationViewController: BaseViewController {
             var needMarkInServer = false
 
             if needUpdateAllMessages {
-                messages.forEach { message in
-                    if !message.readed {
-                        let _ = try? realm.write {
-                            message.readed = true
-                        }
-
-                        needMarkInServer = true
+                let predicate = NSPredicate(format: "readed = 0", argumentArray: nil)
+                messages.filter(predicate).forEach { message in
+                    let _ = try? realm.write {
+                        message.readed = true
                     }
+
+                    needMarkInServer = true
                 }
 
             } else {
