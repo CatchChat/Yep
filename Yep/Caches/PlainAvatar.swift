@@ -122,14 +122,14 @@ extension PlainAvatar: Navi.Avatar {
             switch size.width {
 
             case 60:
-                if avatar.roundMini.length == 0, let data = UIImageJPEGRepresentation(styledImage, 1) {
+                if avatar.roundMini.length == 0, let data = UIImagePNGRepresentation(styledImage) {
                     let _ = try? realm.write {
                         avatar.roundMini = data
                     }
                 }
 
             case 40:
-                if avatar.roundNano.length == 0, let data = UIImageJPEGRepresentation(styledImage, 1) {
+                if avatar.roundNano.length == 0, let data = UIImagePNGRepresentation(styledImage) {
                     let _ = try? realm.write {
                         avatar.roundNano = data
                     }
