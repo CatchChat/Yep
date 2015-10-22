@@ -45,17 +45,27 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gN5-mh-uoS" customClass="PickFeedSkillView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="240" width="375" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="b0C-5k-AP6"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="nqc-gK-NZL" secondAttribute="trailing" id="9aV-hx-aoj"/>
+                            <constraint firstItem="gN5-mh-uoS" firstAttribute="leading" secondItem="XTF-TD-X10" secondAttribute="leading" id="Dzf-eG-htD"/>
                             <constraint firstAttribute="trailing" secondItem="tdd-kc-O7L" secondAttribute="trailing" id="ET6-Wp-sPs"/>
                             <constraint firstItem="tdd-kc-O7L" firstAttribute="bottom" secondItem="nqc-gK-NZL" secondAttribute="bottom" constant="15" id="Euq-y9-NSv"/>
                             <constraint firstItem="tdd-kc-O7L" firstAttribute="top" secondItem="XTF-TD-X10" secondAttribute="top" id="HYS-Mm-PNs"/>
                             <constraint firstItem="nqc-gK-NZL" firstAttribute="leading" secondItem="XTF-TD-X10" secondAttribute="leading" id="be1-Wt-Njn"/>
                             <constraint firstItem="kWS-hy-hsK" firstAttribute="top" secondItem="P6L-c6-EtM" secondAttribute="bottom" constant="15" id="dKw-0O-6Mx"/>
+                            <constraint firstItem="gN5-mh-uoS" firstAttribute="top" secondItem="tdd-kc-O7L" secondAttribute="bottom" constant="30" id="eBp-FG-Wcs"/>
                             <constraint firstItem="tdd-kc-O7L" firstAttribute="leading" secondItem="XTF-TD-X10" secondAttribute="leading" id="gkg-5n-b4m"/>
+                            <constraint firstAttribute="trailing" secondItem="gN5-mh-uoS" secondAttribute="trailing" id="jGK-2s-FDF"/>
                             <constraint firstItem="nqc-gK-NZL" firstAttribute="top" secondItem="kWS-hy-hsK" secondAttribute="bottom" constant="20" id="lP3-le-51b"/>
                             <constraint firstItem="kWS-hy-hsK" firstAttribute="leading" secondItem="XTF-TD-X10" secondAttribute="leading" constant="15" id="mNE-5D-ygq"/>
                             <constraint firstAttribute="trailing" secondItem="kWS-hy-hsK" secondAttribute="trailing" constant="15" id="mgZ-OL-1ch"/>
@@ -66,6 +76,8 @@
                         <outlet property="feedWhiteBGView" destination="tdd-kc-O7L" id="32E-RO-YcU"/>
                         <outlet property="mediaCollectionView" destination="nqc-gK-NZL" id="vUb-KN-uL1"/>
                         <outlet property="messageTextView" destination="kWS-hy-hsK" id="r5G-r3-3P5"/>
+                        <outlet property="pickFeedSkillView" destination="gN5-mh-uoS" id="tiD-Yy-d3l"/>
+                        <outlet property="pickFeedSkillViewHeightConstraint" destination="b0C-5k-AP6" id="V1l-cm-HEz"/>
                         <segue destination="frk-9a-m7E" kind="show" identifier="showPickPhotos" id="Bg2-Jr-e9C"/>
                     </connections>
                 </viewController>

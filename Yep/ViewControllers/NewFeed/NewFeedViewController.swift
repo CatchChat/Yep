@@ -20,6 +20,8 @@ class NewFeedViewController: UIViewController {
 
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var mediaCollectionView: UICollectionView!
+    @IBOutlet weak var pickFeedSkillView: PickFeedSkillView!
+    @IBOutlet weak var pickFeedSkillViewHeightConstraint: NSLayoutConstraint!
 
     var imageAssets: [PHAsset] = []
 
@@ -53,7 +55,7 @@ class NewFeedViewController: UIViewController {
         messageTextView.text = ""
         messageTextView.textContainer.lineFragmentPadding = 0
         messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        messageTextView.becomeFirstResponder()
+        //messageTextView.becomeFirstResponder()
 
         mediaCollectionView.backgroundColor = UIColor.clearColor()
 

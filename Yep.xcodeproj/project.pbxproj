@@ -207,6 +207,7 @@
 		50A640EA1B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A640E81B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib */; };
 		50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */; };
 		50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */; };
+		50A93A931BD8B883007005DB /* PickFeedSkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A93A921BD8B883007005DB /* PickFeedSkillView.swift */; settings = {ASSET_TAGS = (); }; };
 		50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */; };
 		50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */; };
 		50A9D4511ACD383E000B2599 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */; };
@@ -510,6 +511,7 @@
 		50A640E81B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DoNotDisturbPeriodCell.xib; path = Views/Cells/DoNotDisturb/DoNotDisturbPeriodCell.xib; sourceTree = "<group>"; };
 		50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoNotDisturbPeriodViewController.swift; path = ViewControllers/DoNotDisturbPeriod/DoNotDisturbPeriodViewController.swift; sourceTree = "<group>"; };
 		50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSTimeZone+Yep.swift"; path = "Extensions/NSTimeZone+Yep.swift"; sourceTree = "<group>"; };
+		50A93A921BD8B883007005DB /* PickFeedSkillView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickFeedSkillView.swift; path = Views/PickFeedSkill/PickFeedSkillView.swift; sourceTree = "<group>"; };
 		50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Yep.swift"; path = "Extensions/NSFileManager+Yep.swift"; sourceTree = "<group>"; };
 		50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = NSDateTimeAgo.bundle; path = Extensions/NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Extensions/NSDate+Extension.swift"; sourceTree = "<group>"; };
@@ -994,6 +996,7 @@
 				50AACEC91BB54132004DD54B /* Feed */,
 				50F5AF891BBBB2B30033C9BC /* HorizontalLine */,
 				50535D1B1BCD19B4002FE1A4 /* TouchClosures */,
+				50A93A941BD8B887007005DB /* PickFeedSkill */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1676,6 +1679,14 @@
 			name = DoNotDisturbPeriod;
 			sourceTree = "<group>";
 		};
+		50A93A941BD8B887007005DB /* PickFeedSkill */ = {
+			isa = PBXGroup;
+			children = (
+				50A93A921BD8B883007005DB /* PickFeedSkillView.swift */,
+			);
+			name = PickFeedSkill;
+			sourceTree = "<group>";
+		};
 		50A9D4581ACD3943000B2599 /* AudioWaves */ = {
 			isa = PBXGroup;
 			children = (
@@ -2311,6 +2322,7 @@
 				0A9018821B0120A500AE4B7F /* OAuthViewController.swift in Sources */,
 				508D17471ACCF4710092D666 /* ChatLeftAudioCell.swift in Sources */,
 				50894D021AEA6433000981AF /* EditProfileLessInfoCell.swift in Sources */,
+				50A93A931BD8B883007005DB /* PickFeedSkillView.swift in Sources */,
 				501138261BCB59120055A014 /* FeedConversationsViewController.swift in Sources */,
 				50894CFA1AEA54BA000981AF /* SettingsMoreCell.swift in Sources */,
 				50AFBF4B1BB2A44C007D19DA /* InfoView.swift in Sources */,
