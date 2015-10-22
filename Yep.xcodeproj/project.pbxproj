@@ -288,7 +288,7 @@
 		848806B41B7B4E2E000C5424 /* Show.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 848806B31B7B4E2E000C5424 /* Show.storyboard */; };
 		848806B61B7B4F53000C5424 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848806B51B7B4F53000C5424 /* ShowViewController.swift */; };
 		84C959891B731FD20017D3ED /* ChatBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C959881B731FD20017D3ED /* ChatBaseCell.swift */; };
-		B00500D7E943DDD27CF9C562 /* Pods_Yep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3146F0F60F2A38BC6E0FA66 /* Pods_Yep.framework */; };
+		B00500D7E943DDD27CF9C562 /* Pods_Yep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3146F0F60F2A38BC6E0FA66 /* Pods_Yep.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
