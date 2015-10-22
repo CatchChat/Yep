@@ -7,19 +7,34 @@
 //
 
 import UIKit
-import Proposer
 import CoreLocation
 import MobileCoreServices
 import Photos
+import Proposer
+import RealmSwift
 
 class NewFeedViewController: UIViewController {
 
-    @IBOutlet weak var feedWhiteBGView: UIView!
-    
     var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
+
+    @IBOutlet weak var feedWhiteBGView: UIView!
 
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var mediaCollectionView: UICollectionView!
+
+    @IBOutlet weak var channelView: UIView!
+    @IBOutlet weak var channelViewTopConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var channelViewTopLineView: HorizontalLineView!
+    @IBOutlet weak var channelViewBottomLineView: HorizontalLineView!
+
+    @IBOutlet weak var channelLabel: UILabel!
+    @IBOutlet weak var choosePromptLabel: UILabel!
+
+    @IBOutlet weak var pickedSkillBubbleImageView: UIImageView!
+    @IBOutlet weak var pickedSkillLabel: UILabel!
+
+    @IBOutlet weak var skillPickerView: UIPickerView!
 
     var imageAssets: [PHAsset] = []
 
@@ -33,6 +48,27 @@ class NewFeedViewController: UIViewController {
 
     let feedMediaAddCellID = "FeedMediaAddCell"
     let feedMediaCellID = "FeedMediaCell"
+
+    let max = Int(INT16_MAX)
+
+    let skills: [Skill] = {
+        if let
+            myUserID = YepUserDefaults.userID.value,
+            realm = try? Realm(),
+            me = userWithUserID(myUserID, inRealm: realm) {
+                return skillsFromUserSkillList(me.masterSkills) + skillsFromUserSkillList(me.learningSkills)
+        }
+
+        return []
+        }()
+
+    var pickedSkill: Skill? {
+        willSet {
+            pickedSkillLabel.text = newValue?.localName
+
+            choosePromptLabel.hidden = (newValue != nil)
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +89,7 @@ class NewFeedViewController: UIViewController {
         messageTextView.text = ""
         messageTextView.textContainer.lineFragmentPadding = 0
         messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        messageTextView.becomeFirstResponder()
+        //messageTextView.becomeFirstResponder()
 
         mediaCollectionView.backgroundColor = UIColor.clearColor()
 
@@ -62,6 +98,23 @@ class NewFeedViewController: UIViewController {
         mediaCollectionView.contentInset.left = 15
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
+
+        // pick skill
+
+        channelLabel.text = NSLocalizedString("Channel:", comment: "")
+        choosePromptLabel.text = NSLocalizedString("Choose...", comment: "")
+        
+        channelViewTopConstraint.constant = 30
+
+        skillPickerView.alpha = 0
+
+        pickedSkillBubbleImageView.alpha = 0
+        pickedSkillLabel.alpha = 0
+
+        channelView.backgroundColor = UIColor.whiteColor()
+        channelView.userInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: "showSkillPickerView:")
+        channelView.addGestureRecognizer(tap)
 
         // try turn on location
 
@@ -106,8 +159,62 @@ class NewFeedViewController: UIViewController {
 
     // MARK: Actions
 
+    func showSkillPickerView(tap: UITapGestureRecognizer) {
+
+        if pickedSkill == nil {
+            if !skills.isEmpty {
+                let centerRow = max / 2
+                skillPickerView.selectRow(centerRow, inComponent: 0, animated: false)
+                pickedSkill = skills[centerRow % skills.count]
+            }
+        }
+
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+
+            self?.channelView.backgroundColor = UIColor.clearColor()
+            self?.channelViewTopLineView.alpha = 0
+            self?.channelViewBottomLineView.alpha = 0
+            self?.choosePromptLabel.alpha = 0
+
+            self?.pickedSkillBubbleImageView.alpha = 0
+            self?.pickedSkillLabel.alpha = 0
+
+            self?.skillPickerView.alpha = 1
+
+            self?.channelViewTopConstraint.constant = 108
+            self?.view.layoutIfNeeded()
+
+        }, completion: { [weak self] _ in
+            self?.channelView.userInteractionEnabled = false
+        })
+    }
+
+    func hideSkillPickerView() {
+
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+
+            self?.channelView.backgroundColor = UIColor.whiteColor()
+            self?.channelViewTopLineView.alpha = 1
+            self?.channelViewBottomLineView.alpha = 1
+            self?.choosePromptLabel.alpha = 1
+
+            self?.pickedSkillBubbleImageView.alpha = 1
+            self?.pickedSkillLabel.alpha = 1
+
+            self?.skillPickerView.alpha = 0
+
+            self?.channelViewTopConstraint.constant = 30
+            self?.view.layoutIfNeeded()
+
+            }, completion: { [weak self] _ in
+                self?.channelView.userInteractionEnabled = true
+            })
+    }
+
     func cancel(sender: UIBarButtonItem) {
+
         messageTextView.resignFirstResponder()
+
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
@@ -148,7 +255,7 @@ class NewFeedViewController: UIViewController {
             }
         })
 
-        dispatch_group_notify(uploadMediaImagesGroup, dispatch_get_main_queue()) {
+        dispatch_group_notify(uploadMediaImagesGroup, dispatch_get_main_queue()) { [weak self] in
 
             var mediaInfo: JSONDictionary?
 
@@ -166,7 +273,7 @@ class NewFeedViewController: UIViewController {
                 ]
             }
 
-            createFeedWithMessage(message, attachments: mediaInfo, coordinate: coordinate, skill: nil, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
+            createFeedWithMessage(message, attachments: mediaInfo, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create feed failed!", comment: ""), inViewController: self)
@@ -262,4 +369,62 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         }
     }
 }
+
+// MARK: - UIScrollViewDelegate
+
+extension NewFeedViewController: UITextViewDelegate {
+
+    func textViewDidBeginEditing(textView: UITextView) {
+
+        hideSkillPickerView()
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension NewFeedViewController: UIScrollViewDelegate {
+
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+
+        messageTextView.resignFirstResponder()
+    }
+}
+
+// MARK: - UIPickerViewDataSource, UIPickerViewDelegate
+
+extension NewFeedViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return skills.isEmpty ? 0 : 1
+    }
+
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return max
+    }
+
+    func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 44
+    }
+
+    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
+
+        let skill = skills[row % skills.count]
+
+        if let view = view as? FeedSkillPickerItemView {
+            view.configureWithSkill(skill)
+            return view
+
+        } else {
+            let view = FeedSkillPickerItemView()
+            view.configureWithSkill(skill)
+            return view
+        }
+    }
+
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+
+        pickedSkill = skills[row % skills.count]
+    }
+}
+
 

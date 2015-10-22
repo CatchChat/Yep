@@ -43,7 +43,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_discussion" translatesAutoresizingMaskIntoConstraints="NO" id="B9B-Nc-h8k">
-                        <rect key="frame" x="333" y="182" width="30" height="19"/>
+                        <rect key="frame" x="336" y="182" width="30" height="19"/>
                         <animations/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GRs-kP-Ugk" userLabel="Avatar Image View">
@@ -61,7 +61,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="42" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6k9-TF-Ftd" userLabel="Message Count Label">
-                        <rect key="frame" x="306" y="183" width="17" height="17"/>
+                        <rect key="frame" x="309" y="183" width="17" height="17"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -76,14 +76,26 @@
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
                     </textView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skill_bubble_empty" translatesAutoresizingMaskIntoConstraints="NO" id="WvT-iw-dEo">
+                        <rect key="frame" x="317" y="19" width="49" height="22"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swift" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ec-vd-wUU">
+                        <rect key="frame" x="327" y="23" width="29" height="14.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <animations/>
                 <constraints>
                     <constraint firstItem="uir-A9-aaJ" firstAttribute="leading" secondItem="yFm-kf-Ghp" secondAttribute="trailing" constant="15" id="1RE-Ku-WQU"/>
                     <constraint firstItem="yFm-kf-Ghp" firstAttribute="leading" secondItem="d97-mK-bJE" secondAttribute="leading" id="4dw-W2-nT9"/>
-                    <constraint firstAttribute="trailing" secondItem="B9B-Nc-h8k" secondAttribute="trailing" constant="17.5" id="5um-0R-Amw"/>
+                    <constraint firstAttribute="trailing" secondItem="1ec-vd-wUU" secondAttribute="trailing" constant="25" id="5Wn-VO-vyC"/>
+                    <constraint firstAttribute="trailing" secondItem="B9B-Nc-h8k" secondAttribute="trailing" constant="15" id="5um-0R-Amw"/>
                     <constraint firstItem="COt-7F-KVK" firstAttribute="top" secondItem="XYv-cX-YOQ" secondAttribute="bottom" constant="15" id="9J9-YH-c9Y"/>
                     <constraint firstAttribute="trailing" secondItem="COt-7F-KVK" secondAttribute="trailing" id="AfO-Hm-djL"/>
+                    <constraint firstItem="1ec-vd-wUU" firstAttribute="centerY" secondItem="d97-mK-bJE" secondAttribute="centerY" id="DiT-Gx-hJI"/>
+                    <constraint firstItem="1ec-vd-wUU" firstAttribute="leading" secondItem="WvT-iw-dEo" secondAttribute="leading" constant="10" id="H37-Ps-bKw"/>
                     <constraint firstItem="XYv-cX-YOQ" firstAttribute="top" secondItem="GRs-kP-Ugk" secondAttribute="bottom" constant="4" id="ISv-4s-Llp"/>
                     <constraint firstItem="XYv-cX-YOQ" firstAttribute="leading" secondItem="d97-mK-bJE" secondAttribute="leading" id="IxD-gR-ma8"/>
                     <constraint firstItem="B9B-Nc-h8k" firstAttribute="leading" secondItem="6k9-TF-Ftd" secondAttribute="trailing" constant="10" id="JkX-QS-ZmS"/>
@@ -95,9 +107,11 @@
                     <constraint firstItem="d97-mK-bJE" firstAttribute="centerY" secondItem="GRs-kP-Ugk" secondAttribute="centerY" id="XVe-o1-zRc"/>
                     <constraint firstItem="GRs-kP-Ugk" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="cna-DW-PPM"/>
                     <constraint firstItem="GRs-kP-Ugk" firstAttribute="width" secondItem="GRs-kP-Ugk" secondAttribute="height" multiplier="1:1" id="eSL-Jv-LjB"/>
+                    <constraint firstItem="WvT-iw-dEo" firstAttribute="centerY" secondItem="1ec-vd-wUU" secondAttribute="centerY" id="qUZ-7m-we3"/>
                     <constraint firstItem="yFm-kf-Ghp" firstAttribute="top" secondItem="XYv-cX-YOQ" secondAttribute="bottom" constant="103" id="sKd-JT-Af9"/>
                     <constraint firstItem="GRs-kP-Ugk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="tIk-7d-Ux7"/>
                     <constraint firstItem="COt-7F-KVK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="uDa-ob-a5U"/>
+                    <constraint firstItem="WvT-iw-dEo" firstAttribute="trailing" secondItem="1ec-vd-wUU" secondAttribute="trailing" constant="10" id="z8V-eX-sXm"/>
                 </constraints>
             </tableViewCellContentView>
             <animations/>
@@ -111,6 +125,8 @@
                 <outlet property="messageTextView" destination="XYv-cX-YOQ" id="2mS-ke-PoR"/>
                 <outlet property="messageTextViewHeightConstraint" destination="DpP-3J-Ftw" id="nSl-a2-gRm"/>
                 <outlet property="nicknameLabel" destination="d97-mK-bJE" id="xcQ-hs-iRs"/>
+                <outlet property="skillBubbleImageView" destination="WvT-iw-dEo" id="NjY-at-yj6"/>
+                <outlet property="skillLabel" destination="1ec-vd-wUU" id="Fa7-yj-SnH"/>
                 <outlet property="timeLabel" destination="yFm-kf-Ghp" id="Uph-sR-xxS"/>
                 <outlet property="timeLabelTopConstraint" destination="sKd-JT-Af9" id="fsT-Jb-Ro7"/>
             </connections>
@@ -119,5 +135,6 @@
     </objects>
     <resources>
         <image name="icon_discussion" width="30" height="19"/>
+        <image name="skill_bubble_empty" width="23" height="22"/>
     </resources>
 </document>

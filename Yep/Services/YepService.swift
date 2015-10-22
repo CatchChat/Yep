@@ -178,6 +178,31 @@ struct Skill: Hashable {
     var hashValue: Int {
         return id.hashValue
     }
+
+    static func fromJSONDictionary(skillInfo: JSONDictionary) -> Skill? {
+        if
+            let skillID = skillInfo["id"] as? String,
+            let skillName = skillInfo["name"] as? String,
+            let skillLocalName = skillInfo["name_string"] as? String {
+
+                var skillCategory: SkillCategory?
+                if
+                    let skillCategoryData = skillInfo["category"] as? JSONDictionary,
+                    let categoryID = skillCategoryData["id"] as? String,
+                    let categoryName = skillCategoryData["name"] as? String,
+                    let categoryLocalName = skillCategoryData["name_string"] as? String {
+                        skillCategory = SkillCategory(id: categoryID, name: categoryName, localName: categoryLocalName, skills: [])
+                }
+
+                let coverURLString = skillInfo["cover_url"] as? String
+
+                let skill = Skill(category: skillCategory, id: skillID, name: skillName, localName: skillLocalName, coverURLString: coverURLString)
+
+                return skill
+        }
+
+        return nil
+    }
 }
 
 func ==(lhs: Skill, rhs: Skill) -> Bool {
@@ -222,25 +247,9 @@ func skillsFromSkillsData(skillsData: [JSONDictionary]) -> [Skill] {
     var skills = [Skill]()
 
     for skillInfo in skillsData {
-        if
-            let skillID = skillInfo["id"] as? String,
-            let skillName = skillInfo["name"] as? String,
-            let skillLocalName = skillInfo["name_string"] as? String {
 
-                var skillCategory: SkillCategory?
-                if
-                    let skillCategoryData = skillInfo["category"] as? JSONDictionary,
-                    let categoryID = skillCategoryData["id"] as? String,
-                    let categoryName = skillCategoryData["name"] as? String,
-                    let categoryLocalName = skillCategoryData["name_string"] as? String {
-                        skillCategory = SkillCategory(id: categoryID, name: categoryName, localName: categoryLocalName, skills: [])
-                }
-
-                let coverURLString = skillInfo["cover_url"] as? String
-
-                let skill = Skill(category: skillCategory, id: skillID, name: skillName, localName: skillLocalName, coverURLString: coverURLString)
-
-                skills.append(skill)
+        if let skill = Skill.fromJSONDictionary(skillInfo) {
+            skills.append(skill)
         }
     }
 
@@ -2300,7 +2309,12 @@ struct DiscoveredFeed: Hashable {
 
         let attachments = attachmentsData.map({ DiscoveredAttachment.fromJSONDictionary($0) }).flatMap({ $0 })
 
-        return DiscoveredFeed(id: id, allowComment: allowComment, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: attachments, distance: distance, skill: nil, groupID: groupID, messageCount: messageCount)
+        var skill: Skill?
+        if let skillInfo = json["skill"] as? JSONDictionary {
+            skill = Skill.fromJSONDictionary(skillInfo)
+        }
+
+        return DiscoveredFeed(id: id, allowComment: allowComment, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: attachments, distance: distance, skill: skill, groupID: groupID, messageCount: messageCount)
     }
 }
 

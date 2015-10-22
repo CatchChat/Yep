@@ -207,6 +207,7 @@
 		50A640EA1B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A640E81B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib */; };
 		50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */; };
 		50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */; };
+		50A93A9D1BD8C515007005DB /* FeedSkillPickerItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */; settings = {ASSET_TAGS = (); }; };
 		50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */; };
 		50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */; };
 		50A9D4511ACD383E000B2599 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */; };
@@ -510,6 +511,7 @@
 		50A640E81B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DoNotDisturbPeriodCell.xib; path = Views/Cells/DoNotDisturb/DoNotDisturbPeriodCell.xib; sourceTree = "<group>"; };
 		50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoNotDisturbPeriodViewController.swift; path = ViewControllers/DoNotDisturbPeriod/DoNotDisturbPeriodViewController.swift; sourceTree = "<group>"; };
 		50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSTimeZone+Yep.swift"; path = "Extensions/NSTimeZone+Yep.swift"; sourceTree = "<group>"; };
+		50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSkillPickerItemView.swift; path = Views/PickerItems/FeedSkill/FeedSkillPickerItemView.swift; sourceTree = "<group>"; };
 		50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Yep.swift"; path = "Extensions/NSFileManager+Yep.swift"; sourceTree = "<group>"; };
 		50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = NSDateTimeAgo.bundle; path = Extensions/NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Extensions/NSDate+Extension.swift"; sourceTree = "<group>"; };
@@ -994,6 +996,7 @@
 				50AACEC91BB54132004DD54B /* Feed */,
 				50F5AF891BBBB2B30033C9BC /* HorizontalLine */,
 				50535D1B1BCD19B4002FE1A4 /* TouchClosures */,
+				50A93A9E1BD8C51D007005DB /* PickerItems */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1674,6 +1677,22 @@
 				50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */,
 			);
 			name = DoNotDisturbPeriod;
+			sourceTree = "<group>";
+		};
+		50A93A9E1BD8C51D007005DB /* PickerItems */ = {
+			isa = PBXGroup;
+			children = (
+				50A93A9F1BD8C52C007005DB /* FeedSkill */,
+			);
+			name = PickerItems;
+			sourceTree = "<group>";
+		};
+		50A93A9F1BD8C52C007005DB /* FeedSkill */ = {
+			isa = PBXGroup;
+			children = (
+				50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */,
+			);
+			name = FeedSkill;
 			sourceTree = "<group>";
 		};
 		50A9D4581ACD3943000B2599 /* AudioWaves */ = {
@@ -2450,6 +2469,7 @@
 				84385C441B8592120071130D /* ShowStepGeniusViewController.swift in Sources */,
 				6A5632931BC911CB00397B53 /* DiscoverNormalUserCell.swift in Sources */,
 				5053AD5A1AF83B4200B3CBFA /* ChatLeftLocationCell.swift in Sources */,
+				50A93A9D1BD8C515007005DB /* FeedSkillPickerItemView.swift in Sources */,
 				50A640E91B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.swift in Sources */,
 				502B605A1BD1102B00D9C17E /* TitleCell.swift in Sources */,
 				840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */,
