@@ -51,6 +51,8 @@ class NewFeedViewController: UIViewController {
         return []
         }()
 
+    var pickedSkill: Skill?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -79,6 +81,12 @@ class NewFeedViewController: UIViewController {
         mediaCollectionView.contentInset.left = 15
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
+
+        if !skills.isEmpty {
+            let centerRow = max / 2
+            skillPickerView.selectRow(centerRow, inComponent: 0, animated: false)
+            pickedSkill = skills[centerRow % skills.count]
+        }
 
         // try turn on location
 
@@ -285,7 +293,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 extension NewFeedViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        return 1
+        return skills.isEmpty ? 0 : 1
     }
 
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
@@ -309,6 +317,13 @@ extension NewFeedViewController: UIPickerViewDataSource, UIPickerViewDelegate {
             view.configureWithSkill(skill)
             return view
         }
+    }
+
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+
+        pickedSkill = skills[row % skills.count]
+
+        println(pickedSkill?.localName)
     }
 }
 
