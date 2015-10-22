@@ -208,6 +208,8 @@
 		50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */; };
 		50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */; };
 		50A93A931BD8B883007005DB /* PickFeedSkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A93A921BD8B883007005DB /* PickFeedSkillView.swift */; settings = {ASSET_TAGS = (); }; };
+		50A93A971BD8BB0A007005DB /* PickFeedSkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A93A951BD8BB0A007005DB /* PickFeedSkillCell.swift */; settings = {ASSET_TAGS = (); }; };
+		50A93A981BD8BB0A007005DB /* PickFeedSkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A93A961BD8BB0A007005DB /* PickFeedSkillCell.xib */; settings = {ASSET_TAGS = (); }; };
 		50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */; };
 		50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */; };
 		50A9D4511ACD383E000B2599 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */; };
@@ -512,6 +514,8 @@
 		50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoNotDisturbPeriodViewController.swift; path = ViewControllers/DoNotDisturbPeriod/DoNotDisturbPeriodViewController.swift; sourceTree = "<group>"; };
 		50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSTimeZone+Yep.swift"; path = "Extensions/NSTimeZone+Yep.swift"; sourceTree = "<group>"; };
 		50A93A921BD8B883007005DB /* PickFeedSkillView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickFeedSkillView.swift; path = Views/PickFeedSkill/PickFeedSkillView.swift; sourceTree = "<group>"; };
+		50A93A951BD8BB0A007005DB /* PickFeedSkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickFeedSkillCell.swift; path = Views/Cells/PickFeedSkill/PickFeedSkillCell.swift; sourceTree = "<group>"; };
+		50A93A961BD8BB0A007005DB /* PickFeedSkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PickFeedSkillCell.xib; path = Views/Cells/PickFeedSkill/PickFeedSkillCell.xib; sourceTree = "<group>"; };
 		50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Yep.swift"; path = "Extensions/NSFileManager+Yep.swift"; sourceTree = "<group>"; };
 		50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = NSDateTimeAgo.bundle; path = Extensions/NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Extensions/NSDate+Extension.swift"; sourceTree = "<group>"; };
@@ -1055,6 +1059,7 @@
 				502B605C1BD1102F00D9C17E /* Title */,
 				502B60611BD112EA00D9C17E /* QuickPickPhotos */,
 				502B60661BD1209300D9C17E /* Camera */,
+				50A93A991BD8BB26007005DB /* PickFeedSkill */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1687,6 +1692,15 @@
 			name = PickFeedSkill;
 			sourceTree = "<group>";
 		};
+		50A93A991BD8BB26007005DB /* PickFeedSkill */ = {
+			isa = PBXGroup;
+			children = (
+				50A93A951BD8BB0A007005DB /* PickFeedSkillCell.swift */,
+				50A93A961BD8BB0A007005DB /* PickFeedSkillCell.xib */,
+			);
+			name = PickFeedSkill;
+			sourceTree = "<group>";
+		};
 		50A9D4581ACD3943000B2599 /* AudioWaves */ = {
 			isa = PBXGroup;
 			children = (
@@ -2180,6 +2194,7 @@
 				0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */,
 				5053AD511AF82A1700B3CBFA /* PickLocationCell.xib in Resources */,
 				5011382D1BCB5E150055A014 /* FeedConversationDockCell.xib in Resources */,
+				50A93A981BD8BB0A007005DB /* PickFeedSkillCell.xib in Resources */,
 				5053AD5B1AF83B4200B3CBFA /* ChatLeftLocationCell.xib in Resources */,
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 				50EB8CC51AE89F12001AC1EE /* ChatRightVideoCell.xib in Resources */,
@@ -2345,6 +2360,7 @@
 				50535D201BCE43ED002FE1A4 /* ImageCacheController.swift in Sources */,
 				50FA9A441B661698009BF2A0 /* UIViewController+Yep.swift in Sources */,
 				0AC25F061B1105D5009E6E13 /* YepChildScrollView.swift in Sources */,
+				50A93A971BD8BB0A007005DB /* PickFeedSkillCell.swift in Sources */,
 				0A943A7B1B0F8EAE0022DD67 /* BaseViewController.swift in Sources */,
 				50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */,
 				50AFBF491BB2830E007D19DA /* EdgeBorderButton.swift in Sources */,

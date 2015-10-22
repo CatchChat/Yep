@@ -10,9 +10,20 @@ import UIKit
 
 class PickFeedSkillView: UIView {
 
+    let pickFeedSkillCellID = "PickFeedSkillCell"
+
     lazy var skillsCollectionView: UICollectionView = {
+
+        let layout = UICollectionViewFlowLayout()
+
         let view = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
-        view.backgroundColor = UIColor.redColor()
+        view.backgroundColor = UIColor.purpleColor()
+
+        view.registerNib(UINib(nibName: self.pickFeedSkillCellID, bundle: nil), forCellWithReuseIdentifier: self.pickFeedSkillCellID)
+
+        view.dataSource = self
+        view.delegate = self
+
         return view
         }()
 
@@ -45,6 +56,36 @@ class PickFeedSkillView: UIView {
 
         NSLayoutConstraint.activateConstraints(skillsCollectionViewConstraintsH)
         NSLayoutConstraint.activateConstraints(skillsCollectionViewConstraintsV)
+    }
+}
+
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegate
+
+extension PickFeedSkillView: UICollectionViewDataSource, UICollectionViewDelegate {
+
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 15
+    }
+
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(pickFeedSkillCellID, forIndexPath: indexPath) as! PickFeedSkillCell
+        cell.backgroundColor = UIColor.blueColor()
+        return cell
+    }
+
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+
+        return CGSize(width: collectionView.bounds.width, height: 44)
+    }
+
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 }
 
