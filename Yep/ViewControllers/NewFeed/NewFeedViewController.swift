@@ -328,6 +328,16 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
     }
 }
 
+// MARK: - UIScrollViewDelegate
+
+extension NewFeedViewController: UIScrollViewDelegate {
+
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+
+        messageTextView.resignFirstResponder()
+    }
+}
+
 // MARK: - UIPickerViewDataSource, UIPickerViewDelegate
 
 extension NewFeedViewController: UIPickerViewDataSource, UIPickerViewDelegate {

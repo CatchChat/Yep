@@ -117,6 +117,9 @@
                                     <constraint firstItem="tdd-kc-O7L" firstAttribute="top" secondItem="3C2-gM-yy4" secondAttribute="top" constant="20" id="uAi-0N-VVf"/>
                                     <constraint firstItem="ZQs-7j-O7u" firstAttribute="top" secondItem="tdd-kc-O7L" secondAttribute="bottom" constant="108" id="udB-Df-yxg"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="qLB-nJ-bBk" id="uaS-Dk-w6j"/>
+                                </connections>
                             </scrollView>
                         </subviews>
                         <animations/>
