@@ -129,6 +129,7 @@ func userSkillsFromSkills(skills: [Skill], inRealm realm: Realm) -> [UserSkill] 
         let skillID = skill.id
         var userSkill = userSkillWithSkillID(skillID, inRealm: realm)
 
+
         if userSkill == nil {
             let newUserSkill = UserSkill()
             newUserSkill.skillID = skillID
@@ -142,11 +143,13 @@ func userSkillsFromSkills(skills: [Skill], inRealm realm: Realm) -> [UserSkill] 
 
             // create or update detail
 
-            userSkill.name = skill.name
-            userSkill.localName = skill.localName
-
-            if let coverURLString = skill.coverURLString {
-                userSkill.coverURLString = coverURLString
+            let _ = try? realm.write {
+                userSkill.name = skill.name
+                userSkill.localName = skill.localName
+                
+                if let coverURLString = skill.coverURLString {
+                    userSkill.coverURLString = coverURLString
+                }
             }
 
             if let skillCategory = skill.category, skillCategoryID = skill.category?.id {
@@ -164,7 +167,9 @@ func userSkillsFromSkills(skills: [Skill], inRealm realm: Realm) -> [UserSkill] 
                 }
 
                 if let userSkillCategory = userSkillCategory {
-                    userSkill.category = userSkillCategory
+                    let _ = try? realm.write {
+                        userSkill.category = userSkillCategory
+                    }
                 }
             }
         }
