@@ -53,6 +53,28 @@
                                     <outlet property="delegate" destination="qLB-nJ-bBk" id="rDG-Dy-Q9G"/>
                                 </connections>
                             </pickerView>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZQs-7j-O7u">
+                                <rect key="frame" x="0.0" y="284" width="375" height="128"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Channel:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LCK-Ex-Wiz" userLabel="Channel Label">
+                                        <rect key="frame" x="20" y="54" width="67.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed_skill_channel_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="BWR-Ne-5Ho">
+                                        <rect key="frame" x="350" y="55" width="10" height="18"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="4iB-li-VBX"/>
+                                    <constraint firstItem="BWR-Ne-5Ho" firstAttribute="centerY" secondItem="ZQs-7j-O7u" secondAttribute="centerY" id="C0b-4M-smg"/>
+                                    <constraint firstItem="LCK-Ex-Wiz" firstAttribute="centerY" secondItem="ZQs-7j-O7u" secondAttribute="centerY" id="Lwh-Zk-2cc"/>
+                                    <constraint firstItem="LCK-Ex-Wiz" firstAttribute="leading" secondItem="ZQs-7j-O7u" secondAttribute="leading" constant="20" id="enR-AE-XD6"/>
+                                    <constraint firstAttribute="trailing" secondItem="BWR-Ne-5Ho" secondAttribute="trailing" constant="15" id="ijD-Lv-deS"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -62,7 +84,9 @@
                             <constraint firstAttribute="trailing" secondItem="tdd-kc-O7L" secondAttribute="trailing" id="ET6-Wp-sPs"/>
                             <constraint firstItem="tdd-kc-O7L" firstAttribute="bottom" secondItem="nqc-gK-NZL" secondAttribute="bottom" constant="15" id="Euq-y9-NSv"/>
                             <constraint firstItem="tdd-kc-O7L" firstAttribute="top" secondItem="XTF-TD-X10" secondAttribute="top" id="HYS-Mm-PNs"/>
+                            <constraint firstItem="ZQs-7j-O7u" firstAttribute="leading" secondItem="VPy-FV-QI7" secondAttribute="leading" id="Oum-6d-v4i"/>
                             <constraint firstAttribute="trailing" secondItem="VPy-FV-QI7" secondAttribute="trailing" id="PW5-yd-gog"/>
+                            <constraint firstItem="ZQs-7j-O7u" firstAttribute="centerY" secondItem="VPy-FV-QI7" secondAttribute="centerY" id="V8e-5B-jUV"/>
                             <constraint firstItem="VPy-FV-QI7" firstAttribute="leading" secondItem="XTF-TD-X10" secondAttribute="leading" id="XTo-uN-xKp"/>
                             <constraint firstItem="nqc-gK-NZL" firstAttribute="leading" secondItem="XTF-TD-X10" secondAttribute="leading" id="be1-Wt-Njn"/>
                             <constraint firstItem="kWS-hy-hsK" firstAttribute="top" secondItem="P6L-c6-EtM" secondAttribute="bottom" constant="15" id="dKw-0O-6Mx"/>
@@ -70,6 +94,7 @@
                             <constraint firstItem="nqc-gK-NZL" firstAttribute="top" secondItem="kWS-hy-hsK" secondAttribute="bottom" constant="20" id="lP3-le-51b"/>
                             <constraint firstItem="kWS-hy-hsK" firstAttribute="leading" secondItem="XTF-TD-X10" secondAttribute="leading" constant="15" id="mNE-5D-ygq"/>
                             <constraint firstAttribute="trailing" secondItem="kWS-hy-hsK" secondAttribute="trailing" constant="15" id="mgZ-OL-1ch"/>
+                            <constraint firstItem="ZQs-7j-O7u" firstAttribute="trailing" secondItem="VPy-FV-QI7" secondAttribute="trailing" id="wXw-o8-D8f"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -94,4 +119,7 @@
             <point key="canvasLocation" x="648" y="405"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="feed_skill_channel_arrow" width="10" height="18"/>
+    </resources>
 </document>

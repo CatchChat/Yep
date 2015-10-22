@@ -322,8 +322,6 @@ extension NewFeedViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
 
         pickedSkill = skills[row % skills.count]
-
-        println(pickedSkill?.localName)
     }
 }
 
