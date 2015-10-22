@@ -2306,7 +2306,7 @@ struct DiscoveredFeed: Hashable {
 
 let parseFeeds: JSONDictionary -> [DiscoveredFeed]? = { data in
 
-    println("feedsData: \(data)")
+    //println("feedsData: \(data)")
 
     if let feedsData = data["topics"] as? [JSONDictionary] {
         return feedsData.map({ DiscoveredFeed.fromJSONDictionary($0) }).flatMap({ $0 })

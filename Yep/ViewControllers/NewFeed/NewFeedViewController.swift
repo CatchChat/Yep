@@ -23,6 +23,13 @@ class NewFeedViewController: UIViewController {
     @IBOutlet weak var mediaCollectionView: UICollectionView!
     //@IBOutlet weak var pickFeedSkillView: PickFeedSkillView!
     //@IBOutlet weak var pickFeedSkillViewHeightConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var channelView: UIView!
+    @IBOutlet weak var channelViewTopConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var channelViewTopLineView: HorizontalLineView!
+    @IBOutlet weak var channelViewBottomLineView: HorizontalLineView!
+
     @IBOutlet weak var skillPickerView: UIPickerView!
 
     var imageAssets: [PHAsset] = []
@@ -88,6 +95,17 @@ class NewFeedViewController: UIViewController {
             pickedSkill = skills[centerRow % skills.count]
         }
 
+        // pick skill
+
+        channelViewTopConstraint.constant = 30
+
+        skillPickerView.alpha = 0
+
+        channelView.backgroundColor = UIColor.whiteColor()
+        channelView.userInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: "showSkillPickerView:")
+        channelView.addGestureRecognizer(tap)
+
         // try turn on location
 
         let locationResource = PrivateResource.Location(.WhenInUse)
@@ -130,6 +148,24 @@ class NewFeedViewController: UIViewController {
     }
 
     // MARK: Actions
+
+    func showSkillPickerView(tap: UITapGestureRecognizer) {
+
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+
+            self?.channelView.backgroundColor = UIColor.clearColor()
+            self?.channelViewTopLineView.alpha = 0
+            self?.channelViewBottomLineView.alpha = 0
+
+            self?.skillPickerView.alpha = 1
+
+            self?.channelViewTopConstraint.constant = 108
+            self?.view.layoutIfNeeded()
+
+        }, completion: { [weak self] _ in
+            self?.channelView.userInteractionEnabled = false
+        })
+    }
 
     func cancel(sender: UIBarButtonItem) {
         messageTextView.resignFirstResponder()
