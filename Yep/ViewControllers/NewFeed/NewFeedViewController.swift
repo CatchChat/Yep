@@ -15,14 +15,12 @@ import RealmSwift
 
 class NewFeedViewController: UIViewController {
 
-    @IBOutlet weak var feedWhiteBGView: UIView!
-    
     var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
+
+    @IBOutlet weak var feedWhiteBGView: UIView!
 
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var mediaCollectionView: UICollectionView!
-    //@IBOutlet weak var pickFeedSkillView: PickFeedSkillView!
-    //@IBOutlet weak var pickFeedSkillViewHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var channelView: UIView!
     @IBOutlet weak var channelViewTopConstraint: NSLayoutConstraint!
