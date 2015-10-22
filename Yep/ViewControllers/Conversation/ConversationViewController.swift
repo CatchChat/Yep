@@ -1722,7 +1722,9 @@ class ConversationViewController: BaseViewController {
     }
 
     func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, scrollToBottom: Bool, success: (Bool) -> Void) {
-
+        
+        batchMarkMessagesAsReaded()
+        
         if navigationController?.topViewController == self { // 防止 pop/push 后，原来未释放的 VC 也执行这下面的代码
 
             let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
@@ -2447,10 +2449,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             if let sender = message.fromFriend {
 
                 if sender.friendState != UserFriendState.Me.rawValue { // from Friend
-
-                    if !message.readed {
-                        batchMarkMessagesAsReaded()
-                    }
 
                     switch message.mediaType {
 

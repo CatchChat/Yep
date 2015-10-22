@@ -92,18 +92,14 @@ class ProfileHeaderCell: UICollectionViewCell {
                 }
             }
 
-            proposeToAccess(.Location(.WhenInUse), agreed: { [weak self] in
-                
-                if let askedForPermission = self?.askedForPermission {
-                    if !askedForPermission {
-                        self?.askedForPermission = true
-                        YepLocationService.turnOn()
-                    }
-                }
-
-            }, rejected: {
-                println("Yep can NOT get Location. :[\n")
-            })
+            if !askedForPermission {
+                askedForPermission = true
+                proposeToAccess(.Location(.WhenInUse), agreed: {
+                    YepLocationService.turnOn()
+                }, rejected: {
+                        println("Yep can NOT get Location. :[\n")
+                })
+            }
 
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
         }
