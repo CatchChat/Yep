@@ -32,7 +32,10 @@ class NewFeedViewController: UIViewController {
 
     @IBOutlet weak var channelLabel: UILabel!
     @IBOutlet weak var choosePromptLabel: UILabel!
-    
+
+    @IBOutlet weak var pickedSkillBubbleImageView: UIImageView!
+    @IBOutlet weak var pickedSkillLabel: UILabel!
+
     @IBOutlet weak var skillPickerView: UIPickerView!
 
     var imageAssets: [PHAsset] = []
@@ -61,7 +64,13 @@ class NewFeedViewController: UIViewController {
         return []
         }()
 
-    var pickedSkill: Skill?
+    var pickedSkill: Skill? {
+        willSet {
+            pickedSkillLabel.text = newValue?.localName
+
+            choosePromptLabel.hidden = (newValue != nil)
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,12 +101,6 @@ class NewFeedViewController: UIViewController {
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 
-        if !skills.isEmpty {
-            let centerRow = max / 2
-            skillPickerView.selectRow(centerRow, inComponent: 0, animated: false)
-            pickedSkill = skills[centerRow % skills.count]
-        }
-
         // pick skill
 
         channelLabel.text = NSLocalizedString("Channel:", comment: "")
@@ -106,6 +109,9 @@ class NewFeedViewController: UIViewController {
         channelViewTopConstraint.constant = 30
 
         skillPickerView.alpha = 0
+
+        pickedSkillBubbleImageView.alpha = 0
+        pickedSkillLabel.alpha = 0
 
         channelView.backgroundColor = UIColor.whiteColor()
         channelView.userInteractionEnabled = true
@@ -157,12 +163,23 @@ class NewFeedViewController: UIViewController {
 
     func showSkillPickerView(tap: UITapGestureRecognizer) {
 
+        if pickedSkill == nil {
+            if !skills.isEmpty {
+                let centerRow = max / 2
+                skillPickerView.selectRow(centerRow, inComponent: 0, animated: false)
+                pickedSkill = skills[centerRow % skills.count]
+            }
+        }
+
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
 
             self?.channelView.backgroundColor = UIColor.clearColor()
             self?.channelViewTopLineView.alpha = 0
             self?.channelViewBottomLineView.alpha = 0
             self?.choosePromptLabel.alpha = 0
+
+            self?.pickedSkillBubbleImageView.alpha = 0
+            self?.pickedSkillLabel.alpha = 0
 
             self?.skillPickerView.alpha = 1
 
@@ -182,6 +199,9 @@ class NewFeedViewController: UIViewController {
             self?.channelViewTopLineView.alpha = 1
             self?.channelViewBottomLineView.alpha = 1
             self?.choosePromptLabel.alpha = 1
+
+            self?.pickedSkillBubbleImageView.alpha = 1
+            self?.pickedSkillLabel.alpha = 1
 
             self?.skillPickerView.alpha = 0
 

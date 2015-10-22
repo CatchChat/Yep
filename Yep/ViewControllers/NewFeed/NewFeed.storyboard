@@ -91,9 +91,20 @@
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feed_skill_channel_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="BWR-Ne-5Ho">
                                                 <rect key="frame" x="350" y="21" width="10" height="18"/>
                                             </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skill_bubble" translatesAutoresizingMaskIntoConstraints="NO" id="L4w-fH-Iq6">
+                                                <rect key="frame" x="280" y="18" width="55" height="24"/>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swift" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J1K-rH-Dph">
+                                                <rect key="frame" x="290" y="21" width="35" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="J1K-rH-Dph" secondAttribute="trailing" constant="50" id="3H4-rv-cv5"/>
+                                            <constraint firstItem="L4w-fH-Iq6" firstAttribute="centerY" secondItem="J1K-rH-Dph" secondAttribute="centerY" id="3ic-re-K4g"/>
                                             <constraint firstAttribute="height" constant="60" id="4iB-li-VBX"/>
                                             <constraint firstItem="bhf-Gx-s8P" firstAttribute="top" secondItem="ZQs-7j-O7u" secondAttribute="top" id="9KT-68-Oc7"/>
                                             <constraint firstItem="BWR-Ne-5Ho" firstAttribute="centerY" secondItem="ZQs-7j-O7u" secondAttribute="centerY" id="C0b-4M-smg"/>
@@ -102,11 +113,14 @@
                                             <constraint firstAttribute="trailing" secondItem="u0q-HA-dLM" secondAttribute="trailing" constant="40" id="W6h-GP-mJ8"/>
                                             <constraint firstItem="bhf-Gx-s8P" firstAttribute="leading" secondItem="ZQs-7j-O7u" secondAttribute="leading" id="Y8O-5h-9GY"/>
                                             <constraint firstItem="LCK-Ex-Wiz" firstAttribute="leading" secondItem="ZQs-7j-O7u" secondAttribute="leading" constant="20" id="enR-AE-XD6"/>
+                                            <constraint firstItem="L4w-fH-Iq6" firstAttribute="trailing" secondItem="J1K-rH-Dph" secondAttribute="trailing" constant="10" id="gbF-B1-eMJ"/>
                                             <constraint firstAttribute="trailing" secondItem="zRC-QC-BYc" secondAttribute="trailing" id="hDE-VV-K2R"/>
                                             <constraint firstAttribute="trailing" secondItem="BWR-Ne-5Ho" secondAttribute="trailing" constant="15" id="ijD-Lv-deS"/>
                                             <constraint firstItem="zRC-QC-BYc" firstAttribute="leading" secondItem="ZQs-7j-O7u" secondAttribute="leading" id="joi-PN-IA8"/>
                                             <constraint firstAttribute="bottom" secondItem="zRC-QC-BYc" secondAttribute="bottom" id="mvV-X2-Og9"/>
                                             <constraint firstAttribute="trailing" secondItem="bhf-Gx-s8P" secondAttribute="trailing" id="n5P-0j-stA"/>
+                                            <constraint firstItem="J1K-rH-Dph" firstAttribute="centerY" secondItem="ZQs-7j-O7u" secondAttribute="centerY" id="nyH-uS-UJt"/>
+                                            <constraint firstItem="L4w-fH-Iq6" firstAttribute="leading" secondItem="J1K-rH-Dph" secondAttribute="leading" constant="-10" id="wFA-GI-oKI"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -155,6 +169,8 @@
                         <outlet property="feedWhiteBGView" destination="tdd-kc-O7L" id="32E-RO-YcU"/>
                         <outlet property="mediaCollectionView" destination="nqc-gK-NZL" id="vUb-KN-uL1"/>
                         <outlet property="messageTextView" destination="kWS-hy-hsK" id="r5G-r3-3P5"/>
+                        <outlet property="pickedSkillBubbleImageView" destination="L4w-fH-Iq6" id="Qgg-ch-Bcl"/>
+                        <outlet property="pickedSkillLabel" destination="J1K-rH-Dph" id="9JL-5f-f4O"/>
                         <outlet property="skillPickerView" destination="VPy-FV-QI7" id="Q9U-n1-OyP"/>
                         <segue destination="frk-9a-m7E" kind="show" identifier="showPickPhotos" id="Bg2-Jr-e9C"/>
                     </connections>
@@ -174,5 +190,6 @@
     </scenes>
     <resources>
         <image name="feed_skill_channel_arrow" width="10" height="18"/>
+        <image name="skill_bubble" width="26" height="24"/>
     </resources>
 </document>
