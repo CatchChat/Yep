@@ -174,8 +174,29 @@ class NewFeedViewController: UIViewController {
         })
     }
 
+    func hideSkillPickerView() {
+
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+
+            self?.channelView.backgroundColor = UIColor.whiteColor()
+            self?.channelViewTopLineView.alpha = 1
+            self?.channelViewBottomLineView.alpha = 1
+            self?.choosePromptLabel.alpha = 1
+
+            self?.skillPickerView.alpha = 0
+
+            self?.channelViewTopConstraint.constant = 30
+            self?.view.layoutIfNeeded()
+
+            }, completion: { [weak self] _ in
+                self?.channelView.userInteractionEnabled = true
+            })
+    }
+
     func cancel(sender: UIBarButtonItem) {
+
         messageTextView.resignFirstResponder()
+
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
@@ -328,6 +349,16 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         default:
             break
         }
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension NewFeedViewController: UITextViewDelegate {
+
+    func textViewDidBeginEditing(textView: UITextView) {
+
+        hideSkillPickerView()
     }
 }
 

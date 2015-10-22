@@ -33,6 +33,9 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="qLB-nJ-bBk" id="QVB-4k-Kez"/>
+                                        </connections>
                                     </textView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nqc-gK-NZL">
                                         <rect key="frame" x="0.0" y="120" width="375" height="80"/>
