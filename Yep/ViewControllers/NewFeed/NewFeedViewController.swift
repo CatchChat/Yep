@@ -30,6 +30,9 @@ class NewFeedViewController: UIViewController {
     @IBOutlet weak var channelViewTopLineView: HorizontalLineView!
     @IBOutlet weak var channelViewBottomLineView: HorizontalLineView!
 
+    @IBOutlet weak var channelLabel: UILabel!
+    @IBOutlet weak var choosePromptLabel: UILabel!
+    
     @IBOutlet weak var skillPickerView: UIPickerView!
 
     var imageAssets: [PHAsset] = []
@@ -156,6 +159,7 @@ class NewFeedViewController: UIViewController {
             self?.channelView.backgroundColor = UIColor.clearColor()
             self?.channelViewTopLineView.alpha = 0
             self?.channelViewBottomLineView.alpha = 0
+            self?.choosePromptLabel.alpha = 0
 
             self?.skillPickerView.alpha = 1
 
