@@ -618,7 +618,9 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
         newFeed.messageCount = feedData.messageCount
         
         if let feedSkill = feedData.skill {
-            newFeed.skill = userSkillsFromSkills([feedSkill], inRealm: realm).first
+            let _ = try? realm.write {
+                newFeed.skill = userSkillsFromSkills([feedSkill], inRealm: realm).first
+            }
         }
         
         newFeed.attachments.removeAll()
