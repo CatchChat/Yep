@@ -40,23 +40,12 @@ class NewFeedViewController: UIViewController {
 
     let max = Int(INT16_MAX)
 
-    let masterSkills: [Skill] = {
+    let skills: [Skill] = {
         if let
             myUserID = YepUserDefaults.userID.value,
             realm = try? Realm(),
             me = userWithUserID(myUserID, inRealm: realm) {
-                return skillsFromUserSkillList(me.masterSkills)
-        }
-
-        return []
-        }()
-
-    let learningSkills: [Skill] = {
-        if let
-            myUserID = YepUserDefaults.userID.value,
-            realm = try? Realm(),
-            me = userWithUserID(myUserID, inRealm: realm) {
-                return skillsFromUserSkillList(me.learningSkills)
+                return skillsFromUserSkillList(me.masterSkills) + skillsFromUserSkillList(me.learningSkills)
         }
 
         return []
@@ -309,7 +298,7 @@ extension NewFeedViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 
     func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
 
-        let skill = masterSkills[row % masterSkills.count]
+        let skill = skills[row % skills.count]
 
         if let view = view as? FeedSkillPickerItemView {
             view.configureWithSkill(skill)
