@@ -56,5 +56,9 @@ class FeedSkillPickerItemView: UIView {
 
         NSLayoutConstraint.activateConstraints([bubbleImageViewCenterY, bubbleImageViewLeading, bubbleImageViewTrailing])
     }
+
+    func configureWithSkill(skill: Skill) {
+        skillLabel.text = skill.localName
+    }
 }
 

@@ -7,10 +7,11 @@
 //
 
 import UIKit
-import Proposer
 import CoreLocation
 import MobileCoreServices
 import Photos
+import Proposer
+import RealmSwift
 
 class NewFeedViewController: UIViewController {
 
@@ -36,6 +37,30 @@ class NewFeedViewController: UIViewController {
 
     let feedMediaAddCellID = "FeedMediaAddCell"
     let feedMediaCellID = "FeedMediaCell"
+
+    let max = Int(INT16_MAX)
+
+    let masterSkills: [Skill] = {
+        if let
+            myUserID = YepUserDefaults.userID.value,
+            realm = try? Realm(),
+            me = userWithUserID(myUserID, inRealm: realm) {
+                return skillsFromUserSkillList(me.masterSkills)
+        }
+
+        return []
+        }()
+
+    let learningSkills: [Skill] = {
+        if let
+            myUserID = YepUserDefaults.userID.value,
+            realm = try? Realm(),
+            me = userWithUserID(myUserID, inRealm: realm) {
+                return skillsFromUserSkillList(me.learningSkills)
+        }
+
+        return []
+        }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -275,7 +300,7 @@ extension NewFeedViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
 
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 15
+        return max
     }
 
     func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
@@ -284,13 +309,15 @@ extension NewFeedViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 
     func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
 
+        let skill = masterSkills[row % masterSkills.count]
+
         if let view = view as? FeedSkillPickerItemView {
-            view.skillLabel.text = "Swift \(row)"
+            view.configureWithSkill(skill)
             return view
 
         } else {
             let view = FeedSkillPickerItemView()
-            view.skillLabel.text = "Swift \(row)"
+            view.configureWithSkill(skill)
             return view
         }
     }
