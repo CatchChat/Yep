@@ -100,6 +100,9 @@ class NewFeedViewController: UIViewController {
 
         // pick skill
 
+        channelLabel.text = NSLocalizedString("Channel:", comment: "")
+        choosePromptLabel.text = NSLocalizedString("Choose...", comment: "")
+        
         channelViewTopConstraint.constant = 30
 
         skillPickerView.alpha = 0
