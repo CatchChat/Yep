@@ -13,6 +13,8 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var skillBubbleImageView: UIImageView!
+    @IBOutlet weak var skillLabel: UILabel!
 
     @IBOutlet weak var messageTextView: FeedTextView!
     @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
@@ -78,6 +80,7 @@ class FeedCell: UITableViewCell {
         distanceLabel.textColor = UIColor.grayColor()
         timeLabel.textColor = UIColor.grayColor()
         messageCountLabel.textColor = UIColor.yepTintColor()
+        skillLabel.textColor = UIColor.yepTintColor()
 
         messageTextView.font = UIFont.feedMessageFont()
         messageTextView.textContainer.lineFragmentPadding = 0
@@ -143,6 +146,17 @@ class FeedCell: UITableViewCell {
         messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
 
         calHeightOfMessageTextView()
+
+        if let skill = feed.skill {
+            skillLabel.text = skill.localName
+
+            skillBubbleImageView.hidden = false
+            skillLabel.hidden = false
+
+        } else {
+            skillBubbleImageView.hidden = true
+            skillLabel.hidden = true
+        }
 
         let hasMedia = !feed.attachments.isEmpty
         
