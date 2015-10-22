@@ -20,8 +20,9 @@ class NewFeedViewController: UIViewController {
 
     @IBOutlet weak var messageTextView: UITextView!
     @IBOutlet weak var mediaCollectionView: UICollectionView!
-    @IBOutlet weak var pickFeedSkillView: PickFeedSkillView!
-    @IBOutlet weak var pickFeedSkillViewHeightConstraint: NSLayoutConstraint!
+    //@IBOutlet weak var pickFeedSkillView: PickFeedSkillView!
+    //@IBOutlet weak var pickFeedSkillViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var skillPickerView: UIPickerView!
 
     var imageAssets: [PHAsset] = []
 
@@ -264,4 +265,35 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         }
     }
 }
+
+// MARK: - UIPickerViewDataSource, UIPickerViewDelegate
+
+extension NewFeedViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 15
+    }
+
+    func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 44
+    }
+
+    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
+
+        if let view = view as? FeedSkillPickerItemView {
+            view.skillLabel.text = "Swift \(row)"
+            return view
+
+        } else {
+            let view = FeedSkillPickerItemView()
+            view.skillLabel.text = "Swift \(row)"
+            return view
+        }
+    }
+}
+
 

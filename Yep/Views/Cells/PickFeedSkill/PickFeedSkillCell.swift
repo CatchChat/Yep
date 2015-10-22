@@ -10,6 +10,8 @@ import UIKit
 
 class PickFeedSkillCell: UICollectionViewCell {
 
+    @IBOutlet weak var skillLabel: UILabel!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

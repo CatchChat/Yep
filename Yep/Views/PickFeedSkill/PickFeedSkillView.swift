@@ -14,10 +14,13 @@ class PickFeedSkillView: UIView {
 
     lazy var skillsCollectionView: UICollectionView = {
 
-        let layout = UICollectionViewFlowLayout()
+        let layout = PickFeedSkillLayout()
 
-        let view = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
-        view.backgroundColor = UIColor.purpleColor()
+        let view = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
+
+        view.pagingEnabled = true
+
+        view.backgroundColor = UIColor.lightGrayColor()
 
         view.registerNib(UINib(nibName: self.pickFeedSkillCellID, bundle: nil), forCellWithReuseIdentifier: self.pickFeedSkillCellID)
 
@@ -74,7 +77,9 @@ extension PickFeedSkillView: UICollectionViewDataSource, UICollectionViewDelegat
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(pickFeedSkillCellID, forIndexPath: indexPath) as! PickFeedSkillCell
-        cell.backgroundColor = UIColor.blueColor()
+
+        cell.skillLabel.text = "Swift \(indexPath.item)"
+
         return cell
     }
 

@@ -33,6 +33,9 @@
                 <constraint firstItem="gCn-cn-cak" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="oW5-7z-3TF"/>
             </constraints>
             <size key="customSize" width="175" height="66"/>
+            <connections>
+                <outlet property="skillLabel" destination="gCn-cn-cak" id="4bn-i3-wVB"/>
+            </connections>
             <point key="canvasLocation" x="146.5" y="316"/>
         </collectionViewCell>
     </objects>
