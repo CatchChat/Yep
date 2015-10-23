@@ -215,6 +215,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 switch remoteNotificationType {
 
                 case .Message:
+                    if UIApplication.sharedApplication().applicationState == UIApplicationState.Active {
+                        return
+                    }
                     syncUnreadMessages() {
                         completionHandler(UIBackgroundFetchResult.NewData)
                         APService.handleRemoteNotification(userInfo)
