@@ -218,6 +218,12 @@ class NewFeedViewController: UIViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
+    struct UploadImageInfo {
+
+        let s3UploadParams: S3UploadParams
+        let metaDataString: String?
+    }
+
     func post(sender: UIBarButtonItem) {
 
         YepHUD.showActivityIndicator()
@@ -228,7 +234,7 @@ class NewFeedViewController: UIViewController {
 
         let uploadMediaImagesGroup = dispatch_group_create()
 
-        var allS3UploadParams = [S3UploadParams]()
+        var uploadImageInfos = [UploadImageInfo]()
 
         mediaImages.forEach({ image in
 
@@ -246,8 +252,14 @@ class NewFeedViewController: UIViewController {
 
                 }, completion: { s3UploadParams in
 
+                    // Prepare meta data
+
+                    let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
+
+                    let uploadImageInfo = UploadImageInfo(s3UploadParams: s3UploadParams, metaDataString: metaDataString)
+
                     dispatch_async(dispatch_get_main_queue()) {
-                        allS3UploadParams.append(s3UploadParams)
+                        uploadImageInfos.append(uploadImageInfo)
 
                         dispatch_group_leave(uploadMediaImagesGroup)
                     }
@@ -259,12 +271,12 @@ class NewFeedViewController: UIViewController {
 
             var mediaInfo: JSONDictionary?
 
-            if !allS3UploadParams.isEmpty {
+            if !uploadImageInfos.isEmpty {
 
-                let imageInfosData = allS3UploadParams.map({
+                let imageInfosData = uploadImageInfos.map({
                     [
-                        "file": $0.key,
-                        "metadata": "", // TODO: metadata, maybe not need
+                        "file": $0.s3UploadParams.key,
+                        "metadata": $0.metaDataString ?? "",
                     ]
                 })
 

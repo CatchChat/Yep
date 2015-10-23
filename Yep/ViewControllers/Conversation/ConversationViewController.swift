@@ -3213,23 +3213,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         // Prepare meta data
 
-        let imageWidth = image.size.width
-        let imageHeight = image.size.height
-
-        let thumbnailWidth: CGFloat
-        let thumbnailHeight: CGFloat
-
-        if imageWidth > imageHeight {
-            thumbnailWidth = min(imageWidth, YepConfig.MetaData.thumbnailMaxSize)
-            thumbnailHeight = imageHeight * (thumbnailWidth / imageWidth)
-        } else {
-            thumbnailHeight = min(imageHeight, YepConfig.MetaData.thumbnailMaxSize)
-            thumbnailWidth = imageWidth * (thumbnailHeight / imageHeight)
-        }
-
-        let thumbnailSize = CGSize(width: thumbnailWidth, height: thumbnailHeight)
-
-        let metaDataString = metaDataStringOfImage(image, withThumbnailSize: thumbnailSize, needBlur: true)
+        let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: true)
 
         // Do send
 

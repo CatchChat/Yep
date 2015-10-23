@@ -8,16 +8,29 @@
 
 import UIKit
 
-func metaDataStringOfImage(image: UIImage, withThumbnailSize thumbnailSize: CGSize, needBlur: Bool) -> String? {
+func metaDataStringOfImage(image: UIImage, needBlurThumbnail: Bool) -> String? {
 
     let metaDataInfo: [String: AnyObject]
 
     let imageWidth = image.size.width
     let imageHeight = image.size.height
 
+    let thumbnailWidth: CGFloat
+    let thumbnailHeight: CGFloat
+
+    if imageWidth > imageHeight {
+        thumbnailWidth = min(imageWidth, YepConfig.MetaData.thumbnailMaxSize)
+        thumbnailHeight = imageHeight * (thumbnailWidth / imageWidth)
+    } else {
+        thumbnailHeight = min(imageHeight, YepConfig.MetaData.thumbnailMaxSize)
+        thumbnailWidth = imageWidth * (thumbnailHeight / imageHeight)
+    }
+
+    let thumbnailSize = CGSize(width: thumbnailWidth, height: thumbnailHeight)
+
     if let thumbnail = image.resizeToSize(thumbnailSize, withInterpolationQuality: CGInterpolationQuality.Low) {
 
-        if needBlur {
+        if needBlurThumbnail {
 
             let blurredThumbnail = thumbnail.blurredImageWithRadius(5, iterations: 7, tintColor: UIColor.clearColor())
 
