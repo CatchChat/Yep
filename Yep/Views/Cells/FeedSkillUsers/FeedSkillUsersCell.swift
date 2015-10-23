@@ -1,0 +1,56 @@
+//
+//  FeedSkillUsersCell.swift
+//  Yep
+//
+//  Created by nixzhu on 15/10/23.
+//  Copyright © 2015年 Catch Inc. All rights reserved.
+//
+
+import UIKit
+
+class FeedSkillUsersCell: UITableViewCell {
+
+    @IBOutlet weak var promptLabel: UILabel!
+
+    @IBOutlet weak var avatarImageView1: UIImageView!
+    @IBOutlet weak var avatarImageView2: UIImageView!
+    @IBOutlet weak var avatarImageView3: UIImageView!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+
+    override func setSelected(selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        // Configure the view for the selected state
+    }
+
+    func configureWithFeeds(feeds: [DiscoveredFeed]) {
+
+        let feedCreators = feeds.map({ $0.creator })
+
+        if let creator = feedCreators[safe: 0] {
+            let plainAvatar = PlainAvatar(avatarURLString: creator.avatarURLString, avatarStyle: nanoAvatarStyle)
+            avatarImageView1.navi_setAvatar(plainAvatar)
+        } else {
+            avatarImageView1.image = nil
+        }
+
+        if let creator = feedCreators[safe: 1] {
+            let plainAvatar = PlainAvatar(avatarURLString: creator.avatarURLString, avatarStyle: nanoAvatarStyle)
+            avatarImageView2.navi_setAvatar(plainAvatar)
+        } else {
+            avatarImageView2.image = nil
+        }
+
+        if let creator = feedCreators[safe: 2] {
+            let plainAvatar = PlainAvatar(avatarURLString: creator.avatarURLString, avatarStyle: nanoAvatarStyle)
+            avatarImageView3.navi_setAvatar(plainAvatar)
+        } else {
+            avatarImageView3.image = nil
+        }
+    }
+}
+

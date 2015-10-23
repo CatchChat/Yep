@@ -11,8 +11,34 @@ import RealmSwift
 
 class FeedsViewController: UIViewController {
 
+    var skill: Skill?
+
     @IBOutlet weak var feedsTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
+    lazy var skillTitleView: UIView = {
+
+        let titleLabel = UILabel()
+
+        let textAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont.skillHomeTextLargeFont()
+        ]
+
+        let titleAttr = NSMutableAttributedString(string: self.skill?.localName ?? "", attributes:textAttributes)
+
+        titleLabel.attributedText = titleAttr
+        titleLabel.textAlignment = NSTextAlignment.Center
+        titleLabel.backgroundColor = UIColor.yepTintColor()
+        titleLabel.sizeToFit()
+
+        titleLabel.bounds = CGRectInset(titleLabel.frame, -25.0, -4.0)
+
+        titleLabel.layer.cornerRadius = titleLabel.frame.size.height/2.0
+        titleLabel.layer.masksToBounds = true
+
+        return titleLabel
+        }()
 
     lazy var pullToRefreshView: PullToRefreshView = {
 
@@ -39,6 +65,7 @@ class FeedsViewController: UIViewController {
         return pullToRefreshView
         }()
 
+    let feedSkillUsersCellID = "FeedSkillUsersCell"
     let feedCellID = "FeedCell"
 
     lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
@@ -50,9 +77,22 @@ class FeedsViewController: UIViewController {
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
             if let indexPaths = indexPaths {
+
+                // refresh skillUsers
+
+                let skillUsersIndexPath = NSIndexPath(forRow: 0, inSection: Section.SkillUsers.rawValue)
+                if let cell = self?.feedsTableView.cellForRowAtIndexPath(skillUsersIndexPath) as? FeedSkillUsersCell, feeds = self?.feeds {
+                    cell.configureWithFeeds(feeds)
+                }
+
+                // insert
+
                 self?.feedsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
 
             } else {
+
+                // or reload
+
                 self?.feedsTableView.reloadData()
             }
 
@@ -89,10 +129,16 @@ class FeedsViewController: UIViewController {
 
         title = NSLocalizedString("Feeds", comment: "")
 
+        if skill != nil {
+            navigationItem.titleView = skillTitleView
+        }
+
         feedsTableView.backgroundColor = UIColor.whiteColor()
-        feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
         feedsTableView.tableFooterView = UIView()
         feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+
+        feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
+        feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
 
         updateFeeds()
     }
@@ -106,7 +152,8 @@ class FeedsViewController: UIViewController {
         }
 
         navigationController?.setNavigationBarHidden(false, animated: false)
-        tabBarController?.tabBar.hidden = false
+
+        tabBarController?.tabBar.hidden = (skill == nil) ? false : true
     }
 
     // MARK: - Actions
@@ -115,7 +162,7 @@ class FeedsViewController: UIViewController {
 
         activityIndicator.startAnimating()
 
-        discoverFeedsWithSortStyle(.Time, pageIndex: 1, perPage: 100, failureHandler: { reason, errorMessage in
+        discoverFeedsWithSortStyle(.Time, skill: skill, pageIndex: 1, perPage: 50, failureHandler: { reason, errorMessage in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 self?.activityIndicator.stopAnimating()
@@ -143,7 +190,7 @@ class FeedsViewController: UIViewController {
 
                 let allFeeds = Array(unionFeedSet).sort({ $0.createdUnixTime > $1.createdUnixTime })
 
-                let newIndexPaths = allNewFeedSet.map({ allFeeds.indexOf($0) }).flatMap({ $0 }).map({ NSIndexPath(forRow: $0, inSection: 0) })
+                let newIndexPaths = allNewFeedSet.map({ allFeeds.indexOf($0) }).flatMap({ $0 }).map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
 
                 dispatch_async(dispatch_get_main_queue()) {
 
@@ -164,6 +211,8 @@ class FeedsViewController: UIViewController {
 
         let vc = self.storyboard?.instantiateViewControllerWithIdentifier("NewFeedViewController") as! NewFeedViewController
 
+        vc.preparedSkill = skill
+
         vc.afterCreatedFeedAction = { [weak self] feed in
 
             dispatch_async(dispatch_get_main_queue()) {
@@ -172,7 +221,7 @@ class FeedsViewController: UIViewController {
 
                     strongSelf.feeds.insert(feed, atIndex: 0)
 
-                    let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+                    let indexPath = NSIndexPath(forRow: 0, inSection: Section.Feed.rawValue)
                     strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath])
                 }
             }
@@ -207,11 +256,33 @@ class FeedsViewController: UIViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
+        case "showSkillHome":
+
+            let vc = segue.destinationViewController as! SkillHomeViewController
+
+            if let indexPath = sender as? NSIndexPath {
+                if let skill = feeds[indexPath.row].skill {
+                    vc.skill = SkillCell.Skill(ID: skill.id, localName: skill.localName, coverURLString: skill.coverURLString, category: nil)
+                }
+            }
+
+            vc.hidesBottomBarWhenPushed = true
+
+        case "showFeedsWithSkill":
+
+            let vc = segue.destinationViewController as! FeedsViewController
+
+            if let indexPath = sender as? NSIndexPath {
+                vc.skill = feeds[indexPath.row].skill
+            }
+
+            vc.hidesBottomBarWhenPushed = true
+
         case "showConversation":
 
             guard let
-                index = sender as? Int,
-                feedData = feeds[safe: index],
+                indexPath = sender as? NSIndexPath,
+                feedData = feeds[safe: indexPath.row],
                 realm = try? Realm() else {
                     return
             }
@@ -313,68 +384,109 @@ class FeedsViewController: UIViewController {
 
 extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
+    enum Section: Int {
+        case SkillUsers
+        case Feed
+    }
+
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 
-        return 1
+        return 2
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        return feeds.count
+        switch section {
+        case Section.SkillUsers.rawValue:
+            return (skill == nil) ? 0 : 1
+        case Section.Feed.rawValue:
+            return feeds.count
+        default:
+            return 0
+        }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCellWithIdentifier(feedCellID) as! FeedCell
+        switch indexPath.section {
 
-        let feed = feeds[indexPath.item]
+        case Section.SkillUsers.rawValue:
 
-        cell.configureWithFeed(feed)
+            let cell = tableView.dequeueReusableCellWithIdentifier(feedSkillUsersCellID) as! FeedSkillUsersCell
 
-        cell.tapAvatarAction = { [weak self] in
-            self?.performSegueWithIdentifier("showProfile", sender: indexPath)
-        }
+            cell.configureWithFeeds(feeds)
 
-        cell.tapMediaAction = { [weak self] transitionView, imageURL in
-            let info = [
-                "transitionView": transitionView,
-                "imageURL": imageURL,
-            ]
-            self?.performSegueWithIdentifier("showFeedMedia", sender: info)
-        }
+            return cell
 
-        // simulate select effects when tap on messageTextView or cell.mediaCollectionView's space part
-        // 不能直接捕捉 indexPath，不然新插入后，之前捕捉的 indexPath 不能代表 cell 的新位置，模拟点击会错位到其它 cell
-        cell.touchesBeganAction = { [weak self] cell in
-            guard let indexPath = tableView.indexPathForCell(cell) else {
-                return
+        case Section.Feed.rawValue:
+
+            let cell = tableView.dequeueReusableCellWithIdentifier(feedCellID) as! FeedCell
+
+            let feed = feeds[indexPath.item]
+
+            cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+
+            cell.tapAvatarAction = { [weak self] in
+                self?.performSegueWithIdentifier("showProfile", sender: indexPath)
             }
-            self?.tableView(tableView, willSelectRowAtIndexPath: indexPath)
-            tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
-        }
-        cell.touchesEndedAction = { [weak self] cell in
-            guard let indexPath = tableView.indexPathForCell(cell) else {
-                return
-            }
-            delay(0.03) {
-                self?.tableView(tableView, didSelectRowAtIndexPath: indexPath)
-            }
-        }
-        cell.touchesCancelledAction = { cell in
-            guard let indexPath = tableView.indexPathForCell(cell) else {
-                return
-            }
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        }
 
-        return cell
+            cell.tapSkillAction = { [weak self] in
+                self?.performSegueWithIdentifier("showFeedsWithSkill", sender: indexPath)
+            }
+
+            cell.tapMediaAction = { [weak self] transitionView, imageURL in
+                let info = [
+                    "transitionView": transitionView,
+                    "imageURL": imageURL,
+                ]
+                self?.performSegueWithIdentifier("showFeedMedia", sender: info)
+            }
+
+            // simulate select effects when tap on messageTextView or cell.mediaCollectionView's space part
+            // 不能直接捕捉 indexPath，不然新插入后，之前捕捉的 indexPath 不能代表 cell 的新位置，模拟点击会错位到其它 cell
+            cell.touchesBeganAction = { [weak self] cell in
+                guard let indexPath = tableView.indexPathForCell(cell) else {
+                    return
+                }
+                self?.tableView(tableView, willSelectRowAtIndexPath: indexPath)
+                tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+            }
+            cell.touchesEndedAction = { [weak self] cell in
+                guard let indexPath = tableView.indexPathForCell(cell) else {
+                    return
+                }
+                delay(0.03) {
+                    self?.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+                }
+            }
+            cell.touchesCancelledAction = { cell in
+                guard let indexPath = tableView.indexPathForCell(cell) else {
+                    return
+                }
+                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            }
+            
+            return cell
+
+        default:
+            return UITableViewCell()
+        }
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 
-        let feed = feeds[indexPath.item]
+        switch indexPath.section {
 
-        return heightOfFeed(feed)
+        case Section.SkillUsers.rawValue:
+            return 70
+
+        case Section.Feed.rawValue:
+            let feed = feeds[indexPath.item]
+            return heightOfFeed(feed)
+
+        default:
+            return 0
+        }
     }
 
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
@@ -385,7 +497,17 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        performSegueWithIdentifier("showConversation", sender: indexPath.item)
+        switch indexPath.section {
+
+        case Section.SkillUsers.rawValue:
+            performSegueWithIdentifier("showSkillHome", sender: indexPath)
+
+        case Section.Feed.rawValue:
+            performSegueWithIdentifier("showConversation", sender: indexPath)
+
+        default:
+            break
+        }
     }
 
     // MARK: UIScrollViewDelegate

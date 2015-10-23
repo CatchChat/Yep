@@ -2329,13 +2329,17 @@ let parseFeeds: JSONDictionary -> [DiscoveredFeed]? = { data in
     return []
 }
 
-func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, pageIndex: Int, perPage: Int, failureHandler: ((Reason, String?) -> Void)?,completion: [DiscoveredFeed] -> Void) {
+func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageIndex: Int, perPage: Int, failureHandler: ((Reason, String?) -> Void)?,completion: [DiscoveredFeed] -> Void) {
 
-    let requestParameters: JSONDictionary = [
+    var requestParameters: JSONDictionary = [
         "sort": sortStyle.rawValue,
         "page": pageIndex,
         "per_page": perPage,
     ]
+
+    if let skill = skill {
+        requestParameters["skill_id"] = skill.id
+    }
 
     let parse = parseFeeds
 

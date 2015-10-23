@@ -29,6 +29,7 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
 
     var tapAvatarAction: (() -> Void)?
+    var tapSkillAction: (() -> Void)?
     var tapMediaAction: ((transitionView: UIView, imageURL: NSURL) -> Void)?
 
     var touchesBeganAction: (UITableViewCell -> Void)?
@@ -98,6 +99,10 @@ class FeedCell: UITableViewCell {
         avatarImageView.userInteractionEnabled = true
         avatarImageView.addGestureRecognizer(tapAvatar)
 
+        let tapSkill = UITapGestureRecognizer(target: self, action: "tapSkill:")
+        skillBubbleImageView.userInteractionEnabled = true
+        skillBubbleImageView.addGestureRecognizer(tapSkill)
+
         messageTextView.touchesBeganAction = { [weak self] in
             if let strongSelf = self {
                 strongSelf.touchesBeganAction?(strongSelf)
@@ -147,19 +152,24 @@ class FeedCell: UITableViewCell {
         tapAvatarAction?()
     }
 
+    func tapSkill(sender: UITapGestureRecognizer) {
+
+        tapSkillAction?()
+    }
+
     private func calHeightOfMessageTextView() {
 
         let rect = messageTextView.text.boundingRectWithSize(CGSize(width: FeedCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedCell.textAttributes, context: nil)
         messageTextViewHeightConstraint.constant = ceil(rect.height)
     }
 
-    func configureWithFeed(feed: DiscoveredFeed) {
+    func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
 
         messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
 
         calHeightOfMessageTextView()
 
-        if let skill = feed.skill {
+        if needShowSkill, let skill = feed.skill {
             skillLabel.text = skill.localName
 
             skillBubbleImageView.hidden = false
