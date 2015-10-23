@@ -39,6 +39,7 @@ class FeedsViewController: UIViewController {
         return pullToRefreshView
         }()
 
+    let feedSkillUsersCellID = "FeedSkillUsersCell"
     let feedCellID = "FeedCell"
 
     lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
@@ -90,9 +91,11 @@ class FeedsViewController: UIViewController {
         title = NSLocalizedString("Feeds", comment: "")
 
         feedsTableView.backgroundColor = UIColor.whiteColor()
-        feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
         feedsTableView.tableFooterView = UIView()
         feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+
+        feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
+        feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
 
         updateFeeds()
     }
@@ -143,7 +146,7 @@ class FeedsViewController: UIViewController {
 
                 let allFeeds = Array(unionFeedSet).sort({ $0.createdUnixTime > $1.createdUnixTime })
 
-                let newIndexPaths = allNewFeedSet.map({ allFeeds.indexOf($0) }).flatMap({ $0 }).map({ NSIndexPath(forRow: $0, inSection: 0) })
+                let newIndexPaths = allNewFeedSet.map({ allFeeds.indexOf($0) }).flatMap({ $0 }).map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
 
                 dispatch_async(dispatch_get_main_queue()) {
 
@@ -172,7 +175,7 @@ class FeedsViewController: UIViewController {
 
                     strongSelf.feeds.insert(feed, atIndex: 0)
 
-                    let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+                    let indexPath = NSIndexPath(forRow: 0, inSection: Section.Feed.rawValue)
                     strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath])
                 }
             }
@@ -313,68 +316,102 @@ class FeedsViewController: UIViewController {
 
 extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
+    enum Section: Int {
+        case SkillUsers
+        case Feed
+    }
+
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 
-        return 1
+        return 2
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        return feeds.count
+        switch section {
+        case Section.SkillUsers.rawValue:
+            return 1
+        case Section.Feed.rawValue:
+            return feeds.count
+        default:
+            return 0
+        }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCellWithIdentifier(feedCellID) as! FeedCell
+        switch indexPath.section {
 
-        let feed = feeds[indexPath.item]
+        case Section.SkillUsers.rawValue:
 
-        cell.configureWithFeed(feed)
+            let cell = tableView.dequeueReusableCellWithIdentifier(feedSkillUsersCellID) as! FeedSkillUsersCell
+            return cell
 
-        cell.tapAvatarAction = { [weak self] in
-            self?.performSegueWithIdentifier("showProfile", sender: indexPath)
-        }
+        case Section.Feed.rawValue:
 
-        cell.tapMediaAction = { [weak self] transitionView, imageURL in
-            let info = [
-                "transitionView": transitionView,
-                "imageURL": imageURL,
-            ]
-            self?.performSegueWithIdentifier("showFeedMedia", sender: info)
-        }
+            let cell = tableView.dequeueReusableCellWithIdentifier(feedCellID) as! FeedCell
 
-        // simulate select effects when tap on messageTextView or cell.mediaCollectionView's space part
-        // 不能直接捕捉 indexPath，不然新插入后，之前捕捉的 indexPath 不能代表 cell 的新位置，模拟点击会错位到其它 cell
-        cell.touchesBeganAction = { [weak self] cell in
-            guard let indexPath = tableView.indexPathForCell(cell) else {
-                return
+            let feed = feeds[indexPath.item]
+
+            cell.configureWithFeed(feed)
+
+            cell.tapAvatarAction = { [weak self] in
+                self?.performSegueWithIdentifier("showProfile", sender: indexPath)
             }
-            self?.tableView(tableView, willSelectRowAtIndexPath: indexPath)
-            tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
-        }
-        cell.touchesEndedAction = { [weak self] cell in
-            guard let indexPath = tableView.indexPathForCell(cell) else {
-                return
-            }
-            delay(0.03) {
-                self?.tableView(tableView, didSelectRowAtIndexPath: indexPath)
-            }
-        }
-        cell.touchesCancelledAction = { cell in
-            guard let indexPath = tableView.indexPathForCell(cell) else {
-                return
-            }
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        }
 
-        return cell
+            cell.tapMediaAction = { [weak self] transitionView, imageURL in
+                let info = [
+                    "transitionView": transitionView,
+                    "imageURL": imageURL,
+                ]
+                self?.performSegueWithIdentifier("showFeedMedia", sender: info)
+            }
+
+            // simulate select effects when tap on messageTextView or cell.mediaCollectionView's space part
+            // 不能直接捕捉 indexPath，不然新插入后，之前捕捉的 indexPath 不能代表 cell 的新位置，模拟点击会错位到其它 cell
+            cell.touchesBeganAction = { [weak self] cell in
+                guard let indexPath = tableView.indexPathForCell(cell) else {
+                    return
+                }
+                self?.tableView(tableView, willSelectRowAtIndexPath: indexPath)
+                tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+            }
+            cell.touchesEndedAction = { [weak self] cell in
+                guard let indexPath = tableView.indexPathForCell(cell) else {
+                    return
+                }
+                delay(0.03) {
+                    self?.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+                }
+            }
+            cell.touchesCancelledAction = { cell in
+                guard let indexPath = tableView.indexPathForCell(cell) else {
+                    return
+                }
+                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            }
+            
+            return cell
+
+        default:
+            return UITableViewCell()
+        }
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 
-        let feed = feeds[indexPath.item]
+        switch indexPath.section {
 
-        return heightOfFeed(feed)
+        case Section.SkillUsers.rawValue:
+            return 70
+
+        case Section.Feed.rawValue:
+            let feed = feeds[indexPath.item]
+            return heightOfFeed(feed)
+
+        default:
+            return 0
+        }
     }
 
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
@@ -385,7 +422,17 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-        performSegueWithIdentifier("showConversation", sender: indexPath.item)
+        switch indexPath.section {
+
+        case Section.SkillUsers.rawValue:
+            break
+
+        case Section.Feed.rawValue:
+            performSegueWithIdentifier("showConversation", sender: indexPath.item)
+
+        default:
+            break
+        }
     }
 
     // MARK: UIScrollViewDelegate
