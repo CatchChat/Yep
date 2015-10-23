@@ -16,6 +16,30 @@ class FeedsViewController: UIViewController {
     @IBOutlet weak var feedsTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
+    lazy var skillTitleView: UIView = {
+
+        let titleLabel = UILabel()
+
+        let textAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont.skillHomeTextLargeFont()
+        ]
+
+        let titleAttr = NSMutableAttributedString(string: self.skill?.localName ?? "", attributes:textAttributes)
+
+        titleLabel.attributedText = titleAttr
+        titleLabel.textAlignment = NSTextAlignment.Center
+        titleLabel.backgroundColor = UIColor.yepTintColor()
+        titleLabel.sizeToFit()
+
+        titleLabel.bounds = CGRectInset(titleLabel.frame, -25.0, -4.0)
+
+        titleLabel.layer.cornerRadius = titleLabel.frame.size.height/2.0
+        titleLabel.layer.masksToBounds = true
+
+        return titleLabel
+        }()
+
     lazy var pullToRefreshView: PullToRefreshView = {
 
         let pullToRefreshView = PullToRefreshView()
@@ -104,6 +128,10 @@ class FeedsViewController: UIViewController {
         super.viewDidLoad()
 
         title = NSLocalizedString("Feeds", comment: "")
+
+        if skill != nil {
+            navigationItem.titleView = skillTitleView
+        }
 
         feedsTableView.backgroundColor = UIColor.whiteColor()
         feedsTableView.tableFooterView = UIView()
