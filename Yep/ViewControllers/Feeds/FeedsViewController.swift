@@ -210,6 +210,8 @@ class FeedsViewController: UIViewController {
 
         let vc = self.storyboard?.instantiateViewControllerWithIdentifier("NewFeedViewController") as! NewFeedViewController
 
+        vc.preparedSkill = skill
+
         vc.afterCreatedFeedAction = { [weak self] feed in
 
             dispatch_async(dispatch_get_main_queue()) {
