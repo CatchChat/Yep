@@ -28,6 +28,11 @@ class FeedConversationsViewController: UIViewController {
 
     let feedConversationCellID = "FeedConversationCell"
 
+    deinit {
+
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,6 +53,8 @@ class FeedConversationsViewController: UIViewController {
                 }
             }
         }
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadFeedConversationsTableView", name: YepNewMessagesReceivedNotification, object: nil)
     }
 
     var isFirstAppear = true
