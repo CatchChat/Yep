@@ -11,6 +11,8 @@ import RealmSwift
 
 class FeedsViewController: UIViewController {
 
+    var skill: Skill?
+
     @IBOutlet weak var feedsTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
@@ -223,6 +225,16 @@ class FeedsViewController: UIViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
+        case "showFeedsWithSkill":
+
+            let vc = segue.destinationViewController as! FeedsViewController
+
+            if let indexPath = sender as? NSIndexPath {
+                vc.skill = feeds[indexPath.row].skill
+            }
+
+            vc.hidesBottomBarWhenPushed = true
+
         case "showConversation":
 
             guard let
@@ -343,7 +355,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         switch section {
         case Section.SkillUsers.rawValue:
-            return 1
+            return (skill == nil) ? 0 : 1
         case Section.Feed.rawValue:
             return feeds.count
         default:
