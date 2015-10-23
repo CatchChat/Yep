@@ -544,20 +544,22 @@ class ProfileViewController: UIViewController {
 
         if let profileLayout = profileCollectionView.collectionViewLayout as? ProfileLayout {
 
-            profileLayout.scrollUpAction = { progress in
+            profileLayout.scrollUpAction = { [weak self] progress in
 
-                let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Header.rawValue)
-                
-                if let coverCell = self.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
-
-                    let beginChangePercentage: CGFloat = 1 - 64 / self.collectionViewWidth * profileAvatarAspectRatio
-                    let normalizedProgressForChange: CGFloat = (progress - beginChangePercentage) / (1 - beginChangePercentage)
-
-                    coverCell.avatarBlurImageView.alpha = progress < beginChangePercentage ? 0 : normalizedProgressForChange
-
-                    self.topShadowImageView.alpha = progress < beginChangePercentage ? 1 : 1 - normalizedProgressForChange
-
-                    coverCell.locationLabel.alpha = progress < 0.5 ? 1 : 1 - min(1, (progress - 0.5) * 2 * 2) // 特别对待，在后半程的前半段即完成 alpha -> 0
+                if let strongSelf = self {
+                    let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Header.rawValue)
+                    
+                    if let coverCell = strongSelf.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
+                        
+                        let beginChangePercentage: CGFloat = 1 - 64 / strongSelf.collectionViewWidth * profileAvatarAspectRatio
+                        let normalizedProgressForChange: CGFloat = (progress - beginChangePercentage) / (1 - beginChangePercentage)
+                        
+                        coverCell.avatarBlurImageView.alpha = progress < beginChangePercentage ? 0 : normalizedProgressForChange
+                        
+                        strongSelf.topShadowImageView.alpha = progress < beginChangePercentage ? 1 : 1 - normalizedProgressForChange
+                        
+                        coverCell.locationLabel.alpha = progress < 0.5 ? 1 : 1 - min(1, (progress - 0.5) * 2 * 2) // 特别对待，在后半程的前半段即完成 alpha -> 0
+                    }
                 }
             }
         }
@@ -824,12 +826,12 @@ class ProfileViewController: UIViewController {
         pickSkillsController.masterSkills = self.masterSkills
         pickSkillsController.learningSkills = self.learningSkills
 
-        pickSkillsController.afterChangeSkillsAction = { masterSkills, learningSkills in
-            self.masterSkills = masterSkills
-            self.learningSkills = learningSkills
+        pickSkillsController.afterChangeSkillsAction = { [weak self] masterSkills, learningSkills in
+            self?.masterSkills = masterSkills
+            self?.learningSkills = learningSkills
 
             dispatch_async(dispatch_get_main_queue()) {
-                self.updateProfileCollectionView()
+                self?.updateProfileCollectionView()
             }
         }
 
@@ -1171,8 +1173,8 @@ class ProfileViewController: UIViewController {
                 vc.profileUser = profileUser
                 vc.githubWork = githubWork
 
-                vc.afterGetGithubWork = { githubWork in
-                    self.githubWork = githubWork
+                vc.afterGetGithubWork = {[weak self] githubWork in
+                    self?.githubWork = githubWork
                 }
             }
 
@@ -1185,8 +1187,8 @@ class ProfileViewController: UIViewController {
                 vc.profileUser = profileUser
                 vc.dribbbleWork = dribbbleWork
 
-                vc.afterGetDribbbleWork = { dribbbleWork in
-                    self.dribbbleWork = dribbbleWork
+                vc.afterGetDribbbleWork = { [weak self] dribbbleWork in
+                    self?.dribbbleWork = dribbbleWork
                 }
             }
 
@@ -1199,8 +1201,8 @@ class ProfileViewController: UIViewController {
                 vc.profileUser = profileUser
                 vc.instagramWork = instagramWork
 
-                vc.afterGetInstagramWork = { instagramWork in
-                    self.instagramWork = instagramWork
+                vc.afterGetInstagramWork = { [weak self] instagramWork in
+                    self?.instagramWork = instagramWork
                 }
             }
         }
