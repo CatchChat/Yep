@@ -888,22 +888,13 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    private func batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded updateOlderMessagesIfNeeded: Bool = false) {
+    private func batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded updateOlderMessagesIfNeeded: Bool = true) {
 
         if let recipient = conversation.recipient, latestMessage = messages.last {
 
             var needMarkInServer = false
 
             if updateOlderMessagesIfNeeded {
-
-//                var x = 0
-//                messages.forEach { message in
-//                    if !message.readed {
-//                        x++
-//                    }
-//                }
-//
-//                println("x: \(x)")
 
                 var predicate = NSPredicate(format: "readed = false", argumentArray: nil)
 

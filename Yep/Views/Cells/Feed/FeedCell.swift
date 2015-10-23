@@ -31,9 +31,9 @@ class FeedCell: UITableViewCell {
     var tapAvatarAction: (() -> Void)?
     var tapMediaAction: ((transitionView: UIView, imageURL: NSURL) -> Void)?
 
-    var touchesBeganAction: (() -> Void)?
-    var touchesEndedAction: (() -> Void)?
-    var touchesCancelledAction: (() -> Void)?
+    var touchesBeganAction: (UITableViewCell -> Void)?
+    var touchesEndedAction: (UITableViewCell -> Void)?
+    var touchesCancelledAction: (UITableViewCell -> Void)?
 
     var attachmentURLs = [NSURL]() {
         didSet {
@@ -99,24 +99,36 @@ class FeedCell: UITableViewCell {
         avatarImageView.addGestureRecognizer(tapAvatar)
 
         messageTextView.touchesBeganAction = { [weak self] in
-            self?.touchesBeganAction?()
+            if let strongSelf = self {
+                strongSelf.touchesBeganAction?(strongSelf)
+            }
         }
         messageTextView.touchesEndedAction = { [weak self] in
-            self?.touchesEndedAction?()
+            if let strongSelf = self {
+                strongSelf.touchesEndedAction?(strongSelf)
+            }
         }
         messageTextView.touchesCancelledAction = { [weak self] in
-            self?.touchesCancelledAction?()
+            if let strongSelf = self {
+                strongSelf.touchesCancelledAction?(strongSelf)
+            }
         }
 
         let backgroundView = TouchClosuresView(frame: mediaCollectionView.bounds)
         backgroundView.touchesBeganAction = { [weak self] in
-            self?.touchesBeganAction?()
+            if let strongSelf = self {
+                strongSelf.touchesBeganAction?(strongSelf)
+            }
         }
         backgroundView.touchesEndedAction = { [weak self] in
-            self?.touchesEndedAction?()
+            if let strongSelf = self {
+                strongSelf.touchesEndedAction?(strongSelf)
+            }
         }
         backgroundView.touchesCancelledAction = { [weak self] in
-            self?.touchesCancelledAction?()
+            if let strongSelf = self {
+                strongSelf.touchesCancelledAction?(strongSelf)
+            }
         }
         mediaCollectionView.backgroundView = backgroundView
     }
