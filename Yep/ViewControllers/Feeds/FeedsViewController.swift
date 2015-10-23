@@ -162,7 +162,7 @@ class FeedsViewController: UIViewController {
 
         activityIndicator.startAnimating()
 
-        discoverFeedsWithSortStyle(.Time, pageIndex: 1, perPage: 100, failureHandler: { reason, errorMessage in
+        discoverFeedsWithSortStyle(.Time, skill: skill, pageIndex: 1, perPage: 50, failureHandler: { reason, errorMessage in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 self?.activityIndicator.stopAnimating()
