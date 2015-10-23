@@ -29,6 +29,7 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
 
     var tapAvatarAction: (() -> Void)?
+    var tapSkillAction: (() -> Void)?
     var tapMediaAction: ((transitionView: UIView, imageURL: NSURL) -> Void)?
 
     var touchesBeganAction: (UITableViewCell -> Void)?
@@ -98,6 +99,10 @@ class FeedCell: UITableViewCell {
         avatarImageView.userInteractionEnabled = true
         avatarImageView.addGestureRecognizer(tapAvatar)
 
+        let tapSkill = UITapGestureRecognizer(target: self, action: "tapSkill:")
+        skillBubbleImageView.userInteractionEnabled = true
+        skillBubbleImageView.addGestureRecognizer(tapSkill)
+
         messageTextView.touchesBeganAction = { [weak self] in
             if let strongSelf = self {
                 strongSelf.touchesBeganAction?(strongSelf)
@@ -145,6 +150,11 @@ class FeedCell: UITableViewCell {
     func tapAvatar(sender: UITapGestureRecognizer) {
 
         tapAvatarAction?()
+    }
+
+    func tapSkill(sender: UITapGestureRecognizer) {
+
+        tapSkillAction?()
     }
 
     private func calHeightOfMessageTextView() {

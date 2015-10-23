@@ -375,6 +375,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 self?.performSegueWithIdentifier("showProfile", sender: indexPath)
             }
 
+            cell.tapSkillAction = { [weak self] in
+                self?.performSegueWithIdentifier("showFeedsWithSkill", sender: indexPath)
+            }
+
             cell.tapMediaAction = { [weak self] transitionView, imageURL in
                 let info = [
                     "transitionView": transitionView,
