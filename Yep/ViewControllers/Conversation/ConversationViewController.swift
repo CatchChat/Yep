@@ -3213,52 +3213,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         // Prepare meta data
 
-        let imageWidth = image.size.width
-        let imageHeight = image.size.height
-
-        let thumbnailWidth: CGFloat
-        let thumbnailHeight: CGFloat
-
-        if imageWidth > imageHeight {
-            thumbnailWidth = min(imageWidth, YepConfig.MetaData.thumbnailMaxSize)
-            thumbnailHeight = imageHeight * (thumbnailWidth / imageWidth)
-        } else {
-            thumbnailHeight = min(imageHeight, YepConfig.MetaData.thumbnailMaxSize)
-            thumbnailWidth = imageWidth * (thumbnailHeight / imageHeight)
-        }
-
-        let audioMetaDataInfo: [String: AnyObject]
-
-        let thumbnailSize = CGSize(width: thumbnailWidth, height: thumbnailHeight)
-
-        if let thumbnail = image.resizeToSize(thumbnailSize, withInterpolationQuality: CGInterpolationQuality.Low) {
-            let blurredThumbnail = thumbnail.blurredImageWithRadius(5, iterations: 7, tintColor: UIColor.clearColor())
-
-            let data = UIImageJPEGRepresentation(blurredThumbnail, 0.7)
-
-            let string = data!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
-
-            println("image blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
-
-            audioMetaDataInfo = [
-                YepConfig.MetaData.imageWidth: imageWidth,
-                YepConfig.MetaData.imageHeight: imageHeight,
-                YepConfig.MetaData.blurredThumbnailString: string,
-            ]
-
-        } else {
-            audioMetaDataInfo = [
-                YepConfig.MetaData.imageWidth: imageWidth,
-                YepConfig.MetaData.imageHeight: imageHeight
-            ]
-        }
-
-        var metaData: String? = nil
-
-        if let imageMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
-            let imageMetaDataString = NSString(data: imageMetaData, encoding: NSUTF8StringEncoding) as? String
-            metaData = imageMetaDataString
-        }
+        let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: true)
 
         // Do send
 
@@ -3268,7 +3223,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         if let withFriend = conversation.withFriend {
 
-            sendImageInFilePath(nil, orFileData: imageData, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
+            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
 
                 dispatch_async(dispatch_get_main_queue()) {
 
@@ -3277,7 +3232,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                             let _ = try? realm.write {
                                 message.localAttachmentName = messageImageName
                                 message.mediaType = MessageMediaType.Image.rawValue
-                                if let metaDataString = metaData {
+                                if let metaDataString = metaDataString {
                                     message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
                                 }
                             }
@@ -3299,7 +3254,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         } else if let withGroup = conversation.withGroup {
 
-            sendImageInFilePath(nil, orFileData: imageData, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
+            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
 
                 dispatch_async(dispatch_get_main_queue()) {
                     if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
@@ -3307,7 +3262,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                             let _ = try? realm.write {
                                 message.localAttachmentName = messageImageName
                                 message.mediaType = MessageMediaType.Image.rawValue
-                                if let metaDataString = metaData {
+                                if let metaDataString = metaDataString {
                                     message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
                                 }
                             }

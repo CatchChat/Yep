@@ -197,6 +197,7 @@ class YepConfig {
         static let videoWidth = "video_width"
         static let videoHeight = "video_height"
 
+        static let thumbnailString = "thumbnail_string"
         static let blurredThumbnailString = "blurred_thumbnail_string"
 
         static let thumbnailMaxSize: CGFloat = 100
