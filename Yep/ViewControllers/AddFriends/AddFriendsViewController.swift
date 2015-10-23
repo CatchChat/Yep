@@ -127,11 +127,11 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
             case More.Contacts.rawValue:
 
                 let propose: Propose = {
-                    proposeToAccess(.Contacts, agreed: {
-                        self.performSegueWithIdentifier("showFriendsInContacts", sender: nil)
+                    proposeToAccess(.Contacts, agreed: { [weak self] in
+                        self?.performSegueWithIdentifier("showFriendsInContacts", sender: nil)
 
-                    }, rejected: {
-                        self.alertCanNotAccessContacts()
+                    }, rejected: { [weak self] in
+                        self?.alertCanNotAccessContacts()
                     })
                 }
 
