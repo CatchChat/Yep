@@ -164,8 +164,11 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
     //println(request.cURLCommandLineWithSession(session))
 
     let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
+
         if let httpResponse = response as? NSHTTPURLResponse {
+
             if httpResponse.statusCode == 200 {
+
                 if let responseData = data {
 
                     if let result = resource.parse(responseData) {
@@ -236,7 +239,13 @@ func errorMessageInData(data: NSData?) -> String? {
 public typealias JSONDictionary = [String: AnyObject]
 
 func decodeJSON(data: NSData) -> JSONDictionary? {
-    return (try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())) as? JSONDictionary
+
+    if data.length > 0 {
+        return (try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())) as? JSONDictionary
+
+    } else {
+        return JSONDictionary()
+    }
 }
 
 func encodeJSON(dict: JSONDictionary) -> NSData? {
