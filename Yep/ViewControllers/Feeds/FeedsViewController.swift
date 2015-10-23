@@ -381,7 +381,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             let feed = feeds[indexPath.item]
 
-            cell.configureWithFeed(feed)
+            cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
 
             cell.tapAvatarAction = { [weak self] in
                 self?.performSegueWithIdentifier("showProfile", sender: indexPath)

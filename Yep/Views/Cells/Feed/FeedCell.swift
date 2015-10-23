@@ -163,13 +163,13 @@ class FeedCell: UITableViewCell {
         messageTextViewHeightConstraint.constant = ceil(rect.height)
     }
 
-    func configureWithFeed(feed: DiscoveredFeed) {
+    func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
 
         messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
 
         calHeightOfMessageTextView()
 
-        if let skill = feed.skill {
+        if needShowSkill, let skill = feed.skill {
             skillLabel.text = skill.localName
 
             skillBubbleImageView.hidden = false
