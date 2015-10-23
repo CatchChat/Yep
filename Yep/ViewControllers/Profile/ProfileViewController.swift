@@ -1053,33 +1053,43 @@ class ProfileViewController: UIViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        
-        if segue.identifier == "showSkillHome" {
-            noNeedToChangeStatusBar = false
-        } else {
-            noNeedToChangeStatusBar = false
-        }
-        
+
+//        if segue.identifier == "showSkillHome" {
+//            noNeedToChangeStatusBar = false
+//        } else {
+//            noNeedToChangeStatusBar = false
+//        }
+
         if segue.identifier == "showConversation" {
             let vc = segue.destinationViewController as! ConversationViewController
             vc.conversation = sender as! Conversation
             
-        } else if segue.identifier == "showSkillHome" {
-            
-            if let skillInfo = sender as? [String: AnyObject] {
-                let vc = segue.destinationViewController as! SkillHomeViewController
-                vc.hidesBottomBarWhenPushed = true
+        } else if segue.identifier == "showFeedsWithSkill" {
 
-                if let preferedSkillSet = skillInfo["preferedSkillSet"] as? Int {
-                    vc.preferedSkillSet = SkillSet(rawValue: preferedSkillSet)
-                }
+            let vc = segue.destinationViewController as! FeedsViewController
 
-                vc.skill = skillInfo["skill"] as? SkillCell.Skill
-
-                vc.afterUpdatedSkillCoverAction = { [weak self] in
-                    self?.updateProfileCollectionView()
-                }
+            if let
+                skillInfo = sender as? [String: AnyObject],
+                skill = skillInfo["skill"] as? SkillCell.Skill {
+                    vc.skill = Skill(category: nil, id: skill.ID, name: skill.localName, localName: skill.localName, coverURLString: skill.coverURLString)
             }
+
+            vc.hidesBottomBarWhenPushed = true
+            
+//            if let skillInfo = sender as? [String: AnyObject] {
+//                let vc = segue.destinationViewController as! SkillHomeViewController
+//                vc.hidesBottomBarWhenPushed = true
+//
+//                if let preferedSkillSet = skillInfo["preferedSkillSet"] as? Int {
+//                    vc.preferedSkillSet = SkillSet(rawValue: preferedSkillSet)
+//                }
+//
+//                vc.skill = skillInfo["skill"] as? SkillCell.Skill
+//
+//                vc.afterUpdatedSkillCoverAction = { [weak self] in
+//                    self?.updateProfileCollectionView()
+//                }
+//            }
 
         } else if segue.identifier == "showEditSkills" {
 
@@ -1265,7 +1275,8 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             cell.skill = profileUser?.cellSkillInSkillSet(.Master, atIndexPath: indexPath)
 
             cell.tapAction = { [weak self] skill in
-                self?.performSegueWithIdentifier("showSkillHome", sender: ["skill": skill, "preferedSkillSet": SkillSet.Master.rawValue])
+                //self?.performSegueWithIdentifier("showSkillHome", sender: ["skill": skill, "preferedSkillSet": SkillSet.Master.rawValue])
+                self?.performSegueWithIdentifier("showFeedsWithSkill", sender: ["skill": skill, "preferedSkillSet": SkillSet.Master.rawValue])
             }
 
             return cell
@@ -1276,7 +1287,8 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             cell.skill = profileUser?.cellSkillInSkillSet(.Learning, atIndexPath: indexPath)
 
             cell.tapAction = { [weak self] skill in
-                self?.performSegueWithIdentifier("showSkillHome", sender: ["skill": skill, "preferedSkillSet": SkillSet.Learning.rawValue])
+                //self?.performSegueWithIdentifier("showSkillHome", sender: ["skill": skill, "preferedSkillSet": SkillSet.Learning.rawValue])
+                self?.performSegueWithIdentifier("showFeedsWithSkill", sender: ["skill": skill, "preferedSkillSet": SkillSet.Learning.rawValue])
             }
 
             return cell

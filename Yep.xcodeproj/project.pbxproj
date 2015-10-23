@@ -245,6 +245,7 @@
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
 		50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E114FB1ABC549300F13000 /* ContactsCell.xib */; };
 		50E18BB71B180F7D0076C3C6 /* BottomButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E18BB61B180F7D0076C3C6 /* BottomButtonView.swift */; };
+		50E1CE891BDA3CED0025B933 /* SkillHome.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E1CE881BDA3CED0025B933 /* SkillHome.storyboard */; };
 		50E1D7291B870D7500D90A82 /* NSParagraphStyle+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1D7281B870D7500D90A82 /* NSParagraphStyle+Yep.swift */; };
 		50E3488E1B905C0100A8E699 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E3488D1B905C0100A8E699 /* AboutViewController.swift */; };
 		50E348921B9063A700A8E699 /* AboutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E348901B9063A700A8E699 /* AboutCell.swift */; };
@@ -551,6 +552,7 @@
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
 		50E114FB1ABC549300F13000 /* ContactsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactsCell.xib; path = Views/Cells/Contacts/ContactsCell.xib; sourceTree = "<group>"; };
 		50E18BB61B180F7D0076C3C6 /* BottomButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BottomButtonView.swift; path = Views/SayHi/BottomButtonView.swift; sourceTree = "<group>"; };
+		50E1CE881BDA3CED0025B933 /* SkillHome.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SkillHome.storyboard; path = ViewControllers/SkillHome/SkillHome.storyboard; sourceTree = "<group>"; };
 		50E1D7281B870D7500D90A82 /* NSParagraphStyle+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSParagraphStyle+Yep.swift"; path = "Extensions/NSParagraphStyle+Yep.swift"; sourceTree = "<group>"; };
 		50E3488D1B905C0100A8E699 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AboutViewController.swift; path = ViewControllers/About/AboutViewController.swift; sourceTree = "<group>"; };
 		50E348901B9063A700A8E699 /* AboutCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AboutCell.swift; path = Views/Cells/About/AboutCell.swift; sourceTree = "<group>"; };
@@ -634,6 +636,7 @@
 			isa = PBXGroup;
 			children = (
 				0A1CAC6D1AFA42D400826B45 /* SkillHomeViewController.swift */,
+				50E1CE881BDA3CED0025B933 /* SkillHome.storyboard */,
 			);
 			name = SkillHome;
 			sourceTree = "<group>";
@@ -2203,6 +2206,7 @@
 				0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */,
 				5053AD511AF82A1700B3CBFA /* PickLocationCell.xib in Resources */,
 				5011382D1BCB5E150055A014 /* FeedConversationDockCell.xib in Resources */,
+				50E1CE891BDA3CED0025B933 /* SkillHome.storyboard in Resources */,
 				5053AD5B1AF83B4200B3CBFA /* ChatLeftLocationCell.xib in Resources */,
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 				50EB8CC51AE89F12001AC1EE /* ChatRightVideoCell.xib in Resources */,
