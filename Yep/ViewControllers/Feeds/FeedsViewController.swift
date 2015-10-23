@@ -152,7 +152,8 @@ class FeedsViewController: UIViewController {
         }
 
         navigationController?.setNavigationBarHidden(false, animated: false)
-        tabBarController?.tabBar.hidden = false
+
+        tabBarController?.tabBar.hidden = (skill == nil) ? false : true
     }
 
     // MARK: - Actions
