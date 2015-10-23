@@ -225,6 +225,18 @@ class FeedsViewController: UIViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
+        case "showSkillHome":
+
+            let vc = segue.destinationViewController as! SkillHomeViewController
+
+            if let indexPath = sender as? NSIndexPath {
+                if let skill = feeds[indexPath.row].skill {
+                    vc.skill = SkillCell.Skill(ID: skill.id, localName: skill.localName, coverURLString: skill.coverURLString, category: nil)
+                }
+            }
+
+            vc.hidesBottomBarWhenPushed = true
+
         case "showFeedsWithSkill":
 
             let vc = segue.destinationViewController as! FeedsViewController
@@ -238,8 +250,8 @@ class FeedsViewController: UIViewController {
         case "showConversation":
 
             guard let
-                index = sender as? Int,
-                feedData = feeds[safe: index],
+                indexPath = sender as? NSIndexPath,
+                feedData = feeds[safe: indexPath.row],
                 realm = try? Realm() else {
                     return
             }
@@ -457,10 +469,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         switch indexPath.section {
 
         case Section.SkillUsers.rawValue:
-            break
+            performSegueWithIdentifier("showSkillHome", sender: indexPath)
 
         case Section.Feed.rawValue:
-            performSegueWithIdentifier("showConversation", sender: indexPath.item)
+            performSegueWithIdentifier("showConversation", sender: indexPath)
 
         default:
             break

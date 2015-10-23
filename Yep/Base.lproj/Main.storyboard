@@ -556,7 +556,7 @@
         <!--Skill Home View Controller-->
         <scene sceneID="kj4-Yg-Eog">
             <objects>
-                <viewController id="3gg-0l-MYn" customClass="SkillHomeViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SkillHomeViewController" id="3gg-0l-MYn" customClass="SkillHomeViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Vlu-dB-Ukl"/>
                         <viewControllerLayoutGuide type="bottom" id="IIx-oj-clN"/>
@@ -1580,6 +1580,7 @@
                         <segue destination="f92-fs-zdh" kind="show" identifier="showFeedMedia" id="fWY-6d-Rja"/>
                         <segue destination="AyC-pt-NR2" kind="show" identifier="showProfile" id="WEi-uo-nf5"/>
                         <segue destination="h8b-7V-qPb" kind="show" identifier="showFeedsWithSkill" id="D1j-0N-VMH"/>
+                        <segue destination="dYX-Ms-gWP" kind="show" identifier="showSkillHome" id="TTj-EA-7SS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ETW-Em-Kw5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1593,6 +1594,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HCX-id-Kbz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1144.5" y="-1667"/>
+        </scene>
+        <!--SkillHomeViewController-->
+        <scene sceneID="mll-N9-alH">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="SkillHomeViewController" id="dYX-Ms-gWP" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tm8-6z-ZhG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1150" y="-1840"/>
         </scene>
         <!--FeedsViewController-->
         <scene sceneID="Rau-4Y-1qY">
@@ -2044,8 +2053,8 @@
         <image name="yep_icon_solo" width="120" height="120"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Sdt-ox-uOm"/>
         <segue reference="WEi-uo-nf5"/>
         <segue reference="fWY-6d-Rja"/>
-        <segue reference="Sdt-ox-uOm"/>
     </inferredMetricsTieBreakers>
 </document>
