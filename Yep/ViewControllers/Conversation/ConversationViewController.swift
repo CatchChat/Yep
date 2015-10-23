@@ -1713,8 +1713,10 @@ class ConversationViewController: BaseViewController {
     }
 
     func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, scrollToBottom: Bool, success: (Bool) -> Void) {
-        
-        batchMarkMessagesAsReaded()
+
+        if messageIDs != nil {
+            batchMarkMessagesAsReaded()
+        }
         
         if navigationController?.topViewController == self { // 防止 pop/push 后，原来未释放的 VC 也执行这下面的代码
 
