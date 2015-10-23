@@ -51,9 +51,22 @@ class FeedsViewController: UIViewController {
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
             if let indexPaths = indexPaths {
+
+                // refresh skillUsers
+
+                let skillUsersIndexPath = NSIndexPath(forRow: 0, inSection: Section.SkillUsers.rawValue)
+                if let cell = self?.feedsTableView.cellForRowAtIndexPath(skillUsersIndexPath) as? FeedSkillUsersCell, feeds = self?.feeds {
+                    cell.configureWithFeeds(feeds)
+                }
+
+                // insert
+
                 self?.feedsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
 
             } else {
+
+                // or reload
+
                 self?.feedsTableView.reloadData()
             }
 
@@ -345,6 +358,9 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         case Section.SkillUsers.rawValue:
 
             let cell = tableView.dequeueReusableCellWithIdentifier(feedSkillUsersCellID) as! FeedSkillUsersCell
+
+            cell.configureWithFeeds(feeds)
+
             return cell
 
         case Section.Feed.rawValue:

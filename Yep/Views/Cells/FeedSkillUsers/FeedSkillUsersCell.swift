@@ -26,5 +26,31 @@ class FeedSkillUsersCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+
+    func configureWithFeeds(feeds: [DiscoveredFeed]) {
+
+        let feedCreators = feeds.map({ $0.creator })
+
+        if let creator = feedCreators[safe: 0] {
+            let plainAvatar = PlainAvatar(avatarURLString: creator.avatarURLString, avatarStyle: nanoAvatarStyle)
+            avatarImageView1.navi_setAvatar(plainAvatar)
+        } else {
+            avatarImageView1.image = nil
+        }
+
+        if let creator = feedCreators[safe: 1] {
+            let plainAvatar = PlainAvatar(avatarURLString: creator.avatarURLString, avatarStyle: nanoAvatarStyle)
+            avatarImageView2.navi_setAvatar(plainAvatar)
+        } else {
+            avatarImageView2.image = nil
+        }
+
+        if let creator = feedCreators[safe: 2] {
+            let plainAvatar = PlainAvatar(avatarURLString: creator.avatarURLString, avatarStyle: nanoAvatarStyle)
+            avatarImageView3.navi_setAvatar(plainAvatar)
+        } else {
+            avatarImageView3.image = nil
+        }
+    }
 }
 
