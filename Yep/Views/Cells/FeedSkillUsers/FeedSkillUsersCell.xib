@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="87" id="KGk-i7-Jjw" customClass="FeedSkillUsersCell" customModule="Yep" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="87"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="86.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="People with this skill" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2hp-Q8-5ww">
+                        <rect key="frame" x="15" y="35" width="136" height="18"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="c2h-Il-EtF">
+                        <rect key="frame" x="177" y="29" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="ck6-eh-hSS"/>
+                            <constraint firstAttribute="width" constant="30" id="kcl-3p-Y14"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0nL-ib-Q1c">
+                        <rect key="frame" x="257" y="29" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="9FK-z5-iOq"/>
+                            <constraint firstAttribute="width" constant="30" id="eiw-PS-NDx"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory_mini" translatesAutoresizingMaskIntoConstraints="NO" id="maH-pc-WxC" userLabel="Accessory Image View">
+                        <rect key="frame" x="297" y="37" width="8" height="13"/>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VhJ-f2-v5c">
+                        <rect key="frame" x="217" y="29" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="Xr0-Oo-juu"/>
+                            <constraint firstAttribute="width" constant="30" id="mjg-Wj-8XW"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="maH-pc-WxC" firstAttribute="leading" secondItem="0nL-ib-Q1c" secondAttribute="trailing" constant="10" id="1TX-Op-of6"/>
+                    <constraint firstAttribute="trailing" secondItem="maH-pc-WxC" secondAttribute="trailing" constant="15" id="H0j-4D-aEn"/>
+                    <constraint firstItem="2hp-Q8-5ww" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="LLe-FO-rO8"/>
+                    <constraint firstItem="2hp-Q8-5ww" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="MZj-hr-AEy"/>
+                    <constraint firstItem="0nL-ib-Q1c" firstAttribute="leading" secondItem="VhJ-f2-v5c" secondAttribute="trailing" constant="10" id="OdQ-ZP-U3T"/>
+                    <constraint firstItem="VhJ-f2-v5c" firstAttribute="leading" secondItem="c2h-Il-EtF" secondAttribute="trailing" constant="10" id="hbA-VU-HeI"/>
+                    <constraint firstItem="maH-pc-WxC" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="hfr-z6-UZi"/>
+                    <constraint firstItem="c2h-Il-EtF" firstAttribute="centerY" secondItem="VhJ-f2-v5c" secondAttribute="centerY" id="nGm-20-kiC"/>
+                    <constraint firstItem="0nL-ib-Q1c" firstAttribute="centerY" secondItem="maH-pc-WxC" secondAttribute="centerY" id="ojq-B1-pfP"/>
+                    <constraint firstItem="VhJ-f2-v5c" firstAttribute="centerY" secondItem="0nL-ib-Q1c" secondAttribute="centerY" id="xtb-Qt-9Of"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="avatarImageView1" destination="0nL-ib-Q1c" id="zGK-6C-wrJ"/>
+                <outlet property="avatarImageView2" destination="VhJ-f2-v5c" id="ZRT-VJ-s7X"/>
+                <outlet property="avatarImageView3" destination="c2h-Il-EtF" id="vmU-Bc-dJE"/>
+                <outlet property="promptLabel" destination="2hp-Q8-5ww" id="Fxe-Wm-r5M"/>
+            </connections>
+            <point key="canvasLocation" x="343" y="329.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon_accessory_mini" width="8" height="13"/>
+    </resources>
+</document>
