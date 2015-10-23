@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 import MonkeyKing
 import Navi
+import Crashlytics
 
 let YepCreatedConversationNotification = "YepCreatedConversationNotification"
 
@@ -323,8 +324,8 @@ class ProfileViewController: UIViewController {
                     sayHiView.hidden = true
 
                 } else {
-                    sayHiView.tapAction = {
-                        self.sayHi()
+                    sayHiView.tapAction = { [weak self] in
+                        self?.sayHi()
                     }
 
                     profileCollectionView.contentInset.bottom = sayHiView.bounds.height
@@ -510,6 +511,11 @@ class ProfileViewController: UIViewController {
                     learningSkills = skillsFromUserSkillList(user.learningSkills)
 
                     updateProfileCollectionView()
+                    
+                    Answers.logContentViewWithName("\(user.nickname) Profile",
+                        contentType: "Profile",
+                        contentId: "profile-\(user.userID)",
+                        customAttributes: [:])
                 }
 
             default:
@@ -859,6 +865,11 @@ class ProfileViewController: UIViewController {
     func sayHi() {
 
         if let profileUser = profileUser {
+            
+            Answers.logContentViewWithName("SayHi",
+                contentType: "SayHi",
+                contentId: "SayHi-\(profileUser.userID)",
+                customAttributes: [:])
 
             guard let realm = try? Realm() else {
                 return

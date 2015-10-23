@@ -12,6 +12,7 @@ import MobileCoreServices
 import Photos
 import Proposer
 import RealmSwift
+import Crashlytics
 
 class NewFeedViewController: UIViewController {
 
@@ -284,6 +285,11 @@ class NewFeedViewController: UIViewController {
                     "image": imageInfosData,
                 ]
             }
+            
+            Answers.logContentViewWithName("New Feed",
+                contentType: "FeedCreate",
+                contentId: "new-feed-\(YepUserDefaults.userID)",
+                customAttributes: [:])
 
             createFeedWithMessage(message, attachments: mediaInfo, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
