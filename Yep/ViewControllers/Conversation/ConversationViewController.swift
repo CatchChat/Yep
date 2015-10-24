@@ -17,6 +17,7 @@ import Navi
 
 struct MessageNotification {
     static let MessageStateChanged = "MessageStateChangedNotification"
+    static let MessageBatchMarkAsRead = "MessageBatchMarkAsReadNotification"
 }
 
 enum ConversationFeed {
@@ -380,6 +381,8 @@ class ConversationViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillShowNotification:", name: UIMenuControllerWillShowMenuNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillHideNotification:", name: UIMenuControllerWillHideMenuNotification, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "prepareMarkSendStatus:", name: MessageNotification.MessageBatchMarkAsRead, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {
@@ -625,6 +628,19 @@ class ConversationViewController: BaseViewController {
             }
 
             tryRecoverMessageToolBar()           
+        }
+    }
+
+    func prepareMarkSendStatus(notifictaion: NSNotification) {
+        if let messageDataInfo = notifictaion.object as? [String: AnyObject],
+        last_read_at = messageDataInfo["last_read_at"] as? NSTimeInterval,
+        recipient_type = messageDataInfo["recipient_type"] as? String,
+            recipient_id = messageDataInfo["recipient_id"] as? String {
+                
+                if recipient_id == conversation.recipient?.ID && recipient_type == conversation.recipient?.type.nameForServer {
+                    self.markSentMesageAsRead(last_read_at)
+                }
+                
         }
     }
 

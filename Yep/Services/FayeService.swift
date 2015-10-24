@@ -184,23 +184,14 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                 if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
                                     
                                     if let
-                                        //recipientID = messageDataInfo["recipient_id"] as? String,
-                                        messageID = messageDataInfo["id"] as? String {
+                                        last_read_at = messageDataInfo["last_read_at"] as? NSTimeInterval,
+                                        recipient_type = messageDataInfo["recipient_type"] as? String,
+                                        recipient_id = messageDataInfo["recipient_id"] as? String {
                                             
-                                            println("Mark Message \(messageID) As Read")
+                                            println("Mark recipient_id \(recipient_id) As Read")
 
-                                            guard let realm = try? Realm() else {
-                                                return
-                                            }
-
-                                            if let message = messageWithMessageID(messageID, inRealm: realm) {
-                                                let _ = try? realm.write {
-                                                    message.sendState = MessageSendState.Read.rawValue
-                                                }
-                                                
-                                                dispatch_async(dispatch_get_main_queue()) {
-                                                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
-                                                }
+                                            dispatch_async(dispatch_get_main_queue()) {
+                                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageBatchMarkAsRead, object: ["last_read_at": last_read_at, "recipient_type": recipient_type, "recipient_id": recipient_id])
                                             }
                                     }
                                 }
