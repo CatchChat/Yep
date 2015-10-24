@@ -14,12 +14,12 @@ class SkillHomeHeaderView: UIView {
     var skillCategory: SkillCell.Skill.Category = .Art
     var skillCoverURLString: String? {
         willSet {
-            if let coverURLString = newValue, URL = NSURL(string: coverURLString) {
-                headerImageView.kf_setImageWithURL(URL, placeholderImage: skillCategory.gradientImage)
-
-            } else {
-                headerImageView.image = skillCategory.gradientImage
-            }
+//            if let coverURLString = newValue, URL = NSURL(string: coverURLString) {
+//                headerImageView.kf_setImageWithURL(URL, placeholderImage: skillCategory.gradientImage)
+//
+//            } else {
+//                headerImageView.image = skillCategory.gradientImage
+//            }
         }
     }
     
@@ -27,6 +27,7 @@ class SkillHomeHeaderView: UIView {
         let tempImageView = UIImageView(frame: CGRectZero)
         tempImageView.contentMode = .ScaleAspectFill
         tempImageView.clipsToBounds = true
+        tempImageView.backgroundColor = UIColor.whiteColor()
         return tempImageView;
     }()
     
