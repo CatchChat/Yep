@@ -723,6 +723,8 @@ var isFetchingUnreadMessages = Listenable<Bool>(false) { _ in }
 
 func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) -> Void) {
 
+    println("Before fetching")
+    
     dispatch_async(dispatch_get_main_queue()) {
         
         if isFetchingUnreadMessages.value {
@@ -730,6 +732,8 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
         }
         
         isFetchingUnreadMessages.value = true
+        
+        println("Begin fetching")
         
         unreadMessages { allUnreadMessages in
             

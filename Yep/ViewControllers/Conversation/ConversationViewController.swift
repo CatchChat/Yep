@@ -554,10 +554,9 @@ class ConversationViewController: BaseViewController {
                             }
                         }
                         
-                        dispatch_async(dispatch_get_main_queue()) {
+                        delay(1, work: {
                             NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
-                        }
-                        
+                        })
                     }
                 }
             }
