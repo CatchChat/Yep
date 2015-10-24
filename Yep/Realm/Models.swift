@@ -391,7 +391,7 @@ enum ConversationType: Int {
 }
 
 class Conversation: Object {
-
+    
     var fakeID: String? {
 
         switch type {
@@ -779,6 +779,18 @@ func unReadMessagesOfConversation(conversation: Conversation, inRealm realm: Rea
     return messages
 }
 */
+
+func conversationOfMessageID(messageID: String, inRealm realm: Realm) -> Results<Message>? {
+    
+    if let message = messageWithMessageID(messageID, inRealm: realm), conversation = message.conversation{
+        let predicate = NSPredicate(format: "conversation = %@", argumentArray: [conversation])
+        let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
+        return messages
+    } else {
+        return nil
+    }
+    
+}
 
 func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
     let predicate = NSPredicate(format: "conversation = %@", argumentArray: [conversation])

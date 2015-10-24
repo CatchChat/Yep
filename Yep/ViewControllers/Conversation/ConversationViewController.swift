@@ -529,24 +529,38 @@ class ConversationViewController: BaseViewController {
     
     func markSentMesageAsRead(time: NSTimeInterval) {
 
-        let predicate = NSPredicate(format: "readed = false AND fromFriend.friendState = %d AND createdUnixTime <= %lf", UserFriendState.Me.rawValue, time + 1)
-
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        dispatch_async(dispatch_get_main_queue()) {[weak self] in
             
-            if let filteredMessages = self?.messages.filter(predicate) {
+            let predicate = NSPredicate(format: "readed = false AND fromFriend.friendState = %d AND createdUnixTime <= %lf", UserFriendState.Me.rawValue, time + 1)
+            
+            if let lastMessageID = self?.messages.filter(predicate).first?.messageID {
                 
-                print(filteredMessages.count)
-                
-                filteredMessages.forEach { message in
-                    let _ = try? self?.realm.write {
-                        message.readed = true
-                        message.sendState = MessageSendState.Read.rawValue
+                dispatch_async(realmQueue) {
+
+                    guard let realm = try? Realm() else {
+                        return
+                    }
+                    
+                    if let messagesLocal = conversationOfMessageID(lastMessageID, inRealm: realm) {
+                        
+                        let filteredMessages = messagesLocal.filter(predicate)
+                        
+                        print(filteredMessages.count)
+                        
+                        filteredMessages.forEach { message in
+                            let _ = try? realm.write {
+                                message.readed = true
+                                message.sendState = MessageSendState.Read.rawValue
+                            }
+                        }
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                        }
+                        
                     }
                 }
             }
-
-            
-            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
         }
     }
     
