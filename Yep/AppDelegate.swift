@@ -219,7 +219,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         return
                     }
                     syncUnreadMessages() {
-                        completionHandler(UIBackgroundFetchResult.NewData)
                         APService.handleRemoteNotification(userInfo)
                     }
 
@@ -227,7 +226,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     officialMessages { messagesCount in
                         println("new officialMessages count: \(messagesCount)")
 
-                        completionHandler(UIBackgroundFetchResult.NewData)
                         APService.handleRemoteNotification(userInfo)
                     }
 
@@ -235,13 +233,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let subType = userInfo["subtype"] as? String {
                         if subType == "accepted" {
                             syncFriendshipsAndDoFurtherAction {
-                                completionHandler(UIBackgroundFetchResult.NewData)
                                 APService.handleRemoteNotification(userInfo)
                             }
                         }
                     }
                 }
 
+                completionHandler(UIBackgroundFetchResult.NewData)
                 // 非前台才记录启动通知类型
                 if application.applicationState != .Active {
                     self.remoteNotificationType = remoteNotificationType
