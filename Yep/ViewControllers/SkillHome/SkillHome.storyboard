@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+    </dependencies>
+    <scenes>
+        <!--Skill Home View Controller-->
+        <scene sceneID="mpT-f3-5io">
+            <objects>
+                <viewController storyboardIdentifier="SkillHomeViewController" id="Skr-bi-0gE" customClass="SkillHomeViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="AJf-La-Mod"/>
+                        <viewControllerLayoutGuide type="bottom" id="EON-Vd-GgL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VtN-Js-gJV">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1ud-c9-wpH" customClass="SkillHomeHeaderView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="QCs-gD-mCZ"/>
+                                </constraints>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Ak-vv-5dT">
+                                <rect key="frame" x="0.0" y="60" width="600" height="540"/>
+                            </scrollView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="xw8-T1-8T1">
+                                <rect key="frame" x="290" y="180" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3Ak-vv-5dT" firstAttribute="leading" secondItem="VtN-Js-gJV" secondAttribute="leading" id="1Qk-oF-7Q1"/>
+                            <constraint firstItem="1ud-c9-wpH" firstAttribute="leading" secondItem="VtN-Js-gJV" secondAttribute="leading" id="FTm-WT-h6p"/>
+                            <constraint firstItem="EON-Vd-GgL" firstAttribute="top" secondItem="3Ak-vv-5dT" secondAttribute="bottom" id="HaJ-ec-6uL"/>
+                            <constraint firstItem="EON-Vd-GgL" firstAttribute="top" secondItem="3Ak-vv-5dT" secondAttribute="bottom" id="IJ7-yh-JxQ"/>
+                            <constraint firstItem="1ud-c9-wpH" firstAttribute="top" secondItem="VtN-Js-gJV" secondAttribute="top" id="LeK-21-Axg"/>
+                            <constraint firstAttribute="trailing" secondItem="1ud-c9-wpH" secondAttribute="trailing" id="QKV-Ur-cLF"/>
+                            <constraint firstItem="3Ak-vv-5dT" firstAttribute="top" secondItem="1ud-c9-wpH" secondAttribute="bottom" id="SmF-he-2Do"/>
+                            <constraint firstItem="3Ak-vv-5dT" firstAttribute="top" secondItem="xw8-T1-8T1" secondAttribute="top" constant="-120" id="UOU-Oy-1fB"/>
+                            <constraint firstAttribute="trailing" secondItem="3Ak-vv-5dT" secondAttribute="trailing" id="dVG-ua-3Gj"/>
+                            <constraint firstAttribute="centerX" secondItem="xw8-T1-8T1" secondAttribute="centerX" id="des-Os-fMO"/>
+                            <constraint firstAttribute="bottom" secondItem="3Ak-vv-5dT" secondAttribute="bottom" id="qmW-gD-6hp"/>
+                            <constraint firstItem="3Ak-vv-5dT" firstAttribute="bottom" secondItem="1ud-c9-wpH" secondAttribute="bottom" id="vsn-YB-Gid"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="vsn-YB-Gid"/>
+                                <exclude reference="HaJ-ec-6uL"/>
+                                <exclude reference="IJ7-yh-JxQ"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="xw8-T1-8T1" id="ynn-qm-0Vv"/>
+                        <outlet property="headerView" destination="1ud-c9-wpH" id="b5S-6Z-VVA"/>
+                        <outlet property="headerViewHeightLayoutConstraint" destination="QCs-gD-mCZ" id="Mfc-YV-k80"/>
+                        <outlet property="skillHomeScrollView" destination="3Ak-vv-5dT" id="sgg-35-sfP"/>
+                        <segue destination="m24-Ix-wg0" kind="show" identifier="showProfile" id="uL0-rf-A2X"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Ex-Hw-P1G" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1062" y="1877"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="ADu-iD-9B6">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="m24-Ix-wg0" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RQC-0W-PjZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1523" y="1878"/>
+        </scene>
+    </scenes>
+</document>

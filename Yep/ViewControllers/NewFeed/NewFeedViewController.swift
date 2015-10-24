@@ -63,6 +63,7 @@ class NewFeedViewController: UIViewController {
         return []
         }()
 
+    var preparedSkill: Skill?
     var pickedSkill: Skill? {
         willSet {
             pickedSkillLabel.text = newValue?.localName
@@ -102,6 +103,11 @@ class NewFeedViewController: UIViewController {
 
         // pick skill
 
+        // 只有自己也有，才使用准备的
+        if let skill = preparedSkill, _ = skills.indexOf(skill) {
+            pickedSkill = preparedSkill
+        }
+
         channelLabel.text = NSLocalizedString("Channel:", comment: "")
         choosePromptLabel.text = NSLocalizedString("Choose...", comment: "")
         
@@ -109,8 +115,9 @@ class NewFeedViewController: UIViewController {
 
         skillPickerView.alpha = 0
 
-        pickedSkillBubbleImageView.alpha = 0
-        pickedSkillLabel.alpha = 0
+        let hasSkill = (pickedSkill != nil)
+        pickedSkillBubbleImageView.alpha = hasSkill ? 1 : 0
+        pickedSkillLabel.alpha = hasSkill ? 1 : 0
 
         channelView.backgroundColor = UIColor.whiteColor()
         channelView.userInteractionEnabled = true
@@ -162,12 +169,26 @@ class NewFeedViewController: UIViewController {
 
     func showSkillPickerView(tap: UITapGestureRecognizer) {
 
+        // 初次 show，预先 selectRow
+
         if pickedSkill == nil {
             if !skills.isEmpty {
                 let centerRow = max / 2
                 skillPickerView.selectRow(centerRow, inComponent: 0, animated: false)
                 pickedSkill = skills[centerRow % skills.count]
             }
+
+        } else {
+            if let skill = preparedSkill, let index = skills.indexOf(skill) {
+
+                var selectedRow = max / 2
+                selectedRow = selectedRow - selectedRow % skills.count + index
+
+                skillPickerView.selectRow(selectedRow, inComponent: 0, animated: false)
+                pickedSkill = skills[selectedRow % skills.count]
+            }
+
+            preparedSkill = nil // 再 show 就不需要 selectRow 了
         }
 
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
