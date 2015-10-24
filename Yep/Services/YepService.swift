@@ -1409,6 +1409,24 @@ func groups(completion completion: [JSONDictionary] -> Void) {
 
 // MARK: - Messages
 
+func lastReadTimeStampWithRecipient(recipient: Recipient, failureHandler: ((Reason, String?) -> Void)?,  completion: NSTimeInterval -> Void) {
+    
+    
+    let parse: JSONDictionary -> NSTimeInterval? = { data in
+        
+        return data["last_read_at"] as? NSTimeInterval
+    }
+    
+    let resource = authJsonResource(path: "/api/v1/\(recipient.type.nameForBatchMarkAsRead)/\(recipient.ID)/messages/sent_last_read_at", method: .GET, requestParameters: [:], parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+    
+}
+
 func officialMessages(completion completion: Int -> Void) {
 
     let parse: JSONDictionary -> Int? = { data in

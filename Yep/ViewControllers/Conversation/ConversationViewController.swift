@@ -491,6 +491,7 @@ class ConversationViewController: BaseViewController {
 
         case ConversationType.OneToOne.rawValue:
             syncMessages()
+            syncLocalMessageReadStatus()
 
         case ConversationType.Group.rawValue:
 
@@ -508,6 +509,41 @@ class ConversationViewController: BaseViewController {
 
         default:
             break
+        }
+    }
+    
+    func syncLocalMessageReadStatus() {
+        if let recipient = conversation.recipient {
+            lastReadTimeStampWithRecipient(recipient, failureHandler: { (reason, error) -> Void in
+                
+            }, completion: {[weak self] last_read_at  in
+                
+                self?.markSentMesageAsRead(last_read_at)
+                
+            })
+        }
+    }
+    
+    func markSentMesageAsRead(time: NSTimeInterval) {
+
+        let predicate = NSPredicate(format: "readed = false AND fromFriend.friendState = %d AND createdUnixTime <= %lf", UserFriendState.Me.rawValue, time + 1)
+
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            
+            if let filteredMessages = self?.messages.filter(predicate) {
+                
+                print(filteredMessages.count)
+                
+                filteredMessages.forEach { message in
+                    let _ = try? self?.realm.write {
+                        message.readed = true
+                        message.sendState = MessageSendState.Read.rawValue
+                    }
+                }
+            }
+
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
         }
     }
     
