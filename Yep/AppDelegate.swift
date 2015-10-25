@@ -214,7 +214,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
 
         println("didReceiveRemoteNotification: \(userInfo)")
-
+        APService.handleRemoteNotification(userInfo)
+        
         if YepUserDefaults.isLogined {
 
             if let type = userInfo["type"] as? String, remoteNotificationType = RemoteNotificationType(rawValue: type) {
@@ -225,22 +226,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if UIApplication.sharedApplication().applicationState == UIApplicationState.Active {
                         return
                     }
-                    syncUnreadMessages() {
-                        APService.handleRemoteNotification(userInfo)
-                    }
+                    
+                    syncUnreadMessage()
 
                 case .OfficialMessage:
                     officialMessages { messagesCount in
                         println("new officialMessages count: \(messagesCount)")
-
-                        APService.handleRemoteNotification(userInfo)
                     }
 
                 case .FriendRequest:
                     if let subType = userInfo["subtype"] as? String {
                         if subType == "accepted" {
                             syncFriendshipsAndDoFurtherAction {
-                                APService.handleRemoteNotification(userInfo)
                             }
                         }
                     }
@@ -305,15 +302,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func sync() {
 
         syncFriendshipsAndDoFurtherAction {
-            syncGroupsAndDoFurtherAction {
-                syncUnreadMessagesAndDoFurtherAction { messageIDs in
-                    tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
-                }
+            syncGroupsAndDoFurtherAction { [weak self] in
+                self?.syncUnreadMessage()
             }
         }
 
         officialMessages { messagesCount in
             println("new officialMessages count: \(messagesCount)")
+        }
+    }
+    
+    func syncUnreadMessage() {
+        let task = delay(0, work: {
+            syncUnreadMessagesAndDoFurtherAction { messageIDs in
+                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+            }
+        })
+        
+        delay(5) { [weak self] in
+            if let task = task {
+                if isFetchingUnreadMessages.value {
+                    isFetchingUnreadMessages.value  = false
+                    task(cancel: true)
+                    self?.syncUnreadMessage()
+                }
+            }
         }
     }
 

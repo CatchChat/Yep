@@ -757,10 +757,8 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     isFetchingUnreadMessages.value = false
+                    furtherAction(messageIDs: messageIDs)
                 }
-                
-                // do futher action
-                furtherAction(messageIDs: messageIDs)
             }
         }
     }
