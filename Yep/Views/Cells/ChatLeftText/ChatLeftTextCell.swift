@@ -25,10 +25,9 @@ class ChatLeftTextCell: ChatBaseCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-        dispatch_sync(dispatch_get_main_queue()) { [weak self] in
+
+        runOnMainQueueWithoutDeadlocking { [weak self] in
             self?.makeUI()
-        }
         }
 
         textContentTextView.textContainer.lineFragmentPadding = 0
@@ -61,8 +60,8 @@ class ChatLeftTextCell: ChatBaseCell {
     func configureWithMessage(message: Message, textContentLabelWidth: CGFloat, collectionView: UICollectionView, indexPath: NSIndexPath) {
 
         self.user = message.fromFriend
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-        dispatch_sync(dispatch_get_main_queue()) { [weak self] in
+
+        runOnMainQueueWithoutDeadlocking { [weak self] in
             if let strongSelf = self {
                 strongSelf.textContentTextView.text = message.textContent
                 //textContentTextView.attributedText = NSAttributedString(string: message.textContent, attributes: textAttributes)
@@ -87,7 +86,6 @@ class ChatLeftTextCell: ChatBaseCell {
                 strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.bubbleBodyImageView.frame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
 
             }
-        }
         }
 
         if let sender = message.fromFriend {

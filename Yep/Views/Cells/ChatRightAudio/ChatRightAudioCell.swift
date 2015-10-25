@@ -54,10 +54,8 @@ class ChatRightAudioCell: ChatRightBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-        dispatch_sync(dispatch_get_main_queue()) { [weak self] in
+        runOnMainQueueWithoutDeadlocking { [weak self] in
             self?.makeUI()
-        }
         }
 
         bubbleImageView.tintColor = UIColor.rightBubbleTintColor()
@@ -101,10 +99,8 @@ class ChatRightAudioCell: ChatRightBaseCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-        dispatch_sync(dispatch_get_main_queue()) { [weak self] in
+        runOnMainQueueWithoutDeadlocking { [weak self] in
             self?.updateAudioInfoViews()
-        }
         }
     }
 

@@ -28,10 +28,9 @@ class ChatLeftImageCell: ChatBaseCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-        dispatch_sync(dispatch_get_main_queue()) { [weak self] in
+
+        runOnMainQueueWithoutDeadlocking { [weak self] in
             self?.makeUI()
-        }
         }
 
         messageImageView.tintColor = UIColor.leftBubbleTintColor()
@@ -108,13 +107,11 @@ class ChatLeftImageCell: ChatBaseCell {
 
                 let width = messageImagePreferredWidth
                 
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { [weak self] in
-                dispatch_sync(dispatch_get_main_queue()) {
+                runOnMainQueueWithoutDeadlocking { [weak self] in
                     if let strongSelf = self {
                         strongSelf.messageImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: strongSelf.bounds.height)
                         strongSelf.loadingProgressView.center = CGPoint(x: CGRectGetMidX(strongSelf.messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.messageImageView.frame))
                     }
-                }
                 }
 
 
@@ -129,13 +126,12 @@ class ChatLeftImageCell: ChatBaseCell {
 
             } else {
                 let width = messageImagePreferredHeight * aspectRatio
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { [weak self] in
-                dispatch_sync(dispatch_get_main_queue()) {
+                
+                runOnMainQueueWithoutDeadlocking { [weak self] in
                     if let strongSelf = self {
                         strongSelf.messageImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: strongSelf.bounds.height)
                         strongSelf.loadingProgressView.center = CGPoint(x: CGRectGetMidX(strongSelf.messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.messageImageView.frame))
                     }
-                }
                 }
 
 
@@ -151,13 +147,11 @@ class ChatLeftImageCell: ChatBaseCell {
 
         } else {
             let width = messageImagePreferredWidth
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { [weak self] in
-            dispatch_sync(dispatch_get_main_queue()) {
+            runOnMainQueueWithoutDeadlocking { [weak self] in
                 if let strongSelf = self {
                     strongSelf.messageImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: strongSelf.bounds.height)
                     strongSelf.loadingProgressView.center = CGPoint(x: CGRectGetMidX(strongSelf.messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.messageImageView.frame))
                 }
-            }
             }
 
             ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Left, completion: { [weak self] progress, image in

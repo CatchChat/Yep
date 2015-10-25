@@ -26,10 +26,9 @@ class ChatRightTextCell: ChatRightBaseCell {
         let fullWidth = UIScreen.mainScreen().bounds.width
 
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-        dispatch_sync(dispatch_get_main_queue()) { [weak self] in
+
+        runOnMainQueueWithoutDeadlocking { [weak self] in
             self?.avatarImageView.center = CGPoint(x: fullWidth - halfAvatarSize - YepConfig.chatCellGapBetweenWallAndAvatar(), y: halfAvatarSize)
-        }
         }
 
     }
@@ -95,8 +94,8 @@ class ChatRightTextCell: ChatRightBaseCell {
         self.user = message.fromFriend
 
         self.mediaTapAction = mediaTapAction
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
-        dispatch_sync(dispatch_get_main_queue()) { [weak self] in
+
+        runOnMainQueueWithoutDeadlocking { [weak self] in
 
             if let strongSelf = self {
                 strongSelf.textContentTextView.text = message.textContent
@@ -122,7 +121,6 @@ class ChatRightTextCell: ChatRightBaseCell {
                 strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMaxX(strongSelf.bubbleBodyImageView.frame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
                 strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.bubbleBodyImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.bubbleBodyImageView.frame))
             }
-        }
         }
 
         if let sender = message.fromFriend {
