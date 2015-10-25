@@ -170,6 +170,8 @@ class NewFeedViewController: UIViewController {
     func showSkillPickerView(tap: UITapGestureRecognizer) {
 
         // 初次 show，预先 selectRow
+        
+        self.messageTextView.endEditing(true)
 
         if pickedSkill == nil {
             if !skills.isEmpty {
@@ -220,11 +222,12 @@ class NewFeedViewController: UIViewController {
             self?.channelViewBottomLineView.alpha = 1
             self?.choosePromptLabel.alpha = 1
 
-            self?.pickedSkillBubbleImageView.alpha = 1
-            self?.pickedSkillLabel.alpha = 1
-
-            self?.skillPickerView.alpha = 0
-
+            if let pickedSkill = self?.pickedSkill {
+                self?.pickedSkillBubbleImageView.alpha = 1
+                self?.pickedSkillLabel.alpha = 1
+                self?.skillPickerView.alpha = 0
+            }
+            
             self?.channelViewTopConstraint.constant = 30
             self?.view.layoutIfNeeded()
 
@@ -247,6 +250,8 @@ class NewFeedViewController: UIViewController {
     }
 
     func post(sender: UIBarButtonItem) {
+        
+        messageTextView.resignFirstResponder()
 
         YepHUD.showActivityIndicator()
 
