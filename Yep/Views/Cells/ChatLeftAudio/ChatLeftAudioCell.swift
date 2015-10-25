@@ -70,9 +70,9 @@ class ChatLeftAudioCell: ChatBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-//        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-        makeUI()
-//        }
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.makeUI()
+        }
 
         bubbleImageView.tintColor = UIColor.leftBubbleTintColor()
 

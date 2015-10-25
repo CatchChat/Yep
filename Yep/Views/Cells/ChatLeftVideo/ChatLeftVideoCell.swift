@@ -31,9 +31,9 @@ class ChatLeftVideoCell: ChatBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-//        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-        makeUI()
-//        }
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.makeUI()
+        }
 
         thumbnailImageView.tintColor = UIColor.leftBubbleTintColor()
 
@@ -94,11 +94,11 @@ class ChatLeftVideoCell: ChatBaseCell {
 
         loadingProgress = 0
 
-//        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-//            if let self = self {
-        thumbnailImageView.alpha = 0.0
-//            }
-//        }
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            if let strongSelf = self {
+                strongSelf.thumbnailImageView.alpha = 0.0
+            }
+        }
 
 
         if let (videoWidth, videoHeight) = videoMetaOfMessage(message) {
@@ -112,13 +112,13 @@ class ChatLeftVideoCell: ChatBaseCell {
 
                 let width = messageImagePreferredWidth
                 
-//                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-//                    if let self = self {
-                        self.thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(self.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: self.bounds.height)
-                        self.playImageView.center = CGPoint(x: CGRectGetMidX(self.thumbnailImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(self.thumbnailImageView.frame))
-                        self.loadingProgressView.center = self.playImageView.center
-//                    }
-//                }
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    if let strongSelf = self {
+                        strongSelf.thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: strongSelf.bounds.height)
+                        strongSelf.playImageView.center = CGPoint(x: CGRectGetMidX(strongSelf.thumbnailImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
+                        strongSelf.loadingProgressView.center = strongSelf.playImageView.center
+                    }
+                }
 
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Left, completion: { [weak self] progress, image in
 
@@ -132,13 +132,13 @@ class ChatLeftVideoCell: ChatBaseCell {
             } else {
                 let width = messageImagePreferredHeight * aspectRatio
                 
-//                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-//                    if let self = self {
-                        self.thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(self.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: self.bounds.height)
-                        self.playImageView.center = CGPoint(x: CGRectGetMidX(self.thumbnailImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(self.thumbnailImageView.frame))
-                        self.loadingProgressView.center = self.playImageView.center
-//                    }
-//                }
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    if let strongSelf = self {
+                        strongSelf.thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: strongSelf.bounds.height)
+                        strongSelf.playImageView.center = CGPoint(x: CGRectGetMidX(strongSelf.thumbnailImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
+                        strongSelf.loadingProgressView.center = strongSelf.playImageView.center
+                    }
+                }
 
 
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Left, completion: { [weak self] progress, image in
@@ -154,13 +154,13 @@ class ChatLeftVideoCell: ChatBaseCell {
         } else {
             let width = messageImagePreferredWidth
             
-//            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-//                if let self = self {
-                    self.thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(self.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: self.bounds.height)
-                    self.playImageView.center = CGPoint(x: CGRectGetMidX(self.thumbnailImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(self.thumbnailImageView.frame))
-                    self.loadingProgressView.center = self.playImageView.center
-//                }
-//            }
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                if let strongSelf = self {
+                    strongSelf.thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: strongSelf.bounds.height)
+                    strongSelf.playImageView.center = CGPoint(x: CGRectGetMidX(strongSelf.thumbnailImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
+                    strongSelf.loadingProgressView.center = strongSelf.playImageView.center
+                }
+            }
 
             ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Left, completion: { [weak self] progress, image in
 
