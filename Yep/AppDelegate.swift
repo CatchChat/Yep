@@ -70,14 +70,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
-        Fabric.with([Crashlytics.self()])
-
         Realm.Configuration.defaultConfiguration = realmConfig()
 
         cacheInAdvance()
 
         delay(0.5) {
             // 推送初始化
+            Fabric.with([Crashlytics.self()])
             APService.setupWithOption(launchOptions)
         }
         
@@ -92,7 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if isLogined {
 
-            delay(1.0, work: {[weak self] () -> Void in
+            delay(0.5, work: {[weak self] () -> Void in
                 self?.sync()
                 self?.startFaye()
             })
@@ -113,21 +112,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillResignActive(application: UIApplication) {
+        
+        println("Resign active")
 
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
+        
+        println("Enter background")
 
         NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        
+        println("Will Foreground")
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
 
+        println("Did Active")
         if !isFirstActive {
             if YepUserDefaults.isLogined {
                 syncUnreadMessages() {}
@@ -153,6 +159,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
 
+        println("Fetch Back")
         syncUnreadMessages() {
             completionHandler(UIBackgroundFetchResult.NewData)
         }
