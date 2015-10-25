@@ -34,9 +34,9 @@ class ChatLeftLocationCell: ChatBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-            self?.makeUI()
-        }
+//        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        makeUI()
+//        }
 
         mapImageView.tintColor = UIColor.leftBubbleTintColor()
         locationNameLabel.textColor = UIColor.whiteColor()

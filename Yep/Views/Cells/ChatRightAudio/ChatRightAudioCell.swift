@@ -54,9 +54,9 @@ class ChatRightAudioCell: ChatRightBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-            self?.makeUI()
-        }
+//        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        makeUI()
+//        }
 
         bubbleImageView.tintColor = UIColor.rightBubbleTintColor()
 
@@ -90,9 +90,9 @@ class ChatRightAudioCell: ChatRightBaseCell {
             let userAvatar = UserAvatar(userID: sender.userID, avatarStyle: nanoAvatarStyle)
             avatarImageView.navi_setAvatar(userAvatar)
         }
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-            self?.layoutIfNeeded()
-        }
+//        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        layoutIfNeeded()
+//        }
 
     }
 
