@@ -1290,10 +1290,10 @@ func groupWithGroupID(groupID groupID: String, failureHandler: ((Reason, String?
     }
 }
 
-func joinGroup(groupID groupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+func joinGroup(groupID groupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: () -> Void) {
     
-    let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
+    let parse: JSONDictionary -> Void? = { data in
+        return
     }
     
     let resource = authJsonResource(path: "/api/v1/circles/\(groupID)/join", method: .POST, requestParameters: [:], parse: parse)
@@ -1306,10 +1306,10 @@ func joinGroup(groupID groupID: String, failureHandler: ((Reason, String?) -> Vo
 }
 
 
-func leaveGroup(groupID groupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+func leaveGroup(groupID groupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: () -> Void) {
     
-    let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
+    let parse: JSONDictionary -> Void? = { data in
+        return
     }
     
     let resource = authJsonResource(path: "/api/v1/circles/\(groupID)/leave", method: .DELETE, requestParameters: [:], parse: parse)

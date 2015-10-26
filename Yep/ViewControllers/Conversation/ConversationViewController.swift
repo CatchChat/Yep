@@ -500,7 +500,9 @@ class ConversationViewController: BaseViewController {
 
             if let groupID = conversation.withGroup?.groupID {
 
-                joinGroup(groupID: groupID, failureHandler: nil, completion: { result in
+                joinGroup(groupID: groupID, failureHandler: nil, completion: {
+
+                    println("joined group: \(groupID)")
 
                     syncMessages()
 

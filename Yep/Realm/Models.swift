@@ -578,7 +578,8 @@ func saveFeedWithFeedDataWithoutFullGroup(feedData: DiscoveredFeed, group: Group
 
     let groupID = group.groupID
     
-    joinGroup(groupID: groupID, failureHandler: nil, completion: { result in
+    joinGroup(groupID: groupID, failureHandler: nil, completion: {
+
         groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { groupInfo in
             
             guard let realm = try? Realm() else {
@@ -1064,10 +1065,8 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
 
                 FayeService.sharedManager.unsubscribeGroup(groupID: groupID)
 
-                leaveGroup(groupID: groupID, failureHandler: { (reason, error) -> Void in
-
-                    }, completion: { (result) -> Void in
-
+                leaveGroup(groupID: groupID, failureHandler: nil, completion: {
+                    println("leaved group: \(groupID)")
                 })
 
                 realm.delete(group)
