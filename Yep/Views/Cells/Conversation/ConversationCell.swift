@@ -34,6 +34,11 @@ class ConversationCell: UITableViewCell {
     @IBOutlet weak var chatLabel: UILabel!
     @IBOutlet weak var timeAgoLabel: UILabel!
 
+    deinit {
+
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
