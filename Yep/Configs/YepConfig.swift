@@ -177,6 +177,11 @@ class YepConfig {
 //        ]
     }
 
+    struct FeedMedia {
+        static let placeholderImage = UIImage(named: "feed_media_placeholder_80")
+        static let biggerPlaceholderImage = UIImage(named: "feed_media_placeholder_160")
+    }
+
     struct FeedCell {
         static let textAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedMessageFont(),

@@ -27,9 +27,13 @@ class FeedMediaCell: UICollectionViewCell {
         deleteImageView.hidden = false
     }
 
-    func configureWithImageURL(imageURL: NSURL) {
+    func configureWithImageURL(imageURL: NSURL, bigger: Bool) {
 
-        imageView.kf_setImageWithURL(imageURL)
+        if bigger {
+            imageView.kf_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.biggerPlaceholderImage)
+        } else {
+            imageView.kf_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.placeholderImage)
+        }
 
         deleteImageView.hidden = true
     }

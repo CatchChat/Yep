@@ -250,7 +250,7 @@ extension FeedView: UICollectionViewDataSource, UICollectionViewDelegate {
 
         //println("attachment imageURL: \(imageURL)")
 
-        cell.configureWithImageURL(imageURL)
+        cell.configureWithImageURL(imageURL, bigger: (attachmentURLs.count == 1))
 
         return cell
     }

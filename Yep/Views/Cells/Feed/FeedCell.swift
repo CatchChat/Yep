@@ -224,7 +224,7 @@ extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegate {
 
             //println("attachment imageURL: \(imageURL)")
 
-            cell.configureWithImageURL(imageURL)
+            cell.configureWithImageURL(imageURL, bigger: (attachmentURLs.count == 1))
         }
 
         return cell
@@ -234,10 +234,10 @@ extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegate {
 
         if attachmentURLs.count > 1 {
             return CGSize(width: 80, height: 80)
+
         } else {
             return CGSize(width: 160, height: 160)
         }
-
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
