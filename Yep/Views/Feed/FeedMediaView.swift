@@ -110,6 +110,7 @@ class FeedMediaView: UIView {
             imageView2.image = nil
             imageView3.image = nil
             imageView4.image = nil
+
         default:
             break
         }

@@ -26,7 +26,6 @@ class FeedConversationDockCell: UITableViewCell {
         super.awakeFromNib()
 
         nameLabel.text = NSLocalizedString("Joined Feeds", comment: "")
-
         accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
     }
 
@@ -35,5 +34,5 @@ class FeedConversationDockCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
 }
+
