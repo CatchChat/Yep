@@ -44,7 +44,6 @@ class FeedView: UIView {
                         self?.messageTextViewTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (15 + 40 + 15)
                         //self?.messageLabel.numberOfLines = 1
                         self?.messageTextViewHeightConstraint.constant = 20
-                        self?.messageTextView.scrollRangeToVisible(NSMakeRange(0, 1))
                     }
 
                     if newValue == 0.0 {
@@ -61,10 +60,13 @@ class FeedView: UIView {
                     self?.distanceLabel.alpha = foldingAlpha
                     self?.mediaCollectionView.alpha = foldingAlpha
                     self?.timeLabel.alpha = foldingAlpha
-
                     self?.mediaView.alpha = newValue
 
-                }, completion: nil)
+                }, completion: { [weak self] _ in
+                        
+                    self?.messageTextView.contentOffset = CGPoint(x: 0, y: 0)
+                
+                })
 
                 if newValue == 1.0 {
                     foldAction?()
