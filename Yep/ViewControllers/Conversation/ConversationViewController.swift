@@ -457,6 +457,7 @@ class ConversationViewController: BaseViewController {
 
                 strongSelf.messageToolbarBottomConstraint.constant = 0
                 strongSelf.view.layoutIfNeeded()
+
             }
         }
 

@@ -22,7 +22,9 @@ extension String {
 func runOnMainQueueWithoutDeadlocking( block : () -> Void) {
     if (NSThread.isMainThread())
     {
-        block()
+        UIView.performWithoutAnimation({
+            block()
+        })
     }
     else
     {
