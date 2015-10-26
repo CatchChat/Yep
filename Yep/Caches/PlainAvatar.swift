@@ -33,10 +33,10 @@ extension PlainAvatar: Navi.Avatar {
         switch style {
 
         case miniAvatarStyle:
-            return UIImage(named: "default_avatar")
+            return UIImage(named: "default_avatar_60")
 
         case nanoAvatarStyle:
-            return UIImage(named: "default_avatar")
+            return UIImage(named: "default_avatar_40")
 
         default:
             return nil
