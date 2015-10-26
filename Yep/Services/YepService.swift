@@ -1535,7 +1535,7 @@ func officialMessages(completion completion: Int -> Void) {
     apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
 }
 
-func headUnreadMessages(completion completion: JSONDictionary -> Void) {
+func headUnreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": 1,
         "per_page": 100,
@@ -1586,9 +1586,9 @@ func sentButUnreadMessages(failureHandler failureHandler: ((Reason, String?) -> 
 }
 */
 
-func unreadMessages(completion completion: [JSONDictionary] -> Void) {
+func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
 
-    headUnreadMessages { result in
+    headUnreadMessages(failureHandler: failureHandler) { result in
 
         var messages = [JSONDictionary]()
 
@@ -1614,6 +1614,8 @@ func unreadMessages(completion completion: [JSONDictionary] -> Void) {
 
                         moreUnreadMessages(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
                             dispatch_group_leave(downloadGroup)
+
+                            failureHandler?(reason, errorMessage)
 
                         }, completion: { result in
                             if let currentPageMessages = result["messages"] as? [JSONDictionary] {
