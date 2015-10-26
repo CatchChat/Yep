@@ -2502,7 +2502,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             if message.mediaType == MessageMediaType.SectionDate.rawValue {
 
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
-                collectionViewConfigCell(collectionView, cell: cell, forItemAtIndexPath: indexPath)
+
                 return cell
             }
 
@@ -2515,31 +2515,31 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     case MessageMediaType.Image.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftImageCellIdentifier, forIndexPath: indexPath) as! ChatLeftImageCell
-                        collectionViewConfigCell(collectionView, cell: cell, forItemAtIndexPath: indexPath)
+
                         return cell
 
                     case MessageMediaType.Audio.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftAudioCellIdentifier, forIndexPath: indexPath) as! ChatLeftAudioCell
-                        collectionViewConfigCell(collectionView, cell: cell, forItemAtIndexPath: indexPath)
+
                         return cell
 
                     case MessageMediaType.Video.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftVideoCellIdentifier, forIndexPath: indexPath) as! ChatLeftVideoCell
-                        collectionViewConfigCell(collectionView, cell: cell, forItemAtIndexPath: indexPath)
+
                         return cell
 
                     case MessageMediaType.Location.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftLocationCellIdentifier, forIndexPath: indexPath) as! ChatLeftLocationCell
-                        collectionViewConfigCell(collectionView, cell: cell, forItemAtIndexPath: indexPath)
+
                         return cell
 
                     default:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
-                        collectionViewConfigCell(collectionView, cell: cell, forItemAtIndexPath: indexPath)
+
                         return cell
                     }
 
@@ -2550,31 +2550,31 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     case MessageMediaType.Image.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
-                        collectionViewConfigCell(collectionView, cell: cell, forItemAtIndexPath: indexPath)
+
                         return cell
 
                     case MessageMediaType.Audio.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightAudioCellIdentifier, forIndexPath: indexPath) as! ChatRightAudioCell
-                        collectionViewConfigCell(collectionView, cell: cell, forItemAtIndexPath: indexPath)
+
                         return cell
 
                     case MessageMediaType.Video.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightVideoCellIdentifier, forIndexPath: indexPath) as! ChatRightVideoCell
-                        collectionViewConfigCell(collectionView, cell: cell, forItemAtIndexPath: indexPath)
+
                         return cell
 
                     case MessageMediaType.Location.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightLocationCellIdentifier, forIndexPath: indexPath) as! ChatRightLocationCell
-                        collectionViewConfigCell(collectionView, cell: cell, forItemAtIndexPath: indexPath)
+
                         return cell
 
                     default:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
-                        collectionViewConfigCell(collectionView, cell: cell, forItemAtIndexPath: indexPath)
+
                         return cell
                     }
                 }
@@ -2591,7 +2591,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     }
 
-    func collectionViewConfigCell(collectionView: UICollectionView, cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
 
         if let message = self.messages[safe: (self.displayedMessagesRange.location + indexPath.item)] {
             
@@ -2975,7 +2975,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
         if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
-            return CGSize(width: collectionViewWidth, height: heightOfMessage(message))
+            
+            let height = heightOfMessage(message)
+            return CGSize(width: collectionViewWidth, height: height)
 
         } else {
             return CGSize(width: collectionViewWidth, height: 0)

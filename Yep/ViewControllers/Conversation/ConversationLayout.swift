@@ -44,11 +44,13 @@ class ConversationLayout: UICollectionViewFlowLayout {
 
         if insertIndexPathSet.contains(itemIndexPath) {
             attributes?.frame.origin.y += 30
+            attributes?.alpha = 0
 
             insertIndexPathSet.remove(itemIndexPath)
         }
 
         return attributes
     }
+    
 }
 
