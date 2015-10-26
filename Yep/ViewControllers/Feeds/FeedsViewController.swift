@@ -426,12 +426,16 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
 
-            cell.tapAvatarAction = { [weak self] in
-                self?.performSegueWithIdentifier("showProfile", sender: indexPath)
+            cell.tapAvatarAction = { [weak self] cell in
+                if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
+                    self?.performSegueWithIdentifier("showProfile", sender: indexPath)
+                }
             }
 
-            cell.tapSkillAction = { [weak self] in
-                self?.performSegueWithIdentifier("showFeedsWithSkill", sender: indexPath)
+            cell.tapSkillAction = { [weak self] cell in
+                if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
+                    self?.performSegueWithIdentifier("showFeedsWithSkill", sender: indexPath)
+                }
             }
 
             cell.tapMediaAction = { [weak self] transitionView, imageURL in

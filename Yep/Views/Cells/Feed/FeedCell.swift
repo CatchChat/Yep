@@ -28,8 +28,8 @@ class FeedCell: UITableViewCell {
 
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
 
-    var tapAvatarAction: (() -> Void)?
-    var tapSkillAction: (() -> Void)?
+    var tapAvatarAction: (UITableViewCell -> Void)?
+    var tapSkillAction: (UITableViewCell -> Void)?
     var tapMediaAction: ((transitionView: UIView, imageURL: NSURL) -> Void)?
 
     var touchesBeganAction: (UITableViewCell -> Void)?
@@ -149,12 +149,12 @@ class FeedCell: UITableViewCell {
 
     func tapAvatar(sender: UITapGestureRecognizer) {
 
-        tapAvatarAction?()
+        tapAvatarAction?(self)
     }
 
     func tapSkill(sender: UITapGestureRecognizer) {
 
-        tapSkillAction?()
+        tapSkillAction?(self)
     }
 
     private func calHeightOfMessageTextView() {
