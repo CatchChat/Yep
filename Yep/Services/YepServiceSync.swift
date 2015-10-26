@@ -1011,6 +1011,8 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
 
                         // 没有 Conversation 就尝试建立它
 
+                        var createdNewConversation = false
+
                         if conversation == nil {
                             let newConversation = Conversation()
 
@@ -1027,6 +1029,8 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                             }
 
                             conversation = newConversation
+
+                            createdNewConversation = true
                         }
 
                         // 在保证有 Conversation 的情况下继续，不然消息没有必要保留
@@ -1050,6 +1054,13 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                             // 纪录消息的 detail 信息
 
                             recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
+
+                            if createdNewConversation {
+
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                                }
+                            }
 
                             // Do furtherAction after sync
 

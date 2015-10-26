@@ -40,6 +40,8 @@ class ConversationCell: UITableViewCell {
 
         avatarImageView.contentMode = .ScaleAspectFill
         avatarImageViewWidthConstraint.constant = YepConfig.ConversationCell.avatarSize
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUIButAvatar:", name: YepNewMessagesReceivedNotification, object: nil)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -48,11 +50,42 @@ class ConversationCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    func updateUIButAvatar(sender: NSNotification) {
+        updateCountOfUnreadMessages()
+        updateInfoLabels()
+    }
+
+    private func updateCountOfUnreadMessages() {
+
+        if !conversation.invalidated {
+            countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
+        }
+    }
+
+    private func updateInfoLabels() {
+
+        if let latestMessage = messagesInConversation(conversation).last {
+
+            if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
+                self.chatLabel.text = placeholder
+            } else {
+                self.chatLabel.text = latestMessage.textContent
+            }
+
+            let createdAt = NSDate(timeIntervalSince1970: latestMessage.createdUnixTime)
+            self.timeAgoLabel.text = createdAt.timeAgo
+
+        } else {
+            self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
+            self.timeAgoLabel.text = NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
+        }
+    }
+
     func configureWithConversation(conversation: Conversation, avatarRadius radius: CGFloat, tableView: UITableView, indexPath: NSIndexPath) {
         
         self.conversation = conversation
 
-        countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
+        updateCountOfUnreadMessages()
         
         if conversation.type == ConversationType.OneToOne.rawValue {
 
@@ -63,21 +96,7 @@ class ConversationCell: UITableViewCell {
                 let userAvatar = UserAvatar(userID: conversationWithFriend.userID, avatarStyle: miniAvatarStyle)
                 avatarImageView.navi_setAvatar(userAvatar)
 
-                if let latestMessage = messagesInConversation(conversation).last {
-
-                    if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
-                        self.chatLabel.text = placeholder
-                    } else {
-                        self.chatLabel.text = latestMessage.textContent
-                    }
-
-                    let createdAt = NSDate(timeIntervalSince1970: latestMessage.createdUnixTime)
-                    self.timeAgoLabel.text = createdAt.timeAgo
-
-                } else {
-                    self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
-                    self.timeAgoLabel.text = NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
-                }
+                updateInfoLabels()
             }
 
         } else { // Group Conversation
@@ -91,22 +110,6 @@ class ConversationCell: UITableViewCell {
                     if let feed = group.withFeed {
                         nameLabel.text = feed.body
                     }
-                }
-                
-                if let latestMessage = messagesInConversation(conversation).last {
-
-                    if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
-                        self.chatLabel.text = placeholder
-                    } else {
-                        self.chatLabel.text = latestMessage.textContent
-                    }
-
-                    let createdAt = NSDate(timeIntervalSince1970: latestMessage.createdUnixTime)
-                    self.timeAgoLabel.text = createdAt.timeAgo
-                    
-                } else {
-                    self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
-                    self.timeAgoLabel.text = NSDate(timeIntervalSince1970: group.createdUnixTime).timeAgo
                 }
 
                 if let user = group.owner {
@@ -123,6 +126,8 @@ class ConversationCell: UITableViewCell {
                         avatarImageView.image = UIImage(named: "default_avatar")
                     }
                 }
+
+                updateInfoLabels()
             }
         }
     }
