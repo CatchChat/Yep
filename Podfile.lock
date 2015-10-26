@@ -52,7 +52,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   MZFayeClient:
-    :path: "../CatchLib-iOS/MZFayeClient/"
+    :path: ../CatchLib-iOS/MZFayeClient/
 
 SPEC CHECKSUMS:
   1PasswordExtension: 676a216461ffa9189db66541b5a2465e10ae4743
@@ -77,4 +77,4 @@ SPEC CHECKSUMS:
   SocketRocket: ee0b5c34182d37bb4f1f8d628bbe737718126daa
   TPKeyboardAvoiding: 614ebec846ec28b83d548769297fa5fb56468904
 
-COCOAPODS: 0.39.0
+COCOAPODS: 0.38.2

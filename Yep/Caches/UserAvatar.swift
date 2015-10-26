@@ -59,12 +59,14 @@ extension UserAvatar: Navi.Avatar {
 
     var localOriginalImage: UIImage? {
 
-        if let
-            avatar = user?.avatar,
-            avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
-            avatarFilePath = avatarFileURL.path,
-            image = UIImage(contentsOfFile: avatarFilePath) {
-                return image
+        if let user = user, avatar = user.avatar where avatar.avatarURLString == user.avatarURLString {
+
+            if let
+                avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
+                avatarFilePath = avatarFileURL.path,
+                image = UIImage(contentsOfFile: avatarFilePath) {
+                    return image
+            }
         }
 
         return nil
@@ -75,13 +77,13 @@ extension UserAvatar: Navi.Avatar {
         switch style {
 
         case miniAvatarStyle:
-            if let data = user?.avatar?.roundMini {
-                return UIImage(data: data, scale: screenScale)
+            if let user = user, avatar = user.avatar where avatar.avatarURLString == user.avatarURLString {
+                return UIImage(data: avatar.roundMini, scale: screenScale)
             }
 
         case nanoAvatarStyle:
-            if let data = user?.avatar?.roundNano {
-                return UIImage(data: data, scale: screenScale)
+            if let user = user, avatar = user.avatar where avatar.avatarURLString == user.avatarURLString {
+                return UIImage(data: avatar.roundNano, scale: screenScale)
             }
 
         default:
@@ -97,7 +99,24 @@ extension UserAvatar: Navi.Avatar {
             return
         }
 
+        var needNewAvatar = false
+
         if user.avatar == nil {
+            needNewAvatar = true
+        }
+
+        if let oldAvatar = user.avatar where oldAvatar.avatarURLString != user.avatarURLString {
+
+            NSFileManager.deleteAvatarImageWithName(oldAvatar.avatarFileName)
+
+            let _ = try? realm.write {
+                realm.delete(oldAvatar)
+            }
+
+            needNewAvatar = true
+        }
+
+        if needNewAvatar {
 
             let _avatar = avatarWithAvatarURLString(user.avatarURLString, inRealm: realm)
 
