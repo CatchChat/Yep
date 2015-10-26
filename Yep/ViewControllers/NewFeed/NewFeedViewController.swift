@@ -277,19 +277,19 @@ class NewFeedViewController: UIViewController {
                         dispatch_group_leave(uploadMediaImagesGroup)
                     }
                     
-                    }, completion: { s3UploadParams in
+                }, completion: { s3UploadParams in
+                    
+                    // Prepare meta data
+                    
+                    let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
+                    
+                    let uploadImageInfo = UploadImageInfo(s3UploadParams: s3UploadParams, metaDataString: metaDataString)
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        uploadImageInfos.append(uploadImageInfo)
                         
-                        // Prepare meta data
-                        
-                        let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
-                        
-                        let uploadImageInfo = UploadImageInfo(s3UploadParams: s3UploadParams, metaDataString: metaDataString)
-                        
-                        dispatch_async(dispatch_get_main_queue()) {
-                            uploadImageInfos.append(uploadImageInfo)
-                            
-                            dispatch_group_leave(uploadMediaImagesGroup)
-                        }
+                        dispatch_group_leave(uploadMediaImagesGroup)
+                    }
                 })
             }
         })
@@ -324,19 +324,21 @@ class NewFeedViewController: UIViewController {
                 
                 YepHUD.hideActivityIndicator()
                 
-                }, completion: { data in
-                    println(data)
+            }, completion: { data in
+                println(data)
+                
+                YepHUD.hideActivityIndicator()
+                
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     
-                    YepHUD.hideActivityIndicator()
-                    
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        
-                        if let feed = DiscoveredFeed.fromJSONDictionary(data) {
-                            self?.afterCreatedFeedAction?(feed: feed)
-                        }
-                        
-                        self?.dismissViewControllerAnimated(true, completion: nil)
+                    if let feed = DiscoveredFeed.fromJSONDictionary(data) {
+                        self?.afterCreatedFeedAction?(feed: feed)
                     }
+                    
+                    self?.dismissViewControllerAnimated(true, completion: nil)
+                }
+
+                syncGroupsAndDoFurtherAction {}
             })
         }
     }
