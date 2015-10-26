@@ -23,7 +23,8 @@ class InstagramMediaCell: UICollectionViewCell {
     }
 
     func configureWithInstagramMedia(media: InstagramWork.Media) {
-        imageView.kf_setImageWithURL(NSURL(string: media.images.lowResolution)!, placeholderImage: nil, optionsInfo: [.TargetCache: KingfisherOptions.CacheMemoryOnly], progressBlock: { receivedSize, totalSize in
+
+        imageView.kf_setImageWithURL(NSURL(string: media.images.lowResolution)!, placeholderImage: nil, optionsInfo: [], progressBlock: { receivedSize, totalSize in
             if receivedSize < totalSize {
                 self.activityIndicator.startAnimating()
             }
