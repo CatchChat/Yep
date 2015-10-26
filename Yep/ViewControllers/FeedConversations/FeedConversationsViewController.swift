@@ -140,8 +140,16 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                     }
                 }
 
+                dispatch_async(dispatch_get_main_queue()) {
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                }
+
             }, afterDeleted: {
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                }
 
             }, orCanceled: {
                 tableView.setEditing(false, animated: true)

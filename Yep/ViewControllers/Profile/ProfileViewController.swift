@@ -12,8 +12,6 @@ import MonkeyKing
 import Navi
 import Crashlytics
 
-let YepCreatedConversationNotification = "YepCreatedConversationNotification"
-
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
 enum SocialAccount: String, CustomStringConvertible {
@@ -953,7 +951,7 @@ class ProfileViewController: UIViewController {
                     if let conversation = user.conversation {
                         performSegueWithIdentifier("showConversation", sender: conversation)
                         
-                        NSNotificationCenter.defaultCenter().postNotificationName(YepCreatedConversationNotification, object: nil)
+                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                     }
                 }
 
@@ -975,7 +973,7 @@ class ProfileViewController: UIViewController {
                     if let conversation = user.conversation {
                         performSegueWithIdentifier("showConversation", sender: conversation)
 
-                        NSNotificationCenter.defaultCenter().postNotificationName(YepCreatedConversationNotification, object: nil)
+                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                     }
                 }
             }

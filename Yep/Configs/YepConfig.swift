@@ -40,7 +40,8 @@ class YepConfig {
     static let dismissKeyboardDelayTimeInterval : NSTimeInterval = 0.45
 
     struct Notification {
-        static let markAsReaded = "YepConfig.Notification.MarkAsReaded"
+        static let markAsReaded = "YepConfig.Notification.markAsReaded"
+        static let changedConversation = "YepConfig.Notification.changedConversation"
     }
 
     struct Message {
