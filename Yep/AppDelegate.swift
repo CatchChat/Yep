@@ -223,11 +223,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 switch remoteNotificationType {
 
                 case .Message:
-                    if UIApplication.sharedApplication().applicationState == UIApplicationState.Active {
-                        return
-                    }
-                    
-                    syncUnreadMessage()
+                    syncUnreadMessages() {}
 
                 case .OfficialMessage:
                     officialMessages { messagesCount in
@@ -243,11 +239,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
 
-                completionHandler(UIBackgroundFetchResult.NewData)
                 // 非前台才记录启动通知类型
                 if application.applicationState != .Active {
                     self.remoteNotificationType = remoteNotificationType
                 }
+
+                completionHandler(UIBackgroundFetchResult.NewData)
                 
             } else {
                 completionHandler(UIBackgroundFetchResult.NoData)
@@ -303,30 +300,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         syncFriendshipsAndDoFurtherAction {
             syncGroupsAndDoFurtherAction { [weak self] in
-                self?.syncUnreadMessage()
+                self?.syncUnreadMessages() {}
             }
         }
 
         officialMessages { messagesCount in
             println("new officialMessages count: \(messagesCount)")
-        }
-    }
-    
-    func syncUnreadMessage() {
-        let task = delay(0, work: {
-            syncUnreadMessagesAndDoFurtherAction { messageIDs in
-                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
-            }
-        })
-        
-        delay(5) { [weak self] in
-            if let task = task {
-                if isFetchingUnreadMessages.value {
-                    isFetchingUnreadMessages.value  = false
-                    task(cancel: true)
-                    self?.syncUnreadMessage()
-                }
-            }
         }
     }
 

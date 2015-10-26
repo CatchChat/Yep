@@ -1,6 +1,6 @@
 PODS:
   - 1PasswordExtension (1.6.3)
-  - Alamofire (3.0.1)
+  - Alamofire (3.1.0)
   - APAddressBook/Core (0.2.1)
   - APAddressBook/Swift (0.2.1):
     - APAddressBook/Core
@@ -13,12 +13,12 @@ PODS:
   - FXBlurView (1.6.4)
   - JPush (1.8.5)
   - KeyboardMan (0.5)
-  - Kingfisher (1.6.1)
+  - Kingfisher (1.7.0)
   - MonkeyKing (0.0.2)
   - MZFayeClient (1.0.1):
     - Base64 (~> 1.0.1)
     - SocketRocket (~> 0.4)
-  - Navi (0.3.6)
+  - Navi (0.3.7)
   - pop (1.0.8)
   - Proposer (0.7)
   - Realm (0.96.1):
@@ -56,7 +56,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   1PasswordExtension: 676a216461ffa9189db66541b5a2465e10ae4743
-  Alamofire: 2457e1b2e6c46bb05c3a598c542b7bfd08893775
+  Alamofire: 415bd7f56197722978759078486689f7ef913dce
   APAddressBook: 90c0fb07579a47e10ef1a2344e23cfd35f388bec
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
   Crashlytics: 41c082440d2e14da444186fff65e79c0b4b35d4c
@@ -65,10 +65,10 @@ SPEC CHECKSUMS:
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   JPush: ba06a6f866ce11f11c15149e7fa67488a23eec87
   KeyboardMan: ae716dfb1252ebcd1f68a2b659e91a970110e799
-  Kingfisher: a40cf8134ba1a78f395bdd3ee97d386ff3c3be0d
+  Kingfisher: 906bf9821bd32d06d4aaecc60431857e70ccabaa
   MonkeyKing: 9be24307843a80f4cd3eca66adc12c67aefb83bb
   MZFayeClient: 65e7ef67e61fbe7a7a8b196130541c9f06bcb5d8
-  Navi: 73dd4e6cbe8b5aa107d00d1e500ce421c4ad20bd
+  Navi: 891defbce3c48dcf31d05d3c2cbc8b7fe6c77c30
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   Proposer: c244e0d031227b6cf140da7a24d30f2d954d2cb2
   Realm: d05e4621f67fb1c36acd4e573ac5b52a407fc2cc

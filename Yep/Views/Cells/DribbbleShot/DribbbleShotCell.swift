@@ -23,7 +23,7 @@ class DribbbleShotCell: UICollectionViewCell {
     }
 
     func configureWithDribbbleShot(shot: DribbbleWork.Shot) {
-        imageView.kf_setImageWithURL(NSURL(string: shot.images.normal)!, placeholderImage: nil, optionsInfo: [.TargetCache: KingfisherOptions.CacheMemoryOnly], progressBlock: { receivedSize, totalSize in
+        imageView.kf_setImageWithURL(NSURL(string: shot.images.normal)!, placeholderImage: nil, optionsInfo: [], progressBlock: { receivedSize, totalSize in
             if receivedSize < totalSize {
                 self.activityIndicator.startAnimating()
             }

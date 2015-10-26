@@ -720,19 +720,25 @@ var isFetchingUnreadMessages = Listenable<Bool>(false) { _ in }
 
 func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) -> Void) {
 
-    println("Before fetching")
-    
+    if isFetchingUnreadMessages.value {
+        return
+    }
+
     dispatch_async(dispatch_get_main_queue()) {
-        
-        if isFetchingUnreadMessages.value {
-            return
-        }
         
         isFetchingUnreadMessages.value = true
         
         println("Begin fetching")
         
-        unreadMessages { allUnreadMessages in
+        unreadMessages(failureHandler: { (reason, errorMessage) in
+
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+
+            dispatch_async(dispatch_get_main_queue()) {
+                isFetchingUnreadMessages.value = false
+            }
+
+        }, completion: { allUnreadMessages in
             
             //println("\n allUnreadMessages: \(allUnreadMessages)")
             println("Got unread message: \(allUnreadMessages.count)")
@@ -751,13 +757,13 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
                     }
                 }
                 
-                
                 dispatch_async(dispatch_get_main_queue()) {
                     isFetchingUnreadMessages.value = false
+
                     furtherAction(messageIDs: messageIDs)
                 }
             }
-        }
+        })
     }
 }
 

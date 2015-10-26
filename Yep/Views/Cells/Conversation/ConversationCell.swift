@@ -34,14 +34,18 @@ class ConversationCell: UITableViewCell {
     @IBOutlet weak var chatLabel: UILabel!
     @IBOutlet weak var timeAgoLabel: UILabel!
 
+    deinit {
+
+        //NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
 
         avatarImageView.contentMode = .ScaleAspectFill
         avatarImageViewWidthConstraint.constant = YepConfig.ConversationCell.avatarSize
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUIButAvatar:", name: YepConfig.Notification.newMessages, object: nil)
+        //NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUIButAvatar:", name: YepConfig.Notification.newMessages, object: nil)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -50,10 +54,11 @@ class ConversationCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func updateUIButAvatar(sender: NSNotification) {
-        updateCountOfUnreadMessages()
-        updateInfoLabels()
-    }
+//    func updateUIButAvatar(sender: NSNotification) {
+//
+//        updateCountOfUnreadMessages()
+//        updateInfoLabels()
+//    }
 
     private func updateCountOfUnreadMessages() {
 
@@ -123,7 +128,7 @@ class ConversationCell: UITableViewCell {
                         avatarImageView.navi_setAvatar(userAvatar)
 
                     } else {
-                        avatarImageView.image = UIImage(named: "default_avatar")
+                        avatarImageView.image = UIImage(named: "default_avatar_60")
                     }
                 }
 
