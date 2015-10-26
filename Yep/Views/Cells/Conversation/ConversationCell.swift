@@ -41,7 +41,6 @@ class ConversationCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
 
         avatarImageView.contentMode = .ScaleAspectFill
         avatarImageViewWidthConstraint.constant = YepConfig.ConversationCell.avatarSize
@@ -56,6 +55,7 @@ class ConversationCell: UITableViewCell {
     }
 
     func updateUIButAvatar(sender: NSNotification) {
+
         updateCountOfUnreadMessages()
         updateInfoLabels()
     }
@@ -128,7 +128,7 @@ class ConversationCell: UITableViewCell {
                         avatarImageView.navi_setAvatar(userAvatar)
 
                     } else {
-                        avatarImageView.image = UIImage(named: "default_avatar")
+                        avatarImageView.image = UIImage(named: "default_avatar_60")
                     }
                 }
 
