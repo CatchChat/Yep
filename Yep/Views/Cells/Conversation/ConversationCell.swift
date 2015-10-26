@@ -41,7 +41,7 @@ class ConversationCell: UITableViewCell {
         avatarImageView.contentMode = .ScaleAspectFill
         avatarImageViewWidthConstraint.constant = YepConfig.ConversationCell.avatarSize
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUIButAvatar:", name: YepNewMessagesReceivedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUIButAvatar:", name: YepConfig.Notification.newMessages, object: nil)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

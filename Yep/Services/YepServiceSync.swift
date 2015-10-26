@@ -9,9 +9,6 @@
 import Foundation
 import RealmSwift
 
-
-let YepNewMessagesReceivedNotification = "YepNewMessagesReceivedNotification"
-
 enum MessageAge: String {
     case Old
     case New
@@ -25,7 +22,7 @@ func tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs: [String], 
                 "messageIDs": messageIDs,
                 "messageAge": messageAge.rawValue,
             ]
-            NSNotificationCenter.defaultCenter().postNotificationName(YepNewMessagesReceivedNotification, object: object)
+            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.newMessages, object: object)
         }
     }
 }

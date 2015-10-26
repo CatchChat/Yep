@@ -42,6 +42,7 @@ class YepConfig {
     struct Notification {
         static let markAsReaded = "YepConfig.Notification.markAsReaded"
         static let changedConversation = "YepConfig.Notification.changedConversation"
+        static let newMessages = "YepConfig.Notification.newMessages"
     }
 
     struct Message {
