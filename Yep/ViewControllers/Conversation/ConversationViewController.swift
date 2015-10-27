@@ -14,6 +14,7 @@ import MapKit
 import Proposer
 import KeyboardMan
 import Navi
+import MonkeyKing
 
 struct MessageNotification {
     static let MessageStateChanged = "MessageStateChangedNotification"
@@ -97,6 +98,8 @@ class ConversationViewController: BaseViewController {
     var selectedIndexPathForMenu: NSIndexPath?
 
     var realm: Realm!
+    
+    var groupURL: String?
     
     lazy var messages: Results<Message> = {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
@@ -505,10 +508,12 @@ class ConversationViewController: BaseViewController {
 
                     println("joined group: \(groupID)")
                     
-                    groupShareLinkWithGroupID(groupID, failureHandler: { (reason, error) -> Void in
+                    groupShareLinkWithGroupID(groupID, failureHandler: nil, completion: { [weak self] link in
                         
-                    }, completion: { (link) -> Void in
-                            print(link)
+                        if let url = link["url"] as? String {
+                            self?.groupURL = url
+                        }
+                        
                     })
 
                     syncMessages()
@@ -1544,13 +1549,71 @@ class ConversationViewController: BaseViewController {
     
     func topicMoreAction() {
         
-        moreView.shareAction = {
+        let descriotion = conversation.withGroup?.withFeed?.body
+        let groupID = conversation.withGroup?.groupID
+        
+        moreView.shareAction = { [weak self] in
             
+            guard let groupID = groupID, descriotion = descriotion else {
+                return
+            }
+            
+            guard let groupURL = self?.groupURL else {
+                
+                groupShareLinkWithGroupID(groupID, failureHandler: nil, completion: { [weak self] link in
+                    
+                    guard let url = link["url"] as? String else {
+                        return
+                    }
+                    self?.groupURL = url
+                    self?.showShareWithDescripion(descriotion, url: url)
+                    
+                })
+                
+                return
+            }
+            
+            self?.showShareWithDescripion(descriotion, url: groupURL)
         }
         
         if let window = view.window {
             moreView.showInView(window)
         }
+    }
+    
+    func showShareWithDescripion(description: String, url: String) {
+        let info = MonkeyKing.Info(
+            title: NSLocalizedString("Join Us", comment: ""),
+            description: description,
+            thumbnail: nil,
+            media: .URL(NSURL(string: url)!)
+        )
+        
+        let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
+        
+        let weChatSessionActivity = WeChatActivity(
+            type: .Session,
+            message: sessionMessage,
+            finish: { success in
+                println("share Image to WeChat Session success: \(success)")
+            }
+        )
+        
+        let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
+        
+        let weChatTimelineActivity = WeChatActivity(
+            type: .Timeline,
+            message: timelineMessage,
+            finish: { success in
+                println("share Image to WeChat Timeline success: \(success)")
+            }
+        )
+        
+        let shareText = "\(NSLocalizedString("Join Us", comment: "")) \(description) \(url) \(NSLocalizedString("From Yep", comment: ""))"
+        
+        let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
+        
+        self.presentViewController(activityViewController, animated: true, completion: nil)
     }
     
     func oneToOneMoreAction() {
