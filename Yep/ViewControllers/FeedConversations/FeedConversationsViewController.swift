@@ -36,8 +36,10 @@ class FeedConversationsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Joined Feeds", comment: "")
+        title = NSLocalizedString("Feeds", comment: "")
 
+//        navigationItem.backBarButtonItem?.title = NSLocalizedString("Feeds", comment: "")
+        
         realm = try! Realm()
 
         feedConversationsTableView.registerNib(UINib(nibName: feedConversationCellID, bundle: nil), forCellReuseIdentifier: feedConversationCellID)

@@ -504,12 +504,18 @@ class ConversationViewController: BaseViewController {
                 joinGroup(groupID: groupID, failureHandler: nil, completion: {
 
                     println("joined group: \(groupID)")
+                    
+                    groupShareLinkWithGroupID(groupID, failureHandler: { (reason, error) -> Void in
+                        
+                    }, completion: { (link) -> Void in
+                            print(link)
+                    })
 
                     syncMessages()
 
-                    dispatch_async(dispatch_get_main_queue()) {
-                        FayeService.sharedManager.subscribeGroup(groupID: groupID)
-                    }
+
+                    FayeService.sharedManager.subscribeGroup(groupID: groupID)
+
                 })
             }
 
@@ -672,7 +678,9 @@ class ConversationViewController: BaseViewController {
 
         // 进来时就尽快标记已读
 
-        batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded: true)
+        delay(0.5) { [weak self] in
+            self?.batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded: true)
+        }
 
         // MARK: Notify Typing
 
