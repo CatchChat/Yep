@@ -1427,8 +1427,7 @@ func groups(completion completion: [JSONDictionary] -> Void) {
 
 // MARK: - Messages
 
-func lastReadTimeStampWithRecipient(recipient: Recipient, failureHandler: ((Reason, String?) -> Void)?,  completion: NSTimeInterval -> Void) {
-    
+func lastMessageReadUnixTimeByRecipient(recipient: Recipient, failureHandler: ((Reason, String?) -> Void)?,  completion: NSTimeInterval -> Void) {
     
     let parse: JSONDictionary -> NSTimeInterval? = { data in
         
@@ -1442,7 +1441,6 @@ func lastReadTimeStampWithRecipient(recipient: Recipient, failureHandler: ((Reas
     } else {
         apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
     }
-    
 }
 
 func officialMessages(completion completion: Int -> Void) {
@@ -1660,6 +1658,24 @@ struct Recipient {
 
     let type: ConversationType
     let ID: String
+
+    func conversationInRealm(realm: Realm) -> Conversation? {
+
+        switch type {
+
+        case .OneToOne:
+            if let user = userWithUserID(ID, inRealm: realm) {
+                return user.conversation
+            }
+
+        case .Group:
+            if let group = groupWithGroupID(ID, inRealm: realm) {
+                return group.conversation
+            }
+        }
+
+        return nil
+    }
 }
 
 enum TimeDirection {

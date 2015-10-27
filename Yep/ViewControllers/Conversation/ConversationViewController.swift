@@ -382,7 +382,7 @@ class ConversationViewController: BaseViewController {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillHideNotification:", name: UIMenuControllerWillHideMenuNotification, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "prepareMarkSendStatus:", name: MessageNotification.MessageBatchMarkAsRead, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "messagesMarkAsReadByRecipient:", name: MessageNotification.MessageBatchMarkAsRead, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {
@@ -495,7 +495,7 @@ class ConversationViewController: BaseViewController {
 
         case ConversationType.OneToOne.rawValue:
             syncMessages()
-            syncLocalMessageReadStatus()
+            syncMessagesReadStatus()
 
         case ConversationType.Group.rawValue:
 
@@ -521,54 +521,6 @@ class ConversationViewController: BaseViewController {
 
         default:
             break
-        }
-    }
-    
-    func syncLocalMessageReadStatus() {
-        if let recipient = conversation.recipient {
-            lastReadTimeStampWithRecipient(recipient, failureHandler: { (reason, error) -> Void in
-                
-            }, completion: {[weak self] last_read_at  in
-                
-                self?.markSentMesageAsRead(last_read_at)
-                
-            })
-        }
-    }
-    
-    func markSentMesageAsRead(time: NSTimeInterval) {
-
-        dispatch_async(dispatch_get_main_queue()) {[weak self] in
-            
-            let predicate = NSPredicate(format: "readed = false AND fromFriend.friendState = %d AND createdUnixTime <= %lf", UserFriendState.Me.rawValue, time + 1)
-            
-            if let lastMessageID = self?.messages.filter(predicate).first?.messageID {
-                
-                dispatch_async(realmQueue) {
-
-                    guard let realm = try? Realm() else {
-                        return
-                    }
-                    
-                    if let messagesLocal = conversationOfMessageID(lastMessageID, inRealm: realm) {
-                        
-                        let filteredMessages = messagesLocal.filter(predicate)
-                        
-                        print(filteredMessages.count)
-                        
-                        filteredMessages.forEach { message in
-                            let _ = try? realm.write {
-                                message.readed = true
-                                message.sendState = MessageSendState.Read.rawValue
-                            }
-                        }
-                        
-                        delay(1, work: {
-                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
-                        })
-                    }
-                }
-            }
         }
     }
     
@@ -653,18 +605,6 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    func prepareMarkSendStatus(notifictaion: NSNotification) {
-        if let messageDataInfo = notifictaion.object as? [String: AnyObject],
-        last_read_at = messageDataInfo["last_read_at"] as? NSTimeInterval,
-        recipient_type = messageDataInfo["recipient_type"] as? String,
-            recipient_id = messageDataInfo["recipient_id"] as? String {
-                
-                if recipient_id == conversation.recipient?.ID && recipient_type == conversation.recipient?.type.nameForServer {
-                    self.markSentMesageAsRead(last_read_at)
-                }
-                
-        }
-    }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -1496,7 +1436,60 @@ class ConversationViewController: BaseViewController {
         }
     }
 
+    private func syncMessagesReadStatus() {
+
+        if let recipient = conversation.recipient {
+            lastMessageReadUnixTimeByRecipient(recipient, failureHandler: nil, completion: { [weak self] lastReadUnixTime in
+                self?.markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime)
+            })
+        }
+    }
+
+    private func markAsReadAllSentMesagesBeforeUnixTime(unixTime: NSTimeInterval) {
+
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+            guard let recipient = self?.conversation.recipient else {
+                return
+            }
+
+            dispatch_async(realmQueue) {
+
+                guard let realm = try? Realm(), conversation = recipient.conversationInRealm(realm) else {
+                    return
+                }
+
+                let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState = %d AND createdUnixTime <= %lf", UserFriendState.Me.rawValue, unixTime + 1) // TODO: Time offset
+
+                let unreadMessages = messagesOfConversation(conversation, inRealm: realm).filter(predicate)
+
+                let _ = try? realm.write {
+                    unreadMessages.forEach {
+
+                        $0.readed = true
+                        $0.sendState = MessageSendState.Read.rawValue
+                    }
+                }
+            }
+        }
+    }
+
     // MARK: Actions
+
+    func messagesMarkAsReadByRecipient(notifictaion: NSNotification) {
+
+        guard let
+            messageDataInfo = notifictaion.object as? [String: AnyObject],
+            lastReadUnixTime = messageDataInfo["last_read_at"] as? NSTimeInterval,
+            recipientType = messageDataInfo["recipient_type"] as? String,
+            recipientID = messageDataInfo["recipient_id"] as? String else {
+                return
+        }
+
+        if recipientID == conversation.recipient?.ID && recipientType == conversation.recipient?.type.nameForServer {
+            self.markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime)
+        }
+    }
 
     func tapToCollapseMessageToolBar(sender: UITapGestureRecognizer) {
         if selectedIndexPathForMenu == nil {

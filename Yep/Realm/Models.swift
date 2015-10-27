@@ -790,7 +790,6 @@ func conversationOfMessageID(messageID: String, inRealm realm: Realm) -> Results
     } else {
         return nil
     }
-    
 }
 
 func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
