@@ -124,6 +124,7 @@ class FeedView: UIView {
         distanceLabel.textColor = UIColor.grayColor()
         timeLabel.textColor = UIColor.grayColor()
 
+        messageTextView.scrollsToTop = false
         messageTextView.font = UIFont.feedMessageFont()
         messageTextView.textContainer.lineFragmentPadding = 0
         messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
