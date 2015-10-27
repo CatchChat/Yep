@@ -1088,7 +1088,7 @@ enum DiscoveredUserSortStyle: String {
     }
 }
 
-struct DiscoveredUser: Equatable {
+struct DiscoveredUser: Hashable {
 
     struct SocialAccountProvider {
         let name: String
@@ -1115,6 +1115,10 @@ struct DiscoveredUser: Equatable {
     let socialAccountProviders: [SocialAccountProvider]
     
     let recently_updated_provider: String?
+
+    var hashValue: Int {
+        return id.hashValue
+    }
 }
 
 func ==(lhs: DiscoveredUser, rhs: DiscoveredUser) -> Bool {

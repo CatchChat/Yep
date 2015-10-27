@@ -16,9 +16,14 @@ class FeedSkillUsersCell: UITableViewCell {
     @IBOutlet weak var avatarImageView2: UIImageView!
     @IBOutlet weak var avatarImageView3: UIImageView!
 
+    @IBOutlet weak var accessoryImageView: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        promptLabel.text = NSLocalizedString("People with this skill", comment: "")
+
+        accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -29,7 +34,7 @@ class FeedSkillUsersCell: UITableViewCell {
 
     func configureWithFeeds(feeds: [DiscoveredFeed]) {
 
-        let feedCreators = feeds.map({ $0.creator })
+        let feedCreators = Array(Set(feeds.map({ $0.creator }))).sort { $0.lastSignInUnixTime > $1.lastSignInUnixTime }
 
         if let creator = feedCreators[safe: 0] {
             let plainAvatar = PlainAvatar(avatarURLString: creator.avatarURLString, avatarStyle: nanoAvatarStyle)
