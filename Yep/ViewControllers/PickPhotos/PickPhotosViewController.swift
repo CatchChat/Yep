@@ -157,18 +157,24 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
 
     func photoLibraryDidChange(changeInstance: PHChange) {
 
-        let changeDetails = changeInstance.changeDetailsForFetchResult(images)
+        guard let changeDetails = changeInstance.changeDetailsForFetchResult(images) else {
+            return
+        }
 
-        self.images = changeDetails!.fetchResultAfterChanges
+        self.images = changeDetails.fetchResultAfterChanges
 
         dispatch_async(dispatch_get_main_queue()) {
             // Loop through the visible cell indices
-            let indexPaths = self.collectionView?.indexPathsForVisibleItems()
+            guard let
+                indexPaths = self.collectionView?.indexPathsForVisibleItems(),
+                changedIndexes = changeDetails.changedIndexes else {
+                    return
+            }
 
-            for indexPath in indexPaths as [NSIndexPath]! {
-                if changeDetails!.changedIndexes!.containsIndex(indexPath.item) {
+            for indexPath in indexPaths {
+                if changedIndexes.containsIndex(indexPath.item) {
                     let cell = self.collectionView?.cellForItemAtIndexPath(indexPath) as! PhotoCell
-                    cell.imageAsset = changeDetails!.fetchResultAfterChanges[indexPath.item] as? PHAsset
+                    cell.imageAsset = changeDetails.fetchResultAfterChanges[indexPath.item] as? PHAsset
                 }
             }
         }
