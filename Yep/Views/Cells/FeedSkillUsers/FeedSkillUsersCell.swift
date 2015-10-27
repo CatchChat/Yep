@@ -18,7 +18,8 @@ class FeedSkillUsersCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        promptLabel.text = NSLocalizedString("People with this skill", comment: "")
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
