@@ -11,7 +11,6 @@ PODS:
     - Fabric/Base (= 1.5.5)
   - Fabric/Base (1.5.5)
   - FXBlurView (1.6.4)
-  - JPush (1.8.7)
   - KeyboardMan (0.5)
   - Kingfisher (1.7.1)
   - MonkeyKing (0.0.2)
@@ -38,7 +37,6 @@ DEPENDENCIES:
   - DeviceGuru
   - Fabric
   - FXBlurView
-  - JPush
   - KeyboardMan
   - Kingfisher
   - MonkeyKing (~> 0.0.2)
@@ -63,7 +61,6 @@ SPEC CHECKSUMS:
   DeviceGuru: 6703820f7058693781c0048184eb4c3594b602cc
   Fabric: 190bf1a6eb65f7500de1347d027d2e59a7e53db1
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
-  JPush: 303c8e7c82ef1420906926a23c7f397c88eac387
   KeyboardMan: ae716dfb1252ebcd1f68a2b659e91a970110e799
   Kingfisher: c65d078cfc202639f2b6ddd49f09f742cef8781a
   MonkeyKing: 9be24307843a80f4cd3eca66adc12c67aefb83bb
