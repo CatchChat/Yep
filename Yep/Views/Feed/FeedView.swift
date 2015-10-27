@@ -164,7 +164,7 @@ class FeedView: UIView {
     var normalHeight: CGFloat {
 
         guard let feed = feed else {
-            return 60
+            return FeedView.foldHeight
         }
 
         let rect = feed.body.boundingRectWithSize(CGSize(width: FeedView.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedView.textAttributes, context: nil)
