@@ -1786,13 +1786,10 @@ class ConversationViewController: BaseViewController {
             batchMarkMessagesAsReaded()
         }
         
-        if navigationController?.topViewController == self { // 防止 pop/push 后，原来未释放的 VC 也执行这下面的代码
+        let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
 
-            let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
-
-            adjustConversationCollectionViewWithMessageIDs(messageIDs, messageAge: messageAge, adjustHeight: keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
-                success(finished)
-            }
+        adjustConversationCollectionViewWithMessageIDs(messageIDs, messageAge: messageAge, adjustHeight: keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
+            success(finished)
         }
     }
 
