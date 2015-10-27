@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum MoreViewType: Int {
+    case OneToOne = 0
+    case Topic
+}
+
 class ConversationMoreDetailCell: UITableViewCell {
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -144,6 +149,12 @@ class ConversationMoreColorTitleCell: UITableViewCell {
 class ConversationMoreView: UIView {
 
     let totalHeight: CGFloat = 60 * 5
+    
+    var type: MoreViewType = .OneToOne {
+        didSet {
+            tableView.reloadData()
+        }
+    }
 
     lazy var containerView: UIView = {
         let view = UIView()
@@ -179,6 +190,10 @@ class ConversationMoreView: UIView {
     var toggleDoNotDisturbAction: (() -> Void)?
 
     var reportAction: (() -> Void)?
+    
+    var shareAction: (() -> Void)?
+    
+    var unsubscribeAction: (() -> Void)?
 
     var blocked: Bool = true {
         didSet {
@@ -211,7 +226,7 @@ class ConversationMoreView: UIView {
         })
 
         UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { _ in
-            self.tableViewBottomConstraint?.constant = 0
+            self.tableViewBottomConstraint?.constant = self.bottomConstraint()
 
             self.layoutIfNeeded()
 
@@ -255,6 +270,15 @@ class ConversationMoreView: UIView {
         }
     }
 
+    func bottomConstraint() -> CGFloat {
+        switch type {
+        case .OneToOne:
+            return 0
+        case .Topic:
+            return 60
+        }
+    }
+    
     var isFirstTimeBeenAddAsSubview = true
 
     override func didMoveToSuperview() {
@@ -328,7 +352,7 @@ extension ConversationMoreView: UIGestureRecognizerDelegate {
 extension ConversationMoreView {
 
     func toggleDoNotDisturb() {
-        toggleDoNotDisturbAction?()
+        toggleDoNotDisturbAction?() //TODO Topic Disturb
     }
 }
 
@@ -343,69 +367,131 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
         case Block
         case Cancel
     }
+    
+    enum TopicRow: Int {
+        case PushNotifications = 0
+        case Share
+        case Unsubscribe
+        case Cancel
+    }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        switch type {
+        case .OneToOne:
+            return 5
+        case .Topic:
+            return 4
+        }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        if let row = Row(rawValue: indexPath.row) {
-            switch row {
-
-            case .ShowProfile:
-
-                let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreDetailCell") as! ConversationMoreDetailCell
-
-                cell.textLabel?.text = NSLocalizedString("View profile", comment: "")
-
-                return cell
-
-            case .DoNotDisturb:
-
-                let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreCheckCell") as! ConversationMoreCheckCell
-
-                cell.textLabel?.text = NSLocalizedString("Do not disturb", comment: "")
-
-                cell.updateWithNotificationEnabled(notificationEnabled)
-
-                cell.checkedSwitch.addTarget(self, action: "toggleDoNotDisturb", forControlEvents: UIControlEvents.ValueChanged)
-
-                return cell
-
-            case .Report:
-
-                let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
-
-                cell.colorTitleLabel.text = NSLocalizedString("Report", comment: "")
-                cell.colorTitleLabelTextColor = UIColor.yepTintColor()
-                cell.colorTitleLabelFontStyle = .Light
-
-                return cell
-
-            case .Block:
-
-                let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
-
-                cell.updateWithBlocked(blocked)
-
-                cell.colorTitleLabelFontStyle = .Light
-
-                return cell
-
-            case .Cancel:
-
-                let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
-
-                cell.colorTitleLabel.text = NSLocalizedString("Cancel", comment: "")
-                cell.colorTitleLabelTextColor = UIColor.yepTintColor()
-                cell.colorTitleLabelFontStyle = .Regular
-
-                return cell
+        switch type {
+        case .OneToOne:
+            if let row = Row(rawValue: indexPath.row) {
+                switch row {
+                    
+                case .ShowProfile:
+                    
+                    let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreDetailCell") as! ConversationMoreDetailCell
+                    
+                    cell.textLabel?.text = NSLocalizedString("View profile", comment: "")
+                    
+                    return cell
+                    
+                case .DoNotDisturb:
+                    
+                    let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreCheckCell") as! ConversationMoreCheckCell
+                    
+                    cell.textLabel?.text = NSLocalizedString("Do not disturb", comment: "")
+                    
+                    cell.updateWithNotificationEnabled(notificationEnabled)
+                    
+                    cell.checkedSwitch.addTarget(self, action: "toggleDoNotDisturb", forControlEvents: UIControlEvents.ValueChanged)
+                    
+                    return cell
+                    
+                case .Report:
+                    
+                    let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
+                    
+                    cell.colorTitleLabel.text = NSLocalizedString("Report", comment: "")
+                    cell.colorTitleLabelTextColor = UIColor.yepTintColor()
+                    cell.colorTitleLabelFontStyle = .Light
+                    
+                    return cell
+                    
+                case .Block:
+                    
+                    let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
+                    
+                    cell.updateWithBlocked(blocked)
+                    
+                    cell.colorTitleLabelFontStyle = .Light
+                    
+                    return cell
+                    
+                case .Cancel:
+                    
+                    let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
+                    
+                    cell.colorTitleLabel.text = NSLocalizedString("Cancel", comment: "")
+                    cell.colorTitleLabelTextColor = UIColor.yepTintColor()
+                    cell.colorTitleLabelFontStyle = .Regular
+                    
+                    return cell
+                }
+            }
+        case .Topic:
+            if let row = TopicRow(rawValue: indexPath.row) {
+                switch row {
+                    
+                case .PushNotifications:
+                    
+                    let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreCheckCell") as! ConversationMoreCheckCell
+                    
+                    cell.textLabel?.text = NSLocalizedString("Push Notifications", comment: "")
+                    
+                    cell.updateWithNotificationEnabled(notificationEnabled)
+                    
+                    cell.checkedSwitch.addTarget(self, action: "toggleDoNotDisturb", forControlEvents: UIControlEvents.ValueChanged)
+                    
+                    return cell
+                    
+                case .Share:
+                    
+                    let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
+                    
+                    cell.colorTitleLabel.text = NSLocalizedString("Share This Topic", comment: "")
+                    cell.colorTitleLabelTextColor = UIColor.yepTintColor()
+                    cell.colorTitleLabelFontStyle = .Light
+                    
+                    return cell
+                    
+                case .Unsubscribe:
+                    
+                    let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
+                    
+                    cell.colorTitleLabel.text = NSLocalizedString("Unsubscribe", comment: "")
+                    cell.colorTitleLabelTextColor = UIColor.redColor()
+                    cell.colorTitleLabelFontStyle = .Light
+                    
+                    return cell
+                    
+                case .Cancel:
+                    
+                    let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
+                    
+                    cell.colorTitleLabel.text = NSLocalizedString("Cancel", comment: "")
+                    cell.colorTitleLabelTextColor = UIColor.yepTintColor()
+                    cell.colorTitleLabelFontStyle = .Regular
+                    
+                    return cell
+                }
             }
         }
 
@@ -415,28 +501,51 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-
-        if let row = Row(rawValue: indexPath.row) {
-
-            switch row {
-
-            case .ShowProfile:
-                hideAndDo { [weak self] in
-                    self?.showProfileAction?()
-                }
-
-            case .DoNotDisturb:
-                break
-
-            case .Report:
-                reportAction?()
-                hide()
-
-            case .Block:
-                toggleBlockAction?()
+        
+        switch type {
+        case .OneToOne:
+            if let row = Row(rawValue: indexPath.row) {
                 
-            case .Cancel:
-                hide()
+                switch row {
+                    
+                case .ShowProfile:
+                    hideAndDo { [weak self] in
+                        self?.showProfileAction?()
+                    }
+                    
+                case .DoNotDisturb:
+                    break
+                    
+                case .Report:
+                    reportAction?()
+                    hide()
+                    
+                case .Block:
+                    toggleBlockAction?()
+                    
+                case .Cancel:
+                    hide()
+                }
+            }
+        case .Topic:
+            if let row = TopicRow(rawValue: indexPath.row) {
+                
+                switch row {
+                    
+                case .PushNotifications:
+                    break
+                    
+                case .Share:
+                    shareAction?()
+                    hide()
+                    
+                case .Unsubscribe:
+                    unsubscribeAction?()
+                    hide()
+                    
+                case .Cancel:
+                    hide()
+                }
             }
         }
     }

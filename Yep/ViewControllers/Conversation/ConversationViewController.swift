@@ -367,10 +367,10 @@ class ConversationViewController: BaseViewController {
 
         navigationItem.titleView = titleView
 
-        if let _ = conversation?.withFriend {
-            let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
-            navigationItem.rightBarButtonItem = moreBarButtonItem
-        }
+
+        let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
+        navigationItem.rightBarButtonItem = moreBarButtonItem
+
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedNewMessagesNotification:", name: YepConfig.Notification.newMessages, object: nil)
         
@@ -1470,6 +1470,10 @@ class ConversationViewController: BaseViewController {
                         $0.sendState = MessageSendState.Read.rawValue
                     }
                 }
+                
+                delay(0.5, work: {
+                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                })
             }
         }
     }
@@ -1526,55 +1530,77 @@ class ConversationViewController: BaseViewController {
     }
 
     func moreAction() {
-
         messageToolbar.state = .Default
+        
+        if let _ = conversation?.withFriend {
+            moreView.type = .OneToOne
+            oneToOneMoreAction()
+        } else {
+            moreView.type = .Topic
+            topicMoreAction()
+        }
 
+    }
+    
+    func topicMoreAction() {
+        
+        moreView.shareAction = {
+            
+        }
+        
+        if let window = view.window {
+            moreView.showInView(window)
+        }
+    }
+    
+    func oneToOneMoreAction() {
+        
         moreView.showProfileAction = { [weak self] in
             self?.performSegueWithIdentifier("showProfile", sender: nil)
         }
-
+        
         if let user = conversation.withFriend {
             moreView.notificationEnabled = user.notificationEnabled
             moreView.blocked = user.blocked
-
+            
             let userID = user.userID
-
+            
             /*
             userInfoOfUserWithUserID(userID, failureHandler: nil, completion: { userInfo in
-                //println("userInfoOfUserWithUserID \(userInfo)")
-
-                if let doNotDisturb = userInfo["do_not_disturb"] as? Bool {
-                    self.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
-                }
-
-                if let blocked = userInfo["blocked"] as? Bool {
-                    self.updateBlocked(blocked, forUserWithUserID: userID)
-                }
-
-                // 对非好友来说，必要
-
-                updateUserWithUserID(userID, useUserInfo: userInfo)
+            //println("userInfoOfUserWithUserID \(userInfo)")
+            
+            if let doNotDisturb = userInfo["do_not_disturb"] as? Bool {
+            self.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
+            }
+            
+            if let blocked = userInfo["blocked"] as? Bool {
+            self.updateBlocked(blocked, forUserWithUserID: userID)
+            }
+            
+            // 对非好友来说，必要
+            
+            updateUserWithUserID(userID, useUserInfo: userInfo)
             })
             */
-
+            
             settingsForUserWithUserID(userID, failureHandler: nil, completion: { [weak self] blocked, doNotDisturb in
                 self?.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
                 self?.updateBlocked(blocked, forUserWithUserID: userID)
-            })
+                })
         }
-
+        
         moreView.toggleDoNotDisturbAction = { [weak self] in
             self?.toggleDoNotDisturb()
         }
-
+        
         moreView.toggleBlockAction = { [weak self] in
             self?.toggleBlock()
         }
-
+        
         moreView.reportAction = { [weak self] in
             self?.report()
         }
-
+        
         if let window = view.window {
             moreView.showInView(window)
         }
