@@ -508,13 +508,13 @@ class ConversationViewController: BaseViewController {
 
                     println("joined group: \(groupID)")
                     
-                    groupShareLinkWithGroupID(groupID, failureHandler: nil, completion: { [weak self] link in
-                        
-                        if let url = link["url"] as? String {
-                            self?.groupURL = url
-                        }
-                        
-                    })
+//                    groupShareLinkWithGroupID(groupID, failureHandler: nil, completion: { [weak self] link in
+//                        
+//                        if let url = link["url"] as? String {
+//                            self?.groupURL = url
+//                        }
+//                        
+//                    })
 
                     syncMessages()
 
@@ -1613,7 +1613,10 @@ class ConversationViewController: BaseViewController {
         
         let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
         
-        self.presentViewController(activityViewController, animated: true, completion: nil)
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.presentViewController(activityViewController, animated: true, completion: nil)
+        }
+
     }
     
     func oneToOneMoreAction() {
