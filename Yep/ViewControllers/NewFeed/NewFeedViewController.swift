@@ -50,7 +50,7 @@ class NewFeedViewController: UIViewController {
     let feedMediaAddCellID = "FeedMediaAddCell"
     let feedMediaCellID = "FeedMediaCell"
     
-    let max = Int(INT16_MAX)
+    //let max = Int(INT16_MAX)
     
     let skills: [Skill] = {
         if let
@@ -175,17 +175,20 @@ class NewFeedViewController: UIViewController {
         
         if pickedSkill == nil {
             if !skills.isEmpty {
-                let centerRow = max / 2
-                skillPickerView.selectRow(centerRow, inComponent: 0, animated: false)
-                pickedSkill = skills[centerRow % skills.count]
+                //let centerRow = max / 2
+                //let selectedRow = centerRow
+                let selectedRow = 0
+                skillPickerView.selectRow(selectedRow, inComponent: 0, animated: false)
+                pickedSkill = skills[selectedRow % skills.count]
             }
             
         } else {
             if let skill = preparedSkill, let index = skills.indexOf(skill) {
                 
-                var selectedRow = max / 2
-                selectedRow = selectedRow - selectedRow % skills.count + index
-                
+                //var selectedRow = max / 2
+                //selectedRow = selectedRow - selectedRow % skills.count + index
+                let selectedRow = index
+
                 skillPickerView.selectRow(selectedRow, inComponent: 0, animated: false)
                 pickedSkill = skills[selectedRow % skills.count]
             }
