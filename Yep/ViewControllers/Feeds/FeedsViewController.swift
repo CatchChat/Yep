@@ -135,30 +135,7 @@ class FeedsViewController: UIViewController {
             
             activityIndicator.startAnimating()
             
-            discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: 1, perPage: 50, failureHandler: { reason, errorMessage in
-                
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    self?.activityIndicator.stopAnimating()
-                    
-                }
-                
-                defaultFailureHandler(reason, errorMessage: errorMessage)
-                
-                }, completion: { [weak self] feeds in
-                    
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        self?.activityIndicator.stopAnimating()
-                    }
-                    
-                    if let strongSelf = self {
-                        
-                        dispatch_async(dispatch_get_main_queue()) {
-                            
-                            strongSelf.feeds = feeds
-                            strongSelf.feedsTableView.reloadData() // 服务端有新的排序算法，以及避免刷新后消息数字更新不及时的问题
-                        }
-                    }
-                })
+            updateFeeds()
         }
     }
 
@@ -240,7 +217,7 @@ class FeedsViewController: UIViewController {
 
         activityIndicator.startAnimating()
 
-        discoverFeedsWithSortStyle(.Default, skill: skill, pageIndex: 1, perPage: 50, failureHandler: { reason, errorMessage in
+        discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: 1, perPage: 50, failureHandler: { reason, errorMessage in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 self?.activityIndicator.stopAnimating()
