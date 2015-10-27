@@ -211,7 +211,7 @@ class FeedsViewController: UIViewController {
                 dispatch_async(dispatch_get_main_queue()) {
 
                     strongSelf.feeds = feeds
-                    strongSelf.feedsTableView.reloadData()
+                    strongSelf.feedsTableView.reloadData() // 服务端有新的排序算法，以及避免刷新后消息数字更新不及时的问题
                     
 //                    if newIndexPaths.count == allNewFeedSet.count {
 //                        strongSelf.updateFeedsTableViewOrInsertWithIndexPaths(newIndexPaths)
