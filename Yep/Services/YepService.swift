@@ -2292,6 +2292,7 @@ enum FeedSortStyle: String {
 
     case Distance = "distance"
     case Time = "time"
+    case Default = "default"
 }
 
 struct DiscoveredAttachment {
