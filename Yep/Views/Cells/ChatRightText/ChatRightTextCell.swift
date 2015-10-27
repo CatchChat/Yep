@@ -47,7 +47,9 @@ class ChatRightTextCell: ChatRightBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        makeUI()
+        UIView.performWithoutAnimation { [weak self] in
+            self?.makeUI()
+        }
         
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.mainScreen().scale

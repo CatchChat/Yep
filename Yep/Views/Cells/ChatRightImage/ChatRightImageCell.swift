@@ -27,7 +27,9 @@ class ChatRightImageCell: ChatRightBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        makeUI()
+        UIView.performWithoutAnimation { [weak self] in
+            self?.makeUI()
+        }
 
         messageImageView.tintColor = UIColor.rightBubbleTintColor()
         
