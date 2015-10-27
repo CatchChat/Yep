@@ -16,6 +16,8 @@ class FeedsViewController: UIViewController {
     @IBOutlet weak var feedsTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
+    @IBOutlet weak var filterBarItem: UIBarButtonItem!
+    
     lazy var skillTitleView: UIView = {
 
         let titleLabel = UILabel()
@@ -120,12 +122,15 @@ class FeedsViewController: UIViewController {
             return height
         }
     }
+    
 
     var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        filterBarItem.title = NSLocalizedString("Default", comment: "")
         
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
         if let gestures = navigationController?.view.gestureRecognizers {
@@ -173,7 +178,7 @@ class FeedsViewController: UIViewController {
 
         activityIndicator.startAnimating()
 
-        discoverFeedsWithSortStyle(.Time, skill: skill, pageIndex: 1, perPage: 50, failureHandler: { reason, errorMessage in
+        discoverFeedsWithSortStyle(.Default, skill: skill, pageIndex: 1, perPage: 50, failureHandler: { reason, errorMessage in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 self?.activityIndicator.stopAnimating()
