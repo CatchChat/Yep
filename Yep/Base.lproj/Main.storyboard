@@ -1503,11 +1503,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="LaU-sr-um0">
-                        <barButtonItem key="leftBarButtonItem" id="ioz-1C-a3g">
-                            <connections>
-                                <action selector="showFilter:" destination="W3w-jm-aNI" id="X7u-i7-djn"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Goz-ft-7ec">
                             <connections>
                                 <action selector="showNewFeed:" destination="W3w-jm-aNI" id="qno-ej-hqc"/>
@@ -1517,7 +1512,6 @@
                     <connections>
                         <outlet property="activityIndicator" destination="sHk-eY-6TD" id="Xlo-a7-8l6"/>
                         <outlet property="feedsTableView" destination="D86-dp-qKQ" id="rh9-wh-IqK"/>
-                        <outlet property="filterBarItem" destination="ioz-1C-a3g" id="DOs-pl-mah"/>
                         <segue destination="la3-6z-2aH" kind="show" identifier="showConversation" id="Sdt-ox-uOm"/>
                         <segue destination="f92-fs-zdh" kind="show" identifier="showFeedMedia" id="fWY-6d-Rja"/>
                         <segue destination="AyC-pt-NR2" kind="show" identifier="showProfile" id="WEi-uo-nf5"/>

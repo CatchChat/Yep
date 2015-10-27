@@ -16,7 +16,7 @@ class FeedsViewController: UIViewController {
     @IBOutlet weak var feedsTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-    @IBOutlet weak var filterBarItem: UIBarButtonItem!
+    var filterBarItem: UIBarButtonItem?
     
     lazy var filterView: DiscoverFilterView = DiscoverFilterView()
     
@@ -127,7 +127,6 @@ class FeedsViewController: UIViewController {
     
     var feedSortStyle: FeedSortStyle = .Default {
         didSet {
-            filterBarItem.title = feedSortStyle.nameWithArrow
             
             feeds = [DiscoveredFeed]()
             
@@ -146,8 +145,7 @@ class FeedsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        filterBarItem.title = NSLocalizedString("Default", comment: "")
+
         
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
         if let gestures = navigationController?.view.gestureRecognizers {
@@ -164,6 +162,9 @@ class FeedsViewController: UIViewController {
 
         if skill != nil {
             navigationItem.titleView = skillTitleView
+        } else {
+            filterBarItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "showFilter:")
+            navigationItem.leftBarButtonItem = filterBarItem
         }
 
         feedsTableView.backgroundColor = UIColor.whiteColor()
@@ -214,6 +215,10 @@ class FeedsViewController: UIViewController {
     }
     
     func updateFeeds(finish: (() -> Void)? = nil) {
+        
+        if let filterBarItem = filterBarItem {
+            filterBarItem.title = feedSortStyle.nameWithArrow
+        }
 
         activityIndicator.startAnimating()
 
