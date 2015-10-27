@@ -916,10 +916,6 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
             }
 
             message = newMessage
-        } else {
-            let _ = try? realm.write {
-                message?.readed = false
-            }
         }
 
         // 开始填充消息
