@@ -2492,7 +2492,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             if message.mediaType == MessageMediaType.SectionDate.rawValue {
 
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
-
                 return cell
             }
 
@@ -2505,31 +2504,26 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     case MessageMediaType.Image.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftImageCellIdentifier, forIndexPath: indexPath) as! ChatLeftImageCell
-
                         return cell
 
                     case MessageMediaType.Audio.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftAudioCellIdentifier, forIndexPath: indexPath) as! ChatLeftAudioCell
-
                         return cell
 
                     case MessageMediaType.Video.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftVideoCellIdentifier, forIndexPath: indexPath) as! ChatLeftVideoCell
-
                         return cell
 
                     case MessageMediaType.Location.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftLocationCellIdentifier, forIndexPath: indexPath) as! ChatLeftLocationCell
-
                         return cell
 
                     default:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
-
                         return cell
                     }
 
@@ -2540,31 +2534,26 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     case MessageMediaType.Image.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
-
                         return cell
 
                     case MessageMediaType.Audio.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightAudioCellIdentifier, forIndexPath: indexPath) as! ChatRightAudioCell
-
                         return cell
 
                     case MessageMediaType.Video.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightVideoCellIdentifier, forIndexPath: indexPath) as! ChatRightVideoCell
-
                         return cell
 
                     case MessageMediaType.Location.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightLocationCellIdentifier, forIndexPath: indexPath) as! ChatRightLocationCell
-
                         return cell
 
                     default:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
-
                         return cell
                     }
                 }
@@ -2574,16 +2563,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         println("🐌 Conversation: Should not be there")
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
-
         cell.sectionDateLabel.text = "🐌"
 
         return cell
-
     }
 
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
 
-        if let message = self.messages[safe: (self.displayedMessagesRange.location + indexPath.item)] {
+        if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
             
             if message.mediaType == MessageMediaType.SectionDate.rawValue {
                 
@@ -2591,9 +2578,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     let createdAt = NSDate(timeIntervalSince1970: message.createdUnixTime)
                     
                     if createdAt.isInCurrentWeek() {
-                        cell.sectionDateLabel.text = self.sectionDateInCurrentWeekFormatter.stringFromDate(createdAt)
+                        cell.sectionDateLabel.text = sectionDateInCurrentWeekFormatter.stringFromDate(createdAt)
+
                     } else {
-                        cell.sectionDateLabel.text = self.sectionDateFormatter.stringFromDate(createdAt)
+                        cell.sectionDateLabel.text = sectionDateFormatter.stringFromDate(createdAt)
                     }
                 }
                 
@@ -2622,7 +2610,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         
                         if let cell = cell as? ChatLeftImageCell {
                             
-                            cell.configureWithMessage(message, messageImagePreferredWidth: self.messageImagePreferredWidth, messageImagePreferredHeight: self.messageImagePreferredHeight, messageImagePreferredAspectRatio: self.messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
+                            cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
                                 
                                 if message.downloadState == MessageDownloadState.Downloaded.rawValue {
                                     
@@ -2639,14 +2627,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the image is not ready!", comment: ""), inViewController: self)
                                 }
                                 
-                                }, collectionView: collectionView, indexPath: indexPath)
+                            }, collectionView: collectionView, indexPath: indexPath)
                         }
                         
                     case MessageMediaType.Audio.rawValue:
                         
                         if let cell = cell as? ChatLeftAudioCell {
                             
-                            let audioPlayedDuration = self.audioPlayedDurationOfMessage(message)
+                            let audioPlayedDuration = audioPlayedDurationOfMessage(message)
                             
                             cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { [weak self] in
                                 
@@ -2657,14 +2645,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the audio is not ready!", comment: ""), inViewController: self)
                                 }
                                 
-                                }, collectionView: collectionView, indexPath: indexPath)
+                            }, collectionView: collectionView, indexPath: indexPath)
                         }
                         
                     case MessageMediaType.Video.rawValue:
                         
                         if let cell = cell as? ChatLeftVideoCell {
                             
-                            cell.configureWithMessage(message, messageImagePreferredWidth: self.messageImagePreferredWidth, messageImagePreferredHeight: self.messageImagePreferredHeight, messageImagePreferredAspectRatio: self.messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
+                            cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: self.messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
                                 
                                 if message.downloadState == MessageDownloadState.Downloaded.rawValue {
                                     
@@ -2681,7 +2669,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the video is not ready!", comment: ""), inViewController: self)
                                 }
                                 
-                                }, collectionView: collectionView, indexPath: indexPath)
+                            }, collectionView: collectionView, indexPath: indexPath)
                         }
                         
                     case MessageMediaType.Location.rawValue:
@@ -2700,14 +2688,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     mapItem.openInMapsWithLaunchOptions(nil)
                                 }
                                 
-                                }, collectionView: collectionView, indexPath: indexPath)
+                            }, collectionView: collectionView, indexPath: indexPath)
                         }
                         
                     default:
                         
                         if let cell = cell as? ChatLeftTextCell {
                             
-                            cell.configureWithMessage(message, textContentLabelWidth: self.textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
+                            cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
                         }
                     }
                     
@@ -2719,7 +2707,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         
                         if let cell = cell as? ChatRightImageCell {
                             
-                            cell.configureWithMessage(message, messageImagePreferredWidth: self.messageImagePreferredWidth, messageImagePreferredHeight: self.messageImagePreferredHeight, messageImagePreferredAspectRatio: self.messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
+                            cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
                                 
                                 if message.sendState == MessageSendState.Failed.rawValue {
                                     
@@ -2734,7 +2722,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                                 println("resendImage: \(success)")
                                         })
                                         
-                                        }, cancelAction: {
+                                    }, cancelAction: {
                                     })
                                     
                                 } else {
@@ -2748,14 +2736,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     self?.performSegueWithIdentifier("showMessageMedia", sender: message)
                                 }
                                 
-                                }, collectionView: collectionView, indexPath: indexPath)
+                            }, collectionView: collectionView, indexPath: indexPath)
                         }
                         
                     case MessageMediaType.Audio.rawValue:
                         
                         if let cell = cell as? ChatRightAudioCell {
                             
-                            let audioPlayedDuration = self.audioPlayedDurationOfMessage(message)
+                            let audioPlayedDuration = audioPlayedDurationOfMessage(message)
                             
                             cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { [weak self] in
                                 
@@ -2768,11 +2756,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                             
                                             YepAlert.alertSorry(message: NSLocalizedString("Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
                                             
-                                            }, completion: { success in
-                                                println("resendAudio: \(success)")
+                                        }, completion: { success in
+                                            println("resendAudio: \(success)")
                                         })
                                         
-                                        }, cancelAction: {
+                                    }, cancelAction: {
                                     })
                                     
                                     return
@@ -2780,14 +2768,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 
                                 self?.playMessageAudioWithMessage(message)
                                 
-                                }, collectionView: collectionView, indexPath: indexPath)
+                            }, collectionView: collectionView, indexPath: indexPath)
                         }
                         
                     case MessageMediaType.Video.rawValue:
                         
                         if let cell = cell as? ChatRightVideoCell {
                             
-                            cell.configureWithMessage(message, messageImagePreferredWidth: self.messageImagePreferredWidth, messageImagePreferredHeight: self.messageImagePreferredHeight, messageImagePreferredAspectRatio: self.messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
+                            cell.configureWithMessage(message, messageImagePreferredWidth:messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
                                 
                                 if message.sendState == MessageSendState.Failed.rawValue {
                                     
@@ -2798,11 +2786,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                             
                                             YepAlert.alertSorry(message: NSLocalizedString("Failed to resend video!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
                                             
-                                            }, completion: { success in
-                                                println("resendVideo: \(success)")
+                                        }, completion: { success in
+                                            println("resendVideo: \(success)")
                                         })
                                         
-                                        }, cancelAction: {
+                                    }, cancelAction: {
                                     })
                                     
                                 } else {
@@ -2816,7 +2804,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     self?.performSegueWithIdentifier("showMessageMedia", sender: message)
                                 }
                                 
-                                }, collectionView: collectionView, indexPath: indexPath)
+                            }, collectionView: collectionView, indexPath: indexPath)
                         }
                         
                     case MessageMediaType.Location.rawValue:
@@ -2834,11 +2822,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                             
                                             YepAlert.alertSorry(message: NSLocalizedString("Failed to resend location!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
                                             
-                                            }, completion: { success in
-                                                println("resendLocation: \(success)")
+                                        }, completion: { success in
+                                            println("resendLocation: \(success)")
                                         })
                                         
-                                        }, cancelAction: {
+                                    }, cancelAction: {
                                     })
                                     
                                 } else {
@@ -2854,14 +2842,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     }
                                 }
                                 
-                                }, collectionView: collectionView, indexPath: indexPath)
+                            }, collectionView: collectionView, indexPath: indexPath)
                         }
                         
                     default:
                         
                         if let cell = cell as? ChatRightTextCell {
                             
-                            cell.configureWithMessage(message, textContentLabelWidth: self.textContentLabelWidthOfMessage(message), mediaTapAction: { [weak self] in
+                            cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: { [weak self] in
                                 
                                 if message.sendState == MessageSendState.Failed.rawValue {
                                     
@@ -2872,18 +2860,19 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                             
                                             YepAlert.alertSorry(message: NSLocalizedString("Failed to resend text!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
                                             
-                                            }, completion: { success in
-                                                println("resendText: \(success)")
+                                        }, completion: { success in
+                                            println("resendText: \(success)")
                                         })
                                         
-                                        }, cancelAction: {
+                                    }, cancelAction: {
                                     })
                                 }
-                                }, collectionView: collectionView, indexPath: indexPath)
-                            
+                            }, collectionView: collectionView, indexPath: indexPath)
                             
                             cell.longPressAction = { [weak self] in
+
                                 dispatch_async(dispatch_get_main_queue()) {
+
                                     if let strongSelf = self, realm = message.realm {
                                         
                                         var sectionDateMessage: Message?
