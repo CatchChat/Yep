@@ -31,9 +31,7 @@ class ChatLeftVideoCell: ChatBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        runOnMainQueueWithoutDeadlocking { [weak self] in
-            self?.makeUI()
-        }
+        makeUI()
 
         thumbnailImageView.tintColor = UIColor.leftBubbleTintColor()
 
@@ -111,7 +109,8 @@ class ChatLeftVideoCell: ChatBaseCell {
 
                 let width = messageImagePreferredWidth
                 
-                runOnMainQueueWithoutDeadlocking { [weak self] in
+                UIView.performWithoutAnimation { [weak self] in
+
                     if let strongSelf = self {
                         strongSelf.thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: strongSelf.bounds.height)
                         strongSelf.playImageView.center = CGPoint(x: CGRectGetMidX(strongSelf.thumbnailImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
@@ -131,7 +130,8 @@ class ChatLeftVideoCell: ChatBaseCell {
             } else {
                 let width = messageImagePreferredHeight * aspectRatio
                 
-                runOnMainQueueWithoutDeadlocking { [weak self] in
+                UIView.performWithoutAnimation { [weak self] in
+
                     if let strongSelf = self {
                         strongSelf.thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: strongSelf.bounds.height)
                         strongSelf.playImageView.center = CGPoint(x: CGRectGetMidX(strongSelf.thumbnailImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
@@ -153,7 +153,8 @@ class ChatLeftVideoCell: ChatBaseCell {
         } else {
             let width = messageImagePreferredWidth
             
-            runOnMainQueueWithoutDeadlocking { [weak self] in
+            UIView.performWithoutAnimation { [weak self] in
+
                 if let strongSelf = self {
                     strongSelf.thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: strongSelf.bounds.height)
                     strongSelf.playImageView.center = CGPoint(x: CGRectGetMidX(strongSelf.thumbnailImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
@@ -170,6 +171,6 @@ class ChatLeftVideoCell: ChatBaseCell {
                 }
             })
         }
-        }
-
+    }
 }
+

@@ -27,9 +27,7 @@ class ChatRightImageCell: ChatRightBaseCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        runOnMainQueueWithoutDeadlocking { [weak self] in
-            self?.makeUI()
-        }
+        makeUI()
 
         messageImageView.tintColor = UIColor.rightBubbleTintColor()
         
@@ -96,7 +94,8 @@ class ChatRightImageCell: ChatRightBaseCell {
             if aspectRatio >= 1 {
                 let width = messageImagePreferredWidth
                 
-                runOnMainQueueWithoutDeadlocking { [weak self] in
+                UIView.performWithoutAnimation { [weak self] in
+
                     if let strongSelf = self {
                         strongSelf.messageImageView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: strongSelf.bounds.height)
                         strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.messageImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.messageImageView.frame))
@@ -115,7 +114,8 @@ class ChatRightImageCell: ChatRightBaseCell {
             } else {
                 let width = messageImagePreferredHeight * aspectRatio
                 
-                runOnMainQueueWithoutDeadlocking { [weak self] in
+                UIView.performWithoutAnimation { [weak self] in
+
                     if let strongSelf = self {
                         strongSelf.messageImageView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: strongSelf.bounds.height)
                         strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.messageImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.messageImageView.frame))
@@ -135,13 +135,13 @@ class ChatRightImageCell: ChatRightBaseCell {
         } else {
             let width = messageImagePreferredWidth
             
-            runOnMainQueueWithoutDeadlocking { [weak self] in
+            UIView.performWithoutAnimation { [weak self] in
+
                 if let strongSelf = self {
                     strongSelf.messageImageView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: strongSelf.bounds.height)
                     strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.messageImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.messageImageView.frame))
                 }
             }
-
 
             ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Right, completion: { [weak self] progress, image in
 
@@ -152,6 +152,6 @@ class ChatRightImageCell: ChatRightBaseCell {
                 }
             })
         }
-        }
+    }
 }
 
