@@ -18,6 +18,8 @@ class FeedsViewController: UIViewController {
 
     @IBOutlet weak var filterBarItem: UIBarButtonItem!
     
+    lazy var filterView: DiscoverFilterView = DiscoverFilterView()
+    
     lazy var skillTitleView: UIView = {
 
         let titleLabel = UILabel()
@@ -123,6 +125,44 @@ class FeedsViewController: UIViewController {
         }
     }
     
+    var feedSortStyle: FeedSortStyle = .Default {
+        didSet {
+            filterBarItem.title = feedSortStyle.nameWithArrow
+            
+            feeds = [DiscoveredFeed]()
+            
+            feedsTableView.reloadData()
+            
+            activityIndicator.startAnimating()
+            
+            discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: 1, perPage: 50, failureHandler: { reason, errorMessage in
+                
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.activityIndicator.stopAnimating()
+                    
+                }
+                
+                defaultFailureHandler(reason, errorMessage: errorMessage)
+                
+                }, completion: { [weak self] feeds in
+                    
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.activityIndicator.stopAnimating()
+                    }
+                    
+                    if let strongSelf = self {
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            
+                            strongSelf.feeds = feeds
+                            strongSelf.feedsTableView.reloadData() // 服务端有新的排序算法，以及避免刷新后消息数字更新不及时的问题
+                        }
+                    }
+                })
+        }
+    }
+
+    
 
     var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
@@ -156,7 +196,7 @@ class FeedsViewController: UIViewController {
         feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
         feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
 
-        updateFeeds()
+        feedSortStyle = .Time
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -174,6 +214,28 @@ class FeedsViewController: UIViewController {
 
     // MARK: - Actions
 
+    @IBAction func showFilter(sender: AnyObject) {
+        
+        if feedSortStyle != .Time {
+            filterView.currentDiscoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: feedSortStyle.rawValue)!
+        } else {
+            filterView.currentDiscoveredUserSortStyle = .LastSignIn
+        }
+        
+        filterView.filterAction = { [weak self] discoveredUserSortStyle in
+            
+            if discoveredUserSortStyle != .LastSignIn {
+                self?.feedSortStyle = FeedSortStyle(rawValue: discoveredUserSortStyle.rawValue)!
+            } else {
+                self?.feedSortStyle = .Time
+            }
+        }
+        
+        if let window = view.window {
+            filterView.showInView(window)
+        }
+    }
+    
     func updateFeeds(finish: (() -> Void)? = nil) {
 
         activityIndicator.startAnimating()

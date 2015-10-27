@@ -2293,6 +2293,21 @@ enum FeedSortStyle: String {
     case Distance = "distance"
     case Time = "time"
     case Default = "default"
+    
+    var name: String {
+        switch self {
+        case .Distance:
+            return NSLocalizedString("Nearby", comment: "")
+        case .Time:
+            return NSLocalizedString("Time", comment: "")
+        case .Default:
+            return NSLocalizedString("Default", comment: "")
+        }
+    }
+    
+    var nameWithArrow: String {
+        return name + " ▾"
+    }
 }
 
 struct DiscoveredAttachment {

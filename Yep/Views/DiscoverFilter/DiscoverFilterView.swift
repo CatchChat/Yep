@@ -107,6 +107,7 @@ class DiscoverFilterView: UIView {
             tableView.reloadData()
         }
     }
+    
     var filterAction: (DiscoveredUserSortStyle -> Void)?
 
     var tableViewBottomConstraint: NSLayoutConstraint?

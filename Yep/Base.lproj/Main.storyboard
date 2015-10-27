@@ -1503,7 +1503,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="LaU-sr-um0">
-                        <barButtonItem key="leftBarButtonItem" title="Item" id="ioz-1C-a3g"/>
+                        <barButtonItem key="leftBarButtonItem" id="ioz-1C-a3g">
+                            <connections>
+                                <action selector="showFilter:" destination="W3w-jm-aNI" id="X7u-i7-djn"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Goz-ft-7ec">
                             <connections>
                                 <action selector="showNewFeed:" destination="W3w-jm-aNI" id="qno-ej-hqc"/>
