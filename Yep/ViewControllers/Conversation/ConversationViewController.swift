@@ -2868,7 +2868,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     })
                                 }
                             }, collectionView: collectionView, indexPath: indexPath)
-                            
+
                             cell.longPressAction = { [weak self] in
 
                                 dispatch_async(dispatch_get_main_queue()) {
