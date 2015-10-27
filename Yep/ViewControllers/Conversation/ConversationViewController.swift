@@ -618,7 +618,7 @@ class ConversationViewController: BaseViewController {
 
         // 进来时就尽快标记已读
 
-        delay(0.5) { [weak self] in
+        delay(0.1) { [weak self] in
             self?.batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded: true)
         }
 
