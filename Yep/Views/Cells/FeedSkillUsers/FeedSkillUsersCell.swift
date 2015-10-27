@@ -16,10 +16,14 @@ class FeedSkillUsersCell: UITableViewCell {
     @IBOutlet weak var avatarImageView2: UIImageView!
     @IBOutlet weak var avatarImageView3: UIImageView!
 
+    @IBOutlet weak var accessoryImageView: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
 
         promptLabel.text = NSLocalizedString("People with this skill", comment: "")
+
+        accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

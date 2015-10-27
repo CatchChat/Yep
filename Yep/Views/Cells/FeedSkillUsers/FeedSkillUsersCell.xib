@@ -20,13 +20,6 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="c2h-Il-EtF">
-                        <rect key="frame" x="177" y="29" width="30" height="30"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="30" id="ck6-eh-hSS"/>
-                            <constraint firstAttribute="width" constant="30" id="kcl-3p-Y14"/>
-                        </constraints>
-                    </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0nL-ib-Q1c">
                         <rect key="frame" x="257" y="29" width="30" height="30"/>
                         <constraints>
@@ -34,15 +27,22 @@
                             <constraint firstAttribute="width" constant="30" id="eiw-PS-NDx"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory_mini" translatesAutoresizingMaskIntoConstraints="NO" id="maH-pc-WxC" userLabel="Accessory Image View">
-                        <rect key="frame" x="297" y="37" width="8" height="13"/>
-                    </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VhJ-f2-v5c">
                         <rect key="frame" x="217" y="29" width="30" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="Xr0-Oo-juu"/>
                             <constraint firstAttribute="width" constant="30" id="mjg-Wj-8XW"/>
                         </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="c2h-Il-EtF">
+                        <rect key="frame" x="177" y="29" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="ck6-eh-hSS"/>
+                            <constraint firstAttribute="width" constant="30" id="kcl-3p-Y14"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory_mini" translatesAutoresizingMaskIntoConstraints="NO" id="maH-pc-WxC" userLabel="Accessory Image View">
+                        <rect key="frame" x="297" y="37" width="8" height="13"/>
                     </imageView>
                 </subviews>
                 <constraints>
@@ -59,6 +59,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="accessoryImageView" destination="maH-pc-WxC" id="cJU-QW-3AM"/>
                 <outlet property="avatarImageView1" destination="0nL-ib-Q1c" id="zGK-6C-wrJ"/>
                 <outlet property="avatarImageView2" destination="VhJ-f2-v5c" id="ZRT-VJ-s7X"/>
                 <outlet property="avatarImageView3" destination="c2h-Il-EtF" id="vmU-Bc-dJE"/>
