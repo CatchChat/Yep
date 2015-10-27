@@ -723,11 +723,11 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
     if isFetchingUnreadMessages.value {
         return
     }
+    
+    isFetchingUnreadMessages.value = true
 
     dispatch_async(dispatch_get_main_queue()) {
-        
-        isFetchingUnreadMessages.value = true
-        
+    
         println("Begin fetching")
         
         unreadMessages(failureHandler: { (reason, errorMessage) in
