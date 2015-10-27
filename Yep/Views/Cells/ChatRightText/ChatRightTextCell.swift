@@ -55,7 +55,6 @@ class ChatRightTextCell: ChatRightBaseCell {
         textContentTextView.textContainer.lineFragmentPadding = 0
         textContentTextView.font = UIFont.chatTextFont()
         
-
         textContentTextView.backgroundColor = UIColor.clearColor()
         textContentTextView.textColor = UIColor.whiteColor()
         textContentTextView.tintColor = UIColor.whiteColor()
@@ -79,7 +78,6 @@ class ChatRightTextCell: ChatRightBaseCell {
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
         bubbleBodyImageView.addGestureRecognizer(tap)
     }
-
 
     func tapMediaView() {
         mediaTapAction?()
@@ -113,6 +111,9 @@ class ChatRightTextCell: ChatRightBaseCell {
         UIView.performWithoutAnimation { [weak self] in
 
             if let strongSelf = self {
+
+                strongSelf.makeUI()
+                
                 strongSelf.textContainerView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() - textContentLabelWidth, y: 3, width: textContentLabelWidth, height: strongSelf.bounds.height - 3 * 2)
                 strongSelf.bubbleBodyImageView.frame = CGRectInset(strongSelf.textContainerView.frame, -12, -3)
                 strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMaxX(strongSelf.bubbleBodyImageView.frame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))

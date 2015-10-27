@@ -54,6 +54,10 @@ class ChatLeftLocationCell: ChatBaseCell {
 
         self.mediaTapAction = mediaTapAction
 
+        UIView.performWithoutAnimation { [weak self] in
+            self?.makeUI()
+        }
+
         if let sender = message.fromFriend {
             let userAvatar = UserAvatar(userID: sender.userID, avatarStyle: nanoAvatarStyle)
             avatarImageView.navi_setAvatar(userAvatar)

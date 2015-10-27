@@ -83,15 +83,17 @@ class ChatRightAudioCell: ChatRightBaseCell {
         self.audioBubbleTapAction = audioBubbleTapAction
 
         self.audioPlayedDuration = audioPlayedDuration
-        
+
+        UIView.performWithoutAnimation { [weak self] in
+            self?.makeUI()
+        }
+
         if let sender = message.fromFriend {
             let userAvatar = UserAvatar(userID: sender.userID, avatarStyle: nanoAvatarStyle)
             avatarImageView.navi_setAvatar(userAvatar)
         }
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-            self?.layoutIfNeeded()
-        }
 
+        layoutIfNeeded()
     }
 
     override func layoutSubviews() {

@@ -79,6 +79,9 @@ class ChatLeftTextCell: ChatBaseCell {
         UIView.performWithoutAnimation { [weak self] in
 
             if let strongSelf = self {
+                
+                strongSelf.makeUI()
+
                 strongSelf.textContainerView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3, width: textContentLabelWidth, height: strongSelf.bounds.height - 3 * 2)
                 strongSelf.bubbleBodyImageView.frame = CGRectInset(strongSelf.textContainerView.frame, -12, -3)
                 strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.bubbleBodyImageView.frame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
