@@ -718,7 +718,7 @@ class ConversationViewController: BaseViewController {
                     sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
 
                         dispatch_async(dispatch_get_main_queue()) {
-                            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { success in
+                            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
                             })
                         }
 
@@ -747,7 +747,6 @@ class ConversationViewController: BaseViewController {
 
                         dispatch_async(dispatch_get_main_queue()) {
                             self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-        println("B conversationCollectionView.contentInset: \(self?.conversationCollectionView.contentInset)")
                             })
                         }
 
@@ -1300,8 +1299,6 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.contentInset.top = 64 + feedViewHeight + conversationCollectionViewContentInsetYOffset
 
         setConversaitonCollectionViewContentInsetBottom(CGRectGetHeight(messageToolbar.bounds) + sectionInsetBottom)
-
-        println("A conversationCollectionView.contentInset: \(conversationCollectionView.contentInset)")
     }
 
     private var messageHeights = [String: CGFloat]()
@@ -1916,52 +1913,27 @@ class ConversationViewController: BaseViewController {
             // cal the height can be used
             let useableHeight = visibleHeight - conversationCollectionView.contentSize.height
 
-            //let totalHeight = conversationCollectionView.contentSize.height + blockedHeight + newMessagesTotalHeight
-
-            //if totalHeight > conversationCollectionView.frame.height {
-
-            //let newContentHeight = conversationCollectionView.contentSize.height + newMessagesTotalHeight
-
-            println("newMessagesTotalHeight: \(newMessagesTotalHeight)")
-            println("useableHeight: \(useableHeight)")
-
             if newMessagesTotalHeight > useableHeight {
 
                 UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [weak self] in
 
                     if let strongSelf = self {
 
-//                        if (useableHeight > 0) {
-//                            let contentToScroll = newMessagesTotalHeight - useableHeight
-//                            strongSelf.conversationCollectionView.contentOffset.y += contentToScroll
-//
-//                        } else {
-                            if scrollToBottom {
-                                let newContentSize = strongSelf.conversationCollectionView.collectionViewLayout.collectionViewContentSize()
-                                let newContentOffsetY = newContentSize.height - strongSelf.conversationCollectionView.frame.height + keyboardAndToolBarHeight
-                                strongSelf.conversationCollectionView.contentOffset.y = newContentOffsetY
+                        if scrollToBottom {
+                            let newContentSize = strongSelf.conversationCollectionView.collectionViewLayout.collectionViewContentSize()
+                            let newContentOffsetY = newContentSize.height - strongSelf.conversationCollectionView.frame.height + keyboardAndToolBarHeight
+                            strongSelf.conversationCollectionView.contentOffset.y = newContentOffsetY
 
-                            } else {
-                                strongSelf.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
-                            }
-//                        }
+                        } else {
+                            strongSelf.conversationCollectionView.contentOffset.y += newMessagesTotalHeight
+                        }
                     }
 
                 }, completion: { _ in
                     success(true)
-
-                    println("strongSelf.conversationCollectionView.contentOffset: \(self.conversationCollectionView.contentOffset)")
                 })
 
             } else {
-//                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [weak self] in
-//                    let contentToScroll = newMessagesTotalHeight - useableHeight
-//                    self?.conversationCollectionView.contentOffset.y += contentToScroll
-//
-//                }, completion: { _ in
-//                    success(true)
-//                })
-
                 success(true)
             }
 
