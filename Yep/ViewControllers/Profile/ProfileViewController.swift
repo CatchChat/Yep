@@ -776,7 +776,7 @@ class ProfileViewController: UIViewController {
                 }
             )
 
-            let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
+            let activityViewController = UIActivityViewController(activityItems: ["\(nickname), \(NSLocalizedString("From Yep, with Skills.", comment: "")) \(profileURL)"], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
 
             self.presentViewController(activityViewController, animated: true, completion: nil)
         }
@@ -1551,7 +1551,7 @@ extension ProfileViewController: UIScrollViewDelegate {
             return
         }
         
-        if let username = profileUser.username {
+        if let _ = profileUser.username {
             
         } else {
             if profileUser.userID != YepUserDefaults.userID.value {

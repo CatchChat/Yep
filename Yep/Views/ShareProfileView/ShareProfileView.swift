@@ -76,7 +76,9 @@ class ShareProfileView: UIView {
             
         }, completion: { [weak self] _ in
             
-            further()
+            delay(0.5, work: { 
+                further()
+            })
                 
             self?.animating = false
         
