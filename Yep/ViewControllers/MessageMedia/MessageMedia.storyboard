@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+    </dependencies>
+    <scenes>
+        <!--Message Media View Controller-->
+        <scene sceneID="DAE-HH-Vqa">
+            <objects>
+                <viewController storyboardIdentifier="MessageMediaViewController" id="wNT-nL-JvT" customClass="MessageMediaViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sK0-k6-X8e"/>
+                        <viewControllerLayoutGuide type="bottom" id="bo9-Mk-lhj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="apm-pk-fMg">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W2S-oK-zck" customClass="MediaView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WyB-fp-ggl" customClass="MediaControlView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="520" width="600" height="80"/>
+                                <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="Gfo-kB-HqE"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="W2S-oK-zck" firstAttribute="top" secondItem="apm-pk-fMg" secondAttribute="top" id="3Ob-OP-H59"/>
+                            <constraint firstItem="WyB-fp-ggl" firstAttribute="leading" secondItem="apm-pk-fMg" secondAttribute="leading" id="HV7-xo-9Ue"/>
+                            <constraint firstItem="bo9-Mk-lhj" firstAttribute="top" secondItem="WyB-fp-ggl" secondAttribute="bottom" id="KiK-0m-DYJ"/>
+                            <constraint firstAttribute="trailing" secondItem="W2S-oK-zck" secondAttribute="trailing" id="Qg3-D7-NX9"/>
+                            <constraint firstItem="bo9-Mk-lhj" firstAttribute="top" secondItem="W2S-oK-zck" secondAttribute="bottom" id="XUw-dF-pdh"/>
+                            <constraint firstItem="W2S-oK-zck" firstAttribute="leading" secondItem="apm-pk-fMg" secondAttribute="leading" id="dhs-b8-Jsh"/>
+                            <constraint firstAttribute="trailing" secondItem="WyB-fp-ggl" secondAttribute="trailing" id="nBs-q5-m4f"/>
+                        </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="cuQ-8S-qwl" appends="YES" id="FVC-Fg-3qJ"/>
+                            <outletCollection property="gestureRecognizers" destination="ERs-ef-nnw" appends="YES" id="l8V-CW-Zob"/>
+                            <outletCollection property="gestureRecognizers" destination="DS2-TT-dBz" appends="YES" id="vuD-JI-83b"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="mediaControlView" destination="WyB-fp-ggl" id="0mx-h4-6Ga"/>
+                        <outlet property="mediaView" destination="W2S-oK-zck" id="eeb-7e-TrZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cWX-iA-Gq1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="down" id="cuQ-8S-qwl">
+                    <connections>
+                        <action selector="swipeDown:" destination="wNT-nL-JvT" id="9IV-8i-VEX"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="up" id="ERs-ef-nnw">
+                    <connections>
+                        <action selector="swipeUp:" destination="wNT-nL-JvT" id="MbG-k6-dbD"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <tapGestureRecognizer id="DS2-TT-dBz">
+                    <connections>
+                        <action selector="tap:" destination="wNT-nL-JvT" id="O9W-aY-ak7"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="-799" y="2867"/>
+        </scene>
+    </scenes>
+</document>
