@@ -226,8 +226,9 @@ class RegisterPickAvatarViewController: UIViewController {
         
         YepHUD.showActivityIndicator()
 
-        avatar = self.avatar.navi_centerCropWithSize(YepConfig.avatarMaxSize())!
-        let imageData = UIImageJPEGRepresentation(avatar, YepConfig.avatarCompressionQuality())
+        let image = avatar.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
+
+        let imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
 
         s3UploadFileOfKind(.Avatar, inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
 
