@@ -15,7 +15,7 @@ class ImageCache {
     static let sharedInstance = ImageCache()
 
     let cache = NSCache()
-    let cacheQueue = dispatch_queue_create("ImageCacheQueue", DISPATCH_QUEUE_CONCURRENT)
+    let cacheQueue = dispatch_queue_create("ImageCacheQueue", DISPATCH_QUEUE_SERIAL)
 //    let cacheQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
 
     func imageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (loadingProgress: Double, image: UIImage?) -> Void) {

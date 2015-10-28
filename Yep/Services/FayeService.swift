@@ -18,7 +18,7 @@ protocol FayeServiceDelegate: class {
     func fayeRecievedInstantStateType(instantStateType: FayeService.InstantStateType, userID: String)
 }
 
-let fayeQueue = dispatch_queue_create("com.Yep.fayeQueue", DISPATCH_QUEUE_CONCURRENT)
+let fayeQueue = dispatch_queue_create("com.Yep.fayeQueue", DISPATCH_QUEUE_SERIAL)
 
 class FayeService: NSObject, MZFayeClientDelegate {
 
