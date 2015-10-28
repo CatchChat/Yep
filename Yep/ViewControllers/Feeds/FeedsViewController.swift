@@ -142,6 +142,10 @@ class FeedsViewController: UIViewController {
 
     var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    
+    deinit {
+        print("Deinit FeedsViewControler")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -518,7 +522,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 guard let indexPath = tableView.indexPathForCell(cell) else {
                     return
                 }
-                delay(0.03) {
+                delay(0.03) { [weak self] in
                     self?.tableView(tableView, didSelectRowAtIndexPath: indexPath)
                 }
             }
