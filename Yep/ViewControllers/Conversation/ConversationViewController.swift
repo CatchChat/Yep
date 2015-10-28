@@ -964,6 +964,9 @@ class ConversationViewController: BaseViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
+        if let checkTypingStatusTimer = checkTypingStatusTimer {
+            checkTypingStatusTimer.invalidate()
+        }
         NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
     }
 
@@ -1557,11 +1560,9 @@ class ConversationViewController: BaseViewController {
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 
                 
-                guard let conversation = self?.conversation , realm = conversation.realm else {
+                guard let conversation = self?.conversation else {
                     return
                 }
-                
-                println(realm)
                 
                 tryDeleteOrClearHistoryOfConversation(conversation, inViewController: nil, whenAfterClearedHistory: {
                     
