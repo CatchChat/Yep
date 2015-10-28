@@ -1559,7 +1559,10 @@ class ConversationViewController: BaseViewController {
             
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 
-                
+                if let checkTypingStatusTimer = self?.checkTypingStatusTimer {
+                    checkTypingStatusTimer.invalidate()
+                }
+            
                 guard let conversation = self?.conversation else {
                     return
                 }
