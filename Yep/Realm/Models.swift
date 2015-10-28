@@ -415,6 +415,10 @@ class Conversation: Object {
     
     var fakeID: String? {
 
+        if invalidated {
+            return nil
+        }
+
         switch type {
         case ConversationType.OneToOne.rawValue:
             if let withFriend = withFriend {
