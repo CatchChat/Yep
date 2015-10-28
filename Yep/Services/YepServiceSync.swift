@@ -532,9 +532,10 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                         groupsToDelete.append(localGroup)
                     }
                 }
+
                 for group in groupsToDelete {
-                    realm.delete(group)
-                    // TODO: 级联删除关联的数据对象
+                    
+                    group.cascadeDelete()
                 }
             }
 

@@ -196,6 +196,30 @@ class Group: Object {
         let conversations = linkingObjects(Conversation.self, forProperty: "withGroup")
         return conversations.first
     }
+
+    // 级联删除关联的数据对象
+
+    func cascadeDelete() {
+
+        guard let realm = realm else {
+            return
+        }
+
+        if let feed = withFeed {
+
+            feed.attachments.forEach {
+                realm.delete($0)
+            }
+
+            realm.delete(feed)
+        }
+
+        if let conversation = conversation {
+            realm.delete(conversation)
+        }
+
+        realm.delete(self)
+    }
 }
 
 // MARK: Message
