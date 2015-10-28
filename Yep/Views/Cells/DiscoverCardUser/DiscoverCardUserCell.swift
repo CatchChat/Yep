@@ -122,7 +122,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
             if index == 4 {
                 
                 if skills.count > 4 {
-                    skillLocal = NSLocalizedString("\(skills.count-4) More..", comment: "") 
+                    skillLocal = NSLocalizedString("\(skills.count-4) More..", comment: "")
                 }
             }
             
@@ -157,8 +157,11 @@ class DiscoverCardUserCell: UICollectionViewCell {
             if x + rect.width + marginLeft*2 > maxWidth {
                 x = 0
                 y = lastLabel.origin.y + lastLabel.height + lineSpacing + marginTop*2
-            } else if index == 0 {
+            }
+            
+            if index == 0 {
                 x = 0
+                y = lastLabel.origin.y
             }
             
             rect = CGRectMake(x + marginLeft, y , rect.width, rect.height)
