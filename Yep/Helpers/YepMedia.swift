@@ -28,7 +28,7 @@ func metaDataStringOfImage(image: UIImage, needBlurThumbnail: Bool) -> String? {
 
     let thumbnailSize = CGSize(width: thumbnailWidth, height: thumbnailHeight)
 
-    if let thumbnail = image.resizeToSize(thumbnailSize, withInterpolationQuality: CGInterpolationQuality.Low) {
+    if let thumbnail = image.resizeToSize(thumbnailSize, withInterpolationQuality: CGInterpolationQuality.High) {
 
         if needBlurThumbnail {
 
