@@ -18,7 +18,7 @@ protocol FayeServiceDelegate: class {
     func fayeRecievedInstantStateType(instantStateType: FayeService.InstantStateType, userID: String)
 }
 
-let fayeQueue = dispatch_queue_create("com.Yep.fayeQueue", DISPATCH_QUEUE_SERIAL)
+let fayeQueue = dispatch_queue_create("com.Yep.fayeQueue", DISPATCH_QUEUE_CONCURRENT)
 
 class FayeService: NSObject, MZFayeClientDelegate {
 
@@ -47,13 +47,14 @@ class FayeService: NSObject, MZFayeClientDelegate {
         }
     }
 
-    let client: MZFayeClient
+    let client: MZFayeClient = {
+        let client = MZFayeClient(URL:fayeBaseURL)
+        return client
+    }()
 
     weak var delegate: FayeServiceDelegate?
     
     override init() {
-
-        client = MZFayeClient(URL:fayeBaseURL)
         
         super.init()
         
