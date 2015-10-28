@@ -9,6 +9,8 @@
 import UIKit
 import Navi
 
+var skillLabelImageCache = [String: UIView]()
+
 let skillTextAttributes = [NSFontAttributeName: UIFont.skillDiscoverTextFont()]
 
 class DiscoverCardUserCell: UICollectionViewCell {
@@ -19,11 +21,11 @@ class DiscoverCardUserCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     
+    @IBOutlet weak var skillImageView: UIImageView!
+    
     @IBOutlet weak var usernameLabel: UILabel!
     
     @IBOutlet weak var userIntroductionLbael: UILabel!
-    
-    @IBOutlet weak var userSkillsCollectionView: UICollectionView!
     
     var discoveredUser: DiscoveredUser?
     
@@ -32,31 +34,24 @@ class DiscoverCardUserCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        userSkillsCollectionView.backgroundColor = UIColor.clearColor()
         contentView.backgroundColor = UIColor.whiteColor()
-//        contentView.layer.cornerRadius  = 6
-//        contentView.layer.masksToBounds = true
-        
-        layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.mainScreen().scale
+        contentView.layer.cornerRadius  = 6
+        contentView.layer.masksToBounds = true
         
         contentView.layer.borderColor = UIColor.yepCellSeparatorColor().CGColor
         contentView.layer.borderWidth = 1.0
         
         avatarImageView.contentMode = UIViewContentMode.ScaleAspectFill
         avatarImageView.clipsToBounds = true
-        
-        userSkillsCollectionView.delegate = self
-        userSkillsCollectionView.dataSource = self
-        userSkillsCollectionView.setCollectionViewLayout(MiniCardSkillLayout(), animated: false)
-        
-        userSkillsCollectionView.registerNib(UINib(nibName: skillCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCellIdentifier)
+        skillImageView.contentMode = UIViewContentMode.ScaleAspectFit
+    
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
         avatarImageView.image = nil
+        skillImageView.image = nil
     }
     
     func configureWithDiscoveredUser(discoveredUser: DiscoveredUser, collectionView: UICollectionView, indexPath: NSIndexPath) {
@@ -81,69 +76,106 @@ class DiscoverCardUserCell: UICollectionViewCell {
 
         usernameLabel.text = discoveredUser.nickname
         
-        userSkillsCollectionView.reloadData()
-    }
-
-}
-
-extension DiscoverCardUserCell:  UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 1
+        prepareSkillImage()
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let discoveredUser = discoveredUser {
-            if discoveredUser.masterSkills.count > 4 {
-                return 4
-            } else {
-                return discoveredUser.masterSkills.count
-            }
-        } else {
-            return 0
-        }
-    }
-    
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        if let discoveredUser = discoveredUser {
-            
-            let skillLocalName = discoveredUser.masterSkills[indexPath.row].localName ?? ""
-            
-            let skillID =  discoveredUser.masterSkills[indexPath.row].id
-            
-//            print(skillID)
+    func prepareSkillImage() {
+        if let discoveredUser = self.discoveredUser {
 
-            var rect = CGRectZero
-            
-            if let cacheRect = skillSizeCache[skillID] {
-                rect = cacheRect
-            } else {
-                rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
+            let image = self.genSkillImageWithSkills(discoveredUser.masterSkills)
                 
-                skillSizeCache[skillID] = rect
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.skillImageView.image = image
             }
-            
-            return CGSize(width: rect.width + 12, height: discoverCellHeight)
-        } else {
-            return CGSizeZero
+
+
+
         }
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-
-        if let discoveredUser = discoveredUser {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! DiscoverSkillCell
+    func genSkillImageWithSkills(skills: [Skill]) -> UIImage {
+        
+        let maxWidth:CGFloat = 170
+        
+        let marginTop:CGFloat = 3.0
+        
+        let marginLeft: CGFloat = 6.0
+        
+        let lineSpacing: CGFloat = 5.0
+        
+        let labelMargin: CGFloat = 5.0
+        
+        var skillLabels = [CGRect]()
+        
+        let context = UIGraphicsGetCurrentContext()
+        
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: maxWidth, height: 50), false, UIScreen.mainScreen().scale)
+        
+        for (index, skill) in skills.enumerate() {
             
-//            cell.skillLabel.font = UIFont.skillDiscoverTextFont()
-            cell.skillLabel.text = discoveredUser.masterSkills[indexPath.row].localName ?? ""
-//            cell.backgroundImageView.image = UIImage(named: "minicard_bubble")
-//            cell.backgroundImageView.contentMode = UIViewContentMode.ScaleAspectFill
+            if index == 5 {
+                break
+            }
             
-            return cell
-        } else {
-            return UICollectionViewCell()
+            //// Text Drawing
+            let textRect = CGRectMake(0, 0, 0, 14)
+            let textTextContent = NSString(string: skill.localName)
+            let textStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
+            textStyle.alignment = .Center
+            
+            let textFontAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(12), NSForegroundColorAttributeName: UIColor.whiteColor(), NSParagraphStyleAttributeName: textStyle]
+            
+            let textTextWidth: CGFloat = textTextContent.boundingRectWithSize(CGSizeMake(CGFloat.infinity, 12), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size.width
+            
+            //
+            
+            var rect = CGRectMake(0, marginTop, textTextWidth, textRect.height)
+            
+            //
+            
+            var lastLabel: CGRect = rect
+            
+            if index > 0 {
+                lastLabel = skillLabels[index - 1]
+            }
+            
+            var x = lastLabel.origin.x + lastLabel.width + labelMargin * 2
+            
+            var y = lastLabel.origin.y
+            
+            if x + rect.width + marginLeft*2 > maxWidth {
+                x = 0
+                y = lastLabel.origin.y + lastLabel.height + lineSpacing + marginTop*2
+            } else if index == 0 {
+                x = 0
+            }
+            
+            
+            rect = CGRectMake(x + marginLeft, y , rect.width, rect.height)
+            
+            let rectanglePath = UIBezierPath(roundedRect: CGRectMake(rect.origin.x - marginLeft, rect.origin.y - marginTop , textTextWidth + marginLeft * 2, textRect.height + marginTop*2), cornerRadius: (textRect.height + marginTop*2)*0.5)
+            
+            UIColor.yepTintColor().setFill()
+            rectanglePath.fill()
+            
+            skillLabels.append(rect)
+            
+            textTextContent.drawInRect(rect, withAttributes: textFontAttributes)
         }
-
+        
+        CGContextSaveGState(context)
+        CGContextClipToRect(context, CGRectMake(0, 0, maxWidth, 50))
+        
+        CGContextRestoreGState(context)
+        
+        
+        let backgroundImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return backgroundImage
     }
+
+
+
 }
+
