@@ -420,7 +420,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
 
         YepHUD.showActivityIndicator()
 
-        let image = image.navi_centerCropWithSize(YepConfig.avatarMaxSize())!
+        let image = image.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
         let imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
 
         s3UploadFileOfKind(.Avatar, inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
