@@ -216,6 +216,10 @@ class Group: Object {
 
         if let conversation = conversation {
             realm.delete(conversation)
+
+            dispatch_async(dispatch_get_main_queue()) {
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+            }
         }
 
         realm.delete(self)
