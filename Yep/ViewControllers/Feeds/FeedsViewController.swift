@@ -290,6 +290,10 @@ class FeedsViewController: UIViewController {
                     strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath])
                 }
             }
+            
+            joinGroup(groupID: feed.groupID, failureHandler: nil, completion: {
+                
+            })
         }
 
         let navi = UINavigationController(rootViewController: vc)
