@@ -53,7 +53,7 @@ class ConversationLayout: UICollectionViewFlowLayout {
         
         if insertIndexPathSet.contains(itemIndexPath) && insertIndexPathSet.count == 1{
             attributes?.frame.origin.y += 30
-            attributes?.alpha = 0
+//            attributes?.alpha = 0
 
             insertIndexPathSet.remove(itemIndexPath)
         }
