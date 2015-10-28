@@ -21,7 +21,9 @@ class MessageMediaViewController: UIViewController {
 
     var previewMedia: PreviewMedia?
 
-    @IBOutlet weak var mediaView: MediaView!
+    let mediaViewCellID = "MediaViewCell"
+
+    @IBOutlet weak var mediasCollectionView: UICollectionView!
 
     @IBOutlet weak var mediaControlView: MediaControlView!
 
@@ -42,12 +44,15 @@ class MessageMediaViewController: UIViewController {
 
         automaticallyAdjustsScrollViewInsets = false
 
+        mediasCollectionView.registerNib(UINib(nibName: mediaViewCellID, bundle: nil), forCellWithReuseIdentifier: mediaViewCellID)
+
         mediaControlView.hidden = true
 
         guard let previewMedia = previewMedia else {
             return
         }
 
+        /*
         switch previewMedia {
 
         case .MessageType(let message):
@@ -216,6 +221,7 @@ class MessageMediaViewController: UIViewController {
                 }
             })
         }
+        */
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -244,7 +250,7 @@ class MessageMediaViewController: UIViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
-        mediaView.videoPlayerLayer.player?.pause()
+        //mediaView.videoPlayerLayer.player?.pause()
     }
 
     // MARK: Actions
@@ -258,7 +264,7 @@ class MessageMediaViewController: UIViewController {
         switch previewMedia {
         case .MessageType(let message):
             if message.mediaType == MessageMediaType.Video.rawValue {
-                mediaView.videoPlayerLayer.player?.removeObserver(self, forKeyPath: "status")
+                //mediaView.videoPlayerLayer.player?.removeObserver(self, forKeyPath: "status")
             }
         default:
             break
@@ -281,26 +287,26 @@ class MessageMediaViewController: UIViewController {
 
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if let player = object as? AVPlayer {
-
-            if player == mediaView.videoPlayerLayer.player {
-
-                if keyPath == "status" {
-                    switch player.status {
-
-                    case AVPlayerStatus.Failed:
-                        println("Failed")
-
-                    case AVPlayerStatus.ReadyToPlay:
-                        println("ReadyToPlay")
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self.mediaView.videoPlayerLayer.player?.play()
-                        }
-
-                    case AVPlayerStatus.Unknown:
-                        println("Unknown")
-                    }
-                }
-            }
+//
+//            if player == mediaView.videoPlayerLayer.player {
+//
+//                if keyPath == "status" {
+//                    switch player.status {
+//
+//                    case AVPlayerStatus.Failed:
+//                        println("Failed")
+//
+//                    case AVPlayerStatus.ReadyToPlay:
+//                        println("ReadyToPlay")
+//                        dispatch_async(dispatch_get_main_queue()) {
+//                            self.mediaView.videoPlayerLayer.player?.play()
+//                        }
+//
+//                    case AVPlayerStatus.Unknown:
+//                        println("Unknown")
+//                    }
+//                }
+//            }
         }
     }
 
@@ -320,3 +326,31 @@ class MessageMediaViewController: UIViewController {
         return hideStatusBar
     }
 }
+
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegate 
+
+extension MessageMediaViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
+    }
+
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(mediaViewCellID, forIndexPath: indexPath) as! MediaViewCell
+        return cell
+    }
+
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+
+        return UIScreen.mainScreen().bounds.size
+    }
+
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        return UIEdgeInsetsZero
+    }
+}
+
