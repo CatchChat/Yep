@@ -543,10 +543,12 @@ func userSkillCategoryWithSkillCategoryID(skillCategoryID: String, inRealm realm
 func userWithUserID(userID: String, inRealm realm: Realm) -> User? {
     let predicate = NSPredicate(format: "userID = %@", userID)
 
+    #if DEBUG
     let users = realm.objects(User).filter(predicate)
     if users.count > 1 {
         println("Warning: same userID: \(users.count), \(userID)")
     }
+    #endif
 
     return realm.objects(User).filter(predicate).first
 }
@@ -563,6 +565,14 @@ func groupWithGroupID(groupID: String, inRealm realm: Realm) -> Group? {
 
 func feedWithFeedID(feedID: String, inRealm realm: Realm) -> Feed? {
     let predicate = NSPredicate(format: "feedID = %@", feedID)
+
+    #if DEBUG
+    let feeds = realm.objects(Feed).filter(predicate)
+    if feeds.count > 1 {
+        println("Warning: same feedID: \(feeds.count), \(feedID)")
+    }
+    #endif
+
     return realm.objects(Feed).filter(predicate).first
 }
 
@@ -625,7 +635,6 @@ func saveFeedWithFeedDataWithoutFullGroup(feedData: DiscoveredFeed, group: Group
             }
         })
     })
-
 }
 
 func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
@@ -633,6 +642,12 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
     
     if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
         println("saveFeed: \(feed.feedID), do nothing.")
+
+        #if DEBUG
+        if feed.group == nil {
+            println("feed have not with group, it may old (not deleted with conversation before)")
+        }
+        #endif
         
     } else {
         let newFeed = Feed()
