@@ -9,8 +9,6 @@
 import UIKit
 import Navi
 
-var skillLabelImageCache = [String: UIView]()
-
 let skillTextAttributes = [NSFontAttributeName: UIFont.skillDiscoverTextFont()]
 
 class DiscoverCardUserCell: UICollectionViewCell {
@@ -82,14 +80,15 @@ class DiscoverCardUserCell: UICollectionViewCell {
     func prepareSkillImage() {
         if let discoveredUser = self.discoveredUser {
 
-            let image = self.genSkillImageWithSkills(discoveredUser.masterSkills)
-                
+            var skills = discoveredUser.masterSkills
+            
+            let image = genSkillImageWithSkills(skills)
+            
+            image.CIImage
+            
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 self?.skillImageView.image = image
             }
-
-
-
         }
     }
     
@@ -127,11 +126,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
             
             let textTextWidth: CGFloat = textTextContent.boundingRectWithSize(CGSizeMake(CGFloat.infinity, 12), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size.width
             
-            //
-            
             var rect = CGRectMake(0, marginTop, textTextWidth, textRect.height)
-            
-            //
             
             var lastLabel: CGRect = rect
             
@@ -150,12 +145,12 @@ class DiscoverCardUserCell: UICollectionViewCell {
                 x = 0
             }
             
-            
             rect = CGRectMake(x + marginLeft, y , rect.width, rect.height)
             
             let rectanglePath = UIBezierPath(roundedRect: CGRectMake(rect.origin.x - marginLeft, rect.origin.y - marginTop , textTextWidth + marginLeft * 2, textRect.height + marginTop*2), cornerRadius: (textRect.height + marginTop*2)*0.5)
             
             UIColor.yepTintColor().setFill()
+            
             rectanglePath.fill()
             
             skillLabels.append(rect)
