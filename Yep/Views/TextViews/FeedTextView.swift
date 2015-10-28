@@ -32,5 +32,22 @@ class FeedTextView: UITextView {
         super.touchesCancelled(touches, withEvent: event)
         touchesCancelledAction?()
     }
+    
+    override func addGestureRecognizer(gestureRecognizer: UIGestureRecognizer) {
+        
+        // iOS 9 以上，强制不添加文字选择长按手势，免去触发选择文字
+        // 共有四种长按手势，iOS 9 正式版里分别加了两次：0.1 Reveal，0.12 tap link，0.5 selection， 0.75 press link
+        if isOperatingSystemAtLeastMajorVersion(9) {
+            if let longPressGestureRecognizer = gestureRecognizer as? UILongPressGestureRecognizer {
+                if longPressGestureRecognizer.minimumPressDuration == 0.5 {
+                    return
+                }
+            }
+        }
+        
+        super.addGestureRecognizer(gestureRecognizer)
+    }
 }
+
+
 
