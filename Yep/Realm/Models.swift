@@ -205,14 +205,7 @@ class Group: Object {
             return
         }
 
-        if let feed = withFeed {
-
-            feed.attachments.forEach {
-                realm.delete($0)
-            }
-
-            realm.delete(feed)
-        }
+        withFeed?.cascadeDelete()
 
         if let conversation = conversation {
             realm.delete(conversation)
@@ -513,6 +506,21 @@ class Feed: Object {
     dynamic var skill: UserSkill?
 
     dynamic var group: Group?
+
+    // 级联删除关联的数据对象
+
+    func cascadeDelete() {
+
+        guard let realm = realm else {
+            return
+        }
+
+        attachments.forEach {
+            realm.delete($0)
+        }
+
+        realm.delete(self)
+    }
 }
 
 
@@ -1088,11 +1096,7 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
 
                 if let feed = conversation.withGroup?.withFeed {
 
-                    for attachment in feed.attachments {
-                        realm.delete(attachment)
-                    }
-
-                    realm.delete(feed)
+                    feed.cascadeDelete()
                 }
 
                 let groupID = group.groupID
