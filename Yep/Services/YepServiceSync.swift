@@ -500,6 +500,7 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
     groups { allGroups in
+
         //println("allGroups: \(allGroups)")
 
         dispatch_async(realmQueue) {

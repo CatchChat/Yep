@@ -675,6 +675,9 @@ func deleteMediaFilesOfMessage(message: Message) {
     case MessageMediaType.Audio.rawValue:
         NSFileManager.removeMessageAudioFileWithName(message.localAttachmentName)
 
+    case MessageMediaType.Location.rawValue:
+        NSFileManager.removeMessageImageFileWithName(message.localAttachmentName)
+
     default:
         break // TODO: if have other message media need to delete
     }
