@@ -20,6 +20,7 @@ enum PreviewMedia {
 class MessageMediaViewController: UIViewController {
 
     var previewMedias: [PreviewMedia] = []
+    var startIndex: Int = 0
 
     let mediaViewCellID = "MediaViewCell"
 
@@ -47,10 +48,6 @@ class MessageMediaViewController: UIViewController {
         mediasCollectionView.registerNib(UINib(nibName: mediaViewCellID, bundle: nil), forCellWithReuseIdentifier: mediaViewCellID)
 
         mediaControlView.hidden = true
-
-
-
-
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -74,6 +71,13 @@ class MessageMediaViewController: UIViewController {
         UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: {
             self.mediaControlView.alpha = 1
         }, completion: { _ in })
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        let startIndexPath = NSIndexPath(forItem: startIndex, inSection: 0)
+        mediasCollectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .CenteredHorizontally, animated: false)
     }
 
     override func viewWillDisappear(animated: Bool) {
