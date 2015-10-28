@@ -1056,7 +1056,7 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) 
 
 // MARK: Delete
 
-func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewController vc: UIViewController, whenAfterClearedHistory afterClearedHistory: () -> Void, afterDeleted: () -> Void, orCanceled cancelled: () -> Void) {
+func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewController vc: UIViewController?, whenAfterClearedHistory afterClearedHistory: () -> Void, afterDeleted: () -> Void, orCanceled cancelled: () -> Void) {
 
     guard let realm = conversation.realm else {
         cancelled()
@@ -1143,6 +1143,13 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
         cancelled()
     }
     deleteAlertController.addAction(cancelAction)
+    
+    if let vc = vc {
+        vc.presentViewController(deleteAlertController, animated: true, completion: nil)
+    } else {
+        delete()
+        
+        afterDeleted()
+    }
 
-    vc.presentViewController(deleteAlertController, animated: true, completion: nil)
 }

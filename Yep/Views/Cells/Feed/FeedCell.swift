@@ -86,6 +86,7 @@ class FeedCell: UITableViewCell {
         messageTextView.font = UIFont.feedMessageFont()
         messageTextView.textContainer.lineFragmentPadding = 0
         messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        messageTextView.selectable = false
 
         mediaCollectionView.scrollsToTop = false
         mediaCollectionView.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)

@@ -1552,6 +1552,40 @@ class ConversationViewController: BaseViewController {
         let descriotion = conversation.withGroup?.withFeed?.body
         let groupID = conversation.withGroup?.groupID
         
+        moreView.unsubscribeAction = { [weak self] in
+            
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                
+                
+                guard let conversation = self?.conversation , realm = conversation.realm else {
+                    return
+                }
+                
+                println(realm)
+                
+                tryDeleteOrClearHistoryOfConversation(conversation, inViewController: nil, whenAfterClearedHistory: {
+                    
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                    }
+                    
+                }, afterDeleted: {
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                        }
+                        
+                }, orCanceled: {
+
+                })
+                
+                
+                self?.navigationController?.popViewControllerAnimated(true)
+            }
+
+        }
+        
         moreView.shareAction = { [weak self] in
             
             guard let groupID = groupID, descriotion = descriotion else {
