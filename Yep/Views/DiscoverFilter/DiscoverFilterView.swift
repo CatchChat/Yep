@@ -307,7 +307,7 @@ extension DiscoverFilterView: UITableViewDataSource, UITableViewDelegate {
 
                 cell.colorTitleLabel.text = NSLocalizedString("Cancel", comment: "")
                 cell.colorTitleLabelTextColor = UIColor.yepTintColor()
-                cell.colorTitleLabelFontStyle = .Regular
+                cell.colorTitleLabelFontStyle = .Light
                 
                 return cell
             }

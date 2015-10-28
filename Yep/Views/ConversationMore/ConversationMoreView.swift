@@ -46,7 +46,7 @@ class ConversationMoreCheckCell: UITableViewCell {
         textLabel?.textColor = UIColor.darkGrayColor()
 
         if #available(iOS 8.2, *) {
-            textLabel?.font = UIFont.systemFontOfSize(18)
+            textLabel?.font = UIFont.systemFontOfSize(18, weight: UIFontWeightLight)
         } else {
             textLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 18)!
         }
@@ -488,7 +488,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                     
                     cell.colorTitleLabel.text = NSLocalizedString("Cancel", comment: "")
                     cell.colorTitleLabelTextColor = UIColor.yepTintColor()
-                    cell.colorTitleLabelFontStyle = .Regular
+                    cell.colorTitleLabelFontStyle = .Light
                     
                     return cell
                 }
