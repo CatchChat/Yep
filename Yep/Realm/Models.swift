@@ -196,6 +196,27 @@ class Group: Object {
         let conversations = linkingObjects(Conversation.self, forProperty: "withGroup")
         return conversations.first
     }
+
+    // 级联删除关联的数据对象
+
+    func cascadeDelete() {
+
+        guard let realm = realm else {
+            return
+        }
+
+        withFeed?.cascadeDelete()
+
+        if let conversation = conversation {
+            realm.delete(conversation)
+
+            dispatch_async(dispatch_get_main_queue()) {
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+            }
+        }
+
+        realm.delete(self)
+    }
 }
 
 // MARK: Message
@@ -485,6 +506,21 @@ class Feed: Object {
     dynamic var skill: UserSkill?
 
     dynamic var group: Group?
+
+    // 级联删除关联的数据对象
+
+    func cascadeDelete() {
+
+        guard let realm = realm else {
+            return
+        }
+
+        attachments.forEach {
+            realm.delete($0)
+        }
+
+        realm.delete(self)
+    }
 }
 
 
@@ -515,10 +551,12 @@ func userSkillCategoryWithSkillCategoryID(skillCategoryID: String, inRealm realm
 func userWithUserID(userID: String, inRealm realm: Realm) -> User? {
     let predicate = NSPredicate(format: "userID = %@", userID)
 
+    #if DEBUG
     let users = realm.objects(User).filter(predicate)
     if users.count > 1 {
         println("Warning: same userID: \(users.count), \(userID)")
     }
+    #endif
 
     return realm.objects(User).filter(predicate).first
 }
@@ -535,6 +573,14 @@ func groupWithGroupID(groupID: String, inRealm realm: Realm) -> Group? {
 
 func feedWithFeedID(feedID: String, inRealm realm: Realm) -> Feed? {
     let predicate = NSPredicate(format: "feedID = %@", feedID)
+
+    #if DEBUG
+    let feeds = realm.objects(Feed).filter(predicate)
+    if feeds.count > 1 {
+        println("Warning: same feedID: \(feeds.count), \(feedID)")
+    }
+    #endif
+
     return realm.objects(Feed).filter(predicate).first
 }
 
@@ -597,7 +643,6 @@ func saveFeedWithFeedDataWithoutFullGroup(feedData: DiscoveredFeed, group: Group
             }
         })
     })
-
 }
 
 func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
@@ -605,6 +650,12 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
     
     if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
         println("saveFeed: \(feed.feedID), do nothing.")
+
+        #if DEBUG
+        if feed.group == nil {
+            println("feed have not with group, it may old (not deleted with conversation before)")
+        }
+        #endif
         
     } else {
         let newFeed = Feed()
@@ -674,6 +725,9 @@ func deleteMediaFilesOfMessage(message: Message) {
 
     case MessageMediaType.Audio.rawValue:
         NSFileManager.removeMessageAudioFileWithName(message.localAttachmentName)
+
+    case MessageMediaType.Location.rawValue:
+        NSFileManager.removeMessageImageFileWithName(message.localAttachmentName)
 
     default:
         break // TODO: if have other message media need to delete
@@ -780,17 +834,6 @@ func unReadMessagesOfConversation(conversation: Conversation, inRealm realm: Rea
     return messages
 }
 */
-
-func conversationOfMessageID(messageID: String, inRealm realm: Realm) -> Results<Message>? {
-    
-    if let message = messageWithMessageID(messageID, inRealm: realm), conversation = message.conversation{
-        let predicate = NSPredicate(format: "conversation = %@", argumentArray: [conversation])
-        let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
-        return messages
-    } else {
-        return nil
-    }
-}
 
 func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
     let predicate = NSPredicate(format: "conversation = %@", argumentArray: [conversation])
@@ -1053,11 +1096,7 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
 
                 if let feed = conversation.withGroup?.withFeed {
 
-                    for attachment in feed.attachments {
-                        realm.delete(attachment)
-                    }
-
-                    realm.delete(feed)
+                    feed.cascadeDelete()
                 }
 
                 let groupID = group.groupID

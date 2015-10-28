@@ -723,7 +723,7 @@ class ProfileViewController: UIViewController {
 
     private func shareProfile() {
 
-         if let username = profileUser?.username, profileURL = NSURL(string: "http://soyep.com/\(username)"), nickname =   profileUser?.nickname {
+         if let username = profileUser?.username, profileURL = NSURL(string: "http://soyep.com/\(username)"), nickname = profileUser?.nickname {
 
             var thumbnail: UIImage?
 

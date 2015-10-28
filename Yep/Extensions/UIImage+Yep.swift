@@ -11,6 +11,29 @@ import Ruler
 
 extension UIImage {
 
+    func largestCenteredSquareImage() -> UIImage {
+        let scale = self.scale
+
+        let originalWidth  = self.size.width * scale
+        let originalHeight = self.size.height * scale
+
+        let edge: CGFloat
+        if originalWidth > originalHeight {
+            edge = originalHeight
+        } else {
+            edge = originalWidth
+        }
+
+        let posX = (originalWidth  - edge) / 2.0
+        let posY = (originalHeight - edge) / 2.0
+
+        let cropSquare = CGRectMake(posX, posY, edge, edge)
+
+        let imageRef = CGImageCreateWithImageInRect(self.CGImage, cropSquare)!
+
+        return UIImage(CGImage: imageRef, scale: scale, orientation: self.imageOrientation)
+    }
+
     func resizeToTargetSize(targetSize: CGSize) -> UIImage {
         let size = self.size
 
