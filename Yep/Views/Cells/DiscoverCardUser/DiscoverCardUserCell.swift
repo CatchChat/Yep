@@ -80,7 +80,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
     func prepareSkillImage() {
         if let discoveredUser = self.discoveredUser {
 
-            var skills = discoveredUser.masterSkills
+            let skills = discoveredUser.masterSkills
             
             let image = genSkillImageWithSkills(skills)
             
@@ -112,17 +112,33 @@ class DiscoverCardUserCell: UICollectionViewCell {
         
         for (index, skill) in skills.enumerate() {
             
+            var skillLocal = skill.localName
+            
             if index == 5 {
+                
                 break
+            }
+            
+            if index == 4 {
+                
+                if skills.count > 4 {
+                    skillLocal = NSLocalizedString("\(skills.count-4) More..", comment: "") 
+                }
             }
             
             //// Text Drawing
             let textRect = CGRectMake(0, 0, 0, 14)
-            let textTextContent = NSString(string: skill.localName)
+            let textTextContent = NSString(string: skillLocal)
             let textStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
             textStyle.alignment = .Center
             
-            let textFontAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(12), NSForegroundColorAttributeName: UIColor.whiteColor(), NSParagraphStyleAttributeName: textStyle]
+            let textFontAttributes: [String: AnyObject] = {
+                if index == 4 {
+                    return  [NSFontAttributeName: UIFont.systemFontOfSize(12), NSForegroundColorAttributeName: UIColor.yepTintColor(), NSParagraphStyleAttributeName: textStyle]
+                } else {
+                    return [NSFontAttributeName: UIFont.systemFontOfSize(12), NSForegroundColorAttributeName: UIColor.whiteColor(), NSParagraphStyleAttributeName: textStyle]
+                }
+            }()
             
             let textTextWidth: CGFloat = textTextContent.boundingRectWithSize(CGSizeMake(CGFloat.infinity, 12), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size.width
             
@@ -149,7 +165,15 @@ class DiscoverCardUserCell: UICollectionViewCell {
             
             let rectanglePath = UIBezierPath(roundedRect: CGRectMake(rect.origin.x - marginLeft, rect.origin.y - marginTop , textTextWidth + marginLeft * 2, textRect.height + marginTop*2), cornerRadius: (textRect.height + marginTop*2)*0.5)
             
-            UIColor.yepTintColor().setFill()
+            let fillColor: UIColor = {
+                if index == 4 {
+                   return UIColor(red: 234/255.0, green: 246/255.0, blue: 255/255.0, alpha: 1.0)
+                } else {
+                   return UIColor.yepTintColor()
+                }
+            }()
+            
+            fillColor.setFill()
             
             rectanglePath.fill()
             
