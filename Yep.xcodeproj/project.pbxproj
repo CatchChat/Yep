@@ -279,6 +279,7 @@
 		6A8215051BCBE5170011F36C /* MiniCardSkillLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8215041BCBE5170011F36C /* MiniCardSkillLayout.swift */; };
 		6A8215081BCBE8F10011F36C /* DiscoverSkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8215061BCBE8F10011F36C /* DiscoverSkillCell.swift */; };
 		6A8215091BCBE8F10011F36C /* DiscoverSkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8215071BCBE8F10011F36C /* DiscoverSkillCell.xib */; };
+		6AB0DF5A1BE169000052BED1 /* ShareProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB0DF591BE169000052BED1 /* ShareProfileView.swift */; };
 		6ADDB4501B848C600012877A /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6ADDB44F1B848C600012877A /* 1Password.xcassets */; };
 		8409137D1B7DB173001C89D6 /* FriendRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409137C1B7DB173001C89D6 /* FriendRequestView.swift */; };
 		840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */; };
@@ -586,6 +587,7 @@
 		6A8215041BCBE5170011F36C /* MiniCardSkillLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniCardSkillLayout.swift; path = Views/Cells/DiscoverCardUser/MiniCardSkillLayout.swift; sourceTree = "<group>"; };
 		6A8215061BCBE8F10011F36C /* DiscoverSkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverSkillCell.swift; path = Views/Cells/DiscoverSkill/DiscoverSkillCell.swift; sourceTree = "<group>"; };
 		6A8215071BCBE8F10011F36C /* DiscoverSkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DiscoverSkillCell.xib; path = Views/Cells/DiscoverSkill/DiscoverSkillCell.xib; sourceTree = "<group>"; };
+		6AB0DF591BE169000052BED1 /* ShareProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareProfileView.swift; path = Views/ShareProfileView/ShareProfileView.swift; sourceTree = "<group>"; };
 		6ADDB44F1B848C600012877A /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = 1Password.xcassets; sourceTree = "<group>"; };
 		8409137C1B7DB173001C89D6 /* FriendRequestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendRequestView.swift; path = Views/FriendRequest/FriendRequestView.swift; sourceTree = "<group>"; };
 		840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepViewController.swift; path = ViewControllers/Show/ShowStepViewController.swift; sourceTree = "<group>"; };
@@ -1004,6 +1006,7 @@
 				50F5AF891BBBB2B30033C9BC /* HorizontalLine */,
 				50535D1B1BCD19B4002FE1A4 /* TouchClosures */,
 				50A93A9E1BD8C51D007005DB /* PickerItems */,
+				6AB0DF5B1BE169030052BED1 /* ShareProfileView */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -2007,6 +2010,14 @@
 			name = DiscoverSkill;
 			sourceTree = "<group>";
 		};
+		6AB0DF5B1BE169030052BED1 /* ShareProfileView */ = {
+			isa = PBXGroup;
+			children = (
+				6AB0DF591BE169000052BED1 /* ShareProfileView.swift */,
+			);
+			name = ShareProfileView;
+			sourceTree = "<group>";
+		};
 		8409137E1B7DB178001C89D6 /* FriendRequest */ = {
 			isa = PBXGroup;
 			children = (
@@ -2454,6 +2465,7 @@
 				50E1D7291B870D7500D90A82 /* NSParagraphStyle+Yep.swift in Sources */,
 				5023DE371AB6979600B3EE96 /* ConversationCell.swift in Sources */,
 				502B60641BD1208E00D9C17E /* CameraCell.swift in Sources */,
+				6AB0DF5A1BE169000052BED1 /* ShareProfileView.swift in Sources */,
 				502AE5351AB8649F005BD199 /* LoginByMobileViewController.swift in Sources */,
 				506BB7F91AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift in Sources */,
 				50B8E6181B41340A00C17EA1 /* MessageLoadingProgressView.swift in Sources */,
