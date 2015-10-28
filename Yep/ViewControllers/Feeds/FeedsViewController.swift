@@ -396,7 +396,9 @@ class FeedsViewController: UIViewController {
             let info = sender as! [String: AnyObject]
 
             let vc = segue.destinationViewController as! MessageMediaViewController
-            vc.previewMedia = PreviewMedia.AttachmentType(imageURL: info["imageURL"] as! NSURL )
+            vc.previewMedias = [
+                PreviewMedia.AttachmentType(imageURL: info["imageURL"] as! NSURL)
+            ]
 
             let transitionView = info["transitionView"] as! UIImageView
 

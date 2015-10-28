@@ -2155,7 +2155,9 @@ class ConversationViewController: BaseViewController {
             let info = sender as! [String: AnyObject]
 
             let vc = segue.destinationViewController as! MessageMediaViewController
-            vc.previewMedia = PreviewMedia.AttachmentType(imageURL: info["imageURL"] as! NSURL )
+            vc.previewMedias = [
+                PreviewMedia.AttachmentType(imageURL: info["imageURL"] as! NSURL)
+            ]
 
             let transitionView = info["transitionView"] as! UIImageView
 
@@ -2196,7 +2198,9 @@ class ConversationViewController: BaseViewController {
 
             if let message = sender as? Message, messageIndex = messages.indexOf(message) {
 
-                vc.previewMedia = PreviewMedia.MessageType(message: message)
+                vc.previewMedias = [
+                    PreviewMedia.MessageType(message: message)
+                ]
 
                 let indexPath = NSIndexPath(forRow: messageIndex - displayedMessagesRange.location , inSection: 0)
 
@@ -2274,7 +2278,9 @@ class ConversationViewController: BaseViewController {
 
             if let message = sender as? Message, messageIndex = messages.indexOf(message) {
 
-                vc.previewMedia = PreviewMedia.MessageType(message: message)
+                vc.previewMedias = [
+                    PreviewMedia.MessageType(message: message)
+                ]
 
                 let indexPath = NSIndexPath(forRow: messageIndex - displayedMessagesRange.location , inSection: 0)
 
