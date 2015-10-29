@@ -80,6 +80,14 @@ class MessageMediaViewController: UIViewController {
 
         let startIndexPath = NSIndexPath(forItem: startIndex, inSection: 0)
         mediasCollectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .CenteredHorizontally, animated: false)
+
+        guard let cell = mediasCollectionView.cellForItemAtIndexPath(startIndexPath) as? MediaViewCell else {
+            return
+        }
+
+        let previewMedia = previewMedias[startIndex]
+
+        prepareForShareWithCell(cell, previewMedia: previewMedia)
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -117,7 +125,8 @@ class MessageMediaViewController: UIViewController {
     }
 
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        if let player = object as? AVPlayer {
+
+//        if let player = object as? AVPlayer {
 //
 //            if player == mediaView.videoPlayerLayer.player {
 //
@@ -138,7 +147,7 @@ class MessageMediaViewController: UIViewController {
 //                    }
 //                }
 //            }
-        }
+//        }
     }
 
     func playerItemDidReachEnd(notification: NSNotification) {
@@ -186,6 +195,110 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
                     let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
                     let image = UIImage(contentsOfFile: imageFileURL.path!) {
                         cell.mediaView.image = image
+                }
+
+            case MessageMediaType.Video.rawValue:
+
+                cell.mediaView.imageView.hidden = true
+
+                mediaControlView.type = .Video
+                mediaControlView.playState = .Playing
+
+                if
+                    let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localThumbnailName),
+                    let image = UIImage(contentsOfFile: imageFileURL.path!) {
+                        cell.mediaView.image = image
+                }
+
+            default:
+                break
+            }
+
+        case .AttachmentType(let imageURL):
+
+            mediaControlView.type = .Image
+
+            cell.mediaView.helperImageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: nil, completionHandler: { (image, error, cacheType, imageURL) in
+
+                guard let image = image else {
+                    return
+                }
+
+                cell.mediaView.image = image
+            })
+        }
+    }
+
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(mediaViewCellID, forIndexPath: indexPath) as! MediaViewCell
+
+//        if let pinchGestureRecognizer = cell.mediaView.scrollView.pinchGestureRecognizer {
+//            collectionView.addGestureRecognizer(pinchGestureRecognizer)
+//        }
+//        let panGestureRecognizer = cell.mediaView.scrollView.panGestureRecognizer
+//        collectionView.addGestureRecognizer(panGestureRecognizer)
+
+        return cell
+    }
+
+    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+
+        if let cell = cell as? MediaViewCell {
+            let previewMedia = previewMedias[indexPath.item]
+            configureCell(cell, withPreviewMedia: previewMedia)
+        }
+    }
+
+
+//    func collectionView(collectionView: UICollectionView, didEndDisplayingCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+//        if let cell = cell as? MediaViewCell {
+//            if let pinchGestureRecognizer = cell.mediaView.scrollView.pinchGestureRecognizer {
+//                collectionView.removeGestureRecognizer(pinchGestureRecognizer)
+//            }
+//            let panGestureRecognizer = cell.mediaView.scrollView.panGestureRecognizer
+//            collectionView.removeGestureRecognizer(panGestureRecognizer)
+//        }
+//    }
+
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+        return UIScreen.mainScreen().bounds.size
+    }
+
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        return UIEdgeInsetsZero
+    }
+
+
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+
+        let currentIndex = Int(scrollView.contentOffset.x / scrollView.frame.width)
+
+        let indexPath = NSIndexPath(forItem: currentIndex, inSection: 0)
+
+        guard let cell = mediasCollectionView.cellForItemAtIndexPath(indexPath) as? MediaViewCell else {
+            return
+        }
+
+        let previewMedia = previewMedias[currentIndex]
+
+        prepareForShareWithCell(cell, previewMedia: previewMedia)
+    }
+
+    private func prepareForShareWithCell(cell: MediaViewCell, previewMedia: PreviewMedia) {
+
+        switch previewMedia {
+
+        case .MessageType(let message):
+
+            switch message.mediaType {
+
+            case MessageMediaType.Image.rawValue:
+
+                mediaControlView.type = .Image
+
+                if
+                    let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
+                    let image = UIImage(contentsOfFile: imageFileURL.path!) {
 
                         mediaControlView.shareAction = {
 
@@ -223,8 +336,6 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
                 }
 
             case MessageMediaType.Video.rawValue:
-
-                cell.mediaView.imageView.hidden = true
 
                 mediaControlView.type = .Video
                 mediaControlView.playState = .Playing
@@ -295,96 +406,48 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
                 break
             }
 
-        case .AttachmentType(let imageURL):
+        case .AttachmentType:
+
+            guard let image = cell.mediaView.image else {
+                return
+            }
 
             mediaControlView.type = .Image
 
-            cell.mediaView.helperImageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: nil, completionHandler: { [weak self] (image, error, cacheType, imageURL) in
+            mediaControlView.shareAction = { [weak self] in
 
-                guard let image = image else {
-                    return
-                }
+                let info = MonkeyKing.Info(
+                    title: nil,
+                    description: nil,
+                    thumbnail: nil,
+                    media: .Image(image)
+                )
 
-                cell.mediaView.image = image
-                //println("image.size: \(image.size)")
+                let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
 
-                //cell.mediaView.updateImageViewWithImage(image)
+                let weChatSessionActivity = WeChatActivity(
+                    type: .Session,
+                    message: sessionMessage,
+                    finish: { success in
+                        println("share Image to WeChat Session success: \(success)")
+                    }
+                )
 
-                /*
-                self?.mediaControlView.shareAction = {
+                let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
 
-                    let info = MonkeyKing.Info(
-                        title: nil,
-                        description: nil,
-                        thumbnail: nil,
-                        media: .Image(image)
-                    )
+                let weChatTimelineActivity = WeChatActivity(
+                    type: .Timeline,
+                    message: timelineMessage,
+                    finish: { success in
+                        println("share Image to WeChat Timeline success: \(success)")
+                    }
+                )
 
-                    let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
-
-                    let weChatSessionActivity = WeChatActivity(
-                        type: .Session,
-                        message: sessionMessage,
-                        finish: { success in
-                            println("share Image to WeChat Session success: \(success)")
-                        }
-                    )
-                    
-                    let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
-                    
-                    let weChatTimelineActivity = WeChatActivity(
-                        type: .Timeline,
-                        message: timelineMessage,
-                        finish: { success in
-                            println("share Image to WeChat Timeline success: \(success)")
-                        }
-                    )
-                    
-                    let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-                    
-                    self?.presentViewController(activityViewController, animated: true, completion: nil)
-                }
-                */
-            })
+                let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
+                
+                self?.presentViewController(activityViewController, animated: true, completion: nil)
+            }
         }
-    }
-
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(mediaViewCellID, forIndexPath: indexPath) as! MediaViewCell
-
-//        if let pinchGestureRecognizer = cell.mediaView.scrollView.pinchGestureRecognizer {
-//            collectionView.addGestureRecognizer(pinchGestureRecognizer)
-//        }
-//        let panGestureRecognizer = cell.mediaView.scrollView.panGestureRecognizer
-//        collectionView.addGestureRecognizer(panGestureRecognizer)
-
-        return cell
-    }
-
-    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
-
-        if let cell = cell as? MediaViewCell {
-            let previewMedia = previewMedias[indexPath.item]
-            configureCell(cell, withPreviewMedia: previewMedia)
-        }
-    }
-
-//    func collectionView(collectionView: UICollectionView, didEndDisplayingCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
-//        if let cell = cell as? MediaViewCell {
-//            if let pinchGestureRecognizer = cell.mediaView.scrollView.pinchGestureRecognizer {
-//                collectionView.removeGestureRecognizer(pinchGestureRecognizer)
-//            }
-//            let panGestureRecognizer = cell.mediaView.scrollView.panGestureRecognizer
-//            collectionView.removeGestureRecognizer(panGestureRecognizer)
-//        }
-//    }
-
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-        return UIScreen.mainScreen().bounds.size
-    }
-
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        return UIEdgeInsetsZero
     }
 }
 
