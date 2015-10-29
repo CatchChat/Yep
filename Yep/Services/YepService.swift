@@ -2500,7 +2500,7 @@ func deleteFeedWithFeedID(feedID: String, failureHandler: ((Reason, String?) -> 
 
 func authURLRequestWithURL(url: NSURL) -> NSURLRequest {
     
-    let request = NSMutableURLRequest(URL: url)
+    let request = NSMutableURLRequest(URL: url, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: 0)
     
     if let token = YepUserDefaults.v1AccessToken.value {
         request.setValue("Token token=\"\(token)\"", forHTTPHeaderField: "Authorization")

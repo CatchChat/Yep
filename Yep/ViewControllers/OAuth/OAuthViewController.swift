@@ -26,7 +26,7 @@ class OAuthViewController: BaseViewController {
         
         animatedOnNavigationBar = false
 
-        title = NSLocalizedString("OAuth", comment: "")
+        title = socialAccount.description
         
         let request = authURLRequestWithURL(socialAccount.authURL)
         
