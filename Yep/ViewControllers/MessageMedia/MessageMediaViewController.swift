@@ -21,6 +21,9 @@ class MessageMediaViewController: UIViewController {
 
     var previewMedias: [PreviewMedia] = []
     var startIndex: Int = 0
+    var currentIndex: Int = 0
+
+    var currentPlayer: AVPlayer?
 
     let mediaViewCellID = "MediaViewCell"
 
@@ -50,6 +53,9 @@ class MessageMediaViewController: UIViewController {
         mediasCollectionView.backgroundColor = UIColor.clearColor()
 
         mediaControlView.hidden = true
+
+
+        currentIndex = startIndex
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -134,8 +140,8 @@ class MessageMediaViewController: UIViewController {
 
         if let player = object as? AVPlayer {
 
-            let startIndexPath = NSIndexPath(forItem: startIndex, inSection: 0)
-            guard let cell = mediasCollectionView.cellForItemAtIndexPath(startIndexPath) as? MediaViewCell else {
+            let indexPath = NSIndexPath(forItem: currentIndex, inSection: 0)
+            guard let cell = mediasCollectionView.cellForItemAtIndexPath(indexPath) as? MediaViewCell else {
                 return
             }
 
@@ -202,6 +208,9 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
 
                 mediaControlView.type = .Image
 
+                cell.mediaView.scrollView.hidden = false
+                cell.mediaView.videoPlayerLayer.hidden = true
+
                 if
                     let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
                     let image = UIImage(contentsOfFile: imageFileURL.path!) {
@@ -210,7 +219,8 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
 
             case MessageMediaType.Video.rawValue:
 
-                cell.mediaView.imageView.hidden = true
+                cell.mediaView.scrollView.hidden = true
+                cell.mediaView.videoPlayerLayer.hidden = false
 
                 mediaControlView.type = .Video
                 mediaControlView.playState = .Playing
@@ -279,20 +289,31 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
         return UIEdgeInsetsZero
     }
 
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    //func scrollViewDidScroll(scrollView: UIScrollView) {
 
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let newCurrentIndex = Int(scrollView.contentOffset.x / scrollView.frame.width)
 
-        let currentIndex = Int(scrollView.contentOffset.x / scrollView.frame.width)
+        if newCurrentIndex != currentIndex {
 
-        let indexPath = NSIndexPath(forItem: currentIndex, inSection: 0)
+            currentPlayer?.removeObserver(self, forKeyPath: "status")
+            currentPlayer?.pause()
+            currentPlayer = nil
 
-        guard let cell = mediasCollectionView.cellForItemAtIndexPath(indexPath) as? MediaViewCell else {
-            return
+            let indexPath = NSIndexPath(forItem: newCurrentIndex, inSection: 0)
+
+            guard let cell = mediasCollectionView.cellForItemAtIndexPath(indexPath) as? MediaViewCell else {
+                return
+            }
+
+            let previewMedia = previewMedias[newCurrentIndex]
+
+            prepareForShareWithCell(cell, previewMedia: previewMedia)
+
+            currentIndex = newCurrentIndex
+
+            println("scroll to new media")
         }
-
-        let previewMedia = previewMedias[currentIndex]
-
-        prepareForShareWithCell(cell, previewMedia: previewMedia)
     }
 
     private func prepareForShareWithCell(cell: MediaViewCell, previewMedia: PreviewMedia) {
@@ -401,6 +422,8 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
                         cell.mediaView.videoPlayerLayer.player = player
 
                         cell.mediaView.videoPlayerLayer.player?.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions(rawValue: 0), context: nil)
+
+                        currentPlayer = player
 
                         //mediaView.videoPlayerLayer.player.play()
                         //mediaView.imageView.removeFromSuperview()
