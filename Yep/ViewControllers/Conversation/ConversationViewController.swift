@@ -1970,6 +1970,13 @@ class ConversationViewController: BaseViewController {
 
                     } else {
                         println("unknown message")
+
+                        #if DEBUG
+                            YepAlert.alertSorry(message: "unknown message: \(messageID)", inViewController: self)
+                        #endif
+
+                        reloadConversationCollectionView()
+                        return
                     }
                 }
 
