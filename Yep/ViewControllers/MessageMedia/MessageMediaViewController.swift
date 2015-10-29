@@ -112,14 +112,8 @@ class MessageMediaViewController: UIViewController {
 
     func dismiss() {
 
-//        switch previewMedia {
-//        case .MessageType(let message):
-//            if message.mediaType == MessageMediaType.Video.rawValue {
-//                mediaView.videoPlayerLayer.player?.removeObserver(self, forKeyPath: "status")
-//            }
-//        default:
-//            break
-//        }
+        currentPlayer?.removeObserver(self, forKeyPath: "status")
+        currentPlayer?.pause()
 
         navigationController?.popViewControllerAnimated(true)
     }
