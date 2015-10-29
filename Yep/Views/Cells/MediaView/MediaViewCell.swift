@@ -16,5 +16,11 @@ class MediaViewCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        mediaView.imageView.image = nil
+    }
 }
 

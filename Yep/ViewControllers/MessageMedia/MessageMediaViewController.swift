@@ -48,6 +48,17 @@ class MessageMediaViewController: UIViewController {
         mediasCollectionView.registerNib(UINib(nibName: mediaViewCellID, bundle: nil), forCellWithReuseIdentifier: mediaViewCellID)
 
         mediaControlView.hidden = true
+
+//        let imageView = UIImageView()
+//
+//
+//        previewMedias.forEach({
+//
+//            if case .AttachmentType(imageURL: NSURL)
+//        })
+//
+//        imageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: nil, completionHandler: { [weak self] (image, error, cacheType, imageURL) in
+//        })
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -168,10 +179,7 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
         return previewMedias.count
     }
 
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(mediaViewCellID, forIndexPath: indexPath) as! MediaViewCell
-
-        let previewMedia = previewMedias[indexPath.item]
+    private func configureCell(cell: MediaViewCell, withPreviewMedia previewMedia: PreviewMedia) {
 
         switch previewMedia {
 
@@ -300,14 +308,18 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
 
             mediaControlView.type = .Image
 
-            cell.mediaView.imageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: nil, completionHandler: { [weak self] (image, error, cacheType, imageURL) in
+            cell.mediaView.helperImageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: nil, completionHandler: { [weak self] (image, error, cacheType, imageURL) in
 
                 guard let image = image else {
                     return
                 }
 
-                cell.mediaView.updateImageViewWithImage(image)
+                cell.mediaView.image = image
+                //println("image.size: \(image.size)")
 
+                //cell.mediaView.updateImageViewWithImage(image)
+
+                /*
                 self?.mediaControlView.shareAction = {
 
                     let info = MonkeyKing.Info(
@@ -341,14 +353,42 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
                     
                     self?.presentViewController(activityViewController, animated: true, completion: nil)
                 }
+                */
             })
         }
+    }
+
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(mediaViewCellID, forIndexPath: indexPath) as! MediaViewCell
+
+//        if let pinchGestureRecognizer = cell.mediaView.scrollView.pinchGestureRecognizer {
+//            collectionView.addGestureRecognizer(pinchGestureRecognizer)
+//        }
+//        let panGestureRecognizer = cell.mediaView.scrollView.panGestureRecognizer
+//        collectionView.addGestureRecognizer(panGestureRecognizer)
 
         return cell
     }
 
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
 
+        if let cell = cell as? MediaViewCell {
+            let previewMedia = previewMedias[indexPath.item]
+            configureCell(cell, withPreviewMedia: previewMedia)
+        }
+    }
+
+//    func collectionView(collectionView: UICollectionView, didEndDisplayingCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+//        if let cell = cell as? MediaViewCell {
+//            if let pinchGestureRecognizer = cell.mediaView.scrollView.pinchGestureRecognizer {
+//                collectionView.removeGestureRecognizer(pinchGestureRecognizer)
+//            }
+//            let panGestureRecognizer = cell.mediaView.scrollView.panGestureRecognizer
+//            collectionView.removeGestureRecognizer(panGestureRecognizer)
+//        }
+//    }
+
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
         return UIScreen.mainScreen().bounds.size
     }
 
