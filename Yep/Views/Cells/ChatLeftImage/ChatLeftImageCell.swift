@@ -84,6 +84,14 @@ class ChatLeftImageCell: ChatBaseCell {
         self.user = message.fromFriend
         
         self.mediaTapAction = mediaTapAction
+        
+        var topOffset: CGFloat = 0
+        
+        if inGroup {
+            topOffset = YepConfig.ChatCell.marginTopForGroup
+        } else {
+            topOffset = 0
+        }
 
         UIView.performWithoutAnimation { [weak self] in
             self?.makeUI()
@@ -114,8 +122,9 @@ class ChatLeftImageCell: ChatBaseCell {
                 UIView.performWithoutAnimation { [weak self] in
 
                     if let strongSelf = self {
-                        strongSelf.messageImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: strongSelf.bounds.height)
+                        strongSelf.messageImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: strongSelf.bounds.height - topOffset)
                         strongSelf.loadingProgressView.center = CGPoint(x: CGRectGetMidX(strongSelf.messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.messageImageView.frame))
+                        strongSelf.configNameLabel(topOffset)
                     }
                 }
 
@@ -134,8 +143,9 @@ class ChatLeftImageCell: ChatBaseCell {
                 UIView.performWithoutAnimation { [weak self] in
 
                     if let strongSelf = self {
-                        strongSelf.messageImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: strongSelf.bounds.height)
+                        strongSelf.messageImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: strongSelf.bounds.height - topOffset)
                         strongSelf.loadingProgressView.center = CGPoint(x: CGRectGetMidX(strongSelf.messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.messageImageView.frame))
+                        strongSelf.configNameLabel(topOffset)
                     }
                 }
 
@@ -155,8 +165,9 @@ class ChatLeftImageCell: ChatBaseCell {
             UIView.performWithoutAnimation { [weak self] in
 
                 if let strongSelf = self {
-                    strongSelf.messageImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: strongSelf.bounds.height)
+                    strongSelf.messageImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: strongSelf.bounds.height - topOffset)
                     strongSelf.loadingProgressView.center = CGPoint(x: CGRectGetMidX(strongSelf.messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.messageImageView.frame))
+                    strongSelf.configNameLabel(topOffset)
                 }
             }
 
@@ -168,6 +179,16 @@ class ChatLeftImageCell: ChatBaseCell {
                     }
                 }
             })
+        }
+    }
+    
+    func configNameLabel(topOffset: CGFloat) {
+        
+        if inGroup {
+            nameLabel.text = user?.nickname
+            nameLabel.sizeToFit()
+            nameLabel.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: messageImageView.frame.origin.y - topOffset, width: nameLabel.frame.width, height: nameLabel.frame.height)
+            
         }
     }
 }

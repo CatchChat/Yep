@@ -2752,14 +2752,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             if let sender = message.fromFriend {
                 
                 if let cell = cell as? ChatBaseCell {
-                    cell.tapAvatarAction = { [weak self] user in
-                        self?.performSegueWithIdentifier("showProfile", sender: user)
-                    }
-                }
-
-                if let cell = cell as? ChatRightBaseCell {
                     if let _ = self.conversation.withGroup {
                         cell.inGroup = true
+                    }
+                    cell.tapAvatarAction = { [weak self] user in
+                        self?.performSegueWithIdentifier("showProfile", sender: user)
                     }
                 }
                 
@@ -3116,7 +3113,17 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
             
-            let height = heightOfMessage(message)
+            var height = heightOfMessage(message)
+            
+            if message.mediaType != MessageMediaType.SectionDate.rawValue && conversation.withGroup != nil {
+                
+                if let sender =  message.fromFriend {
+                    if sender.friendState != UserFriendState.Me.rawValue {
+                        height += YepConfig.ChatCell.marginTopForGroup
+                    }
+                }
+            }
+            
             return CGSize(width: collectionViewWidth, height: height)
 
         } else {

@@ -13,13 +13,7 @@ let sendingAnimationName = "RotationOnStateAnimation"
 class ChatRightBaseCell: ChatBaseCell {
     
     @IBOutlet weak var dotImageView: UIImageView!
-
-    var inGroup = false {
-        willSet {
-            dotImageView.hidden = newValue ? true : false
-        }
-    }
-
+    
     var messageSendState: MessageSendState = .NotSend {
         didSet {
             switch messageSendState {
@@ -67,6 +61,11 @@ class ChatRightBaseCell: ChatBaseCell {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "tryUpdateMessageState", name: MessageNotification.MessageStateChanged, object: nil)
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        dotImageView.hidden = inGroup ? true : false
+    }
+    
     func tryUpdateMessageState() {
 
         guard !inGroup else {
@@ -98,6 +97,5 @@ class ChatRightBaseCell: ChatBaseCell {
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             self?.dotImageView.layer.removeAnimationForKey(sendingAnimationName)
         }
-
     }
 }

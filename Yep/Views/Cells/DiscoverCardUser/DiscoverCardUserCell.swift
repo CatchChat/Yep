@@ -122,7 +122,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
             if index == 4 {
                 
                 if skills.count > 4 {
-                    skillLocal = NSLocalizedString("\(skills.count-4) More..", comment: "")
+                    skillLocal = NSLocalizedString("\(skills.count-4) More...", comment: "")
                 }
             }
             

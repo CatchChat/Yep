@@ -130,6 +130,14 @@ class ChatLeftAudioCell: ChatBaseCell {
 
     func updateAudioInfoViews() {
         
+        var topOffset: CGFloat = 0
+        
+        if inGroup {
+            topOffset = YepConfig.ChatCell.marginTopForGroup
+        } else {
+            topOffset = 0
+        }
+        
         if let message = message {
 
             if let (audioDuration, audioSamples) = audioMetaOfMessage(message) {
@@ -137,7 +145,7 @@ class ChatLeftAudioCell: ChatBaseCell {
                 var simpleViewWidth = CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
                 simpleViewWidth = max(YepConfig.minMessageSampleViewWidth, simpleViewWidth)
                 let width = 60 + simpleViewWidth
-                audioContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: bounds.height)
+                audioContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: bounds.height - topOffset)
 
                 sampleView.samples = audioSamples
 
@@ -149,10 +157,12 @@ class ChatLeftAudioCell: ChatBaseCell {
                 sampleView.progress = 0
 
                 let width = 60 + 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
-                audioContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: width, height: bounds.height)
+                audioContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: bounds.height - topOffset)
 
                 audioDurationLabel.text = ""
             }
+            
+
 
             if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
                 if audioPlayer.playing {
@@ -167,7 +177,19 @@ class ChatLeftAudioCell: ChatBaseCell {
             }
         }
 
+        audioContainerView.sendSubviewToBack(bubbleImageView)
+        configNameLabel(topOffset)
         playing = false
+    }
+    
+    func configNameLabel(topOffset: CGFloat) {
+        
+        if inGroup {
+            nameLabel.text = user?.nickname
+            nameLabel.sizeToFit()
+            nameLabel.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: audioContainerView.frame.origin.y - topOffset, width: nameLabel.frame.width, height: nameLabel.frame.height)
+//            bubbleTailImageView.hidden = true
+        }
     }
 }
 

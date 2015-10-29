@@ -24,11 +24,20 @@ class ChatLeftLocationCell: ChatBaseCell {
 
         avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize)
 
-        mapImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: 0, width: 192, height: 108)
+        var topOffset: CGFloat = 0
+        
+        if inGroup {
+            topOffset = YepConfig.ChatCell.marginTopForGroup
+        } else {
+            topOffset = 0
+        }
+        
+        mapImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: 192, height: 108)
 
         let locationNameLabelHeight = YepConfig.ChatCell.locationNameLabelHeight
         locationNameLabel.frame = CGRect(x: CGRectGetMinX(mapImageView.frame) + 20 + 7, y: CGRectGetMaxY(mapImageView.frame) - locationNameLabelHeight, width: 192 - 20 * 2 - 7, height: locationNameLabelHeight)
         //locationNameLabel.backgroundColor = UIColor.redColor().colorWithAlphaComponent(0.1)
+        configNameLabel(topOffset)
     }
 
     override func awakeFromNib() {
@@ -75,6 +84,16 @@ class ChatLeftLocationCell: ChatBaseCell {
                     self.mapImageView.image = mapImage
                 }
             }
+        }
+    }
+    
+    func configNameLabel(topOffset: CGFloat) {
+        
+        if inGroup {
+            nameLabel.text = user?.nickname
+            nameLabel.sizeToFit()
+            nameLabel.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: mapImageView.frame.origin.y - topOffset, width: nameLabel.frame.width, height: nameLabel.frame.height)
+            //            bubbleTailImageView.hidden = true
         }
     }
 }

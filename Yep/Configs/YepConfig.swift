@@ -64,7 +64,7 @@ class YepConfig {
     }
 
     class func avatarMaxSize() -> CGSize {
-        return CGSize(width: 600, height: 600)
+        return CGSize(width: 414, height: 414)
     }
 
     class func chatCellAvatarSize() -> CGFloat {
@@ -142,6 +142,8 @@ class YepConfig {
     }
 
     struct ChatCell {
+        
+        static let marginTopForGroup: CGFloat = 25
 
         static let magicWidth: CGFloat = 4
 
@@ -211,8 +213,8 @@ class YepConfig {
     }
 
     struct Media {
-        static let imageWidth: CGFloat = 1024
-        static let imageHeight: CGFloat = 1024
+        static let imageWidth: CGFloat = 512
+        static let imageHeight: CGFloat = 512
     }
 
     struct Feedback {

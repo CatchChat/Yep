@@ -118,7 +118,9 @@ class ChatRightTextCell: ChatRightBaseCell {
                 
                 strongSelf.textContainerView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() - textContentLabelWidth, y: 3, width: textContentLabelWidth, height: strongSelf.bounds.height - 3 * 2)
                 strongSelf.bubbleBodyImageView.frame = CGRectInset(strongSelf.textContainerView.frame, -12, -3)
+
                 strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMaxX(strongSelf.bubbleBodyImageView.frame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
+                
                 strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.bubbleBodyImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.bubbleBodyImageView.frame))
             }
         }

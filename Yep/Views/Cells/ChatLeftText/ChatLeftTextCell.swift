@@ -46,6 +46,7 @@ class ChatLeftTextCell: ChatBaseCell {
 
         bubbleBodyImageView.tintColor = UIColor.leftBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.leftBubbleTintColor()
+
     }
     
     override func respondsToSelector(aSelector: Selector) -> Bool {
@@ -83,10 +84,30 @@ class ChatLeftTextCell: ChatBaseCell {
             if let strongSelf = self {
                 
                 strongSelf.makeUI()
+                
+                var topOffset: CGFloat = 0
+                
+                if strongSelf.inGroup {
+                    topOffset = YepConfig.ChatCell.marginTopForGroup
+                } else {
+                    topOffset = 0
+                }
 
-                strongSelf.textContainerView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3, width: textContentLabelWidth, height: strongSelf.bounds.height - 3 * 2)
+                strongSelf.textContainerView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3 + topOffset, width: textContentLabelWidth, height: strongSelf.bounds.height - topOffset - 3 * 2)
                 strongSelf.bubbleBodyImageView.frame = CGRectInset(strongSelf.textContainerView.frame, -12, -3)
-                strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.bubbleBodyImageView.frame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
+                
+                if strongSelf.inGroup {
+                    strongSelf.nameLabel.text = strongSelf.user?.nickname
+                    strongSelf.nameLabel.sizeToFit()
+                    strongSelf.nameLabel.frame = CGRect(x: strongSelf.textContainerView.frame.origin.x, y: strongSelf.textContainerView.frame.origin.y - topOffset, width: strongSelf.nameLabel.frame.width, height: strongSelf.nameLabel.frame.height)
+                    
+                    strongSelf.bubbleTailImageView.hidden = true
+                } else {
+                    strongSelf.bubbleTailImageView.hidden = false
+                    
+                    strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.bubbleBodyImageView.frame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
+                }
+                
             }
         }
 
