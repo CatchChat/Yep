@@ -1625,8 +1625,8 @@ extension ProfileViewController: NSURLConnectionDataDelegate {
                         println(provider)
 
                         dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                            if let strongSelf = self {
-                                
+                            if let strongSelf = self , afterOAuthAction = strongSelf.afterOAuthAction{
+                                afterOAuthAction(socialAccount: socialAccount)
                             }
                         }
                 })
