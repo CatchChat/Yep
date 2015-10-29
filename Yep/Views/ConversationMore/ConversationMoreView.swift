@@ -454,7 +454,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                     
                     let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreCheckCell") as! ConversationMoreCheckCell
                     
-                    cell.textLabel?.text = NSLocalizedString("Push Notifications", comment: "")
+                    cell.textLabel?.text = NSLocalizedString("Push notifications", comment: "")
                     
                     cell.updateWithNotificationEnabled(notificationEnabled)
                     
@@ -466,7 +466,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                     
                     let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
                     
-                    cell.colorTitleLabel.text = NSLocalizedString("Share This Topic", comment: "")
+                    cell.colorTitleLabel.text = NSLocalizedString("Share this feed", comment: "")
                     cell.colorTitleLabelTextColor = UIColor.yepTintColor()
                     cell.colorTitleLabelFontStyle = .Light
                     

@@ -52,17 +52,16 @@ class FeedConversationCell: UITableViewCell {
 
         self.conversation = conversation
 
+        guard let feed = conversation.withGroup?.withFeed else {
+            return
+        }
+
         countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
 
-        if let feed = conversation.withGroup?.withFeed {
-            nameLabel.text = feed.body
+        nameLabel.text = feed.body
 
-            let attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
-            mediaView.setImagesWithURLs(attachmentURLs)
-
-        } else {
-            mediaView.setImagesWithURLs([])
-        }
+        let attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
+        mediaView.setImagesWithURLs(attachmentURLs)
 
         if let latestMessage = messagesInConversation(conversation).last {
 
@@ -71,9 +70,10 @@ class FeedConversationCell: UITableViewCell {
             } else {
                 self.chatLabel.text = latestMessage.textContent
             }
-
+            
         } else {
             self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
         }
     }
 }
+

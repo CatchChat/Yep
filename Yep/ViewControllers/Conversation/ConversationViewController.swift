@@ -1558,39 +1558,53 @@ class ConversationViewController: BaseViewController {
         
         moreView.unsubscribeAction = { [weak self] in
             
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                
-                if let checkTypingStatusTimer = self?.checkTypingStatusTimer {
-                    checkTypingStatusTimer.invalidate()
-                }
-            
-                guard let conversation = self?.conversation else {
-                    return
-                }
-                
-                tryDeleteOrClearHistoryOfConversation(conversation, inViewController: nil, whenAfterClearedHistory: {
-                    
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-                    }
-                    
-                }, afterDeleted: {
-                        
-                        dispatch_async(dispatch_get_main_queue()) {
-                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-                        }
-                        
-                }, orCanceled: {
+            let doDeleteConversation: () -> Void = {
 
-                })
-                
-                
-                self?.navigationController?.popViewControllerAnimated(true)
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    if let checkTypingStatusTimer = self?.checkTypingStatusTimer {
+                        checkTypingStatusTimer.invalidate()
+                    }
+
+                    guard let conversation = self?.conversation, realm = conversation.realm else {
+                        return
+                    }
+
+                    deleteConversation(conversation, inRealm: realm)
+
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+
+                    self?.navigationController?.popViewControllerAnimated(true)
+                }
             }
 
+            guard let feed = self?.conversation.withGroup?.withFeed, feedCreator = feed.creator else {
+                return
+            }
+
+            let feedID = feed.feedID
+            let feedCreatorID = feedCreator.userID
+
+            // 若是创建者，再询问是否删除 Feed
+
+            if feedCreatorID == YepUserDefaults.userID.value {
+
+                YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
+
+                    doDeleteConversation()
+
+                    deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
+                        println("deleted feed: \(feedID)")
+                    })
+
+                }, cancelAction: {
+                    doDeleteConversation()
+                })
+
+            } else {
+                doDeleteConversation()
+            }
         }
-        
+
         moreView.shareAction = { [weak self] in
             
             guard let groupID = groupID, descriotion = descriotion else {

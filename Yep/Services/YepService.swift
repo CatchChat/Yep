@@ -2475,6 +2475,21 @@ func createFeedWithMessage(message: String, attachments: JSONDictionary?, coordi
     }
 }
 
+func deleteFeedWithFeedID(feedID: String, failureHandler: ((Reason, String?) -> Void)?, completion: () -> Void) {
+
+    let parse: JSONDictionary -> ()? = { data in
+        return
+    }
+
+    let resource = authJsonResource(path: "/api/v1/topics/\(feedID)", method: .DELETE, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 // MARK: - Social Work
 
 func authURLRequestWithURL(url: NSURL) -> NSURLRequest {

@@ -511,6 +511,8 @@ class Feed: Object {
 
     dynamic var group: Group?
 
+    dynamic var deleted: Bool = false // 已被管理员或建立者删除
+
     // 级联删除关联的数据对象
 
     func cascadeDelete() {
@@ -1056,7 +1058,67 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) 
 
 // MARK: Delete
 
-func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewController vc: UIViewController?, whenAfterClearedHistory afterClearedHistory: () -> Void, afterDeleted: () -> Void, orCanceled cancelled: () -> Void) {
+private func clearMessagesOfConversation(conversation: Conversation, inRealm realm: Realm) {
+
+    let messages = conversation.messages
+
+    // delete all media files of messages
+
+    messages.forEach { deleteMediaFilesOfMessage($0) }
+
+    // delete all mediaMetaDatas
+
+    for message in messages {
+        if let mediaMetaData = message.mediaMetaData {
+            let _ = try? realm.write {
+                realm.delete(mediaMetaData)
+            }
+        }
+    }
+
+    // delete all messages in conversation
+
+    let _ = try? realm.write {
+        realm.delete(messages)
+    }
+}
+
+func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLeaveGroup: Bool = true) {
+
+    clearMessagesOfConversation(conversation, inRealm: realm)
+
+    // delete conversation, finally
+
+    let _ = try? realm.write {
+
+        if let group = conversation.withGroup {
+
+            if let feed = conversation.withGroup?.withFeed {
+
+                feed.cascadeDelete()
+            }
+
+            let groupID = group.groupID
+
+            FayeService.sharedManager.unsubscribeGroup(groupID: groupID)
+
+            if needLeaveGroup {
+                leaveGroup(groupID: groupID, failureHandler: nil, completion: {
+                    println("leaved group: \(groupID)")
+                })
+
+            } else {
+                println("deleteConversation, not need leave group: \(groupID)")
+            }
+
+            realm.delete(group)
+        }
+
+        realm.delete(conversation)
+    }
+}
+
+func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewController vc: UIViewController, whenAfterClearedHistory afterClearedHistory: () -> Void, afterDeleted: () -> Void, orCanceled cancelled: () -> Void) {
 
     guard let realm = conversation.realm else {
         cancelled()
@@ -1064,58 +1126,11 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
     }
 
     let clearMessages: () -> Void = {
-
-        let messages = conversation.messages
-
-        // delete all media files of messages
-
-        messages.forEach { deleteMediaFilesOfMessage($0) }
-
-        // delete all mediaMetaDatas
-
-        for message in messages {
-            if let mediaMetaData = message.mediaMetaData {
-                let _ = try? realm.write {
-                    realm.delete(mediaMetaData)
-                }
-            }
-        }
-
-        // delete all messages in conversation
-
-        let _ = try? realm.write {
-            realm.delete(messages)
-        }
+        clearMessagesOfConversation(conversation, inRealm: realm)
     }
 
     let delete: () -> Void = {
-
-        clearMessages()
-
-        // delete conversation, finally
-
-        let _ = try? realm.write {
-
-            if let group = conversation.withGroup {
-
-                if let feed = conversation.withGroup?.withFeed {
-
-                    feed.cascadeDelete()
-                }
-
-                let groupID = group.groupID
-
-                FayeService.sharedManager.unsubscribeGroup(groupID: groupID)
-
-                leaveGroup(groupID: groupID, failureHandler: nil, completion: {
-                    println("leaved group: \(groupID)")
-                })
-
-                realm.delete(group)
-            }
-
-            realm.delete(conversation)
-        }
+        deleteConversation(conversation, inRealm: realm)
     }
 
     // show ActionSheet before delete
@@ -1144,12 +1159,6 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
     }
     deleteAlertController.addAction(cancelAction)
     
-    if let vc = vc {
-        vc.presentViewController(deleteAlertController, animated: true, completion: nil)
-    } else {
-        delete()
-        
-        afterDeleted()
-    }
-
+    vc.presentViewController(deleteAlertController, animated: true, completion: nil)
 }
+
