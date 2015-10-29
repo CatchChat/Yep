@@ -21,9 +21,7 @@ class ChatLeftLocationCell: ChatBaseCell {
         //let fullWidth = UIScreen.mainScreen().bounds.width
 
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
-
-        avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize)
-
+        
         var topOffset: CGFloat = 0
         
         if inGroup {
@@ -31,6 +29,8 @@ class ChatLeftLocationCell: ChatBaseCell {
         } else {
             topOffset = 0
         }
+
+        avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize + topOffset)
         
         mapImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: 192, height: 108)
 

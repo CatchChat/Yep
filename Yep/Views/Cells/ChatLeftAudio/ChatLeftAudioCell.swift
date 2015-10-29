@@ -63,8 +63,17 @@ class ChatLeftAudioCell: ChatBaseCell {
         //let fullWidth = UIScreen.mainScreen().bounds.width
 
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
+        
+        var topOffset: CGFloat = 0
+        
+        if inGroup {
+            topOffset = YepConfig.ChatCell.marginTopForGroup
+        } else {
+            topOffset = 0
+        }
+        
 
-        avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize)
+        avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize + topOffset)
     }
     
     override func awakeFromNib() {

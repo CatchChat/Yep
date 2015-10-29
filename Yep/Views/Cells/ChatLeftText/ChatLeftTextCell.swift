@@ -19,8 +19,16 @@ class ChatLeftTextCell: ChatBaseCell {
     func makeUI() {
 
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
+        
+        var topOffset: CGFloat = 0
+        
+        if inGroup {
+            topOffset = YepConfig.ChatCell.marginTopForGroup
+        } else {
+            topOffset = 0
+        }
 
-        avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize)
+        avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize + topOffset)
     }
 
     override func awakeFromNib() {
@@ -100,13 +108,10 @@ class ChatLeftTextCell: ChatBaseCell {
                     strongSelf.nameLabel.text = strongSelf.user?.nickname
                     strongSelf.nameLabel.sizeToFit()
                     strongSelf.nameLabel.frame = CGRect(x: strongSelf.textContainerView.frame.origin.x, y: strongSelf.textContainerView.frame.origin.y - topOffset, width: strongSelf.nameLabel.frame.width, height: strongSelf.nameLabel.frame.height)
-                    
-                    strongSelf.bubbleTailImageView.hidden = true
-                } else {
-                    strongSelf.bubbleTailImageView.hidden = false
-                    
-                    strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.bubbleBodyImageView.frame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
                 }
+                
+                strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.bubbleBodyImageView.frame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
+
                 
             }
         }

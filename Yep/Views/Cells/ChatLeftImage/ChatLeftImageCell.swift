@@ -23,7 +23,15 @@ class ChatLeftImageCell: ChatBaseCell {
 
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
         
-        avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize)
+        var topOffset: CGFloat = 0
+        
+        if inGroup {
+            topOffset = YepConfig.ChatCell.marginTopForGroup
+        } else {
+            topOffset = 0
+        }
+
+        avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize + topOffset)
     }
 
     override func awakeFromNib() {
