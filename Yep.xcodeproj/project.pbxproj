@@ -240,6 +240,8 @@
 		50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */; };
 		50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50CDBE481ACBAD3200459CE0 /* ChatLeftImageCell.xib */; };
 		50D4D0DB1AFA825B005AEB6F /* MediaControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */; };
+		50DEE02C1BE209FF00015741 /* DeletedFeedConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE02A1BE209FF00015741 /* DeletedFeedConversationCell.swift */; };
+		50DEE02D1BE209FF00015741 /* DeletedFeedConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE02B1BE209FF00015741 /* DeletedFeedConversationCell.xib */; };
 		50E114F41ABBF9CC00F13000 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F31ABBF9CC00F13000 /* Models.swift */; };
 		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
@@ -551,6 +553,8 @@
 		50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftImageCell.swift; path = Views/Cells/ChatLeftImage/ChatLeftImageCell.swift; sourceTree = "<group>"; };
 		50CDBE481ACBAD3200459CE0 /* ChatLeftImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftImageCell.xib; path = Views/Cells/ChatLeftImage/ChatLeftImageCell.xib; sourceTree = "<group>"; };
 		50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaControlView.swift; path = Views/Media/MediaControlView.swift; sourceTree = "<group>"; };
+		50DEE02A1BE209FF00015741 /* DeletedFeedConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeletedFeedConversationCell.swift; path = Views/Cells/DeletedFeedConversation/DeletedFeedConversationCell.swift; sourceTree = "<group>"; };
+		50DEE02B1BE209FF00015741 /* DeletedFeedConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DeletedFeedConversationCell.xib; path = Views/Cells/DeletedFeedConversation/DeletedFeedConversationCell.xib; sourceTree = "<group>"; };
 		50E114F31ABBF9CC00F13000 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Realm/Models.swift; sourceTree = "<group>"; };
 		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
@@ -1067,6 +1071,7 @@
 				6A5632951BC911CE00397B53 /* DiscoverNormalUser */,
 				5011382E1BCB5E1F0055A014 /* FeedConversationDock */,
 				501138331BCB62A70055A014 /* FeedConversation */,
+				50DEE02E1BE20A0400015741 /* DeletedFeedConversation */,
 				6A82150A1BCBE8F40011F36C /* DiscoverSkill */,
 				50535D251BCE4A0A002FE1A4 /* Photo */,
 				502B605C1BD1102F00D9C17E /* Title */,
@@ -1834,6 +1839,15 @@
 			name = ChatLeftImageCell;
 			sourceTree = "<group>";
 		};
+		50DEE02E1BE20A0400015741 /* DeletedFeedConversation */ = {
+			isa = PBXGroup;
+			children = (
+				50DEE02A1BE209FF00015741 /* DeletedFeedConversationCell.swift */,
+				50DEE02B1BE209FF00015741 /* DeletedFeedConversationCell.xib */,
+			);
+			name = DeletedFeedConversation;
+			sourceTree = "<group>";
+		};
 		50E114F51ABBF9D100F13000 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
@@ -2193,6 +2207,7 @@
 				5056AD6F1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib in Resources */,
 				506BB7F61AE4E0A500C1A2A0 /* SkillAnnotationHeader.xib in Resources */,
 				50AFBF4E1BB3A594007D19DA /* bub3.caf in Resources */,
+				50DEE02D1BE209FF00015741 /* DeletedFeedConversationCell.xib in Resources */,
 				5053AD561AF83B0F00B3CBFA /* ChatRightLocationCell.xib in Resources */,
 				50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */,
 				501813261BA07CED0025873C /* Activities.xcassets in Resources */,
@@ -2374,6 +2389,7 @@
 				50F5AF881BBBB2AE0033C9BC /* HorizontalLineView.swift in Sources */,
 				50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */,
 				50AACECF1BB93336004DD54B /* FeedMediaView.swift in Sources */,
+				50DEE02C1BE209FF00015741 /* DeletedFeedConversationCell.swift in Sources */,
 				50D4D0DB1AFA825B005AEB6F /* MediaControlView.swift in Sources */,
 				0A9018821B0120A500AE4B7F /* OAuthViewController.swift in Sources */,
 				508D17471ACCF4710092D666 /* ChatLeftAudioCell.swift in Sources */,

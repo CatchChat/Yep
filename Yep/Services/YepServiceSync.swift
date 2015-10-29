@@ -535,7 +535,8 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
                 for group in groupsToDelete {
                     
-                    group.cascadeDelete()
+                    //group.cascadeDelete()
+                    group.withFeed?.deleted = true
                 }
             }
 
