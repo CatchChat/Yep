@@ -396,7 +396,14 @@ class FeedsViewController: UIViewController {
             let info = sender as! [String: AnyObject]
 
             let vc = segue.destinationViewController as! MessageMediaViewController
-            vc.previewMedia = PreviewMedia.AttachmentType(imageURL: info["imageURL"] as! NSURL )
+
+            if let imageURLs = info["imageURLs"] as? [NSURL] {
+                vc.previewMedias = imageURLs.map({ PreviewMedia.AttachmentType(imageURL: $0) })
+            }
+
+            if let index = info["index"] as? Int {
+                vc.startIndex = index
+            }
 
             let transitionView = info["transitionView"] as! UIImageView
 
@@ -497,10 +504,11 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 }
             }
 
-            cell.tapMediaAction = { [weak self] transitionView, imageURL in
+            cell.tapMediaAction = { [weak self] transitionView, imageURLs, index in
                 let info = [
                     "transitionView": transitionView,
-                    "imageURL": imageURL,
+                    "imageURLs": imageURLs,
+                    "index": index,
                 ]
                 self?.performSegueWithIdentifier("showFeedMedia", sender: info)
             }
