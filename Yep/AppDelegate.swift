@@ -263,7 +263,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if url.absoluteString.contains("/auth/success") {
             
             NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.OAuthResult, object: NSNumber(int: 1))
-                        
+            
         } else if url.absoluteString.contains("/auth/failure") {
             
             NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.OAuthResult, object: NSNumber(int: 0))

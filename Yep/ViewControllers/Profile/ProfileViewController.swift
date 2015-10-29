@@ -1545,18 +1545,18 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                                 }
                             }
                             
-                            if isOperatingSystemAtLeastMajorVersion(9) {
+//                            if isOperatingSystemAtLeastMajorVersion(9) {
+                            
+//                                self.socialAccount = SocialAccount(rawValue: providerName)
                                 
-                                self.socialAccount = SocialAccount(rawValue: providerName)
+//                                let request = authURLRequestWithURL(socialAccount.authURL)
                                 
-                                let request = authURLRequestWithURL(socialAccount.authURL)
-                                
-                                let _ = NSURLConnection(request: request, delegate: self)
+//                                let _ = NSURLConnection(request: request, delegate: self)
 
                                 
-                            } else {
+//                            } else {
                                 performSegueWithIdentifier("presentOAuth", sender: providerName)
-                            }
+//                            }
                             
                         }
                     }
