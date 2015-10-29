@@ -511,6 +511,8 @@ class Feed: Object {
 
     dynamic var group: Group?
 
+    dynamic var deleted: Bool = false // 已被管理员或建立者删除
+
     // 级联删除关联的数据对象
 
     func cascadeDelete() {
