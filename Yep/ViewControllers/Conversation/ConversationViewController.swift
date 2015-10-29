@@ -2522,6 +2522,22 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
             } else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftTextCell {
                 bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
+            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftAudioCell {
+                bubbleFrame = cell.convertRect(cell.bubbleImageView.frame, toView: view)
+            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatRightAudioCell {
+                bubbleFrame = cell.convertRect(cell.bubbleImageView.frame, toView: view)
+            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftVideoCell {
+                bubbleFrame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatRightVideoCell {
+                bubbleFrame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftLocationCell {
+                bubbleFrame = cell.convertRect(cell.mapImageView.frame, toView: view)
+            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatRightLocationCell {
+                bubbleFrame = cell.convertRect(cell.mapImageView.frame, toView: view)
+            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftImageCell{
+                bubbleFrame = cell.convertRect(cell.messageImageView.frame, toView: view)
+            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatRightImageCell {
+                bubbleFrame = cell.convertRect(cell.messageImageView.frame, toView: view)
             } else {
                 return
             }
