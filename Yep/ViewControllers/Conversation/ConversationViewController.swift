@@ -1879,6 +1879,8 @@ class ConversationViewController: BaseViewController {
                 println("Can NOT handleReceivedNewMessagesNotification")
                 return
         }
+        
+        realm.refresh() // 确保是最新数据
 
         // 按照 conversation 过滤消息，匹配的才能考虑插入
         if let conversation = conversation {

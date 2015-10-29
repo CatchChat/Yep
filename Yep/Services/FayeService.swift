@@ -245,7 +245,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
 
     private func saveMessageWithMessageInfo(messageInfo: JSONDictionary) {
         //这里不用 realmQueue 是为了下面的通知同步，用了 realmQueue 可能导致数据更新慢于通知
-        dispatch_async(dispatch_get_main_queue()) {
+        dispatch_async(realmQueue) {
             
             guard let realm = try? Realm() else {
                 return
