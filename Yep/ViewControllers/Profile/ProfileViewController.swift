@@ -11,6 +11,7 @@ import RealmSwift
 import MonkeyKing
 import Navi
 import Crashlytics
+import SafariServices
 
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
@@ -296,6 +297,12 @@ enum ProfileUser {
 
 class ProfileViewController: UIViewController {
     
+    var socialAccount: SocialAccount?
+    
+    var oauthComplete: (() -> Void)?
+    
+    var afterOAuthAction: ((socialAccount: SocialAccount) -> Void)?
+    
     lazy var shareView: ShareProfileView = {
     
         let share = ShareProfileView(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
@@ -498,6 +505,8 @@ class ProfileViewController: UIViewController {
         println("init ProfileViewController \(self)")
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout", name: EditProfileViewController.Notification.Logout, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "prepareForOAuthResult:", name: YepConfig.Notification.OAuthResult, object: nil)
 
         if let profileUser = profileUser {
 
@@ -1133,52 +1142,7 @@ class ProfileViewController: UIViewController {
                 let nvc = segue.destinationViewController as! UINavigationController
                 let vc = nvc.topViewController as! OAuthViewController
                 vc.socialAccount = SocialAccount(rawValue: providerName)
-
-                vc.afterOAuthAction = { [weak self] socialAccount in
-                    // 更新自己的 provider enabled 状态
-                    let providerName = socialAccount.rawValue
-
-                    dispatch_async(dispatch_get_main_queue()) {
-                        guard let realm = try? Realm() else {
-                            return
-                        }
-
-                        if let
-                            myUserID = YepUserDefaults.userID.value,
-                            me = userWithUserID(myUserID, inRealm: realm) {
-
-                                var haveSocialAccountProvider = false
-                                for socialAccountProvider in me.socialAccountProviders {
-                                    if socialAccountProvider.name == providerName {
-                                        let _ = try? realm.write {
-                                            socialAccountProvider.enabled = true
-                                        }
-
-                                        haveSocialAccountProvider = true
-                                        break
-                                    }
-                                }
-
-                                // 如果之前没有，这就新建一个
-                                if !haveSocialAccountProvider {
-                                    let provider = UserSocialAccountProvider()
-                                    provider.name = providerName
-                                    provider.enabled = true
-
-                                    let _ = try? realm.write {
-                                        me.socialAccountProviders.append(provider)
-                                    }
-                                }
-
-                                self?.updateProfileCollectionView()
-
-                                // OAuth 成功后，自动跳转去显示对应的 social work
-                                delay(1) {
-                                    self?.performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: providerName)
-                                }
-                        }
-                    }
-                }
+                vc.afterOAuthAction = afterOAuthAction
             }
 
         } else if segue.identifier == "showSocialWorkGithub" {
@@ -1534,7 +1498,66 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                     } else {
                         if profileUserIsMe {
-                            performSegueWithIdentifier("presentOAuth", sender: providerName)
+                            
+                            afterOAuthAction = { [weak self] socialAccount in
+                                // 更新自己的 provider enabled 状态
+                                let providerName = socialAccount.rawValue
+                                
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    guard let realm = try? Realm() else {
+                                        return
+                                    }
+                                    
+                                    if let
+                                        myUserID = YepUserDefaults.userID.value,
+                                        me = userWithUserID(myUserID, inRealm: realm) {
+                                            
+                                            var haveSocialAccountProvider = false
+                                            for socialAccountProvider in me.socialAccountProviders {
+                                                if socialAccountProvider.name == providerName {
+                                                    let _ = try? realm.write {
+                                                        socialAccountProvider.enabled = true
+                                                    }
+                                                    
+                                                    haveSocialAccountProvider = true
+                                                    break
+                                                }
+                                            }
+                                            
+                                            // 如果之前没有，这就新建一个
+                                            if !haveSocialAccountProvider {
+                                                let provider = UserSocialAccountProvider()
+                                                provider.name = providerName
+                                                provider.enabled = true
+                                                
+                                                let _ = try? realm.write {
+                                                    me.socialAccountProviders.append(provider)
+                                                }
+                                            }
+                                            
+                                            self?.updateProfileCollectionView()
+                                            
+                                            // OAuth 成功后，自动跳转去显示对应的 social work
+                                            delay(1) {
+                                                self?.performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: providerName)
+                                            }
+                                    }
+                                }
+                            }
+                            
+                            if isOperatingSystemAtLeastMajorVersion(9) {
+                                
+                                self.socialAccount = SocialAccount(rawValue: providerName)
+                                
+                                let request = authURLRequestWithURL(socialAccount.authURL)
+                                
+                                let _ = NSURLConnection(request: request, delegate: self)
+
+                                
+                            } else {
+                                performSegueWithIdentifier("presentOAuth", sender: providerName)
+                            }
+                            
                         }
                     }
                 }
@@ -1581,3 +1604,61 @@ extension ProfileViewController: UIScrollViewDelegate {
     }
 }
 
+
+extension ProfileViewController: NSURLConnectionDataDelegate {
+    
+    func prepareForOAuthResult(notification: NSNotification) {
+        
+        if let oauthComplete = oauthComplete {
+            oauthComplete()
+        }
+        
+        if let result = notification.object as? NSNumber, socialAccount = self.socialAccount {
+            if result == 1 {
+                
+                socialAccountWithProvider(socialAccount.description.lowercaseString, failureHandler: { reason, errorMessage in
+
+                    defaultFailureHandler(reason, errorMessage: errorMessage)
+
+                    }, completion: { provider in
+
+                        println(provider)
+
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                            if let strongSelf = self {
+                                
+                            }
+                        }
+                })
+                
+            } else {
+                
+                YepAlert.alertSorry(message: NSLocalizedString("OAuth Error", comment: ""), inViewController: self, withDismissAction: {})
+            }
+        }
+    }
+    
+    func connection(connection: NSURLConnection, willSendRequest request: NSURLRequest, redirectResponse response: NSURLResponse?) -> NSURLRequest? {
+        
+        if let url = request.URL?.absoluteString {
+            if url.contains("github.com") || url.contains("dribbble.com") || url.contains("instagram.com") {
+                if #available(iOS 9.0, *) {
+                    let safariViewController = SFSafariViewController(URL: request.URL!)
+                    presentViewController(safariViewController, animated: true, completion: nil)
+                    
+                    oauthComplete = {
+                        safariViewController.dismissViewControllerAnimated(true, completion: nil)
+                    }
+                } else {
+                    // Fallback on earlier versions
+                }
+                
+                connection.cancel()
+            }
+            
+            println(url)
+        }
+        
+        return request
+    }
+}
