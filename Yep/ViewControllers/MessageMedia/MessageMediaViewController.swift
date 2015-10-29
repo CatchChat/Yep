@@ -151,6 +151,9 @@ class MessageMediaViewController: UIViewController {
                         println("ReadyToPlay")
                         dispatch_async(dispatch_get_main_queue()) {
                             cell.mediaView.videoPlayerLayer.player?.play()
+
+                            cell.mediaView.videoPlayerLayer.hidden = false
+                            cell.mediaView.scrollView.hidden = true
                         }
 
                     case AVPlayerStatus.Unknown:
@@ -213,8 +216,8 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
 
             case MessageMediaType.Video.rawValue:
 
-                cell.mediaView.scrollView.hidden = true
-                cell.mediaView.videoPlayerLayer.hidden = false
+//                cell.mediaView.scrollView.hidden = true
+//                cell.mediaView.videoPlayerLayer.hidden = false
 
                 mediaControlView.type = .Video
                 mediaControlView.playState = .Playing
