@@ -14,7 +14,9 @@ class MediaViewCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        mediaView.backgroundColor = UIColor.clearColor()
+        contentView.backgroundColor = UIColor.clearColor()
     }
 
     override func prepareForReuse() {

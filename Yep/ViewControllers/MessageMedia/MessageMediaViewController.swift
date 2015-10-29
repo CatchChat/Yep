@@ -47,18 +47,9 @@ class MessageMediaViewController: UIViewController {
 
         mediasCollectionView.registerNib(UINib(nibName: mediaViewCellID, bundle: nil), forCellWithReuseIdentifier: mediaViewCellID)
 
-        mediaControlView.hidden = true
+        mediasCollectionView.backgroundColor = UIColor.clearColor()
 
-//        let imageView = UIImageView()
-//
-//
-//        previewMedias.forEach({
-//
-//            if case .AttachmentType(imageURL: NSURL)
-//        })
-//
-//        imageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: nil, completionHandler: { [weak self] (image, error, cacheType, imageURL) in
-//        })
+        mediaControlView.hidden = true
     }
 
     override func viewWillAppear(animated: Bool) {
