@@ -12,9 +12,6 @@ import Kingfisher
 class DribbbleShotCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
-
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,13 +20,8 @@ class DribbbleShotCell: UICollectionViewCell {
     }
 
     func configureWithDribbbleShot(shot: DribbbleWork.Shot) {
-        imageView.kf_setImageWithURL(NSURL(string: shot.images.normal)!, placeholderImage: nil, optionsInfo: [], progressBlock: { receivedSize, totalSize in
-            if receivedSize < totalSize {
-                self.activityIndicator.startAnimating()
-            }
-        }, completionHandler: { image, error, cacheType, imageURL in
-            self.activityIndicator.stopAnimating()
-        })
+        
+        imageView.kf_showIndicatorWhenLoading = true
+        imageView.kf_setImageWithURL(NSURL(string: shot.images.normal)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
     }
-
 }

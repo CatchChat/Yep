@@ -9,12 +9,14 @@
 import UIKit
 import Kingfisher
 
+let MediaOptionsInfos: KingfisherOptionsInfo = [
+    .Options([.BackgroundDecode, .LowPriority]),
+    .Transition(ImageTransition.Fade(0.55))
+]
+
 class InstagramMediaCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
-
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,12 +26,7 @@ class InstagramMediaCell: UICollectionViewCell {
 
     func configureWithInstagramMedia(media: InstagramWork.Media) {
 
-        imageView.kf_setImageWithURL(NSURL(string: media.images.lowResolution)!, placeholderImage: nil, optionsInfo: [], progressBlock: { receivedSize, totalSize in
-            if receivedSize < totalSize {
-                self.activityIndicator.startAnimating()
-            }
-        }, completionHandler: { image, error, cacheType, imageURL in
-            self.activityIndicator.stopAnimating()
-        })
+        imageView.kf_showIndicatorWhenLoading = true
+        imageView.kf_setImageWithURL(NSURL(string: media.images.lowResolution)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
     }
 }

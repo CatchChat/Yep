@@ -24,19 +24,19 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                     let shots = dribbbleWork.shots
 
                     if let shot = shots[safe: 2] {
-                        imageView1.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil)
+                        imageView1.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
                     } else {
                         imageView1.image = nil
                     }
 
                     if let shot = shots[safe: 1] {
-                        imageView2.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil)
+                        imageView2.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
                     } else {
                         imageView2.image = nil
                     }
 
                     if let shot = shots[safe: 0] {
-                        imageView3.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil)
+                        imageView3.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
                     } else {
                         imageView3.image = nil
                     }
@@ -46,19 +46,19 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                     let medias = instagramWork.medias
 
                     if let media = medias[safe: 2] {
-                        imageView1.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil)
+                        imageView1.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
                     } else {
                         imageView1.image = nil
                     }
 
                     if let media = medias[safe: 1] {
-                        imageView2.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil)
+                        imageView2.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
                     } else {
                         imageView2.image = nil
                     }
 
                     if let media = medias[safe: 0] {
-                        imageView3.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil)
+                        imageView3.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
                     } else {
                         imageView3.image = nil
                     }
@@ -94,7 +94,11 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
         imageView1.clipsToBounds = true
         imageView2.clipsToBounds = true
         imageView3.clipsToBounds = true
-
+        
+        imageView1.kf_showIndicatorWhenLoading = true
+        imageView2.kf_showIndicatorWhenLoading = true
+        imageView3.kf_showIndicatorWhenLoading = true
+        
         accessoryImageView.hidden = true
     }
 
