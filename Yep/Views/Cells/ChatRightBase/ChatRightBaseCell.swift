@@ -14,6 +14,12 @@ class ChatRightBaseCell: ChatBaseCell {
     
     @IBOutlet weak var dotImageView: UIImageView!
     
+    override var inGroup: Bool {
+        willSet {
+            dotImageView.hidden = newValue ? true : false
+        }
+    }
+    
     var messageSendState: MessageSendState = .NotSend {
         didSet {
             switch messageSendState {
@@ -63,7 +69,6 @@ class ChatRightBaseCell: ChatBaseCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        dotImageView.hidden = inGroup ? true : false
     }
     
     func tryUpdateMessageState() {
