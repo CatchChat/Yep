@@ -480,16 +480,20 @@ class ConversationViewController: BaseViewController {
                         self?.activityIndicator.startAnimating()
                     }
                     
-                    messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { messageIDs in
-                        println("messagesFromRecipient: \(messageIDs.count)")
+                    dispatch_async(realmQueue) { [weak self] in
+                        
+                        messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { messageIDs in
+                            println("messagesFromRecipient: \(messageIDs.count)")
+                            
+                            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                                
+                                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
+                                
+                                self?.activityIndicator.stopAnimating()
+                            }
+                        })
+                    }
 
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
-
-                            self?.activityIndicator.stopAnimating()
-                        }
-                    })
                 }
             }
         }
