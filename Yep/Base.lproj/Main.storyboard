@@ -316,7 +316,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qiv-cC-3J3">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="sWq-uv-kTu">
                                     <size key="itemSize" width="50" height="50"/>
@@ -335,7 +335,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="qiv-cC-3J3" firstAttribute="top" secondItem="y3q-lk-c8x" secondAttribute="bottom" constant="-64" id="7Dp-9c-rpA"/>
-                            <constraint firstItem="fou-D4-AiD" firstAttribute="top" secondItem="qiv-cC-3J3" secondAttribute="bottom" id="CNN-fi-eLn"/>
+                            <constraint firstItem="fou-D4-AiD" firstAttribute="top" secondItem="qiv-cC-3J3" secondAttribute="bottom" constant="-49" id="CNN-fi-eLn"/>
                             <constraint firstAttribute="centerX" secondItem="zzD-ES-eHf" secondAttribute="centerX" id="NcD-eS-2bl"/>
                             <constraint firstAttribute="trailing" secondItem="qiv-cC-3J3" secondAttribute="trailing" id="j8a-KC-uIC"/>
                             <constraint firstItem="qiv-cC-3J3" firstAttribute="leading" secondItem="F0W-Z6-RS5" secondAttribute="leading" id="kv1-KK-S2H"/>

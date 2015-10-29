@@ -83,6 +83,7 @@ class ProfileHeaderCell: UICollectionViewCell {
         updateAvatarWithAvatarURLString(user.avatarURLString)
 
         if user.friendState == UserFriendState.Me.rawValue {
+            
             YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] avatarURLString in
                 dispatch_async(dispatch_get_main_queue()) {
                     if let avatarURLString = avatarURLString {

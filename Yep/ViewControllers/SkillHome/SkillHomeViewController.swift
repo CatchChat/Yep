@@ -328,7 +328,7 @@ class SkillHomeViewController: BaseViewController {
 
         activityIndicator.startAnimating()
         
-        discoverUsers(masterSkillIDs: [skillID], learningSkillIDs: [], discoveredUserSortStyle: .LastSignIn, failureHandler: { [weak self] (reason, errorMessage) in
+        discoverUsers(masterSkillIDs: [skillID], learningSkillIDs: [], discoveredUserSortStyle: .Default, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage: errorMessage)
 
             dispatch_async(dispatch_get_main_queue()) {
@@ -342,7 +342,7 @@ class SkillHomeViewController: BaseViewController {
             }
         })
         
-        discoverUsers(masterSkillIDs: [], learningSkillIDs: [skillID], discoveredUserSortStyle: .LastSignIn, failureHandler: { [weak self] (reason, errorMessage) in
+        discoverUsers(masterSkillIDs: [], learningSkillIDs: [skillID], discoveredUserSortStyle: .Default, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage: errorMessage)
 
             dispatch_async(dispatch_get_main_queue()) {

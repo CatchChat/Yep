@@ -142,6 +142,10 @@ class FeedsViewController: UIViewController {
 
     var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    
+    deinit {
+        print("Deinit FeedsViewControler")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -286,6 +290,10 @@ class FeedsViewController: UIViewController {
                     strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath])
                 }
             }
+            
+            joinGroup(groupID: feed.groupID, failureHandler: nil, completion: {
+                
+            })
         }
 
         let navi = UINavigationController(rootViewController: vc)
@@ -526,7 +534,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 guard let indexPath = tableView.indexPathForCell(cell) else {
                     return
                 }
-                delay(0.03) {
+                delay(0.03) { [weak self] in
                     self?.tableView(tableView, didSelectRowAtIndexPath: indexPath)
                 }
             }

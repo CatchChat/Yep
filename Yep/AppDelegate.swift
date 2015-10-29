@@ -74,11 +74,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         cacheInAdvance()
 
-        delay(0.5) {
-            // 推送初始化
-            Fabric.with([Crashlytics.self()])
-            APService.setupWithOption(launchOptions)
-        }
+        Fabric.with([Crashlytics.self()])
+        APService.setupWithOption(launchOptions)
         
         let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
 
@@ -91,10 +88,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if isLogined {
 
-            delay(0.5, work: {[weak self] () -> Void in
-                self?.sync()
-                self?.startFaye()
-            })
+            sync()
+            startFaye()
 
             // 记录启动通知类型
             if let
@@ -310,8 +305,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func startFaye() {
+        dispatch_async(fayeQueue) {
+            FayeService.sharedManager.startConnect()
+        }
 
-        FayeService.sharedManager.startConnect()
     }
 
     func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {

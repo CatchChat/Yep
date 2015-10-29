@@ -30,6 +30,8 @@ class FeedConversationsViewController: UIViewController {
 
     deinit {
 
+        println("Deinit FeedConversationsViewControler")
+
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
@@ -129,14 +131,14 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                 return
             }
 
-            tryDeleteOrClearHistoryOfConversation(conversation, inViewController: self, whenAfterClearedHistory: {
+            tryDeleteOrClearHistoryOfConversation(conversation, inViewController: self, whenAfterClearedHistory: { [weak self] in
 
                 tableView.setEditing(false, animated: true)
 
                 // update cell
 
                 if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-                    if let conversation = self.feedConversations[safe: indexPath.row] {
+                    if let conversation = self?.feedConversations[safe: indexPath.row] {
                         let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
                         cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
                     }

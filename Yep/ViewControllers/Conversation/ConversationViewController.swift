@@ -964,6 +964,9 @@ class ConversationViewController: BaseViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
+        if let checkTypingStatusTimer = checkTypingStatusTimer {
+            checkTypingStatusTimer.invalidate()
+        }
         NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
     }
 
@@ -1552,6 +1555,41 @@ class ConversationViewController: BaseViewController {
         
         let descriotion = conversation.withGroup?.withFeed?.body
         let groupID = conversation.withGroup?.groupID
+        
+        moreView.unsubscribeAction = { [weak self] in
+            
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                
+                if let checkTypingStatusTimer = self?.checkTypingStatusTimer {
+                    checkTypingStatusTimer.invalidate()
+                }
+            
+                guard let conversation = self?.conversation else {
+                    return
+                }
+                
+                tryDeleteOrClearHistoryOfConversation(conversation, inViewController: nil, whenAfterClearedHistory: {
+                    
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                    }
+                    
+                }, afterDeleted: {
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                        }
+                        
+                }, orCanceled: {
+
+                })
+                
+                
+                self?.navigationController?.popViewControllerAnimated(true)
+            }
+
+        }
         
         moreView.shareAction = { [weak self] in
             

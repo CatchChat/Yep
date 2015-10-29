@@ -47,13 +47,14 @@ class FayeService: NSObject, MZFayeClientDelegate {
         }
     }
 
-    let client: MZFayeClient
+    let client: MZFayeClient = {
+        let client = MZFayeClient(URL:fayeBaseURL)
+        return client
+    }()
 
     weak var delegate: FayeServiceDelegate?
     
     override init() {
-
-        client = MZFayeClient(URL:fayeBaseURL)
         
         super.init()
         

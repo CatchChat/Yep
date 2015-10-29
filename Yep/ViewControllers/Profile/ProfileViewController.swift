@@ -295,6 +295,15 @@ enum ProfileUser {
 }
 
 class ProfileViewController: UIViewController {
+    
+    lazy var shareView: ShareProfileView = {
+    
+        let share = ShareProfileView(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
+        share.alpha = 0
+        self.view.addSubview(share)
+        return share
+        
+    }()
 
     var statusBarShouldLight = false
 
@@ -767,7 +776,7 @@ class ProfileViewController: UIViewController {
                 }
             )
 
-            let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
+            let activityViewController = UIActivityViewController(activityItems: ["\(nickname), \(NSLocalizedString("From Yep, with Skills.", comment: "")) \(profileURL)"], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
 
             self.presentViewController(activityViewController, animated: true, completion: nil)
         }
@@ -1537,8 +1546,37 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 extension ProfileViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        if scrollView.contentOffset.y < -300 {
-            YepAlert.alert(title: "Hello", message: "My name is NIX.\nHow are you?", dismissTitle: "I'm fine.", inViewController: self, withDismissAction: nil)
+        
+        guard let profileUser = profileUser else {
+            return
+        }
+        
+        if let _ = profileUser.username {
+            
+        } else {
+            if profileUser.userID != YepUserDefaults.userID.value {
+                return
+            }
+        }
+        
+        let progress = -(scrollView.contentOffset.y)/100
+        
+        shareView.center = CGPoint(x: view.frame.width/2.0, y: 150.0 + 50*progress)
+        
+        shareView.updateWithProgress(progress)
+        
+//        if scrollView.contentOffset.y < -300 {
+//            YepAlert.alert(title: "Hello", message: "My name is NIX.\nHow are you?", dismissTitle: "I'm fine.", inViewController: self, withDismissAction: nil)
+//        }
+    }
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if shareView.progress >= 1.0 {
+            shareView.shareActionAnimationAndDoFurther({
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.tryShareMyProfile()
+                }
+            })
         }
     }
 }
