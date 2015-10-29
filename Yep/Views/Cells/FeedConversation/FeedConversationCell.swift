@@ -56,39 +56,24 @@ class FeedConversationCell: UITableViewCell {
             return
         }
 
-        let deleted = feed.deleted
+        countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
 
-        if deleted {
+        nameLabel.text = feed.body
 
-            nameLabel.text = NSLocalizedString("[Deleted]", comment: "") + feed.body
-            chatLabel.text = NSLocalizedString("Feed has been deleted by creator.", comment: "")
+        let attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
+        mediaView.setImagesWithURLs(attachmentURLs)
 
-            mediaView.setImagesWithURLs([])
+        if let latestMessage = messagesInConversation(conversation).last {
 
-            accessoryImageView.hidden = true
-
-        } else {
-
-            countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
-
-            nameLabel.text = feed.body
-
-            let attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
-            mediaView.setImagesWithURLs(attachmentURLs)
-
-            if let latestMessage = messagesInConversation(conversation).last {
-
-                if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
-                    self.chatLabel.text = placeholder
-                } else {
-                    self.chatLabel.text = latestMessage.textContent
-                }
-                
+            if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
+                self.chatLabel.text = placeholder
             } else {
-                self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
+                self.chatLabel.text = latestMessage.textContent
             }
-
-            accessoryImageView.hidden = false
+            
+        } else {
+            self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
         }
     }
 }
+
