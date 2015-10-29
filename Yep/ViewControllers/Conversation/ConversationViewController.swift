@@ -1616,14 +1616,13 @@ class ConversationViewController: BaseViewController {
             
             guard let groupShareURLString = self?.groupShareURLString else {
                 
-                groupShareLinkWithGroupID(groupID, failureHandler: nil, completion: { [weak self] link in
-                    
-                    guard let groupShareURLString = link["url"] as? String else {
-                        return
-                    }
+                shareURLStringOfGroupWithGroupID(groupID, failureHandler: nil, completion: { [weak self] groupShareURLString in
 
                     self?.groupShareURLString = groupShareURLString
-                    self?.shareFeedWithDescripion(descriotion, groupShareURLString: groupShareURLString)
+
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.shareFeedWithDescripion(descriotion, groupShareURLString: groupShareURLString)
+                    }
                 })
                 
                 return
@@ -1652,7 +1651,7 @@ class ConversationViewController: BaseViewController {
             type: .Session,
             message: sessionMessage,
             finish: { success in
-                println("share Image to WeChat Session success: \(success)")
+                println("share Feed to WeChat Session success: \(success)")
             }
         )
         
@@ -1662,11 +1661,11 @@ class ConversationViewController: BaseViewController {
             type: .Timeline,
             message: timelineMessage,
             finish: { success in
-                println("share Image to WeChat Timeline success: \(success)")
+                println("share Feed to WeChat Timeline success: \(success)")
             }
         )
         
-        let shareText = "\(NSLocalizedString("Join Us", comment: "")) \(description) \(groupShareURLString) \(NSLocalizedString("From Yep", comment: ""))"
+        let shareText = "\(description) \(groupShareURLString)\n\(NSLocalizedString("From Yep", comment: ""))"
         
         let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
         

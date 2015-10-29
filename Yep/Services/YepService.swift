@@ -1279,9 +1279,15 @@ func friendships(completion completion: [JSONDictionary] -> Void) {
 
 // MARK: - Groups
 
-func groupShareLinkWithGroupID(groupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
-    let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
+func shareURLStringOfGroupWithGroupID(groupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: String -> Void) {
+
+    let parse: JSONDictionary -> String? = { data in
+
+        if let URLString = data["url"] as? String {
+            return URLString
+        }
+
+        return nil
     }
     
     let resource = authJsonResource(path: "/api/v1/circles/\(groupID)/share", method: .POST, requestParameters: [:], parse: parse)
