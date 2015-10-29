@@ -1058,6 +1058,61 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) 
 
 // MARK: Delete
 
+private func clearMessagesOfConversation(conversation: Conversation, inRealm realm: Realm) {
+
+    let messages = conversation.messages
+
+    // delete all media files of messages
+
+    messages.forEach { deleteMediaFilesOfMessage($0) }
+
+    // delete all mediaMetaDatas
+
+    for message in messages {
+        if let mediaMetaData = message.mediaMetaData {
+            let _ = try? realm.write {
+                realm.delete(mediaMetaData)
+            }
+        }
+    }
+
+    // delete all messages in conversation
+
+    let _ = try? realm.write {
+        realm.delete(messages)
+    }
+}
+
+func deleteConversation(conversation: Conversation, inRealm realm: Realm) {
+
+    clearMessagesOfConversation(conversation, inRealm: realm)
+
+    // delete conversation, finally
+
+    let _ = try? realm.write {
+
+        if let group = conversation.withGroup {
+
+            if let feed = conversation.withGroup?.withFeed {
+
+                feed.cascadeDelete()
+            }
+
+            let groupID = group.groupID
+
+            FayeService.sharedManager.unsubscribeGroup(groupID: groupID)
+
+            leaveGroup(groupID: groupID, failureHandler: nil, completion: {
+                println("leaved group: \(groupID)")
+            })
+
+            realm.delete(group)
+        }
+
+        realm.delete(conversation)
+    }
+}
+
 func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewController vc: UIViewController?, whenAfterClearedHistory afterClearedHistory: () -> Void, afterDeleted: () -> Void, orCanceled cancelled: () -> Void) {
 
     guard let realm = conversation.realm else {
@@ -1066,58 +1121,11 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
     }
 
     let clearMessages: () -> Void = {
-
-        let messages = conversation.messages
-
-        // delete all media files of messages
-
-        messages.forEach { deleteMediaFilesOfMessage($0) }
-
-        // delete all mediaMetaDatas
-
-        for message in messages {
-            if let mediaMetaData = message.mediaMetaData {
-                let _ = try? realm.write {
-                    realm.delete(mediaMetaData)
-                }
-            }
-        }
-
-        // delete all messages in conversation
-
-        let _ = try? realm.write {
-            realm.delete(messages)
-        }
+        clearMessagesOfConversation(conversation, inRealm: realm)
     }
 
     let delete: () -> Void = {
-
-        clearMessages()
-
-        // delete conversation, finally
-
-        let _ = try? realm.write {
-
-            if let group = conversation.withGroup {
-
-                if let feed = conversation.withGroup?.withFeed {
-
-                    feed.cascadeDelete()
-                }
-
-                let groupID = group.groupID
-
-                FayeService.sharedManager.unsubscribeGroup(groupID: groupID)
-
-                leaveGroup(groupID: groupID, failureHandler: nil, completion: {
-                    println("leaved group: \(groupID)")
-                })
-
-                realm.delete(group)
-            }
-
-            realm.delete(conversation)
-        }
+        deleteConversation(conversation, inRealm: realm)
     }
 
     // show ActionSheet before delete
@@ -1153,5 +1161,5 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
         
         afterDeleted()
     }
-
 }
+
