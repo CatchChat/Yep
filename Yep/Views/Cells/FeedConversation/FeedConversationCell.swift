@@ -52,28 +52,43 @@ class FeedConversationCell: UITableViewCell {
 
         self.conversation = conversation
 
-        countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
+        guard let feed = conversation.withGroup?.withFeed else {
+            return
+        }
 
-        if let feed = conversation.withGroup?.withFeed {
+        let deleted = feed.deleted
+
+        if deleted {
+
+            nameLabel.text = NSLocalizedString("[Deleted]", comment: "") + feed.body
+            chatLabel.text = NSLocalizedString("Feed has been deleted by creator.", comment: "")
+
+            mediaView.setImagesWithURLs([])
+
+            accessoryImageView.hidden = true
+
+        } else {
+
+            countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
+
             nameLabel.text = feed.body
 
             let attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
             mediaView.setImagesWithURLs(attachmentURLs)
 
-        } else {
-            mediaView.setImagesWithURLs([])
-        }
+            if let latestMessage = messagesInConversation(conversation).last {
 
-        if let latestMessage = messagesInConversation(conversation).last {
-
-            if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
-                self.chatLabel.text = placeholder
+                if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
+                    self.chatLabel.text = placeholder
+                } else {
+                    self.chatLabel.text = latestMessage.textContent
+                }
+                
             } else {
-                self.chatLabel.text = latestMessage.textContent
+                self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
             }
 
-        } else {
-            self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
+            accessoryImageView.hidden = false
         }
     }
 }
