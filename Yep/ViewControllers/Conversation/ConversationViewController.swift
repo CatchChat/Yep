@@ -1210,10 +1210,11 @@ class ConversationViewController: BaseViewController {
             }
         }
 
-        feedView.tapMediaAction = { [weak self] transitionView, imageURL in
+        feedView.tapMediaAction = { [weak self] transitionView, imageURLs, index in
             let info = [
                 "transitionView": transitionView,
-                "imageURL": imageURL,
+                "imageURLs": imageURLs,
+                "index": index,
             ]
             self?.performSegueWithIdentifier("showFeedMedia", sender: info)
         }
@@ -2193,7 +2194,14 @@ class ConversationViewController: BaseViewController {
             let info = sender as! [String: AnyObject]
 
             let vc = segue.destinationViewController as! MessageMediaViewController
-            vc.previewMedia = PreviewMedia.AttachmentType(imageURL: info["imageURL"] as! NSURL )
+ 
+            if let imageURLs = info["imageURLs"] as? [NSURL] {
+                vc.previewMedias = imageURLs.map({ PreviewMedia.AttachmentType(imageURL: $0) })
+            }
+
+            if let index = info["index"] as? Int {
+                vc.startIndex = index
+            }
 
             let transitionView = info["transitionView"] as! UIImageView
 
@@ -2232,9 +2240,15 @@ class ConversationViewController: BaseViewController {
 
             let vc = segue.destinationViewController as! MessageMediaViewController
 
-            if let message = sender as? Message, messageIndex = messages.indexOf(message) {
+            if let info = sender as? [String: AnyObject], mediaMessages = info["mediaMessages"] as? [Message], index = info["index"] as? Int, message = mediaMessages[safe: index], messageIndex = messages.indexOf(message) {
 
-                vc.previewMedia = PreviewMedia.MessageType(message: message)
+//                vc.previewMedias = [
+//                    PreviewMedia.MessageType(message: message)
+//                ]
+
+                vc.previewMedias = mediaMessages.map({ PreviewMedia.MessageType(message: $0) })
+
+                vc.startIndex = index
 
                 let indexPath = NSIndexPath(forRow: messageIndex - displayedMessagesRange.location , inSection: 0)
 
@@ -2312,7 +2326,9 @@ class ConversationViewController: BaseViewController {
 
             if let message = sender as? Message, messageIndex = messages.indexOf(message) {
 
-                vc.previewMedia = PreviewMedia.MessageType(message: message)
+                vc.previewMedias = [
+                    PreviewMedia.MessageType(message: message)
+                ]
 
                 let indexPath = NSIndexPath(forRow: messageIndex - displayedMessagesRange.location , inSection: 0)
 
@@ -2616,6 +2632,20 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         return displayedMessagesRange.length
     }
 
+    private func tryShowMessageMediaFromMessage(message: Message) {
+
+        let predicate = NSPredicate(format: "mediaType = %d OR mediaType = %d", MessageMediaType.Image.rawValue, MessageMediaType.Video.rawValue)
+
+        let mediaMessagesResult = messages.filter(predicate)
+
+        let mediaMessages = mediaMessagesResult.map({ $0 })
+
+        if let index = mediaMessagesResult.indexOf(message) {
+
+            performSegueWithIdentifier("showMessageMedia", sender: ["mediaMessages": mediaMessages, "index": index])
+        }
+    }
+
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
@@ -2751,8 +2781,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                             return
                                         }
                                     }
-                                    
-                                    self?.performSegueWithIdentifier("showMessageMedia", sender: message)
+
+                                    self?.tryShowMessageMediaFromMessage(message)
                                     
                                 } else {
                                     //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the image is not ready!", comment: ""), inViewController: self)
@@ -2794,7 +2824,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         }
                                     }
                                     
-                                    self?.performSegueWithIdentifier("showMessageMedia", sender: message)
+                                    self?.tryShowMessageMediaFromMessage(message)
                                     
                                 } else {
                                     //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the video is not ready!", comment: ""), inViewController: self)
@@ -2864,7 +2894,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         }
                                     }
                                     
-                                    self?.performSegueWithIdentifier("showMessageMedia", sender: message)
+                                    self?.tryShowMessageMediaFromMessage(message)
                                 }
                                 
                             }, collectionView: collectionView, indexPath: indexPath)
@@ -2932,7 +2962,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         }
                                     }
                                     
-                                    self?.performSegueWithIdentifier("showMessageMedia", sender: message)
+                                    self?.tryShowMessageMediaFromMessage(message)
                                 }
                                 
                             }, collectionView: collectionView, indexPath: indexPath)

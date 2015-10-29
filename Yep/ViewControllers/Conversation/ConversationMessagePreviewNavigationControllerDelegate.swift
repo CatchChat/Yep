@@ -128,7 +128,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
         if let transitionViewSnapshot = transitionViewSnapshot, thumbnailImageView = thumbnailImageView {
 
             animatingVC.view.backgroundColor = UIColor.clearColor()
-            animatingVC.mediaView.alpha = 0
+            animatingVC.mediasCollectionView.alpha = 0
             animatingVC.mediaControlView.alpha = 0
 
 
@@ -202,15 +202,15 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
                 UIView.addKeyframeWithRelativeStartTime(0.9, relativeDuration: 0.1, animations: { () -> Void in
 //                    let ratio = (animatingView.bounds.width + self.largerOffset) / animatingView.bounds.width
-//                    animatingVC.mediaView.transform = CGAffineTransformMakeScale(ratio, ratio)
-                    animatingVC.mediaView.alpha = 1
+//                    animatingVC.mediasCollectionView.transform = CGAffineTransformMakeScale(ratio, ratio)
+                    animatingVC.mediasCollectionView.alpha = 1
                     animatingVC.mediaControlView.alpha = 1
 
                     //transitionViewSnapshot.alpha = 0
                 })
 
 //                UIView.addKeyframeWithRelativeStartTime(0.9, relativeDuration: 0.1, animations: { () -> Void in
-//                    animatingVC.mediaView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+//                    animatingVC.mediasCollectionView.transform = CGAffineTransformMakeScale(1.0, 1.0)
 //                })
 
             }, completion: { (finished) -> Void in
@@ -270,7 +270,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
                 UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.1, animations: { () -> Void in
                     let ratio = (animatingView.bounds.width + self.largerOffset) / animatingView.bounds.width
-                    animatingVC.mediaView.transform = CGAffineTransformMakeScale(ratio, ratio)
+                    animatingVC.mediasCollectionView.transform = CGAffineTransformMakeScale(ratio, ratio)
                     animatingVC.mediaControlView.alpha = 0
                 })
 
@@ -279,7 +279,7 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 //                    transitionViewSnapshot.center = animatingView.center
                     //transitionViewSnapshot.alpha = 0
                     //thumbnailImageView.alpha = 1
-                    animatingVC.mediaView.alpha = 0
+                    animatingVC.mediasCollectionView.alpha = 0
                 })
 
                 UIView.addKeyframeWithRelativeStartTime(0.11, relativeDuration: 0.89, animations: { () -> Void in

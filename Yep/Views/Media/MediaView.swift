@@ -11,6 +11,12 @@ import AVFoundation
 
 class MediaView: UIView {
 
+    lazy var helperImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .ScaleAspectFit
+        return imageView
+    }()
+
     func updateImageViewWithImage(image: UIImage) {
 
         scrollView.frame = UIScreen.mainScreen().bounds
@@ -21,7 +27,13 @@ class MediaView: UIView {
         setZoomParametersForSize(scrollView.bounds.size, imageSize: size)
         scrollView.zoomScale = scrollView.minimumZoomScale
 
-        recenterImage()
+        println("scrollView.zoomScale: \(scrollView.zoomScale)")
+        println("scrollView.minimumZoomScale: \(scrollView.minimumZoomScale)")
+        println("scrollView.maximumZoomScale: \(scrollView.maximumZoomScale)")
+
+        recenterImage(image)
+
+        println("\n\n\n")
     }
 
     var image: UIImage? {
@@ -119,15 +131,23 @@ class MediaView: UIView {
         NSLayoutConstraint.activateConstraints(scrollViewConstraintsH)
 
 
-        scrollView.addSubview(imageView)
-
-
         let coverImageViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[coverImageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         let coverImageViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[coverImageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(coverImageViewConstraintsV)
         NSLayoutConstraint.activateConstraints(coverImageViewConstraintsH)
+
+        scrollView.addSubview(imageView)
+
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+
+        let imageViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[imageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+
+        let imageViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[imageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+
+        NSLayoutConstraint.activateConstraints(imageViewConstraintsV)
+        NSLayoutConstraint.activateConstraints(imageViewConstraintsH)
 
         /*
         imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -158,6 +178,8 @@ class MediaView: UIView {
 
     func setZoomParametersForSize(scrollViewSize: CGSize, imageSize: CGSize) {
 
+        println("<----- scrollViewSize: \(scrollViewSize), imageSize: \(imageSize)")
+
         let widthScale = scrollViewSize.width / imageSize.width
         let heightScale = scrollViewSize.height / imageSize.height
         let minScale = min(widthScale, heightScale)
@@ -166,15 +188,23 @@ class MediaView: UIView {
         scrollView.maximumZoomScale = 3.0
     }
 
-    func recenterImage() {
+    func recenterImage(image: UIImage) {
 
         let scrollViewSize = scrollView.bounds.size
-        let imageSize = imageView.frame.size
+        let imageSize = image.size
+        let scale = scrollView.minimumZoomScale
+        let scaledImageSize = CGSize(width: imageSize.width * scale, height: imageSize.height * scale)
 
-        let hSpace = imageSize.width < scrollViewSize.width ? (scrollViewSize.width - imageSize.width) * 0.5 : 0
-        let vSpace = imageSize.height < scrollViewSize.height ? (scrollViewSize.height - imageSize.height) * 0.5 : 0
+        let hSpace = scaledImageSize.width < scrollViewSize.width ? (scrollViewSize.width - scaledImageSize.width) * 0.5 : 0
+        let vSpace = scaledImageSize.height < scrollViewSize.height ? (scrollViewSize.height - scaledImageSize.height) * 0.5 : 0
 
         scrollView.contentInset = UIEdgeInsets(top: vSpace, left: hSpace, bottom: vSpace, right: hSpace)
+
+        println("------> scrollView.zoomScale: \(scrollView.zoomScale)")
+
+        println("scrollViewSize: \(scrollViewSize), imageSize: \(imageSize), scaledImageSize: \(scaledImageSize)")
+
+        println("------> scrollView.contentInset: \(scrollView.contentInset)")
     }
 }
 
@@ -185,6 +215,9 @@ extension MediaView: UIScrollViewDelegate {
     }
 
     func scrollViewDidZoom(scrollView: UIScrollView) {
-        recenterImage()
+        if let image = image {
+            recenterImage(image)
+        }
     }
 }
+
