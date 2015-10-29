@@ -47,6 +47,10 @@ class ChatRightLocationCell: ChatRightBaseCell {
         mapImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
         mapImageView.addGestureRecognizer(tap)
+        
+        mapImageView.addGestureRecognizer(longpress)
+        
+        tap.requireGestureRecognizerToFail(longpress)
     }
 
     func tapMediaView() {

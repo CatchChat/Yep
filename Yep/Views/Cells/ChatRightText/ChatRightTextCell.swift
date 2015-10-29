@@ -19,8 +19,6 @@ class ChatRightTextCell: ChatRightBaseCell {
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
 
-    var longPressAction: (() -> Void)?
-
     func makeUI() {
 
         let fullWidth = UIScreen.mainScreen().bounds.width
@@ -28,20 +26,6 @@ class ChatRightTextCell: ChatRightBaseCell {
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
 
         avatarImageView.center = CGPoint(x: fullWidth - halfAvatarSize - YepConfig.chatCellGapBetweenWallAndAvatar(), y: halfAvatarSize)
-    }
-    
-    override func respondsToSelector(aSelector: Selector) -> Bool {
-        if  ["deleteMessage:" ,"copy:"].contains(aSelector) {
-            return true
-        } else {
-            return super.respondsToSelector(aSelector)
-        }
-    }
-    
-    func deleteMessage(object: UIMenuController?) {
-        if let longPressAction = longPressAction {
-            longPressAction()
-        }
     }
 
     override func awakeFromNib() {

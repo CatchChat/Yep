@@ -2542,10 +2542,18 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     
     func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
         
-        if action == "copy:" {
-            return true
         
-        } else if action == "deleteMessage:" {
+        if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightTextCell {
+            if action == "copy:" {
+                return true
+            }
+        } else if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftTextCell {
+            if action == "copy:" {
+                return true
+            }
+        }
+        
+        if action == "deleteMessage:" {
             return true
         }
         
@@ -2645,12 +2653,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         
         selectedIndexPathForMenu = indexPath
         
-        if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightTextCell {
+        if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatBaseCell {
 
             return true
-        } else if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftTextCell {
-            return true
-        } else {
+        }  else {
             selectedIndexPathForMenu = nil
         }
 
@@ -2766,6 +2772,83 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
             
+            
+            let longPressAction = { [weak self] in
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    if let strongSelf = self, realm = message.realm {
+                        
+                        var sectionDateMessage: Message?
+                        
+                        if let currentMessageIndex = strongSelf.messages.indexOf(message) {
+                            
+                            let previousMessageIndex = currentMessageIndex - 1
+                            
+                            if let previousMessage = strongSelf.messages[safe: previousMessageIndex] {
+                                
+                                if previousMessage.mediaType == MessageMediaType.SectionDate.rawValue {
+                                    sectionDateMessage = previousMessage
+                                }
+                            }
+                        }
+                        
+                        let currentIndexPath: NSIndexPath
+                        if let index = strongSelf.messages.indexOf(message) {
+                            currentIndexPath = NSIndexPath(forItem: index - strongSelf.displayedMessagesRange.location, inSection: indexPath.section)
+                        } else {
+                            currentIndexPath = indexPath
+                        }
+                        
+                        if let sectionDateMessage = sectionDateMessage {
+                            
+                            var canDeleteTwoMessages = false // 考虑刚好的边界情况，例如消息为本束的最后一条，而 sectionDate 在上一束中
+                            if strongSelf.displayedMessagesRange.length >= 2 {
+                                strongSelf.displayedMessagesRange.length -= 2
+                                canDeleteTwoMessages = true
+                                
+                            } else {
+                                if strongSelf.displayedMessagesRange.location >= 1 {
+                                    strongSelf.displayedMessagesRange.location -= 1
+                                }
+                                strongSelf.displayedMessagesRange.length -= 1
+                            }
+                            
+                            let _ = try? realm.write {
+                                if let mediaMetaData = sectionDateMessage.mediaMetaData {
+                                    realm.delete(mediaMetaData)
+                                }
+                                if let mediaMetaData = message.mediaMetaData {
+                                    realm.delete(mediaMetaData)
+                                }
+                                realm.delete(sectionDateMessage)
+                                realm.delete(message)
+                            }
+                            
+                            if canDeleteTwoMessages {
+                                let previousIndexPath = NSIndexPath(forItem: currentIndexPath.item - 1, inSection: currentIndexPath.section)
+                                strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([previousIndexPath, currentIndexPath])
+                            } else {
+                                strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
+                            }
+                            
+                        } else {
+                            strongSelf.displayedMessagesRange.length -= 1
+                            let _ = try? realm.write {
+                                if let mediaMetaData = message.mediaMetaData {
+                                    realm.delete(mediaMetaData)
+                                }
+                                realm.delete(message)
+                            }
+                            strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
+                        }
+                        
+                        // 必须更新，插入时需要
+                        strongSelf.lastTimeMessagesCount = strongSelf.messages.count
+                    }
+                }
+            }
+            
             if message.mediaType == MessageMediaType.SectionDate.rawValue {
                 
                 if let cell = cell as? ChatSectionDateCell {
@@ -2791,6 +2874,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     cell.tapAvatarAction = { [weak self] user in
                         self?.performSegueWithIdentifier("showProfile", sender: user)
                     }
+                    
+                    cell.longPressAction = longPressAction
                 }
                 
                 if sender.friendState != UserFriendState.Me.rawValue { // from Friend
@@ -3059,82 +3144,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     })
                                 }
                             }, collectionView: collectionView, indexPath: indexPath)
-
-                            cell.longPressAction = { [weak self] in
-
-                                dispatch_async(dispatch_get_main_queue()) {
-
-                                    if let strongSelf = self, realm = message.realm {
-                                        
-                                        var sectionDateMessage: Message?
-                                        
-                                        if let currentMessageIndex = strongSelf.messages.indexOf(message) {
-                                            
-                                            let previousMessageIndex = currentMessageIndex - 1
-                                            
-                                            if let previousMessage = strongSelf.messages[safe: previousMessageIndex] {
-                                                
-                                                if previousMessage.mediaType == MessageMediaType.SectionDate.rawValue {
-                                                    sectionDateMessage = previousMessage
-                                                }
-                                            }
-                                        }
-                                        
-                                        let currentIndexPath: NSIndexPath
-                                        if let index = strongSelf.messages.indexOf(message) {
-                                            currentIndexPath = NSIndexPath(forItem: index - strongSelf.displayedMessagesRange.location, inSection: indexPath.section)
-                                        } else {
-                                            currentIndexPath = indexPath
-                                        }
-                                        
-                                        if let sectionDateMessage = sectionDateMessage {
-                                            
-                                            var canDeleteTwoMessages = false // 考虑刚好的边界情况，例如消息为本束的最后一条，而 sectionDate 在上一束中
-                                            if strongSelf.displayedMessagesRange.length >= 2 {
-                                                strongSelf.displayedMessagesRange.length -= 2
-                                                canDeleteTwoMessages = true
-                                                
-                                            } else {
-                                                if strongSelf.displayedMessagesRange.location >= 1 {
-                                                    strongSelf.displayedMessagesRange.location -= 1
-                                                }
-                                                strongSelf.displayedMessagesRange.length -= 1
-                                            }
-                                            
-                                            let _ = try? realm.write {
-                                                if let mediaMetaData = sectionDateMessage.mediaMetaData {
-                                                    realm.delete(mediaMetaData)
-                                                }
-                                                if let mediaMetaData = message.mediaMetaData {
-                                                    realm.delete(mediaMetaData)
-                                                }
-                                                realm.delete(sectionDateMessage)
-                                                realm.delete(message)
-                                            }
-                                            
-                                            if canDeleteTwoMessages {
-                                                let previousIndexPath = NSIndexPath(forItem: currentIndexPath.item - 1, inSection: currentIndexPath.section)
-                                                strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([previousIndexPath, currentIndexPath])
-                                            } else {
-                                                strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
-                                            }
-                                            
-                                        } else {
-                                            strongSelf.displayedMessagesRange.length -= 1
-                                            let _ = try? realm.write {
-                                                if let mediaMetaData = message.mediaMetaData {
-                                                    realm.delete(mediaMetaData)
-                                                }
-                                                realm.delete(message)
-                                            }
-                                            strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
-                                        }
-                                        
-                                        // 必须更新，插入时需要
-                                        strongSelf.lastTimeMessagesCount = strongSelf.messages.count
-                                    }
-                                }
-                            }
                         }
                     }
                 }

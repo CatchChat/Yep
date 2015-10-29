@@ -96,6 +96,10 @@ class ChatLeftAudioCell: ChatBaseCell {
         bubbleImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
         bubbleImageView.addGestureRecognizer(tap)
+        
+        bubbleImageView.addGestureRecognizer(longpress)
+        
+        tap.requireGestureRecognizerToFail(longpress)
     }
 
     func tapMediaView() {

@@ -38,6 +38,10 @@ class ChatRightVideoCell: ChatRightBaseCell {
         thumbnailImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
         thumbnailImageView.addGestureRecognizer(tap)
+        
+        thumbnailImageView.addGestureRecognizer(longpress)
+        
+        tap.requireGestureRecognizerToFail(longpress)
     }
 
     func tapMediaView() {

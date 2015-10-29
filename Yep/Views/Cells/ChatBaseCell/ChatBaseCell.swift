@@ -11,9 +11,13 @@ import UIKit
 class ChatBaseCell: UICollectionViewCell {
     
     @IBOutlet weak var avatarImageView: UIImageView!
-
+    
+    var longpress: UILongPressGestureRecognizer!
+    
     var user: User?
     var tapAvatarAction: ((user: User) -> Void)?
+    
+    var longPressAction: (() -> Void)?
     
     lazy var nameLabel: UILabel = {
         let label = UILabel(frame: CGRectZero)
@@ -29,6 +33,12 @@ class ChatBaseCell: UICollectionViewCell {
         avatarImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapAvatar")
         avatarImageView.addGestureRecognizer(tap)
+        longpress = UILongPressGestureRecognizer(target: self, action: "doNothing")
+        longpress.minimumPressDuration = 0.5
+    }
+    
+    func doNothing() {
+        
     }
     
     var inGroup = false
@@ -38,6 +48,20 @@ class ChatBaseCell: UICollectionViewCell {
 
         if let user = user {
             tapAvatarAction?(user: user)
+        }
+    }
+    
+    override func respondsToSelector(aSelector: Selector) -> Bool {
+        if  ["deleteMessage:" ,"copy:"].contains(aSelector) {
+            return true
+        } else {
+            return super.respondsToSelector(aSelector)
+        }
+    }
+    
+    func deleteMessage(object: UIMenuController?) {
+        if let longPressAction = longPressAction {
+            longPressAction()
         }
     }
 }
