@@ -187,6 +187,7 @@ class FeedsViewController: UIViewController {
         // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
         if let delegate = originalNavigationControllerDelegate {
             navigationController?.delegate = delegate
+            navigationControllerDelegate = nil
         }
 
         navigationController?.setNavigationBarHidden(false, animated: false)
