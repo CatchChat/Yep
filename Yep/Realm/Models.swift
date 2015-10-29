@@ -1083,7 +1083,7 @@ private func clearMessagesOfConversation(conversation: Conversation, inRealm rea
     }
 }
 
-func deleteConversation(conversation: Conversation, inRealm realm: Realm) {
+func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLeaveGroup: Bool = true) {
 
     clearMessagesOfConversation(conversation, inRealm: realm)
 
@@ -1102,9 +1102,14 @@ func deleteConversation(conversation: Conversation, inRealm realm: Realm) {
 
             FayeService.sharedManager.unsubscribeGroup(groupID: groupID)
 
-            leaveGroup(groupID: groupID, failureHandler: nil, completion: {
-                println("leaved group: \(groupID)")
-            })
+            if needLeaveGroup {
+                leaveGroup(groupID: groupID, failureHandler: nil, completion: {
+                    println("leaved group: \(groupID)")
+                })
+
+            } else {
+                println("deleteConversation, not need leave group: \(groupID)")
+            }
 
             realm.delete(group)
         }

@@ -160,7 +160,7 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                     return
                 }
 
-                deleteConversation(conversation, inRealm: realm)
+                deleteConversation(conversation, inRealm: realm, needLeaveGroup: false)
 
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
 
