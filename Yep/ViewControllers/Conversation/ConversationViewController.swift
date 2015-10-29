@@ -99,7 +99,7 @@ class ConversationViewController: BaseViewController {
 
     var realm: Realm!
     
-    var groupURL: String?
+    var groupShareURLString: String?
     
     lazy var messages: Results<Message> = {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
@@ -1539,19 +1539,22 @@ class ConversationViewController: BaseViewController {
     }
 
     func moreAction() {
+
         messageToolbar.state = .Default
         
         if let _ = conversation?.withFriend {
             moreView.type = .OneToOne
+
             oneToOneMoreAction()
+
         } else {
             moreView.type = .Topic
+
             topicMoreAction()
         }
-
     }
     
-    func topicMoreAction() {
+    private func topicMoreAction() {
         
         let descriotion = conversation.withGroup?.withFeed?.body
         let groupID = conversation.withGroup?.groupID
@@ -1611,22 +1614,22 @@ class ConversationViewController: BaseViewController {
                 return
             }
             
-            guard let groupURL = self?.groupURL else {
+            guard let groupShareURLString = self?.groupShareURLString else {
                 
                 groupShareLinkWithGroupID(groupID, failureHandler: nil, completion: { [weak self] link in
                     
-                    guard let url = link["url"] as? String else {
+                    guard let groupShareURLString = link["url"] as? String else {
                         return
                     }
-                    self?.groupURL = url
-                    self?.showShareWithDescripion(descriotion, url: url)
-                    
+
+                    self?.groupShareURLString = groupShareURLString
+                    self?.shareFeedWithDescripion(descriotion, groupShareURLString: groupShareURLString)
                 })
                 
                 return
             }
             
-            self?.showShareWithDescripion(descriotion, url: groupURL)
+            self?.shareFeedWithDescripion(descriotion, groupShareURLString: groupShareURLString)
         }
         
         if let window = view.window {
@@ -1634,12 +1637,13 @@ class ConversationViewController: BaseViewController {
         }
     }
     
-    func showShareWithDescripion(description: String, url: String) {
+    private func shareFeedWithDescripion(description: String, groupShareURLString: String) {
+
         let info = MonkeyKing.Info(
             title: NSLocalizedString("Join Us", comment: ""),
             description: description,
             thumbnail: nil,
-            media: .URL(NSURL(string: url)!)
+            media: .URL(NSURL(string: groupShareURLString)!)
         )
         
         let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
@@ -1662,17 +1666,16 @@ class ConversationViewController: BaseViewController {
             }
         )
         
-        let shareText = "\(NSLocalizedString("Join Us", comment: "")) \(description) \(url) \(NSLocalizedString("From Yep", comment: ""))"
+        let shareText = "\(NSLocalizedString("Join Us", comment: "")) \(description) \(groupShareURLString) \(NSLocalizedString("From Yep", comment: ""))"
         
         let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
         
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             self?.presentViewController(activityViewController, animated: true, completion: nil)
         }
-
     }
     
-    func oneToOneMoreAction() {
+    private func oneToOneMoreAction() {
         
         moreView.showProfileAction = { [weak self] in
             self?.performSegueWithIdentifier("showProfile", sender: nil)
@@ -1705,7 +1708,7 @@ class ConversationViewController: BaseViewController {
             settingsForUserWithUserID(userID, failureHandler: nil, completion: { [weak self] blocked, doNotDisturb in
                 self?.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
                 self?.updateBlocked(blocked, forUserWithUserID: userID)
-                })
+            })
         }
         
         moreView.toggleDoNotDisturbAction = { [weak self] in
