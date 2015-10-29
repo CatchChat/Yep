@@ -534,8 +534,15 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                 }
 
                 for group in groupsToDelete {
-                    
-                    group.cascadeDelete()
+
+                    // 有关联的 Feed 时就标记，不然删除
+
+                    if let feed = group.withFeed {
+                        feed.deleted = true
+
+                    } else {
+                        group.cascadeDelete()
+                    }
                 }
             }
 

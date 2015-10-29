@@ -99,7 +99,7 @@ class ConversationViewController: BaseViewController {
 
     var realm: Realm!
     
-    var groupURL: String?
+    var groupShareURLString: String?
     
     lazy var messages: Results<Message> = {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
@@ -1539,80 +1539,96 @@ class ConversationViewController: BaseViewController {
     }
 
     func moreAction() {
+
         messageToolbar.state = .Default
         
         if let _ = conversation?.withFriend {
             moreView.type = .OneToOne
+
             oneToOneMoreAction()
+
         } else {
             moreView.type = .Topic
+
             topicMoreAction()
         }
-
     }
     
-    func topicMoreAction() {
+    private func topicMoreAction() {
         
         let descriotion = conversation.withGroup?.withFeed?.body
         let groupID = conversation.withGroup?.groupID
         
         moreView.unsubscribeAction = { [weak self] in
             
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                
-                if let checkTypingStatusTimer = self?.checkTypingStatusTimer {
-                    checkTypingStatusTimer.invalidate()
-                }
-            
-                guard let conversation = self?.conversation else {
-                    return
-                }
-                
-                tryDeleteOrClearHistoryOfConversation(conversation, inViewController: nil, whenAfterClearedHistory: {
-                    
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-                    }
-                    
-                }, afterDeleted: {
-                        
-                        dispatch_async(dispatch_get_main_queue()) {
-                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-                        }
-                        
-                }, orCanceled: {
+            let doDeleteConversation: () -> Void = {
 
-                })
-                
-                
-                self?.navigationController?.popViewControllerAnimated(true)
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    if let checkTypingStatusTimer = self?.checkTypingStatusTimer {
+                        checkTypingStatusTimer.invalidate()
+                    }
+
+                    guard let conversation = self?.conversation, realm = conversation.realm else {
+                        return
+                    }
+
+                    deleteConversation(conversation, inRealm: realm)
+
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+
+                    self?.navigationController?.popViewControllerAnimated(true)
+                }
             }
 
+            guard let feed = self?.conversation.withGroup?.withFeed, feedCreator = feed.creator else {
+                return
+            }
+
+            let feedID = feed.feedID
+            let feedCreatorID = feedCreator.userID
+
+            // 若是创建者，再询问是否删除 Feed
+
+            if feedCreatorID == YepUserDefaults.userID.value {
+
+                YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
+
+                    doDeleteConversation()
+
+                    deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
+                        println("deleted feed: \(feedID)")
+                    })
+
+                }, cancelAction: {
+                    doDeleteConversation()
+                })
+
+            } else {
+                doDeleteConversation()
+            }
         }
-        
+
         moreView.shareAction = { [weak self] in
             
             guard let groupID = groupID, descriotion = descriotion else {
                 return
             }
             
-            guard let groupURL = self?.groupURL else {
+            guard let groupShareURLString = self?.groupShareURLString else {
                 
-                groupShareLinkWithGroupID(groupID, failureHandler: nil, completion: { [weak self] link in
-                    
-                    guard let url = link["url"] as? String else {
-                        return
+                shareURLStringOfGroupWithGroupID(groupID, failureHandler: nil, completion: { [weak self] groupShareURLString in
+
+                    self?.groupShareURLString = groupShareURLString
+
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.shareFeedWithDescripion(descriotion, groupShareURLString: groupShareURLString)
                     }
-                    self?.groupURL = url
-                    self?.showShareWithDescripion(descriotion, url: url)
-                    
                 })
                 
                 return
             }
             
-            self?.showShareWithDescripion(descriotion, url: groupURL)
+            self?.shareFeedWithDescripion(descriotion, groupShareURLString: groupShareURLString)
         }
         
         if let window = view.window {
@@ -1620,12 +1636,13 @@ class ConversationViewController: BaseViewController {
         }
     }
     
-    func showShareWithDescripion(description: String, url: String) {
+    private func shareFeedWithDescripion(description: String, groupShareURLString: String) {
+
         let info = MonkeyKing.Info(
             title: NSLocalizedString("Join Us", comment: ""),
             description: description,
             thumbnail: nil,
-            media: .URL(NSURL(string: url)!)
+            media: .URL(NSURL(string: groupShareURLString)!)
         )
         
         let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
@@ -1634,7 +1651,7 @@ class ConversationViewController: BaseViewController {
             type: .Session,
             message: sessionMessage,
             finish: { success in
-                println("share Image to WeChat Session success: \(success)")
+                println("share Feed to WeChat Session success: \(success)")
             }
         )
         
@@ -1644,21 +1661,20 @@ class ConversationViewController: BaseViewController {
             type: .Timeline,
             message: timelineMessage,
             finish: { success in
-                println("share Image to WeChat Timeline success: \(success)")
+                println("share Feed to WeChat Timeline success: \(success)")
             }
         )
         
-        let shareText = "\(NSLocalizedString("Join Us", comment: "")) \(description) \(url) \(NSLocalizedString("From Yep", comment: ""))"
+        let shareText = "\(description) \(groupShareURLString)\n\(NSLocalizedString("From Yep", comment: ""))"
         
         let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
         
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             self?.presentViewController(activityViewController, animated: true, completion: nil)
         }
-
     }
     
-    func oneToOneMoreAction() {
+    private func oneToOneMoreAction() {
         
         moreView.showProfileAction = { [weak self] in
             self?.performSegueWithIdentifier("showProfile", sender: nil)
@@ -1691,7 +1707,7 @@ class ConversationViewController: BaseViewController {
             settingsForUserWithUserID(userID, failureHandler: nil, completion: { [weak self] blocked, doNotDisturb in
                 self?.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
                 self?.updateBlocked(blocked, forUserWithUserID: userID)
-                })
+            })
         }
         
         moreView.toggleDoNotDisturbAction = { [weak self] in
@@ -1970,6 +1986,13 @@ class ConversationViewController: BaseViewController {
 
                     } else {
                         println("unknown message")
+
+                        #if DEBUG
+                            YepAlert.alertSorry(message: "unknown message: \(messageID)", inViewController: self)
+                        #endif
+
+                        reloadConversationCollectionView()
+                        return
                     }
                 }
 

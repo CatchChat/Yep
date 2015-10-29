@@ -23,10 +23,12 @@ class FeedConversationsViewController: UIViewController {
 
     lazy var feedConversations: Results<Conversation> = {
         let predicate = NSPredicate(format: "type = %d", ConversationType.Group.rawValue)
+        //let predicate = NSPredicate(format: "withGroup != nil AND withGroup.withFeed != nil")
         return self.realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
         }()
 
     let feedConversationCellID = "FeedConversationCell"
+    let deletedFeedConversationCellID = "DeletedFeedConversationCell"
 
     deinit {
 
@@ -45,6 +47,8 @@ class FeedConversationsViewController: UIViewController {
         realm = try! Realm()
 
         feedConversationsTableView.registerNib(UINib(nibName: feedConversationCellID, bundle: nil), forCellReuseIdentifier: feedConversationCellID)
+        feedConversationsTableView.registerNib(UINib(nibName: deletedFeedConversationCellID, bundle: nil), forCellReuseIdentifier: deletedFeedConversationCellID)
+
         feedConversationsTableView.rowHeight = 80
         feedConversationsTableView.tableFooterView = UIView()
         
@@ -100,6 +104,24 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+
+        if let conversation = feedConversations[safe: indexPath.row], feed = conversation.withGroup?.withFeed {
+
+            if feed.deleted {
+                let cell = tableView.dequeueReusableCellWithIdentifier(deletedFeedConversationCellID) as! DeletedFeedConversationCell
+                cell.configureWithConversation(conversation)
+
+                return cell
+
+            } else {
+
+                let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationCellID) as! FeedConversationCell
+                cell.configureWithConversation(conversation)
+                
+                return cell
+            }
+        }
+
         let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationCellID) as! FeedConversationCell
         if let conversation = feedConversations[safe: indexPath.row] {
             cell.configureWithConversation(conversation)
@@ -126,38 +148,54 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
 
         if editingStyle == .Delete {
 
-            guard let conversation = feedConversations[safe: indexPath.row] else {
+            guard let conversation = feedConversations[safe: indexPath.row], feed = conversation.withGroup?.withFeed else {
                 tableView.setEditing(false, animated: true)
                 return
             }
 
-            tryDeleteOrClearHistoryOfConversation(conversation, inViewController: self, whenAfterClearedHistory: { [weak self] in
+            if feed.deleted {
 
-                tableView.setEditing(false, animated: true)
-
-                // update cell
-
-                if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-                    if let conversation = self?.feedConversations[safe: indexPath.row] {
-                        let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
-                        cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
-                    }
+                guard let realm = conversation.realm else {
+                    tableView.setEditing(false, animated: true)
+                    return
                 }
 
-                dispatch_async(dispatch_get_main_queue()) {
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-                }
+                deleteConversation(conversation, inRealm: realm, needLeaveGroup: false)
 
-            }, afterDeleted: {
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
 
-                dispatch_async(dispatch_get_main_queue()) {
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-                }
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
 
-            }, orCanceled: {
-                tableView.setEditing(false, animated: true)
-            })
+            } else {
+
+                tryDeleteOrClearHistoryOfConversation(conversation, inViewController: self, whenAfterClearedHistory: { [weak self] in
+
+                    tableView.setEditing(false, animated: true)
+
+                    // update cell
+
+                    if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+                        if let conversation = self?.feedConversations[safe: indexPath.row] {
+                            let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
+                            cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
+                        }
+                    }
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                    }
+
+                }, afterDeleted: {
+                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                    }
+
+                }, orCanceled: {
+                    tableView.setEditing(false, animated: true)
+                })
+            }
         }
     }
 }
