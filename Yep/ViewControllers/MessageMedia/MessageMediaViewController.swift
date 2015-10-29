@@ -75,19 +75,25 @@ class MessageMediaViewController: UIViewController {
         }, completion: { _ in })
     }
 
+    var isFirstLayoutSubviews = true
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let startIndexPath = NSIndexPath(forItem: startIndex, inSection: 0)
-        mediasCollectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .CenteredHorizontally, animated: false)
+        if isFirstLayoutSubviews {
+            let startIndexPath = NSIndexPath(forItem: startIndex, inSection: 0)
+            mediasCollectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .CenteredHorizontally, animated: false)
 
-        guard let cell = mediasCollectionView.cellForItemAtIndexPath(startIndexPath) as? MediaViewCell else {
-            return
+            guard let cell = mediasCollectionView.cellForItemAtIndexPath(startIndexPath) as? MediaViewCell else {
+                return
+            }
+
+            let previewMedia = previewMedias[startIndex]
+
+            prepareForShareWithCell(cell, previewMedia: previewMedia)
         }
 
-        let previewMedia = previewMedias[startIndex]
-
-        prepareForShareWithCell(cell, previewMedia: previewMedia)
+        isFirstLayoutSubviews = false
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -126,28 +132,33 @@ class MessageMediaViewController: UIViewController {
 
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
 
-//        if let player = object as? AVPlayer {
-//
-//            if player == mediaView.videoPlayerLayer.player {
-//
-//                if keyPath == "status" {
-//                    switch player.status {
-//
-//                    case AVPlayerStatus.Failed:
-//                        println("Failed")
-//
-//                    case AVPlayerStatus.ReadyToPlay:
-//                        println("ReadyToPlay")
-//                        dispatch_async(dispatch_get_main_queue()) {
-//                            self.mediaView.videoPlayerLayer.player?.play()
-//                        }
-//
-//                    case AVPlayerStatus.Unknown:
-//                        println("Unknown")
-//                    }
-//                }
-//            }
-//        }
+        if let player = object as? AVPlayer {
+
+            let startIndexPath = NSIndexPath(forItem: startIndex, inSection: 0)
+            guard let cell = mediasCollectionView.cellForItemAtIndexPath(startIndexPath) as? MediaViewCell else {
+                return
+            }
+
+            if player == cell.mediaView.videoPlayerLayer.player {
+
+                if keyPath == "status" {
+                    switch player.status {
+
+                    case AVPlayerStatus.Failed:
+                        println("Failed")
+
+                    case AVPlayerStatus.ReadyToPlay:
+                        println("ReadyToPlay")
+                        dispatch_async(dispatch_get_main_queue()) {
+                            cell.mediaView.videoPlayerLayer.player?.play()
+                        }
+
+                    case AVPlayerStatus.Unknown:
+                        println("Unknown")
+                    }
+                }
+            }
+        }
     }
 
     func playerItemDidReachEnd(notification: NSNotification) {
