@@ -19,6 +19,9 @@ class DeletedFeedConversationCell: UITableViewCell {
         super.awakeFromNib()
 
         deletedPromptLabel.text = NSLocalizedString("[Deleted]", comment: "")
+        deletedPromptLabel.textColor = UIColor.lightGrayColor()
+
+        selectionStyle = .None
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
