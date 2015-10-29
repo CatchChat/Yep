@@ -535,6 +535,7 @@ class ConversationViewController: BaseViewController {
         // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
         if let delegate = originalNavigationControllerDelegate {
             navigationController?.delegate = delegate
+            navigationControllerDelegate = nil
         }
 
         if isFirstAppear {
@@ -1327,10 +1328,19 @@ class ConversationViewController: BaseViewController {
             height = 20
         }
 
+        if message.mediaType != MessageMediaType.SectionDate.rawValue && conversation.withGroup != nil {
+            
+            if let sender = message.fromFriend {
+                if sender.friendState != UserFriendState.Me.rawValue {
+                    height += YepConfig.ChatCell.marginTopForGroup
+                }
+            }
+        }
+        
         if !key.isEmpty {
             messageHeights[key] = height
         }
-
+        
         return height
     }
 
@@ -3136,16 +3146,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
             
-            var height = heightOfMessage(message)
-            
-            if message.mediaType != MessageMediaType.SectionDate.rawValue && conversation.withGroup != nil {
-                
-                if let sender =  message.fromFriend {
-                    if sender.friendState != UserFriendState.Me.rawValue {
-                        height += YepConfig.ChatCell.marginTopForGroup
-                    }
-                }
-            }
+            let height = heightOfMessage(message)
             
             return CGSize(width: collectionViewWidth, height: height)
 

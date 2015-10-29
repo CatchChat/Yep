@@ -38,6 +38,9 @@ class MessageMediaViewController: UIViewController {
     }
 
     deinit {
+        
+        println("Deinit message media")
+        
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
@@ -69,15 +72,15 @@ class MessageMediaViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        delay(0.01) {
-            self.hideStatusBar = true
+        delay(0.01) { [weak self] in
+            self?.hideStatusBar = true
         }
 
         mediaControlView.alpha = 0
         mediaControlView.hidden = false
 
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: {
-            self.mediaControlView.alpha = 1
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            self?.mediaControlView.alpha = 1
         }, completion: { _ in })
     }
 
@@ -236,7 +239,7 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
 
             mediaControlView.type = .Image
 
-            cell.mediaView.helperImageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: nil, completionHandler: { (image, error, cacheType, imageURL) in
+            cell.mediaView.helperImageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: MediaOptionsInfos, completionHandler: { (image, error, cacheType, imageURL) in
 
                 guard let image = image else {
                     return
@@ -329,7 +332,7 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
                     let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
                     let image = UIImage(contentsOfFile: imageFileURL.path!) {
 
-                        mediaControlView.shareAction = {
+                        mediaControlView.shareAction = { [weak self] in
 
                             let info = MonkeyKing.Info(
                                 title: nil,
@@ -360,7 +363,7 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
 
                             let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
 
-                            self.presentViewController(activityViewController, animated: true, completion: nil)
+                            self?.presentViewController(activityViewController, animated: true, completion: nil)
                         }
                 }
 
@@ -388,7 +391,7 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
 
                         mediaControlView.timeLabel.text = ""
 
-                        player.addPeriodicTimeObserverForInterval(CMTimeMakeWithSeconds(0.1, Int32(NSEC_PER_SEC)), queue: nil, usingBlock: { time in
+                        player.addPeriodicTimeObserverForInterval(CMTimeMakeWithSeconds(0.1, Int32(NSEC_PER_SEC)), queue: nil, usingBlock: { [weak self] time in
 
                             guard let currentItem = player.currentItem else {
                                 return
@@ -398,7 +401,7 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
                                 let durationSeconds = CMTimeGetSeconds(currentItem.duration)
                                 let currentSeconds = CMTimeGetSeconds(time)
                                 let coundDownTime = Double(Int((durationSeconds - currentSeconds) * 10)) / 10
-                                self.mediaControlView.timeLabel.text = "\(coundDownTime)"
+                                self?.mediaControlView.timeLabel.text = "\(coundDownTime)"
                             }
                         })
 
@@ -425,10 +428,10 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
                         //mediaView.videoPlayerLayer.player.play()
                         //mediaView.imageView.removeFromSuperview()
 
-                        mediaControlView.shareAction = {
+                        mediaControlView.shareAction = { [weak self] in
                             let activityViewController = UIActivityViewController(activityItems: [videoFileURL], applicationActivities: nil)
 
-                            self.presentViewController(activityViewController, animated: true, completion: { () -> Void in
+                            self?.presentViewController(activityViewController, animated: true, completion: { () -> Void in
                             })
                         }
                 }

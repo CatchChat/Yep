@@ -158,41 +158,46 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 //                    transitionViewSnapshot.center = animatingView.center
 //                })
 
-                UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.9, animations: { () -> Void in
-                    let targetWidth = animatingView.bounds.width + self.largerOffset
-
-                    let dw = targetWidth - transitionViewSnapshot.bounds.width
-                    let ratio = targetWidth / transitionViewSnapshot.bounds.width
-                    let height = ratio * transitionViewSnapshot.bounds.height
-                    let dh = height - transitionViewSnapshot.bounds.height
-
-                    let frame = CGRectInset(transitionViewSnapshot.frame, -dw * 0.5, -dh * 0.5)
-
-                    if self.isFeedMedia, let thumbnailImage = self.thumbnailImage {
-
-                        let size = thumbnailImage.size
-
-                        if size.width > size.height {
-
-                            let pheight = (UIScreen.mainScreen().bounds.width / size.width) * size.height
-
-                            let newFrame = CGRect(x: 0, y: 0, width: pheight, height: pheight)
-                            transitionViewSnapshot.frame = newFrame
-
-                            thumbnailImageView.frame = frame
-
+                UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.9, animations: { [weak self] in
+                    
+                    if let strongSelf = self {
+                        let targetWidth = animatingView.bounds.width + strongSelf.largerOffset
+                        
+                        let dw = targetWidth - transitionViewSnapshot.bounds.width
+                        let ratio = targetWidth / transitionViewSnapshot.bounds.width
+                        let height = ratio * transitionViewSnapshot.bounds.height
+                        let dh = height - transitionViewSnapshot.bounds.height
+                        
+                        let frame = CGRectInset(transitionViewSnapshot.frame, -dw * 0.5, -dh * 0.5)
+                        
+                        if strongSelf.isFeedMedia, let thumbnailImage = strongSelf.thumbnailImage {
+                            
+                            let size = thumbnailImage.size
+                            
+                            if size.width > size.height {
+                                
+                                let pheight = (UIScreen.mainScreen().bounds.width / size.width) * size.height
+                                
+                                let newFrame = CGRect(x: 0, y: 0, width: pheight, height: pheight)
+                                transitionViewSnapshot.frame = newFrame
+                                
+                                thumbnailImageView.frame = frame
+                                
+                            } else {
+                                let pwidth = UIScreen.mainScreen().bounds.width
+                                let pheight = pwidth * (size.height / size.width)
+                                let newFrame = CGRect(x: 0, y: 0, width: pwidth, height: pheight)
+                                thumbnailImageView.frame = newFrame
+                                
+                                transitionViewSnapshot.frame = frame
+                            }
                         } else {
-                            let pwidth = UIScreen.mainScreen().bounds.width
-                            let pheight = pwidth * (size.height / size.width)
-                            let newFrame = CGRect(x: 0, y: 0, width: pwidth, height: pheight)
-                            thumbnailImageView.frame = newFrame
-
                             transitionViewSnapshot.frame = frame
+                            thumbnailImageView.frame = frame
                         }
-                    } else {
-                        transitionViewSnapshot.frame = frame
-                        thumbnailImageView.frame = frame
                     }
+                    
+
                     transitionViewSnapshot.center = animatingView.center
                     thumbnailImageView.center = animatingView.center
 
@@ -262,46 +267,49 @@ class ConversationMessagePreviewNavigationControllerDelegate: NSObject, UINaviga
 
             self.transitionView?.alpha = 0
 
-            UIView.animateKeyframesWithDuration(fullDuration, delay: 0.0, options: .CalculationModeLinear, animations: { () -> Void in
+            UIView.animateKeyframesWithDuration(fullDuration, delay: 0.0, options: .CalculationModeLinear, animations: { [weak self] in
 
-                UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.05, animations: { () -> Void in
-                    animatingVC.view.backgroundColor = UIColor.clearColor()
-                })
-
-                UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.1, animations: { () -> Void in
-                    let ratio = (animatingView.bounds.width + self.largerOffset) / animatingView.bounds.width
-                    animatingVC.mediasCollectionView.transform = CGAffineTransformMakeScale(ratio, ratio)
-                    animatingVC.mediaControlView.alpha = 0
-                })
-
-                UIView.addKeyframeWithRelativeStartTime(0.1, relativeDuration: 0.01, animations: { () -> Void in
-                    animatingView.addSubview(transitionViewSnapshot)
-//                    transitionViewSnapshot.center = animatingView.center
-                    //transitionViewSnapshot.alpha = 0
-                    //thumbnailImageView.alpha = 1
-                    animatingVC.mediasCollectionView.alpha = 0
-                })
-
-                UIView.addKeyframeWithRelativeStartTime(0.11, relativeDuration: 0.89, animations: { () -> Void in
-                    transitionViewSnapshot.frame = self.frame
-                    /*
-                    if self.isFeedMedia {
+                if let strongSelf = self {
+                    UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.05, animations: { () -> Void in
+                        animatingVC.view.backgroundColor = UIColor.clearColor()
+                    })
+                    
+                    UIView.addKeyframeWithRelativeStartTime(0.0, relativeDuration: 0.1, animations: { () -> Void in
+                        let ratio = (animatingView.bounds.width + strongSelf.largerOffset) / animatingView.bounds.width
+                        animatingVC.mediasCollectionView.transform = CGAffineTransformMakeScale(ratio, ratio)
+                        animatingVC.mediaControlView.alpha = 0
+                    })
+                    
+                    UIView.addKeyframeWithRelativeStartTime(0.1, relativeDuration: 0.01, animations: { () -> Void in
+                        animatingView.addSubview(transitionViewSnapshot)
+                        //                    transitionViewSnapshot.center = animatingView.center
+                        //transitionViewSnapshot.alpha = 0
+                        //thumbnailImageView.alpha = 1
+                        animatingVC.mediasCollectionView.alpha = 0
+                    })
+                    
+                    UIView.addKeyframeWithRelativeStartTime(0.11, relativeDuration: 0.89, animations: { () -> Void in
+                        transitionViewSnapshot.frame = strongSelf.frame
+                        /*
+                        if self.isFeedMedia {
                         transitionViewSnapshot.contentMode = UIViewContentMode.ScaleAspectFill
-                    }*/
-                    thumbnailImageView.frame = self.thumbnailFrame
+                        }*/
+                        thumbnailImageView.frame = strongSelf.thumbnailFrame
+                        
+                        transitionViewSnapshot.alpha = 1
+                        thumbnailImageView.alpha = 0
+                    })
+                }
 
-                    transitionViewSnapshot.alpha = 1
-                    thumbnailImageView.alpha = 0
-                })
 
-            }, completion: { (finished) -> Void in
+            }, completion: { [weak self] finished  in
 
-                self.transitionView?.alpha = 1
+                self?.transitionView?.alpha = 1
 
                 transitionViewSnapshot.removeFromSuperview()
                 thumbnailImageView.removeFromSuperview()
 
-                self.snapshot?.removeFromSuperview()
+                self?.snapshot?.removeFromSuperview()
 
                 transitionContext.completeTransition(true)
             })
