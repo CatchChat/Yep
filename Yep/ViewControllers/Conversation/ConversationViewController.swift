@@ -2782,18 +2782,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         }
                                     }
 
-                                    let predicate = NSPredicate(format: "mediaType = %d OR mediaType = %d", MessageMediaType.Image.rawValue, MessageMediaType.Video.rawValue)
-
-//                                    if let mediaMessagesResult = self?.messages.filter(predicate) {
-//
-//                                        let mediaMessages = mediaMessagesResult.map({ $0 })
-//
-//                                        if let index = mediaMessagesResult.indexOf(message) {
-//
-//                                            self?.performSegueWithIdentifier("showMessageMedia", sender: ["mediaMessages": mediaMessages, "index": index])
-//                                        }
-//                                    }
-                                    //self?.performSegueWithIdentifier("showMessageMedia", sender: message)
                                     self?.tryShowMessageMediaFromMessage(message)
                                     
                                 } else {
@@ -2836,7 +2824,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         }
                                     }
                                     
-                                    //self?.performSegueWithIdentifier("showMessageMedia", sender: message)
                                     self?.tryShowMessageMediaFromMessage(message)
                                     
                                 } else {
@@ -2907,7 +2894,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         }
                                     }
                                     
-                                    //self?.performSegueWithIdentifier("showMessageMedia", sender: message)
                                     self?.tryShowMessageMediaFromMessage(message)
                                 }
                                 
@@ -2976,7 +2962,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         }
                                     }
                                     
-                                    //self?.performSegueWithIdentifier("showMessageMedia", sender: message)
                                     self?.tryShowMessageMediaFromMessage(message)
                                 }
                                 
