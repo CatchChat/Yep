@@ -53,44 +53,7 @@ class DiscoverViewController: BaseViewController {
         didSet {
             filterButtonItem.title = discoveredUserSortStyle.nameWithArrow
 
-            activityIndicator.startAnimating()
-            
-            view.bringSubviewToFront(activityIndicator)
-
-            discoverUsers(masterSkillIDs: [], learningSkillIDs: [], discoveredUserSortStyle: discoveredUserSortStyle, failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason, errorMessage: errorMessage)
-
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    self?.activityIndicator.stopAnimating()
-                }
-
-            }, completion: { discoveredUsers in
-                
-                for user in discoveredUsers {
-                    
-                    for skill in  user.masterSkills {
-                        
-                        let skillLocalName = skill.localName ?? ""
-                        
-                        let skillID =  skill.id
-                        
-                        if let _ = skillSizeCache[skillID] {
-                            
-                        } else {
-                            let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
-                            
-                            skillSizeCache[skillID] = rect
-                        }
-                        
-                    }
-
-                }
-                
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    self?.discoveredUsers = discoveredUsers
-                    self?.activityIndicator.stopAnimating()
-                }
-            })
+            updateDiscoverUsers()
 
             // save discoveredUserSortStyle
 
@@ -98,16 +61,7 @@ class DiscoverViewController: BaseViewController {
         }
     }
 
-    var discoveredUsers = [DiscoveredUser]() {
-        willSet {
-            if newValue.count == 0 {
-//                discoverCollectionView.tableFooterView = InfoView(NSLocalizedString("No discovered users.", comment: ""))
-            }
-        }
-        didSet {
-            updateDiscoverTableView()
-        }
-    }
+    var discoveredUsers = [DiscoveredUser]()
 
     lazy var filterView: DiscoverFilterView = DiscoverFilterView()
 
@@ -169,11 +123,73 @@ class DiscoverViewController: BaseViewController {
         }
     }
 
-    func updateDiscoverTableView() {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.discoverCollectionView.reloadData()
-//            self.discoverCollectionView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
+    var currentPageIndex = 1
+    var isFetching = false
+    func updateDiscoverUsers(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
+
+        if isFetching {
+            return
         }
+
+        isFetching = true
+        
+        if !isLoadMore {
+            activityIndicator.startAnimating()
+            view.bringSubviewToFront(activityIndicator)
+        }
+
+        if isLoadMore {
+            currentPageIndex++
+
+        } else {
+            currentPageIndex = 1
+        }
+
+        discoverUsers(masterSkillIDs: [], learningSkillIDs: [], discoveredUserSortStyle: discoveredUserSortStyle, inPage: currentPageIndex, withPerPage: 30, failureHandler: { (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.activityIndicator.stopAnimating()
+                self?.isFetching = false
+            }
+
+        }, completion: { discoveredUsers in
+
+            for user in discoveredUsers {
+
+                for skill in  user.masterSkills {
+
+                    let skillLocalName = skill.localName ?? ""
+
+                    let skillID =  skill.id
+
+                    if let _ = skillSizeCache[skillID] {
+
+                    } else {
+                        let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
+
+                        skillSizeCache[skillID] = rect
+                    }
+                }
+            }
+
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                if isLoadMore {
+                    self?.discoveredUsers += discoveredUsers
+
+                } else {
+                    self?.discoveredUsers = discoveredUsers
+                }
+
+                self?.activityIndicator.stopAnimating()
+                self?.isFetching = false
+
+                if !discoveredUsers.isEmpty {
+                    self?.discoverCollectionView.reloadData()
+                }
+            }
+        })
     }
 
 
@@ -272,7 +288,18 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
             }
 
         case Section.LoadMore.rawValue:
-            break
+            if let cell = cell as? LoadMoreCollectionViewCell {
+
+                println("load more discovered users")
+
+                if !cell.loadingActivityIndicator.isAnimating() {
+                    cell.loadingActivityIndicator.startAnimating()
+                }
+
+                updateDiscoverUsers(isLoadMore: true, finish: { [weak cell] in
+                    cell?.loadingActivityIndicator.stopAnimating()
+                })
+            }
 
         default:
             break
