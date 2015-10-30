@@ -143,6 +143,10 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
 
         return true
     }
+    
+    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
+        return NSLocalizedString("Unsubscribe", comment: "")
+    }
 
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
 
