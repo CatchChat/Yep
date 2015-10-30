@@ -1470,26 +1470,41 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
-        switch section {
-
-        case ProfileSection.Master.rawValue:
-            let height: CGFloat = (profileUser?.masterSkillsCount ?? 0) > 0 ? 40 : 0
-            return CGSizeMake(collectionViewWidth, height)
-
-        case ProfileSection.Learning.rawValue:
-            let height: CGFloat = (profileUser?.learningSkillsCount ?? 0) > 0 ? 40 : 0
-            return CGSizeMake(collectionViewWidth, height)
-
-        default:
+        guard let profileUser = profileUser else {
             return CGSizeZero
         }
 
-//        if section == ProfileSection.Master.rawValue || section == ProfileSection.Learning.rawValue {
-//            return CGSizeMake(collectionViewWidth, 40)
-//
-//        } else {
-//            return CGSizeZero
-//        }
+        let normalHeight: CGFloat = 40
+
+        if profileUser.isMe {
+
+            switch section {
+
+            case ProfileSection.Master.rawValue:
+                return CGSizeMake(collectionViewWidth, normalHeight)
+
+            case ProfileSection.Learning.rawValue:
+                return CGSizeMake(collectionViewWidth, normalHeight)
+
+            default:
+                return CGSizeZero
+            }
+
+        } else {
+            switch section {
+
+            case ProfileSection.Master.rawValue:
+                let height: CGFloat = profileUser.masterSkillsCount > 0 ? normalHeight : 0
+                return CGSizeMake(collectionViewWidth, height)
+
+            case ProfileSection.Learning.rawValue:
+                let height: CGFloat = profileUser.learningSkillsCount > 0 ? normalHeight : 0
+                return CGSizeMake(collectionViewWidth, height)
+                
+            default:
+                return CGSizeZero
+            }
+        }
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
