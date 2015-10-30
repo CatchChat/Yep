@@ -51,6 +51,9 @@ class DiscoverViewController: BaseViewController {
 
     var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
         didSet {
+            discoveredUsers = []
+            discoverCollectionView.reloadData()
+            
             filterButtonItem.title = discoveredUserSortStyle.nameWithArrow
 
             updateDiscoverUsers()
