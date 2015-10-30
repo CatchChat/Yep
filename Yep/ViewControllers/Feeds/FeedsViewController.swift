@@ -130,7 +130,9 @@ class FeedsViewController: UIViewController {
         didSet {
             feeds = []
             feedsTableView.reloadData()
-            
+
+            filterBarItem?.title = feedSortStyle.nameWithArrow
+
             updateFeeds()
         }
     }
@@ -218,10 +220,6 @@ class FeedsViewController: UIViewController {
     var currentPageIndex = 1
     var isFetchingFeeds = false
     func updateFeeds(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
-
-        if let filterBarItem = filterBarItem {
-            filterBarItem.title = feedSortStyle.nameWithArrow
-        }
 
         if isFetchingFeeds {
             return
