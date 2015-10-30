@@ -10,7 +10,7 @@ import UIKit
 import Kingfisher
 
 let MediaOptionsInfos: KingfisherOptionsInfo = [
-    .Options([.BackgroundDecode])
+    .Options([.BackgroundDecode, .ScreenScale])
 ]
 
 class InstagramMediaCell: UICollectionViewCell {
