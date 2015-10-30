@@ -78,10 +78,8 @@ class ShareProfileView: UIView {
             
             delay(0.5, work: { 
                 further()
+                self?.animating = false
             })
-                
-            self?.animating = false
-        
         })
     }
     

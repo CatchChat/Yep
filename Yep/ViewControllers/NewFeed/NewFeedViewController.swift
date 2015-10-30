@@ -315,11 +315,17 @@ class NewFeedViewController: UIViewController {
                 ]
             }
             
-            Answers.logContentViewWithName("New Feed",
-                contentType: "FeedCreate",
-                contentId: "new-feed-\(YepUserDefaults.userID)",
-                customAttributes: [:])
-            
+            if let userID = YepUserDefaults.userID.value,
+                nickname = YepUserDefaults.nickname.value{
+                    Answers.logCustomEventWithName("New Feed",
+                        customAttributes: [
+                            "userID": userID,
+                            "nickname": nickname,
+                            "time": NSDate().description
+                        ])
+                    
+            }
+
             createFeedWithMessage(message, attachments: mediaInfo, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
                 

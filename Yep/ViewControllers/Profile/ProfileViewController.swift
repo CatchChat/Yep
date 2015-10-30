@@ -794,6 +794,15 @@ class ProfileViewController: UIViewController {
     func tryShareMyProfile() {
 
         if let _ = profileUser?.username {
+            
+            if let profileUser = profileUser {
+                Answers.logCustomEventWithName("Share Profile",
+                    customAttributes: [
+                        "userID": profileUser.userID,
+                        "nickname": profileUser.nickname
+                    ])
+            }
+            
             shareProfile()
 
         } else {
@@ -883,11 +892,20 @@ class ProfileViewController: UIViewController {
     func sayHi() {
 
         if let profileUser = profileUser {
+        
             
-            Answers.logContentViewWithName("SayHi",
-                contentType: "SayHi",
-                contentId: "SayHi-\(profileUser.userID)",
-                customAttributes: [:])
+            if let userID = YepUserDefaults.userID.value,
+                nickname = YepUserDefaults.nickname.value{
+                    
+                Answers.logCustomEventWithName("Say Hi",
+                        customAttributes: [
+                            "userID": profileUser.userID,
+                            "nickname": profileUser.nickname,
+                            "byUserID": userID,
+                            "byNickname": nickname
+                    ])
+                    
+            }
 
             guard let realm = try? Realm() else {
                 return

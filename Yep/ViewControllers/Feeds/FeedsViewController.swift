@@ -238,7 +238,7 @@ class FeedsViewController: UIViewController {
             currentPageIndex = 1
         }
 
-        discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: currentPageIndex, perPage: 50, failureHandler: { reason, errorMessage in
+        discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: currentPageIndex, perPage: 25, failureHandler: { reason, errorMessage in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
