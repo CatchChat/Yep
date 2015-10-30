@@ -151,6 +151,8 @@ class DiscoverViewController: BaseViewController {
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 self?.activityIndicator.stopAnimating()
                 self?.isFetching = false
+
+                finish?()
             }
 
         }, completion: { discoveredUsers in
@@ -185,6 +187,8 @@ class DiscoverViewController: BaseViewController {
                 self?.activityIndicator.stopAnimating()
                 self?.isFetching = false
 
+                finish?()
+                
                 if !discoveredUsers.isEmpty {
                     self?.discoverCollectionView.reloadData()
                 }
@@ -236,7 +240,7 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
             return discoveredUsers.count
 
         case Section.LoadMore.rawValue:
-            return 1
+            return discoveredUsers.isEmpty ? 0 : 1
 
         default:
             return 0
