@@ -14,11 +14,10 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="IuQ-2F-VCW">
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="IuQ-2F-VCW">
                         <rect key="frame" x="150" y="12" width="20" height="20"/>
                     </activityIndicatorView>
                 </subviews>
-                <color key="backgroundColor" red="0.40000000596046448" green="0.80000001192092896" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
                     <constraint firstItem="IuQ-2F-VCW" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="E1W-p1-rmy"/>
                     <constraint firstItem="IuQ-2F-VCW" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="zSG-Ui-wTC"/>

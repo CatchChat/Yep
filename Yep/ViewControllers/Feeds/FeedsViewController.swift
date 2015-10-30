@@ -220,8 +220,9 @@ class FeedsViewController: UIViewController {
             filterView.showInView(window)
         }
     }
-    
-    func updateFeeds(finish: (() -> Void)? = nil) {
+
+    var currentPageIndex = 1
+    func updateFeeds(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
         
         if let filterBarItem = filterBarItem {
             filterBarItem.title = feedSortStyle.nameWithArrow
@@ -229,7 +230,14 @@ class FeedsViewController: UIViewController {
 
         activityIndicator.startAnimating()
 
-        discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: 1, perPage: 50, failureHandler: { reason, errorMessage in
+        if isLoadMore {
+            currentPageIndex++
+
+        } else {
+            currentPageIndex = 1
+        }
+
+        discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: currentPageIndex, perPage: 50, failureHandler: { reason, errorMessage in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 self?.activityIndicator.stopAnimating()
@@ -261,7 +269,13 @@ class FeedsViewController: UIViewController {
 
                 dispatch_async(dispatch_get_main_queue()) {
 
-                    strongSelf.feeds = feeds
+                    if isLoadMore {
+                        strongSelf.feeds += feeds
+
+                    } else {
+                        strongSelf.feeds = feeds
+                    }
+
                     strongSelf.feedsTableView.reloadData() // 服务端有新的排序算法，以及避免刷新后消息数字更新不及时的问题
                     
 //                    if newIndexPaths.count == allNewFeedSet.count {
@@ -559,6 +573,14 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         default:
             return UITableViewCell()
+        }
+    }
+
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        if indexPath.section == Section.LoadMore.rawValue {
+
+            updateFeeds(isLoadMore: true)
         }
     }
 
