@@ -56,7 +56,8 @@ class ImageCache {
                         return
                     }
                     
-                    if let message = messageWithMessageID(messageID, inRealm: realm) where message.downloadState == MessageDownloadState.Downloaded.rawValue {
+                    if let message = messageWithMessageID(messageID, inRealm: realm) {
+                        
                         if let blurredThumbnailImage = blurredThumbnailImageOfMessage(message) {
                             let bubbleBlurredThumbnailImage = blurredThumbnailImage.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
 
