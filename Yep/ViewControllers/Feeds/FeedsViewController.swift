@@ -216,11 +216,18 @@ class FeedsViewController: UIViewController {
     }
 
     var currentPageIndex = 1
+    var isFetchingFeeds = false
     func updateFeeds(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
-        
+
         if let filterBarItem = filterBarItem {
             filterBarItem.title = feedSortStyle.nameWithArrow
         }
+
+        if isFetchingFeeds {
+            return
+        }
+
+        isFetchingFeeds = true
 
         if !isLoadMore {
             activityIndicator.startAnimating()
@@ -236,6 +243,9 @@ class FeedsViewController: UIViewController {
         discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: currentPageIndex, perPage: 50, failureHandler: { reason, errorMessage in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                self?.isFetchingFeeds = false
+
                 self?.activityIndicator.stopAnimating()
 
                 finish?()
@@ -246,6 +256,9 @@ class FeedsViewController: UIViewController {
         }, completion: { [weak self] feeds in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                self?.isFetchingFeeds = false
+
                 self?.activityIndicator.stopAnimating()
 
                 finish?()
