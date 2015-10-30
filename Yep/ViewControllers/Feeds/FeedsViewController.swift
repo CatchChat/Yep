@@ -71,6 +71,7 @@ class FeedsViewController: UIViewController {
 
     let feedSkillUsersCellID = "FeedSkillUsersCell"
     let feedCellID = "FeedCell"
+    let loadMoreTableViewCellID = "LoadMoreTableViewCell"
 
     lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
 
@@ -127,18 +128,14 @@ class FeedsViewController: UIViewController {
     
     var feedSortStyle: FeedSortStyle = .Default {
         didSet {
-            
-            feeds = [DiscoveredFeed]()
-            
+            feeds = []
             feedsTableView.reloadData()
-            
-            activityIndicator.startAnimating()
-            
+
+            filterBarItem?.title = feedSortStyle.nameWithArrow
+
             updateFeeds()
         }
     }
-
-    
 
     var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
@@ -177,6 +174,7 @@ class FeedsViewController: UIViewController {
 
         feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
         feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
+        feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
 
         feedSortStyle = .Time
     }
@@ -218,18 +216,34 @@ class FeedsViewController: UIViewController {
             filterView.showInView(window)
         }
     }
-    
-    func updateFeeds(finish: (() -> Void)? = nil) {
-        
-        if let filterBarItem = filterBarItem {
-            filterBarItem.title = feedSortStyle.nameWithArrow
+
+    var currentPageIndex = 1
+    var isFetchingFeeds = false
+    func updateFeeds(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
+
+        if isFetchingFeeds {
+            return
         }
 
-        activityIndicator.startAnimating()
+        isFetchingFeeds = true
 
-        discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: 1, perPage: 50, failureHandler: { reason, errorMessage in
+        if !isLoadMore {
+            activityIndicator.startAnimating()
+        }
+
+        if isLoadMore {
+            currentPageIndex++
+
+        } else {
+            currentPageIndex = 1
+        }
+
+        discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: currentPageIndex, perPage: 50, failureHandler: { reason, errorMessage in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                self?.isFetchingFeeds = false
+
                 self?.activityIndicator.stopAnimating()
 
                 finish?()
@@ -240,6 +254,9 @@ class FeedsViewController: UIViewController {
         }, completion: { [weak self] feeds in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                self?.isFetchingFeeds = false
+
                 self?.activityIndicator.stopAnimating()
 
                 finish?()
@@ -259,8 +276,17 @@ class FeedsViewController: UIViewController {
 
                 dispatch_async(dispatch_get_main_queue()) {
 
-                    strongSelf.feeds = feeds
-                    strongSelf.feedsTableView.reloadData() // 服务端有新的排序算法，以及避免刷新后消息数字更新不及时的问题
+                    if isLoadMore {
+                        strongSelf.feeds += feeds
+
+                    } else {
+                        strongSelf.feeds = feeds
+                    }
+
+                    // 确保有新的才 reload
+                    if !feeds.isEmpty {
+                        strongSelf.feedsTableView.reloadData() // 服务端有新的排序算法，以及避免刷新后消息数字更新不及时的问题
+                    }
                     
 //                    if newIndexPaths.count == allNewFeedSet.count {
 //                        strongSelf.updateFeedsTableViewOrInsertWithIndexPaths(newIndexPaths)
@@ -462,11 +488,12 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
     enum Section: Int {
         case SkillUsers
         case Feed
+        case LoadMore
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 
-        return 2
+        return 3
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -476,6 +503,8 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             return (skill == nil) ? 0 : 1
         case Section.Feed.rawValue:
             return feeds.count
+        case Section.LoadMore.rawValue:
+            return feeds.isEmpty ? 0 : 1
         default:
             return 0
         }
@@ -548,8 +577,31 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             
             return cell
 
+        case Section.LoadMore.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier(loadMoreTableViewCellID) as! LoadMoreTableViewCell
+            return cell
+
         default:
             return UITableViewCell()
+        }
+    }
+
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        if indexPath.section == Section.LoadMore.rawValue {
+
+            if let cell = cell as? LoadMoreTableViewCell {
+
+                println("load more feeds")
+
+                if !cell.loadingActivityIndicator.isAnimating() {
+                    cell.loadingActivityIndicator.startAnimating()
+                }
+
+                updateFeeds(isLoadMore: true, finish: { [weak cell] in
+                    cell?.loadingActivityIndicator.stopAnimating()
+                })
+            }
         }
     }
 
@@ -563,6 +615,9 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         case Section.Feed.rawValue:
             let feed = feeds[indexPath.item]
             return heightOfFeed(feed)
+
+        case Section.LoadMore.rawValue:
+            return 60
 
         default:
             return 0

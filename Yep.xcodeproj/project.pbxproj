@@ -242,6 +242,8 @@
 		50D4D0DB1AFA825B005AEB6F /* MediaControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */; };
 		50DEE02C1BE209FF00015741 /* DeletedFeedConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE02A1BE209FF00015741 /* DeletedFeedConversationCell.swift */; };
 		50DEE02D1BE209FF00015741 /* DeletedFeedConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE02B1BE209FF00015741 /* DeletedFeedConversationCell.xib */; };
+		50DEE0311BE339B000015741 /* LoadMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE02F1BE339B000015741 /* LoadMoreTableViewCell.swift */; };
+		50DEE0321BE339B000015741 /* LoadMoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0301BE339B000015741 /* LoadMoreTableViewCell.xib */; };
 		50E114F41ABBF9CC00F13000 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F31ABBF9CC00F13000 /* Models.swift */; };
 		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
@@ -555,6 +557,8 @@
 		50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaControlView.swift; path = Views/Media/MediaControlView.swift; sourceTree = "<group>"; };
 		50DEE02A1BE209FF00015741 /* DeletedFeedConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeletedFeedConversationCell.swift; path = Views/Cells/DeletedFeedConversation/DeletedFeedConversationCell.swift; sourceTree = "<group>"; };
 		50DEE02B1BE209FF00015741 /* DeletedFeedConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DeletedFeedConversationCell.xib; path = Views/Cells/DeletedFeedConversation/DeletedFeedConversationCell.xib; sourceTree = "<group>"; };
+		50DEE02F1BE339B000015741 /* LoadMoreTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadMoreTableViewCell.swift; path = Views/Cells/LoadMore/LoadMoreTableViewCell.swift; sourceTree = "<group>"; };
+		50DEE0301BE339B000015741 /* LoadMoreTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoadMoreTableViewCell.xib; path = Views/Cells/LoadMore/LoadMoreTableViewCell.xib; sourceTree = "<group>"; };
 		50E114F31ABBF9CC00F13000 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Realm/Models.swift; sourceTree = "<group>"; };
 		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
@@ -1078,6 +1082,7 @@
 				502B60611BD112EA00D9C17E /* QuickPickPhotos */,
 				502B60661BD1209300D9C17E /* Camera */,
 				50E1CE901BE0BFF70025B933 /* MediaView */,
+				50DEE0331BE339B600015741 /* LoadMore */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1848,6 +1853,15 @@
 			name = DeletedFeedConversation;
 			sourceTree = "<group>";
 		};
+		50DEE0331BE339B600015741 /* LoadMore */ = {
+			isa = PBXGroup;
+			children = (
+				50DEE02F1BE339B000015741 /* LoadMoreTableViewCell.swift */,
+				50DEE0301BE339B000015741 /* LoadMoreTableViewCell.xib */,
+			);
+			name = LoadMore;
+			sourceTree = "<group>";
+		};
 		50E114F51ABBF9D100F13000 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
@@ -2255,6 +2269,7 @@
 				5053AD5B1AF83B4200B3CBFA /* ChatLeftLocationCell.xib in Resources */,
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 				50EB8CC51AE89F12001AC1EE /* ChatRightVideoCell.xib in Resources */,
+				50DEE0321BE339B000015741 /* LoadMoreTableViewCell.xib in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
 				502B60601BD112E500D9C17E /* QuickPickPhotosCell.xib in Resources */,
 				504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */,
@@ -2481,6 +2496,7 @@
 				848806B61B7B4F53000C5424 /* ShowViewController.swift in Sources */,
 				5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */,
 				50E1CE8E1BE0BFF00025B933 /* MediaViewCell.swift in Sources */,
+				50DEE0311BE339B000015741 /* LoadMoreTableViewCell.swift in Sources */,
 				504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */,
 				50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */,
 				502AE5291AB81076005BD199 /* YepService.swift in Sources */,
