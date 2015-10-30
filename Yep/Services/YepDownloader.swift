@@ -264,8 +264,19 @@ extension YepDownloader: NSURLSessionDownloadDelegate {
 
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
 
-        if let data = NSData(contentsOfURL: location) {
-            handleData(data, ofDownloadTask: downloadTask)
+        guard let response = downloadTask.response as? NSHTTPURLResponse else {
+            return
+        }
+        
+        // 从 s3 下载附件，状态码以 200 为准（有可能 token 不对，返回数据就不是附件文件，或其它特殊情况）
+        
+        if response.statusCode == 200 {
+            if let data = NSData(contentsOfURL: location) {
+                handleData(data, ofDownloadTask: downloadTask)
+            }
+
+        } else {
+            println("YepDownloader failed to download: \(downloadTask.originalRequest?.URL)")
         }
     }
 
