@@ -86,7 +86,10 @@ class ChatLeftVideoCell: ChatBaseCell {
 
                     UIView.animateWithDuration(YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
                         self.thumbnailImageView.alpha = 1.0
-                    }, completion: { (finished) -> Void in
+                    }, completion: { [weak self] finished in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self?.thumbnailImageView.image = image
+                        }
                     })
                 }
             }
