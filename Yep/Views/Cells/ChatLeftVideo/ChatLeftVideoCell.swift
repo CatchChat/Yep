@@ -73,9 +73,25 @@ class ChatLeftVideoCell: ChatBaseCell {
     func loadingWithProgress(progress: Double, image: UIImage?) {
 
         if progress >= loadingProgress {
+            
+            if loadingProgress == 1.0 {
+                return
+            }
 
             if progress <= 1.0 {
                 loadingProgress = progress
+                
+                if progress == 1 {
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        self.thumbnailImageView.image = image
+                        
+                        self.thumbnailImageView.alpha = 1.0
+                    }
+                    
+                    return
+                }
             }
 
             if let image = image {
@@ -86,11 +102,7 @@ class ChatLeftVideoCell: ChatBaseCell {
 
                     UIView.animateWithDuration(YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
                         self.thumbnailImageView.alpha = 1.0
-                    }, completion: { [weak self] finished in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self?.thumbnailImageView.image = image
-                        }
-                    })
+                    }, completion: nil )
                 }
             }
         }
