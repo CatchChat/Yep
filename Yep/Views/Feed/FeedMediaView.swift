@@ -15,7 +15,7 @@ class FeedMediaView: UIView {
         let view = UIImageView()
         view.contentMode = .ScaleAspectFill
         view.clipsToBounds = true
-        view.layer.minificationFilter = kCAFilterTrilinear
+        view.layer.minificationFilter = kCAFilterLinear
         return view
         }()
 
@@ -23,7 +23,7 @@ class FeedMediaView: UIView {
         let view = UIImageView()
         view.contentMode = .ScaleAspectFill
         view.clipsToBounds = true
-        view.layer.minificationFilter = kCAFilterTrilinear
+        view.layer.minificationFilter = kCAFilterLinear
         return view
         }()
 
@@ -31,7 +31,7 @@ class FeedMediaView: UIView {
         let view = UIImageView()
         view.contentMode = .ScaleAspectFill
         view.clipsToBounds = true
-        view.layer.minificationFilter = kCAFilterTrilinear
+        view.layer.minificationFilter = kCAFilterLinear
         return view
         }()
 
@@ -39,7 +39,7 @@ class FeedMediaView: UIView {
         let view = UIImageView()
         view.contentMode = .ScaleAspectFill
         view.clipsToBounds = true
-        view.layer.minificationFilter = kCAFilterTrilinear
+        view.layer.minificationFilter = kCAFilterLinear
         return view
         }()
     

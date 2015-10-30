@@ -16,7 +16,7 @@ class FeedMediaCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        imageView.layer.minificationFilter = kCAFilterTrilinear
+        imageView.layer.minificationFilter = kCAFilterLinear
         contentView.backgroundColor = UIColor.clearColor()
     }
 
