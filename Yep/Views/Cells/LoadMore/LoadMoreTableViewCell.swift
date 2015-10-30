@@ -14,7 +14,8 @@ class LoadMoreTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        separatorInset = UIEdgeInsets(top: 0, left: UIScreen.mainScreen().bounds.width, bottom: 0, right: 0)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
