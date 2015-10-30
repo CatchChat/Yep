@@ -90,16 +90,24 @@ class MessageMediaViewController: UIViewController {
         super.viewDidLayoutSubviews()
 
         if isFirstLayoutSubviews {
-            let startIndexPath = NSIndexPath(forItem: startIndex, inSection: 0)
-            mediasCollectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .CenteredHorizontally, animated: false)
 
-            guard let cell = mediasCollectionView.cellForItemAtIndexPath(startIndexPath) as? MediaViewCell else {
-                return
+            let item = startIndex
+
+            let indexPath = NSIndexPath(forItem: item, inSection: 0)
+            mediasCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated: false)
+
+            delay(0.1) { [weak self] in
+
+                guard let cell = self?.mediasCollectionView.cellForItemAtIndexPath(indexPath) as? MediaViewCell else {
+                    return
+                }
+
+                guard let previewMedia = self?.previewMedias[safe: item] else {
+                    return
+                }
+
+                self?.prepareForShareWithCell(cell, previewMedia: previewMedia)
             }
-
-            let previewMedia = previewMedias[startIndex]
-
-            prepareForShareWithCell(cell, previewMedia: previewMedia)
         }
 
         isFirstLayoutSubviews = false
