@@ -657,6 +657,9 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
     if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
         println("saveFeed: \(feed.feedID), do nothing.")
 
+        let _ = try? realm.write {
+            feed.deleted = false
+        }
         #if DEBUG
         if feed.group == nil {
             println("feed have not with group, it may old (not deleted with conversation before)")
@@ -671,6 +674,7 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
         newFeed.updatedUnixTime = feedData.updatedUnixTime
         newFeed.creator = getOrCreateUserWithDiscoverUser(feedData.creator, inRealm: realm)
         newFeed.body = feedData.body
+        newFeed.deleted = false
         
         if let distance = feedData.distance {
             newFeed.distance = distance
