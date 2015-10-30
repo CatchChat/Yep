@@ -356,7 +356,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="zzD-ES-eHf" id="ysT-DA-Krf"/>
-                        <outlet property="discoverCollectionView" destination="qiv-cC-3J3" id="4Jx-QJ-kkT"/>
+                        <outlet property="discoveredUsersCollectionView" destination="qiv-cC-3J3" id="Uyg-VP-ENL"/>
                         <outlet property="filterButtonItem" destination="mve-O6-ube" id="379-Fa-dSw"/>
                         <outlet property="modeButtonItem" destination="Q6P-X5-laI" id="AMy-5a-IsW"/>
                         <segue destination="AyC-pt-NR2" kind="show" identifier="showProfile" id="l4P-ds-ihU"/>
@@ -1943,7 +1943,7 @@
         <image name="yep_icon_solo" width="120" height="120"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="WEi-uo-nf5"/>
+        <segue reference="l4P-ds-ihU"/>
         <segue reference="Sdt-ox-uOm"/>
         <segue reference="j1h-7M-vYS"/>
     </inferredMetricsTieBreakers>

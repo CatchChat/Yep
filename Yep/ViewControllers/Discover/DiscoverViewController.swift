@@ -17,7 +17,7 @@ var skillSizeCache = [String: CGRect]()
 
 class DiscoverViewController: BaseViewController {
 
-    @IBOutlet weak var discoverCollectionView: UICollectionView!
+    @IBOutlet weak var discoveredUsersCollectionView: UICollectionView!
     
     @IBOutlet weak var filterButtonItem: UIBarButtonItem!
     
@@ -43,7 +43,7 @@ class DiscoverViewController: BaseViewController {
             }
 
             layout.userMode = userMode
-            discoverCollectionView.reloadData()
+            discoveredUsersCollectionView.reloadData()
         }
     }
     
@@ -52,7 +52,7 @@ class DiscoverViewController: BaseViewController {
     var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
         didSet {
             discoveredUsers = []
-            discoverCollectionView.reloadData()
+            discoveredUsersCollectionView.reloadData()
             
             filterButtonItem.title = discoveredUserSortStyle.nameWithArrow
 
@@ -87,14 +87,14 @@ class DiscoverViewController: BaseViewController {
             discoveredUserSortStyle = .Default
         }
 
-        discoverCollectionView.backgroundColor = UIColor.clearColor()
-        discoverCollectionView.setCollectionViewLayout(layout, animated: false)
-        discoverCollectionView.delegate = self
-        discoverCollectionView.dataSource = self
+        discoveredUsersCollectionView.backgroundColor = UIColor.clearColor()
+        discoveredUsersCollectionView.setCollectionViewLayout(layout, animated: false)
+        discoveredUsersCollectionView.delegate = self
+        discoveredUsersCollectionView.dataSource = self
 
-        discoverCollectionView.registerNib(UINib(nibName: NormalUserIdentifier, bundle: nil), forCellWithReuseIdentifier: NormalUserIdentifier)
-        discoverCollectionView.registerNib(UINib(nibName: CardUserIdentifier, bundle: nil), forCellWithReuseIdentifier: CardUserIdentifier)
-        discoverCollectionView.registerNib(UINib(nibName: loadMoreCollectionViewCellID, bundle: nil), forCellWithReuseIdentifier: loadMoreCollectionViewCellID)
+        discoveredUsersCollectionView.registerNib(UINib(nibName: NormalUserIdentifier, bundle: nil), forCellWithReuseIdentifier: NormalUserIdentifier)
+        discoveredUsersCollectionView.registerNib(UINib(nibName: CardUserIdentifier, bundle: nil), forCellWithReuseIdentifier: CardUserIdentifier)
+        discoveredUsersCollectionView.registerNib(UINib(nibName: loadMoreCollectionViewCellID, bundle: nil), forCellWithReuseIdentifier: loadMoreCollectionViewCellID)
 
         userMode = .Card
     }
@@ -193,7 +193,7 @@ class DiscoverViewController: BaseViewController {
                 finish?()
                 
                 if !discoveredUsers.isEmpty {
-                    self?.discoverCollectionView.reloadData()
+                    self?.discoveredUsersCollectionView.reloadData()
                 }
             }
         })
