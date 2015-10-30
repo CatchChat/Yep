@@ -1176,7 +1176,7 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
 
 let parseDiscoveredUsers: JSONDictionary -> [DiscoveredUser]? = { data in
 
-    //println("discoverUsers: \(data)")
+    println("discoverUsers: \(data)")
 
     if let usersData = data["users"] as? [JSONDictionary] {
 
@@ -1195,12 +1195,14 @@ let parseDiscoveredUsers: JSONDictionary -> [DiscoveredUser]? = { data in
     return nil
 }
 
-func discoverUsers(masterSkillIDs masterSkillIDs: [String], learningSkillIDs: [String], discoveredUserSortStyle: DiscoveredUserSortStyle, failureHandler: ((Reason, String?) -> Void)?, completion: [DiscoveredUser] -> Void) {
+func discoverUsers(masterSkillIDs masterSkillIDs: [String], learningSkillIDs: [String], discoveredUserSortStyle: DiscoveredUserSortStyle, inPage page: Int, withPerPage perPage: Int, failureHandler: ((Reason, String?) -> Void)?, completion: [DiscoveredUser] -> Void) {
     
     let requestParameters: [String: AnyObject] = [
         "master_skills": masterSkillIDs,
         "learning_skills": learningSkillIDs,
-        "sort": discoveredUserSortStyle.rawValue
+        "sort": discoveredUserSortStyle.rawValue,
+        "page": page,
+        "per_page": perPage,
     ]
     
     let parse = parseDiscoveredUsers
