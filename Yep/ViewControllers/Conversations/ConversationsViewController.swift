@@ -226,6 +226,7 @@ class ConversationsViewController: UIViewController {
         }
 
         // 预先生成头像和最近消息图片的缓存
+        // AppDelegate 已经有一个了
 //        cacheInAdvance()
     }
     
