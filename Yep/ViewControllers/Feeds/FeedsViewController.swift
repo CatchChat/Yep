@@ -128,18 +128,12 @@ class FeedsViewController: UIViewController {
     
     var feedSortStyle: FeedSortStyle = .Default {
         didSet {
-            
-            feeds = [DiscoveredFeed]()
-            
+            feeds = []
             feedsTableView.reloadData()
-            
-            activityIndicator.startAnimating()
             
             updateFeeds()
         }
     }
-
-    
 
     var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
@@ -228,7 +222,9 @@ class FeedsViewController: UIViewController {
             filterBarItem.title = feedSortStyle.nameWithArrow
         }
 
-        activityIndicator.startAnimating()
+        if !isLoadMore {
+            activityIndicator.startAnimating()
+        }
 
         if isLoadMore {
             currentPageIndex++
