@@ -27,6 +27,9 @@ PODS:
   - RealmSwift (0.96.2):
     - Realm (= 0.96.2)
   - Ruler (0.6)
+  - SDWebImage (3.7.3):
+    - SDWebImage/Core (= 3.7.3)
+  - SDWebImage/Core (3.7.3)
   - SocketRocket (0.4.1)
   - TPKeyboardAvoiding (1.2.10)
 
@@ -48,6 +51,7 @@ DEPENDENCIES:
   - Proposer
   - RealmSwift
   - Ruler
+  - SDWebImage
   - TPKeyboardAvoiding (~> 1.2)
 
 EXTERNAL SOURCES:
@@ -74,6 +78,7 @@ SPEC CHECKSUMS:
   Realm: 3ce8448151c571e90b85002d984d7f93f54fc8a3
   RealmSwift: 485599fe54e35461c4a0daa7d01d8fbf11424873
   Ruler: b36ec3bbc5fc6c3b7f629a6052cc1c17ada4b280
+  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SocketRocket: ee0b5c34182d37bb4f1f8d628bbe737718126daa
   TPKeyboardAvoiding: 614ebec846ec28b83d548769297fa5fb56468904
 

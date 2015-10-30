@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 import MonkeyKing
-import Kingfisher
+import SDWebImage
 
 enum PreviewMedia {
 
@@ -247,12 +247,12 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
 
             mediaControlView.type = .Image
 
-            cell.mediaView.helperImageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: MediaOptionsInfos, completionHandler: { (image, error, cacheType, imageURL) in
-
+            cell.mediaView.helperImageView.sd_setImageWithURL(imageURL, placeholderImage: nil, options: [], completed: { (image, error, cacheType, url) -> Void in
+                
                 guard let image = image else {
                     return
                 }
-
+                
                 cell.mediaView.image = image
             })
         }

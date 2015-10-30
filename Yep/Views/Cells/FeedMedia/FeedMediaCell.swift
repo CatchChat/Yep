@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Kingfisher
+import SDWebImage
 
 class FeedMediaCell: UICollectionViewCell {
 
@@ -29,9 +29,9 @@ class FeedMediaCell: UICollectionViewCell {
     func configureWithImageURL(imageURL: NSURL, bigger: Bool) {
 
         if bigger {
-            imageView.kf_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.biggerPlaceholderImage, optionsInfo: MediaOptionsInfos)
+            imageView.sd_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.biggerPlaceholderImage)
         } else {
-            imageView.kf_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.placeholderImage, optionsInfo: MediaOptionsInfos)
+            imageView.sd_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.placeholderImage)
         }
 
         deleteImageView.hidden = true

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Kingfisher
+import SDWebImage
 
 class FeedMediaView: UIView {
 
@@ -15,7 +15,7 @@ class FeedMediaView: UIView {
         let view = UIImageView()
         view.contentMode = .ScaleAspectFill
         view.clipsToBounds = true
-        view.layer.minificationFilter = kCAFilterLinear
+//        view.layer.minificationFilter = kCAFilterTrilinear
         return view
         }()
 
@@ -23,7 +23,7 @@ class FeedMediaView: UIView {
         let view = UIImageView()
         view.contentMode = .ScaleAspectFill
         view.clipsToBounds = true
-        view.layer.minificationFilter = kCAFilterLinear
+//        view.layer.minificationFilter = kCAFilterTrilinear
         return view
         }()
 
@@ -31,7 +31,7 @@ class FeedMediaView: UIView {
         let view = UIImageView()
         view.contentMode = .ScaleAspectFill
         view.clipsToBounds = true
-        view.layer.minificationFilter = kCAFilterLinear
+//        view.layer.minificationFilter = kCAFilterTrilinear
         return view
         }()
 
@@ -39,7 +39,7 @@ class FeedMediaView: UIView {
         let view = UIImageView()
         view.contentMode = .ScaleAspectFill
         view.clipsToBounds = true
-        view.layer.minificationFilter = kCAFilterLinear
+//        view.layer.minificationFilter = kCAFilterTrilinear
         return view
         }()
     
@@ -60,33 +60,33 @@ class FeedMediaView: UIView {
 
         case 1:
             imageView1.frame = fullRect
-            imageView1.kf_setImageWithURL(URLs[0], placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+            imageView1.sd_setImageWithURL(URLs[0])
 
             addSubview(imageView1)
 
         case 2:
             imageView1.frame = halfRect
             imageView1.center = CGPoint(x: halfRect.width * 0.5, y: imageView1.center.y)
-            imageView1.kf_setImageWithURL(URLs[0], placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+            imageView1.sd_setImageWithURL(URLs[0])
 
             imageView2.frame = halfRect
             imageView2.center = CGPoint(x: halfRect.width * 1.5, y: imageView2.center.y)
-            imageView2.kf_setImageWithURL(URLs[1], placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+            imageView2.sd_setImageWithURL(URLs[1])
 
             addSubview(imageView1)
             addSubview(imageView2)
 
         case 3:
             imageView1.frame = quarterRect
-            imageView1.kf_setImageWithURL(URLs[0], placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+            imageView1.sd_setImageWithURL(URLs[0])
 
             imageView2.frame = quarterRect
             imageView2.center = CGPoint(x: imageView2.center.x, y: quarterRect.height * 1.5)
-            imageView2.kf_setImageWithURL(URLs[1], placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+            imageView2.sd_setImageWithURL(URLs[1])
 
             imageView3.frame = halfRect
             imageView3.center = CGPoint(x: halfRect.width * 1.5, y: imageView3.center.y)
-            imageView3.kf_setImageWithURL(URLs[2], placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+            imageView3.sd_setImageWithURL(URLs[2])
 
             addSubview(imageView1)
             addSubview(imageView2)
@@ -95,19 +95,19 @@ class FeedMediaView: UIView {
         case 4..<Int.max:
 
             imageView1.frame = quarterRect
-            imageView1.kf_setImageWithURL(URLs[0], placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+            imageView1.sd_setImageWithURL(URLs[0])
 
             imageView2.frame = quarterRect
             imageView2.center = CGPoint(x: imageView2.center.x, y: quarterRect.height * 1.5)
-            imageView2.kf_setImageWithURL(URLs[1], placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+            imageView2.sd_setImageWithURL(URLs[1])
 
             imageView3.frame = quarterRect
             imageView3.center = CGPoint(x: quarterRect.width * 1.5, y: imageView3.center.y)
-            imageView3.kf_setImageWithURL(URLs[2], placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+            imageView3.sd_setImageWithURL(URLs[2])
 
             imageView4.frame = quarterRect
             imageView4.center = CGPoint(x: quarterRect.width * 1.5, y: quarterRect.height * 1.5)
-            imageView4.kf_setImageWithURL(URLs[3], placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+            imageView4.sd_setImageWithURL(URLs[3])
 
             addSubview(imageView1)
             addSubview(imageView2)

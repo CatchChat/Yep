@@ -12,6 +12,7 @@ def pods
     pod 'Proposer'
     pod 'APAddressBook/Swift'
     pod 'FXBlurView'
+    pod 'SDWebImage'
     pod 'Kingfisher'
     pod 'TPKeyboardAvoiding', '~> 1.2'
     pod 'pop'
