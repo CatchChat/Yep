@@ -95,6 +95,8 @@ class ContactsViewController: BaseViewController {
             if let strongSelf = self {
                 strongSelf.noContacts = strongSelf.friends.isEmpty
             }
+            
+            self?.updateContactsTableView()
         }
 
         YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] _ in
