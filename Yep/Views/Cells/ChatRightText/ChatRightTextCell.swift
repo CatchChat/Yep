@@ -34,9 +34,6 @@ class ChatRightTextCell: ChatRightBaseCell {
         UIView.performWithoutAnimation { [weak self] in
             self?.makeUI()
         }
-        
-        layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.mainScreen().scale
 
         textContentTextView.textContainer.lineFragmentPadding = 0
         textContentTextView.font = UIFont.chatTextFont()

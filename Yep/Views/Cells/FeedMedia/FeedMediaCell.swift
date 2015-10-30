@@ -16,23 +16,22 @@ class FeedMediaCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
+        imageView.layer.minificationFilter = kCAFilterTrilinear
         contentView.backgroundColor = UIColor.clearColor()
     }
 
     func configureWithImage(image: UIImage) {
 
         imageView.image = image
-
         deleteImageView.hidden = false
     }
 
     func configureWithImageURL(imageURL: NSURL, bigger: Bool) {
 
         if bigger {
-            imageView.kf_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.biggerPlaceholderImage)
+            imageView.kf_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.biggerPlaceholderImage, optionsInfo: MediaOptionsInfos)
         } else {
-            imageView.kf_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.placeholderImage)
+            imageView.kf_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.placeholderImage, optionsInfo: MediaOptionsInfos)
         }
 
         deleteImageView.hidden = true

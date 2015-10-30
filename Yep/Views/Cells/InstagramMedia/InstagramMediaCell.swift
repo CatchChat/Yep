@@ -10,8 +10,7 @@ import UIKit
 import Kingfisher
 
 let MediaOptionsInfos: KingfisherOptionsInfo = [
-    .Options([.BackgroundDecode, .LowPriority]),
-    .Transition(ImageTransition.Fade(0.55))
+    .Options([.BackgroundDecode])
 ]
 
 class InstagramMediaCell: UICollectionViewCell {
