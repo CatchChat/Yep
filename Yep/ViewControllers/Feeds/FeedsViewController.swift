@@ -283,7 +283,10 @@ class FeedsViewController: UIViewController {
                         strongSelf.feeds = feeds
                     }
 
-                    strongSelf.feedsTableView.reloadData() // 服务端有新的排序算法，以及避免刷新后消息数字更新不及时的问题
+                    // 确保有新的才 reload
+                    if !feeds.isEmpty {
+                        strongSelf.feedsTableView.reloadData() // 服务端有新的排序算法，以及避免刷新后消息数字更新不及时的问题
+                    }
                     
 //                    if newIndexPaths.count == allNewFeedSet.count {
 //                        strongSelf.updateFeedsTableViewOrInsertWithIndexPaths(newIndexPaths)
@@ -587,7 +590,18 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         if indexPath.section == Section.LoadMore.rawValue {
 
-            updateFeeds(isLoadMore: true)
+            if let cell = cell as? LoadMoreTableViewCell {
+
+                println("load more feeds")
+
+                if !cell.loadingActivityIndicator.isAnimating() {
+                    cell.loadingActivityIndicator.startAnimating()
+                }
+
+                updateFeeds(isLoadMore: true, finish: { [weak cell] in
+                    cell?.loadingActivityIndicator.stopAnimating()
+                })
+            }
         }
     }
 
