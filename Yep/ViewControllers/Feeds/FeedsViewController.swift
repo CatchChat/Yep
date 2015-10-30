@@ -71,6 +71,7 @@ class FeedsViewController: UIViewController {
 
     let feedSkillUsersCellID = "FeedSkillUsersCell"
     let feedCellID = "FeedCell"
+    let loadMoreTableViewCellID = "LoadMoreTableViewCell"
 
     lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
 
@@ -177,6 +178,7 @@ class FeedsViewController: UIViewController {
 
         feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
         feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
+        feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
 
         feedSortStyle = .Time
     }
@@ -462,11 +464,12 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
     enum Section: Int {
         case SkillUsers
         case Feed
+        case LoadMore
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 
-        return 2
+        return 3
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -476,6 +479,8 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             return (skill == nil) ? 0 : 1
         case Section.Feed.rawValue:
             return feeds.count
+        case Section.LoadMore.rawValue:
+            return feeds.isEmpty ? 0 : 1
         default:
             return 0
         }
@@ -548,6 +553,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             
             return cell
 
+        case Section.LoadMore.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier(loadMoreTableViewCellID) as! LoadMoreTableViewCell
+            return cell
+
         default:
             return UITableViewCell()
         }
@@ -563,6 +572,9 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         case Section.Feed.rawValue:
             let feed = feeds[indexPath.item]
             return heightOfFeed(feed)
+
+        case Section.LoadMore.rawValue:
+            return 60
 
         default:
             return 0
