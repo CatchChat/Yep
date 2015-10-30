@@ -220,6 +220,16 @@ class ConversationsViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+
+        delay(0.5) { [weak self] in
+            self?.askForNotification()
+        }
+
+        // 预先生成头像和最近消息图片的缓存
+//        cacheInAdvance()
+    }
+    
+    func askForNotification() {
         if #available(iOS 9.0, *) {
             
             let replyAction = UIMutableUserNotificationAction()
@@ -253,9 +263,6 @@ class ConversationsViewController: UIViewController {
                     UIUserNotificationType.Sound.rawValue |
                     UIUserNotificationType.Alert.rawValue, categories: nil)
         }
-
-        // 预先生成头像和最近消息图片的缓存
-        cacheInAdvance()
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

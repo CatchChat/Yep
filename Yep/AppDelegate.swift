@@ -74,8 +74,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         cacheInAdvance()
 
-        Fabric.with([Crashlytics.self()])
-        APService.setupWithOption(launchOptions)
+        delay(0.5) { () -> Void in
+            Fabric.with([Crashlytics.self()])
+            APService.setupWithOption(launchOptions)
+        }
         
         let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
 
