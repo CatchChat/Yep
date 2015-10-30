@@ -12,13 +12,13 @@ class DiscoverFlowLayout: UICollectionViewFlowLayout {
     
     var userMode: DiscoverUserMode?
     
-    override func prepareLayout() {
-        switch userMode! {
-        case .Normal:
-            self.itemSize = CGSize(width: collectionView!.frame.width, height: 80)
-        case .Card:
-            self.itemSize = CGSize(width: (collectionView!.frame.width - (10 + 10 + 10))/2.0, height: 280)
-        }
-    }
+//    override func prepareLayout() {
+//        switch userMode! {
+//        case .Normal:
+//            self.itemSize = CGSize(width: collectionView!.frame.width, height: 80)
+//        case .Card:
+//            self.itemSize = CGSize(width: (collectionView!.frame.width - (10 + 10 + 10))/2.0, height: 280)
+//        }
+//    }
 
 }

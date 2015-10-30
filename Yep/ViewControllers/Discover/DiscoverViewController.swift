@@ -26,8 +26,8 @@ class DiscoverViewController: BaseViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     let NormalUserIdentifier = "DiscoverNormalUserCell"
-    
     let CardUserIdentifier = "DiscoverCardUserCell"
+    let loadMoreCollectionViewCellID = "LoadMoreCollectionViewCell"
     
     var userMode: DiscoverUserMode = .Card {
         didSet {
@@ -137,6 +137,7 @@ class DiscoverViewController: BaseViewController {
 
         discoverCollectionView.registerNib(UINib(nibName: NormalUserIdentifier, bundle: nil), forCellWithReuseIdentifier: NormalUserIdentifier)
         discoverCollectionView.registerNib(UINib(nibName: CardUserIdentifier, bundle: nil), forCellWithReuseIdentifier: CardUserIdentifier)
+        discoverCollectionView.registerNib(UINib(nibName: loadMoreCollectionViewCellID, bundle: nil), forCellWithReuseIdentifier: loadMoreCollectionViewCellID)
 
         userMode = .Card
     }
@@ -201,49 +202,126 @@ class DiscoverViewController: BaseViewController {
 // MARK: UITableViewDataSource, UITableViewDelegate
 
 extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
+
+    enum Section: Int {
+        case User
+        case LoadMore
+    }
+
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 2
+    }
+
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return discoveredUsers.count
+
+        switch section {
+
+        case Section.User.rawValue:
+            return discoveredUsers.count
+
+        case Section.LoadMore.rawValue:
+            return 1
+
+        default:
+            return 0
+        }
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        switch userMode {
+        switch indexPath.section {
 
-        case .Normal:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(NormalUserIdentifier, forIndexPath: indexPath) as! DiscoverNormalUserCell
+        case Section.User.rawValue:
+            switch userMode {
+
+            case .Normal:
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(NormalUserIdentifier, forIndexPath: indexPath) as! DiscoverNormalUserCell
+                return cell
+                
+            case .Card:
+               let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CardUserIdentifier, forIndexPath: indexPath) as! DiscoverCardUserCell
+                return cell
+            }
+
+        case Section.LoadMore.rawValue:
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(loadMoreCollectionViewCellID, forIndexPath: indexPath) as! LoadMoreCollectionViewCell
             return cell
-            
-        case .Card:
-           let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CardUserIdentifier, forIndexPath: indexPath) as! DiscoverCardUserCell
-            return cell
+
+        default:
+            return UICollectionViewCell()
         }
     }
     
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
-        let discoveredUser = discoveredUsers[indexPath.row]
-        
-        switch userMode {
 
-        case .Normal:
-            let cell = cell as! DiscoverNormalUserCell
-            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
-            
-        case .Card:
-            let cell = cell as! DiscoverCardUserCell
-            cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
+        switch indexPath.section {
+
+        case Section.User.rawValue:
+
+            let discoveredUser = discoveredUsers[indexPath.row]
+
+            switch userMode {
+
+            case .Normal:
+                let cell = cell as! DiscoverNormalUserCell
+                cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
+                
+            case .Card:
+                let cell = cell as! DiscoverCardUserCell
+                cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
+            }
+
+        case Section.LoadMore.rawValue:
+            break
+
+        default:
+            break
         }
     }
-    
+
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+
+        switch indexPath.section {
+
+        case Section.User.rawValue:
+
+            switch userMode {
+
+            case .Normal:
+                return CGSize(width: UIScreen.mainScreen().bounds.width, height: 80)
+
+            case .Card:
+                return CGSize(width: (UIScreen.mainScreen().bounds.width - (10 + 10 + 10)) * 0.5, height: 280)
+            }
+
+        case Section.LoadMore.rawValue:
+            return CGSize(width: UIScreen.mainScreen().bounds.width, height: 80)
+
+        default:
+            return CGSizeZero
+        }
+    }
+
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
 
-        switch userMode {
+        switch section {
 
-        case .Normal:
-            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-            
-        case .Card:
-            return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        case Section.User.rawValue:
+
+            switch userMode {
+
+            case .Normal:
+                return UIEdgeInsetsZero
+                
+            case .Card:
+                return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+            }
+
+        case Section.LoadMore.rawValue:
+            return UIEdgeInsetsZero
+
+        default:
+            return UIEdgeInsetsZero
         }
     }
 
