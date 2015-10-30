@@ -385,21 +385,6 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                 return
             }
             
-            if let feedCreatorID = conversation.withGroup?.withFeed?.creator?.userID, feedID = conversation.withGroup?.withFeed?.feedID {
-                if feedCreatorID == YepUserDefaults.userID.value {
-                    
-                    YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
-                        
-                        deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
-                            println("deleted feed: \(feedID)")
-                        })
-                        
-                        }, cancelAction: {
-                            
-                    })
-                }
-            }
-
             tryDeleteOrClearHistoryOfConversation(conversation, inViewController: self, whenAfterClearedHistory: {
 
                 tableView.setEditing(false, animated: true)
