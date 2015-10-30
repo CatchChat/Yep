@@ -1470,12 +1470,26 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
-        if section == ProfileSection.Master.rawValue || section == ProfileSection.Learning.rawValue {
-            return CGSizeMake(collectionViewWidth, 40)
+        switch section {
 
-        } else {
+        case ProfileSection.Master.rawValue:
+            let height: CGFloat = (profileUser?.masterSkillsCount ?? 0) > 0 ? 40 : 0
+            return CGSizeMake(collectionViewWidth, height)
+
+        case ProfileSection.Learning.rawValue:
+            let height: CGFloat = (profileUser?.learningSkillsCount ?? 0) > 0 ? 40 : 0
+            return CGSizeMake(collectionViewWidth, height)
+
+        default:
             return CGSizeZero
         }
+
+//        if section == ProfileSection.Master.rawValue || section == ProfileSection.Learning.rawValue {
+//            return CGSizeMake(collectionViewWidth, 40)
+//
+//        } else {
+//            return CGSizeZero
+//        }
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
