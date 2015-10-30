@@ -181,8 +181,11 @@ class ConversationMoreView: UIView {
         didSet {
             if notificationEnabled != oldValue {
                 dispatch_async(dispatch_get_main_queue()) {
-                    let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: Row.DoNotDisturb.rawValue, inSection: 0)) as! ConversationMoreCheckCell
-                    cell.updateWithNotificationEnabled(self.notificationEnabled)
+                    
+                    if let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: Row.DoNotDisturb.rawValue, inSection: 0)) as? ConversationMoreCheckCell {
+                        cell.updateWithNotificationEnabled(self.notificationEnabled)
+                    }
+
                 }
             }
         }

@@ -1571,7 +1571,21 @@ class ConversationViewController: BaseViewController {
     private func topicMoreAction() {
         
         let descriotion = conversation.withGroup?.withFeed?.body
-        let groupID = conversation.withGroup?.groupID
+        guard let groupID = conversation.withGroup?.groupID else {
+            return
+        }
+        
+        if let group = conversation.withGroup {
+            moreView.notificationEnabled = group.notificationEnabled
+            
+            settingsForCircleWithCircleID(groupID, failureHandler: nil, completion: { [weak self]  doNotDisturb in
+                self?.updateNotificationEnabled(!doNotDisturb, forGroupWithGroupID: groupID)
+            })
+        }
+        
+        moreView.toggleDoNotDisturbAction = { [weak self] in
+            self?.toggleDoNotDisturb()
+        }
         
         moreView.unsubscribeAction = { [weak self] in
             
@@ -1624,7 +1638,7 @@ class ConversationViewController: BaseViewController {
 
         moreView.shareAction = { [weak self] in
             
-            guard let groupID = groupID, descriotion = descriotion else {
+            guard let descriotion = descriotion else {
                 return
             }
             
@@ -1755,6 +1769,21 @@ class ConversationViewController: BaseViewController {
             moreView.notificationEnabled = enabled
         }
     }
+    
+    func updateNotificationEnabled(enabled: Bool, forGroupWithGroupID: String) {
+        
+        guard let realm = try? Realm() else {
+            return
+        }
+        
+        if let group = groupWithGroupID(forGroupWithGroupID, inRealm: realm) {
+            let _ = try? realm.write {
+                group.notificationEnabled = enabled
+            }
+            
+            moreView.notificationEnabled = enabled
+        }
+    }
 
     func toggleDoNotDisturb() {
 
@@ -1763,17 +1792,35 @@ class ConversationViewController: BaseViewController {
             let userID = user.userID
 
             if user.notificationEnabled {
-                disableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: { success in
+                disableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: { [weak self] success in
                     println("disableNotificationFromUserWithUserID \(success)")
 
-                    self.updateNotificationEnabled(false, forUserWithUserID: userID)
+                    self?.updateNotificationEnabled(false, forUserWithUserID: userID)
                 })
 
             } else {
-                enableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: { success in
+                enableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: { [weak self] success in
                     println("enableNotificationFromUserWithUserID \(success)")
 
-                    self.updateNotificationEnabled(true, forUserWithUserID: userID)
+                    self?.updateNotificationEnabled(true, forUserWithUserID: userID)
+                })
+            }
+        } else if let group = conversation.withGroup {
+            
+            let groupID = group.groupID
+            
+            if group.notificationEnabled {
+                disableNotificationFromCircleWithCircleID(groupID, failureHandler: nil, completion: { [weak self] success in
+                    println("disableNotificationFromUserWithUserID \(success)")
+                    
+                    self?.updateNotificationEnabled(false, forGroupWithGroupID: groupID)
+                })
+                
+            } else {
+                enableNotificationFromCircleWithCircleID(groupID, failureHandler: nil, completion: { [weak self] success in
+                    println("enableNotificationFromUserWithUserID \(success)")
+                    
+                    self?.updateNotificationEnabled(true, forGroupWithGroupID: groupID)
                 })
             }
         }

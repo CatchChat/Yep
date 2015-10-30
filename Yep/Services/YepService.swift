@@ -521,15 +521,11 @@ func loginByMobile(mobile: String, withAreaCode areaCode: String, verifyCode: St
 
 func disableNotificationFromUserWithUserID(userID: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
 
-    let requestParameters = [
-        "user_id": userID
-    ]
-
     let parse: JSONDictionary -> Bool? = { data in
         return true
     }
 
-    let resource = authJsonResource(path: "/api/v1/do_not_disturb_users", method: .POST, requestParameters: requestParameters, parse: parse)
+    let resource = authJsonResource(path: "/api/v1/users/\(userID)/dnd", method: .POST, requestParameters: [:], parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
@@ -544,8 +540,38 @@ func enableNotificationFromUserWithUserID(userID: String, failureHandler: ((Reas
         return true
     }
 
-    let resource = authJsonResource(path: "/api/v1/do_not_disturb_users/\(userID)", method: .DELETE, requestParameters: [:], parse: parse)
+    let resource = authJsonResource(path: "/api/v1/users/\(userID)/dnd", method: .DELETE, requestParameters: [:], parse: parse)
 
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+func disableNotificationFromCircleWithCircleID(circleID: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+    
+    let parse: JSONDictionary -> Bool? = { data in
+        return true
+    }
+    
+    let resource = authJsonResource(path: "/api/v1/circles/\(circleID)/dnd", method: .POST, requestParameters: [:], parse: parse)
+    
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+func enableNotificationFromCircleWithCircleID(circleID: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+    
+    let parse: JSONDictionary -> Bool? = { data in
+        return true
+    }
+    
+    let resource = authJsonResource(path: "/api/v1/circles/\(circleID)/dnd", method: .DELETE, requestParameters: [:], parse: parse)
+    
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
     } else {
@@ -721,7 +747,7 @@ func settingsForUserWithUserID(userID: String, failureHandler: ((Reason, String?
 
         if let
             blocked = data["blocked"] as? Bool,
-            doNotDisturb = data["do_not_disturb"] as? Bool {
+            doNotDisturb = data["dnd"] as? Bool {
                 return (blocked, doNotDisturb)
         }
 
@@ -730,6 +756,27 @@ func settingsForUserWithUserID(userID: String, failureHandler: ((Reason, String?
 
     let resource = authJsonResource(path: "/api/v1/users/\(userID)/settings_with_current_user", method: .GET, requestParameters: [:], parse: parse)
 
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+func settingsForCircleWithCircleID(cirleID: String, failureHandler: ((Reason, String?) -> Void)?, completion: (doNotDisturb: Bool) -> Void) {
+    
+    let parse: JSONDictionary -> (Bool)? = { data in
+        
+        if let
+            doNotDisturb = data["dnd"] as? Bool {
+                return doNotDisturb
+        }
+        
+        return nil
+    }
+    
+    let resource = authJsonResource(path: "/api/v1/circles/\(cirleID)/dnd", method: .GET, requestParameters: [:], parse: parse)
+    
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
     } else {

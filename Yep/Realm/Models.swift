@@ -182,7 +182,7 @@ class User: Object {
 class Group: Object {
     dynamic var groupID: String = ""
     dynamic var groupName: String = ""
-
+    dynamic var notificationEnabled: Bool = true
     dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
 
     dynamic var owner: User?
