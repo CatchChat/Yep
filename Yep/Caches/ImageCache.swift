@@ -55,7 +55,7 @@ class ImageCache {
                         return
                     }
                     
-                    if let message = messageWithMessageID(messageID, inRealm: realm) {
+                    if let message = messageWithMessageID(messageID, inRealm: realm) where message.downloadState == MessageDownloadState.Downloaded.rawValue {
                         if let blurredThumbnailImage = blurredThumbnailImageOfMessage(message) {
                             let bubbleBlurredThumbnailImage = blurredThumbnailImage.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
 
@@ -79,20 +79,27 @@ class ImageCache {
 
             dispatch_async(self.cacheQueue) {
 
-                if !fileName.isEmpty {
-                    if
-                        let imageFileURL = NSFileManager.yepMessageImageURLWithName(fileName),
-                        let image = UIImage(contentsOfFile: imageFileURL.path!) {
-
-                            let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
-
-                            self.cache.setObject(messageImage, forKey: imageKey)
-                            
-                            dispatch_async(dispatch_get_main_queue()) {
-                                completion(loadingProgress: 1.0, image: messageImage)
-                            }
-
-                            return
+                guard let realm = try? Realm() else {
+                    return
+                }
+                
+                if let message = messageWithMessageID(messageID, inRealm: realm) where message.downloadState == MessageDownloadState.Downloaded.rawValue {
+                
+                    if !fileName.isEmpty {
+                        if
+                            let imageFileURL = NSFileManager.yepMessageImageURLWithName(fileName),
+                            let image = UIImage(contentsOfFile: imageFileURL.path!) {
+                                
+                                let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
+                                
+                                self.cache.setObject(messageImage, forKey: imageKey)
+                                
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    completion(loadingProgress: 1.0, image: messageImage)
+                                }
+                                
+                                return
+                        }
                     }
                 }
 
@@ -103,10 +110,6 @@ class ImageCache {
                         completion(loadingProgress: 1.0, image: nil)
                     }
 
-                    return
-                }
-
-                guard let realm = try? Realm() else {
                     return
                 }
 
