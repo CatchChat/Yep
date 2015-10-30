@@ -379,10 +379,25 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
 
         if editingStyle == .Delete {
-
+            
             guard let conversation = conversations[safe: indexPath.row] else {
                 tableView.setEditing(false, animated: true)
                 return
+            }
+            
+            if let feedCreatorID = conversation.withGroup?.withFeed?.creator?.userID, feedID = conversation.withGroup?.withFeed?.feedID {
+                if feedCreatorID == YepUserDefaults.userID.value {
+                    
+                    YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
+                        
+                        deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
+                            println("deleted feed: \(feedID)")
+                        })
+                        
+                        }, cancelAction: {
+                            
+                    })
+                }
             }
 
             tryDeleteOrClearHistoryOfConversation(conversation, inViewController: self, whenAfterClearedHistory: {
