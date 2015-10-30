@@ -976,6 +976,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                                     sendFromGroup = groupWithGroupID(groupID, inRealm: realm)
 
                                     if sendFromGroup == nil {
+                                        
                                         let newGroup = Group()
                                         newGroup.groupID = groupID
 
@@ -990,6 +991,23 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                                         }
 
                                         sendFromGroup = newGroup
+                                        
+                                        groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { (groupInfo) -> Void in
+                                            dispatch_async(realmQueue) {
+                                                guard let realmForGroup = try? Realm() else {
+                                                    return
+                                                }
+                                                
+                                                if let savedGroup = groupWithGroupID(groupID, inRealm: realmForGroup) {
+                                                    if let
+                                                        topic = groupInfo["topic"] as? JSONDictionary,
+                                                        feedData = DiscoveredFeed.fromJSONDictionary(topic) {
+                                                            saveFeedWithFeedDataWithFullGroup(feedData, group: savedGroup, inRealm: realmForGroup)
+                                                    }
+                                                }
+                                                
+                                            }
+                                        })
                                     }
                                 }
                             }
