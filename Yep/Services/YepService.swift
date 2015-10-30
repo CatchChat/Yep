@@ -1901,6 +1901,8 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
     }
 
     message.mediaType = mediaType.rawValue
+    
+    message.downloadState = MessageDownloadState.Downloaded.rawValue
 
     let _ = try? realm.write {
         realm.add(message)

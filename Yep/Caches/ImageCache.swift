@@ -21,7 +21,6 @@ class ImageCache {
     func imageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (loadingProgress: Double, image: UIImage?) -> Void) {
 
         let imageKey = "image-\(message.messageID)-\(message.localAttachmentName)-\(message.attachmentURLString)"
-
         // 先看看缓存
         if let image = cache.objectForKey(imageKey) as? UIImage {
             completion(loadingProgress: 1.0, image: image)
@@ -38,6 +37,8 @@ class ImageCache {
             if message.mediaType == MessageMediaType.Video.rawValue {
                 imageURLString = message.thumbnailURLString
             }
+            
+            let imageDownloadState = message.downloadState
 
             let preloadingPropgress: Double = fileName.isEmpty ? 0.01 : 0.5
 
@@ -83,7 +84,7 @@ class ImageCache {
                     return
                 }
                 
-                if let message = messageWithMessageID(messageID, inRealm: realm) where message.downloadState == MessageDownloadState.Downloaded.rawValue {
+                if imageDownloadState == MessageDownloadState.Downloaded.rawValue {
                 
                     if !fileName.isEmpty {
                         if
