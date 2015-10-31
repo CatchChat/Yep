@@ -166,7 +166,7 @@ class NewFeedViewController: UIViewController {
             let vc = segue.destinationViewController as! PickPhotosViewController
             
             vc.pickedImageSet = Set(imageAssets)
-            
+            vc.imageLimit = mediaImages.count
             vc.completion = { [weak self] images, imageAssets in
                 self?.mediaImages.appendContentsOf(images)
 //                self?.imageAssets = imageAssets
@@ -417,6 +417,11 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             
         case 0:
             
+            if mediaImages.count == 4 {
+                YepAlert.alertSorry(message: NSLocalizedString("Topic can only has 4 photos", comment: ""), inViewController: self)
+                return
+            }
+            
             let pickActionController = UIAlertController(title: NSLocalizedString("Choose Source", comment: ""), message: nil, preferredStyle: .ActionSheet)
             
             let cameraAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Camera", comment: ""), style: .Default) { action -> Void in
@@ -559,8 +564,9 @@ extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationCo
                     
                     if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.Medium) {
                         
-                        mediaImages.append(fixedImage)
-                        
+                        if mediaImages.count <= 3 {
+                            mediaImages.append(fixedImage) 
+                        }
                     }
                 }
                 

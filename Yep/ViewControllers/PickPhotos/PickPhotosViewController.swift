@@ -18,13 +18,14 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
 
     var pickedImageSet = Set<PHAsset>()
     var completion: ((images: [UIImage], imageAssets: [PHAsset]) -> Void)?
+    var imageLimit = 0
 
     let photoCellID = "PhotoCell"
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Pick Photos", comment: "")
+        title = "\(NSLocalizedString("Pick Photos", comment: "")) (\(imageLimit)/4)"
 
         let doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "done:")
         navigationItem.rightBarButtonItem = doneButton
@@ -132,14 +133,17 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
     }
 
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-
+        
         if let imageAsset = images[indexPath.item] as? PHAsset {
             if pickedImageSet.contains(imageAsset) {
                 pickedImageSet.remove(imageAsset)
             } else {
+                if pickedImageSet.count + imageLimit == 4 {
+                    return
+                }
                 pickedImageSet.insert(imageAsset)
             }
-
+            title = "\(NSLocalizedString("Pick Photos", comment: "")) (\(pickedImageSet.count + imageLimit)/4)"
             let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoCell
             cell.photoPickedImageView.hidden = !pickedImageSet.contains(imageAsset)
         }
