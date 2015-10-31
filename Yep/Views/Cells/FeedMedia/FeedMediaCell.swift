@@ -29,9 +29,25 @@ class FeedMediaCell: UICollectionViewCell {
     func configureWithImageURL(imageURL: NSURL, bigger: Bool) {
 
         if bigger {
-            imageView.sd_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.biggerPlaceholderImage)
+//            imageView.kf_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.biggerPlaceholderImage)
+            imageView.image = YepConfig.FeedMedia.biggerPlaceholderImage
+            ImageCache.sharedInstance.imageOfAttachment(imageURL, withSize: imageView.frame.size, completion: { [weak self] (url, image) in
+                guard url == imageURL else {
+                    return
+                }
+                self?.imageView.image = image
+            })
+
         } else {
-            imageView.sd_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.placeholderImage)
+            
+            imageView.image = YepConfig.FeedMedia.placeholderImage
+//            imageView.kf_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.placeholderImage)
+            ImageCache.sharedInstance.imageOfAttachment(imageURL, withSize: imageView.frame.size, completion: { [weak self] (url, image) in
+                guard url == imageURL else {
+                    return
+                }
+                self?.imageView.image = image
+            })
         }
 
         deleteImageView.hidden = true

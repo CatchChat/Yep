@@ -246,15 +246,14 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
         case .AttachmentType(let imageURL):
 
             mediaControlView.type = .Image
-
-            cell.mediaView.helperImageView.sd_setImageWithURL(imageURL, placeholderImage: nil, options: [], completed: { (image, error, cacheType, url) -> Void in
-                
-                guard let image = image else {
+            
+            ImageCache.sharedInstance.imageOfAttachment(imageURL, withSize: CGSize(width: 1024, height: 1024), completion: { (url, image) in
+                guard url == imageURL else {
                     return
                 }
-                
                 cell.mediaView.image = image
             })
+
         }
     }
 

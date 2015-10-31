@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import MapKit
+import Kingfisher
 
 class ImageCache {
 
@@ -17,6 +18,70 @@ class ImageCache {
     let cache = NSCache()
     let cacheQueue = dispatch_queue_create("ImageCacheQueue", DISPATCH_QUEUE_SERIAL)
 //    let cacheQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
+    
+    func imageOfAttachment(attachmentURL: NSURL, withSize: CGSize, completion: (url: NSURL, image: UIImage?) -> Void) {
+        
+        let attachmentSizeKey = "\(attachmentURL.absoluteString)-\(withSize.width)"
+        
+        //查找当前 Size 的 Cache
+        
+        Kingfisher.ImageCache.defaultCache.retrieveImageForKey(attachmentSizeKey, options: KingfisherManager.DefaultOptions) { (image, type) -> () in
+            
+            if let image = image?.decodedImage() {
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion(url: attachmentURL, image: image)
+                }
+            } else {
+                
+                //查找原图
+                
+                Kingfisher.ImageCache.defaultCache.retrieveImageForKey(attachmentURL.absoluteString, options: KingfisherManager.DefaultOptions) { (image, type) -> () in
+                    
+                    
+                    if let image = image {
+                        
+                        //裁剪并存储
+                        
+                        let finalImage = image.resizeToTargetSize(withSize).decodedImage()
+                        
+                        Kingfisher.ImageCache.defaultCache.storeImage(finalImage, forKey: attachmentSizeKey)
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            completion(url: attachmentURL, image: finalImage)
+                        }
+                        
+                    } else {
+                        
+                        // 下载
+                        
+                        ImageDownloader.defaultDownloader.downloadImageWithURL(attachmentURL, options: KingfisherManager.DefaultOptions, progressBlock: { receivedSize, totalSize  in
+                            
+                            }, completionHandler: {  image, error , imageURL, originalData in
+                                
+                                if let image = image?.decodedImage() {
+                                    
+                                    Kingfisher.ImageCache.defaultCache.storeImage(image, forKey: attachmentURL.absoluteString)
+                                    
+                                    let finalImage = image.resizeToTargetSize(withSize)
+                                    
+                                    Kingfisher.ImageCache.defaultCache.storeImage(finalImage, forKey: attachmentSizeKey)
+                                    
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        completion(url: attachmentURL, image: finalImage)
+                                    }
+
+                                } else {
+
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        completion(url: attachmentURL, image: nil)
+                                    }
+                                }
+                        })
+                    }
+                }
+            }
+        }
+    }
 
     func imageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (loadingProgress: Double, image: UIImage?) -> Void) {
 
