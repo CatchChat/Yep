@@ -87,9 +87,11 @@ class ChatLeftVideoCell: ChatBaseCell {
                     
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
                         
-                        self?.thumbnailImageView.image = image
-                        
-                        self?.thumbnailImageView.alpha = 1.0
+                        if let image = image {
+                            self?.thumbnailImageView.image = image
+                            
+                            self?.thumbnailImageView.alpha = 1.0
+                        }
                     }
                     
                     return
