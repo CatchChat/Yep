@@ -220,10 +220,12 @@ extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaCellID, forIndexPath: indexPath) as! FeedMediaCell
-
+        
         if let imageURL = attachmentURLs[safe: indexPath.item] {
 
             //println("attachment imageURL: \(imageURL)")
+            
+            cell.attachmentURL = imageURL
 
             cell.configureWithImageURL(imageURL, bigger: (attachmentURLs.count == 1))
         }

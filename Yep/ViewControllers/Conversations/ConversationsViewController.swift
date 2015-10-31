@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import Navi
+import Kingfisher
 
 let YepNotificationCommentAction = "YepNotificationCommentAction"
 let YepNotificationOKAction = "YepNotificationOKAction"
@@ -221,6 +222,8 @@ class ConversationsViewController: UIViewController {
         super.viewDidAppear(animated)
         
 
+//        Kingfisher.ImageCache.defaultCache.clearMemoryCache()
+        
         delay(0.5) { [weak self] in
             self?.askForNotification()
         }

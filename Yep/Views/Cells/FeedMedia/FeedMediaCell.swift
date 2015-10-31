@@ -13,6 +13,8 @@ class FeedMediaCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var deleteImageView: UIImageView!
+    
+    var attachmentURL: NSURL!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,9 +34,13 @@ class FeedMediaCell: UICollectionViewCell {
 //            imageView.kf_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.biggerPlaceholderImage)
             imageView.image = YepConfig.FeedMedia.biggerPlaceholderImage
             ImageCache.sharedInstance.imageOfAttachment(imageURL, withSize: imageView.frame.size, completion: { [weak self] (url, image) in
-                guard url == imageURL else {
-                    return
+                
+                if let StrongSelf = self {
+                    if StrongSelf.attachmentURL != url {
+                        return
+                    }
                 }
+
                 self?.imageView.image = image
             })
 
@@ -43,8 +49,10 @@ class FeedMediaCell: UICollectionViewCell {
             imageView.image = YepConfig.FeedMedia.placeholderImage
 //            imageView.kf_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.placeholderImage)
             ImageCache.sharedInstance.imageOfAttachment(imageURL, withSize: imageView.frame.size, completion: { [weak self] (url, image) in
-                guard url == imageURL else {
-                    return
+                if let StrongSelf = self {
+                    if StrongSelf.attachmentURL != url {
+                        return
+                    }
                 }
                 self?.imageView.image = image
             })
