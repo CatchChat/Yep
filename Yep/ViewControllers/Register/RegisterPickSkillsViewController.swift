@@ -22,6 +22,9 @@ class RegisterPickSkillsViewController: BaseViewController {
         }
     }
 
+    
+    @IBOutlet weak var introlLabel: UILabel!
+    
     var afterChangeSkillsAction: ((masterSkills: [Skill], learningSkills: [Skill]) -> Void)?
 
     @IBOutlet weak var skillsCollectionView: UICollectionView!
@@ -54,6 +57,8 @@ class RegisterPickSkillsViewController: BaseViewController {
         navigationItem.rightBarButtonItem = doneBarButtonItem
         navigationItem.rightBarButtonItem?.enabled = false
 
+        introlLabel.text = NSLocalizedString("You may meet different people and content depends on your skills", comment: "")
+        
         if !isRegister {
             navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Change Skills", comment: ""))
         } else {

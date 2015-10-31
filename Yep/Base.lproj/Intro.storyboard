@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
@@ -509,7 +509,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Hi3-3R-BNx">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewLayout key="collectionViewLayout" id="Dgv-j3-PVw" customClass="RegisterPickSkillsLayout" customModule="Yep" customModuleProvider="target"/>
@@ -519,17 +519,54 @@
                                     <outlet property="delegate" destination="OBL-Og-6Ae" id="04k-XM-7YT"/>
                                 </connections>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Abu-JC-epb">
+                                <rect key="frame" x="0.0" y="64" width="600" height="68"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You may meet different people and content depends on your skills" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rxp-et-s4X">
+                                        <rect key="frame" x="53" y="26" width="493" height="16"/>
+                                        <animations/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Rxp-et-s4X" firstAttribute="centerX" secondItem="Abu-JC-epb" secondAttribute="centerX" id="2sw-BR-32q"/>
+                                    <constraint firstAttribute="height" constant="68" id="GHQ-ul-u1v"/>
+                                    <constraint firstAttribute="trailing" secondItem="Rxp-et-s4X" secondAttribute="trailing" constant="54" id="LTr-iQ-yuO"/>
+                                    <constraint firstItem="Rxp-et-s4X" firstAttribute="leading" secondItem="Abu-JC-epb" secondAttribute="leading" constant="53" id="Zuh-VK-Mtb"/>
+                                    <constraint firstItem="Rxp-et-s4X" firstAttribute="centerY" secondItem="Abu-JC-epb" secondAttribute="centerY" id="gqR-lp-mnP"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Hi3-3R-BNx" firstAttribute="top" secondItem="Abu-JC-epb" secondAttribute="bottom" constant="8" id="0xF-af-AR6"/>
+                            <constraint firstItem="Hi3-3R-BNx" firstAttribute="top" secondItem="p8G-DH-wnn" secondAttribute="bottom" constant="68" id="8eJ-0a-cJL"/>
                             <constraint firstItem="Hi3-3R-BNx" firstAttribute="leading" secondItem="Ybu-mU-M88" secondAttribute="leading" id="98V-H7-LjP"/>
                             <constraint firstItem="Hi3-3R-BNx" firstAttribute="top" secondItem="Ybu-mU-M88" secondAttribute="top" id="9DJ-h8-5RQ"/>
+                            <constraint firstItem="Abu-JC-epb" firstAttribute="leading" secondItem="Ybu-mU-M88" secondAttribute="leading" id="De4-Sr-oKu"/>
+                            <constraint firstItem="Hi3-3R-BNx" firstAttribute="top" secondItem="Abu-JC-epb" secondAttribute="bottom" id="LXk-Id-9dO"/>
                             <constraint firstAttribute="bottom" secondItem="Hi3-3R-BNx" secondAttribute="bottom" id="MZ1-YZ-QyT"/>
+                            <constraint firstItem="Abu-JC-epb" firstAttribute="top" secondItem="p8G-DH-wnn" secondAttribute="bottom" id="QUc-aU-Ea3"/>
                             <constraint firstAttribute="trailing" secondItem="Hi3-3R-BNx" secondAttribute="trailing" id="RoJ-Zy-4i2"/>
+                            <constraint firstAttribute="trailing" secondItem="Abu-JC-epb" secondAttribute="trailing" id="gwv-wY-kMh"/>
+                            <constraint firstItem="Hi3-3R-BNx" firstAttribute="top" secondItem="Abu-JC-epb" secondAttribute="bottom" constant="-68" id="iPL-FG-VgZ"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="0xF-af-AR6"/>
+                                <exclude reference="8eJ-0a-cJL"/>
+                                <exclude reference="9DJ-h8-5RQ"/>
+                                <exclude reference="LXk-Id-9dO"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
+                        <outlet property="introlLabel" destination="Rxp-et-s4X" id="aTg-BH-Xlc"/>
                         <outlet property="skillsCollectionView" destination="Hi3-3R-BNx" id="3tf-cy-8EF"/>
                         <segue destination="vEE-XY-eq4" kind="presentation" identifier="presentSelectSkills" id="akJ-Zs-aMG"/>
                     </connections>
