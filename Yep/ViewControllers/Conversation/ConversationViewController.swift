@@ -424,6 +424,10 @@ class ConversationViewController: BaseViewController {
             println("appear \(keyboardHeight), \(keyboardHeightIncrement)\n")
 
             if let strongSelf = self {
+                
+                if !strongSelf.messageToolbar.messageTextView.isFirstResponder() {
+                    return
+                }
 
                 if strongSelf.messageToolbarBottomConstraint.constant > 0 {
 
@@ -454,12 +458,15 @@ class ConversationViewController: BaseViewController {
             println("disappear \(keyboardHeight)\n")
 
             if let strongSelf = self {
-
-                strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight
-                strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
-
-                strongSelf.messageToolbarBottomConstraint.constant = 0
-                strongSelf.view.layoutIfNeeded()
+                
+                if strongSelf.messageToolbarBottomConstraint.constant > 0 {
+                    
+                    strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight
+                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
+                    
+                    strongSelf.messageToolbarBottomConstraint.constant = 0
+                    strongSelf.view.layoutIfNeeded()
+                }
 
             }
         }
@@ -2237,6 +2244,8 @@ class ConversationViewController: BaseViewController {
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        messageToolbar.state = .Default
 
         if segue.identifier == "showProfileFromFeedView" {
 
