@@ -84,6 +84,7 @@
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="0gK-pe-MlO" secondAttribute="trailing" constant="30" id="HAo-kh-0N5"/>
                     <constraint firstItem="G9V-Qw-tkM" firstAttribute="top" secondItem="o0V-gJ-vFo" secondAttribute="top" id="LNO-aD-cNA"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Pdh-nY-RnC" secondAttribute="bottom" constant="25" id="OIq-TG-3Bo"/>
+                    <constraint firstAttribute="bottom" secondItem="m9D-xj-gfc" secondAttribute="bottom" constant="8" id="QSb-F7-42W"/>
                     <constraint firstItem="1RF-Jq-txW" firstAttribute="leading" secondItem="NEk-lH-Ejr" secondAttribute="leading" constant="5" id="RJE-DF-nn4"/>
                     <constraint firstItem="G9V-Qw-tkM" firstAttribute="centerY" secondItem="o0V-gJ-vFo" secondAttribute="centerY" id="Tqt-nv-oim"/>
                     <constraint firstItem="m9D-xj-gfc" firstAttribute="leading" secondItem="Pdh-nY-RnC" secondAttribute="leading" id="Wlt-ZR-WAi"/>
@@ -105,6 +106,7 @@
                 <variation key="default">
                     <mask key="constraints">
                         <exclude reference="OIq-TG-3Bo"/>
+                        <exclude reference="dvt-WQ-2Ud"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>

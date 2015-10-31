@@ -62,7 +62,7 @@ class FeedConversationCell: UITableViewCell {
         nameLabel.text = feed.body
         
         if let creator = feed.creator {
-            timeLabel.text = String(format: NSLocalizedString("Posted by %@", comment: ""), creator.nickname)
+            timeLabel.text = String(format: NSLocalizedString("Created by %@ at %@", comment: ""), creator.nickname, NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)
         
         } else {
             timeLabel.text = ""
