@@ -44,7 +44,7 @@ class ConversationsViewController: UIViewController {
     var noConversation = false {
         didSet {
             if noConversation != oldValue {
-                conversationsTableView.tableFooterView = noConversation ? noConversationFooterView : UIView()
+                conversationsTableView.tableFooterView = UIView()
             }
         }
     }
@@ -299,7 +299,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case Section.FeedConversation.rawValue:
-            return countOfConversationsInRealm(realm, withConversationType: ConversationType.Group) > 0 ? 1 : 0
+            return 1
         case Section.Conversation.rawValue:
             return conversations.count
         default:
