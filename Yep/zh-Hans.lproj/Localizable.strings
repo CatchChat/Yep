@@ -652,7 +652,7 @@
 
 "People with this skill" = "与此技能相关的用户";
 
-"%@ More..." = "%@ 个";
+"%@ More..." = "等 %@ 个";
 
 "Push notifications" = "推送通知";
 
@@ -669,4 +669,6 @@
 "[Deleted]" = "[已被删除]";
 
 "You may meet different people and content depends on your skills" = "根据技能的不同，你会遇见不同的人和话题";
+
+"Posted by %@" = "由 %@ 创建";
 

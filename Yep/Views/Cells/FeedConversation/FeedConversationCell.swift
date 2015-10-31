@@ -16,6 +16,7 @@ class FeedConversationCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var chatLabel: UILabel!
     @IBOutlet weak var accessoryImageView: UIImageView!
+    @IBOutlet weak var timeLabel: UILabel!
 
     var conversation: Conversation!
 
@@ -59,6 +60,14 @@ class FeedConversationCell: UITableViewCell {
         countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
 
         nameLabel.text = feed.body
+        
+        if let creator = feed.creator {
+            timeLabel.text = String(format: NSLocalizedString("Posted by %@", comment: ""), creator.nickname)
+        
+        } else {
+            timeLabel.text = ""
+        }
+
 
         let attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
         mediaView.setImagesWithURLs(attachmentURLs)
