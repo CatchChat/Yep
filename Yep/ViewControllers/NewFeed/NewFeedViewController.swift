@@ -168,8 +168,8 @@ class NewFeedViewController: UIViewController {
             vc.pickedImageSet = Set(imageAssets)
             
             vc.completion = { [weak self] images, imageAssets in
-                self?.mediaImages = images
-                self?.imageAssets = imageAssets
+                self?.mediaImages.appendContentsOf(images)
+//                self?.imageAssets = imageAssets
             }
         }
     }
@@ -459,9 +459,9 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             
         case 1:
             mediaImages.removeAtIndex(indexPath.item)
-            if !imageAssets.isEmpty {
-                imageAssets.removeAtIndex(indexPath.item)
-            }
+//            if !imageAssets.isEmpty {
+//                imageAssets.removeAtIndex(indexPath.item)
+//            }
             collectionView.deleteItemsAtIndexPaths([indexPath])
             
         default:
