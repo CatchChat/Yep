@@ -9,7 +9,6 @@
 import UIKit
 import AVFoundation
 import MonkeyKing
-import SDWebImage
 
 enum PreviewMedia {
 

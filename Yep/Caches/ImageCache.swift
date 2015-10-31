@@ -60,6 +60,10 @@ class ImageCache {
                         
                         if cacheSize != CGSizeZero {
                             finalImage = finalImage.resizeToTargetSize(cacheSize)
+                            
+                            Kingfisher.ImageCache.defaultCache.storeImage(finalImage,  originalData: UIImageJPEGRepresentation(finalImage, 1.0), forKey: attachmentSizeKey, toDisk: true, completionHandler: { () -> () in
+                                
+                            })
                         }
                         
                         Kingfisher.ImageCache.defaultCache.storeImage(finalImage, forKey: attachmentSizeKey)
@@ -86,7 +90,7 @@ class ImageCache {
                                         storeImage = storeImage.resizeToTargetSize(cacheSize)
                                     }
                                     
-                                    Kingfisher.ImageCache.defaultCache.storeImage(storeImage,  originalData: UIImageJPEGRepresentation(image, 1.0), forKey: attachmentSizeKey, toDisk: true, completionHandler: { () -> () in
+                                    Kingfisher.ImageCache.defaultCache.storeImage(storeImage,  originalData: UIImageJPEGRepresentation(storeImage, 1.0), forKey: attachmentSizeKey, toDisk: true, completionHandler: { () -> () in
                                         
                                     })
                                     
