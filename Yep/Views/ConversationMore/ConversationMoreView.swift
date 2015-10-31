@@ -184,8 +184,9 @@ class ConversationMoreView: UIView {
                     
                     if let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: Row.DoNotDisturb.rawValue, inSection: 0)) as? ConversationMoreCheckCell {
                         cell.updateWithNotificationEnabled(self.notificationEnabled)
+                    } else {
+                        self.tableView.reloadData()
                     }
-
                 }
             }
         }
