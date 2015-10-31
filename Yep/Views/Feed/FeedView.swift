@@ -103,6 +103,7 @@ class FeedView: UIView {
     var attachmentURLs = [NSURL]() {
         didSet {
             mediaCollectionView.reloadData()
+            mediaView.FeedURLs = attachmentURLs
             mediaView.setImagesWithURLs(attachmentURLs)
         }
     }

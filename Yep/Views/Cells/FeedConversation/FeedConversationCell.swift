@@ -70,6 +70,7 @@ class FeedConversationCell: UITableViewCell {
 
 
         let attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
+        mediaView.FeedURLs = attachmentURLs
         mediaView.setImagesWithURLs(attachmentURLs)
 
         if let latestMessage = messagesInConversation(conversation).last {
