@@ -37,6 +37,14 @@ class NewFeedViewController: UIViewController {
     
     @IBOutlet weak var skillPickerView: UIPickerView!
     
+    lazy var imagePicker: UIImagePickerController = {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.mediaTypes = [kUTTypeImage as String]
+        imagePicker.allowsEditing = false
+        return imagePicker
+    }()
+    
     var imageAssets: [PHAsset] = []
     
     var mediaImages = [UIImage]() {
@@ -100,6 +108,7 @@ class NewFeedViewController: UIViewController {
         mediaCollectionView.contentInset.left = 15
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
+        mediaCollectionView.showsHorizontalScrollIndicator = false
         
         // pick skill
         
@@ -407,16 +416,52 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         switch indexPath.section {
             
         case 0:
-            proposeToAccess(.Photos, agreed: { [weak self] in
-                self?.performSegueWithIdentifier("showPickPhotos", sender: nil)
-                
+            
+            let pickActionController = UIAlertController(title: NSLocalizedString("Choose Source", comment: ""), message: nil, preferredStyle: .ActionSheet)
+            
+            let cameraAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Camera", comment: ""), style: .Default) { action -> Void in
+
+                proposeToAccess(.Camera, agreed: { [weak self] in
+                    
+                    if let strongSelf = self {
+                        strongSelf.imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
+                        strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                    }
+                    
                 }, rejected: { [weak self] in
-                    self?.alertCanNotAccessCameraRoll()
+                        self?.alertCanNotOpenCamera()
                 })
+            }
+            
+            pickActionController.addAction(cameraAction)
+            
+            let albumAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Albums", comment: ""), style: .Default) { [weak self] action -> Void in
+
+                proposeToAccess(.Photos, agreed: { [weak self] in
+                    self?.performSegueWithIdentifier("showPickPhotos", sender: nil)
+                    
+                }, rejected: { [weak self] in
+                        self?.alertCanNotAccessCameraRoll()
+                })
+                
+            }
+        
+            pickActionController.addAction(albumAction)
+            
+            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
+
+            }
+        
+            pickActionController.addAction(cancelAction)
+        
+            self.presentViewController(pickActionController, animated: true, completion: nil)
+        
             
         case 1:
             mediaImages.removeAtIndex(indexPath.item)
-            imageAssets.removeAtIndex(indexPath.item)
+            if !imageAssets.isEmpty {
+                imageAssets.removeAtIndex(indexPath.item)
+            }
             collectionView.deleteItemsAtIndexPaths([indexPath])
             
         default:
@@ -480,6 +525,52 @@ extension NewFeedViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         
         pickedSkill = skills[row % skills.count]
     }
+}
+
+extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        
+        if let mediaType = info[UIImagePickerControllerMediaType] as? String {
+            
+            switch mediaType {
+                
+            case kUTTypeImage as! String:
+                
+                if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+                    
+                    let imageWidth = image.size.width
+                    let imageHeight = image.size.height
+                    
+                    let fixedImageWidth: CGFloat
+                    let fixedImageHeight: CGFloat
+                    
+                    if imageWidth > imageHeight {
+                        fixedImageWidth = min(imageWidth, YepConfig.Media.imageWidth)
+                        fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
+                    } else {
+                        fixedImageHeight = min(imageHeight, YepConfig.Media.imageHeight)
+                        fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
+                    }
+                    
+                    let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
+                    
+                    // resize to smaller, not need fixRotation
+                    
+                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.Medium) {
+                        
+                        mediaImages.append(fixedImage)
+                        
+                    }
+                }
+                
+            default:
+                break
+            }
+        }
+        
+        dismissViewControllerAnimated(true, completion: nil)
+}
 }
 
 
