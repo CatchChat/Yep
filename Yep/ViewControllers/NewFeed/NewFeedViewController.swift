@@ -99,6 +99,7 @@ class NewFeedViewController: UIViewController {
         messageTextView.text = ""
         messageTextView.textContainer.lineFragmentPadding = 0
         messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        messageTextView.delegate = self
         //messageTextView.becomeFirstResponder()
         
         mediaCollectionView.backgroundColor = UIColor.clearColor()
@@ -264,6 +265,12 @@ class NewFeedViewController: UIViewController {
     func post(sender: UIBarButtonItem) {
         
         messageTextView.resignFirstResponder()
+        
+        let messageLength = (messageTextView.text as NSString).length
+        
+        if messageLength > YepConfig.maxFeedTextLength {
+            return
+        }
         
         YepHUD.showActivityIndicator()
         
@@ -479,6 +486,25 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 
 extension NewFeedViewController: UITextViewDelegate {
     
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        
+        let newString = textView.text! + text
+        
+        
+        if NSString(string: newString).length > YepConfig.maxFeedTextLength {
+            return false
+        }
+        
+        return true
+    }
+    
+    func textViewDidChange(textView: UITextView) {
+        if NSString(string: textView.text).length > 200 {
+            textView.text = (textView.text as NSString).substringWithRange(NSMakeRange(0,30))
+        }
+    }
+    
+    
     func textViewDidBeginEditing(textView: UITextView) {
         
         hideSkillPickerView()
@@ -578,5 +604,3 @@ extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationCo
         dismissViewControllerAnimated(true, completion: nil)
 }
 }
-
-

@@ -22,6 +22,8 @@ class YepConfig {
     
     static let skillHomeHeaderButtonHeight: CGFloat = 50.0
     
+    static let maxFeedTextLength: Int = 300
+    
     class func clientType() -> Int {
         // TODO: clientType
         
