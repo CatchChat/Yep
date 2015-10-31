@@ -1512,11 +1512,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             switch section {
 
             case ProfileSection.Master.rawValue:
-                let height: CGFloat = profileUser.masterSkillsCount > 0 ? normalHeight : 0
+                let height: CGFloat = (profileUser.masterSkillsCount > 0 && profileUser.userID != YepUserDefaults.userID.value) ? normalHeight : 0
                 return CGSizeMake(collectionViewWidth, height)
 
             case ProfileSection.Learning.rawValue:
-                let height: CGFloat = profileUser.learningSkillsCount > 0 ? normalHeight : 0
+                let height: CGFloat = (profileUser.learningSkillsCount > 0 && profileUser.userID != YepUserDefaults.userID.value) ? normalHeight : 0
                 return CGSizeMake(collectionViewWidth, height)
                 
             default:
