@@ -72,8 +72,26 @@ class ChatLeftImageCell: ChatBaseCell {
 
         if progress >= loadingProgress {
 
+            if loadingProgress == 1.0 {
+                if progress < 1.0 {
+                    return
+                }
+            }
+            
             if progress <= 1.0 {
                 loadingProgress = progress
+                
+                if progress == 1 {
+                    
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        
+                        self?.messageImageView.image = image
+                        
+                        self?.messageImageView.alpha = 1.0
+                    }
+                    
+                    return
+                }
             }
 
             if let image = image {
@@ -82,8 +100,8 @@ class ChatLeftImageCell: ChatBaseCell {
 
                     self.messageImageView.image = image
 
-                    UIView.animateWithDuration(YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
-                        self.messageImageView.alpha = 1.0
+                    UIView.animateWithDuration(YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                        self?.messageImageView.alpha = 1.0
                     }, completion: { (finished) -> Void in
                     })
                 }
