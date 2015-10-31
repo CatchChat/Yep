@@ -65,7 +65,7 @@ class ShowViewController: UIViewController {
         steps = [stepA, stepB, stepC]
 
         pageControl.numberOfPages = steps.count
-        pageControl.pageIndicatorTintColor = UIColor.lightGrayColor()
+        pageControl.pageIndicatorTintColor = UIColor.yepBorderColor()
         pageControl.currentPageIndicatorTintColor = UIColor.yepTintColor()
 
         registerButton.setTitle(NSLocalizedString("Sign Up", comment: ""), forState: .Normal)

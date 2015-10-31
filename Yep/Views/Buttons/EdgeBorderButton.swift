@@ -32,8 +32,8 @@ class EdgeBorderButton: UIButton {
         super.layoutSubviews()
 
         let topPath = UIBezierPath()
-        topPath.moveToPoint(CGPoint(x: 0, y: 0))
-        topPath.addLineToPoint(CGPoint(x: CGRectGetWidth(bounds), y: 0))
+        topPath.moveToPoint(CGPoint(x: 0, y: 0.5))
+        topPath.addLineToPoint(CGPoint(x: CGRectGetWidth(bounds), y: 0.5))
 
         topLineLayer.path = topPath.CGPath
     }
