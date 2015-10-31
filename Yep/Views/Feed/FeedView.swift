@@ -252,6 +252,8 @@ extension FeedView: UICollectionViewDataSource, UICollectionViewDelegate {
         let imageURL = attachmentURLs[indexPath.item]
 
         //println("attachment imageURL: \(imageURL)")
+        
+        cell.attachmentURL = imageURL
 
         cell.configureWithImageURL(imageURL, bigger: (attachmentURLs.count == 1))
 
