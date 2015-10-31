@@ -424,10 +424,6 @@ class ConversationViewController: BaseViewController {
             println("appear \(keyboardHeight), \(keyboardHeightIncrement)\n")
 
             if let strongSelf = self {
-                
-                if !strongSelf.messageToolbar.messageTextView.isFirstResponder() {
-                    return
-                }
 
                 if strongSelf.messageToolbarBottomConstraint.constant > 0 {
 
