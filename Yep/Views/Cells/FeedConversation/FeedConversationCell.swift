@@ -74,10 +74,14 @@ class FeedConversationCell: UITableViewCell {
 
         if let latestMessage = messagesInConversation(conversation).last {
 
+            guard let nickname = latestMessage.fromFriend?.nickname else{
+                return
+            }
+            
             if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
                 self.chatLabel.text = placeholder
             } else {
-                self.chatLabel.text = latestMessage.textContent
+                self.chatLabel.text = "\(nickname): \(latestMessage.textContent)"
             }
             
         } else {
