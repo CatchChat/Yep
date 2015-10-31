@@ -499,8 +499,8 @@ extension NewFeedViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(textView: UITextView) {
-        if NSString(string: textView.text).length > 200 {
-            textView.text = (textView.text as NSString).substringWithRange(NSMakeRange(0,30))
+        if NSString(string: textView.text).length > YepConfig.maxFeedTextLength {
+            textView.text = (textView.text as NSString).substringWithRange(NSMakeRange(0,YepConfig.maxFeedTextLength))
         }
     }
     
