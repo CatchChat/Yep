@@ -35,6 +35,7 @@ class ChatLeftLocationCell: ChatBaseCell {
         mapImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: 192, height: 108)
 
         let locationNameLabelHeight = YepConfig.ChatCell.locationNameLabelHeight
+        
         locationNameLabel.frame = CGRect(x: CGRectGetMinX(mapImageView.frame) + 20 + 7, y: CGRectGetMaxY(mapImageView.frame) - locationNameLabelHeight, width: 192 - 20 * 2 - 7, height: locationNameLabelHeight)
         //locationNameLabel.backgroundColor = UIColor.redColor().colorWithAlphaComponent(0.1)
         configNameLabel(topOffset)
@@ -81,6 +82,18 @@ class ChatLeftLocationCell: ChatBaseCell {
         let locationName = message.textContent
 
         locationNameLabel.text = locationName
+        
+        var shouldAdd = false
+        for view in subviews {
+            if view.isKindOfClass(UILabel) {
+                shouldAdd = true
+                break
+            }
+        }
+        
+        if shouldAdd {
+            addSubview(locationNameLabel)
+        }
 
         ImageCache.sharedInstance.mapImageOfMessage(message, withSize: CGSize(width: 192, height: 108), tailDirection: .Left, bottomShadowEnabled: !locationName.isEmpty) { mapImage in
             dispatch_async(dispatch_get_main_queue()) {

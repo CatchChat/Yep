@@ -260,10 +260,6 @@ class ImageCache {
 
                 // 先放个默认的图片
 
-                let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")! : UIImage(named: "right_tail_image_bubble")!
-                completion(defaultImage)
-
-
                 let fileName = message.localAttachmentName
 
                 // 再保证一次，防止旧消息导致错误
@@ -290,6 +286,9 @@ class ImageCache {
                                 return
                         }
                     }
+                    
+                    let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")! : UIImage(named: "right_tail_image_bubble")!
+                    completion(defaultImage)    
 
                     // 没有地图图片文件，只能生成了
 
