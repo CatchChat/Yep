@@ -21,7 +21,7 @@ class ChatBaseCell: UICollectionViewCell {
     
     lazy var nameLabel: UILabel = {
         let label = UILabel(frame: CGRectZero)
-        label.font = UIFont.systemFontOfSize(14.0)
+        label.font = UIFont.systemFontOfSize(12.0)
         label.textColor = UIColor.yepGrayColor()
         self.addSubview(label)
         return label
