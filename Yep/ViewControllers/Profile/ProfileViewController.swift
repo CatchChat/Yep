@@ -12,6 +12,7 @@ import MonkeyKing
 import Navi
 import Crashlytics
 import SafariServices
+import Kingfisher
 
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
@@ -499,6 +500,17 @@ class ProfileViewController: UIViewController {
         
         syncMyInfoAndDoFurtherAction {
         }
+        
+        Kingfisher.ImageCache(name: "default").calculateDiskCacheSizeWithCompletionHandler({ (size) -> () in
+            let cacheSize = Double(size)/1000000
+            
+            println(String(format: "%.2f MB", cacheSize))
+            
+            if cacheSize > 300 {
+                 Kingfisher.ImageCache.defaultCache.clearDiskCache()
+            }
+            
+        })
 
         title = NSLocalizedString("Profile", comment: "")
 

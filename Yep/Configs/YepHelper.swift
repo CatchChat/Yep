@@ -10,6 +10,8 @@ import Foundation
 import RealmSwift
 import Navi
 
+
+
 typealias CancelableTask = (cancel: Bool) -> Void
 
 extension String {
@@ -87,3 +89,28 @@ func isOperatingSystemAtLeastMajorVersion(majorVersion: Int) -> Bool {
     return NSProcessInfo().isOperatingSystemAtLeastVersion(NSOperatingSystemVersion(majorVersion: majorVersion, minorVersion: 0, patchVersion: 0))
 }
 
+extension String {
+    func stringByAppendingPathComponent(path: String) -> String {
+        return (self as NSString).stringByAppendingPathComponent(path)
+    }
+}
+
+
+func cleanDiskCacheFolder() {
+    
+    let folderPath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0]
+    let fileMgr = NSFileManager.defaultManager()
+    
+    guard let fileArray = try? fileMgr.contentsOfDirectoryAtPath(folderPath) else {
+        return
+    }
+    
+    for filename in fileArray  {
+        do {
+            try fileMgr.removeItemAtPath(folderPath.stringByAppendingPathComponent(filename))
+        } catch {
+            print(" clean error ")
+        }
+        
+    }
+}
