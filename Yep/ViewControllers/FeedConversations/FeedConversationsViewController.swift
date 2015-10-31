@@ -151,69 +151,56 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
 
         if editingStyle == .Delete {
-
-            guard let conversation = feedConversations[safe: indexPath.row], feed = conversation.withGroup?.withFeed else {
+            
+            guard let conversation = feedConversations[safe: indexPath.row] else {
                 tableView.setEditing(false, animated: true)
                 return
             }
-            
-            if let feedCreatorID = conversation.withGroup?.withFeed?.creator?.userID, feedID = conversation.withGroup?.withFeed?.feedID {
-                if feedCreatorID == YepUserDefaults.userID.value {
+
+            let doDeleteConversation: () -> Void = {
+                
+                dispatch_async(dispatch_get_main_queue()) {
                     
-                    YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
-                        
-                        deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
-                            println("deleted feed: \(feedID)")
-                        })
-                        
-                        }, cancelAction: {
-                            
-                    })
+                    guard let realm = conversation.realm else {
+                        return
+                    }
+                    
+                    deleteConversation(conversation, inRealm: realm)
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                    
+                    tableView.setEditing(false, animated: true)
+                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    
                 }
+                
             }
             
-            if feed.deleted {
-
-                guard let realm = conversation.realm else {
-                    tableView.setEditing(false, animated: true)
-                    return
-                }
-
-                deleteConversation(conversation, inRealm: realm, needLeaveGroup: false)
-
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-
-            } else {
-
-                tryDeleteOrClearHistoryOfConversation(conversation, inViewController: self, whenAfterClearedHistory: { [weak self] in
-
-                    tableView.setEditing(false, animated: true)
-
-                    // update cell
-
-                    if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-                        if let conversation = self?.feedConversations[safe: indexPath.row] {
-                            let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
-                            cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
-                        }
-                    }
-
-                    dispatch_async(dispatch_get_main_queue()) {
-                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-                    }
-
-                }, afterDeleted: {
-                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-
-                    dispatch_async(dispatch_get_main_queue()) {
-                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-                    }
-
-                }, orCanceled: {
-                    tableView.setEditing(false, animated: true)
+            guard let feed = conversation.withGroup?.withFeed, feedCreator = feed.creator else {
+                return
+            }
+            
+            let feedID = feed.feedID
+            let feedCreatorID = feedCreator.userID
+            
+            // 若是创建者，再询问是否删除 Feed
+            
+            if feedCreatorID == YepUserDefaults.userID.value {
+                
+                YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
+                    
+                    doDeleteConversation()
+                    
+                    deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
+                        println("deleted feed: \(feedID)")
+                    })
+                    
+                    }, cancelAction: {
+                        doDeleteConversation()
                 })
+                
+            } else {
+                doDeleteConversation()
             }
         }
     }
