@@ -110,9 +110,9 @@ class PickLocationViewController: UIViewController {
         mapView.delegate = self
 
         if let location = YepLocationService.sharedManager.locationManager.location {
+            
             let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 20000, 20000)
             mapView.setRegion(region, animated: false)
-
         } else {
             proposeToAccess(.Location(.WhenInUse), agreed: {
 

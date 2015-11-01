@@ -150,6 +150,13 @@ class ConversationViewController: BaseViewController {
         }
 
         self.updateStateInfoOfTitleView(titleView)
+        
+        titleView.userInteractionEnabled = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: "showProfile")
+        
+        titleView.addGestureRecognizer(tap)
+        
         return titleView
         }()
 
@@ -337,6 +344,14 @@ class ConversationViewController: BaseViewController {
 
         println("deinit ConversationViewController")
     }
+    
+    
+    func showProfile() {
+        if let user = conversation.withFriend {
+            performSegueWithIdentifier("showProfile", sender: user)
+        }
+    }
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -1505,7 +1520,6 @@ class ConversationViewController: BaseViewController {
     }
 
     // MARK: Actions
-
     func messagesMarkAsReadByRecipient(notifictaion: NSNotification) {
 
         guard let
