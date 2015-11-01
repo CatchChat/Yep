@@ -169,7 +169,37 @@ class NewFeedViewController: UIViewController {
             vc.pickedImageSet = Set(imageAssets)
             vc.imageLimit = mediaImages.count
             vc.completion = { [weak self] images, imageAssets in
-                self?.mediaImages.appendContentsOf(images)
+                
+                for image in images {
+                    
+                    let imageWidth = image.size.width
+                    let imageHeight = image.size.height
+                    
+                    let fixedImageWidth: CGFloat
+                    let fixedImageHeight: CGFloat
+                    
+                    if imageWidth > imageHeight {
+                        fixedImageWidth = min(imageWidth, YepConfig.Media.imageWidth)
+                        fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
+                    } else {
+                        fixedImageHeight = min(imageHeight, YepConfig.Media.imageHeight)
+                        fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
+                    }
+                    
+                    let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
+                    
+                    var quality = CGInterpolationQuality.Medium
+                    
+                    if let pickedCategory = self?.pickedSkill?.category {
+                        if pickedCategory.name == "Art" {
+                            quality = CGInterpolationQuality.High
+                        }
+                    }
+                    
+                    if let finalImage = image.resizeToSize(fixedSize, withInterpolationQuality: quality) {
+                        self?.mediaImages.append(finalImage)
+                    }
+                }
 //                self?.imageAssets = imageAssets
             }
         }
@@ -588,7 +618,15 @@ extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationCo
                     
                     // resize to smaller, not need fixRotation
                     
-                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.Medium) {
+                    var quality = CGInterpolationQuality.Medium
+                    
+                    if let pickedCategory = pickedSkill?.category {
+                        if pickedCategory.name == "Art" {
+                            quality = CGInterpolationQuality.High
+                        }
+                    }
+                    
+                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: quality) {
                         
                         if mediaImages.count <= 3 {
                             mediaImages.append(fixedImage) 
