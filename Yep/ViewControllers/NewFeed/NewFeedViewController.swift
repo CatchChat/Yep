@@ -13,6 +13,7 @@ import Photos
 import Proposer
 import RealmSwift
 import Crashlytics
+let genrealSkill = Skill(category: nil, id: "", name: "general", localName: NSLocalizedString("Choose...", comment: ""), coverURLString: nil)
 
 class NewFeedViewController: UIViewController {
     
@@ -65,7 +66,12 @@ class NewFeedViewController: UIViewController {
             myUserID = YepUserDefaults.userID.value,
             realm = try? Realm(),
             me = userWithUserID(myUserID, inRealm: realm) {
-                return skillsFromUserSkillList(me.masterSkills) + skillsFromUserSkillList(me.learningSkills)
+                
+                var skills = skillsFromUserSkillList(me.masterSkills) + skillsFromUserSkillList(me.learningSkills)
+                
+                skills.insert(genrealSkill, atIndex: 0)
+                
+                return skills
         }
         
         return []
@@ -75,7 +81,6 @@ class NewFeedViewController: UIViewController {
     var pickedSkill: Skill? {
         willSet {
             pickedSkillLabel.text = newValue?.localName
-            
             choosePromptLabel.hidden = (newValue != nil)
         }
     }
@@ -210,7 +215,7 @@ class NewFeedViewController: UIViewController {
     func showSkillPickerView(tap: UITapGestureRecognizer) {
         
         // 初次 show，预先 selectRow
-        
+
         self.messageTextView.endEditing(true)
         
         if pickedSkill == nil {
@@ -258,6 +263,10 @@ class NewFeedViewController: UIViewController {
     
     func hideSkillPickerView() {
         
+        if pickedSkill == genrealSkill {
+            pickedSkill = nil
+        }
+        
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
             
             self?.channelView.backgroundColor = UIColor.whiteColor()
@@ -268,8 +277,9 @@ class NewFeedViewController: UIViewController {
             if let _ = self?.pickedSkill {
                 self?.pickedSkillBubbleImageView.alpha = 1
                 self?.pickedSkillLabel.alpha = 1
-                self?.skillPickerView.alpha = 0
             }
+            
+            self?.skillPickerView.alpha = 0
             
             self?.channelViewTopConstraint.constant = 30
             self?.view.layoutIfNeeded()
