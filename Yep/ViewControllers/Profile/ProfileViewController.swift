@@ -584,7 +584,15 @@ class ProfileViewController: UIViewController {
                         
                         coverCell.avatarBlurImageView.alpha = progress < beginChangePercentage ? 0 : normalizedProgressForChange
                         
-                        strongSelf.topShadowImageView.alpha = progress < beginChangePercentage ? 1 : 1 - normalizedProgressForChange
+                        
+                        let shadowAlpha = 1 - normalizedProgressForChange
+                        
+                        if shadowAlpha < 0.2 {
+                            strongSelf.topShadowImageView.alpha = progress < beginChangePercentage ? 1 : 0.2
+                        } else {
+                            strongSelf.topShadowImageView.alpha = progress < beginChangePercentage ? 1 : shadowAlpha
+                        }
+
                         
                         coverCell.locationLabel.alpha = progress < 0.5 ? 1 : 1 - min(1, (progress - 0.5) * 2 * 2) // 特别对待，在后半程的前半段即完成 alpha -> 0
                     }
