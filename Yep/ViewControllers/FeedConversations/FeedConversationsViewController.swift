@@ -49,7 +49,7 @@ class FeedConversationsViewController: UIViewController {
         feedConversationsTableView.registerNib(UINib(nibName: feedConversationCellID, bundle: nil), forCellReuseIdentifier: feedConversationCellID)
         feedConversationsTableView.registerNib(UINib(nibName: deletedFeedConversationCellID, bundle: nil), forCellReuseIdentifier: deletedFeedConversationCellID)
 
-        feedConversationsTableView.rowHeight = 100
+        feedConversationsTableView.rowHeight = 80
         feedConversationsTableView.tableFooterView = UIView()
         
         if let gestures = navigationController?.view.gestureRecognizers {
