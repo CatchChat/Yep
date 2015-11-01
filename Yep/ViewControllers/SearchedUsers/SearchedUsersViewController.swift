@@ -36,7 +36,6 @@ class SearchedUsersViewController: BaseViewController {
         searchedUsersTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         searchedUsersTableView.rowHeight = 80
 
-
         activityIndicator.startAnimating()
 
         searchUsersByQ(searchText, failureHandler: { [weak self] reason, errorMessage in

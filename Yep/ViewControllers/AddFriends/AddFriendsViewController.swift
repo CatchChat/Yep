@@ -102,6 +102,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
             cell.searchTextField.returnKeyType = .Search
             cell.searchTextField.delegate = self
+            cell.searchTextField.becomeFirstResponder()
 
             return cell
 
