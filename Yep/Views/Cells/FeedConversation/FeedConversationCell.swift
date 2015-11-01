@@ -47,6 +47,11 @@ class FeedConversationCell: UITableViewCell {
         super.prepareForReuse()
         
         mediaView.hidden = true
+        
+        mediaView.imageView1.image = nil
+        mediaView.imageView2.image = nil
+        mediaView.imageView3.image = nil
+        mediaView.imageView4.image = nil
     }
 
     func configureWithConversation(conversation: Conversation) {

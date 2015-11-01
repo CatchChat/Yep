@@ -18,6 +18,11 @@ class DribbbleShotCell: UICollectionViewCell {
 
         imageView.contentMode = .ScaleAspectFill
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+    }
 
     func configureWithDribbbleShot(shot: DribbbleWork.Shot) {
         

@@ -10,6 +10,8 @@ import UIKit
 import Kingfisher
 
 class ProfileSocialAccountImagesCell: UICollectionViewCell {
+    
+    var socialAccount: SocialAccount?
 
     var socialWork: SocialWork? {
         didSet {
@@ -20,6 +22,10 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                 switch work {
 
                 case .Dribbble(let dribbbleWork):
+                    
+                    if socialAccount != SocialAccount(rawValue: "dribbble") {
+                        return
+                    }
 
                     let shots = dribbbleWork.shots
 
@@ -42,6 +48,10 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                     }
 
                 case .Instagram(let instagramWork):
+                    
+                    if socialAccount != SocialAccount(rawValue: "instagram") {
+                        return
+                    }
 
                     let medias = instagramWork.medias
 

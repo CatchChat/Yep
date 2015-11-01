@@ -53,11 +53,6 @@ class FeedMediaView: UIView {
         hidden = (URLs.count == 0)
         
 //        println(URLs)
-        
-        imageView1.image = nil
-        imageView2.image = nil
-        imageView3.image = nil
-        imageView4.image = nil
 
         switch URLs.count {
 

@@ -1335,7 +1335,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 } else {
 
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountImagesCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountImagesCell
-
+                    
+                    cell.socialAccount = socialAccount
+                    
                     var socialWork: SocialWork?
 
                     switch socialAccount {

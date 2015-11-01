@@ -23,6 +23,11 @@ class InstagramMediaCell: UICollectionViewCell {
 
         imageView.contentMode = .ScaleAspectFill
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+    }
 
     func configureWithInstagramMedia(media: InstagramWork.Media) {
 

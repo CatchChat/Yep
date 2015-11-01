@@ -26,6 +26,11 @@ class ContactsCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+    }
 
     func configureWithDiscoveredUser(discoveredUser: DiscoveredUser, tableView: UITableView, indexPath: NSIndexPath) {
 
