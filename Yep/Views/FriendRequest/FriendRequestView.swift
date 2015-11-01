@@ -10,7 +10,7 @@ import UIKit
 
 class FriendRequestView: UIView {
 
-    static let height: CGFloat = 80
+    static let height: CGFloat = 60
 
     enum State {
         case Add(prompt: String)
@@ -88,7 +88,7 @@ class FriendRequestView: UIView {
         let button = UIButton()
         button.setContentHuggingPriority(300, forAxis: UILayoutConstraintAxis.Horizontal)
         //button.setContentCompressionResistancePriority(300, forAxis: UILayoutConstraintAxis.Horizontal)
-        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
+        button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 15, bottom: 5, right: 15)
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         button.setTitleColor(UIColor.grayColor(), forState: .Highlighted)
         button.setTitleColor(UIColor.lightGrayColor(), forState: .Disabled)
@@ -115,7 +115,8 @@ class FriendRequestView: UIView {
     lazy var rejectButton: UIButton = {
         let button = self.baseButton()
         button.setTitle(NSLocalizedString("Reject", comment: ""), forState: .Normal)
-        button.backgroundColor = UIColor.redColor()
+        button.backgroundColor = UIColor(red: 230/255.0, green: 230/255.0, blue: 230/255.0, alpha: 1.0)
+        button.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
         button.addTarget(self, action: "tryRejectAction", forControlEvents: .TouchUpInside)
         return button
         }()
