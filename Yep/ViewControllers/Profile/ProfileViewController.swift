@@ -498,9 +498,6 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        syncMyInfoAndDoFurtherAction {
-        }
-        
         Kingfisher.ImageCache(name: "default").calculateDiskCacheSizeWithCompletionHandler({ (size) -> () in
             let cacheSize = Double(size)/1000000
             
@@ -553,6 +550,9 @@ class ProfileViewController: UIViewController {
         } else {
 
             // 为空的话就要显示自己
+            syncMyInfoAndDoFurtherAction {
+            }
+            
 
             if let
                 myUserID = YepUserDefaults.userID.value,
