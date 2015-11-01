@@ -3294,6 +3294,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
 
         pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
+        
+        dragBeginLocation = nil
     }
 
 }

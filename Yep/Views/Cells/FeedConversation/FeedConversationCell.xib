@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -22,7 +23,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do not go gentle into that good night. Old age should burn and rage at close of day." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pdh-nY-RnC">
-                        <rect key="frame" x="85" y="32" width="204" height="18"/>
+                        <rect key="frame" x="85" y="32" width="204" height="31.5"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="18" id="T5p-uM-E6x"/>
@@ -30,6 +31,11 @@
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" white="0.5039117192" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="T5p-uM-E6x"/>
+                            </mask>
+                        </variation>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_topic_text" translatesAutoresizingMaskIntoConstraints="NO" id="G9V-Qw-tkM">
                         <rect key="frame" x="10" y="10" width="60" height="60"/>
@@ -65,7 +71,7 @@
                             <constraint firstAttribute="height" constant="20" id="h6U-nz-SUS"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do not go gentle into that good night. Old age should burn and rage at close of day." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m9D-xj-gfc">
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do not go gentle into that good night. Old age should burn and rage at close of day." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m9D-xj-gfc">
                         <rect key="frame" x="85" y="53" width="205" height="18"/>
                         <animations/>
                         <constraints>
@@ -93,7 +99,9 @@
                     <constraint firstItem="G9V-Qw-tkM" firstAttribute="leading" secondItem="o0V-gJ-vFo" secondAttribute="leading" id="b3A-31-qqo"/>
                     <constraint firstItem="Pdh-nY-RnC" firstAttribute="leading" secondItem="0gK-pe-MlO" secondAttribute="leading" id="bWZ-BM-cqc"/>
                     <constraint firstItem="m9D-xj-gfc" firstAttribute="top" secondItem="Pdh-nY-RnC" secondAttribute="bottom" constant="3" id="dvt-WQ-2Ud"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="Pdh-nY-RnC" secondAttribute="bottom" constant="8" id="eWr-xy-hWL"/>
                     <constraint firstItem="NEk-lH-Ejr" firstAttribute="centerY" secondItem="1RF-Jq-txW" secondAttribute="centerY" id="edb-V1-PgB"/>
+                    <constraint firstItem="m9D-xj-gfc" firstAttribute="top" secondItem="Pdh-nY-RnC" secondAttribute="bottom" constant="8" id="gQP-eZ-8zw"/>
                     <constraint firstItem="G9V-Qw-tkM" firstAttribute="centerX" secondItem="o0V-gJ-vFo" secondAttribute="centerX" id="hN7-iC-ybO"/>
                     <constraint firstAttribute="trailing" secondItem="m9D-xj-gfc" secondAttribute="trailing" constant="30" id="k0X-Tu-Q5W"/>
                     <constraint firstItem="o0V-gJ-vFo" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="mdH-4k-QVa"/>
@@ -107,6 +115,7 @@
                     <mask key="constraints">
                         <exclude reference="OIq-TG-3Bo"/>
                         <exclude reference="dvt-WQ-2Ud"/>
+                        <exclude reference="gQP-eZ-8zw"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>
