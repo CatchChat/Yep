@@ -1604,18 +1604,30 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                                 }
                             }
                             
-//                            if isOperatingSystemAtLeastMajorVersion(9) {
+                            if isOperatingSystemAtLeastMajorVersion(9) {
                             
-//                                self.socialAccount = SocialAccount(rawValue: providerName)
+                                self.socialAccount = SocialAccount(rawValue: providerName)
                                 
-//                                let request = authURLRequestWithURL(socialAccount.authURL)
+                                var accessToken = ""
                                 
-//                                let _ = NSURLConnection(request: request, delegate: self)
-
+                                if let token = YepUserDefaults.v1AccessToken.value {
+                                    accessToken = token
+                                }
                                 
-//                            } else {
+                                if #available(iOS 9.0, *) {
+                                    let safariViewController = SFSafariViewController(URL: NSURL(string: "\(socialAccount.authURL)?_tkn=\(accessToken)")!)
+                                    presentViewController(safariViewController, animated: true, completion: nil)
+                                    
+                                    oauthComplete = {
+                                        safariViewController.dismissViewControllerAnimated(true, completion: nil)
+                                    }
+                                } else {
+                                    performSegueWithIdentifier("presentOAuth", sender: providerName)
+                                }
+                                
+                            } else {
                                 performSegueWithIdentifier("presentOAuth", sender: providerName)
-//                            }
+                            }
                             
                         }
                     }
@@ -1697,27 +1709,4 @@ extension ProfileViewController: NSURLConnectionDataDelegate {
         }
     }
     
-    func connection(connection: NSURLConnection, willSendRequest request: NSURLRequest, redirectResponse response: NSURLResponse?) -> NSURLRequest? {
-        
-        if let url = request.URL?.absoluteString {
-            if url.contains("github.com") || url.contains("dribbble.com") || url.contains("instagram.com") {
-                if #available(iOS 9.0, *) {
-                    let safariViewController = SFSafariViewController(URL: request.URL!)
-                    presentViewController(safariViewController, animated: true, completion: nil)
-                    
-                    oauthComplete = {
-                        safariViewController.dismissViewControllerAnimated(true, completion: nil)
-                    }
-                } else {
-                    // Fallback on earlier versions
-                }
-                
-                connection.cancel()
-            }
-            
-            println(url)
-        }
-        
-        return request
-    }
 }

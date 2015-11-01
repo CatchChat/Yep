@@ -28,7 +28,13 @@ class OAuthViewController: BaseViewController {
 
         title = socialAccount.description
         
-        let request = authURLRequestWithURL(socialAccount.authURL)
+        var accessToken = ""
+        
+        if let token = YepUserDefaults.v1AccessToken.value {
+            accessToken = token
+        }
+        
+        let request = NSURLRequest(URL: NSURL(string: "\(socialAccount.authURL)?_tkn=\(accessToken)")!)
         
         webView.loadRequest(request)
         
@@ -94,6 +100,8 @@ extension OAuthViewController: UIWebViewDelegate {
             })
             
         } else if url.contains("/auth/failure") {
+//            println(url)
+        
             webViewDidFinishLoad(webView)
             
             YepAlert.alertSorry(message: NSLocalizedString("OAuth Error", comment: ""), inViewController: self, withDismissAction: { () -> Void in
