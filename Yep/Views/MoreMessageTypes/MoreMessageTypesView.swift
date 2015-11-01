@@ -313,9 +313,11 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                             }
                         }
                     }
-
-                    images.forEach {
-                        sendImageAction?($0)
+                    
+                    for (index, image) in images.enumerate() {
+                        delay(0.1*Double(index), work: { [weak self] in
+                            self?.sendImageAction?(image)
+                        })
                     }
 
                     // clean UI
