@@ -530,6 +530,7 @@ class ProfileViewController: UIViewController {
                 }
 
                 if let user = userWithUserID(discoveredUser.id, inRealm: realm) {
+                    
                     self.profileUser = ProfileUser.UserType(user)
 
                     masterSkills = skillsFromUserSkillList(user.masterSkills)
@@ -545,6 +546,17 @@ class ProfileViewController: UIViewController {
 
             default:
                 break
+            }
+            
+            if let realm = try? Realm() {
+                
+                if let user = userWithUserID(profileUser.userID, inRealm: realm) {
+                    
+                    if user.friendState == UserFriendState.Normal.rawValue {
+                        sayHiView.title = NSLocalizedString("Chat", comment: "")
+                    }
+                }
+                
             }
 
         } else {
