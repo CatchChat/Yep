@@ -898,7 +898,6 @@ func reportProfileUser(profileUser: ProfileUser, forReason reason: ReportReason,
     }
 
     var requestParameters: JSONDictionary = [
-        "recipient_id": userID,
         "report_type": reason.type
     ]
 
@@ -913,8 +912,34 @@ func reportProfileUser(profileUser: ProfileUser, forReason reason: ReportReason,
         return true
     }
 
-    let resource = authJsonResource(path: "/api/v1/user_reports", method: .POST, requestParameters: requestParameters, parse: parse)
+    let resource = authJsonResource(path: "/api/v1/users/\(userID)/reports", method: .POST, requestParameters: requestParameters, parse: parse)
 
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+func reportFeed(feedID: String, forReason reason: ReportReason, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+    
+    var requestParameters: JSONDictionary = [
+        "report_type": reason.type
+    ]
+    
+    switch reason {
+    case .Other(let description):
+        requestParameters["reason"] = description
+    default:
+        break
+    }
+    
+    let parse: JSONDictionary -> Bool? = { data in
+        return true
+    }
+    
+    let resource = authJsonResource(path: "/api/v1/topics/\(feedID)/reports", method: .POST, requestParameters: requestParameters, parse: parse)
+    
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
     } else {
