@@ -540,6 +540,9 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                     if let feed = group.withFeed {
                         feed.deleted = true
 
+                        // 确保被删除的 Feed 的所有消息都被标记已读
+                        group.conversation?.messages.forEach { $0.readed = true }
+
                     } else {
                         group.cascadeDelete()
                     }
