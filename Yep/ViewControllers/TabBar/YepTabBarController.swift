@@ -119,11 +119,18 @@ extension YepTabBarController: UITabBarControllerDelegate {
             }
 
         case .Discover:
-            let vc = nvc.topViewController as? DiscoverViewController
+            if let vc = nvc.topViewController as? DiscoverViewController {
+                if !vc.discoveredUsersCollectionView.yep_isAtTop {
+                    vc.discoveredUsersCollectionView.yep_scrollsToTop()
+                }
+            }
 
         case .Profile:
-            let vc = nvc.topViewController as? ProfileViewController
-
+            if let vc = nvc.topViewController as? ProfileViewController {
+                if !vc.profileCollectionView.yep_isAtTop {
+                    vc.profileCollectionView.yep_scrollsToTop()
+                }
+            }
         }
 
         /*
