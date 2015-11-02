@@ -1105,7 +1105,7 @@ func rejectFriendRequestWithID(friendRequestID: String, failureHandler: ((Reason
 
 // MARK: - Friendships
 
-private func headFriendships(completion completion: JSONDictionary -> Void) {
+private func headFriendships(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": 1,
         "per_page": 100,
@@ -1117,7 +1117,11 @@ private func headFriendships(completion completion: JSONDictionary -> Void) {
 
     let resource = authJsonResource(path: "/api/v1/friendships", method: .GET, requestParameters: requestParameters, parse: parse)
 
-    apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
 }
 
 private func moreFriendships(inPage page: Int, withPerPage perPage: Int, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
@@ -1304,9 +1308,9 @@ func searchUsersByQ(q: String, failureHandler: ((Reason, String?) -> Void)?, com
     }
 }
 
-func friendships(completion completion: [JSONDictionary] -> Void) {
+func friendships(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
 
-    headFriendships { result in
+    headFriendships(failureHandler: failureHandler) { result in
         if
             let count = result["count"] as? Int,
             let currentPage = result["current_page"] as? Int,
@@ -1327,13 +1331,17 @@ func friendships(completion completion: [JSONDictionary] -> Void) {
 
                     // We have more friends
 
+                    var allGood = true
                     let downloadGroup = dispatch_group_create()
 
                     for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
                         dispatch_group_enter(downloadGroup)
 
                         moreFriendships(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
+                            allGood = false
+                            failureHandler?(reason, errorMessage)
                             dispatch_group_leave(downloadGroup)
+
                         }, completion: { result in
                             if let currentPageFriendships = result["friendships"] as? [JSONDictionary] {
                                 friendships += currentPageFriendships
@@ -1343,7 +1351,10 @@ func friendships(completion completion: [JSONDictionary] -> Void) {
                     }
 
                     dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
-                        completion(friendships)
+
+                        if allGood {
+                            completion(friendships)
+                        }
                     }
                 }
         }
@@ -1422,7 +1433,7 @@ func leaveGroup(groupID groupID: String, failureHandler: ((Reason, String?) -> V
 func headGroups(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": 1,
-        "per_page": 100,
+        "per_page": 30,
     ]
 
     let parse: JSONDictionary -> JSONDictionary? = { data in
@@ -1708,12 +1719,14 @@ func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?,
                 } else {
                     // We have more messages
 
+                    var allGood = true
                     let downloadGroup = dispatch_group_create()
 
                     for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
                         dispatch_group_enter(downloadGroup)
 
                         moreUnreadMessages(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
+                            allGood = false
                             dispatch_group_leave(downloadGroup)
 
                             failureHandler?(reason, errorMessage)
@@ -1728,7 +1741,9 @@ func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?,
                     }
 
                     dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
-                        completion(messages)
+                        if allGood {
+                            completion(messages)
+                        }
                     }
                 }
 

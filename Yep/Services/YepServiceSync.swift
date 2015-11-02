@@ -395,7 +395,7 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
 func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
-    friendships { allFriendships in
+    friendships(failureHandler: nil) { allFriendships in
         //println("\n allFriendships: \(allFriendships)")
 
         dispatch_async(realmQueue) {
