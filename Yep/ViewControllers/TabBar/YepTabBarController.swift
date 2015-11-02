@@ -10,6 +10,33 @@ import UIKit
 
 class YepTabBarController: UITabBarController {
 
+    enum Tab: Int {
+
+        case Conversations
+        case Contacts
+        case Feeds
+        case Discover
+        case Profile
+
+        var title: String {
+
+            switch self {
+            case .Conversations:
+                return NSLocalizedString("Chats", comment: "")
+            case .Contacts:
+                return NSLocalizedString("Contacts", comment: "")
+            case .Feeds:
+                return NSLocalizedString("Feeds", comment: "")
+            case .Discover:
+                return NSLocalizedString("Discover", comment: "")
+            case .Profile:
+                return NSLocalizedString("Profile", comment: "")
+            }
+        }
+    }
+
+    var previousTab = Tab.Conversations
+
     struct Listener {
         static let lauchStyle = "YepTabBarController.lauchStyle"
     }
@@ -37,19 +64,12 @@ class YepTabBarController: UITabBarController {
         }
         */
 
+        // Set Titles
+
         if let items = tabBar.items {
-
-            let titles = [
-                NSLocalizedString("Chats", comment: ""),
-                NSLocalizedString("Contacts", comment: ""),
-                NSLocalizedString("Feeds", comment: ""),
-                NSLocalizedString("Discover", comment: ""),
-                NSLocalizedString("Profile", comment: ""),
-            ]
-
             for i in 0..<items.count {
                 let item = items[i]
-                item.title = titles[i]
+                item.title = Tab(rawValue: i)?.title
             }
         }
 
@@ -65,9 +85,62 @@ class YepTabBarController: UITabBarController {
     }
 }
 
+// MARK: - UITabBarControllerDelegate
+
 extension YepTabBarController: UITabBarControllerDelegate {
 
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+
+        guard
+            let tab = Tab(rawValue: selectedIndex),
+            let nvc = viewController as? UINavigationController else {
+                return
+        }
+
+        // 不相等才继续，确保第一次 tap 不做事
+
+        if tab != previousTab {
+            previousTab = tab
+            return
+        }
+
+        switch tab {
+
+        case .Conversations:
+            if let vc = nvc.topViewController as? ConversationsViewController {
+                if !vc.conversationsTableView.yep_isAtTop {
+                    vc.conversationsTableView.yep_scrollsToTop()
+                }
+            }
+
+        case .Contacts:
+            if let vc = nvc.topViewController as? ContactsViewController {
+                if !vc.contactsTableView.yep_isAtTop {
+                    vc.contactsTableView.yep_scrollsToTop()
+                }
+            }
+
+        case .Feeds:
+            if let vc = nvc.topViewController as? FeedsViewController {
+                if !vc.feedsTableView.yep_isAtTop {
+                    vc.feedsTableView.yep_scrollsToTop()
+                }
+            }
+
+        case .Discover:
+            if let vc = nvc.topViewController as? DiscoverViewController {
+                if !vc.discoveredUsersCollectionView.yep_isAtTop {
+                    vc.discoveredUsersCollectionView.yep_scrollsToTop()
+                }
+            }
+
+        case .Profile:
+            if let vc = nvc.topViewController as? ProfileViewController {
+                if !vc.profileCollectionView.yep_isAtTop {
+                    vc.profileCollectionView.yep_scrollsToTop()
+                }
+            }
+        }
 
         /*
         if selectedIndex == 1 {
