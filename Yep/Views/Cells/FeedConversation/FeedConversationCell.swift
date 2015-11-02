@@ -73,9 +73,10 @@ class FeedConversationCell: UITableViewCell {
 //            timeLabel.text = ""
 //        }
 
-        let attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
-        mediaView.FeedURLs = attachmentURLs
-        mediaView.setImagesWithURLs(attachmentURLs)
+        let attachments = feed.attachments.map({
+            DiscoveredAttachment(kind: AttachmentKind(rawValue: $0.kind)!, metadata: $0.metadata, URLString: $0.URLString)
+        })
+        mediaView.setImagesWithAttachments(attachments)
 
         if let latestMessage = messagesInConversation(conversation).last {
 

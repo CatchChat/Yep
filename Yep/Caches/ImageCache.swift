@@ -20,8 +20,12 @@ class ImageCache {
     let cacheAttachmentQueue = dispatch_queue_create("ImageCacheAttachmentQueue", DISPATCH_QUEUE_SERIAL)
 //    let cacheQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
     
-    func imageOfAttachment(attachmentURL: NSURL, withSize: CGSize?, completion: (url: NSURL, image: UIImage?) -> Void) {
-        
+    func imageOfAttachment(attachment: DiscoveredAttachment, withSize: CGSize?, completion: (url: NSURL, image: UIImage?) -> Void) {
+
+        guard let attachmentURL = NSURL(string: attachment.URLString) else {
+            return
+        }
+
         var cacheSize = CGSizeZero
         
         if let withSize = withSize {

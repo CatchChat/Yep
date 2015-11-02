@@ -2397,6 +2397,22 @@ struct DiscoveredAttachment {
     let metadata: String
     let URLString: String
 
+    var thumbnailImage: UIImage? {
+
+        if let data = metadata.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+            if let metaDataInfo = decodeJSON(data) {
+                if let thumbnailString = metaDataInfo[YepConfig.MetaData.thumbnailString] as? String {
+                    if let imageData = NSData(base64EncodedString: thumbnailString, options: NSDataBase64DecodingOptions(rawValue: 0)) {
+                        let image = UIImage(data: imageData)
+                        return image
+                    }
+                }
+            }
+        }
+
+        return nil
+    }
+
     static func fromJSONDictionary(json: JSONDictionary) -> DiscoveredAttachment? {
         guard let
             kindString = json["kind"] as? String,
