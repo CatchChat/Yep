@@ -128,6 +128,9 @@ class PickLocationViewController: UIViewController {
         mapView.addGestureRecognizer(tap)
 
         activityIndicator.startAnimating()
+
+        view.bringSubviewToFront(tableView)
+        view.bringSubviewToFront(searchBar)
         view.bringSubviewToFront(activityIndicator)
     }
 
