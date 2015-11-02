@@ -180,13 +180,22 @@ class ConversationMoreView: UIView {
     var notificationEnabled: Bool = true {
         didSet {
             if notificationEnabled != oldValue {
-                dispatch_async(dispatch_get_main_queue()) {
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     
-                    if let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: Row.DoNotDisturb.rawValue, inSection: 0)) as? ConversationMoreCheckCell {
-                        cell.updateWithNotificationEnabled(self.notificationEnabled)
-                    } else {
-                        self.tableView.reloadData()
+                    if let strongSelf = self {
+                        if let cell = strongSelf.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: Row.DoNotDisturb.rawValue, inSection: 0)) as? ConversationMoreCheckCell {
+                            
+                            switch strongSelf.type {
+                            case .OneToOne:
+                                cell.updateWithNotificationEnabled(strongSelf.notificationEnabled)
+                            case .Topic:
+                                cell.updateWithNotificationEnabled(!strongSelf.notificationEnabled)
+                            }
+                        } else {
+                            strongSelf.tableView.reloadData()
+                        }
                     }
+
                 }
             }
         }
@@ -202,9 +211,14 @@ class ConversationMoreView: UIView {
     var blocked: Bool = true {
         didSet {
             if blocked != oldValue {
-                dispatch_async(dispatch_get_main_queue()) {
-                    let cell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: Row.Block.rawValue, inSection: 0)) as! ConversationMoreColorTitleCell
-                    cell.updateWithBlocked(self.blocked)
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    
+                    let cell = strongSelf.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: Row.Block.rawValue, inSection: 0)) as! ConversationMoreColorTitleCell
+                    cell.updateWithBlocked(strongSelf.blocked)
                 }
             }
         }
@@ -460,7 +474,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                     
                     cell.textLabel?.text = NSLocalizedString("Push notifications", comment: "")
                     
-                    cell.updateWithNotificationEnabled(notificationEnabled)
+                    cell.updateWithNotificationEnabled(!notificationEnabled)
                     
                     cell.checkedSwitch.addTarget(self, action: "toggleDoNotDisturb", forControlEvents: UIControlEvents.ValueChanged)
                     
