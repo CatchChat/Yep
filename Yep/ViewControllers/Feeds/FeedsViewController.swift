@@ -419,6 +419,10 @@ class FeedsViewController: UIViewController {
             }
 
             vc.conversation = feedConversation
+
+            vc.afterDeletedConversationAction = { [weak self] in
+                self?.updateFeeds()
+            }
             
             if let group = group {
                 saveFeedWithFeedDataWithoutFullGroup(feedData, group: group, inRealm: realm)

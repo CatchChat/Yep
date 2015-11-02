@@ -318,6 +318,8 @@ class ConversationViewController: BaseViewController {
         return imagePicker
         }()
 
+    var afterDeletedConversationAction: (() -> Void)?
+
     let chatSectionDateCellIdentifier = "ChatSectionDateCell"
     let chatStateCellIdentifier = "ChatStateCell"
     let chatLeftTextCellIdentifier = "ChatLeftTextCell"
@@ -1620,6 +1622,8 @@ class ConversationViewController: BaseViewController {
                     deleteConversation(conversation, inRealm: realm)
 
                     NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+
+                    self?.afterDeletedConversationAction?()
 
                     self?.navigationController?.popViewControllerAnimated(true)
                 }
