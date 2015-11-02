@@ -21,6 +21,7 @@ class PickLocationViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchBarTopToSuperBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     var isFirstShowUserLocation = true
 
@@ -125,8 +126,10 @@ class PickLocationViewController: UIViewController {
 
         let tap = UITapGestureRecognizer(target: self, action: "addAnnotation:")
         mapView.addGestureRecognizer(tap)
-    }
 
+        activityIndicator.startAnimating()
+        view.bringSubviewToFront(activityIndicator)
+    }
 
     // MARK: Actions
     
@@ -208,6 +211,8 @@ class PickLocationViewController: UIViewController {
     }
 }
 
+// MARK: - MKMapViewDelegate
+
 extension PickLocationViewController: MKMapViewDelegate {
     
     func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
@@ -215,6 +220,8 @@ extension PickLocationViewController: MKMapViewDelegate {
         guard let location = userLocation.location else {
             return
         }
+
+        activityIndicator.stopAnimating()
 
         if isFirstShowUserLocation {
             isFirstShowUserLocation = false
@@ -258,6 +265,8 @@ extension PickLocationViewController: MKMapViewDelegate {
         return nil
     }
 }
+
+// MARK: - UISearchBarDelegate
 
 extension PickLocationViewController: UISearchBarDelegate {
     
@@ -333,6 +342,8 @@ extension PickLocationViewController: UISearchBarDelegate {
         }
     }
 }
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate {
 

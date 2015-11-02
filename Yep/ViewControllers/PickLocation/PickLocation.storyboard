@@ -17,9 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="tMv-sj-Ihx">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="394"/>
-                            </mapView>
                             <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="V0o-OK-Glb">
                                 <rect key="frame" x="0.0" y="350" width="600" height="44"/>
                                 <color key="barTintColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -36,6 +33,12 @@
                                     <outlet property="delegate" destination="07Q-L4-6oe" id="nsn-Su-HxZ"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="pIo-vY-4QU">
+                                <rect key="frame" x="290" y="184" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="tMv-sj-Ihx">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="394"/>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -43,12 +46,14 @@
                             <constraint firstItem="V0o-OK-Glb" firstAttribute="leading" secondItem="Acd-G9-mDg" secondAttribute="leading" id="3BN-VK-B3j"/>
                             <constraint firstItem="GJU-cF-0Ij" firstAttribute="top" secondItem="tMv-sj-Ihx" secondAttribute="bottom" constant="206" id="40G-Hf-6Ng"/>
                             <constraint firstItem="GJU-cF-0Ij" firstAttribute="top" secondItem="Vvv-Sf-xsu" secondAttribute="bottom" id="5WK-q7-JFn"/>
+                            <constraint firstItem="pIo-vY-4QU" firstAttribute="top" secondItem="3ro-dX-Brx" secondAttribute="bottom" constant="120" id="Ene-CG-xWF"/>
                             <constraint firstItem="Vvv-Sf-xsu" firstAttribute="leading" secondItem="Acd-G9-mDg" secondAttribute="leading" id="HAq-O4-HIo"/>
                             <constraint firstAttribute="trailing" secondItem="V0o-OK-Glb" secondAttribute="trailing" id="Lej-9H-CWX"/>
                             <constraint firstItem="Vvv-Sf-xsu" firstAttribute="top" secondItem="V0o-OK-Glb" secondAttribute="bottom" id="Qxl-nJ-dd6"/>
                             <constraint firstAttribute="trailing" secondItem="tMv-sj-Ihx" secondAttribute="trailing" id="T5u-Ou-e00"/>
                             <constraint firstItem="tMv-sj-Ihx" firstAttribute="leading" secondItem="Acd-G9-mDg" secondAttribute="leading" id="gmV-Le-nhP"/>
                             <constraint firstItem="tMv-sj-Ihx" firstAttribute="top" secondItem="Acd-G9-mDg" secondAttribute="top" id="kvM-ij-cn3"/>
+                            <constraint firstItem="pIo-vY-4QU" firstAttribute="centerX" secondItem="Acd-G9-mDg" secondAttribute="centerX" id="nts-sy-chP"/>
                             <constraint firstItem="GJU-cF-0Ij" firstAttribute="top" secondItem="V0o-OK-Glb" secondAttribute="top" constant="250" id="rC2-xh-8I5"/>
                         </constraints>
                     </view>
@@ -65,6 +70,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="pIo-vY-4QU" id="67O-ln-tqD"/>
                         <outlet property="cancelButton" destination="jua-ht-Ed3" id="o3J-Vi-dpY"/>
                         <outlet property="mapView" destination="tMv-sj-Ihx" id="qie-Ac-q6z"/>
                         <outlet property="searchBar" destination="V0o-OK-Glb" id="61A-IA-sDt"/>
