@@ -10,6 +10,31 @@ import UIKit
 
 class YepTabBarController: UITabBarController {
 
+    enum Tab: Int {
+
+        case Conversations
+        case Contacts
+        case Feeds
+        case Discover
+        case Profile
+
+        var title: String {
+
+            switch self {
+            case .Conversations:
+                return NSLocalizedString("Chats", comment: "")
+            case .Contacts:
+                return NSLocalizedString("Contacts", comment: "")
+            case .Feeds:
+                return NSLocalizedString("Feeds", comment: "")
+            case .Discover:
+                return NSLocalizedString("Discover", comment: "")
+            case .Profile:
+                return NSLocalizedString("Profile", comment: "")
+            }
+        }
+    }
+
     var previousTab = Tab.Conversations
 
     struct Listener {
@@ -39,19 +64,12 @@ class YepTabBarController: UITabBarController {
         }
         */
 
+        // Set Titles
+
         if let items = tabBar.items {
-
-            let titles = [
-                NSLocalizedString("Chats", comment: ""),
-                NSLocalizedString("Contacts", comment: ""),
-                NSLocalizedString("Feeds", comment: ""),
-                NSLocalizedString("Discover", comment: ""),
-                NSLocalizedString("Profile", comment: ""),
-            ]
-
             for i in 0..<items.count {
                 let item = items[i]
-                item.title = titles[i]
+                item.title = Tab(rawValue: i)?.title
             }
         }
 
@@ -70,15 +88,6 @@ class YepTabBarController: UITabBarController {
 // MARK: - UITabBarControllerDelegate
 
 extension YepTabBarController: UITabBarControllerDelegate {
-
-    enum Tab: Int {
-
-        case Conversations
-        case Contacts
-        case Feeds
-        case Discover
-        case Profile
-    }
 
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
 
