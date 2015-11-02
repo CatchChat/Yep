@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -71,16 +70,6 @@
                             <constraint firstAttribute="height" constant="20" id="h6U-nz-SUS"/>
                         </constraints>
                     </imageView>
-                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do not go gentle into that good night. Old age should burn and rage at close of day." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m9D-xj-gfc">
-                        <rect key="frame" x="85" y="53" width="205" height="18"/>
-                        <animations/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="18" id="Waz-xF-wrN"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                        <color key="textColor" white="0.5039117192" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
                 <animations/>
                 <constraints>
@@ -90,20 +79,15 @@
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="0gK-pe-MlO" secondAttribute="trailing" constant="30" id="HAo-kh-0N5"/>
                     <constraint firstItem="G9V-Qw-tkM" firstAttribute="top" secondItem="o0V-gJ-vFo" secondAttribute="top" id="LNO-aD-cNA"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Pdh-nY-RnC" secondAttribute="bottom" constant="25" id="OIq-TG-3Bo"/>
-                    <constraint firstAttribute="bottom" secondItem="m9D-xj-gfc" secondAttribute="bottom" constant="8" id="QSb-F7-42W"/>
                     <constraint firstItem="1RF-Jq-txW" firstAttribute="leading" secondItem="NEk-lH-Ejr" secondAttribute="leading" constant="5" id="RJE-DF-nn4"/>
                     <constraint firstItem="G9V-Qw-tkM" firstAttribute="centerY" secondItem="o0V-gJ-vFo" secondAttribute="centerY" id="Tqt-nv-oim"/>
-                    <constraint firstItem="m9D-xj-gfc" firstAttribute="leading" secondItem="Pdh-nY-RnC" secondAttribute="leading" id="Wlt-ZR-WAi"/>
                     <constraint firstItem="ota-vy-FWR" firstAttribute="leading" secondItem="Pdh-nY-RnC" secondAttribute="trailing" constant="10" id="WnR-Sw-r48"/>
                     <constraint firstAttribute="trailing" secondItem="ota-vy-FWR" secondAttribute="trailing" constant="10" id="XTF-uu-II4"/>
                     <constraint firstItem="G9V-Qw-tkM" firstAttribute="leading" secondItem="o0V-gJ-vFo" secondAttribute="leading" id="b3A-31-qqo"/>
                     <constraint firstItem="Pdh-nY-RnC" firstAttribute="leading" secondItem="0gK-pe-MlO" secondAttribute="leading" id="bWZ-BM-cqc"/>
-                    <constraint firstItem="m9D-xj-gfc" firstAttribute="top" secondItem="Pdh-nY-RnC" secondAttribute="bottom" constant="3" id="dvt-WQ-2Ud"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="Pdh-nY-RnC" secondAttribute="bottom" constant="8" id="eWr-xy-hWL"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Pdh-nY-RnC" secondAttribute="bottom" constant="10" id="eWr-xy-hWL"/>
                     <constraint firstItem="NEk-lH-Ejr" firstAttribute="centerY" secondItem="1RF-Jq-txW" secondAttribute="centerY" id="edb-V1-PgB"/>
-                    <constraint firstItem="m9D-xj-gfc" firstAttribute="top" secondItem="Pdh-nY-RnC" secondAttribute="bottom" constant="8" id="gQP-eZ-8zw"/>
                     <constraint firstItem="G9V-Qw-tkM" firstAttribute="centerX" secondItem="o0V-gJ-vFo" secondAttribute="centerX" id="hN7-iC-ybO"/>
-                    <constraint firstAttribute="trailing" secondItem="m9D-xj-gfc" secondAttribute="trailing" constant="30" id="k0X-Tu-Q5W"/>
                     <constraint firstItem="o0V-gJ-vFo" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="mdH-4k-QVa"/>
                     <constraint firstItem="NEk-lH-Ejr" firstAttribute="trailing" secondItem="1RF-Jq-txW" secondAttribute="trailing" constant="5" id="qrX-ol-OkM"/>
                     <constraint firstItem="0gK-pe-MlO" firstAttribute="leading" secondItem="o0V-gJ-vFo" secondAttribute="trailing" constant="15" id="rk1-o2-Cs4"/>
@@ -114,8 +98,6 @@
                 <variation key="default">
                     <mask key="constraints">
                         <exclude reference="OIq-TG-3Bo"/>
-                        <exclude reference="dvt-WQ-2Ud"/>
-                        <exclude reference="gQP-eZ-8zw"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>
@@ -127,7 +109,6 @@
                 <outlet property="mediaView" destination="o0V-gJ-vFo" id="Zmb-u4-pZL"/>
                 <outlet property="nameLabel" destination="0gK-pe-MlO" id="6IO-oJ-4l1"/>
                 <outlet property="redDotImageView" destination="NEk-lH-Ejr" id="3vq-Sa-Mga"/>
-                <outlet property="timeLabel" destination="m9D-xj-gfc" id="lau-QT-sSl"/>
                 <outlet property="unreadCountLabel" destination="1RF-Jq-txW" id="CVD-dd-vd7"/>
             </connections>
             <point key="canvasLocation" x="187" y="326"/>

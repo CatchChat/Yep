@@ -16,7 +16,7 @@ class FeedConversationCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var chatLabel: UILabel!
     @IBOutlet weak var accessoryImageView: UIImageView!
-    @IBOutlet weak var timeLabel: UILabel!
+    //@IBOutlet weak var timeLabel: UILabel!
 
     var conversation: Conversation!
 
@@ -66,13 +66,12 @@ class FeedConversationCell: UITableViewCell {
 
         nameLabel.text = feed.body
         
-        if let creator = feed.creator {
-            timeLabel.text = String(format: NSLocalizedString("Created by %@ at %@", comment: ""), creator.nickname, NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)
-        
-        } else {
-            timeLabel.text = ""
-        }
-
+//        if let creator = feed.creator {
+//            timeLabel.text = String(format: NSLocalizedString("Created by %@ at %@", comment: ""), creator.nickname, NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)
+//        
+//        } else {
+//            timeLabel.text = ""
+//        }
 
         let attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
         mediaView.FeedURLs = attachmentURLs
