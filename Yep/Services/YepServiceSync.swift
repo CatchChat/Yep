@@ -957,6 +957,8 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                         let newUser = User()
 
                         newUser.userID = senderID
+                        
+                        //TODO 服务器个消息的 Sender 加入一个用户状态，避免暴力标记为 Stranger
 
                         newUser.friendState = UserFriendState.Stranger.rawValue
 
@@ -980,6 +982,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                         var sendFromGroup: Group? = nil
 
                         if let recipientType = messageInfo["recipient_type"] as? String {
+
                             if recipientType == "Circle" {
                                 if let groupID = messageInfo["recipient_id"] as? String {
                                     sendFromGroup = groupWithGroupID(groupID, inRealm: realm)
@@ -1000,6 +1003,8 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                                         }
 
                                         sendFromGroup = newGroup
+                                        
+                                        // TODO 存在多次网络查询这个 Group 的可能性
                                         
                                         groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { (groupInfo) -> Void in
                                             dispatch_async(realmQueue) {

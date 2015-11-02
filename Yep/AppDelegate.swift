@@ -312,12 +312,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func sync() {
-
+        
+        // TODO 随着群组和好友越来越多，这个方法会导致 App 开启的时候，获取到离线消息愈来越慢
+        
         syncFriendshipsAndDoFurtherAction {
             syncGroupsAndDoFurtherAction { [weak self] in
                 self?.syncUnreadMessages() {}
             }
         }
+
 
         officialMessages { messagesCount in
             println("new officialMessages count: \(messagesCount)")
