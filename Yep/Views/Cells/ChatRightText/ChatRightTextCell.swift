@@ -105,7 +105,7 @@ class ChatRightTextCell: ChatRightBaseCell {
                 
                 let bubbleBodyFrame = CGRectInset(strongSelf.textContainerView.frame, -12, -3)
                 
-                strongSelf.bubbleBodyShapeLayer.path = UIBezierPath(roundedRect: bubbleBodyFrame, byRoundingCorners: UIRectCorner.AllCorners, cornerRadii: CGSize(width: 18, height: 18)).CGPath
+                strongSelf.bubbleBodyShapeLayer.path = UIBezierPath(roundedRect: bubbleBodyFrame, byRoundingCorners: UIRectCorner.AllCorners, cornerRadii: CGSize(width: YepConfig.ChatCell.bubbleCornerRadius, height: YepConfig.ChatCell.bubbleCornerRadius)).CGPath
 //                strongSelf.bubbleBodyImageView.frame =
 
                 strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMaxX(bubbleBodyFrame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))

@@ -169,6 +169,8 @@ class YepConfig {
         static let mediaMinHeight: CGFloat = 30
 
         static let centerXOffset: CGFloat = 4
+        
+        static let bubbleCornerRadius: CGFloat = 20
 
         static let imageAppearDuration: NSTimeInterval = 0.1
 
