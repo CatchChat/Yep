@@ -98,10 +98,18 @@ extension YepTabBarController: UITabBarControllerDelegate {
         switch tab {
 
         case .Conversations:
-            let vc = nvc.topViewController as? ConversationsViewController
+            if let vc = nvc.topViewController as? ConversationsViewController {
+                if !vc.conversationsTableView.yep_isAtTop {
+                    vc.conversationsTableView.yep_scrollsToTop()
+                }
+            }
 
         case .Contacts:
-            let vc = nvc.topViewController as? ContactsViewController
+            if let vc = nvc.topViewController as? ContactsViewController {
+                if !vc.contactsTableView.yep_isAtTop {
+                    vc.contactsTableView.yep_scrollsToTop()
+                }
+            }
 
         case .Feeds:
             if let vc = nvc.topViewController as? FeedsViewController {

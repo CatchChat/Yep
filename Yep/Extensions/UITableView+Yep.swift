@@ -11,7 +11,7 @@ import UIKit
 extension UITableView {
 
     var yep_isAtTop: Bool {
-        println("contentOffset.y: \(contentOffset.y), -contentInset.top: \(-contentInset.top)")
+
         return contentOffset.y == -contentInset.top
     }
     
