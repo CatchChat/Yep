@@ -857,7 +857,11 @@ func tryCreateSectionDateMessageInConversation(conversation: Conversation, befor
 
     if messages.count > 1 {
 
-        if let prevMessage = messages[safe: (messages.count - 2)] {
+        guard let index = messages.indexOf(message) else {
+            return
+        }
+
+        if let prevMessage = messages[safe: (index - 1)] {
 
             if message.createdUnixTime - prevMessage.createdUnixTime > 180 { // TODO: Time Section
 
@@ -867,6 +871,7 @@ func tryCreateSectionDateMessageInConversation(conversation: Conversation, befor
 
                 if let _ = messageWithMessageID(sectionDateMessageID, inRealm: realm) {
                     // do nothing
+
                 } else {
                     // create a new SectionDate Message
                     let newSectionDateMessage = Message()

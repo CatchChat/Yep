@@ -1008,7 +1008,6 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                                                             saveFeedWithFeedDataWithFullGroup(feedData, group: savedGroup, inRealm: realmForGroup)
                                                     }
                                                 }
-                                                
                                             }
                                         })
                                     }
