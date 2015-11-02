@@ -13,7 +13,7 @@ import MonkeyKing
 enum PreviewMedia {
 
     case MessageType(message: Message)
-    case AttachmentType(imageURL: NSURL)
+    case AttachmentType(attachment: DiscoveredAttachment)
 }
 
 class MessageMediaViewController: UIViewController {
@@ -242,12 +242,12 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
                 break
             }
 
-        case .AttachmentType(let imageURL):
+        case .AttachmentType(let attachment):
 
             mediaControlView.type = .Image
             
-            ImageCache.sharedInstance.imageOfAttachment(imageURL, withSize: nil, completion: { (url, image) in
-                guard url == imageURL else {
+            ImageCache.sharedInstance.imageOfAttachment(attachment, withSize: nil, completion: { (url, image) in
+                guard url.absoluteString == attachment.URLString else {
                     return
                 }
                 cell.mediaView.image = image

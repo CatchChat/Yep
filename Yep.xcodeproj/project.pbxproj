@@ -248,6 +248,7 @@
 		50DEE0371BE3720F00015741 /* LoadMoreCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0351BE3720F00015741 /* LoadMoreCollectionViewCell.xib */; };
 		50DEE03D1BE70E1500015741 /* UIScrollView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE03C1BE70E1500015741 /* UIScrollView+Yep.swift */; };
 		50DEE03F1BE729FD00015741 /* PickLocation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE03E1BE729FD00015741 /* PickLocation.storyboard */; };
+		50DEE0411BE7626100015741 /* YepHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE0401BE7626100015741 /* YepHelpers.swift */; };
 		50E114F41ABBF9CC00F13000 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F31ABBF9CC00F13000 /* Models.swift */; };
 		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
@@ -567,6 +568,7 @@
 		50DEE0351BE3720F00015741 /* LoadMoreCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoadMoreCollectionViewCell.xib; path = Views/Cells/LoadMore/LoadMoreCollectionViewCell.xib; sourceTree = "<group>"; };
 		50DEE03C1BE70E1500015741 /* UIScrollView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIScrollView+Yep.swift"; path = "Extensions/UIScrollView+Yep.swift"; sourceTree = "<group>"; };
 		50DEE03E1BE729FD00015741 /* PickLocation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = PickLocation.storyboard; path = ViewControllers/PickLocation/PickLocation.storyboard; sourceTree = "<group>"; };
+		50DEE0401BE7626100015741 /* YepHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepHelpers.swift; path = Helpers/YepHelpers.swift; sourceTree = "<group>"; };
 		50E114F31ABBF9CC00F13000 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Realm/Models.swift; sourceTree = "<group>"; };
 		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
@@ -1199,6 +1201,7 @@
 		502AE53B1AB871C5005BD199 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				50DEE0401BE7626100015741 /* YepHelpers.swift */,
 				502AE5391AB871C1005BD199 /* YepAlert.swift */,
 				502AE53C1AB87C0D005BD199 /* YepUserDefaults.swift */,
 				50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */,
@@ -2468,6 +2471,7 @@
 				5064F6541B0B0E160089FAD4 /* AddFriendSearchCell.swift in Sources */,
 				504CBA3D1B3D04B800663A90 /* ChatTextView.swift in Sources */,
 				0A1CAC6E1AFA42D400826B45 /* SkillHomeViewController.swift in Sources */,
+				50DEE0411BE7626100015741 /* YepHelpers.swift in Sources */,
 				501138311BCB62A20055A014 /* FeedConversationCell.swift in Sources */,
 				502AE5401AB88862005BD199 /* SkillRankCell.swift in Sources */,
 				50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */,

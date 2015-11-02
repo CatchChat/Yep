@@ -18,7 +18,7 @@ class FeedView: UIView {
         }
     }
 
-    var tapMediaAction: ((transitionView: UIView, imageURLs: [NSURL], index: Int) -> Void)?
+    var tapMediaAction: ((transitionView: UIView, attachments: [DiscoveredAttachment], index: Int) -> Void)?
 
     static let foldHeight: CGFloat = 60
 
@@ -33,7 +33,7 @@ class FeedView: UIView {
             if newValue >= 0 && newValue <= 1 {
 
                 let normalHeight = self.normalHeight
-                let attachmentURLsIsEmpty = attachmentURLs.isEmpty
+                let attachmentURLsIsEmpty = attachments.isEmpty
 
                 UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
 
@@ -100,11 +100,10 @@ class FeedView: UIView {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
 
-    var attachmentURLs = [NSURL]() {
+    var attachments = [DiscoveredAttachment]() {
         didSet {
             mediaCollectionView.reloadData()
-            mediaView.FeedURLs = attachmentURLs
-            mediaView.setImagesWithURLs(attachmentURLs)
+            mediaView.setImagesWithAttachments(attachments)
         }
     }
 
@@ -201,7 +200,9 @@ class FeedView: UIView {
         timeLabelTopConstraint.constant = hasMedia ? (15 + 80 + 15) : 15
         mediaCollectionView.hidden = hasMedia ? false : true
 
-        attachmentURLs = feed.attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
+        attachments = feed.attachments.map({
+            DiscoveredAttachment(kind: AttachmentKind(rawValue: $0.kind)!, metadata: $0.metadata, URLString: $0.URLString)
+        })//.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
 
         if let creator = feed.creator {
             let userAvatar = UserAvatar(userID: creator.userID, avatarStyle: nanoAvatarStyle)
@@ -243,20 +244,18 @@ extension FeedView: UICollectionViewDataSource, UICollectionViewDelegate {
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return attachmentURLs.count
+        return attachments.count
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaCellID, forIndexPath: indexPath) as! FeedMediaCell
 
-        let imageURL = attachmentURLs[indexPath.item]
+        let attachment = attachments[indexPath.item]
 
         //println("attachment imageURL: \(imageURL)")
         
-        cell.attachmentURL = imageURL
-
-        cell.configureWithImageURL(imageURL, bigger: (attachmentURLs.count == 1))
+        cell.configureWithAttachment(attachment, bigger: (attachments.count == 1))
 
         return cell
     }
@@ -275,7 +274,7 @@ extension FeedView: UICollectionViewDataSource, UICollectionViewDelegate {
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedMediaCell
 
         let transitionView = cell.imageView
-        tapMediaAction?(transitionView: transitionView, imageURLs: attachmentURLs, index: indexPath.item)
+        tapMediaAction?(transitionView: transitionView, attachments: attachments, index: indexPath.item)
     }
 }
 

@@ -1235,10 +1235,10 @@ class ConversationViewController: BaseViewController {
             }
         }
 
-        feedView.tapMediaAction = { [weak self] transitionView, imageURLs, index in
+        feedView.tapMediaAction = { [weak self] transitionView, attachments, index in
             let info = [
                 "transitionView": transitionView,
-                "imageURLs": imageURLs,
+                "attachments": Box(value: attachments),
                 "index": index,
             ]
             self?.performSegueWithIdentifier("showFeedMedia", sender: info)
@@ -2304,8 +2304,9 @@ class ConversationViewController: BaseViewController {
 
             let vc = segue.destinationViewController as! MessageMediaViewController
  
-            if let imageURLs = info["imageURLs"] as? [NSURL] {
-                vc.previewMedias = imageURLs.map({ PreviewMedia.AttachmentType(imageURL: $0) })
+            if let box = info["attachments"] as? Box<[DiscoveredAttachment]> {
+                let attachments = box.value
+                vc.previewMedias = attachments.map({ PreviewMedia.AttachmentType(attachment: $0) })
             }
 
             if let index = info["index"] as? Int {

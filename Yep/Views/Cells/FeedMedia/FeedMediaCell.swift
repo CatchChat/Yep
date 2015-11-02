@@ -27,15 +27,17 @@ class FeedMediaCell: UICollectionViewCell {
         deleteImageView.hidden = false
     }
 
-    func configureWithImageURL(imageURL: NSURL, bigger: Bool) {
+    func configureWithAttachment(attachment: DiscoveredAttachment, bigger: Bool) {
+
+        attachmentURL = NSURL(string: attachment.URLString)!
 
         if bigger {
 //            imageView.kf_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.biggerPlaceholderImage)
             imageView.image = YepConfig.FeedMedia.biggerPlaceholderImage
-            ImageCache.sharedInstance.imageOfAttachment(imageURL, withSize: imageView.frame.size, completion: { [weak self] (url, image) in
+            ImageCache.sharedInstance.imageOfAttachment(attachment, withSize: imageView.frame.size, completion: { [weak self] (url, image) in
                 
-                if let StrongSelf = self {
-                    if StrongSelf.attachmentURL != url {
+                if let strongSelf = self {
+                    if strongSelf.attachmentURL != url {
                         return
                     }
                 }
@@ -47,9 +49,9 @@ class FeedMediaCell: UICollectionViewCell {
             
             imageView.image = YepConfig.FeedMedia.placeholderImage
 //            imageView.kf_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.placeholderImage)
-            ImageCache.sharedInstance.imageOfAttachment(imageURL, withSize: imageView.frame.size, completion: { [weak self] (url, image) in
-                if let StrongSelf = self {
-                    if StrongSelf.attachmentURL != url {
+            ImageCache.sharedInstance.imageOfAttachment(attachment, withSize: imageView.frame.size, completion: { [weak self] (url, image) in
+                if let strongSelf = self {
+                    if strongSelf.attachmentURL != url {
                         return
                     }
                 }
