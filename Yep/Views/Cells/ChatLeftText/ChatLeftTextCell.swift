@@ -10,8 +10,9 @@ import UIKit
 
 class ChatLeftTextCell: ChatBaseCell {
 
-    @IBOutlet weak var bubbleBodyImageView: UIImageView!
     @IBOutlet weak var bubbleTailImageView: UIImageView!
+    
+    var bubbleBodyShapeLayer: CAShapeLayer!
 
     @IBOutlet weak var textContainerView: ChatTextContainerView!
     @IBOutlet weak var textContentTextView: ChatTextView!
@@ -37,6 +38,10 @@ class ChatLeftTextCell: ChatBaseCell {
         UIView.performWithoutAnimation { [weak self] in
             self?.makeUI()
         }
+        
+        bubbleBodyShapeLayer = CAShapeLayer()
+        bubbleBodyShapeLayer.backgroundColor = UIColor.leftBubbleTintColor().CGColor
+        bubbleBodyShapeLayer.fillColor = UIColor.leftBubbleTintColor().CGColor
 
         textContentTextView.textContainer.lineFragmentPadding = 0
         textContentTextView.font = UIFont.chatTextFont()
@@ -52,8 +57,11 @@ class ChatLeftTextCell: ChatBaseCell {
             UIPasteboard.generalPasteboard().string = self?.textContentTextView.text
         }
 
-        bubbleBodyImageView.tintColor = UIColor.leftBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.leftBubbleTintColor()
+        
+        if let bubblePosition = layer.sublayers {
+            contentView.layer.insertSublayer(bubbleBodyShapeLayer, atIndex: UInt32(bubblePosition.count))
+        }
 
     }
     
@@ -102,7 +110,10 @@ class ChatLeftTextCell: ChatBaseCell {
                 }
 
                 strongSelf.textContainerView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3 + topOffset, width: textContentLabelWidth, height: strongSelf.bounds.height - topOffset - 3 * 2)
-                strongSelf.bubbleBodyImageView.frame = CGRectInset(strongSelf.textContainerView.frame, -12, -3)
+                
+                let bubbleBodyFrame = CGRectInset(strongSelf.textContainerView.frame, -12, -3)
+                
+                strongSelf.bubbleBodyShapeLayer.path = UIBezierPath(roundedRect: bubbleBodyFrame, cornerRadius: 30).CGPath
                 
                 if strongSelf.inGroup {
                     strongSelf.nameLabel.text = strongSelf.user?.nickname
@@ -110,7 +121,7 @@ class ChatLeftTextCell: ChatBaseCell {
                     strongSelf.nameLabel.frame = CGRect(x: strongSelf.textContainerView.frame.origin.x, y: strongSelf.textContainerView.frame.origin.y - topOffset, width: strongSelf.nameLabel.frame.width, height: strongSelf.nameLabel.frame.height)
                 }
                 
-                strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.bubbleBodyImageView.frame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
+                strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame), y: CGRectGetMidY(bubbleBodyFrame))
 
                 
             }
