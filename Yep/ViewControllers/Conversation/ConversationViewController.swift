@@ -1952,12 +1952,21 @@ class ConversationViewController: BaseViewController {
                 return
         }
         
+        //Make sure insert cell when in conversation viewcontroller
+        guard let conversationController = self.navigationController?.visibleViewController as? ConversationViewController else {
+            return
+        }
+        
         realm.refresh() // 确保是最新数据
 
         // 按照 conversation 过滤消息，匹配的才能考虑插入
         if let conversation = conversation {
             
-            if let conversationID = conversation.fakeID, realm = conversation.realm {
+            if let conversationID = conversation.fakeID, realm = conversation.realm, currentVisibleConversationID = conversationController.conversation.fakeID {
+                
+                if currentVisibleConversationID != conversationID {
+                    return
+                }
                 
                 var filteredMessageIDs = [String]()
                 
