@@ -1457,8 +1457,9 @@ func moreGroups(inPage page: Int, withPerPage perPage: Int, failureHandler: ((Re
     }
 }
 
-func groups(completion completion: [JSONDictionary] -> Void) {
-    return headGroups(failureHandler: nil, completion: { result in
+func groups(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion completion: [JSONDictionary] -> Void) {
+
+    return headGroups(failureHandler: failureHandler, completion: { result in
         if
             let count = result["count"] as? Int,
             let currentPage = result["current_page"] as? Int,
@@ -1479,12 +1480,16 @@ func groups(completion completion: [JSONDictionary] -> Void) {
 
                     // We have more groups
 
+                    var allGood = true
                     let downloadGroup = dispatch_group_create()
 
                     for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
                         dispatch_group_enter(downloadGroup)
 
                         moreGroups(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
+                            failureHandler?(reason, errorMessage)
+
+                            allGood = false
                             dispatch_group_leave(downloadGroup)
 
                         }, completion: { result in
@@ -1496,9 +1501,10 @@ func groups(completion completion: [JSONDictionary] -> Void) {
                     }
 
                     dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
-                        completion(groups)
+                        if allGood {
+                            completion(groups)
+                        }
                     }
-
                 }
         }
     })

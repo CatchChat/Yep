@@ -499,7 +499,7 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
 func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
-    groups { allGroups in
+    groups(failureHandler: nil) { allGroups in
 
         //println("allGroups: \(allGroups)")
 
