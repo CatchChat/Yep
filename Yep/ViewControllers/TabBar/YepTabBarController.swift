@@ -88,6 +88,8 @@ extension YepTabBarController: UITabBarControllerDelegate {
                 return
         }
 
+        // 不相等才继续，确保第一次 tap 不做事
+
         if tab != previousTab {
             previousTab = tab
             return
@@ -103,10 +105,8 @@ extension YepTabBarController: UITabBarControllerDelegate {
 
         case .Feeds:
             if let vc = nvc.topViewController as? FeedsViewController {
-
-                println("vc.feedsTableView.contentOffset.y: \(vc.feedsTableView.contentOffset.y)")
-                if vc.feedsTableView.contentOffset.y != 0 {
-                    vc.feedsTableView.tryScrollsToTop()
+                if !vc.feedsTableView.yep_isAtTop {
+                    vc.feedsTableView.yep_scrollsToTop()
                 }
             }
 
@@ -117,8 +117,6 @@ extension YepTabBarController: UITabBarControllerDelegate {
             let vc = nvc.topViewController as? ProfileViewController
 
         }
-
-        previousTab = tab
 
         /*
         if selectedIndex == 1 {

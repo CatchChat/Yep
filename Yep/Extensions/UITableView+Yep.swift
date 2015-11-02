@@ -9,15 +9,13 @@
 import UIKit
 
 extension UITableView {
+
+    var yep_isAtTop: Bool {
+        println("contentOffset.y: \(contentOffset.y), -contentInset.top: \(-contentInset.top)")
+        return contentOffset.y == -contentInset.top
+    }
     
-    func tryScrollsToTop() {
-
-        println("tryScrollsToTop: \(numberOfSections), \(numberOfRowsInSection(0))")
-
-//        if numberOfSections > 0 && numberOfRowsInSection(0) > 0 {
-//            let topIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-//            scrollToRowAtIndexPath(topIndexPath, atScrollPosition: .Top, animated: true)
-//        }
+    func yep_scrollsToTop() {
 
         let topPoint = CGPoint(x: 0, y: -contentInset.top)
         setContentOffset(topPoint, animated: true)
