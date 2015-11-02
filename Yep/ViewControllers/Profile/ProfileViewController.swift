@@ -416,41 +416,51 @@ class ProfileViewController: UIViewController {
         return introduction ?? NSLocalizedString("No Introduction yet.", comment: "")
         }()
 
-    var masterSkills = [Skill]() {
-        didSet {
-            guard let realm = try? Realm() else {
-                return
-            }
+    var masterSkills = [Skill]()
 
-            if let
-                myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: realm) {
-                    let _ = try? realm.write {
-                        me.masterSkills.removeAll()
-                        let userSkills = userSkillsFromSkills(self.masterSkills, inRealm: realm)
-                        me.masterSkills.appendContentsOf(userSkills)
-                    }
-            }
+    var learningSkills = [Skill]()
+
+    private func updateMyMasterSkills() {
+
+        guard let profileUser = profileUser where profileUser.isMe else {
+            return
         }
-    }
-    var learningSkills = [Skill]() {
-        didSet {
-            guard let realm = try? Realm() else {
-                return
-            }
 
-            if let
-                myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: realm) {
-                    let _ = try? realm.write {
-                        me.learningSkills.removeAll()
-                        let userSkills = userSkillsFromSkills(self.learningSkills, inRealm: realm)
-                        me.learningSkills.appendContentsOf(userSkills)
-                    }
-            }
+        guard let realm = try? Realm() else {
+            return
+        }
+
+        if let
+            myUserID = YepUserDefaults.userID.value,
+            me = userWithUserID(myUserID, inRealm: realm) {
+                let _ = try? realm.write {
+                    me.masterSkills.removeAll()
+                    let userSkills = userSkillsFromSkills(self.masterSkills, inRealm: realm)
+                    me.masterSkills.appendContentsOf(userSkills)
+                }
         }
     }
 
+    private func updateMyLearningSkills() {
+
+        guard let profileUser = profileUser where profileUser.isMe else {
+            return
+        }
+
+        guard let realm = try? Realm() else {
+            return
+        }
+
+        if let
+            myUserID = YepUserDefaults.userID.value,
+            me = userWithUserID(myUserID, inRealm: realm) {
+                let _ = try? realm.write {
+                    me.learningSkills.removeAll()
+                    let userSkills = userSkillsFromSkills(self.learningSkills, inRealm: realm)
+                    me.learningSkills.appendContentsOf(userSkills)
+                }
+        }
+    }
 
     var dribbbleWork: DribbbleWork?
     var instagramWork: InstagramWork?
@@ -888,6 +898,9 @@ class ProfileViewController: UIViewController {
             self?.learningSkills = learningSkills
 
             dispatch_async(dispatch_get_main_queue()) {
+                self?.updateMyMasterSkills()
+                self?.updateMyLearningSkills()
+
                 self?.updateProfileCollectionView()
             }
         }
@@ -1308,6 +1321,14 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             cell.skill = profileUser?.cellSkillInSkillSet(.Master, atIndexPath: indexPath)
 
+            if cell.skill == nil {
+                if let profileUser = profileUser {
+                    println("Master profileUser: \(profileUser)")
+                } else {
+                    println("Master profileUser is nil")
+                }
+            }
+
             cell.tapAction = { [weak self] skill in
                 //self?.performSegueWithIdentifier("showSkillHome", sender: ["skill": skill, "preferedSkillSet": SkillSet.Master.rawValue])
                 self?.performSegueWithIdentifier("showFeedsWithSkill", sender: ["skill": skill, "preferedSkillSet": SkillSet.Master.rawValue])
@@ -1319,6 +1340,14 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
 
             cell.skill = profileUser?.cellSkillInSkillSet(.Learning, atIndexPath: indexPath)
+
+            if cell.skill == nil {
+                if let profileUser = profileUser {
+                    println("Learning profileUser: \(profileUser)")
+                } else {
+                    println("Learning profileUser is nil")
+                }
+            }
 
             cell.tapAction = { [weak self] skill in
                 //self?.performSegueWithIdentifier("showSkillHome", sender: ["skill": skill, "preferedSkillSet": SkillSet.Learning.rawValue])

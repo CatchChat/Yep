@@ -1219,7 +1219,6 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
 
             var learningSkills: [Skill] = []
             if let learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary] {
-
                 learningSkills = skillsFromSkillsData(learningSkillsData)
             }
 
