@@ -503,6 +503,10 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
         //println("allGroups: \(allGroups)")
 
+        if allGroups.count == 0 { // Workaround for empty group
+            return
+        }
+        
         dispatch_async(realmQueue) {
 
             // 先整理出所有的 group 的 groupID
