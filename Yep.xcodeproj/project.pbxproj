@@ -247,6 +247,7 @@
 		50DEE0361BE3720F00015741 /* LoadMoreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE0341BE3720F00015741 /* LoadMoreCollectionViewCell.swift */; };
 		50DEE0371BE3720F00015741 /* LoadMoreCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0351BE3720F00015741 /* LoadMoreCollectionViewCell.xib */; };
 		50DEE03D1BE70E1500015741 /* UIScrollView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE03C1BE70E1500015741 /* UIScrollView+Yep.swift */; };
+		50DEE03F1BE729FD00015741 /* PickLocation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE03E1BE729FD00015741 /* PickLocation.storyboard */; };
 		50E114F41ABBF9CC00F13000 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F31ABBF9CC00F13000 /* Models.swift */; };
 		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
@@ -565,6 +566,7 @@
 		50DEE0341BE3720F00015741 /* LoadMoreCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadMoreCollectionViewCell.swift; path = Views/Cells/LoadMore/LoadMoreCollectionViewCell.swift; sourceTree = "<group>"; };
 		50DEE0351BE3720F00015741 /* LoadMoreCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoadMoreCollectionViewCell.xib; path = Views/Cells/LoadMore/LoadMoreCollectionViewCell.xib; sourceTree = "<group>"; };
 		50DEE03C1BE70E1500015741 /* UIScrollView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIScrollView+Yep.swift"; path = "Extensions/UIScrollView+Yep.swift"; sourceTree = "<group>"; };
+		50DEE03E1BE729FD00015741 /* PickLocation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = PickLocation.storyboard; path = ViewControllers/PickLocation/PickLocation.storyboard; sourceTree = "<group>"; };
 		50E114F31ABBF9CC00F13000 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Realm/Models.swift; sourceTree = "<group>"; };
 		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
@@ -1419,6 +1421,7 @@
 			isa = PBXGroup;
 			children = (
 				5053AD491AF772C500B3CBFA /* PickLocationViewController.swift */,
+				50DEE03E1BE729FD00015741 /* PickLocation.storyboard */,
 				5053AD4C1AF79EEA00B3CBFA /* LocationPin.swift */,
 			);
 			name = PickLocation;
@@ -2216,6 +2219,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50DEE03F1BE729FD00015741 /* PickLocation.storyboard in Resources */,
 				5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */,
 				505C338B1BAA92CA00E044E2 /* InfoPlist.strings in Resources */,
 				50535D221BCE497E002FE1A4 /* PickPhotos.storyboard in Resources */,
