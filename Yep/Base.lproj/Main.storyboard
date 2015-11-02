@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
@@ -146,92 +146,24 @@
                         <outlet property="messageToolbarBottomConstraint" destination="Sf8-1u-t01" id="f02-ze-rKh"/>
                         <outlet property="swipeUpPromptLabel" destination="Zew-F7-znc" id="4qL-BA-cWR"/>
                         <outlet property="swipeUpView" destination="Gu7-gn-2ia" id="C4f-tg-leq"/>
-                        <segue destination="wNI-He-VjY" kind="presentation" identifier="presentPickLocation" id="8Uc-bg-xSe"/>
                         <segue destination="AyC-pt-NR2" kind="show" identifier="showProfile" id="PTw-QB-dRp"/>
                         <segue destination="AyC-pt-NR2" kind="show" identifier="showProfileFromFeedView" id="X2e-mz-fLa"/>
                         <segue destination="7OS-Bz-Wc7" kind="show" identifier="showMessageMedia" id="MnI-Tr-dgf"/>
                         <segue destination="7OS-Bz-Wc7" kind="show" identifier="showFeedMedia" id="j1h-7M-vYS"/>
+                        <segue destination="CqZ-ZQ-9sf" kind="presentation" identifier="presentPickLocation" id="rwi-8g-XWs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="chH-Zx-2Ge" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-783" y="1851"/>
         </scene>
-        <!--Pick Location-->
-        <scene sceneID="jjk-Bb-EhH">
+        <!--PickLocation-->
+        <scene sceneID="TQK-2M-g0H">
             <objects>
-                <viewController storyboardIdentifier="PickLocationViewController" id="Cb0-q4-fbE" customClass="PickLocationViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="jl9-K7-T9R"/>
-                        <viewControllerLayoutGuide type="bottom" id="IOS-LP-INK"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="rxB-62-E4m">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="N6L-U8-EFf">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="394"/>
-                                <animations/>
-                            </mapView>
-                            <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="yA1-aK-rWX">
-                                <rect key="frame" x="0.0" y="350" width="600" height="44"/>
-                                <animations/>
-                                <color key="barTintColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="Cb0-q4-fbE" id="raN-Ed-9gK"/>
-                                </connections>
-                            </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="iqS-tv-kJf">
-                                <rect key="frame" x="0.0" y="394" width="600" height="206"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="Cb0-q4-fbE" id="ieY-5C-5EN"/>
-                                    <outlet property="delegate" destination="Cb0-q4-fbE" id="e9D-Rv-z3e"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="N6L-U8-EFf" firstAttribute="leading" secondItem="rxB-62-E4m" secondAttribute="leading" id="3Xo-rA-I8u"/>
-                            <constraint firstItem="iqS-tv-kJf" firstAttribute="top" secondItem="yA1-aK-rWX" secondAttribute="bottom" id="AZN-4C-lTO"/>
-                            <constraint firstItem="iqS-tv-kJf" firstAttribute="leading" secondItem="rxB-62-E4m" secondAttribute="leading" id="L5q-Lx-pP6"/>
-                            <constraint firstAttribute="trailing" secondItem="N6L-U8-EFf" secondAttribute="trailing" id="Mgy-xK-ztv"/>
-                            <constraint firstItem="IOS-LP-INK" firstAttribute="top" secondItem="iqS-tv-kJf" secondAttribute="bottom" id="NgK-5H-Y5v"/>
-                            <constraint firstItem="yA1-aK-rWX" firstAttribute="leading" secondItem="rxB-62-E4m" secondAttribute="leading" id="XlF-ls-19S"/>
-                            <constraint firstAttribute="trailing" secondItem="yA1-aK-rWX" secondAttribute="trailing" id="ZMc-g2-JoZ"/>
-                            <constraint firstItem="IOS-LP-INK" firstAttribute="top" secondItem="yA1-aK-rWX" secondAttribute="top" constant="250" id="eMX-4T-aMh"/>
-                            <constraint firstItem="N6L-U8-EFf" firstAttribute="top" secondItem="rxB-62-E4m" secondAttribute="top" id="pmN-2M-x9u"/>
-                            <constraint firstAttribute="trailing" secondItem="iqS-tv-kJf" secondAttribute="trailing" id="sNX-hG-cIk"/>
-                            <constraint firstItem="IOS-LP-INK" firstAttribute="top" secondItem="N6L-U8-EFf" secondAttribute="bottom" constant="206" id="vgP-p2-vI1"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Pick Location" id="eb9-Md-SJn">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="bgy-iS-1dN">
-                            <connections>
-                                <action selector="cancel:" destination="Cb0-q4-fbE" id="XLf-m9-vNz"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Send" id="Dek-I8-RQb">
-                            <connections>
-                                <action selector="send:" destination="Cb0-q4-fbE" id="qdg-W1-4Na"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="cancelButton" destination="bgy-iS-1dN" id="5mY-8w-Ylk"/>
-                        <outlet property="mapView" destination="N6L-U8-EFf" id="xfc-We-pFG"/>
-                        <outlet property="searchBar" destination="yA1-aK-rWX" id="F1H-sd-VHF"/>
-                        <outlet property="searchBarTopToSuperBottomConstraint" destination="eMX-4T-aMh" id="lYI-M0-98Y"/>
-                        <outlet property="sendButton" destination="Dek-I8-RQb" id="pzq-pU-tOf"/>
-                        <outlet property="tableView" destination="iqS-tv-kJf" id="5Kn-ms-0Of"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="b42-ms-7Bt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="PickLocation" id="CqZ-ZQ-9sf" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1v2-cI-fji" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1527" y="3483"/>
+            <point key="canvasLocation" x="-925" y="2360"/>
         </scene>
         <!--MessageMediaViewController-->
         <scene sceneID="oS6-8C-PO2">
@@ -1590,25 +1522,6 @@
             <point key="canvasLocation" x="2027" y="253"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="L2z-Qr-Bhh">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wNI-He-VjY" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9T1-O2-J4Y">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Cb0-q4-fbE" kind="relationship" relationship="rootViewController" id="FhV-7q-zH1"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jxe-Rl-buF" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1527" y="2715"/>
-        </scene>
-        <!--Navigation Controller-->
         <scene sceneID="ED4-Su-qsS">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0NC-ph-TBU" sceneMemberID="viewController">
@@ -1945,6 +1858,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="Sdt-ox-uOm"/>
         <segue reference="j1h-7M-vYS"/>
-        <segue reference="hTj-2y-9h4"/>
+        <segue reference="X2e-mz-fLa"/>
     </inferredMetricsTieBreakers>
 </document>
