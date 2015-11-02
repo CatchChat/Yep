@@ -1,5 +1,5 @@
 //
-//  UICollectionView+Yep.swift
+//  UIScrollView+Yep.swift
 //  Yep
 //
 //  Created by nixzhu on 15/11/2.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UICollectionView {
+extension UIScrollView {
 
     var yep_isAtTop: Bool {
 

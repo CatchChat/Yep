@@ -246,8 +246,7 @@
 		50DEE0321BE339B000015741 /* LoadMoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0301BE339B000015741 /* LoadMoreTableViewCell.xib */; };
 		50DEE0361BE3720F00015741 /* LoadMoreCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE0341BE3720F00015741 /* LoadMoreCollectionViewCell.swift */; };
 		50DEE0371BE3720F00015741 /* LoadMoreCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0351BE3720F00015741 /* LoadMoreCollectionViewCell.xib */; };
-		50DEE0391BE7020900015741 /* UITableView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE0381BE7020900015741 /* UITableView+Yep.swift */; };
-		50DEE03B1BE70B5100015741 /* UICollectionView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE03A1BE70B5100015741 /* UICollectionView+Yep.swift */; };
+		50DEE03D1BE70E1500015741 /* UIScrollView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE03C1BE70E1500015741 /* UIScrollView+Yep.swift */; };
 		50E114F41ABBF9CC00F13000 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F31ABBF9CC00F13000 /* Models.swift */; };
 		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
@@ -565,8 +564,7 @@
 		50DEE0301BE339B000015741 /* LoadMoreTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoadMoreTableViewCell.xib; path = Views/Cells/LoadMore/LoadMoreTableViewCell.xib; sourceTree = "<group>"; };
 		50DEE0341BE3720F00015741 /* LoadMoreCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadMoreCollectionViewCell.swift; path = Views/Cells/LoadMore/LoadMoreCollectionViewCell.swift; sourceTree = "<group>"; };
 		50DEE0351BE3720F00015741 /* LoadMoreCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LoadMoreCollectionViewCell.xib; path = Views/Cells/LoadMore/LoadMoreCollectionViewCell.xib; sourceTree = "<group>"; };
-		50DEE0381BE7020900015741 /* UITableView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITableView+Yep.swift"; path = "Extensions/UITableView+Yep.swift"; sourceTree = "<group>"; };
-		50DEE03A1BE70B5100015741 /* UICollectionView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UICollectionView+Yep.swift"; path = "Extensions/UICollectionView+Yep.swift"; sourceTree = "<group>"; };
+		50DEE03C1BE70E1500015741 /* UIScrollView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIScrollView+Yep.swift"; path = "Extensions/UIScrollView+Yep.swift"; sourceTree = "<group>"; };
 		50E114F31ABBF9CC00F13000 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Realm/Models.swift; sourceTree = "<group>"; };
 		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
@@ -991,8 +989,7 @@
 				5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */,
 				50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */,
 				504F5E6E1B9F1F13006CE418 /* NSURLRequest+cURL.swift */,
-				50DEE0381BE7020900015741 /* UITableView+Yep.swift */,
-				50DEE03A1BE70B5100015741 /* UICollectionView+Yep.swift */,
+				50DEE03C1BE70E1500015741 /* UIScrollView+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -2377,7 +2374,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50DEE0391BE7020900015741 /* UITableView+Yep.swift in Sources */,
 				50894CFE1AEA5A78000981AF /* EditProfileViewController.swift in Sources */,
 				50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */,
 				5099B9C41AB9510D002F940B /* RankView.swift in Sources */,
@@ -2417,7 +2413,6 @@
 				502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */,
 				50F5AF881BBBB2AE0033C9BC /* HorizontalLineView.swift in Sources */,
 				50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */,
-				50DEE03B1BE70B5100015741 /* UICollectionView+Yep.swift in Sources */,
 				50AACECF1BB93336004DD54B /* FeedMediaView.swift in Sources */,
 				50DEE02C1BE209FF00015741 /* DeletedFeedConversationCell.swift in Sources */,
 				50D4D0DB1AFA825B005AEB6F /* MediaControlView.swift in Sources */,
@@ -2427,6 +2422,7 @@
 				501138261BCB59120055A014 /* FeedConversationsViewController.swift in Sources */,
 				50894CFA1AEA54BA000981AF /* SettingsMoreCell.swift in Sources */,
 				50AFBF4B1BB2A44C007D19DA /* InfoView.swift in Sources */,
+				50DEE03D1BE70E1500015741 /* UIScrollView+Yep.swift in Sources */,
 				50535D281BCE4A71002FE1A4 /* PhotoCell.swift in Sources */,
 				508F8FCC1B01C7FC00461B0B /* SocialWorkGithubViewController.swift in Sources */,
 				503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */,
