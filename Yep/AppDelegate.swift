@@ -321,7 +321,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
-
         officialMessages { messagesCount in
             println("new officialMessages count: \(messagesCount)")
         }
