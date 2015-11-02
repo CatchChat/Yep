@@ -2765,15 +2765,20 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     private func tryShowMessageMediaFromMessage(message: Message) {
 
-        let predicate = NSPredicate(format: "mediaType = %d OR mediaType = %d", MessageMediaType.Image.rawValue, MessageMediaType.Video.rawValue)
+        if message.mediaType == MessageMediaType.Video.rawValue {
+            performSegueWithIdentifier("showMessageMedia", sender: ["mediaMessages": [message], "index": 0])
 
-        let mediaMessagesResult = messages.filter(predicate)
+        } else {
+            let predicate = NSPredicate(format: "mediaType = %d", MessageMediaType.Image.rawValue)
 
-        let mediaMessages = mediaMessagesResult.map({ $0 })
+            let mediaMessagesResult = messages.filter(predicate)
 
-        if let index = mediaMessagesResult.indexOf(message) {
+            let mediaMessages = mediaMessagesResult.map({ $0 })
 
-            performSegueWithIdentifier("showMessageMedia", sender: ["mediaMessages": mediaMessages, "index": index])
+            if let index = mediaMessagesResult.indexOf(message) {
+
+                performSegueWithIdentifier("showMessageMedia", sender: ["mediaMessages": mediaMessages, "index": index])
+            }
         }
     }
 
