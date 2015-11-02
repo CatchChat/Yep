@@ -90,9 +90,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if isLogined {
 
-            sync()
-            startFaye()
-
             // 记录启动通知类型
             if let
                 notification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? UILocalNotification,
@@ -131,10 +128,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
 
         println("Did Active")
+        
         if !isFirstActive {
             if YepUserDefaults.isLogined {
                 syncUnreadMessages() {}
             }
+        } else {
+            sync() // 确保该任务不是被 Remote Notification 激活 App 的时候执行
+            startFaye()
         }
 
         /*
@@ -220,10 +221,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 switch remoteNotificationType {
 
                 case .Message:
-                    syncUnreadMessages() {}
+                    syncUnreadMessages() {
+                        completionHandler(UIBackgroundFetchResult.NewData)
+                    }
 
                 case .OfficialMessage:
                     officialMessages { messagesCount in
+                        completionHandler(UIBackgroundFetchResult.NewData)
                         println("new officialMessages count: \(messagesCount)")
                     }
 
@@ -231,8 +235,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let subType = userInfo["subtype"] as? String {
                         if subType == "accepted" {
                             syncFriendshipsAndDoFurtherAction {
+                                completionHandler(UIBackgroundFetchResult.NewData)
                             }
+                        } else {
+                            completionHandler(UIBackgroundFetchResult.NoData)
                         }
+                    } else {
+                            completionHandler(UIBackgroundFetchResult.NoData)
                     }
                 }
 
@@ -240,8 +249,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if application.applicationState != .Active {
                     self.remoteNotificationType = remoteNotificationType
                 }
-
-                completionHandler(UIBackgroundFetchResult.NewData)
                 
             } else {
                 completionHandler(UIBackgroundFetchResult.NoData)
