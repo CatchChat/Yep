@@ -10,6 +10,8 @@ import UIKit
 
 class YepTabBarController: UITabBarController {
 
+    var previousTab = Tab.Conversations
+
     struct Listener {
         static let lauchStyle = "YepTabBarController.lauchStyle"
     }
@@ -65,9 +67,58 @@ class YepTabBarController: UITabBarController {
     }
 }
 
+// MARK: - UITabBarControllerDelegate
+
 extension YepTabBarController: UITabBarControllerDelegate {
 
+    enum Tab: Int {
+
+        case Conversations
+        case Contacts
+        case Feeds
+        case Discover
+        case Profile
+    }
+
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+
+        guard
+            let tab = Tab(rawValue: selectedIndex),
+            let nvc = viewController as? UINavigationController else {
+                return
+        }
+
+        if tab != previousTab {
+            previousTab = tab
+            return
+        }
+
+        switch tab {
+
+        case .Conversations:
+            let vc = nvc.topViewController as? ConversationsViewController
+
+        case .Contacts:
+            let vc = nvc.topViewController as? ContactsViewController
+
+        case .Feeds:
+            if let vc = nvc.topViewController as? FeedsViewController {
+
+                println("vc.feedsTableView.contentOffset.y: \(vc.feedsTableView.contentOffset.y)")
+                if vc.feedsTableView.contentOffset.y != 0 {
+                    vc.feedsTableView.tryScrollsToTop()
+                }
+            }
+
+        case .Discover:
+            let vc = nvc.topViewController as? DiscoverViewController
+
+        case .Profile:
+            let vc = nvc.topViewController as? ProfileViewController
+
+        }
+
+        previousTab = tab
 
         /*
         if selectedIndex == 1 {
