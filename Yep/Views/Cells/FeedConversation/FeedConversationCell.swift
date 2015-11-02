@@ -75,7 +75,7 @@ class FeedConversationCell: UITableViewCell {
 
         let attachments = feed.attachments.map({
             DiscoveredAttachment(kind: AttachmentKind(rawValue: $0.kind)!, metadata: $0.metadata, URLString: $0.URLString)
-        })//.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
+        })
         mediaView.setImagesWithAttachments(attachments)
 
         if let latestMessage = messagesInConversation(conversation).last {
