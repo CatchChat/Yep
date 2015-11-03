@@ -1275,17 +1275,30 @@ class ConversationViewController: BaseViewController {
     }
 
     private func snapContentOfConversationCollectionViewToBottom(forceAnimation forceAnimation: Bool = false) {
+
+        var needDoAnimation = forceAnimation
+
         let bottom = view.bounds.height - messageToolbar.frame.origin.y
         let bottomOffset = bottom - conversationCollectionView.contentInset.bottom
 
-        guard forceAnimation || bottomOffset != 0 else {
+        if bottomOffset != 0 {
+            needDoAnimation = true
+        }
+
+        let newContentOffsetY = conversationCollectionView.contentSize.height - messageToolbar.frame.origin.y
+
+        if conversationCollectionView.contentOffset.y != newContentOffsetY {
+            needDoAnimation = true
+        }
+
+        guard needDoAnimation else {
             return
         }
 
         UIView.animateWithDuration(forceAnimation ? 0.25 : 0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
             if let strongSelf = self {
                 strongSelf.conversationCollectionView.contentInset.bottom = bottom
-                strongSelf.conversationCollectionView.contentOffset.y = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y
+                strongSelf.conversationCollectionView.contentOffset.y = newContentOffsetY
             }
         }, completion: { _ in })
     }
