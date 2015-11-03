@@ -65,6 +65,8 @@
                     <connections>
                         <outlet property="feedbackTextView" destination="pBl-vf-8Aa" id="BGv-4I-sqA"/>
                         <outlet property="feedbackTextViewBottomConstraint" destination="56T-lO-q1c" id="KxA-as-3cI"/>
+                        <outlet property="feedbackTextViewBottomLineView" destination="6nG-7K-Mg0" id="mFs-qw-nT1"/>
+                        <outlet property="feedbackTextViewTopLineView" destination="Kpg-Ee-hN4" id="RyY-Yx-EbM"/>
                         <outlet property="promptLabel" destination="Jcu-cz-h1b" id="mgp-Jl-fji"/>
                     </connections>
                 </viewController>

@@ -10,79 +10,6 @@ import UIKit
 import KeyboardMan
 import DeviceGuru
 
-/*
-class FeedbackTextView: UITextView {
-
-//    let lineColor: UIColor = UIColor.yepBorderColor()
-//    let lineWidth: CGFloat = 1
-//
-//    lazy var topLineLayer: CAShapeLayer = {
-//        let layer = CAShapeLayer()
-//        layer.lineWidth = self.lineWidth
-//        layer.strokeColor = self.lineColor.CGColor
-//        return layer
-//        }()
-//
-//    lazy var bottomLineLayer: CAShapeLayer = {
-//        let layer = CAShapeLayer()
-//        layer.lineWidth = self.lineWidth
-//        layer.strokeColor = self.lineColor.CGColor
-//        return layer
-//        }()
-
-    lazy var topLineView: HorizontalLineView = HorizontalLineView()
-    lazy var bottomLineView: HorizontalLineView = HorizontalLineView()
-
-    override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-
-        backgroundColor = UIColor.whiteColor()
-
-        addSubview(topLineView)
-        addSubview(bottomLineView)
-
-        topLineView.translatesAutoresizingMaskIntoConstraints = false
-        bottomLineView.translatesAutoresizingMaskIntoConstraints = false
-
-        let views = [
-            "topLineView": topLineView,
-            "bottomLineView": bottomLineView,
-        ]
-
-        let topLineViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-[topLineView]-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
-        let topLineViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[topLineView(10)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
-
-        NSLayoutConstraint.activateConstraints(topLineViewConstraintsH)
-        NSLayoutConstraint.activateConstraints(topLineViewConstraintsV)
-
-        let bottomLineViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-[bottomLineView]-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
-        let bottomLineViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:[bottomLineView(10)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
-
-        NSLayoutConstraint.activateConstraints(bottomLineViewConstraintsH)
-        NSLayoutConstraint.activateConstraints(bottomLineViewConstraintsV)
-
-//        layer.addSublayer(topLineLayer)
-//        layer.addSublayer(bottomLineLayer)
-    }
-
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//
-//        let topPath = UIBezierPath()
-//        topPath.moveToPoint(CGPoint(x: 0, y: 0))
-//        topPath.addLineToPoint(CGPoint(x: CGRectGetWidth(bounds), y: 0))
-//
-//        topLineLayer.path = topPath.CGPath
-//
-//        let bottomPath = UIBezierPath()
-//        bottomPath.moveToPoint(CGPoint(x: 0, y: CGRectGetHeight(bounds)))
-//        bottomPath.addLineToPoint(CGPoint(x: CGRectGetWidth(bounds), y: CGRectGetHeight(bounds)))
-//
-//        bottomLineLayer.path = bottomPath.CGPath
-//    }
-}
-*/
-
 class FeedbackViewController: UIViewController {
 
     @IBOutlet weak var promptLabel: UILabel! {
@@ -99,6 +26,18 @@ class FeedbackViewController: UIViewController {
             feedbackTextView.textContainerInset = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 12)
         }
     }
+
+    @IBOutlet weak var feedbackTextViewTopLineView: HorizontalLineView! {
+        didSet {
+            feedbackTextViewTopLineView.lineColor = UIColor.lightGrayColor()
+        }
+    }
+    @IBOutlet weak var feedbackTextViewBottomLineView: HorizontalLineView! {
+        didSet {
+            feedbackTextViewBottomLineView.lineColor = UIColor.lightGrayColor()
+        }
+    }
+
 
     @IBOutlet weak var feedbackTextViewBottomConstraint: NSLayoutConstraint! {
         didSet {
