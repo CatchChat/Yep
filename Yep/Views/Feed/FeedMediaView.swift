@@ -59,50 +59,34 @@ class FeedMediaView: UIView {
         case 1:
             imageView1.frame = fullRect
 
-            if let thumbnailImage = attachments[0].thumbnailImage {
-                imageView1.image = thumbnailImage
-
-            } else {
-                ImageCache.sharedInstance.imageOfAttachment(attachments[0], withSize: fullRect.size, completion: { [weak self] (url, image) in
-                    guard let strongSelf = self where strongSelf.attachmentURLs.contains(url) else {
-                        return
-                    }
-                    self?.imageView1.image = image
-                })
-            }
-
+            ImageCache.sharedInstance.imageOfAttachment(attachments[0], withSize: fullRect.size, completion: { [weak self] (url, image) in
+                guard let strongSelf = self where strongSelf.attachmentURLs.contains(url) else {
+                    return
+                }
+                self?.imageView1.image = image
+            })
             addSubview(imageView1)
 
         case 2:
             imageView1.frame = halfRect
             imageView1.center = CGPoint(x: halfRect.width * 0.5, y: imageView1.center.y)
 
-            if let thumbnailImage = attachments[0].thumbnailImage {
-                imageView1.image = thumbnailImage
-
-            } else {
-                ImageCache.sharedInstance.imageOfAttachment(attachments[0], withSize: halfRect.size, completion: { [weak self] (url, image) in
-                    guard let strongSelf = self where strongSelf.attachmentURLs.contains(url) else {
-                        return
-                    }
-                    self?.imageView1.image = image
-                })
-            }
+            ImageCache.sharedInstance.imageOfAttachment(attachments[0], withSize: halfRect.size, completion: { [weak self] (url, image) in
+                guard let strongSelf = self where strongSelf.attachmentURLs.contains(url) else {
+                    return
+                }
+                self?.imageView1.image = image
+            })
 
             imageView2.frame = halfRect
             imageView2.center = CGPoint(x: halfRect.width * 1.5, y: imageView2.center.y)
 
-            if let thumbnailImage = attachments[1].thumbnailImage {
-                imageView2.image = thumbnailImage
-
-            } else {
-                ImageCache.sharedInstance.imageOfAttachment(attachments[1], withSize: halfRect.size, completion: { [weak self] (url, image) in
-                    guard let strongSelf = self where strongSelf.attachmentURLs.contains(url) else {
-                        return
-                    }
-                    self?.imageView2.image = image
-                })
-            }
+            ImageCache.sharedInstance.imageOfAttachment(attachments[1], withSize: halfRect.size, completion: { [weak self] (url, image) in
+                guard let strongSelf = self where strongSelf.attachmentURLs.contains(url) else {
+                    return
+                }
+                self?.imageView2.image = image
+            })
 
             addSubview(imageView1)
             addSubview(imageView2)
