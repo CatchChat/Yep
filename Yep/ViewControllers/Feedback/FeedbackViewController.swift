@@ -32,12 +32,12 @@ class FeedbackViewController: UIViewController {
             feedbackTextViewTopLineView.lineColor = UIColor.lightGrayColor()
         }
     }
+
     @IBOutlet weak var feedbackTextViewBottomLineView: HorizontalLineView! {
         didSet {
             feedbackTextViewBottomLineView.lineColor = UIColor.lightGrayColor()
         }
     }
-
 
     @IBOutlet weak var feedbackTextViewBottomConstraint: NSLayoutConstraint! {
         didSet {
