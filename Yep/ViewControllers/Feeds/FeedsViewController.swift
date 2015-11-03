@@ -730,6 +730,53 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         
         if editingStyle == .Delete {
             
+            let feed = feeds[indexPath.item]
+            
+            let reportWithReason: ReportReason -> Void = { [weak self] reason in
+                reportFeed(feed.id, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
+                    defaultFailureHandler(reason, errorMessage: errorMessage)
+                    
+                    if let errorMessage = errorMessage {
+                        YepAlert.alertSorry(message: errorMessage, inViewController: self)
+                    }
+                    
+                    }, completion: { [weak self] success in
+                        YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Report recorded!", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+                    })
+            }
+            
+            let reportAlertController = UIAlertController(title: NSLocalizedString("Report Reason", comment: ""), message: nil, preferredStyle: .ActionSheet)
+            
+            let pornoReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Porno.description, style: .Default) { action -> Void in
+                reportWithReason(.Porno)
+            }
+            reportAlertController.addAction(pornoReasonAction)
+            
+            let advertisingReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Advertising.description, style: .Default) { action -> Void in
+                reportWithReason(.Advertising)
+            }
+            reportAlertController.addAction(advertisingReasonAction)
+            
+            let scamsReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Scams.description, style: .Default) { action -> Void in
+                reportWithReason(.Scams)
+            }
+            reportAlertController.addAction(scamsReasonAction)
+            
+            let otherReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Other("").description, style: .Default) { [weak self] action -> Void in
+                YepAlert.textInput(title: NSLocalizedString("Other Reason", comment: ""), message: nil, placeholder: nil, oldText: nil, confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
+                    reportWithReason(.Other(text))
+                    }, cancelAction: nil)
+            }
+            reportAlertController.addAction(otherReasonAction)
+            
+            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+            reportAlertController.addAction(cancelAction)
+            
+            self.presentViewController(reportAlertController, animated: true, completion: nil)
+            
+            tableView.setEditing(true, animated: true)
         }
     }
 
@@ -746,6 +793,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
     }
     
+
 }
 
 // MARK: PullToRefreshViewDelegate
