@@ -596,13 +596,18 @@ class ConversationViewController: BaseViewController {
 
             messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
 
-                if let strongSelf = self {
-                    switch currentState {
-                    case .BeginTextInput:
-                        self?.tryFoldFeedView()
-                    default:
-                        break
-                    }
+                switch currentState {
+
+                case .BeginTextInput:
+                    self?.tryFoldFeedView()
+
+                    self?.snapContentOfConversationCollectionViewToBottom(forceAnimation: true)
+
+                case .TextInputing:
+                    self?.snapContentOfConversationCollectionViewToBottom()
+
+                default:
+                    break
                 }
             }
 
@@ -686,6 +691,8 @@ class ConversationViewController: BaseViewController {
                 let text = messageToolbar.messageTextView.text!.trimming(.WhitespaceAndNewline)
 
                 self?.cleanTextInput()
+
+                self?.snapContentOfConversationCollectionViewToBottom()
 
                 if text.isEmpty {
                     return
@@ -1265,6 +1272,35 @@ class ConversationViewController: BaseViewController {
         feedView.heightConstraint = height
 
         self.feedView = feedView
+    }
+
+    private func snapContentOfConversationCollectionViewToBottom(forceAnimation forceAnimation: Bool = false) {
+
+        var needDoAnimation = forceAnimation
+
+        let bottom = view.bounds.height - messageToolbar.frame.origin.y
+        let bottomOffset = bottom - conversationCollectionView.contentInset.bottom
+
+        if bottomOffset != 0 {
+            needDoAnimation = true
+        }
+
+        let newContentOffsetY = conversationCollectionView.contentSize.height - messageToolbar.frame.origin.y
+
+        if conversationCollectionView.contentOffset.y != newContentOffsetY {
+            needDoAnimation = true
+        }
+
+        guard needDoAnimation else {
+            return
+        }
+
+        UIView.animateWithDuration(forceAnimation ? 0.25 : 0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            if let strongSelf = self {
+                strongSelf.conversationCollectionView.contentInset.bottom = bottom
+                strongSelf.conversationCollectionView.contentOffset.y = newContentOffsetY
+            }
+        }, completion: { _ in })
     }
 
     // MARK: Private

@@ -58,6 +58,8 @@ class MessageToolbar: UIToolbar {
     var state: MessageToolbarState = .Default {
         willSet {
 
+            updateHeightOfMessageTextView()
+
             previousState = state
 
             if let action = stateTransitionAction {
@@ -112,8 +114,6 @@ class MessageToolbar: UIToolbar {
                 
                 showVoiceButtonAnimation()
             }
-
-            updateHeightOfMessageTextView()
         }
 
         didSet {
