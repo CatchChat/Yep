@@ -1282,12 +1282,14 @@ class ConversationViewController: BaseViewController {
 
         let bottom = view.bounds.height - messageToolbar.frame.origin.y
 
-        guard newContentOffsetY > 0 else {
+        guard newContentOffsetY + conversationCollectionView.contentInset.top > 0 else {
+
             UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
                 if let strongSelf = self {
                     strongSelf.conversationCollectionView.contentInset.bottom = bottom
                 }
             }, completion: { _ in })
+
             return
         }
 
