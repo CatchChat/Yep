@@ -597,9 +597,36 @@ class ConversationViewController: BaseViewController {
             messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
 
                 if let strongSelf = self {
+
                     switch currentState {
+
                     case .BeginTextInput:
                         self?.tryFoldFeedView()
+
+                    case .TextInputing:
+                        let bottom = strongSelf.view.bounds.height - messageToolbar.frame.origin.y
+                        println("bottom: \(bottom)")
+                        let bottomOffset = bottom - strongSelf.conversationCollectionView.contentInset.bottom
+
+                        if bottomOffset != 0 {
+                            strongSelf.conversationCollectionView.contentInset.bottom = bottom
+
+                            let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - messageToolbar.frame.origin.y
+//                            strongSelf.conversationCollectionView.contentOffset.y = newContentOffsetY
+
+                            var newContentOffset = strongSelf.conversationCollectionView.contentOffset
+                            newContentOffset.y = newContentOffsetY
+                            strongSelf.conversationCollectionView.setContentOffset(newContentOffset, animated: true)
+                            println("newContentOffsetY: \(newContentOffsetY)")
+
+//                            println("strongSelf.conversationCollectionView.contentSize.height: \(strongSelf.conversationCollectionView.contentSize.height)")
+//                            println("strongSelf.conversationCollectionView.contentOffset.y: \(strongSelf.conversationCollectionView.contentOffset.y)")
+//
+//                            var newContentOffset = strongSelf.conversationCollectionView.contentOffset
+//                            newContentOffset.y += bottomOffset
+//                            strongSelf.conversationCollectionView.setContentOffset(newContentOffset, animated: true)
+                        }
+
                     default:
                         break
                     }
