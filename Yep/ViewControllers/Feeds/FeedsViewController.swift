@@ -238,7 +238,7 @@ class FeedsViewController: UIViewController {
             currentPageIndex = 1
         }
 
-        let maxFeedID = (feedSortStyle == FeedSortStyle.Time) ? feeds.last?.id : nil
+        let maxFeedID = (isLoadMore && (feedSortStyle == FeedSortStyle.Time)) ? feeds.last?.id : nil
 
         discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: currentPageIndex, perPage: 25, maxFeedID: maxFeedID, failureHandler: { reason, errorMessage in
 
