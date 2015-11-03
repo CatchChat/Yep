@@ -170,7 +170,7 @@ class YepConfig {
 
         static let centerXOffset: CGFloat = 4
         
-        static let bubbleCornerRadius: CGFloat = 20
+        static let bubbleCornerRadius: CGFloat = 18
 
         static let imageAppearDuration: NSTimeInterval = 0.1
 
