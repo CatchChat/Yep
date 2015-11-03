@@ -117,11 +117,11 @@ class ChatLeftTextCell: ChatBaseCell {
                 
                 if strongSelf.inGroup {
                     strongSelf.nameLabel.text = strongSelf.user?.nickname
-                    //strongSelf.nameLabel.sizeToFit()
+
                     let height = YepConfig.ChatCell.nameLabelHeightForGroup
                     let x = strongSelf.textContainerView.frame.origin.x
                     let y = strongSelf.textContainerView.frame.origin.y - height - 3
-                    let width = collectionView.bounds.width - x - 10
+                    let width = strongSelf.contentView.bounds.width - x - 10
                     strongSelf.nameLabel.frame = CGRect(x: x, y: y, width: width, height: height)
                 }
                 

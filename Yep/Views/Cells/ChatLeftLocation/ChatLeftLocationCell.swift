@@ -39,7 +39,7 @@ class ChatLeftLocationCell: ChatBaseCell {
         locationNameLabel.frame = CGRect(x: CGRectGetMinX(mapImageView.frame) + 20 + 7, y: CGRectGetMaxY(mapImageView.frame) - locationNameLabelHeight, width: 192 - 20 * 2 - 7, height: locationNameLabelHeight)
         //locationNameLabel.backgroundColor = UIColor.redColor().colorWithAlphaComponent(0.1)
 
-        configNameLabel()
+        configureNameLabel()
     }
 
     override func awakeFromNib() {
@@ -105,7 +105,7 @@ class ChatLeftLocationCell: ChatBaseCell {
         }
     }
     
-    func configNameLabel() {
+    private func configureNameLabel() {
 
         if inGroup {
             nameLabel.text = user?.nickname

@@ -192,16 +192,16 @@ class ChatLeftAudioCell: ChatBaseCell {
 
         audioContainerView.sendSubviewToBack(bubbleImageView)
 
-        configNameLabel()
+        configureNameLabel()
 
         playing = false
     }
     
-    func configNameLabel() {
+    private func configureNameLabel() {
 
         if inGroup {
             nameLabel.text = user?.nickname
-            //nameLabel.sizeToFit()
+
             let height = YepConfig.ChatCell.nameLabelHeightForGroup
             let x = CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
             let y = audioContainerView.frame.origin.y - height

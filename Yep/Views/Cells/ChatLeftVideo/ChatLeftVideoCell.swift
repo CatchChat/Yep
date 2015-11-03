@@ -217,18 +217,18 @@ class ChatLeftVideoCell: ChatBaseCell {
             })
         }
         
-        configNameLabel(collectionView)
+        configureNameLabel()
     }
 
-    func configNameLabel(collectionView: UICollectionView) {
+    private func configureNameLabel() {
 
         if inGroup {
             nameLabel.text = user?.nickname
-            //nameLabel.sizeToFit()
+
             let height = YepConfig.ChatCell.nameLabelHeightForGroup
             let x = CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
             let y = thumbnailImageView.frame.origin.y - height
-            let width = collectionView.bounds.width - x - 10
+            let width = contentView.bounds.width - x - 10
             nameLabel.frame = CGRect(x: x, y: y, width: width, height: height)
         }
     }

@@ -156,7 +156,6 @@ class ChatLeftImageCell: ChatBaseCell {
                     if let strongSelf = self {
                         strongSelf.messageImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: strongSelf.bounds.height - topOffset)
                         strongSelf.loadingProgressView.center = CGPoint(x: CGRectGetMidX(strongSelf.messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.messageImageView.frame))
-                        strongSelf.configNameLabel(collectionView)
                     }
                 }
 
@@ -177,7 +176,6 @@ class ChatLeftImageCell: ChatBaseCell {
                     if let strongSelf = self {
                         strongSelf.messageImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: strongSelf.bounds.height - topOffset)
                         strongSelf.loadingProgressView.center = CGPoint(x: CGRectGetMidX(strongSelf.messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.messageImageView.frame))
-                        strongSelf.configNameLabel(collectionView)
                     }
                 }
 
@@ -199,7 +197,6 @@ class ChatLeftImageCell: ChatBaseCell {
                 if let strongSelf = self {
                     strongSelf.messageImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: strongSelf.bounds.height - topOffset)
                     strongSelf.loadingProgressView.center = CGPoint(x: CGRectGetMidX(strongSelf.messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.messageImageView.frame))
-                    strongSelf.configNameLabel(collectionView)
                 }
             }
 
@@ -212,17 +209,19 @@ class ChatLeftImageCell: ChatBaseCell {
                 }
             })
         }
+
+        configureNameLabel()
     }
     
-    func configNameLabel(collectionView: UICollectionView) {
+    private func configureNameLabel() {
         
         if inGroup {
             nameLabel.text = user?.nickname
-            //nameLabel.sizeToFit()
+
             let height = YepConfig.ChatCell.nameLabelHeightForGroup
             let x = CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
             let y = messageImageView.frame.origin.y - height
-            let width = collectionView.bounds.width - x - 10
+            let width = contentView.bounds.width - x - 10
             nameLabel.frame = CGRect(x: x, y: y, width: width, height: height)
         }
     }
