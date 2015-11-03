@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class FeedsViewController: UIViewController {
+class FeedsViewController: BaseViewController {
 
     var skill: Skill?
 
@@ -142,6 +142,10 @@ class FeedsViewController: UIViewController {
     
     deinit {
         print("Deinit FeedsViewControler")
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
     }
 
     override func viewDidLoad() {
