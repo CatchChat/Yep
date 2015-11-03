@@ -9,6 +9,29 @@
 import UIKit
 
 class FeedTextView: UITextView {
+    
+    var tapGesture: UITapGestureRecognizer!
+    
+    override init(frame: CGRect, textContainer: NSTextContainer?) {
+        super.init(frame: frame, textContainer: textContainer)
+        setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    func setup() {
+        tapGesture = UITapGestureRecognizer(target: self, action: "doTap")
+        addGestureRecognizer(tapGesture)
+    }
+    
+    func doTap() {
+        if let touchesEndedAction = touchesEndedAction {
+            touchesEndedAction()
+        }
+    }
 
     override func canBecomeFirstResponder() -> Bool {
         return false
@@ -25,7 +48,7 @@ class FeedTextView: UITextView {
 
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
-        touchesEndedAction?()
+//        touchesEndedAction?()
     }
 
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {

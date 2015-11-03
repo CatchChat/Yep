@@ -35,6 +35,18 @@ class FeedCell: UITableViewCell {
     var touchesBeganAction: (UITableViewCell -> Void)?
     var touchesEndedAction: (UITableViewCell -> Void)?
     var touchesCancelledAction: (UITableViewCell -> Void)?
+    
+    var tapGesture: UITapGestureRecognizer!
+    
+    func setup() {
+        tapGesture = UITapGestureRecognizer(target: self, action: "doTap")
+    }
+    
+    func doTap() {
+        if let touchesEndedAction = touchesEndedAction {
+            touchesEndedAction(self)
+        }
+    }
 
     var attachments = [DiscoveredAttachment]() {
         didSet {
@@ -76,6 +88,7 @@ class FeedCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        setup()
         nicknameLabel.textColor = UIColor.yepTintColor()
         messageTextView.textColor = UIColor.yepMessageColor()
         distanceLabel.textColor = UIColor.grayColor()
@@ -126,11 +139,13 @@ class FeedCell: UITableViewCell {
                 strongSelf.touchesBeganAction?(strongSelf)
             }
         }
-        backgroundView.touchesEndedAction = { [weak self] in
-            if let strongSelf = self {
-                strongSelf.touchesEndedAction?(strongSelf)
-            }
-        }
+        
+        backgroundView.addGestureRecognizer(tapGesture)
+//        backgroundView.touchesEndedAction = { [weak self] in
+//            if let strongSelf = self {
+////                strongSelf.touchesEndedAction?(strongSelf)
+//            }
+//        }
         backgroundView.touchesCancelledAction = { [weak self] in
             if let strongSelf = self {
                 strongSelf.touchesCancelledAction?(strongSelf)

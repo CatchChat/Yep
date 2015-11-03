@@ -713,6 +713,26 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             break
         }
     }
+    
+    
+    // Edit (for Delete)
+    
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        
+        return true
+    }
+    
+    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
+        return NSLocalizedString("Report", comment: "")
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if editingStyle == .Delete {
+            
+        }
+    }
+
 
     // MARK: UIScrollViewDelegate
 
@@ -725,6 +745,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
     }
+    
 }
 
 // MARK: PullToRefreshViewDelegate
