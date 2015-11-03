@@ -1278,6 +1278,18 @@ class ConversationViewController: BaseViewController {
 
     private func trySnapContentOfConversationCollectionViewToBottom(forceAnimation forceAnimation: Bool = false) {
 
+        ///// Provent form unwanted scrolling
+        if let lastToolbarFrame = messageToolbar.lastToolbarFrame {
+            if lastToolbarFrame == messageToolbar.frame {
+                return
+            } else {
+                messageToolbar.lastToolbarFrame = messageToolbar.frame
+            }
+        } else {
+            messageToolbar.lastToolbarFrame = messageToolbar.frame
+        }
+        /////
+        
         let newContentOffsetY = conversationCollectionView.contentSize.height - messageToolbar.frame.origin.y
 
         let bottom = view.bounds.height - messageToolbar.frame.origin.y

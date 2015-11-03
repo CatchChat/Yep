@@ -31,6 +31,8 @@ enum MessageToolbarState: Int, CustomStringConvertible {
 
 @IBDesignable
 class MessageToolbar: UIToolbar {
+    
+    var lastToolbarFrame: CGRect?
 
     var messageTextViewHeightConstraint: NSLayoutConstraint!
 
