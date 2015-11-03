@@ -609,22 +609,16 @@ class ConversationViewController: BaseViewController {
                         let bottomOffset = bottom - strongSelf.conversationCollectionView.contentInset.bottom
 
                         if bottomOffset != 0 {
-                            strongSelf.conversationCollectionView.contentInset.bottom = bottom
 
-                            let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - messageToolbar.frame.origin.y
-//                            strongSelf.conversationCollectionView.contentOffset.y = newContentOffsetY
+                            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: {
+                                strongSelf.conversationCollectionView.contentInset.bottom = bottom
+                                strongSelf.conversationCollectionView.contentOffset.y = strongSelf.conversationCollectionView.contentSize.height - messageToolbar.frame.origin.y
+                            }, completion: { _ in })
 
-                            var newContentOffset = strongSelf.conversationCollectionView.contentOffset
-                            newContentOffset.y = newContentOffsetY
-                            strongSelf.conversationCollectionView.setContentOffset(newContentOffset, animated: true)
-                            println("newContentOffsetY: \(newContentOffsetY)")
-
-//                            println("strongSelf.conversationCollectionView.contentSize.height: \(strongSelf.conversationCollectionView.contentSize.height)")
-//                            println("strongSelf.conversationCollectionView.contentOffset.y: \(strongSelf.conversationCollectionView.contentOffset.y)")
-//
-//                            var newContentOffset = strongSelf.conversationCollectionView.contentOffset
-//                            newContentOffset.y += bottomOffset
-//                            strongSelf.conversationCollectionView.setContentOffset(newContentOffset, animated: true)
+                            //var newContentOffset = strongSelf.conversationCollectionView.contentOffset
+                            //newContentOffset.y = strongSelf.conversationCollectionView.contentSize.height - messageToolbar.frame.origin.y
+                            //strongSelf.conversationCollectionView.setContentOffset(newContentOffset, animated: true)
+                            //println("newContentOffsetY: \(newContentOffset.y)")
                         }
 
                     default:
