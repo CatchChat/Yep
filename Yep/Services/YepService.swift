@@ -1468,7 +1468,7 @@ func moreGroups(inPage page: Int, withPerPage perPage: Int, failureHandler: ((Re
     }
 }
 
-func groups(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion completion: [JSONDictionary] -> Void) {
+func groups(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
 
     return headGroups(failureHandler: failureHandler, completion: { result in
         if
