@@ -14,33 +14,54 @@
                         <viewControllerLayoutGuide type="bottom" id="6bq-uq-nbf"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Cut-qQ-Ey0">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We read every feedback" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jcu-cz-h1b">
-                                <rect key="frame" x="208" y="60" width="185" height="20.5"/>
+                                <rect key="frame" x="95" y="60" width="185" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="pBl-vf-8Aa" customClass="FeedbackTextView" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="120.5" width="600" height="214.5"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="pBl-vf-8Aa">
+                                <rect key="frame" x="0.0" y="120" width="375" height="281.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kpg-Ee-hN4" customClass="HorizontalLineView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="120" width="375" height="1"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="9hq-x6-uC2"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6nG-7K-Mg0" customClass="HorizontalLineView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="400.5" width="375" height="1"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="faJ-Sf-Wru"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="6bq-uq-nbf" firstAttribute="top" secondItem="pBl-vf-8Aa" secondAttribute="bottom" constant="265" id="56T-lO-q1c"/>
+                            <constraint firstItem="Kpg-Ee-hN4" firstAttribute="trailing" secondItem="pBl-vf-8Aa" secondAttribute="trailing" id="5cj-x0-7La"/>
+                            <constraint firstItem="Kpg-Ee-hN4" firstAttribute="leading" secondItem="pBl-vf-8Aa" secondAttribute="leading" id="9AA-yX-hq9"/>
+                            <constraint firstItem="6nG-7K-Mg0" firstAttribute="bottom" secondItem="pBl-vf-8Aa" secondAttribute="bottom" id="Jhe-fB-6Mn"/>
+                            <constraint firstItem="Kpg-Ee-hN4" firstAttribute="top" secondItem="pBl-vf-8Aa" secondAttribute="top" id="K3M-MC-3eO"/>
                             <constraint firstAttribute="centerX" secondItem="Jcu-cz-h1b" secondAttribute="centerX" id="LdO-A5-6B9"/>
+                            <constraint firstItem="6nG-7K-Mg0" firstAttribute="trailing" secondItem="pBl-vf-8Aa" secondAttribute="trailing" id="OYS-gG-LQR"/>
                             <constraint firstItem="pBl-vf-8Aa" firstAttribute="leading" secondItem="Cut-qQ-Ey0" secondAttribute="leading" id="Se9-9j-4Wg"/>
                             <constraint firstItem="Jcu-cz-h1b" firstAttribute="top" secondItem="vWC-fS-hiH" secondAttribute="bottom" constant="40" id="iw2-31-WIJ"/>
                             <constraint firstAttribute="trailing" secondItem="pBl-vf-8Aa" secondAttribute="trailing" id="oYg-yk-ewM"/>
                             <constraint firstItem="pBl-vf-8Aa" firstAttribute="top" secondItem="Jcu-cz-h1b" secondAttribute="bottom" constant="40" id="pnl-Ib-77c"/>
+                            <constraint firstItem="6nG-7K-Mg0" firstAttribute="leading" secondItem="pBl-vf-8Aa" secondAttribute="leading" id="rdD-ba-gna"/>
                         </constraints>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="feedbackTextView" destination="pBl-vf-8Aa" id="BGv-4I-sqA"/>
                         <outlet property="feedbackTextViewBottomConstraint" destination="56T-lO-q1c" id="KxA-as-3cI"/>
