@@ -415,9 +415,9 @@
                     <connections>
                         <outlet property="settingsTableView" destination="jKA-8q-sXn" id="DgR-gO-x2w"/>
                         <segue destination="TTy-VD-aor" kind="show" identifier="showEditProfile" id="Qhj-kS-Fq2"/>
-                        <segue destination="9Uj-sb-Emt" kind="show" identifier="showFeedback" id="YkG-GA-Ri8"/>
                         <segue destination="i7X-gi-DRa" kind="show" identifier="showNotifications" id="PxD-iZ-Pfy"/>
                         <segue destination="yT8-GW-lJF" kind="show" identifier="showAbout" id="bXj-qa-QIM"/>
+                        <segue destination="arO-ie-YKq" kind="show" identifier="showFeedback" id="fpe-kF-KXU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zuA-bP-KGx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -885,6 +885,14 @@
             </objects>
             <point key="canvasLocation" x="5347" y="169"/>
         </scene>
+        <!--FeedbackViewController-->
+        <scene sceneID="LDg-Ov-U48">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Feedback" referencedIdentifier="FeedbackViewController" id="arO-ie-YKq" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n0L-Kc-MyN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3510" y="373"/>
+        </scene>
         <!--About View Controller-->
         <scene sceneID="Gw3-Lm-DcO">
             <objects>
@@ -1007,55 +1015,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VRb-Ez-bT9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4500" y="1030"/>
-        </scene>
-        <!--Feedback View Controller-->
-        <scene sceneID="qi4-ey-7am">
-            <objects>
-                <viewController storyboardIdentifier="FeedbackViewController" id="9Uj-sb-Emt" customClass="FeedbackViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="tAx-eH-RSU"/>
-                        <viewControllerLayoutGuide type="bottom" id="68N-x3-ggS"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="idv-mc-SYJ">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="We read every feedback" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdt-Vd-sD9">
-                                <rect key="frame" x="208" y="60" width="185" height="20.5"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="fVo-Zl-gHQ" customClass="FeedbackTextView" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="120.5" width="600" height="214.5"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstItem="fVo-Zl-gHQ" firstAttribute="leading" secondItem="idv-mc-SYJ" secondAttribute="leading" id="Fvc-ia-KdU"/>
-                            <constraint firstAttribute="centerX" secondItem="pdt-Vd-sD9" secondAttribute="centerX" id="PXC-QQ-Amd"/>
-                            <constraint firstItem="pdt-Vd-sD9" firstAttribute="top" secondItem="tAx-eH-RSU" secondAttribute="bottom" constant="40" id="bgk-WE-FrJ"/>
-                            <constraint firstItem="fVo-Zl-gHQ" firstAttribute="top" secondItem="pdt-Vd-sD9" secondAttribute="bottom" constant="40" id="gRO-0d-kgw"/>
-                            <constraint firstItem="68N-x3-ggS" firstAttribute="top" secondItem="fVo-Zl-gHQ" secondAttribute="bottom" constant="265" id="qxh-bZ-MT0"/>
-                            <constraint firstAttribute="trailing" secondItem="fVo-Zl-gHQ" secondAttribute="trailing" id="xso-tK-MIK"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="feedbackTextView" destination="fVo-Zl-gHQ" id="dlg-9M-1bJ"/>
-                        <outlet property="feedbackTextViewBottomConstraint" destination="qxh-bZ-MT0" id="Dqa-iO-rmp"/>
-                        <outlet property="promptLabel" destination="pdt-Vd-sD9" id="yFy-1G-lze"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MUL-up-ag5" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4372" y="373"/>
         </scene>
         <!--Edit Nickname And Badge View Controller-->
         <scene sceneID="eed-5B-jyz">
