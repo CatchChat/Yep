@@ -163,6 +163,23 @@ class FeedsViewController: UIViewController {
 
         if skill != nil {
             navigationItem.titleView = skillTitleView
+            // Add to Me
+            
+            if let skillID = skill?.id {
+                if let
+                    myUserID = YepUserDefaults.userID.value,
+                    realm = try? Realm(),
+                    me = userWithUserID(myUserID, inRealm: realm) {
+                        
+                        let predicate = NSPredicate(format: "skillID = %@", skillID)
+                        
+                        if me.masterSkills.filter(predicate).count == 0
+                            && me.learningSkills.filter(predicate).count == 0 {
+                                let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: "addSkillToMe")
+                                navigationItem.rightBarButtonItem = addSkillToMeButton
+                        }
+                }
+            }
         } else {
             filterBarItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "showFilter:")
             navigationItem.leftBarButtonItem = filterBarItem
@@ -177,6 +194,51 @@ class FeedsViewController: UIViewController {
         feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
 
         feedSortStyle = .Time
+    }
+    
+    // MARK: Actions
+    
+    func addSkillToMe() {
+        println("addSkillToMe")
+        
+        if let skillID = skill?.id, skillLocalName = skill?.localName {
+            
+            let doAddSkillToSkillSet: SkillSet -> Void = { skillSet in
+                
+                addSkillWithSkillID(skillID, toSkillSet: skillSet, failureHandler: { reason, errorMessage in
+                    defaultFailureHandler(reason, errorMessage: errorMessage)
+                    
+                    }, completion: { [weak self] _ in
+                        
+                        YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: String(format: NSLocalizedString("Added %@ to %@ successfully!", comment: ""), skillLocalName, skillSet.name), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self?.navigationItem.rightBarButtonItem = nil
+                        }
+                        
+                        syncMyInfoAndDoFurtherAction {
+                        }
+                    })
+            }
+            
+            let alertController = UIAlertController(title: NSLocalizedString("Choose skill set", comment: ""), message: String(format: NSLocalizedString("Which skill set do you want %@ to be?", comment: ""), skillLocalName), preferredStyle: .Alert)
+            
+            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action in
+            }
+            alertController.addAction(cancelAction)
+            
+            let learningAction: UIAlertAction = UIAlertAction(title: SkillSet.Learning.name, style: .Default) { action in
+                doAddSkillToSkillSet(.Learning)
+            }
+            alertController.addAction(learningAction)
+            
+            let masterAction: UIAlertAction = UIAlertAction(title: SkillSet.Master.name, style: .Default) { action in
+                doAddSkillToSkillSet(.Master)
+            }
+            alertController.addAction(masterAction)
+            
+            presentViewController(alertController, animated: true, completion: nil)
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
