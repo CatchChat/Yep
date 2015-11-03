@@ -776,7 +776,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             
             self.presentViewController(reportAlertController, animated: true, completion: nil)
             
-            tableView.setEditing(true, animated: true)
+            tableView.setEditing(false, animated: true)
         }
     }
 
