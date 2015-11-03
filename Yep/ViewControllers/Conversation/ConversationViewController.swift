@@ -412,6 +412,8 @@ class ConversationViewController: BaseViewController {
 
         swipeUpView.hidden = true
 
+        conversationCollectionView.keyboardDismissMode = .OnDrag
+
         conversationCollectionView.alwaysBounceVertical = true
 
         conversationCollectionView.registerNib(UINib(nibName: chatStateCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatStateCellIdentifier)
