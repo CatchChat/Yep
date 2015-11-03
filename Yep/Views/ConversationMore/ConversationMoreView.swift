@@ -180,22 +180,33 @@ class ConversationMoreView: UIView {
     var notificationEnabled: Bool = true {
         didSet {
             if notificationEnabled != oldValue {
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    
-                    if let strongSelf = self {
-                        if let cell = strongSelf.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: Row.DoNotDisturb.rawValue, inSection: 0)) as? ConversationMoreCheckCell {
-                            
-                            switch strongSelf.type {
-                            case .OneToOne:
+                
+                switch type {
+                case .OneToOne:
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        
+                        if let strongSelf = self {
+                            if let cell = strongSelf.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: Row.DoNotDisturb.rawValue, inSection: 0)) as? ConversationMoreCheckCell {
+                                
                                 cell.updateWithNotificationEnabled(strongSelf.notificationEnabled)
-                            case .Topic:
-                                cell.updateWithNotificationEnabled(!strongSelf.notificationEnabled)
+                            } else {
+                                strongSelf.tableView.reloadData()
                             }
-                        } else {
-                            strongSelf.tableView.reloadData()
+                        }
+                        
+                    }
+                case .Topic:
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        
+                        if let strongSelf = self {
+                            if let cell = strongSelf.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: TopicRow.PushNotifications.rawValue, inSection: 0)) as? ConversationMoreCheckCell {
+                                
+                                cell.updateWithNotificationEnabled(!strongSelf.notificationEnabled)
+                            } else {
+                                strongSelf.tableView.reloadData()
+                            }
                         }
                     }
-
                 }
             }
         }
