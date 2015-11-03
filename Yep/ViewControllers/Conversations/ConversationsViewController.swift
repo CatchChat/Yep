@@ -99,7 +99,13 @@ class ConversationsViewController: UIViewController {
                 println("isFetchingUnreadMessages: \(isFetching)")
 
                 if isFetching {
-                    self?.navigationItem.titleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
+                    
+                    if let navigationController = self?.navigationController, visibleViewController = navigationController.visibleViewController {
+                        
+                        if visibleViewController.isKindOfClass(ConversationsViewController) {
+                            self?.navigationItem.titleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
+                        }
+                    }
 
                 } else {
                     self?.navigationItem.titleView = nil

@@ -10,8 +10,9 @@ import UIKit
 
 class ChatRightTextCell: ChatRightBaseCell {
 
-    @IBOutlet weak var bubbleBodyImageView: UIImageView!
     @IBOutlet weak var bubbleTailImageView: UIImageView!
+    
+    var bubbleBodyShapeLayer: CAShapeLayer!
 
     @IBOutlet weak var textContainerView: ChatTextContainerView!
     @IBOutlet weak var textContentTextView: ChatTextView!
@@ -34,6 +35,10 @@ class ChatRightTextCell: ChatRightBaseCell {
         UIView.performWithoutAnimation { [weak self] in
             self?.makeUI()
         }
+        
+        bubbleBodyShapeLayer = CAShapeLayer()
+        bubbleBodyShapeLayer.backgroundColor = UIColor.rightBubbleTintColor().CGColor
+        bubbleBodyShapeLayer.fillColor = UIColor.rightBubbleTintColor().CGColor
 
         textContentTextView.textContainer.lineFragmentPadding = 0
         textContentTextView.font = UIFont.chatTextFont()
@@ -54,12 +59,11 @@ class ChatRightTextCell: ChatRightBaseCell {
             self?.longPressAction?()
         }
         
-        bubbleBodyImageView.tintColor = UIColor.rightBubbleTintColor()
         bubbleTailImageView.tintColor = UIColor.rightBubbleTintColor()
-
-        bubbleBodyImageView.userInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
-        bubbleBodyImageView.addGestureRecognizer(tap)
+        
+        if let bubblePosition = layer.sublayers {
+            contentView.layer.insertSublayer(bubbleBodyShapeLayer, atIndex: UInt32(bubblePosition.count))
+        }
     }
 
     func tapMediaView() {
@@ -98,11 +102,15 @@ class ChatRightTextCell: ChatRightBaseCell {
                 strongSelf.makeUI()
                 
                 strongSelf.textContainerView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() - textContentLabelWidth, y: 3, width: textContentLabelWidth, height: strongSelf.bounds.height - 3 * 2)
-                strongSelf.bubbleBodyImageView.frame = CGRectInset(strongSelf.textContainerView.frame, -12, -3)
-
-                strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMaxX(strongSelf.bubbleBodyImageView.frame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
                 
-                strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.bubbleBodyImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.bubbleBodyImageView.frame))
+                let bubbleBodyFrame = CGRectInset(strongSelf.textContainerView.frame, -12, -3)
+                
+                strongSelf.bubbleBodyShapeLayer.path = UIBezierPath(roundedRect: bubbleBodyFrame, byRoundingCorners: UIRectCorner.AllCorners, cornerRadii: CGSize(width: YepConfig.ChatCell.bubbleCornerRadius, height: YepConfig.ChatCell.bubbleCornerRadius)).CGPath
+//                strongSelf.bubbleBodyImageView.frame =
+
+                strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMaxX(bubbleBodyFrame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
+                
+                strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.avatarImageView.frame))
             }
         }
 

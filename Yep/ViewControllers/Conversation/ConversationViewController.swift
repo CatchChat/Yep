@@ -1813,36 +1813,38 @@ class ConversationViewController: BaseViewController {
             let userID = user.userID
 
             if user.notificationEnabled {
-                disableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: { [weak self] success in
+                disableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: { success in
                     println("disableNotificationFromUserWithUserID \(success)")
-
-                    self?.updateNotificationEnabled(false, forUserWithUserID: userID)
                 })
+                
+                updateNotificationEnabled(false, forUserWithUserID: userID)
 
             } else {
-                enableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: { [weak self] success in
+                enableNotificationFromUserWithUserID(userID, failureHandler: nil, completion: {  success in
                     println("enableNotificationFromUserWithUserID \(success)")
-
-                    self?.updateNotificationEnabled(true, forUserWithUserID: userID)
                 })
+                
+                updateNotificationEnabled(true, forUserWithUserID: userID)
             }
         } else if let group = conversation.withGroup {
             
             let groupID = group.groupID
             
             if group.notificationEnabled {
-                disableNotificationFromCircleWithCircleID(groupID, failureHandler: nil, completion: { [weak self] success in
+
+                disableNotificationFromCircleWithCircleID(groupID, failureHandler: nil, completion: { success in
                     println("disableNotificationFromUserWithUserID \(success)")
-                    
-                    self?.updateNotificationEnabled(false, forGroupWithGroupID: groupID)
                 })
                 
+                updateNotificationEnabled(false, forGroupWithGroupID: groupID)
+                
             } else {
-                enableNotificationFromCircleWithCircleID(groupID, failureHandler: nil, completion: { [weak self] success in
-                    println("enableNotificationFromUserWithUserID \(success)")
+                enableNotificationFromCircleWithCircleID(groupID, failureHandler: nil, completion: {success in
+                    println("enableNotificationFromCircleWithCircleID \(success)")
                     
-                    self?.updateNotificationEnabled(true, forGroupWithGroupID: groupID)
                 })
+                
+                updateNotificationEnabled(true, forGroupWithGroupID: groupID)
             }
         }
     }
@@ -1952,12 +1954,21 @@ class ConversationViewController: BaseViewController {
                 return
         }
         
+        //Make sure insert cell when in conversation viewcontroller
+        guard let conversationController = self.navigationController?.visibleViewController as? ConversationViewController else {
+            return
+        }
+        
         realm.refresh() // 确保是最新数据
 
         // 按照 conversation 过滤消息，匹配的才能考虑插入
         if let conversation = conversation {
             
-            if let conversationID = conversation.fakeID, realm = conversation.realm {
+            if let conversationID = conversation.fakeID, realm = conversation.realm, currentVisibleConversationID = conversationController.conversation.fakeID {
+                
+                if currentVisibleConversationID != conversationID {
+                    return
+                }
                 
                 var filteredMessageIDs = [String]()
                 

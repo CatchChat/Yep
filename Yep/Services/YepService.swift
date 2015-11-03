@@ -769,7 +769,7 @@ func settingsForCircleWithCircleID(cirleID: String, failureHandler: ((Reason, St
         
         if let
             doNotDisturb = data["dnd"] as? Bool {
-                return !doNotDisturb
+                return doNotDisturb
         }
         
         return nil
