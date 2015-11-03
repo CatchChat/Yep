@@ -86,7 +86,7 @@ class FeedMediaView: UIView {
                     return
                 }
                 self?.imageView2.image = image
-            })
+                })
 
             addSubview(imageView1)
             addSubview(imageView2)
