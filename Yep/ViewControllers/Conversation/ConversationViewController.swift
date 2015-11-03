@@ -603,10 +603,10 @@ class ConversationViewController: BaseViewController {
                 case .BeginTextInput:
                     self?.tryFoldFeedView()
 
-                    self?.snapContentOfConversationCollectionViewToBottom(forceAnimation: true)
+                    self?.trySnapContentOfConversationCollectionViewToBottom(forceAnimation: true)
 
                 case .TextInputing:
-                    self?.snapContentOfConversationCollectionViewToBottom()
+                    self?.trySnapContentOfConversationCollectionViewToBottom()
 
                 default:
                     break
@@ -694,7 +694,7 @@ class ConversationViewController: BaseViewController {
 
                 self?.cleanTextInput()
 
-                self?.snapContentOfConversationCollectionViewToBottom()
+                self?.trySnapContentOfConversationCollectionViewToBottom()
 
                 if text.isEmpty {
                     return
@@ -1276,18 +1276,28 @@ class ConversationViewController: BaseViewController {
         self.feedView = feedView
     }
 
-    private func snapContentOfConversationCollectionViewToBottom(forceAnimation forceAnimation: Bool = false) {
+    private func trySnapContentOfConversationCollectionViewToBottom(forceAnimation forceAnimation: Bool = false) {
+
+        let newContentOffsetY = conversationCollectionView.contentSize.height - messageToolbar.frame.origin.y
+
+        let bottom = view.bounds.height - messageToolbar.frame.origin.y
+
+        guard newContentOffsetY > 0 else {
+            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                if let strongSelf = self {
+                    strongSelf.conversationCollectionView.contentInset.bottom = bottom
+                }
+            }, completion: { _ in })
+            return
+        }
 
         var needDoAnimation = forceAnimation
 
-        let bottom = view.bounds.height - messageToolbar.frame.origin.y
-        let bottomOffset = bottom - conversationCollectionView.contentInset.bottom
+        let bottomInsetOffset = bottom - conversationCollectionView.contentInset.bottom
 
-        if bottomOffset != 0 {
+        if bottomInsetOffset != 0 {
             needDoAnimation = true
         }
-
-        let newContentOffsetY = conversationCollectionView.contentSize.height - messageToolbar.frame.origin.y
 
         if conversationCollectionView.contentOffset.y != newContentOffsetY {
             needDoAnimation = true
