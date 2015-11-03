@@ -596,34 +596,18 @@ class ConversationViewController: BaseViewController {
 
             messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
 
-                if let strongSelf = self {
+                switch currentState {
 
-                    switch currentState {
+                case .BeginTextInput:
+                    self?.tryFoldFeedView()
 
-                    case .BeginTextInput:
-                        self?.tryFoldFeedView()
+                    self?.snapContentOfConversationCollectionViewToBottom(forceAnimation: true)
 
-                    case .TextInputing:
-                        let bottom = strongSelf.view.bounds.height - messageToolbar.frame.origin.y
-                        println("bottom: \(bottom)")
-                        let bottomOffset = bottom - strongSelf.conversationCollectionView.contentInset.bottom
+                case .TextInputing:
+                    self?.snapContentOfConversationCollectionViewToBottom()
 
-                        if bottomOffset != 0 {
-
-                            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: {
-                                strongSelf.conversationCollectionView.contentInset.bottom = bottom
-                                strongSelf.conversationCollectionView.contentOffset.y = strongSelf.conversationCollectionView.contentSize.height - messageToolbar.frame.origin.y
-                            }, completion: { _ in })
-
-                            //var newContentOffset = strongSelf.conversationCollectionView.contentOffset
-                            //newContentOffset.y = strongSelf.conversationCollectionView.contentSize.height - messageToolbar.frame.origin.y
-                            //strongSelf.conversationCollectionView.setContentOffset(newContentOffset, animated: true)
-                            //println("newContentOffsetY: \(newContentOffset.y)")
-                        }
-
-                    default:
-                        break
-                    }
+                default:
+                    break
                 }
             }
 
@@ -707,6 +691,8 @@ class ConversationViewController: BaseViewController {
                 let text = messageToolbar.messageTextView.text!.trimming(.WhitespaceAndNewline)
 
                 self?.cleanTextInput()
+
+                self?.snapContentOfConversationCollectionViewToBottom()
 
                 if text.isEmpty {
                     return
@@ -1286,6 +1272,22 @@ class ConversationViewController: BaseViewController {
         feedView.heightConstraint = height
 
         self.feedView = feedView
+    }
+
+    private func snapContentOfConversationCollectionViewToBottom(forceAnimation forceAnimation: Bool = false) {
+        let bottom = view.bounds.height - messageToolbar.frame.origin.y
+        let bottomOffset = bottom - conversationCollectionView.contentInset.bottom
+
+        guard forceAnimation || bottomOffset != 0 else {
+            return
+        }
+
+        UIView.animateWithDuration(forceAnimation ? 0.25 : 0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            if let strongSelf = self {
+                strongSelf.conversationCollectionView.contentInset.bottom = bottom
+                strongSelf.conversationCollectionView.contentOffset.y = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y
+            }
+        }, completion: { _ in })
     }
 
     // MARK: Private
