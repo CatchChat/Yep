@@ -38,7 +38,7 @@ extension UIFont {
     }
 
     class func navigationBarTitleFont() -> UIFont { // make sure it's the same as system use
-        return UIFont.boldSystemFontOfSize(18)
+        return UIFont.boldSystemFontOfSize(17)
     }
 
     class func feedMessageFont() -> UIFont {
