@@ -2517,7 +2517,7 @@ let parseFeeds: JSONDictionary -> [DiscoveredFeed]? = { data in
     return []
 }
 
-func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageIndex: Int, perPage: Int, failureHandler: ((Reason, String?) -> Void)?,completion: [DiscoveredFeed] -> Void) {
+func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageIndex: Int, perPage: Int, maxFeedID: String?, failureHandler: ((Reason, String?) -> Void)?,completion: [DiscoveredFeed] -> Void) {
 
     var requestParameters: JSONDictionary = [
         "sort": sortStyle.rawValue,
@@ -2527,6 +2527,10 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
 
     if let skill = skill {
         requestParameters["skill_id"] = skill.id
+    }
+
+    if let maxFeedID = maxFeedID {
+        requestParameters["max_id"] = maxFeedID
     }
 
     let parse = parseFeeds
