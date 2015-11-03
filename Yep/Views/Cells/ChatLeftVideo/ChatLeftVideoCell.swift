@@ -217,16 +217,19 @@ class ChatLeftVideoCell: ChatBaseCell {
             })
         }
         
-        configNameLabel(topOffset)
+        configNameLabel(collectionView)
     }
-    
-    func configNameLabel(topOffset: CGFloat) {
-        
+
+    func configNameLabel(collectionView: UICollectionView) {
+
         if inGroup {
             nameLabel.text = user?.nickname
-            nameLabel.sizeToFit()
-            nameLabel.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: thumbnailImageView.frame.origin.y - topOffset, width: nameLabel.frame.width, height: nameLabel.frame.height)
-            //            bubbleTailImageView.hidden = true
+            //nameLabel.sizeToFit()
+            let height = YepConfig.ChatCell.nameLabelHeightForGroup
+            let x = CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
+            let y = thumbnailImageView.frame.origin.y - height
+            let width = collectionView.bounds.width - x - 10
+            nameLabel.frame = CGRect(x: x, y: y, width: width, height: height)
         }
     }
 }
