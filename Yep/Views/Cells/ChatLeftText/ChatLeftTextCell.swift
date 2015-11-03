@@ -117,13 +117,15 @@ class ChatLeftTextCell: ChatBaseCell {
                 
                 if strongSelf.inGroup {
                     strongSelf.nameLabel.text = strongSelf.user?.nickname
-                    strongSelf.nameLabel.sizeToFit()
-                    strongSelf.nameLabel.frame = CGRect(x: strongSelf.textContainerView.frame.origin.x, y: strongSelf.textContainerView.frame.origin.y - topOffset, width: strongSelf.nameLabel.frame.width, height: strongSelf.nameLabel.frame.height)
+                    //strongSelf.nameLabel.sizeToFit()
+                    let height = YepConfig.ChatCell.nameLabelHeightForGroup
+                    let x = strongSelf.textContainerView.frame.origin.x
+                    let y = strongSelf.textContainerView.frame.origin.y - height - 3
+                    let width = collectionView.bounds.width - x - 10
+                    strongSelf.nameLabel.frame = CGRect(x: x, y: y, width: width, height: height)
                 }
                 
                 strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
-
-                
             }
         }
 

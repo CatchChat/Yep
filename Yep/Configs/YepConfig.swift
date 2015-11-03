@@ -147,6 +147,7 @@ class YepConfig {
     struct ChatCell {
         
         static let marginTopForGroup: CGFloat = 22
+        static let nameLabelHeightForGroup: CGFloat = 17
 
         static let magicWidth: CGFloat = 4
 
