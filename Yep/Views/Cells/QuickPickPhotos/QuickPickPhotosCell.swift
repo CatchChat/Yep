@@ -64,6 +64,8 @@ class QuickPickPhotosCell: UITableViewCell {
                     strongSelf.imageCacheController = ImageCacheController(imageManager: strongSelf.imageManager, images: images, preheatSize: 1)
 
                     strongSelf.photosCollectionView.reloadData()
+
+                    PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(strongSelf)
                 }
             }
 
@@ -78,6 +80,26 @@ class QuickPickPhotosCell: UITableViewCell {
         // Configure the view for the selected state
     }
 }
+
+// MARK: - PHPhotoLibraryChangeObserver
+
+extension QuickPickPhotosCell: PHPhotoLibraryChangeObserver {
+
+    func photoLibraryDidChange(changeInstance: PHChange) {
+
+        if let
+            _images = images,
+            changeDetails = changeInstance.changeDetailsForFetchResult(_images) {
+
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.images = changeDetails.fetchResultAfterChanges
+                    self?.photosCollectionView.reloadData()
+                }
+        }
+    }
+}
+
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegate
 
 extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDelegate {
 
