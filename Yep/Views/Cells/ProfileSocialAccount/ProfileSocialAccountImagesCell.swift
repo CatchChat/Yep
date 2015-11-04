@@ -96,6 +96,10 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
         iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
 
+        imageView1.contentMode = .ScaleAspectFill
+        imageView2.contentMode = .ScaleAspectFill
+        imageView3.contentMode = .ScaleAspectFill
+
         let cornerRadius: CGFloat = 2
         imageView1.layer.cornerRadius = cornerRadius
         imageView2.layer.cornerRadius = cornerRadius
