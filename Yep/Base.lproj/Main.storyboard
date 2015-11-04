@@ -593,84 +593,21 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="Wph-To-rdc" id="oPg-I0-1HJ"/>
-                        <segue destination="GqQ-V0-aYk" kind="show" identifier="showDoNotDisturbPeriod" id="Xrr-Gr-kjR"/>
                         <segue destination="2mC-Fz-XyG" kind="show" identifier="showBlackList" id="bAw-VE-W9b"/>
+                        <segue destination="dV6-TR-g9p" kind="show" identifier="showDoNotDisturbPeriod" id="5FJ-6m-hKw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uH9-BS-amc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4372" y="-287"/>
         </scene>
-        <!--Do Not Disturb Period View Controller-->
-        <scene sceneID="RM6-fB-WmB">
+        <!--DoNotDisturbPeriodViewController-->
+        <scene sceneID="IKC-TN-haM">
             <objects>
-                <viewController storyboardIdentifier="DoNotDisturbPeriodViewController" id="GqQ-V0-aYk" customClass="DoNotDisturbPeriodViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="rC8-St-DYO"/>
-                        <viewControllerLayoutGuide type="bottom" id="TtO-xz-ZUF"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8pt-WZ-r3x">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IrX-gK-Zkg">
-                                <rect key="frame" x="0.0" y="100" width="600" height="44"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="ivj-KQ-byM"/>
-                                </constraints>
-                                <state key="normal" title="From 22:00">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="activeFrom" destination="GqQ-V0-aYk" eventType="touchUpInside" id="yIG-DH-kZc"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flj-e3-cbm">
-                                <rect key="frame" x="0.0" y="144" width="600" height="44"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="3Q2-xg-uQM"/>
-                                </constraints>
-                                <state key="normal" title="To 07:30">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="activeTo" destination="GqQ-V0-aYk" eventType="touchUpInside" id="90e-4a-0ZA"/>
-                                </connections>
-                            </button>
-                            <pickerView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hap-y9-JVX">
-                                <rect key="frame" x="0.0" y="384" width="600" height="216"/>
-                                <animations/>
-                                <connections>
-                                    <outlet property="dataSource" destination="GqQ-V0-aYk" id="ruH-BN-Hig"/>
-                                    <outlet property="delegate" destination="GqQ-V0-aYk" id="q8d-JI-MhG"/>
-                                </connections>
-                            </pickerView>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="IrX-gK-Zkg" secondAttribute="trailing" id="Eu6-cC-f8c"/>
-                            <constraint firstItem="hap-y9-JVX" firstAttribute="leading" secondItem="8pt-WZ-r3x" secondAttribute="leading" id="H1P-CR-vrP"/>
-                            <constraint firstItem="IrX-gK-Zkg" firstAttribute="top" secondItem="rC8-St-DYO" secondAttribute="bottom" constant="80" id="Mqo-lL-5aG"/>
-                            <constraint firstItem="flj-e3-cbm" firstAttribute="leading" secondItem="8pt-WZ-r3x" secondAttribute="leading" id="VCi-T4-shX"/>
-                            <constraint firstAttribute="trailing" secondItem="flj-e3-cbm" secondAttribute="trailing" id="Wwd-Wo-Bc8"/>
-                            <constraint firstItem="TtO-xz-ZUF" firstAttribute="top" secondItem="hap-y9-JVX" secondAttribute="bottom" id="cV1-rE-H2X"/>
-                            <constraint firstItem="IrX-gK-Zkg" firstAttribute="leading" secondItem="8pt-WZ-r3x" secondAttribute="leading" id="gdX-E4-wBo"/>
-                            <constraint firstItem="flj-e3-cbm" firstAttribute="top" secondItem="IrX-gK-Zkg" secondAttribute="bottom" id="j6J-yX-8NW"/>
-                            <constraint firstAttribute="trailing" secondItem="hap-y9-JVX" secondAttribute="trailing" id="jyH-So-G0X"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="fromButton" destination="IrX-gK-Zkg" id="K04-dm-B9C"/>
-                        <outlet property="pickerView" destination="hap-y9-JVX" id="oSZ-gc-qrs"/>
-                        <outlet property="toButton" destination="flj-e3-cbm" id="tDC-Om-nCE"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bRS-Uc-jLI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="DoNotDisturbPeriod" referencedIdentifier="DoNotDisturbPeriodViewController" id="dV6-TR-g9p" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rx5-ik-JfY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5352" y="-494"/>
+            <point key="canvasLocation" x="4936.5" y="-339"/>
         </scene>
         <!--BlackListViewController-->
         <scene sceneID="3Zl-e2-cGc">
@@ -678,7 +615,7 @@
                 <viewControllerPlaceholder storyboardName="BlackList" referencedIdentifier="BlackListViewController" id="2mC-Fz-XyG" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1ul-c6-hUk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4904" y="-169"/>
+            <point key="canvasLocation" x="4903.5" y="-234"/>
         </scene>
         <!--EditProfileViewController-->
         <scene sceneID="Wlt-ga-TIp">
