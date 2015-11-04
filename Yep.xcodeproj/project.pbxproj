@@ -251,6 +251,7 @@
 		50DEE0411BE7626100015741 /* YepHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE0401BE7626100015741 /* YepHelpers.swift */; };
 		50DEE0431BE8B3CD00015741 /* Feedback.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0421BE8B3CD00015741 /* Feedback.storyboard */; };
 		50DEE0451BEA025100015741 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0441BEA025100015741 /* About.storyboard */; };
+		50DEE0471BEA030900015741 /* PodsHelpYep.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0461BEA030900015741 /* PodsHelpYep.storyboard */; };
 		50E114F41ABBF9CC00F13000 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F31ABBF9CC00F13000 /* Models.swift */; };
 		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
@@ -573,6 +574,7 @@
 		50DEE0401BE7626100015741 /* YepHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepHelpers.swift; path = Helpers/YepHelpers.swift; sourceTree = "<group>"; };
 		50DEE0421BE8B3CD00015741 /* Feedback.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Feedback.storyboard; path = ViewControllers/Feedback/Feedback.storyboard; sourceTree = "<group>"; };
 		50DEE0441BEA025100015741 /* About.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = About.storyboard; path = ViewControllers/About/About.storyboard; sourceTree = "<group>"; };
+		50DEE0461BEA030900015741 /* PodsHelpYep.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = PodsHelpYep.storyboard; path = ViewControllers/PodsHelpYep/PodsHelpYep.storyboard; sourceTree = "<group>"; };
 		50E114F31ABBF9CC00F13000 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Realm/Models.swift; sourceTree = "<group>"; };
 		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
@@ -1535,6 +1537,7 @@
 			isa = PBXGroup;
 			children = (
 				5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */,
+				50DEE0461BEA030900015741 /* PodsHelpYep.storyboard */,
 			);
 			name = PodsHelpYep;
 			sourceTree = "<group>";
@@ -2278,6 +2281,7 @@
 				50894D0D1AEE0177000981AF /* EditProfileColoredTitleCell.xib in Resources */,
 				50CDBE431ACA9B4200459CE0 /* ChatRightImageCell.xib in Resources */,
 				50E1CE8B1BE0BC940025B933 /* MessageMedia.storyboard in Resources */,
+				50DEE0471BEA030900015741 /* PodsHelpYep.storyboard in Resources */,
 				508C2AA51AD661B3002B8097 /* UserStateCell.xib in Resources */,
 				508F8FDF1B049ACF00461B0B /* InstagramMediaCell.xib in Resources */,
 				848806B11B789A2D000C5424 /* EditSkillCell.xib in Resources */,

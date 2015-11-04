@@ -901,129 +901,6 @@
             </objects>
             <point key="canvasLocation" x="3452" y="435"/>
         </scene>
-        <!--About View Controller-->
-        <scene sceneID="Gw3-Lm-DcO">
-            <objects>
-                <viewController storyboardIdentifier="AboutViewController" automaticallyAdjustsScrollViewInsets="NO" id="yT8-GW-lJF" customClass="AboutViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="DCG-xs-MCn"/>
-                        <viewControllerLayoutGuide type="bottom" id="QW3-jP-Sgu"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="5CH-ve-TLB">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="hbq-fC-4RN">
-                                <rect key="frame" x="0.0" y="269" width="600" height="300"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="1g0-7d-AGp"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="dataSource" destination="yT8-GW-lJF" id="zm4-Cr-7u2"/>
-                                    <outlet property="delegate" destination="yT8-GW-lJF" id="eIs-Oy-bjo"/>
-                                </connections>
-                            </tableView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="yep_icon_solo" translatesAutoresizingMaskIntoConstraints="NO" id="T5N-QV-ray">
-                                <rect key="frame" x="240" y="40" width="120" height="120"/>
-                                <animations/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yep" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0gW-5K-DQz">
-                                <rect key="frame" x="275.5" y="179" width="50" height="36"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 1.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="102-IE-TP0">
-                                <rect key="frame" x="264.5" y="223" width="70.5" height="17"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.60000002384185791" green="0.60000002384185791" blue="0.60000002384185791" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2015 Catch Inc." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nN-bl-dxT">
-                                <rect key="frame" x="220" y="577" width="159" height="14.5"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
-                                <color key="textColor" red="0.60000002384185791" green="0.60000002384185791" blue="0.60000002384185791" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="centerX" secondItem="6nN-bl-dxT" secondAttribute="centerX" id="1Mn-k9-oIm"/>
-                            <constraint firstItem="0gW-5K-DQz" firstAttribute="top" secondItem="T5N-QV-ray" secondAttribute="bottom" constant="19" id="2g3-6y-yQw"/>
-                            <constraint firstAttribute="bottom" secondItem="6nN-bl-dxT" secondAttribute="bottom" constant="8" id="IUJ-uN-CB2"/>
-                            <constraint firstItem="6nN-bl-dxT" firstAttribute="top" secondItem="hbq-fC-4RN" secondAttribute="bottom" constant="8" id="Q5k-T1-MTK"/>
-                            <constraint firstAttribute="trailing" secondItem="hbq-fC-4RN" secondAttribute="trailing" id="RKl-Ah-1tH"/>
-                            <constraint firstItem="hbq-fC-4RN" firstAttribute="leading" secondItem="5CH-ve-TLB" secondAttribute="leading" id="Xdv-Nz-HvO"/>
-                            <constraint firstAttribute="centerX" secondItem="T5N-QV-ray" secondAttribute="centerX" id="ZtN-X1-PwW"/>
-                            <constraint firstItem="102-IE-TP0" firstAttribute="centerX" secondItem="0gW-5K-DQz" secondAttribute="centerX" id="dQM-16-Tbr"/>
-                            <constraint firstItem="102-IE-TP0" firstAttribute="top" secondItem="0gW-5K-DQz" secondAttribute="bottom" constant="8" id="lhD-dg-lV6"/>
-                            <constraint firstItem="0gW-5K-DQz" firstAttribute="centerX" secondItem="T5N-QV-ray" secondAttribute="centerX" constant="0.5" id="qMh-eN-3p6"/>
-                            <constraint firstItem="T5N-QV-ray" firstAttribute="top" secondItem="DCG-xs-MCn" secondAttribute="bottom" constant="20" id="roz-HZ-YcO"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="aboutTableView" destination="hbq-fC-4RN" id="BwQ-6X-3Hn"/>
-                        <outlet property="aboutTableViewHeightConstraint" destination="1g0-7d-AGp" id="7Wy-0P-2Ra"/>
-                        <outlet property="appLogoImageView" destination="T5N-QV-ray" id="5BX-2b-jw4"/>
-                        <outlet property="appLogoImageViewTopConstraint" destination="roz-HZ-YcO" id="kgd-Lk-w4i"/>
-                        <outlet property="appNameLabel" destination="0gW-5K-DQz" id="iZM-sK-7OL"/>
-                        <outlet property="appNameLabelTopConstraint" destination="2g3-6y-yQw" id="8Uv-Kb-2vo"/>
-                        <outlet property="appVersionLabel" destination="102-IE-TP0" id="Qxw-FK-TPo"/>
-                        <outlet property="copyrightLabel" destination="6nN-bl-dxT" id="9hz-OF-aXn"/>
-                        <segue destination="NFd-fk-w2x" kind="show" identifier="showPodsHelpYep" id="uf8-rh-PVc"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="EcK-x9-RRQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3727" y="797"/>
-        </scene>
-        <!--Pods Help Yep View Controller-->
-        <scene sceneID="J0m-qi-XCM">
-            <objects>
-                <tableViewController storyboardIdentifier="PodsHelpYepViewController" id="NFd-fk-w2x" customClass="PodsHelpYepViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="gBr-1A-Qnu">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PodCell" textLabel="C1J-Nr-hJu" style="IBUITableViewCellStyleDefault" id="IC9-zO-JHD">
-                                <rect key="frame" x="0.0" y="22" width="600" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IC9-zO-JHD" id="S8x-8A-E2F">
-                                    <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="C1J-Nr-hJu">
-                                            <rect key="frame" x="15" y="0.0" width="550" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <animations/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <animations/>
-                                </tableViewCellContentView>
-                                <animations/>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="NFd-fk-w2x" id="Juv-t0-KCl"/>
-                            <outlet property="delegate" destination="NFd-fk-w2x" id="YQM-IM-Tev"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VRb-Ez-bT9" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4500" y="1030"/>
-        </scene>
         <!--Edit Nickname And Badge View Controller-->
         <scene sceneID="eed-5B-jyz">
             <objects>
@@ -1820,7 +1697,6 @@
         <image name="profile_avatar_frame" width="112" height="112"/>
         <image name="swipe_up" width="21" height="6"/>
         <image name="top_shadow" width="375" height="80"/>
-        <image name="yep_icon_solo" width="120" height="120"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Sdt-ox-uOm"/>
