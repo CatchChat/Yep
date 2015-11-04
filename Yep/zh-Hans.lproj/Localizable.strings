@@ -533,7 +533,7 @@
 "You have been blocked by %@!" = "您被“%@”屏蔽了！";
 
 /* No comment provided by engineer. */
-"You have blocked %@! Do you want to unblock him or her?" = "您已屏蔽“%@”！您要解除对他或她的屏蔽吗？";
+"You have blocked %@! Do you want to unblock him or her?" = "您已屏蔽“%@”！您要解除屏蔽吗？";
 
 /* No comment provided by engineer. */
 "Pods help Yep" = "Yep 使用的第三方 Pods";
