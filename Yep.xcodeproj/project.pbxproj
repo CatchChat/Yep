@@ -255,6 +255,7 @@
 		50DEE0491BEA04CC00015741 /* SocialWorks.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0481BEA04CC00015741 /* SocialWorks.storyboard */; };
 		50DEE04B1BEA071100015741 /* OAuth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE04A1BEA071100015741 /* OAuth.storyboard */; };
 		50DEE04D1BEA085F00015741 /* EditNicknameAndBadge.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE04C1BEA085F00015741 /* EditNicknameAndBadge.storyboard */; };
+		50DEE04F1BEA092100015741 /* EditProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE04E1BEA092100015741 /* EditProfile.storyboard */; };
 		50E114F41ABBF9CC00F13000 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F31ABBF9CC00F13000 /* Models.swift */; };
 		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
@@ -581,6 +582,7 @@
 		50DEE0481BEA04CC00015741 /* SocialWorks.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SocialWorks.storyboard; path = ViewControllers/SocialWorks/SocialWorks.storyboard; sourceTree = "<group>"; };
 		50DEE04A1BEA071100015741 /* OAuth.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = OAuth.storyboard; path = ViewControllers/OAuth/OAuth.storyboard; sourceTree = "<group>"; };
 		50DEE04C1BEA085F00015741 /* EditNicknameAndBadge.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = EditNicknameAndBadge.storyboard; path = ViewControllers/EditNicknameAndBadge/EditNicknameAndBadge.storyboard; sourceTree = "<group>"; };
+		50DEE04E1BEA092100015741 /* EditProfile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = EditProfile.storyboard; path = ViewControllers/EditProfile/EditProfile.storyboard; sourceTree = "<group>"; };
 		50E114F31ABBF9CC00F13000 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Realm/Models.swift; sourceTree = "<group>"; };
 		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
@@ -1580,6 +1582,7 @@
 			isa = PBXGroup;
 			children = (
 				50894CFD1AEA5A78000981AF /* EditProfileViewController.swift */,
+				50DEE04E1BEA092100015741 /* EditProfile.storyboard */,
 			);
 			name = EditProfile;
 			sourceTree = "<group>";
@@ -2276,6 +2279,7 @@
 				5008A1931B8DB8B500E94274 /* Localizable.strings in Resources */,
 				50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */,
 				6ADDB4501B848C600012877A /* 1Password.xcassets in Resources */,
+				50DEE04F1BEA092100015741 /* EditProfile.storyboard in Resources */,
 				508D17481ACCF4710092D666 /* ChatLeftAudioCell.xib in Resources */,
 				0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */,
 				5033159D1AC101C80008A209 /* ChatRightTextCell.xib in Resources */,

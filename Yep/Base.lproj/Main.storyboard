@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--FeedConversationsViewController-->
@@ -412,10 +411,10 @@
                     </view>
                     <connections>
                         <outlet property="settingsTableView" destination="jKA-8q-sXn" id="DgR-gO-x2w"/>
-                        <segue destination="TTy-VD-aor" kind="show" identifier="showEditProfile" id="Qhj-kS-Fq2"/>
                         <segue destination="i7X-gi-DRa" kind="show" identifier="showNotifications" id="PxD-iZ-Pfy"/>
                         <segue destination="arO-ie-YKq" kind="show" identifier="showFeedback" id="fpe-kF-KXU"/>
                         <segue destination="vA6-53-wiM" kind="show" identifier="showAbout" id="aBn-D2-neF"/>
+                        <segue destination="nLm-nU-qoZ" kind="show" identifier="showEditProfile" id="CWg-jG-Hte"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zuA-bP-KGx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -560,114 +559,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IY7-lg-OWx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="939" y="2835"/>
-        </scene>
-        <!--Edit Profile View Controller-->
-        <scene sceneID="l0f-Y7-OKE">
-            <objects>
-                <viewController storyboardIdentifier="EditProfileViewController" id="TTy-VD-aor" customClass="EditProfileViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="zVJ-dF-bPp"/>
-                        <viewControllerLayoutGuide type="bottom" id="Lmv-fC-Aq8"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="kD8-yp-vNu">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="obf-ax-Bn7" customClass="TPKeyboardAvoidingTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
-                                <view key="tableHeaderView" contentMode="scaleToFill" id="3ZX-Cq-RRV">
-                                    <rect key="frame" x="0.0" y="64" width="600" height="250"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kAg-ue-69C" userLabel="Avatar Image View">
-                                            <rect key="frame" x="250" y="45" width="100" height="100"/>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="kAg-ue-69C" secondAttribute="height" multiplier="1:1" id="QZL-P8-pNS"/>
-                                                <constraint firstAttribute="width" constant="100" id="fy0-3p-Tx4"/>
-                                            </constraints>
-                                        </imageView>
-                                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_avatar_frame" translatesAutoresizingMaskIntoConstraints="NO" id="icj-Kl-sR6" userLabel="Avatar Frame Image View">
-                                            <rect key="frame" x="244" y="39" width="112" height="112"/>
-                                            <animations/>
-                                            <gestureRecognizers/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="icj-Kl-sR6" secondAttribute="height" multiplier="1:1" id="dFA-Cm-vac"/>
-                                                <constraint firstAttribute="width" constant="112" id="vdB-G2-ueS"/>
-                                            </constraints>
-                                            <connections>
-                                                <outletCollection property="gestureRecognizers" destination="miK-LN-57H" appends="YES" id="po8-u4-CLv"/>
-                                            </connections>
-                                        </imageView>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_profile_phone" translatesAutoresizingMaskIntoConstraints="NO" id="xcV-T4-317" userLabel="Phone Image View">
-                                            <rect key="frame" x="227" y="178" width="16" height="24"/>
-                                            <animations/>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="186-0235-4812" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhV-NM-wXG" userLabel="Mobile Label">
-                                            <rect key="frame" x="251" y="180.5" width="123" height="20.5"/>
-                                            <animations/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zc6-4l-BNt" userLabel="Helper View">
-                                            <rect key="frame" x="227" y="175" width="147" height="30"/>
-                                            <animations/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="30" id="4vv-aT-l3h"/>
-                                            </constraints>
-                                        </view>
-                                    </subviews>
-                                    <animations/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="centerY" secondItem="kAg-ue-69C" secondAttribute="centerY" constant="30" id="0AC-xE-tNu"/>
-                                        <constraint firstItem="xcV-T4-317" firstAttribute="leading" secondItem="Zc6-4l-BNt" secondAttribute="leading" id="0pJ-e1-JNS"/>
-                                        <constraint firstAttribute="centerX" secondItem="kAg-ue-69C" secondAttribute="centerX" id="31e-Aq-G0k"/>
-                                        <constraint firstAttribute="centerX" secondItem="Zc6-4l-BNt" secondAttribute="centerX" id="FZs-bJ-gip"/>
-                                        <constraint firstItem="icj-Kl-sR6" firstAttribute="centerX" secondItem="kAg-ue-69C" secondAttribute="centerX" id="MNx-ow-h4U"/>
-                                        <constraint firstItem="bhV-NM-wXG" firstAttribute="leading" secondItem="xcV-T4-317" secondAttribute="trailing" constant="8" id="Qj2-CF-afz"/>
-                                        <constraint firstItem="bhV-NM-wXG" firstAttribute="centerY" secondItem="xcV-T4-317" secondAttribute="centerY" id="UfK-Vt-39G"/>
-                                        <constraint firstItem="xcV-T4-317" firstAttribute="centerY" secondItem="Zc6-4l-BNt" secondAttribute="centerY" id="fSp-Xk-2dy"/>
-                                        <constraint firstItem="bhV-NM-wXG" firstAttribute="trailing" secondItem="Zc6-4l-BNt" secondAttribute="trailing" id="lgi-Wh-O41"/>
-                                        <constraint firstItem="Zc6-4l-BNt" firstAttribute="top" secondItem="kAg-ue-69C" secondAttribute="bottom" constant="30" id="xwH-u4-H0K"/>
-                                        <constraint firstItem="icj-Kl-sR6" firstAttribute="centerY" secondItem="kAg-ue-69C" secondAttribute="centerY" id="zK4-Gg-43a"/>
-                                    </constraints>
-                                </view>
-                                <connections>
-                                    <outlet property="dataSource" destination="TTy-VD-aor" id="5KP-Bq-q7N"/>
-                                    <outlet property="delegate" destination="TTy-VD-aor" id="Aog-I2-3XH"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="obf-ax-Bn7" secondAttribute="trailing" id="2dl-aG-24h"/>
-                            <constraint firstItem="obf-ax-Bn7" firstAttribute="leading" secondItem="kD8-yp-vNu" secondAttribute="leading" id="uE7-uX-ieh"/>
-                            <constraint firstItem="obf-ax-Bn7" firstAttribute="top" secondItem="kD8-yp-vNu" secondAttribute="top" id="uJL-0g-NPA"/>
-                            <constraint firstAttribute="bottom" secondItem="obf-ax-Bn7" secondAttribute="bottom" id="vqw-zt-2jR"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="avatarImageView" destination="kAg-ue-69C" id="vaB-SK-kBo"/>
-                        <outlet property="avatarImageViewWidthConstraint" destination="fy0-3p-Tx4" id="u5u-Us-aIh"/>
-                        <outlet property="editProfileTableView" destination="obf-ax-Bn7" id="wPW-Jg-rwD"/>
-                        <outlet property="mobileLabel" destination="bhV-NM-wXG" id="rUc-6h-9GQ"/>
-                        <segue destination="xf1-2t-TOL" kind="show" identifier="showEditNicknameAndBadge" id="i7Y-pj-Ccg"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="u2y-XJ-4gR" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="miK-LN-57H">
-                    <connections>
-                        <action selector="changeAvatar:" destination="TTy-VD-aor" id="M5a-Sb-GjY"/>
-                    </connections>
-                </tapGestureRecognizer>
-            </objects>
-            <point key="canvasLocation" x="4251" y="-959"/>
         </scene>
         <!--Notifications View Controller-->
         <scene sceneID="s6K-xp-3el">
@@ -827,6 +718,14 @@
             </objects>
             <point key="canvasLocation" x="5347" y="169"/>
         </scene>
+        <!--EditProfileViewController-->
+        <scene sceneID="Wlt-ga-TIp">
+            <objects>
+                <viewControllerPlaceholder storyboardName="EditProfile" referencedIdentifier="EditProfileViewController" id="nLm-nU-qoZ" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wkD-np-rEj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3380" y="87"/>
+        </scene>
         <!--FeedbackViewController-->
         <scene sceneID="LDg-Ov-U48">
             <objects>
@@ -842,14 +741,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MV5-q7-0bi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3452" y="435"/>
-        </scene>
-        <!--EditNicknameAndBadgeViewController-->
-        <scene sceneID="bcP-g0-HKo">
-            <objects>
-                <viewControllerPlaceholder storyboardName="EditNicknameAndBadge" referencedIdentifier="EditNicknameAndBadgeViewController" id="xf1-2t-TOL" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Lln-2n-xvX" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4828" y="-959"/>
         </scene>
         <!--Yep Tab Bar Controller-->
         <scene sceneID="vud-lc-IAG">
@@ -1187,9 +1078,7 @@
         <image name="icon_list" width="30" height="30"/>
         <image name="icon_me" width="30" height="30"/>
         <image name="icon_me_active" width="30" height="30"/>
-        <image name="icon_profile_phone" width="16" height="24"/>
         <image name="icon_settings" width="30" height="30"/>
-        <image name="profile_avatar_frame" width="112" height="112"/>
         <image name="swipe_up" width="21" height="6"/>
         <image name="top_shadow" width="375" height="80"/>
     </resources>
