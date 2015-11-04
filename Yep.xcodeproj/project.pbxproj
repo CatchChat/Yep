@@ -250,6 +250,7 @@
 		50DEE03F1BE729FD00015741 /* PickLocation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE03E1BE729FD00015741 /* PickLocation.storyboard */; };
 		50DEE0411BE7626100015741 /* YepHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE0401BE7626100015741 /* YepHelpers.swift */; };
 		50DEE0431BE8B3CD00015741 /* Feedback.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0421BE8B3CD00015741 /* Feedback.storyboard */; };
+		50DEE0451BEA025100015741 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0441BEA025100015741 /* About.storyboard */; };
 		50E114F41ABBF9CC00F13000 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F31ABBF9CC00F13000 /* Models.swift */; };
 		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
@@ -571,6 +572,7 @@
 		50DEE03E1BE729FD00015741 /* PickLocation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = PickLocation.storyboard; path = ViewControllers/PickLocation/PickLocation.storyboard; sourceTree = "<group>"; };
 		50DEE0401BE7626100015741 /* YepHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepHelpers.swift; path = Helpers/YepHelpers.swift; sourceTree = "<group>"; };
 		50DEE0421BE8B3CD00015741 /* Feedback.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Feedback.storyboard; path = ViewControllers/Feedback/Feedback.storyboard; sourceTree = "<group>"; };
+		50DEE0441BEA025100015741 /* About.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = About.storyboard; path = ViewControllers/About/About.storyboard; sourceTree = "<group>"; };
 		50E114F31ABBF9CC00F13000 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Realm/Models.swift; sourceTree = "<group>"; };
 		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
@@ -1918,6 +1920,7 @@
 			isa = PBXGroup;
 			children = (
 				50E3488D1B905C0100A8E699 /* AboutViewController.swift */,
+				50DEE0441BEA025100015741 /* About.storyboard */,
 			);
 			name = About;
 			sourceTree = "<group>";
@@ -2268,6 +2271,7 @@
 				50E1CE8F1BE0BFF00025B933 /* MediaViewCell.xib in Resources */,
 				505EC8181ADF8151001D27E0 /* SkillCategoryCell.xib in Resources */,
 				6A8215091BCBE8F10011F36C /* DiscoverSkillCell.xib in Resources */,
+				50DEE0451BEA025100015741 /* About.storyboard in Resources */,
 				50DEE0371BE3720F00015741 /* LoadMoreCollectionViewCell.xib in Resources */,
 				505EC81D1ADFBE1B001D27E0 /* SkillSelectionCell.xib in Resources */,
 				50EB8CC01AE89ED8001AC1EE /* ChatLeftVideoCell.xib in Resources */,

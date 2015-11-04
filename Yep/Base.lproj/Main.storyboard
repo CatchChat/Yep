@@ -416,8 +416,8 @@
                         <outlet property="settingsTableView" destination="jKA-8q-sXn" id="DgR-gO-x2w"/>
                         <segue destination="TTy-VD-aor" kind="show" identifier="showEditProfile" id="Qhj-kS-Fq2"/>
                         <segue destination="i7X-gi-DRa" kind="show" identifier="showNotifications" id="PxD-iZ-Pfy"/>
-                        <segue destination="yT8-GW-lJF" kind="show" identifier="showAbout" id="bXj-qa-QIM"/>
                         <segue destination="arO-ie-YKq" kind="show" identifier="showFeedback" id="fpe-kF-KXU"/>
+                        <segue destination="vA6-53-wiM" kind="show" identifier="showAbout" id="aBn-D2-neF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zuA-bP-KGx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -893,6 +893,14 @@
             </objects>
             <point key="canvasLocation" x="3510" y="373"/>
         </scene>
+        <!--AboutViewController-->
+        <scene sceneID="Ee7-fX-Pha">
+            <objects>
+                <viewControllerPlaceholder storyboardName="About" referencedIdentifier="AboutViewController" id="vA6-53-wiM" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MV5-q7-0bi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3452" y="435"/>
+        </scene>
         <!--About View Controller-->
         <scene sceneID="Gw3-Lm-DcO">
             <objects>
@@ -917,18 +925,18 @@
                                     <outlet property="delegate" destination="yT8-GW-lJF" id="eIs-Oy-bjo"/>
                                 </connections>
                             </tableView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="yep_icon_solo" translatesAutoresizingMaskIntoConstraints="NO" id="T5N-QV-ray">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="yep_icon_solo" translatesAutoresizingMaskIntoConstraints="NO" id="T5N-QV-ray">
                                 <rect key="frame" x="240" y="40" width="120" height="120"/>
                                 <animations/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Yep" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0gW-5K-DQz">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yep" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0gW-5K-DQz">
                                 <rect key="frame" x="275.5" y="179" width="50" height="36"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Version 1.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="102-IE-TP0">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 1.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="102-IE-TP0">
                                 <rect key="frame" x="264.5" y="223" width="70.5" height="17"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -986,7 +994,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="PodCell" textLabel="C1J-Nr-hJu" style="IBUITableViewCellStyleDefault" id="IC9-zO-JHD">
-                                <rect key="frame" x="0.0" y="86" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="22" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IC9-zO-JHD" id="S8x-8A-E2F">
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
