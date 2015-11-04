@@ -357,7 +357,7 @@
                     <navigationItem key="navigationItem" title="Profile" id="4pO-kT-amp">
                         <barButtonItem key="rightBarButtonItem" image="icon_settings" id="rTe-SV-2BV">
                             <connections>
-                                <segue destination="XUP-IX-8LL" kind="show" identifier="showSettings" id="srR-Ek-JSf"/>
+                                <segue destination="7RH-nw-UFO" kind="show" identifier="showSettings" id="i0a-L6-cxE"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -377,49 +377,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2027" y="1045"/>
-        </scene>
-        <!--Settings View Controller-->
-        <scene sceneID="qZs-Er-4wk">
-            <objects>
-                <viewController storyboardIdentifier="SettingsViewController" hidesBottomBarWhenPushed="YES" id="XUP-IX-8LL" customClass="SettingsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="jwF-rD-Sd7"/>
-                        <viewControllerLayoutGuide type="bottom" id="MGN-9w-VIC"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="XHY-eW-GV5">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="jKA-8q-sXn" customClass="TPKeyboardAvoidingTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="XUP-IX-8LL" id="Rme-G5-eRl"/>
-                                    <outlet property="delegate" destination="XUP-IX-8LL" id="8aq-YD-a2x"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="jKA-8q-sXn" firstAttribute="top" secondItem="XHY-eW-GV5" secondAttribute="top" id="7Gp-Zh-LdM"/>
-                            <constraint firstItem="jKA-8q-sXn" firstAttribute="leading" secondItem="XHY-eW-GV5" secondAttribute="leading" id="AA6-c5-CDa"/>
-                            <constraint firstAttribute="bottom" secondItem="jKA-8q-sXn" secondAttribute="bottom" id="FA5-ho-6Kk"/>
-                            <constraint firstAttribute="trailing" secondItem="jKA-8q-sXn" secondAttribute="trailing" id="kLM-IQ-m5G"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="settingsTableView" destination="jKA-8q-sXn" id="DgR-gO-x2w"/>
-                        <segue destination="arO-ie-YKq" kind="show" identifier="showFeedback" id="fpe-kF-KXU"/>
-                        <segue destination="vA6-53-wiM" kind="show" identifier="showAbout" id="aBn-D2-neF"/>
-                        <segue destination="nLm-nU-qoZ" kind="show" identifier="showEditProfile" id="CWg-jG-Hte"/>
-                        <segue destination="AbD-x7-VXG" kind="show" identifier="showNotifications" id="DaZ-YR-s61"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zuA-bP-KGx" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2865" y="373"/>
         </scene>
         <!--Add Friends View Controller-->
         <scene sceneID="f0W-Bv-ApN">
@@ -559,38 +516,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IY7-lg-OWx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="939" y="2835"/>
-        </scene>
-        <!--EditProfileViewController-->
-        <scene sceneID="Wlt-ga-TIp">
-            <objects>
-                <viewControllerPlaceholder storyboardName="EditProfile" referencedIdentifier="EditProfileViewController" id="nLm-nU-qoZ" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wkD-np-rEj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3488" y="219"/>
-        </scene>
-        <!--NotificationsViewController-->
-        <scene sceneID="GzK-eA-9g3">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Notifications" referencedIdentifier="NotificationsViewController" id="AbD-x7-VXG" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="H6t-lI-XKN" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3495" y="297"/>
-        </scene>
-        <!--FeedbackViewController-->
-        <scene sceneID="LDg-Ov-U48">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Feedback" referencedIdentifier="FeedbackViewController" id="arO-ie-YKq" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="n0L-Kc-MyN" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3486" y="373"/>
-        </scene>
-        <!--AboutViewController-->
-        <scene sceneID="Ee7-fX-Pha">
-            <objects>
-                <viewControllerPlaceholder storyboardName="About" referencedIdentifier="AboutViewController" id="vA6-53-wiM" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MV5-q7-0bi" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3474" y="447"/>
         </scene>
         <!--Yep Tab Bar Controller-->
         <scene sceneID="vud-lc-IAG">
@@ -801,6 +726,14 @@
             </objects>
             <point key="canvasLocation" x="2027" y="253"/>
         </scene>
+        <!--SettingsViewController-->
+        <scene sceneID="yBX-Sw-iNt">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Settings" referencedIdentifier="SettingsViewController" id="7RH-nw-UFO" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OGQ-5T-84d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2540" y="859"/>
+        </scene>
         <!--FeedsViewController-->
         <scene sceneID="nCN-iF-lzM">
             <objects>
@@ -869,7 +802,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J1d-tB-xXN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2857" y="1071"/>
+            <point key="canvasLocation" x="2997" y="1203"/>
         </scene>
         <!--OAuth-->
         <scene sceneID="0Wc-kq-1Wd">
@@ -933,8 +866,8 @@
         <image name="top_shadow" width="375" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Sdt-ox-uOm"/>
-        <segue reference="j1h-7M-vYS"/>
+        <segue reference="o3b-2D-AMq"/>
         <segue reference="X2e-mz-fLa"/>
+        <segue reference="j1h-7M-vYS"/>
     </inferredMetricsTieBreakers>
 </document>
