@@ -11,7 +11,15 @@
                 <viewControllerPlaceholder storyboardName="FeedConversations" referencedIdentifier="FeedConversationsViewController" id="4LZ-EL-DIC" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WNH-o5-WbW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1242.5" y="1465"/>
+            <point key="canvasLocation" x="-1073" y="1491"/>
+        </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="pfR-VZ-hmO">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="QZL-WJ-zdV" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qle-GC-LDn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-718" y="1491"/>
         </scene>
         <!--Conversations-->
         <scene sceneID="ufC-wZ-h7g">
@@ -49,126 +57,13 @@
                     <navigationItem key="navigationItem" title="Yep" id="9HK-47-pO6"/>
                     <connections>
                         <outlet property="conversationsTableView" destination="ECY-qd-LcH" id="UNW-oM-y6R"/>
-                        <segue destination="la3-6z-2aH" kind="show" identifier="showConversation" id="0bS-uM-LPI"/>
                         <segue destination="4LZ-EL-DIC" kind="show" identifier="showFeedConversations" id="k6i-To-sje"/>
+                        <segue destination="QZL-WJ-zdV" kind="show" identifier="showConversation" id="I5f-gX-4nB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-783" y="1045"/>
-        </scene>
-        <!--Conversation-->
-        <scene sceneID="7ti-T6-Ksk">
-            <objects>
-                <viewController storyboardIdentifier="ConversationViewController" title="Conversation" hidesBottomBarWhenPushed="YES" id="la3-6z-2aH" customClass="ConversationViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="29r-Cg-jv3"/>
-                        <viewControllerLayoutGuide type="bottom" id="RPb-0Z-fnC"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="P6X-OT-hT5">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="o5R-dM-KPW">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewLayout key="collectionViewLayout" id="75A-E2-sxR" customClass="ConversationLayout" customModule="Yep" customModuleProvider="target"/>
-                                <cells/>
-                                <connections>
-                                    <outlet property="dataSource" destination="la3-6z-2aH" id="fMv-cD-ZTA"/>
-                                    <outlet property="delegate" destination="la3-6z-2aH" id="zOV-zM-2KH"/>
-                                </connections>
-                            </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gu7-gn-2ia">
-                                <rect key="frame" x="0.0" y="270" width="600" height="100"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe Up to Cancel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zew-F7-znc">
-                                        <rect key="frame" x="234" y="62" width="132.5" height="18"/>
-                                        <animations/>
-                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
-                                        <color key="textColor" red="1" green="0.0" blue="0.23529411764705882" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swipe_up" translatesAutoresizingMaskIntoConstraints="NO" id="4p2-ZI-7q3">
-                                        <rect key="frame" x="287" y="44" width="25" height="8"/>
-                                        <animations/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="8" id="OSV-g6-oH8"/>
-                                            <constraint firstAttribute="width" constant="25" id="l0G-ny-LlM"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                                <animations/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="BJQ-S4-SYw"/>
-                                    <constraint firstAttribute="bottom" secondItem="Zew-F7-znc" secondAttribute="bottom" constant="20" id="DEv-gm-aP4"/>
-                                    <constraint firstAttribute="centerX" secondItem="Zew-F7-znc" secondAttribute="centerX" id="IrJ-B5-rtp"/>
-                                    <constraint firstItem="4p2-ZI-7q3" firstAttribute="centerX" secondItem="Zew-F7-znc" secondAttribute="centerX" id="PF6-KL-Z8X"/>
-                                    <constraint firstItem="Zew-F7-znc" firstAttribute="top" secondItem="4p2-ZI-7q3" secondAttribute="bottom" constant="10" id="b9o-gU-cOq"/>
-                                </constraints>
-                            </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="390" width="600" height="50"/>
-                                <animations/>
-                                <items/>
-                            </toolbar>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="CRx-AN-kmo">
-                                <rect key="frame" x="290" y="140" width="20" height="20"/>
-                                <animations/>
-                            </activityIndicatorView>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Q0w-sM-iIR" secondAttribute="trailing" id="0ei-y5-SyW"/>
-                            <constraint firstItem="CRx-AN-kmo" firstAttribute="top" secondItem="29r-Cg-jv3" secondAttribute="bottom" constant="120" id="6J8-UR-moy"/>
-                            <constraint firstAttribute="bottom" secondItem="o5R-dM-KPW" secondAttribute="bottom" id="9CY-zU-Ezq"/>
-                            <constraint firstItem="Q0w-sM-iIR" firstAttribute="leading" secondItem="P6X-OT-hT5" secondAttribute="leading" id="BYY-lE-CF8"/>
-                            <constraint firstItem="o5R-dM-KPW" firstAttribute="leading" secondItem="P6X-OT-hT5" secondAttribute="leading" id="BjN-8c-WjM"/>
-                            <constraint firstItem="Gu7-gn-2ia" firstAttribute="centerX" secondItem="Q0w-sM-iIR" secondAttribute="centerX" id="MgC-bT-6sX"/>
-                            <constraint firstItem="CRx-AN-kmo" firstAttribute="centerX" secondItem="P6X-OT-hT5" secondAttribute="centerX" id="Qcn-oQ-vYU"/>
-                            <constraint firstItem="Gu7-gn-2ia" firstAttribute="width" secondItem="Q0w-sM-iIR" secondAttribute="width" id="Qru-A0-ifW"/>
-                            <constraint firstAttribute="bottom" secondItem="Q0w-sM-iIR" secondAttribute="bottom" constant="160" id="Sf8-1u-t01"/>
-                            <constraint firstItem="o5R-dM-KPW" firstAttribute="top" secondItem="P6X-OT-hT5" secondAttribute="top" id="d3q-cT-PCM"/>
-                            <constraint firstAttribute="trailing" secondItem="o5R-dM-KPW" secondAttribute="trailing" id="qY6-Ly-z3r"/>
-                            <constraint firstItem="Q0w-sM-iIR" firstAttribute="top" secondItem="Gu7-gn-2ia" secondAttribute="bottom" constant="20" id="xIr-4d-X2Q"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="activityIndicator" destination="CRx-AN-kmo" id="9hf-3a-cmE"/>
-                        <outlet property="conversationCollectionView" destination="o5R-dM-KPW" id="lsW-8A-zmB"/>
-                        <outlet property="messageToolbar" destination="Q0w-sM-iIR" id="vmQ-s1-SlQ"/>
-                        <outlet property="messageToolbarBottomConstraint" destination="Sf8-1u-t01" id="f02-ze-rKh"/>
-                        <outlet property="swipeUpPromptLabel" destination="Zew-F7-znc" id="4qL-BA-cWR"/>
-                        <outlet property="swipeUpView" destination="Gu7-gn-2ia" id="C4f-tg-leq"/>
-                        <segue destination="AyC-pt-NR2" kind="show" identifier="showProfile" id="PTw-QB-dRp"/>
-                        <segue destination="AyC-pt-NR2" kind="show" identifier="showProfileFromFeedView" id="X2e-mz-fLa"/>
-                        <segue destination="7OS-Bz-Wc7" kind="show" identifier="showMessageMedia" id="MnI-Tr-dgf"/>
-                        <segue destination="7OS-Bz-Wc7" kind="show" identifier="showFeedMedia" id="j1h-7M-vYS"/>
-                        <segue destination="CqZ-ZQ-9sf" kind="presentation" identifier="presentPickLocation" id="rwi-8g-XWs"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="chH-Zx-2Ge" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-783" y="1851"/>
-        </scene>
-        <!--PickLocation-->
-        <scene sceneID="TQK-2M-g0H">
-            <objects>
-                <viewControllerPlaceholder storyboardName="PickLocation" id="CqZ-ZQ-9sf" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1v2-cI-fji" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-925" y="2360"/>
-        </scene>
-        <!--MessageMediaViewController-->
-        <scene sceneID="oS6-8C-PO2">
-            <objects>
-                <viewControllerPlaceholder storyboardName="MessageMedia" referencedIdentifier="MessageMediaViewController" id="7OS-Bz-Wc7" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Kg1-uI-xHV" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-616" y="2360"/>
         </scene>
         <!--Contacts-->
         <scene sceneID="9ZG-MC-rxD">
@@ -365,13 +260,13 @@
                         <outlet property="profileCollectionView" destination="VZO-hp-fyU" id="xat-9E-RVG"/>
                         <outlet property="sayHiView" destination="sfC-fv-gcr" id="5bd-hx-FGY"/>
                         <outlet property="topShadowImageView" destination="fut-Ug-l4V" id="tWb-Tz-48h"/>
-                        <segue destination="la3-6z-2aH" kind="show" identifier="showConversation" id="o3b-2D-AMq"/>
                         <segue destination="ubP-q1-Rff" kind="show" identifier="showFeedsWithSkill" id="uGT-OV-9S2"/>
                         <segue destination="Cju-5F-2Ri" kind="show" identifier="showSocialWorkGithub" id="6Tt-7S-Pn9"/>
                         <segue destination="JLl-gr-wSC" kind="show" identifier="showSocialWorkDribbble" id="cin-mW-lyh"/>
                         <segue destination="9RG-ZJ-nw7" kind="show" identifier="showSocialWorkInstagram" id="M2q-ud-x5N"/>
                         <segue destination="4LS-r8-B5l" kind="presentation" identifier="presentOAuth" id="o6f-Oi-l8h"/>
                         <segue destination="fPj-zv-Lg5" kind="show" identifier="showEditSkills" id="k1U-sn-efh"/>
+                        <segue destination="lru-67-Vok" kind="show" identifier="showConversation" id="z8s-gZ-TZ2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -456,11 +351,11 @@
                     <connections>
                         <outlet property="activityIndicator" destination="sHk-eY-6TD" id="Xlo-a7-8l6"/>
                         <outlet property="feedsTableView" destination="D86-dp-qKQ" id="rh9-wh-IqK"/>
-                        <segue destination="la3-6z-2aH" kind="show" identifier="showConversation" id="Sdt-ox-uOm"/>
                         <segue destination="AyC-pt-NR2" kind="show" identifier="showProfile" id="WEi-uo-nf5"/>
                         <segue destination="h8b-7V-qPb" kind="show" identifier="showFeedsWithSkill" id="D1j-0N-VMH"/>
                         <segue destination="dYX-Ms-gWP" kind="show" identifier="showSkillHome" id="TTj-EA-7SS"/>
                         <segue destination="IEG-17-cLh" kind="show" identifier="showFeedMedia" id="DsA-Jb-0sJ"/>
+                        <segue destination="iL2-os-eZV" kind="show" identifier="showConversation" id="tg0-ny-kGT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ETW-Em-Kw5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -473,7 +368,7 @@
                 <viewControllerPlaceholder storyboardIdentifier="NewFeedViewController" storyboardName="NewFeed" referencedIdentifier="NewFeedViewController" id="4oS-hQ-vpS" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HCX-id-Kbz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1144.5" y="-1667"/>
+            <point key="canvasLocation" x="1221.5" y="-1675"/>
         </scene>
         <!--MessageMediaViewController-->
         <scene sceneID="DvE-gL-l6T">
@@ -481,7 +376,15 @@
                 <viewControllerPlaceholder storyboardName="MessageMedia" referencedIdentifier="MessageMediaViewController" id="IEG-17-cLh" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ja9-fT-ObV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1127" y="-1563"/>
+            <point key="canvasLocation" x="1239" y="-1581"/>
+        </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="pz7-gU-UIN">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="iL2-os-eZV" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dvB-x7-LnM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1221.5" y="-1495"/>
         </scene>
         <!--SkillHomeViewController-->
         <scene sceneID="mll-N9-alH">
@@ -489,7 +392,7 @@
                 <viewControllerPlaceholder storyboardName="SkillHome" referencedIdentifier="SkillHomeViewController" id="dYX-Ms-gWP" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tm8-6z-ZhG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1150" y="-1840"/>
+            <point key="canvasLocation" x="1176" y="-1840"/>
         </scene>
         <!--FeedsViewController-->
         <scene sceneID="Rau-4Y-1qY">
@@ -497,7 +400,7 @@
                 <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="FeedsViewController" id="h8b-7V-qPb" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cFE-qE-z0n" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1138" y="-1777"/>
+            <point key="canvasLocation" x="1207.5" y="-1777"/>
         </scene>
         <!--Chats-->
         <scene sceneID="ySr-fW-tdP">
@@ -627,6 +530,14 @@
             </objects>
             <point key="canvasLocation" x="2248.5" y="1521"/>
         </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="6fr-hr-i1m">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="lru-67-Vok" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="amx-1s-Vf9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1848" y="1524"/>
+        </scene>
         <!--OAuth-->
         <scene sceneID="0Wc-kq-1Wd">
             <objects>
@@ -685,12 +596,9 @@
         <image name="icon_me" width="30" height="30"/>
         <image name="icon_me_active" width="30" height="30"/>
         <image name="icon_settings" width="30" height="30"/>
-        <image name="swipe_up" width="21" height="6"/>
         <image name="top_shadow" width="375" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Pxr-1p-x84"/>
-        <segue reference="o3b-2D-AMq"/>
-        <segue reference="j1h-7M-vYS"/>
+        <segue reference="l4P-ds-ihU"/>
     </inferredMetricsTieBreakers>
 </document>
