@@ -263,6 +263,7 @@
 		50DEE0591BEA0D7B00015741 /* EditSkills.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0581BEA0D7B00015741 /* EditSkills.storyboard */; };
 		50DEE05B1BEA0EAA00015741 /* FriendsInContacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE05A1BEA0EAA00015741 /* FriendsInContacts.storyboard */; };
 		50DEE05D1BEA100100015741 /* SearchedUsers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE05C1BEA100100015741 /* SearchedUsers.storyboard */; };
+		50DEE05F1BEA119D00015741 /* AddFriends.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE05E1BEA119D00015741 /* AddFriends.storyboard */; };
 		50E114F41ABBF9CC00F13000 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F31ABBF9CC00F13000 /* Models.swift */; };
 		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
@@ -597,6 +598,7 @@
 		50DEE0581BEA0D7B00015741 /* EditSkills.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = EditSkills.storyboard; path = ViewControllers/EditSkills/EditSkills.storyboard; sourceTree = "<group>"; };
 		50DEE05A1BEA0EAA00015741 /* FriendsInContacts.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = FriendsInContacts.storyboard; path = ViewControllers/FriendsInContacts/FriendsInContacts.storyboard; sourceTree = "<group>"; };
 		50DEE05C1BEA100100015741 /* SearchedUsers.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SearchedUsers.storyboard; path = ViewControllers/SearchedUsers/SearchedUsers.storyboard; sourceTree = "<group>"; };
+		50DEE05E1BEA119D00015741 /* AddFriends.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = AddFriends.storyboard; path = ViewControllers/AddFriends/AddFriends.storyboard; sourceTree = "<group>"; };
 		50E114F31ABBF9CC00F13000 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Realm/Models.swift; sourceTree = "<group>"; };
 		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
@@ -1521,6 +1523,7 @@
 			isa = PBXGroup;
 			children = (
 				5064F64F1B0AE2E60089FAD4 /* AddFriendsViewController.swift */,
+				50DEE05E1BEA119D00015741 /* AddFriends.storyboard */,
 			);
 			name = AddFriends;
 			sourceTree = "<group>";
@@ -2296,6 +2299,7 @@
 				50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */,
 				6A56328F1BC90A4500397B53 /* DiscoverCardUserCell.xib in Resources */,
 				501138291BCB593F0055A014 /* FeedConversations.storyboard in Resources */,
+				50DEE05F1BEA119D00015741 /* AddFriends.storyboard in Resources */,
 				0A90187F1B01152800AE4B7F /* ProfileSocialAccountCell.xib in Resources */,
 				5064F6551B0B0E160089FAD4 /* AddFriendSearchCell.xib in Resources */,
 				50DEE0431BE8B3CD00015741 /* Feedback.storyboard in Resources */,
