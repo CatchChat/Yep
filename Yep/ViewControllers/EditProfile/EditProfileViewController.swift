@@ -197,8 +197,12 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 if username.isEmpty {
                     cell.infoLabel.text = NSLocalizedString("None", comment: "")
+                    cell.accessoryImageView.hidden = false
+                    cell.selectionStyle = .Default
                 } else {
                     cell.infoLabel.text = username
+                    cell.accessoryImageView.hidden = true
+                    cell.selectionStyle = .None
                 }
 
                 cell.badgeImageView.image = nil
@@ -211,6 +215,8 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileLessInfoCell
 
                 cell.annotationLabel.text = NSLocalizedString("Nickname", comment: "")
+                cell.accessoryImageView.hidden = false
+                cell.selectionStyle = .Default
 
                 YepUserDefaults.nickname.bindAndFireListener(Listener.Nickname) { [weak cell] nickname in
                     dispatch_async(dispatch_get_main_queue()) {
