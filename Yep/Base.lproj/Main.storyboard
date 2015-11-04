@@ -411,10 +411,10 @@
                     </view>
                     <connections>
                         <outlet property="settingsTableView" destination="jKA-8q-sXn" id="DgR-gO-x2w"/>
-                        <segue destination="i7X-gi-DRa" kind="show" identifier="showNotifications" id="PxD-iZ-Pfy"/>
                         <segue destination="arO-ie-YKq" kind="show" identifier="showFeedback" id="fpe-kF-KXU"/>
                         <segue destination="vA6-53-wiM" kind="show" identifier="showAbout" id="aBn-D2-neF"/>
                         <segue destination="nLm-nU-qoZ" kind="show" identifier="showEditProfile" id="CWg-jG-Hte"/>
+                        <segue destination="AbD-x7-VXG" kind="show" identifier="showNotifications" id="DaZ-YR-s61"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zuA-bP-KGx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -560,70 +560,21 @@
             </objects>
             <point key="canvasLocation" x="939" y="2835"/>
         </scene>
-        <!--Notifications View Controller-->
-        <scene sceneID="s6K-xp-3el">
-            <objects>
-                <viewController storyboardIdentifier="NotificationsViewController" id="i7X-gi-DRa" customClass="NotificationsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="p1O-z0-XoS"/>
-                        <viewControllerLayoutGuide type="bottom" id="NdM-kG-8Sw"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="dR2-fw-xZn">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="Wph-To-rdc">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="i7X-gi-DRa" id="lWu-Rs-drq"/>
-                                    <outlet property="delegate" destination="i7X-gi-DRa" id="b1t-Qd-axe"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="Wph-To-rdc" secondAttribute="bottom" id="7vk-Jl-Rmz"/>
-                            <constraint firstAttribute="trailing" secondItem="Wph-To-rdc" secondAttribute="trailing" id="F52-ZG-yOb"/>
-                            <constraint firstItem="Wph-To-rdc" firstAttribute="top" secondItem="dR2-fw-xZn" secondAttribute="top" id="g53-nD-5E5"/>
-                            <constraint firstItem="Wph-To-rdc" firstAttribute="leading" secondItem="dR2-fw-xZn" secondAttribute="leading" id="yPQ-xP-IEO"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="tableView" destination="Wph-To-rdc" id="oPg-I0-1HJ"/>
-                        <segue destination="2mC-Fz-XyG" kind="show" identifier="showBlackList" id="bAw-VE-W9b"/>
-                        <segue destination="dV6-TR-g9p" kind="show" identifier="showDoNotDisturbPeriod" id="5FJ-6m-hKw"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uH9-BS-amc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4372" y="-287"/>
-        </scene>
-        <!--DoNotDisturbPeriodViewController-->
-        <scene sceneID="IKC-TN-haM">
-            <objects>
-                <viewControllerPlaceholder storyboardName="DoNotDisturbPeriod" referencedIdentifier="DoNotDisturbPeriodViewController" id="dV6-TR-g9p" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Rx5-ik-JfY" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4936.5" y="-339"/>
-        </scene>
-        <!--BlackListViewController-->
-        <scene sceneID="3Zl-e2-cGc">
-            <objects>
-                <viewControllerPlaceholder storyboardName="BlackList" referencedIdentifier="BlackListViewController" id="2mC-Fz-XyG" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1ul-c6-hUk" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4903.5" y="-234"/>
-        </scene>
         <!--EditProfileViewController-->
         <scene sceneID="Wlt-ga-TIp">
             <objects>
                 <viewControllerPlaceholder storyboardName="EditProfile" referencedIdentifier="EditProfileViewController" id="nLm-nU-qoZ" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wkD-np-rEj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3380" y="87"/>
+            <point key="canvasLocation" x="3488" y="219"/>
+        </scene>
+        <!--NotificationsViewController-->
+        <scene sceneID="GzK-eA-9g3">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Notifications" referencedIdentifier="NotificationsViewController" id="AbD-x7-VXG" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H6t-lI-XKN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3495" y="297"/>
         </scene>
         <!--FeedbackViewController-->
         <scene sceneID="LDg-Ov-U48">
@@ -631,7 +582,7 @@
                 <viewControllerPlaceholder storyboardName="Feedback" referencedIdentifier="FeedbackViewController" id="arO-ie-YKq" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n0L-Kc-MyN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3510" y="373"/>
+            <point key="canvasLocation" x="3486" y="373"/>
         </scene>
         <!--AboutViewController-->
         <scene sceneID="Ee7-fX-Pha">
@@ -639,7 +590,7 @@
                 <viewControllerPlaceholder storyboardName="About" referencedIdentifier="AboutViewController" id="vA6-53-wiM" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MV5-q7-0bi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3452" y="435"/>
+            <point key="canvasLocation" x="3474" y="447"/>
         </scene>
         <!--Yep Tab Bar Controller-->
         <scene sceneID="vud-lc-IAG">
