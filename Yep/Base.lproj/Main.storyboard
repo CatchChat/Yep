@@ -80,7 +80,7 @@
                                     <outlet property="delegate" destination="la3-6z-2aH" id="zOV-zM-2KH"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gu7-gn-2ia">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gu7-gn-2ia">
                                 <rect key="frame" x="0.0" y="270" width="600" height="100"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe Up to Cancel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zew-F7-znc">
@@ -109,7 +109,7 @@
                                     <constraint firstItem="Zew-F7-znc" firstAttribute="top" secondItem="4p2-ZI-7q3" secondAttribute="bottom" constant="10" id="b9o-gU-cOq"/>
                                 </constraints>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0w-sM-iIR" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="390" width="600" height="50"/>
                                 <animations/>
                                 <items/>
@@ -414,61 +414,20 @@
                     <connections>
                         <outlet property="addFriendsTableView" destination="RWL-Ot-i1T" id="znz-Hj-dRa"/>
                         <segue destination="sds-Gw-1Sf" kind="show" identifier="showSearchedUsers" id="kJd-wT-uPb"/>
-                        <segue destination="KtV-SQ-G84" kind="show" identifier="showFriendsInContacts" id="wZV-dv-vt3"/>
+                        <segue destination="nhh-ZB-r0n" kind="show" identifier="showFriendsInContacts" id="L8M-vu-xWs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8KG-Vq-jhm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="157" y="1835"/>
         </scene>
-        <!--Friends In Contacts View Controller-->
-        <scene sceneID="mYx-3f-c9A">
+        <!--FriendsInContactsViewController-->
+        <scene sceneID="kgI-5M-aug">
             <objects>
-                <viewController storyboardIdentifier="FriendsInContactsViewController" id="KtV-SQ-G84" customClass="FriendsInContactsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="fhI-xM-Gql"/>
-                        <viewControllerLayoutGuide type="bottom" id="vOK-zT-WYA"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="rqb-L0-RRO">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vdN-uK-rFe">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="separatorColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
-                                <inset key="separatorInset" minX="90" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="KtV-SQ-G84" id="OVq-w5-ONj"/>
-                                    <outlet property="delegate" destination="KtV-SQ-G84" id="VCQ-Db-f3r"/>
-                                </connections>
-                            </tableView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Ne0-z8-YLq">
-                                <rect key="frame" x="290" y="184" width="20" height="20"/>
-                                <animations/>
-                            </activityIndicatorView>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="centerX" secondItem="Ne0-z8-YLq" secondAttribute="centerX" id="9X7-7I-MAy"/>
-                            <constraint firstAttribute="bottom" secondItem="vdN-uK-rFe" secondAttribute="bottom" id="K2v-hJ-HU9"/>
-                            <constraint firstItem="Ne0-z8-YLq" firstAttribute="top" secondItem="fhI-xM-Gql" secondAttribute="bottom" constant="120" id="NjG-bW-jWL"/>
-                            <constraint firstItem="vdN-uK-rFe" firstAttribute="top" secondItem="rqb-L0-RRO" secondAttribute="top" id="dOq-t0-giI"/>
-                            <constraint firstAttribute="trailing" secondItem="vdN-uK-rFe" secondAttribute="trailing" id="nZB-Gj-f5W"/>
-                            <constraint firstItem="vdN-uK-rFe" firstAttribute="leading" secondItem="rqb-L0-RRO" secondAttribute="leading" id="vMg-c4-RUe"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="activityIndicator" destination="Ne0-z8-YLq" id="8pl-RI-dYU"/>
-                        <outlet property="friendsTableView" destination="vdN-uK-rFe" id="aVj-dZ-a7Q"/>
-                        <segue destination="AyC-pt-NR2" kind="show" identifier="showProfile" id="btf-on-xQx"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4Rg-GM-ojT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="FriendsInContacts" referencedIdentifier="FriendsInContactsViewController" id="nhh-ZB-r0n" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kCc-xh-Zxh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="27" y="2683"/>
+            <point key="canvasLocation" x="157" y="2335"/>
         </scene>
         <!--Searched Users View Controller-->
         <scene sceneID="aQD-3E-kys">
@@ -820,8 +779,8 @@
         <image name="top_shadow" width="375" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="l4P-ds-ihU"/>
         <segue reference="o3b-2D-AMq"/>
-        <segue reference="X2e-mz-fLa"/>
         <segue reference="j1h-7M-vYS"/>
     </inferredMetricsTieBreakers>
 </document>
