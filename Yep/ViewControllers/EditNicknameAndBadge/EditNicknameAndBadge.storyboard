@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Edit Nickname And Badge View Controller-->
+        <scene sceneID="haa-f8-pzk">
+            <objects>
+                <tableViewController storyboardIdentifier="EditNicknameAndBadgeViewController" id="bR5-cW-KXu" customClass="EditNicknameAndBadgeViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="rZo-zS-XyO">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <sections>
+                            <tableViewSection id="a9r-C8-wI0">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="71i-wb-G55">
+                                        <rect key="frame" x="0.0" y="35" width="600" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="71i-wb-G55" id="hot-qC-tmQ">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="NIX" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SOb-eC-1bb">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="59"/>
+                                                    <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="SOb-eC-1bb" firstAttribute="top" secondItem="hot-qC-tmQ" secondAttribute="top" id="Hx8-Ib-uez"/>
+                                                <constraint firstItem="SOb-eC-1bb" firstAttribute="leading" secondItem="hot-qC-tmQ" secondAttribute="leading" id="KGx-nf-V2b"/>
+                                                <constraint firstAttribute="trailing" secondItem="SOb-eC-1bb" secondAttribute="trailing" id="Vdr-Jo-vF7"/>
+                                                <constraint firstAttribute="bottom" secondItem="SOb-eC-1bb" secondAttribute="bottom" id="c9r-wn-OnB"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="WmX-zu-B95">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="250" id="NWa-q7-Hvf">
+                                        <rect key="frame" x="0.0" y="115" width="600" height="250"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NWa-q7-Hvf" id="MQj-Rg-IqL">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="249.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="enabled_badge_background" translatesAutoresizingMaskIntoConstraints="NO" id="nDP-nt-JXh" userLabel="Badge Enabled Image View">
+                                                    <rect key="frame" x="10" y="10" width="50" height="50"/>
+                                                </imageView>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hKv-xt-AVB" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
+                                                    <rect key="frame" x="115" y="48" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="8DI-tV-Xaf"/>
+                                                        <constraint firstAttribute="width" constant="50" id="Jq1-n0-85v"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zWn-2z-N8g" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
+                                                    <rect key="frame" x="195" y="48" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="AKm-2z-vpt"/>
+                                                        <constraint firstAttribute="width" constant="50" id="Pkr-Ci-pnT"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AY4-5o-TOf" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
+                                                    <rect key="frame" x="355" y="48" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="IKt-4I-GQB"/>
+                                                        <constraint firstAttribute="width" constant="50" id="PCy-oR-LvN"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qed-CV-oKF" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
+                                                    <rect key="frame" x="435" y="48" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="Hfh-wb-DrZ"/>
+                                                        <constraint firstAttribute="width" constant="50" id="bv6-wN-7co"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2DR-LV-SuT" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
+                                                    <rect key="frame" x="115" y="118" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="Y8d-UH-ad5"/>
+                                                        <constraint firstAttribute="width" constant="50" id="iJi-Nr-IZs"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FEh-2V-qij" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
+                                                    <rect key="frame" x="195" y="118" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="ACD-z9-zNW"/>
+                                                        <constraint firstAttribute="width" constant="50" id="RVd-fT-OSA"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FCz-Fo-upp" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
+                                                    <rect key="frame" x="275" y="118" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="4RT-Wk-iTT"/>
+                                                        <constraint firstAttribute="width" constant="50" id="acp-kT-qOP"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VRm-tm-icX" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
+                                                    <rect key="frame" x="355" y="118" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="omd-ec-bvT"/>
+                                                        <constraint firstAttribute="width" constant="50" id="tFo-yg-I3R"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ade-vK-xcs" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
+                                                    <rect key="frame" x="435" y="118" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="TAl-k7-rmy"/>
+                                                        <constraint firstAttribute="width" constant="50" id="wTf-62-sZX"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hbC-TF-iPp" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
+                                                    <rect key="frame" x="115" y="188" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="KkZ-Dz-P0b"/>
+                                                        <constraint firstAttribute="height" constant="50" id="b0B-Pp-DA2"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g9o-Fj-3Kk" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
+                                                    <rect key="frame" x="195" y="188" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="h1Q-de-uN8"/>
+                                                        <constraint firstAttribute="height" constant="50" id="wku-Sw-FRM"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NRz-1u-Z5b" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
+                                                    <rect key="frame" x="275" y="188" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="1fw-eT-NLc"/>
+                                                        <constraint firstAttribute="width" constant="50" id="mpb-0E-FIo"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5EP-P1-khz" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
+                                                    <rect key="frame" x="355" y="188" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="9AC-8H-H7S"/>
+                                                        <constraint firstAttribute="width" constant="50" id="Oo9-S8-db4"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V68-lS-yaJ" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
+                                                    <rect key="frame" x="435" y="188" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="Guj-hT-exn"/>
+                                                        <constraint firstAttribute="width" constant="50" id="gdw-0J-RxD"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hXe-4Y-UNY" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
+                                                    <rect key="frame" x="275" y="48" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="7Mj-JT-Jjd"/>
+                                                        <constraint firstAttribute="width" constant="50" id="ex6-kh-oYe"/>
+                                                    </constraints>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick a badge" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JLE-fr-Wcn">
+                                                    <rect key="frame" x="254" y="16.5" width="92.5" height="19.5"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="g9o-Fj-3Kk" firstAttribute="centerX" secondItem="FEh-2V-qij" secondAttribute="centerX" id="6SM-iR-8oc"/>
+                                                <constraint firstItem="qed-CV-oKF" firstAttribute="centerY" secondItem="AY4-5o-TOf" secondAttribute="centerY" id="7Gb-5E-Dj2"/>
+                                                <constraint firstItem="AY4-5o-TOf" firstAttribute="centerX" secondItem="VRm-tm-icX" secondAttribute="centerX" id="FN3-7r-vo3"/>
+                                                <constraint firstItem="hXe-4Y-UNY" firstAttribute="top" secondItem="JLE-fr-Wcn" secondAttribute="bottom" constant="12" id="Fu0-Fe-rag"/>
+                                                <constraint firstItem="FCz-Fo-upp" firstAttribute="top" secondItem="hXe-4Y-UNY" secondAttribute="bottom" constant="20" id="Ie7-wQ-Xfw"/>
+                                                <constraint firstItem="g9o-Fj-3Kk" firstAttribute="centerY" secondItem="NRz-1u-Z5b" secondAttribute="centerY" id="ObT-cK-6JC"/>
+                                                <constraint firstItem="2DR-LV-SuT" firstAttribute="centerX" secondItem="hKv-xt-AVB" secondAttribute="centerX" id="P3e-3d-82u"/>
+                                                <constraint firstItem="qed-CV-oKF" firstAttribute="centerX" secondItem="ade-vK-xcs" secondAttribute="centerX" id="PGV-AJ-t4x"/>
+                                                <constraint firstItem="NRz-1u-Z5b" firstAttribute="top" secondItem="FCz-Fo-upp" secondAttribute="bottom" constant="20" id="Prk-yd-6rQ"/>
+                                                <constraint firstItem="g9o-Fj-3Kk" firstAttribute="centerY" secondItem="hbC-TF-iPp" secondAttribute="centerY" id="PwZ-Jc-M03"/>
+                                                <constraint firstItem="FEh-2V-qij" firstAttribute="centerY" secondItem="2DR-LV-SuT" secondAttribute="centerY" id="Q7h-w4-WsK"/>
+                                                <constraint firstItem="VRm-tm-icX" firstAttribute="centerY" secondItem="ade-vK-xcs" secondAttribute="centerY" id="Qy4-vs-Csq"/>
+                                                <constraint firstAttribute="centerX" secondItem="JLE-fr-Wcn" secondAttribute="centerX" id="R7d-4W-Cf8"/>
+                                                <constraint firstItem="AY4-5o-TOf" firstAttribute="centerY" secondItem="hXe-4Y-UNY" secondAttribute="centerY" id="Tmf-Ch-vJW"/>
+                                                <constraint firstItem="zWn-2z-N8g" firstAttribute="leading" secondItem="hKv-xt-AVB" secondAttribute="trailing" constant="30" id="VAZ-i5-isg"/>
+                                                <constraint firstItem="FEh-2V-qij" firstAttribute="centerY" secondItem="FCz-Fo-upp" secondAttribute="centerY" id="Vfz-wB-TYF"/>
+                                                <constraint firstItem="V68-lS-yaJ" firstAttribute="centerX" secondItem="ade-vK-xcs" secondAttribute="centerX" id="Yc1-S1-ubJ"/>
+                                                <constraint firstItem="NRz-1u-Z5b" firstAttribute="centerY" secondItem="5EP-P1-khz" secondAttribute="centerY" id="Yf1-6c-S43"/>
+                                                <constraint firstItem="zWn-2z-N8g" firstAttribute="centerY" secondItem="hKv-xt-AVB" secondAttribute="centerY" id="Ynf-kR-1V5"/>
+                                                <constraint firstItem="AY4-5o-TOf" firstAttribute="leading" secondItem="hXe-4Y-UNY" secondAttribute="trailing" constant="30" id="aZX-kx-RcK"/>
+                                                <constraint firstItem="zWn-2z-N8g" firstAttribute="centerY" secondItem="hXe-4Y-UNY" secondAttribute="centerY" id="eoA-3c-gXk"/>
+                                                <constraint firstItem="FCz-Fo-upp" firstAttribute="centerY" secondItem="VRm-tm-icX" secondAttribute="centerY" id="f02-3G-SLT"/>
+                                                <constraint firstItem="FEh-2V-qij" firstAttribute="centerX" secondItem="zWn-2z-N8g" secondAttribute="centerX" id="gFY-vL-hsf"/>
+                                                <constraint firstItem="FCz-Fo-upp" firstAttribute="centerX" secondItem="hXe-4Y-UNY" secondAttribute="centerX" id="l1v-fx-ige"/>
+                                                <constraint firstAttribute="centerX" secondItem="hXe-4Y-UNY" secondAttribute="centerX" id="lZx-bK-SNb"/>
+                                                <constraint firstItem="hbC-TF-iPp" firstAttribute="centerX" secondItem="2DR-LV-SuT" secondAttribute="centerX" id="ljy-2J-1JE"/>
+                                                <constraint firstItem="hXe-4Y-UNY" firstAttribute="top" secondItem="MQj-Rg-IqL" secondAttribute="topMargin" constant="40" id="nR0-4F-tj5"/>
+                                                <constraint firstItem="NRz-1u-Z5b" firstAttribute="centerX" secondItem="FCz-Fo-upp" secondAttribute="centerX" id="o5u-8O-aZE"/>
+                                                <constraint firstItem="5EP-P1-khz" firstAttribute="centerX" secondItem="VRm-tm-icX" secondAttribute="centerX" id="qvq-tl-jY7"/>
+                                                <constraint firstItem="qed-CV-oKF" firstAttribute="leading" secondItem="AY4-5o-TOf" secondAttribute="trailing" constant="30" id="tBH-H2-YbZ"/>
+                                                <constraint firstItem="V68-lS-yaJ" firstAttribute="centerY" secondItem="5EP-P1-khz" secondAttribute="centerY" id="tec-Dt-ih0"/>
+                                                <constraint firstItem="hXe-4Y-UNY" firstAttribute="leading" secondItem="zWn-2z-N8g" secondAttribute="trailing" constant="30" id="xIn-13-drL"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="bR5-cW-KXu" id="eMf-NA-GcV"/>
+                            <outlet property="delegate" destination="bR5-cW-KXu" id="nJM-g7-aO5"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <outlet property="androidBadgeView" destination="2DR-LV-SuT" id="QdZ-jc-Z8k"/>
+                        <outlet property="appleBadgeView" destination="FEh-2V-qij" id="afU-k0-abQ"/>
+                        <outlet property="badgeEnabledImageView" destination="nDP-nt-JXh" id="T41-pP-6CP"/>
+                        <outlet property="ballBadgeView" destination="5EP-P1-khz" id="RdL-Ej-TDy"/>
+                        <outlet property="bubbleBadgeView" destination="qed-CV-oKF" id="Esj-kk-PdC"/>
+                        <outlet property="cameraBadgeView" destination="g9o-Fj-3Kk" id="3Vu-bV-Llf"/>
+                        <outlet property="centerLeft1GapConstraint" destination="xIn-13-drL" id="QsD-7F-uU3"/>
+                        <outlet property="centerRight1GapConstraint" destination="aZX-kx-RcK" id="T12-l8-7kE"/>
+                        <outlet property="gameBadgeView" destination="NRz-1u-Z5b" id="6vV-eV-B0Y"/>
+                        <outlet property="heartBadgeView" destination="hXe-4Y-UNY" id="ewb-Q7-fEv"/>
+                        <outlet property="left1Left2GapConstraint" destination="VAZ-i5-isg" id="nPg-3m-3lt"/>
+                        <outlet property="musicBadgeView" destination="ade-vK-xcs" id="gjb-pZ-rFV"/>
+                        <outlet property="nicknameTextField" destination="SOb-eC-1bb" id="Yq5-q5-oOD"/>
+                        <outlet property="paletteBadgeView" destination="hKv-xt-AVB" id="psa-7H-0lH"/>
+                        <outlet property="petBadgeView" destination="FCz-Fo-upp" id="ksf-KF-ymy"/>
+                        <outlet property="planeBadgeView" destination="zWn-2z-N8g" id="1MD-wF-c8b"/>
+                        <outlet property="promptPickBadgeLabel" destination="JLE-fr-Wcn" id="gcx-a3-LqS"/>
+                        <outlet property="right1Right2GapConstraint" destination="tBH-H2-YbZ" id="Dih-Ic-fmE"/>
+                        <outlet property="starBadgeView" destination="AY4-5o-TOf" id="p5y-en-WAd"/>
+                        <outlet property="steveBadgeView" destination="hbC-TF-iPp" id="a6o-fd-hjR"/>
+                        <outlet property="techBadgeView" destination="V68-lS-yaJ" id="Vcy-OG-gw6"/>
+                        <outlet property="wineBadgeView" destination="VRm-tm-icX" id="ypI-3h-o5R"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mrO-Vm-oLh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4976" y="-1156"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="enabled_badge_background" width="50" height="50"/>
+    </resources>
+</document>

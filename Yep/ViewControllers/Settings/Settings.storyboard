@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+    </dependencies>
+    <scenes>
+        <!--Settings View Controller-->
+        <scene sceneID="JaG-N7-XLh">
+            <objects>
+                <viewController storyboardIdentifier="SettingsViewController" hidesBottomBarWhenPushed="YES" id="CpR-ps-Bxo" customClass="SettingsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="izP-Su-vBw"/>
+                        <viewControllerLayoutGuide type="bottom" id="oW4-0M-m4t"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="akv-bp-9bd">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="shC-8n-WbH" customClass="TPKeyboardAvoidingTableView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="CpR-ps-Bxo" id="Bso-PO-apb"/>
+                                    <outlet property="delegate" destination="CpR-ps-Bxo" id="Yf4-Ty-DGJ"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="shC-8n-WbH" firstAttribute="top" secondItem="akv-bp-9bd" secondAttribute="top" id="BQ6-aw-UN0"/>
+                            <constraint firstItem="shC-8n-WbH" firstAttribute="leading" secondItem="akv-bp-9bd" secondAttribute="leading" id="Ddb-Qg-KN8"/>
+                            <constraint firstAttribute="trailing" secondItem="shC-8n-WbH" secondAttribute="trailing" id="JQQ-Bi-25T"/>
+                            <constraint firstAttribute="bottom" secondItem="shC-8n-WbH" secondAttribute="bottom" id="WJU-ky-ZoZ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="settingsTableView" destination="shC-8n-WbH" id="j4C-ex-BaC"/>
+                        <segue destination="feD-q4-5Gn" kind="show" identifier="showFeedback" id="075-g2-cXO">
+                            <nil key="action"/>
+                        </segue>
+                        <segue destination="REB-uU-UsM" kind="show" identifier="showAbout" id="wqh-w5-AdK">
+                            <nil key="action"/>
+                        </segue>
+                        <segue destination="qUb-Rp-vab" kind="show" identifier="showEditProfile" id="527-Oc-L5m">
+                            <nil key="action"/>
+                        </segue>
+                        <segue destination="2UT-sY-Fqw" kind="show" identifier="showNotifications" id="CJR-QK-H7k">
+                            <nil key="action"/>
+                        </segue>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="COs-ps-Zbs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2865" y="373"/>
+        </scene>
+        <!--EditProfileViewController-->
+        <scene sceneID="CuY-dr-dZY">
+            <objects>
+                <viewControllerPlaceholder storyboardName="EditProfile" referencedIdentifier="EditProfileViewController" id="qUb-Rp-vab" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5h5-SN-ZOm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3488" y="219"/>
+        </scene>
+        <!--NotificationsViewController-->
+        <scene sceneID="OcI-sq-fZb">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Notifications" referencedIdentifier="NotificationsViewController" id="2UT-sY-Fqw" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HRa-hq-dX2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3495" y="297"/>
+        </scene>
+        <!--FeedbackViewController-->
+        <scene sceneID="oUO-1z-Qao">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Feedback" referencedIdentifier="FeedbackViewController" id="feD-q4-5Gn" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z2s-Du-rjK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3486" y="373"/>
+        </scene>
+        <!--AboutViewController-->
+        <scene sceneID="Ipc-zL-ez7">
+            <objects>
+                <viewControllerPlaceholder storyboardName="About" referencedIdentifier="AboutViewController" id="REB-uU-UsM" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X84-hc-T0K" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3474" y="447"/>
+        </scene>
+    </scenes>
+</document>

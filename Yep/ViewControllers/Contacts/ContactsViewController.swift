@@ -128,8 +128,8 @@ class ContactsViewController: BaseViewController {
         }
     }
 
-    @IBAction func presentAddFriends(sender: UIBarButtonItem) {
-        performSegueWithIdentifier("presentAddFriends", sender: nil)
+    @IBAction func showAddFriends(sender: UIBarButtonItem) {
+        performSegueWithIdentifier("showAddFriends", sender: nil)
     }
 
     // MARK: Navigation

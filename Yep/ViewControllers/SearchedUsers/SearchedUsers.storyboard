@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+    </dependencies>
+    <scenes>
+        <!--Searched Users View Controller-->
+        <scene sceneID="nXM-mv-dR5">
+            <objects>
+                <viewController storyboardIdentifier="SearchedUsersViewController" id="g2M-3x-E3S" customClass="SearchedUsersViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="POu-7U-rpZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="XU5-lW-uSF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ggk-tG-45H">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="gSq-sq-5dB">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="g2M-3x-E3S" id="3Hk-74-3uX"/>
+                                    <outlet property="delegate" destination="g2M-3x-E3S" id="nlM-0b-4Ec"/>
+                                </connections>
+                            </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="RTY-du-Au7">
+                                <rect key="frame" x="290" y="184" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gSq-sq-5dB" firstAttribute="top" secondItem="ggk-tG-45H" secondAttribute="top" id="CQS-zI-GRQ"/>
+                            <constraint firstAttribute="centerX" secondItem="RTY-du-Au7" secondAttribute="centerX" id="Nso-bJ-ask"/>
+                            <constraint firstAttribute="bottom" secondItem="gSq-sq-5dB" secondAttribute="bottom" id="Wcf-oi-zNF"/>
+                            <constraint firstItem="RTY-du-Au7" firstAttribute="top" secondItem="POu-7U-rpZ" secondAttribute="bottom" constant="120" id="kw1-gW-CVr"/>
+                            <constraint firstItem="gSq-sq-5dB" firstAttribute="leading" secondItem="ggk-tG-45H" secondAttribute="leading" id="n8f-2B-BOi"/>
+                            <constraint firstAttribute="trailing" secondItem="gSq-sq-5dB" secondAttribute="trailing" id="uLk-Tn-WAb"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="RTY-du-Au7" id="Rwi-kj-M6e"/>
+                        <outlet property="searchedUsersTableView" destination="gSq-sq-5dB" id="7iY-Kn-mxd"/>
+                        <segue destination="5m9-PG-2xB" kind="show" identifier="showProfile" id="Mc3-nS-ypz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ViF-7T-UXY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="939" y="2835"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="UU5-Vm-ydC">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="5m9-PG-2xB" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4hN-Wt-urD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1441" y="2835"/>
+        </scene>
+    </scenes>
+</document>

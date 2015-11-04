@@ -250,6 +250,21 @@
 		50DEE03F1BE729FD00015741 /* PickLocation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE03E1BE729FD00015741 /* PickLocation.storyboard */; };
 		50DEE0411BE7626100015741 /* YepHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE0401BE7626100015741 /* YepHelpers.swift */; };
 		50DEE0431BE8B3CD00015741 /* Feedback.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0421BE8B3CD00015741 /* Feedback.storyboard */; };
+		50DEE0451BEA025100015741 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0441BEA025100015741 /* About.storyboard */; };
+		50DEE0471BEA030900015741 /* PodsHelpYep.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0461BEA030900015741 /* PodsHelpYep.storyboard */; };
+		50DEE0491BEA04CC00015741 /* SocialWorks.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0481BEA04CC00015741 /* SocialWorks.storyboard */; };
+		50DEE04B1BEA071100015741 /* OAuth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE04A1BEA071100015741 /* OAuth.storyboard */; };
+		50DEE04D1BEA085F00015741 /* EditNicknameAndBadge.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE04C1BEA085F00015741 /* EditNicknameAndBadge.storyboard */; };
+		50DEE04F1BEA092100015741 /* EditProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE04E1BEA092100015741 /* EditProfile.storyboard */; };
+		50DEE0511BEA09DD00015741 /* BlackList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0501BEA09DD00015741 /* BlackList.storyboard */; };
+		50DEE0531BEA0AAC00015741 /* DoNotDisturbPeriod.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0521BEA0AAC00015741 /* DoNotDisturbPeriod.storyboard */; };
+		50DEE0551BEA0BB200015741 /* Notifications.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0541BEA0BB200015741 /* Notifications.storyboard */; };
+		50DEE0571BEA0C9A00015741 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0561BEA0C9A00015741 /* Settings.storyboard */; };
+		50DEE0591BEA0D7B00015741 /* EditSkills.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0581BEA0D7B00015741 /* EditSkills.storyboard */; };
+		50DEE05B1BEA0EAA00015741 /* FriendsInContacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE05A1BEA0EAA00015741 /* FriendsInContacts.storyboard */; };
+		50DEE05D1BEA100100015741 /* SearchedUsers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE05C1BEA100100015741 /* SearchedUsers.storyboard */; };
+		50DEE05F1BEA119D00015741 /* AddFriends.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE05E1BEA119D00015741 /* AddFriends.storyboard */; };
+		50DEE0611BEA146900015741 /* Conversation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0601BEA146900015741 /* Conversation.storyboard */; };
 		50E114F41ABBF9CC00F13000 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F31ABBF9CC00F13000 /* Models.swift */; };
 		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
@@ -571,6 +586,21 @@
 		50DEE03E1BE729FD00015741 /* PickLocation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = PickLocation.storyboard; path = ViewControllers/PickLocation/PickLocation.storyboard; sourceTree = "<group>"; };
 		50DEE0401BE7626100015741 /* YepHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepHelpers.swift; path = Helpers/YepHelpers.swift; sourceTree = "<group>"; };
 		50DEE0421BE8B3CD00015741 /* Feedback.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Feedback.storyboard; path = ViewControllers/Feedback/Feedback.storyboard; sourceTree = "<group>"; };
+		50DEE0441BEA025100015741 /* About.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = About.storyboard; path = ViewControllers/About/About.storyboard; sourceTree = "<group>"; };
+		50DEE0461BEA030900015741 /* PodsHelpYep.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = PodsHelpYep.storyboard; path = ViewControllers/PodsHelpYep/PodsHelpYep.storyboard; sourceTree = "<group>"; };
+		50DEE0481BEA04CC00015741 /* SocialWorks.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SocialWorks.storyboard; path = ViewControllers/SocialWorks/SocialWorks.storyboard; sourceTree = "<group>"; };
+		50DEE04A1BEA071100015741 /* OAuth.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = OAuth.storyboard; path = ViewControllers/OAuth/OAuth.storyboard; sourceTree = "<group>"; };
+		50DEE04C1BEA085F00015741 /* EditNicknameAndBadge.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = EditNicknameAndBadge.storyboard; path = ViewControllers/EditNicknameAndBadge/EditNicknameAndBadge.storyboard; sourceTree = "<group>"; };
+		50DEE04E1BEA092100015741 /* EditProfile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = EditProfile.storyboard; path = ViewControllers/EditProfile/EditProfile.storyboard; sourceTree = "<group>"; };
+		50DEE0501BEA09DD00015741 /* BlackList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BlackList.storyboard; path = ViewControllers/BlackList/BlackList.storyboard; sourceTree = "<group>"; };
+		50DEE0521BEA0AAC00015741 /* DoNotDisturbPeriod.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = DoNotDisturbPeriod.storyboard; path = ViewControllers/DoNotDisturbPeriod/DoNotDisturbPeriod.storyboard; sourceTree = "<group>"; };
+		50DEE0541BEA0BB200015741 /* Notifications.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Notifications.storyboard; path = ViewControllers/Notifications/Notifications.storyboard; sourceTree = "<group>"; };
+		50DEE0561BEA0C9A00015741 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Settings.storyboard; path = ViewControllers/Settings/Settings.storyboard; sourceTree = "<group>"; };
+		50DEE0581BEA0D7B00015741 /* EditSkills.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = EditSkills.storyboard; path = ViewControllers/EditSkills/EditSkills.storyboard; sourceTree = "<group>"; };
+		50DEE05A1BEA0EAA00015741 /* FriendsInContacts.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = FriendsInContacts.storyboard; path = ViewControllers/FriendsInContacts/FriendsInContacts.storyboard; sourceTree = "<group>"; };
+		50DEE05C1BEA100100015741 /* SearchedUsers.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SearchedUsers.storyboard; path = ViewControllers/SearchedUsers/SearchedUsers.storyboard; sourceTree = "<group>"; };
+		50DEE05E1BEA119D00015741 /* AddFriends.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = AddFriends.storyboard; path = ViewControllers/AddFriends/AddFriends.storyboard; sourceTree = "<group>"; };
+		50DEE0601BEA146900015741 /* Conversation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Conversation.storyboard; path = ViewControllers/Conversation/Conversation.storyboard; sourceTree = "<group>"; };
 		50E114F31ABBF9CC00F13000 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Realm/Models.swift; sourceTree = "<group>"; };
 		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
@@ -797,6 +827,7 @@
 			isa = PBXGroup;
 			children = (
 				0A9018811B0120A500AE4B7F /* OAuthViewController.swift */,
+				50DEE04A1BEA071100015741 /* OAuth.storyboard */,
 			);
 			name = OAuth;
 			sourceTree = "<group>";
@@ -837,6 +868,7 @@
 			isa = PBXGroup;
 			children = (
 				500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */,
+				50DEE04C1BEA085F00015741 /* EditNicknameAndBadge.storyboard */,
 			);
 			name = EditNicknameAndBadge;
 			sourceTree = "<group>";
@@ -888,6 +920,7 @@
 			isa = PBXGroup;
 			children = (
 				502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */,
+				50DEE05C1BEA100100015741 /* SearchedUsers.storyboard */,
 			);
 			name = SearchedUsers;
 			sourceTree = "<group>";
@@ -896,6 +929,7 @@
 			isa = PBXGroup;
 			children = (
 				502280F71B1C3F2800E984EE /* FriendsInContactsViewController.swift */,
+				50DEE05A1BEA0EAA00015741 /* FriendsInContacts.storyboard */,
 			);
 			name = FriendsInContacts;
 			sourceTree = "<group>";
@@ -1341,6 +1375,7 @@
 				5076FC591AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift */,
 				505498611B12FB0E0037E3BD /* ConversationMessagePreviewNavigationControllerDelegate.swift */,
 				0A0027D51B19CEC000AD4BE0 /* ConversationOperationQueue.swift */,
+				50DEE0601BEA146900015741 /* Conversation.storyboard */,
 			);
 			name = Conversation;
 			sourceTree = "<group>";
@@ -1349,6 +1384,7 @@
 			isa = PBXGroup;
 			children = (
 				503ED2391B8ADCE70072187D /* BlackListViewController.swift */,
+				50DEE0501BEA09DD00015741 /* BlackList.storyboard */,
 			);
 			name = BlackList;
 			sourceTree = "<group>";
@@ -1490,6 +1526,7 @@
 			isa = PBXGroup;
 			children = (
 				5064F64F1B0AE2E60089FAD4 /* AddFriendsViewController.swift */,
+				50DEE05E1BEA119D00015741 /* AddFriends.storyboard */,
 			);
 			name = AddFriends;
 			sourceTree = "<group>";
@@ -1533,6 +1570,7 @@
 			isa = PBXGroup;
 			children = (
 				5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */,
+				50DEE0461BEA030900015741 /* PodsHelpYep.storyboard */,
 			);
 			name = PodsHelpYep;
 			sourceTree = "<group>";
@@ -1541,6 +1579,7 @@
 			isa = PBXGroup;
 			children = (
 				50894CF01AEA4726000981AF /* SettingsViewController.swift */,
+				50DEE0561BEA0C9A00015741 /* Settings.storyboard */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -1567,6 +1606,7 @@
 			isa = PBXGroup;
 			children = (
 				50894CFD1AEA5A78000981AF /* EditProfileViewController.swift */,
+				50DEE04E1BEA092100015741 /* EditProfile.storyboard */,
 			);
 			name = EditProfile;
 			sourceTree = "<group>";
@@ -1657,6 +1697,7 @@
 				508F8FCB1B01C7FC00461B0B /* SocialWorkGithubViewController.swift */,
 				508F8FD31B01E3D100461B0B /* SocialWorkDribbbleViewController.swift */,
 				508F8FDA1B0479E700461B0B /* SocialWorkInstagramViewController.swift */,
+				50DEE0481BEA04CC00015741 /* SocialWorks.storyboard */,
 			);
 			name = SocialWorks;
 			sourceTree = "<group>";
@@ -1708,6 +1749,7 @@
 			isa = PBXGroup;
 			children = (
 				50A640DF1B6F38CF0050E4A3 /* NotificationsViewController.swift */,
+				50DEE0541BEA0BB200015741 /* Notifications.storyboard */,
 			);
 			name = Notifications;
 			sourceTree = "<group>";
@@ -1727,6 +1769,7 @@
 			isa = PBXGroup;
 			children = (
 				50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */,
+				50DEE0521BEA0AAC00015741 /* DoNotDisturbPeriod.storyboard */,
 			);
 			name = DoNotDisturbPeriod;
 			sourceTree = "<group>";
@@ -1918,6 +1961,7 @@
 			isa = PBXGroup;
 			children = (
 				50E3488D1B905C0100A8E699 /* AboutViewController.swift */,
+				50DEE0441BEA025100015741 /* About.storyboard */,
 			);
 			name = About;
 			sourceTree = "<group>";
@@ -2093,6 +2137,7 @@
 			isa = PBXGroup;
 			children = (
 				845E1A651B788EF3001E0789 /* EditSkillsViewController.swift */,
+				50DEE0581BEA0D7B00015741 /* EditSkills.storyboard */,
 			);
 			name = EditSkills;
 			sourceTree = "<group>";
@@ -2230,9 +2275,11 @@
 				505C338B1BAA92CA00E044E2 /* InfoPlist.strings in Resources */,
 				50535D221BCE497E002FE1A4 /* PickPhotos.storyboard in Resources */,
 				50AACECD1BB5419A004DD54B /* FeedView.xib in Resources */,
+				50DEE0611BEA146900015741 /* Conversation.storyboard in Resources */,
 				50F5AF861BBA676D0033C9BC /* NewFeed.storyboard in Resources */,
 				50C090A11ADE391600CC6389 /* AddSkillsReusableView.xib in Resources */,
 				504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */,
+				50DEE0531BEA0AAC00015741 /* DoNotDisturbPeriod.storyboard in Resources */,
 				50E348931B9063A700A8E699 /* AboutCell.xib in Resources */,
 				5039594F1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib in Resources */,
 				502AE5591AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib in Resources */,
@@ -2243,22 +2290,30 @@
 				50DEE02D1BE209FF00015741 /* DeletedFeedConversationCell.xib in Resources */,
 				5053AD561AF83B0F00B3CBFA /* ChatRightLocationCell.xib in Resources */,
 				50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */,
+				50DEE0491BEA04CC00015741 /* SocialWorks.storyboard in Resources */,
 				501813261BA07CED0025873C /* Activities.xcassets in Resources */,
+				50DEE04B1BEA071100015741 /* OAuth.storyboard in Resources */,
 				502AE5411AB88862005BD199 /* SkillRankCell.xib in Resources */,
 				508F8FD11B01D04400461B0B /* GithubRepoCell.xib in Resources */,
 				6A5632941BC911CB00397B53 /* DiscoverNormalUserCell.xib in Resources */,
+				50DEE0591BEA0D7B00015741 /* EditSkills.storyboard in Resources */,
+				50DEE0551BEA0BB200015741 /* Notifications.storyboard in Resources */,
 				508F8FD81B01EDB400461B0B /* DribbbleShotCell.xib in Resources */,
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
 				50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */,
 				6A56328F1BC90A4500397B53 /* DiscoverCardUserCell.xib in Resources */,
 				501138291BCB593F0055A014 /* FeedConversations.storyboard in Resources */,
+				50DEE05F1BEA119D00015741 /* AddFriends.storyboard in Resources */,
 				0A90187F1B01152800AE4B7F /* ProfileSocialAccountCell.xib in Resources */,
 				5064F6551B0B0E160089FAD4 /* AddFriendSearchCell.xib in Resources */,
 				50DEE0431BE8B3CD00015741 /* Feedback.storyboard in Resources */,
 				508F8FC91B0161EF00461B0B /* ProfileSeparationLineCell.xib in Resources */,
 				5008A1931B8DB8B500E94274 /* Localizable.strings in Resources */,
+				50DEE0511BEA09DD00015741 /* BlackList.storyboard in Resources */,
 				50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */,
 				6ADDB4501B848C600012877A /* 1Password.xcassets in Resources */,
+				50DEE04F1BEA092100015741 /* EditProfile.storyboard in Resources */,
+				50DEE05D1BEA100100015741 /* SearchedUsers.storyboard in Resources */,
 				508D17481ACCF4710092D666 /* ChatLeftAudioCell.xib in Resources */,
 				0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */,
 				5033159D1AC101C80008A209 /* ChatRightTextCell.xib in Resources */,
@@ -2268,17 +2323,21 @@
 				50E1CE8F1BE0BFF00025B933 /* MediaViewCell.xib in Resources */,
 				505EC8181ADF8151001D27E0 /* SkillCategoryCell.xib in Resources */,
 				6A8215091BCBE8F10011F36C /* DiscoverSkillCell.xib in Resources */,
+				50DEE0451BEA025100015741 /* About.storyboard in Resources */,
 				50DEE0371BE3720F00015741 /* LoadMoreCollectionViewCell.xib in Resources */,
 				505EC81D1ADFBE1B001D27E0 /* SkillSelectionCell.xib in Resources */,
 				50EB8CC01AE89ED8001AC1EE /* ChatLeftVideoCell.xib in Resources */,
 				50894D0D1AEE0177000981AF /* EditProfileColoredTitleCell.xib in Resources */,
 				50CDBE431ACA9B4200459CE0 /* ChatRightImageCell.xib in Resources */,
 				50E1CE8B1BE0BC940025B933 /* MessageMedia.storyboard in Resources */,
+				50DEE0471BEA030900015741 /* PodsHelpYep.storyboard in Resources */,
 				508C2AA51AD661B3002B8097 /* UserStateCell.xib in Resources */,
 				508F8FDF1B049ACF00461B0B /* InstagramMediaCell.xib in Resources */,
 				848806B11B789A2D000C5424 /* EditSkillCell.xib in Resources */,
 				50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */,
+				50DEE04D1BEA085F00015741 /* EditNicknameAndBadge.storyboard in Resources */,
 				502AE54F1AB93175005BD199 /* ProfileHeaderCell.xib in Resources */,
+				50DEE05B1BEA0EAA00015741 /* FriendsInContacts.storyboard in Resources */,
 				503807241BDA18040068345E /* FeedSkillUsersCell.xib in Resources */,
 				50F5AF9A1BBBD02A0033C9BC /* FeedMediaCell.xib in Resources */,
 				50A640EA1B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib in Resources */,
@@ -2287,6 +2346,7 @@
 				5053AD511AF82A1700B3CBFA /* PickLocationCell.xib in Resources */,
 				5011382D1BCB5E150055A014 /* FeedConversationDockCell.xib in Resources */,
 				50E1CE891BDA3CED0025B933 /* SkillHome.storyboard in Resources */,
+				50DEE0571BEA0C9A00015741 /* Settings.storyboard in Resources */,
 				5053AD5B1AF83B4200B3CBFA /* ChatLeftLocationCell.xib in Resources */,
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 				50EB8CC51AE89F12001AC1EE /* ChatRightVideoCell.xib in Resources */,

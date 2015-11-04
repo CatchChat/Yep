@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+    </dependencies>
+    <scenes>
+        <!--Do Not Disturb Period View Controller-->
+        <scene sceneID="HmJ-SF-lHC">
+            <objects>
+                <viewController storyboardIdentifier="DoNotDisturbPeriodViewController" id="1rJ-cE-2va" customClass="DoNotDisturbPeriodViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XYJ-Vo-4ba"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ufb-pZ-LDg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="OPY-ig-wVd">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ut9-L8-M3J">
+                                <rect key="frame" x="0.0" y="100" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="eAr-HW-jeg"/>
+                                </constraints>
+                                <state key="normal" title="From 22:00">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="activeFrom" destination="1rJ-cE-2va" eventType="touchUpInside" id="TPa-Mu-Pts"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fqc-T3-56f">
+                                <rect key="frame" x="0.0" y="144" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="wzH-3Y-Gjm"/>
+                                </constraints>
+                                <state key="normal" title="To 07:30">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="activeTo" destination="1rJ-cE-2va" eventType="touchUpInside" id="35g-u6-8TE"/>
+                                </connections>
+                            </button>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lmp-fM-sJN">
+                                <rect key="frame" x="0.0" y="384" width="600" height="216"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="1rJ-cE-2va" id="Cqw-em-TOl"/>
+                                    <outlet property="delegate" destination="1rJ-cE-2va" id="iea-ln-and"/>
+                                </connections>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="Ut9-L8-M3J" firstAttribute="leading" secondItem="OPY-ig-wVd" secondAttribute="leading" id="0c3-zK-N1u"/>
+                            <constraint firstItem="lmp-fM-sJN" firstAttribute="leading" secondItem="OPY-ig-wVd" secondAttribute="leading" id="4VP-Il-MTa"/>
+                            <constraint firstItem="Fqc-T3-56f" firstAttribute="leading" secondItem="OPY-ig-wVd" secondAttribute="leading" id="Oik-5H-fu2"/>
+                            <constraint firstItem="Fqc-T3-56f" firstAttribute="top" secondItem="Ut9-L8-M3J" secondAttribute="bottom" id="Vbz-98-jUO"/>
+                            <constraint firstItem="Ut9-L8-M3J" firstAttribute="top" secondItem="XYJ-Vo-4ba" secondAttribute="bottom" constant="80" id="aDn-Xt-t19"/>
+                            <constraint firstItem="Ufb-pZ-LDg" firstAttribute="top" secondItem="lmp-fM-sJN" secondAttribute="bottom" id="cZH-c0-f63"/>
+                            <constraint firstAttribute="trailing" secondItem="Fqc-T3-56f" secondAttribute="trailing" id="hgp-bu-flh"/>
+                            <constraint firstAttribute="trailing" secondItem="lmp-fM-sJN" secondAttribute="trailing" id="jFi-NS-7mv"/>
+                            <constraint firstAttribute="trailing" secondItem="Ut9-L8-M3J" secondAttribute="trailing" id="le7-ZG-JDy"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="fromButton" destination="Ut9-L8-M3J" id="Zad-Ty-NM2"/>
+                        <outlet property="pickerView" destination="lmp-fM-sJN" id="bWr-f8-rzP"/>
+                        <outlet property="toButton" destination="Fqc-T3-56f" id="M9m-EW-Ntm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="abX-8l-tzW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5352" y="-494"/>
+        </scene>
+    </scenes>
+</document>

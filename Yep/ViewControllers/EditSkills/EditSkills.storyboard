@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+    </dependencies>
+    <scenes>
+        <!--Edit Skills View Controller-->
+        <scene sceneID="aPD-Ax-z7C">
+            <objects>
+                <viewController storyboardIdentifier="EditSkillsViewController" hidesBottomBarWhenPushed="YES" id="sov-hx-jvi" customClass="EditSkillsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aDt-PR-Rs6"/>
+                        <viewControllerLayoutGuide type="bottom" id="Sar-BH-NN1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="a8z-LD-8IJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="gSU-8G-nD1">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="sov-hx-jvi" id="rnl-DV-7PE"/>
+                                    <outlet property="delegate" destination="sov-hx-jvi" id="eMo-bY-gTV"/>
+                                </connections>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="toi-HQ-J6m" customClass="BottomButtonView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="550" width="600" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="mjE-XJ-IHh"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="title" value="Add Skills"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="toi-HQ-J6m" secondAttribute="trailing" id="MAM-lw-DLD"/>
+                            <constraint firstAttribute="trailing" secondItem="gSU-8G-nD1" secondAttribute="trailing" id="XfI-bL-e6W"/>
+                            <constraint firstItem="gSU-8G-nD1" firstAttribute="leading" secondItem="a8z-LD-8IJ" secondAttribute="leading" id="Z8E-dm-adf"/>
+                            <constraint firstAttribute="bottom" secondItem="gSU-8G-nD1" secondAttribute="bottom" id="bYA-dj-X8G"/>
+                            <constraint firstItem="gSU-8G-nD1" firstAttribute="top" secondItem="a8z-LD-8IJ" secondAttribute="top" id="c7U-WD-tef"/>
+                            <constraint firstAttribute="bottom" secondItem="toi-HQ-J6m" secondAttribute="bottom" id="xb1-Os-LUj"/>
+                            <constraint firstItem="toi-HQ-J6m" firstAttribute="leading" secondItem="a8z-LD-8IJ" secondAttribute="leading" id="xr8-mD-0YC"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="addSkillsView" destination="toi-HQ-J6m" id="rl3-aE-SiR"/>
+                        <outlet property="skillsTableView" destination="gSU-8G-nD1" id="Y3F-1l-4DC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hBv-DE-F9E" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2997" y="1203"/>
+        </scene>
+    </scenes>
+</document>
