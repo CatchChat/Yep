@@ -368,12 +368,12 @@
                         <outlet property="sayHiView" destination="sfC-fv-gcr" id="5bd-hx-FGY"/>
                         <outlet property="topShadowImageView" destination="fut-Ug-l4V" id="tWb-Tz-48h"/>
                         <segue destination="la3-6z-2aH" kind="show" identifier="showConversation" id="o3b-2D-AMq"/>
-                        <segue destination="0NC-ph-TBU" kind="presentation" identifier="presentOAuth" id="nnt-hh-VMn"/>
                         <segue destination="ICA-Fn-Rb3" kind="show" identifier="showEditSkills" id="gSM-qG-2nt"/>
                         <segue destination="ubP-q1-Rff" kind="show" identifier="showFeedsWithSkill" id="uGT-OV-9S2"/>
                         <segue destination="Cju-5F-2Ri" kind="show" identifier="showSocialWorkGithub" id="6Tt-7S-Pn9"/>
                         <segue destination="JLl-gr-wSC" kind="show" identifier="showSocialWorkDribbble" id="cin-mW-lyh"/>
                         <segue destination="9RG-ZJ-nw7" kind="show" identifier="showSocialWorkInstagram" id="M2q-ud-x5N"/>
+                        <segue destination="4LS-r8-B5l" kind="presentation" identifier="presentOAuth" id="o6f-Oi-l8h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -561,62 +561,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IY7-lg-OWx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="939" y="2835"/>
-        </scene>
-        <!--Auth View Controller-->
-        <scene sceneID="4gu-P3-U3G">
-            <objects>
-                <viewController storyboardIdentifier="OAuthViewController" id="pm1-5Q-SW5" customClass="OAuthViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="rYc-th-ztZ"/>
-                        <viewControllerLayoutGuide type="bottom" id="Swm-Ij-QY8"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="vv2-Cr-yNp">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9oB-pd-Kh9">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </webView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="E58-MH-2nz" userLabel="Activity Indicator">
-                                <rect key="frame" x="282" y="164" width="37" height="37"/>
-                                <animations/>
-                                <color key="color" red="0.13725490200000001" green="0.56862745100000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </activityIndicatorView>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="9oB-pd-Kh9" secondAttribute="trailing" id="4Ch-yL-WRS"/>
-                            <constraint firstItem="9oB-pd-Kh9" firstAttribute="leading" secondItem="vv2-Cr-yNp" secondAttribute="leading" id="CKZ-q4-KKM"/>
-                            <constraint firstItem="9oB-pd-Kh9" firstAttribute="top" secondItem="vv2-Cr-yNp" secondAttribute="top" id="HFP-ge-N3i"/>
-                            <constraint firstAttribute="centerX" secondItem="E58-MH-2nz" secondAttribute="centerX" constant="-0.5" id="OHS-lz-cEQ"/>
-                            <constraint firstItem="E58-MH-2nz" firstAttribute="top" secondItem="rYc-th-ztZ" secondAttribute="bottom" constant="100" id="bgb-8V-WPM"/>
-                            <constraint firstAttribute="bottom" secondItem="9oB-pd-Kh9" secondAttribute="bottom" id="wWc-me-XWV"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="Syj-dZ-pAz">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Djr-es-XZ6">
-                            <connections>
-                                <action selector="cancel:" destination="pm1-5Q-SW5" id="UyX-Ky-fjg"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="onepassword-navbar" id="b3h-Go-klX">
-                            <connections>
-                                <action selector="fillPassword:" destination="pm1-5Q-SW5" id="6Ru-UD-wEZ"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="activityIndicator" destination="E58-MH-2nz" id="ulq-yp-00E"/>
-                        <outlet property="onePasswordButton" destination="b3h-Go-klX" id="Qit-XF-jiV"/>
-                        <outlet property="webView" destination="9oB-pd-Kh9" id="td2-Id-mqD"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aYj-Hp-etu" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2041" y="2761"/>
         </scene>
         <!--Edit Profile View Controller-->
         <scene sceneID="l0f-Y7-OKE">
@@ -1364,25 +1308,6 @@
             </objects>
             <point key="canvasLocation" x="2027" y="253"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="ED4-Su-qsS">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0NC-ph-TBU" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ecK-8R-1Bh">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="pm1-5Q-SW5" kind="relationship" relationship="rootViewController" id="iEn-gf-Yez"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="E13-pa-e8B" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2041" y="1999"/>
-        </scene>
         <!--FeedsViewController-->
         <scene sceneID="nCN-iF-lzM">
             <objects>
@@ -1397,7 +1322,7 @@
                 <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkGithubViewController" id="Cju-5F-2Ri" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2u8-vU-v9U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2324.5" y="1459"/>
+            <point key="canvasLocation" x="2248.5" y="1521"/>
         </scene>
         <!--Edit Skills View Controller-->
         <scene sceneID="7wR-Xl-TQJ">
@@ -1453,13 +1378,21 @@
             </objects>
             <point key="canvasLocation" x="2857" y="1071"/>
         </scene>
+        <!--OAuth-->
+        <scene sceneID="0Wc-kq-1Wd">
+            <objects>
+                <viewControllerPlaceholder storyboardName="OAuth" id="4LS-r8-B5l" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nfd-tt-dOG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2027.5" y="1579"/>
+        </scene>
         <!--SocialWorkDribbbleViewController-->
         <scene sceneID="KJV-hS-1Ll">
             <objects>
                 <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkDribbbleViewController" id="JLl-gr-wSC" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pet-nQ-zrp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2330.5" y="1554"/>
+            <point key="canvasLocation" x="2254.5" y="1610"/>
         </scene>
         <!--SocialWorkInstagramViewController-->
         <scene sceneID="4UU-LR-Oke">
@@ -1467,7 +1400,7 @@
                 <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkInstagramViewController" id="9RG-ZJ-nw7" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KSE-nl-you" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2335" y="1505"/>
+            <point key="canvasLocation" x="2259" y="1565"/>
         </scene>
         <!--Feeds-->
         <scene sceneID="lMZ-Mf-PVd">
@@ -1505,7 +1438,6 @@
         <image name="icon_me_active" width="30" height="30"/>
         <image name="icon_profile_phone" width="16" height="24"/>
         <image name="icon_settings" width="30" height="30"/>
-        <image name="onepassword-navbar" width="23" height="23"/>
         <image name="profile_avatar_frame" width="112" height="112"/>
         <image name="swipe_up" width="21" height="6"/>
         <image name="top_shadow" width="375" height="80"/>

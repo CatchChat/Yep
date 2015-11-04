@@ -253,6 +253,7 @@
 		50DEE0451BEA025100015741 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0441BEA025100015741 /* About.storyboard */; };
 		50DEE0471BEA030900015741 /* PodsHelpYep.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0461BEA030900015741 /* PodsHelpYep.storyboard */; };
 		50DEE0491BEA04CC00015741 /* SocialWorks.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0481BEA04CC00015741 /* SocialWorks.storyboard */; };
+		50DEE04B1BEA071100015741 /* OAuth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE04A1BEA071100015741 /* OAuth.storyboard */; };
 		50E114F41ABBF9CC00F13000 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F31ABBF9CC00F13000 /* Models.swift */; };
 		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
@@ -577,6 +578,7 @@
 		50DEE0441BEA025100015741 /* About.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = About.storyboard; path = ViewControllers/About/About.storyboard; sourceTree = "<group>"; };
 		50DEE0461BEA030900015741 /* PodsHelpYep.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = PodsHelpYep.storyboard; path = ViewControllers/PodsHelpYep/PodsHelpYep.storyboard; sourceTree = "<group>"; };
 		50DEE0481BEA04CC00015741 /* SocialWorks.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SocialWorks.storyboard; path = ViewControllers/SocialWorks/SocialWorks.storyboard; sourceTree = "<group>"; };
+		50DEE04A1BEA071100015741 /* OAuth.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = OAuth.storyboard; path = ViewControllers/OAuth/OAuth.storyboard; sourceTree = "<group>"; };
 		50E114F31ABBF9CC00F13000 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Realm/Models.swift; sourceTree = "<group>"; };
 		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
@@ -803,6 +805,7 @@
 			isa = PBXGroup;
 			children = (
 				0A9018811B0120A500AE4B7F /* OAuthViewController.swift */,
+				50DEE04A1BEA071100015741 /* OAuth.storyboard */,
 			);
 			name = OAuth;
 			sourceTree = "<group>";
@@ -2254,6 +2257,7 @@
 				50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */,
 				50DEE0491BEA04CC00015741 /* SocialWorks.storyboard in Resources */,
 				501813261BA07CED0025873C /* Activities.xcassets in Resources */,
+				50DEE04B1BEA071100015741 /* OAuth.storyboard in Resources */,
 				502AE5411AB88862005BD199 /* SkillRankCell.xib in Resources */,
 				508F8FD11B01D04400461B0B /* GithubRepoCell.xib in Resources */,
 				6A5632941BC911CB00397B53 /* DiscoverNormalUserCell.xib in Resources */,
