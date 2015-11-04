@@ -1155,7 +1155,7 @@ enum DiscoveredUserSortStyle: String {
         case .LastSignIn:
             return NSLocalizedString("Time", comment: "")
         case .Default:
-            return NSLocalizedString("Default", comment: "")
+            return NSLocalizedString("Match", comment: "")
         }
     }
 
@@ -2394,7 +2394,7 @@ enum FeedSortStyle: String {
 
     case Distance = "distance"
     case Time = "time"
-    case Default = "default"
+    case Match = "default"
     
     var name: String {
         switch self {
@@ -2402,8 +2402,8 @@ enum FeedSortStyle: String {
             return NSLocalizedString("Nearby", comment: "")
         case .Time:
             return NSLocalizedString("Time", comment: "")
-        case .Default:
-            return NSLocalizedString("Default", comment: "")
+        case .Match:
+            return NSLocalizedString("Match", comment: "")
         }
     }
     
