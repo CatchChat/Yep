@@ -4,7 +4,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--FeedConversationsViewController-->
@@ -658,7 +657,7 @@
                         <outlet property="avatarImageViewWidthConstraint" destination="fy0-3p-Tx4" id="u5u-Us-aIh"/>
                         <outlet property="editProfileTableView" destination="obf-ax-Bn7" id="wPW-Jg-rwD"/>
                         <outlet property="mobileLabel" destination="bhV-NM-wXG" id="rUc-6h-9GQ"/>
-                        <segue destination="dFC-hj-FfI" kind="show" identifier="showEditNicknameAndBadge" id="yNh-aJ-2PK"/>
+                        <segue destination="xf1-2t-TOL" kind="show" identifier="showEditNicknameAndBadge" id="i7Y-pj-Ccg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u2y-XJ-4gR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -844,260 +843,13 @@
             </objects>
             <point key="canvasLocation" x="3452" y="435"/>
         </scene>
-        <!--Edit Nickname And Badge View Controller-->
-        <scene sceneID="eed-5B-jyz">
+        <!--EditNicknameAndBadgeViewController-->
+        <scene sceneID="bcP-g0-HKo">
             <objects>
-                <tableViewController storyboardIdentifier="EditNicknameAndBadgeViewController" id="dFC-hj-FfI" customClass="EditNicknameAndBadgeViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="pjg-sc-BhV">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
-                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
-                        <sections>
-                            <tableViewSection id="TBf-1w-J6s">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="hf0-DA-HE1">
-                                        <rect key="frame" x="0.0" y="99" width="600" height="60"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hf0-DA-HE1" id="M5n-HW-GKn">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="NIX" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QU0-LQ-GUp">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="59"/>
-                                                    <animations/>
-                                                    <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                                </textField>
-                                            </subviews>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstItem="QU0-LQ-GUp" firstAttribute="leading" secondItem="M5n-HW-GKn" secondAttribute="leading" id="9Kr-Hv-8hb"/>
-                                                <constraint firstAttribute="trailing" secondItem="QU0-LQ-GUp" secondAttribute="trailing" id="Q7S-ak-yyL"/>
-                                                <constraint firstAttribute="bottom" secondItem="QU0-LQ-GUp" secondAttribute="bottom" id="bvY-8U-ozD"/>
-                                                <constraint firstItem="QU0-LQ-GUp" firstAttribute="top" secondItem="M5n-HW-GKn" secondAttribute="top" id="pKI-ND-6jk"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <animations/>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection id="Osi-AX-ugj">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="250" id="rCs-Rg-jvK">
-                                        <rect key="frame" x="0.0" y="179" width="600" height="250"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rCs-Rg-jvK" id="Q18-jR-H2H">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="249.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="enabled_badge_background" translatesAutoresizingMaskIntoConstraints="NO" id="bd9-dd-MZA" userLabel="Badge Enabled Image View">
-                                                    <rect key="frame" x="10" y="10" width="50" height="50"/>
-                                                    <animations/>
-                                                </imageView>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iz2-o9-17H" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
-                                                    <rect key="frame" x="115" y="48" width="50" height="50"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="FnR-av-JRq"/>
-                                                        <constraint firstAttribute="width" constant="50" id="oxn-2a-F76"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mgs-nU-6GD" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
-                                                    <rect key="frame" x="195" y="48" width="50" height="50"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="Oet-yJ-Jb8"/>
-                                                        <constraint firstAttribute="width" constant="50" id="ciO-dF-UqB"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AtA-Ag-AzS" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
-                                                    <rect key="frame" x="355" y="48" width="50" height="50"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="50" id="MfJ-cZ-Cim"/>
-                                                        <constraint firstAttribute="height" constant="50" id="vJS-sa-3o3"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zpA-BY-1sO" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
-                                                    <rect key="frame" x="435" y="48" width="50" height="50"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="GWn-RC-Ubu"/>
-                                                        <constraint firstAttribute="width" constant="50" id="cEY-79-Od7"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SjH-ms-KaO" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
-                                                    <rect key="frame" x="115" y="118" width="50" height="50"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="50" id="D7R-NN-m6r"/>
-                                                        <constraint firstAttribute="height" constant="50" id="TV7-0q-F6Q"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hU0-li-PMo" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
-                                                    <rect key="frame" x="195" y="118" width="50" height="50"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="MYJ-Ll-Ifo"/>
-                                                        <constraint firstAttribute="width" constant="50" id="w3v-NQ-MIi"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6V5-ZD-ySN" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
-                                                    <rect key="frame" x="275" y="118" width="50" height="50"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="WhU-Sh-Us1"/>
-                                                        <constraint firstAttribute="width" constant="50" id="sGV-Jg-UhD"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ys0-N9-ZWV" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
-                                                    <rect key="frame" x="355" y="118" width="50" height="50"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="8Yt-VY-BXY"/>
-                                                        <constraint firstAttribute="width" constant="50" id="oQU-J6-roJ"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y9P-e7-eZ5" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
-                                                    <rect key="frame" x="435" y="118" width="50" height="50"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="50" id="2FP-CS-XWR"/>
-                                                        <constraint firstAttribute="height" constant="50" id="ZVZ-9X-89T"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="05f-r8-WNL" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
-                                                    <rect key="frame" x="115" y="188" width="50" height="50"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="Urm-wJ-CJH"/>
-                                                        <constraint firstAttribute="width" constant="50" id="e5J-eC-p0F"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cXW-bq-1DS" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
-                                                    <rect key="frame" x="195" y="188" width="50" height="50"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="icA-hh-X6c"/>
-                                                        <constraint firstAttribute="width" constant="50" id="s1H-6S-jvp"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xdf-d7-hOE" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
-                                                    <rect key="frame" x="275" y="188" width="50" height="50"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="50" id="D3g-Ka-0yn"/>
-                                                        <constraint firstAttribute="height" constant="50" id="aqu-56-fOp"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="86U-zL-BF2" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
-                                                    <rect key="frame" x="355" y="188" width="50" height="50"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="PD9-iF-HCF"/>
-                                                        <constraint firstAttribute="width" constant="50" id="Qom-LV-lki"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xQ4-Pw-gO4" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
-                                                    <rect key="frame" x="435" y="188" width="50" height="50"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="xR7-ue-dMM"/>
-                                                        <constraint firstAttribute="width" constant="50" id="xSR-GH-BOD"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0U9-LP-d6j" customClass="BadgeView" customModule="Yep" customModuleProvider="target">
-                                                    <rect key="frame" x="275" y="48" width="50" height="50"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="5vQ-px-m0V"/>
-                                                        <constraint firstAttribute="width" constant="50" id="D2F-ef-ueg"/>
-                                                    </constraints>
-                                                </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick a badge" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ez2-AI-ikn">
-                                                    <rect key="frame" x="254" y="16.5" width="92.5" height="19.5"/>
-                                                    <animations/>
-                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstItem="zpA-BY-1sO" firstAttribute="leading" secondItem="AtA-Ag-AzS" secondAttribute="trailing" constant="30" id="1lV-M6-3XH"/>
-                                                <constraint firstItem="6V5-ZD-ySN" firstAttribute="centerX" secondItem="0U9-LP-d6j" secondAttribute="centerX" id="48p-UL-twb"/>
-                                                <constraint firstItem="AtA-Ag-AzS" firstAttribute="centerY" secondItem="0U9-LP-d6j" secondAttribute="centerY" id="4V7-Xp-54n"/>
-                                                <constraint firstItem="mgs-nU-6GD" firstAttribute="centerY" secondItem="0U9-LP-d6j" secondAttribute="centerY" id="5P5-6w-pkJ"/>
-                                                <constraint firstAttribute="centerX" secondItem="0U9-LP-d6j" secondAttribute="centerX" id="81H-Ii-sbZ"/>
-                                                <constraint firstItem="0U9-LP-d6j" firstAttribute="leading" secondItem="mgs-nU-6GD" secondAttribute="trailing" constant="30" id="EXp-MC-v7u"/>
-                                                <constraint firstItem="cXW-bq-1DS" firstAttribute="centerY" secondItem="xdf-d7-hOE" secondAttribute="centerY" id="EjK-xm-E25"/>
-                                                <constraint firstItem="Ys0-N9-ZWV" firstAttribute="centerY" secondItem="Y9P-e7-eZ5" secondAttribute="centerY" id="HL9-t4-SY6"/>
-                                                <constraint firstItem="cXW-bq-1DS" firstAttribute="centerY" secondItem="05f-r8-WNL" secondAttribute="centerY" id="Jbh-wq-ZEd"/>
-                                                <constraint firstItem="xQ4-Pw-gO4" firstAttribute="centerX" secondItem="Y9P-e7-eZ5" secondAttribute="centerX" id="Mv7-Yx-fTy"/>
-                                                <constraint firstItem="hU0-li-PMo" firstAttribute="centerY" secondItem="SjH-ms-KaO" secondAttribute="centerY" id="UXh-Mc-PIu"/>
-                                                <constraint firstItem="xdf-d7-hOE" firstAttribute="centerY" secondItem="86U-zL-BF2" secondAttribute="centerY" id="Uw9-DR-NlG"/>
-                                                <constraint firstItem="6V5-ZD-ySN" firstAttribute="centerY" secondItem="Ys0-N9-ZWV" secondAttribute="centerY" id="Vag-41-0IY"/>
-                                                <constraint firstItem="AtA-Ag-AzS" firstAttribute="leading" secondItem="0U9-LP-d6j" secondAttribute="trailing" constant="30" id="VbX-Lr-9Dx"/>
-                                                <constraint firstItem="mgs-nU-6GD" firstAttribute="centerY" secondItem="Iz2-o9-17H" secondAttribute="centerY" id="YCn-9X-o5f"/>
-                                                <constraint firstItem="xdf-d7-hOE" firstAttribute="centerX" secondItem="6V5-ZD-ySN" secondAttribute="centerX" id="YL4-y9-flK"/>
-                                                <constraint firstItem="mgs-nU-6GD" firstAttribute="leading" secondItem="Iz2-o9-17H" secondAttribute="trailing" constant="30" id="YpC-8p-aZq"/>
-                                                <constraint firstItem="hU0-li-PMo" firstAttribute="centerY" secondItem="6V5-ZD-ySN" secondAttribute="centerY" id="aLB-DF-dsZ"/>
-                                                <constraint firstAttribute="centerX" secondItem="ez2-AI-ikn" secondAttribute="centerX" id="bHN-OL-4wf"/>
-                                                <constraint firstItem="zpA-BY-1sO" firstAttribute="centerY" secondItem="AtA-Ag-AzS" secondAttribute="centerY" id="k9J-02-CyK"/>
-                                                <constraint firstItem="86U-zL-BF2" firstAttribute="centerX" secondItem="Ys0-N9-ZWV" secondAttribute="centerX" id="lej-eq-55f"/>
-                                                <constraint firstItem="SjH-ms-KaO" firstAttribute="centerX" secondItem="Iz2-o9-17H" secondAttribute="centerX" id="maA-EB-exO"/>
-                                                <constraint firstItem="6V5-ZD-ySN" firstAttribute="top" secondItem="0U9-LP-d6j" secondAttribute="bottom" constant="20" id="mqN-VY-gr6"/>
-                                                <constraint firstItem="0U9-LP-d6j" firstAttribute="top" secondItem="Q18-jR-H2H" secondAttribute="topMargin" constant="40" id="nJj-pX-ASY"/>
-                                                <constraint firstItem="AtA-Ag-AzS" firstAttribute="centerX" secondItem="Ys0-N9-ZWV" secondAttribute="centerX" id="p5d-DZ-JdY"/>
-                                                <constraint firstItem="cXW-bq-1DS" firstAttribute="centerX" secondItem="hU0-li-PMo" secondAttribute="centerX" id="pWZ-t7-n3c"/>
-                                                <constraint firstItem="05f-r8-WNL" firstAttribute="centerX" secondItem="SjH-ms-KaO" secondAttribute="centerX" id="q0q-Qn-G7i"/>
-                                                <constraint firstItem="xQ4-Pw-gO4" firstAttribute="centerY" secondItem="86U-zL-BF2" secondAttribute="centerY" id="qar-Yx-jqc"/>
-                                                <constraint firstItem="xdf-d7-hOE" firstAttribute="top" secondItem="6V5-ZD-ySN" secondAttribute="bottom" constant="20" id="tMf-SP-BPd"/>
-                                                <constraint firstItem="hU0-li-PMo" firstAttribute="centerX" secondItem="mgs-nU-6GD" secondAttribute="centerX" id="vbh-rS-XRn"/>
-                                                <constraint firstItem="zpA-BY-1sO" firstAttribute="centerX" secondItem="Y9P-e7-eZ5" secondAttribute="centerX" id="yem-F2-dSE"/>
-                                                <constraint firstItem="0U9-LP-d6j" firstAttribute="top" secondItem="ez2-AI-ikn" secondAttribute="bottom" constant="12" id="z58-Kd-7Im"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <animations/>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="dFC-hj-FfI" id="vGj-mK-Udb"/>
-                            <outlet property="delegate" destination="dFC-hj-FfI" id="31q-6f-32S"/>
-                        </connections>
-                    </tableView>
-                    <connections>
-                        <outlet property="androidBadgeView" destination="SjH-ms-KaO" id="ObT-Tv-ydL"/>
-                        <outlet property="appleBadgeView" destination="hU0-li-PMo" id="gdg-ew-qzj"/>
-                        <outlet property="badgeEnabledImageView" destination="bd9-dd-MZA" id="QdB-Fn-IpM"/>
-                        <outlet property="ballBadgeView" destination="86U-zL-BF2" id="rhc-o7-V2z"/>
-                        <outlet property="bubbleBadgeView" destination="zpA-BY-1sO" id="O7p-Iw-2JW"/>
-                        <outlet property="cameraBadgeView" destination="cXW-bq-1DS" id="Kca-RZ-Pnn"/>
-                        <outlet property="centerLeft1GapConstraint" destination="EXp-MC-v7u" id="XWH-sk-WOf"/>
-                        <outlet property="centerRight1GapConstraint" destination="VbX-Lr-9Dx" id="4pi-0J-Fmi"/>
-                        <outlet property="gameBadgeView" destination="xdf-d7-hOE" id="62f-cp-fai"/>
-                        <outlet property="heartBadgeView" destination="0U9-LP-d6j" id="L4r-eK-KFQ"/>
-                        <outlet property="left1Left2GapConstraint" destination="YpC-8p-aZq" id="NDj-zG-wUl"/>
-                        <outlet property="musicBadgeView" destination="Y9P-e7-eZ5" id="uWH-T3-PsQ"/>
-                        <outlet property="nicknameTextField" destination="QU0-LQ-GUp" id="Zid-x7-7C0"/>
-                        <outlet property="paletteBadgeView" destination="Iz2-o9-17H" id="Eac-Uh-eNb"/>
-                        <outlet property="petBadgeView" destination="6V5-ZD-ySN" id="Rak-cV-T08"/>
-                        <outlet property="planeBadgeView" destination="mgs-nU-6GD" id="VrZ-ph-vsb"/>
-                        <outlet property="promptPickBadgeLabel" destination="ez2-AI-ikn" id="g0d-gi-8OB"/>
-                        <outlet property="right1Right2GapConstraint" destination="1lV-M6-3XH" id="HkA-a5-L4K"/>
-                        <outlet property="starBadgeView" destination="AtA-Ag-AzS" id="Fzn-aB-o42"/>
-                        <outlet property="steveBadgeView" destination="05f-r8-WNL" id="NlA-OR-Nnl"/>
-                        <outlet property="techBadgeView" destination="xQ4-Pw-gO4" id="Kkc-6J-bIY"/>
-                        <outlet property="wineBadgeView" destination="Ys0-N9-ZWV" id="9IV-Vb-CQ0"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="KVb-CY-yr0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="EditNicknameAndBadge" referencedIdentifier="EditNicknameAndBadgeViewController" id="xf1-2t-TOL" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lln-2n-xvX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4976" y="-1156"/>
+            <point key="canvasLocation" x="4828" y="-959"/>
         </scene>
         <!--Yep Tab Bar Controller-->
         <scene sceneID="vud-lc-IAG">
@@ -1424,7 +1176,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="enabled_badge_background" width="50" height="50"/>
         <image name="icon_chat" width="30" height="30"/>
         <image name="icon_chat_active" width="30" height="30"/>
         <image name="icon_contact" width="30" height="30"/>

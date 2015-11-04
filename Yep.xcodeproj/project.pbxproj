@@ -254,6 +254,7 @@
 		50DEE0471BEA030900015741 /* PodsHelpYep.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0461BEA030900015741 /* PodsHelpYep.storyboard */; };
 		50DEE0491BEA04CC00015741 /* SocialWorks.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0481BEA04CC00015741 /* SocialWorks.storyboard */; };
 		50DEE04B1BEA071100015741 /* OAuth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE04A1BEA071100015741 /* OAuth.storyboard */; };
+		50DEE04D1BEA085F00015741 /* EditNicknameAndBadge.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE04C1BEA085F00015741 /* EditNicknameAndBadge.storyboard */; };
 		50E114F41ABBF9CC00F13000 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F31ABBF9CC00F13000 /* Models.swift */; };
 		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
@@ -579,6 +580,7 @@
 		50DEE0461BEA030900015741 /* PodsHelpYep.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = PodsHelpYep.storyboard; path = ViewControllers/PodsHelpYep/PodsHelpYep.storyboard; sourceTree = "<group>"; };
 		50DEE0481BEA04CC00015741 /* SocialWorks.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SocialWorks.storyboard; path = ViewControllers/SocialWorks/SocialWorks.storyboard; sourceTree = "<group>"; };
 		50DEE04A1BEA071100015741 /* OAuth.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = OAuth.storyboard; path = ViewControllers/OAuth/OAuth.storyboard; sourceTree = "<group>"; };
+		50DEE04C1BEA085F00015741 /* EditNicknameAndBadge.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = EditNicknameAndBadge.storyboard; path = ViewControllers/EditNicknameAndBadge/EditNicknameAndBadge.storyboard; sourceTree = "<group>"; };
 		50E114F31ABBF9CC00F13000 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Realm/Models.swift; sourceTree = "<group>"; };
 		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
@@ -846,6 +848,7 @@
 			isa = PBXGroup;
 			children = (
 				500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */,
+				50DEE04C1BEA085F00015741 /* EditNicknameAndBadge.storyboard */,
 			);
 			name = EditNicknameAndBadge;
 			sourceTree = "<group>";
@@ -2294,6 +2297,7 @@
 				508F8FDF1B049ACF00461B0B /* InstagramMediaCell.xib in Resources */,
 				848806B11B789A2D000C5424 /* EditSkillCell.xib in Resources */,
 				50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */,
+				50DEE04D1BEA085F00015741 /* EditNicknameAndBadge.storyboard in Resources */,
 				502AE54F1AB93175005BD199 /* ProfileHeaderCell.xib in Resources */,
 				503807241BDA18040068345E /* FeedSkillUsersCell.xib in Resources */,
 				50F5AF9A1BBBD02A0033C9BC /* FeedMediaCell.xib in Resources */,
