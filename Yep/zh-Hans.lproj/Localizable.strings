@@ -98,7 +98,7 @@
 "Choose photo" = "选择照片";
 
 /* No comment provided by engineer. */
-"Clear history" = "清除历史纪录";
+"Clear history" = "清除历史记录";
 
 "Contacts" = "联系人";
 
@@ -365,7 +365,7 @@
 "Report Reason" = "举报原因";
 
 /* No comment provided by engineer. */
-"Report recorded!" = "举报已纪录！";
+"Report recorded!" = "举报成功！";
 
 /* No comment provided by engineer. */
 "Resend" = "重发";
