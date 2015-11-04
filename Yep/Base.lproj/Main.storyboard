@@ -413,13 +413,21 @@
                     <navigationItem key="navigationItem" id="7hc-4a-qfO"/>
                     <connections>
                         <outlet property="addFriendsTableView" destination="RWL-Ot-i1T" id="znz-Hj-dRa"/>
-                        <segue destination="sds-Gw-1Sf" kind="show" identifier="showSearchedUsers" id="kJd-wT-uPb"/>
                         <segue destination="nhh-ZB-r0n" kind="show" identifier="showFriendsInContacts" id="L8M-vu-xWs"/>
+                        <segue destination="NUw-ZK-PPM" kind="show" identifier="showSearchedUsers" id="Iep-dn-qbm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8KG-Vq-jhm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="157" y="1835"/>
+        </scene>
+        <!--SearchedUsersViewController-->
+        <scene sceneID="BTw-9r-F83">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SearchedUsers" referencedIdentifier="SearchedUsersViewController" id="NUw-ZK-PPM" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pbe-FJ-DEu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="703.5" y="1869"/>
         </scene>
         <!--FriendsInContactsViewController-->
         <scene sceneID="kgI-5M-aug">
@@ -427,54 +435,7 @@
                 <viewControllerPlaceholder storyboardName="FriendsInContacts" referencedIdentifier="FriendsInContactsViewController" id="nhh-ZB-r0n" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kCc-xh-Zxh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="157" y="2335"/>
-        </scene>
-        <!--Searched Users View Controller-->
-        <scene sceneID="aQD-3E-kys">
-            <objects>
-                <viewController storyboardIdentifier="SearchedUsersViewController" id="sds-Gw-1Sf" customClass="SearchedUsersViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="D8l-cJ-Rf1"/>
-                        <viewControllerLayoutGuide type="bottom" id="lXP-Xa-dxg"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="wId-X1-Mzc">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="g8U-pG-JhU">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="sds-Gw-1Sf" id="TjN-Oa-tEx"/>
-                                    <outlet property="delegate" destination="sds-Gw-1Sf" id="XFJ-wF-OcC"/>
-                                </connections>
-                            </tableView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="TTp-3i-SGI">
-                                <rect key="frame" x="290" y="184" width="20" height="20"/>
-                                <animations/>
-                            </activityIndicatorView>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="TTp-3i-SGI" firstAttribute="top" secondItem="D8l-cJ-Rf1" secondAttribute="bottom" constant="120" id="BqB-Au-GpX"/>
-                            <constraint firstAttribute="trailing" secondItem="g8U-pG-JhU" secondAttribute="trailing" id="EqT-Kf-FYL"/>
-                            <constraint firstItem="g8U-pG-JhU" firstAttribute="leading" secondItem="wId-X1-Mzc" secondAttribute="leading" id="NnD-aG-NJB"/>
-                            <constraint firstAttribute="centerX" secondItem="TTp-3i-SGI" secondAttribute="centerX" id="cou-SY-HW3"/>
-                            <constraint firstAttribute="bottom" secondItem="g8U-pG-JhU" secondAttribute="bottom" id="dKs-JH-0Gp"/>
-                            <constraint firstItem="g8U-pG-JhU" firstAttribute="top" secondItem="wId-X1-Mzc" secondAttribute="top" id="otn-jU-lTE"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="activityIndicator" destination="TTp-3i-SGI" id="wxy-b1-VOx"/>
-                        <outlet property="searchedUsersTableView" destination="g8U-pG-JhU" id="JkD-Sn-KGi"/>
-                        <segue destination="AyC-pt-NR2" kind="show" identifier="showProfile" id="hTj-2y-9h4"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="IY7-lg-OWx" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="939" y="2835"/>
+            <point key="canvasLocation" x="713" y="1797"/>
         </scene>
         <!--Yep Tab Bar Controller-->
         <scene sceneID="vud-lc-IAG">
