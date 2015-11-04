@@ -32,6 +32,11 @@ class EditProfileViewController: UIViewController {
         return imagePicker
         }()
 
+    lazy var doneButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "saveIntroduction:")
+        return button
+        }()
+
     let editProfileLessInfoCellIdentifier = "EditProfileLessInfoCell"
     let editProfileMoreInfoCellIdentifier = "EditProfileMoreInfoCell"
     let editProfileColoredTitleCellIdentifier = "EditProfileColoredTitleCell"
@@ -75,6 +80,8 @@ class EditProfileViewController: UIViewController {
         editProfileTableView.registerNib(UINib(nibName: editProfileMoreInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileMoreInfoCellIdentifier)
         editProfileTableView.registerNib(UINib(nibName: editProfileColoredTitleCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileColoredTitleCellIdentifier)
     }
+
+    // MARK: Actions
 
     func updateAvatar(completion:() -> Void) {
         if let avatarURLString = YepUserDefaults.avatarURLString.value {
@@ -139,6 +146,13 @@ class EditProfileViewController: UIViewController {
         }
     }
 
+    func saveIntroduction(sender: UIBarButtonItem) {
+
+        let introductionCellIndexPath = NSIndexPath(forRow: InfoRow.Intro.rawValue, inSection: Section.Info.rawValue)
+        if let introductionCell = editProfileTableView.cellForRowAtIndexPath(introductionCellIndexPath) as? EditProfileMoreInfoCell {
+            introductionCell.infoTextView.resignFirstResponder()
+        }
+    }
 }
 
 extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate {
@@ -252,7 +266,13 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     }
                 }
 
+                cell.infoTextViewIsDirtyAction = { [weak self] in
+                    self?.navigationItem.rightBarButtonItem = self?.doneButton
+                    self?.doneButton.enabled = true
+                }
+
                 cell.infoTextViewDidEndEditingAction = { [weak self] newIntroduction in
+                    self?.doneButton.enabled = false
 
                     if let oldIntroduction = YepUserDefaults.introduction.value {
                         if oldIntroduction == newIntroduction {
