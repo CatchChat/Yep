@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -370,11 +369,11 @@
                         <outlet property="topShadowImageView" destination="fut-Ug-l4V" id="tWb-Tz-48h"/>
                         <segue destination="la3-6z-2aH" kind="show" identifier="showConversation" id="o3b-2D-AMq"/>
                         <segue destination="0NC-ph-TBU" kind="presentation" identifier="presentOAuth" id="nnt-hh-VMn"/>
-                        <segue destination="RBe-Uc-vg0" kind="show" identifier="showSocialWorkGithub" id="IFH-d8-nL4"/>
-                        <segue destination="ohm-zv-zHQ" kind="show" identifier="showSocialWorkDribbble" id="u47-XX-oIL"/>
-                        <segue destination="L64-Fk-OjC" kind="show" identifier="showSocialWorkInstagram" id="mac-FF-c8T"/>
                         <segue destination="ICA-Fn-Rb3" kind="show" identifier="showEditSkills" id="gSM-qG-2nt"/>
                         <segue destination="ubP-q1-Rff" kind="show" identifier="showFeedsWithSkill" id="uGT-OV-9S2"/>
+                        <segue destination="Cju-5F-2Ri" kind="show" identifier="showSocialWorkGithub" id="6Tt-7S-Pn9"/>
+                        <segue destination="JLl-gr-wSC" kind="show" identifier="showSocialWorkDribbble" id="cin-mW-lyh"/>
+                        <segue destination="9RG-ZJ-nw7" kind="show" identifier="showSocialWorkInstagram" id="M2q-ud-x5N"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1392,6 +1391,14 @@
             </objects>
             <point key="canvasLocation" x="2468.5" y="1181"/>
         </scene>
+        <!--SocialWorkGithubViewController-->
+        <scene sceneID="B6b-v9-GOQ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkGithubViewController" id="Cju-5F-2Ri" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2u8-vU-v9U" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2324.5" y="1459"/>
+        </scene>
         <!--Edit Skills View Controller-->
         <scene sceneID="7wR-Xl-TQJ">
             <objects>
@@ -1446,215 +1453,21 @@
             </objects>
             <point key="canvasLocation" x="2857" y="1071"/>
         </scene>
-        <!--Social Work Github View Controller-->
-        <scene sceneID="uMz-q7-gEc">
+        <!--SocialWorkDribbbleViewController-->
+        <scene sceneID="KJV-hS-1Ll">
             <objects>
-                <viewController storyboardIdentifier="SocialWorkGithubViewController" hidesBottomBarWhenPushed="YES" id="RBe-Uc-vg0" customClass="SocialWorkGithubViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="S4W-Vn-TlJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="EDF-jz-V3f"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="eOH-mG-8Zq">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="UTC-GU-j3l">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <view key="tableHeaderView" hidden="YES" contentMode="scaleToFill" id="TOk-uh-YYP">
-                                    <rect key="frame" x="0.0" y="64" width="600" height="230"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_avatar" translatesAutoresizingMaskIntoConstraints="NO" id="YwC-QR-xbE" userLabel="Avatar Image View">
-                                            <rect key="frame" x="270" y="46" width="60" height="60"/>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="YwC-QR-xbE" secondAttribute="height" multiplier="1:1" id="IJm-F4-LP9"/>
-                                                <constraint firstAttribute="width" constant="60" id="eUC-Ve-cys"/>
-                                            </constraints>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="264" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zm7-GR-gdk" userLabel="Followers Count Label">
-                                            <rect key="frame" x="179.5" y="141" width="54.5" height="33.5"/>
-                                            <animations/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Followers" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oJN-WT-en7" userLabel="Followers Label">
-                                            <rect key="frame" x="181" y="182.5" width="50" height="13.5"/>
-                                            <animations/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="465" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AYA-Wt-nJZ" userLabel="Stars Count Label">
-                                            <rect key="frame" x="273" y="141" width="55" height="33.5"/>
-                                            <animations/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stars" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cGf-Ne-05g" userLabel="Stars Label">
-                                            <rect key="frame" x="287" y="182.5" width="27.5" height="13.5"/>
-                                            <animations/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="odP-wn-O9l" userLabel="Following Count Label">
-                                            <rect key="frame" x="387.5" y="141" width="17.5" height="33.5"/>
-                                            <animations/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Following" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hSD-4E-AKI" userLabel="Following Label">
-                                            <rect key="frame" x="371" y="182.5" width="50" height="13.5"/>
-                                            <animations/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <animations/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstItem="zm7-GR-gdk" firstAttribute="centerX" secondItem="oJN-WT-en7" secondAttribute="centerX" constant="0.5" id="2Fr-Oa-XdV"/>
-                                        <constraint firstItem="zm7-GR-gdk" firstAttribute="centerY" secondItem="AYA-Wt-nJZ" secondAttribute="centerY" id="3Ou-2t-Ve4"/>
-                                        <constraint firstItem="oJN-WT-en7" firstAttribute="top" secondItem="zm7-GR-gdk" secondAttribute="bottom" constant="8" id="DAb-lR-lmD"/>
-                                        <constraint firstItem="hSD-4E-AKI" firstAttribute="top" secondItem="odP-wn-O9l" secondAttribute="bottom" constant="8" id="FCx-SS-i2c"/>
-                                        <constraint firstItem="cGf-Ne-05g" firstAttribute="top" secondItem="AYA-Wt-nJZ" secondAttribute="bottom" constant="8" id="JDl-nt-kcU"/>
-                                        <constraint firstItem="cGf-Ne-05g" firstAttribute="centerX" secondItem="oJN-WT-en7" secondAttribute="leading" constant="120" id="Ozk-aM-tig"/>
-                                        <constraint firstItem="YwC-QR-xbE" firstAttribute="top" secondItem="TOk-uh-YYP" secondAttribute="top" constant="46" id="Txb-fb-m0L"/>
-                                        <constraint firstItem="odP-wn-O9l" firstAttribute="centerY" secondItem="AYA-Wt-nJZ" secondAttribute="centerY" id="ZIr-xf-KM5"/>
-                                        <constraint firstItem="hSD-4E-AKI" firstAttribute="trailing" secondItem="cGf-Ne-05g" secondAttribute="centerX" constant="120" id="fol-p9-JO3"/>
-                                        <constraint firstItem="YwC-QR-xbE" firstAttribute="centerX" secondItem="AYA-Wt-nJZ" secondAttribute="centerX" constant="-0.5" id="hd8-tj-WmJ"/>
-                                        <constraint firstAttribute="centerX" secondItem="YwC-QR-xbE" secondAttribute="centerX" id="jFM-6e-Gz6"/>
-                                        <constraint firstItem="AYA-Wt-nJZ" firstAttribute="centerX" secondItem="cGf-Ne-05g" secondAttribute="centerX" constant="0.5" id="qSZ-TA-4cK"/>
-                                        <constraint firstItem="AYA-Wt-nJZ" firstAttribute="top" secondItem="YwC-QR-xbE" secondAttribute="bottom" constant="35" id="wGw-Yr-sET"/>
-                                        <constraint firstItem="odP-wn-O9l" firstAttribute="centerX" secondItem="hSD-4E-AKI" secondAttribute="centerX" id="xKQ-ds-Zto"/>
-                                    </constraints>
-                                </view>
-                                <connections>
-                                    <outlet property="dataSource" destination="RBe-Uc-vg0" id="hV5-5w-FQJ"/>
-                                    <outlet property="delegate" destination="RBe-Uc-vg0" id="Hol-wh-EW8"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="UTC-GU-j3l" firstAttribute="top" secondItem="eOH-mG-8Zq" secondAttribute="top" id="0av-DG-7BX"/>
-                            <constraint firstItem="UTC-GU-j3l" firstAttribute="leading" secondItem="eOH-mG-8Zq" secondAttribute="leading" id="H9D-AE-2sC"/>
-                            <constraint firstAttribute="bottom" secondItem="UTC-GU-j3l" secondAttribute="bottom" id="Xal-mF-8nV"/>
-                            <constraint firstAttribute="trailing" secondItem="UTC-GU-j3l" secondAttribute="trailing" id="YJ8-Ep-IFd"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="avatarImageView" destination="YwC-QR-xbE" id="c1U-ef-M3L"/>
-                        <outlet property="followersCountLabel" destination="zm7-GR-gdk" id="EFT-kS-Rnt"/>
-                        <outlet property="followingCountLabel" destination="odP-wn-O9l" id="RKA-Pu-Lih"/>
-                        <outlet property="githubTableView" destination="UTC-GU-j3l" id="UPL-Hm-KJY"/>
-                        <outlet property="infoView" destination="TOk-uh-YYP" id="tzO-4v-f3V"/>
-                        <outlet property="starsCountLabel" destination="AYA-Wt-nJZ" id="rYS-Ms-AT8"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ng6-AT-kmK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkDribbbleViewController" id="JLl-gr-wSC" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pet-nQ-zrp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2805" y="1999"/>
+            <point key="canvasLocation" x="2330.5" y="1554"/>
         </scene>
-        <!--Social Work Dribbble View Controller-->
-        <scene sceneID="Dzr-eb-QOy">
+        <!--SocialWorkInstagramViewController-->
+        <scene sceneID="4UU-LR-Oke">
             <objects>
-                <viewController storyboardIdentifier="SocialWorkDribbbleViewController" hidesBottomBarWhenPushed="YES" id="ohm-zv-zHQ" customClass="SocialWorkDribbbleViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="UMd-qB-LFd"/>
-                        <viewControllerLayoutGuide type="bottom" id="PLn-9E-lGY"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="OC7-tw-04I">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="TMU-4K-hAj">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="NZO-Bj-WBx">
-                                    <size key="itemSize" width="50" height="50"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                                <connections>
-                                    <outlet property="dataSource" destination="ohm-zv-zHQ" id="Cht-kh-aA2"/>
-                                    <outlet property="delegate" destination="ohm-zv-zHQ" id="Ezo-C3-O6z"/>
-                                </connections>
-                            </collectionView>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="TMU-4K-hAj" firstAttribute="top" secondItem="OC7-tw-04I" secondAttribute="top" id="BpD-kF-jx6"/>
-                            <constraint firstAttribute="bottom" secondItem="TMU-4K-hAj" secondAttribute="bottom" id="f2q-RP-RAG"/>
-                            <constraint firstItem="TMU-4K-hAj" firstAttribute="leading" secondItem="OC7-tw-04I" secondAttribute="leading" id="hZb-F2-pQO"/>
-                            <constraint firstAttribute="trailing" secondItem="TMU-4K-hAj" secondAttribute="trailing" id="tbk-Qa-LQh"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="dribbbleCollectionView" destination="TMU-4K-hAj" id="Ybn-q9-ZdY"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NBj-dC-nzx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkInstagramViewController" id="9RG-ZJ-nw7" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KSE-nl-you" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3541" y="1991"/>
-        </scene>
-        <!--Social Work Instagram View Controller-->
-        <scene sceneID="3VB-zl-uHQ">
-            <objects>
-                <viewController storyboardIdentifier="SocialWorkInstagramViewController" hidesBottomBarWhenPushed="YES" id="L64-Fk-OjC" customClass="SocialWorkInstagramViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="55f-oB-O3f"/>
-                        <viewControllerLayoutGuide type="bottom" id="4eT-IE-t1b"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="P7v-N1-wiX">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jiJ-Zu-mTf">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="oKY-qa-Jdp">
-                                    <size key="itemSize" width="50" height="50"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                                <connections>
-                                    <outlet property="dataSource" destination="L64-Fk-OjC" id="Ppo-eG-M82"/>
-                                    <outlet property="delegate" destination="L64-Fk-OjC" id="f7a-T2-uub"/>
-                                </connections>
-                            </collectionView>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="jiJ-Zu-mTf" firstAttribute="top" secondItem="P7v-N1-wiX" secondAttribute="top" id="Ep7-Tb-Hdc"/>
-                            <constraint firstAttribute="trailing" secondItem="jiJ-Zu-mTf" secondAttribute="trailing" id="UmQ-w2-FJq"/>
-                            <constraint firstItem="jiJ-Zu-mTf" firstAttribute="leading" secondItem="P7v-N1-wiX" secondAttribute="leading" id="c7r-UL-WJV"/>
-                            <constraint firstAttribute="bottom" secondItem="jiJ-Zu-mTf" secondAttribute="bottom" id="rhO-FO-Wj3"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="instagramCollectionView" destination="jiJ-Zu-mTf" id="k6j-JK-0DI"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zOv-Ou-71I" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4277" y="1999"/>
+            <point key="canvasLocation" x="2335" y="1505"/>
         </scene>
         <!--Feeds-->
         <scene sceneID="lMZ-Mf-PVd">
@@ -1678,7 +1491,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="default_avatar" width="100" height="100"/>
         <image name="enabled_badge_background" width="50" height="50"/>
         <image name="icon_chat" width="30" height="30"/>
         <image name="icon_chat_active" width="30" height="30"/>
