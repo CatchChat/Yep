@@ -1749,10 +1749,18 @@ class ConversationViewController: BaseViewController {
     
     private func shareFeedWithDescripion(description: String, groupShareURLString: String) {
 
+        
         let info = MonkeyKing.Info(
             title: NSLocalizedString("Join Us", comment: ""),
             description: description,
-            thumbnail: nil,
+            thumbnail: feedView?.mediaView.imageView1.image,
+            media: .URL(NSURL(string: groupShareURLString)!)
+        )
+        
+        let timeLineinfo = MonkeyKing.Info(
+            title: "\(NSLocalizedString("Join Us", comment: "")) \(description)",
+            description: description,
+            thumbnail: feedView?.mediaView.imageView1.image,
             media: .URL(NSURL(string: groupShareURLString)!)
         )
         
@@ -1766,7 +1774,7 @@ class ConversationViewController: BaseViewController {
             }
         )
         
-        let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
+        let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: timeLineinfo))
         
         let weChatTimelineActivity = WeChatActivity(
             type: .Timeline,
