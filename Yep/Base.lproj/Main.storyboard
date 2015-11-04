@@ -366,12 +366,12 @@
                         <outlet property="sayHiView" destination="sfC-fv-gcr" id="5bd-hx-FGY"/>
                         <outlet property="topShadowImageView" destination="fut-Ug-l4V" id="tWb-Tz-48h"/>
                         <segue destination="la3-6z-2aH" kind="show" identifier="showConversation" id="o3b-2D-AMq"/>
-                        <segue destination="ICA-Fn-Rb3" kind="show" identifier="showEditSkills" id="gSM-qG-2nt"/>
                         <segue destination="ubP-q1-Rff" kind="show" identifier="showFeedsWithSkill" id="uGT-OV-9S2"/>
                         <segue destination="Cju-5F-2Ri" kind="show" identifier="showSocialWorkGithub" id="6Tt-7S-Pn9"/>
                         <segue destination="JLl-gr-wSC" kind="show" identifier="showSocialWorkDribbble" id="cin-mW-lyh"/>
                         <segue destination="9RG-ZJ-nw7" kind="show" identifier="showSocialWorkInstagram" id="M2q-ud-x5N"/>
                         <segue destination="4LS-r8-B5l" kind="presentation" identifier="presentOAuth" id="o6f-Oi-l8h"/>
+                        <segue destination="fPj-zv-Lg5" kind="show" identifier="showEditSkills" id="k1U-sn-efh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -732,7 +732,15 @@
                 <viewControllerPlaceholder storyboardName="Settings" referencedIdentifier="SettingsViewController" id="7RH-nw-UFO" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OGQ-5T-84d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2540" y="859"/>
+            <point key="canvasLocation" x="2566" y="991"/>
+        </scene>
+        <!--EditSkillsViewController-->
+        <scene sceneID="DGw-e0-u3v">
+            <objects>
+                <viewControllerPlaceholder storyboardName="EditSkills" referencedIdentifier="EditSkillsViewController" id="fPj-zv-Lg5" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wiv-IY-fjH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2569.5" y="1067"/>
         </scene>
         <!--FeedsViewController-->
         <scene sceneID="nCN-iF-lzM">
@@ -740,7 +748,7 @@
                 <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="FeedsViewController" id="ubP-q1-Rff" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ec7-rn-E7j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2468.5" y="1181"/>
+            <point key="canvasLocation" x="2553.5" y="1145"/>
         </scene>
         <!--SocialWorkGithubViewController-->
         <scene sceneID="B6b-v9-GOQ">
@@ -749,60 +757,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2u8-vU-v9U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2248.5" y="1521"/>
-        </scene>
-        <!--Edit Skills View Controller-->
-        <scene sceneID="7wR-Xl-TQJ">
-            <objects>
-                <viewController storyboardIdentifier="EditSkillsViewController" hidesBottomBarWhenPushed="YES" id="ICA-Fn-Rb3" customClass="EditSkillsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="sdM-ou-deE"/>
-                        <viewControllerLayoutGuide type="bottom" id="m99-Xb-VWt"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="NwL-G1-Svh">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="aSS-Di-NEb">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="ICA-Fn-Rb3" id="D89-9M-ukR"/>
-                                    <outlet property="delegate" destination="ICA-Fn-Rb3" id="lnI-QW-BOm"/>
-                                </connections>
-                            </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRW-MD-TyJ" customClass="BottomButtonView" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="550" width="600" height="50"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="zmq-07-9Xv"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="title" value="Add Skills"/>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                        </subviews>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="fRW-MD-TyJ" firstAttribute="leading" secondItem="NwL-G1-Svh" secondAttribute="leading" id="6wF-xo-r8S"/>
-                            <constraint firstItem="aSS-Di-NEb" firstAttribute="top" secondItem="NwL-G1-Svh" secondAttribute="top" id="HhR-N9-Rga"/>
-                            <constraint firstItem="aSS-Di-NEb" firstAttribute="leading" secondItem="NwL-G1-Svh" secondAttribute="leading" id="K0Q-Yb-DAK"/>
-                            <constraint firstAttribute="trailing" secondItem="fRW-MD-TyJ" secondAttribute="trailing" id="Ks2-xR-27B"/>
-                            <constraint firstAttribute="bottom" secondItem="fRW-MD-TyJ" secondAttribute="bottom" id="YYM-32-oCJ"/>
-                            <constraint firstAttribute="bottom" secondItem="aSS-Di-NEb" secondAttribute="bottom" id="ftc-Hg-aNq"/>
-                            <constraint firstAttribute="trailing" secondItem="aSS-Di-NEb" secondAttribute="trailing" id="sxZ-hZ-dcC"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="addSkillsView" destination="fRW-MD-TyJ" id="bcQ-C1-7s7"/>
-                        <outlet property="skillsTableView" destination="aSS-Di-NEb" id="QZt-Sf-d5e"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="J1d-tB-xXN" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2997" y="1203"/>
         </scene>
         <!--OAuth-->
         <scene sceneID="0Wc-kq-1Wd">
