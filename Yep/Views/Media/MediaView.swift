@@ -27,13 +27,13 @@ class MediaView: UIView {
         setZoomParametersForSize(scrollView.bounds.size, imageSize: size)
         scrollView.zoomScale = scrollView.minimumZoomScale
 
-        println("scrollView.zoomScale: \(scrollView.zoomScale)")
-        println("scrollView.minimumZoomScale: \(scrollView.minimumZoomScale)")
-        println("scrollView.maximumZoomScale: \(scrollView.maximumZoomScale)")
+        //println("scrollView.zoomScale: \(scrollView.zoomScale)")
+        //println("scrollView.minimumZoomScale: \(scrollView.minimumZoomScale)")
+        //println("scrollView.maximumZoomScale: \(scrollView.maximumZoomScale)")
 
         recenterImage(image)
 
-        println("\n\n\n")
+        //println("\n\n\n")
     }
 
     var image: UIImage? {
@@ -178,7 +178,7 @@ class MediaView: UIView {
 
     func setZoomParametersForSize(scrollViewSize: CGSize, imageSize: CGSize) {
 
-        println("<----- scrollViewSize: \(scrollViewSize), imageSize: \(imageSize)")
+        //println("<----- scrollViewSize: \(scrollViewSize), imageSize: \(imageSize)")
 
         let widthScale = scrollViewSize.width / imageSize.width
         let heightScale = scrollViewSize.height / imageSize.height
@@ -200,11 +200,9 @@ class MediaView: UIView {
 
         scrollView.contentInset = UIEdgeInsets(top: vSpace, left: hSpace, bottom: vSpace, right: hSpace)
 
-        println("------> scrollView.zoomScale: \(scrollView.zoomScale)")
-
-        println("scrollViewSize: \(scrollViewSize), imageSize: \(imageSize), scaledImageSize: \(scaledImageSize)")
-
-        println("------> scrollView.contentInset: \(scrollView.contentInset)")
+        //println("------> scrollView.zoomScale: \(scrollView.zoomScale)")
+        //println("scrollViewSize: \(scrollViewSize), imageSize: \(imageSize), scaledImageSize: \(scaledImageSize)")
+        //println("------> scrollView.contentInset: \(scrollView.contentInset)")
     }
 }
 
