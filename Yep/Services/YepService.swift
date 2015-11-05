@@ -1523,9 +1523,9 @@ func groups(failureHandler failureHandler: ((Reason, String?) -> Void)?, complet
 
 // MARK: - Messages
 
-func lastMessageReadUnixTimeByRecipient(recipient: Recipient, failureHandler: ((Reason, String?) -> Void)?,  completion: NSTimeInterval -> Void) {
+func lastMessageReadUnixTimeByRecipient(recipient: Recipient, failureHandler: ((Reason, String?) -> Void)?,  completion: (NSTimeInterval?) -> Void) {
     
-    let parse: JSONDictionary -> NSTimeInterval? = { data in
+    let parse: JSONDictionary -> (NSTimeInterval?)? = { data in
         
         return data["last_read_at"] as? NSTimeInterval
     }

@@ -1545,7 +1545,10 @@ class ConversationViewController: BaseViewController {
 
         if let recipient = conversation.recipient {
             lastMessageReadUnixTimeByRecipient(recipient, failureHandler: nil, completion: { [weak self] lastReadUnixTime in
-                self?.markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime)
+
+                if let lastReadUnixTime = lastReadUnixTime {
+                    self?.markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime)
+                }
             })
         }
     }
