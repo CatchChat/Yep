@@ -735,7 +735,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         if editingStyle == .Delete {
             
             let feed = feeds[indexPath.item]
-            
+
+            report(.Feed(feed))
+
+            /*
             let reportWithReason: ReportReason -> Void = { [weak self] reason in
                 reportFeed(feed.id, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
                     defaultFailureHandler(reason, errorMessage: errorMessage)
@@ -779,6 +782,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             reportAlertController.addAction(cancelAction)
             
             self.presentViewController(reportAlertController, animated: true, completion: nil)
+            */
             
             tableView.setEditing(false, animated: true)
         }

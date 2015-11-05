@@ -1921,6 +1921,12 @@ class ConversationViewController: BaseViewController {
 
     func report() {
 
+        if let user = conversation.withFriend {
+            let profileUser = ProfileUser.UserType(user)
+            report(.User(profileUser))
+        }
+
+        /*
         let reportWithReason: ReportReason -> Void = { [weak self] reason in
 
             if let user = self?.conversation.withFriend {
@@ -1969,6 +1975,7 @@ class ConversationViewController: BaseViewController {
         reportAlertController.addAction(cancelAction)
         
         self.presentViewController(reportAlertController, animated: true, completion: nil)
+        */
     }
 
     func updateBlocked(blocked: Bool, forUserWithUserID userID: String, needUpdateUI: Bool = true) {
