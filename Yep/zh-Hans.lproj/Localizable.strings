@@ -98,7 +98,7 @@
 "Choose photo" = "选择照片";
 
 /* No comment provided by engineer. */
-"Clear history" = "清除历史纪录";
+"Clear history" = "清除历史记录";
 
 "Contacts" = "联系人";
 
@@ -365,7 +365,7 @@
 "Report Reason" = "举报原因";
 
 /* No comment provided by engineer. */
-"Report recorded!" = "举报已纪录！";
+"Report recorded!" = "举报成功！";
 
 /* No comment provided by engineer. */
 "Resend" = "重发";
@@ -447,7 +447,7 @@
 "This skill already in another learning skills set!" = "此技能已在“正在学习”里！";
 
 /* No comment provided by engineer. */
-"This skill already in another master skills set!" = "此技能已在“已精通”里！";
+"This skill already in another master skills set!" = "此技能已在“擅长”里！";
 
 /* No comment provided by engineer. */
 "Time" = "时间";
@@ -533,7 +533,7 @@
 "You have been blocked by %@!" = "您被“%@”屏蔽了！";
 
 /* No comment provided by engineer. */
-"You have blocked %@! Do you want to unblock him or her?" = "您已屏蔽“%@”！您要解除对他或她的屏蔽吗？";
+"You have blocked %@! Do you want to unblock him or her?" = "您已屏蔽“%@”！您要解除屏蔽吗？";
 
 /* No comment provided by engineer. */
 "Pods help Yep" = "Yep 使用的第三方 Pods";
@@ -664,7 +664,7 @@
 
 "From Yep" = "来自 Yep";
 
-"Join Us" = "一起来吧";
+"Join Us" = "向你推荐话题";
 
 "[Deleted]" = "[已被删除]";
 

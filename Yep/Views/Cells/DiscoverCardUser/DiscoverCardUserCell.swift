@@ -106,8 +106,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
         
         var skillLabels = [CGRect]()
         
-        let context = UIGraphicsGetCurrentContext()
-        
+        //let context = UIGraphicsGetCurrentContext()
         UIGraphicsBeginImageContextWithOptions(CGSize(width: maxWidth, height: 50), false, UIScreen.mainScreen().scale)
         
         for (index, skill) in skills.enumerate() {
@@ -184,11 +183,10 @@ class DiscoverCardUserCell: UICollectionViewCell {
             
             textTextContent.drawInRect(rect, withAttributes: textFontAttributes)
         }
-        
-        CGContextSaveGState(context)
-        CGContextClipToRect(context, CGRectMake(0, 0, maxWidth, 50))
-        
-        CGContextRestoreGState(context)
+
+        //CGContextSaveGState(context)
+        //CGContextClipToRect(context, CGRectMake(0, 0, maxWidth, 50))
+        //CGContextRestoreGState(context)
         
         
         let backgroundImage = UIGraphicsGetImageFromCurrentImageContext()

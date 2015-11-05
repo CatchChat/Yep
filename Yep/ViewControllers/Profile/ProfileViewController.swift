@@ -1692,23 +1692,23 @@ extension ProfileViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        guard let profileUser = profileUser else {
-            return
-        }
-        
-        if let _ = profileUser.username {
-            
-        } else {
-            if profileUser.userID != YepUserDefaults.userID.value {
-                return
-            }
-        }
-        
-        let progress = -(scrollView.contentOffset.y)/100
-        
-        shareView.center = CGPoint(x: view.frame.width/2.0, y: 150.0 + 50*progress)
-        
-        shareView.updateWithProgress(progress)
+//        guard let profileUser = profileUser else {
+//            return
+//        }
+//        
+//        if let _ = profileUser.username {
+//            
+//        } else {
+//            if profileUser.userID != YepUserDefaults.userID.value {
+//                return
+//            }
+//        }
+//        
+//        let progress = -(scrollView.contentOffset.y)/100
+//        
+//        shareView.center = CGPoint(x: view.frame.width/2.0, y: 150.0 + 50*progress)
+//        
+//        shareView.updateWithProgress(progress)
         
 //        if scrollView.contentOffset.y < -300 {
 //            YepAlert.alert(title: "Hello", message: "My name is NIX.\nHow are you?", dismissTitle: "I'm fine.", inViewController: self, withDismissAction: nil)

@@ -126,7 +126,7 @@ class FeedsViewController: BaseViewController {
         }
     }
     
-    var feedSortStyle: FeedSortStyle = .Default {
+    var feedSortStyle: FeedSortStyle = .Match {
         didSet {
             feeds = []
             feedsTableView.reloadData()
@@ -197,7 +197,7 @@ class FeedsViewController: BaseViewController {
         feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
         feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
 
-        feedSortStyle = .Time
+        feedSortStyle = .Match
     }
     
     // MARK: Actions

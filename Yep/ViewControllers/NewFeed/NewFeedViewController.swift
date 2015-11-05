@@ -196,7 +196,7 @@ class NewFeedViewController: UIViewController {
                     var quality = CGInterpolationQuality.Medium
                     
                     if let pickedCategory = self?.pickedSkill?.category {
-                        if pickedCategory.name == "Art" {
+                        if pickedCategory.name.lowercaseString == "art" {
                             quality = CGInterpolationQuality.High
                         }
                     }

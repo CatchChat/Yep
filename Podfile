@@ -18,7 +18,7 @@ def pods
     pod 'MZFayeClient', :path => '../CatchLib-iOS/MZFayeClient/'
     pod 'RealmSwift'
     pod 'MonkeyKing', '~> 0.0.2'
-    pod 'JPush'
+    pod 'JPush-iOS-SDK'
     pod 'Fabric'
     pod 'Crashlytics'
 end
