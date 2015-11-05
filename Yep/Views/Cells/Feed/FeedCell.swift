@@ -38,12 +38,18 @@ class FeedCell: UITableViewCell {
 
     var attachments = [DiscoveredAttachment]() {
         didSet {
+
+            let oldHeight = collectionViewHeight.constant
+            let newHeight: CGFloat
             if attachments.count == 1 {
-                collectionViewHeight.constant = 160
+                newHeight = 160
             } else {
-                collectionViewHeight.constant = 80
+                newHeight = 80
             }
-            contentView.layoutIfNeeded()
+            if newHeight != oldHeight {
+                collectionViewHeight.constant = newHeight
+            }
+
             mediaCollectionView.reloadData()
         }
     }
