@@ -137,10 +137,6 @@ class SkillHomeViewController: BaseViewController {
         learningtTableView.delegate = self
         learningtTableView.tag = SkillSet.Learning.rawValue
 
-//        if let skillID = skill?.ID {
-//            discoverUserBySkillID(skillID)
-//        }
-
         headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
         
         headerView.masterButton.addTarget(self, action: "changeToMaster", forControlEvents: UIControlEvents.TouchUpInside)
@@ -239,7 +235,6 @@ class SkillHomeViewController: BaseViewController {
             }
         }
     }
-
 
     // MARK: UI
 
@@ -409,54 +404,6 @@ class SkillHomeViewController: BaseViewController {
         })
     }
 
-    /*
-    func discoverUserBySkillID(skillID: String) {
-
-        discoverUsersWithSkill(skillID, ofSkillSet: .Learning, inPage: 1, withPerPage: 50, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage: errorMessage)
-
-            dispatch_async(dispatch_get_main_queue()) {
-                self?.activityIndicator.stopAnimating()
-            }
-        }, completion: { [weak self] discoveredUsers in
-            dispatch_async(dispatch_get_main_queue()) {
-                self?.discoveredLearningUsers = discoveredUsers
-                self?.activityIndicator.stopAnimating()
-            }
-        })
-
-        /*
-        discoverUsers(masterSkillIDs: [skillID], learningSkillIDs: [], discoveredUserSortStyle: .Default, inPage: 1, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage: errorMessage)
-
-            dispatch_async(dispatch_get_main_queue()) {
-                self?.activityIndicator.stopAnimating()
-            }
-            
-        }, completion: { [weak self] discoveredUsers in
-            dispatch_async(dispatch_get_main_queue()) {
-                self?.discoveredMasterUsers = discoveredUsers
-                self?.activityIndicator.stopAnimating()
-            }
-        })
-        
-        discoverUsers(masterSkillIDs: [], learningSkillIDs: [skillID], discoveredUserSortStyle: .Default, inPage: 1, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage: errorMessage)
-
-            dispatch_async(dispatch_get_main_queue()) {
-                self?.activityIndicator.stopAnimating()
-            }
-            
-        }, completion: { [weak self] discoveredUsers in
-            dispatch_async(dispatch_get_main_queue()) {
-                self?.discoveredLearningUsers = discoveredUsers
-                self?.activityIndicator.stopAnimating()
-            }
-        })
-        */
-    }
-    */
-
     func discoveredUsersWithSkillSet(skillSet: SkillSet?) -> [DiscoveredUser] {
 
         if let skillSet = skillSet {
@@ -492,7 +439,6 @@ class SkillHomeViewController: BaseViewController {
             if skillSet != .Master {
                 skillSet = .Master
             }
-           
         }
     }
     
