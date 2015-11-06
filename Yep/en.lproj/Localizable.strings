@@ -222,7 +222,7 @@
 "is not your friend." = "is not your friend.";
 
 /* No comment provided by engineer. */
-"Last seen " = "Last seen ";
+"Last seen %@" = "Last seen %@";
 
 /* No comment provided by engineer. */
 "Learning" = "Learning";
