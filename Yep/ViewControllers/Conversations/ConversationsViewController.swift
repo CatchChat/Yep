@@ -269,7 +269,25 @@ class ConversationsViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showConversation" {
             let vc = segue.destinationViewController as! ConversationViewController
-            vc.conversation = sender as! Conversation
+
+            let conversation = sender as! Conversation
+            vc.conversation = conversation
+
+            vc.afterSentMessageAction = { // 自己发送消息后，更新 Cell
+
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                    guard let row = self?.conversations.indexOf(conversation) else {
+                        return
+                    }
+
+                    let indexPath = NSIndexPath(forRow: row, inSection: Section.Conversation.rawValue)
+
+                    if let cell = self?.conversationsTableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+                        cell.updateInfoLabels()
+                    }
+                }
+            }
         }
     }
 

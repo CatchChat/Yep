@@ -114,6 +114,8 @@ class ConversationViewController: BaseViewController {
     // 位于后台时收到的消息
     var inActiveNewMessageIDSet = Set<String>()
 
+    var afterSentMessageAction: (() -> Void)?
+
     lazy var sectionDateFormatter: NSDateFormatter =  {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .ShortStyle
@@ -2068,6 +2070,10 @@ class ConversationViewController: BaseViewController {
 
         adjustConversationCollectionViewWithMessageIDs(messageIDs, messageAge: messageAge, adjustHeight: keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
             success(finished)
+        }
+
+        if messageIDs == nil {
+            afterSentMessageAction?()
         }
     }
 

@@ -67,7 +67,7 @@ class ConversationCell: UITableViewCell {
         }
     }
 
-    private func updateInfoLabels() {
+    func updateInfoLabels() {
 
         if let latestMessage = messagesInConversation(conversation).last {
 
