@@ -80,7 +80,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
     func prepareSkillImage() {
         if let discoveredUser = self.discoveredUser {
 
-            let skills = discoveredUser.masterSkills
+            let skills = discoveredUser.masterSkills.count > 0 ? discoveredUser.masterSkills : discoveredUser.learningSkills
             
             let image = genSkillImageWithSkills(skills)
             
