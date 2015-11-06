@@ -104,30 +104,6 @@ class ConversationsViewController: UIViewController {
             }
         }
 
-//        isFetchingUnreadMessages.bindListener(Listener.isFetchingUnreadMessages) { [weak self] isFetching in
-//            dispatch_async(dispatch_get_main_queue()) {
-//                println("isFetchingUnreadMessages: \(isFetching)")
-//
-//                if isFetching {
-//
-//                    guard self?.navigationController?.topViewController != self else {
-//                        return
-//                    }
-//
-//                    guard let state = self?.navigationController?.interactivePopGestureRecognizer?.state where state == .Possible else {
-//                        return
-//                    }
-//
-//                    self?.navigationItem.titleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
-//
-//                } else {
-//                    self?.navigationItem.titleView = nil
-//                }
-//            }
-//        }
-
-        //NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "checkX", userInfo: nil, repeats: true)
-
         view.backgroundColor = UIColor.whiteColor()
 
         conversationsTableView.separatorColor = UIColor.yepCellSeparatorColor()
@@ -151,13 +127,6 @@ class ConversationsViewController: UIViewController {
             }
         }
     }
-
-//    func checkX() {
-//        println("visibleViewController: \(navigationController?.visibleViewController)")
-//        println("topViewController: \(navigationController?.topViewController)")
-//
-//        println("state: \(navigationController?.interactivePopGestureRecognizer?.state.rawValue)")
-//    }
 
     private func cacheInAdvance() {
 
