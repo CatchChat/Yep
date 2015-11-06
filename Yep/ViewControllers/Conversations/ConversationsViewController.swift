@@ -71,6 +71,8 @@ class ConversationsViewController: UIViewController {
         YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
 
         isFetchingUnreadMessages.removeListenerWithName(Listener.isFetchingUnreadMessages)
+
+        println("deinit Conversations")
     }
 
     override func viewDidLoad() {
