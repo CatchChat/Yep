@@ -16,6 +16,8 @@ let YepNotificationOKAction = "YepNotificationOKAction"
 
 class ConversationsViewController: UIViewController {
 
+    lazy var activityIndicatorTitleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
+
     @IBOutlet weak var conversationsTableView: UITableView!
 
     let feedConversationDockCellID = "FeedConversationDockCell"
@@ -94,22 +96,11 @@ class ConversationsViewController: UIViewController {
             }
         }
 
+        navigationItem.titleView = activityIndicatorTitleView
+
         isFetchingUnreadMessages.bindListener(Listener.isFetchingUnreadMessages) { [weak self] isFetching in
             dispatch_async(dispatch_get_main_queue()) {
-                println("isFetchingUnreadMessages: \(isFetching)")
-
-                if isFetching {
-                    
-                    if let navigationController = self?.navigationController, visibleViewController = navigationController.visibleViewController {
-                        
-                        if visibleViewController.isKindOfClass(ConversationsViewController) {
-                            self?.navigationItem.titleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
-                        }
-                    }
-
-                } else {
-                    self?.navigationItem.titleView = nil
-                }
+                self?.activityIndicatorTitleView.state = isFetching ? .Active : .Normal
             }
         }
 

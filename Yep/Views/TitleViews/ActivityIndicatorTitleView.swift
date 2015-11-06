@@ -10,14 +10,33 @@ import UIKit
 
 class ActivityIndicatorTitleView: UIView {
 
-    private var activityIndicator: UIActivityIndicatorView?
-    private var titleLabel: UILabel?
-
-    var title: String? {
+    enum State {
+        case Normal
+        case Active
+    }
+    var state: State = .Normal {
         willSet {
-            self.titleLabel?.text = newValue
+            switch newValue {
+
+            case .Normal:
+                activityIndicator?.stopAnimating()
+
+                singleTitleLabel?.hidden = false
+                rightTitleLabel?.hidden = true
+
+            case .Active:
+                activityIndicator?.startAnimating()
+
+                singleTitleLabel?.hidden = true
+                rightTitleLabel?.hidden = false
+            }
         }
     }
+
+    private var singleTitleLabel: UILabel?
+
+    private var activityIndicator: UIActivityIndicatorView?
+    private var rightTitleLabel: UILabel?
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -31,47 +50,73 @@ class ActivityIndicatorTitleView: UIView {
 
     func makeUI() {
 
-        let helperView = UIView()
-        helperView.translatesAutoresizingMaskIntoConstraints = false
+        do {
+            let label = UILabel()
+            label.text = NSLocalizedString("Yep", comment: "")
+            label.textColor = UIColor.yepNavgationBarTitleColor()
+            label.font = UIFont.navigationBarTitleFont()
+            label.textAlignment = .Center
 
-        addSubview(helperView)
+            label.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(label)
 
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-        activityIndicator.tintColor = UIColor.yepNavgationBarTitleColor()
+            self.singleTitleLabel = label
 
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+            let viewsDictionary = [
+                "label": label,
+            ]
 
-        activityIndicator.startAnimating()
+            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[label]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
+            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[label]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
 
-        self.activityIndicator = activityIndicator
+            NSLayoutConstraint.activateConstraints(constraintsH)
+            NSLayoutConstraint.activateConstraints(constraintsV)
+        }
 
-        helperView.addSubview(activityIndicator)
+        do {
+            let helperView = UIView()
+            helperView.translatesAutoresizingMaskIntoConstraints = false
 
-        let label = UILabel()
-        label.text = NSLocalizedString("Fetching", comment: "")
-        label.textColor = UIColor.yepNavgationBarTitleColor()
+            addSubview(helperView)
 
-        label.translatesAutoresizingMaskIntoConstraints = false
+            let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+            activityIndicator.tintColor = UIColor.yepNavgationBarTitleColor()
+            activityIndicator.hidesWhenStopped = true
 
-        self.titleLabel = label
+            activityIndicator.translatesAutoresizingMaskIntoConstraints = false
 
-        helperView.addSubview(label)
+            self.activityIndicator = activityIndicator
 
-        let helperViewCenterX = NSLayoutConstraint(item: helperView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0)
-        let helperViewCenterY = NSLayoutConstraint(item: helperView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1.0, constant: 0)
+            helperView.addSubview(activityIndicator)
 
-        NSLayoutConstraint.activateConstraints([helperViewCenterX, helperViewCenterY])
+            let label = UILabel()
+            label.text = NSLocalizedString("Fetching", comment: "")
+            label.textColor = UIColor.yepNavgationBarTitleColor()
 
-        let viewsDictionary = [
-            "activityIndicator": activityIndicator,
-            "label": label,
-        ]
+            label.translatesAutoresizingMaskIntoConstraints = false
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[activityIndicator]-[label]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[activityIndicator]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
-        
-        NSLayoutConstraint.activateConstraints(constraintsH)
-        NSLayoutConstraint.activateConstraints(constraintsV)
+            self.rightTitleLabel = label
+
+            helperView.addSubview(label)
+
+            let helperViewCenterX = NSLayoutConstraint(item: helperView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0)
+            let helperViewCenterY = NSLayoutConstraint(item: helperView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1.0, constant: 0)
+
+            NSLayoutConstraint.activateConstraints([helperViewCenterX, helperViewCenterY])
+
+            let viewsDictionary = [
+                "activityIndicator": activityIndicator,
+                "label": label,
+            ]
+
+            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[activityIndicator]-[label]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
+            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[activityIndicator]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
+            
+            NSLayoutConstraint.activateConstraints(constraintsH)
+            NSLayoutConstraint.activateConstraints(constraintsV)
+        }
+
+        state = .Normal
     }
 }
 

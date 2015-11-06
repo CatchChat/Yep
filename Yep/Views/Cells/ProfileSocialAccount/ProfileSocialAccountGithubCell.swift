@@ -44,6 +44,7 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+
         reposImageView.tintColor = UIColor.darkGrayColor()
         starsImageView.tintColor = UIColor.darkGrayColor()
 
@@ -81,8 +82,8 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
         iconImageView.image = UIImage(named: socialAccount.iconName)
         nameLabel.text = socialAccount.description
 
-        iconImageView.tintColor = UIColor.grayColor()
-        nameLabel.textColor = UIColor.grayColor()
+        iconImageView.tintColor = SocialAccount.disabledColor
+        nameLabel.textColor = SocialAccount.disabledColor
 
         var accountEnabled = false
 

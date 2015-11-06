@@ -15,9 +15,7 @@ import Navi
 let ScrollViewTag = 100
 
 class SkillHomeViewController: BaseViewController {
-    
-    let cellIdentifier = "ContactsCell"
-    
+
     lazy var masterTableView: YepChildScrollView = {
         let tempTableView = YepChildScrollView(frame: CGRectZero)
         return tempTableView;
@@ -61,11 +59,19 @@ class SkillHomeViewController: BaseViewController {
                 headerView.learningButton.setInActive(animated: !isFirstAppear)
                 headerView.masterButton.setActive(animated: !isFirstAppear)
                 skillHomeScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: !isFirstAppear)
+
+                if discoveredMasterUsers.isEmpty {
+                    discoverUsersMasterSkill()
+                }
                 
             case .Learning:
                 headerView.masterButton.setInActive(animated: !isFirstAppear)
                 headerView.learningButton.setActive(animated: !isFirstAppear)
                 skillHomeScrollView.setContentOffset(CGPoint(x: UIScreen.mainScreen().bounds.width, y: 0), animated: !isFirstAppear)
+
+                if discoveredLearningUsers.isEmpty {
+                    discoverUsersLearningSkill()
+                }
             }
         }
     }
@@ -78,26 +84,11 @@ class SkillHomeViewController: BaseViewController {
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    var discoveredMasterUsers = [DiscoveredUser]() {
-        didSet {
-            dispatch_async(dispatch_get_main_queue()) {
-                self.masterTableView.reloadData()
-            }
-        }
-    }
-    
-    var discoveredLearningUsers = [DiscoveredUser]() {
-        didSet {
-            dispatch_async(dispatch_get_main_queue()) {
-                self.learningtTableView.reloadData()
-            }
-        }
-    }
-
+    var discoveredMasterUsers = [DiscoveredUser]()
+    var discoveredLearningUsers = [DiscoveredUser]()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         
         let height = YepConfig.getScreenRect().height - headerView.frame.height
         
@@ -112,6 +103,9 @@ class SkillHomeViewController: BaseViewController {
             isFirstAppear = false
         }
     }
+
+    let cellIdentifier = "ContactsCell"
+    let loadMoreTableViewCellID = "LoadMoreTableViewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,6 +119,7 @@ class SkillHomeViewController: BaseViewController {
         masterTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
         masterTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        masterTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
         masterTableView.rowHeight = 80
         masterTableView.tableFooterView = UIView()
         masterTableView.dataSource = self
@@ -135,16 +130,13 @@ class SkillHomeViewController: BaseViewController {
         learningtTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
         learningtTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        learningtTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
         learningtTableView.rowHeight = 80
         learningtTableView.tableFooterView = UIView()
         learningtTableView.dataSource = self
         learningtTableView.delegate = self
         learningtTableView.tag = SkillSet.Learning.rawValue
 
-        if let skillID = skill?.ID {
-            discoverUserBySkillID(skillID)
-        }
-        
         headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
         
         headerView.masterButton.addTarget(self, action: "changeToMaster", forControlEvents: UIControlEvents.TouchUpInside)
@@ -244,7 +236,6 @@ class SkillHomeViewController: BaseViewController {
         }
     }
 
-
     // MARK: UI
 
     func customTitleView() {
@@ -324,35 +315,91 @@ class SkillHomeViewController: BaseViewController {
         skillSet = .Learning
     }
 
-    func discoverUserBySkillID(skillID: String) {
+    private var masterPage = 1
+    private func discoverUsersMasterSkill(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
 
-        activityIndicator.startAnimating()
-        
-        discoverUsers(masterSkillIDs: [skillID], learningSkillIDs: [], discoveredUserSortStyle: .Default, inPage: 1, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
+        guard let skillID = skill?.ID else {
+            return
+        }
+
+        if !isLoadMore {
+            activityIndicator.startAnimating()
+        }
+
+        if isLoadMore {
+            masterPage++
+
+        } else {
+            masterPage = 1
+        }
+
+        discoverUsersWithSkill(skillID, ofSkillSet: .Master, inPage: masterPage, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage: errorMessage)
 
             dispatch_async(dispatch_get_main_queue()) {
                 self?.activityIndicator.stopAnimating()
             }
-            
+
         }, completion: { [weak self] discoveredUsers in
             dispatch_async(dispatch_get_main_queue()) {
-                self?.discoveredMasterUsers = discoveredUsers
+
+                if isLoadMore {
+                    self?.discoveredMasterUsers += discoveredUsers
+                } else {
+                    self?.discoveredMasterUsers = discoveredUsers
+                }
+
+                finish?()
+
                 self?.activityIndicator.stopAnimating()
+
+                if !discoveredUsers.isEmpty {
+                    self?.masterTableView.reloadData()
+                }
             }
         })
-        
-        discoverUsers(masterSkillIDs: [], learningSkillIDs: [skillID], discoveredUserSortStyle: .Default, inPage: 1, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
+    }
+
+    private var learningPage = 1
+    private func discoverUsersLearningSkill(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
+
+        guard let skillID = skill?.ID else {
+            return
+        }
+
+        if !isLoadMore {
+            activityIndicator.startAnimating()
+        }
+
+        if isLoadMore {
+            learningPage++
+
+        } else {
+            learningPage = 1
+        }
+
+        discoverUsersWithSkill(skillID, ofSkillSet: .Learning, inPage: learningPage, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage: errorMessage)
 
             dispatch_async(dispatch_get_main_queue()) {
                 self?.activityIndicator.stopAnimating()
             }
-            
+
         }, completion: { [weak self] discoveredUsers in
             dispatch_async(dispatch_get_main_queue()) {
-                self?.discoveredLearningUsers = discoveredUsers
+                if isLoadMore {
+                    self?.discoveredLearningUsers += discoveredUsers
+                } else {
+                    self?.discoveredLearningUsers = discoveredUsers
+                }
+
+                finish?()
+
                 self?.activityIndicator.stopAnimating()
+
+                if !discoveredUsers.isEmpty {
+                    self?.learningtTableView.reloadData()
+                }
             }
         })
     }
@@ -392,7 +439,6 @@ class SkillHomeViewController: BaseViewController {
             if skillSet != .Master {
                 skillSet = .Master
             }
-           
         }
     }
     
@@ -515,28 +561,91 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 // MARK: UITableViewDelegate, UITableViewDataSource
 
 extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
+
+    enum Section: Int {
+        case Users
+        case LoadMore
+    }
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
+    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        return discoveredUsersWithSkillSet(SkillSet(rawValue: tableView.tag)).count
+        let usersCount = discoveredUsersWithSkillSet(SkillSet(rawValue: tableView.tag)).count
+        switch section {
+        case Section.Users.rawValue:
+            return usersCount
+        case Section.LoadMore.rawValue:
+            return usersCount > 0 ? 1 : 0
+        default:
+            return 0
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
-        
-        let discoveredUser = discoveredUsersWithSkillSet(SkillSet(rawValue: tableView.tag))[indexPath.row]
 
-        cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
+        switch indexPath.section {
 
-        return cell
+        case Section.Users.rawValue:
+
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+            
+            let discoveredUser = discoveredUsersWithSkillSet(SkillSet(rawValue: tableView.tag))[indexPath.row]
+
+            cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
+
+            return cell
+
+        case Section.LoadMore.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier(loadMoreTableViewCellID) as! LoadMoreTableViewCell
+            return cell
+
+        default:
+            return UITableViewCell()
+        }
+    }
+
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        if indexPath.section == Section.LoadMore.rawValue {
+
+            if let cell = cell as? LoadMoreTableViewCell {
+
+                println("load more users")
+
+                if !cell.loadingActivityIndicator.isAnimating() {
+                    cell.loadingActivityIndicator.startAnimating()
+                }
+
+                switch skillSet {
+
+                case .Master:
+                    discoverUsersMasterSkill(isLoadMore: true, finish: { [weak cell] in
+                        cell?.loadingActivityIndicator.stopAnimating()
+                    })
+
+                case .Learning:
+                    discoverUsersLearningSkill(isLoadMore: true, finish: { [weak cell] in
+                        cell?.loadingActivityIndicator.stopAnimating()
+                    })
+                }
+            }
+        }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        performSegueWithIdentifier("showProfile", sender: indexPath)
+
+        switch indexPath.section {
+
+        case Section.Users.rawValue:
+            performSegueWithIdentifier("showProfile", sender: indexPath)
+
+        default:
+            break
+        }
     }
-    
 }
 

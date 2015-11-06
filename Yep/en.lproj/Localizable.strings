@@ -222,7 +222,7 @@
 "is not your friend." = "is not your friend.";
 
 /* No comment provided by engineer. */
-"Last seen " = "Last seen ";
+"Last seen %@" = "Last seen %@";
 
 /* No comment provided by engineer. */
 "Learning" = "Learning";
@@ -655,4 +655,6 @@
 "Join Us" = "Join Us";
 
 "[Deleted]" = "[Deleted]";
+
+"Feed has been deleted by creator." = "Feed has been deleted by creator.";
 

@@ -218,7 +218,7 @@
 "is not your friend." = "不是您的好友";
 
 /* No comment provided by engineer. */
-"Last seen " = "上次见是 ";
+"Last seen %@" = "上次见是%@";
 
 /* No comment provided by engineer. */
 "Learning" = "正在学习";
@@ -668,6 +668,8 @@
 
 "[Deleted]" = "[已被删除]";
 
+"Feed has been deleted by creator." = "此话题已被创建者删除。";
+
 "You may meet different people and content depends on your skills" = "根据技能的不同，你会遇见不同的人和话题";
 
 "Created by %@ at %@" = "%@ 创建于 %@";
@@ -678,6 +680,7 @@
 
 "Albums" = "相册";
 
-"Topic can only has 4 photos" = "话题只能选择 4 张图片";
+"Feed can only has 4 photos." = "话题只能选择 4 张图片";
 
 "OAuth Error" = "验证错误";
+

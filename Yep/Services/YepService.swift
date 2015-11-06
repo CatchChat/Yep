@@ -1251,7 +1251,7 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
 
 let parseDiscoveredUsers: JSONDictionary -> [DiscoveredUser]? = { data in
 
-    println("discoverUsers: \(data)")
+    //println("discoverUsers: \(data)")
 
     if let usersData = data["users"] as? [JSONDictionary] {
 
@@ -1284,6 +1284,24 @@ func discoverUsers(masterSkillIDs masterSkillIDs: [String], learningSkillIDs: [S
     
     let resource = authJsonResource(path: "/api/v1/user/discover", method: .GET, requestParameters: requestParameters as JSONDictionary, parse: parse)
     
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+func discoverUsersWithSkill(skillID: String, ofSkillSet skillSet: SkillSet, inPage page: Int, withPerPage perPage: Int, failureHandler: ((Reason, String?) -> Void)?, completion: [DiscoveredUser] -> Void) {
+
+    let requestParameters: [String: AnyObject] = [
+        "page": page,
+        "per_page": perPage,
+    ]
+
+    let parse = parseDiscoveredUsers
+
+    let resource = authJsonResource(path: "/api/v1/\(skillSet.serverPath)/\(skillID)/users", method: .GET, requestParameters: requestParameters as JSONDictionary, parse: parse)
+
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
     } else {
@@ -1478,8 +1496,6 @@ func groups(failureHandler failureHandler: ((Reason, String?) -> Void)?, complet
                 if count <= currentPage * perPage {
                     if let groups = result["circles"] as? [JSONDictionary] {
                         completion(groups)
-                    } else {
-                        completion([])
                     }
 
                 } else {

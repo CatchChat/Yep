@@ -129,8 +129,8 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
         iconImageView.image = UIImage(named: socialAccount.iconName)
         nameLabel.text = socialAccount.description
 
-        iconImageView.tintColor = UIColor.lightGrayColor()
-        nameLabel.textColor = UIColor.lightGrayColor()
+        iconImageView.tintColor = SocialAccount.disabledColor
+        nameLabel.textColor = SocialAccount.disabledColor
 
         var accountEnabled = false
 
