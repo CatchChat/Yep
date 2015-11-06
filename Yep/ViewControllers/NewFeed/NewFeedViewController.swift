@@ -465,7 +465,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         case 0:
             
             if mediaImages.count == 4 {
-                YepAlert.alertSorry(message: NSLocalizedString("Topic can only has 4 photos", comment: ""), inViewController: self)
+                YepAlert.alertSorry(message: NSLocalizedString("Feed can only has 4 photos.", comment: ""), inViewController: self)
                 return
             }
             
