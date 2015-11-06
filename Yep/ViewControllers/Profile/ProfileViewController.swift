@@ -49,6 +49,8 @@ enum SocialAccount: String, CustomStringConvertible {
             return UIColor(red:0.15, green:0.36, blue:0.54, alpha:1)
         }
     }
+
+    static let disabledColor: UIColor = UIColor.lightGrayColor()
     
     var iconName: String {
         
