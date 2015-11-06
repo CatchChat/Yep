@@ -1478,8 +1478,6 @@ func groups(failureHandler failureHandler: ((Reason, String?) -> Void)?, complet
                 if count <= currentPage * perPage {
                     if let groups = result["circles"] as? [JSONDictionary] {
                         completion(groups)
-                    } else {
-                        completion([])
                     }
 
                 } else {

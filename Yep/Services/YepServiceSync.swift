@@ -502,10 +502,6 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
     groups(failureHandler: nil) { allGroups in
 
         //println("allGroups: \(allGroups)")
-
-        if allGroups.count == 0 { // Workaround for empty group
-            return
-        }
         
         dispatch_async(realmQueue) {
 
