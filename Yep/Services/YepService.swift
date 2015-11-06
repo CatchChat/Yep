@@ -1291,6 +1291,24 @@ func discoverUsers(masterSkillIDs masterSkillIDs: [String], learningSkillIDs: [S
     }
 }
 
+func discoverUsersWithSkill(skillID: String, ofSkillSet skillSet: SkillSet, inPage page: Int, withPerPage perPage: Int, failureHandler: ((Reason, String?) -> Void)?, completion: [DiscoveredUser] -> Void) {
+
+    let requestParameters: [String: AnyObject] = [
+        "page": page,
+        "per_page": perPage,
+    ]
+
+    let parse = parseDiscoveredUsers
+
+    let resource = authJsonResource(path: "/api/v1/\(skillSet.serverPath)/\(skillID)/users", method: .GET, requestParameters: requestParameters as JSONDictionary, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 func searchUsersByQ(q: String, failureHandler: ((Reason, String?) -> Void)?, completion: [DiscoveredUser] -> Void) {
 
     let requestParameters = [
