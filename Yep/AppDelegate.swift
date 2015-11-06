@@ -312,6 +312,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func sync() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
         
         // TODO 随着群组和好友越来越多，这个方法会导致 App 开启的时候，获取到离线消息愈来越慢
         
@@ -327,10 +331,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func startFaye() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
+
         dispatch_async(fayeQueue) {
             FayeService.sharedManager.startConnect()
         }
-
     }
 
     func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {

@@ -68,6 +68,8 @@ func cleanRealmAndCaches() {
         realm.deleteAll()
     }
 
+    realm.refresh()
+
     // cleam all memory caches
     
     AvatarPod.clear()

@@ -45,6 +45,8 @@ class YepTabBarController: UITabBarController {
         if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
             appDelegate.lauchStyle.removeListenerWithName(Listener.lauchStyle)
         }
+
+        println("deinit YepTabBar")
     }
 
     override func viewDidLoad() {
