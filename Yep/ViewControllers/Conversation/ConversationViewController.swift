@@ -2652,9 +2652,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             } else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftTextCell {
                 bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
             }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftAudioCell {
-                bubbleFrame = cell.convertRect(cell.bubbleImageView.frame, toView: view)
+                bubbleFrame = cell.convertRect(cell.audioContainerView.frame, toView: view)
             }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatRightAudioCell {
-                bubbleFrame = cell.convertRect(cell.bubbleImageView.frame, toView: view)
+                bubbleFrame = cell.convertRect(cell.audioContainerView.frame, toView: view)
             }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftVideoCell {
                 bubbleFrame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
             }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatRightVideoCell {
