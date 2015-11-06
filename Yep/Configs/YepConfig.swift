@@ -91,7 +91,7 @@ class YepConfig {
     }
 
     class func messageImageCompressionQuality() -> CGFloat {
-        return 0.8
+        return 0.95
     }
 
     class func audioSampleWidth() -> CGFloat {
