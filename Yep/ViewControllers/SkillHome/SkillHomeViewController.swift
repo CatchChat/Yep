@@ -61,11 +61,19 @@ class SkillHomeViewController: BaseViewController {
                 headerView.learningButton.setInActive(animated: !isFirstAppear)
                 headerView.masterButton.setActive(animated: !isFirstAppear)
                 skillHomeScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: !isFirstAppear)
+
+                if discoveredMasterUsers.isEmpty {
+                    discoverUsersMasterSkill()
+                }
                 
             case .Learning:
                 headerView.masterButton.setInActive(animated: !isFirstAppear)
                 headerView.learningButton.setActive(animated: !isFirstAppear)
                 skillHomeScrollView.setContentOffset(CGPoint(x: UIScreen.mainScreen().bounds.width, y: 0), animated: !isFirstAppear)
+
+                if discoveredLearningUsers.isEmpty {
+                    discoverUsersLearningSkill()
+                }
             }
         }
     }
@@ -97,7 +105,6 @@ class SkillHomeViewController: BaseViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         
         let height = YepConfig.getScreenRect().height - headerView.frame.height
         
@@ -141,10 +148,10 @@ class SkillHomeViewController: BaseViewController {
         learningtTableView.delegate = self
         learningtTableView.tag = SkillSet.Learning.rawValue
 
-        if let skillID = skill?.ID {
-            discoverUserBySkillID(skillID)
-        }
-        
+//        if let skillID = skill?.ID {
+//            discoverUserBySkillID(skillID)
+//        }
+
         headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
         
         headerView.masterButton.addTarget(self, action: "changeToMaster", forControlEvents: UIControlEvents.TouchUpInside)
@@ -324,22 +331,85 @@ class SkillHomeViewController: BaseViewController {
         skillSet = .Learning
     }
 
-    func discoverUserBySkillID(skillID: String) {
+    private var masterPage = 1
+    private func discoverUsersMasterSkill(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
 
-        activityIndicator.startAnimating()
+        guard let skillID = skill?.ID else {
+            return
+        }
 
-        discoverUsersWithSkill(skillID, ofSkillSet: .Master, inPage: 1, withPerPage: 50, failureHandler: { [weak self] (reason, errorMessage) in
+        if !isLoadMore {
+            activityIndicator.startAnimating()
+        }
+
+        if isLoadMore {
+            masterPage++
+
+        } else {
+            masterPage = 1
+        }
+
+        discoverUsersWithSkill(skillID, ofSkillSet: .Master, inPage: masterPage, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage: errorMessage)
 
             dispatch_async(dispatch_get_main_queue()) {
                 self?.activityIndicator.stopAnimating()
             }
+
         }, completion: { [weak self] discoveredUsers in
             dispatch_async(dispatch_get_main_queue()) {
-                self?.discoveredMasterUsers = discoveredUsers
+
+                if isLoadMore {
+                    self?.discoveredMasterUsers += discoveredUsers
+                } else {
+                    self?.discoveredMasterUsers = discoveredUsers
+                }
+
                 self?.activityIndicator.stopAnimating()
             }
         })
+    }
+
+    private var learningPage = 1
+    private func discoverUsersLearningSkill(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
+
+        guard let skillID = skill?.ID else {
+            return
+        }
+
+        if !isLoadMore {
+            activityIndicator.startAnimating()
+        }
+
+        if isLoadMore {
+            learningPage++
+
+        } else {
+            learningPage = 1
+        }
+
+        discoverUsersWithSkill(skillID, ofSkillSet: .Learning, inPage: learningPage, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.activityIndicator.stopAnimating()
+            }
+
+        }, completion: { [weak self] discoveredUsers in
+            dispatch_async(dispatch_get_main_queue()) {
+                if isLoadMore {
+                    self?.discoveredLearningUsers += discoveredUsers
+                } else {
+                    self?.discoveredLearningUsers = discoveredUsers
+                }
+
+                self?.activityIndicator.stopAnimating()
+            }
+        })
+    }
+
+    /*
+    func discoverUserBySkillID(skillID: String) {
 
         discoverUsersWithSkill(skillID, ofSkillSet: .Learning, inPage: 1, withPerPage: 50, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage: errorMessage)
@@ -384,6 +454,7 @@ class SkillHomeViewController: BaseViewController {
         })
         */
     }
+    */
 
     func discoveredUsersWithSkillSet(skillSet: SkillSet?) -> [DiscoveredUser] {
 
