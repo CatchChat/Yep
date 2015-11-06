@@ -15,9 +15,7 @@ import Navi
 let ScrollViewTag = 100
 
 class SkillHomeViewController: BaseViewController {
-    
-    let cellIdentifier = "ContactsCell"
-    
+
     lazy var masterTableView: YepChildScrollView = {
         let tempTableView = YepChildScrollView(frame: CGRectZero)
         return tempTableView;
@@ -86,22 +84,8 @@ class SkillHomeViewController: BaseViewController {
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    var discoveredMasterUsers = [DiscoveredUser]() {
-        didSet {
-            dispatch_async(dispatch_get_main_queue()) {
-                self.masterTableView.reloadData()
-            }
-        }
-    }
-    
-    var discoveredLearningUsers = [DiscoveredUser]() {
-        didSet {
-            dispatch_async(dispatch_get_main_queue()) {
-                self.learningtTableView.reloadData()
-            }
-        }
-    }
-
+    var discoveredMasterUsers = [DiscoveredUser]()
+    var discoveredLearningUsers = [DiscoveredUser]()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -119,6 +103,9 @@ class SkillHomeViewController: BaseViewController {
             isFirstAppear = false
         }
     }
+
+    let cellIdentifier = "ContactsCell"
+    let loadMoreTableViewCellID = "LoadMoreTableViewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,6 +119,7 @@ class SkillHomeViewController: BaseViewController {
         masterTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
         masterTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        masterTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
         masterTableView.rowHeight = 80
         masterTableView.tableFooterView = UIView()
         masterTableView.dataSource = self
@@ -142,6 +130,7 @@ class SkillHomeViewController: BaseViewController {
         learningtTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
         learningtTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        learningtTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
         learningtTableView.rowHeight = 80
         learningtTableView.tableFooterView = UIView()
         learningtTableView.dataSource = self
@@ -365,7 +354,13 @@ class SkillHomeViewController: BaseViewController {
                     self?.discoveredMasterUsers = discoveredUsers
                 }
 
+                finish?()
+
                 self?.activityIndicator.stopAnimating()
+
+                if !discoveredUsers.isEmpty {
+                    self?.masterTableView.reloadData()
+                }
             }
         })
     }
@@ -403,7 +398,13 @@ class SkillHomeViewController: BaseViewController {
                     self?.discoveredLearningUsers = discoveredUsers
                 }
 
+                finish?()
+
                 self?.activityIndicator.stopAnimating()
+
+                if !discoveredUsers.isEmpty {
+                    self?.learningtTableView.reloadData()
+                }
             }
         })
     }
@@ -614,28 +615,91 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 // MARK: UITableViewDelegate, UITableViewDataSource
 
 extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
+
+    enum Section: Int {
+        case Users
+        case LoadMore
+    }
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
+    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        return discoveredUsersWithSkillSet(SkillSet(rawValue: tableView.tag)).count
+        let usersCount = discoveredUsersWithSkillSet(SkillSet(rawValue: tableView.tag)).count
+        switch section {
+        case Section.Users.rawValue:
+            return usersCount
+        case Section.LoadMore.rawValue:
+            return usersCount > 0 ? 1 : 0
+        default:
+            return 0
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
-        
-        let discoveredUser = discoveredUsersWithSkillSet(SkillSet(rawValue: tableView.tag))[indexPath.row]
 
-        cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
+        switch indexPath.section {
 
-        return cell
+        case Section.Users.rawValue:
+
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+            
+            let discoveredUser = discoveredUsersWithSkillSet(SkillSet(rawValue: tableView.tag))[indexPath.row]
+
+            cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
+
+            return cell
+
+        case Section.LoadMore.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier(loadMoreTableViewCellID) as! LoadMoreTableViewCell
+            return cell
+
+        default:
+            return UITableViewCell()
+        }
+    }
+
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        if indexPath.section == Section.LoadMore.rawValue {
+
+            if let cell = cell as? LoadMoreTableViewCell {
+
+                println("load more users")
+
+                if !cell.loadingActivityIndicator.isAnimating() {
+                    cell.loadingActivityIndicator.startAnimating()
+                }
+
+                switch skillSet {
+
+                case .Master:
+                    discoverUsersMasterSkill(isLoadMore: true, finish: { [weak cell] in
+                        cell?.loadingActivityIndicator.stopAnimating()
+                    })
+
+                case .Learning:
+                    discoverUsersLearningSkill(isLoadMore: true, finish: { [weak cell] in
+                        cell?.loadingActivityIndicator.stopAnimating()
+                    })
+                }
+            }
+        }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        performSegueWithIdentifier("showProfile", sender: indexPath)
+
+        switch indexPath.section {
+
+        case Section.Users.rawValue:
+            performSegueWithIdentifier("showProfile", sender: indexPath)
+
+        default:
+            break
+        }
     }
-    
 }
 
