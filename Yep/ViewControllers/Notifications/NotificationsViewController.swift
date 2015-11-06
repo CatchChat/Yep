@@ -287,12 +287,12 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
                         self?.enableDoNotDisturb(failed: {
                             dispatch_async(dispatch_get_main_queue()) {
                                 self?.doNotDisturbPeriod.isOn = false
-                                self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                                self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .None)
                             }
                         })
 
                     } else {
-                        self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                        self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .None)
 
                         self?.disableDoNotDisturb(failed: {
                             dispatch_async(dispatch_get_main_queue()) {
