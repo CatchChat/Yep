@@ -1234,13 +1234,17 @@ class ConversationViewController: BaseViewController {
 
         feedView.foldAction = { [weak self] in
             if let strongSelf = self {
-                self?.conversationCollectionView.contentInset.top = 64 + FeedView.foldHeight + strongSelf.conversationCollectionViewContentInsetYOffset
+                UIView.animateWithDuration(0.15, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                    self?.conversationCollectionView.contentInset.top = 64 + FeedView.foldHeight + strongSelf.conversationCollectionViewContentInsetYOffset
+                }, completion: { _ in })
             }
         }
         
         feedView.unfoldAction = { [weak self] feedView in
             if let strongSelf = self {
-                self?.conversationCollectionView.contentInset.top = 64 + feedView.normalHeight + strongSelf.conversationCollectionViewContentInsetYOffset
+                UIView.animateWithDuration(0.15, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                    self?.conversationCollectionView.contentInset.top = 64 + feedView.normalHeight + strongSelf.conversationCollectionViewContentInsetYOffset
+                }, completion: { _ in })
             }
         }
 

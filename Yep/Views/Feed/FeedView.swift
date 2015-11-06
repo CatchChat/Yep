@@ -35,7 +35,7 @@ class FeedView: UIView {
                 let normalHeight = self.normalHeight
                 let attachmentURLsIsEmpty = attachments.isEmpty
 
-                UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
+                UIView.animateWithDuration(0.25, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
 
                     self?.nicknameLabelCenterYConstraint.constant = -10 * newValue
                     self?.messageTextViewTopConstraint.constant = -25 * newValue + 4
@@ -63,9 +63,7 @@ class FeedView: UIView {
                     self?.mediaView.alpha = newValue
 
                 }, completion: { [weak self] _ in
-                        
                     self?.messageTextView.contentOffset = CGPoint(x: 0, y: 0)
-                
                 })
 
                 if newValue == 1.0 {
