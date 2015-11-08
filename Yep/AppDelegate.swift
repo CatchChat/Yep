@@ -285,6 +285,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return false
     }
+    
+    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
+            if let webpageURL = userActivity.webpageURL {
+                if !handleUniversalLink(URL: webpageURL) {
+                    UIApplication.sharedApplication().openURL(webpageURL)
+                }
+            } else {
+                return false
+            }
+
+        }
+        return true
+    }
+    
+    private func handleUniversalLink(URL url: NSURL) -> Bool {
+        if let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: true),
+            let host = components.host,
+            let pathComponents = url.pathComponents {
+            switch host {
+            case "soyep.com":
+                
+                // For Group
+                if safeFindElement(pathComponents, index: 1) == "groups" && safeFindElement(pathComponents, index: 2) == "share" {
+                    if let feedShareToken = url.queryItemForKey("token")?.value {
+                        feedWithFeedToken(feedShareToken, failureHandler: nil, completion: { (feed) -> Void in
+                            print(feed)
+                        })
+                    }
+                    
+                } else if pathComponents.count == 2 { // For Profile
+                    if let username = safeFindElement(pathComponents, index: 1) {
+                        
+                    }
+                }
+                
+                return true
+                
+            default:
+                return false
+            }
+            
+        }
+        return false
+    }
 
     // MARK: Public
 

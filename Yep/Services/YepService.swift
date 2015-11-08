@@ -2522,6 +2522,17 @@ struct DiscoveredFeed: Hashable {
     }
 }
 
+let parseFeed: JSONDictionary -> DiscoveredFeed? = { data in
+    
+    //println("feedsData: \(data)")
+    
+    if let feedsData = data["topic"] as? JSONDictionary {
+        return DiscoveredFeed.fromJSONDictionary(feedsData)
+    }
+    
+    return nil
+}
+
 let parseFeeds: JSONDictionary -> [DiscoveredFeed]? = { data in
 
     //println("feedsData: \(data)")
@@ -2553,6 +2564,19 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
 
     let resource = authJsonResource(path: "/api/v1/topics/discover", method: .GET, requestParameters: requestParameters, parse: parse)
 
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+func feedWithFeedToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: DiscoveredFeed? -> Void) {
+    
+    let parse = parseFeed
+    
+    let resource = authJsonResource(path: "/api/v1/circles/shared_messages?token=\(token)", method: .GET, requestParameters: [:], parse: parse)
+    
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
     } else {
