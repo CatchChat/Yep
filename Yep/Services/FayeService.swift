@@ -16,6 +16,10 @@ protocol FayeServiceDelegate: class {
     *
     */
     func fayeRecievedInstantStateType(instantStateType: FayeService.InstantStateType, userID: String)
+    
+    func fayeRecievedNewMessages(AllMessageIDs: [String], messageAgeRawValue: MessageAge.RawValue)
+    
+    func fayeMessagesMarkAsReadByRecipient(lastReadAt: NSTimeInterval, recipientType: String, recipientID: String)
 }
 
 let fayeQueue = dispatch_queue_create("com.Yep.fayeQueue", DISPATCH_QUEUE_SERIAL)
@@ -114,30 +118,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
                             }
                             
                         case FayeService.MessageType.Read.rawValue:
-                            if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
-                                
-                                if let
-                                    //recipientID = messageDataInfo["recipient_id"] as? String,
-                                    messageID = messageDataInfo["id"] as? String {
-                                        
-                                        println("Mark Message \(messageID) As Read")
-                                        
-                                        guard let realm = try? Realm() else {
-                                            return
-                                        }
-                                        
-                                        if let message = messageWithMessageID(messageID, inRealm: realm) {
-                                            let _ = try? realm.write {
-                                                message.sendState = MessageSendState.Read.rawValue
-                                            }
-                                            
-                                            dispatch_async(dispatch_get_main_queue()) {
-                                                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
-                                            }
-                                            
-                                        }
-                                }
-                            }
+                            break
                         default:
                             println("Recieved unknow message type")
                         }
@@ -199,8 +180,8 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                                 
                                                 println("Mark recipient_id \(recipient_id) As Read")
 
-                                                dispatch_async(dispatch_get_main_queue()) {
-                                                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageBatchMarkAsRead, object: ["last_read_at": last_read_at, "recipient_type": recipient_type, "recipient_id": recipient_id])
+                                                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                                                   self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
                                                 }
                                         }
                                     }
@@ -259,8 +240,9 @@ class FayeService: NSObject, MZFayeClientDelegate {
 
             syncMessageWithMessageInfo(messageInfo, messageAge: .New, inRealm: realm) { messageIDs in
                 
-                delay(0.1, work: {
-                    tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                delay(0.1, work: { [weak self] in
+                    self?.delegate?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: MessageAge.New.rawValue)
+//                    tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
                 })
             }
         }
