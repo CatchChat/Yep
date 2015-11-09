@@ -28,7 +28,7 @@ class EditProfileViewController: UIViewController {
     lazy var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
-        imagePicker.allowsEditing = false
+        imagePicker.allowsEditing = true
         return imagePicker
         }()
 
