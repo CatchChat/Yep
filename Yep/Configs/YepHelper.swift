@@ -56,14 +56,6 @@ func unregisterThirdPartyPush() {
     }
 }
 
-func safeFindElement(array: [String], index: Int) -> String? {
-    if array.count > index {
-        return array[index]
-    } else {
-        return nil
-    }
-}
-
 func cleanRealmAndCaches() {
 
     // clean Realm

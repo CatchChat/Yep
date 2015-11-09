@@ -64,7 +64,7 @@ extension NSURL {
             return false
         }
 
-        if let username = safeFindElement(pathComponents, index: 1) {
+        if let username = pathComponents[safe: 1] {
 
             completion()
 
