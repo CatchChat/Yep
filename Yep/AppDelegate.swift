@@ -316,22 +316,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             println("matchSharedFeed: \(feed)")
 
-            guard let tabBarVC = self?.window?.rootViewController as? YepTabBarController else {
-                return
-            }
-
-            tabBarVC.selectedIndex = 0
-
-            guard let nvc = tabBarVC.selectedViewController as? YepNavigationController else {
-                return
-            }
-
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("ConversationViewController") as! ConversationViewController
-
             guard let
+                tabBarVC = self?.window?.rootViewController as? UITabBarController,
+                nvc = tabBarVC.selectedViewController as? UINavigationController,
+                vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController,
                 realm = try? Realm(),
-                feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm) else {
+                feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)else {
                     return
             }
 
