@@ -139,6 +139,7 @@ class ConversationViewController: BaseViewController {
 
     // KeyboardMan 帮助我们做键盘动画
     let keyboardMan = KeyboardMan()
+    var giveUpKeyboardHideAnimationWhenViewControllerDisapeear = false
 
     var isFirstAppear = true
 
@@ -442,6 +443,14 @@ class ConversationViewController: BaseViewController {
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
 
+            if let giveUp = self?.giveUpKeyboardHideAnimationWhenViewControllerDisapeear {
+
+                if giveUp {
+                    self?.giveUpKeyboardHideAnimationWhenViewControllerDisapeear = false
+                    return
+                }
+            }
+
             println("appear \(keyboardHeight), \(keyboardHeightIncrement)\n")
 
             if let strongSelf = self {
@@ -471,6 +480,13 @@ class ConversationViewController: BaseViewController {
         }
 
         keyboardMan.animateWhenKeyboardDisappear = { [weak self] keyboardHeight in
+
+            if let nvc = self?.navigationController {
+                if nvc.topViewController != self {
+                    self?.giveUpKeyboardHideAnimationWhenViewControllerDisapeear = true
+                    return
+                }
+            }
 
             println("disappear \(keyboardHeight)\n")
 
