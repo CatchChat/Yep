@@ -444,14 +444,14 @@ class FeedsViewController: BaseViewController {
 
             guard let
                 indexPath = sender as? NSIndexPath,
-                feedData = feeds[safe: indexPath.row],
+                feed = feeds[safe: indexPath.row],
                 realm = try? Realm() else {
                     return
             }
             
             let vc = segue.destinationViewController as! ConversationViewController
             
-            let groupID = feedData.groupID
+            let groupID = feed.groupID
             var group = groupWithGroupID(groupID, inRealm: realm)
 
             if group == nil {
@@ -493,10 +493,10 @@ class FeedsViewController: BaseViewController {
             }
             
             if let group = group {
-                saveFeedWithFeedDataWithoutFullGroup(feedData, group: group, inRealm: realm)
+                saveFeedWithFeedDataWithoutFullGroup(feed, group: group, inRealm: realm)
             }
 
-            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feedData)
+            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
 
         case "showFeedMedia":
 

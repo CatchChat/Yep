@@ -40,7 +40,9 @@ extension NSURL {
                 if let feedShareToken = queryItemForKey("token")?.value {
                     feedWithFeedToken(feedShareToken, failureHandler: nil, completion: { feed in
                         if let feed = feed {
-                            completion(feed)
+                            dispatch_async(dispatch_get_main_queue()) {
+                                completion(feed)
+                            }
                         }
                     })
 
@@ -66,7 +68,9 @@ extension NSURL {
 
         if let username = pathComponents[safe: 1] {
 
-            completion()
+            dispatch_async(dispatch_get_main_queue()) {
+                completion()
+            }
 
             return true
         }
