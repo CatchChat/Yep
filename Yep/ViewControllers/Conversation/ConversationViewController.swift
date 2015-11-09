@@ -2848,7 +2848,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
             
-            
             let longPressAction = { [weak self] in
                 
                 dispatch_async(dispatch_get_main_queue()) {
