@@ -22,6 +22,8 @@ let mobileKey = "mobile"
 
 let discoveredUserSortStyleKey = "discoveredUserSortStyle"
 
+let feedSortStyleKey = "feedSortStyleKey"
+
 struct Listener<T>: Hashable {
     let name: String
 
@@ -303,6 +305,14 @@ class YepUserDefaults {
             defaults.setObject(discoveredUserSortStyle, forKey: discoveredUserSortStyleKey)
         }
         }()
+    
+    static var feedSortStyle: Listenable<String?> = {
+        let feedSortStyle = defaults.stringForKey(feedSortStyleKey)
+        
+        return Listenable<String?>(feedSortStyle) { feedSortStyle in
+            defaults.setObject(feedSortStyle, forKey: feedSortStyleKey)
+        }
+    }()
 }
 
 

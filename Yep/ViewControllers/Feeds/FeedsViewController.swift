@@ -134,6 +134,8 @@ class FeedsViewController: BaseViewController {
             filterBarItem?.title = feedSortStyle.nameWithArrow
 
             updateFeeds()
+            
+            YepUserDefaults.feedSortStyle.value = feedSortStyle.rawValue
         }
     }
 
@@ -196,8 +198,16 @@ class FeedsViewController: BaseViewController {
         feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
         feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
         feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
-
-        feedSortStyle = .Match
+        
+        if let
+            value = YepUserDefaults.feedSortStyle.value,
+            _feedSortStyle = FeedSortStyle(rawValue: value) {
+                
+                feedSortStyle = _feedSortStyle
+                
+        } else {
+            feedSortStyle = .Match
+        }
     }
     
     // MARK: Actions
