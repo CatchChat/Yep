@@ -287,48 +287,102 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-            if let webpageURL = userActivity.webpageURL {
-                if !handleUniversalLink(URL: webpageURL) {
-                    UIApplication.sharedApplication().openURL(webpageURL)
-                }
-            } else {
+
+            guard let webpageURL = userActivity.webpageURL else {
                 return false
             }
 
+            if !handleUniversalLink(webpageURL) {
+                UIApplication.sharedApplication().openURL(webpageURL)
+            }
+
+//            if let webpageURL = userActivity.webpageURL {
+//                if !handleUniversalLink(webpageURL) {
+//                    UIApplication.sharedApplication().openURL(webpageURL)
+//                }
+//            } else {
+//                return false
+//            }
         }
+
         return true
     }
     
-    private func handleUniversalLink(URL url: NSURL) -> Bool {
-        if let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: true),
-            let host = components.host,
-            let pathComponents = url.pathComponents {
+    private func handleUniversalLink(URL: NSURL) -> Bool {
+
+        let matchSharedFeed = URL.yep_matchSharedFeed({ feed in
+
+            println("matchSharedFeed: \(feed)")
+        })
+
+        if !matchSharedFeed {
+
+        }
+
+        return true
+
+        /*
+        guard let host = URL.host else {
+            return false
+        }
+
+        guard let
+            //components = NSURLComponents(URL: URL, resolvingAgainstBaseURL: true),
+            //host = components.host,
+            pathComponents = URL.pathComponents else {
+                return false
+        }
+
+        println("host: \(host)")
+        println("relativeString: \(URL.relativeString)")
+        println("absoluteString: \(URL.absoluteString)")
+        println("path: \(URL.path)")
+        println("query: \(URL.query)")
+
+
             switch host {
+
             case "soyep.com":
+
+                let pathString = pathComponents.joinWithSeparator("$")
+
+                println("pathString: \(pathString)")
                 
                 // For Group
-                if safeFindElement(pathComponents, index: 1) == "groups" && safeFindElement(pathComponents, index: 2) == "share" {
-                    if let feedShareToken = url.queryItemForKey("token")?.value {
-                        feedWithFeedToken(feedShareToken, failureHandler: nil, completion: { (feed) -> Void in
-                            print(feed)
-                        })
-                    }
-                    
-                } else if pathComponents.count == 2 { // For Profile
-                    if let username = safeFindElement(pathComponents, index: 1) {
-                        
-                    }
-                }
-                
+//                if let first = pathComponents[safe: 1] where first == "groups" {
+//                    if let second = pathComponents[safe: 2] where second == "share" {
+//                        if let feedShareToken = URL.queryItemForKey("token")?.value {
+//                            feedWithFeedToken(feedShareToken, failureHandler: nil, completion: { (feed) -> Void in
+//                                println("feedWithFeedToken: \(feed)")
+//                            })
+//                        }
+//                    }
+//
+//                } else {
+//
+//                }
+//                if safeFindElement(pathComponents, index: 1) == "groups" && safeFindElement(pathComponents, index: 2) == "share" {
+//                    if let feedShareToken = url.queryItemForKey("token")?.value {
+//                        feedWithFeedToken(feedShareToken, failureHandler: nil, completion: { (feed) -> Void in
+//                            print(feed)
+//                        })
+//                    }
+//                    
+//                } else if pathComponents.count == 2 { // For Profile
+//                    if let username = safeFindElement(pathComponents, index: 1) {
+//                        
+//                    }
+//                }
+
                 return true
                 
             default:
                 return false
             }
-            
-        }
-        return false
+
+        */
     }
 
     // MARK: Public
