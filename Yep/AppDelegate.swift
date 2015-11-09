@@ -322,7 +322,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return URL.yep_matchSharedFeed({ feed in
 
-            println("matchSharedFeed: \(feed)")
+            //println("matchSharedFeed: \(feed)")
 
             guard let
                 vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController,
@@ -340,7 +340,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         }) || URL.yep_matchProfile({ discoveredUser in
 
-            println("matchProfile: \(discoveredUser)")
+            //println("matchProfile: \(discoveredUser)")
 
             guard let
                 vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController else {
@@ -355,67 +355,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             nvc.pushViewController(vc, animated: true)
         })
-
-        /*
-        guard let host = URL.host else {
-            return false
-        }
-
-        guard let
-            //components = NSURLComponents(URL: URL, resolvingAgainstBaseURL: true),
-            //host = components.host,
-            pathComponents = URL.pathComponents else {
-                return false
-        }
-
-        println("host: \(host)")
-        println("relativeString: \(URL.relativeString)")
-        println("absoluteString: \(URL.absoluteString)")
-        println("path: \(URL.path)")
-        println("query: \(URL.query)")
-
-
-            switch host {
-
-            case "soyep.com":
-
-                let pathString = pathComponents.joinWithSeparator("$")
-
-                println("pathString: \(pathString)")
-                
-                // For Group
-//                if let first = pathComponents[safe: 1] where first == "groups" {
-//                    if let second = pathComponents[safe: 2] where second == "share" {
-//                        if let feedShareToken = URL.queryItemForKey("token")?.value {
-//                            feedWithFeedToken(feedShareToken, failureHandler: nil, completion: { (feed) -> Void in
-//                                println("feedWithFeedToken: \(feed)")
-//                            })
-//                        }
-//                    }
-//
-//                } else {
-//
-//                }
-//                if safeFindElement(pathComponents, index: 1) == "groups" && safeFindElement(pathComponents, index: 2) == "share" {
-//                    if let feedShareToken = url.queryItemForKey("token")?.value {
-//                        feedWithFeedToken(feedShareToken, failureHandler: nil, completion: { (feed) -> Void in
-//                            print(feed)
-//                        })
-//                    }
-//                    
-//                } else if pathComponents.count == 2 { // For Profile
-//                    if let username = safeFindElement(pathComponents, index: 1) {
-//                        
-//                    }
-//                }
-
-                return true
-                
-            default:
-                return false
-            }
-
-        */
     }
 
     // MARK: Public
