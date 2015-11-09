@@ -312,16 +312,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func handleUniversalLink(URL: NSURL) -> Bool {
 
-        let matchSharedFeed = URL.yep_matchSharedFeed({ feed in
+        return URL.yep_matchSharedFeed({ feed in
 
             println("matchSharedFeed: \(feed)")
+
+        }) || URL.yep_matchProfile({
+
+            println("matchProfile")
         })
-
-        if !matchSharedFeed {
-
-        }
-
-        return true
 
         /*
         guard let host = URL.host else {

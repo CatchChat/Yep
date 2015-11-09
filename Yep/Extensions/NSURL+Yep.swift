@@ -51,5 +51,27 @@ extension NSURL {
 
         return false
     }
+
+    // make sure put it in last
+
+    func yep_matchProfile(completion: () -> Void) -> Bool {
+
+        guard let host = host where host == yepHost else {
+            return false
+        }
+
+        guard let pathComponents = pathComponents else {
+            return false
+        }
+
+        if let username = safeFindElement(pathComponents, index: 1) {
+
+            completion()
+
+            return true
+        }
+
+        return false
+    }
 }
 
