@@ -1,19 +1,20 @@
 PODS:
   - 1PasswordExtension (1.6.3)
-  - Alamofire (3.1.1)
+  - Alamofire (3.1.2)
   - APAddressBook/Core (0.2.1)
   - APAddressBook/Swift (0.2.1):
     - APAddressBook/Core
   - Base64 (1.0.1)
-  - Crashlytics (3.3.4)
+  - Crashlytics (3.4.0):
+    - Fabric (~> 1.6.0)
   - DeviceGuru (1.2.3)
-  - Fabric (1.5.5):
-    - Fabric/Base (= 1.5.5)
-  - Fabric/Base (1.5.5)
+  - Fabric (1.6.0):
+    - Fabric/Base (= 1.6.0)
+  - Fabric/Base (1.6.0)
   - FXBlurView (1.6.4)
   - JPush-iOS-SDK (1.8.8)
   - KeyboardMan (0.5.2)
-  - Kingfisher (1.7.1)
+  - Kingfisher (1.8.0)
   - MonkeyKing (0.0.2)
   - MZFayeClient (1.0.1):
     - Base64 (~> 1.0.1)
@@ -52,20 +53,20 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   MZFayeClient:
-    :path: "../CatchLib-iOS/MZFayeClient/"
+    :path: ../CatchLib-iOS/MZFayeClient/
 
 SPEC CHECKSUMS:
   1PasswordExtension: 676a216461ffa9189db66541b5a2465e10ae4743
-  Alamofire: 9b0a7188b961a03914a99304488bd226b0e46c0e
+  Alamofire: 7c16ca65f3c7e681fd925fd7f2dec7747ff96855
   APAddressBook: 90c0fb07579a47e10ef1a2344e23cfd35f388bec
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
-  Crashlytics: 41c082440d2e14da444186fff65e79c0b4b35d4c
+  Crashlytics: 1ee87895c37472eb3f01f409ea1654a464d2f8d4
   DeviceGuru: 6703820f7058693781c0048184eb4c3594b602cc
-  Fabric: 190bf1a6eb65f7500de1347d027d2e59a7e53db1
+  Fabric: d737eda3a26ac940a5430230eedb35f16b226131
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   JPush-iOS-SDK: d4c097d8abbdd0837e24d44b41aacf64a6feddfd
   KeyboardMan: b081c254c5c0adc794a49b4e97a86cb4ac917a66
-  Kingfisher: c65d078cfc202639f2b6ddd49f09f742cef8781a
+  Kingfisher: 4d40a6d8a0030b575be66593cae3aea587971a67
   MonkeyKing: 9be24307843a80f4cd3eca66adc12c67aefb83bb
   MZFayeClient: 65e7ef67e61fbe7a7a8b196130541c9f06bcb5d8
   Navi: 891defbce3c48dcf31d05d3c2cbc8b7fe6c77c30
