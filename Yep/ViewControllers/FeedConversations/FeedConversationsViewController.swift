@@ -167,10 +167,15 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                     
                     deleteConversation(conversation, inRealm: realm)
                     
+                    
+                    realm.refresh()
+                    
                     NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                     
-                    tableView.setEditing(false, animated: true)
-                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    delay(0.1, work: { () -> Void in
+                        tableView.setEditing(false, animated: true)
+                        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    })
                     
                 }
                 

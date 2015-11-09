@@ -176,34 +176,7 @@ class NewFeedViewController: UIViewController {
             vc.completion = { [weak self] images, imageAssets in
                 
                 for image in images {
-                    
-                    let imageWidth = image.size.width
-                    let imageHeight = image.size.height
-                    
-                    let fixedImageWidth: CGFloat
-                    let fixedImageHeight: CGFloat
-                    
-                    if imageWidth > imageHeight {
-                        fixedImageWidth = min(imageWidth, YepConfig.Media.imageWidth)
-                        fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
-                    } else {
-                        fixedImageHeight = min(imageHeight, YepConfig.Media.imageHeight)
-                        fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
-                    }
-                    
-                    let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
-                    
-                    var quality = CGInterpolationQuality.High
-                    
-                    if let pickedCategory = self?.pickedSkill?.category {
-                        if pickedCategory.name.lowercaseString == "art" {
-                            quality = CGInterpolationQuality.High
-                        }
-                    }
-                    
-                    if let finalImage = image.resizeToSize(fixedSize, withInterpolationQuality: quality) {
-                        self?.mediaImages.append(finalImage)
-                    }
+                    self?.mediaImages.append(image)
                 }
 //                self?.imageAssets = imageAssets
             }
@@ -312,6 +285,7 @@ class NewFeedViewController: UIViewController {
             return
         }
         
+        // Begin Uploading
         YepHUD.showActivityIndicator()
         
         let message = messageTextView.text
@@ -324,7 +298,27 @@ class NewFeedViewController: UIViewController {
         
         mediaImages.forEach({ image in
             
-            if let imageData = UIImageJPEGRepresentation(image, 0.7) {
+            let imageWidth = image.size.width
+            let imageHeight = image.size.height
+            
+            let fixedImageWidth: CGFloat
+            let fixedImageHeight: CGFloat
+            
+            if imageWidth > imageHeight {
+                fixedImageWidth = min(imageWidth, YepConfig.Media.imageWidth)
+                fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
+            } else {
+                fixedImageHeight = min(imageHeight, YepConfig.Media.imageHeight)
+                fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
+            }
+            
+            let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
+            
+            // resize to smaller, not need fixRotation
+            
+            
+            if let image = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.High),
+                imageData = UIImageJPEGRepresentation(image, 0.95) {
                 
                 dispatch_group_enter(uploadMediaImagesGroup)
                 
@@ -609,38 +603,8 @@ extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationCo
             case kUTTypeImage as! String:
                 
                 if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-                    
-                    let imageWidth = image.size.width
-                    let imageHeight = image.size.height
-                    
-                    let fixedImageWidth: CGFloat
-                    let fixedImageHeight: CGFloat
-                    
-                    if imageWidth > imageHeight {
-                        fixedImageWidth = min(imageWidth, YepConfig.Media.imageWidth)
-                        fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
-                    } else {
-                        fixedImageHeight = min(imageHeight, YepConfig.Media.imageHeight)
-                        fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
-                    }
-                    
-                    let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
-                    
-                    // resize to smaller, not need fixRotation
-                    
-                    var quality = CGInterpolationQuality.High
-                    
-                    if let pickedCategory = pickedSkill?.category {
-                        if pickedCategory.name == "Art" {
-                            quality = CGInterpolationQuality.High
-                        }
-                    }
-                    
-                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: quality) {
-                        
-                        if mediaImages.count <= 3 {
-                            mediaImages.append(fixedImage) 
-                        }
+                    if mediaImages.count <= 3 {
+                        mediaImages.append(image)
                     }
                 }
                 
