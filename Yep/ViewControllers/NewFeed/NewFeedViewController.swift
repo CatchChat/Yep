@@ -193,7 +193,7 @@ class NewFeedViewController: UIViewController {
                     
                     let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
                     
-                    var quality = CGInterpolationQuality.Medium
+                    var quality = CGInterpolationQuality.High
                     
                     if let pickedCategory = self?.pickedSkill?.category {
                         if pickedCategory.name.lowercaseString == "art" {
@@ -628,7 +628,7 @@ extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationCo
                     
                     // resize to smaller, not need fixRotation
                     
-                    var quality = CGInterpolationQuality.Medium
+                    var quality = CGInterpolationQuality.High
                     
                     if let pickedCategory = pickedSkill?.category {
                         if pickedCategory.name == "Art" {
