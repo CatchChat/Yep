@@ -44,6 +44,7 @@
 		500A0B1C1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */; };
 		500A0B1F1B451A6F00D49358 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1E1B451A6F00D49358 /* BadgeView.swift */; };
 		500EED961BF06AC900C6BABC /* NSURL+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500EED951BF06AC900C6BABC /* NSURL+Yep.swift */; };
+		500EED981BF07A3000C6BABC /* ConversationViewController+Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */; };
 		501138261BCB59120055A014 /* FeedConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501138251BCB59120055A014 /* FeedConversationsViewController.swift */; };
 		501138291BCB593F0055A014 /* FeedConversations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 501138281BCB593F0055A014 /* FeedConversations.storyboard */; };
 		5011382C1BCB5E150055A014 /* FeedConversationDockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011382A1BCB5E150055A014 /* FeedConversationDockCell.swift */; };
@@ -380,6 +381,7 @@
 		500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditNicknameAndBadgeViewController.swift; path = ViewControllers/EditNicknameAndBadge/EditNicknameAndBadgeViewController.swift; sourceTree = "<group>"; };
 		500A0B1E1B451A6F00D49358 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgeView.swift; path = Views/Badge/BadgeView.swift; sourceTree = "<group>"; };
 		500EED951BF06AC900C6BABC /* NSURL+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURL+Yep.swift"; path = "Extensions/NSURL+Yep.swift"; sourceTree = "<group>"; };
+		500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+Feed.swift"; path = "ViewControllers/Conversation/ConversationViewController+Feed.swift"; sourceTree = "<group>"; };
 		501138251BCB59120055A014 /* FeedConversationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedConversationsViewController.swift; path = ViewControllers/FeedConversations/FeedConversationsViewController.swift; sourceTree = "<group>"; };
 		501138281BCB593F0055A014 /* FeedConversations.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FeedConversations.storyboard; sourceTree = "<group>"; };
 		5011382A1BCB5E150055A014 /* FeedConversationDockCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedConversationDockCell.swift; path = Views/Cells/FeedConversationDock/FeedConversationDockCell.swift; sourceTree = "<group>"; };
@@ -1374,6 +1376,7 @@
 			isa = PBXGroup;
 			children = (
 				503CAB421AC00CB100DFE830 /* ConversationViewController.swift */,
+				500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */,
 				50165C441AC2860900C7AEBE /* ConversationLayout.swift */,
 				5076FC591AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift */,
 				505498611B12FB0E0037E3BD /* ConversationMessagePreviewNavigationControllerDelegate.swift */,
@@ -2461,6 +2464,7 @@
 				500EED961BF06AC900C6BABC /* NSURL+Yep.swift in Sources */,
 				5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */,
 				502AE5581AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift in Sources */,
+				500EED981BF07A3000C6BABC /* ConversationViewController+Feed.swift in Sources */,
 				508F8FDE1B049ACF00461B0B /* InstagramMediaCell.swift in Sources */,
 				502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */,
 				84C959891B731FD20017D3ED /* ChatBaseCell.swift in Sources */,

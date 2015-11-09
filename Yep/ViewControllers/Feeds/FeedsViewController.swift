@@ -442,61 +442,21 @@ class FeedsViewController: BaseViewController {
 
         case "showConversation":
 
+            let vc = segue.destinationViewController as! ConversationViewController
+
             guard let
                 indexPath = sender as? NSIndexPath,
                 feed = feeds[safe: indexPath.row],
-                realm = try? Realm() else {
+                realm = try? Realm(),
+                feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm) else {
                     return
-            }
-            
-            let vc = segue.destinationViewController as! ConversationViewController
-            
-            let groupID = feed.groupID
-            var group = groupWithGroupID(groupID, inRealm: realm)
-
-            if group == nil {
-
-                let newGroup = Group()
-                newGroup.groupID = groupID
-
-                let _ = try? realm.write {
-                    realm.add(newGroup)
-                }
-
-                group = newGroup
-            }
-
-            guard let feedGroup = group else {
-                return
-            }
-
-            if feedGroup.conversation == nil {
-
-                let newConversation = Conversation()
-
-                newConversation.type = ConversationType.Group.rawValue
-                newConversation.withGroup = feedGroup
-
-                let _ = try? realm.write {
-                    realm.add(newConversation)
-                }
-            }
-
-            guard let feedConversation = feedGroup.conversation else {
-                return
             }
 
             vc.conversation = feedConversation
-
+            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
             vc.afterDeletedConversationAction = { [weak self] in
                 self?.updateFeeds()
             }
-            
-            if let group = group {
-                saveFeedWithFeedDataWithoutFullGroup(feed, group: group, inRealm: realm)
-            }
-
-            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
 
         case "showFeedMedia":
 

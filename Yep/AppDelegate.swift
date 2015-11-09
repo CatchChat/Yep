@@ -329,51 +329,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewControllerWithIdentifier("ConversationViewController") as! ConversationViewController
 
-            guard let realm = try? Realm() else {
-                return
-            }
-
-            let groupID = feed.groupID
-            var group = groupWithGroupID(groupID, inRealm: realm)
-
-            if group == nil {
-
-                let newGroup = Group()
-                newGroup.groupID = groupID
-
-                let _ = try? realm.write {
-                    realm.add(newGroup)
-                }
-
-                group = newGroup
-            }
-
-            guard let feedGroup = group else {
-                return
-            }
-
-            if feedGroup.conversation == nil {
-
-                let newConversation = Conversation()
-
-                newConversation.type = ConversationType.Group.rawValue
-                newConversation.withGroup = feedGroup
-
-                let _ = try? realm.write {
-                    realm.add(newConversation)
-                }
-            }
-
-            guard let feedConversation = feedGroup.conversation else {
-                return
+            guard let
+                realm = try? Realm(),
+                feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm) else {
+                    return
             }
 
             vc.conversation = feedConversation
-
-            if let group = group {
-                saveFeedWithFeedDataWithoutFullGroup(feed, group: group, inRealm: realm)
-            }
-            
             vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
 
             nvc.pushViewController(vc, animated: true)
