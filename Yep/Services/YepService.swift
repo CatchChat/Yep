@@ -415,6 +415,23 @@ func userInfoOfUserWithUserID(userID: String, failureHandler: ((Reason, String?)
     }
 }
 
+func discoverUserByUsername(username: String, failureHandler: ((Reason, String?) -> Void)?, completion: DiscoveredUser -> Void) {
+
+    let parse: JSONDictionary -> DiscoveredUser? = { data in
+
+        //println("discoverUserByUsernamedata: \(data)")
+        return parseDiscoveredUser(data)
+    }
+
+    let resource = authJsonResource(path: "/api/v1/users/\(username)/profile", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 // 自己的信息
 func userInfo(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
     let parse: JSONDictionary -> JSONDictionary? = { data in

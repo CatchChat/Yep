@@ -312,16 +312,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func handleUniversalLink(URL: NSURL) -> Bool {
 
-        return URL.yep_matchSharedFeed({ [weak self] feed in
+        guard let
+            tabBarVC = window?.rootViewController as? UITabBarController,
+            nvc = tabBarVC.selectedViewController as? UINavigationController else {
+                return false
+        }
+
+        // Feed (Group)
+
+        return URL.yep_matchSharedFeed({ feed in
 
             println("matchSharedFeed: \(feed)")
 
             guard let
-                tabBarVC = self?.window?.rootViewController as? UITabBarController,
-                nvc = tabBarVC.selectedViewController as? UINavigationController,
                 vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController,
                 realm = try? Realm(),
-                feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)else {
+                feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm) else {
                     return
             }
 
@@ -330,12 +336,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             nvc.pushViewController(vc, animated: true)
 
-        }) || URL.yep_matchProfile({
+        // Profile (Last)
 
-            println("matchProfile")
+        }) || URL.yep_matchProfile({ discoveredUser in
 
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let profileVC = storyboard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+            println("matchProfile: \(discoveredUser)")
+
+            guard let
+                vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController else {
+                    return
+            }
+
+            vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+            vc.fromType = .None
+            vc.setBackButtonWithTitle()
+
+            vc.hidesBottomBarWhenPushed = true
+
+            nvc.pushViewController(vc, animated: true)
         })
 
         /*

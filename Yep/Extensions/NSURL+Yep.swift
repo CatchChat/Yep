@@ -56,7 +56,7 @@ extension NSURL {
 
     // make sure put it in last
 
-    func yep_matchProfile(completion: () -> Void) -> Bool {
+    func yep_matchProfile(completion: DiscoveredUser -> Void) -> Bool {
 
         guard let host = host where host == yepHost else {
             return false
@@ -68,9 +68,12 @@ extension NSURL {
 
         if let username = pathComponents[safe: 1] {
 
-            dispatch_async(dispatch_get_main_queue()) {
-                completion()
-            }
+            discoverUserByUsername(username, failureHandler: nil, completion: { discoveredUser in
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion(discoveredUser)
+                }
+            })
 
             return true
         }
