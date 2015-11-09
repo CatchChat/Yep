@@ -287,48 +287,74 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-            if let webpageURL = userActivity.webpageURL {
-                if !handleUniversalLink(URL: webpageURL) {
-                    UIApplication.sharedApplication().openURL(webpageURL)
-                }
-            } else {
+
+            guard let webpageURL = userActivity.webpageURL else {
                 return false
             }
 
+            if !handleUniversalLink(webpageURL) {
+                UIApplication.sharedApplication().openURL(webpageURL)
+            }
+
+//            if let webpageURL = userActivity.webpageURL {
+//                if !handleUniversalLink(webpageURL) {
+//                    UIApplication.sharedApplication().openURL(webpageURL)
+//                }
+//            } else {
+//                return false
+//            }
         }
+
         return true
     }
     
-    private func handleUniversalLink(URL url: NSURL) -> Bool {
-        if let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: true),
-            let host = components.host,
-            let pathComponents = url.pathComponents {
-            switch host {
-            case "soyep.com":
-                
-                // For Group
-                if safeFindElement(pathComponents, index: 1) == "groups" && safeFindElement(pathComponents, index: 2) == "share" {
-                    if let feedShareToken = url.queryItemForKey("token")?.value {
-                        feedWithFeedToken(feedShareToken, failureHandler: nil, completion: { (feed) -> Void in
-                            print(feed)
-                        })
-                    }
-                    
-                } else if pathComponents.count == 2 { // For Profile
-                    if let username = safeFindElement(pathComponents, index: 1) {
-                        
-                    }
-                }
-                
-                return true
-                
-            default:
+    private func handleUniversalLink(URL: NSURL) -> Bool {
+
+        guard let
+            tabBarVC = window?.rootViewController as? UITabBarController,
+            nvc = tabBarVC.selectedViewController as? UINavigationController else {
                 return false
-            }
-            
         }
-        return false
+
+        // Feed (Group)
+
+        return URL.yep_matchSharedFeed({ feed in
+
+            //println("matchSharedFeed: \(feed)")
+
+            guard let
+                vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController,
+                realm = try? Realm(),
+                feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm) else {
+                    return
+            }
+
+            vc.conversation = feedConversation
+            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
+
+            nvc.pushViewController(vc, animated: true)
+
+        // Profile (Last)
+
+        }) || URL.yep_matchProfile({ discoveredUser in
+
+            //println("matchProfile: \(discoveredUser)")
+
+            guard let
+                vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController else {
+                    return
+            }
+
+            vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+            vc.fromType = .None
+            vc.setBackButtonWithTitle()
+
+            vc.hidesBottomBarWhenPushed = true
+
+            nvc.pushViewController(vc, animated: true)
+        })
     }
 
     // MARK: Public
