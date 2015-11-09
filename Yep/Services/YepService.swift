@@ -2588,7 +2588,7 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
     }
 }
 
-func feedWithFeedToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: DiscoveredFeed? -> Void) {
+func feedWithSharedToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: DiscoveredFeed -> Void) {
 
     let requestParameters: JSONDictionary = [
         "token": token,

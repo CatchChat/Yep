@@ -37,12 +37,10 @@ extension NSURL {
 
         if let first = pathComponents[safe: 1] where first == "groups" {
             if let second = pathComponents[safe: 2] where second == "share" {
-                if let feedShareToken = queryItemForKey("token")?.value {
-                    feedWithFeedToken(feedShareToken, failureHandler: nil, completion: { feed in
-                        if let feed = feed {
-                            dispatch_async(dispatch_get_main_queue()) {
-                                completion(feed)
-                            }
+                if let sharedToken = queryItemForKey("token")?.value {
+                    feedWithSharedToken(sharedToken, failureHandler: nil, completion: { feed in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            completion(feed)
                         }
                     })
 
