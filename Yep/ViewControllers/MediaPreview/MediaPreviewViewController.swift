@@ -77,14 +77,26 @@ class MediaPreviewViewController: UIViewController {
         //let finalWidth = UIScreen.mainScreen().bounds.width
         //let finalHeight = UIScreen.mainScreen().bounds.height
 
+        view.backgroundColor = UIColor.clearColor()
+
         mediasCollectionView.alpha = 0
+        mediaControlView.alpha = 0
 
         UIView.animateWithDuration(1.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+
+            self?.view.backgroundColor = UIColor.blackColor()
 
             self?.previewImageView.frame = CGRect(x: 0, y: (viewHeight - previewImageViewHeight) * 0.5, width: previewImageViewWidth, height: previewImageViewHeight)
 
         }, completion: { [weak self] _ in
             self?.mediasCollectionView.alpha = 1
+
+            UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+
+                self?.mediaControlView.alpha = 1
+
+            }, completion: nil)
+
             self?.previewImageView.alpha = 0
         })
 
@@ -99,9 +111,16 @@ class MediaPreviewViewController: UIViewController {
     func dismiss() {
 
         previewImageView.alpha = 1
+
         mediasCollectionView.alpha = 0
 
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            self?.mediaControlView.alpha = 0
+        }, completion: nil)
+
         UIView.animateWithDuration(1.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+
+            self?.view.backgroundColor = UIColor.clearColor()
 
             self?.previewImageView.frame = self?.previewImageViewInitalFrame ?? CGRectZero
 
