@@ -37,6 +37,7 @@ class MediaPreviewViewController: UIViewController {
     let mediaViewCellID = "MediaViewCell"
 
     deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
         println("deinit MediaPreview")
     }
 
@@ -87,7 +88,7 @@ class MediaPreviewViewController: UIViewController {
         mediasCollectionView.alpha = 0
         mediaControlView.alpha = 0
 
-        UIView.animateWithDuration(1.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
 
             self?.view.backgroundColor = UIColor.blackColor()
 
@@ -144,15 +145,18 @@ class MediaPreviewViewController: UIViewController {
 
     func dismiss() {
 
+        currentPlayer?.removeObserver(self, forKeyPath: "status")
+        currentPlayer?.pause()
+
         previewImageView.alpha = 1
 
         mediasCollectionView.alpha = 0
 
-        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
             self?.mediaControlView.alpha = 0
         }, completion: nil)
 
-        UIView.animateWithDuration(1.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
 
             self?.view.backgroundColor = UIColor.clearColor()
 
