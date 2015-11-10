@@ -43,12 +43,14 @@ extension UIImage {
         let scale = UIScreen.mainScreen().scale
         let newSize: CGSize
         if(widthRatio > heightRatio) {
-            newSize = CGSizeMake(scale * size.width * heightRatio, scale * size.height * heightRatio)
+            newSize = CGSizeMake(scale * floor(size.width * heightRatio), scale * floor(size.height * heightRatio))
         } else {
-            newSize = CGSizeMake(scale * size.width * widthRatio, scale * size.height * widthRatio)
+            newSize = CGSizeMake(scale * floor(size.width * widthRatio), scale * floor(size.height * widthRatio))
         }
 
         let rect = CGRectMake(0, 0, floor(newSize.width), floor(newSize.height))
+
+        //println("size: \(size), newSize: \(newSize), rect: \(rect)")
 
         UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
         self.drawInRect(rect)

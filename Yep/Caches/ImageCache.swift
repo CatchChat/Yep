@@ -55,8 +55,7 @@ class ImageCache {
                 //查找原图
                 
                 Kingfisher.ImageCache.defaultCache.retrieveImageForKey(attachmentOriginKey, options: OptionsInfos) { (image, type) -> () in
-                    
-                    
+
                     if let image = image {
                         
                         //裁剪并存储
@@ -64,9 +63,10 @@ class ImageCache {
                         
                         if cacheSize != CGSizeZero {
                             finalImage = finalImage.resizeToTargetSize(cacheSize)
-                            
-                            Kingfisher.ImageCache.defaultCache.storeImage(finalImage,  originalData: UIImageJPEGRepresentation(finalImage, 1.0), forKey: attachmentSizeKey, toDisk: true, completionHandler: { () -> () in
-                                
+
+                            let originalData = UIImageJPEGRepresentation(finalImage, 1.0)
+                            //let originalData = UIImagePNGRepresentation(finalImage)
+                            Kingfisher.ImageCache.defaultCache.storeImage(finalImage, originalData: originalData, forKey: attachmentSizeKey, toDisk: true, completionHandler: { () -> () in
                             })
                         }
                         
