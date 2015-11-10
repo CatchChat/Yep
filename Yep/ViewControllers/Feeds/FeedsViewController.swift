@@ -585,13 +585,36 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 }
             }
 
-            cell.tapMediaAction = { [weak self] transitionView, attachments, index in
+            cell.tapMediaAction = { [weak self] transitionView, image, attachments, index in
+
+                let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
+
+                vc.previewMedias = attachments.map({ PreviewMedia.AttachmentType(attachment: $0) })
+                vc.startIndex = index
+
+                let transitionView = transitionView
+                let frame = transitionView.convertRect(transitionView.frame, toView: self?.view)
+                vc.previewImageViewInitalFrame = frame
+                vc.previewImage = image
+
+                transitionView.alpha = 0
+                vc.afterDismissAction = { [weak self] in
+                    self?.view.window?.makeKeyAndVisible()
+                    transitionView.alpha = 1
+                }
+
+                mediaPreviewWindow.rootViewController = vc
+                mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
+                mediaPreviewWindow.makeKeyAndVisible()
+
+                /*
                 let info: [String: AnyObject] = [
                     "transitionView": transitionView,
                     "attachments": Box(value: attachments),
                     "index": index,
                 ]
                 self?.performSegueWithIdentifier("showFeedMedia", sender: info)
+                */
             }
 
             // simulate select effects when tap on messageTextView or cell.mediaCollectionView's space part

@@ -30,7 +30,7 @@ class FeedCell: UITableViewCell {
 
     var tapAvatarAction: (UITableViewCell -> Void)?
     var tapSkillAction: (UITableViewCell -> Void)?
-    var tapMediaAction: ((transitionView: UIView, attachments: [DiscoveredAttachment], index: Int) -> Void)?
+    var tapMediaAction: ((transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void)?
 
     var touchesBeganAction: (UITableViewCell -> Void)?
     var touchesEndedAction: (UITableViewCell -> Void)?
@@ -263,7 +263,7 @@ extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegate {
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedMediaCell
 
         let transitionView = cell.imageView
-        tapMediaAction?(transitionView: transitionView, attachments: attachments, index: indexPath.item)
+        tapMediaAction?(transitionView: transitionView, image: cell.imageView.image, attachments: attachments, index: indexPath.item)
     }
 }
 
