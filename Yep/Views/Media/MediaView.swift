@@ -197,9 +197,15 @@ class MediaView: UIView {
 
         scrollView.contentInset = UIEdgeInsets(top: vSpace, left: hSpace, bottom: vSpace, right: hSpace)
 
-        //println("------> scrollView.zoomScale: \(scrollView.zoomScale)")
-        //println("scrollViewSize: \(scrollViewSize), imageSize: \(imageSize), scaledImageSize: \(scaledImageSize)")
-        //println("------> scrollView.contentInset: \(scrollView.contentInset)")
+//        println("------>>>>>>>>>>>>")
+//        println("scrollView.zoomScale: \(scrollView.zoomScale)")
+//        println("scrollViewSize: \(scrollViewSize), imageSize: \(imageSize), scaledImageSize: \(scaledImageSize)")
+//        println("scrollView.contentInset: \(scrollView.contentInset)")
+//        println("------>")
+
+        if (scaledImageSize.height / scaledImageSize.width) > (scrollViewSize.height / scrollViewSize.width) {
+            scrollView.setContentOffset(CGPointZero, animated: true)
+        }
     }
 }
 
