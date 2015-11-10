@@ -1,5 +1,5 @@
 PODS:
-  - 1PasswordExtension (1.6.3)
+  - 1PasswordExtension (1.6.4)
   - Alamofire (3.1.2)
   - APAddressBook/Core (0.2.1)
   - APAddressBook/Swift (0.2.1):
@@ -53,10 +53,10 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   MZFayeClient:
-    :path: "../CatchLib-iOS/MZFayeClient/"
+    :path: ../CatchLib-iOS/MZFayeClient/
 
 SPEC CHECKSUMS:
-  1PasswordExtension: 676a216461ffa9189db66541b5a2465e10ae4743
+  1PasswordExtension: 9f471645d378283cb88c6d4bf502e4381a42c0ad
   Alamofire: 7c16ca65f3c7e681fd925fd7f2dec7747ff96855
   APAddressBook: 90c0fb07579a47e10ef1a2344e23cfd35f388bec
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a

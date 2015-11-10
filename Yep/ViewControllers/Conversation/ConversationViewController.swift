@@ -2760,6 +2760,71 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     private func tryShowMessageMediaFromMessage(message: Message) {
 
+        if let messageIndex = messages.indexOf(message) {
+
+            let indexPath = NSIndexPath(forRow: messageIndex - displayedMessagesRange.location , inSection: 0)
+
+            if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) {
+
+                var frame = CGRectZero
+                var transitionView: UIView?
+
+                if let sender = message.fromFriend {
+                    if sender.friendState != UserFriendState.Me.rawValue {
+                        switch message.mediaType {
+
+                        case MessageMediaType.Image.rawValue:
+                            let cell = cell as! ChatLeftImageCell
+                            transitionView = cell.messageImageView
+                            frame = cell.convertRect(cell.messageImageView.frame, toView: view)
+
+                        case MessageMediaType.Video.rawValue:
+                            let cell = cell as! ChatLeftVideoCell
+                            transitionView = cell.thumbnailImageView
+                            frame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+
+                        case MessageMediaType.Location.rawValue:
+                            let cell = cell as! ChatLeftLocationCell
+                            transitionView = cell.mapImageView
+                            frame = cell.convertRect(cell.mapImageView.frame, toView: view)
+
+                        default:
+                            break
+                        }
+
+                    } else {
+                        switch message.mediaType {
+
+                        case MessageMediaType.Image.rawValue:
+                            let cell = cell as! ChatRightImageCell
+                            transitionView = cell.messageImageView
+                            frame = cell.convertRect(cell.messageImageView.frame, toView: view)
+
+                        case MessageMediaType.Video.rawValue:
+                            let cell = cell as! ChatRightVideoCell
+                            transitionView = cell.thumbnailImageView
+                            frame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+
+                        case MessageMediaType.Location.rawValue:
+                            let cell = cell as! ChatRightLocationCell
+                            transitionView = cell.mapImageView
+                            frame = cell.convertRect(cell.mapImageView.frame, toView: view)
+
+                        default:
+                            break
+                        }
+                    }
+                }
+
+                let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
+                vc.previewMedias = [PreviewMedia.MessageType(message: message)]
+
+                mediaPreviewWindow.rootViewController = vc
+                mediaPreviewWindow.makeKeyAndVisible()
+            }
+        }
+
+        /*
         if message.mediaType == MessageMediaType.Video.rawValue {
             performSegueWithIdentifier("showMessageMedia", sender: ["mediaMessages": [message], "index": 0])
 
@@ -2775,6 +2840,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 performSegueWithIdentifier("showMessageMedia", sender: ["mediaMessages": mediaMessages, "index": index])
             }
         }
+        */
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
