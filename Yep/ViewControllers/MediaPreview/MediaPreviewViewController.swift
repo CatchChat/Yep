@@ -164,6 +164,31 @@ class MediaPreviewViewController: UIViewController {
         currentPlayer?.removeObserver(self, forKeyPath: "status")
         currentPlayer?.pause()
 
+        let finishDismissAction: () -> Void = { [weak self] in
+
+            mediaPreviewWindow.windowLevel = UIWindowLevelNormal
+
+            self?.afterDismissAction?()
+
+            delay(0.2) {
+                mediaPreviewWindow.rootViewController = nil
+            }
+        }
+
+//        guard currentIndex == startIndex else {
+//
+//            UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+//                self?.view.backgroundColor = UIColor.clearColor()
+//                self?.mediaControlView.alpha = 0
+//                self?.mediasCollectionView.alpha = 0
+//
+//            }, completion: { _ in
+//                finishDismissAction()
+//            })
+//
+//            return
+//        }
+
         if let _ = topPreviewImage {
             topPreviewImageView.alpha = 1
             bottomPreviewImageView.alpha = 0
@@ -191,14 +216,8 @@ class MediaPreviewViewController: UIViewController {
             self?.topPreviewImageView.frame = frame
             self?.bottomPreviewImageView.frame = frame
 
-        }, completion: { [weak self] _ in
-            mediaPreviewWindow.windowLevel = UIWindowLevelNormal
-
-            self?.afterDismissAction?()
-
-            delay(0.2) {
-                mediaPreviewWindow.rootViewController = nil
-            }
+        }, completion: { _ in
+            finishDismissAction()
         })
     }
 
