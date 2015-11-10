@@ -27,12 +27,14 @@ class MediaPreviewViewController: UIViewController {
         let imageView = UIImageView()
         imageView.contentMode = .ScaleAspectFill // 缩放必要
         imageView.clipsToBounds = true
+        imageView.backgroundColor = UIColor.clearColor()
         return imageView
     }()
     lazy var bottomPreviewImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .ScaleAspectFill // 缩放必要
         imageView.clipsToBounds = true
+        imageView.backgroundColor = UIColor.clearColor()
         return imageView
     }()
     var previewImageViewInitalFrame: CGRect?
@@ -51,6 +53,7 @@ class MediaPreviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        mediasCollectionView.backgroundColor = UIColor.clearColor()
         mediasCollectionView.registerNib(UINib(nibName: mediaViewCellID, bundle: nil), forCellWithReuseIdentifier: mediaViewCellID)
 
         guard let previewImageViewInitalFrame = previewImageViewInitalFrame else {
