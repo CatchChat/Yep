@@ -131,6 +131,14 @@ class MediaPreviewViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: "dismiss")
         view.addGestureRecognizer(tap)
 
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: "dismiss")
+        swipeUp.direction = .Up
+        view.addGestureRecognizer(swipeUp)
+
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: "dismiss")
+        swipeDown.direction = .Down
+        view.addGestureRecognizer(swipeDown)
+
         currentIndex = startIndex
     }
 
@@ -336,7 +344,6 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
 
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        //func scrollViewDidScroll(scrollView: UIScrollView) {
 
         let newCurrentIndex = Int(scrollView.contentOffset.x / scrollView.frame.width)
 
