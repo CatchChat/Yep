@@ -957,6 +957,7 @@
 				5023DE281AB6857500B3EE96 /* Conversations */,
 				503CAB441AC00CB900DFE830 /* Conversation */,
 				50EB8CCF1AEA1B3F001AC1EE /* MessageMedia */,
+				500EED9B1BF1B81600C6BABC /* MediaPreview */,
 				5053AD4B1AF772CE00B3CBFA /* PickLocation */,
 				5023DE2B1AB685BD00B3EE96 /* Contacts */,
 				5064F6511B0AE2ED0089FAD4 /* AddFriends */,
@@ -989,7 +990,6 @@
 				50F5AF841BBA67140033C9BC /* NewFeed */,
 				501138271BCB591E0055A014 /* FeedConversations */,
 				50535D1E1BCE42C4002FE1A4 /* PickPhotos */,
-				500EED9B1BF1B81600C6BABC /* MediaPreview */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";

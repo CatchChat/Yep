@@ -25,13 +25,13 @@ class MediaPreviewViewController: UIViewController {
 
     lazy var topPreviewImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
+        imageView.contentMode = .ScaleAspectFill // 缩放必要
         imageView.clipsToBounds = true
         return imageView
     }()
     lazy var bottomPreviewImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
+        imageView.contentMode = .ScaleAspectFill // 缩放必要
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -76,23 +76,9 @@ class MediaPreviewViewController: UIViewController {
         let previewImageWidth = bottomPreviewImage.size.width
         let previewImageHeight = bottomPreviewImage.size.height
 
+        // 利用 image.size 以及 view.frame 来确保 imageView 在缩放时平滑（配合 ScaleAspectFill）
         let previewImageViewWidth = viewWidth
         let previewImageViewHeight = (previewImageHeight / previewImageWidth) * previewImageViewWidth
-//        let previewImageViewWidth: CGFloat
-//        let previewImageViewHeight: CGFloat
-//
-//        if previewImageWidth > previewImageHeight {
-//            previewImageViewWidth = viewWidth
-//            previewImageViewHeight = (previewImageHeight / previewImageWidth) * previewImageViewWidth
-//
-//        } else {
-//            // TODO: size
-//            previewImageViewWidth = viewWidth
-//            previewImageViewHeight = (previewImageHeight / previewImageWidth) * previewImageViewWidth
-//        }
-
-        //let finalWidth = UIScreen.mainScreen().bounds.width
-        //let finalHeight = UIScreen.mainScreen().bounds.height
 
         view.backgroundColor = UIColor.clearColor()
 
