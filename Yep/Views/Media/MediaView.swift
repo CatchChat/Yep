@@ -11,12 +11,6 @@ import AVFoundation
 
 class MediaView: UIView {
 
-    lazy var helperImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFit
-        return imageView
-    }()
-
     func updateImageViewWithImage(image: UIImage) {
 
         scrollView.frame = UIScreen.mainScreen().bounds
@@ -78,13 +72,13 @@ class MediaView: UIView {
 
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFit
+        imageView.contentMode = .ScaleAspectFill
         return imageView
         }()
 
     lazy var coverImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFit
+        imageView.contentMode = .ScaleAspectFill
         return imageView
         }()
 
@@ -181,11 +175,12 @@ class MediaView: UIView {
         //println("<----- scrollViewSize: \(scrollViewSize), imageSize: \(imageSize)")
 
         let widthScale = scrollViewSize.width / imageSize.width
-        let heightScale = scrollViewSize.height / imageSize.height
-        let minScale = min(widthScale, heightScale)
+        //let heightScale = scrollViewSize.height / imageSize.height
+        //let minScale = min(widthScale, heightScale)
+        let minScale = widthScale
 
         scrollView.minimumZoomScale = minScale
-        scrollView.maximumZoomScale = 3.0
+        scrollView.maximumZoomScale = max(minScale, 3.0)
     }
 
     func recenterImage(image: UIImage) {
@@ -197,6 +192,8 @@ class MediaView: UIView {
 
         let hSpace = scaledImageSize.width < scrollViewSize.width ? (scrollViewSize.width - scaledImageSize.width) * 0.5 : 0
         let vSpace = scaledImageSize.height < scrollViewSize.height ? (scrollViewSize.height - scaledImageSize.height) * 0.5 : 0
+        //let viewHeight = UIScreen.mainScreen().bounds.height
+        //let vSpace = scaledImageSize.height < scrollViewSize.height ? (scrollViewSize.height - scaledImageSize.height) * 0.5 : -(scaledImageSize.height - viewHeight * scale) * 0.5
 
         scrollView.contentInset = UIEdgeInsets(top: vSpace, left: hSpace, bottom: vSpace, right: hSpace)
 

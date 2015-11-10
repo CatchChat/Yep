@@ -1266,13 +1266,36 @@ class ConversationViewController: BaseViewController {
             }
         }
 
-        feedView.tapMediaAction = { [weak self] transitionView, attachments, index in
+        feedView.tapMediaAction = { [weak self] transitionView, image, attachments, index in
+
+            let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
+
+            vc.previewMedias = attachments.map({ PreviewMedia.AttachmentType(attachment: $0) })
+            vc.startIndex = index
+
+            let transitionView = transitionView
+            let frame = transitionView.convertRect(transitionView.frame, toView: self?.view)
+            vc.previewImageViewInitalFrame = frame
+            vc.bottomPreviewImage = image
+
+            transitionView.alpha = 0
+            vc.afterDismissAction = { [weak self] in
+                self?.view.window?.makeKeyAndVisible()
+                transitionView.alpha = 1
+            }
+
+            mediaPreviewWindow.rootViewController = vc
+            mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
+            mediaPreviewWindow.makeKeyAndVisible()
+
+            /*
             let info = [
                 "transitionView": transitionView,
                 "attachments": Box(value: attachments),
                 "index": index,
             ]
             self?.performSegueWithIdentifier("showFeedMedia", sender: info)
+            */
         }
 
         //feedView.backgroundColor = UIColor.orangeColor()
@@ -2760,6 +2783,91 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     private func tryShowMessageMediaFromMessage(message: Message) {
 
+        if let messageIndex = messages.indexOf(message) {
+
+            let indexPath = NSIndexPath(forRow: messageIndex - displayedMessagesRange.location , inSection: 0)
+
+            if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) {
+
+                var frame = CGRectZero
+                var image: UIImage?
+                var transitionView: UIView?
+
+                if let sender = message.fromFriend {
+                    if sender.friendState != UserFriendState.Me.rawValue {
+                        switch message.mediaType {
+
+                        case MessageMediaType.Image.rawValue:
+                            let cell = cell as! ChatLeftImageCell
+                            image = cell.messageImageView.image
+                            transitionView = cell.messageImageView
+                            frame = cell.convertRect(cell.messageImageView.frame, toView: view)
+
+                        case MessageMediaType.Video.rawValue:
+                            let cell = cell as! ChatLeftVideoCell
+                            image = cell.thumbnailImageView.image
+                            transitionView = cell.thumbnailImageView
+                            frame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+
+                        default:
+                            break
+                        }
+
+                    } else {
+                        switch message.mediaType {
+
+                        case MessageMediaType.Image.rawValue:
+                            let cell = cell as! ChatRightImageCell
+                            image = cell.messageImageView.image
+                            transitionView = cell.messageImageView
+                            frame = cell.convertRect(cell.messageImageView.frame, toView: view)
+
+                        case MessageMediaType.Video.rawValue:
+                            let cell = cell as! ChatRightVideoCell
+                            image = cell.thumbnailImageView.image
+                            transitionView = cell.thumbnailImageView
+                            frame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+
+                        default:
+                            break
+                        }
+                    }
+                }
+
+                let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
+
+                if message.mediaType == MessageMediaType.Video.rawValue {
+                    vc.previewMedias = [PreviewMedia.MessageType(message: message)]
+                    vc.startIndex = 0
+
+                } else {
+                    let predicate = NSPredicate(format: "mediaType = %d", MessageMediaType.Image.rawValue)
+                    let mediaMessagesResult = messages.filter(predicate)
+                    let mediaMessages = mediaMessagesResult.map({ $0 })
+
+                    if let index = mediaMessagesResult.indexOf(message) {
+                        vc.previewMedias = mediaMessages.map({ PreviewMedia.MessageType(message: $0) })
+                        vc.startIndex = index
+                    }
+                }
+
+                vc.previewImageViewInitalFrame = frame
+                vc.topPreviewImage = message.thumbnailImage
+                vc.bottomPreviewImage = image
+
+                transitionView?.alpha = 0
+                vc.afterDismissAction = { [weak self] in
+                    self?.view.window?.makeKeyAndVisible()
+                    transitionView?.alpha = 1
+                }
+
+                mediaPreviewWindow.rootViewController = vc
+                mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
+                mediaPreviewWindow.makeKeyAndVisible()
+            }
+        }
+
+        /*
         if message.mediaType == MessageMediaType.Video.rawValue {
             performSegueWithIdentifier("showMessageMedia", sender: ["mediaMessages": [message], "index": 0])
 
@@ -2775,6 +2883,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 performSegueWithIdentifier("showMessageMedia", sender: ["mediaMessages": mediaMessages, "index": index])
             }
         }
+        */
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

@@ -48,7 +48,7 @@ extension UIImage {
             newSize = CGSizeMake(scale * size.width * widthRatio, scale * size.height * widthRatio)
         }
 
-        let rect = CGRectMake(0, 0, newSize.width, newSize.height)
+        let rect = CGRectMake(0, 0, floor(newSize.width), floor(newSize.height))
 
         UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
         self.drawInRect(rect)
