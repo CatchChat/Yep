@@ -23,14 +23,21 @@ class MediaPreviewViewController: UIViewController {
     @IBOutlet weak var mediasCollectionView: UICollectionView!
     @IBOutlet weak var mediaControlView: MediaControlView!
 
-    lazy var previewImageView: UIImageView = {
+    lazy var topPreviewImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .ScaleAspectFill
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    lazy var bottomPreviewImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .ScaleAspectFill
         imageView.clipsToBounds = true
         return imageView
     }()
     var previewImageViewInitalFrame: CGRect?
-    var previewImage: UIImage?
+    var topPreviewImage: UIImage?
+    var bottomPreviewImage: UIImage?
 
     var afterDismissAction: (() -> Void)?
 
@@ -50,20 +57,24 @@ class MediaPreviewViewController: UIViewController {
             return
         }
 
-        previewImageView.frame = previewImageViewInitalFrame
-        view.addSubview(previewImageView)
+        topPreviewImageView.frame = previewImageViewInitalFrame
+        bottomPreviewImageView.frame = previewImageViewInitalFrame
+        view.addSubview(bottomPreviewImageView)
+        view.addSubview(topPreviewImageView)
 
-        guard let previewImage = previewImage else {
+        guard let bottomPreviewImage = bottomPreviewImage else {
             return
         }
 
-        previewImageView.image = previewImage
+        bottomPreviewImageView.image = bottomPreviewImage
+
+        topPreviewImageView.image = topPreviewImage
 
         let viewWidth = UIScreen.mainScreen().bounds.width
         let viewHeight = UIScreen.mainScreen().bounds.height
 
-        let previewImageWidth = previewImage.size.width
-        let previewImageHeight = previewImage.size.height
+        let previewImageWidth = bottomPreviewImage.size.width
+        let previewImageHeight = bottomPreviewImage.size.height
 
         let previewImageViewWidth = viewWidth
         let previewImageViewHeight = (previewImageHeight / previewImageWidth) * previewImageViewWidth
@@ -88,11 +99,21 @@ class MediaPreviewViewController: UIViewController {
         mediasCollectionView.alpha = 0
         mediaControlView.alpha = 0
 
+        topPreviewImageView.alpha = 0
+        bottomPreviewImageView.alpha = 1
+
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
 
             self?.view.backgroundColor = UIColor.blackColor()
 
-            self?.previewImageView.frame = CGRect(x: 0, y: (viewHeight - previewImageViewHeight) * 0.5, width: previewImageViewWidth, height: previewImageViewHeight)
+            if let _ = self?.topPreviewImage {
+                self?.topPreviewImageView.alpha = 1
+                self?.bottomPreviewImageView.alpha = 0
+            }
+
+            let frame = CGRect(x: 0, y: (viewHeight - previewImageViewHeight) * 0.5, width: previewImageViewWidth, height: previewImageViewHeight)
+            self?.topPreviewImageView.frame = frame
+            self?.bottomPreviewImageView.frame = frame
 
         }, completion: { [weak self] _ in
             self?.mediasCollectionView.alpha = 1
@@ -103,7 +124,8 @@ class MediaPreviewViewController: UIViewController {
 
             }, completion: nil)
 
-            self?.previewImageView.alpha = 0
+            self?.topPreviewImageView.alpha = 0
+            self?.bottomPreviewImageView.alpha = 0
         })
 
         let tap = UITapGestureRecognizer(target: self, action: "dismiss")
@@ -148,7 +170,13 @@ class MediaPreviewViewController: UIViewController {
         currentPlayer?.removeObserver(self, forKeyPath: "status")
         currentPlayer?.pause()
 
-        previewImageView.alpha = 1
+        if let _ = topPreviewImage {
+            topPreviewImageView.alpha = 1
+            bottomPreviewImageView.alpha = 0
+
+        } else {
+            bottomPreviewImageView.alpha = 1
+        }
 
         mediasCollectionView.alpha = 0
 
@@ -160,7 +188,14 @@ class MediaPreviewViewController: UIViewController {
 
             self?.view.backgroundColor = UIColor.clearColor()
 
-            self?.previewImageView.frame = self?.previewImageViewInitalFrame ?? CGRectZero
+            if let _ = self?.topPreviewImage {
+                self?.topPreviewImageView.alpha = 0
+                self?.bottomPreviewImageView.alpha = 1
+            }
+
+            let frame = self?.previewImageViewInitalFrame ?? CGRectZero
+            self?.topPreviewImageView.frame = frame
+            self?.bottomPreviewImageView.frame = frame
 
         }, completion: { [weak self] _ in
             mediaPreviewWindow.windowLevel = UIWindowLevelNormal

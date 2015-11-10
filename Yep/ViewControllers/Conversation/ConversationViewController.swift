@@ -1276,7 +1276,7 @@ class ConversationViewController: BaseViewController {
             let transitionView = transitionView
             let frame = transitionView.convertRect(transitionView.frame, toView: self?.view)
             vc.previewImageViewInitalFrame = frame
-            vc.previewImage = image
+            vc.bottomPreviewImage = image
 
             transitionView.alpha = 0
             vc.afterDismissAction = { [weak self] in
@@ -2852,7 +2852,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 }
 
                 vc.previewImageViewInitalFrame = frame
-                vc.previewImage = image
+                vc.topPreviewImage = message.thumbnailImage
+                vc.bottomPreviewImage = image
 
                 transitionView?.alpha = 0
                 vc.afterDismissAction = { [weak self] in
