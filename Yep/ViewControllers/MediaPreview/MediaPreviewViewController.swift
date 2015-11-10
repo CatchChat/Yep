@@ -27,7 +27,13 @@ class MediaPreviewViewController: UIViewController {
     var previewImageViewInitalFrame: CGRect?
     var previewImage: UIImage?
 
+    var afterDismissAction: (() -> Void)?
+
     let mediaViewCellID = "MediaViewCell"
+
+    deinit {
+        println("deinit MediaPreview")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,18 +59,20 @@ class MediaPreviewViewController: UIViewController {
         let previewImageWidth = previewImage.size.width
         let previewImageHeight = previewImage.size.height
 
-        let previewImageViewWidth: CGFloat
-        let previewImageViewHeight: CGFloat
-
-        if previewImageWidth > previewImageHeight {
-            previewImageViewWidth = viewWidth
-            previewImageViewHeight = (previewImageHeight / previewImageWidth) * previewImageViewWidth
-
-        } else {
-            // TODO: size
-            previewImageViewWidth = viewWidth
-            previewImageViewHeight = (previewImageHeight / previewImageWidth) * previewImageViewWidth
-        }
+        let previewImageViewWidth = viewWidth
+        let previewImageViewHeight = (previewImageHeight / previewImageWidth) * previewImageViewWidth
+//        let previewImageViewWidth: CGFloat
+//        let previewImageViewHeight: CGFloat
+//
+//        if previewImageWidth > previewImageHeight {
+//            previewImageViewWidth = viewWidth
+//            previewImageViewHeight = (previewImageHeight / previewImageWidth) * previewImageViewWidth
+//
+//        } else {
+//            // TODO: size
+//            previewImageViewWidth = viewWidth
+//            previewImageViewHeight = (previewImageHeight / previewImageWidth) * previewImageViewWidth
+//        }
 
         //let finalWidth = UIScreen.mainScreen().bounds.width
         //let finalHeight = UIScreen.mainScreen().bounds.height
@@ -77,6 +85,34 @@ class MediaPreviewViewController: UIViewController {
 
         }, completion: { [weak self] _ in
             self?.mediasCollectionView.alpha = 1
+            self?.previewImageView.alpha = 0
+        })
+
+
+
+        let tap = UITapGestureRecognizer(target: self, action: "dismiss")
+        view.addGestureRecognizer(tap)
+    }
+
+    // MARK: Actions
+
+    func dismiss() {
+
+        previewImageView.alpha = 1
+        mediasCollectionView.alpha = 0
+
+        UIView.animateWithDuration(1.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+
+            self?.previewImageView.frame = self?.previewImageViewInitalFrame ?? CGRectZero
+
+        }, completion: { [weak self] _ in
+            mediaPreviewWindow.windowLevel = UIWindowLevelNormal
+
+            self?.afterDismissAction?()
+
+            delay(0.2) {
+                mediaPreviewWindow.rootViewController = nil
+            }
         })
     }
 }

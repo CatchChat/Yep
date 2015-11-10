@@ -2817,7 +2817,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 vc.previewImageViewInitalFrame = frame
                 vc.previewImage = image
 
+                vc.afterDismissAction = { [weak self] in
+                    self?.view.window?.makeKeyAndVisible()
+                }
+
                 mediaPreviewWindow.rootViewController = vc
+                mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
                 mediaPreviewWindow.makeKeyAndVisible()
             }
         }
