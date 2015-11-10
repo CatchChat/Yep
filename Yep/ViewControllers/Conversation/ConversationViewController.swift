@@ -1030,6 +1030,14 @@ class ConversationViewController: BaseViewController {
         checkTypingStatusTimer = nil // 及时释放
 
         waverView.removeFromSuperview()
+
+        // stop audio playing
+        
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
+            if audioPlayer.playing {
+                audioPlayer.stop()
+            }
+        }
     }
 
     override func viewDidLayoutSubviews() {
