@@ -168,6 +168,48 @@ class MediaPreviewViewController: UIViewController {
             }
         })
     }
+
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+
+        if let player = object as? AVPlayer {
+
+            let indexPath = NSIndexPath(forItem: currentIndex, inSection: 0)
+            guard let cell = mediasCollectionView.cellForItemAtIndexPath(indexPath) as? MediaViewCell else {
+                return
+            }
+
+            if player == cell.mediaView.videoPlayerLayer.player {
+
+                if keyPath == "status" {
+                    switch player.status {
+
+                    case AVPlayerStatus.Failed:
+                        println("Failed")
+
+                    case AVPlayerStatus.ReadyToPlay:
+                        println("ReadyToPlay")
+                        dispatch_async(dispatch_get_main_queue()) {
+                            cell.mediaView.videoPlayerLayer.player?.play()
+
+                            cell.mediaView.videoPlayerLayer.hidden = false
+                            cell.mediaView.scrollView.hidden = true
+                        }
+
+                    case AVPlayerStatus.Unknown:
+                        println("Unknown")
+                    }
+                }
+            }
+        }
+    }
+
+    func playerItemDidReachEnd(notification: NSNotification) {
+        mediaControlView.playState = .Pause
+        
+        if let playerItem = notification.object as? AVPlayerItem {
+            playerItem.seekToTime(kCMTimeZero)
+        }
+    }
 }
 
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate
