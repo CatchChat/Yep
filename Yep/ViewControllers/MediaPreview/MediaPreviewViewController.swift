@@ -13,9 +13,19 @@ let mediaPreviewWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
 class MediaPreviewViewController: UIViewController {
 
     var previewMedias: [PreviewMedia] = []
+    var startIndex: Int = 0
     
     @IBOutlet weak var mediasCollectionView: UICollectionView!
     @IBOutlet weak var mediaControlView: MediaControlView!
+
+    lazy var previewImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .ScaleAspectFill
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    var previewImageViewInitalFrame: CGRect?
+    var previewImage: UIImage?
 
     let mediaViewCellID = "MediaViewCell"
 
@@ -23,6 +33,51 @@ class MediaPreviewViewController: UIViewController {
         super.viewDidLoad()
 
         mediasCollectionView.registerNib(UINib(nibName: mediaViewCellID, bundle: nil), forCellWithReuseIdentifier: mediaViewCellID)
+
+        guard let previewImageViewInitalFrame = previewImageViewInitalFrame else {
+            return
+        }
+
+        previewImageView.frame = previewImageViewInitalFrame
+        view.addSubview(previewImageView)
+
+        guard let previewImage = previewImage else {
+            return
+        }
+
+        previewImageView.image = previewImage
+
+        let viewWidth = UIScreen.mainScreen().bounds.width
+        let viewHeight = UIScreen.mainScreen().bounds.height
+
+        let previewImageWidth = previewImage.size.width
+        let previewImageHeight = previewImage.size.height
+
+        let previewImageViewWidth: CGFloat
+        let previewImageViewHeight: CGFloat
+
+        if previewImageWidth > previewImageHeight {
+            previewImageViewWidth = viewWidth
+            previewImageViewHeight = (previewImageHeight / previewImageWidth) * previewImageViewWidth
+
+        } else {
+            // TODO: size
+            previewImageViewWidth = viewWidth
+            previewImageViewHeight = (previewImageHeight / previewImageWidth) * previewImageViewWidth
+        }
+
+        //let finalWidth = UIScreen.mainScreen().bounds.width
+        //let finalHeight = UIScreen.mainScreen().bounds.height
+
+        mediasCollectionView.alpha = 0
+
+        UIView.animateWithDuration(1.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+
+            self?.previewImageView.frame = CGRect(x: 0, y: (viewHeight - previewImageViewHeight) * 0.5, width: previewImageViewWidth, height: previewImageViewHeight)
+
+        }, completion: { [weak self] _ in
+            self?.mediasCollectionView.alpha = 1
+        })
     }
 }
 

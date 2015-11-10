@@ -2767,6 +2767,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) {
 
                 var frame = CGRectZero
+                var image: UIImage?
                 var transitionView: UIView?
 
                 if let sender = message.fromFriend {
@@ -2775,18 +2776,15 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         case MessageMediaType.Image.rawValue:
                             let cell = cell as! ChatLeftImageCell
+                            image = cell.messageImageView.image
                             transitionView = cell.messageImageView
                             frame = cell.convertRect(cell.messageImageView.frame, toView: view)
 
                         case MessageMediaType.Video.rawValue:
                             let cell = cell as! ChatLeftVideoCell
+                            image = cell.thumbnailImageView.image
                             transitionView = cell.thumbnailImageView
                             frame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
-
-                        case MessageMediaType.Location.rawValue:
-                            let cell = cell as! ChatLeftLocationCell
-                            transitionView = cell.mapImageView
-                            frame = cell.convertRect(cell.mapImageView.frame, toView: view)
 
                         default:
                             break
@@ -2797,18 +2795,15 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         case MessageMediaType.Image.rawValue:
                             let cell = cell as! ChatRightImageCell
+                            image = cell.messageImageView.image
                             transitionView = cell.messageImageView
                             frame = cell.convertRect(cell.messageImageView.frame, toView: view)
 
                         case MessageMediaType.Video.rawValue:
                             let cell = cell as! ChatRightVideoCell
+                            image = cell.thumbnailImageView.image
                             transitionView = cell.thumbnailImageView
                             frame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
-
-                        case MessageMediaType.Location.rawValue:
-                            let cell = cell as! ChatRightLocationCell
-                            transitionView = cell.mapImageView
-                            frame = cell.convertRect(cell.mapImageView.frame, toView: view)
 
                         default:
                             break
@@ -2818,6 +2813,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
                 vc.previewMedias = [PreviewMedia.MessageType(message: message)]
+                vc.startIndex = 0
+                vc.previewImageViewInitalFrame = frame
+                vc.previewImage = image
 
                 mediaPreviewWindow.rootViewController = vc
                 mediaPreviewWindow.makeKeyAndVisible()
