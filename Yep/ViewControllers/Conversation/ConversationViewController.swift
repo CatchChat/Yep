@@ -1285,6 +1285,8 @@ class ConversationViewController: BaseViewController {
             let frame = transitionView.convertRect(transitionView.frame, toView: self?.view)
             vc.previewImageViewInitalFrame = frame
             vc.bottomPreviewImage = image
+            
+            self?.view.endEditing(true)
 
             transitionView.alpha = 0
             vc.afterDismissAction = { [weak self] in
