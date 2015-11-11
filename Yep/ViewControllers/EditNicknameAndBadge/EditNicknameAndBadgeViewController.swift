@@ -171,6 +171,23 @@ class EditNicknameAndBadgeViewController: UITableViewController {
             badgeEnabledImageViewAppearInCenter(enabledBadgeView.center)
         }
     }
+
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        guard let newNickname = nicknameTextField.text else {
+            return
+        }
+
+        if newNickname != YepUserDefaults.nickname.value {
+
+            updateMyselfWithInfo(["nickname": newNickname], failureHandler: nil, completion: { success in
+                dispatch_async(dispatch_get_main_queue()) {
+                    YepUserDefaults.nickname.value = newNickname
+                }
+            })
+        }
+    }
 }
 
 extension EditNicknameAndBadgeViewController: UITextFieldDelegate {

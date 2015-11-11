@@ -14,7 +14,7 @@ class EditProfileMoreInfoCell: UITableViewCell {
 
     @IBOutlet weak var infoTextView: UITextView!
 
-    var infoTextViewIsDirtyAction: (() -> Void)?
+    var infoTextViewIsDirtyAction: (Bool -> Void)?
     var infoTextViewDidEndEditingAction: (String -> Void)?
 
     override func awakeFromNib() {
@@ -38,9 +38,20 @@ class EditProfileMoreInfoCell: UITableViewCell {
 
 extension EditProfileMoreInfoCell: UITextViewDelegate {
 
+    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+
+        // 初次设置前，清空 placeholder
+        if YepUserDefaults.introduction.value == nil {
+            textView.text = ""
+        }
+
+        return true
+    }
+
     func textViewDidChange(textView: UITextView) {
 
-        infoTextViewIsDirtyAction?()
+        let isDirty = NSString(string: textView.text).length > 0
+        infoTextViewIsDirtyAction?(isDirty)
     }
 
     func textViewDidEndEditing(textView: UITextView) {

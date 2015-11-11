@@ -266,9 +266,9 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     }
                 }
 
-                cell.infoTextViewIsDirtyAction = { [weak self] in
+                cell.infoTextViewIsDirtyAction = { [weak self] isDirty in
                     self?.navigationItem.rightBarButtonItem = self?.doneButton
-                    self?.doneButton.enabled = true
+                    self?.doneButton.enabled = isDirty
                 }
 
                 cell.infoTextViewDidEndEditingAction = { [weak self] newIntroduction in

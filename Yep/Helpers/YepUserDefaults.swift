@@ -21,7 +21,6 @@ let areaCodeKey = "areaCode"
 let mobileKey = "mobile"
 
 let discoveredUserSortStyleKey = "discoveredUserSortStyle"
-
 let feedSortStyleKey = "feedSortStyleKey"
 
 struct Listener<T>: Hashable {
@@ -113,6 +112,7 @@ class YepUserDefaults {
         areaCode.removeAllListeners()
         mobile.removeAllListeners()
         discoveredUserSortStyle.removeAllListeners()
+        feedSortStyle.removeAllListeners()
 
         defaults.removeObjectForKey(v1AccessTokenKey)
         defaults.removeObjectForKey(userIDKey)
@@ -124,6 +124,9 @@ class YepUserDefaults {
         defaults.removeObjectForKey(areaCodeKey)
         defaults.removeObjectForKey(mobileKey)
         defaults.removeObjectForKey(discoveredUserSortStyleKey)
+        defaults.removeObjectForKey(feedSortStyleKey)
+
+        defaults.synchronize()
     }
 
     class func userNeedRelogin() {

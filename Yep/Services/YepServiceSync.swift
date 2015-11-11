@@ -599,6 +599,10 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
                 conversation.type = ConversationType.Group.rawValue
                 conversation.withGroup = group
 
+                if let updatedUnixTime = groupInfo["updated_at"] as? NSTimeInterval {
+                    conversation.updatedUnixTime = updatedUnixTime
+                }
+
                 let _ = try? realm.write {
                     realm.add(conversation)
                 }
