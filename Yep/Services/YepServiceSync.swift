@@ -889,8 +889,6 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
 }
 
 func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: MessageAge, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)? ) {
-
-    realm.refresh()
     
     func deleteMessage(message: Message, inRealm realm: Realm) {
         let _ = try? realm.write {
@@ -900,6 +898,8 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
 
     if let messageID = messageInfo["id"] as? String {
 
+        realm.refresh()
+        
         var message = messageWithMessageID(messageID, inRealm: realm)
 
         if message == nil {
