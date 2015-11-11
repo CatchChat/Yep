@@ -37,7 +37,19 @@ class NewFeedViewController: UIViewController {
     @IBOutlet weak var pickedSkillLabel: UILabel!
     
     @IBOutlet weak var skillPickerView: UIPickerView!
-    
+
+    var isDirty = false {
+        willSet {
+            postButton.enabled = newValue
+        }
+    }
+
+    lazy var postButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: NSLocalizedString("Post", comment: ""), style: .Plain, target: self, action: "post:")
+            button.enabled = false
+        return button
+    }()
+
     lazy var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -90,8 +102,6 @@ class NewFeedViewController: UIViewController {
         
         title = NSLocalizedString("New Feed", comment: "")
         view.backgroundColor = UIColor.yepBackgroundColor()
-        
-        let postButton = UIBarButtonItem(title: NSLocalizedString("Post", comment: ""), style: .Plain, target: self, action: "post:")
         
         navigationItem.rightBarButtonItem = postButton
         
@@ -536,8 +546,9 @@ extension NewFeedViewController: UITextViewDelegate {
         if NSString(string: textView.text).length > YepConfig.maxFeedTextLength {
             textView.text = (textView.text as NSString).substringWithRange(NSMakeRange(0,YepConfig.maxFeedTextLength))
         }
+
+        isDirty = NSString(string: textView.text).length > 0
     }
-    
     
     func textViewDidBeginEditing(textView: UITextView) {
         
