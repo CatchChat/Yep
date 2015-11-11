@@ -35,6 +35,7 @@ class MessageToolbar: UIToolbar {
     var lastToolbarFrame: CGRect?
 
     var messageTextViewHeightConstraint: NSLayoutConstraint!
+    let messageTextViewHeightConstraintNormalConstant: CGFloat = 34
 
     let messageTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(15)]
 
@@ -113,7 +114,7 @@ class MessageToolbar: UIToolbar {
 
                 micButton.tintColor = UIColor.messageToolBarColor()
                 moreButton.tintColor = UIColor.messageToolBarColor()
-                
+
                 showVoiceButtonAnimation()
             }
         }
@@ -311,6 +312,13 @@ class MessageToolbar: UIToolbar {
         
         voiceRecordButton.layer.cornerRadius = newCornerRadius
         messageTextView.layer.cornerRadius = newCornerRadius
+
+        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            if let strongSelf = self {
+                strongSelf.messageTextViewHeightConstraint.constant = strongSelf.messageTextViewHeightConstraintNormalConstant
+                strongSelf.layoutIfNeeded()
+            }
+        }, completion: { _ in })
     }
 
     func hideVoiceButtonAnimation() {
