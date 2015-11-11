@@ -18,8 +18,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Hfd-I2-F4g">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="C3h-no-jtS">
+                                <rect key="frame" x="-10" y="0.0" width="395" height="667"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="20" minimumInteritemSpacing="0.0" id="C3h-no-jtS">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -42,12 +42,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="wMO-DL-vhI" secondAttribute="bottom" id="0Fs-gR-Usk"/>
-                            <constraint firstAttribute="trailing" secondItem="Hfd-I2-F4g" secondAttribute="trailing" id="4H5-cE-vIc"/>
+                            <constraint firstAttribute="trailing" secondItem="Hfd-I2-F4g" secondAttribute="trailing" constant="-10" id="4H5-cE-vIc"/>
                             <constraint firstAttribute="trailing" secondItem="wMO-DL-vhI" secondAttribute="trailing" id="FtN-n1-qd3"/>
                             <constraint firstAttribute="bottom" secondItem="Hfd-I2-F4g" secondAttribute="bottom" id="NqR-Qe-YKw"/>
                             <constraint firstItem="Hfd-I2-F4g" firstAttribute="top" secondItem="afX-DZ-qP9" secondAttribute="top" id="gSg-76-Suy"/>
                             <constraint firstItem="wMO-DL-vhI" firstAttribute="leading" secondItem="afX-DZ-qP9" secondAttribute="leading" id="twf-ID-tHv"/>
-                            <constraint firstItem="Hfd-I2-F4g" firstAttribute="leading" secondItem="afX-DZ-qP9" secondAttribute="leading" id="vMV-Md-KGd"/>
+                            <constraint firstItem="Hfd-I2-F4g" firstAttribute="leading" secondItem="afX-DZ-qP9" secondAttribute="leading" constant="-10" id="vMV-Md-KGd"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
