@@ -444,7 +444,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func syncUnreadMessages(furtherAction: () -> Void) {
 
         syncUnreadMessagesAndDoFurtherAction() { messageIDs in
-            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+//            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+            
+            // Use Delegate instead of Notification
+            // Delegate 可以 保证只有一个 ConversationView 处理新消息
+            // Notification 可能出现某项情况下 Conversation 没有释放而出现内存泄漏后一直后台监听，一有新消息就会 Crash 
+            // 之前的 insert message crash 就是因此导致的
+            
+            FayeService.sharedManager.delegate?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: MessageAge.New.rawValue)
+            
             furtherAction()
         }
     }

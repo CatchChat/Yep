@@ -242,7 +242,9 @@ class FayeService: NSObject, MZFayeClientDelegate {
                 
                 delay(0.01, work: { [weak self] in
                     self?.delegate?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: MessageAge.New.rawValue)
-                    tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+//                    tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                    // Notification 可能导致 Crash，Conversation 有可能在有些时候没有释放监听，但是现在还没找到没释放的原因
+                    // 上面的 Delegate fayeRecievedNewMessages 替代了 Notification
                 })
             }
         }
