@@ -172,6 +172,14 @@ class NewFeedViewController: UIViewController {
             })
         }
     }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        delay(1) { [weak self] in
+            self?.messageTextView.becomeFirstResponder()
+        }
+    }
     
     // MARK: Navigation
     
