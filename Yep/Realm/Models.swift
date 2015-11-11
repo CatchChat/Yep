@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import Crashlytics
 
 // 总是在这个队列里使用 Realm
 let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)
@@ -710,14 +711,39 @@ func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
 
     let messages = realm.objects(Message).filter(predicate)
     if messages.count > 1 {
+        
         println("Warning: same messageID: \(messages.count), \(messageID)")
-
-        // 治标未读
-        let _ = try? realm.write {
-            for message in messages {
-                message.readed = true
+        
+        // Remove if dupicated
+        while messages.count > 1 {
+            if let message = messages.last {
+                
+                let messageID = message.messageID
+                
+                if let userID = YepUserDefaults.userID.value,
+                    nickname = YepUserDefaults.nickname.value{
+                        Answers.logCustomEventWithName("Dupicated Message",
+                            customAttributes: [
+                                "userID": userID,
+                                "nickname": nickname,
+                                "messageID": messageID,
+                                "time": NSDate().description
+                            ])
+                        
+                }
+                
+                let _ = try? realm.write {
+                    realm.delete(message)
+                }
             }
         }
+        
+//        // 治标未读
+//        let _ = try? realm.write {
+//            for message in messages {
+//                message.readed = true
+//            }
+//        }
     }
 
     return messages.first
