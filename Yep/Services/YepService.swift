@@ -2504,7 +2504,7 @@ struct DiscoveredFeed: Hashable {
 
     let skill: Skill?
     let groupID: String
-    let messageCount: Int
+    var messageCount: Int
 
     static func fromJSONDictionary(json: JSONDictionary) -> DiscoveredFeed? {
 

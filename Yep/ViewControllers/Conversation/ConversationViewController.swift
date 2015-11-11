@@ -116,6 +116,10 @@ class ConversationViewController: BaseViewController {
 
     var afterSentMessageAction: (() -> Void)?
 
+    var afterDeletedConversationAction: (() -> Void)?
+
+    var newMessagesCountAction: (Int -> Void)?
+
     lazy var sectionDateFormatter: NSDateFormatter =  {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .ShortStyle
@@ -320,8 +324,6 @@ class ConversationViewController: BaseViewController {
         imagePicker.allowsEditing = false
         return imagePicker
         }()
-
-    var afterDeletedConversationAction: (() -> Void)?
 
     let chatSectionDateCellIdentifier = "ChatSectionDateCell"
     let chatStateCellIdentifier = "ChatStateCell"
@@ -2051,6 +2053,12 @@ class ConversationViewController: BaseViewController {
 
         if messageIDs == nil {
             afterSentMessageAction?()
+        }
+
+        if let messageIDs = messageIDs {
+            newMessagesCountAction?(messageIDs.count)
+        } else {
+            newMessagesCountAction?(1)
         }
     }
 
