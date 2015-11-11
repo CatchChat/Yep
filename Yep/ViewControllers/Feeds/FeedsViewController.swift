@@ -468,6 +468,20 @@ class FeedsViewController: BaseViewController {
                 self?.updateFeeds()
             }
 
+            let index = indexPath.row
+            vc.newMessagesCountAction = { [weak self] newMessagesCount in
+                guard var updatedFeed = self?.feeds[safe: index] else {
+                    return
+                }
+                updatedFeed.messagesCount += newMessagesCount
+                self?.feeds.removeAtIndex(index)
+                self?.feeds.insert(updatedFeed, atIndex: index)
+
+                if let cell = self?.feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedCell {
+                    cell.configureWithFeed(updatedFeed, needShowSkill: (self?.skill == nil) ? true : false)
+                }
+            }
+
         case "showFeedMedia":
 
             let info = sender as! [String: AnyObject]
@@ -679,7 +693,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             return 70
 
         case Section.Feed.rawValue:
-            let feed = feeds[indexPath.item]
+            let feed = feeds[indexPath.row]
             return heightOfFeed(feed)
 
         case Section.LoadMore.rawValue:

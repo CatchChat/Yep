@@ -2504,7 +2504,7 @@ struct DiscoveredFeed: Hashable {
 
     let skill: Skill?
     let groupID: String
-    let messageCount: Int
+    var messagesCount: Int
 
     static func fromJSONDictionary(json: JSONDictionary) -> DiscoveredFeed? {
 
@@ -2518,7 +2518,7 @@ struct DiscoveredFeed: Hashable {
             attachmentsData = json["attachments"] as? [JSONDictionary],
             //skill // TODO: skill
             groupInfo = json["circle"] as? JSONDictionary,
-            messageCount = json["message_count"] as? Int else {
+            messagesCount = json["message_count"] as? Int else {
                 return nil
         }
 
@@ -2535,7 +2535,7 @@ struct DiscoveredFeed: Hashable {
             skill = Skill.fromJSONDictionary(skillInfo)
         }
 
-        return DiscoveredFeed(id: id, allowComment: allowComment, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: attachments, distance: distance, skill: skill, groupID: groupID, messageCount: messageCount)
+        return DiscoveredFeed(id: id, allowComment: allowComment, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: attachments, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount)
     }
 }
 

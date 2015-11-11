@@ -347,7 +347,8 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        return UIEdgeInsetsZero
+        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        //return UIEdgeInsetsZero
     }
 
 
