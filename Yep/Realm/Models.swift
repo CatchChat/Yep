@@ -504,7 +504,7 @@ class Feed: Object {
 
     dynamic var creator: User?
     dynamic var distance: Double = 0
-    dynamic var messageCount: Int = 0
+    dynamic var messagesCount: Int = 0
     dynamic var body: String = ""
     var attachments = List<Attachment>()
 
@@ -681,7 +681,7 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
             newFeed.distance = distance
         }
         
-        newFeed.messageCount = feedData.messageCount
+        newFeed.messagesCount = feedData.messagesCount
         
         if let feedSkill = feedData.skill {
             let _ = try? realm.write {

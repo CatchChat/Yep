@@ -216,7 +216,7 @@ class FeedCell: UITableViewCell {
         }
 
         timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
-        messageCountLabel.text = "\(feed.messageCount)"
+        messageCountLabel.text = "\(feed.messagesCount)"
     }
 }
 

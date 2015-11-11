@@ -473,7 +473,7 @@ class FeedsViewController: BaseViewController {
                 guard var updatedFeed = self?.feeds[safe: index] else {
                     return
                 }
-                updatedFeed.messageCount += newMessagesCount
+                updatedFeed.messagesCount += newMessagesCount
                 self?.feeds.removeAtIndex(index)
                 self?.feeds.insert(updatedFeed, atIndex: index)
 
