@@ -1645,7 +1645,9 @@ class ConversationViewController: BaseViewController {
 
     func tapToCollapseMessageToolBar(sender: UITapGestureRecognizer) {
         if selectedIndexPathForMenu == nil {
-            messageToolbar.state = .Default
+            if messageToolbar.state != .VoiceRecord {
+                messageToolbar.state = .Default
+            }
         }
     }
 
