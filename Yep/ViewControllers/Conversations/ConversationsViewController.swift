@@ -80,7 +80,7 @@ class ConversationsViewController: UIViewController {
 
         realm = try! Realm()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepConfig.Notification.newMessages, object: nil)
+        //NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepConfig.Notification.newMessages, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepConfig.Notification.changedConversation, object: nil)
 
