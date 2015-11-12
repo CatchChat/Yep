@@ -21,6 +21,8 @@ class EditProfileViewController: UIViewController {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
     @IBOutlet weak var mobileLabel: UILabel!
 
     @IBOutlet weak var editProfileTableView: TPKeyboardAvoidingTableView!
@@ -444,7 +446,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
 
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
 
-        YepHUD.showActivityIndicator()
+        activityIndicator.startAnimating()
 
         let image = image.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
         let imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
@@ -453,7 +455,9 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
             
             defaultFailureHandler(reason, errorMessage: errorMessage)
 
-            YepHUD.hideActivityIndicator()
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.activityIndicator.stopAnimating()
+            }
 
         }, completion: { s3UploadParams in
 
@@ -462,7 +466,9 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
             updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
 
-                YepHUD.hideActivityIndicator()
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.activityIndicator.stopAnimating()
+                }
 
             }, completion: { success in
 
@@ -471,7 +477,9 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
                     YepUserDefaults.avatarURLString.value = newAvatarURLString
 
                     self.updateAvatar() {
-                        YepHUD.hideActivityIndicator()
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                            self?.activityIndicator.stopAnimating()
+                        }
                     }
                 }
             })
