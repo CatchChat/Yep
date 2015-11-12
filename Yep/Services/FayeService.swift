@@ -16,10 +16,12 @@ protocol FayeServiceDelegate: class {
     *
     */
     func fayeRecievedInstantStateType(instantStateType: FayeService.InstantStateType, userID: String)
-    
+
+    /*
     func fayeRecievedNewMessages(AllMessageIDs: [String], messageAgeRawValue: MessageAge.RawValue)
     
     func fayeMessagesMarkAsReadByRecipient(lastReadAt: NSTimeInterval, recipientType: String, recipientID: String)
+    */
 }
 
 let fayeQueue = dispatch_queue_create("com.Yep.fayeQueue", DISPATCH_QUEUE_SERIAL)
@@ -180,8 +182,9 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                                 
                                                 println("Mark recipient_id \(recipient_id) As Read")
 
-                                                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                                                   self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
+                                                dispatch_async(dispatch_get_main_queue()) {
+                                                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageBatchMarkAsRead, object: ["last_read_at": last_read_at, "recipient_type": recipient_type, "recipient_id": recipient_id])
+                                                   //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
                                                 }
                                         }
                                     }
@@ -240,12 +243,14 @@ class FayeService: NSObject, MZFayeClientDelegate {
 
             syncMessageWithMessageInfo(messageInfo, messageAge: .New, inRealm: realm) { messageIDs in
                 
-                delay(0.01, work: { [weak self] in
+                delay(0.01) {
+                    tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                    /*
                     self?.delegate?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: MessageAge.New.rawValue)
-//                    tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
                     // Notification 可能导致 Crash，Conversation 有可能在有些时候没有释放监听，但是现在还没找到没释放的原因
                     // 上面的 Delegate fayeRecievedNewMessages 替代了 Notification
-                })
+                    */
+                }
             }
         }
     }

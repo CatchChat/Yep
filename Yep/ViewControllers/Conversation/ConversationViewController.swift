@@ -397,8 +397,8 @@ class ConversationViewController: BaseViewController {
         navigationItem.rightBarButtonItem = moreBarButtonItem
 
 
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedNewMessagesNotification:", name: YepConfig.Notification.newMessages, object: nil)
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedNewMessagesNotification:", name: YepConfig.Notification.newMessages, object: nil)
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout", name: EditProfileViewController.Notification.Logout, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "tryInsertInActiveNewMessages:", name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
@@ -407,7 +407,7 @@ class ConversationViewController: BaseViewController {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillHideNotification:", name: UIMenuControllerWillHideMenuNotification, object: nil)
         
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "messagesMarkAsReadByRecipient:", name: MessageNotification.MessageBatchMarkAsRead, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "messagesMarkAsReadByRecipient:", name: MessageNotification.MessageBatchMarkAsRead, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {
@@ -528,8 +528,8 @@ class ConversationViewController: BaseViewController {
                             println("messagesFromRecipient: \(messageIDs.count)")
                             
                             dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                                
-                                self?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: timeDirection.messageAge.rawValue)
+                                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
+                                //self?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: timeDirection.messageAge.rawValue)
                                 
                                 self?.activityIndicator.stopAnimating()
                             }
@@ -1645,6 +1645,21 @@ class ConversationViewController: BaseViewController {
 
     // MARK: Actions
 
+    func messagesMarkAsReadByRecipient(notifictaion: NSNotification) {
+
+        guard let
+            messageDataInfo = notifictaion.object as? [String: AnyObject],
+            lastReadUnixTime = messageDataInfo["last_read_at"] as? NSTimeInterval,
+            recipientType = messageDataInfo["recipient_type"] as? String,
+            recipientID = messageDataInfo["recipient_id"] as? String else {
+                return
+        }
+
+        if recipientID == conversation.recipient?.ID && recipientType == conversation.recipient?.type.nameForServer {
+            self.markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime)
+        }
+    }
+
     func tapToCollapseMessageToolBar(sender: UITapGestureRecognizer) {
         if selectedIndexPathForMenu == nil {
             if messageToolbar.state != .VoiceRecord {
@@ -2019,7 +2034,72 @@ class ConversationViewController: BaseViewController {
 
     func handleReceivedNewMessagesNotification(notification: NSNotification) {
 
+        guard let
+            messagesInfo = notification.object as? [String: AnyObject],
+            messageIDs = messagesInfo["messageIDs"] as? [String],
+            messageAgeRawValue = messagesInfo["messageAge"] as? String,
+            messageAge = MessageAge(rawValue: messageAgeRawValue) else {
+                println("Can NOT handleReceivedNewMessagesNotification")
+                return
+        }
 
+        handleRecievedNewMessages(messageIDs, messageAge: messageAge)
+    }
+
+    private func handleRecievedNewMessages(_messageIDs: [String], messageAge: MessageAge) {
+
+        var messageIDs: [String]?
+
+        //Make sure insert cell when in conversation viewcontroller
+        guard let conversationController = self.navigationController?.visibleViewController as? ConversationViewController else {
+            return
+        }
+        
+        realm.refresh() // 确保是最新数据
+        
+        // 按照 conversation 过滤消息，匹配的才能考虑插入
+        if let conversation = conversation {
+            
+            if let conversationID = conversation.fakeID, realm = conversation.realm, currentVisibleConversationID = conversationController.conversation.fakeID {
+                
+                if currentVisibleConversationID != conversationID {
+                    return
+                }
+                
+                var filteredMessageIDs = [String]()
+                
+                for messageID in _messageIDs {
+                    if let message = messageWithMessageID(messageID, inRealm: realm) {
+                        if let messageInConversationID = message.conversation?.fakeID {
+                            if messageInConversationID == conversationID {
+                                filteredMessageIDs.append(messageID)
+                            }
+                        }
+                    }
+                }
+                
+                messageIDs = filteredMessageIDs
+            }
+        }
+        
+        
+        // 在前台时才能做插入
+        
+        if UIApplication.sharedApplication().applicationState == .Active {
+            updateConversationCollectionViewWithMessageIDs(messageIDs, messageAge: messageAge, scrollToBottom: false, success: { _ in
+            })
+            
+        } else {
+            
+            // 不然就先记下来
+            
+            if let messageIDs = messageIDs {
+                for messageID in messageIDs {
+                    inActiveNewMessageIDSet.insert(messageID)
+                    println("inActiveNewMessageIDSet insert: \(messageID)")
+                }
+            }
+        }
     }
 
     // App 进入前台时，根据通知插入处于后台状态时收到的消息
@@ -2041,10 +2121,15 @@ class ConversationViewController: BaseViewController {
 
     func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, scrollToBottom: Bool, success: (Bool) -> Void) {
 
+        // 重要
+        guard navigationController?.topViewController == self else { // 防止 pop/push 后，原来未释放的 VC 也执行这下面的代码
+            return
+        }
+
         if messageIDs != nil {
             batchMarkMessagesAsReaded()
         }
-        
+
         let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
 
         adjustConversationCollectionViewWithMessageIDs(messageIDs, messageAge: messageAge, adjustHeight: keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
@@ -2613,18 +2698,19 @@ extension ConversationViewController: UIGestureRecognizerDelegate {
 }
 
 // MARK: UICollectionViewDataSource, UICollectionViewDelegate
+
 extension ConversationViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func didRecieveMenuWillHideNotification(notification: NSNotification) {
-        print("Menu Will hide")
+
+        println("Menu Will hide")
         
         selectedIndexPathForMenu = nil
-        
     }
     
     func didRecieveMenuWillShowNotification(notification: NSNotification) {
         
-        print("Menu Will show")
+        println("Menu Will show")
         
         if let menu = notification.object as? UIMenuController,
             selectedIndexPathForMenu = selectedIndexPathForMenu
@@ -2663,11 +2749,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             menu.setMenuVisible(true, animated: true)
             
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillShowNotification:", name: UIMenuControllerWillShowMenuNotification, object: nil)
-
-
         }
-
-        
     }
     
     func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
@@ -3368,8 +3450,6 @@ extension ConversationViewController: FayeServiceDelegate {
 
             if userID == withFriend.userID {
 
-//                let nickname = withFriend.nickname
-
                 let content = NSLocalizedString(" is ", comment: "正在") + "\(instantStateType)"
 
                 titleView.stateInfoLabel.text = "\(content)..."
@@ -3386,75 +3466,26 @@ extension ConversationViewController: FayeServiceDelegate {
             }
         }
     }
-    
-    func fayeRecievedNewMessages(AllMessageIDs: [String], messageAgeRawValue: MessageAge.RawValue) {
-        
-        var messageIDs: [String]?
-        
+
+    /*
+    func fayeRecievedNewMessages(messageIDs: [String], messageAgeRawValue: MessageAge.RawValue) {
+
         guard let
             messageAge = MessageAge(rawValue: messageAgeRawValue) else {
                 println("Can NOT handleReceivedNewMessagesNotification")
                 return
         }
-        
-        //Make sure insert cell when in conversation viewcontroller
-        guard let conversationController = self.navigationController?.visibleViewController as? ConversationViewController else {
-            return
-        }
-        
-        realm.refresh() // 确保是最新数据
-        
-        // 按照 conversation 过滤消息，匹配的才能考虑插入
-        if let conversation = conversation {
-            
-            if let conversationID = conversation.fakeID, realm = conversation.realm, currentVisibleConversationID = conversationController.conversation.fakeID {
-                
-                if currentVisibleConversationID != conversationID {
-                    return
-                }
-                
-                var filteredMessageIDs = [String]()
-                
-                for messageID in AllMessageIDs {
-                    if let message = messageWithMessageID(messageID, inRealm: realm) {
-                        if let messageInConversationID = message.conversation?.fakeID {
-                            if messageInConversationID == conversationID {
-                                filteredMessageIDs.append(messageID)
-                            }
-                        }
-                    }
-                }
-                
-                messageIDs = filteredMessageIDs
-            }
-        }
-        
-        
-        // 在前台时才能做插入
-        
-        if UIApplication.sharedApplication().applicationState == .Active {
-            updateConversationCollectionViewWithMessageIDs(messageIDs, messageAge: messageAge, scrollToBottom: false, success: { _ in
-            })
-            
-        } else {
-            
-            // 不然就先记下来
-            
-            if let messageIDs = messageIDs {
-                for messageID in messageIDs {
-                    inActiveNewMessageIDSet.insert(messageID)
-                    println("inActiveNewMessageIDSet insert: \(messageID)")
-                }
-            }
-        }
+
+        handleRecievedNewMessages(messageIDs, messageAge: messageAge)
     }
-    
+
     func fayeMessagesMarkAsReadByRecipient(lastReadAt: NSTimeInterval, recipientType: String, recipientID: String) {
-        
+
         if recipientID == conversation.recipient?.ID && recipientType == conversation.recipient?.type.nameForServer {
             self.markAsReadAllSentMesagesBeforeUnixTime(lastReadAt)
         }
     }
+    */
 }
 
 // MARK: PullToRefreshViewDelegate
@@ -3479,9 +3510,9 @@ extension ConversationViewController: PullToRefreshViewDelegate {
 
                     dispatch_async(dispatch_get_main_queue()) {
                         pulllToRefreshView.endRefreshingAndDoFurtherAction() {
-                            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-//                                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
-                                self?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: timeDirection.messageAge.rawValue)
+                            dispatch_async(dispatch_get_main_queue()) {
+                                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
+                                //self?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: timeDirection.messageAge.rawValue)
                             }
                         }
                     }
