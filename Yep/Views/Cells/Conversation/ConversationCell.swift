@@ -36,7 +36,7 @@ class ConversationCell: UITableViewCell {
 
     deinit {
 
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+//        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     override func awakeFromNib() {
@@ -45,7 +45,7 @@ class ConversationCell: UITableViewCell {
         avatarImageView.contentMode = .ScaleAspectFill
         avatarImageViewWidthConstraint.constant = YepConfig.ConversationCell.avatarSize
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUIButAvatar:", name: YepConfig.Notification.newMessages, object: nil)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUIButAvatar:", name: YepConfig.Notification.newMessages, object: nil)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -54,11 +54,11 @@ class ConversationCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func updateUIButAvatar(sender: NSNotification) {
-
-        updateCountOfUnreadMessages()
-        updateInfoLabels()
-    }
+//    func updateUIButAvatar(sender: NSNotification) {
+//
+//        updateCountOfUnreadMessages()
+//        updateInfoLabels()
+//    }
 
     private func updateCountOfUnreadMessages() {
 
