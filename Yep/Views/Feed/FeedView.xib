@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -70,6 +70,12 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tE6-sP-zEh">
+                    <rect key="frame" x="65" y="54" width="42" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="How do you do? Do not go gentle into that good night." translatesAutoresizingMaskIntoConstraints="NO" id="3bv-tD-FhP" customClass="FeedTextView" customModule="Yep" customModuleProvider="target">
                     <rect key="frame" x="65" y="54" width="339" height="40"/>
                     <constraints>
@@ -84,9 +90,11 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="ffh-Mx-17Q" firstAttribute="centerY" secondItem="Ix5-dG-THW" secondAttribute="centerY" id="0A2-l4-FZA"/>
+                <constraint firstItem="tE6-sP-zEh" firstAttribute="leading" secondItem="3bv-tD-FhP" secondAttribute="leading" id="5yi-EJ-Gw2"/>
                 <constraint firstAttribute="trailing" secondItem="3bv-tD-FhP" secondAttribute="trailing" constant="15" id="BeT-DR-GM8"/>
                 <constraint firstItem="Ix5-dG-THW" firstAttribute="leading" secondItem="C2E-Yo-twp" secondAttribute="leading" id="CNd-65-9tF"/>
                 <constraint firstItem="0Hb-fw-n9b" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="IUd-8S-7JE"/>
+                <constraint firstItem="r5V-GF-1ON" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="tE6-sP-zEh" secondAttribute="trailing" id="Lqu-FU-beM"/>
                 <constraint firstItem="3bv-tD-FhP" firstAttribute="leading" secondItem="C2E-Yo-twp" secondAttribute="leading" id="QQd-gY-DJO"/>
                 <constraint firstAttribute="trailing" secondItem="umP-Za-loD" secondAttribute="trailing" id="SSw-dY-XgC"/>
                 <constraint firstItem="umP-Za-loD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VaQ-38-Sg1"/>
@@ -102,6 +110,7 @@
                 <constraint firstItem="3bv-tD-FhP" firstAttribute="top" secondItem="0Hb-fw-n9b" secondAttribute="bottom" constant="4" id="iax-kN-sMc"/>
                 <constraint firstItem="C2E-Yo-twp" firstAttribute="centerY" secondItem="0Hb-fw-n9b" secondAttribute="centerY" id="lSc-cs-Lug"/>
                 <constraint firstItem="wH6-T7-mOv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="niy-IC-PEM"/>
+                <constraint firstItem="tE6-sP-zEh" firstAttribute="top" secondItem="3bv-tD-FhP" secondAttribute="top" id="oht-gj-PbS"/>
                 <constraint firstItem="0Hb-fw-n9b" firstAttribute="width" secondItem="0Hb-fw-n9b" secondAttribute="height" multiplier="1:1" id="sFg-ds-P8V"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -110,6 +119,7 @@
                 <outlet property="distanceLabel" destination="ffh-Mx-17Q" id="rwL-f4-mRt"/>
                 <outlet property="mediaCollectionView" destination="umP-Za-loD" id="4wa-a9-jxB"/>
                 <outlet property="mediaView" destination="r5V-GF-1ON" id="tPB-3w-zKI"/>
+                <outlet property="messageLabel" destination="tE6-sP-zEh" id="zlO-bY-zdK"/>
                 <outlet property="messageTextView" destination="3bv-tD-FhP" id="Dyp-T7-2HB"/>
                 <outlet property="messageTextViewHeightConstraint" destination="nvq-dS-cC0" id="PQn-Ut-LZT"/>
                 <outlet property="messageTextViewTopConstraint" destination="iax-kN-sMc" id="iTS-Yh-8pJ"/>

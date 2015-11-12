@@ -42,15 +42,14 @@ class FeedView: UIView {
 
                     if newValue == 1.0 {
                         self?.messageTextViewTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (15 + 40 + 15)
-                        //self?.messageLabel.numberOfLines = 1
                         self?.messageTextViewHeightConstraint.constant = 20
                     }
 
                     if newValue == 0.0 {
                         self?.messageTextViewTrailingConstraint.constant = 15
-                        //self?.messageLabel.numberOfLines = 0
                         self?.calHeightOfMessageTextView()
                     }
+
 
                     self?.heightConstraint?.constant = FeedView.foldHeight + (normalHeight - FeedView.foldHeight) * (1 - newValue)
 
@@ -62,8 +61,10 @@ class FeedView: UIView {
                     self?.timeLabel.alpha = foldingAlpha
                     self?.mediaView.alpha = newValue
 
-                }, completion: { [weak self] _ in
-                    self?.messageTextView.contentOffset = CGPoint(x: 0, y: 0)
+                    self?.messageLabel.alpha = newValue
+                    self?.messageTextView.alpha = foldingAlpha
+
+                }, completion: { _ in
                 })
 
                 if newValue == 1.0 {
@@ -88,6 +89,7 @@ class FeedView: UIView {
 
     @IBOutlet weak var mediaView: FeedMediaView!
 
+    @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var messageTextView: FeedTextView!
     @IBOutlet weak var messageTextViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageTextViewTrailingConstraint: NSLayoutConstraint!
@@ -118,9 +120,13 @@ class FeedView: UIView {
         clipsToBounds = true
 
         nicknameLabel.textColor = UIColor.yepTintColor()
+        messageLabel.textColor = UIColor.darkGrayColor()
         messageTextView.textColor = UIColor.darkGrayColor()
         distanceLabel.textColor = UIColor.grayColor()
         timeLabel.textColor = UIColor.grayColor()
+
+        messageLabel.font = UIFont.feedMessageFont()
+        messageLabel.alpha = 0
 
         messageTextView.scrollsToTop = false
         messageTextView.font = UIFont.feedMessageFont()
@@ -190,7 +196,9 @@ class FeedView: UIView {
 
     private func configureWithFeed(feed: ConversationFeed) {
 
-        messageTextView.text = feed.body
+        let message = feed.body
+        messageLabel.text = message
+        messageTextView.text = message
 
         calHeightOfMessageTextView()
 
