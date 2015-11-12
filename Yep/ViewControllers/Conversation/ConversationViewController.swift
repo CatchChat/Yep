@@ -606,8 +606,6 @@ class ConversationViewController: BaseViewController {
                 if let window = self?.view.window {
                     self?.moreMessageTypesView.showInView(window)
                     
-                    self?.messageToolbar.state = .Default
-
                     delay(0.2) {
                         self?.imagePicker.hidesBarsOnTap = false
                     }
