@@ -627,6 +627,8 @@ func latestMessageInRealm(realm: Realm, withConversationType conversationType: C
 
 func saveFeedWithFeedDataWithoutFullGroup(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
 
+    println("saveFeedWithFeedDataWithoutFullGroup joinGroup")
+
     // try sync group first
 
     let groupID = group.groupID

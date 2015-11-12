@@ -508,7 +508,7 @@ class ConversationViewController: BaseViewController {
 
         // sync messages
 
-        let syncMessages: () -> Void = {
+        let syncMessages: (failedAction: (() -> Void)?, successAction: (() -> Void)?) -> Void = { failedAction, successAction in
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
                 if let recipient = self?.conversation.recipient {
@@ -524,7 +524,12 @@ class ConversationViewController: BaseViewController {
                     
                     dispatch_async(realmQueue) { [weak self] in
                         
-                        messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { messageIDs in
+                        messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: { reason, errorMessage in
+                            defaultFailureHandler(reason, errorMessage: errorMessage)
+
+                            failedAction?()
+
+                        }, completion: { messageIDs in
                             println("messagesFromRecipient: \(messageIDs.count)")
                             
                             dispatch_async(dispatch_get_main_queue()) { [weak self] in
@@ -533,9 +538,10 @@ class ConversationViewController: BaseViewController {
                                 
                                 self?.activityIndicator.stopAnimating()
                             }
+
+                            successAction?()
                         })
                     }
-
                 }
             }
         }
@@ -543,16 +549,27 @@ class ConversationViewController: BaseViewController {
         switch conversation.type {
 
         case ConversationType.OneToOne.rawValue:
-            syncMessages()
+            syncMessages(failedAction: nil, successAction: nil)
             syncMessagesReadStatus()
 
         case ConversationType.Group.rawValue:
 
             if let groupID = conversation.withGroup?.groupID {
 
-                joinGroup(groupID: groupID, failureHandler: nil, completion: {
+                // 新策略：先同步消息，若失败就再次加入，再获取一次
+                syncMessages(failedAction: {
+                    joinGroup(groupID: groupID, failureHandler: nil, completion: {
+                        syncMessages(failedAction: nil, successAction: nil)
+                        FayeService.sharedManager.subscribeGroup(groupID: groupID)
+                    })
 
-                    println("joined group: \(groupID)")
+                }, successAction: {
+                    FayeService.sharedManager.subscribeGroup(groupID: groupID)
+                })
+
+                //joinGroup(groupID: groupID, failureHandler: nil, completion: {
+
+                    //println("joined group: \(groupID)")
                     
 //                    groupShareLinkWithGroupID(groupID, failureHandler: nil, completion: { [weak self] link in
 //                        
@@ -562,12 +579,11 @@ class ConversationViewController: BaseViewController {
 //                        
 //                    })
 
-                    syncMessages()
+                    //syncMessages()
 
+                    //FayeService.sharedManager.subscribeGroup(groupID: groupID)
 
-                    FayeService.sharedManager.subscribeGroup(groupID: groupID)
-
-                })
+                //})
             }
 
         default:
