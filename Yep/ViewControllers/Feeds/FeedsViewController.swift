@@ -79,32 +79,23 @@ class FeedsViewController: BaseViewController {
 
     private func updateFeedsTableViewOrInsertWithIndexPaths(indexPaths: [NSIndexPath]?) {
 
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        // refresh skillUsers
 
-            if let indexPaths = indexPaths {
-
-                // refresh skillUsers
-
-                let skillUsersIndexPath = NSIndexPath(forRow: 0, inSection: Section.SkillUsers.rawValue)
-                if let cell = self?.feedsTableView.cellForRowAtIndexPath(skillUsersIndexPath) as? FeedSkillUsersCell, feeds = self?.feeds {
-                    cell.configureWithFeeds(feeds)
-                }
-
-                // insert
-
-                self?.feedsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
-
-            } else {
-
-                // or reload
-
-                self?.feedsTableView.reloadData()
-            }
-
-            if let strongSelf = self {
-                strongSelf.feedsTableView.tableFooterView = strongSelf.feeds.isEmpty ? strongSelf.noFeedsFooterView : UIView()
-            }
+        let skillUsersIndexPath = NSIndexPath(forRow: 0, inSection: Section.SkillUsers.rawValue)
+        if let cell = feedsTableView.cellForRowAtIndexPath(skillUsersIndexPath) as? FeedSkillUsersCell {
+            cell.configureWithFeeds(feeds)
         }
+
+        if let indexPaths = indexPaths where feeds.count > 1 {
+            // insert
+            feedsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+
+        } else {
+            // or reload
+            feedsTableView.reloadData()
+        }
+
+        feedsTableView.tableFooterView = feeds.isEmpty ? noFeedsFooterView : UIView()
     }
 
     private var feedHeightHash = [String: CGFloat]()
@@ -397,7 +388,6 @@ class FeedsViewController: BaseViewController {
             }
             
             joinGroup(groupID: feed.groupID, failureHandler: nil, completion: {
-                
             })
         }
 
