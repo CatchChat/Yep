@@ -118,8 +118,6 @@ class ConversationViewController: BaseViewController {
 
     var afterDeletedConversationAction: (() -> Void)?
 
-    var newMessagesCountAction: (Int -> Void)?
-
     lazy var sectionDateFormatter: NSDateFormatter =  {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .ShortStyle
@@ -2152,12 +2150,6 @@ class ConversationViewController: BaseViewController {
 
         if messageIDs == nil {
             afterSentMessageAction?()
-        }
-
-        if let messageIDs = messageIDs {
-            newMessagesCountAction?(messageIDs.count)
-        } else {
-            newMessagesCountAction?(1)
         }
     }
 
