@@ -832,6 +832,10 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
                 message.sendState = MessageSendState.Read.rawValue
             }
 
+            if let state = messageInfo["state"] as? String where state == "read" {
+                message.readed = true
+            }
+
             if let textContent = messageInfo["text_content"] as? String {
                 message.textContent = textContent
             }

@@ -1845,6 +1845,8 @@ func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection
 
     let parse: JSONDictionary -> [String]? = { data in
 
+        //println("messagesFromRecipient: \(data)")
+
         guard let
             unreadMessagesData = data["messages"] as? [JSONDictionary],
             realm = try? Realm() else {
