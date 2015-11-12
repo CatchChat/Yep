@@ -91,10 +91,10 @@
             <constraints>
                 <constraint firstItem="ffh-Mx-17Q" firstAttribute="centerY" secondItem="Ix5-dG-THW" secondAttribute="centerY" id="0A2-l4-FZA"/>
                 <constraint firstItem="tE6-sP-zEh" firstAttribute="leading" secondItem="3bv-tD-FhP" secondAttribute="leading" id="5yi-EJ-Gw2"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="tE6-sP-zEh" secondAttribute="trailing" constant="15" id="8Jz-yJ-yhL"/>
                 <constraint firstAttribute="trailing" secondItem="3bv-tD-FhP" secondAttribute="trailing" constant="15" id="BeT-DR-GM8"/>
                 <constraint firstItem="Ix5-dG-THW" firstAttribute="leading" secondItem="C2E-Yo-twp" secondAttribute="leading" id="CNd-65-9tF"/>
                 <constraint firstItem="0Hb-fw-n9b" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="IUd-8S-7JE"/>
-                <constraint firstItem="r5V-GF-1ON" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="tE6-sP-zEh" secondAttribute="trailing" id="Lqu-FU-beM"/>
                 <constraint firstItem="3bv-tD-FhP" firstAttribute="leading" secondItem="C2E-Yo-twp" secondAttribute="leading" id="QQd-gY-DJO"/>
                 <constraint firstAttribute="trailing" secondItem="umP-Za-loD" secondAttribute="trailing" id="SSw-dY-XgC"/>
                 <constraint firstItem="umP-Za-loD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VaQ-38-Sg1"/>
@@ -120,6 +120,7 @@
                 <outlet property="mediaCollectionView" destination="umP-Za-loD" id="4wa-a9-jxB"/>
                 <outlet property="mediaView" destination="r5V-GF-1ON" id="tPB-3w-zKI"/>
                 <outlet property="messageLabel" destination="tE6-sP-zEh" id="zlO-bY-zdK"/>
+                <outlet property="messageLabelTrailingConstraint" destination="8Jz-yJ-yhL" id="h6t-O6-kNC"/>
                 <outlet property="messageTextView" destination="3bv-tD-FhP" id="Dyp-T7-2HB"/>
                 <outlet property="messageTextViewHeightConstraint" destination="nvq-dS-cC0" id="PQn-Ut-LZT"/>
                 <outlet property="messageTextViewTopConstraint" destination="iax-kN-sMc" id="iTS-Yh-8pJ"/>

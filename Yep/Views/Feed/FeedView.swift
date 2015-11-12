@@ -90,6 +90,8 @@ class FeedView: UIView {
     @IBOutlet weak var mediaView: FeedMediaView!
 
     @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var messageLabelTrailingConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var messageTextView: FeedTextView!
     @IBOutlet weak var messageTextViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageTextViewTrailingConstraint: NSLayoutConstraint!
@@ -208,7 +210,9 @@ class FeedView: UIView {
 
         attachments = feed.attachments.map({
             DiscoveredAttachment(kind: AttachmentKind(rawValue: $0.kind)!, metadata: $0.metadata, URLString: $0.URLString)
-        })//.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
+        })
+
+        messageLabelTrailingConstraint.constant = attachments.isEmpty ? 15 : 60
 
         if let creator = feed.creator {
             let userAvatar = UserAvatar(userID: creator.userID, avatarStyle: nanoAvatarStyle)
