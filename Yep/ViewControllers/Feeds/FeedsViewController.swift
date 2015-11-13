@@ -458,6 +458,7 @@ class FeedsViewController: BaseViewController {
                 self?.updateFeeds()
             }
 
+        /*
         case "showFeedMedia":
 
             let info = sender as! [String: AnyObject]
@@ -505,7 +506,7 @@ class FeedsViewController: BaseViewController {
             originalNavigationControllerDelegate = navigationController!.delegate
 
             navigationController?.delegate = delegate
-
+        */
         default:
             break
         }
