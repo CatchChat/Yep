@@ -27,6 +27,17 @@ enum MessageToolbarState: Int, CustomStringConvertible {
             return "VoiceRecord"
         }
     }
+
+    var isAtBottom: Bool {
+        switch self {
+        case .Default:
+            return true
+        case .BeginTextInput, .TextInputing:
+            return false
+        case .VoiceRecord:
+            return true
+        }
+    }
 }
 
 @IBDesignable

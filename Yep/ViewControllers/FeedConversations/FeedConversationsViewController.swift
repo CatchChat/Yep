@@ -32,9 +32,9 @@ class FeedConversationsViewController: UIViewController {
 
     deinit {
 
-        println("Deinit FeedConversationsViewControler")
-
         NSNotificationCenter.defaultCenter().removeObserver(self)
+
+        println("deinit FeedConversations")
     }
 
     override func viewDidLoad() {
