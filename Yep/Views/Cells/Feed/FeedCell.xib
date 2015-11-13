@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -53,8 +53,14 @@
                             <constraint firstAttribute="width" constant="40" id="iWz-Lj-rIE"/>
                         </constraints>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="∙" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uBN-7F-tdQ" userLabel="Dot Label">
+                        <rect key="frame" x="146" y="183" width="4.5" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.2 km" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uir-A9-aaJ" userLabel="Distance Label">
-                        <rect key="frame" x="156" y="183" width="40.5" height="17"/>
+                        <rect key="frame" x="155" y="183" width="40.5" height="17"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -88,10 +94,10 @@
                 </subviews>
                 <animations/>
                 <constraints>
-                    <constraint firstItem="uir-A9-aaJ" firstAttribute="leading" secondItem="yFm-kf-Ghp" secondAttribute="trailing" constant="15" id="1RE-Ku-WQU"/>
                     <constraint firstItem="yFm-kf-Ghp" firstAttribute="leading" secondItem="d97-mK-bJE" secondAttribute="leading" id="4dw-W2-nT9"/>
                     <constraint firstAttribute="trailing" secondItem="1ec-vd-wUU" secondAttribute="trailing" constant="25" id="5Wn-VO-vyC"/>
                     <constraint firstAttribute="trailing" secondItem="B9B-Nc-h8k" secondAttribute="trailing" constant="15" id="5um-0R-Amw"/>
+                    <constraint firstItem="uir-A9-aaJ" firstAttribute="leading" secondItem="uBN-7F-tdQ" secondAttribute="trailing" constant="5" id="6Om-7C-Hkr"/>
                     <constraint firstItem="COt-7F-KVK" firstAttribute="top" secondItem="XYv-cX-YOQ" secondAttribute="bottom" constant="15" id="9J9-YH-c9Y"/>
                     <constraint firstAttribute="trailing" secondItem="COt-7F-KVK" secondAttribute="trailing" id="AfO-Hm-djL"/>
                     <constraint firstItem="1ec-vd-wUU" firstAttribute="centerY" secondItem="d97-mK-bJE" secondAttribute="centerY" id="DiT-Gx-hJI"/>
@@ -99,14 +105,16 @@
                     <constraint firstItem="XYv-cX-YOQ" firstAttribute="top" secondItem="GRs-kP-Ugk" secondAttribute="bottom" constant="4" id="ISv-4s-Llp"/>
                     <constraint firstItem="XYv-cX-YOQ" firstAttribute="leading" secondItem="d97-mK-bJE" secondAttribute="leading" id="IxD-gR-ma8"/>
                     <constraint firstItem="B9B-Nc-h8k" firstAttribute="leading" secondItem="6k9-TF-Ftd" secondAttribute="trailing" constant="10" id="JkX-QS-ZmS"/>
+                    <constraint firstItem="uir-A9-aaJ" firstAttribute="centerY" secondItem="uBN-7F-tdQ" secondAttribute="centerY" id="Lb2-Zk-cYt"/>
                     <constraint firstAttribute="trailing" secondItem="XYv-cX-YOQ" secondAttribute="trailing" constant="15" id="MkQ-lA-NHH"/>
                     <constraint firstItem="d97-mK-bJE" firstAttribute="leading" secondItem="GRs-kP-Ugk" secondAttribute="trailing" constant="10" id="QXo-33-0ak"/>
                     <constraint firstItem="B9B-Nc-h8k" firstAttribute="centerY" secondItem="yFm-kf-Ghp" secondAttribute="centerY" id="RQK-md-Cni"/>
-                    <constraint firstItem="uir-A9-aaJ" firstAttribute="centerY" secondItem="yFm-kf-Ghp" secondAttribute="centerY" id="SLb-Wq-xlf"/>
                     <constraint firstItem="6k9-TF-Ftd" firstAttribute="centerY" secondItem="B9B-Nc-h8k" secondAttribute="centerY" id="Sk6-jV-ssD"/>
                     <constraint firstItem="d97-mK-bJE" firstAttribute="centerY" secondItem="GRs-kP-Ugk" secondAttribute="centerY" id="XVe-o1-zRc"/>
+                    <constraint firstItem="uBN-7F-tdQ" firstAttribute="leading" secondItem="yFm-kf-Ghp" secondAttribute="trailing" constant="5" id="Xda-w3-QFx"/>
                     <constraint firstItem="GRs-kP-Ugk" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="cna-DW-PPM"/>
                     <constraint firstItem="GRs-kP-Ugk" firstAttribute="width" secondItem="GRs-kP-Ugk" secondAttribute="height" multiplier="1:1" id="eSL-Jv-LjB"/>
+                    <constraint firstItem="uBN-7F-tdQ" firstAttribute="centerY" secondItem="yFm-kf-Ghp" secondAttribute="centerY" id="ktH-o8-C29"/>
                     <constraint firstItem="WvT-iw-dEo" firstAttribute="centerY" secondItem="1ec-vd-wUU" secondAttribute="centerY" id="qUZ-7m-we3"/>
                     <constraint firstItem="yFm-kf-Ghp" firstAttribute="top" secondItem="XYv-cX-YOQ" secondAttribute="bottom" constant="103" id="sKd-JT-Af9"/>
                     <constraint firstItem="GRs-kP-Ugk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="tIk-7d-Ux7"/>
@@ -120,6 +128,7 @@
                 <outlet property="avatarImageView" destination="GRs-kP-Ugk" id="Rch-2A-tIe"/>
                 <outlet property="collectionViewHeight" destination="6PE-QR-i1C" id="dys-gS-hg4"/>
                 <outlet property="distanceLabel" destination="uir-A9-aaJ" id="asK-JQ-ew5"/>
+                <outlet property="dotLabel" destination="uBN-7F-tdQ" id="oXp-q6-WJv"/>
                 <outlet property="mediaCollectionView" destination="COt-7F-KVK" id="ldA-nK-8V3"/>
                 <outlet property="messageCountLabel" destination="6k9-TF-Ftd" id="GNB-Qx-e2z"/>
                 <outlet property="messageTextView" destination="XYv-cX-YOQ" id="2mS-ke-PoR"/>
