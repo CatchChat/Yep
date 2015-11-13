@@ -1290,6 +1290,10 @@ class ConversationViewController: BaseViewController {
 
         feedView.tapMediaAction = { [weak self] transitionView, image, attachments, index in
 
+            guard image != nil else {
+                return
+            }
+
             let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
 
             vc.previewMedias = attachments.map({ PreviewMedia.AttachmentType(attachment: $0) })
@@ -2386,10 +2390,16 @@ class ConversationViewController: BaseViewController {
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
+
+        guard let identifier = segue.identifier else {
+            return
+        }
+
         messageToolbar.state = .Default
 
-        if segue.identifier == "showProfileFromFeedView" {
+        switch identifier {
+
+        case "showProfileFromFeedView":
 
             let vc = segue.destinationViewController as! ProfileViewController
 
@@ -2400,7 +2410,7 @@ class ConversationViewController: BaseViewController {
             vc.fromType = .GroupConversation
             vc.setBackButtonWithTitle()
 
-        } else if segue.identifier == "showProfile" {
+        case "showProfile":
 
             let vc = segue.destinationViewController as! ProfileViewController
 
@@ -2426,7 +2436,8 @@ class ConversationViewController: BaseViewController {
 
             vc.setBackButtonWithTitle()
 
-        } else if segue.identifier == "showFeedMedia" {
+        /*
+        case "showFeedMedia":
 
             let info = sender as! [String: AnyObject]
 
@@ -2474,7 +2485,7 @@ class ConversationViewController: BaseViewController {
             
             navigationController?.delegate = delegate
 
-        } else if segue.identifier == "showMessageMedia" {
+        case "showMessageMedia":
 
             let vc = segue.destinationViewController as! MessageMediaViewController
 
@@ -2558,7 +2569,7 @@ class ConversationViewController: BaseViewController {
                 }
             }
 
-        } else if segue.identifier == "presentMessageMedia" {
+        case "presentMessageMedia":
 
             let vc = segue.destinationViewController as! MessageMediaViewController
 
@@ -2633,8 +2644,8 @@ class ConversationViewController: BaseViewController {
                     messagePreviewTransitionManager = transitionManager
                 }
             }
-
-        } else if segue.identifier == "presentPickLocation" {
+        */
+        case "presentPickLocation":
 
             let nvc = segue.destinationViewController as! UINavigationController
             let vc = nvc.topViewController as! PickLocationViewController
@@ -2677,6 +2688,9 @@ class ConversationViewController: BaseViewController {
                     })
                 }
             }
+
+        default:
+            break
         }
     }
 }
@@ -2938,6 +2952,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             break
                         }
                     }
+                }
+
+                guard image != nil else {
+                    return
                 }
 
                 let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
