@@ -85,13 +85,20 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
                 </textView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="∙" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8CD-nd-UWy" userLabel="Dot Label">
+                    <rect key="frame" x="146" y="197" width="4.5" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="ffh-Mx-17Q" firstAttribute="centerY" secondItem="Ix5-dG-THW" secondAttribute="centerY" id="0A2-l4-FZA"/>
+                <constraint firstItem="8CD-nd-UWy" firstAttribute="leading" secondItem="Ix5-dG-THW" secondAttribute="trailing" constant="5" id="4vs-V8-un5"/>
                 <constraint firstItem="tE6-sP-zEh" firstAttribute="leading" secondItem="3bv-tD-FhP" secondAttribute="leading" id="5yi-EJ-Gw2"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="tE6-sP-zEh" secondAttribute="trailing" constant="15" id="8Jz-yJ-yhL"/>
+                <constraint firstItem="ffh-Mx-17Q" firstAttribute="centerY" secondItem="8CD-nd-UWy" secondAttribute="centerY" id="9Gj-Zg-3aG"/>
                 <constraint firstAttribute="trailing" secondItem="3bv-tD-FhP" secondAttribute="trailing" constant="15" id="BeT-DR-GM8"/>
                 <constraint firstItem="Ix5-dG-THW" firstAttribute="leading" secondItem="C2E-Yo-twp" secondAttribute="leading" id="CNd-65-9tF"/>
                 <constraint firstItem="0Hb-fw-n9b" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="IUd-8S-7JE"/>
@@ -105,18 +112,20 @@
                 <constraint firstItem="umP-Za-loD" firstAttribute="top" secondItem="3bv-tD-FhP" secondAttribute="bottom" constant="15" id="dSs-SH-eJB"/>
                 <constraint firstAttribute="bottom" secondItem="wH6-T7-mOv" secondAttribute="bottom" id="eKo-DO-p72"/>
                 <constraint firstAttribute="trailing" secondItem="wH6-T7-mOv" secondAttribute="trailing" id="gaQ-Ac-b0T"/>
-                <constraint firstItem="ffh-Mx-17Q" firstAttribute="leading" secondItem="Ix5-dG-THW" secondAttribute="trailing" constant="15" id="iOu-S7-Zg1"/>
                 <constraint firstItem="r5V-GF-1ON" firstAttribute="top" secondItem="0Hb-fw-n9b" secondAttribute="top" id="iV6-9c-4SJ"/>
                 <constraint firstItem="3bv-tD-FhP" firstAttribute="top" secondItem="0Hb-fw-n9b" secondAttribute="bottom" constant="4" id="iax-kN-sMc"/>
                 <constraint firstItem="C2E-Yo-twp" firstAttribute="centerY" secondItem="0Hb-fw-n9b" secondAttribute="centerY" id="lSc-cs-Lug"/>
                 <constraint firstItem="wH6-T7-mOv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="niy-IC-PEM"/>
                 <constraint firstItem="tE6-sP-zEh" firstAttribute="top" secondItem="3bv-tD-FhP" secondAttribute="top" id="oht-gj-PbS"/>
                 <constraint firstItem="0Hb-fw-n9b" firstAttribute="width" secondItem="0Hb-fw-n9b" secondAttribute="height" multiplier="1:1" id="sFg-ds-P8V"/>
+                <constraint firstItem="ffh-Mx-17Q" firstAttribute="leading" secondItem="8CD-nd-UWy" secondAttribute="trailing" constant="5" id="wam-vz-2kV"/>
+                <constraint firstItem="8CD-nd-UWy" firstAttribute="centerY" secondItem="Ix5-dG-THW" secondAttribute="centerY" id="yW8-XX-hj9"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="avatarImageView" destination="0Hb-fw-n9b" id="AAN-W3-uXW"/>
                 <outlet property="distanceLabel" destination="ffh-Mx-17Q" id="rwL-f4-mRt"/>
+                <outlet property="dotLabel" destination="8CD-nd-UWy" id="Ro3-fd-cTh"/>
                 <outlet property="mediaCollectionView" destination="umP-Za-loD" id="4wa-a9-jxB"/>
                 <outlet property="mediaView" destination="r5V-GF-1ON" id="tPB-3w-zKI"/>
                 <outlet property="messageLabel" destination="tE6-sP-zEh" id="zlO-bY-zdK"/>

@@ -87,6 +87,7 @@ class FeedCell: UITableViewCell {
         messageTextView.textColor = UIColor.yepMessageColor()
         distanceLabel.textColor = UIColor.grayColor()
         timeLabel.textColor = UIColor.grayColor()
+        dotLabel.textColor = UIColor.grayColor()
         messageCountLabel.textColor = UIColor.yepTintColor()
         skillLabel.textColor = UIColor.yepTintColor()
 
