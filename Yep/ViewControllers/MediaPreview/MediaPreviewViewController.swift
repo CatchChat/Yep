@@ -173,9 +173,9 @@ class MediaPreviewViewController: UIViewController {
 
             self?.afterDismissAction?()
 
-            delay(0.2) {
+            //delay(0.01) {
                 mediaPreviewWindow.rootViewController = nil
-            }
+            //}
         }
 
 //        guard currentIndex == startIndex else {
