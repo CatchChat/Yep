@@ -22,8 +22,8 @@ class FeedConversationsViewController: UIViewController {
     }
 
     lazy var feedConversations: Results<Conversation> = {
-        let predicate = NSPredicate(format: "type = %d", ConversationType.Group.rawValue)
-        //let predicate = NSPredicate(format: "withGroup != nil AND withGroup.withFeed != nil")
+        //let predicate = NSPredicate(format: "type = %d", ConversationType.Group.rawValue)
+        let predicate = NSPredicate(format: "withGroup != nil AND withGroup.groupType = %d", GroupType.Public.rawValue)
         return self.realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
         }()
 
@@ -32,9 +32,9 @@ class FeedConversationsViewController: UIViewController {
 
     deinit {
 
-        println("Deinit FeedConversationsViewControler")
-
         NSNotificationCenter.defaultCenter().removeObserver(self)
+
+        println("deinit FeedConversations")
     }
 
     override func viewDidLoad() {
@@ -114,7 +114,6 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                 return cell
 
             } else {
-
                 let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationCellID) as! FeedConversationCell
                 cell.configureWithConversation(conversation)
                 

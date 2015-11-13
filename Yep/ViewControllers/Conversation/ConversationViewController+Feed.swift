@@ -32,6 +32,10 @@ extension ConversationViewController {
             return nil
         }
 
+        let _ = try? realm.write {
+            feedGroup.groupType = GroupType.Public.rawValue
+        }
+
         if feedGroup.conversation == nil {
 
             let newConversation = Conversation()

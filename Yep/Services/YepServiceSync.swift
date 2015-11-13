@@ -562,6 +562,8 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                     feedData = DiscoveredFeed.fromJSONDictionary(topic),
                     group = group {
                         saveFeedWithFeedDataWithFullGroup(feedData, group: group, inRealm: realm)
+                } else {
+                    println("no sync feed from groupInfo: \(groupInfo)")
                 }
             }
             
@@ -593,6 +595,13 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
         }
 
         if let group = group {
+
+            // 有 topic 标记 groupType 为 Public
+            if let _ = groupInfo["topic"] {
+                let _ = try? realm.write {
+                    group.groupType = GroupType.Public.rawValue
+                }
+            }
 
             if group.conversation == nil {
                 let conversation = Conversation()
@@ -995,6 +1004,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                                         
                                         let newGroup = Group()
                                         newGroup.groupID = groupID
+                                        // TODO: 此处还无法确定 group 类型，下面会请求 group 信息再确认
 
                                         if let groupInfo = messageInfo["circle"] as? JSONDictionary {
                                             if let groupName = groupInfo["name"] as? String {
