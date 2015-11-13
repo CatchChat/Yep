@@ -1290,6 +1290,10 @@ class ConversationViewController: BaseViewController {
 
         feedView.tapMediaAction = { [weak self] transitionView, image, attachments, index in
 
+            guard image != nil else {
+                return
+            }
+
             let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
 
             vc.previewMedias = attachments.map({ PreviewMedia.AttachmentType(attachment: $0) })
@@ -2938,6 +2942,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             break
                         }
                     }
+                }
+
+                guard image != nil else {
+                    return
                 }
 
                 let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController

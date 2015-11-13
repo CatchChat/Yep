@@ -505,8 +505,6 @@ class FeedsViewController: BaseViewController {
             originalNavigationControllerDelegate = navigationController!.delegate
 
             navigationController?.delegate = delegate
-            
-            break
 
         default:
             break
@@ -576,6 +574,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
             cell.tapMediaAction = { [weak self] transitionView, image, attachments, index in
+
+                guard image != nil else {
+                    return
+                }
 
                 let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
 
