@@ -180,6 +180,12 @@ class User: Object {
 
 // MARK: Group
 
+// Group 类型，注意：上线后若要调整，只能增加新状态
+enum GroupType: Int {
+    case Public     = 0
+    case Private    = 1
+}
+
 class Group: Object {
     dynamic var groupID: String = ""
     dynamic var groupName: String = ""
@@ -188,7 +194,9 @@ class Group: Object {
 
     dynamic var owner: User?
     var members = List<User>()
-    
+
+    dynamic var groupType: Int = GroupType.Public.rawValue
+
     var withFeed: Feed? {
         return linkingObjects(Feed.self, forProperty: "group").first
     }
@@ -699,6 +707,7 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
         newFeed.group = group
         
         let _ = try? realm.write {
+            group.groupType = GroupType.Public.rawValue
             realm.add(newFeed)
         }
     }

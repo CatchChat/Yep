@@ -114,7 +114,6 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                 return cell
 
             } else {
-
                 let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationCellID) as! FeedConversationCell
                 cell.configureWithConversation(conversation)
                 
