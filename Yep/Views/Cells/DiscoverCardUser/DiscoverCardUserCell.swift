@@ -114,13 +114,11 @@ class DiscoverCardUserCell: UICollectionViewCell {
             var skillLocal = skill.localName
             
             if index == 5 {
-                
                 break
             }
             
             if index == 4 {
-                
-                if skills.count > 4 {
+                if skills.count > 4 && skills.count != 5 {
                     skillLocal = NSLocalizedString("\(skills.count-4) More...", comment: "")
                 }
             }
@@ -132,7 +130,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
             textStyle.alignment = .Center
             
             let textFontAttributes: [String: AnyObject] = {
-                if index == 4 {
+                if index == 4 && skills.count != 5 {
                     return  [NSFontAttributeName: UIFont.systemFontOfSize(12), NSForegroundColorAttributeName: UIColor.yepTintColor(), NSParagraphStyleAttributeName: textStyle]
                 } else {
                     return [NSFontAttributeName: UIFont.systemFontOfSize(12), NSForegroundColorAttributeName: UIColor.whiteColor(), NSParagraphStyleAttributeName: textStyle]
@@ -168,7 +166,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
             let rectanglePath = UIBezierPath(roundedRect: CGRectMake(rect.origin.x - marginLeft, rect.origin.y - marginTop , textTextWidth + marginLeft * 2, textRect.height + marginTop*2), cornerRadius: (textRect.height + marginTop*2)*0.5)
             
             let fillColor: UIColor = {
-                if index == 4 {
+                if index == 4 && skills.count != 5 {
                    return UIColor(red: 234/255.0, green: 246/255.0, blue: 255/255.0, alpha: 1.0)
                 } else {
                    return UIColor.yepTintColor()
@@ -188,14 +186,10 @@ class DiscoverCardUserCell: UICollectionViewCell {
         //CGContextClipToRect(context, CGRectMake(0, 0, maxWidth, 50))
         //CGContextRestoreGState(context)
         
-        
         let backgroundImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         return backgroundImage
     }
-
-
-
 }
 
