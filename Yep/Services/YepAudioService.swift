@@ -203,6 +203,15 @@ class YepAudioService: NSObject {
             println("please wait for download") // TODO: Download audio message, check first
         }
     }
+    
+    func resetToDefault() {
+        // playback 会导致从音乐 App 进来的时候停止音乐，所以需要重置回去
+        
+        dispatch_async(queue, { () -> Void in
+            let _ = try? AVAudioSession.sharedInstance().setActive(false, withOptions: AVAudioSessionSetActiveOptions.NotifyOthersOnDeactivation)
+        })
+
+    }
 
     // MARK: Proximity
 

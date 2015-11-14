@@ -2371,6 +2371,7 @@ class ConversationViewController: BaseViewController {
 
                     if let message = message {
                         if message.messageID == playingMessage.messageID {
+                            YepAudioService.sharedManager.resetToDefault()
                             return
                         }
                     }
@@ -2384,6 +2385,8 @@ class ConversationViewController: BaseViewController {
                 let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
                 YepAudioService.sharedManager.playbackTimer = playbackTimer
             }
+        } else {
+            YepAudioService.sharedManager.resetToDefault()
         }
     }
 
@@ -3676,6 +3679,8 @@ extension ConversationViewController: AVAudioPlayerDelegate {
         if let playingMessage = YepAudioService.sharedManager.playingMessage {
             let nextAudioMessage = nextAudioMessageFrom(playingMessage)
             playMessageAudioWithMessage(nextAudioMessage)
+        } else {
+            YepAudioService.sharedManager.resetToDefault()
         }
     }
 
