@@ -85,6 +85,7 @@ class FeedView: UIView {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var nicknameLabelCenterYConstraint: NSLayoutConstraint!
+    @IBOutlet weak var dotLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
 
     @IBOutlet weak var mediaView: FeedMediaView!
@@ -126,6 +127,7 @@ class FeedView: UIView {
         messageTextView.textColor = UIColor.darkGrayColor()
         distanceLabel.textColor = UIColor.grayColor()
         timeLabel.textColor = UIColor.grayColor()
+        dotLabel.textColor = UIColor.grayColor()
 
         messageLabel.font = UIFont.feedMessageFont()
         messageLabel.alpha = 0

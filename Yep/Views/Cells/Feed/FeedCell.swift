@@ -12,7 +12,6 @@ class FeedCell: UITableViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
-    @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var skillBubbleImageView: UIImageView!
     @IBOutlet weak var skillLabel: UILabel!
 
@@ -23,6 +22,8 @@ class FeedCell: UITableViewCell {
 
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var dotLabel: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
 
     @IBOutlet weak var messageCountLabel: UILabel!
 
@@ -86,6 +87,7 @@ class FeedCell: UITableViewCell {
         messageTextView.textColor = UIColor.yepMessageColor()
         distanceLabel.textColor = UIColor.grayColor()
         timeLabel.textColor = UIColor.grayColor()
+        dotLabel.textColor = UIColor.grayColor()
         messageCountLabel.textColor = UIColor.yepTintColor()
         skillLabel.textColor = UIColor.yepTintColor()
 
