@@ -168,7 +168,7 @@ private func s3UploadParams(url: String, failureHandler: ((Reason, String?) -> (
 
 private func s3UploadParamsOfKind(kind: S3UploadParams.Kind, failureHandler: ((Reason, String?) -> ())?, completion: (S3UploadParams) -> Void) {
 
-    s3UploadParams("/api/v1/attachments/\(kind.rawValue)/s3_upload_form_fields", failureHandler: { (reason, error)  in
+    s3UploadParams("/api/v2/attachments/\(kind.rawValue)/s3_upload_form_fields", failureHandler: { (reason, error)  in
         if let failureHandler = failureHandler {
             failureHandler(reason, error)
         } else {
