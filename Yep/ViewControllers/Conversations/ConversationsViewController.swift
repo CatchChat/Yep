@@ -139,7 +139,7 @@ class ConversationsViewController: UIViewController {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
 
-            // 聊天界面的头像
+            // 聊天界面的小头像
 
             for user in normalUsers() {
 
@@ -147,6 +147,7 @@ class ConversationsViewController: UIViewController {
                 AvatarPod.wakeAvatar(userAvatar, completion: { _ ,_ in })
             }
 
+            /*
             // 每个对话的最近 10 条消息（image or thumbnail）
 
             guard let realm = try? Realm() else {
@@ -215,6 +216,7 @@ class ConversationsViewController: UIViewController {
                     }
                 }
             }
+            */
         }
     }
 
@@ -225,19 +227,16 @@ class ConversationsViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-
-//        Kingfisher.ImageCache.defaultCache.clearMemoryCache()
-        
         delay(0.5) { [weak self] in
             self?.askForNotification()
         }
 
-        // 预先生成头像和最近消息图片的缓存
-        // AppDelegate 已经有一个了
-//        cacheInAdvance()
+        // 预先生成小头像
+        cacheInAdvance()
     }
     
     func askForNotification() {
+
         if #available(iOS 9.0, *) {
             
             let replyAction = UIMutableUserNotificationAction()
@@ -264,7 +263,6 @@ class ConversationsViewController: UIViewController {
                     UIUserNotificationType.Alert.rawValue, categories: [category])
             
         } else {
-            
             // 这里才开始向用户提示推送
             APService.registerForRemoteNotificationTypes(
                 UIUserNotificationType.Badge.rawValue |
