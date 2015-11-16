@@ -17,7 +17,10 @@ class FeedMediaCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        imageView.backgroundColor = YepConfig.FeedMedia.backgroundColor
         imageView.layer.minificationFilter = kCAFilterLinear
+
         contentView.backgroundColor = UIColor.clearColor()
     }
 
@@ -32,8 +35,6 @@ class FeedMediaCell: UICollectionViewCell {
         attachmentURL = NSURL(string: attachment.URLString)!
 
         if bigger {
-//            imageView.kf_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.biggerPlaceholderImage)
-            imageView.image = YepConfig.FeedMedia.biggerPlaceholderImage
             ImageCache.sharedInstance.imageOfAttachment(attachment, withSize: imageView.frame.size, completion: { [weak self] (url, image) in
                 
                 if let strongSelf = self {
@@ -46,9 +47,6 @@ class FeedMediaCell: UICollectionViewCell {
             })
 
         } else {
-            
-            imageView.image = YepConfig.FeedMedia.placeholderImage
-//            imageView.kf_setImageWithURL(imageURL, placeholderImage: YepConfig.FeedMedia.placeholderImage)
             ImageCache.sharedInstance.imageOfAttachment(attachment, withSize: imageView.frame.size, completion: { [weak self] (url, image) in
                 if let strongSelf = self {
                     if strongSelf.attachmentURL != url {
