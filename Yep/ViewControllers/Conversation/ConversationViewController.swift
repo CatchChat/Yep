@@ -981,6 +981,10 @@ class ConversationViewController: BaseViewController {
 
     private func batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded updateOlderMessagesIfNeeded: Bool = true) {
 
+        let _ = try? realm.write { [weak self] in
+            self?.conversation.unreadMessagesCount = 0
+        }
+
         if let recipient = conversation.recipient, latestMessage = messages.last {
 
             var needMarkInServer = false
