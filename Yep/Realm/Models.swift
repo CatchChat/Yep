@@ -391,6 +391,7 @@ class Message: Object {
 
     dynamic var sendState: Int = MessageSendState.NotSend.rawValue
     dynamic var readed: Bool = false
+    dynamic var mediaPlayed: Bool = false // 音频播放过，图片查看过等
 
     dynamic var fromFriend: User?
     dynamic var conversation: Conversation?
