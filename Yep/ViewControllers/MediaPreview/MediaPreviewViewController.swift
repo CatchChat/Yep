@@ -62,6 +62,8 @@ class MediaPreviewViewController: UIViewController {
 
     var afterDismissAction: (() -> Void)?
 
+    var showFinished = false
+
     let mediaViewCellID = "MediaViewCell"
 
     deinit {
@@ -133,7 +135,10 @@ class MediaPreviewViewController: UIViewController {
                 UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
                     self?.topPreviewImageView.alpha = 0
                     self?.bottomPreviewImageView.alpha = 0
-                }, completion: { _ in })
+                }, completion: { [weak self] _ in
+                    self?.showFinished = true
+                    println("showFinished")
+                })
             })
         })
 
@@ -183,6 +188,10 @@ class MediaPreviewViewController: UIViewController {
     // MARK: Actions
 
     func dismiss() {
+
+        guard showFinished else {
+            return
+        }
 
         currentPlayer?.removeObserver(self, forKeyPath: "status")
         currentPlayer?.pause()
