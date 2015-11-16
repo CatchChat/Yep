@@ -16,7 +16,26 @@ class MediaPreviewViewController: UIViewController {
 
     var previewMedias: [PreviewMedia] = []
     var startIndex: Int = 0
-    var currentIndex: Int = 0
+    var currentIndex: Int = 0 {
+        didSet {
+            if let previewMedia = previewMedias[safe: currentIndex] {
+                switch previewMedia {
+                case .MessageType(let message):
+                    guard !message.mediaPlayed else {
+                        break
+                    }
+                    guard let realm = message.realm else {
+                        break
+                    }
+                    let _ = try? realm.write {
+                        message.mediaPlayed = true
+                    }
+                case .AttachmentType:
+                    break
+                }
+            }
+        }
+    }
 
     var currentPlayer: AVPlayer?
 

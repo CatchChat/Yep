@@ -190,6 +190,14 @@ class YepAudioService: NSObject {
                     if audioPlayer.play() {
                         println("Do Play audio \(error)")
 
+                        if !message.mediaPlayed {
+                            if let realm = message.realm {
+                                let _ = try? realm.write {
+                                    message.mediaPlayed = true
+                                }
+                            }
+                        }
+
                         success()
                     }
 
