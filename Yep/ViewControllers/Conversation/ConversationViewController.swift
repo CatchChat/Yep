@@ -1316,8 +1316,8 @@ class ConversationViewController: BaseViewController {
 
             transitionView.alpha = 0
             vc.afterDismissAction = { [weak self] in
-                self?.view.window?.makeKeyAndVisible()
                 transitionView.alpha = 1
+                self?.view.window?.makeKeyAndVisible()
             }
 
             mediaPreviewWindow.rootViewController = vc
@@ -2992,8 +2992,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 transitionView?.alpha = 0
                 vc.afterDismissAction = { [weak self] in
-                    self?.view.window?.makeKeyAndVisible()
                     transitionView?.alpha = 1
+                    self?.view.window?.makeKeyAndVisible()
                 }
 
                 mediaPreviewWindow.rootViewController = vc

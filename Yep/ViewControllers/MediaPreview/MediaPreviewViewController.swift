@@ -130,10 +130,10 @@ class MediaPreviewViewController: UIViewController {
 
                 self?.mediaControlView.alpha = 1
 
-            }, completion: nil)
-
-            self?.topPreviewImageView.alpha = 0
-            self?.bottomPreviewImageView.alpha = 0
+            }, completion: { [weak self] _ in
+                self?.topPreviewImageView.alpha = 0
+                self?.bottomPreviewImageView.alpha = 0
+            })
         })
 
         let tap = UITapGestureRecognizer(target: self, action: "dismiss")
