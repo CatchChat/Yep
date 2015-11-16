@@ -3662,13 +3662,13 @@ extension ConversationViewController: AVAudioPlayerDelegate {
             println("setAudioPlayedDuration to 0")
         }
 
-        func nextAudioMessageFrom(message: Message) -> Message? {
+        func nextUnplayedAudioMessageFrom(message: Message) -> Message? {
 
             if let index = messages.indexOf(message) {
                 for i in (index + 1)..<messages.count {
                     if let message = messages[safe: i], friend = message.fromFriend {
                         if friend.friendState != UserFriendState.Me.rawValue {
-                            if message.mediaType == MessageMediaType.Audio.rawValue {
+                            if (message.mediaType == MessageMediaType.Audio.rawValue) && (message.mediaPlayed == false) {
                                 return message
                             }
                         }
@@ -3679,10 +3679,11 @@ extension ConversationViewController: AVAudioPlayerDelegate {
             return nil
         }
 
-        // 尝试播放下一个
+        // 尝试播放下一个未播放过的语音消息
         if let playingMessage = YepAudioService.sharedManager.playingMessage {
-            let nextAudioMessage = nextAudioMessageFrom(playingMessage)
-            playMessageAudioWithMessage(nextAudioMessage)
+            let message = nextUnplayedAudioMessageFrom(playingMessage)
+            playMessageAudioWithMessage(message)
+
         } else {
             YepAudioService.sharedManager.resetToDefault()
         }
