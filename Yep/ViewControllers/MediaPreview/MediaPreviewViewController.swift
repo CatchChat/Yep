@@ -126,13 +126,14 @@ class MediaPreviewViewController: UIViewController {
         }, completion: { [weak self] _ in
             self?.mediasCollectionView.alpha = 1
 
-            UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
-
+            UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
                 self?.mediaControlView.alpha = 1
 
-            }, completion: { [weak self] _ in
-                self?.topPreviewImageView.alpha = 0
-                self?.bottomPreviewImageView.alpha = 0
+            }, completion: { _ in
+                UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
+                    self?.topPreviewImageView.alpha = 0
+                    self?.bottomPreviewImageView.alpha = 0
+                }, completion: { _ in })
             })
         })
 
@@ -192,9 +193,9 @@ class MediaPreviewViewController: UIViewController {
 
             self?.afterDismissAction?()
 
-            //delay(0.01) {
+            delay(0.05) {
                 mediaPreviewWindow.rootViewController = nil
-            //}
+            }
         }
 
 //        guard currentIndex == startIndex else {
