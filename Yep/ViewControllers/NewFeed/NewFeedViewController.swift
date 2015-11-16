@@ -407,11 +407,11 @@ class NewFeedViewController: UIViewController {
                 YepHUD.hideActivityIndicator()
                 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    
-                    if let feed = DiscoveredFeed.fromJSONDictionary(data) {
+
+                    if let feed = DiscoveredFeed.fromFeedInfo(data, groupInfo: nil) {
                         self?.afterCreatedFeedAction?(feed: feed)
                     }
-                    
+
                     self?.dismissViewControllerAnimated(true, completion: nil)
                 }
 

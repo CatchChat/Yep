@@ -2569,32 +2569,38 @@ struct DiscoveredFeed: Hashable {
     let groupID: String
     var messagesCount: Int
 
-    static func fromJSONDictionary(json: JSONDictionary) -> DiscoveredFeed? {
+    static func fromFeedInfo(feedInfo: JSONDictionary, groupInfo: JSONDictionary?) -> DiscoveredFeed? {
+
+        //println("feedInfo: \(feedInfo)")
 
         guard let
-            id = json["id"] as? String,
-            allowComment = json["allow_comment"] as? Bool,
-            createdUnixTime = json["created_at"] as? NSTimeInterval,
-            updatedUnixTime = json["updated_at"] as? NSTimeInterval,
-            creatorInfo = json["user"] as? JSONDictionary,
-            body = json["body"] as? String,
-            attachmentsData = json["attachments"] as? [JSONDictionary],
-            //skill // TODO: skill
-            groupInfo = json["circle"] as? JSONDictionary,
-            messagesCount = json["message_count"] as? Int else {
+            id = feedInfo["id"] as? String,
+            allowComment = feedInfo["allow_comment"] as? Bool,
+            createdUnixTime = feedInfo["created_at"] as? NSTimeInterval,
+            updatedUnixTime = feedInfo["updated_at"] as? NSTimeInterval,
+            creatorInfo = feedInfo["user"] as? JSONDictionary,
+            body = feedInfo["body"] as? String,
+            attachmentsData = feedInfo["attachments"] as? [JSONDictionary],
+            messagesCount = feedInfo["message_count"] as? Int else {
                 return nil
         }
 
-        guard let creator = parseDiscoveredUser(creatorInfo), groupID = groupInfo["id"] as? String else {
+        var groupInfo = groupInfo
+
+        if groupInfo == nil {
+            groupInfo = feedInfo["circle"] as? JSONDictionary
+        }
+
+        guard let creator = parseDiscoveredUser(creatorInfo), groupID = groupInfo?["id"] as? String else {
             return nil
         }
 
-        let distance = json["distance"] as? Double
+        let distance = feedInfo["distance"] as? Double
 
         let attachments = attachmentsData.map({ DiscoveredAttachment.fromJSONDictionary($0) }).flatMap({ $0 })
 
         var skill: Skill?
-        if let skillInfo = json["skill"] as? JSONDictionary {
+        if let skillInfo = feedInfo["skill"] as? JSONDictionary {
             skill = Skill.fromJSONDictionary(skillInfo)
         }
 
@@ -2606,8 +2612,8 @@ let parseFeed: JSONDictionary -> DiscoveredFeed? = { data in
     
     //println("feedsData: \(data)")
     
-    if let feedsData = data["topic"] as? JSONDictionary {
-        return DiscoveredFeed.fromJSONDictionary(feedsData)
+    if let feedInfo = data["topic"] as? JSONDictionary, groupInfo = data["circle"] as? JSONDictionary {
+        return DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo)
     }
     
     return nil
@@ -2618,7 +2624,7 @@ let parseFeeds: JSONDictionary -> [DiscoveredFeed]? = { data in
     //println("feedsData: \(data)")
 
     if let feedsData = data["topics"] as? [JSONDictionary] {
-        return feedsData.map({ DiscoveredFeed.fromJSONDictionary($0) }).flatMap({ $0 })
+        return feedsData.map({ DiscoveredFeed.fromFeedInfo($0, groupInfo: nil) }).flatMap({ $0 })
     }
 
     return []
