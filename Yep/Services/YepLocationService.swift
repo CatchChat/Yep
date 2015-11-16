@@ -12,7 +12,7 @@ class YepLocationService: NSObject, CLLocationManagerDelegate {
 
     class func turnOn() {
         if (CLLocationManager.locationServicesEnabled()){
-            println("Update Location")
+            println("begin updating location")
             self.sharedManager.locationManager.startUpdatingLocation()
         }
     }
