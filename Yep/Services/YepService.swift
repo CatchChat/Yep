@@ -2678,9 +2678,17 @@ func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: ((Reason, 
     }
 }
 
-func createFeedWithMessage(message: String, attachments: JSONDictionary?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+enum FeedKind: String {
+    case Normal = "normal"
+    case AppleMusic = "apple_music"
+    case AppleMovie = "apple_movie"
+    case AppleEBook = "apple_ebook"
+}
+
+func createFeedWithKind(kind: FeedKind, message: String, attachments: JSONDictionary?, appleMedia: JSONDictionary?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
 
     var requestParameters: JSONDictionary = [
+        "kind": kind.rawValue,
         "body": message,
         "latitude": 0,
         "longitude": 0,
@@ -2700,11 +2708,15 @@ func createFeedWithMessage(message: String, attachments: JSONDictionary?, coordi
         requestParameters["attachments"] = attachments
     }
 
+    if let appleMedia = appleMedia {
+        requestParameters["apple_media"] = appleMedia
+    }
+
     let parse: JSONDictionary -> JSONDictionary? = { data in
         return data
     }
 
-    let resource = authJsonResource(path: "/api/v1/topics", method: .POST, requestParameters: requestParameters, parse: parse)
+    let resource = authJsonResource(path: "/api/v2/topics", method: .POST, requestParameters: requestParameters, parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
