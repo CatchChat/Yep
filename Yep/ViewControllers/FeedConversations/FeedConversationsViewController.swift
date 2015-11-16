@@ -105,27 +105,57 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        if let conversation = feedConversations[safe: indexPath.row], feed = conversation.withGroup?.withFeed {
+        guard let conversation = feedConversations[safe: indexPath.row] else {
+            return UITableViewCell()
+        }
+
+        if let feed = conversation.withGroup?.withFeed {
 
             if feed.deleted {
                 let cell = tableView.dequeueReusableCellWithIdentifier(deletedFeedConversationCellID) as! DeletedFeedConversationCell
-                cell.configureWithConversation(conversation)
-
                 return cell
 
             } else {
                 let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationCellID) as! FeedConversationCell
-                cell.configureWithConversation(conversation)
-                
                 return cell
             }
+
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationCellID) as! FeedConversationCell
+            return cell
+        }
+    }
+
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        guard let conversation = feedConversations[safe: indexPath.row] else {
+            return
         }
 
-        let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationCellID) as! FeedConversationCell
-        if let conversation = feedConversations[safe: indexPath.row] {
+        if let feed = conversation.withGroup?.withFeed {
+
+            if feed.deleted {
+                guard let cell = cell as? DeletedFeedConversationCell else {
+                    return
+                }
+
+                cell.configureWithConversation(conversation)
+
+            } else {
+                guard let cell = cell as? FeedConversationCell else {
+                    return
+                }
+
+                cell.configureWithConversation(conversation)
+            }
+
+        } else {
+            guard let cell = cell as? FeedConversationCell else {
+                return
+            }
+
             cell.configureWithConversation(conversation)
         }
-        return cell
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
