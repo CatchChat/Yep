@@ -159,8 +159,8 @@ class NewFeedViewController: UIViewController {
                 
                 YepLocationService.turnOn()
                 
-                }, rejected: {
-                    self.alertCanNotAccessLocation()
+            }, rejected: {
+                self.alertCanNotAccessLocation()
             })
             
         } else {
@@ -168,7 +168,7 @@ class NewFeedViewController: UIViewController {
                 
                 YepLocationService.turnOn()
                 
-                }, rejected: {
+            }, rejected: {
             })
         }
     }
@@ -177,6 +177,10 @@ class NewFeedViewController: UIViewController {
         super.viewDidAppear(animated)
 
         delay(1) { [weak self] in
+            guard self?.presentedViewController == nil else {
+                return
+            }
+
             self?.messageTextView.becomeFirstResponder()
         }
     }
@@ -247,9 +251,9 @@ class NewFeedViewController: UIViewController {
             self?.channelViewTopConstraint.constant = 108
             self?.view.layoutIfNeeded()
             
-            }, completion: { [weak self] _ in
-                self?.channelView.userInteractionEnabled = false
-            })
+        }, completion: { [weak self] _ in
+            self?.channelView.userInteractionEnabled = false
+        })
     }
     
     func hideSkillPickerView() {
@@ -275,9 +279,9 @@ class NewFeedViewController: UIViewController {
             self?.channelViewTopConstraint.constant = 30
             self?.view.layoutIfNeeded()
             
-            }, completion: { [weak self] _ in
-                self?.channelView.userInteractionEnabled = true
-            })
+        }, completion: { [weak self] _ in
+            self?.channelView.userInteractionEnabled = true
+        })
     }
     
     func cancel(sender: UIBarButtonItem) {
@@ -475,13 +479,15 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         switch indexPath.section {
             
         case 0:
+
+            messageTextView.resignFirstResponder()
             
             if mediaImages.count == 4 {
                 YepAlert.alertSorry(message: NSLocalizedString("Feed can only has 4 photos.", comment: ""), inViewController: self)
                 return
             }
             
-            let pickActionController = UIAlertController(title: NSLocalizedString("Choose Source", comment: ""), message: nil, preferredStyle: .ActionSheet)
+            let pickAlertController = UIAlertController(title: NSLocalizedString("Choose Source", comment: ""), message: nil, preferredStyle: .ActionSheet)
             
             let cameraAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Camera", comment: ""), style: .Default) { action -> Void in
 
@@ -493,11 +499,11 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
                     }
                     
                 }, rejected: { [weak self] in
-                        self?.alertCanNotOpenCamera()
+                    self?.alertCanNotOpenCamera()
                 })
             }
             
-            pickActionController.addAction(cameraAction)
+            pickAlertController.addAction(cameraAction)
             
             let albumAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Albums", comment: ""), style: .Default) { [weak self] action -> Void in
 
@@ -505,22 +511,20 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
                     self?.performSegueWithIdentifier("showPickPhotos", sender: nil)
                     
                 }, rejected: { [weak self] in
-                        self?.alertCanNotAccessCameraRoll()
+                    self?.alertCanNotAccessCameraRoll()
                 })
-                
             }
         
-            pickActionController.addAction(albumAction)
+            pickAlertController.addAction(albumAction)
             
             let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
 
             }
         
-            pickActionController.addAction(cancelAction)
+            pickAlertController.addAction(cancelAction)
         
-            self.presentViewController(pickActionController, animated: true, completion: nil)
-        
-            
+            self.presentViewController(pickAlertController, animated: true, completion: nil)
+
         case 1:
             mediaImages.removeAtIndex(indexPath.item)
 //            if !imageAssets.isEmpty {
