@@ -482,6 +482,8 @@ class Conversation: Object {
     var messages: [Message] {
         return linkingObjects(Message.self, forProperty: "conversation")
     }
+
+    dynamic var unreadMessagesCount: Int = 0
 }
 
 // MARK: Feed

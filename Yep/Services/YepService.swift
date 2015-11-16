@@ -1680,6 +1680,7 @@ func officialMessages(completion completion: Int -> Void) {
     apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
 }
 
+/*
 func headUnreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": 1,
@@ -1713,7 +1714,7 @@ func moreUnreadMessages(inPage page: Int, withPerPage perPage: Int, failureHandl
         apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
     }
 }
-
+*/
 /*
 func sentButUnreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
 
@@ -1730,7 +1731,7 @@ func sentButUnreadMessages(failureHandler failureHandler: ((Reason, String?) -> 
     }
 }
 */
-
+/*
 func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
 
     headUnreadMessages(failureHandler: failureHandler) { result in
@@ -1785,6 +1786,58 @@ func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?,
             completion(messages)
         }
     }
+}
+*/
+
+func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
+
+    let parse: JSONDictionary -> [JSONDictionary]? = { data in
+
+        guard let conversationsData = data["conversations"] as? [JSONDictionary] else {
+            return nil
+        }
+
+        guard let realm = try? Realm() else {
+            return nil
+        }
+
+        var messages = [JSONDictionary]()
+
+        for conversationInfo in conversationsData {
+            if let type = conversationInfo["conversation_type"] as? String, recipientInfo = conversationInfo["conversation"] as? JSONDictionary, unreadMessagesCount = conversationInfo["count"] as? Int  {
+
+                var recipient: Recipient?
+                switch type {
+                case ConversationType.OneToOne.nameForServer:
+                    if let userID = recipientInfo["id"] as? String {
+                        recipient = Recipient(type: .OneToOne, ID: userID)
+                    }
+                case ConversationType.Group.nameForServer:
+                    if let groupID = recipientInfo["id"] as? String {
+                        recipient = Recipient(type: .Group, ID: groupID)
+                    }
+                default:
+                    break
+                }
+
+                if let recipient = recipient, conversation = recipient.conversationInRealm(realm) {
+                    let _ = try? realm.write {
+                        conversation.unreadMessagesCount = unreadMessagesCount
+                    }
+                }
+            }
+
+            if let messagesData = conversationInfo["messages"] as? [JSONDictionary] {
+                messages += messagesData
+            }
+        }
+
+        return messages
+    }
+
+    let resource = authJsonResource(path: "/api/v2/messages/unread", method: .GET, requestParameters: [:], parse: parse)
+
+    apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
 }
 
 struct Recipient {
