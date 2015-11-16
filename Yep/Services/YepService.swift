@@ -2699,7 +2699,7 @@ enum FeedKind: String {
     case AppleEBook = "apple_ebook"
 }
 
-func createFeedWithKind(kind: FeedKind, message: String, attachments: JSONDictionary?, appleMedia: JSONDictionary?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+func createFeedWithKind(kind: FeedKind, message: String, attachments: JSONDictionary?, sharedStuff: JSONDictionary?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
 
     var requestParameters: JSONDictionary = [
         "kind": kind.rawValue,
@@ -2722,8 +2722,8 @@ func createFeedWithKind(kind: FeedKind, message: String, attachments: JSONDictio
         requestParameters["attachments"] = attachments
     }
 
-    if let appleMedia = appleMedia {
-        requestParameters["apple_media"] = appleMedia
+    if let sharedStuff = sharedStuff {
+        requestParameters["shared_stuff"] = sharedStuff
     }
 
     let parse: JSONDictionary -> JSONDictionary? = { data in
