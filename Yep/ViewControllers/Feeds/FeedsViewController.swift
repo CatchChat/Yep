@@ -547,16 +547,39 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         switch indexPath.section {
 
         case Section.SkillUsers.rawValue:
-
             let cell = tableView.dequeueReusableCellWithIdentifier(feedSkillUsersCellID) as! FeedSkillUsersCell
-
-            cell.configureWithFeeds(feeds)
-
             return cell
 
         case Section.Feed.rawValue:
-
             let cell = tableView.dequeueReusableCellWithIdentifier(feedCellID) as! FeedCell
+            return cell
+
+        case Section.LoadMore.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier(loadMoreTableViewCellID) as! LoadMoreTableViewCell
+            return cell
+
+        default:
+            return UITableViewCell()
+        }
+    }
+
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        switch indexPath.section {
+
+        case Section.SkillUsers.rawValue:
+
+            guard let cell = cell as? FeedSkillUsersCell else {
+                break
+            }
+
+            cell.configureWithFeeds(feeds)
+
+        case Section.Feed.rawValue:
+
+            guard let cell = cell as? FeedCell else {
+                break
+            }
 
             let feed = feeds[indexPath.item]
 
@@ -592,8 +615,8 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 transitionView.alpha = 0
                 vc.afterDismissAction = { [weak self] in
-                    self?.view.window?.makeKeyAndVisible()
                     transitionView.alpha = 1
+                    self?.view.window?.makeKeyAndVisible()
                 }
 
                 mediaPreviewWindow.rootViewController = vc
@@ -633,34 +656,25 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 }
                 tableView.deselectRowAtIndexPath(indexPath, animated: true)
             }
-            
-            return cell
 
         case Section.LoadMore.rawValue:
-            let cell = tableView.dequeueReusableCellWithIdentifier(loadMoreTableViewCellID) as! LoadMoreTableViewCell
-            return cell
+
+            guard let cell = cell as? LoadMoreTableViewCell else {
+                break
+            }
+
+            println("load more feeds")
+
+            if !cell.loadingActivityIndicator.isAnimating() {
+                cell.loadingActivityIndicator.startAnimating()
+            }
+
+            updateFeeds(isLoadMore: true, finish: { [weak cell] in
+                cell?.loadingActivityIndicator.stopAnimating()
+            })
 
         default:
-            return UITableViewCell()
-        }
-    }
-
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-
-        if indexPath.section == Section.LoadMore.rawValue {
-
-            if let cell = cell as? LoadMoreTableViewCell {
-
-                println("load more feeds")
-
-                if !cell.loadingActivityIndicator.isAnimating() {
-                    cell.loadingActivityIndicator.startAnimating()
-                }
-
-                updateFeeds(isLoadMore: true, finish: { [weak cell] in
-                    cell?.loadingActivityIndicator.stopAnimating()
-                })
-            }
+            break
         }
     }
 

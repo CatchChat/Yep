@@ -14,14 +14,14 @@ PODS:
   - FXBlurView (1.6.4)
   - JPush-iOS-SDK (1.8.8)
   - KeyboardMan (0.5.2)
-  - Kingfisher (1.8.0)
+  - Kingfisher (1.8.1)
   - MonkeyKing (0.0.2)
   - MZFayeClient (1.0.1):
     - Base64 (~> 1.0.1)
     - SocketRocket (~> 0.4)
   - Navi (0.3.7)
   - pop (1.0.8)
-  - Proposer (0.7)
+  - Proposer (0.7.1)
   - Realm (0.96.2):
     - Realm/Headers (= 0.96.2)
   - Realm/Headers (0.96.2)
@@ -53,7 +53,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   MZFayeClient:
-    :path: "../CatchLib-iOS/MZFayeClient/"
+    :path: ../CatchLib-iOS/MZFayeClient/
 
 SPEC CHECKSUMS:
   1PasswordExtension: 9f471645d378283cb88c6d4bf502e4381a42c0ad
@@ -66,12 +66,12 @@ SPEC CHECKSUMS:
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   JPush-iOS-SDK: d4c097d8abbdd0837e24d44b41aacf64a6feddfd
   KeyboardMan: b081c254c5c0adc794a49b4e97a86cb4ac917a66
-  Kingfisher: 4d40a6d8a0030b575be66593cae3aea587971a67
+  Kingfisher: a20680f220c52620284fae571805a179809985c2
   MonkeyKing: 9be24307843a80f4cd3eca66adc12c67aefb83bb
   MZFayeClient: 65e7ef67e61fbe7a7a8b196130541c9f06bcb5d8
   Navi: 891defbce3c48dcf31d05d3c2cbc8b7fe6c77c30
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
-  Proposer: c244e0d031227b6cf140da7a24d30f2d954d2cb2
+  Proposer: e9759ad71a6702fd94315a0bff1f8c116edf6f07
   Realm: 3ce8448151c571e90b85002d984d7f93f54fc8a3
   RealmSwift: 485599fe54e35461c4a0daa7d01d8fbf11424873
   Ruler: b36ec3bbc5fc6c3b7f629a6052cc1c17ada4b280

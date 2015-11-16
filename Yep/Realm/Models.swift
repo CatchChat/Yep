@@ -175,7 +175,14 @@ class User: Object {
     var belongsToGroups: [Group] {
         return linkingObjects(Group.self, forProperty: "members")
     }
-    
+
+    var isMe: Bool {
+        if let myUserID = YepUserDefaults.userID.value {
+            return userID == myUserID
+        }
+        
+        return false
+    }
 }
 
 // MARK: Group
@@ -384,6 +391,7 @@ class Message: Object {
 
     dynamic var sendState: Int = MessageSendState.NotSend.rawValue
     dynamic var readed: Bool = false
+    dynamic var mediaPlayed: Bool = false // 音频播放过，图片查看过等
 
     dynamic var fromFriend: User?
     dynamic var conversation: Conversation?
@@ -482,6 +490,8 @@ class Conversation: Object {
     var messages: [Message] {
         return linkingObjects(Message.self, forProperty: "conversation")
     }
+
+    dynamic var unreadMessagesCount: Int = 0
 }
 
 // MARK: Feed

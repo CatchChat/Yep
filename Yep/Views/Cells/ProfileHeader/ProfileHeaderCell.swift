@@ -59,6 +59,7 @@ class ProfileHeaderCell: UICollectionViewCell {
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
                         if (error != nil) {
                             println("\(location) reverse geodcode fail: \(error?.localizedDescription)")
+                            self?.location = nil
                         }
 
                         if let placemarks = placemarks {
@@ -97,8 +98,15 @@ class ProfileHeaderCell: UICollectionViewCell {
                 askedForPermission = true
                 proposeToAccess(.Location(.WhenInUse), agreed: {
                     YepLocationService.turnOn()
+
+                    if user.isMe {
+                        YepLocationService.sharedManager.afterUpdatedLocationAction = { [weak self] newLocation in
+                            self?.location = newLocation
+                        }
+                    }
+
                 }, rejected: {
-                        println("Yep can NOT get Location. :[\n")
+                    println("Yep can NOT get Location. :[\n")
                 })
             }
 
@@ -107,7 +115,6 @@ class ProfileHeaderCell: UICollectionViewCell {
 
         location = CLLocation(latitude: user.latitude, longitude: user.longitude)
     }
-
 
     func blurImage(image: UIImage, completion: UIImage -> Void) {
 

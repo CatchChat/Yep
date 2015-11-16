@@ -184,7 +184,6 @@ class ChatLeftVideoCell: ChatBaseCell {
                     }
                 }
 
-
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Left, completion: { [weak self] progress, image in
 
                     dispatch_async(dispatch_get_main_queue()) {

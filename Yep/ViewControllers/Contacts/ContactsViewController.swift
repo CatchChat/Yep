@@ -168,26 +168,33 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+        return cell
+    }
 
-        if let friend = friendAtIndexPath(indexPath) {
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
 
-            let userAvatar = UserAvatar(userID: friend.userID, avatarStyle: miniAvatarStyle)
-            cell.avatarImageView.navi_setAvatar(userAvatar)
-
-            cell.nameLabel.text = friend.nickname
-
-            if let badge = BadgeView.Badge(rawValue: friend.badge) {
-                cell.badgeImageView.image = badge.image
-                cell.badgeImageView.tintColor = badge.color
-            } else {
-                cell.badgeImageView.image = nil
-            }
-
-            cell.joinedDateLabel.text = friend.introduction
-            cell.lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: friend.lastSignInUnixTime).timeAgo.lowercaseString)
+        guard let cell = cell as? ContactsCell else {
+            return
         }
 
-        return cell
+        guard let friend = friendAtIndexPath(indexPath) else {
+            return
+        }
+
+        let userAvatar = UserAvatar(userID: friend.userID, avatarStyle: miniAvatarStyle)
+        cell.avatarImageView.navi_setAvatar(userAvatar)
+
+        cell.nameLabel.text = friend.nickname
+
+        if let badge = BadgeView.Badge(rawValue: friend.badge) {
+            cell.badgeImageView.image = badge.image
+            cell.badgeImageView.tintColor = badge.color
+        } else {
+            cell.badgeImageView.image = nil
+        }
+
+        cell.joinedDateLabel.text = friend.introduction
+        cell.lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: friend.lastSignInUnixTime).timeAgo.lowercaseString)
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

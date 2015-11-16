@@ -36,7 +36,7 @@
                         </collectionViewFlowLayout>
                     </collectionView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NIX" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d97-mK-bJE" userLabel="Nickname Label">
-                        <rect key="frame" x="65" y="21" width="25.5" height="18"/>
+                        <rect key="frame" x="65" y="21" width="244" height="18"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -85,7 +85,7 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skill_bubble_empty" translatesAutoresizingMaskIntoConstraints="NO" id="WvT-iw-dEo">
                         <rect key="frame" x="317" y="19" width="49" height="22"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swift" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ec-vd-wUU">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Swift" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ec-vd-wUU">
                         <rect key="frame" x="327" y="23" width="29" height="14.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -98,6 +98,7 @@
                     <constraint firstAttribute="trailing" secondItem="1ec-vd-wUU" secondAttribute="trailing" constant="25" id="5Wn-VO-vyC"/>
                     <constraint firstAttribute="trailing" secondItem="B9B-Nc-h8k" secondAttribute="trailing" constant="15" id="5um-0R-Amw"/>
                     <constraint firstItem="uir-A9-aaJ" firstAttribute="leading" secondItem="uBN-7F-tdQ" secondAttribute="trailing" constant="5" id="6Om-7C-Hkr"/>
+                    <constraint firstItem="WvT-iw-dEo" firstAttribute="leading" secondItem="d97-mK-bJE" secondAttribute="trailing" constant="8" id="7g8-E5-Ay0"/>
                     <constraint firstItem="COt-7F-KVK" firstAttribute="top" secondItem="XYv-cX-YOQ" secondAttribute="bottom" constant="15" id="9J9-YH-c9Y"/>
                     <constraint firstAttribute="trailing" secondItem="COt-7F-KVK" secondAttribute="trailing" id="AfO-Hm-djL"/>
                     <constraint firstItem="1ec-vd-wUU" firstAttribute="centerY" secondItem="d97-mK-bJE" secondAttribute="centerY" id="DiT-Gx-hJI"/>

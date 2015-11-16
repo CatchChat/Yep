@@ -186,8 +186,7 @@ class YepConfig {
     }
 
     struct FeedMedia {
-        static let placeholderImage = UIImage(named: "feed_media_placeholder_80")
-        static let biggerPlaceholderImage = UIImage(named: "feed_media_placeholder_160")
+        static let backgroundColor = UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1)
     }
 
     struct FeedCell {

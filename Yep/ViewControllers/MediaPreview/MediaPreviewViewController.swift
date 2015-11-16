@@ -16,7 +16,26 @@ class MediaPreviewViewController: UIViewController {
 
     var previewMedias: [PreviewMedia] = []
     var startIndex: Int = 0
-    var currentIndex: Int = 0
+    var currentIndex: Int = 0 {
+        didSet {
+            if let previewMedia = previewMedias[safe: currentIndex] {
+                switch previewMedia {
+                case .MessageType(let message):
+                    guard !message.mediaPlayed else {
+                        break
+                    }
+                    guard let realm = message.realm else {
+                        break
+                    }
+                    let _ = try? realm.write {
+                        message.mediaPlayed = true
+                    }
+                case .AttachmentType:
+                    break
+                }
+            }
+        }
+    }
 
     var currentPlayer: AVPlayer?
 
@@ -42,6 +61,8 @@ class MediaPreviewViewController: UIViewController {
     var bottomPreviewImage: UIImage?
 
     var afterDismissAction: (() -> Void)?
+
+    var showFinished = false
 
     let mediaViewCellID = "MediaViewCell"
 
@@ -107,14 +128,18 @@ class MediaPreviewViewController: UIViewController {
         }, completion: { [weak self] _ in
             self?.mediasCollectionView.alpha = 1
 
-            UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
-
+            UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
                 self?.mediaControlView.alpha = 1
 
-            }, completion: nil)
-
-            self?.topPreviewImageView.alpha = 0
-            self?.bottomPreviewImageView.alpha = 0
+            }, completion: { _ in
+                UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
+                    self?.topPreviewImageView.alpha = 0
+                    self?.bottomPreviewImageView.alpha = 0
+                }, completion: { [weak self] _ in
+                    self?.showFinished = true
+                    println("showFinished")
+                })
+            })
         })
 
         let tap = UITapGestureRecognizer(target: self, action: "dismiss")
@@ -164,6 +189,10 @@ class MediaPreviewViewController: UIViewController {
 
     func dismiss() {
 
+        guard showFinished else {
+            return
+        }
+
         currentPlayer?.removeObserver(self, forKeyPath: "status")
         currentPlayer?.pause()
 
@@ -173,9 +202,9 @@ class MediaPreviewViewController: UIViewController {
 
             self?.afterDismissAction?()
 
-            //delay(0.01) {
+            delay(0.05) {
                 mediaPreviewWindow.rootViewController = nil
-            //}
+            }
         }
 
 //        guard currentIndex == startIndex else {

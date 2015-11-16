@@ -143,22 +143,14 @@ enum ProfileUser {
 
     var isMe: Bool {
 
-        let userID: String
-
         switch self {
 
         case .DiscoveredUserType(let discoveredUser):
-            userID = discoveredUser.id
+            return discoveredUser.isMe
 
         case .UserType(let user):
-            userID = user.userID
+            return user.isMe
         }
-
-        if let myUserID = YepUserDefaults.userID.value {
-            return userID == myUserID
-        }
-
-        return false
     }
 
     func enabledSocialAccount(socialAccount: SocialAccount) -> Bool {
