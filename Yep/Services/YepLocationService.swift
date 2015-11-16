@@ -18,6 +18,8 @@ class YepLocationService: NSObject, CLLocationManagerDelegate {
     }
     
     static let sharedManager = YepLocationService()
+
+    var afterUpdatedLocationAction: (CLLocation -> Void)?
     
     lazy var locationManager: CLLocationManager = {
         let locationManager = CLLocationManager()
@@ -34,17 +36,25 @@ class YepLocationService: NSObject, CLLocationManagerDelegate {
     var address: String?
     let geocoder = CLGeocoder()
 
-    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 
-        currentLocation = newLocation
+        guard let newLocation = locations.last else {
+            return
+        }
+
+        afterUpdatedLocationAction?(newLocation)
 
         // 尽量减少对服务器的请求和反向查询
 
-        let distance = newLocation.distanceFromLocation(oldLocation)
+        if let oldLocation = currentLocation {
+            let distance = newLocation.distanceFromLocation(oldLocation)
 
-        if distance < YepConfig.Location.distanceThreshold {
-            return
+            if distance < YepConfig.Location.distanceThreshold {
+                return
+            }
         }
+
+        currentLocation = newLocation
 
         updateMyselfWithInfo(["latitude": newLocation.coordinate.latitude, "longitude": newLocation.coordinate.longitude], failureHandler: nil, completion: { _ in
         })

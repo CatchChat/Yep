@@ -394,7 +394,7 @@ class NewFeedViewController: UIViewController {
                     
             }
 
-            createFeedWithMessage(message, attachments: mediaInfo, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
+            createFeedWithKind(.Normal, message: message, attachments: mediaInfo, appleMedia: nil, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
                 
                 YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create feed failed!", comment: ""), inViewController: self)
@@ -407,11 +407,11 @@ class NewFeedViewController: UIViewController {
                 YepHUD.hideActivityIndicator()
                 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    
-                    if let feed = DiscoveredFeed.fromJSONDictionary(data) {
+
+                    if let feed = DiscoveredFeed.fromFeedInfo(data, groupInfo: nil) {
                         self?.afterCreatedFeedAction?(feed: feed)
                     }
-                    
+
                     self?.dismissViewControllerAnimated(true, completion: nil)
                 }
 

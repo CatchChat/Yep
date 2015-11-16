@@ -558,8 +558,8 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                 //Sync Feed
 
                 if let
-                    topic = groupInfo["topic"] as? JSONDictionary,
-                    feedData = DiscoveredFeed.fromJSONDictionary(topic),
+                    feedInfo = groupInfo["topic"] as? JSONDictionary,
+                    feedData = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo),
                     group = group {
                         saveFeedWithFeedDataWithFullGroup(feedData, group: group, inRealm: realm)
                 } else {
@@ -1028,8 +1028,8 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                                                 
                                                 if let savedGroup = groupWithGroupID(groupID, inRealm: realmForGroup) {
                                                     if let
-                                                        topic = groupInfo["topic"] as? JSONDictionary,
-                                                        feedData = DiscoveredFeed.fromJSONDictionary(topic) {
+                                                        feedInfo = groupInfo["topic"] as? JSONDictionary,
+                                                        feedData = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) {
                                                             saveFeedWithFeedDataWithFullGroup(feedData, group: savedGroup, inRealm: realmForGroup)
                                                     }
                                                 }

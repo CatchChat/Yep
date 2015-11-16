@@ -62,7 +62,8 @@ class FeedConversationCell: UITableViewCell {
             return
         }
 
-        countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
+        //countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
+        countOfUnreadMessages = conversation.unreadMessagesCount
 
         nameLabel.text = feed.body
         

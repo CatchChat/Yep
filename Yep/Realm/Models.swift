@@ -175,7 +175,14 @@ class User: Object {
     var belongsToGroups: [Group] {
         return linkingObjects(Group.self, forProperty: "members")
     }
-    
+
+    var isMe: Bool {
+        if let myUserID = YepUserDefaults.userID.value {
+            return userID == myUserID
+        }
+        
+        return false
+    }
 }
 
 // MARK: Group
@@ -482,6 +489,8 @@ class Conversation: Object {
     var messages: [Message] {
         return linkingObjects(Message.self, forProperty: "conversation")
     }
+
+    dynamic var unreadMessagesCount: Int = 0
 }
 
 // MARK: Feed
