@@ -18,6 +18,8 @@ class YepLocationService: NSObject, CLLocationManagerDelegate {
     }
     
     static let sharedManager = YepLocationService()
+
+    var afterUpdatedLocationAction: (CLLocation -> Void)?
     
     lazy var locationManager: CLLocationManager = {
         let locationManager = CLLocationManager()
@@ -39,6 +41,8 @@ class YepLocationService: NSObject, CLLocationManagerDelegate {
         guard let newLocation = locations.last else {
             return
         }
+
+        afterUpdatedLocationAction?(newLocation)
 
         // 尽量减少对服务器的请求和反向查询
 

@@ -1212,6 +1212,14 @@ struct DiscoveredUser: Hashable {
     var hashValue: Int {
         return id.hashValue
     }
+
+    var isMe: Bool {
+        if let myUserID = YepUserDefaults.userID.value {
+            return id == myUserID
+        }
+        
+        return false
+    }
 }
 
 func ==(lhs: DiscoveredUser, rhs: DiscoveredUser) -> Bool {

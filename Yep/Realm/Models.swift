@@ -175,7 +175,14 @@ class User: Object {
     var belongsToGroups: [Group] {
         return linkingObjects(Group.self, forProperty: "members")
     }
-    
+
+    var isMe: Bool {
+        if let myUserID = YepUserDefaults.userID.value {
+            return userID == myUserID
+        }
+        
+        return false
+    }
 }
 
 // MARK: Group
