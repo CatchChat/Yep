@@ -20,7 +20,7 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NIX" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C2E-Yo-twp" userLabel="Nickname Label">
-                    <rect key="frame" x="65" y="21" width="25.5" height="18"/>
+                    <rect key="frame" x="65" y="21" width="339" height="18"/>
                     <animations/>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -73,7 +73,7 @@
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tE6-sP-zEh">
                     <rect key="frame" x="65" y="54" width="42" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="How do you do? Do not go gentle into that good night." translatesAutoresizingMaskIntoConstraints="NO" id="3bv-tD-FhP" customClass="FeedTextView" customModule="Yep" customModuleProvider="target">
@@ -102,6 +102,7 @@
                 <constraint firstAttribute="trailing" secondItem="3bv-tD-FhP" secondAttribute="trailing" constant="15" id="BeT-DR-GM8"/>
                 <constraint firstItem="Ix5-dG-THW" firstAttribute="leading" secondItem="C2E-Yo-twp" secondAttribute="leading" id="CNd-65-9tF"/>
                 <constraint firstItem="0Hb-fw-n9b" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="IUd-8S-7JE"/>
+                <constraint firstAttribute="trailing" secondItem="C2E-Yo-twp" secondAttribute="trailing" constant="15" id="NZM-pG-uou"/>
                 <constraint firstItem="3bv-tD-FhP" firstAttribute="leading" secondItem="C2E-Yo-twp" secondAttribute="leading" id="QQd-gY-DJO"/>
                 <constraint firstAttribute="trailing" secondItem="umP-Za-loD" secondAttribute="trailing" id="SSw-dY-XgC"/>
                 <constraint firstItem="umP-Za-loD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VaQ-38-Sg1"/>
@@ -136,6 +137,7 @@
                 <outlet property="messageTextViewTrailingConstraint" destination="BeT-DR-GM8" id="cF8-fO-hqF"/>
                 <outlet property="nicknameLabel" destination="C2E-Yo-twp" id="gHO-Mm-Ycn"/>
                 <outlet property="nicknameLabelCenterYConstraint" destination="lSc-cs-Lug" id="10y-pq-G3V"/>
+                <outlet property="nicknameLabelTrailingConstraint" destination="NZM-pG-uou" id="1YN-Da-SWy"/>
                 <outlet property="timeLabel" destination="Ix5-dG-THW" id="sGx-zI-RsF"/>
                 <outlet property="timeLabelTopConstraint" destination="cOy-Y1-cGU" id="F5F-Qd-zep"/>
             </connections>

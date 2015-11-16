@@ -41,11 +41,13 @@ class FeedView: UIView {
                     self?.messageTextViewTopConstraint.constant = -25 * newValue + 4
 
                     if newValue == 1.0 {
-                        self?.messageTextViewTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (15 + 40 + 15)
+                        self?.nicknameLabelTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
+                        self?.messageTextViewTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
                         self?.messageTextViewHeightConstraint.constant = 20
                     }
 
                     if newValue == 0.0 {
+                        self?.nicknameLabelTrailingConstraint.constant = 15
                         self?.messageTextViewTrailingConstraint.constant = 15
                         self?.calHeightOfMessageTextView()
                     }
@@ -85,6 +87,7 @@ class FeedView: UIView {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var nicknameLabelCenterYConstraint: NSLayoutConstraint!
+    @IBOutlet weak var nicknameLabelTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var dotLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
 
