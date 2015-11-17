@@ -747,10 +747,6 @@ class ProfileViewController: UIViewController {
                 }
             }
         }
-
-        feedsOfUser(profileUser!.userID, pageIndex: 1, perPage: 10, failureHandler: nil, completion: { feeds in
-            println("user's feeds: \(feeds.count), \(feeds)")
-        })
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -1435,11 +1431,13 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.Feeds.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedsCellIdentifier, forIndexPath: indexPath) as! ProfileFeedsCell
+
+            cell.configureWithProfileUser(profileUser)
+
             return cell
 
         default:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
-
             return cell
         }
     }

@@ -14,7 +14,7 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="411" height="81"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yiD-3o-aR2" userLabel="Icon Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_feeds_active" translatesAutoresizingMaskIntoConstraints="NO" id="yiD-3o-aR2" userLabel="Icon Image View">
                         <rect key="frame" x="47" y="28.5" width="24" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="yiD-3o-aR2" secondAttribute="height" multiplier="1:1" id="bYp-zR-Hgr"/>
@@ -94,5 +94,6 @@
     </objects>
     <resources>
         <image name="icon_accessory_mini" width="8" height="13"/>
+        <image name="icon_feeds_active" width="30" height="30"/>
     </resources>
 </document>

@@ -22,9 +22,44 @@ class ProfileFeedsCell: UICollectionViewCell {
 
     @IBOutlet weak var accessoryImageView: UIImageView!
     @IBOutlet weak var accessoryImageViewTrailingConstraint: NSLayoutConstraint!
-    
+
+    var feedAttachments: [DiscoveredAttachment]? {
+        willSet {
+            guard let attachments = newValue else {
+                return
+            }
+
+            if let attachment = attachments[safe: 0] {
+                imageView1.image = attachment.thumbnailImage
+            } else {
+                imageView1.image = nil
+            }
+
+            if let attachment = attachments[safe: 1] {
+                imageView2.image = attachment.thumbnailImage
+            } else {
+                imageView2.image = nil
+            }
+
+            if let attachment = attachments[safe: 2] {
+                imageView3.image = attachment.thumbnailImage
+            } else {
+                imageView3.image = nil
+            }
+
+            if let attachment = attachments[safe: 3] {
+                imageView4.image = attachment.thumbnailImage
+            } else {
+                imageView4.image = nil
+            }
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        nameLabel.text = NSLocalizedString("Feeds", comment: "")
+        nameLabel.textColor = UIColor.yepTintColor()
 
         accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
         iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
@@ -45,6 +80,23 @@ class ProfileFeedsCell: UICollectionViewCell {
         imageView2.clipsToBounds = true
         imageView3.clipsToBounds = true
         imageView4.clipsToBounds = true
+    }
+
+    func configureWithProfileUser(profileUser: ProfileUser?) {
+
+        guard let profileUser = profileUser else {
+            return
+        }
+
+        feedsOfUser(profileUser.userID, pageIndex: 1, perPage: 10, failureHandler: nil, completion: { feeds in
+            println("user's feeds: \(feeds.count)")
+
+            let feedAttachments = feeds.map({ $0.attachments.first }).flatMap({ $0 })
+
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.feedAttachments = feedAttachments
+            }
+        })
     }
 }
 
