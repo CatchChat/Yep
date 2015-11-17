@@ -213,8 +213,14 @@ class FeedCell: UITableViewCell {
 
         nicknameLabel.text = feed.creator.nickname
 
-        if let distance = feed.distance?.format(".1") {
-            distanceLabel.text = "\(distance) km"
+        if let distance = feed.distance {
+            
+            if distance < 1 {
+                distanceLabel.text = NSLocalizedString("Nearby", comment: "")
+            } else {
+                distanceLabel.text = "\(distance.format(".1")) km"
+            }
+
         }
 
         timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"

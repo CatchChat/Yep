@@ -413,7 +413,6 @@ class NewFeedViewController: UIViewController {
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
                     if let feed = DiscoveredFeed.fromFeedInfo(data, groupInfo: nil) {
-                        feed.distance = 0 // 确保自己发出的消息距离为 0
                         self?.afterCreatedFeedAction?(feed: feed)
                     }
 
