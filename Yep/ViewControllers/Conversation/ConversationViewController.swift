@@ -335,6 +335,7 @@ class ConversationViewController: BaseViewController {
     let chatRightVideoCellIdentifier = "ChatRightVideoCell"
     let chatLeftLocationCellIdentifier =  "ChatLeftLocationCell"
     let chatRightLocationCellIdentifier =  "ChatRightLocationCell"
+    let chatLeftSocialWorkCellIdentifier = "ChatLeftSocialWorkCell"
     
     struct Listener {
         static let Avatar = "ConversationViewController"
@@ -431,6 +432,7 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.registerNib(UINib(nibName: chatRightVideoCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightVideoCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftLocationCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftLocationCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightLocationCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightLocationCellIdentifier)
+        conversationCollectionView.registerNib(UINib(nibName: chatLeftSocialWorkCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftSocialWorkCellIdentifier)
         
         conversationCollectionView.bounces = true
 

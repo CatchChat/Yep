@@ -57,6 +57,8 @@
 		5012FDDB1BFABDE400294145 /* ProfileFeedsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5012FDD91BFABDE400294145 /* ProfileFeedsCell.xib */; };
 		501560D71B427FD6000933F0 /* Results+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501560D61B427FD6000933F0 /* Results+Yep.swift */; };
 		50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50165C441AC2860900C7AEBE /* ConversationLayout.swift */; };
+		501690181BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501690161BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift */; };
+		501690191BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501690171BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib */; };
 		501813261BA07CED0025873C /* Activities.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501813251BA07CED0025873C /* Activities.xcassets */; };
 		5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5018132B1BA3CFEF0025873C /* WeChatActivity.swift */; };
 		5019F6311B39BFE00000D993 /* ConversationMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5019F6301B39BFE00000D993 /* ConversationMoreView.swift */; };
@@ -398,6 +400,8 @@
 		5012FDD91BFABDE400294145 /* ProfileFeedsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileFeedsCell.xib; path = Views/Cells/ProfileFeeds/ProfileFeedsCell.xib; sourceTree = "<group>"; };
 		501560D61B427FD6000933F0 /* Results+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Results+Yep.swift"; path = "Extensions/Results+Yep.swift"; sourceTree = "<group>"; };
 		50165C441AC2860900C7AEBE /* ConversationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationLayout.swift; path = ViewControllers/Conversation/ConversationLayout.swift; sourceTree = "<group>"; };
+		501690161BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftSocialWorkCell.swift; path = Views/Cells/ChatLeftSocialWork/ChatLeftSocialWorkCell.swift; sourceTree = "<group>"; };
+		501690171BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftSocialWorkCell.xib; path = Views/Cells/ChatLeftSocialWork/ChatLeftSocialWorkCell.xib; sourceTree = "<group>"; };
 		501813251BA07CED0025873C /* Activities.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Activities.xcassets; sourceTree = "<group>"; };
 		5018132B1BA3CFEF0025873C /* WeChatActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeChatActivity.swift; path = Activities/WeChatActivity.swift; sourceTree = "<group>"; };
 		5019F6301B39BFE00000D993 /* ConversationMoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMoreView.swift; path = Views/ConversationMore/ConversationMoreView.swift; sourceTree = "<group>"; };
@@ -938,6 +942,15 @@
 			name = ProfileFeeds;
 			sourceTree = "<group>";
 		};
+		5016901A1BFB18D70096C4F9 /* ChatLeftSocialWork */ = {
+			isa = PBXGroup;
+			children = (
+				501690161BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift */,
+				501690171BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib */,
+			);
+			name = ChatLeftSocialWork;
+			sourceTree = "<group>";
+		};
 		5019F62F1B39BFCB0000D993 /* ConversationMore */ = {
 			isa = PBXGroup;
 			children = (
@@ -1130,6 +1143,7 @@
 				508D174E1ACCF49F0092D666 /* ChatRightAudio */,
 				5053AD5C1AF83B4600B3CBFA /* ChatLeftLocation */,
 				5053AD571AF83B1600B3CBFA /* ChatRightLocation */,
+				5016901A1BFB18D70096C4F9 /* ChatLeftSocialWork */,
 				508C2AA61AD661B8002B8097 /* UserState */,
 				50553F911ADB8BA600F80B59 /* ChatSectionDate */,
 				505EC8191ADF8155001D27E0 /* SkillCategory */,
@@ -2315,6 +2329,7 @@
 				50DEE0611BEA146900015741 /* Conversation.storyboard in Resources */,
 				50F5AF861BBA676D0033C9BC /* NewFeed.storyboard in Resources */,
 				50C090A11ADE391600CC6389 /* AddSkillsReusableView.xib in Resources */,
+				501690191BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib in Resources */,
 				504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */,
 				50DEE0531BEA0AAC00015741 /* DoNotDisturbPeriod.storyboard in Resources */,
 				50E348931B9063A700A8E699 /* AboutCell.xib in Resources */,
@@ -2544,6 +2559,7 @@
 				0A1CAC731AFA526200826B45 /* SkillHomeSectionButton.swift in Sources */,
 				50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */,
 				507F65F71B2EBC2700A35FDC /* MediaPreviewView.swift in Sources */,
+				501690181BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift in Sources */,
 				50E114F41ABBF9CC00F13000 /* Models.swift in Sources */,
 				848806B01B789A2D000C5424 /* EditSkillCell.swift in Sources */,
 				5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */,
