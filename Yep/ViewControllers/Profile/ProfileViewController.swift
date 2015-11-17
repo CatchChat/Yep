@@ -366,6 +366,7 @@ class ProfileViewController: UIViewController {
     let socialAccountCellIdentifier = "ProfileSocialAccountCell"
     let socialAccountImagesCellIdentifier = "ProfileSocialAccountImagesCell"
     let socialAccountGithubCellIdentifier = "ProfileSocialAccountGithubCell"
+    let feedsCellIdentifier = "ProfileFeedsCell"
 
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.profileCollectionView.bounds)
@@ -622,6 +623,7 @@ class ProfileViewController: UIViewController {
         profileCollectionView.registerNib(UINib(nibName: socialAccountCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: socialAccountImagesCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountImagesCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: socialAccountGithubCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountGithubCellIdentifier)
+        profileCollectionView.registerNib(UINib(nibName: feedsCellIdentifier, bundle: nil), forCellWithReuseIdentifier: feedsCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: sectionHeaderIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: sectionHeaderIdentifier)
         profileCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: sectionFooterIdentifier)
 
@@ -1261,10 +1263,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case Learning
         case SeparationLine
         case SocialAccount
+        case SeparationLine2
+        case Feeds
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 6
+        return 8
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -1289,6 +1293,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             
         case ProfileSection.SocialAccount.rawValue:
             return profileUser?.providersCount ?? 0
+
+        case ProfileSection.SeparationLine2.rawValue:
+            return 1
+
+        case ProfileSection.Feeds.rawValue:
+            return 1
 
         default:
             return 0
@@ -1362,7 +1372,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.SeparationLine.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(separationLineCellIdentifier, forIndexPath: indexPath) as! ProfileSeparationLineCell
-
             return cell
             
         case ProfileSection.SocialAccount.rawValue:
@@ -1418,6 +1427,14 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             }
 
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountCell
+            return cell
+
+        case ProfileSection.SeparationLine2.rawValue:
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(separationLineCellIdentifier, forIndexPath: indexPath) as! ProfileSeparationLineCell
+            return cell
+
+        case ProfileSection.Feeds.rawValue:
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedsCellIdentifier, forIndexPath: indexPath) as! ProfileFeedsCell
             return cell
 
         default:
@@ -1500,6 +1517,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.SocialAccount.rawValue:
             return UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
 
+        case ProfileSection.SeparationLine2.rawValue:
+            return UIEdgeInsets(top: 40, left: 0, bottom: 30, right: 0)
+
+        case ProfileSection.Feeds.rawValue:
+            return UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
+
         default:
             return UIEdgeInsetsZero
         }
@@ -1530,15 +1553,18 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return CGSize(width: rect.width + 24, height: SkillCell.height)
 
         case ProfileSection.Footer.rawValue:
-
             return CGSize(width: collectionViewWidth, height: footerCellHeight)
 
         case ProfileSection.SeparationLine.rawValue:
-
             return CGSize(width: collectionViewWidth, height: 1)
             
         case ProfileSection.SocialAccount.rawValue:
+            return CGSize(width: collectionViewWidth, height: 40)
 
+        case ProfileSection.SeparationLine2.rawValue:
+            return CGSize(width: collectionViewWidth, height: 1)
+
+        case ProfileSection.Feeds.rawValue:
             return CGSize(width: collectionViewWidth, height: 40)
 
         default:
