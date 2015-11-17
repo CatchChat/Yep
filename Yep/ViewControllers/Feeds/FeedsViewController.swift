@@ -137,6 +137,9 @@ class FeedsViewController: BaseViewController {
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     
     deinit {
+
+        feedsTableView.delegate = nil
+
         print("Deinit FeedsViewControler")
     }
     
