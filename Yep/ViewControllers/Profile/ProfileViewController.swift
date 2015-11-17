@@ -510,7 +510,6 @@ class ProfileViewController: UIViewController {
             if cacheSize > 300 {
                  Kingfisher.ImageCache.defaultCache.clearDiskCache()
             }
-            
         })
 
         title = NSLocalizedString("Profile", comment: "")
@@ -746,6 +745,10 @@ class ProfileViewController: UIViewController {
                 }
             }
         }
+
+        feedsOfUser(profileUser!.userID, pageIndex: 1, perPage: 10, failureHandler: nil, completion: { feeds in
+            println("user's feeds: \(feeds.count), \(feeds)")
+        })
     }
 
     override func viewWillAppear(animated: Bool) {
