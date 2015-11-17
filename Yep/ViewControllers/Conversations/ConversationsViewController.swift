@@ -73,6 +73,8 @@ class ConversationsViewController: UIViewController {
 
         isFetchingUnreadMessages.removeListenerWithName(Listener.isFetchingUnreadMessages)
 
+        conversationsTableView.delegate = nil
+
         println("deinit Conversations")
     }
 

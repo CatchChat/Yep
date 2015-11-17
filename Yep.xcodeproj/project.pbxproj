@@ -53,6 +53,8 @@
 		5011382D1BCB5E150055A014 /* FeedConversationDockCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5011382B1BCB5E150055A014 /* FeedConversationDockCell.xib */; };
 		501138311BCB62A20055A014 /* FeedConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011382F1BCB62A20055A014 /* FeedConversationCell.swift */; };
 		501138321BCB62A20055A014 /* FeedConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501138301BCB62A20055A014 /* FeedConversationCell.xib */; };
+		5012FDDA1BFABDE400294145 /* ProfileFeedsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5012FDD81BFABDE400294145 /* ProfileFeedsCell.swift */; };
+		5012FDDB1BFABDE400294145 /* ProfileFeedsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5012FDD91BFABDE400294145 /* ProfileFeedsCell.xib */; };
 		501560D71B427FD6000933F0 /* Results+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501560D61B427FD6000933F0 /* Results+Yep.swift */; };
 		50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50165C441AC2860900C7AEBE /* ConversationLayout.swift */; };
 		501813261BA07CED0025873C /* Activities.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501813251BA07CED0025873C /* Activities.xcassets */; };
@@ -392,6 +394,8 @@
 		5011382B1BCB5E150055A014 /* FeedConversationDockCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedConversationDockCell.xib; path = Views/Cells/FeedConversationDock/FeedConversationDockCell.xib; sourceTree = "<group>"; };
 		5011382F1BCB62A20055A014 /* FeedConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedConversationCell.swift; path = Views/Cells/FeedConversation/FeedConversationCell.swift; sourceTree = "<group>"; };
 		501138301BCB62A20055A014 /* FeedConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedConversationCell.xib; path = Views/Cells/FeedConversation/FeedConversationCell.xib; sourceTree = "<group>"; };
+		5012FDD81BFABDE400294145 /* ProfileFeedsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileFeedsCell.swift; path = Views/Cells/ProfileFeeds/ProfileFeedsCell.swift; sourceTree = "<group>"; };
+		5012FDD91BFABDE400294145 /* ProfileFeedsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileFeedsCell.xib; path = Views/Cells/ProfileFeeds/ProfileFeedsCell.xib; sourceTree = "<group>"; };
 		501560D61B427FD6000933F0 /* Results+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Results+Yep.swift"; path = "Extensions/Results+Yep.swift"; sourceTree = "<group>"; };
 		50165C441AC2860900C7AEBE /* ConversationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationLayout.swift; path = ViewControllers/Conversation/ConversationLayout.swift; sourceTree = "<group>"; };
 		501813251BA07CED0025873C /* Activities.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Activities.xcassets; sourceTree = "<group>"; };
@@ -925,6 +929,15 @@
 			name = FeedConversation;
 			sourceTree = "<group>";
 		};
+		5012FDDC1BFABDEA00294145 /* ProfileFeeds */ = {
+			isa = PBXGroup;
+			children = (
+				5012FDD81BFABDE400294145 /* ProfileFeedsCell.swift */,
+				5012FDD91BFABDE400294145 /* ProfileFeedsCell.xib */,
+			);
+			name = ProfileFeeds;
+			sourceTree = "<group>";
+		};
 		5019F62F1B39BFCB0000D993 /* ConversationMore */ = {
 			isa = PBXGroup;
 			children = (
@@ -1103,6 +1116,7 @@
 				502AE5551AB93218005BD199 /* ProfileFooter */,
 				508F8FCA1B0161F400461B0B /* ProfileSeparationLine */,
 				0A9018801B01152D00AE4B7F /* ProfileSocialAccount */,
+				5012FDDC1BFABDEA00294145 /* ProfileFeeds */,
 				50E114FE1ABC549800F13000 /* Contacts */,
 				84C9598A1B7320060017D3ED /* ChatBase */,
 				508B717E1B1FE9BD006BDDB3 /* ChatRightBase */,
@@ -2363,6 +2377,7 @@
 				502AE54F1AB93175005BD199 /* ProfileHeaderCell.xib in Resources */,
 				50DEE05B1BEA0EAA00015741 /* FriendsInContacts.storyboard in Resources */,
 				503807241BDA18040068345E /* FeedSkillUsersCell.xib in Resources */,
+				5012FDDB1BFABDE400294145 /* ProfileFeedsCell.xib in Resources */,
 				50F5AF9A1BBBD02A0033C9BC /* FeedMediaCell.xib in Resources */,
 				50A640EA1B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib in Resources */,
 				502B60651BD1208E00D9C17E /* CameraCell.xib in Resources */,
@@ -2579,6 +2594,7 @@
 				50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */,
 				50E3488E1B905C0100A8E699 /* AboutViewController.swift in Sources */,
 				502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */,
+				5012FDDA1BFABDE400294145 /* ProfileFeedsCell.swift in Sources */,
 				508F8FD71B01EDB400461B0B /* DribbbleShotCell.swift in Sources */,
 				508DF62B1B9985F300B194A4 /* YepLog.swift in Sources */,
 				0A7A7D561AF5E00600A7F5F5 /* YepHelper.swift in Sources */,
