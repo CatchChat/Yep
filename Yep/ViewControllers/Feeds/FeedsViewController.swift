@@ -262,7 +262,7 @@ class FeedsViewController: BaseViewController {
 
         navigationController?.setNavigationBarHidden(false, animated: false)
 
-        tabBarController?.tabBar.hidden = (skill == nil) ? false : true
+        //tabBarController?.tabBar.hidden = (skill == nil && profileUser == nil) ? false : true
     }
 
     // MARK: - Actions
