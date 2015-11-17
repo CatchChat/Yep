@@ -24,6 +24,12 @@ class FeedMediaCell: UICollectionViewCell {
         contentView.backgroundColor = UIColor.clearColor()
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        imageView.image = nil
+    }
+
     func configureWithImage(image: UIImage) {
 
         imageView.image = image
