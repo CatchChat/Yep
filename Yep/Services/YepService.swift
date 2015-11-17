@@ -2692,6 +2692,24 @@ func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: ((Reason, 
     }
 }
 
+func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: ((Reason, String?) -> Void)?,completion: [DiscoveredFeed] -> Void) {
+
+    let requestParameters: JSONDictionary = [
+        "page": pageIndex,
+        "per_page": perPage,
+    ]
+
+    let parse = parseFeeds
+
+    let resource = authJsonResource(path: "/api/v2/users/\(userID)/topics", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 enum FeedKind: String {
     case Normal = "normal"
     case AppleMusic = "apple_music"

@@ -13,6 +13,9 @@ class FeedsViewController: BaseViewController {
 
     var skill: Skill?
 
+    var profileUser: ProfileUser?
+    var preparedFeedsCount = 0
+
     @IBOutlet weak var feedsTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
@@ -177,6 +180,10 @@ class FeedsViewController: BaseViewController {
                         }
                 }
             }
+
+        } else if profileUser != nil {
+            // do nothing
+
         } else {
             filterBarItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "showFilter:")
             navigationItem.leftBarButtonItem = filterBarItem
@@ -189,15 +196,22 @@ class FeedsViewController: BaseViewController {
         feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
         feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
         feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
-        
-        if let
-            value = YepUserDefaults.feedSortStyle.value,
-            _feedSortStyle = FeedSortStyle(rawValue: value) {
-                
-                feedSortStyle = _feedSortStyle
-                
-        } else {
-            feedSortStyle = .Match
+
+
+        if preparedFeedsCount > 0 {
+            currentPageIndex = 2
+        }
+
+        if skill == nil && profileUser == nil {
+            if let
+                value = YepUserDefaults.feedSortStyle.value,
+                _feedSortStyle = FeedSortStyle(rawValue: value) {
+                    
+                    feedSortStyle = _feedSortStyle
+                    
+            } else {
+                feedSortStyle = .Match
+            }
         }
     }
     
@@ -257,7 +271,7 @@ class FeedsViewController: BaseViewController {
 
         navigationController?.setNavigationBarHidden(false, animated: false)
 
-        tabBarController?.tabBar.hidden = (skill == nil) ? false : true
+        //tabBarController?.tabBar.hidden = (skill == nil && profileUser == nil) ? false : true
     }
 
     // MARK: - Actions
@@ -305,9 +319,7 @@ class FeedsViewController: BaseViewController {
             currentPageIndex = 1
         }
 
-        let maxFeedID = (isLoadMore && (feedSortStyle == FeedSortStyle.Time)) ? feeds.last?.id : nil
-
-        discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: currentPageIndex, perPage: 25, maxFeedID: maxFeedID, failureHandler: { reason, errorMessage in
+        let failureHandler: (Reason, String?) -> Void = { reason, errorMessage in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
@@ -319,8 +331,9 @@ class FeedsViewController: BaseViewController {
             }
 
             defaultFailureHandler(reason, errorMessage: errorMessage)
+        }
 
-        }, completion: { [weak self] feeds in
+        let completion: [DiscoveredFeed] -> Void = { feeds in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
@@ -331,19 +344,9 @@ class FeedsViewController: BaseViewController {
                 finish?()
             }
 
-            if let strongSelf = self {
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
-//                let oldFeedSet = Set(strongSelf.feeds)
-//                let newFeedSet = Set(feeds)
-
-//                let unionFeedSet = oldFeedSet.union(newFeedSet)
-//                let allNewFeedSet = newFeedSet.subtract(oldFeedSet)
-
-//                let allFeeds = Array(unionFeedSet)
-//
-//                let newIndexPaths = allNewFeedSet.map({ allFeeds.indexOf($0) }).flatMap({ $0 }).map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
-
-                dispatch_async(dispatch_get_main_queue()) {
+                if let strongSelf = self {
 
                     if isLoadMore {
                         strongSelf.feeds += feeds
@@ -356,16 +359,20 @@ class FeedsViewController: BaseViewController {
                     if !feeds.isEmpty {
                         strongSelf.feedsTableView.reloadData() // 服务端有新的排序算法，以及避免刷新后消息数字更新不及时的问题
                     }
-                    
-//                    if newIndexPaths.count == allNewFeedSet.count {
-//                        strongSelf.updateFeedsTableViewOrInsertWithIndexPaths(newIndexPaths)
-//
-//                    } else {
-//                        strongSelf.updateFeedsTableViewOrInsertWithIndexPaths(nil)
-//                    }
                 }
             }
-        })
+        }
+
+        let perPage = 25
+
+        if let profileUser = profileUser {
+            feedsOfUser(profileUser.userID, pageIndex: currentPageIndex, perPage: (preparedFeedsCount > 0) ? preparedFeedsCount : perPage, failureHandler: failureHandler, completion: completion)
+
+        } else {
+            let maxFeedID = (isLoadMore && (feedSortStyle == FeedSortStyle.Time)) ? feeds.last?.id : nil
+
+            discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: currentPageIndex, perPage: perPage, maxFeedID: maxFeedID, failureHandler:failureHandler, completion: completion)
+        }
     }
 
     @IBAction func showNewFeed(sender: AnyObject) {

@@ -366,6 +366,7 @@ class ProfileViewController: UIViewController {
     let socialAccountCellIdentifier = "ProfileSocialAccountCell"
     let socialAccountImagesCellIdentifier = "ProfileSocialAccountImagesCell"
     let socialAccountGithubCellIdentifier = "ProfileSocialAccountGithubCell"
+    let feedsCellIdentifier = "ProfileFeedsCell"
 
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.profileCollectionView.bounds)
@@ -459,6 +460,8 @@ class ProfileViewController: UIViewController {
     var dribbbleWork: DribbbleWork?
     var instagramWork: InstagramWork?
     var githubWork: GithubWork?
+    var feeds: [DiscoveredFeed]?
+    var feedAttachments: [DiscoveredAttachment]?
 
 
     let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
@@ -510,7 +513,6 @@ class ProfileViewController: UIViewController {
             if cacheSize > 300 {
                  Kingfisher.ImageCache.defaultCache.clearDiskCache()
             }
-            
         })
 
         title = NSLocalizedString("Profile", comment: "")
@@ -623,6 +625,7 @@ class ProfileViewController: UIViewController {
         profileCollectionView.registerNib(UINib(nibName: socialAccountCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: socialAccountImagesCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountImagesCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: socialAccountGithubCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountGithubCellIdentifier)
+        profileCollectionView.registerNib(UINib(nibName: feedsCellIdentifier, bundle: nil), forCellWithReuseIdentifier: feedsCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: sectionHeaderIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: sectionHeaderIdentifier)
         profileCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: sectionFooterIdentifier)
 
@@ -1138,19 +1141,18 @@ class ProfileViewController: UIViewController {
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
 
-//        if segue.identifier == "showSkillHome" {
-//            noNeedToChangeStatusBar = false
-//        } else {
-//            noNeedToChangeStatusBar = false
-//        }
+        guard let identifier = segue.identifier else {
+            return
+        }
 
-        if segue.identifier == "showConversation" {
+        switch identifier {
+
+        case "showConversation":
             let vc = segue.destinationViewController as! ConversationViewController
             vc.conversation = sender as! Conversation
             
-        } else if segue.identifier == "showFeedsWithSkill" {
+        case "showFeedsWithSkill":
 
             let vc = segue.destinationViewController as! FeedsViewController
 
@@ -1177,7 +1179,22 @@ class ProfileViewController: UIViewController {
 //                }
 //            }
 
-        } else if segue.identifier == "showEditSkills" {
+        case "showFeedsOfProfileUser":
+
+            let vc = segue.destinationViewController as! FeedsViewController
+
+            if let
+                info = (sender as? Box<[String: AnyObject]>)?.value,
+                profileUser = (info["profileUser"] as? Box<ProfileUser>)?.value,
+                feeds = (info["feeds"] as? Box<[DiscoveredFeed]>)?.value {
+                    vc.profileUser = profileUser
+                    vc.feeds = feeds
+                    vc.preparedFeedsCount = feeds.count
+            }
+
+            vc.hidesBottomBarWhenPushed = true
+
+        case "showEditSkills":
 
             if let skillInfo = sender as? [String: AnyObject] {
 
@@ -1192,7 +1209,7 @@ class ProfileViewController: UIViewController {
                 }
             }
 
-        } else if segue.identifier == "presentOAuth" {
+        case "presentOAuth":
 
             if let providerName = sender as? String {
 
@@ -1202,7 +1219,7 @@ class ProfileViewController: UIViewController {
                 vc.afterOAuthAction = afterOAuthAction
             }
 
-        } else if segue.identifier == "showSocialWorkGithub" {
+        case "showSocialWorkGithub":
 
             if let providerName = sender as? String {
 
@@ -1216,7 +1233,7 @@ class ProfileViewController: UIViewController {
                 }
             }
 
-        } else if segue.identifier == "showSocialWorkDribbble" {
+        case "showSocialWorkDribbble":
 
             if let providerName = sender as? String {
 
@@ -1230,7 +1247,7 @@ class ProfileViewController: UIViewController {
                 }
             }
 
-        } else if segue.identifier == "showSocialWorkInstagram" {
+        case "showSocialWorkInstagram":
 
             if let providerName = sender as? String {
 
@@ -1243,6 +1260,9 @@ class ProfileViewController: UIViewController {
                     self?.instagramWork = instagramWork
                 }
             }
+
+        default:
+            break
         }
     }
 }
@@ -1258,10 +1278,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case Learning
         case SeparationLine
         case SocialAccount
+        case SeparationLine2
+        case Feeds
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 6
+        return 8
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -1286,6 +1308,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             
         case ProfileSection.SocialAccount.rawValue:
             return profileUser?.providersCount ?? 0
+
+        case ProfileSection.SeparationLine2.rawValue:
+            return 1
+
+        case ProfileSection.Feeds.rawValue:
+            return 1
 
         default:
             return 0
@@ -1359,7 +1387,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.SeparationLine.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(separationLineCellIdentifier, forIndexPath: indexPath) as! ProfileSeparationLineCell
-
             return cell
             
         case ProfileSection.SocialAccount.rawValue:
@@ -1417,9 +1444,22 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountCell
             return cell
 
+        case ProfileSection.SeparationLine2.rawValue:
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(separationLineCellIdentifier, forIndexPath: indexPath) as! ProfileSeparationLineCell
+            return cell
+
+        case ProfileSection.Feeds.rawValue:
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedsCellIdentifier, forIndexPath: indexPath) as! ProfileFeedsCell
+
+            cell.configureWithProfileUser(profileUser, feedAttachments: feedAttachments, completion: { [weak self] feeds, feedAttachments in
+                self?.feeds = feeds
+                self?.feedAttachments = feedAttachments
+            })
+
+            return cell
+
         default:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
-
             return cell
         }
     }
@@ -1497,6 +1537,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.SocialAccount.rawValue:
             return UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
 
+        case ProfileSection.SeparationLine2.rawValue:
+            return UIEdgeInsets(top: 40, left: 0, bottom: 30, right: 0)
+
+        case ProfileSection.Feeds.rawValue:
+            return UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
+
         default:
             return UIEdgeInsetsZero
         }
@@ -1527,15 +1573,18 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return CGSize(width: rect.width + 24, height: SkillCell.height)
 
         case ProfileSection.Footer.rawValue:
-
             return CGSize(width: collectionViewWidth, height: footerCellHeight)
 
         case ProfileSection.SeparationLine.rawValue:
-
             return CGSize(width: collectionViewWidth, height: 1)
             
         case ProfileSection.SocialAccount.rawValue:
+            return CGSize(width: collectionViewWidth, height: 40)
 
+        case ProfileSection.SeparationLine2.rawValue:
+            return CGSize(width: collectionViewWidth, height: 1)
+
+        case ProfileSection.Feeds.rawValue:
             return CGSize(width: collectionViewWidth, height: 40)
 
         default:
@@ -1587,11 +1636,14 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
-        if indexPath.section == ProfileSection.Learning.rawValue || indexPath.section == ProfileSection.Master.rawValue {
-            // do in SkillCell's tapAction
 
-        } else if indexPath.section == ProfileSection.SocialAccount.rawValue {
+        switch indexPath.section {
+
+        case ProfileSection.Learning.rawValue, ProfileSection.Master.rawValue:
+            // do in SkillCell's tapAction
+            break
+
+        case ProfileSection.SocialAccount.rawValue:
 
             if let profileUser = profileUser {
 
@@ -1678,6 +1730,21 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     }
                 }
             }
+
+        case ProfileSection.Feeds.rawValue:
+            guard let profileUser = profileUser else {
+                return
+            }
+
+            let info: [String: AnyObject] = [
+                "profileUser": Box(profileUser),
+                "feeds": Box(feeds ?? []),
+            ]
+
+            performSegueWithIdentifier("showFeedsOfProfileUser", sender: Box(info))
+
+        default:
+            break
         }
     }
 }

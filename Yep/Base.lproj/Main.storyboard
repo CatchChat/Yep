@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
     </dependencies>
     <scenes>
         <!--FeedConversationsViewController-->
@@ -275,6 +275,7 @@
                         <segue destination="4LS-r8-B5l" kind="presentation" identifier="presentOAuth" id="o6f-Oi-l8h"/>
                         <segue destination="fPj-zv-Lg5" kind="show" identifier="showEditSkills" id="k1U-sn-efh"/>
                         <segue destination="lru-67-Vok" kind="show" identifier="showConversation" id="z8s-gZ-TZ2"/>
+                        <segue destination="Ypw-Iq-qc9" kind="show" identifier="showFeedsOfProfileUser" id="xxH-O1-ehI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -577,6 +578,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pet-nQ-zrp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="79.5" y="2104"/>
+        </scene>
+        <!--FeedsViewController-->
+        <scene sceneID="djA-FQ-sLS">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="FeedsViewController" id="Ypw-Iq-qc9" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JdK-5C-kP8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="40" y="2184"/>
         </scene>
         <!--SocialWorkInstagramViewController-->
         <scene sceneID="4UU-LR-Oke">
