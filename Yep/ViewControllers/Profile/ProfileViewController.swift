@@ -1140,19 +1140,18 @@ class ProfileViewController: UIViewController {
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
 
-//        if segue.identifier == "showSkillHome" {
-//            noNeedToChangeStatusBar = false
-//        } else {
-//            noNeedToChangeStatusBar = false
-//        }
+        guard let identifier = segue.identifier else {
+            return
+        }
 
-        if segue.identifier == "showConversation" {
+        switch identifier {
+
+        case "showConversation":
             let vc = segue.destinationViewController as! ConversationViewController
             vc.conversation = sender as! Conversation
             
-        } else if segue.identifier == "showFeedsWithSkill" {
+        case "showFeedsWithSkill":
 
             let vc = segue.destinationViewController as! FeedsViewController
 
@@ -1179,7 +1178,14 @@ class ProfileViewController: UIViewController {
 //                }
 //            }
 
-        } else if segue.identifier == "showEditSkills" {
+        case "showFeedsOfProfileUser":
+
+            let vc = segue.destinationViewController as! FeedsViewController
+            vc.profileUser = (sender as? Box<ProfileUser>)?.value
+
+            vc.hidesBottomBarWhenPushed = true
+
+        case "showEditSkills":
 
             if let skillInfo = sender as? [String: AnyObject] {
 
@@ -1194,7 +1200,7 @@ class ProfileViewController: UIViewController {
                 }
             }
 
-        } else if segue.identifier == "presentOAuth" {
+        case "presentOAuth":
 
             if let providerName = sender as? String {
 
@@ -1204,7 +1210,7 @@ class ProfileViewController: UIViewController {
                 vc.afterOAuthAction = afterOAuthAction
             }
 
-        } else if segue.identifier == "showSocialWorkGithub" {
+        case "showSocialWorkGithub":
 
             if let providerName = sender as? String {
 
@@ -1218,7 +1224,7 @@ class ProfileViewController: UIViewController {
                 }
             }
 
-        } else if segue.identifier == "showSocialWorkDribbble" {
+        case "showSocialWorkDribbble":
 
             if let providerName = sender as? String {
 
@@ -1232,7 +1238,7 @@ class ProfileViewController: UIViewController {
                 }
             }
 
-        } else if segue.identifier == "showSocialWorkInstagram" {
+        case "showSocialWorkInstagram":
 
             if let providerName = sender as? String {
 
@@ -1245,6 +1251,9 @@ class ProfileViewController: UIViewController {
                     self?.instagramWork = instagramWork
                 }
             }
+
+        default:
+            break
         }
     }
 }
@@ -1617,11 +1626,14 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
-        if indexPath.section == ProfileSection.Learning.rawValue || indexPath.section == ProfileSection.Master.rawValue {
-            // do in SkillCell's tapAction
 
-        } else if indexPath.section == ProfileSection.SocialAccount.rawValue {
+        switch indexPath.section {
+
+        case ProfileSection.Learning.rawValue, ProfileSection.Master.rawValue:
+            // do in SkillCell's tapAction
+            break
+
+        case ProfileSection.SocialAccount.rawValue:
 
             if let profileUser = profileUser {
 
@@ -1708,6 +1720,16 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     }
                 }
             }
+
+        case ProfileSection.Feeds.rawValue:
+            guard let profileUser = profileUser else {
+                return
+            }
+
+            performSegueWithIdentifier("showFeedsOfProfileUser", sender: Box(profileUser))
+
+        default:
+            break
         }
     }
 }

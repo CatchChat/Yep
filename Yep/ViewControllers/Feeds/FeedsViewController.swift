@@ -12,6 +12,7 @@ import RealmSwift
 class FeedsViewController: BaseViewController {
 
     var skill: Skill?
+    var profileUser: ProfileUser?
 
     @IBOutlet weak var feedsTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -177,6 +178,10 @@ class FeedsViewController: BaseViewController {
                         }
                 }
             }
+
+        } else if profileUser != nil {
+            // do nothing
+
         } else {
             filterBarItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "showFilter:")
             navigationItem.leftBarButtonItem = filterBarItem
@@ -305,6 +310,55 @@ class FeedsViewController: BaseViewController {
             currentPageIndex = 1
         }
 
+        if let profileUser = profileUser {
+
+            feedsOfUser(profileUser.userID, pageIndex: currentPageIndex, perPage: 25, failureHandler: { reason, errorMessage in
+
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                    self?.isFetchingFeeds = false
+
+                    self?.activityIndicator.stopAnimating()
+
+                    finish?()
+                }
+                
+                defaultFailureHandler(reason, errorMessage: errorMessage)
+                
+            }, completion: { feeds in
+
+                println("user's feeds: \(feeds.count)")
+
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                    self?.isFetchingFeeds = false
+
+                    self?.activityIndicator.stopAnimating()
+
+                    finish?()
+                }
+                
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                    if let strongSelf = self {
+
+                        if isLoadMore {
+                            strongSelf.feeds += feeds
+
+                        } else {
+                            strongSelf.feeds = feeds
+                        }
+
+                        // 确保有新的才 reload
+                        if !feeds.isEmpty {
+                            strongSelf.feedsTableView.reloadData() // 服务端有新的排序算法，以及避免刷新后消息数字更新不及时的问题
+                        }
+                    }
+                }
+            })
+
+        } else {
+
         let maxFeedID = (isLoadMore && (feedSortStyle == FeedSortStyle.Time)) ? feeds.last?.id : nil
 
         discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: currentPageIndex, perPage: 25, maxFeedID: maxFeedID, failureHandler: { reason, errorMessage in
@@ -366,6 +420,7 @@ class FeedsViewController: BaseViewController {
                 }
             }
         })
+        }
     }
 
     @IBAction func showNewFeed(sender: AnyObject) {
