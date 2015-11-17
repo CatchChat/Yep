@@ -2774,6 +2774,34 @@ func deleteFeedWithFeedID(feedID: String, failureHandler: ((Reason, String?) -> 
 
 // MARK: - Social Work
 
+struct TokensOfSocialAccounts {
+    let githubToken: String?
+    let dribbbleToken: String?
+    let instagramToken: String?
+}
+
+func tokensOfSocialAccounts(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: TokensOfSocialAccounts -> Void) {
+
+    let parse: JSONDictionary -> TokensOfSocialAccounts? = { data in
+
+        println("tokensOfSocialAccounts data: \(data)")
+
+        let githubToken = data["github"] as? String
+        let dribbbleToken = data["dribbble"] as? String
+        let instagramToken = data["instagram"] as? String
+
+        return TokensOfSocialAccounts(githubToken: githubToken, dribbbleToken: dribbbleToken, instagramToken: instagramToken)
+    }
+
+    let resource = authJsonResource(path: "/api/v2/user/provider_tokens", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 func authURLRequestWithURL(url: NSURL) -> NSURLRequest {
     
     let request = NSMutableURLRequest(URL: url, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: 0)

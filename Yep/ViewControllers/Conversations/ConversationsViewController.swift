@@ -135,6 +135,10 @@ class ConversationsViewController: UIViewController {
         if PrivateResource.Location(.WhenInUse).isAuthorized {
             YepLocationService.turnOn()
         }
+
+        tokensOfSocialAccounts(failureHandler: nil, completion: { tokensOfSocialAccounts in
+            println("tokensOfSocialAccounts: \(tokensOfSocialAccounts)")
+        })
     }
 
     private func cacheInAdvance() {
