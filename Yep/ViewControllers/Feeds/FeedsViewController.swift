@@ -310,58 +310,7 @@ class FeedsViewController: BaseViewController {
             currentPageIndex = 1
         }
 
-        if let profileUser = profileUser {
-
-            feedsOfUser(profileUser.userID, pageIndex: currentPageIndex, perPage: 25, failureHandler: { reason, errorMessage in
-
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                    self?.isFetchingFeeds = false
-
-                    self?.activityIndicator.stopAnimating()
-
-                    finish?()
-                }
-                
-                defaultFailureHandler(reason, errorMessage: errorMessage)
-                
-            }, completion: { feeds in
-
-                println("user's feeds: \(feeds.count)")
-
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                    self?.isFetchingFeeds = false
-
-                    self?.activityIndicator.stopAnimating()
-
-                    finish?()
-                }
-                
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                    if let strongSelf = self {
-
-                        if isLoadMore {
-                            strongSelf.feeds += feeds
-
-                        } else {
-                            strongSelf.feeds = feeds
-                        }
-
-                        // 确保有新的才 reload
-                        if !feeds.isEmpty {
-                            strongSelf.feedsTableView.reloadData() // 服务端有新的排序算法，以及避免刷新后消息数字更新不及时的问题
-                        }
-                    }
-                }
-            })
-
-        } else {
-
-        let maxFeedID = (isLoadMore && (feedSortStyle == FeedSortStyle.Time)) ? feeds.last?.id : nil
-
-        discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: currentPageIndex, perPage: 25, maxFeedID: maxFeedID, failureHandler: { reason, errorMessage in
+        let failureHandler: (Reason, String?) -> Void = { reason, errorMessage in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
@@ -373,8 +322,9 @@ class FeedsViewController: BaseViewController {
             }
 
             defaultFailureHandler(reason, errorMessage: errorMessage)
+        }
 
-        }, completion: { [weak self] feeds in
+        let completion: [DiscoveredFeed] -> Void = { feeds in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
@@ -385,19 +335,9 @@ class FeedsViewController: BaseViewController {
                 finish?()
             }
 
-            if let strongSelf = self {
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
-//                let oldFeedSet = Set(strongSelf.feeds)
-//                let newFeedSet = Set(feeds)
-
-//                let unionFeedSet = oldFeedSet.union(newFeedSet)
-//                let allNewFeedSet = newFeedSet.subtract(oldFeedSet)
-
-//                let allFeeds = Array(unionFeedSet)
-//
-//                let newIndexPaths = allNewFeedSet.map({ allFeeds.indexOf($0) }).flatMap({ $0 }).map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
-
-                dispatch_async(dispatch_get_main_queue()) {
+                if let strongSelf = self {
 
                     if isLoadMore {
                         strongSelf.feeds += feeds
@@ -410,16 +350,19 @@ class FeedsViewController: BaseViewController {
                     if !feeds.isEmpty {
                         strongSelf.feedsTableView.reloadData() // 服务端有新的排序算法，以及避免刷新后消息数字更新不及时的问题
                     }
-                    
-//                    if newIndexPaths.count == allNewFeedSet.count {
-//                        strongSelf.updateFeedsTableViewOrInsertWithIndexPaths(newIndexPaths)
-//
-//                    } else {
-//                        strongSelf.updateFeedsTableViewOrInsertWithIndexPaths(nil)
-//                    }
                 }
             }
-        })
+        }
+
+        let perPage = 25
+
+        if let profileUser = profileUser {
+            feedsOfUser(profileUser.userID, pageIndex: currentPageIndex, perPage: perPage, failureHandler: failureHandler, completion: completion)
+
+        } else {
+            let maxFeedID = (isLoadMore && (feedSortStyle == FeedSortStyle.Time)) ? feeds.last?.id : nil
+
+            discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: currentPageIndex, perPage: perPage, maxFeedID: maxFeedID, failureHandler:failureHandler, completion: completion)
         }
     }
 
