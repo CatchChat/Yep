@@ -198,7 +198,7 @@ class FeedsViewController: BaseViewController {
         feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
 
 
-        if preFeedsCount > 0 {
+        if preparedFeedsCount > 0 {
             currentPageIndex = 2
         }
 
@@ -366,7 +366,7 @@ class FeedsViewController: BaseViewController {
         let perPage = 25
 
         if let profileUser = profileUser {
-            feedsOfUser(profileUser.userID, pageIndex: currentPageIndex, perPage: (preFeedsCount > 0) ? preFeedsCount : perPage, failureHandler: failureHandler, completion: completion)
+            feedsOfUser(profileUser.userID, pageIndex: currentPageIndex, perPage: (preparedFeedsCount > 0) ? preparedFeedsCount : perPage, failureHandler: failureHandler, completion: completion)
 
         } else {
             let maxFeedID = (isLoadMore && (feedSortStyle == FeedSortStyle.Time)) ? feeds.last?.id : nil
