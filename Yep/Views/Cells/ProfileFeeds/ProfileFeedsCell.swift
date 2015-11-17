@@ -82,7 +82,7 @@ class ProfileFeedsCell: UICollectionViewCell {
         imageView4.clipsToBounds = true
     }
 
-    func configureWithProfileUser(profileUser: ProfileUser?, feedAttachments: [DiscoveredAttachment]?, completion: ([DiscoveredAttachment] -> Void)?) {
+    func configureWithProfileUser(profileUser: ProfileUser?, feedAttachments: [DiscoveredAttachment]?, completion: ((feeds: [DiscoveredFeed], feedAttachments: [DiscoveredAttachment]) -> Void)?) {
 
         if let feedAttachments = feedAttachments {
             self.feedAttachments = feedAttachments
@@ -100,7 +100,7 @@ class ProfileFeedsCell: UICollectionViewCell {
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     self?.feedAttachments = feedAttachments
 
-                    completion?(feedAttachments)
+                    completion?(feeds: feeds, feedAttachments: feedAttachments)
                 }
             })
         }

@@ -460,6 +460,7 @@ class ProfileViewController: UIViewController {
     var dribbbleWork: DribbbleWork?
     var instagramWork: InstagramWork?
     var githubWork: GithubWork?
+    var feeds: [DiscoveredFeed]?
     var feedAttachments: [DiscoveredAttachment]?
 
 
@@ -1181,7 +1182,15 @@ class ProfileViewController: UIViewController {
         case "showFeedsOfProfileUser":
 
             let vc = segue.destinationViewController as! FeedsViewController
-            vc.profileUser = (sender as? Box<ProfileUser>)?.value
+
+            if let
+                info = (sender as? Box<[String: AnyObject]>)?.value,
+                profileUser = (info["profileUser"] as? Box<ProfileUser>)?.value,
+                feeds = (info["feeds"] as? Box<[DiscoveredFeed]>)?.value {
+                    vc.profileUser = profileUser
+                    vc.feeds = feeds
+                    vc.preparedFeedsCount = feeds.count
+            }
 
             vc.hidesBottomBarWhenPushed = true
 
@@ -1442,7 +1451,8 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Feeds.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedsCellIdentifier, forIndexPath: indexPath) as! ProfileFeedsCell
 
-            cell.configureWithProfileUser(profileUser, feedAttachments: feedAttachments, completion: { [weak self] feedAttachments in
+            cell.configureWithProfileUser(profileUser, feedAttachments: feedAttachments, completion: { [weak self] feeds, feedAttachments in
+                self?.feeds = feeds
                 self?.feedAttachments = feedAttachments
             })
 
@@ -1726,7 +1736,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 return
             }
 
-            performSegueWithIdentifier("showFeedsOfProfileUser", sender: Box(profileUser))
+            let info: [String: AnyObject] = [
+                "profileUser": Box(profileUser),
+                "feeds": Box(feeds ?? []),
+            ]
+
+            performSegueWithIdentifier("showFeedsOfProfileUser", sender: Box(info))
 
         default:
             break

@@ -12,7 +12,9 @@ import RealmSwift
 class FeedsViewController: BaseViewController {
 
     var skill: Skill?
+
     var profileUser: ProfileUser?
+    var preparedFeedsCount = 0
 
     @IBOutlet weak var feedsTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -194,15 +196,22 @@ class FeedsViewController: BaseViewController {
         feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
         feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
         feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
-        
-        if let
-            value = YepUserDefaults.feedSortStyle.value,
-            _feedSortStyle = FeedSortStyle(rawValue: value) {
-                
-                feedSortStyle = _feedSortStyle
-                
-        } else {
-            feedSortStyle = .Match
+
+
+        if preFeedsCount > 0 {
+            currentPageIndex = 2
+        }
+
+        if skill == nil && profileUser == nil {
+            if let
+                value = YepUserDefaults.feedSortStyle.value,
+                _feedSortStyle = FeedSortStyle(rawValue: value) {
+                    
+                    feedSortStyle = _feedSortStyle
+                    
+            } else {
+                feedSortStyle = .Match
+            }
         }
     }
     
@@ -357,7 +366,7 @@ class FeedsViewController: BaseViewController {
         let perPage = 25
 
         if let profileUser = profileUser {
-            feedsOfUser(profileUser.userID, pageIndex: currentPageIndex, perPage: perPage, failureHandler: failureHandler, completion: completion)
+            feedsOfUser(profileUser.userID, pageIndex: currentPageIndex, perPage: (preFeedsCount > 0) ? preFeedsCount : perPage, failureHandler: failureHandler, completion: completion)
 
         } else {
             let maxFeedID = (isLoadMore && (feedSortStyle == FeedSortStyle.Time)) ? feeds.last?.id : nil
