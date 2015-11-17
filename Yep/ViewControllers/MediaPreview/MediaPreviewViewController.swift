@@ -131,14 +131,16 @@ class MediaPreviewViewController: UIViewController {
             UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
                 self?.mediaControlView.alpha = 1
 
-            }, completion: { _ in
-                UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
-                    self?.topPreviewImageView.alpha = 0
-                    self?.bottomPreviewImageView.alpha = 0
-                }, completion: { [weak self] _ in
+            }, completion: nil)
+            
+            // 原图需要更快的显示出来，避免停留在 thumbnial 太久
+            
+            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
+                self?.topPreviewImageView.alpha = 0
+                self?.bottomPreviewImageView.alpha = 0
+            }, completion: { [weak self] _ in
                     self?.showFinished = true
                     println("showFinished")
-                })
             })
         })
 

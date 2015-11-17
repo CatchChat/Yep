@@ -1316,7 +1316,10 @@ class ConversationViewController: BaseViewController {
             
             self?.view.endEditing(true)
 
-            transitionView.alpha = 0
+            delay(0.3, work: { () -> Void in
+                transitionView.alpha = 0 // 加 Delay 避免图片闪烁
+            })
+            
             vc.afterDismissAction = { [weak self] in
                 transitionView.alpha = 1
                 self?.view.window?.makeKeyAndVisible()
@@ -2992,7 +2995,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 vc.topPreviewImage = message.thumbnailImage
                 vc.bottomPreviewImage = image
 
-                transitionView?.alpha = 0
+                delay(0.3, work: { () -> Void in
+                    transitionView?.alpha = 0 // 避免太快消失产生闪烁
+                })
+                
                 vc.afterDismissAction = { [weak self] in
                     transitionView?.alpha = 1
                     self?.view.window?.makeKeyAndVisible()
