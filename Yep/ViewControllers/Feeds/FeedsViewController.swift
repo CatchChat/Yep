@@ -15,6 +15,8 @@ class FeedsViewController: BaseViewController {
 
     var profileUser: ProfileUser?
     var preparedFeedsCount = 0
+    
+    var hideRightBarItem: Bool = false
 
     @IBOutlet weak var feedsTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -201,6 +203,10 @@ class FeedsViewController: BaseViewController {
         feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
 
 
+        if hideRightBarItem {
+             navigationItem.rightBarButtonItem = nil
+        }
+        
         if preparedFeedsCount > 0 {
             currentPageIndex = 2
         }

@@ -1193,6 +1193,8 @@ class ProfileViewController: UIViewController {
                     vc.feeds = feeds
                     vc.preparedFeedsCount = feeds.count
             }
+            
+            vc.hideRightBarItem = true
 
             vc.hidesBottomBarWhenPushed = true
 
