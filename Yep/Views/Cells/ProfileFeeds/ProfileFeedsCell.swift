@@ -82,21 +82,28 @@ class ProfileFeedsCell: UICollectionViewCell {
         imageView4.clipsToBounds = true
     }
 
-    func configureWithProfileUser(profileUser: ProfileUser?) {
+    func configureWithProfileUser(profileUser: ProfileUser?, feedAttachments: [DiscoveredAttachment]?, completion: ([DiscoveredAttachment] -> Void)?) {
 
-        guard let profileUser = profileUser else {
-            return
-        }
+        if let feedAttachments = feedAttachments {
+            self.feedAttachments = feedAttachments
 
-        feedsOfUser(profileUser.userID, pageIndex: 1, perPage: 10, failureHandler: nil, completion: { feeds in
-            println("user's feeds: \(feeds.count)")
-
-            let feedAttachments = feeds.map({ $0.attachments.first }).flatMap({ $0 })
-
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                self?.feedAttachments = feedAttachments
+        } else {
+            guard let profileUser = profileUser else {
+                return
             }
-        })
+
+            feedsOfUser(profileUser.userID, pageIndex: 1, perPage: 10, failureHandler: nil, completion: { feeds in
+                println("user's feeds: \(feeds.count)")
+
+                let feedAttachments = feeds.map({ $0.attachments.first }).flatMap({ $0 })
+
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.feedAttachments = feedAttachments
+
+                    completion?(feedAttachments)
+                }
+            })
+        }
     }
 }
 

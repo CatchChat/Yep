@@ -460,6 +460,7 @@ class ProfileViewController: UIViewController {
     var dribbbleWork: DribbbleWork?
     var instagramWork: InstagramWork?
     var githubWork: GithubWork?
+    var feedAttachments: [DiscoveredAttachment]?
 
 
     let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
@@ -1432,7 +1433,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Feeds.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedsCellIdentifier, forIndexPath: indexPath) as! ProfileFeedsCell
 
-            cell.configureWithProfileUser(profileUser)
+            cell.configureWithProfileUser(profileUser, feedAttachments: feedAttachments, completion: { [weak self] feedAttachments in
+                self?.feedAttachments = feedAttachments
+            })
 
             return cell
 
