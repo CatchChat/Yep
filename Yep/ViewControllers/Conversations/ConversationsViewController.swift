@@ -141,8 +141,15 @@ class ConversationsViewController: UIViewController {
 
             if let githubToken = tokensOfSocialAccounts.githubToken {
 
-                githubReposWithToken(githubToken, failureHandler: nil, completion: { repos in
-                    println("github repos count: \(repos.count)")
+                githubReposWithToken(githubToken, failureHandler: nil, completion: { githubRepos in
+                    println("githubRepos count: \(githubRepos.count)")
+                })
+            }
+
+            if let instagramToken = tokensOfSocialAccounts.instagramToken {
+
+                instagramMediasWithToken(instagramToken, failureHandler: nil, completion: { instagramMedias in
+                    println("instagramMedias count: \(instagramMedias.count)")
                 })
             }
         })
