@@ -211,7 +211,7 @@ class FeedsViewController: BaseViewController {
             currentPageIndex = 2
         }
 
-        if skill == nil && profileUser == nil {
+        if skill == nil || profileUser == nil {
             if let
                 value = YepUserDefaults.feedSortStyle.value,
                 _feedSortStyle = FeedSortStyle(rawValue: value) {
