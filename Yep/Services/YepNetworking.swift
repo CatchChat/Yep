@@ -241,7 +241,17 @@ public typealias JSONDictionary = [String: AnyObject]
 func decodeJSON(data: NSData) -> JSONDictionary? {
 
     if data.length > 0 {
-        return (try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())) as? JSONDictionary
+        guard let result = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) else {
+            return JSONDictionary()
+        }
+        
+        if let dictionary = result as? JSONDictionary {
+            return dictionary
+        } else if let array = result as? [JSONDictionary] {
+            return ["data": array]
+        } else {
+            return JSONDictionary()
+        }
 
     } else {
         return JSONDictionary()

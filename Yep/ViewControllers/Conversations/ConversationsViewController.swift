@@ -138,6 +138,13 @@ class ConversationsViewController: UIViewController {
 
         tokensOfSocialAccounts(failureHandler: nil, completion: { tokensOfSocialAccounts in
             println("tokensOfSocialAccounts: \(tokensOfSocialAccounts)")
+
+            if let githubToken = tokensOfSocialAccounts.githubToken {
+
+                githubReposWithToken(githubToken, failureHandler: nil, completion: { repos in
+                    println("github repos count: \(repos.count)")
+                })
+            }
         })
     }
 
