@@ -1532,16 +1532,17 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
             
         case ProfileSection.SeparationLine.rawValue:
-            return UIEdgeInsets(top: 40, left: 0, bottom: 30, right: 0)
+            return UIEdgeInsets(top: 40, left: 0, bottom: 0, right: 0)
 
         case ProfileSection.SocialAccount.rawValue:
-            return UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
+            let inset: CGFloat = (profileUser?.providersCount ?? 0) > 0 ? 30 : 0
+            return UIEdgeInsets(top: inset, left: 0, bottom: inset, right: 0)
 
         case ProfileSection.SeparationLine2.rawValue:
-            return UIEdgeInsets(top: 40, left: 0, bottom: 30, right: 0)
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 
         case ProfileSection.Feeds.rawValue:
-            return UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
+            return UIEdgeInsets(top: 30, left: 0, bottom: 30, right: 0)
 
         default:
             return UIEdgeInsetsZero
@@ -1579,7 +1580,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return CGSize(width: collectionViewWidth, height: 1)
             
         case ProfileSection.SocialAccount.rawValue:
-            return CGSize(width: collectionViewWidth, height: 40)
+            return CGSize(width: collectionViewWidth, height: (profileUser?.providersCount ?? 0) > 0 ? 40 : 0)
 
         case ProfileSection.SeparationLine2.rawValue:
             return CGSize(width: collectionViewWidth, height: 1)
