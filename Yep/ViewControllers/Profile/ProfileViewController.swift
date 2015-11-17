@@ -491,6 +491,8 @@ class ProfileViewController: UIViewController {
         YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
         YepUserDefaults.introduction.removeListenerWithName(Listener.Introduction)
 
+        profileCollectionView.delegate = nil
+
         println("deinit ProfileViewController")
     }
 
