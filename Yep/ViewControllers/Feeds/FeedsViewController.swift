@@ -634,7 +634,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 vc.previewImageViewInitalFrame = frame
                 vc.bottomPreviewImage = image
 
-                transitionView.alpha = 0
+
+                delay(0, work: { () -> Void in
+                    transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
+                })
                 vc.afterDismissAction = { [weak self] in
                     transitionView.alpha = 1
                     self?.view.window?.makeKeyAndVisible()
