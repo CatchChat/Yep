@@ -270,34 +270,26 @@ enum MessageMediaType: Int, CustomStringConvertible {
     case Sticker        = 4
     case Location       = 5
     case SectionDate    = 6
-    case GithubRepo     = 7
-    case DribbbleShot   = 8
-    case InstagramMedia = 9
+    case SocialWork     = 7
 
     var description: String {
-        get {
-            switch self {
-            case Text:
-                return "text"
-            case Image:
-                return "image"
-            case Video:
-                return "video"
-            case Audio:
-                return "audio"
-            case Sticker:
-                return "sticker"
-            case Location:
-                return "location"
-            case SectionDate:
-                return "sectionDate"
-            case .GithubRepo:
-                return "githubRepo"
-            case .DribbbleShot:
-                return "dribbbleShot"
-            case .InstagramMedia:
-                return "instagramMedia"
-            }
+        switch self {
+        case .Text:
+            return "text"
+        case .Image:
+            return "image"
+        case .Video:
+            return "video"
+        case .Audio:
+            return "audio"
+        case .Sticker:
+            return "sticker"
+        case .Location:
+            return "location"
+        case .SectionDate:
+            return "sectionDate"
+        case .SocialWork:
+            return "socialWork"
         }
     }
 
@@ -328,12 +320,8 @@ enum MessageMediaType: Int, CustomStringConvertible {
             return NSLocalizedString("[Sticker]", comment: "")
         case .Location:
             return NSLocalizedString("[Location]", comment: "")
-        case .GithubRepo:
-            return NSLocalizedString("[Github Repo]", comment: "")
-        case .DribbbleShot:
-            return NSLocalizedString("[Dribbble Shot]", comment: "")
-        case .InstagramMedia:
-            return NSLocalizedString("[Instagram Media]", comment: "")
+        case .SocialWork:
+            return NSLocalizedString("[Social Work]", comment: "")
         default:
             return (arc4random() % 2 == 0) ?  "I love NIX." : "We love NIX."
         }
@@ -370,7 +358,7 @@ class MediaMetaData: Object {
     }
 }
 
-class MessageGithubRepo: Object {
+class SocialWorkGithubRepo: Object {
     dynamic var repoID: Int = 0
     dynamic var name: String = ""
     dynamic var fullName: String = ""
@@ -381,7 +369,7 @@ class MessageGithubRepo: Object {
     dynamic var synced: Bool = false
 }
 
-class MessageDribbbleShot: Object {
+class SocialWorkDribbbleShot: Object {
     dynamic var shotID: String = ""
     dynamic var title: String = ""
     dynamic var htmlURLString: String = ""
@@ -392,13 +380,27 @@ class MessageDribbbleShot: Object {
     dynamic var synced: Bool = false
 }
 
-class MessageInstagramMedia: Object {
+class SocialWorkInstagramMedia: Object {
     dynamic var repoID: String = ""
     dynamic var linkURLString: String = ""
     dynamic var imageURLString: String = ""
 
     dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
     dynamic var synced: Bool = false
+}
+
+enum MessageSocialWorkType: Int {
+    case GithubRepo     = 0
+    case DribbbleShot   = 1
+    case InstagramMedia = 2
+}
+
+class MessageSocialWork: Object {
+    dynamic var type: Int = MessageSocialWorkType.GithubRepo.rawValue
+
+    dynamic var githubRepo: SocialWorkGithubRepo?
+    dynamic var dribbbleShot: SocialWorkDribbbleShot?
+    dynamic var instagramMedia: SocialWorkInstagramMedia?
 }
 
 class Message: Object {
@@ -436,9 +438,7 @@ class Message: Object {
 
     dynamic var mediaMetaData: MediaMetaData?
 
-    dynamic var githubRepo: MessageGithubRepo?
-    dynamic var dribbbleShot: MessageDribbbleShot?
-    dynamic var instagramMedia: MessageInstagramMedia?
+    dynamic var socialWork: MessageSocialWork?
 
     dynamic var downloadState: Int = MessageDownloadState.NoDownload.rawValue
     dynamic var sendState: Int = MessageSendState.NotSend.rawValue
