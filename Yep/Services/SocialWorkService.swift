@@ -200,7 +200,7 @@ func dribbbleShotsWithToken(token: String, failureHandler: ((Reason, String?) ->
         return shots
     }
 
-    let resource = dribbbleResource(token: token, path: "/v1/shots", method: .GET, requestParameters: requestParameters, parse: parse)
+    let resource = dribbbleResource(token: token, path: "/v1/user/shots", method: .GET, requestParameters: requestParameters, parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: dribbbleBaseURL, resource: resource, failure: failureHandler, completion: completion)
