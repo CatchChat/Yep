@@ -1497,7 +1497,7 @@ class ConversationViewController: BaseViewController {
             height = 20
 
         case MessageMediaType.SocialWork.rawValue:
-            height = 130
+            height = 135
 
         default:
             height = 20

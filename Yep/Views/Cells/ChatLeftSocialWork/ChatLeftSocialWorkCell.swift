@@ -14,9 +14,21 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var socialWorkImageView: UIImageView!
 
+    lazy var maskImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))
+        return imageView
+    }()
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        socialWorkImageView.maskView = maskImageView
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        maskImageView.frame = socialWorkImageView.bounds
     }
 
     override func prepareForReuse() {
