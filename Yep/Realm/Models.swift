@@ -401,6 +401,14 @@ enum MessageSocialWorkType: Int {
     case GithubRepo     = 0
     case DribbbleShot   = 1
     case InstagramMedia = 2
+
+    var accountName: String {
+        switch self {
+        case .GithubRepo: return "github"
+        case .DribbbleShot: return "dribbble"
+        case .InstagramMedia: return "instagram"
+        }
+    }
 }
 
 class MessageSocialWork: Object {

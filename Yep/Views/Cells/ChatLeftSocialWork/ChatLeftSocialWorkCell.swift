@@ -49,29 +49,32 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
 
             var socialWorkImageURL: NSURL?
 
-            switch socialWork.type {
+            guard let
+                socialWorkType = MessageSocialWorkType(rawValue: socialWork.type),
+                socialAccount = SocialAccount(rawValue: socialWorkType.accountName)
+            else {
+                return
+            }
 
-            case MessageSocialWorkType.GithubRepo.rawValue:
+            logoImageView.image = UIImage(named: socialAccount.iconName)
+            logoImageView.tintColor = socialAccount.tintColor
 
-                logoImageView.image = UIImage(named: "icon_github")
+            switch socialWorkType {
 
-            case MessageSocialWorkType.DribbbleShot.rawValue:
+            case .GithubRepo:
+                break
 
-                logoImageView.image = UIImage(named: "icon_dribbble")
+            case .DribbbleShot:
 
                 if let string = socialWork.dribbbleShot?.imageURLString {
                     socialWorkImageURL = NSURL(string: string)
                 }
-            case MessageSocialWorkType.InstagramMedia.rawValue:
 
-                logoImageView.image = UIImage(named: "icon_instagram")
+            case .InstagramMedia:
 
                 if let string = socialWork.instagramMedia?.imageURLString {
                     socialWorkImageURL = NSURL(string: string)
                 }
-
-            default:
-                break
             }
 
             if let URL = socialWorkImageURL {
