@@ -396,7 +396,7 @@ class ProfileViewController: UIViewController {
                 }
 
                 if user.friendState == UserFriendState.Me.rawValue {
-                    YepUserDefaults.introduction.bindListener(Listener.Introduction) { [weak self] introduction in
+                    YepUserDefaults.introduction.bindListener(self.listener.introduction) { [weak self] introduction in
                         dispatch_async(dispatch_get_main_queue()) {
                             if let introduction = introduction {
                                 self?.introductionText = introduction
@@ -409,7 +409,7 @@ class ProfileViewController: UIViewController {
         }
 
         return introduction ?? NSLocalizedString("No Introduction yet.", comment: "")
-        }()
+    }()
 
     var masterSkills = [Skill]()
 
@@ -479,17 +479,29 @@ class ProfileViewController: UIViewController {
 
 
     struct Listener {
-        static let Nickname = "ProfileViewController.Title"
-        static let Introduction = "Profile.introductionText"
+        let nickname: String
+        let introduction: String
+        let avatar: String
     }
+
+    lazy var listener: Listener = {
+
+        var myUserID = ""
+        if let profileUser = self.profileUser where profileUser.isMe {
+            myUserID = profileUser.userID
+        }
+
+        return Listener(nickname: "Profile.Title" + myUserID, introduction: "Profile.introductionText" + myUserID, avatar: "Profile.Avatar" + myUserID)
+    }()
 
     // MARK: Life cycle
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
 
-        YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
-        YepUserDefaults.introduction.removeListenerWithName(Listener.Introduction)
+        YepUserDefaults.nickname.removeListenerWithName(listener.nickname)
+        YepUserDefaults.introduction.removeListenerWithName(listener.introduction)
+        YepUserDefaults.avatarURLString.removeListenerWithName(listener.avatar)
 
         profileCollectionView.delegate = nil
 
@@ -683,9 +695,21 @@ class ProfileViewController: UIViewController {
                 customNavigationItem.title = user.nickname
 
                 if user.friendState == UserFriendState.Me.rawValue {
-                    YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] nickname in
+                    YepUserDefaults.nickname.bindListener(listener.nickname) { [weak self] nickname in
                         dispatch_async(dispatch_get_main_queue()) {
                             self?.customNavigationItem.title = nickname
+                        }
+                    }
+
+                    YepUserDefaults.avatarURLString.bindListener(listener.avatar) { [weak self] avatarURLString in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Header.rawValue)
+                            if let cell = self?.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
+                                if let avatarURLString = avatarURLString {
+                                    cell.blurredAvatarImage = nil // need reblur
+                                    cell.updateAvatarWithAvatarURLString(avatarURLString)
+                                }
+                            }
                         }
                     }
                 }

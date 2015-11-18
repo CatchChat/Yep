@@ -20,14 +20,8 @@ class ProfileHeaderCell: UICollectionViewCell {
     
     var askedForPermission = false
 
-    struct Listener {
-        static let Avatar = "ProfileHeaderCell.Avatar"
-    }
-
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
-
-        YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
     }
 
     override func awakeFromNib() {
@@ -84,15 +78,6 @@ class ProfileHeaderCell: UICollectionViewCell {
         updateAvatarWithAvatarURLString(user.avatarURLString)
 
         if user.friendState == UserFriendState.Me.rawValue {
-            
-            YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] avatarURLString in
-                dispatch_async(dispatch_get_main_queue()) {
-                    if let avatarURLString = avatarURLString {
-                        self?.blurredAvatarImage = nil // need reblur
-                        self?.updateAvatarWithAvatarURLString(avatarURLString)
-                    }
-                }
-            }
 
             if !askedForPermission {
                 askedForPermission = true
