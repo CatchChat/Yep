@@ -66,6 +66,7 @@
             <size key="customSize" width="325" height="134"/>
             <connections>
                 <outlet property="avatarImageView" destination="NYD-7E-1JU" id="xUy-M1-urO"/>
+                <outlet property="logoImageView" destination="HCa-0p-kmd" id="6Gj-bz-3XK"/>
                 <outlet property="socialWorkImageView" destination="qfD-Je-uVh" id="oL9-8r-PcX"/>
             </connections>
             <point key="canvasLocation" x="280.5" y="208.5"/>
