@@ -153,6 +153,80 @@ class ConversationsViewController: UIViewController {
 
                 dribbbleShotsWithToken(dribbbleToken, failureHandler: nil, completion: { dribbbleShots in
                     println("dribbbleShots count: \(dribbbleShots.count)")
+
+                    guard let firstShot = dribbbleShots.first else {
+                        return
+                    }
+
+                    guard let realm = try? Realm() else {
+                        return
+                    }
+
+                    if let yepTeam = userWithUsername("yep_team", inRealm: realm) {
+
+                        let messageID = "dribbble_shot_\(firstShot.ID)"
+
+                        var message = messageWithMessageID(messageID, inRealm: realm)
+
+                        if message == nil {
+                            let newMessage = Message()
+                            newMessage.messageID = messageID
+                            newMessage.mediaType = MessageMediaType.SocialWork.rawValue
+
+                            let socialWork = MessageSocialWork()
+                            socialWork.type = MessageSocialWorkType.DribbbleShot.rawValue
+
+                            let socialWorkDribbbleShot = SocialWorkDribbbleShot()
+                            socialWorkDribbbleShot.fillWithDribbbleShot(firstShot)
+
+                            socialWork.dribbbleShot = socialWorkDribbbleShot
+
+                            newMessage.socialWork = socialWork
+
+                            let _ = try? realm.write {
+                                realm.add(newMessage)
+                            }
+
+                            message = newMessage
+                        }
+
+                        if let message = message {
+                            let _ = try? realm.write {
+                                message.fromFriend = yepTeam
+                            }
+
+                            var conversation = yepTeam.conversation
+
+                            if conversation == nil {
+                                let newConversation = Conversation()
+
+                                newConversation.type = ConversationType.OneToOne.rawValue
+                                newConversation.withFriend = yepTeam
+
+                                let _ = try? realm.write {
+                                    realm.add(newConversation)
+                                }
+                                
+                                conversation = newConversation
+                            }
+
+                            if let conversation = conversation {
+                                let _ = try? realm.write {
+
+                                    conversation.updatedUnixTime = message.createdUnixTime
+
+                                    message.conversation = conversation
+
+                                    tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in
+                                        realm.add(sectionDateMessage)
+                                    }
+                                }
+                                
+                            } else {
+                                deleteMessage(message, inRealm: realm)
+                            }
+                        }
+                    }
                 })
             }
 

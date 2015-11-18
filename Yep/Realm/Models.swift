@@ -370,7 +370,7 @@ class SocialWorkGithubRepo: Object {
 }
 
 class SocialWorkDribbbleShot: Object {
-    dynamic var shotID: String = ""
+    dynamic var shotID: Int = 0
     dynamic var title: String = ""
     dynamic var htmlURLString: String = ""
     dynamic var imageURLString: String = ""
@@ -378,6 +378,14 @@ class SocialWorkDribbbleShot: Object {
 
     dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
     dynamic var synced: Bool = false
+
+    func fillWithDribbbleShot(dribbbleShot: DribbbleShot) {
+        self.shotID = dribbbleShot.ID
+        self.title = dribbbleShot.title
+        self.htmlURLString = dribbbleShot.htmlURLString
+        self.imageURLString = dribbbleShot.images.normal
+        self.shotDescription = dribbbleShot.description
+    }
 }
 
 class SocialWorkInstagramMedia: Object {
@@ -634,6 +642,11 @@ func userWithUserID(userID: String, inRealm realm: Realm) -> User? {
     }
     #endif
 
+    return realm.objects(User).filter(predicate).first
+}
+
+func userWithUsername(username: String, inRealm realm: Realm) -> User? {
+    let predicate = NSPredicate(format: "username = %@", username)
     return realm.objects(User).filter(predicate).first
 }
 
@@ -947,6 +960,12 @@ func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) ->
     let predicate = NSPredicate(format: "conversation = %@", argumentArray: [conversation])
     let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
+}
+
+func deleteMessage(message: Message, inRealm realm: Realm) {
+    let _ = try? realm.write {
+        realm.delete(message)
+    }
 }
 
 func tryCreateSectionDateMessageInConversation(conversation: Conversation, beforeMessage message: Message, inRealm realm: Realm, success: (Message) -> Void) {
