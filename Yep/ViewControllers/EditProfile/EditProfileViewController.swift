@@ -62,7 +62,7 @@ class EditProfileViewController: UIViewController {
         YepUserDefaults.introduction.removeListenerWithName(Listener.Introduction)
         YepUserDefaults.badge.removeListenerWithName(Listener.Badge)
 
-        editProfileTableView.delegate = nil
+        editProfileTableView?.delegate = nil
 
         println("deinit EditProfileViewController")
     }

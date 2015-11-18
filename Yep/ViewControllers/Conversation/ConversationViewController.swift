@@ -346,7 +346,7 @@ class ConversationViewController: BaseViewController {
 
         YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
 
-        conversationCollectionView.delegate = nil
+        conversationCollectionView?.delegate = nil
 
         println("deinit ConversationViewController")
     }

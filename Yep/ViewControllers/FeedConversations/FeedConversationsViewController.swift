@@ -34,7 +34,7 @@ class FeedConversationsViewController: UIViewController {
 
         NSNotificationCenter.defaultCenter().removeObserver(self)
 
-        feedConversationsTableView.delegate = nil
+        feedConversationsTableView?.delegate = nil
 
         println("deinit FeedConversations")
     }

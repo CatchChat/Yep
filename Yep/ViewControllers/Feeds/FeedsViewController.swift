@@ -140,7 +140,7 @@ class FeedsViewController: BaseViewController {
     
     deinit {
 
-        feedsTableView.delegate = nil
+        feedsTableView?.delegate = nil
 
         print("Deinit FeedsViewControler")
     }

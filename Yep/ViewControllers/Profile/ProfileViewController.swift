@@ -503,7 +503,7 @@ class ProfileViewController: UIViewController {
         YepUserDefaults.introduction.removeListenerWithName(listener.introduction)
         YepUserDefaults.avatarURLString.removeListenerWithName(listener.avatar)
 
-        profileCollectionView.delegate = nil
+        profileCollectionView?.delegate = nil
 
         println("deinit ProfileViewController")
     }

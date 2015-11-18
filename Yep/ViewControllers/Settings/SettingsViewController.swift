@@ -45,7 +45,7 @@ class SettingsViewController: BaseViewController {
     deinit {
         YepUserDefaults.introduction.removeListenerWithName(Listener.Introduction)
 
-        settingsTableView.delegate = nil
+        settingsTableView?.delegate = nil
 
         println("deinit Settings")
     }

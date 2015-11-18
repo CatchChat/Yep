@@ -49,7 +49,7 @@ class ContactsViewController: BaseViewController {
         YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
         YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
 
-        contactsTableView.delegate = nil
+        contactsTableView?.delegate = nil
     }
 
     override func viewDidLoad() {
