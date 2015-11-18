@@ -211,16 +211,11 @@ class FeedsViewController: BaseViewController {
             currentPageIndex = 2
         }
 
-        
-        // 避免出现一下三个任意一个不能显示 Feeds
-        // 查看技能主页
-        // 查看 Profile Feeds
-        // 查看话题主页
-        if skill == nil || profileUser == nil {
+        // 没有 profileUser 才设置 feedSortStyle 以请求服务器
+        if profileUser == nil {
             if let
                 value = YepUserDefaults.feedSortStyle.value,
                 _feedSortStyle = FeedSortStyle(rawValue: value) {
-                    
                     feedSortStyle = _feedSortStyle
                     
             } else {
