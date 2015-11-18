@@ -149,6 +149,13 @@ class ConversationsViewController: UIViewController {
                 })
             }
 
+            if let dribbbleToken = tokensOfSocialAccounts.dribbbleToken {
+
+                dribbbleShotsWithToken(dribbbleToken, failureHandler: nil, completion: { dribbbleShots in
+                    println("dribbbleShots count: \(dribbbleShots.count)")
+                })
+            }
+
             if let instagramToken = tokensOfSocialAccounts.instagramToken {
 
                 instagramMediasWithToken(instagramToken, failureHandler: nil, completion: { instagramMedias in

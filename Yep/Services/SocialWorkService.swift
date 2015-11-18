@@ -9,6 +9,7 @@
 import Foundation
 
 private let githubBaseURL = NSURL(string: "https://api.github.com")!
+private let dribbbleBaseURL = NSURL(string: "https://api.dribbble.com")!
 private let instagramBaseURL = NSURL(string: "https://api.instagram.com")!
 
 private func githubResource<A>(token token: String, path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
@@ -30,6 +31,25 @@ private func githubResource<A>(token token: String, path: String, method: Method
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
 }
 
+private func dribbbleResource<A>(token token: String, path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
+
+    let jsonParse: NSData -> A? = { data in
+        if let json = decodeJSON(data) {
+            return parse(json)
+        }
+        return nil
+    }
+
+    let jsonBody = encodeJSON(requestParameters)
+    var headers = [
+        "Content-Type": "application/json",
+    ]
+
+    headers["Authorization"] = "Bearer \(token)"
+
+    return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
+}
+
 private func instagramResource<A>(token token: String, path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
 
     let jsonParse: NSData -> A? = { data in
@@ -46,6 +66,8 @@ private func instagramResource<A>(token token: String, path: String, method: Met
 
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
 }
+
+// MARK: Github Repo
 
 struct GithubRepo {
     let ID: Int
@@ -103,6 +125,79 @@ func githubReposWithToken(token: String, failureHandler: ((Reason, String?) -> V
         apiRequest({_ in}, baseURL: githubBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
     }
 }
+
+// MARK: Dribbble Shot
+
+struct DribbbleShot {
+    let ID: Int
+    let title: String
+    let description: String
+    let htmlURLString: String
+
+    struct Images {
+        let hidpi: String?
+        let normal: String
+        let teaser: String
+    }
+    let images: Images
+
+    let likesCount: Int
+    let commentsCount: Int
+}
+
+func dribbbleShotsWithToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: [DribbbleShot] -> Void) {
+
+    let requestParameters = [
+        "timeframe": "month",
+        "sort": "recent",
+    ]
+
+    let parse: JSONDictionary -> [DribbbleShot]? = { data in
+
+        println("dribbbleShotsWithToken data: \(data)")
+
+        guard let shotsData = data["data"] as? [JSONDictionary] else {
+            return nil
+        }
+
+        var shots = [DribbbleShot]()
+
+        for shotInfo in shotsData {
+            if let
+                ID = shotInfo["id"] as? Int,
+                title = shotInfo["title"] as? String,
+                description = shotInfo["description"] as? String,
+                htmlURLString = shotInfo["html_url"] as? String,
+                imagesInfo = shotInfo["images"] as? JSONDictionary,
+                likesCount = shotInfo["likes_count"] as? Int,
+                commentsCount = shotInfo["comments_count"] as? Int {
+                    if let
+                        normal = imagesInfo["normal"] as? String,
+                        teaser = imagesInfo["teaser"] as? String {
+                            let hidpi = imagesInfo["hidpi"] as? String
+
+                            let images = DribbbleShot.Images(hidpi: hidpi, normal: normal, teaser: teaser)
+
+                            let shot = DribbbleShot(ID: ID, title: title, description: description, htmlURLString: htmlURLString, images: images, likesCount: likesCount, commentsCount: commentsCount)
+
+                            shots.append(shot)
+                    }
+            }
+        }
+
+        return shots
+    }
+
+    let resource = dribbbleResource(token: token, path: "/v1/shots", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: dribbbleBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: dribbbleBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+// MARK: Instagram Media
 
 struct InstagramMedia {
     let ID: String
