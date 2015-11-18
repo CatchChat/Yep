@@ -168,6 +168,10 @@ class ConversationsViewController: UIViewController {
 
                         var message = messageWithMessageID(messageID, inRealm: realm)
 
+                        guard message == nil else {
+                            return
+                        }
+
                         if message == nil {
                             let newMessage = Message()
                             newMessage.messageID = messageID

@@ -8,10 +8,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ChatLeftSocialWorkCell" customModule="Yep" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="325" height="130"/>
+            <rect key="frame" x="0.0" y="0.0" width="325" height="124"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="325" height="130"/>
+                <rect key="frame" x="0.0" y="0.0" width="325" height="124"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NYD-7E-1JU" userLabel="Avatar Image View">
                         <rect key="frame" x="15" y="0.0" width="40" height="40"/>
@@ -20,7 +20,7 @@
                             <constraint firstAttribute="height" constant="40" id="pty-Vb-0oB"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qfD-Je-uVh">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qfD-Je-uVh">
                         <rect key="frame" x="65" y="0.0" width="200" height="80"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="80" id="wCe-oG-Qmg"/>
@@ -53,8 +53,12 @@
                 <constraint firstAttribute="trailing" secondItem="qfD-Je-uVh" secondAttribute="trailing" constant="60" id="rS5-cE-xKg"/>
                 <constraint firstItem="qfD-Je-uVh" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="uoN-s5-BMJ"/>
             </constraints>
-            <size key="customSize" width="325" height="130"/>
-            <point key="canvasLocation" x="280.5" y="207"/>
+            <size key="customSize" width="325" height="123"/>
+            <connections>
+                <outlet property="avatarImageView" destination="NYD-7E-1JU" id="xUy-M1-urO"/>
+                <outlet property="socialWorkImageView" destination="qfD-Je-uVh" id="oL9-8r-PcX"/>
+            </connections>
+            <point key="canvasLocation" x="280.5" y="203.5"/>
         </collectionViewCell>
     </objects>
     <resources>

@@ -1496,6 +1496,9 @@ class ConversationViewController: BaseViewController {
         case MessageMediaType.SectionDate.rawValue:
             height = 20
 
+        case MessageMediaType.SocialWork.rawValue:
+            height = 130
+
         default:
             height = 20
         }
@@ -3065,6 +3068,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftLocationCellIdentifier, forIndexPath: indexPath) as! ChatLeftLocationCell
                         return cell
 
+                    case MessageMediaType.SocialWork.rawValue:
+
+                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftSocialWorkCellIdentifier, forIndexPath: indexPath) as! ChatLeftSocialWorkCell
+                        return cell
+
                     default:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
@@ -3237,7 +3245,13 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 
                             }, collectionView: collectionView, indexPath: indexPath)
                         }
-                        
+
+                    case MessageMediaType.SocialWork.rawValue:
+
+                        if let cell = cell as? ChatLeftSocialWorkCell {
+                            cell.configureWithMessage(message)
+                        }
+
                     default:
                         
                         if let cell = cell as? ChatLeftTextCell {
