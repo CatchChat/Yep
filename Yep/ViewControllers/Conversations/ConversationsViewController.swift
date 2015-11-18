@@ -221,9 +221,21 @@ class ConversationsViewController: UIViewController {
 
                                     message.conversation = conversation
 
+                                    var sectionDateMessageID: String?
                                     tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in
                                         realm.add(sectionDateMessage)
+                                        sectionDateMessageID = sectionDateMessage.messageID
                                     }
+
+                                    // 通知更新 UI
+
+                                    var messageIDs = [String]()
+                                    if let sectionDateMessageID = sectionDateMessageID {
+                                        messageIDs.append(sectionDateMessageID)
+                                    }
+                                    messageIDs.append(message.messageID)
+
+                                    tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
                                 }
                                 
                             } else {
