@@ -76,8 +76,10 @@ struct GithubRepo {
     let URLString: String
     let description: String
 
-    //let createdAt: NSDate
+    let createdAt: NSDate
 }
+
+// ref https://developer.github.com/v3/
 
 func githubReposWithToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: [GithubRepo] -> Void) {
 
@@ -103,13 +105,15 @@ func githubReposWithToken(token: String, failureHandler: ((Reason, String?) -> V
                 name = repoInfo["name"] as? String,
                 fullName = repoInfo["full_name"] as? String,
                 URLString = repoInfo["html_url"] as? String,
-                description = repoInfo["description"] as? String
-
+                description = repoInfo["description"] as? String,
+                createdAtString = repoInfo["created_at"] as? String
             else {
                 continue
             }
 
-            let repo = GithubRepo(ID: ID, name: name, fullName: fullName, URLString: URLString, description: description)
+            let createdAt = NSDate.dateWithISO08601String(createdAtString)
+
+            let repo = GithubRepo(ID: ID, name: name, fullName: fullName, URLString: URLString, description: description, createdAt: createdAt)
 
             repos.append(repo)
         }
@@ -143,7 +147,11 @@ struct DribbbleShot {
 
     let likesCount: Int
     let commentsCount: Int
+
+    let createdAt: NSDate
 }
+
+// ref http://developer.dribbble.com/v1/
 
 func dribbbleShotsWithToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: [DribbbleShot] -> Void) {
 
@@ -154,7 +162,7 @@ func dribbbleShotsWithToken(token: String, failureHandler: ((Reason, String?) ->
 
     let parse: JSONDictionary -> [DribbbleShot]? = { data in
 
-        println("dribbbleShotsWithToken data: \(data)")
+        //println("dribbbleShotsWithToken data: \(data)")
 
         guard let shotsData = data["data"] as? [JSONDictionary] else {
             return nil
@@ -170,7 +178,11 @@ func dribbbleShotsWithToken(token: String, failureHandler: ((Reason, String?) ->
                 htmlURLString = shotInfo["html_url"] as? String,
                 imagesInfo = shotInfo["images"] as? JSONDictionary,
                 likesCount = shotInfo["likes_count"] as? Int,
-                commentsCount = shotInfo["comments_count"] as? Int {
+                commentsCount = shotInfo["comments_count"] as? Int,
+                createdAtString = shotInfo["created_at"] as? String {
+
+                    let createdAt = NSDate.dateWithISO08601String(createdAtString)
+
                     if let
                         normal = imagesInfo["normal"] as? String,
                         teaser = imagesInfo["teaser"] as? String {
@@ -178,7 +190,7 @@ func dribbbleShotsWithToken(token: String, failureHandler: ((Reason, String?) ->
 
                             let images = DribbbleShot.Images(hidpi: hidpi, normal: normal, teaser: teaser)
 
-                            let shot = DribbbleShot(ID: ID, title: title, description: description, htmlURLString: htmlURLString, images: images, likesCount: likesCount, commentsCount: commentsCount)
+                            let shot = DribbbleShot(ID: ID, title: title, description: description, htmlURLString: htmlURLString, images: images, likesCount: likesCount, commentsCount: commentsCount, createdAt: createdAt)
 
                             shots.append(shot)
                     }
@@ -215,8 +227,10 @@ struct InstagramMedia {
 
     let username: String
 
-    //let createdAt: NSDate
+    let createdAt: NSDate
 }
+
+// ref https://instagram.com/developer/endpoints/users/
 
 func instagramMediasWithToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: [InstagramMedia] -> Void) {
 
@@ -241,7 +255,11 @@ func instagramMediasWithToken(token: String, failureHandler: ((Reason, String?) 
                 imagesInfo = mediaInfo["images"] as? JSONDictionary,
                 likesInfo = mediaInfo["likes"] as? JSONDictionary,
                 commentsInfo = mediaInfo["comments"] as? JSONDictionary,
-                userInfo = mediaInfo["user"] as? JSONDictionary {
+                userInfo = mediaInfo["user"] as? JSONDictionary,
+                createdAtString = mediaInfo["created_time"] as? String {
+
+                    let createdAt = NSDate(timeIntervalSince1970: (createdAtString as NSString).doubleValue)
+
                     if let
                         lowResolutionInfo = imagesInfo["low_resolution"] as? JSONDictionary,
                         standardResolutionInfo = imagesInfo["standard_resolution"] as? JSONDictionary,
@@ -258,7 +276,7 @@ func instagramMediasWithToken(token: String, failureHandler: ((Reason, String?) 
 
                             let images = InstagramMedia.Images(lowResolution: lowResolution, standardResolution: standardResolution, thumbnail: thumbnail)
 
-                            let media = InstagramMedia(ID: ID, linkURLString: linkURLString, images: images, likesCount: likesCount, commentsCount: commentsCount, username: username)
+                            let media = InstagramMedia(ID: ID, linkURLString: linkURLString, images: images, likesCount: likesCount, commentsCount: commentsCount, username: username, createdAt: createdAt)
 
                             medias.append(media)
                     }
