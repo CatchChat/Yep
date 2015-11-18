@@ -270,6 +270,9 @@ enum MessageMediaType: Int, CustomStringConvertible {
     case Sticker        = 4
     case Location       = 5
     case SectionDate    = 6
+    case GithubRepo     = 7
+    case DribbbleShot   = 8
+    case InstagramMedia = 9
 
     var description: String {
         get {
@@ -288,6 +291,12 @@ enum MessageMediaType: Int, CustomStringConvertible {
                 return "location"
             case SectionDate:
                 return "sectionDate"
+            case .GithubRepo:
+                return "githubRepo"
+            case .DribbbleShot:
+                return "dribbbleShot"
+            case .InstagramMedia:
+                return "instagramMedia"
             }
         }
     }
@@ -307,16 +316,24 @@ enum MessageMediaType: Int, CustomStringConvertible {
 
     var placeholder: String? {
         switch self {
-        case .Audio:
-            return NSLocalizedString("[Audio]", comment: "")
-        case .Video:
-            return NSLocalizedString("[Video]", comment: "")
-        case .Image:
-            return NSLocalizedString("[Image]", comment: "")
-        case .Location:
-            return NSLocalizedString("[Location]", comment: "")
         case .Text:
             return nil
+        case .Image:
+            return NSLocalizedString("[Image]", comment: "")
+        case .Video:
+            return NSLocalizedString("[Video]", comment: "")
+        case .Audio:
+            return NSLocalizedString("[Audio]", comment: "")
+        case .Sticker:
+            return NSLocalizedString("[Sticker]", comment: "")
+        case .Location:
+            return NSLocalizedString("[Location]", comment: "")
+        case .GithubRepo:
+            return NSLocalizedString("[Github Repo]", comment: "")
+        case .DribbbleShot:
+            return NSLocalizedString("[Dribbble Shot]", comment: "")
+        case .InstagramMedia:
+            return NSLocalizedString("[Instagram Media]", comment: "")
         default:
             return (arc4random() % 2 == 0) ?  "I love NIX." : "We love NIX."
         }
@@ -353,6 +370,37 @@ class MediaMetaData: Object {
     }
 }
 
+class MessageGithubRepo: Object {
+    dynamic var repoID: Int = 0
+    dynamic var name: String = ""
+    dynamic var fullName: String = ""
+    dynamic var URLString: String = ""
+    dynamic var repoDescription: String = ""
+
+    dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+    dynamic var synced: Bool = false
+}
+
+class MessageDribbbleShot: Object {
+    dynamic var shotID: String = ""
+    dynamic var title: String = ""
+    dynamic var htmlURLString: String = ""
+    dynamic var imageURLString: String = ""
+    dynamic var shotDescription: String = ""
+
+    dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+    dynamic var synced: Bool = false
+}
+
+class MessageInstagramMedia: Object {
+    dynamic var repoID: String = ""
+    dynamic var linkURLString: String = ""
+    dynamic var imageURLString: String = ""
+
+    dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+    dynamic var synced: Bool = false
+}
+
 class Message: Object {
     dynamic var messageID: String = ""
 
@@ -361,6 +409,7 @@ class Message: Object {
     dynamic var arrivalUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
 
     dynamic var mediaType: Int = MessageMediaType.Text.rawValue
+
     dynamic var textContent: String = ""
     dynamic var coordinate: Coordinate?
 
@@ -385,10 +434,13 @@ class Message: Object {
         return nil
     }
 
-    dynamic var downloadState: Int = MessageDownloadState.NoDownload.rawValue
-
     dynamic var mediaMetaData: MediaMetaData?
 
+    dynamic var githubRepo: MessageGithubRepo?
+    dynamic var dribbbleShot: MessageDribbbleShot?
+    dynamic var instagramMedia: MessageInstagramMedia?
+
+    dynamic var downloadState: Int = MessageDownloadState.NoDownload.rawValue
     dynamic var sendState: Int = MessageSendState.NotSend.rawValue
     dynamic var readed: Bool = false
     dynamic var mediaPlayed: Bool = false // 音频播放过，图片查看过等
@@ -547,7 +599,6 @@ class Feed: Object {
         realm.delete(self)
     }
 }
-
 
 // MARK: Helpers
 
