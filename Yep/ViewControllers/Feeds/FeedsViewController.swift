@@ -378,6 +378,12 @@ class FeedsViewController: BaseViewController {
             feedsOfUser(profileUser.userID, pageIndex: currentPageIndex, perPage: (preparedFeedsCount > 0) ? preparedFeedsCount : perPage, failureHandler: failureHandler, completion: completion)
 
         } else {
+
+            var feedSortStyle = self.feedSortStyle
+            if skill != nil {
+                feedSortStyle = .Time
+            }
+
             let maxFeedID = (isLoadMore && (feedSortStyle == FeedSortStyle.Time)) ? feeds.last?.id : nil
 
             discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: currentPageIndex, perPage: perPage, maxFeedID: maxFeedID, failureHandler:failureHandler, completion: completion)
