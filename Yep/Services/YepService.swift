@@ -2516,6 +2516,10 @@ struct DiscoveredAttachment {
 
     var thumbnailImage: UIImage? {
 
+        guard (metadata as NSString).length > 0 else {
+            return nil
+        }
+
         if let data = metadata.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
             if let metaDataInfo = decodeJSON(data) {
                 if let thumbnailString = metaDataInfo[YepConfig.MetaData.thumbnailString] as? String {

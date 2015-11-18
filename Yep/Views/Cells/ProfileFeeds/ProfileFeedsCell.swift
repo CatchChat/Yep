@@ -92,7 +92,7 @@ class ProfileFeedsCell: UICollectionViewCell {
                 return
             }
 
-            feedsOfUser(profileUser.userID, pageIndex: 1, perPage: 10, failureHandler: nil, completion: { feeds in
+            feedsOfUser(profileUser.userID, pageIndex: 1, perPage: 20, failureHandler: nil, completion: { feeds in
                 println("user's feeds: \(feeds.count)")
 
                 let feedAttachments = feeds.map({ $0.attachments.first }).flatMap({ $0 })
