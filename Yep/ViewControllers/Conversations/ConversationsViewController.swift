@@ -162,8 +162,8 @@ class ConversationsViewController: UIViewController {
                         return
                     }
 
-                    if let yepTeam = userWithUsername("yep_team", inRealm: realm) {
-
+                    func syncDribbbleShotWithYepTeam(yepTeam: User, inRealm realm: Realm) {
+                        
                         let messageID = "dribbble_shot_\(firstShot.ID)"
 
                         var message = messageWithMessageID(messageID, inRealm: realm)
@@ -227,7 +227,37 @@ class ConversationsViewController: UIViewController {
                             }
                         }
                     }
-                })
+
+                    let yepTeamUsername = "yep_team"
+
+                    if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
+                        syncDribbbleShotWithYepTeam(yepTeam, inRealm: realm)
+
+                    } else {
+                        discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
+                            dispatch_async(dispatch_get_main_queue()) {
+
+                                guard let realm = try? Realm() else {
+                                    return
+                                }
+
+                                let newYepTeam = User()
+                                newYepTeam.userID = discoveredUser.id
+                                newYepTeam.username = discoveredUser.username ?? ""
+                                newYepTeam.nickname = discoveredUser.nickname
+                                newYepTeam.introduction = discoveredUser.introduction ?? ""
+                                newYepTeam.avatarURLString = discoveredUser.avatarURLString
+                                newYepTeam.badge = discoveredUser.badge ?? ""
+
+                                let _ = try? realm.write {
+                                    realm.add(newYepTeam)
+                                }
+
+                                syncDribbbleShotWithYepTeam(newYepTeam, inRealm: realm)
+                            }
+                        })
+                    }
+               })
             }
 
             if let instagramToken = tokensOfSocialAccounts.instagramToken {
