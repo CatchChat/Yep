@@ -236,6 +236,33 @@ class ConversationsViewController: UIViewController {
                 }
             }
 
+            let yepTeamUsername = "yep_team"
+
+            func yepTeamFromDiscoveredUser(discoveredUser: DiscoveredUser, inRealm realm: Realm) -> User? {
+
+                var yepTeam = userWithUsername(yepTeamUsername, inRealm: realm)
+
+                if yepTeam == nil {
+                    let newYepTeam = User()
+                    newYepTeam.userID = discoveredUser.id
+                    newYepTeam.username = discoveredUser.username ?? ""
+                    newYepTeam.nickname = discoveredUser.nickname
+                    newYepTeam.introduction = discoveredUser.introduction ?? ""
+                    newYepTeam.avatarURLString = discoveredUser.avatarURLString
+                    newYepTeam.badge = discoveredUser.badge ?? ""
+
+                    newYepTeam.friendState = UserFriendState.Yep.rawValue
+
+                    let _ = try? realm.write {
+                        realm.add(newYepTeam)
+                    }
+
+                    yepTeam = newYepTeam
+                }
+
+                return yepTeam
+            }
+
             if let githubToken = tokensOfSocialAccounts.githubToken {
 
                 githubReposWithToken(githubToken, failureHandler: nil, completion: { githubRepos in
@@ -244,8 +271,6 @@ class ConversationsViewController: UIViewController {
                     guard let latestRepo = githubRepos.first, realm = try? Realm() else {
                         return
                     }
-
-                    let yepTeamUsername = "yep_team"
 
                     if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
                         syncSocialWorkPiece(SocialWorkPiece.Github(latestRepo), yepTeam: yepTeam, inRealm: realm)
@@ -258,27 +283,7 @@ class ConversationsViewController: UIViewController {
                                     return
                                 }
 
-                                var yepTeam = userWithUsername(yepTeamUsername, inRealm: realm)
-
-                                if yepTeam == nil {
-                                    let newYepTeam = User()
-                                    newYepTeam.userID = discoveredUser.id
-                                    newYepTeam.username = discoveredUser.username ?? ""
-                                    newYepTeam.nickname = discoveredUser.nickname
-                                    newYepTeam.introduction = discoveredUser.introduction ?? ""
-                                    newYepTeam.avatarURLString = discoveredUser.avatarURLString
-                                    newYepTeam.badge = discoveredUser.badge ?? ""
-
-                                    newYepTeam.friendState = UserFriendState.Yep.rawValue
-
-                                    let _ = try? realm.write {
-                                        realm.add(newYepTeam)
-                                    }
-
-                                    yepTeam = newYepTeam
-                                }
-
-                                if let yepTeam = yepTeam {
+                                if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
                                     syncSocialWorkPiece(SocialWorkPiece.Github(latestRepo), yepTeam: yepTeam, inRealm: realm)
                                 }
                             }
@@ -296,8 +301,6 @@ class ConversationsViewController: UIViewController {
                         return
                     }
 
-                    let yepTeamUsername = "yep_team"
-
                     if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
                         syncSocialWorkPiece(SocialWorkPiece.Dribbble(latestShot), yepTeam: yepTeam, inRealm: realm)
 
@@ -309,27 +312,7 @@ class ConversationsViewController: UIViewController {
                                     return
                                 }
 
-                                var yepTeam = userWithUsername(yepTeamUsername, inRealm: realm)
-
-                                if yepTeam == nil {
-                                    let newYepTeam = User()
-                                    newYepTeam.userID = discoveredUser.id
-                                    newYepTeam.username = discoveredUser.username ?? ""
-                                    newYepTeam.nickname = discoveredUser.nickname
-                                    newYepTeam.introduction = discoveredUser.introduction ?? ""
-                                    newYepTeam.avatarURLString = discoveredUser.avatarURLString
-                                    newYepTeam.badge = discoveredUser.badge ?? ""
-
-                                    newYepTeam.friendState = UserFriendState.Yep.rawValue
-
-                                    let _ = try? realm.write {
-                                        realm.add(newYepTeam)
-                                    }
-
-                                    yepTeam = newYepTeam
-                                }
-
-                                if let yepTeam = yepTeam {
+                                if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
                                     syncSocialWorkPiece(SocialWorkPiece.Dribbble(latestShot), yepTeam: yepTeam, inRealm: realm)
                                 }
                             }
