@@ -367,6 +367,14 @@ class SocialWorkGithubRepo: Object {
 
     dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
     dynamic var synced: Bool = false
+
+    func fillWithGithubRepo(githubRepo: GithubRepo) {
+        self.repoID = githubRepo.ID
+        self.name = githubRepo.name
+        self.fullName = githubRepo.fullName
+        self.URLString = githubRepo.URLString
+        self.repoDescription = githubRepo.description
+    }
 }
 
 class SocialWorkDribbbleShot: Object {
