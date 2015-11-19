@@ -185,6 +185,10 @@ class NewFeedViewController: UIViewController {
         let hasSocialWork = (socialWork != nil)
         mediaCollectionView.hidden = hasSocialWork
         socialWorkContainerView.hidden = !hasSocialWork
+
+        if let socialWork = socialWork {
+            updateUIForSocialWork(socialWork)
+        }
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -196,6 +200,52 @@ class NewFeedViewController: UIViewController {
             }
 
             self?.messageTextView.becomeFirstResponder()
+        }
+    }
+
+    // MARK: UI
+
+    func updateUIForSocialWork(socialWork: MessageSocialWork) {
+
+        var socialWorkImageURL: NSURL?
+
+        guard let socialWorkType = MessageSocialWorkType(rawValue: socialWork.type) else {
+            return
+        }
+
+        switch socialWorkType {
+
+        case .GithubRepo:
+
+            socialWorkImageView.hidden = true
+            githubRepoContainerView.hidden = false
+
+            if let githubRepo = socialWork.githubRepo {
+                githubRepoNameLabel.text = githubRepo.name
+                githubRepoDescriptionLabel.text = githubRepo.repoDescription
+            }
+
+        case .DribbbleShot:
+
+            socialWorkImageView.hidden = false
+            githubRepoContainerView.hidden = true
+
+            if let string = socialWork.dribbbleShot?.imageURLString {
+                socialWorkImageURL = NSURL(string: string)
+            }
+
+        case .InstagramMedia:
+
+            socialWorkImageView.hidden = false
+            githubRepoContainerView.hidden = true
+
+            if let string = socialWork.instagramMedia?.imageURLString {
+                socialWorkImageURL = NSURL(string: string)
+            }
+        }
+        
+        if let URL = socialWorkImageURL {
+            socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil)
         }
     }
     
