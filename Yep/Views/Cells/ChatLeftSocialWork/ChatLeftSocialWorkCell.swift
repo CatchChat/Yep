@@ -12,7 +12,14 @@ import Kingfisher
 class ChatLeftSocialWorkCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
+
     @IBOutlet weak var socialWorkImageView: UIImageView!
+
+    @IBOutlet weak var githubRepoContainerView: UIView!
+    @IBOutlet weak var githubRepoImageView: UIImageView!
+    @IBOutlet weak var githubRepoNameLabel: UILabel!
+    @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
+
     @IBOutlet weak var logoImageView: UIImageView!
 
     lazy var maskImageView: UIImageView = {
@@ -24,6 +31,8 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
         super.awakeFromNib()
 
         socialWorkImageView.maskView = maskImageView
+
+        githubRepoImageView.tintColor = UIColor.grayColor()
     }
 
     override func layoutSubviews() {
@@ -62,15 +71,25 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
             switch socialWorkType {
 
             case .GithubRepo:
-                break
+
+                githubRepoContainerView.hidden = false
+
+                if let githubRepo = socialWork.githubRepo {
+                    githubRepoNameLabel.text = githubRepo.name
+                    githubRepoDescriptionLabel.text = githubRepo.repoDescription
+                }
 
             case .DribbbleShot:
+
+                githubRepoContainerView.hidden = true
 
                 if let string = socialWork.dribbbleShot?.imageURLString {
                     socialWorkImageURL = NSURL(string: string)
                 }
 
             case .InstagramMedia:
+
+                githubRepoContainerView.hidden = true
 
                 if let string = socialWork.instagramMedia?.imageURLString {
                     socialWorkImageURL = NSURL(string: string)
