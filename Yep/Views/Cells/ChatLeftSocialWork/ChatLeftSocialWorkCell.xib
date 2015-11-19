@@ -26,6 +26,12 @@
                             <constraint firstAttribute="height" constant="80" id="dIY-ib-Fxg"/>
                         </constraints>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="social_work_border_line" translatesAutoresizingMaskIntoConstraints="NO" id="1FT-5t-tco">
+                        <rect key="frame" x="65" y="79" width="200" height="1"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="8qG-3e-mwK"/>
+                        </constraints>
+                    </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="social_work_border" translatesAutoresizingMaskIntoConstraints="NO" id="6W2-p5-PRu">
                         <rect key="frame" x="65" y="0.0" width="200" height="135"/>
                         <constraints>
@@ -46,7 +52,7 @@
                         <state key="normal" title="Sync to Feeds"/>
                     </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TDP-qa-v6j">
-                        <rect key="frame" x="76" y="22" width="178" height="37"/>
+                        <rect key="frame" x="76" y="22" width="178" height="36.5"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_repo" translatesAutoresizingMaskIntoConstraints="NO" id="rk5-Yk-JIt">
                                 <rect key="frame" x="0.0" y="0.0" width="16" height="21"/>
@@ -62,7 +68,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Focus on avatar caching." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NFf-Nk-Aap">
-                                <rect key="frame" x="26" y="22" width="151.5" height="15"/>
+                                <rect key="frame" x="26" y="22" width="151.5" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -85,12 +91,14 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
+                <constraint firstItem="1FT-5t-tco" firstAttribute="trailing" secondItem="6W2-p5-PRu" secondAttribute="trailing" id="1Uk-DD-oOz"/>
                 <constraint firstItem="HCa-0p-kmd" firstAttribute="leading" secondItem="6W2-p5-PRu" secondAttribute="leading" constant="10" id="AVt-rV-G9o"/>
                 <constraint firstItem="6W2-p5-PRu" firstAttribute="trailing" secondItem="qfD-Je-uVh" secondAttribute="trailing" constant="1" id="EmW-8V-daf"/>
                 <constraint firstItem="6W2-p5-PRu" firstAttribute="trailing" secondItem="Xbm-3u-eVS" secondAttribute="trailing" constant="10" id="GOR-MM-noH"/>
                 <constraint firstItem="TDP-qa-v6j" firstAttribute="leading" secondItem="qfD-Je-uVh" secondAttribute="leading" constant="10" id="Nci-cl-0aB"/>
                 <constraint firstItem="NYD-7E-1JU" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="RkL-8x-Og1"/>
                 <constraint firstItem="TDP-qa-v6j" firstAttribute="centerY" secondItem="qfD-Je-uVh" secondAttribute="centerY" id="UY7-Dn-wSQ"/>
+                <constraint firstItem="1FT-5t-tco" firstAttribute="leading" secondItem="6W2-p5-PRu" secondAttribute="leading" id="UnF-m1-T0s"/>
                 <constraint firstItem="qfD-Je-uVh" firstAttribute="trailing" secondItem="TDP-qa-v6j" secondAttribute="trailing" constant="10" id="VmT-Be-prf"/>
                 <constraint firstItem="qfD-Je-uVh" firstAttribute="leading" secondItem="6W2-p5-PRu" secondAttribute="leading" constant="1" id="g0j-Jk-Ou0"/>
                 <constraint firstItem="Xbm-3u-eVS" firstAttribute="top" secondItem="qfD-Je-uVh" secondAttribute="bottom" constant="10" id="ibK-EL-o4b"/>
@@ -99,12 +107,14 @@
                 <constraint firstItem="NYD-7E-1JU" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="nBC-oK-OGi"/>
                 <constraint firstItem="Xbm-3u-eVS" firstAttribute="bottom" secondItem="HCa-0p-kmd" secondAttribute="bottom" id="nJu-QD-Tw0"/>
                 <constraint firstAttribute="bottom" secondItem="6W2-p5-PRu" secondAttribute="bottom" id="nMH-Fr-4Eq"/>
+                <constraint firstItem="1FT-5t-tco" firstAttribute="bottom" secondItem="qfD-Je-uVh" secondAttribute="bottom" id="nOf-gC-CYN"/>
                 <constraint firstAttribute="trailing" secondItem="6W2-p5-PRu" secondAttribute="trailing" constant="60" id="nwk-Z4-BQl"/>
                 <constraint firstItem="qfD-Je-uVh" firstAttribute="top" secondItem="6W2-p5-PRu" secondAttribute="top" id="xzs-nu-R2e"/>
             </constraints>
             <size key="customSize" width="325" height="134"/>
             <connections>
                 <outlet property="avatarImageView" destination="NYD-7E-1JU" id="xUy-M1-urO"/>
+                <outlet property="centerLineImageView" destination="1FT-5t-tco" id="O8P-8N-yET"/>
                 <outlet property="githubRepoContainerView" destination="TDP-qa-v6j" id="mzf-6U-PTG"/>
                 <outlet property="githubRepoDescriptionLabel" destination="NFf-Nk-Aap" id="SUL-yg-pN6"/>
                 <outlet property="githubRepoImageView" destination="rk5-Yk-JIt" id="TPt-ZF-Hkj"/>
@@ -119,5 +129,6 @@
         <image name="icon_github" width="24" height="23"/>
         <image name="icon_repo" width="16" height="21"/>
         <image name="social_work_border" width="11" height="11"/>
+        <image name="social_work_border_line" width="22" height="2"/>
     </resources>
 </document>

@@ -22,6 +22,8 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
 
     @IBOutlet weak var logoImageView: UIImageView!
 
+    @IBOutlet weak var centerLineImageView: UIImageView!
+
     lazy var maskImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))
         return imageView
@@ -72,7 +74,9 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
 
             case .GithubRepo:
 
+                socialWorkImageView.hidden = true
                 githubRepoContainerView.hidden = false
+                centerLineImageView.hidden = false
 
                 if let githubRepo = socialWork.githubRepo {
                     githubRepoNameLabel.text = githubRepo.name
@@ -81,7 +85,9 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
 
             case .DribbbleShot:
 
+                socialWorkImageView.hidden = false
                 githubRepoContainerView.hidden = true
+                centerLineImageView.hidden = true
 
                 if let string = socialWork.dribbbleShot?.imageURLString {
                     socialWorkImageURL = NSURL(string: string)
@@ -89,7 +95,9 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
 
             case .InstagramMedia:
 
+                socialWorkImageView.hidden = false
                 githubRepoContainerView.hidden = true
+                centerLineImageView.hidden = true
 
                 if let string = socialWork.instagramMedia?.imageURLString {
                     socialWorkImageURL = NSURL(string: string)
