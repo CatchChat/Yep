@@ -30,7 +30,8 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
         return imageView
     }()
 
-    var createFeedAction: (() -> Void)?
+    var socialWork: MessageSocialWork?
+    var createFeedAction: ((socialWork: MessageSocialWork) -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -52,6 +53,7 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
         super.prepareForReuse()
 
         socialWorkImageView.image = nil
+        socialWork = nil
     }
 
     func configureWithMessage(message: Message) {
@@ -62,6 +64,8 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
         }
 
         if let socialWork = message.socialWork {
+
+            self.socialWork = socialWork
 
             var socialWorkImageURL: NSURL?
 
@@ -116,7 +120,12 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
     }
 
     @IBAction func sync(sender: BorderButton) {
-        createFeedAction?()
+
+        guard let socialWork = socialWork else {
+            return
+        }
+
+        createFeedAction?(socialWork: socialWork)
     }
 }
 

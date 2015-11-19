@@ -16,7 +16,9 @@ import Crashlytics
 let genrealSkill = Skill(category: nil, id: "", name: "general", localName: NSLocalizedString("Choose...", comment: ""), coverURLString: nil)
 
 class NewFeedViewController: UIViewController {
-    
+
+    var socialWork: MessageSocialWork?
+
     var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
     
     @IBOutlet weak var feedWhiteBGView: UIView!
@@ -179,6 +181,10 @@ class NewFeedViewController: UIViewController {
             }, rejected: {
             })
         }
+
+        let hasSocialWork = (socialWork != nil)
+        mediaCollectionView.hidden = hasSocialWork
+        socialWorkContainerView.hidden = !hasSocialWork
     }
 
     override func viewDidAppear(animated: Bool) {

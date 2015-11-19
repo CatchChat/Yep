@@ -2455,6 +2455,17 @@ class ConversationViewController: BaseViewController {
 
             vc.setBackButtonWithTitle()
 
+        case "presentNewFeed":
+
+            guard let
+                nvc = segue.destinationViewController as? UINavigationController,
+                vc = nvc.topViewController as? NewFeedViewController
+                else {
+                    return
+            }
+
+            vc.socialWork = sender as? MessageSocialWork
+
         /*
         case "showFeedMedia":
 
@@ -3251,9 +3262,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         if let cell = cell as? ChatLeftSocialWorkCell {
                             cell.configureWithMessage(message)
 
-                            cell.createFeedAction = { [weak self] in
+                            cell.createFeedAction = { [weak self] socialWork in
 
-                                self?.performSegueWithIdentifier("presentNewFeed", sender: nil)
+                                self?.performSegueWithIdentifier("presentNewFeed", sender: socialWork)
                             }
                         }
 
