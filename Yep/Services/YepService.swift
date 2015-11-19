@@ -2716,9 +2716,14 @@ func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: (
 
 enum FeedKind: String {
     case Normal = "normal"
+
     case AppleMusic = "apple_music"
     case AppleMovie = "apple_movie"
     case AppleEBook = "apple_ebook"
+
+    case GithubRepo = "github"
+    case DribbbleShot = "dribbble"
+    //case InstagramMedia = "instagram"
 }
 
 func createFeedWithKind(kind: FeedKind, message: String, attachments: JSONDictionary?, sharedStuff: JSONDictionary?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
