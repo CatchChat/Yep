@@ -50,6 +50,9 @@
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <inset key="contentEdgeInsets" minX="15" minY="10" maxX="15" maxY="10"/>
                         <state key="normal" title="Sync to Feeds"/>
+                        <connections>
+                            <action selector="sync:" destination="gTV-IL-0wX" eventType="touchUpInside" id="PGx-Wn-LWj"/>
+                        </connections>
                     </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TDP-qa-v6j">
                         <rect key="frame" x="76" y="22" width="178" height="36.5"/>
@@ -121,6 +124,7 @@
                 <outlet property="githubRepoNameLabel" destination="UbX-6h-IVE" id="770-zr-i87"/>
                 <outlet property="logoImageView" destination="HCa-0p-kmd" id="6Gj-bz-3XK"/>
                 <outlet property="socialWorkImageView" destination="qfD-Je-uVh" id="oL9-8r-PcX"/>
+                <outlet property="syncButton" destination="Xbm-3u-eVS" id="RLo-ZE-R2v"/>
             </connections>
             <point key="canvasLocation" x="280.5" y="208.5"/>
         </collectionViewCell>

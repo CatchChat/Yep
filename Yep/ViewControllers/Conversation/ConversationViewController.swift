@@ -3250,6 +3250,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         if let cell = cell as? ChatLeftSocialWorkCell {
                             cell.configureWithMessage(message)
+
+                            cell.createFeedAction = { [weak self] in
+
+                                self?.performSegueWithIdentifier("presentNewFeed", sender: nil)
+                            }
                         }
 
                     default:

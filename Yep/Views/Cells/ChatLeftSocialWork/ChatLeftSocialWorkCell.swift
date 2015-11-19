@@ -21,7 +21,8 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
     @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
 
     @IBOutlet weak var logoImageView: UIImageView!
-
+    @IBOutlet weak var syncButton: BorderButton!
+    
     @IBOutlet weak var centerLineImageView: UIImageView!
 
     lazy var maskImageView: UIImageView = {
@@ -29,12 +30,16 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
         return imageView
     }()
 
+    var createFeedAction: (() -> Void)?
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
         socialWorkImageView.maskView = maskImageView
 
         githubRepoImageView.tintColor = UIColor.grayColor()
+
+        syncButton.setTitle(NSLocalizedString("Sync to Feeds", comment: ""), forState: .Normal)
     }
 
     override func layoutSubviews() {
@@ -109,4 +114,9 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
             }
         }
     }
+
+    @IBAction func sync(sender: BorderButton) {
+        createFeedAction?()
+    }
 }
+
