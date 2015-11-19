@@ -22,7 +22,15 @@ class NewFeedViewController: UIViewController {
     @IBOutlet weak var feedWhiteBGView: UIView!
     
     @IBOutlet weak var messageTextView: UITextView!
+
     @IBOutlet weak var mediaCollectionView: UICollectionView!
+
+    @IBOutlet weak var socialWorkContainerView: UIView!
+    @IBOutlet weak var socialWorkImageView: UIImageView!
+    @IBOutlet weak var githubRepoContainerView: UIView!
+    @IBOutlet weak var githubRepoImageView: UIImageView!
+    @IBOutlet weak var githubRepoNameLabel: UILabel!
+    @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
     
     @IBOutlet weak var channelView: UIView!
     @IBOutlet weak var channelViewTopConstraint: NSLayoutConstraint!
