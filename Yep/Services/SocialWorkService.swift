@@ -67,6 +67,34 @@ private func instagramResource<A>(token token: String, path: String, method: Met
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
 }
 
+enum SocialWorkPiece {
+    case Github(GithubRepo)
+    case Dribbble(DribbbleShot)
+    case Instagram(InstagramMedia)
+
+    var messageSocialWorkType: MessageSocialWorkType {
+        switch self {
+        case .Github:
+            return MessageSocialWorkType.GithubRepo
+        case .Dribbble:
+            return MessageSocialWorkType.DribbbleShot
+        case .Instagram:
+            return MessageSocialWorkType.InstagramMedia
+        }
+    }
+
+    var messageID: String {
+        switch self {
+        case .Github(let repo):
+            return "github_repo_\(repo.ID)"
+        case .Dribbble(let shot):
+            return "dribbble_shot_\(shot.ID)"
+        case .Instagram(let media):
+            return "instagram_media_\(media.ID)"
+        }
+    }
+}
+
 // MARK: Github Repo
 
 struct GithubRepo {

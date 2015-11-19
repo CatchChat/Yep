@@ -2716,9 +2716,14 @@ func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: (
 
 enum FeedKind: String {
     case Normal = "normal"
+
     case AppleMusic = "apple_music"
     case AppleMovie = "apple_movie"
     case AppleEBook = "apple_ebook"
+
+    case GithubRepo = "github"
+    case DribbbleShot = "dribbble"
+    //case InstagramMedia = "instagram"
 }
 
 func createFeedWithKind(kind: FeedKind, message: String, attachments: JSONDictionary?, sharedStuff: JSONDictionary?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
@@ -2788,7 +2793,7 @@ func tokensOfSocialAccounts(failureHandler failureHandler: ((Reason, String?) ->
 
     let parse: JSONDictionary -> TokensOfSocialAccounts? = { data in
 
-        println("tokensOfSocialAccounts data: \(data)")
+        //println("tokensOfSocialAccounts data: \(data)")
 
         let githubToken = data["github"] as? String
         let dribbbleToken = data["dribbble"] as? String

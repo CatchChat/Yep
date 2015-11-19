@@ -12,18 +12,35 @@ import Kingfisher
 class ChatLeftSocialWorkCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
+
     @IBOutlet weak var socialWorkImageView: UIImageView!
+
+    @IBOutlet weak var githubRepoContainerView: UIView!
+    @IBOutlet weak var githubRepoImageView: UIImageView!
+    @IBOutlet weak var githubRepoNameLabel: UILabel!
+    @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
+
     @IBOutlet weak var logoImageView: UIImageView!
+    @IBOutlet weak var syncButton: BorderButton!
+    
+    @IBOutlet weak var centerLineImageView: UIImageView!
 
     lazy var maskImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))
         return imageView
     }()
 
+    var socialWork: MessageSocialWork?
+    var createFeedAction: ((socialWork: MessageSocialWork) -> Void)?
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
         socialWorkImageView.maskView = maskImageView
+
+        githubRepoImageView.tintColor = UIColor.grayColor()
+
+        syncButton.setTitle(NSLocalizedString("Sync to Feeds", comment: ""), forState: .Normal)
     }
 
     override func layoutSubviews() {
@@ -36,6 +53,7 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
         super.prepareForReuse()
 
         socialWorkImageView.image = nil
+        socialWork = nil
     }
 
     func configureWithMessage(message: Message) {
@@ -46,6 +64,8 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
         }
 
         if let socialWork = message.socialWork {
+
+            self.socialWork = socialWork
 
             var socialWorkImageURL: NSURL?
 
@@ -62,15 +82,31 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
             switch socialWorkType {
 
             case .GithubRepo:
-                break
+
+                socialWorkImageView.hidden = true
+                githubRepoContainerView.hidden = false
+                centerLineImageView.hidden = false
+
+                if let githubRepo = socialWork.githubRepo {
+                    githubRepoNameLabel.text = githubRepo.name
+                    githubRepoDescriptionLabel.text = githubRepo.repoDescription
+                }
 
             case .DribbbleShot:
+
+                socialWorkImageView.hidden = false
+                githubRepoContainerView.hidden = true
+                centerLineImageView.hidden = true
 
                 if let string = socialWork.dribbbleShot?.imageURLString {
                     socialWorkImageURL = NSURL(string: string)
                 }
 
             case .InstagramMedia:
+
+                socialWorkImageView.hidden = false
+                githubRepoContainerView.hidden = true
+                centerLineImageView.hidden = true
 
                 if let string = socialWork.instagramMedia?.imageURLString {
                     socialWorkImageURL = NSURL(string: string)
@@ -82,4 +118,14 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
             }
         }
     }
+
+    @IBAction func sync(sender: BorderButton) {
+
+        guard let socialWork = socialWork else {
+            return
+        }
+
+        createFeedAction?(socialWork: socialWork)
+    }
 }
+

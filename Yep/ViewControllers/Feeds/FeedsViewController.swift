@@ -390,32 +390,8 @@ class FeedsViewController: BaseViewController {
         }
     }
 
-    @IBAction func showNewFeed(sender: AnyObject) {
-
-        let vc = self.storyboard?.instantiateViewControllerWithIdentifier("NewFeedViewController") as! NewFeedViewController
-
-        vc.preparedSkill = skill
-
-        vc.afterCreatedFeedAction = { [weak self] feed in
-
-            dispatch_async(dispatch_get_main_queue()) {
-
-                if let strongSelf = self {
-
-                    strongSelf.feeds.insert(feed, atIndex: 0)
-
-                    let indexPath = NSIndexPath(forRow: 0, inSection: Section.Feed.rawValue)
-                    strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath])
-                }
-            }
-            
-            joinGroup(groupID: feed.groupID, failureHandler: nil, completion: {
-            })
-        }
-
-        let navi = UINavigationController(rootViewController: vc)
-
-        self.presentViewController(navi, animated: true, completion: nil)
+    @IBAction func createNewFeed(sender: AnyObject) {
+        self.performSegueWithIdentifier("presentNewFeed", sender: nil)
     }
 
     // MARK: - Navigation
@@ -480,6 +456,33 @@ class FeedsViewController: BaseViewController {
                 self?.updateFeeds()
             }
 
+        case "presentNewFeed":
+
+            guard let
+                nvc = segue.destinationViewController as? UINavigationController,
+                vc = nvc.topViewController as? NewFeedViewController
+            else {
+                return
+            }
+
+            vc.preparedSkill = skill
+
+            vc.afterCreatedFeedAction = { [weak self] feed in
+
+                dispatch_async(dispatch_get_main_queue()) {
+
+                    if let strongSelf = self {
+
+                        strongSelf.feeds.insert(feed, atIndex: 0)
+
+                        let indexPath = NSIndexPath(forRow: 0, inSection: Section.Feed.rawValue)
+                        strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath])
+                    }
+                }
+                
+                joinGroup(groupID: feed.groupID, failureHandler: nil, completion: {
+                })
+            }
         /*
         case "showFeedMedia":
 
@@ -777,8 +780,6 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
     }
-    
-
 }
 
 // MARK: PullToRefreshViewDelegate
