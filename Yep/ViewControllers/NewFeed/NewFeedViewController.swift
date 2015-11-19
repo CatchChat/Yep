@@ -48,6 +48,11 @@ class NewFeedViewController: UIViewController {
     
     @IBOutlet weak var skillPickerView: UIPickerView!
 
+    lazy var socialWorkMaskImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask_full"))
+        return imageView
+    }()
+
     var isDirty = false {
         willSet {
             postButton.enabled = newValue
@@ -205,7 +210,15 @@ class NewFeedViewController: UIViewController {
 
     // MARK: UI
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        socialWorkMaskImageView.frame = socialWorkImageView.bounds
+    }
+
     func updateUIForSocialWork(socialWork: MessageSocialWork) {
+
+        socialWorkImageView.maskView = socialWorkMaskImageView
 
         var socialWorkImageURL: NSURL?
 
@@ -219,6 +232,8 @@ class NewFeedViewController: UIViewController {
 
             socialWorkImageView.hidden = true
             githubRepoContainerView.hidden = false
+
+            githubRepoImageView.tintColor = UIColor.grayColor()
 
             if let githubRepo = socialWork.githubRepo {
                 githubRepoNameLabel.text = githubRepo.name
