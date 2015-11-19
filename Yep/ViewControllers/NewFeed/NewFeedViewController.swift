@@ -13,6 +13,8 @@ import Photos
 import Proposer
 import RealmSwift
 import Crashlytics
+import Kingfisher
+
 let genrealSkill = Skill(category: nil, id: "", name: "general", localName: NSLocalizedString("Choose...", comment: ""), coverURLString: nil)
 
 class NewFeedViewController: UIViewController {
@@ -377,6 +379,13 @@ class NewFeedViewController: UIViewController {
     }
     
     func post(sender: UIBarButtonItem) {
+
+        guard socialWork == nil else {
+
+            YepAlert.alertSorry(message: "Can NOT post Feed with Social Work yet.", inViewController: self)
+
+            return
+        }
         
         messageTextView.resignFirstResponder()
         
