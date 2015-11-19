@@ -258,21 +258,29 @@ class ConversationsViewController: UIViewController {
                                     return
                                 }
 
-                                let newYepTeam = User()
-                                newYepTeam.userID = discoveredUser.id
-                                newYepTeam.username = discoveredUser.username ?? ""
-                                newYepTeam.nickname = discoveredUser.nickname
-                                newYepTeam.introduction = discoveredUser.introduction ?? ""
-                                newYepTeam.avatarURLString = discoveredUser.avatarURLString
-                                newYepTeam.badge = discoveredUser.badge ?? ""
+                                var yepTeam = userWithUsername(yepTeamUsername, inRealm: realm)
 
-                                newYepTeam.friendState = UserFriendState.Yep.rawValue
+                                if yepTeam == nil {
+                                    let newYepTeam = User()
+                                    newYepTeam.userID = discoveredUser.id
+                                    newYepTeam.username = discoveredUser.username ?? ""
+                                    newYepTeam.nickname = discoveredUser.nickname
+                                    newYepTeam.introduction = discoveredUser.introduction ?? ""
+                                    newYepTeam.avatarURLString = discoveredUser.avatarURLString
+                                    newYepTeam.badge = discoveredUser.badge ?? ""
 
-                                let _ = try? realm.write {
-                                    realm.add(newYepTeam)
+                                    newYepTeam.friendState = UserFriendState.Yep.rawValue
+
+                                    let _ = try? realm.write {
+                                        realm.add(newYepTeam)
+                                    }
+
+                                    yepTeam = newYepTeam
                                 }
 
-                                syncSocialWorkPiece(SocialWorkPiece.Github(latestRepo), yepTeam: newYepTeam, inRealm: realm)
+                                if let yepTeam = yepTeam {
+                                    syncSocialWorkPiece(SocialWorkPiece.Github(latestRepo), yepTeam: yepTeam, inRealm: realm)
+                                }
                             }
                         })
                     }
@@ -301,21 +309,29 @@ class ConversationsViewController: UIViewController {
                                     return
                                 }
 
-                                let newYepTeam = User()
-                                newYepTeam.userID = discoveredUser.id
-                                newYepTeam.username = discoveredUser.username ?? ""
-                                newYepTeam.nickname = discoveredUser.nickname
-                                newYepTeam.introduction = discoveredUser.introduction ?? ""
-                                newYepTeam.avatarURLString = discoveredUser.avatarURLString
-                                newYepTeam.badge = discoveredUser.badge ?? ""
+                                var yepTeam = userWithUsername(yepTeamUsername, inRealm: realm)
 
-                                newYepTeam.friendState = UserFriendState.Yep.rawValue
+                                if yepTeam == nil {
+                                    let newYepTeam = User()
+                                    newYepTeam.userID = discoveredUser.id
+                                    newYepTeam.username = discoveredUser.username ?? ""
+                                    newYepTeam.nickname = discoveredUser.nickname
+                                    newYepTeam.introduction = discoveredUser.introduction ?? ""
+                                    newYepTeam.avatarURLString = discoveredUser.avatarURLString
+                                    newYepTeam.badge = discoveredUser.badge ?? ""
 
-                                let _ = try? realm.write {
-                                    realm.add(newYepTeam)
+                                    newYepTeam.friendState = UserFriendState.Yep.rawValue
+
+                                    let _ = try? realm.write {
+                                        realm.add(newYepTeam)
+                                    }
+
+                                    yepTeam = newYepTeam
                                 }
 
-                                syncSocialWorkPiece(SocialWorkPiece.Dribbble(latestShot), yepTeam: newYepTeam, inRealm: realm)
+                                if let yepTeam = yepTeam {
+                                    syncSocialWorkPiece(SocialWorkPiece.Dribbble(latestShot), yepTeam: yepTeam, inRealm: realm)
+                                }
                             }
                         })
                     }
